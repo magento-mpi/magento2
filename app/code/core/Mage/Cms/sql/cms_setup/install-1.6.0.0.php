@@ -31,10 +31,10 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'cms/block'
+ * Create table 'cms_block'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('cms/block'))
+    ->newTable($installer->getTable('cms_block'))
     ->addColumn('block_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -60,10 +60,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'cms/block_store'
+ * Create table 'cms_block_store'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('cms/block_store'))
+    ->newTable($installer->getTable('cms_block_store'))
     ->addColumn('block_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,
         'primary'   => true,
@@ -73,22 +73,22 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Store ID')
-    ->addIndex($installer->getIdxName('cms/block_store', array('store_id')),
+    ->addIndex($installer->getIdxName('cms_block_store', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('cms/block_store', 'block_id', 'cms/block', 'block_id'),
-        'block_id', $installer->getTable('cms/block'), 'block_id',
+    ->addForeignKey($installer->getFkName('cms_block_store', 'block_id', 'cms_block', 'block_id'),
+        'block_id', $installer->getTable('cms_block'), 'block_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('cms/block_store', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('cms_block_store', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('CMS Block To Store Linkage Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'cms/page'
+ * Create table 'cms_page'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('cms/page'))
+    ->newTable($installer->getTable('cms_page'))
     ->addColumn('page_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -145,16 +145,16 @@ $table = $installer->getConnection()
     ->addColumn('custom_theme_to', Varien_Db_Ddl_Table::TYPE_DATE, null, array(
         'nullable'  => true,
         ), 'Page Custom Theme Active To Date')
-    ->addIndex($installer->getIdxName('cms/page', array('identifier')),
+    ->addIndex($installer->getIdxName('cms_page', array('identifier')),
         array('identifier'))
     ->setComment('CMS Page Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'cms/page_store'
+ * Create table 'cms_page_store'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('cms/page_store'))
+    ->newTable($installer->getTable('cms_page_store'))
     ->addColumn('page_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,
         'primary'   => true,
@@ -164,13 +164,13 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Store ID')
-    ->addIndex($installer->getIdxName('cms/page_store', array('store_id')),
+    ->addIndex($installer->getIdxName('cms_page_store', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('cms/page_store', 'page_id', 'cms/page', 'page_id'),
-        'page_id', $installer->getTable('cms/page'), 'page_id',
+    ->addForeignKey($installer->getFkName('cms_page_store', 'page_id', 'cms_page', 'page_id'),
+        'page_id', $installer->getTable('cms_page'), 'page_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('cms/page_store', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('cms_page_store', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('CMS Page To Store Linkage Table');
 $installer->getConnection()->createTable($table);

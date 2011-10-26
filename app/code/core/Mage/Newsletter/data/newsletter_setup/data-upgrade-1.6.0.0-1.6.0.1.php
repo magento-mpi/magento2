@@ -27,12 +27,12 @@
 /* @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
 
-$subscriberTable = $installer->getTable('newsletter/subscriber');
+$subscriberTable = $installer->getTable('newsletter_subscriber');
 
 $select = $installer->getConnection()->select()
     ->from(array('main_table' => $subscriberTable))
     ->join(
-        array('customer' => $installer->getTable('customer/entity')),
+        array('customer' => $installer->getTable('customer_entity')),
         'main_table.customer_id = customer.entity_id',
         array('website_id')
     )

@@ -40,7 +40,7 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
      */
     protected function _construct()
     {
-        $this->_init('sales/quote', 'entity_id');
+        $this->_init('sales_flat_quote', 'entity_id');
     }
 
     /**
@@ -164,7 +164,7 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
         $adapter   = $this->_getReadAdapter();
         $bind      = array(':increment_id' => (int)$orderIncrementId);
         $select    = $adapter->select();
-        $select->from($this->getTable('sales/order'), 'entity_id')
+        $select->from($this->getTable('sales_flat_order'), 'entity_id')
             ->where('increment_id = :increment_id');
         $entity_id = $adapter->fetchOne($select, $bind);
         if ($entity_id > 0) {
@@ -183,18 +183,18 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
     {
         $readAdapter     = $this->_getReadAdapter();
         $selectProductId = $readAdapter->select()
-            ->from($this->getTable('catalogrule/rule_product_price'), 'product_id')
+            ->from($this->getTable('catalogrule_product_price'), 'product_id')
             ->distinct();
 
         $selectQuoteId = $readAdapter->select()
-            ->from($this->getTable('sales/quote_item'), 'quote_id')
+            ->from($this->getTable('sales_flat_quote_item'), 'quote_id')
             ->where('product_id IN(?)', $selectProductId)
             ->distinct();
 
         $data  = array('trigger_recollect' => 1);
         $where = array('entity_id IN(?)' => $selectQuoteId);
 
-        $this->_getWriteAdapter()->update($this->getTable('sales/quote'), $data, $where);
+        $this->_getWriteAdapter()->update($this->getTable('sales_flat_quote'), $data, $where);
 
         return $this;
     }
@@ -220,7 +220,7 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
             'items_count' => new Zend_Db_Expr($adapter->quoteIdentifier('q.items_count') . ' - 1')
         ))
         ->join(
-            array('qi' => $this->getTable('sales/quote_item')),
+            array('qi' => $this->getTable('sales_flat_quote_item')),
             implode(' AND ', array(
                 'q.entity_id = qi.quote_id',
                 'qi.parent_item_id IS NULL',
@@ -229,7 +229,7 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
             array()
         );
 
-        $updateQuery = $adapter->updateFromSelect($subSelect, array('q' => $this->getTable('sales/quote')));
+        $updateQuery = $adapter->updateFromSelect($subSelect, array('q' => $this->getTable('sales_flat_quote')));
 
         $adapter->query($updateQuery);
 
@@ -245,13 +245,13 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
     public function markQuotesRecollect($productIds)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('sales/quote_item'), 'quote_id')
+            ->from($this->getTable('sales_flat_quote_item'), 'quote_id')
             ->where('product_id IN(?)', $productIds)
             ->distinct(true);
 
         $data  = array('trigger_recollect' => 1);
         $where = array('entity_id IN(?)' => $select);
-        $this->_getWriteAdapter()->update($this->getTable('sales/quote'), $data, $where);
+        $this->_getWriteAdapter()->update($this->getTable('sales_flat_quote'), $data, $where);
 
         return $this;
     }

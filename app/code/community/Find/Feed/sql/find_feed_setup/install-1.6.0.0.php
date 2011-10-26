@@ -28,10 +28,10 @@ $installer = $this;
 
 $installer->startSetup();
 /**
- * Create table 'find_feed/feed_import_codes'
+ * Create table 'find_feed_import_codes'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('find_feed/feed_import_codes'))
+    ->newTable($installer->getTable('find_feed_import_codes'))
     ->addColumn('code_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,

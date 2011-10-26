@@ -143,7 +143,7 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
             if (in_array($code, $allWeee)) {
                 $attributeSelect = $this->getResource()->getReadConnection()->select();
                 $attributeSelect
-                    ->from($this->getResource()->getTable('weee/tax'), 'value')
+                    ->from($this->getResource()->getTable('weee_tax'), 'value')
                     ->where('attribute_id = ?', (int)$attribute->getId())
                     ->where('website_id IN(?)', array($websiteId, 0))
                     ->where('country = ?', $rateRequest->getCountryId())

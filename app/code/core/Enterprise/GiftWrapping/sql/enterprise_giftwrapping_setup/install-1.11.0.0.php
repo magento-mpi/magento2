@@ -28,10 +28,10 @@ $installer = $this;
 /* @var $installer Enterprise_GiftWrapping_Model_Resource_Setup */
 
 /**
- * Create table 'enterprise_giftwrapping/wrapping'
+ * Create table 'enterprise_giftwrapping'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_giftwrapping/wrapping'))
+    ->newTable($installer->getTable('enterprise_giftwrapping'))
     ->addColumn('wrapping_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -47,17 +47,17 @@ $table = $installer->getConnection()
         ), 'Base Price')
     ->addColumn('image', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Image')
-    ->addIndex($installer->getIdxName('enterprise_giftwrapping/wrapping', array('status')),
+    ->addIndex($installer->getIdxName('enterprise_giftwrapping', array('status')),
         array('status'))
     ->setComment('Enterprise Gift Wrapping Table');
 $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'enterprise_giftwrapping/attribute'
+ * Create table 'enterprise_giftwrapping_store_attributes'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_giftwrapping/attribute'))
+    ->newTable($installer->getTable('enterprise_giftwrapping_store_attributes'))
     ->addColumn('wrapping_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -71,35 +71,35 @@ $table = $installer->getConnection()
     ->addColumn('design', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         ), 'Design')
-    ->addIndex($installer->getIdxName('enterprise_giftwrapping/attribute', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftwrapping_store_attributes', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftwrapping/attribute',
+            'enterprise_giftwrapping_store_attributes',
             'wrapping_id',
-            'enterprise_giftwrapping/wrapping',
+            'enterprise_giftwrapping',
             'wrapping_id'
         ),
-        'wrapping_id', $installer->getTable('enterprise_giftwrapping/wrapping'), 'wrapping_id',
+        'wrapping_id', $installer->getTable('enterprise_giftwrapping'), 'wrapping_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftwrapping/attribute',
+            'enterprise_giftwrapping_store_attributes',
             'store_id',
-            'core/store',
+            'core_store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Wrapping Attribute Table');
 $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'enterprise_giftwrapping/website'
+ * Create table 'enterprise_giftwrapping_website'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_giftwrapping/website'))
+    ->newTable($installer->getTable('enterprise_giftwrapping_website'))
     ->addColumn('wrapping_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -110,25 +110,25 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Website Id')
-    ->addIndex($installer->getIdxName('enterprise_giftwrapping/website', array('website_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftwrapping_website', array('website_id')),
         array('website_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftwrapping/website',
+            'enterprise_giftwrapping_website',
             'wrapping_id',
-            'enterprise_giftwrapping/wrapping',
+            'enterprise_giftwrapping',
             'wrapping_id'
         ),
-        'wrapping_id', $installer->getTable('enterprise_giftwrapping/wrapping'), 'wrapping_id',
+        'wrapping_id', $installer->getTable('enterprise_giftwrapping'), 'wrapping_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftwrapping/website',
+            'enterprise_giftwrapping_website',
             'website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Wrapping Website Table');
 $installer->getConnection()->createTable($table);

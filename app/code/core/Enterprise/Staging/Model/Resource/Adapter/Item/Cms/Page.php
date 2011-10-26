@@ -46,7 +46,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Cms_Page
      */
     protected function _beforeStoreMerge($entityName, $fields, $masterStoreId, $stagingStoreId)
     {
-        if ($entityName == 'cms/page_store') {
+        if ($entityName == 'cms_page_store') {
             $model = Mage::getResourceSingleton('cms/page_service');
             $model->unlinkConflicts($masterStoreId, $stagingStoreId);
         }
@@ -67,7 +67,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Cms_Page
      */
     protected function _beforeStoreRollback($srcTable, $targetTable, $connection, $fields, $masterStoreId, $stagingStoreId)
     {
-        if ($targetTable == 'cms/page_store') {
+        if ($targetTable == 'cms_page_store') {
             $model = Mage::getResourceSingleton('cms/page_service');
             $model->unlinkConflicts($masterStoreId, $masterStoreId, $this->getTable($srcTable));
         }

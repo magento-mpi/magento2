@@ -47,7 +47,7 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Collection extends Mage_Core_M
      */
     protected function _construct()
     {
-        $this->_init('enterprise_giftregistry/item', 'item_id');
+        $this->_init('enterprise_giftregistry_item', 'item_id');
     }
 
     /**
@@ -59,7 +59,7 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Collection extends Mage_Core_M
     public function addRegistryFilter($entityId)
     {
         $this->getSelect()
-            ->join(array('e' => $this->getTable('enterprise_giftregistry/entity')),
+            ->join(array('e' => $this->getTable('enterprise_giftregistry_entity')),
                 'e.entity_id = main_table.entity_id', 'website_id')
             ->where('main_table.entity_id = ?', (int)$entityId);
 

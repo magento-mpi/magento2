@@ -86,7 +86,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
      */
     public function getConditionsSql($customer, $website)
     {
-        $table = $this->getResource()->getTable('enterprise_customerbalance/balance');
+        $table = $this->getResource()->getTable('enterprise_customerbalance');
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();

@@ -40,7 +40,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item extends Mage_Core_Model_Re
      */
     protected function _construct()
     {
-        $this->_init('cataloginventory/stock_item', 'item_id');
+        $this->_init('cataloginventory_stock_item', 'item_id');
     }
 
     /**
@@ -73,7 +73,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item extends Mage_Core_Model_Re
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object)
-            ->join(array('p' => $this->getTable('catalog/product')),
+            ->join(array('p' => $this->getTable('catalog_product_entity')),
                 'product_id=p.entity_id',
                 array('type_id')
             );
@@ -94,7 +94,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item extends Mage_Core_Model_Re
         $stockExpr = $adapter->getCheckSql("({$stockExpr} = 1)", 'cisi.is_in_stock', '1');
 
         $productCollection->joinTable(
-            array('cisi' => 'cataloginventory/stock_item'),
+            array('cisi' => 'cataloginventory_stock_item'),
             'product_id=entity_id',
             array(
                 'is_saleable' => new Zend_Db_Expr($stockExpr),

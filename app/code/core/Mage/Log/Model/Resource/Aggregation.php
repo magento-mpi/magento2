@@ -40,7 +40,7 @@ class Mage_Log_Model_Resource_Aggregation extends Mage_Core_Model_Resource_Db_Ab
      */
     protected function _construct()
     {
-        $this->_init('log/summary_table', 'log_summary_id');
+        $this->_init('log_summary', 'log_summary_id');
     }
 
     /**
@@ -52,7 +52,7 @@ class Mage_Log_Model_Resource_Aggregation extends Mage_Core_Model_Resource_Db_Ab
     {
         $adapter    = $this->_getReadAdapter();
         $select     = $adapter->select()
-            ->from($this->getTable('log/summary_table'),
+            ->from($this->getTable('log_summary'),
                 array($adapter->quoteIdentifier('date')=>'MAX(add_date)'));
 
         return $adapter->fetchOne($select);
@@ -71,7 +71,7 @@ class Mage_Log_Model_Resource_Aggregation extends Mage_Core_Model_Resource_Db_Ab
         $adapter    = $this->_getReadAdapter();
         $result     = array('customers'=>0, 'visitors'=>0);
         $select     = $adapter->select()
-            ->from($this->getTable('log/customer'), 'visitor_id')
+            ->from($this->getTable('log_customer'), 'visitor_id')
             ->where('login_at >= ?', $from)
             ->where('login_at <= ?', $to);
         if ($store) {
@@ -83,7 +83,7 @@ class Mage_Log_Model_Resource_Aggregation extends Mage_Core_Model_Resource_Db_Ab
 
 
         $select = $adapter->select();
-        $select->from($this->getTable('log/visitor'), 'COUNT(*)')
+        $select->from($this->getTable('log_visitor'), 'COUNT(*)')
             ->where('first_visit_at >= ?', $from)
             ->where('first_visit_at <= ?', $to);
 
@@ -110,10 +110,10 @@ class Mage_Log_Model_Resource_Aggregation extends Mage_Core_Model_Resource_Db_Ab
     {
         $adapter = $this->_getWriteAdapter();
         if (is_null($id)) {
-            $adapter->insert($this->getTable('log/summary_table'), $data);
+            $adapter->insert($this->getTable('log_summary'), $data);
         } else {
             $condition = $adapter->quoteInto('summary_id = ?', $id);
-            $adapter->update($this->getTable('log/summary_table'), $data, $condition);
+            $adapter->update($this->getTable('log_summary'), $data, $condition);
         }
     }
 
@@ -130,7 +130,7 @@ class Mage_Log_Model_Resource_Aggregation extends Mage_Core_Model_Resource_Db_Ab
             'customer_count = 0',
             'visitor_count = 0'
         ); 
-        $adapter->delete($this->getTable('log/summary_table'), $condition);
+        $adapter->delete($this->getTable('log_summary'), $condition);
     }
 
     /**
@@ -144,7 +144,7 @@ class Mage_Log_Model_Resource_Aggregation extends Mage_Core_Model_Resource_Db_Ab
     {
         $adapter    = $this->_getReadAdapter();
         $select     = $adapter->select()
-            ->from($this->getTable('log/summary_table'), 'summary_id')
+            ->from($this->getTable('log_summary'), 'summary_id')
             ->where('add_date >= ?', $from)
             ->where('add_date <= ?', $to);
 

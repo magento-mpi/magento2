@@ -40,7 +40,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
      */
     protected function _construct()
     {
-        $this->_init('enterprise_giftregistry/entity', 'entity_id');
+        $this->_init('enterprise_giftregistry_entity', 'entity_id');
     }
 
     /**
@@ -88,7 +88,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
     protected function _addQtyItemsData()
     {
         $select = $this->getConnection()->select()
-            ->from(array('item' => $this->getTable('enterprise_giftregistry/item')), array(
+            ->from(array('item' => $this->getTable('enterprise_giftregistry_item')), array(
                 'entity_id',
                 'qty'           => new Zend_Db_Expr('SUM(item.qty)'),
                 'qty_fulfilled' => new Zend_Db_Expr('SUM(item.qty_fulfilled)'),
@@ -115,7 +115,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
     protected function _addEventData()
     {
         $this->getSelect()->joinLeft(
-            array('data' => $this->getTable('enterprise_giftregistry/data')),
+            array('data' => $this->getTable('enterprise_giftregistry_data')),
             'main_table.entity_id = data.entity_id',
             array('data.event_date')
         );
@@ -130,7 +130,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
     protected function _addRegistrantData()
     {
         $select = $this->getConnection()->select()
-            ->from($this->getTable('enterprise_giftregistry/person'), array('entity_id'))
+            ->from($this->getTable('enterprise_giftregistry_person'), array('entity_id'))
             ->group('entity_id');
 
         $helper = Mage::getResourceHelper('core');
@@ -165,13 +165,13 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
          * Join registry type store label
          */
         $select->joinLeft(
-            array('i1' => $this->getTable('enterprise_giftregistry/info')),
+            array('i1' => $this->getTable('enterprise_giftregistry_type_info')),
             'i1.type_id = m.type_id AND i1.store_id = 0',
             array()
         );
         $typeExpr = $adapter->getCheckSql('i2.label IS NULL', 'i1.label', 'i2.label');
         $select->joinLeft(
-            array('i2' => $this->getTable('enterprise_giftregistry/info')),
+            array('i2' => $this->getTable('enterprise_giftregistry_type_info')),
             $adapter->quoteInto('i2.type_id = m.type_id AND i2.store_id = ?', (int)Mage::app()->getStore()->getId()),
             array('type' => $typeExpr)
         );
@@ -181,7 +181,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
          */
         $registrantExpr = $adapter->getConcatSql(array('firstname', 'lastname'), ' ');
         $select->joinInner(
-            array('p' => $this->getTable('enterprise_giftregistry/person')),
+            array('p' => $this->getTable('enterprise_giftregistry_person')),
             'm.entity_id = p.entity_id',
             array('registrant' => $registrantExpr)
         );
@@ -190,7 +190,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
          * Join entity event data
          */
         $select->joinLeft(
-            array('d' => $this->getTable('enterprise_giftregistry/data')),
+            array('d' => $this->getTable('enterprise_giftregistry_data')),
             'm.entity_id = d.entity_id',
             array('event_date', 'event_location')
         );

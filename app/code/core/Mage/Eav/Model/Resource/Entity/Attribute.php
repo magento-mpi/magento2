@@ -47,7 +47,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
      */
     protected function _construct()
     {
-        $this->_init('eav/attribute', 'attribute_id');
+        $this->_init('eav_attribute', 'attribute_id');
     }
 
     /**
@@ -126,7 +126,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
                 ':attribute_group_id' => $object->getAttributeGroupId()
             );
             $select = $adapter->select()
-                ->from($this->getTable('eav/entity_attribute'), new Zend_Db_Expr("MAX(sort_order)"))
+                ->from($this->getTable('eav_entity_attribute'), new Zend_Db_Expr("MAX(sort_order)"))
                 ->where('attribute_set_id = :attribute_set_id')
                 ->where('attribute_group_id = :attribute_group_id');
 
@@ -148,7 +148,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
             return $this;
         }
 
-        $this->_getWriteAdapter()->delete($this->getTable('eav/entity_attribute'), array(
+        $this->_getWriteAdapter()->delete($this->getTable('eav_entity_attribute'), array(
             'entity_attribute_id = ?' => $object->getEntityAttributeId()
         ));
 
@@ -213,7 +213,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
             $adapter = $this->_getWriteAdapter();
             if ($object->getId()) {
                 $condition = array('attribute_id =?' => $object->getId());
-                $adapter->delete($this->getTable('eav/attribute_label'), $condition);
+                $adapter->delete($this->getTable('eav_attribute_label'), $condition);
             }
             foreach ($storeLabels as $storeId => $label) {
                 if ($storeId == 0 || !strlen($label)) {
@@ -224,7 +224,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
                     'store_id'     => $storeId,
                     'value'        => $label
                 );
-                $adapter->insert($this->getTable('eav/attribute_label'), $bind);
+                $adapter->insert($this->getTable('eav_attribute_label'), $bind);
             }
         }
 
@@ -273,7 +273,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
 
         if ($setId && $groupId && $object->getEntityTypeId()) {
             $adapter = $this->_getWriteAdapter();
-            $table   = $this->getTable('eav/entity_attribute');
+            $table   = $this->getTable('eav_entity_attribute');
 
             $sortOrder = (($object->getSortOrder()) ? $object->getSortOrder() : $this->_getMaxSortOrder($object) + 1);
             $data = array(
@@ -307,8 +307,8 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
         $option = $object->getOption();
         if (is_array($option)) {
             $adapter            = $this->_getWriteAdapter();
-            $optionTable        = $this->getTable('eav/attribute_option');
-            $optionValueTable   = $this->getTable('eav/attribute_option_value');
+            $optionTable        = $this->getTable('eav_attribute_option');
+            $optionValueTable   = $this->getTable('eav_attribute_option_value');
 
             $stores = Mage::app()->getStores(true);
             if (isset($option['value'])) {
@@ -393,9 +393,9 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
             ':attribute_code'   => $code
         );
         $select = $adapter->select()
-            ->from(array('a' => $this->getTable('eav/attribute')), array('a.attribute_id'))
+            ->from(array('a' => $this->getTable('eav_attribute')), array('a.attribute_id'))
             ->join(
-                array('t' => $this->getTable('eav/entity_type')),
+                array('t' => $this->getTable('eav_entity_type')),
                 'a.entity_type_id = t.entity_type_id',
                 array())
             ->where('t.entity_type_code = :entity_type_code')
@@ -415,7 +415,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
         $adapter = $this->_getReadAdapter();
         $bind    = array(':frontend_input' => $frontendType);
         $select  = $adapter->select()
-            ->from($this->getTable('eav/attribute'), 'attribute_code')
+            ->from($this->getTable('eav_attribute'), 'attribute_code')
             ->where('frontend_input = :frontend_input');
 
         return $adapter->fetchCol($select, $bind);
@@ -527,7 +527,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
         $adapter   = $this->_getReadAdapter();
         $bind      = array(':attribute_id' => $attributeId);
         $select    = $adapter->select()
-            ->from($this->getTable('eav/attribute_label'), array('store_id', 'value'))
+            ->from($this->getTable('eav_attribute_label'), array('store_id', 'value'))
             ->where('attribute_id = :attribute_id');
 
         return $adapter->fetchPairs($select, $bind);

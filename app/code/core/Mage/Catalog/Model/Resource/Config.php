@@ -54,7 +54,7 @@ class Mage_Catalog_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abs
      */
     protected function _construct()
     {
-        $this->_init('eav/attribute', 'attribute_id');
+        $this->_init('eav_attribute', 'attribute_id');
     }
 
     /**
@@ -107,13 +107,13 @@ class Mage_Catalog_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abs
         $storeLabelExpr = $adapter->getCheckSql('al.value IS NOT NULL', 'al.value', 'main_table.frontend_label');
 
         $select  = $adapter->select()
-            ->from(array('main_table' => $this->getTable('eav/attribute')))
+            ->from(array('main_table' => $this->getTable('eav_attribute')))
             ->join(
-                array('additional_table' => $this->getTable('catalog/eav_attribute')),
+                array('additional_table' => $this->getTable('catalog_eav_attribute')),
                 'main_table.attribute_id = additional_table.attribute_id'
             )
             ->joinLeft(
-                array('al' => $this->getTable('eav/attribute_label')),
+                array('al' => $this->getTable('eav_attribute_label')),
                 'al.attribute_id = main_table.attribute_id AND al.store_id = ' . (int)$this->getStoreId(),
                 array('store_label' => $storeLabelExpr)
             )
@@ -133,14 +133,14 @@ class Mage_Catalog_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abs
         $adapter = $this->_getReadAdapter();
         $storeLabelExpr = $adapter->getCheckSql('al.value IS NULL', 'main_table.frontend_label','al.value');
         $select = $adapter->select()
-            ->from(array('main_table' => $this->getTable('eav/attribute')))
+            ->from(array('main_table' => $this->getTable('eav_attribute')))
             ->join(
-                array('additional_table' => $this->getTable('catalog/eav_attribute')),
+                array('additional_table' => $this->getTable('catalog_eav_attribute')),
                 'main_table.attribute_id = additional_table.attribute_id',
                 array()
             )
             ->joinLeft(
-                array('al' => $this->getTable('eav/attribute_label')),
+                array('al' => $this->getTable('eav_attribute_label')),
                 'al.attribute_id = main_table.attribute_id AND al.store_id = ' . (int)$this->getStoreId(),
                 array('store_label' => $storeLabelExpr)
             )

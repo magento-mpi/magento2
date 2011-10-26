@@ -55,7 +55,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
      */
     protected function _construct()
     {
-        $this->_init('cataloginventory/stock_status', 'product_id');
+        $this->_init('cataloginventory_stock_status', 'product_id');
     }
 
     /**
@@ -109,7 +109,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
 
         // retrieve product types by processIds
         $select = $adapter->select()
-            ->from($this->getTable('catalog/product'), array('entity_id', 'type_id'))
+            ->from($this->getTable('catalog_product_entity'), array('entity_id', 'type_id'))
             ->where('entity_id IN(?)', $processIds);
         $pairs  = $adapter->fetchPairs($select);
 
@@ -186,7 +186,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
         $adapter = $this->_getWriteAdapter();
         $processIds = $data['reindex_stock_product_ids'];
         $select = $adapter->select()
-            ->from($this->getTable('catalog/product'), 'COUNT(*)');
+            ->from($this->getTable('catalog_product_entity'), 'COUNT(*)');
         $pCount = $adapter->fetchOne($select);
 
         // if affected more 30% of all products - run reindex all products
@@ -196,11 +196,11 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
 
         // calculate relations
         $select = $adapter->select()
-            ->from($this->getTable('catalog/product_relation'), 'COUNT(DISTINCT parent_id)')
+            ->from($this->getTable('catalog_product_relation'), 'COUNT(DISTINCT parent_id)')
             ->where('child_id IN(?)', $processIds);
         $aCount = $adapter->fetchOne($select);
         $select = $adapter->select()
-            ->from($this->getTable('catalog/product_relation'), 'COUNT(DISTINCT child_id)')
+            ->from($this->getTable('catalog_product_relation'), 'COUNT(DISTINCT child_id)')
             ->where('parent_id IN(?)', $processIds);
         $bCount = $adapter->fetchOne($select);
 
@@ -218,7 +218,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
 
         // retrieve products types
         $select = $adapter->select()
-            ->from($this->getTable('catalog/product'), array('entity_id', 'type_id'))
+            ->from($this->getTable('catalog_product_entity'), array('entity_id', 'type_id'))
             ->where('entity_id IN(?)', $processIds);
         $query  = $select->query(Zend_Db::FETCH_ASSOC);
         $byType = array();
@@ -314,9 +314,9 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
     {
         $write = $this->_getWriteAdapter();
         $select = $write->select()
-            ->from(array('l' => $this->getTable('catalog/product_relation')), array('parent_id'))
+            ->from(array('l' => $this->getTable('catalog_product_relation')), array('parent_id'))
             ->join(
-                array('e' => $this->getTable('catalog/product')),
+                array('e' => $this->getTable('catalog_product_entity')),
                 'l.parent_id=e.entity_id',
                 array('e.type_id')
             )
@@ -333,8 +333,8 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
     public function getIdxTable($table = null)
     {
         if ($this->useIdxTable()) {
-            return $this->getTable('cataloginventory/stock_status_indexer_idx');
+            return $this->getTable('cataloginventory_stock_status_idx');
         }
-        return $this->getTable('cataloginventory/stock_status_indexer_tmp');
+        return $this->getTable('cataloginventory_stock_status_tmp');
     }
 }

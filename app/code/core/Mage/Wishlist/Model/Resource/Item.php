@@ -40,7 +40,7 @@ class Mage_Wishlist_Model_Resource_Item extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _construct()
     {
-        $this->_init('wishlist/item', 'wishlist_item_id');
+        $this->_init('wishlist_item', 'wishlist_item_id');
     }
 
     /**

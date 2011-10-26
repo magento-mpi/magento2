@@ -40,7 +40,7 @@ class Mage_Downloadable_Model_Resource_Link extends Mage_Core_Model_Resource_Db_
      */
     protected function _construct()
     {
-        $this->_init('downloadable/link', 'link_id');
+        $this->_init('downloadable_link', 'link_id');
     }
 
     /**
@@ -53,11 +53,11 @@ class Mage_Downloadable_Model_Resource_Link extends Mage_Core_Model_Resource_Db_
     {
 
         $writeAdapter   = $this->_getWriteAdapter();
-        $linkTitleTable = $this->getTable('downloadable/link_title');
-        $linkPriceTable = $this->getTable('downloadable/link_price');
+        $linkTitleTable = $this->getTable('downloadable_link_title');
+        $linkPriceTable = $this->getTable('downloadable_link_price');
 
         $select = $writeAdapter->select()
-            ->from($this->getTable('downloadable/link_title'))
+            ->from($this->getTable('downloadable_link_title'))
             ->where('link_id=:link_id AND store_id=:store_id');
         $bind = array(
             ':link_id'   => $linkObject->getId(),
@@ -171,9 +171,9 @@ class Mage_Downloadable_Model_Resource_Link extends Mage_Core_Model_Resource_Db_
             $writeAdapter->delete(
                 $this->getMainTable(), $where);
             $writeAdapter->delete(
-                $this->getTable('downloadable/link_title'), $where);
+                $this->getTable('downloadable_link_title'), $where);
             $writeAdapter->delete(
-                $this->getTable('downloadable/link_price'), $where);
+                $this->getTable('downloadable_link_price'), $where);
         }
         return $this;
     }
@@ -192,11 +192,11 @@ class Mage_Downloadable_Model_Resource_Link extends Mage_Core_Model_Resource_Db_
         $select = $adapter->select()
             ->from(array('m' => $this->getMainTable()), null)
             ->join(
-                array('s' => $this->getTable('downloadable/link_title')),
+                array('s' => $this->getTable('downloadable_link_title')),
                 's.link_id=m.link_id AND s.store_id=0',
                 array())
             ->joinLeft(
-                array('st' => $this->getTable('downloadable/link_title')),
+                array('st' => $this->getTable('downloadable_link_title')),
                 'st.link_id=m.link_id AND st.store_id=:store_id',
                 array('title' => $ifNullDefaultTitle))
             ->where('m.product_id=:product_id');

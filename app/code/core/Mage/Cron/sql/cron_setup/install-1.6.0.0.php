@@ -32,10 +32,10 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'cron/schedule'
+ * Create table 'cron_schedule'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('cron/schedule'))
+    ->newTable($installer->getTable('cron_schedule'))
     ->addColumn('schedule_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -64,9 +64,9 @@ $table = $installer->getConnection()
     ->addColumn('finished_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => true,
         ), 'Finished At')
-    ->addIndex($installer->getIdxName('cron/schedule', array('job_code')),
+    ->addIndex($installer->getIdxName('cron_schedule', array('job_code')),
         array('job_code'))
-    ->addIndex($installer->getIdxName('cron/schedule', array('scheduled_at', 'status')),
+    ->addIndex($installer->getIdxName('cron_schedule', array('scheduled_at', 'status')),
         array('scheduled_at', 'status'))
     ->setComment('Cron Schedule');
 $installer->getConnection()->createTable($table);

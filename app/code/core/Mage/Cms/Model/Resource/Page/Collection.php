@@ -115,7 +115,7 @@ class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_D
             $connection = $this->getConnection();
             if (count($items)) {
                 $select = $connection->select()
-                        ->from(array('cps'=>$this->getTable('cms/page_store')))
+                        ->from(array('cps'=>$this->getTable('cms_page_store')))
                         ->where('cps.page_id IN (?)', $items);
 
                 if ($result = $connection->fetchPairs($select)) {
@@ -175,7 +175,7 @@ class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_D
     {
         if ($this->getFilter('store')) {
             $this->getSelect()->join(
-                array('store_table' => $this->getTable('cms/page_store')),
+                array('store_table' => $this->getTable('cms_page_store')),
                 'main_table.page_id = store_table.page_id',
                 array()
             )->group('main_table.page_id');

@@ -724,10 +724,7 @@ class Mage_Core_Model_Resource_Setup
      */
     public function getTableRow($table, $idField, $id, $field=null, $parentField=null, $parentId=0)
     {
-        if (strpos($table, '/') !== false) {
-            $table = $this->getTable($table);
-        }
-
+        $table = $this->getTable($table);
         if (empty($this->_setupCache[$table][$parentId][$id])) {
             $adapter = $this->getConnection();
             $bind    = array('id_field' => $id);
@@ -762,10 +759,7 @@ class Mage_Core_Model_Resource_Setup
      */
     public function deleteTableRow($table, $idField, $id, $parentField = null, $parentId = 0)
     {
-        if (strpos($table, '/') !== false) {
-            $table = $this->getTable($table);
-        }
-
+        $table = $this->getTable($table);
         $adapter = $this->getConnection();
         $where = array($adapter->quoteIdentifier($idField) . '=?' => $id);
         if (!is_null($parentField)) {
@@ -795,10 +789,7 @@ class Mage_Core_Model_Resource_Setup
      */
     public function updateTableRow($table, $idField, $id, $field, $value = null, $parentField = null, $parentId = 0)
     {
-        if (strpos($table, '/') !== false) {
-            $table = $this->getTable($table);
-        }
-
+        $table = $this->getTable($table);
         if (is_array($field)) {
             $data = $field;
         } else {
@@ -833,9 +824,7 @@ class Mage_Core_Model_Resource_Setup
      */
     public function updateTable($table, $conditionExpr, $valueExpr)
     {
-        if (strpos($table, '/') !== false) {
-            $table = $this->getTable($table);
-        }
+        $table = $this->getTable($table);
         $query = sprintf('UPDATE %s SET %s WHERE %s',
             $this->getConnection()->quoteIdentifier($table),
             $conditionExpr,
@@ -854,12 +843,8 @@ class Mage_Core_Model_Resource_Setup
      */
     public function tableExists($table)
     {
-        if (strpos($table, '/') !== false) {
-            $table = $this->getTable($table);
-        }
-
+        $table = $this->getTable($table);
         return $this->getConnection()->isTableExists($table);
-
     }
 
 /******************* CONFIG *****************/
@@ -891,7 +876,7 @@ class Mage_Core_Model_Resource_Setup
      */
     public function setConfigData($path, $value, $scope = 'default', $scopeId = 0, $inherit=0)
     {
-        $table = $this->getTable('core/config_data');
+        $table = $this->getTable('core_config_data');
         // this is a fix for mysql 4.1
         $this->getConnection()->showTableStatus($table);
 
@@ -918,7 +903,7 @@ class Mage_Core_Model_Resource_Setup
         if (!is_null($scope)) {
             $where['scope = ?'] = $scope;
         }
-        $this->getConnection()->delete($this->getTable('core/config_data'), $where);
+        $this->getConnection()->delete($this->getTable('core_config_data'), $where);
         return $this;
     }
 

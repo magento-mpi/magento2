@@ -39,7 +39,7 @@ class Mage_CatalogSearch_Model_Resource_Indexer_Fulltext extends Mage_Core_Model
      */
     protected function _construct()
     {
-        $this->_init('catalogsearch/fulltext', 'product_id');
+        $this->_init('catalogsearch_fulltext', 'product_id');
     }
 
     /**
@@ -52,7 +52,7 @@ class Mage_CatalogSearch_Model_Resource_Indexer_Fulltext extends Mage_Core_Model
     {
         $write = $this->_getWriteAdapter();
         $select = $write->select()
-            ->from($this->getTable('catalog/product_relation'), 'parent_id')
+            ->from($this->getTable('catalog_product_relation'), 'parent_id')
             ->where('child_id IN(?)', $childIds);
 
         return $write->fetchCol($select);

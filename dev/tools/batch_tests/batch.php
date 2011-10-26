@@ -10,21 +10,21 @@
  */
 
 $tests = array(
-    '../../tests/unit',
-    '../../tests/static/framework/tests/unit',
-    '../../tests/static',
-    '../../tests/integration/framework/tests/unit',
-    '../../tests/integration'
+    '../../tests/unit' => '',
+    '../../tests/static/framework/tests/unit' => '',
+    '../../tests/static' => 'testsuite/Php/LiveCodeTest.php',
+    '../../tests/integration/framework/tests/unit' => '',
+    '../../tests/integration' => ''
 );
 
 $failures = array();
-foreach ($tests as $dir) {
+foreach ($tests as $dir => $options) {
     $dirName = __DIR__ . '/' . $dir;
     chdir($dirName);
     echo "\n\n";
     echo str_pad("----" . realpath($dirName), 70, '-');
     echo "\n\n";
-    passthru('phpunit', $returnVal);
+    passthru('phpunit ' . $options, $returnVal);
     if ($returnVal) {
         $failures[] = $dirName;
     }

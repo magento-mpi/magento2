@@ -47,6 +47,6 @@ class Mage_Sales_Model_Resource_Order_Status_History extends Mage_Sales_Model_Re
      */
     protected function _construct()
     {
-        $this->_init('sales/order_status_history', 'entity_id');
+        $this->_init('sales_flat_order_status_history', 'entity_id');
     }
 }

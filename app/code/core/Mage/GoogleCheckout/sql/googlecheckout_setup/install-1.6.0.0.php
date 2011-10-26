@@ -33,10 +33,10 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'googlecheckout/notification'
+ * Create table 'googlecheckout_notification'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('googlecheckout/notification'))
+    ->newTable($installer->getTable('googlecheckout_notification'))
     ->addColumn('serial_number', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
         'nullable'  => false,
         'primary'   => true,
@@ -52,7 +52,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Add 'disable_googlecheckout' attribute to the 'eav/attribute' table
+ * Add 'disable_googlecheckout' attribute to the 'eav_attribute' table
  */
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'enable_googlecheckout', array(
     'group'             => 'Prices',

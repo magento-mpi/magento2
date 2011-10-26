@@ -47,6 +47,6 @@ class Enterprise_TargetRule_Model_Resource_Index_Related extends Enterprise_Targ
      */
     protected function _construct()
     {
-        $this->_init('enterprise_targetrule/index_related', 'entity_id');
+        $this->_init('enterprise_targetrule_index_related', 'entity_id');
     }
 }

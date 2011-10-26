@@ -198,8 +198,8 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      */
     protected function _initTables()
     {
-        $this->_productWebsiteTable = $this->getResource()->getTable('catalog/product_website');
-        $this->_productCategoryTable= $this->getResource()->getTable('catalog/category_product');
+        $this->_productWebsiteTable = $this->getResource()->getTable('catalog_product_website');
+        $this->_productCategoryTable= $this->getResource()->getTable('catalog_category_product');
     }
 
     /**
@@ -475,7 +475,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             $select = $this->getConnection()->select()
                 ->from(array('product_website' => $this->_productWebsiteTable))
                 ->join(
-                    array('website' => $this->getResource()->getTable('core/website')),
+                    array('website' => $this->getResource()->getTable('core_website')),
                     'website.website_id = product_website.website_id',
                     array('name'))
                 ->where('product_website.product_id IN (?)', array_keys($productWebsites))
@@ -782,7 +782,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
                 ->reset(Zend_Db_Select::GROUP)
                 ->reset(Zend_Db_Select::ORDER)
                 ->distinct(false)
-                ->join(array('count_table' => $this->getTable('catalog/category_product_index')),
+                ->join(array('count_table' => $this->getTable('catalog_category_product_index')),
                     'count_table.product_id = e.entity_id',
                     array(
                         'count_table.category_id',
@@ -901,7 +901,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     public function joinUrlRewrite()
     {
         $this->joinTable(
-            'core/url_rewrite',
+            'core_url_rewrite',
             'entity_id=entity_id',
             array('request_path'),
             '{{table}}.type = ' . Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT,
@@ -959,7 +959,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             }
 
             $select = $this->getConnection()->select()
-                ->from($this->getTable('core/url_rewrite'), array('product_id', 'request_path'))
+                ->from($this->getTable('core_url_rewrite'), array('product_id', 'request_path'))
                 ->where('store_id = ?', Mage::app()->getStore()->getId())
                 ->where('is_system = ?', 1)
                 ->where('category_id = ? OR category_id IS NULL', $this->_urlRewriteCategory)
@@ -1052,7 +1052,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $conditions .= $this->getConnection()->quoteInto('price_rule.customer_group_id = ?', $gId);
 
         $this->getSelect()->joinLeft(
-            array('price_rule' => $this->getTable('catalogrule/rule_product_price')),
+            array('price_rule' => $this->getTable('catalogrule_product_price')),
             $conditions,
             array('rule_price' => 'rule_price')
         );
@@ -1412,7 +1412,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             $this->getSelect()->setPart(Zend_Db_Select::FROM, $fromPart);
         } elseif ($joinWebsite) {
             $this->getSelect()->join(
-                array('product_website' => $this->getTable('catalog/product_website')),
+                array('product_website' => $this->getTable('catalog_product_website')),
                 join(' AND ', $conditions),
                 array()
             );
@@ -1447,21 +1447,21 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $fromPart = $this->getSelect()->getPart(Zend_Db_Select::FROM);
         if (!isset($fromPart['store_index'])) {
             $this->getSelect()->joinLeft(
-                array('store_index' => $this->getTable('core/store')),
+                array('store_index' => $this->getTable('core_store')),
                 'store_index.store_id = ' . $filters['store_table'] . '.store_id',
                 array()
             );
         }
         if (!isset($fromPart['store_group_index'])) {
             $this->getSelect()->joinLeft(
-                array('store_group_index' => $this->getTable('core/store_group')),
+                array('store_group_index' => $this->getTable('core_store_group')),
                 'store_index.group_id = store_group_index.group_id',
                 array()
             );
         }
         if (!isset($fromPart['store_cat_index'])) {
             $this->getSelect()->joinLeft(
-                array('store_cat_index' => $this->getTable('catalog/category_product_index')),
+                array('store_cat_index' => $this->getTable('catalog_category_product_index')),
                 join(' AND ', array(
                     'store_cat_index.product_id = e.entity_id',
                     'store_cat_index.store_id = ' . $filters['store_table'] . '.store_id',
@@ -1522,7 +1522,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             $colls       = array('price', 'tax_class_id', 'final_price',
                 'minimal_price' => $minimalExpr , 'min_price', 'max_price', 'tier_price');
             $select->join(
-                array('price_index' => $this->getTable('catalog/product_index_price')),
+                array('price_index' => $this->getTable('catalog_product_index_price')),
                 $joinCond,
                 $colls
             );
@@ -1603,7 +1603,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         }
         else {
             $this->getSelect()->join(
-                array('cat_index' => $this->getTable('catalog/category_product_index')),
+                array('cat_index' => $this->getTable('catalog_category_product_index')),
                 $joinCond,
                 array('cat_index_position' => 'position')
             );
@@ -1642,7 +1642,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         }
         else {
             $this->getSelect()->join(
-                array('cat_pro' => $this->getTable('catalog/category_product')),
+                array('cat_pro' => $this->getTable('catalog_category_product')),
                 $joinCond,
                 array('cat_index_position' => 'position')
             );
@@ -1740,7 +1740,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             'product_id'    => 'entity_id'
         );
         $select  = $adapter->select()
-            ->from($this->getTable('catalog/product_attribute_tier_price'), $columns)
+            ->from($this->getTable('catalog_product_entity_tier_price'), $columns)
             ->where('entity_id IN(?)', $productIds)
             ->order(array('entity_id','qty'));
 

@@ -40,7 +40,7 @@ class Mage_Sales_Model_Resource_Recurring_Profile extends Mage_Sales_Model_Resou
      */
     protected function _construct()
     {
-        $this->_init('sales/recurring_profile', 'profile_id');
+        $this->_init('sales_recurring_profile', 'profile_id');
 
         $this->_serializableFields = array(
             'profile_vendor_info'    => array(null, array()),
@@ -66,7 +66,7 @@ class Mage_Sales_Model_Resource_Recurring_Profile extends Mage_Sales_Model_Resou
         $bind    = array(':profile_id' => $object->getId());
         $select  = $adapter->select()
             ->from(
-                array('main_table' => $this->getTable('sales/recurring_profile_order')),
+                array('main_table' => $this->getTable('sales_recurring_profile_order')),
                 array('order_id'))
             ->where('profile_id=:profile_id');
 
@@ -83,7 +83,7 @@ class Mage_Sales_Model_Resource_Recurring_Profile extends Mage_Sales_Model_Resou
     public function addOrderRelation($recurringProfileId, $orderId)
     {
         $this->_getWriteAdapter()->insert(
-            $this->getTable('sales/recurring_profile_order'), array(
+            $this->getTable('sales_recurring_profile_order'), array(
                 'profile_id' => $recurringProfileId,
                 'order_id'   => $orderId
             )

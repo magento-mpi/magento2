@@ -81,7 +81,7 @@ class Mage_Wishlist_Model_Resource_Product_Collection extends Mage_Catalog_Model
     public function addWishlistFilter(Mage_Wishlist_Model_Wishlist $wishlist)
     {
         $this->joinTable(
-            array($this->_wishlistItemTableAlias => 'wishlist/item'),
+            array($this->_wishlistItemTableAlias => 'wishlist_item'),
             'product_id=entity_id',
             array(
                 'product_id'                => 'product_id',
@@ -146,9 +146,9 @@ class Mage_Wishlist_Model_Resource_Product_Collection extends Mage_Catalog_Model
         $resourceHelper = Mage::getResourceHelper('core');
         $nowDate = $adapter->formatDate(Mage::getSingleton('core/date')->date());
 
-        $this->joinField('store_name', 'core/store', 'name', 'store_id=item_store_id');
+        $this->joinField('store_name', 'core_store', 'name', 'store_id=item_store_id');
         $this->joinField('days_in_wishlist',
-            'wishlist/item',
+            'wishlist_item',
             $resourceHelper->getDateDiff($this->_wishlistItemTableAlias . '.added_at', $nowDate),
             'wishlist_item_id=wishlist_item_id'
         );

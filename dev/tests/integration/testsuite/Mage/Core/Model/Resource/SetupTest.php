@@ -40,7 +40,7 @@ class Mage_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
         Mage::getResourceModel('core/resource')->setDbVersion('adminnotification_setup', false);
         Mage::getResourceModel('core/resource')->setDataVersion('adminnotification_setup', false);
         $this->_model->deleteTableRow('core_resource', 'code', 'adminnotification_setup');
-        $this->_model->getConnection()->dropTable('adminnotification_inbox');
+        $this->_model->getConnection()->dropTable($this->_model->getTable('adminnotification_inbox'));
         try {
             $this->_model->applyAllUpdates();
             $this->_model->applyAllDataUpdates();
@@ -69,7 +69,7 @@ class Mage_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
     public function testSetDeleteConfigData()
     {
         $select = $this->_model->getConnection()->select()
-            ->from('core_config_data', 'value')
+            ->from($this->_model->getTable('core_config_data'), 'value')
             ->where('path=?', 'my/test/path');
 
         $this->_model->setConfigData('my/test/path', 'test_value');
@@ -80,5 +80,38 @@ class Mage_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
 
         $this->_model->deleteConfigData('my/test/path');
         $this->assertEmpty($this->_model->getConnection()->fetchRow($select));
+    }
+
+    /**
+     * @expectedException Zend_Db_Statement_Exception
+     */
+    public function testGetTableRow()
+    {
+        $this->assertNotEmpty($this->_model->getTableRow('core_resource', 'code', 'core_setup'));
+        $this->_model->getTableRow('core/resource', 'code', 'core_setup');
+    }
+
+    /**
+     * @expectedException Zend_Db_Statement_Exception
+     */
+    public function testDeleteTableRow()
+    {
+        $this->_model->deleteTableRow('core/resource', 'code', 'integration_test_fixture_setup');
+    }
+
+    /**
+     * @covers Mage_Core_Model_Resource_Setup::updateTableRow
+     * @expectedException Zend_Db_Statement_Exception
+     */
+    public function testUpdateTableRowNameConversion()
+    {
+        $original = $this->_model->getTableRow('core_resource', 'code', 'core_setup', 'version');
+        $this->_model->updateTableRow('core/resource', 'code', 'core_setup', 'version', $original);
+    }
+
+    public function testTableExists()
+    {
+        $this->assertTrue($this->_model->tableExists('core_website'));
+        $this->assertFalse($this->_model->tableExists('core/website'));
     }
 }

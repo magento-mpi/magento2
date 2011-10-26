@@ -40,7 +40,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_option_type_value', 'option_type_id');
+        $this->_init('catalog_product_option_type_value', 'option_type_id');
     }
 
     /**
@@ -65,7 +65,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
      */
     protected function _saveValuePrices(Mage_Core_Model_Abstract $object)
     {
-        $priceTable = $this->getTable('catalog/product_option_type_price');
+        $priceTable = $this->getTable('catalog_product_option_type_price');
 
         $price      = (float)sprintf('%F', $object->getPrice());
         $priceType  = $object->getPriceType();
@@ -171,7 +171,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
      */
     protected function _saveValueTitles(Mage_Core_Model_Abstract $object)
     {
-        $titleTable = $this->getTable('catalog/product_option_type_title');
+        $titleTable = $this->getTable('catalog_product_option_type_title');
 
         if (!$object->getData('scope', 'title')) {
             $select = $this->_getReadAdapter()->select()
@@ -243,7 +243,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
     public function deleteValue($optionId)
     {
         $statement = $this->_getReadAdapter()->select()
-            ->from($this->getTable('catalog/product_option_type_value'))
+            ->from($this->getTable('catalog_product_option_type_value'))
             ->where('option_id = ?', $optionId);
 
         $rowSet = $this->_getReadAdapter()->fetchAll($statement);
@@ -274,12 +274,12 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
         );
 
         $this->_getWriteAdapter()->delete(
-            $this->getTable('catalog/product_option_type_price'),
+            $this->getTable('catalog_product_option_type_price'),
             $condition
         );
 
         $this->_getWriteAdapter()->delete(
-            $this->getTable('catalog/product_option_type_title'),
+            $this->getTable('catalog_product_option_type_title'),
             $condition
         );
     }
@@ -316,7 +316,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
 
         foreach ($valueCond as $oldTypeId => $newTypeId) {
             // price
-            $priceTable = $this->getTable('catalog/product_option_type_price');
+            $priceTable = $this->getTable('catalog_product_option_type_price');
             $columns= array(
                 new Zend_Db_Expr($newTypeId),
                 'store_id', 'price', 'price_type'
@@ -331,7 +331,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
             $writeAdapter->query($insertSelect);
 
             // title
-            $titleTable = $this->getTable('catalog/product_option_type_title');
+            $titleTable = $this->getTable('catalog_product_option_type_title');
             $columns= array(
                 new Zend_Db_Expr($newTypeId),
                 'store_id', 'title'

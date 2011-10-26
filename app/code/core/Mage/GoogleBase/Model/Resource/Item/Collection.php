@@ -150,7 +150,7 @@ class Mage_GoogleBase_Model_Resource_Item_Collection extends Mage_Core_Model_Res
 
         $this->getSelect()
             ->joinLeft(
-                array('types' => $this->getTable('googlebase/types')),
+                array('types' => $this->getTable('googlebase_types')),
                 'main_table.type_id=types.type_id',
                 array('gbase_itemtype' => $codeExpr)
             );

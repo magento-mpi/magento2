@@ -109,7 +109,7 @@ class Mage_GoogleBase_Model_Resource_Attribute_Collection extends Mage_Core_Mode
     {
         $this->getSelect()
             ->joinInner(
-                array('types'=>$this->getTable('googlebase/types')),
+                array('types'=>$this->getTable('googlebase_types')),
                 'main_table.type_id=types.type_id',
                 array('attribute_set_id' => 'types.attribute_set_id',
                     'target_country' => 'types.target_country')

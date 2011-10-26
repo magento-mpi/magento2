@@ -30,10 +30,10 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'admin/assert'
+ * Create table 'admin_assert'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('admin/assert'))
+    ->newTable($installer->getTable('admin_assert'))
     ->addColumn('assert_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -50,10 +50,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'admin/role'
+ * Create table 'admin_role'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('admin/role'))
+    ->newTable($installer->getTable('admin_role'))
     ->addColumn('role_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -88,18 +88,18 @@ $table = $installer->getConnection()
         'nullable'  => true,
         'default'   => null,
         ), 'Role Name')
-    ->addIndex($installer->getIdxName('admin/role', array('parent_id', 'sort_order')),
+    ->addIndex($installer->getIdxName('admin_role', array('parent_id', 'sort_order')),
         array('parent_id', 'sort_order'))
-    ->addIndex($installer->getIdxName('admin/role', array('tree_level')),
+    ->addIndex($installer->getIdxName('admin_role', array('tree_level')),
         array('tree_level'))
     ->setComment('Admin Role Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'admin/rule'
+ * Create table 'admin_rule'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('admin/rule'))
+    ->newTable($installer->getTable('admin_rule'))
     ->addColumn('rule_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -127,21 +127,21 @@ $table = $installer->getConnection()
         ), 'Role Type')
     ->addColumn('permission', Varien_Db_Ddl_Table::TYPE_TEXT, 10, array(
         ), 'Permission')
-    ->addIndex($installer->getIdxName('admin/rule', array('resource_id', 'role_id')),
+    ->addIndex($installer->getIdxName('admin_rule', array('resource_id', 'role_id')),
         array('resource_id', 'role_id'))
-    ->addIndex($installer->getIdxName('admin/rule', array('role_id', 'resource_id')),
+    ->addIndex($installer->getIdxName('admin_rule', array('role_id', 'resource_id')),
         array('role_id', 'resource_id'))
-    ->addForeignKey($installer->getFkName('admin/rule', 'role_id', 'admin/role', 'role_id'),
-        'role_id', $installer->getTable('admin/role'), 'role_id',
+    ->addForeignKey($installer->getFkName('admin_rule', 'role_id', 'admin_role', 'role_id'),
+        'role_id', $installer->getTable('admin_role'), 'role_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Admin Rule Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'admin/user'
+ * Create table 'admin_user'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('admin/user'))
+    ->newTable($installer->getTable('admin_user'))
     ->addColumn('user_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -185,7 +185,7 @@ $table = $installer->getConnection()
         ), 'User Is Active')
     ->addColumn('extra', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'User Extra Data')
-    ->addIndex($installer->getIdxName('admin/user', array('username'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('admin_user', array('username'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('username'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->setComment('Admin User Table');
 $installer->getConnection()->createTable($table);

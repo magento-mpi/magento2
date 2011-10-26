@@ -40,7 +40,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
      */
     protected function _construct()
     {
-        $this->_init('admin/user', 'user_id');
+        $this->_init('admin_user', 'user_id');
     }
 
     /**
@@ -128,7 +128,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
             $adapter = $this->_getReadAdapter();
 
             $select = $adapter->select();
-            $select->from($this->getTable('admin/role'))
+            $select->from($this->getTable('admin_role'))
                 ->where('parent_id > :parent_id')
                 ->where('user_id = :user_id');
 
@@ -215,7 +215,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
             );
 
             $adapter->delete($this->getMainTable(), $conditions);
-            $adapter->delete($this->getTable('admin/role'), $conditions);
+            $adapter->delete($this->getTable('admin_role'), $conditions);
         } catch (Mage_Core_Exception $e) {
             throw $e;
             return false;
@@ -251,7 +251,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
                 'user_id = ?' => (int) $user->getId(),
             );
 
-            $adapter->delete($this->getTable('admin/role'), $conditions);
+            $adapter->delete($this->getTable('admin_role'), $conditions);
             foreach ($rolesIds as $rid) {
                 $rid = intval($rid);
                 if ($rid > 0) {
@@ -269,8 +269,8 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
                     'role_name'     => $user->getFirstname()
                 ));
 
-                $insertData = $this->_prepareDataForTable($data, $this->getTable('admin/role'));
-                $adapter->insert($this->getTable('admin/role'), $insertData);
+                $insertData = $this->_prepareDataForTable($data, $this->getTable('admin_role'));
+                $adapter->insert($this->getTable('admin_role'), $insertData);
             }
             $adapter->commit();
         } catch (Mage_Core_Exception $e) {
@@ -295,7 +295,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
             return array();
         }
 
-        $table  = $this->getTable('admin/role');
+        $table  = $this->getTable('admin_role');
         $adapter   = $this->_getReadAdapter();
 
         $select = $adapter->select()
@@ -336,7 +336,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
                     'role_id = ?' => $data['role_id'],
                 );
 
-                $dbh->delete($this->getTable('admin/role'), $conditions);
+                $dbh->delete($this->getTable('admin_role'), $conditions);
             }
         }
 
@@ -356,9 +356,9 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
             'role_name'  => $user->getFirstname()
         ));
 
-        $insertData = $this->_prepareDataForTable($data, $this->getTable('admin/role'));
+        $insertData = $this->_prepareDataForTable($data, $this->getTable('admin_role'));
 
-        $dbh->insert($this->getTable('admin/role'), $insertData);
+        $dbh->insert($this->getTable('admin_role'), $insertData);
 
         return $this;
     }
@@ -385,7 +385,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
             'parent_id = ?' => (int) $user->getRoleId(),
         );
 
-        $dbh->delete($this->getTable('admin/role'), $condition);
+        $dbh->delete($this->getTable('admin_role'), $condition);
         return $this;
     }
 
@@ -398,7 +398,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
     public function roleUserExists(Mage_Core_Model_Abstract $user)
     {
         if ( $user->getUserId() > 0 ) {
-            $roleTable = $this->getTable('admin/role');
+            $roleTable = $this->getTable('admin_role');
 
             $dbh = $this->_getReadAdapter();
 

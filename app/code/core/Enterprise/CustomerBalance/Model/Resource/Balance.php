@@ -40,7 +40,7 @@ class Enterprise_CustomerBalance_Model_Resource_Balance extends Mage_Core_Model_
      */
     protected function _construct()
     {
-        $this->_init('enterprise_customerbalance/balance', 'balance_id');
+        $this->_init('enterprise_customerbalance', 'balance_id');
     }
 
     /**

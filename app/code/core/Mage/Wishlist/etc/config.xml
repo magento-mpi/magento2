@@ -44,18 +44,6 @@
             </wishlist>
             <wishlist_resource>
                 <class>Mage_Wishlist_Model_Resource</class>
-                <entities>
-                    <wishlist>
-                        <table>wishlist</table>
-                    </wishlist>
-                    <item>
-                        <table>wishlist_item</table>
-                    </item>
-                    <item>
-                        <table>wishlist_item</table>
-                    </item>
-                    <item_option><table>wishlist_item_option</table></item_option>
-                </entities>
             </wishlist_resource>
         </models>
         <resources>

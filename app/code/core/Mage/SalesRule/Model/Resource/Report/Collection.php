@@ -46,7 +46,7 @@ class Mage_SalesRule_Model_Resource_Report_Collection extends Mage_Sales_Model_R
      *
      * @var string
      */
-    protected $_aggregationTable = 'salesrule/coupon_aggregated';
+    protected $_aggregationTable = 'coupon_aggregated';
 
     /**
      * array of columns that should be aggregated

@@ -40,7 +40,7 @@ class Mage_Newsletter_Model_Resource_Template extends Mage_Core_Model_Resource_D
      */
     protected function _construct()
     {
-        $this->_init('newsletter/template', 'template_id');
+        $this->_init('newsletter_template', 'template_id');
     }
 
     /**
@@ -78,7 +78,7 @@ class Mage_Newsletter_Model_Resource_Template extends Mage_Core_Model_Resource_D
     {
         if ($template->getTemplateActual() !== 0 && !$template->getIsSystem()) {
             $select = $this->_getReadAdapter()->select()
-                ->from($this->getTable('newsletter/queue'), new Zend_Db_Expr('COUNT(queue_id)'))
+                ->from($this->getTable('newsletter_queue'), new Zend_Db_Expr('COUNT(queue_id)'))
                 ->where('template_id = :template_id');
 
             $countOfQueue = $this->_getReadAdapter()->fetchOne($select, array('template_id'=>$template->getId()));

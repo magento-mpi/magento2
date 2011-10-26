@@ -69,7 +69,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
         $attributeIds       = array();
         $select = $this->getConnection()->select()
             ->from(
-                array('ea' => $this->getTable('eav/attribute')),
+                array('ea' => $this->getTable('eav_attribute')),
                 array('entity_type_id', 'attribute_code', 'attribute_id'))
             ->where('ea.entity_type_id IN(?)', array($customer, $customerAddress));
         foreach ($this->getConnection()->fetchAll($select) as $row) {
@@ -127,7 +127,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
         }
 
         if ($data) {
-            $this->getConnection()->insertMultiple($this->getTable('customer/form_attribute'), $data);
+            $this->getConnection()->insertMultiple($this->getTable('customer_form_attribute'), $data);
         }
     }
 
@@ -142,9 +142,9 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             'customer'                       => array(
                 'entity_model'                   => 'customer/customer',
                 'attribute_model'                => 'customer/attribute',
-                'table'                          => 'customer/entity',
+                'table'                          => 'customer_entity',
                 'increment_model'                => 'eav/entity_increment_numeric',
-                'additional_attribute_table'     => 'customer/eav_attribute',
+                'additional_attribute_table'     => 'customer_eav_attribute',
                 'entity_attribute_collection'    => 'customer/attribute_collection',
                 'attributes'                     => array(
                     'website_id'         => array(
@@ -315,7 +315,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'type'               => 'int',
                         'label'              => 'Gender',
                         'input'              => 'select',
-                        'source'             => 'eav/entity_attribute_source_table',
+                        'source'             => 'eav_entity_attribute_source_table',
                         'required'           => false,
                         'sort_order'         => 110,
                         'visible'            => false,
@@ -331,8 +331,8 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             'customer_address'               => array(
                 'entity_model'                   => 'customer/address',
                 'attribute_model'                => 'customer/attribute',
-                'table'                          => 'customer/address_entity',
-                'additional_attribute_table'     => 'customer/eav_attribute',
+                'table'                          => 'customer_address_entity',
+                'additional_attribute_table'     => 'customer_eav_attribute',
                 'entity_attribute_collection'    => 'customer/address_attribute_collection',
                 'attributes'                     => array(
                     'prefix'             => array(
@@ -394,7 +394,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'type'               => 'text',
                         'label'              => 'Street Address',
                         'input'              => 'multiline',
-                        'backend'            => 'customer/entity_address_attribute_backend_street',
+                        'backend'            => 'customer/resource_address_attribute_backend_street',
                         'sort_order'         => 70,
                         'multiline_count'    => 2,
                         'validate_rules'     => 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}',
@@ -420,7 +420,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'type'               => 'varchar',
                         'label'              => 'State/Province',
                         'input'              => 'text',
-                        'backend'            => 'customer/entity_address_attribute_backend_region',
+                        'backend'            => 'customer/resource_address_attribute_backend_region',
                         'required'           => false,
                         'sort_order'         => 100,
                         'position'           => 100,

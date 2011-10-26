@@ -50,14 +50,14 @@ class Mage_Reports_Model_Resource_Review_Product_Collection extends Mage_Catalog
 
         $subSelect = clone $this->getSelect();
         $subSelect->reset()
-            ->from(array('rev' => $this->getTable('review/review')), 'COUNT(DISTINCT rev.review_id)')
+            ->from(array('rev' => $this->getTable('review')), 'COUNT(DISTINCT rev.review_id)')
             ->where('e.entity_id = rev.entity_pk_value');
 
         $this->addAttributeToSelect('name');
 
         $this->getSelect()
             ->join(
-                array('r' => $this->getTable('review/review')),
+                array('r' => $this->getTable('review')),
                 'e.entity_id = r.entity_pk_value',
                 array(
                     'review_cnt'    => new Zend_Db_Expr(sprintf('(%s)', $subSelect)),
@@ -80,7 +80,7 @@ class Mage_Reports_Model_Resource_Review_Product_Collection extends Mage_Catalog
 
         $this->getSelect()
             ->joinLeft(
-                array('table_rating' => $this->getTable('rating/rating_vote_aggregated')),
+                array('table_rating' => $this->getTable('rating_option_vote_aggregated')),
                 implode(' AND ', $joinCondition),
                 array(
                     'avg_rating'          => sprintf('%s/%s', $sumPercentField, $countRatingId),

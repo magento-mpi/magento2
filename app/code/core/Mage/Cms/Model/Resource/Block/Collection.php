@@ -102,7 +102,7 @@ class Mage_Cms_Model_Resource_Block_Collection extends Mage_Core_Model_Resource_
     {
         if ($this->getFilter('store')) {
             $this->getSelect()->join(
-                array('store_table' => $this->getTable('cms/block_store')),
+                array('store_table' => $this->getTable('cms_block_store')),
                 'main_table.block_id = store_table.block_id',
                 array()
             )->group('main_table.block_id');

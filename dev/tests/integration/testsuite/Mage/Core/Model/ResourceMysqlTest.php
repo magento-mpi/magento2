@@ -64,9 +64,15 @@ class Mage_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * @magentoConfigFixture global/resources/db/table_prefix prefix_
+     */
     public function testGetIdxName()
     {
-        $this->assertEquals('IDX_CORE_STORE_STORE_ID', $this->_model->getIdxName('core_store', array('store_id')));
+        $this->assertEquals(
+            'IDX_PREFIX_CORE_STORE_STORE_ID',
+            $this->_model->getIdxName('core_store', array('store_id'))
+        );
     }
 
     public function testGetFkName()

@@ -125,8 +125,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
             Mage::throwException(Mage::helper('enterprise_reminder')->__('Root wishlist condition should have days value at least 1.'));
         }
 
-        $wishlistTable = $this->getResource()->getTable('wishlist/wishlist');
-        $wishlistItemTable = $this->getResource()->getTable('wishlist/item');
+        $wishlistTable = $this->getResource()->getTable('wishlist');
+        $wishlistItemTable = $this->getResource()->getTable('wishlist_item');
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();

@@ -39,7 +39,7 @@ class Mage_Customer_Model_Resource_Group extends Mage_Core_Model_Resource_Db_Abs
      */
     protected function _construct()
     {
-        $this->_init('customer/customer_group', 'customer_group_id');
+        $this->_init('customer_group', 'customer_group_id');
     }
 
     /**

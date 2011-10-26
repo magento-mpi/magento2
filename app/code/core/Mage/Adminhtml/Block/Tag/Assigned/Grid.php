@@ -115,7 +115,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
             ->addAttributeToSelect('type_id')
             //->addAttributeToFilter('status', array(''))
             ->joinField('qty',
-                'cataloginventory/stock_item',
+                'cataloginventory_stock_item',
                 'qty',
                 'product_id=entity_id',
                 '{{table}}.stock_id=1',

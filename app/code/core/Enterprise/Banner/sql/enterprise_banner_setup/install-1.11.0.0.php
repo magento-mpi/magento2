@@ -29,10 +29,10 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_banner/banner'
+ * Create table 'enterprise_banner'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_banner/banner'))
+    ->newTable($installer->getTable('enterprise_banner'))
     ->addColumn('banner_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -50,10 +50,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_banner/content'
+ * Create table 'enterprise_banner_content'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_banner/content'))
+    ->newTable($installer->getTable('enterprise_banner_content'))
     ->addColumn('banner_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -68,24 +68,24 @@ $table = $installer->getConnection()
         ), 'Store Id')
     ->addColumn('banner_content', Varien_Db_Ddl_Table::TYPE_TEXT, '2M', array(
         ), 'Banner Content')
-    ->addIndex($installer->getIdxName('enterprise_banner/content', array('banner_id')),
+    ->addIndex($installer->getIdxName('enterprise_banner_content', array('banner_id')),
         array('banner_id'))
-    ->addIndex($installer->getIdxName('enterprise_banner/content', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_banner_content', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('enterprise_banner/content', 'banner_id', 'enterprise_banner/banner', 'banner_id'),
-        'banner_id', $installer->getTable('enterprise_banner/banner'), 'banner_id',
+    ->addForeignKey($installer->getFkName('enterprise_banner_content', 'banner_id', 'enterprise_banner', 'banner_id'),
+        'banner_id', $installer->getTable('enterprise_banner'), 'banner_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_banner/content', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('enterprise_banner_content', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Banner Content');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_banner/customersegment'
+ * Create table 'enterprise_banner_customersegment'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_banner/customersegment'))
+    ->newTable($installer->getTable('enterprise_banner_customersegment'))
     ->addColumn('banner_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -98,24 +98,24 @@ $table = $installer->getConnection()
         'primary'   => true,
         'default'   => '0',
         ), 'Segment Id')
-    ->addIndex($installer->getIdxName('enterprise_banner/customersegment', array('banner_id')),
+    ->addIndex($installer->getIdxName('enterprise_banner_customersegment', array('banner_id')),
         array('banner_id'))
-    ->addIndex($installer->getIdxName('enterprise_banner/customersegment', array('segment_id')),
+    ->addIndex($installer->getIdxName('enterprise_banner_customersegment', array('segment_id')),
         array('segment_id'))
-    ->addForeignKey($installer->getFkName('enterprise_banner/customersegment', 'banner_id', 'enterprise_banner/banner', 'banner_id'),
-        'banner_id', $installer->getTable('enterprise_banner/banner'), 'banner_id',
+    ->addForeignKey($installer->getFkName('enterprise_banner_customersegment', 'banner_id', 'enterprise_banner', 'banner_id'),
+        'banner_id', $installer->getTable('enterprise_banner'), 'banner_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_banner/customersegment', 'segment_id', 'enterprise_customersegment/segment', 'segment_id'),
-        'segment_id', $installer->getTable('enterprise_customersegment/segment'), 'segment_id',
+    ->addForeignKey($installer->getFkName('enterprise_banner_customersegment', 'segment_id', 'enterprise_customersegment_segment', 'segment_id'),
+        'segment_id', $installer->getTable('enterprise_customersegment_segment'), 'segment_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Banner Customersegment');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_banner/catalogrule'
+ * Create table 'enterprise_banner_catalogrule'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_banner/catalogrule'))
+    ->newTable($installer->getTable('enterprise_banner_catalogrule'))
     ->addColumn('banner_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -126,24 +126,24 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Rule Id')
-    ->addIndex($installer->getIdxName('enterprise_banner/catalogrule', array('banner_id')),
+    ->addIndex($installer->getIdxName('enterprise_banner_catalogrule', array('banner_id')),
         array('banner_id'))
-    ->addIndex($installer->getIdxName('enterprise_banner/catalogrule', array('rule_id')),
+    ->addIndex($installer->getIdxName('enterprise_banner_catalogrule', array('rule_id')),
         array('rule_id'))
-    ->addForeignKey($installer->getFkName('enterprise_banner/catalogrule', 'banner_id', 'enterprise_banner/banner', 'banner_id'),
-        'banner_id', $installer->getTable('enterprise_banner/banner'), 'banner_id',
+    ->addForeignKey($installer->getFkName('enterprise_banner_catalogrule', 'banner_id', 'enterprise_banner', 'banner_id'),
+        'banner_id', $installer->getTable('enterprise_banner'), 'banner_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_banner/catalogrule', 'rule_id', 'catalogrule/rule', 'rule_id'),
-        'rule_id', $installer->getTable('catalogrule/rule'), 'rule_id',
+    ->addForeignKey($installer->getFkName('enterprise_banner_catalogrule', 'rule_id', 'catalogrule', 'rule_id'),
+        'rule_id', $installer->getTable('catalogrule'), 'rule_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Banner Catalogrule');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_banner/salesrule'
+ * Create table 'enterprise_banner_salesrule'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_banner/salesrule'))
+    ->newTable($installer->getTable('enterprise_banner_salesrule'))
     ->addColumn('banner_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -154,15 +154,15 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Rule Id')
-    ->addIndex($installer->getIdxName('enterprise_banner/salesrule', array('banner_id')),
+    ->addIndex($installer->getIdxName('enterprise_banner_salesrule', array('banner_id')),
         array('banner_id'))
-    ->addIndex($installer->getIdxName('enterprise_banner/salesrule', array('rule_id')),
+    ->addIndex($installer->getIdxName('enterprise_banner_salesrule', array('rule_id')),
         array('rule_id'))
-    ->addForeignKey($installer->getFkName('enterprise_banner/salesrule', 'banner_id', 'enterprise_banner/banner', 'banner_id'),
-        'banner_id', $installer->getTable('enterprise_banner/banner'), 'banner_id',
+    ->addForeignKey($installer->getFkName('enterprise_banner_salesrule', 'banner_id', 'enterprise_banner', 'banner_id'),
+        'banner_id', $installer->getTable('enterprise_banner'), 'banner_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_banner/salesrule', 'rule_id', 'salesrule/rule', 'rule_id'),
-        'rule_id', $installer->getTable('salesrule/rule'), 'rule_id',
+    ->addForeignKey($installer->getFkName('enterprise_banner_salesrule', 'rule_id', 'salesrule', 'rule_id'),
+        'rule_id', $installer->getTable('salesrule'), 'rule_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Banner Salesrule');
 $installer->getConnection()->createTable($table);

@@ -38,7 +38,7 @@ $installer->startSetup();
 
 $connection = $installer->getConnection();
 
-$table = $connection->newTable($this->getTable('googleshopping/types'))
+$table = $connection->newTable($this->getTable('googleshopping_types'))
     ->addColumn('type_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned' => true,
@@ -55,18 +55,18 @@ $table = $connection->newTable($this->getTable('googleshopping/types'))
         ), 'Target country')
     ->addForeignKey(
         $installer->getFkName(
-            'googleshopping/types',
+            'googleshopping_types',
             'attribute_set_id',
-            'eav/attribute_set',
+            'eav_attribute_set',
             'attribute_set_id'
         ),
         'attribute_set_id',
-        $this->getTable('eav/attribute_set'),
+        $this->getTable('eav_attribute_set'),
         'attribute_set_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addIndex(
         $installer->getIdxName(
-            'googleshopping/types',
+            'googleshopping_types',
             array('attribute_set_id', 'target_country'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
@@ -75,7 +75,7 @@ $table = $connection->newTable($this->getTable('googleshopping/types'))
     ->setComment('Google Content Item Types link Attribute Sets');
 $installer->getConnection()->createTable($table);
 
-$table = $connection->newTable($this->getTable('googleshopping/items'))
+$table = $connection->newTable($this->getTable('googleshopping_items'))
     ->addColumn('item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable' => false,
@@ -102,34 +102,34 @@ $table = $connection->newTable($this->getTable('googleshopping/items'))
     ->addColumn('expires', Varien_Db_Ddl_Table::TYPE_DATETIME, null, array(), 'Expires date')
     ->addForeignKey(
         $installer->getFkName(
-            'googleshopping/items',
+            'googleshopping_items',
             'product_id',
-            'catalog/product',
+            'catalog_product_entity',
             'entity_id'
         ),
         'product_id',
-        $this->getTable('catalog/product'),
+        $this->getTable('catalog_product_entity'),
         'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE
      )
     ->addForeignKey(
         $installer->getFkName(
-            'googleshopping/items',
+            'googleshopping_items',
             'store_id',
-            'core/store',
+            'core_store',
             'store_id'
         ),
         'store_id',
-        $this->getTable('core/store'),
+        $this->getTable('core_store'),
         'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE
      )
-    ->addIndex($installer->getIdxName('googleshopping/items', array('product_id', 'store_id')),
+    ->addIndex($installer->getIdxName('googleshopping_items', array('product_id', 'store_id')),
          array('product_id', 'store_id'))
     ->setComment('Google Content Items Products');
 $installer->getConnection()->createTable($table);
 
-$table = $connection->newTable($this->getTable('googleshopping/attributes'))
+$table = $connection->newTable($this->getTable('googleshopping_attributes'))
     ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, 10, array(
         'identity'  => true,
         'nullable' => false,
@@ -149,25 +149,25 @@ $table = $connection->newTable($this->getTable('googleshopping/attributes'))
         ), 'Type Id')
     ->addForeignKey(
         $installer->getFkName(
-            'googleshopping/attributes',
+            'googleshopping_attributes',
             'attribute_id',
-            'eav/attribute',
+            'eav_attribute',
             'attribute_id'
         ),
         'attribute_id',
-        $this->getTable('eav/attribute'),
+        $this->getTable('eav_attribute'),
         'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE
      )
     ->addForeignKey(
         $installer->getFkName(
-            'googleshopping/attributes',
+            'googleshopping_attributes',
             'type_id',
-            'googleshopping/types',
+            'googleshopping_types',
             'type_id'
         ),
         'type_id',
-        $this->getTable('googleshopping/types'),
+        $this->getTable('googleshopping_types'),
         'type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE
      )

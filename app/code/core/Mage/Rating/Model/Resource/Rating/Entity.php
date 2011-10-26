@@ -40,7 +40,7 @@ class Mage_Rating_Model_Resource_Rating_Entity extends Mage_Core_Model_Resource_
      */
     protected function _construct()
     {
-        $this->_init('rating/rating_entity', 'entity_id');
+        $this->_init('rating_entity', 'entity_id');
     }
 
     /**

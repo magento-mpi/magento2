@@ -29,10 +29,10 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'salesrule/rule'
+ * Create table 'salesrule'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('salesrule/rule'))
+    ->newTable($installer->getTable('salesrule'))
     ->addColumn('rule_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -115,16 +115,16 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '1',
         ), 'Coupon Type')
-    ->addIndex($installer->getIdxName('salesrule/rule', array('is_active', 'sort_order', 'to_date', 'from_date')),
+    ->addIndex($installer->getIdxName('salesrule', array('is_active', 'sort_order', 'to_date', 'from_date')),
         array('is_active', 'sort_order', 'to_date', 'from_date'))
     ->setComment('Salesrule');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'salesrule/coupon'
+ * Create table 'salesrule_coupon'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('salesrule/coupon'))
+    ->newTable($installer->getTable('salesrule_coupon'))
     ->addColumn('coupon_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -153,23 +153,23 @@ $table = $installer->getConnection()
     ->addColumn('is_primary', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Is Primary')
-    ->addIndex($installer->getIdxName('salesrule/coupon', array('code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('salesrule_coupon', array('code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('salesrule/coupon', array('rule_id', 'is_primary'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('salesrule_coupon', array('rule_id', 'is_primary'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('rule_id', 'is_primary'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('salesrule/coupon', array('rule_id')),
+    ->addIndex($installer->getIdxName('salesrule_coupon', array('rule_id')),
         array('rule_id'))
-    ->addForeignKey($installer->getFkName('salesrule/coupon', 'rule_id', 'salesrule/rule', 'rule_id'),
-        'rule_id', $installer->getTable('salesrule/rule'), 'rule_id',
+    ->addForeignKey($installer->getFkName('salesrule_coupon', 'rule_id', 'salesrule', 'rule_id'),
+        'rule_id', $installer->getTable('salesrule'), 'rule_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Salesrule Coupon');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'salesrule/coupon_usage'
+ * Create table 'salesrule_coupon_usage'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('salesrule/coupon_usage'))
+    ->newTable($installer->getTable('salesrule_coupon_usage'))
     ->addColumn('coupon_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -185,24 +185,24 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Times Used')
-    ->addIndex($installer->getIdxName('salesrule/coupon_usage', array('coupon_id')),
+    ->addIndex($installer->getIdxName('salesrule_coupon_usage', array('coupon_id')),
         array('coupon_id'))
-    ->addIndex($installer->getIdxName('salesrule/coupon_usage', array('customer_id')),
+    ->addIndex($installer->getIdxName('salesrule_coupon_usage', array('customer_id')),
         array('customer_id'))
-    ->addForeignKey($installer->getFkName('salesrule/coupon_usage', 'coupon_id', 'salesrule/coupon', 'coupon_id'),
-        'coupon_id', $installer->getTable('salesrule/coupon'), 'coupon_id',
+    ->addForeignKey($installer->getFkName('salesrule_coupon_usage', 'coupon_id', 'salesrule_coupon', 'coupon_id'),
+        'coupon_id', $installer->getTable('salesrule_coupon'), 'coupon_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('salesrule/coupon_usage', 'customer_id', 'customer/entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer/entity'), 'entity_id',
+    ->addForeignKey($installer->getFkName('salesrule_coupon_usage', 'customer_id', 'customer_entity', 'entity_id'),
+        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Salesrule Coupon Usage');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'salesrule/rule_customer'
+ * Create table 'salesrule_customer'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('salesrule/rule_customer'))
+    ->newTable($installer->getTable('salesrule_customer'))
     ->addColumn('rule_customer_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -224,24 +224,24 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Times Used')
-    ->addIndex($installer->getIdxName('salesrule/rule_customer', array('rule_id', 'customer_id')),
+    ->addIndex($installer->getIdxName('salesrule_customer', array('rule_id', 'customer_id')),
         array('rule_id', 'customer_id'))
-    ->addIndex($installer->getIdxName('salesrule/rule_customer', array('customer_id', 'rule_id')),
+    ->addIndex($installer->getIdxName('salesrule_customer', array('customer_id', 'rule_id')),
         array('customer_id', 'rule_id'))
-    ->addForeignKey($installer->getFkName('salesrule/rule_customer', 'customer_id', 'customer/entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer/entity'), 'entity_id',
+    ->addForeignKey($installer->getFkName('salesrule_customer', 'customer_id', 'customer_entity', 'entity_id'),
+        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('salesrule/rule_customer', 'rule_id', 'salesrule/rule', 'rule_id'),
-        'rule_id', $installer->getTable('salesrule/rule'), 'rule_id',
+    ->addForeignKey($installer->getFkName('salesrule_customer', 'rule_id', 'salesrule', 'rule_id'),
+        'rule_id', $installer->getTable('salesrule'), 'rule_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Salesrule Customer');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'salesrule/label'
+ * Create table 'salesrule_label'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('salesrule/label'))
+    ->newTable($installer->getTable('salesrule_label'))
     ->addColumn('label_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -258,26 +258,26 @@ $table = $installer->getConnection()
         ), 'Store Id')
     ->addColumn('label', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Label')
-    ->addIndex($installer->getIdxName('salesrule/label', array('rule_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('salesrule_label', array('rule_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('rule_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('salesrule/label', array('store_id')),
+    ->addIndex($installer->getIdxName('salesrule_label', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('salesrule/label', array('rule_id')),
+    ->addIndex($installer->getIdxName('salesrule_label', array('rule_id')),
         array('rule_id'))
-    ->addForeignKey($installer->getFkName('salesrule/label', 'rule_id', 'salesrule/rule', 'rule_id'),
-        'rule_id', $installer->getTable('salesrule/rule'), 'rule_id',
+    ->addForeignKey($installer->getFkName('salesrule_label', 'rule_id', 'salesrule', 'rule_id'),
+        'rule_id', $installer->getTable('salesrule'), 'rule_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('salesrule/label', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('salesrule_label', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Salesrule Label');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'salesrule/product_attribute'
+ * Create table 'salesrule_product_attribute'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('salesrule/product_attribute'))
+    ->newTable($installer->getTable('salesrule_product_attribute'))
     ->addColumn('rule_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -298,32 +298,32 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Attribute Id')
-    ->addIndex($installer->getIdxName('salesrule/product_attribute', array('website_id')),
+    ->addIndex($installer->getIdxName('salesrule_product_attribute', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('salesrule/product_attribute', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('salesrule_product_attribute', array('customer_group_id')),
         array('customer_group_id'))
-    ->addIndex($installer->getIdxName('salesrule/product_attribute', array('attribute_id')),
+    ->addIndex($installer->getIdxName('salesrule_product_attribute', array('attribute_id')),
         array('attribute_id'))
-    ->addForeignKey($installer->getFkName('salesrule/product_attribute', 'attribute_id', 'eav/attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+    ->addForeignKey($installer->getFkName('salesrule_product_attribute', 'attribute_id', 'eav_attribute', 'attribute_id'),
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
-    ->addForeignKey($installer->getFkName('salesrule/product_attribute', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
-        'customer_group_id', $installer->getTable('customer/customer_group'), 'customer_group_id',
+    ->addForeignKey($installer->getFkName('salesrule_product_attribute', 'customer_group_id', 'customer_group', 'customer_group_id'),
+        'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
-    ->addForeignKey($installer->getFkName('salesrule/product_attribute', 'rule_id', 'salesrule/rule', 'rule_id'),
-        'rule_id', $installer->getTable('salesrule/rule'), 'rule_id',
+    ->addForeignKey($installer->getFkName('salesrule_product_attribute', 'rule_id', 'salesrule', 'rule_id'),
+        'rule_id', $installer->getTable('salesrule'), 'rule_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
-    ->addForeignKey($installer->getFkName('salesrule/product_attribute', 'website_id', 'core/website', 'website_id'),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+    ->addForeignKey($installer->getFkName('salesrule_product_attribute', 'website_id', 'core_website', 'website_id'),
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->setComment('Salesrule Product Attribute');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'salesrule/coupon_aggregated'
+ * Create table 'coupon_aggregated'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('salesrule/coupon_aggregated'))
+    ->newTable($installer->getTable('coupon_aggregated'))
     ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -368,21 +368,21 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Total Amount Actual')
-    ->addIndex($installer->getIdxName('salesrule/coupon_aggregated', array('period', 'store_id', 'order_status', 'coupon_code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('coupon_aggregated', array('period', 'store_id', 'order_status', 'coupon_code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('period', 'store_id', 'order_status', 'coupon_code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('salesrule/coupon_aggregated', array('store_id')),
+    ->addIndex($installer->getIdxName('coupon_aggregated', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('salesrule/coupon_aggregated', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('coupon_aggregated', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Coupon Aggregated');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'salesrule/coupon_aggregated_order'
+ * Create table 'coupon_aggregated_order'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('salesrule/coupon_aggregated_order'))
+    ->newTable($installer->getTable('coupon_aggregated_order'))
     ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -415,12 +415,12 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Total Amount')
-    ->addIndex($installer->getIdxName('salesrule/coupon_aggregated_order', array('period', 'store_id', 'order_status', 'coupon_code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('coupon_aggregated_order', array('period', 'store_id', 'order_status', 'coupon_code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('period', 'store_id', 'order_status', 'coupon_code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('salesrule/coupon_aggregated_order', array('store_id')),
+    ->addIndex($installer->getIdxName('coupon_aggregated_order', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('salesrule/coupon_aggregated_order', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('coupon_aggregated_order', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Coupon Aggregated Order');
 $installer->getConnection()->createTable($table);

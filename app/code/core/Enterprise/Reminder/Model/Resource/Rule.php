@@ -47,8 +47,8 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
      */
     protected function _construct()
     {
-        $this->_init('enterprise_reminder/rule', 'rule_id');
-        $this->_websiteTable = $this->getTable('enterprise_reminder/website');
+        $this->_init('enterprise_reminder_rule', 'rule_id');
+        $this->_websiteTable = $this->getTable('enterprise_reminder_rule_website');
     }
 
     /**
@@ -163,7 +163,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
     protected function _saveStoreData($rule)
     {
         $adapter = $this->_getWriteAdapter();
-        $templateTable = $this->getTable('enterprise_reminder/template');
+        $templateTable = $this->getTable('enterprise_reminder_template');
         $adapter->delete($templateTable, array('rule_id = ?' => $rule->getId()));
 
         $labels = $rule->getStoreLabels();
@@ -200,7 +200,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
      */
     public function getStoreData($ruleId)
     {
-        $templateTable = $this->getTable('enterprise_reminder/template');
+        $templateTable = $this->getTable('enterprise_reminder_template');
         $select = $this->createSelect()
             ->from($templateTable, array('store_id', 'template_id', 'label', 'description'))
             ->where('rule_id = :rule_id');
@@ -217,8 +217,8 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
      */
     public function getStoreTemplateData($ruleId, $storeId)
     {
-        $templateTable = $this->getTable('enterprise_reminder/template');
-        $ruleTable = $this->getTable('enterprise_reminder/rule');
+        $templateTable = $this->getTable('enterprise_reminder_template');
+        $ruleTable = $this->getTable('enterprise_reminder_rule');
         $adapter = $this->_getReadAdapter();
 
         $select = $this->createSelect()
@@ -318,7 +318,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
     public function deactivateMatchedCustomers($ruleId)
     {
         $this->_getWriteAdapter()->update(
-            $this->getTable('enterprise_reminder/coupon'),
+            $this->getTable('enterprise_reminder_rule_coupon'),
             array('is_active' => '0'),
             array('rule_id = ?' => $ruleId)
         );
@@ -403,7 +403,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
     protected function _saveMatchedCustomerData($data)
     {
         if ($data) {
-            $table = $this->getTable('enterprise_reminder/coupon');
+            $table = $this->getTable('enterprise_reminder_rule_coupon');
             $this->_getWriteAdapter()->insertOnDuplicate($table, $data, array('is_active'));
         }
     }
@@ -419,9 +419,9 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
     public function getCustomersForNotification($limit = null, $ruleId = null)
     {
         $adapter     = $this->_getReadAdapter();
-        $couponTable = $this->getTable('enterprise_reminder/coupon');
-        $ruleTable   = $this->getTable('enterprise_reminder/rule');
-        $logTable    = $this->getTable('enterprise_reminder/log');
+        $couponTable = $this->getTable('enterprise_reminder_rule_coupon');
+        $ruleTable   = $this->getTable('enterprise_reminder_rule');
+        $logTable    = $this->getTable('enterprise_reminder_rule_log');
 
         $currentDate = $this->formatDate(time());
 
@@ -484,7 +484,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
             'sent_at'     => $this->formatDate(time())
         );
 
-        $this->_getWriteAdapter()->insert($this->getTable('enterprise_reminder/log'), $data);
+        $this->_getWriteAdapter()->insert($this->getTable('enterprise_reminder_rule_log'), $data);
         return $this;
     }
 
@@ -497,7 +497,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
      */
     public function updateFailedEmailsCounter($ruleId, $customerId)
     {
-        $this->_getWriteAdapter()->update($this->getTable('enterprise_reminder/coupon'),
+        $this->_getWriteAdapter()->update($this->getTable('enterprise_reminder_rule_coupon'),
             array('emails_failed' => new Zend_Db_Expr('emails_failed + 1')),
             array('rule_id = ?'   => $ruleId, 'customer_id = ?' => $customerId)
         );
@@ -513,7 +513,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
     public function getAssignedRulesCount($salesRuleId)
     {
         $select = $this->createSelect()->from(
-            array('r' => $this->getTable('enterprise_reminder/rule')),
+            array('r' => $this->getTable('enterprise_reminder_rule')),
             array(new Zend_Db_Expr('count(1)'))
         );
         $select->where('r.salesrule_id = :salesrule_id');

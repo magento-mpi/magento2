@@ -54,7 +54,7 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
      */
     protected function _construct()
     {
-        $this->_setMainTable('tax/tax_calculation');
+        $this->_setMainTable('tax_calculation');
     }
 
     /**
@@ -272,11 +272,11 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
             $ruleTableAliasName = $this->_getReadAdapter()->quoteIdentifier('rule.tax_calculation_rule_id');
             $select
                 ->join(
-                    array('rule' => $this->getTable('tax/tax_calculation_rule')),
+                    array('rule' => $this->getTable('tax_calculation_rule')),
                     $ruleTableAliasName . ' = main_table.tax_calculation_rule_id',
                     array('rule.priority', 'rule.position'))
                 ->join(
-                    array('rate'=>$this->getTable('tax/tax_calculation_rate')),
+                    array('rate'=>$this->getTable('tax_calculation_rate')),
                     'rate.tax_calculation_rate_id = main_table.tax_calculation_rate_id',
                     array(
                         'value' => 'rate.rate',
@@ -287,7 +287,7 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
                         'rate.code'
                 ))
                 ->joinLeft(
-                    array('title_table' => $this->getTable('tax/tax_calculation_rate_title')),
+                    array('title_table' => $this->getTable('tax_calculation_rate_title')),
                    "rate.tax_calculation_rate_id = title_table.tax_calculation_rate_id "
                    . "AND title_table.store_id = '{$storeId}'",
                     array('title' => $ifnullTitleValue))
@@ -423,14 +423,14 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
         $selectCSP = $adapter->select();
         $selectCSP
             ->from(
-                array('main_table' => $this->getTable('tax/tax_calculation_rate')),
+                array('main_table' => $this->getTable('tax_calculation_rate')),
                 array('country' => 'tax_country_id', 'region_id' => 'tax_region_id', 'postcode' => 'tax_postcode'))
             ->joinInner(
-                    array('calc_table' => $this->getTable('tax/tax_calculation')),
+                    array('calc_table' => $this->getTable('tax_calculation')),
                     implode(' AND ', $calcJoinConditions),
                     array('product_class' => 'calc_table.product_tax_class_id'))
             ->joinLeft(
-                    array('state_table' => $this->getTable('directory/country_region')),
+                    array('state_table' => $this->getTable('directory_country_region')),
                     'state_table.region_id = main_table.tax_region_id',
                     array('region_code' => 'state_table.code'))
             ->distinct(true);

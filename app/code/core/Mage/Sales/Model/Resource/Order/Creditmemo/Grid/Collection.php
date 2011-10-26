@@ -56,6 +56,6 @@ class Mage_Sales_Model_Resource_Order_Creditmemo_Grid_Collection
     protected function _construct()
     {
         parent::_construct();
-        $this->setMainTable('sales/creditmemo_grid');
+        $this->setMainTable('sales_flat_creditmemo_grid');
     }
 }

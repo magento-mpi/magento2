@@ -39,7 +39,7 @@ class Mage_Core_Model_Resource_File_Storage_Database extends Mage_Core_Model_Res
      */
     protected function _construct()
     {
-        $this->_init('core/file_storage', 'file_id');
+        $this->_init('core_file_storage', 'file_id');
     }
 
     /**
@@ -55,7 +55,7 @@ class Mage_Core_Model_Resource_File_Storage_Database extends Mage_Core_Model_Res
             return $this;
         }
 
-        $dirStorageTable = $this->getTable('core/directory_storage'); // For foreign key
+        $dirStorageTable = $this->getTable('core_directory_storage'); // For foreign key
 
         $ddlTable = $adapter->newTable($table)
             ->addColumn('file_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(

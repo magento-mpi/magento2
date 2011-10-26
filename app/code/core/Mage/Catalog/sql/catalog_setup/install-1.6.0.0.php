@@ -30,10 +30,10 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'catalog/product'
+ * Create table 'catalog_product_entity'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product'))
+    ->newTable($installer->getTable('catalog_product_entity'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -69,23 +69,23 @@ $table = $installer->getConnection()
         ), 'Creation Time')
     ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Update Time')
-    ->addIndex($installer->getIdxName('catalog/product', array('entity_type_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity', array('entity_type_id')),
         array('entity_type_id'))
-    ->addIndex($installer->getIdxName('catalog/product', array('attribute_set_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity', array('attribute_set_id')),
         array('attribute_set_id'))
-    ->addIndex($installer->getIdxName('catalog/product', array('sku')),
+    ->addIndex($installer->getIdxName('catalog_product_entity', array('sku')),
         array('sku'))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product',
+            'catalog_product_entity',
             'attribute_set_id',
-            'eav/attribute_set',
+            'eav_attribute_set',
             'attribute_set_id'
         ),
-        'attribute_set_id', $installer->getTable('eav/attribute_set'), 'attribute_set_id',
+        'attribute_set_id', $installer->getTable('eav_attribute_set'), 'attribute_set_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog/product', 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
-        'entity_type_id', $installer->getTable('eav/entity_type'), 'entity_type_id',
+    ->addForeignKey($installer->getFkName('catalog_product_entity', 'entity_type_id', 'eav_entity_type', 'entity_type_id'),
+        'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Table');
 $installer->getConnection()->createTable($table);
@@ -93,10 +93,10 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table array('catalog/product', 'datetime')
+ * Create table 'catalog_product_entity_datetime'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable(array('catalog/product', 'datetime')))
+    ->newTable($installer->getTable('catalog_product_entity_datetime'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -126,53 +126,53 @@ $table = $installer->getConnection()
         ), 'Value')
     ->addIndex(
         $installer->getIdxName(
-            array('catalog/product', 'datetime'),
+            'catalog_product_entity_datetime',
             array('entity_id', 'attribute_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('entity_id', 'attribute_id', 'store_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName(array('catalog/product', 'datetime'), array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_datetime', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName(array('catalog/product', 'datetime'), array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_datetime', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName(array('catalog/product', 'datetime'), array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_datetime', array('entity_id')),
         array('entity_id'))
     ->addForeignKey(
         $installer->getFkName(
-            array('catalog/product', 'datetime'),
+            'catalog_product_entity_datetime',
             'attribute_id',
-            'eav/attribute',
+            'eav_attribute',
             'attribute_id'
          ),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            array('catalog/product', 'datetime'),
+            'catalog_product_entity_datetime',
             'entity_id',
-            'catalog/product',
+            'catalog_product_entity',
             'entity_id'
         ),
-        'entity_id', $installer->getTable('catalog/product'), 'entity_id',
+        'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            array('catalog/product', 'datetime'),
+            'catalog_product_entity_datetime',
             'store_id',
-            'core/store',
+            'core_store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Datetime Attribute Backend Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table array('catalog/product', 'decimal')
+ * Create table 'catalog_product_entity_decimal'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable(array('catalog/product', 'decimal')))
+    ->newTable($installer->getTable('catalog_product_entity_decimal'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -202,47 +202,47 @@ $table = $installer->getConnection()
         ), 'Value')
     ->addIndex(
         $installer->getIdxName(
-            array('catalog/product', 'decimal'),
+            'catalog_product_entity_decimal',
             array('entity_id', 'attribute_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('entity_id', 'attribute_id', 'store_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName(array('catalog/product', 'decimal'), array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_decimal', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName(array('catalog/product', 'decimal'), array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_decimal', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName(array('catalog/product', 'decimal'), array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_decimal', array('attribute_id')),
         array('attribute_id'))
     ->addForeignKey(
         $installer->getFkName(
-            array('catalog/product', 'decimal'),
+            'catalog_product_entity_decimal',
             'attribute_id',
-            'eav/attribute',
+            'eav_attribute',
             'attribute_id'
         ),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            array('catalog/product', 'decimal'),
+            'catalog_product_entity_decimal',
             'entity_id',
-            'catalog/product',
+            'catalog_product_entity',
             'entity_id'
         ),
-        'entity_id', $installer->getTable('catalog/product'), 'entity_id',
+        'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName(array('catalog/product', 'decimal'), 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('catalog_product_entity_decimal', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Decimal Attribute Backend Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table array('catalog/product', 'int')
+ * Create table 'catalog_product_entity_int'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable(array('catalog/product', 'int')))
+    ->newTable($installer->getTable('catalog_product_entity_int'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -272,53 +272,53 @@ $table = $installer->getConnection()
         ), 'Value')
     ->addIndex(
         $installer->getIdxName(
-            array('catalog/product', 'int'),
+            'catalog_product_entity_int',
             array('entity_id', 'attribute_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('entity_id', 'attribute_id', 'store_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName(array('catalog/product', 'int'), array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_int', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName(array('catalog/product', 'int'), array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_int', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName(array('catalog/product', 'int'), array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_int', array('entity_id')),
         array('entity_id'))
     ->addForeignKey(
         $installer->getFkName(
-            array('catalog/product', 'int'),
+            'catalog_product_entity_int',
             'attribute_id',
-            'eav/attribute',
+            'eav_attribute',
             'attribute_id'
         ),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            array('catalog/product', 'int'),
+            'catalog_product_entity_int',
             'entity_id',
-            'catalog/product',
+            'catalog_product_entity',
             'entity_id'
         ),
-        'entity_id', $installer->getTable('catalog/product'), 'entity_id',
+        'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            array('catalog/product', 'int'),
+            'catalog_product_entity_int',
             'store_id',
-            'core/store',
+            'core_store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Integer Attribute Backend Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table array('catalog/product', 'text')
+ * Create table 'catalog_product_entity_text'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable(array('catalog/product', 'text')))
+    ->newTable($installer->getTable('catalog_product_entity_text'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -348,37 +348,37 @@ $table = $installer->getConnection()
         ), 'Value')
     ->addIndex(
         $installer->getIdxName(
-            array('catalog/product', 'text'),
+            'catalog_product_entity_text',
             array('entity_id', 'attribute_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('entity_id', 'attribute_id', 'store_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName(array('catalog/product', 'text'), array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_text', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName(array('catalog/product', 'text'), array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_text', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName(array('catalog/product', 'text'), array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_text', array('entity_id')),
         array('entity_id'))
     ->addForeignKey(
-        $installer->getFkName(array('catalog/product', 'text'), 'attribute_id', 'eav/attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        $installer->getFkName('catalog_product_entity_text', 'attribute_id', 'eav_attribute', 'attribute_id'),
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName(array('catalog/product', 'text'), 'entity_id', 'catalog/product', 'entity_id'),
-        'entity_id', $installer->getTable('catalog/product'), 'entity_id',
+        $installer->getFkName('catalog_product_entity_text', 'entity_id', 'catalog_product_entity', 'entity_id'),
+        'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName(array('catalog/product', 'text'), 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('catalog_product_entity_text', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Text Attribute Backend Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table array('catalog/product', 'varchar')
+ * Create table 'catalog_product_entity_varchar'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable(array('catalog/product', 'varchar')))
+    ->newTable($installer->getTable('catalog_product_entity_varchar'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -408,38 +408,38 @@ $table = $installer->getConnection()
         ), 'Value')
     ->addIndex(
         $installer->getIdxName(
-            array('catalog/product', 'varchar'),
+            'catalog_product_entity_varchar',
             array('entity_id', 'attribute_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('entity_id', 'attribute_id', 'store_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName(array('catalog/product', 'varchar'), array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_varchar', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName(array('catalog/product', 'varchar'), array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_varchar', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName(array('catalog/product', 'varchar'), array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_varchar', array('entity_id')),
         array('entity_id'))
     ->addForeignKey(
-        $installer->getFkName(array('catalog/product', 'varchar'), 'attribute_id', 'eav/attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        $installer->getFkName('catalog_product_entity_varchar', 'attribute_id', 'eav_attribute', 'attribute_id'),
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName(array('catalog/product', 'varchar'), 'entity_id', 'catalog/product', 'entity_id'),
-        'entity_id', $installer->getTable('catalog/product'), 'entity_id',
+        $installer->getFkName('catalog_product_entity_varchar', 'entity_id', 'catalog_product_entity', 'entity_id'),
+        'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName(array('catalog/product', 'varchar'), 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        $installer->getFkName('catalog_product_entity_varchar', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Varchar Attribute Backend Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table array('catalog/product', 'gallery')
+ * Create table 'catalog_product_entity_gallery'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable(array('catalog/product', 'gallery')))
+    ->newTable($installer->getTable('catalog_product_entity_gallery'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -475,38 +475,38 @@ $table = $installer->getConnection()
         ), 'Value')
     ->addIndex(
         $installer->getIdxName(
-            array('catalog/product', 'gallery'),
+            'catalog_product_entity_gallery',
             array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName(array('catalog/product', 'gallery'), array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_gallery', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName(array('catalog/product', 'gallery'), array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_gallery', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName(array('catalog/product', 'gallery'), array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_gallery', array('store_id')),
         array('store_id'))
     ->addForeignKey(
-        $installer->getFkName(array('catalog/product', 'gallery'), 'attribute_id', 'eav/attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        $installer->getFkName('catalog_product_entity_gallery', 'attribute_id', 'eav_attribute', 'attribute_id'),
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName(array('catalog/product', 'gallery'), 'entity_id', 'catalog/product', 'entity_id'),
-        'entity_id', $installer->getTable('catalog/product'), 'entity_id',
+        $installer->getFkName('catalog_product_entity_gallery', 'entity_id', 'catalog_product_entity', 'entity_id'),
+        'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName(array('catalog/product', 'gallery'), 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        $installer->getFkName('catalog_product_entity_gallery', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Gallery Attribute Backend Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category'
+ * Create table 'catalog_category_entity'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/category'))
+    ->newTable($installer->getTable('catalog_category_entity'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -545,17 +545,17 @@ $table = $installer->getConnection()
     ->addColumn('children_count', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         ), 'Child Count')
-    ->addIndex($installer->getIdxName('catalog/category', array('level')),
+    ->addIndex($installer->getIdxName('catalog_category_entity', array('level')),
         array('level'))
     ->setComment('Catalog Category Table');
 $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table array('catalog/category', 'datetime')
+ * Create table 'catalog_category_entity_datetime'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable(array('catalog/category', 'datetime')))
+    ->newTable($installer->getTable('catalog_category_entity_datetime'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -585,38 +585,38 @@ $table = $installer->getConnection()
         ), 'Value')
     ->addIndex(
         $installer->getIdxName(
-            array('catalog/category', 'datetime'),
+            'catalog_category_entity_datetime',
             array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName(array('catalog/category', 'datetime'), array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_category_entity_datetime', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName(array('catalog/category', 'datetime'), array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_category_entity_datetime', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName(array('catalog/category', 'datetime'), array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_category_entity_datetime', array('store_id')),
         array('store_id'))
     ->addForeignKey(
-        $installer->getFkName(array('catalog/category', 'datetime'), 'attribute_id', 'eav/attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        $installer->getFkName('catalog_category_entity_datetime', 'attribute_id', 'eav_attribute', 'attribute_id'),
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName(array('catalog/category', 'datetime'), 'entity_id', 'catalog/category', 'entity_id'),
-        'entity_id', $installer->getTable('catalog/category'), 'entity_id',
+        $installer->getFkName('catalog_category_entity_datetime', 'entity_id', 'catalog_category_entity', 'entity_id'),
+        'entity_id', $installer->getTable('catalog_category_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName(array('catalog/category', 'datetime'), 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        $installer->getFkName('catalog_category_entity_datetime', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Category Datetime Attribute Backend Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table array('catalog/category', 'decimal')
+ * Create table 'catalog_category_entity_decimal'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable(array('catalog/category', 'decimal')))
+    ->newTable($installer->getTable('catalog_category_entity_decimal'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -646,38 +646,38 @@ $table = $installer->getConnection()
         ), 'Value')
     ->addIndex(
         $installer->getIdxName(
-            array('catalog/category', 'decimal'),
+            'catalog_category_entity_decimal',
             array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName(array('catalog/category', 'decimal'), array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_category_entity_decimal', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName(array('catalog/category', 'decimal'), array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_category_entity_decimal', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName(array('catalog/category', 'decimal'), array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_category_entity_decimal', array('store_id')),
         array('store_id'))
     ->addForeignKey(
-        $installer->getFkName(array('catalog/category', 'decimal'), 'attribute_id', 'eav/attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        $installer->getFkName('catalog_category_entity_decimal', 'attribute_id', 'eav_attribute', 'attribute_id'),
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName(array('catalog/category', 'decimal'), 'entity_id', 'catalog/category', 'entity_id'),
-        'entity_id', $installer->getTable('catalog/category'), 'entity_id',
+        $installer->getFkName('catalog_category_entity_decimal', 'entity_id', 'catalog_category_entity', 'entity_id'),
+        'entity_id', $installer->getTable('catalog_category_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName(array('catalog/category', 'decimal'), 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        $installer->getFkName('catalog_category_entity_decimal', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Category Decimal Attribute Backend Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table array('catalog/category', 'int')
+ * Create table 'catalog_category_entity_int'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable(array('catalog/category', 'int')))
+    ->newTable($installer->getTable('catalog_category_entity_int'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -707,38 +707,38 @@ $table = $installer->getConnection()
         ), 'Value')
     ->addIndex(
         $installer->getIdxName(
-            array('catalog/category', 'int'),
+            'catalog_category_entity_int',
             array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName(array('catalog/category', 'int'), array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_category_entity_int', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName(array('catalog/category', 'int'), array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_category_entity_int', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName(array('catalog/category', 'int'), array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_category_entity_int', array('store_id')),
         array('store_id'))
     ->addForeignKey(
-        $installer->getFkName(array('catalog/category', 'int'), 'attribute_id', 'eav/attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        $installer->getFkName('catalog_category_entity_int', 'attribute_id', 'eav_attribute', 'attribute_id'),
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName(array('catalog/category', 'int'), 'entity_id', 'catalog/category', 'entity_id'),
-        'entity_id', $installer->getTable('catalog/category'), 'entity_id',
+        $installer->getFkName('catalog_category_entity_int', 'entity_id', 'catalog_category_entity', 'entity_id'),
+        'entity_id', $installer->getTable('catalog_category_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName(array('catalog/category', 'int'), 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        $installer->getFkName('catalog_category_entity_int', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Category Integer Attribute Backend Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table array('catalog/category', 'text')
+ * Create table 'catalog_category_entity_text'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable(array('catalog/category', 'text')))
+    ->newTable($installer->getTable('catalog_category_entity_text'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -768,38 +768,38 @@ $table = $installer->getConnection()
         ), 'Value')
     ->addIndex(
         $installer->getIdxName(
-            array('catalog/category', 'text'),
+            'catalog_category_entity_text',
             array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName(array('catalog/category', 'text'), array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_category_entity_text', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName(array('catalog/category', 'text'), array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_category_entity_text', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName(array('catalog/category', 'text'), array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_category_entity_text', array('store_id')),
         array('store_id'))
     ->addForeignKey(
-        $installer->getFkName(array('catalog/category', 'text'), 'attribute_id', 'eav/attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        $installer->getFkName('catalog_category_entity_text', 'attribute_id', 'eav_attribute', 'attribute_id'),
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName(array('catalog/category', 'text'), 'entity_id', 'catalog/category', 'entity_id'),
-        'entity_id', $installer->getTable('catalog/category'), 'entity_id',
+        $installer->getFkName('catalog_category_entity_text', 'entity_id', 'catalog_category_entity', 'entity_id'),
+        'entity_id', $installer->getTable('catalog_category_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName(array('catalog/category', 'text'), 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        $installer->getFkName('catalog_category_entity_text', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Category Text Attribute Backend Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table array('catalog/category', 'varchar')
+ * Create table 'catalog_category_entity_varchar'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable(array('catalog/category', 'varchar')))
+    ->newTable($installer->getTable('catalog_category_entity_varchar'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -829,38 +829,38 @@ $table = $installer->getConnection()
         ), 'Value')
     ->addIndex(
         $installer->getIdxName(
-            array('catalog/category', 'varchar'),
+            'catalog_category_entity_varchar',
             array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName(array('catalog/category', 'varchar'), array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_category_entity_varchar', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName(array('catalog/category', 'varchar'), array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_category_entity_varchar', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName(array('catalog/category', 'varchar'), array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_category_entity_varchar', array('store_id')),
         array('store_id'))
     ->addForeignKey(
-        $installer->getFkName(array('catalog/category', 'varchar'), 'attribute_id', 'eav/attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        $installer->getFkName('catalog_category_entity_varchar', 'attribute_id', 'eav_attribute', 'attribute_id'),
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName(array('catalog/category', 'varchar'), 'entity_id', 'catalog/category', 'entity_id'),
-        'entity_id', $installer->getTable('catalog/category'), 'entity_id',
+        $installer->getFkName('catalog_category_entity_varchar', 'entity_id', 'catalog_category_entity', 'entity_id'),
+        'entity_id', $installer->getTable('catalog_category_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName(array('catalog/category', 'varchar'), 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        $installer->getFkName('catalog_category_entity_varchar', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Category Varchar Attribute Backend Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_product'
+ * Create table 'catalog_category_product'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/category_product'))
+    ->newTable($installer->getTable('catalog_category_product'))
     ->addColumn('category_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -877,24 +877,24 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Position')
-/*    ->addIndex($installer->getIdxName('catalog/category_product', array('category_id')),
+/*    ->addIndex($installer->getIdxName('catalog_category_product', array('category_id')),
         array('category_id'))*/
-    ->addIndex($installer->getIdxName('catalog/category_product', array('product_id')),
+    ->addIndex($installer->getIdxName('catalog_category_product', array('product_id')),
         array('product_id'))
-    ->addForeignKey($installer->getFkName('catalog/category_product', 'category_id', 'catalog/category', 'entity_id'),
-        'category_id', $installer->getTable('catalog/category'), 'entity_id',
+    ->addForeignKey($installer->getFkName('catalog_category_product', 'category_id', 'catalog_category_entity', 'entity_id'),
+        'category_id', $installer->getTable('catalog_category_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog/category_product', 'product_id', 'catalog/product', 'entity_id'),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+    ->addForeignKey($installer->getFkName('catalog_category_product', 'product_id', 'catalog_product_entity', 'entity_id'),
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product To Category Linkage Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_product_index'
+ * Create table 'catalog_category_product_index'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/category_product_index'))
+    ->newTable($installer->getTable('catalog_category_product_index'))
     ->addColumn('category_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -927,36 +927,36 @@ $table = $installer->getConnection()
         ), 'Visibility')
     ->addIndex(
         $installer->getIdxName(
-            'catalog/category_product_index',
+            'catalog_category_product_index',
             array('product_id', 'store_id', 'category_id', 'visibility')
         ),
         array('product_id', 'store_id', 'category_id', 'visibility'))
     ->addIndex(
         $installer->getIdxName(
-            'catalog/category_product_index',
+            'catalog_category_product_index',
             array('store_id', 'category_id', 'visibility', 'is_parent', 'position')
         ),
         array('store_id', 'category_id', 'visibility', 'is_parent', 'position'))
     ->addForeignKey(
-        $installer->getFkName('catalog/category_product_index', 'category_id', 'catalog/category', 'entity_id'),
-        'category_id', $installer->getTable('catalog/category'), 'entity_id',
+        $installer->getFkName('catalog_category_product_index', 'category_id', 'catalog_category_entity', 'entity_id'),
+        'category_id', $installer->getTable('catalog_category_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('catalog/category_product_index', 'product_id', 'catalog/product', 'entity_id'),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+        $installer->getFkName('catalog_category_product_index', 'product_id', 'catalog_product_entity', 'entity_id'),
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('catalog/category_product_index', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        $installer->getFkName('catalog_category_product_index', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Category Product Index');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/compare_item'
+ * Create table 'catalog_compare_item'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/compare_item'))
+    ->newTable($installer->getTable('catalog_compare_item'))
     ->addColumn('catalog_compare_item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -979,33 +979,33 @@ $table = $installer->getConnection()
     ->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Store ID')
-    ->addIndex($installer->getIdxName('catalog/compare_item', array('customer_id')),
+    ->addIndex($installer->getIdxName('catalog_compare_item', array('customer_id')),
         array('customer_id'))
-    ->addIndex($installer->getIdxName('catalog/compare_item', array('product_id')),
+    ->addIndex($installer->getIdxName('catalog_compare_item', array('product_id')),
         array('product_id'))
-    ->addIndex($installer->getIdxName('catalog/compare_item', array('visitor_id', 'product_id')),
+    ->addIndex($installer->getIdxName('catalog_compare_item', array('visitor_id', 'product_id')),
         array('visitor_id', 'product_id'))
-    ->addIndex($installer->getIdxName('catalog/compare_item', array('customer_id', 'product_id')),
+    ->addIndex($installer->getIdxName('catalog_compare_item', array('customer_id', 'product_id')),
         array('customer_id', 'product_id'))
-    ->addIndex($installer->getIdxName('catalog/compare_item', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_compare_item', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('catalog/compare_item', 'customer_id', 'customer/entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer/entity'), 'entity_id',
+    ->addForeignKey($installer->getFkName('catalog_compare_item', 'customer_id', 'customer_entity', 'entity_id'),
+        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog/compare_item', 'product_id', 'catalog/product', 'entity_id'),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+    ->addForeignKey($installer->getFkName('catalog_compare_item', 'product_id', 'catalog_product_entity', 'entity_id'),
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog/compare_item', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('catalog_compare_item', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Compare Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_website'
+ * Create table 'catalog_product_website'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_website'))
+    ->newTable($installer->getTable('catalog_product_website'))
     ->addColumn('product_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -1016,22 +1016,22 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Website ID')
-    ->addIndex($installer->getIdxName('catalog/product_website', array('website_id')),
+    ->addIndex($installer->getIdxName('catalog_product_website', array('website_id')),
         array('website_id'))
-    ->addForeignKey($installer->getFkName('catalog/product_website', 'website_id', 'core/website', 'website_id'),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+    ->addForeignKey($installer->getFkName('catalog_product_website', 'website_id', 'core_website', 'website_id'),
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog/product_website', 'product_id', 'catalog/product', 'entity_id'),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+    ->addForeignKey($installer->getFkName('catalog_product_website', 'product_id', 'catalog_product_entity', 'entity_id'),
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product To Website Linkage Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_enabled_index'
+ * Create table 'catalog_product_enabled_index'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_enabled_index'))
+    ->newTable($installer->getTable('catalog_product_enabled_index'))
     ->addColumn('product_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -1049,24 +1049,24 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Visibility')
-    ->addIndex($installer->getIdxName('catalog/product_enabled_index', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_enabled_index', array('store_id')),
         array('store_id'))
     ->addForeignKey(
-        $installer->getFkName('catalog/product_enabled_index', 'product_id', 'catalog/product', 'entity_id'),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+        $installer->getFkName('catalog_product_enabled_index', 'product_id', 'catalog_product_entity', 'entity_id'),
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('catalog/product_enabled_index', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        $installer->getFkName('catalog_product_enabled_index', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Visibility Index Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_link_type'
+ * Create table 'catalog_product_link_type'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_link_type'))
+    ->newTable($installer->getTable('catalog_product_link_type'))
     ->addColumn('link_type_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1081,10 +1081,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_link'
+ * Create table 'catalog_product_link'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_link'))
+    ->newTable($installer->getTable('catalog_product_link'))
     ->addColumn('link_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1108,38 +1108,38 @@ $table = $installer->getConnection()
         ), 'Link Type ID')
     ->addIndex(
         $installer->getIdxName(
-            'catalog/product_link',
+            'catalog_product_link',
             array('link_type_id', 'product_id', 'linked_product_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('link_type_id', 'product_id', 'linked_product_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('catalog/product_link', array('product_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link', array('product_id')),
         array('product_id'))
-    ->addIndex($installer->getIdxName('catalog/product_link', array('linked_product_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link', array('linked_product_id')),
         array('linked_product_id'))
-    ->addIndex($installer->getIdxName('catalog/product_link', array('link_type_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link', array('link_type_id')),
         array('link_type_id'))
     ->addForeignKey(
-        $installer->getFkName('catalog/product_link', 'linked_product_id', 'catalog/product', 'entity_id'),
-        'linked_product_id', $installer->getTable('catalog/product'), 'entity_id',
+        $installer->getFkName('catalog_product_link', 'linked_product_id', 'catalog_product_entity', 'entity_id'),
+        'linked_product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('catalog/product_link', 'product_id', 'catalog/product', 'entity_id'),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+        $installer->getFkName('catalog_product_link', 'product_id', 'catalog_product_entity', 'entity_id'),
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('catalog/product_link', 'link_type_id', 'catalog/product_link_type', 'link_type_id'),
-        'link_type_id', $installer->getTable('catalog/product_link_type'), 'link_type_id',
+        $installer->getFkName('catalog_product_link', 'link_type_id', 'catalog_product_link_type', 'link_type_id'),
+        'link_type_id', $installer->getTable('catalog_product_link_type'), 'link_type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product To Product Linkage Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_link_attribute'
+ * Create table 'catalog_product_link_attribute'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_link_attribute'))
+    ->newTable($installer->getTable('catalog_product_link_attribute'))
     ->addColumn('product_link_attribute_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1159,25 +1159,25 @@ $table = $installer->getConnection()
         'nullable'  => true,
         'default'   => null,
         ), 'Data Type')
-    ->addIndex($installer->getIdxName('catalog/product_link_attribute', array('link_type_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link_attribute', array('link_type_id')),
         array('link_type_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_link_attribute',
+            'catalog_product_link_attribute',
             'link_type_id',
-            'catalog/product_link_type',
+            'catalog_product_link_type',
             'link_type_id'
         ),
-        'link_type_id', $installer->getTable('catalog/product_link_type'), 'link_type_id',
+        'link_type_id', $installer->getTable('catalog_product_link_type'), 'link_type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Link Attribute Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_link_attribute_decimal'
+ * Create table 'catalog_product_link_attribute_decimal'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_link_attribute_decimal'))
+    ->newTable($installer->getTable('catalog_product_link_attribute_decimal'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1195,13 +1195,13 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_link_attribute_decimal', array('product_link_attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link_attribute_decimal', array('product_link_attribute_id')),
         array('product_link_attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_link_attribute_decimal', array('link_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link_attribute_decimal', array('link_id')),
         array('link_id'))
     ->addIndex(
         $installer->getIdxName(
-            'catalog/product_link_attribute_decimal',
+            'catalog_product_link_attribute_decimal',
             array('product_link_attribute_id', 'link_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
@@ -1209,31 +1209,31 @@ $table = $installer->getConnection()
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_link_attribute_decimal',
+            'catalog_product_link_attribute_decimal',
             'link_id',
-            'catalog/product_link',
+            'catalog_product_link',
             'link_id'
         ),
-        'link_id', $installer->getTable('catalog/product_link'), 'link_id',
+        'link_id', $installer->getTable('catalog_product_link'), 'link_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_link_attribute_decimal',
+            'catalog_product_link_attribute_decimal',
             'product_link_attribute_id',
-            'catalog/product_link_attribute',
+            'catalog_product_link_attribute',
             'product_link_attribute_id'
         ),
-        'product_link_attribute_id', $installer->getTable('catalog/product_link_attribute'),
+        'product_link_attribute_id', $installer->getTable('catalog_product_link_attribute'),
         'product_link_attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Link Decimal Attribute Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_link_attribute_int'
+ * Create table 'catalog_product_link_attribute_int'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_link_attribute_int'))
+    ->newTable($installer->getTable('catalog_product_link_attribute_int'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1251,13 +1251,13 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_link_attribute_int', array('product_link_attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link_attribute_int', array('product_link_attribute_id')),
         array('product_link_attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_link_attribute_int', array('link_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link_attribute_int', array('link_id')),
         array('link_id'))
     ->addIndex(
         $installer->getIdxName(
-            'catalog/product_link_attribute_int',
+            'catalog_product_link_attribute_int',
             array('product_link_attribute_id', 'link_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
@@ -1265,31 +1265,31 @@ $table = $installer->getConnection()
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_link_attribute_int',
+            'catalog_product_link_attribute_int',
             'link_id',
-            'catalog/product_link',
+            'catalog_product_link',
             'link_id'
         ),
-        'link_id', $installer->getTable('catalog/product_link'), 'link_id',
+        'link_id', $installer->getTable('catalog_product_link'), 'link_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_link_attribute_int',
+            'catalog_product_link_attribute_int',
             'product_link_attribute_id',
-            'catalog/product_link_attribute',
+            'catalog_product_link_attribute',
             'product_link_attribute_id'
         ),
-        'product_link_attribute_id', $installer->getTable('catalog/product_link_attribute'),
+        'product_link_attribute_id', $installer->getTable('catalog_product_link_attribute'),
         'product_link_attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Link Integer Attribute Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_link_attribute_varchar'
+ * Create table 'catalog_product_link_attribute_varchar'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_link_attribute_varchar'))
+    ->newTable($installer->getTable('catalog_product_link_attribute_varchar'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1307,13 +1307,13 @@ $table = $installer->getConnection()
         ), 'Link ID')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_link_attribute_varchar', array('product_link_attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link_attribute_varchar', array('product_link_attribute_id')),
         array('product_link_attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_link_attribute_varchar', array('link_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link_attribute_varchar', array('link_id')),
         array('link_id'))
     ->addIndex(
         $installer->getIdxName(
-            'catalog/product_link_attribute_varchar',
+            'catalog_product_link_attribute_varchar',
             array('product_link_attribute_id', 'link_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
@@ -1321,31 +1321,31 @@ $table = $installer->getConnection()
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_link_attribute_varchar',
+            'catalog_product_link_attribute_varchar',
             'link_id',
-            'catalog/product_link',
+            'catalog_product_link',
             'link_id'
         ),
-        'link_id', $installer->getTable('catalog/product_link'), 'link_id',
+        'link_id', $installer->getTable('catalog_product_link'), 'link_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_link_attribute_varchar',
+            'catalog_product_link_attribute_varchar',
             'product_link_attribute_id',
-            'catalog/product_link_attribute',
+            'catalog_product_link_attribute',
             'product_link_attribute_id'
         ),
-        'product_link_attribute_id', $installer->getTable('catalog/product_link_attribute'),
+        'product_link_attribute_id', $installer->getTable('catalog_product_link_attribute'),
         'product_link_attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Link Varchar Attribute Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_super_attribute'
+ * Create table 'catalog_product_super_attribute'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_super_attribute'))
+    ->newTable($installer->getTable('catalog_product_super_attribute'))
     ->addColumn('product_super_attribute_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1367,20 +1367,20 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Position')
-    ->addIndex($installer->getIdxName('catalog/product_super_attribute', array('product_id')),
+    ->addIndex($installer->getIdxName('catalog_product_super_attribute', array('product_id')),
         array('product_id'))
     ->addForeignKey(
-        $installer->getFkName('catalog/product_super_attribute', 'product_id', 'catalog/product', 'entity_id'),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+        $installer->getFkName('catalog_product_super_attribute', 'product_id', 'catalog_product_entity', 'entity_id'),
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->setComment('Catalog Product Super Attribute Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_super_attribute_label'
+ * Create table 'catalog_product_super_attribute_label'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_super_attribute_label'))
+    ->newTable($installer->getTable('catalog_product_super_attribute_label'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1405,38 +1405,38 @@ $table = $installer->getConnection()
         ), 'Value')
     ->addIndex(
         $installer->getIdxName(
-            'catalog/product_super_attribute_label',
+            'catalog_product_super_attribute_label',
             array('product_super_attribute_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('product_super_attribute_id', 'store_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('catalog/product_super_attribute_label', array('product_super_attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_super_attribute_label', array('product_super_attribute_id')),
         array('product_super_attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_super_attribute_label', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_super_attribute_label', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_super_attribute_label',
+            'catalog_product_super_attribute_label',
             'product_super_attribute_id',
-            'catalog/product_super_attribute',
+            'catalog_product_super_attribute',
             'product_super_attribute_id'
         ),
-        'product_super_attribute_id', $installer->getTable('catalog/product_super_attribute'),
+        'product_super_attribute_id', $installer->getTable('catalog_product_super_attribute'),
         'product_super_attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('catalog/product_super_attribute_label', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        $installer->getFkName('catalog_product_super_attribute_label', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Super Attribute Label Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_super_attribute_pricing'
+ * Create table 'catalog_product_super_attribute_pricing'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_super_attribute_pricing'))
+    ->newTable($installer->getTable('catalog_product_super_attribute_pricing'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1463,38 +1463,38 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Website ID')
-    ->addIndex($installer->getIdxName('catalog/product_super_attribute_pricing', array('product_super_attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_super_attribute_pricing', array('product_super_attribute_id')),
         array('product_super_attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_super_attribute_pricing', array('website_id')),
+    ->addIndex($installer->getIdxName('catalog_product_super_attribute_pricing', array('website_id')),
         array('website_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_super_attribute_pricing',
+            'catalog_product_super_attribute_pricing',
             'website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_super_attribute_pricing',
+            'catalog_product_super_attribute_pricing',
             'product_super_attribute_id',
-            'catalog/product_super_attribute',
+            'catalog_product_super_attribute',
             'product_super_attribute_id'
         ),
         'product_super_attribute_id',
-        $installer->getTable('catalog/product_super_attribute'),
+        $installer->getTable('catalog_product_super_attribute'),
         'product_super_attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Super Attribute Pricing Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_super_link'
+ * Create table 'catalog_product_super_link'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_super_link'))
+    ->newTable($installer->getTable('catalog_product_super_link'))
     ->addColumn('link_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1511,24 +1511,24 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Parent ID')
-    ->addIndex($installer->getIdxName('catalog/product_super_link', array('parent_id')),
+    ->addIndex($installer->getIdxName('catalog_product_super_link', array('parent_id')),
         array('parent_id'))
-    ->addIndex($installer->getIdxName('catalog/product_super_link', array('product_id')),
+    ->addIndex($installer->getIdxName('catalog_product_super_link', array('product_id')),
         array('product_id'))
-    ->addForeignKey($installer->getFkName('catalog/product_super_link', 'product_id', 'catalog/product', 'entity_id'),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+    ->addForeignKey($installer->getFkName('catalog_product_super_link', 'product_id', 'catalog_product_entity', 'entity_id'),
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog/product_super_link', 'parent_id', 'catalog/product', 'entity_id'),
-        'parent_id', $installer->getTable('catalog/product'), 'entity_id',
+    ->addForeignKey($installer->getFkName('catalog_product_super_link', 'parent_id', 'catalog_product_entity', 'entity_id'),
+        'parent_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Super Link Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_attribute_tier_price'
+ * Create table 'catalog_product_entity_tier_price'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_attribute_tier_price'))
+    ->newTable($installer->getTable('catalog_product_entity_tier_price'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -1563,53 +1563,53 @@ $table = $installer->getConnection()
         ), 'Website ID')
     ->addIndex(
         $installer->getIdxName(
-            'catalog/product_attribute_tier_price',
+            'catalog_product_entity_tier_price',
             array('entity_id', 'all_groups', 'customer_group_id', 'qty', 'website_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('entity_id', 'all_groups', 'customer_group_id', 'qty', 'website_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('catalog/product_attribute_tier_price', array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_tier_price', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('catalog/product_attribute_tier_price', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_tier_price', array('customer_group_id')),
         array('customer_group_id'))
-    ->addIndex($installer->getIdxName('catalog/product_attribute_tier_price', array('website_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_tier_price', array('website_id')),
         array('website_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_attribute_tier_price',
+            'catalog_product_entity_tier_price',
             'customer_group_id',
-            'customer/customer_group',
+            'customer_group',
             'customer_group_id'
         ),
-        'customer_group_id', $installer->getTable('customer/customer_group'), 'customer_group_id',
+        'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
          Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_attribute_tier_price',
+            'catalog_product_entity_tier_price',
             'entity_id',
-            'catalog/product',
+            'catalog_product_entity',
             'entity_id'
         ),
-        'entity_id', $installer->getTable('catalog/product'), 'entity_id',
+        'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_attribute_tier_price',
+            'catalog_product_entity_tier_price',
             'website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Tier Price Attribute Backend Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_attribute_media_gallery'
+ * Create table 'catalog_product_entity_media_gallery'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_attribute_media_gallery'))
+    ->newTable($installer->getTable('catalog_product_entity_media_gallery'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1628,36 +1628,36 @@ $table = $installer->getConnection()
         ), 'Entity ID')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_attribute_media_gallery', array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_media_gallery', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_attribute_media_gallery', array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_media_gallery', array('entity_id')),
         array('entity_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_attribute_media_gallery',
+            'catalog_product_entity_media_gallery',
             'attribute_id',
-            'eav/attribute',
+            'eav_attribute',
             'attribute_id'
         ),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_attribute_media_gallery',
+            'catalog_product_entity_media_gallery',
             'entity_id',
-            'catalog/product',
+            'catalog_product_entity',
             'entity_id'
         ),
-        'entity_id', $installer->getTable('catalog/product'), 'entity_id',
+        'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Media Gallery Attribute Backend Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_attribute_media_gallery_value'
+ * Create table 'catalog_product_entity_media_gallery_value'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_attribute_media_gallery_value'))
+    ->newTable($installer->getTable('catalog_product_entity_media_gallery_value'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -1680,34 +1680,34 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Is Disabled')
-    ->addIndex($installer->getIdxName('catalog/product_attribute_media_gallery_value', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_media_gallery_value', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_attribute_media_gallery_value',
+            'catalog_product_entity_media_gallery_value',
             'value_id',
-            'catalog/product_attribute_media_gallery',
+            'catalog_product_entity_media_gallery',
             'value_id'
         ),
-        'value_id', $installer->getTable('catalog/product_attribute_media_gallery'), 'value_id',
+        'value_id', $installer->getTable('catalog_product_entity_media_gallery'), 'value_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_attribute_media_gallery_value',
+            'catalog_product_entity_media_gallery_value',
             'store_id',
-            'core/store',
+            'core_store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Media Gallery Attribute Value Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_option'
+ * Create table 'catalog_product_option'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_option'))
+    ->newTable($installer->getTable('catalog_product_option'))
     ->addColumn('option_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1745,19 +1745,19 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Sort Order')
-    ->addIndex($installer->getIdxName('catalog/product_option', array('product_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option', array('product_id')),
         array('product_id'))
-    ->addForeignKey($installer->getFkName('catalog/product_option', 'product_id', 'catalog/product', 'entity_id'),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+    ->addForeignKey($installer->getFkName('catalog_product_option', 'product_id', 'catalog_product_entity', 'entity_id'),
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Option Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_option_price'
+ * Create table 'catalog_product_option_price'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_option_price'))
+    ->newTable($installer->getTable('catalog_product_option_price'))
     ->addColumn('option_price_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1784,41 +1784,41 @@ $table = $installer->getConnection()
         ), 'Price Type')
     ->addIndex(
         $installer->getIdxName(
-            'catalog/product_option_price',
+            'catalog_product_option_price',
             array('option_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('option_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('catalog/product_option_price', array('option_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option_price', array('option_id')),
         array('option_id'))
-    ->addIndex($installer->getIdxName('catalog/product_option_price', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option_price', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_option_price',
+            'catalog_product_option_price',
             'option_id',
-            'catalog/product_option',
+            'catalog_product_option',
             'option_id'
         ),
-        'option_id', $installer->getTable('catalog/product_option'), 'option_id',
+        'option_id', $installer->getTable('catalog_product_option'), 'option_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_option_price',
+            'catalog_product_option_price',
             'store_id',
-            'core/store',
+            'core_store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Option Price Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_option_title'
+ * Create table 'catalog_product_option_title'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_option_title'))
+    ->newTable($installer->getTable('catalog_product_option_title'))
     ->addColumn('option_title_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1841,41 +1841,41 @@ $table = $installer->getConnection()
         ), 'Title')
     ->addIndex(
         $installer->getIdxName(
-            'catalog/product_option_title',
+            'catalog_product_option_title',
             array('option_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('option_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('catalog/product_option_title', array('option_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option_title', array('option_id')),
         array('option_id'))
-    ->addIndex($installer->getIdxName('catalog/product_option_title', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option_title', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_option_title',
+            'catalog_product_option_title',
             'option_id',
-            'catalog/product_option',
+            'catalog_product_option',
             'option_id'
         ),
-        'option_id', $installer->getTable('catalog/product_option'), 'option_id',
+        'option_id', $installer->getTable('catalog_product_option'), 'option_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_option_title',
+            'catalog_product_option_title',
             'store_id',
-            'core/store',
+            'core_store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Option Title Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_option_type_value'
+ * Create table 'catalog_product_option_type_value'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_option_type_value'))
+    ->newTable($installer->getTable('catalog_product_option_type_value'))
     ->addColumn('option_type_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1894,25 +1894,25 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Sort Order')
-    ->addIndex($installer->getIdxName('catalog/product_option_type_value', array('option_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option_type_value', array('option_id')),
         array('option_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_option_type_value',
+            'catalog_product_option_type_value',
             'option_id',
-            'catalog/product_option',
+            'catalog_product_option',
             'option_id'
         ),
-        'option_id', $installer->getTable('catalog/product_option'), 'option_id',
+        'option_id', $installer->getTable('catalog_product_option'), 'option_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Option Type Value Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_option_type_price'
+ * Create table 'catalog_product_option_type_price'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_option_type_price'))
+    ->newTable($installer->getTable('catalog_product_option_type_price'))
     ->addColumn('option_type_price_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1939,41 +1939,41 @@ $table = $installer->getConnection()
         ), 'Price Type')
     ->addIndex(
         $installer->getIdxName(
-            'catalog/product_option_type_price',
+            'catalog_product_option_type_price',
             array('option_type_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('option_type_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('catalog/product_option_type_price', array('option_type_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option_type_price', array('option_type_id')),
         array('option_type_id'))
-    ->addIndex($installer->getIdxName('catalog/product_option_type_price', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option_type_price', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_option_type_price',
+            'catalog_product_option_type_price',
             'option_type_id',
-            'catalog/product_option_type_value',
+            'catalog_product_option_type_value',
             'option_type_id'
         ),
-        'option_type_id', $installer->getTable('catalog/product_option_type_value'), 'option_type_id',
+        'option_type_id', $installer->getTable('catalog_product_option_type_value'), 'option_type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_option_type_price',
+            'catalog_product_option_type_price',
             'store_id',
-            'core/store',
+            'core_store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Option Type Price Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_option_type_title'
+ * Create table 'catalog_product_option_type_title'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_option_type_title'))
+    ->newTable($installer->getTable('catalog_product_option_type_title'))
     ->addColumn('option_type_title_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1996,35 +1996,35 @@ $table = $installer->getConnection()
         ), 'Title')
     ->addIndex(
         $installer->getIdxName(
-            'catalog/product_option_type_title',
+            'catalog_product_option_type_title',
             array('option_type_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('option_type_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('catalog/product_option_type_title', array('option_type_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option_type_title', array('option_type_id')),
         array('option_type_id'))
-    ->addIndex($installer->getIdxName('catalog/product_option_type_title', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option_type_title', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_option_type_title',
+            'catalog_product_option_type_title',
             'option_type_id',
-            'catalog/product_option_type_value',
+            'catalog_product_option_type_value',
             'option_type_id'
         ),
-        'option_type_id', $installer->getTable('catalog/product_option_type_value'), 'option_type_id',
+        'option_type_id', $installer->getTable('catalog_product_option_type_value'), 'option_type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog/product_option_type_title', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('catalog_product_option_type_title', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Option Type Title Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/eav_attribute'
+ * Create table 'catalog_eav_attribute'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/eav_attribute'))
+    ->newTable($installer->getTable('catalog_eav_attribute'))
     ->addColumn('attribute_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2114,21 +2114,21 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Is Used For Promo Rules')
-    ->addIndex($installer->getIdxName('catalog/eav_attribute', array('used_for_sort_by')),
+    ->addIndex($installer->getIdxName('catalog_eav_attribute', array('used_for_sort_by')),
         array('used_for_sort_by'))
-    ->addIndex($installer->getIdxName('catalog/eav_attribute', array('used_in_product_listing')),
+    ->addIndex($installer->getIdxName('catalog_eav_attribute', array('used_in_product_listing')),
         array('used_in_product_listing'))
-    ->addForeignKey($installer->getFkName('catalog/eav_attribute', 'attribute_id', 'eav/attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+    ->addForeignKey($installer->getFkName('catalog_eav_attribute', 'attribute_id', 'eav_attribute', 'attribute_id'),
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog EAV Attribute Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_relation'
+ * Create table 'catalog_product_relation'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_relation'))
+    ->newTable($installer->getTable('catalog_product_relation'))
     ->addColumn('parent_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2139,22 +2139,22 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Child ID')
-    ->addIndex($installer->getIdxName('catalog/product_relation', array('child_id')),
+    ->addIndex($installer->getIdxName('catalog_product_relation', array('child_id')),
         array('child_id'))
-    ->addForeignKey($installer->getFkName('catalog/product_relation', 'child_id', 'catalog/product', 'entity_id'),
-        'child_id', $installer->getTable('catalog/product'), 'entity_id',
+    ->addForeignKey($installer->getFkName('catalog_product_relation', 'child_id', 'catalog_product_entity', 'entity_id'),
+        'child_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog/product_relation', 'parent_id', 'catalog/product', 'entity_id'),
-        'parent_id', $installer->getTable('catalog/product'), 'entity_id',
+    ->addForeignKey($installer->getFkName('catalog_product_relation', 'parent_id', 'catalog_product_entity', 'entity_id'),
+        'parent_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Relation Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_index_eav'
+ * Create table 'catalog_product_index_eav'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_index_eav'))
+    ->newTable($installer->getTable('catalog_product_index_eav'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2175,32 +2175,32 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_index_eav', array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_eav', array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_eav', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_eav', array('value')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav', array('value')),
         array('value'))
     ->addForeignKey(
-        $installer->getFkName('catalog/product_index_eav', 'attribute_id', 'eav/attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        $installer->getFkName('catalog_product_index_eav', 'attribute_id', 'eav_attribute', 'attribute_id'),
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog/product_index_eav', 'entity_id', 'catalog/product', 'entity_id'),
-        'entity_id', $installer->getTable('catalog/product'), 'entity_id',
+    ->addForeignKey($installer->getFkName('catalog_product_index_eav', 'entity_id', 'catalog_product_entity', 'entity_id'),
+        'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog/product_index_eav', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('catalog_product_index_eav', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product EAV Index Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_index_eav_decimal'
+ * Create table 'catalog_product_index_eav_decimal'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_index_eav_decimal'))
+    ->newTable($installer->getTable('catalog_product_index_eav_decimal'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2220,49 +2220,49 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_index_eav_decimal', array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_eav_decimal', array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_eav_decimal', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_eav_decimal', array('value')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal', array('value')),
         array('value'))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_index_eav_decimal',
+            'catalog_product_index_eav_decimal',
             'attribute_id',
-            'eav/attribute',
+            'eav_attribute',
             'attribute_id'
         ),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_index_eav_decimal',
+            'catalog_product_index_eav_decimal',
             'entity_id',
-            'catalog/product',
+            'catalog_product_entity',
             'entity_id'
         ),
-        'entity_id', $installer->getTable('catalog/product'), 'entity_id',
+        'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_index_eav_decimal',
+            'catalog_product_index_eav_decimal',
             'store_id',
-            'core/store',
+            'core_store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product EAV Decimal Index Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_index_price'
+ * Create table 'catalog_product_index_price'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_index_price'))
+    ->newTable($installer->getTable('catalog_product_index_price'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2292,47 +2292,47 @@ $table = $installer->getConnection()
         ), 'Max Price')
     ->addColumn('tier_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Tier Price')
-    ->addIndex($installer->getIdxName('catalog/product_index_price', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_price', array('customer_group_id')),
         array('customer_group_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_price', array('website_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_price', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_price', array('min_price')),
+    ->addIndex($installer->getIdxName('catalog_product_index_price', array('min_price')),
         array('min_price'))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_index_price',
+            'catalog_product_index_price',
             'customer_group_id',
-            'customer/customer_group',
+            'customer_group',
             'customer_group_id'
         ),
-        'customer_group_id', $installer->getTable('customer/customer_group'), 'customer_group_id',
+        'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_index_price',
+            'catalog_product_index_price',
             'entity_id',
-            'catalog/product',
+            'catalog_product_entity',
             'entity_id'
         ),
-        'entity_id', $installer->getTable('catalog/product'), 'entity_id',
+        'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_index_price',
+            'catalog_product_index_price',
             'website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Price Index Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_index_tier_price'
+ * Create table 'catalog_product_index_tier_price'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_index_tier_price'))
+    ->newTable($installer->getTable('catalog_product_index_tier_price'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2350,45 +2350,45 @@ $table = $installer->getConnection()
         ), 'Website ID')
     ->addColumn('min_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Min Price')
-    ->addIndex($installer->getIdxName('catalog/product_index_tier_price', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_tier_price', array('customer_group_id')),
         array('customer_group_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_tier_price', array('website_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_tier_price', array('website_id')),
         array('website_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_index_tier_price',
+            'catalog_product_index_tier_price',
             'customer_group_id',
-            'customer/customer_group',
+            'customer_group',
             'customer_group_id'
         ),
-        'customer_group_id', $installer->getTable('customer/customer_group'), 'customer_group_id',
+        'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_index_tier_price',
+            'catalog_product_index_tier_price',
             'entity_id',
-            'catalog/product',
+            'catalog_product_entity',
             'entity_id'
         ),
-        'entity_id', $installer->getTable('catalog/product'), 'entity_id',
+        'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'catalog/product_index_tier_price',
+            'catalog_product_index_tier_price',
             'website_id',
-            'core/website',
+            'core_website',
             'website_id'
          ),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Tier Price Index Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_index_website'
+ * Create table 'catalog_product_index_website'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_index_website'))
+    ->newTable($installer->getTable('catalog_product_index_website'))
     ->addColumn('website_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2399,20 +2399,20 @@ $table = $installer->getConnection()
     ->addColumn('rate', Varien_Db_Ddl_Table::TYPE_FLOAT, null, array(
         'default'   => '1.0000',
         ), 'Rate')
-    ->addIndex($installer->getIdxName('catalog/product_index_website', array('website_date')),
+    ->addIndex($installer->getIdxName('catalog_product_index_website', array('website_date')),
         array('website_date'))
     ->addForeignKey(
-        $installer->getFkName('catalog/product_index_website', 'website_id', 'core/website', 'website_id'),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+        $installer->getFkName('catalog_product_index_website', 'website_id', 'core_website', 'website_id'),
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog Product Website Index Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_cfg_option_aggregate_idx'
+ * Create table 'catalog_product_index_price_cfg_opt_agr_idx'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_price_indexer_cfg_option_aggregate_idx'))
+    ->newTable($installer->getTable('catalog_product_index_price_cfg_opt_agr_idx'))
     ->addColumn('parent_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2441,10 +2441,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_cfg_option_aggregate_tmp'
+ * Create table 'catalog_product_index_price_cfg_opt_agr_tmp'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_price_indexer_cfg_option_aggregate_tmp'))
+    ->newTable($installer->getTable('catalog_product_index_price_cfg_opt_agr_tmp'))
     ->addColumn('parent_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2473,10 +2473,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_cfg_option_idx'
+ * Create table 'catalog_product_index_price_cfg_opt_idx'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_price_indexer_cfg_option_idx'))
+    ->newTable($installer->getTable('catalog_product_index_price_cfg_opt_idx'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2502,10 +2502,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_cfg_option_tmp'
+ * Create table 'catalog_product_index_price_cfg_opt_tmp'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_price_indexer_cfg_option_tmp'))
+    ->newTable($installer->getTable('catalog_product_index_price_cfg_opt_tmp'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2531,10 +2531,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_final_idx'
+ * Create table 'catalog_product_index_price_final_idx'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_price_indexer_final_idx'))
+    ->newTable($installer->getTable('catalog_product_index_price_final_idx'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2570,10 +2570,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_final_tmp'
+ * Create table 'catalog_product_index_price_final_tmp'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_price_indexer_final_tmp'))
+    ->newTable($installer->getTable('catalog_product_index_price_final_tmp'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2609,10 +2609,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_option_idx'
+ * Create table 'catalog_product_index_price_opt_idx'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_price_indexer_option_idx'))
+    ->newTable($installer->getTable('catalog_product_index_price_opt_idx'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2638,10 +2638,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_option_tmp'
+ * Create table 'catalog_product_index_price_opt_tmp'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_price_indexer_option_tmp'))
+    ->newTable($installer->getTable('catalog_product_index_price_opt_tmp'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2667,10 +2667,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_option_aggregate_idx'
+ * Create table 'catalog_product_index_price_opt_agr_idx'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_price_indexer_option_aggregate_idx'))
+    ->newTable($installer->getTable('catalog_product_index_price_opt_agr_idx'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2702,10 +2702,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_option_aggregate_tmp'
+ * Create table 'catalog_product_index_price_opt_agr_tmp'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_price_indexer_option_aggregate_tmp'))
+    ->newTable($installer->getTable('catalog_product_index_price_opt_agr_tmp'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2737,10 +2737,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_eav_indexer_idx'
+ * Create table 'catalog_product_index_eav_idx'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_eav_indexer_idx'))
+    ->newTable($installer->getTable('catalog_product_index_eav_idx'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2761,22 +2761,22 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_eav_indexer_idx', array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_idx', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_indexer_idx', array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_idx', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_indexer_idx', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_idx', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_indexer_idx', array('value')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_idx', array('value')),
         array('value'))
     ->setComment('Catalog Product EAV Indexer Index Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_eav_indexer_tmp'
+ * Create table 'catalog_product_index_eav_tmp'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_eav_indexer_tmp'))
+    ->newTable($installer->getTable('catalog_product_index_eav_tmp'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2797,22 +2797,22 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_eav_indexer_tmp', array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_tmp', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_indexer_tmp', array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_tmp', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_indexer_tmp', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_tmp', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_indexer_tmp', array('value')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_tmp', array('value')),
         array('value'))
     ->setComment('Catalog Product EAV Indexer Temp Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_eav_decimal_indexer_idx'
+ * Create table 'catalog_product_index_eav_decimal_idx'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_eav_decimal_indexer_idx'))
+    ->newTable($installer->getTable('catalog_product_index_eav_decimal_idx'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2832,22 +2832,22 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_eav_decimal_indexer_idx', array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal_idx', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_decimal_indexer_idx', array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal_idx', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_decimal_indexer_idx', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal_idx', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_decimal_indexer_idx', array('value')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal_idx', array('value')),
         array('value'))
     ->setComment('Catalog Product EAV Decimal Indexer Index Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_eav_decimal_indexer_tmp'
+ * Create table 'catalog_product_index_eav_decimal_tmp'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_eav_decimal_indexer_tmp'))
+    ->newTable($installer->getTable('catalog_product_index_eav_decimal_tmp'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2867,22 +2867,22 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_eav_decimal_indexer_tmp', array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal_tmp', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_decimal_indexer_tmp', array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal_tmp', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_decimal_indexer_tmp', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal_tmp', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_decimal_indexer_tmp', array('value')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal_tmp', array('value')),
         array('value'))
     ->setComment('Catalog Product EAV Decimal Indexer Temp Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_idx'
+ * Create table 'catalog_product_index_price_idx'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_price_indexer_idx'))
+    ->newTable($installer->getTable('catalog_product_index_price_idx'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2912,20 +2912,20 @@ $table = $installer->getConnection()
         ), 'Max Price')
     ->addColumn('tier_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Tier Price')
-    ->addIndex($installer->getIdxName('catalog/product_price_indexer_idx', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_price_idx', array('customer_group_id')),
         array('customer_group_id'))
-    ->addIndex($installer->getIdxName('catalog/product_price_indexer_idx', array('website_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_price_idx', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('catalog/product_price_indexer_idx', array('min_price')),
+    ->addIndex($installer->getIdxName('catalog_product_index_price_idx', array('min_price')),
         array('min_price'))
     ->setComment('Catalog Product Price Indexer Index Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_tmp'
+ * Create table 'catalog_product_index_price_tmp'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/product_price_indexer_tmp'))
+    ->newTable($installer->getTable('catalog_product_index_price_tmp'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2955,20 +2955,20 @@ $table = $installer->getConnection()
         ), 'Max Price')
     ->addColumn('tier_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Tier Price')
-    ->addIndex($installer->getIdxName('catalog/product_price_indexer_tmp', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_price_tmp', array('customer_group_id')),
         array('customer_group_id'))
-    ->addIndex($installer->getIdxName('catalog/product_price_indexer_tmp', array('website_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_price_tmp', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('catalog/product_price_indexer_tmp', array('min_price')),
+    ->addIndex($installer->getIdxName('catalog_product_index_price_tmp', array('min_price')),
         array('min_price'))
     ->setComment('Catalog Product Price Indexer Temp Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_product_indexer_idx'
+ * Create table 'catalog_category_product_index_idx'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/category_product_indexer_idx'))
+    ->newTable($installer->getTable('catalog_category_product_index_idx'))
     ->addColumn('category_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -2999,7 +2999,7 @@ $table = $installer->getConnection()
         ), 'Visibility')
     ->addIndex(
         $installer->getIdxName(
-            'catalog/category_product_indexer_idx',
+            'catalog_category_product_index_idx',
             array('product_id', 'category_id', 'store_id')
         ),
         array('product_id', 'category_id', 'store_id'))
@@ -3007,10 +3007,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_product_indexer_tmp'
+ * Create table 'catalog_category_product_index_tmp'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/category_product_indexer_tmp'))
+    ->newTable($installer->getTable('catalog_category_product_index_tmp'))
     ->addColumn('category_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -3043,10 +3043,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_product_enabled_indexer_idx'
+ * Create table 'catalog_category_product_index_enbl_idx'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/category_product_enabled_indexer_idx'))
+    ->newTable($installer->getTable('catalog_category_product_index_enbl_idx'))
     ->addColumn('product_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -3057,16 +3057,16 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Visibility')
-    ->addIndex($installer->getIdxName('catalog/category_product_enabled_indexer_idx', array('product_id')),
+    ->addIndex($installer->getIdxName('catalog_category_product_index_enbl_idx', array('product_id')),
         array('product_id'))
     ->setComment('Catalog Category Product Enabled Indexer Index Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_product_enabled_indexer_tmp'
+ * Create table 'catalog_category_product_index_enbl_tmp'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/category_product_enabled_indexer_tmp'))
+    ->newTable($installer->getTable('catalog_category_product_index_enbl_tmp'))
     ->addColumn('product_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -3077,16 +3077,16 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Visibility')
-    ->addIndex($installer->getIdxName('catalog/category_product_enabled_indexer_tmp', array('product_id')),
+    ->addIndex($installer->getIdxName('catalog_category_product_index_enbl_tmp', array('product_id')),
         array('product_id'))
     ->setComment('Catalog Category Product Enabled Indexer Temp Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_anchor_indexer_idx'
+ * Create table 'catalog_category_anc_categs_index_idx'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/category_anchor_indexer_idx'))
+    ->newTable($installer->getTable('catalog_category_anc_categs_index_idx'))
     ->addColumn('category_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -3096,16 +3096,16 @@ $table = $installer->getConnection()
         'nullable'  => true,
         'default'   => null,
         ), 'Path')
-    ->addIndex($installer->getIdxName('catalog/category_anchor_indexer_idx', array('category_id')),
+    ->addIndex($installer->getIdxName('catalog_category_anc_categs_index_idx', array('category_id')),
         array('category_id'))
     ->setComment('Catalog Category Anchor Indexer Index Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_anchor_indexer_tmp'
+ * Create table 'catalog_category_anc_categs_index_tmp'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/category_anchor_indexer_tmp'))
+    ->newTable($installer->getTable('catalog_category_anc_categs_index_tmp'))
     ->addColumn('category_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -3115,16 +3115,16 @@ $table = $installer->getConnection()
         'nullable'  => true,
         'default'   => null,
         ), 'Path')
-    ->addIndex($installer->getIdxName('catalog/category_anchor_indexer_tmp', array('category_id')),
+    ->addIndex($installer->getIdxName('catalog_category_anc_categs_index_tmp', array('category_id')),
         array('category_id'))
     ->setComment('Catalog Category Anchor Indexer Temp Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_anchor_products_indexer_idx'
+ * Create table 'catalog_category_anc_products_index_idx'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/category_anchor_products_indexer_idx'))
+    ->newTable($installer->getTable('catalog_category_anc_products_index_idx'))
     ->addColumn('category_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -3142,10 +3142,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_anchor_products_indexer_tmp'
+ * Create table 'catalog_category_anc_products_index_tmp'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog/category_anchor_products_indexer_tmp'))
+    ->newTable($installer->getTable('catalog_category_anc_products_index_tmp'))
     ->addColumn('category_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -3164,26 +3164,26 @@ $installer->getConnection()->createTable($table);
  * Modify core/url_rewrite table
  *
  */
-$installer->getConnection()->addColumn($installer->getTable('core/url_rewrite'), 'category_id', array(
+$installer->getConnection()->addColumn($installer->getTable('core_url_rewrite'), 'category_id', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
     'unsigned'  => true,
     'nullable'  => true,
     'comment'   => 'Category Id'
 ));
-$installer->getConnection()->addColumn($installer->getTable('core/url_rewrite'), 'product_id', array(
+$installer->getConnection()->addColumn($installer->getTable('core_url_rewrite'), 'product_id', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
     'unsigned'  => true,
     'nullable'  => true,
     'comment'   => 'Product Id'
 ));
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('core/url_rewrite', 'category_id', 'catalog/category', 'entity_id'),
-    $installer->getTable('core/url_rewrite'), 'category_id',
-    $installer->getTable('catalog/category'), 'entity_id');
+    $installer->getFkName('core_url_rewrite', 'category_id', 'catalog_category_entity', 'entity_id'),
+    $installer->getTable('core_url_rewrite'), 'category_id',
+    $installer->getTable('catalog_category_entity'), 'entity_id');
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('core/url_rewrite', 'product_id', 'catalog/category', 'entity_id'),
-    $installer->getTable('core/url_rewrite'), 'product_id',
-    $installer->getTable('catalog/product'), 'entity_id');
+    $installer->getFkName('core_url_rewrite', 'product_id', 'catalog_category_entity', 'entity_id'),
+    $installer->getTable('core_url_rewrite'), 'product_id',
+    $installer->getTable('catalog_product_entity'), 'entity_id');
 
 $installer->endSetup();
 

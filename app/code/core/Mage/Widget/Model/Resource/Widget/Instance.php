@@ -40,7 +40,7 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('widget/widget_instance', 'instance_id');
+        $this->_init('widget_instance', 'instance_id');
     }
 
     /**
@@ -53,7 +53,7 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
-            ->from($this->getTable('widget/widget_instance_page'))
+            ->from($this->getTable('widget_instance_page'))
             ->where('instance_id = ?', (int)$object->getId());
         $result = $adapter->fetchAll($select);
         $object->setData('page_groups', $result);
@@ -68,8 +68,8 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        $pageTable         = $this->getTable('widget/widget_instance_page');
-        $pageLayoutTable   = $this->getTable('widget/widget_instance_page_layout');
+        $pageTable         = $this->getTable('widget_instance_page');
+        $pageLayoutTable   = $this->getTable('widget_instance_page_layout');
         $readAdapter       = $this->_getReadAdapter();
         $writeAdapter      = $this->_getWriteAdapter();
 
@@ -136,8 +136,8 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
         $writeAdapter          = $this->_getWriteAdapter();
         $pageLayoutUpdateIds   = array();
         $storeIds              = $this->_prepareStoreIds($widgetInstance->getStoreIds());
-        $layoutUpdateTable     = $this->getTable('core/layout_update');
-        $layoutUpdateLinkTable = $this->getTable('core/layout_link');
+        $layoutUpdateTable     = $this->getTable('core_layout_update');
+        $layoutUpdateLinkTable = $this->getTable('core_layout_link');
 
         foreach ($pageGroupData['layout_handle_updates'] as $handle) {
             $xml = $widgetInstance->generateLayoutUpdateXml(
@@ -196,9 +196,9 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
     {
         $writeAdapter = $this->_getWriteAdapter();
         $select = $writeAdapter->select()
-            ->from(array('main_table' => $this->getTable('widget/widget_instance_page')), array())
+            ->from(array('main_table' => $this->getTable('widget_instance_page')), array())
             ->joinInner(
-                array('layout_page_table' => $this->getTable('widget/widget_instance_page_layout')),
+                array('layout_page_table' => $this->getTable('widget_instance_page_layout')),
                 'layout_page_table.page_id = main_table.page_id',
                 array('layout_update_id')
             )
@@ -235,7 +235,7 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
                 'in' => $pageIds
             ));
             $writeAdapter->delete(
-                $this->getTable('widget/widget_instance_page'),
+                $this->getTable('widget_instance_page'),
                 $inCond
             );
         }
@@ -256,7 +256,7 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
                 'in' => $layoutUpdateIds
             ));
             $writeAdapter->delete(
-                $this->getTable('core/layout_update'),
+                $this->getTable('core_layout_update'),
                 $inCond
             );
         }

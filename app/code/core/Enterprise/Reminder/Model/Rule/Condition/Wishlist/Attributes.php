@@ -157,7 +157,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes
                 'cat.category_id', $this->getOperatorForValidate(), $this->getValueParsed()
             );
             $categorySelect = $resource->createSelect();
-            $categorySelect->from(array('cat' => $resource->getTable('catalog/category_product')), 'product_id')
+            $categorySelect->from(array('cat' => $resource->getTable('catalog_category_product')), 'product_id')
                 ->where($condition);
             $condition = 'main.entity_id IN (' . $categorySelect . ')';
         } elseif ($attribute->isStatic()) {
@@ -168,7 +168,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes
         } else {
             $select->where('main.attribute_id = ?', $attribute->getId());
             $select->join(
-                    array('store' => $this->getResource()->getTable('core/store')),
+                    array('store' => $this->getResource()->getTable('core_store')),
                     'main.store_id=store.store_id',
                     array())
                 ->where('store.website_id IN(?)', array(0, $website));

@@ -40,7 +40,7 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
      */
     protected function _construct()
     {
-        $this->_init('core/website', 'website_id');
+        $this->_init('core_website', 'website_id');
     }
 
     /**
@@ -101,7 +101,7 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
             'scope_id = ?' => $model->getWebsiteId()
         );
 
-        $this->_getWriteAdapter()->delete($this->getTable('core/config_data'), $where);
+        $this->_getWriteAdapter()->delete($this->getTable('core_config_data'), $where);
 
         return $this;
 
@@ -120,10 +120,10 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
             ->getCheckSql('store_group_table.default_store_id IS NULL', '0', 'store_group_table.default_store_id');
         $select = $this->_getReadAdapter()->select()
             ->from(
-                array('website_table' => $this->getTable('core/website')),
+                array('website_table' => $this->getTable('core_website')),
                 array('website_id'))
             ->joinLeft(
-                array('store_group_table' => $this->getTable('core/store_group')),
+                array('store_group_table' => $this->getTable('core_store_group')),
                 'website_table.website_id=store_group_table.website_id'
                     . ' AND website_table.default_group_id = store_group_table.group_id',
                 array('store_id' => $ifNull)

@@ -40,7 +40,7 @@ class Mage_AdminNotification_Model_Resource_Inbox extends Mage_Core_Model_Resour
      */
     protected function _construct()
     {
-        $this->_init('adminnotification/inbox', 'notification_id');
+        $this->_init('adminnotification_inbox', 'notification_id');
     }
 
     /**

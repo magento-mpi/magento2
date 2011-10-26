@@ -55,7 +55,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Collection extends Mage_Catalog
         Mage::getSingleton('catalogsearch/fulltext')->prepareResult();
 
         $this->getSelect()->joinInner(
-            array('search_result' => $this->getTable('catalogsearch/result')),
+            array('search_result' => $this->getTable('catalogsearch_result')),
             $this->getConnection()->quoteInto(
                 'search_result.product_id=e.entity_id AND search_result.query_id=?',
                 $this->_getQuery()->getId()

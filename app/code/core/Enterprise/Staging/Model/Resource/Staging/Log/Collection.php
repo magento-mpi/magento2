@@ -82,7 +82,7 @@ class Enterprise_Staging_Model_Resource_Staging_Log_Collection extends Mage_Core
     {
         $this->getSelect()
             ->joinLeft(
-                array('staging' => $this->getTable('enterprise_staging/staging')),
+                array('staging' => $this->getTable('enterprise_staging')),
                 'main_table.staging_id=staging.staging_id',
                 array('staging_name'=>'name')
         );

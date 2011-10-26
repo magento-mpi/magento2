@@ -40,7 +40,7 @@ class Mage_Poll_Model_Resource_Poll_Answer extends Mage_Core_Model_Resource_Db_A
      */
     protected function _construct()
     {
-        $this->_init('poll/poll_answer', 'answer_id');
+        $this->_init('poll_answer', 'answer_id');
     }
 
     /**

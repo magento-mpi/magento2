@@ -30,10 +30,10 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'log/customer'
+ * Create table 'log_customer'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('log/customer'))
+    ->newTable($installer->getTable('log_customer'))
     ->addColumn('log_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -56,16 +56,16 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Store ID')
-    ->addIndex($installer->getIdxName('log/customer', array('visitor_id')),
+    ->addIndex($installer->getIdxName('log_customer', array('visitor_id')),
         array('visitor_id'))
     ->setComment('Log Customers Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'log/quote_table'
+ * Create table 'log_quote'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('log/quote_table'))
+    ->newTable($installer->getTable('log_quote'))
     ->addColumn('quote_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -84,10 +84,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'log/summary_table'
+ * Create table 'log_summary'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('log/summary_table'))
+    ->newTable($installer->getTable('log_summary'))
     ->addColumn('summary_id', Varien_Db_Ddl_Table::TYPE_BIGINT, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -116,10 +116,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'log/summary_type_table'
+ * Create table 'log_summary_type'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('log/summary_type_table'))
+    ->newTable($installer->getTable('log_summary_type'))
     ->addColumn('type_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -143,10 +143,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'log/url_table'
+ * Create table 'log_url'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('log/url_table'))
+    ->newTable($installer->getTable('log_url'))
     ->addColumn('url_id', Varien_Db_Ddl_Table::TYPE_BIGINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -159,16 +159,16 @@ $table = $installer->getConnection()
     ->addColumn('visit_time', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
         ), 'Visit Time')
-    ->addIndex($installer->getIdxName('log/url_table', array('visitor_id')),
+    ->addIndex($installer->getIdxName('log_url', array('visitor_id')),
         array('visitor_id'))
     ->setComment('Log URL Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'log/url_info_table'
+ * Create table 'log_url_info'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('log/url_info_table'))
+    ->newTable($installer->getTable('log_url_info'))
     ->addColumn('url_id', Varien_Db_Ddl_Table::TYPE_BIGINT, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -185,10 +185,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'log/visitor'
+ * Create table 'log_visitor'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('log/visitor'))
+    ->newTable($installer->getTable('log_visitor'))
     ->addColumn('visitor_id', Varien_Db_Ddl_Table::TYPE_BIGINT, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -217,10 +217,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'log/visitor_info'
+ * Create table 'log_visitor_info'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('log/visitor_info'))
+    ->newTable($installer->getTable('log_visitor_info'))
     ->addColumn('visitor_id', Varien_Db_Ddl_Table::TYPE_BIGINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -243,10 +243,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'log/visitor_online'
+ * Create table 'log_visitor_online'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('log/visitor_online'))
+    ->newTable($installer->getTable('log_visitor_online'))
     ->addColumn('visitor_id', Varien_Db_Ddl_Table::TYPE_BIGINT, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -268,11 +268,11 @@ $table = $installer->getConnection()
         ), 'Customer ID')
     ->addColumn('last_url', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Last URL')
-    ->addIndex($installer->getIdxName('log/visitor_online', array('visitor_type')),
+    ->addIndex($installer->getIdxName('log_visitor_online', array('visitor_type')),
         array('visitor_type'))
-    ->addIndex($installer->getIdxName('log/visitor_online', array('first_visit_at', 'last_visit_at')),
+    ->addIndex($installer->getIdxName('log_visitor_online', array('first_visit_at', 'last_visit_at')),
         array('first_visit_at', 'last_visit_at'))
-    ->addIndex($installer->getIdxName('log/visitor_online', array('customer_id')),
+    ->addIndex($installer->getIdxName('log_visitor_online', array('customer_id')),
         array('customer_id'))
     ->setComment('Log Visitor Online Table');
 $installer->getConnection()->createTable($table);

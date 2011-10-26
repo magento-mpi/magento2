@@ -64,7 +64,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Collection extends Mage_Core_Mo
      */
     public function addTitleToResult($storeId)
     {
-        $productOptionTitleTable = $this->getTable('catalog/product_option_title');
+        $productOptionTitleTable = $this->getTable('catalog_product_option_title');
         $adapter        = $this->getConnection();
         $titleExpr      = $adapter->getCheckSql('store_option_title.title IS NULL', 'default_option_title.title', 'store_option_title.title');
 
@@ -91,7 +91,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Collection extends Mage_Core_Mo
      */
     public function addPriceToResult($storeId)
     {
-        $productOptionPriceTable = $this->getTable('catalog/product_option_price');
+        $productOptionPriceTable = $this->getTable('catalog_product_option_price');
         $adapter        = $this->getConnection();
         $priceExpr      = $adapter->getCheckSql('store_option_price.price IS NULL', 'default_option_price.price', 'store_option_price.price');
         $priceTypeExpr  = $adapter->getCheckSql('store_option_price.price_type IS NULL', 'default_option_price.price_type', 'store_option_price.price_type');

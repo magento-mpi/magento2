@@ -40,7 +40,7 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Core_Model_Resource
      */
     protected function _construct()
     {
-        $this->_init('enterprise_targetrule/rule', 'rule_id');
+        $this->_init('enterprise_targetrule', 'rule_id');
     }
 
     /**
@@ -106,7 +106,7 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Core_Model_Resource
      */
     protected function _getCustomerSegmentRelationsTable()
     {
-        return $this->getTable('enterprise_targetrule/customersegment');
+        return $this->getTable('enterprise_targetrule_customersegment');
     }
 
     /**
@@ -116,7 +116,7 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Core_Model_Resource
      */
     protected function _getRuleProductsTable()
     {
-        return $this->getTable('enterprise_targetrule/product');
+        return $this->getTable('enterprise_targetrule_product');
     }
 
     /**

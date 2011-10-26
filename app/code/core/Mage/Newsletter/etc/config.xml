@@ -44,26 +44,6 @@
             </newsletter>
             <newsletter_resource>
                 <class>Mage_Newsletter_Model_Resource</class>
-                <entities>
-                    <subscriber>
-                        <table>newsletter_subscriber</table>
-                    </subscriber>
-                    <queue>
-                        <table>newsletter_queue</table>
-                    </queue>
-                    <queue_link>
-                        <table>newsletter_queue_link</table>
-                    </queue_link>
-                    <queue_store_link>
-                        <table>newsletter_queue_store_link</table>
-                    </queue_store_link>
-                    <template>
-                        <table>newsletter_template</table>
-                    </template>
-                    <problem>
-                        <table>newsletter_problem</table>
-                    </problem>
-                </entities>
             </newsletter_resource>
         </models>
         <resources>

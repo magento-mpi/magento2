@@ -24,10 +24,13 @@ class Mage_Core_Model_Resource_CacheTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Core_Model_Resource_Cache();
     }
 
+    /**
+     * @magentoConfigFixture global/resources/db/table_prefix prefix_
+     */
     public function testGetTable()
     {
-        $this->assertEquals('core_cache_option', $this->_model->getTable('core/cache_option'));
-        $this->assertEquals('core_cache_option', $this->_model->getTable(array('cache', 'option')));
+        $this->assertEquals('prefix_core_cache_option', $this->_model->getTable('core_cache_option'));
+        $this->assertEquals('prefix_core_cache_option', $this->_model->getTable(array('core_cache', 'option')));
     }
 
     public function testUniqueFields()

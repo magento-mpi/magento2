@@ -40,7 +40,7 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
      */
     protected function _construct()
     {
-        $this->_init('enterprise_staging/staging', 'staging_id');
+        $this->_init('enterprise_staging', 'staging_id');
     }
 
     /**
@@ -55,7 +55,7 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
     {
         $select = parent::_getLoadSelect($field, $value, $object);
         $select->joinLeft(
-            array('site'=>$this->getTable('core/website')),
+            array('site'=>$this->getTable('core_website')),
             "staging_website_id = site.website_id",
             array('name' => 'site.name')
         );

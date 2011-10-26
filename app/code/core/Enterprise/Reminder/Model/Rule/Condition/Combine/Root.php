@@ -49,8 +49,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine_Root
     protected function _prepareConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
-        $rootTable = $this->getResource()->getTable('customer/entity');
-        $couponTable = $this->getResource()->getTable('enterprise_reminder/coupon');
+        $rootTable = $this->getResource()->getTable('customer_entity');
+        $couponTable = $this->getResource()->getTable('enterprise_reminder_rule_coupon');
 
         $select->from(array('root' => $rootTable), array('entity_id'));
 

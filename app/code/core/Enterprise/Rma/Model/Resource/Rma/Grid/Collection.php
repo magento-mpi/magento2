@@ -55,7 +55,7 @@ class Enterprise_Rma_Model_Resource_Rma_Grid_Collection extends Enterprise_Rma_M
     protected function _construct()
     {
         parent::_construct();
-        $this->setMainTable('enterprise_rma/rma_grid');
+        $this->setMainTable('enterprise_rma_grid');
     }
 
     /**

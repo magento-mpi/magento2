@@ -42,7 +42,7 @@ class Mage_Reports_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _construct()
     {
-        $this->_init('reports/event', 'event_id');
+        $this->_init('report_event', 'event_id');
     }
 
     /**
@@ -88,7 +88,7 @@ class Mage_Reports_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abst
 
         $derivedSelect = $this->getReadConnection()->select()
             ->from(
-                $this->getTable('reports/event'),
+                $this->getTable('report_event'),
                 array('event_id' => new Zend_Db_Expr('MAX(event_id)'), 'object_id'))
             ->where('event_type_id = ?', (int)$eventTypeId)
             ->where('subject_id = ?', (int)$eventSubjectId)
@@ -167,7 +167,7 @@ class Mage_Reports_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abst
             $select = $this->_getReadAdapter()->select()
                 ->from(array('event_table' => $this->getMainTable()), array('event_id'))
                 ->joinLeft(
-                    array('visitor_table' => $this->getTable('log/visitor')),
+                    array('visitor_table' => $this->getTable('log_visitor')),
                     'event_table.subject_id = visitor_table.visitor_id',
                     array())
                 ->where('visitor_table.visitor_id IS NULL')

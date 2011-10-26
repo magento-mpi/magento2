@@ -82,8 +82,8 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
      */
     protected function _construct()
     {
-        $this->_init('enterprise_cms/hierarchy_node', 'node_id');
-        $this->_metadataTable = $this->getTable('enterprise_cms/hierarchy_metadata');
+        $this->_init('enterprise_cms_hierarchy_node', 'node_id');
+        $this->_metadataTable = $this->getTable('enterprise_cms_hierarchy_metadata');
     }
 
     /**
@@ -99,7 +99,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object);
-        $select->joinLeft(array('page_table' => $this->getTable('cms/page')),
+        $select->joinLeft(array('page_table' => $this->getTable('cms_page')),
                 $this->getMainTable() . '.page_id = page_table.page_id',
                 array(
                     'page_title'        => 'title',
@@ -269,7 +269,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
                 array('node_table' => $this->getMainTable()),
                 array($this->getIdFieldName(), 'parent_node_id', 'page_id', 'identifier', 'request_url', 'level', 'sort_order'))
             ->joinLeft(
-                array('page_table' => $this->getTable('cms/page')),
+                array('page_table' => $this->getTable('cms_page')),
                 'node_table.page_id=page_table.page_id',
                 array('page_identifier' => 'identifier'))
             ->where('xpath LIKE ? OR xpath = ?', $xpath. '/%')
@@ -345,9 +345,9 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
     {
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
-            ->from(array('main_table' => $this->getTable('cms/page')), array('page_id', 'website_root'))
+            ->from(array('main_table' => $this->getTable('cms_page')), array('page_id', 'website_root'))
             ->join(
-                array('cps' => $this->getTable('cms/page_store')),
+                array('cps' => $this->getTable('cms_page_store')),
                 'main_table.page_id = cps.page_id',
                 array())
             ->where('main_table.identifier = ?', $identifier)
@@ -701,7 +701,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
                 'page_is_active'    => 'is_active'
             );
             $select = $this->_getReadAdapter()->select()
-                ->from($this->getTable('cms/page'), $columns)
+                ->from($this->getTable('cms_page'), $columns)
                 ->where('page_id=?', $pageId)
                 ->limit(1);
             $row = $this->_getReadAdapter()->fetchRow($select);

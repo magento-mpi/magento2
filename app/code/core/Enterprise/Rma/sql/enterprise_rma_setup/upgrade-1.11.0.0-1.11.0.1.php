@@ -28,7 +28,7 @@
 $installer = $this;
 
 /* adding new field = static attribute to rma_item_entity table */
-$tableName = $installer->getTable('enterprise_rma/item_entity');
+$tableName = $installer->getTable('enterprise_rma_item_entity');
 $columnOptions = array(
     'TYPE' => Varien_Db_Ddl_Table::TYPE_DECIMAL,
     'SCALE' => 4,

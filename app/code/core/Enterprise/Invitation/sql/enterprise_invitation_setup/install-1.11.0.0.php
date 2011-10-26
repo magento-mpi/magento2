@@ -30,10 +30,10 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_invitation/invitation'
+ * Create table 'enterprise_invitation'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_invitation/invitation'))
+    ->newTable($installer->getTable('enterprise_invitation'))
     ->addColumn('invitation_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -67,34 +67,34 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => 'new',
         ), 'Status')
-    ->addIndex($installer->getIdxName('enterprise_invitation/invitation', array('customer_id')),
+    ->addIndex($installer->getIdxName('enterprise_invitation', array('customer_id')),
         array('customer_id'))
-    ->addIndex($installer->getIdxName('enterprise_invitation/invitation', array('referral_id')),
+    ->addIndex($installer->getIdxName('enterprise_invitation', array('referral_id')),
         array('referral_id'))
-    ->addIndex($installer->getIdxName('enterprise_invitation/invitation', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_invitation', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('enterprise_invitation/invitation', array('group_id')),
+    ->addIndex($installer->getIdxName('enterprise_invitation', array('group_id')),
         array('group_id'))
-    ->addForeignKey($installer->getFkName('enterprise_invitation/invitation', 'group_id', 'customer/customer_group', 'customer_group_id'),
-        'group_id', $installer->getTable('customer/customer_group'), 'customer_group_id',
+    ->addForeignKey($installer->getFkName('enterprise_invitation', 'group_id', 'customer_group', 'customer_group_id'),
+        'group_id', $installer->getTable('customer_group'), 'customer_group_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_invitation/invitation', 'customer_id', 'customer/entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer/entity'), 'entity_id',
+    ->addForeignKey($installer->getFkName('enterprise_invitation', 'customer_id', 'customer_entity', 'entity_id'),
+        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_invitation/invitation', 'referral_id', 'customer/entity', 'entity_id'),
-        'referral_id', $installer->getTable('customer/entity'), 'entity_id',
+    ->addForeignKey($installer->getFkName('enterprise_invitation', 'referral_id', 'customer_entity', 'entity_id'),
+        'referral_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_invitation/invitation', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('enterprise_invitation', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Invitation');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_invitation/invitation_history'
+ * Create table 'enterprise_invitation_status_history'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_invitation/invitation_history'))
+    ->newTable($installer->getTable('enterprise_invitation_status_history'))
     ->addColumn('history_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -111,19 +111,19 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => 'new',
         ), 'Invitation Status')
-    ->addIndex($installer->getIdxName('enterprise_invitation/invitation_history', array('invitation_id')),
+    ->addIndex($installer->getIdxName('enterprise_invitation_status_history', array('invitation_id')),
         array('invitation_id'))
-    ->addForeignKey($installer->getFkName('enterprise_invitation/invitation_history', 'invitation_id', 'enterprise_invitation/invitation', 'invitation_id'),
-        'invitation_id', $installer->getTable('enterprise_invitation/invitation'), 'invitation_id',
+    ->addForeignKey($installer->getFkName('enterprise_invitation_status_history', 'invitation_id', 'enterprise_invitation', 'invitation_id'),
+        'invitation_id', $installer->getTable('enterprise_invitation'), 'invitation_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Invitation Status History');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_invitation/invitation_track'
+ * Create table 'enterprise_invitation_track'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_invitation/invitation_track'))
+    ->newTable($installer->getTable('enterprise_invitation_track'))
     ->addColumn('track_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -140,15 +140,15 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Referral Id')
-    ->addIndex($installer->getIdxName('enterprise_invitation/invitation_track', array('inviter_id', 'referral_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('enterprise_invitation_track', array('inviter_id', 'referral_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('inviter_id', 'referral_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('enterprise_invitation/invitation_track', array('referral_id')),
+    ->addIndex($installer->getIdxName('enterprise_invitation_track', array('referral_id')),
         array('referral_id'))
-    ->addForeignKey($installer->getFkName('enterprise_invitation/invitation_track', 'inviter_id', 'customer/entity', 'entity_id'),
-        'inviter_id', $installer->getTable('customer/entity'), 'entity_id',
+    ->addForeignKey($installer->getFkName('enterprise_invitation_track', 'inviter_id', 'customer_entity', 'entity_id'),
+        'inviter_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_invitation/invitation_track', 'referral_id', 'customer/entity', 'entity_id'),
-        'referral_id', $installer->getTable('customer/entity'), 'entity_id',
+    ->addForeignKey($installer->getFkName('enterprise_invitation_track', 'referral_id', 'customer_entity', 'entity_id'),
+        'referral_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Invitation Track');
 $installer->getConnection()->createTable($table);

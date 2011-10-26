@@ -40,7 +40,7 @@ class Mage_Sales_Model_Resource_Report_Order_Createdat extends Mage_Sales_Model_
      */
     protected function _construct()
     {
-        $this->_init('sales/order_aggregated_created', 'id');
+        $this->_init('sales_order_aggregated_created', 'id');
     }
 
     /**
@@ -78,7 +78,7 @@ class Mage_Sales_Model_Resource_Report_Order_Createdat extends Mage_Sales_Model_
 
             if ($from !== null || $to !== null) {
                 $subSelect = $this->_getTableDateRangeSelect(
-                    $this->getTable('sales/order'),
+                    $this->getTable('sales_flat_order'),
                     'created_at', 'updated_at', $from, $to
                 );
             } else {
@@ -87,7 +87,7 @@ class Mage_Sales_Model_Resource_Report_Order_Createdat extends Mage_Sales_Model_
             $this->_clearTableByDateRange($this->getMainTable(), $from, $to, $subSelect);
 
             $periodExpr = $adapter->getDatePartSql($this->getStoreTZOffsetQuery(
-                array('o' => $this->getTable('sales/order')),
+                array('o' => $this->getTable('sales_flat_order')),
                 'o.' . $aggregationField,
                 $from, $to
             ));
@@ -205,11 +205,11 @@ class Mage_Sales_Model_Resource_Report_Order_Createdat extends Mage_Sales_Model_
                 'total_qty_ordered'  => new Zend_Db_expr("SUM(qty_ordered - {$qtyCanceledExpr})"),
                 'total_qty_invoiced' => new Zend_Db_expr('SUM(qty_invoiced)'),
             );
-            $selectOrderItem->from($this->getTable('sales/order_item'), $cols)
+            $selectOrderItem->from($this->getTable('sales_flat_order_item'), $cols)
                 ->where('parent_item_id IS NULL')
                 ->group('order_id');
 
-            $select->from(array('o' => $this->getTable('sales/order')), $columns)
+            $select->from(array('o' => $this->getTable('sales_flat_order')), $columns)
                 ->join(array('oi' => $selectOrderItem), 'oi.order_id = o.entity_id', array())
                 ->where('o.state NOT IN (?)', array(
                     Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,

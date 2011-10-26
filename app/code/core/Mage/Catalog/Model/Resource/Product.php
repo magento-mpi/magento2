@@ -56,8 +56,8 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
         parent::__construct();
         $this->setType(Mage_Catalog_Model_Product::ENTITY)
              ->setConnection('catalog_read', 'catalog_write');
-        $this->_productWebsiteTable  = $this->getTable('catalog/product_website');
-        $this->_productCategoryTable = $this->getTable('catalog/category_product');
+        $this->_productWebsiteTable  = $this->getTable('catalog_product_website');
+        $this->_productCategoryTable = $this->getTable('catalog_category_product');
     }
 
     /**
@@ -314,13 +314,13 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
          * Clear previous index data related with product
          */
         $condition = array('product_id = ?' => (int)$product->getId());
-        $writeAdapter->delete($this->getTable('catalog/category_product_index'), $condition);
+        $writeAdapter->delete($this->getTable('catalog_category_product_index'), $condition);
 
         /** @var $categoryObject Mage_Catalog_Model_Resource_Category */
         $categoryObject = Mage::getResourceSingleton('catalog/category');
         if (!empty($categoryIds)) {
             $categoriesSelect = $writeAdapter->select()
-                ->from($this->getTable('catalog/category'))
+                ->from($this->getTable('catalog_category_entity'))
                 ->where('entity_id IN (?)', $categoryIds);
 
             $categoriesInfo = $writeAdapter->fetchAll($categoriesSelect);
@@ -383,7 +383,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
         $select = $adapter->select();
         $condition = array();
 
-        $indexTable = $this->getTable('catalog/product_enabled_index');
+        $indexTable = $this->getTable('catalog_product_enabled_index');
         if (is_null($store) && is_null($product)) {
             Mage::throwException(
                 Mage::helper('catalog')->__('To reindex the enabled product(s), the store or product must be specified')
@@ -405,7 +405,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
             );
 
             $select->joinInner(
-                array('w' => $this->getTable('catalog/product_website')),
+                array('w' => $this->getTable('catalog_product_website')),
                 $adapter->quoteInto(
                     'w.product_id = t_v_default.entity_id AND w.website_id = ?', $websiteId
                 ),
@@ -502,7 +502,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
     {
         $collection = Mage::getResourceModel('catalog/category_collection')
             ->joinField('product_id',
-                'catalog/category_product',
+                'catalog_category_product',
                 'product_id',
                 'category_id = entity_id',
                 null)
@@ -521,7 +521,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
         // is_parent=1 ensures that we'll get only category IDs those are direct parents of the product, instead of
         // fetching all parent IDs, including those are higher on the tree
         $select = $this->_getReadAdapter()->select()->distinct()
-            ->from($this->getTable('catalog/category_product_index'), array('category_id'))
+            ->from($this->getTable('catalog_category_product_index'), array('category_id'))
             ->where('product_id = ? AND is_parent = 1', (int)$object->getEntityId());
 
         return $this->_getReadAdapter()->fetchCol($select);
@@ -547,7 +547,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
     public function canBeShowInCategory($product, $categoryId)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('catalog/category_product_index'), 'product_id')
+            ->from($this->getTable('catalog_category_product_index'), 'product_id')
             ->where('product_id = ?', (int)$product->getId())
             ->where('category_id = ?', (int)$categoryId);
 
@@ -570,7 +570,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
 
         // duplicate EAV store values
         foreach ($eavTables as $suffix) {
-            $tableName = $this->getTable(array('catalog/product', $suffix));
+            $tableName = $this->getTable(array('catalog_product_entity', $suffix));
 
             $select = $adapter->select()
                 ->from($tableName, array(
@@ -622,7 +622,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
     public function getProductsSku(array $productIds)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('catalog/product'), array('entity_id', 'sku'))
+            ->from($this->getTable('catalog_product_entity'), array('entity_id', 'sku'))
             ->where('entity_id IN (?)', $productIds);
         return $this->_getReadAdapter()->fetchAll($select);
     }
@@ -651,7 +651,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
             $columns = $this->_getDefaultAttributes();
         }
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('catalog/product'), $columns);
+            ->from($this->getTable('catalog_product_entity'), $columns);
         return $this->_getReadAdapter()->fetchAll($select);
     }
 
@@ -679,7 +679,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
                 array('value as filepath', 'store_id')
             )
             ->joinLeft(
-                array('attr' => $this->getTable('eav/attribute')),
+                array('attr' => $this->getTable('eav_attribute')),
                 'images.attribute_id = attr.attribute_id',
                 array('attribute_code')
             )

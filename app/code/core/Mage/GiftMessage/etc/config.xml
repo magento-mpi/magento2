@@ -49,11 +49,6 @@
             </giftmessage>
             <giftmessage_resource>
                 <class>Mage_GiftMessage_Model_Resource</class>
-                <entities>
-                    <message>
-                        <table>gift_message</table>
-                    </message>
-                </entities>
             </giftmessage_resource>
         </models>
         <resources>

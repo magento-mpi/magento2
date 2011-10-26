@@ -37,6 +37,6 @@ class Find_Feed_Model_Resource_Codes extends Mage_Core_Model_Resource_Db_Abstrac
      */
     protected function _construct()
     {
-        return $this->_init('find_feed/feed_import_codes', 'code_id');
+        return $this->_init('find_feed_import_codes', 'code_id');
     }
 }

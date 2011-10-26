@@ -47,7 +47,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('enterprise_targetrule/index', 'entity_id');
+        $this->_init('enterprise_targetrule_index', 'entity_id');
     }
 
     /**
@@ -533,7 +533,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
             $where['rule_id=?'] = $ruleId;
         }
 
-        $adapter->delete($this->getTable('enterprise_targetrule/product'), $where);
+        $adapter->delete($this->getTable('enterprise_targetrule_product'), $where);
 
         return $this;
     }
@@ -556,7 +556,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
             'store_id'      => $storeId
         );
 
-        $adapter->insert($this->getTable('enterprise_targetrule/product'), $bind);
+        $adapter->insert($this->getTable('enterprise_targetrule_product'), $bind);
 
         return $this;
     }

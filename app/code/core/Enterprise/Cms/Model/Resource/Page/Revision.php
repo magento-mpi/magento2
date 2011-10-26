@@ -67,10 +67,10 @@ class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resour
      */
     protected function _construct()
     {
-        $this->_init('enterprise_cms/page_revision', 'revision_id');
+        $this->_init('enterprise_cms_page_revision', 'revision_id');
 
-        $this->_pageTable         = $this->getTable('cms/page');
-        $this->_versionTable      = $this->getTable('enterprise_cms/page_version');
+        $this->_pageTable         = $this->getTable('cms_page');
+        $this->_versionTable      = $this->getTable('enterprise_cms_page_version');
         $this->_pageTableAlias    = 'page_table';
         $this->_versionTableAlias = 'version_table';
     }

@@ -109,7 +109,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
         $result = $adapter->getCheckSql("COUNT(*) {$operator} {$value}", 1, 0);
 
         $select->from(
-            array('sales_order' => $this->getResource()->getTable('sales/order')),
+            array('sales_order' => $this->getResource()->getTable('sales_flat_order')),
             array(new Zend_Db_Expr($result))
         );
         $this->_limitByStoreWebsite($select, $website, 'sales_order.store_id');

@@ -28,11 +28,11 @@
 $installer = $this;
 
 /**
- * Add new field to 'enterprise_rma/rma_shipping_label'
+ * Add new field to 'enterprise_rma_shipping_label'
  */
 $installer->getConnection()
     ->addColumn(
-        $installer->getTable('enterprise_rma/rma_shipping_label'),
+        $installer->getTable('enterprise_rma_shipping_label'),
         'is_admin',
         array(
             'TYPE' => Varien_Db_Ddl_Table::TYPE_SMALLINT,
@@ -46,7 +46,7 @@ $installer->getConnection()
  */
 $installer->getConnection()
     ->addColumn(
-        $installer->getTable('enterprise_rma/rma'),
+        $installer->getTable('enterprise_rma'),
         'protect_code',
         array(
             'TYPE' => Varien_Db_Ddl_Table::TYPE_TEXT,

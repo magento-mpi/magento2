@@ -580,13 +580,13 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _saveCustomOptions()
     {
-        $productTable   = Mage::getSingleton('core/resource')->getTableName('catalog/product');
-        $optionTable    = Mage::getSingleton('core/resource')->getTableName('catalog/product_option');
-        $priceTable     = Mage::getSingleton('core/resource')->getTableName('catalog/product_option_price');
-        $titleTable     = Mage::getSingleton('core/resource')->getTableName('catalog/product_option_title');
-        $typePriceTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_option_type_price');
-        $typeTitleTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_option_type_title');
-        $typeValueTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_option_type_value');
+        $productTable   = Mage::getSingleton('core/resource')->getTableName('catalog_product_entity');
+        $optionTable    = Mage::getSingleton('core/resource')->getTableName('catalog_product_option');
+        $priceTable     = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_price');
+        $titleTable     = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_title');
+        $typePriceTable = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_type_price');
+        $typeTitleTable = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_type_title');
+        $typeValueTable = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_type_value');
         $nextOptionId   = Mage::getResourceHelper('importexport')->getNextAutoincrement($optionTable);
         $nextValueId    = Mage::getResourceHelper('importexport')->getNextAutoincrement($typeValueTable);
         $priceIsGlobal  = Mage::helper('catalog')->isPriceGlobal();
@@ -846,7 +846,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         foreach ($this->_linkNameToId as $linkName => $linkId) {
             $select = $adapter->select()
                 ->from(
-                    $resource->getTable('catalog/product_link_attribute'),
+                    $resource->getTable('catalog_product_link_attribute'),
                     array('id' => 'product_link_attribute_id')
                 )
                 ->where('link_type_id = :link_id AND product_link_attribute_code = :position');
@@ -1219,7 +1219,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
 
         if (!$tableName) {
             $tableName = Mage::getModel('importexport/import_proxy_product_resource')
-                    ->getTable('catalog/product_attribute_tier_price');
+                    ->getTable('catalog_product_entity_tier_price');
         }
         if ($tierPriceData) {
             $tierPriceIn  = array();
@@ -1307,12 +1307,12 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
 
         if (!$mediaGalleryTableName) {
             $mediaGalleryTableName = Mage::getModel('importexport/import_proxy_product_resource')
-                    ->getTable('catalog/product_attribute_media_gallery');
+                    ->getTable('catalog_product_entity_media_gallery');
         }
 
         if (!$mediaValueTableName) {
             $mediaValueTableName = Mage::getModel('importexport/import_proxy_product_resource')
-                    ->getTable('catalog/product_attribute_media_gallery_value');
+                    ->getTable('catalog_product_entity_media_gallery_value');
         }
 
         foreach ($mediaGalleryData as $productSku => $mediaGalleryRows) {

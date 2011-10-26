@@ -38,6 +38,6 @@ class Enterprise_Rma_Model_Resource_Item_Form_Attribute extends Mage_Eav_Model_R
      */
     protected function _construct()
     {
-        $this->_init('enterprise_rma/item_form_attribute', 'attribute_id');
+        $this->_init('enterprise_rma_item_form_attribute', 'attribute_id');
     }
 }

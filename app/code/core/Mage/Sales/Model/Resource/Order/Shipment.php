@@ -68,7 +68,7 @@ class Mage_Sales_Model_Resource_Order_Shipment extends Mage_Sales_Model_Resource
      */
     protected function _construct()
     {
-        $this->_init('sales/shipment', 'entity_id');
+        $this->_init('sales_flat_shipment', 'entity_id');
     }
 
     /**
@@ -86,19 +86,19 @@ class Mage_Sales_Model_Resource_Order_Shipment extends Mage_Sales_Model_Resource
 
         $this->addVirtualGridColumn(
             'shipping_name',
-            'sales/order_address',
+            'sales_flat_order_address',
             array('shipping_address_id' => 'entity_id'),
             $concatName
         )
         ->addVirtualGridColumn(
             'order_increment_id',
-            'sales/order',
+            'sales_flat_order',
             array('order_id' => 'entity_id'),
             'increment_id'
         )
         ->addVirtualGridColumn(
             'order_created_at',
-            'sales/order',
+            'sales_flat_order',
             array('order_id' => 'entity_id'),
             'created_at'
         );

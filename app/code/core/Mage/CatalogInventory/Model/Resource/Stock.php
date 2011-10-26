@@ -89,7 +89,7 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('cataloginventory/stock', 'stock_id');
+        $this->_init('cataloginventory_stock', 'stock_id');
     }
 
     /**
@@ -101,7 +101,7 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
      */
     public function lockProductItems($stock, $productIds)
     {
-        $itemTable = $this->getTable('cataloginventory/stock_item');
+        $itemTable = $this->getTable('cataloginventory_stock_item');
         $select = $this->_getWriteAdapter()->select()
             ->from($itemTable)
             ->where('stock_id=?', $stock->getId())
@@ -127,8 +127,8 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
         if (empty($productIds)) {
             return array();
         }
-        $itemTable = $this->getTable('cataloginventory/stock_item');
-        $productTable = $this->getTable('catalog/product');
+        $itemTable = $this->getTable('cataloginventory_stock_item');
+        $productTable = $this->getTable('catalog_product_entity');
         $select = $this->_getWriteAdapter()->select()
             ->from(array('si' => $itemTable))
             ->join(array('p' => $productTable), 'p.entity_id=si.product_id', array('type_id'))
@@ -168,7 +168,7 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
         );
 
         $adapter->beginTransaction();
-        $adapter->update($this->getTable('cataloginventory/stock_item'), array('qty' => $value), $where);
+        $adapter->update($this->getTable('cataloginventory_stock_item'), array('qty' => $value), $where);
         $adapter->commit();
 
         return $this;
@@ -196,7 +196,7 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
 
         $collection->joinField(
             'inventory_in_stock',
-            'cataloginventory/stock_item',
+            'cataloginventory_stock_item',
             'is_in_stock',
             'product_id=entity_id',
             '(' . join(') OR (', $cond) . ')'
@@ -235,7 +235,7 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
         );
 
         $select = $adapter->select()
-            ->from($this->getTable('catalog/product'), 'entity_id')
+            ->from($this->getTable('catalog_product_entity'), 'entity_id')
             ->where('type_id IN(?)', $this->_configTypeIds);
 
         $where = sprintf('stock_id = %1$d'
@@ -252,7 +252,7 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
             $select->assemble()
         );
 
-        $adapter->update($this->getTable('cataloginventory/stock_item'), $values, $where);
+        $adapter->update($this->getTable('cataloginventory_stock_item'), $values, $where);
     }
 
     /**
@@ -268,7 +268,7 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
         );
 
         $select = $adapter->select()
-            ->from($this->getTable('catalog/product'), 'entity_id')
+            ->from($this->getTable('catalog_product_entity'), 'entity_id')
             ->where('type_id IN(?)', $this->_configTypeIds);
 
         $where = sprintf('stock_id = %1$d'
@@ -283,7 +283,7 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
             $select->assemble()
         );
 
-        $adapter->update($this->getTable('cataloginventory/stock_item'), $values, $where);
+        $adapter->update($this->getTable('cataloginventory_stock_item'), $values, $where);
     }
 
     /**
@@ -305,7 +305,7 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
         );
 
         $select = $adapter->select()
-            ->from($this->getTable('catalog/product'), 'entity_id')
+            ->from($this->getTable('catalog_product_entity'), 'entity_id')
             ->where('type_id IN(?)', $this->_configTypeIds);
 
         $where = sprintf('stock_id = %1$d'
@@ -316,6 +316,6 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
             $select->assemble()
         );
 
-        $adapter->update($this->getTable('cataloginventory/stock_item'), $value, $where);
+        $adapter->update($this->getTable('cataloginventory_stock_item'), $value, $where);
     }
 }

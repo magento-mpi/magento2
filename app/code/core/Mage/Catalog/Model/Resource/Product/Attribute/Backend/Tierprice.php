@@ -40,7 +40,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice extends Ma
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_attribute_tier_price', 'value_id');
+        $this->_init('catalog_product_entity_tier_price', 'value_id');
     }
 
     /**

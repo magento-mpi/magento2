@@ -40,7 +40,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Lock extends Mage_Core_Model_Resou
      */
     protected function _construct()
     {
-        $this->_init('enterprise_cms/hierarchy_lock', 'lock_id');
+        $this->_init('enterprise_cms_hierarchy_lock', 'lock_id');
     }
 
     /**

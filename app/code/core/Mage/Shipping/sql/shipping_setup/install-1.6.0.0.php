@@ -30,10 +30,10 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'shipping/tablerate'
+ * Create table 'shipping_tablerate'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('shipping/tablerate'))
+    ->newTable($installer->getTable('shipping_tablerate'))
     ->addColumn('pk', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -71,7 +71,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Cost')
-    ->addIndex($installer->getIdxName('shipping/tablerate', array('website_id', 'dest_country_id', 'dest_region_id', 'dest_zip', 'condition_name', 'condition_value'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('shipping_tablerate', array('website_id', 'dest_country_id', 'dest_region_id', 'dest_zip', 'condition_name', 'condition_value'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('website_id', 'dest_country_id', 'dest_region_id', 'dest_zip', 'condition_name', 'condition_value'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->setComment('Shipping Tablerate');
 $installer->getConnection()->createTable($table);

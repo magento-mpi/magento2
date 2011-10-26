@@ -54,7 +54,7 @@ class Enterprise_GiftWrapping_Model_Resource_Wrapping_Collection
         parent::_afterLoad();
         if ($this->getFlag('add_websites_to_result') && $this->_items) {
             $select = $this->getConnection()->select()
-                ->from($this->getTable('enterprise_giftwrapping/website'), array(
+                ->from($this->getTable('enterprise_giftwrapping_website'), array(
                     'wrapping_id',
                     'website_id'
                 ))
@@ -99,7 +99,7 @@ class Enterprise_GiftWrapping_Model_Resource_Wrapping_Collection
         if (!$this->getFlag('is_website_table_joined')) {
             $this->setFlag('is_website_table_joined', true);
             $this->getSelect()->joinInner(
-                array('website' => $this->getTable('enterprise_giftwrapping/website')),
+                array('website' => $this->getTable('enterprise_giftwrapping_website')),
                 'main_table.wrapping_id = website.wrapping_id',
                 array()
             );
@@ -166,13 +166,13 @@ class Enterprise_GiftWrapping_Model_Resource_Wrapping_Collection
         $select->from(array('m' => $this->getMainTable()), array('*'));
 
         $select->joinLeft(
-            array('d' => $this->getTable('enterprise_giftwrapping/attribute')),
+            array('d' => $this->getTable('enterprise_giftwrapping_store_attributes')),
             'd.wrapping_id = m.wrapping_id AND d.store_id = 0',
             array('')
         );
 
         $select->joinLeft(
-            array('s' => $this->getTable('enterprise_giftwrapping/attribute')),
+            array('s' => $this->getTable('enterprise_giftwrapping_store_attributes')),
             's.wrapping_id = m.wrapping_id AND s.store_id = ' . $storeId,
             array('design' => $adapter->getIfNullSql('s.design', 'd.design'))
         );

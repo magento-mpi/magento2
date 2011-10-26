@@ -28,10 +28,10 @@
 $installer = $this;
 
 /**
- * Create table 'tax/sales_order_tax_item'
+ * Create table 'sales_order_tax_item'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('tax/sales_order_tax_item'))
+    ->newTable($installer->getTable('sales_order_tax_item'))
     ->addColumn('tax_item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -46,33 +46,33 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Item Id')
-    ->addIndex($installer->getIdxName('tax/sales_order_tax_item', array('tax_id')),
+    ->addIndex($installer->getIdxName('sales_order_tax_item', array('tax_id')),
         array('tax_id'))
-    ->addIndex($installer->getIdxName('tax/sales_order_tax_item', array('item_id')),
+    ->addIndex($installer->getIdxName('sales_order_tax_item', array('item_id')),
         array('item_id'))
     ->addIndex(
         $installer->getIdxName(
-            'tax/sales_order_tax_item', array('tax_id', 'item_id'),
+            'sales_order_tax_item', array('tax_id', 'item_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('tax_id', 'item_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE)
     )
     ->addForeignKey(
         $installer->getFkName(
-            'tax/sales_order_tax_item',
+            'sales_order_tax_item',
             'tax_id',
-            'tax/sales_order_tax',
+            'sales_order_tax',
             'tax_id'
         ),
         'tax_id',
-        $installer->getTable('tax/sales_order_tax'),
+        $installer->getTable('sales_order_tax'),
         'tax_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE
     )
     ->addForeignKey(
         $installer->getFkName(
-            'tax/sales_order_tax_item',
+            'sales_order_tax_item',
             'item_id',
             'sales_flat_order_item',
             'item_id'

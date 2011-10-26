@@ -61,7 +61,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
      */
     protected function _construct()
     {
-        $this->_init('bundle/price_index', 'entity_id');
+        $this->_init('catalog_product_bundle_price_index', 'entity_id');
     }
 
     /**
@@ -121,7 +121,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
 
         $select = $this->_getReadAdapter()->select()
             ->from(
-                array('e' => $this->getTable('catalog/product')),
+                array('e' => $this->getTable('catalog_product_entity')),
                 array('entity_id')
             )
             ->where('e.type_id=?', Mage_Catalog_Model_Product_Type::TYPE_BUNDLE);
@@ -268,17 +268,17 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
         $read = $this->_getReadAdapter();
         $select = $read->select()
             ->from(
-                array('option_table' => $this->getTable('bundle/option')),
+                array('option_table' => $this->getTable('catalog_product_bundle_option')),
                 array('option_id', 'required', 'type')
             )
             ->join(
-                array('selection_table' => $this->getTable('bundle/selection')),
+                array('selection_table' => $this->getTable('catalog_product_bundle_selection')),
                 'selection_table.option_id=option_table.option_id',
                 array('selection_id', 'product_id', 'selection_price_type',
                     'selection_price_value', 'selection_qty', 'selection_can_change_qty')
             )
             ->join(
-                array('e' => $this->getTable('catalog/product')),
+                array('e' => $this->getTable('catalog_product_entity')),
                 'e.entity_id=selection_table.product_id AND e.required_options=0',
                 array()
             )
@@ -319,11 +319,11 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
         $read = $this->_getReadAdapter();
         $productsData = array();
         $select = $read->select()
-            ->from(array('e' => $this->getTable('catalog/product')), 'entity_id')
+            ->from(array('e' => $this->getTable('catalog_product_entity')), 'entity_id')
             ->where('e.entity_id IN(?)', $products);
         // add belong to website
         $select->joinLeft(
-            array('pw' => $this->getTable('catalog/product_website')),
+            array('pw' => $this->getTable('catalog_product_website')),
             'e.entity_id=pw.product_id AND pw.website_id=:website_id',
             array('pw.website_id')
         );
@@ -401,7 +401,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
         $productsData = array();
         $read = $this->_getReadAdapter();
         $select = $read->select()
-            ->from(array('e' => $this->getTable('catalog/product')), 'entity_id')
+            ->from(array('e' => $this->getTable('catalog_product_entity')), 'entity_id')
             ->where('e.entity_id IN(?)', $products);
 
         $this->_addAttributeDataToSelect($select, 'price', $website);
@@ -518,14 +518,14 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
         );
         $select = $adapter->select()
             ->from(
-                array('option_table' => $this->getTable('catalog/product_option')),
+                array('option_table' => $this->getTable('catalog_product_option')),
                 array('option_id', 'is_require', 'type')
             )
             ->where('option_table.product_id=:product_id');
 
         if ($price->isScopeGlobal()) {
             $select->join(
-                array('price_table' => $this->getTable('catalog/product_option_price')),
+                array('price_table' => $this->getTable('catalog_product_option_price')),
                 'option_table.option_id = price_table.option_id' .
                 ' AND price_table.store_id = 0',
                 array('value_id' => 'option_price_id', 'price', 'price_type')
@@ -549,7 +549,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
 
             $select
                 ->join(
-                    array('price_global_table' => $this->getTable('catalog/product_option_price')),
+                    array('price_global_table' => $this->getTable('catalog_product_option_price')),
                     'option_table.option_id=price_global_table.option_id' .
                     ' AND price_global_table.store_id=0',
                     array(
@@ -558,7 +558,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
                         'price_type' => $priceTypeCond
                     ))
                 ->joinLeft(
-                    array('price_store_table' => $this->getTable('catalog/product_option_price')),
+                    array('price_store_table' => $this->getTable('catalog_product_option_price')),
                     'option_table.option_id = price_store_table.option_id' .
                     ' AND price_store_table.store_id=:store_id',
                     array()
@@ -583,11 +583,11 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
 
         $select = $adapter->select()
             ->from(
-                array('option_table' => $this->getTable('catalog/product_option')),
+                array('option_table' => $this->getTable('catalog_product_option')),
                 array('option_id', 'is_require', 'type')
             )
             ->join(
-                array('type_table' => $this->getTable('catalog/product_option_type_value')),
+                array('type_table' => $this->getTable('catalog_product_option_type_value')),
                 'option_table.option_id=type_table.option_id',
                 array()
             )
@@ -595,7 +595,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
 
         if ($price->isScopeGlobal()) {
             $select->join(
-                array('price_table' => $this->getTable('catalog/product_option_type_price')),
+                array('price_table' => $this->getTable('catalog_product_option_type_price')),
                 'type_table.option_type_id=price_table.option_type_id' .
                 ' AND price_table.store_id=0',
                 array('value_id' => 'option_type_id', 'price', 'price_type')
@@ -603,7 +603,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
         } else {
             $select
                 ->join(
-                    array('price_global_table' => $this->getTable('catalog/product_option_type_price')),
+                    array('price_global_table' => $this->getTable('catalog_product_option_type_price')),
                     'type_table.option_type_id=price_global_table.option_type_id' .
                     ' AND price_global_table.store_id=0',
                     array(
@@ -613,7 +613,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
                     )
                 )
                 ->joinLeft(
-                    array('price_store_table' => $this->getTable('catalog/product_option_type_price')),
+                    array('price_store_table' => $this->getTable('catalog_product_option_type_price')),
                     'type_table.option_type_id=price_store_table.option_type_id' .
                     ' AND price_store_table.store_id=:store_id',
                     array()

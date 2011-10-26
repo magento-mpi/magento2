@@ -69,8 +69,8 @@ class Mage_Newsletter_Model_Resource_Subscriber extends Mage_Core_Model_Resource
      */
     protected function _construct()
     {
-        $this->_init('newsletter/subscriber', 'subscriber_id');
-        $this->_subscriberLinkTable = $this->getTable('newsletter/queue_link');
+        $this->_init('newsletter_subscriber', 'subscriber_id');
+        $this->_subscriberLinkTable = $this->getTable('newsletter_queue_link');
         $this->_read = $this->_getReadAdapter();
         $this->_write = $this->_getWriteAdapter();
     }

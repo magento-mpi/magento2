@@ -68,9 +68,9 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
     protected function _getBundlePriceTable()
     {
         if ($this->useIdxTable()) {
-            return $this->getTable('bundle/price_indexer_idx');
+            return $this->getTable('catalog_product_index_price_bundle_idx');
         }
-        return $this->getTable('bundle/price_indexer_tmp');
+        return $this->getTable('catalog_product_index_price_bundle_tmp');
     }
 
     /**
@@ -81,9 +81,9 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
     protected function _getBundleSelectionTable()
     {
         if ($this->useIdxTable()) {
-            return $this->getTable('bundle/selection_indexer_idx');
+            return $this->getTable('catalog_product_index_price_bundle_sel_idx');
         }
-        return $this->getTable('bundle/selection_indexer_tmp');
+        return $this->getTable('catalog_product_index_price_bundle_sel_tmp');
     }
 
     /**
@@ -94,9 +94,9 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
     protected function _getBundleOptionTable()
     {
         if ($this->useIdxTable()) {
-            return $this->getTable('bundle/option_indexer_idx');
+            return $this->getTable('catalog_product_index_price_bundle_opt_idx');
         }
-        return $this->getTable('bundle/option_indexer_tmp');
+        return $this->getTable('catalog_product_index_price_bundle_opt_tmp');
     }
 
     /**
@@ -145,9 +145,9 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
         $table = $this->_getBundlePriceTable();
 
         $select = $write->select()
-            ->from(array('e' => $this->getTable('catalog/product')), array('entity_id'))
+            ->from(array('e' => $this->getTable('catalog_product_entity')), array('entity_id'))
             ->join(
-                array('cg' => $this->getTable('customer/customer_group')),
+                array('cg' => $this->getTable('customer_group')),
                 '',
                 array('customer_group_id')
             );
@@ -416,17 +416,17 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
                 array('entity_id', 'customer_group_id', 'website_id')
             )
             ->join(
-                array('bo' => $this->getTable('bundle/option')),
+                array('bo' => $this->getTable('catalog_product_bundle_option')),
                 'bo.parent_id = i.entity_id',
                 array('option_id')
             )
             ->join(
-                array('bs' => $this->getTable('bundle/selection')),
+                array('bs' => $this->getTable('catalog_product_bundle_selection')),
                 'bs.option_id = bo.option_id',
                 array('selection_id')
             )
             ->joinLeft(
-                array('bsp' => $this->getTable('bundle/selection_price')),
+                array('bsp' => $this->getTable('catalog_product_bundle_selection_price')),
                 'bs.selection_id = bsp.selection_id AND bsp.website_id = i.website_id',
                 array('')
             )
@@ -437,7 +437,7 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
                 array()
             )
             ->join(
-                array('e' => $this->getTable('catalog/product')),
+                array('e' => $this->getTable('catalog_product_entity')),
                 'bs.product_id = e.entity_id AND e.required_options=0',
                 array()
             )
@@ -514,7 +514,7 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
         $select  = $adapter->select()
             ->from(array('i' => $this->_getTierPriceIndexTable()), null)
             ->join(
-                array('e' => $this->getTable('catalog/product')),
+                array('e' => $this->getTable('catalog_product_entity')),
                 'i.entity_id=e.entity_id',
                 array()
             )
@@ -524,21 +524,21 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
 
         $select  = $adapter->select()
             ->from(
-                array('tp' => $this->getValueTable('catalog/product', 'tier_price')),
+                array('tp' => $this->getTable('catalog_product_entity_tier_price')),
                 array('entity_id')
             )
             ->join(
-                array('e' => $this->getTable('catalog/product')),
+                array('e' => $this->getTable('catalog_product_entity')),
                 'tp.entity_id=e.entity_id',
                 array()
             )
             ->join(
-                array('cg' => $this->getTable('customer/customer_group')),
+                array('cg' => $this->getTable('customer_group')),
                 'tp.all_groups = 1 OR (tp.all_groups = 0 AND tp.customer_group_id = cg.customer_group_id)',
                 array('customer_group_id')
             )
             ->join(
-                array('cw' => $this->getTable('core/website')),
+                array('cw' => $this->getTable('core_website')),
                 'tp.website_id = 0 OR tp.website_id = cw.website_id',
                 array('website_id')
             )

@@ -27,7 +27,7 @@
 /* @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
 
-$tablePage = $installer->getTable('cms/page');
+$tablePage = $installer->getTable('cms_page');
 
 // add fancy homepage content and make it 1-column layout
 $page = $installer->getConnection()->fetchRow($installer->getConnection()->select()

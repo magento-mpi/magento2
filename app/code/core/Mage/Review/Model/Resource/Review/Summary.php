@@ -40,7 +40,7 @@ class Mage_Review_Model_Resource_Review_Summary extends Mage_Core_Model_Resource
      */
     protected function _construct()
     {
-        $this->_init('review/review_aggregate', 'entity_pk_value');
+        $this->_init('review_entity_summary', 'entity_pk_value');
     }
 
     /**

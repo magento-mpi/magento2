@@ -40,7 +40,7 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Mage_Catalog_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('tag/summary', 'tag_id');
+        $this->_init('tag_summary', 'tag_id');
     }
 
     /**
@@ -149,15 +149,15 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Mage_Catalog_Model_Resourc
         try {
             if (!empty($tagIds)) {
                 $writeAdapter->delete(
-                    $this->getTable('tag/summary'), array('tag_id IN(?)' => $tagIds)
+                    $this->getTable('tag_summary'), array('tag_id IN(?)' => $tagIds)
                 );
             } else {
-                $writeAdapter->delete($this->getTable('tag/summary'));
+                $writeAdapter->delete($this->getTable('tag_summary'));
             }
 
             $select = $writeAdapter->select()
                 ->from(
-                    array('tr' => $this->getTable('tag/relation')),
+                    array('tr' => $this->getTable('tag_relation')),
                     array(
                         'tr.tag_id',
                         'tr.store_id',
@@ -176,22 +176,22 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Mage_Catalog_Model_Resourc
                     )
                 )
                 ->joinInner(
-                    array('cs' => $this->getTable('core/store')),
+                    array('cs' => $this->getTable('core_store')),
                     'cs.store_id = tr.store_id',
                     array()
                 )
                 ->joinInner(
-                    array('pw' => $this->getTable('catalog/product_website')),
+                    array('pw' => $this->getTable('catalog_product_website')),
                     'cs.website_id = pw.website_id AND tr.product_id = pw.product_id',
                     array()
                 )
                 ->joinInner(
-                    array('e' => $this->getTable('catalog/product')),
+                    array('e' => $this->getTable('catalog_product_entity')),
                     'tr.product_id = e.entity_id',
                     array()
                 )
                 ->joinLeft(
-                    array('tp' => $this->getTable('tag/properties')),
+                    array('tp' => $this->getTable('tag_properties')),
                     'tp.tag_id = tr.tag_id AND tp.store_id = tr.store_id',
                     array()
                 )
@@ -219,7 +219,7 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Mage_Catalog_Model_Resourc
             ));
 
             $writeAdapter->query(
-                $select->insertFromSelect($this->getTable('tag/summary'), array(
+                $select->insertFromSelect($this->getTable('tag_summary'), array(
                     'tag_id',
                     'store_id',
                     'customers',
@@ -244,7 +244,7 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Mage_Catalog_Model_Resourc
             );
 
             $agregateSelect = $writeAdapter->select();
-            $agregateSelect->from($this->getTable('tag/relation'), $selectedFields)
+            $agregateSelect->from($this->getTable('tag_relation'), $selectedFields)
                 ->group('tag_id');
 
             if (!empty($tagIds)) {
@@ -252,7 +252,7 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Mage_Catalog_Model_Resourc
             }
 
             $writeAdapter->query(
-                $agregateSelect->insertFromSelect($this->getTable('tag/summary'), array_keys($selectedFields))
+                $agregateSelect->insertFromSelect($this->getTable('tag_summary'), array_keys($selectedFields))
             );
         } catch (Exception $e) {
             $writeAdapter->rollBack();

@@ -47,6 +47,6 @@ class Mage_Sales_Model_Resource_Order_Invoice_Comment extends Mage_Sales_Model_R
      */
     protected function _construct()
     {
-        $this->_init('sales/invoice_comment', 'entity_id');
+        $this->_init('sales_flat_invoice_comment', 'entity_id');
     }
 }

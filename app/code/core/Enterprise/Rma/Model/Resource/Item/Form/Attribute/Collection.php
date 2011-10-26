@@ -68,6 +68,6 @@ class Enterprise_Rma_Model_Resource_Item_Form_Attribute_Collection
      */
     protected function _getEavWebsiteTable()
     {
-        return $this->getTable('enterprise_rma/item_eav_attribute_website');
+        return $this->getTable('enterprise_rma_item_eav_attribute_website');
     }
 }

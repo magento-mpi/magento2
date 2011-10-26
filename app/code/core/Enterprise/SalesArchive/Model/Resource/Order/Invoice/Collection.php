@@ -42,6 +42,6 @@ class Enterprise_SalesArchive_Model_Resource_Order_Invoice_Collection
     protected function _construct()
     {
         parent::_construct();
-        $this->setMainTable('enterprise_salesarchive/invoice_grid');
+        $this->setMainTable('enterprise_sales_invoice_grid_archive');
     }
 }

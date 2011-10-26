@@ -75,7 +75,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      */
     protected function _construct()
     {
-        $this->_init('core/url_rewrite', 'url_rewrite_id');
+        $this->_init('core_url_rewrite', 'url_rewrite_id');
     }
 
     /**
@@ -417,7 +417,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
         if ($this->_categoryAttributes[$attributeCode]['is_static']) {
             $select
                 ->from(
-                    $this->getTable('catalog/category'),
+                    $this->getTable('catalog_category_entity'),
                     array('value' => $attributeCode, 'entity_id' => 'entity_id')
                 )
                 ->where('entity_id IN(?)', $categoryIds);
@@ -673,7 +673,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
         }
         $isActiveExpr = $adapter->getCheckSql('c.value_id > 0', 'c.value', 'c.value');
         $select = $adapter->select()
-            ->from(array('main_table' => $this->getTable('catalog/category')), array(
+            ->from(array('main_table' => $this->getTable('catalog_category_entity')), array(
                 'main_table.entity_id',
                 'main_table.parent_id',
                 'main_table.level',
@@ -693,7 +693,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
                 ->where('main_table.path LIKE ?', $path . '%')
                 ->order('main_table.path');
         }
-        $table = $this->getTable(array('catalog/category', 'int'));
+        $table = $this->getTable('catalog_category_entity_int');
         $select->joinLeft(array('d' => $table),
             'd.attribute_id = :attribute_id AND d.store_id = 0 AND d.entity_id = main_table.entity_id',
             array()
@@ -835,7 +835,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
             // Select all descedant category ids
             $adapter = $this->_getReadAdapter();
             $select = $adapter->select()
-                ->from(array($this->getTable('catalog/category')), array('entity_id'))
+                ->from(array($this->getTable('catalog_category_entity')), array('entity_id'))
                 ->where('path LIKE ?', $categoryPath . '/%');
 
             $categoryIds = array();
@@ -888,7 +888,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
         }
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
-            ->from($this->getTable('catalog/category_product'), array('product_id'))
+            ->from($this->getTable('catalog_category_product'), array('product_id'))
             ->where('category_id = :category_id')
             ->order('product_id');
         $bind = array('category_id' => $categoryId);
@@ -921,9 +921,9 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
         );
         $select = $adapter->select()
             ->useStraightJoin(true)
-            ->from(array('e' => $this->getTable('catalog/product')), array('entity_id'))
+            ->from(array('e' => $this->getTable('catalog_product_entity')), array('entity_id'))
             ->join(
-                array('w' => $this->getTable('catalog/product_website')),
+                array('w' => $this->getTable('catalog_product_website')),
                 'e.entity_id = w.product_id AND w.website_id = :website_id',
                 array()
             )
@@ -949,7 +949,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
         if ($products) {
             $select = $adapter->select()
                 ->from(
-                    $this->getTable('catalog/category_product'),
+                    $this->getTable('catalog_category_product'),
                     array('product_id', 'category_id')
                 )
                 ->where('product_id IN(?)', array_keys($products));
@@ -1030,7 +1030,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
         $select = $adapter->select()
             ->from(array('tur' => $this->getMainTable()), $this->getIdFieldName())
             ->joinLeft(
-                array('tcp' => $this->getTable('catalog/category_product')),
+                array('tcp' => $this->getTable('catalog_category_product')),
                 'tur.category_id = tcp.category_id AND tur.product_id = tcp.product_id',
                 array()
             )
@@ -1129,7 +1129,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
         $select = $adapter->select()
             ->from(array('rewrite' => $this->getMainTable()), $this->getIdFieldName())
             ->joinLeft(
-                array('website' => $this->getTable('catalog/product_website')),
+                array('website' => $this->getTable('catalog_product_website')),
                 'rewrite.product_id = website.product_id AND website.website_id = :website_id',
                 array()
             )->where('rewrite.store_id = :store_id')
@@ -1229,7 +1229,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
 
         $select = $adapter->select()
             ->from(
-                array('i' => $this->getTable('catalog/category_product_index')),
+                array('i' => $this->getTable('catalog_category_product_index')),
                 array('product_id', 'store_id', 'visibility')
             )
             ->joinLeft(

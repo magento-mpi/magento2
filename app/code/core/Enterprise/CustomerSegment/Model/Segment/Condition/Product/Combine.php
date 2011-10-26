@@ -110,7 +110,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
      */
         public function getSubfilterSql($fieldName, $requireValid, $website)
     {
-        $table = $this->getResource()->getTable('catalog/product');
+        $table = $this->getResource()->getTable('catalog_product_entity');
 
         $select = $this->getResource()->createSelect();
         $select->from(array('main'=>$table), array('entity_id'));

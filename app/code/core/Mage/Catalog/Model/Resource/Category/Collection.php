@@ -84,8 +84,8 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
     {
         $this->_init('catalog/category');
 
-        $this->_productWebsiteTable = $this->getTable('catalog/product_website');
-        $this->_productTable        = $this->getTable('catalog/category_product');
+        $this->_productWebsiteTable = $this->getTable('catalog_product_website');
+        $this->_productTable        = $this->getTable('catalog_category_product');
     }
 
     /**
@@ -279,7 +279,7 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
                             new Zend_Db_Expr('COUNT(DISTINCT main_table.product_id)')
                         )
                         ->joinInner(
-                            array('e' => $this->getTable('catalog/category')),
+                            array('e' => $this->getTable('catalog_category_entity')),
                             'main_table.category_id=e.entity_id',
                             array()
                         )
@@ -322,7 +322,7 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
     {
         $storeId = Mage::app()->getStore()->getId();
         $this->joinTable(
-            'core/url_rewrite',
+            'core_url_rewrite',
             'category_id=entity_id',
             array('request_path'),
             "{{table}}.is_system=1"

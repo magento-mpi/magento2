@@ -40,6 +40,6 @@ class Enterprise_Banner_Model_Resource_Catalogrule extends Mage_Core_Model_Resou
      */
     protected function _construct()
     {
-        $this->_init('enterprise_banner/catalogrule', 'rule_id');
+        $this->_init('enterprise_banner_catalogrule', 'rule_id');
     }
 }

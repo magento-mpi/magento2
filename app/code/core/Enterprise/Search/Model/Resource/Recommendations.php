@@ -44,7 +44,7 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('enterprise_search/recommendations', 'id');
+        $this->_init('catalogsearch_recommendations', 'id');
     }
 
     /**
@@ -102,7 +102,7 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_R
 
         $collection->getSelect()
             ->join(
-                array('sr' => $collection->getTable("enterprise_search/recommendations")),
+                array('sr' => $collection->getTable('catalogsearch_recommendations')),
                 '(sr.query_id=main_table.query_id OR sr.relation_id=main_table.query_id) AND ' . $queryIdCond
             )
             ->reset(Zend_Db_Select::COLUMNS)

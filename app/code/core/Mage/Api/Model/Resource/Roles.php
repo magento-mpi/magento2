@@ -54,10 +54,10 @@ class Mage_Api_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _construct()
     {
-        $this->_init('api/role', 'role_id');
+        $this->_init('api_role', 'role_id');
 
-        $this->_usersTable  = $this->getTable('api/user');
-        $this->_ruleTable   = $this->getTable('api/rule');
+        $this->_usersTable  = $this->getTable('api_user');
+        $this->_ruleTable   = $this->getTable('api_rule');
     }
 
     /**

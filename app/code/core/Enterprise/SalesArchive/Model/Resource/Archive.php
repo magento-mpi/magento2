@@ -41,13 +41,13 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
      */
     protected $_tables   = array(
         Enterprise_SalesArchive_Model_Archive::ORDER
-            => array('sales/order_grid', 'enterprise_salesarchive/order_grid'),
+            => array('sales_flat_order_grid', 'enterprise_sales_order_grid_archive'),
         Enterprise_SalesArchive_Model_Archive::INVOICE
-            => array('sales/invoice_grid', 'enterprise_salesarchive/invoice_grid'),
+            => array('sales_flat_invoice_grid', 'enterprise_sales_invoice_grid_archive'),
         Enterprise_SalesArchive_Model_Archive::SHIPMENT
-            => array('sales/shipment_grid', 'enterprise_salesarchive/shipment_grid'),
+            => array('sales_flat_shipment_grid', 'enterprise_sales_shipment_grid_archive'),
         Enterprise_SalesArchive_Model_Archive::CREDITMEMO
-            => array('sales/creditmemo_grid', 'enterprise_salesarchive/creditmemo_grid')
+            => array('sales_flat_creditmemo_grid', 'enterprise_sales_creditmemo_grid_archive')
     );
 
     /**

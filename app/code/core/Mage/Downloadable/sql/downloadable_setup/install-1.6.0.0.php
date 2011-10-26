@@ -30,10 +30,10 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'downloadable/link'
+ * Create table 'downloadable_link'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('downloadable/link'))
+    ->newTable($installer->getTable('downloadable_link'))
     ->addColumn('link_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -70,20 +70,20 @@ $table = $installer->getConnection()
         ), 'Sample File')
     ->addColumn('sample_type', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
         ), 'Sample Type')
-    ->addIndex($installer->getIdxName('downloadable/link', 'product_id'), 'product_id')
-    ->addIndex($installer->getIdxName('downloadable/link', array('product_id','sort_order')),
+    ->addIndex($installer->getIdxName('downloadable_link', 'product_id'), 'product_id')
+    ->addIndex($installer->getIdxName('downloadable_link', array('product_id','sort_order')),
         array('product_id','sort_order'))
-    ->addForeignKey($installer->getFkName('downloadable/link', 'product_id', 'catalog/product', 'entity_id'),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+    ->addForeignKey($installer->getFkName('downloadable_link', 'product_id', 'catalog_product_entity', 'entity_id'),
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Downloadable Link Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'downloadable/link_price'
+ * Create table 'downloadable_link_price'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('downloadable/link_price'))
+    ->newTable($installer->getTable('downloadable_link_price'))
     ->addColumn('price_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -104,22 +104,22 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Price')
-    ->addIndex($installer->getIdxName('downloadable/link_price', 'link_id'), 'link_id')
-    ->addForeignKey($installer->getFkName('downloadable/link_price', 'link_id', 'downloadable/link', 'link_id'),
-        'link_id', $installer->getTable('downloadable/link'), 'link_id',
+    ->addIndex($installer->getIdxName('downloadable_link_price', 'link_id'), 'link_id')
+    ->addForeignKey($installer->getFkName('downloadable_link_price', 'link_id', 'downloadable_link', 'link_id'),
+        'link_id', $installer->getTable('downloadable_link'), 'link_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addIndex($installer->getIdxName('downloadable/link_price', 'website_id'), 'website_id')
-    ->addForeignKey($installer->getFkName('downloadable/link_price', 'website_id', 'core/website', 'website_id'),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+    ->addIndex($installer->getIdxName('downloadable_link_price', 'website_id'), 'website_id')
+    ->addForeignKey($installer->getFkName('downloadable_link_price', 'website_id', 'core_website', 'website_id'),
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Downloadable Link Price Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'downloadable/link_purchased'
+ * Create table 'downloadable_link_purchased'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('downloadable/link_purchased'))
+    ->newTable($installer->getTable('downloadable_link_purchased'))
     ->addColumn('purchased_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -154,23 +154,23 @@ $table = $installer->getConnection()
         ), 'Product sku')
     ->addColumn('link_section_title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Link_section_title')
-    ->addIndex($installer->getIdxName('downloadable/link_purchased', 'order_id'), 'order_id')
-    ->addIndex($installer->getIdxName('downloadable/link_purchased', 'order_item_id'), 'order_item_id')
-    ->addIndex($installer->getIdxName('downloadable/link_purchased', 'customer_id'), 'customer_id')
-    ->addForeignKey($installer->getFkName('downloadable/link_purchased', 'customer_id', 'customer/entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer/entity'), 'entity_id',
+    ->addIndex($installer->getIdxName('downloadable_link_purchased', 'order_id'), 'order_id')
+    ->addIndex($installer->getIdxName('downloadable_link_purchased', 'order_item_id'), 'order_item_id')
+    ->addIndex($installer->getIdxName('downloadable_link_purchased', 'customer_id'), 'customer_id')
+    ->addForeignKey($installer->getFkName('downloadable_link_purchased', 'customer_id', 'customer_entity', 'entity_id'),
+        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('downloadable/link_purchased', 'order_id', 'sales/order', 'entity_id'),
-        'order_id', $installer->getTable('sales/order'), 'entity_id',
+    ->addForeignKey($installer->getFkName('downloadable_link_purchased', 'order_id', 'sales_flat_order', 'entity_id'),
+        'order_id', $installer->getTable('sales_flat_order'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Downloadable Link Purchased Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'downloadable/link_purchased_item'
+ * Create table 'downloadable_link_purchased_item'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('downloadable/link_purchased_item'))
+    ->newTable($installer->getTable('downloadable_link_purchased_item'))
     ->addColumn('item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -229,35 +229,35 @@ $table = $installer->getConnection()
     ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
         ), 'Update Time')
-    ->addIndex($installer->getIdxName('downloadable/link_purchased_item', 'link_hash'), 'link_hash')
-    ->addIndex($installer->getIdxName('downloadable/link_purchased_item', 'order_item_id'), 'order_item_id')
-    ->addIndex($installer->getIdxName('downloadable/link_purchased_item', 'purchased_id'), 'purchased_id')
+    ->addIndex($installer->getIdxName('downloadable_link_purchased_item', 'link_hash'), 'link_hash')
+    ->addIndex($installer->getIdxName('downloadable_link_purchased_item', 'order_item_id'), 'order_item_id')
+    ->addIndex($installer->getIdxName('downloadable_link_purchased_item', 'purchased_id'), 'purchased_id')
     ->addForeignKey(
         $installer->getFkName(
-            'downloadable/link_purchased_item',
+            'downloadable_link_purchased_item',
             'purchased_id',
-            'downloadable/link_purchased',
+            'downloadable_link_purchased',
             'purchased_id'
         ),
-        'purchased_id', $installer->getTable('downloadable/link_purchased'), 'purchased_id',
+        'purchased_id', $installer->getTable('downloadable_link_purchased'), 'purchased_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'downloadable/link_purchased_item',
+            'downloadable_link_purchased_item',
             'order_item_id',
-            'sales/order_item',
+            'sales_flat_order_item',
             'item_id'
         ),
-        'order_item_id', $installer->getTable('sales/order_item'), 'item_id',
+        'order_item_id', $installer->getTable('sales_flat_order_item'), 'item_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Downloadable Link Purchased Item Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'downloadable/link_title'
+ * Create table 'downloadable_link_title'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('downloadable/link_title'))
+    ->newTable($installer->getTable('downloadable_link_title'))
     ->addColumn('title_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -278,28 +278,28 @@ $table = $installer->getConnection()
         ), 'Title')
     ->addIndex(
         $installer->getIdxName(
-            'downloadable/link_title',
+            'downloadable_link_title',
             array('link_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('link_id', 'store_id'),
         array('type'=>Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('downloadable/link_title', 'link_id'), 'link_id')
-    ->addForeignKey($installer->getFkName('downloadable/link_title', 'link_id', 'downloadable/link', 'link_id'),
-        'link_id', $installer->getTable('downloadable/link'), 'link_id',
+    ->addIndex($installer->getIdxName('downloadable_link_title', 'link_id'), 'link_id')
+    ->addForeignKey($installer->getFkName('downloadable_link_title', 'link_id', 'downloadable_link', 'link_id'),
+        'link_id', $installer->getTable('downloadable_link'), 'link_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addIndex($installer->getIdxName('downloadable/link_title', 'store_id'), 'store_id')
-    ->addForeignKey($installer->getFkName('downloadable/link_title', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addIndex($installer->getIdxName('downloadable_link_title', 'store_id'), 'store_id')
+    ->addForeignKey($installer->getFkName('downloadable_link_title', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Link Title Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'downloadable/sample'
+ * Create table 'downloadable_sample'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('downloadable/sample'))
+    ->newTable($installer->getTable('downloadable_sample'))
     ->addColumn('sample_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -322,18 +322,18 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Sort Order')
-    ->addIndex($installer->getIdxName('downloadable/sample', 'product_id'), 'product_id')
-    ->addForeignKey($installer->getFkName('downloadable/sample', 'product_id', 'catalog/product', 'entity_id'),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+    ->addIndex($installer->getIdxName('downloadable_sample', 'product_id'), 'product_id')
+    ->addForeignKey($installer->getFkName('downloadable_sample', 'product_id', 'catalog_product_entity', 'entity_id'),
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Downloadable Sample Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'downloadable/sample_title'
+ * Create table 'downloadable_sample_title'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('downloadable/sample_title'))
+    ->newTable($installer->getTable('downloadable_sample_title'))
     ->addColumn('title_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -354,28 +354,28 @@ $table = $installer->getConnection()
         ), 'Title')
     ->addIndex(
         $installer->getIdxName(
-            'downloadable/sample_title',
+            'downloadable_sample_title',
             array('sample_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('sample_id', 'store_id'),
         array('type'=>Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('downloadable/sample_title', 'sample_id'), 'sample_id')
-    ->addForeignKey($installer->getFkName('downloadable/sample_title', 'sample_id', 'downloadable/sample', 'sample_id'),
-        'sample_id', $installer->getTable('downloadable/sample'), 'sample_id',
+    ->addIndex($installer->getIdxName('downloadable_sample_title', 'sample_id'), 'sample_id')
+    ->addForeignKey($installer->getFkName('downloadable_sample_title', 'sample_id', 'downloadable_sample', 'sample_id'),
+        'sample_id', $installer->getTable('downloadable_sample'), 'sample_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addIndex($installer->getIdxName('downloadable/sample_title', 'store_id'), 'store_id')
-    ->addForeignKey($installer->getFkName('downloadable/sample_title', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addIndex($installer->getIdxName('downloadable_sample_title', 'store_id'), 'store_id')
+    ->addForeignKey($installer->getFkName('downloadable_sample_title', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Downloadable Sample Title Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'downloadable/product_price_indexer_idx'
+ * Create table 'catalog_product_index_price_downlod_idx'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('downloadable/product_price_indexer_idx'))
+    ->newTable($installer->getTable('catalog_product_index_price_downlod_idx'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -403,10 +403,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'downloadable/product_price_indexer_tmp'
+ * Create table 'catalog_product_index_price_downlod_tmp'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('downloadable/product_price_indexer_tmp'))
+    ->newTable($installer->getTable('catalog_product_index_price_downlod_tmp'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,

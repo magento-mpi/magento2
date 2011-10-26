@@ -36,10 +36,10 @@ $installer = $this;
 
 $installer->startSetup();
 /**
- * Create table 'adminnotification/inbox'
+ * Create table 'adminnotification_inbox'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('adminnotification/inbox'))
+    ->newTable($installer->getTable('adminnotification_inbox'))
     ->addColumn('notification_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -71,11 +71,11 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Flag if notification might be removed')
-    ->addIndex($installer->getIdxName('adminnotification/inbox', array('severity')),
+    ->addIndex($installer->getIdxName('adminnotification_inbox', array('severity')),
         array('severity'))
-    ->addIndex($installer->getIdxName('adminnotification/inbox', array('is_read')),
+    ->addIndex($installer->getIdxName('adminnotification_inbox', array('is_read')),
         array('is_read'))
-    ->addIndex($installer->getIdxName('adminnotification/inbox', array('is_remove')),
+    ->addIndex($installer->getIdxName('adminnotification_inbox', array('is_remove')),
         array('is_remove'))
     ->setComment('Adminnotification Inbox');
 $installer->getConnection()->createTable($table);

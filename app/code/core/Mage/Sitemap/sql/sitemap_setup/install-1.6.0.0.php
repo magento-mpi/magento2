@@ -35,7 +35,7 @@ $installer->startSetup();
  * Create table 'sitemap'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sitemap/sitemap'))
+    ->newTable($installer->getTable('sitemap'))
     ->addColumn('sitemap_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -56,10 +56,10 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Store id')
-    ->addIndex($installer->getIdxName('sitemap/sitemap', array('store_id')),
+    ->addIndex($installer->getIdxName('sitemap', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('sitemap/sitemap', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('sitemap', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Google Sitemap');

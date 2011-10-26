@@ -40,7 +40,7 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
      */
     protected function _construct()
     {
-        $this->_init('core/translate', 'key_id');
+        $this->_init('core_translate', 'key_id');
     }
 
     /**

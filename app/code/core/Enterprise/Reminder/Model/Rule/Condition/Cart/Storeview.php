@@ -116,8 +116,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Storeview
      */
     public function getConditionsSql($customer, $website)
     {
-        $quoteTable = $this->getResource()->getTable('sales/quote');
-        $quoteItemTable = $this->getResource()->getTable('sales/quote_item');
+        $quoteTable = $this->getResource()->getTable('sales_flat_quote');
+        $quoteItemTable = $this->getResource()->getTable('sales_flat_quote_item');
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();

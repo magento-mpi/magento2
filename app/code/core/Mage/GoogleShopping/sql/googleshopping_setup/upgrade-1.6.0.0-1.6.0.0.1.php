@@ -36,7 +36,7 @@ $installer = $this;
 
 $installer->startSetup();
 
-$installer->getConnection()->addColumn($installer->getTable('googleshopping/types'), 'category', array(
+$installer->getConnection()->addColumn($installer->getTable('googleshopping_types'), 'category', array(
     'TYPE'    => Varien_Db_Ddl_Table::TYPE_TEXT,
     'LENGTH'  => 40,
     'COMMENT' => 'Google product category',

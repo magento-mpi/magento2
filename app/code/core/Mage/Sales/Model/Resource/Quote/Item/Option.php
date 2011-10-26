@@ -40,6 +40,6 @@ class Mage_Sales_Model_Resource_Quote_Item_Option extends Mage_Core_Model_Resour
      */
     protected function _construct()
     {
-        $this->_init('sales/quote_item_option', 'option_id');
+        $this->_init('sales_flat_quote_item_option', 'option_id');
     }
 }

@@ -80,8 +80,8 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             'catalog_category'               => array(
                 'entity_model'                   => 'catalog/category',
                 'attribute_model'                => 'catalog/resource_eav_attribute',
-                'table'                          => 'catalog/category',
-                'additional_attribute_table'     => 'catalog/eav_attribute',
+                'table'                          => 'catalog_category_entity',
+                'additional_attribute_table'     => 'catalog_eav_attribute',
                 'entity_attribute_collection'    => 'catalog/category_attribute_collection',
                 'default_group'                  => 'General Information',
                 'attributes'                     => array(
@@ -367,8 +367,8 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             'catalog_product'                => array(
                 'entity_model'                   => 'catalog/product',
                 'attribute_model'                => 'catalog/resource_eav_attribute',
-                'table'                          => 'catalog/product',
-                'additional_attribute_table'     => 'catalog/eav_attribute',
+                'table'                          => 'catalog_product_entity',
+                'additional_attribute_table'     => 'catalog_eav_attribute',
                 'entity_attribute_collection'    => 'catalog/product_attribute_collection',
                 'attributes'                     => array(
                     'name'               => array(
@@ -848,7 +848,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
         $categories = array();
 
         $select = $this->getConnection()->select();
-        $select->from($this->getTable('catalog/category'));
+        $select->from($this->getTable('catalog_category_entity'));
         $categories = $this->getConnection()->fetchAll($select);
 
         if (is_array($categories)) {
@@ -863,7 +863,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                 $this
                     ->getConnection()
                     ->update(
-                        $this->getTable('catalog/category'),
+                        $this->getTable('catalog_category_entity'),
                         array('path' => $path),
                         array('entity_id = ?' => $category['entity_id'])
                     );
@@ -882,7 +882,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
     {
         $select = $this->getConnection()->select();
 
-        $select->from($this->getTable('catalog/category'));
+        $select->from($this->getTable('catalog_category_entity'));
         $select->where('entity_id = :entity_id');
 
         return $this->getConnection()->fetchRow($select, array('entity_id' => $entityId));
@@ -919,14 +919,14 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
     {
         $adapter = $this->getConnection();
         $select = $adapter->select()
-            ->from($this->getTable('catalog/category'));
+            ->from($this->getTable('catalog_category_entity'));
 
         $categories = $adapter->fetchAll($select);
 
         foreach ($categories as $category) {
             $level = count(explode('/', $category['path']))-1;
             $adapter->update(
-                $this->getTable('catalog/category'),
+                $this->getTable('catalog_category_entity'),
                 array('level' => $level),
                 array('entity_id = ?' => $category['entity_id'])
             );

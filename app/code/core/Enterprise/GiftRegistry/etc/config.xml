@@ -39,16 +39,6 @@
             </enterprise_giftregistry>
             <enterprise_giftregistry_resource>
                 <class>Enterprise_GiftRegistry_Model_Resource</class>
-                <entities>
-                    <type><table>enterprise_giftregistry_type</table></type>
-                    <info><table>enterprise_giftregistry_type_info</table></info>
-                    <label><table>enterprise_giftregistry_label</table></label>
-                    <entity><table>enterprise_giftregistry_entity</table></entity>
-                    <item><table>enterprise_giftregistry_item</table></item>
-                    <item_option><table>enterprise_giftregistry_item_option</table></item_option>
-                    <person><table>enterprise_giftregistry_person</table></person>
-                    <data><table>enterprise_giftregistry_data</table></data>
-                </entities>
             </enterprise_giftregistry_resource>
         </models>
         <helpers>

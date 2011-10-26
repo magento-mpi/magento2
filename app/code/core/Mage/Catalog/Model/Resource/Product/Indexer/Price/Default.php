@@ -57,7 +57,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_index_price', 'entity_id');
+        $this->_init('catalog_product_index_price', 'entity_id');
     }
 
     /**
@@ -145,9 +145,9 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
     protected function _getDefaultFinalPriceTable()
     {
         if ($this->useIdxTable()) {
-            return $this->getTable('catalog/product_price_indexer_final_idx');
+            return $this->getTable('catalog_product_index_price_final_idx');
         }
-        return $this->getTable('catalog/product_price_indexer_final_tmp');
+        return $this->getTable('catalog_product_index_price_final_tmp');
     }
 
     /**
@@ -168,7 +168,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
      */
     protected function _getWebsiteDateTable()
     {
-        return $this->getTable('catalog/product_index_website');
+        return $this->getTable('catalog_product_index_website');
     }
 
     /**
@@ -183,13 +183,13 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
 
         $write  = $this->_getWriteAdapter();
         $select = $write->select()
-            ->from(array('e' => $this->getTable('catalog/product')), array('entity_id'))
+            ->from(array('e' => $this->getTable('catalog_product_entity')), array('entity_id'))
             ->join(
-                array('cg' => $this->getTable('customer/customer_group')),
+                array('cg' => $this->getTable('customer_group')),
                 '',
                 array('customer_group_id'))
             ->join(
-                array('cw' => $this->getTable('core/website')),
+                array('cw' => $this->getTable('core_website')),
                 '',
                 array('website_id'))
             ->join(
@@ -197,15 +197,15 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
                 'cw.website_id = cwd.website_id',
                 array())
             ->join(
-                array('csg' => $this->getTable('core/store_group')),
+                array('csg' => $this->getTable('core_store_group')),
                 'csg.website_id = cw.website_id AND cw.default_group_id = csg.group_id',
                 array())
             ->join(
-                array('cs' => $this->getTable('core/store')),
+                array('cs' => $this->getTable('core_store')),
                 'csg.default_store_id = cs.store_id AND cs.store_id != 0',
                 array())
             ->join(
-                array('pw' => $this->getTable('catalog/product_website')),
+                array('pw' => $this->getTable('catalog_product_website')),
                 'pw.product_id = e.entity_id AND pw.website_id = cw.website_id',
                 array())
             ->joinLeft(
@@ -295,9 +295,9 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
     protected function _getCustomOptionAggregateTable()
     {
         if ($this->useIdxTable()) {
-            return $this->getTable('catalog/product_price_indexer_option_aggregate_idx');
+            return $this->getTable('catalog_product_index_price_opt_agr_idx');
         }
-        return $this->getTable('catalog/product_price_indexer_option_aggregate_idx');
+        return $this->getTable('catalog_product_index_price_opt_agr_idx');
     }
 
     /**
@@ -308,9 +308,9 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
     protected function _getCustomOptionPriceTable()
     {
         if ($this->useIdxTable()) {
-            return $this->getTable('catalog/product_price_indexer_option_idx');
+            return $this->getTable('catalog_product_index_price_opt_idx');
         }
-        return $this->getTable('catalog/product_price_indexer_option_tmp');
+        return $this->getTable('catalog_product_index_price_opt_tmp');
     }
 
     /**
@@ -354,31 +354,31 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
                 array('i' => $this->_getDefaultFinalPriceTable()),
                 array('entity_id', 'customer_group_id', 'website_id'))
             ->join(
-                array('cw' => $this->getTable('core/website')),
+                array('cw' => $this->getTable('core_website')),
                 'cw.website_id = i.website_id',
                 array())
             ->join(
-                array('csg' => $this->getTable('core/store_group')),
+                array('csg' => $this->getTable('core_store_group')),
                 'csg.group_id = cw.default_group_id',
                 array())
             ->join(
-                array('cs' => $this->getTable('core/store')),
+                array('cs' => $this->getTable('core_store')),
                 'cs.store_id = csg.default_store_id',
                 array())
             ->join(
-                array('o' => $this->getTable('catalog/product_option')),
+                array('o' => $this->getTable('catalog_product_option')),
                 'o.product_id = i.entity_id',
                 array('option_id'))
             ->join(
-                array('ot' => $this->getTable('catalog/product_option_type_value')),
+                array('ot' => $this->getTable('catalog_product_option_type_value')),
                 'ot.option_id = o.option_id',
                 array())
             ->join(
-                array('otpd' => $this->getTable('catalog/product_option_type_price')),
+                array('otpd' => $this->getTable('catalog_product_option_type_price')),
                 'otpd.option_type_id = ot.option_type_id AND otpd.store_id = 0',
                 array())
             ->joinLeft(
-                array('otps' => $this->getTable('catalog/product_option_type_price')),
+                array('otps' => $this->getTable('catalog_product_option_type_price')),
                 'otps.option_type_id = otpd.option_type_id AND otpd.store_id = cs.store_id',
                 array())
             ->group(array('i.entity_id', 'i.customer_group_id', 'i.website_id', 'o.option_id'));
@@ -416,27 +416,27 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
                 array('i' => $this->_getDefaultFinalPriceTable()),
                 array('entity_id', 'customer_group_id', 'website_id'))
             ->join(
-                array('cw' => $this->getTable('core/website')),
+                array('cw' => $this->getTable('core_website')),
                 'cw.website_id = i.website_id',
                 array())
             ->join(
-                array('csg' => $this->getTable('core/store_group')),
+                array('csg' => $this->getTable('core_store_group')),
                 'csg.group_id = cw.default_group_id',
                 array())
             ->join(
-                array('cs' => $this->getTable('core/store')),
+                array('cs' => $this->getTable('core_store')),
                 'cs.store_id = csg.default_store_id',
                 array())
             ->join(
-                array('o' => $this->getTable('catalog/product_option')),
+                array('o' => $this->getTable('catalog_product_option')),
                 'o.product_id = i.entity_id',
                 array('option_id'))
             ->join(
-                array('opd' => $this->getTable('catalog/product_option_price')),
+                array('opd' => $this->getTable('catalog_product_option_price')),
                 'opd.option_id = o.option_id AND opd.store_id = 0',
                 array())
             ->joinLeft(
-                array('ops' => $this->getTable('catalog/product_option_price')),
+                array('ops' => $this->getTable('catalog_product_option_price')),
                 'ops.option_id = opd.option_id AND ops.store_id = cs.store_id',
                 array());
 
@@ -538,7 +538,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
      */
     protected function _getTierPriceIndexTable()
     {
-        return $this->getTable('catalog/product_index_tier_price');
+        return $this->getTable('catalog_product_index_tier_price');
     }
 
     /**
@@ -560,8 +560,8 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
     public function getIdxTable($table = null)
     {
         if ($this->useIdxTable()) {
-            return $this->getTable('catalog/product_price_indexer_idx');
+            return $this->getTable('catalog_product_index_price_idx');
         }
-        return $this->getTable('catalog/product_price_indexer_tmp');
+        return $this->getTable('catalog_product_index_price_tmp');
     }
 }

@@ -39,7 +39,7 @@ class Mage_Bundle_Model_Resource_Bundle extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _construct()
     {
-        $this->_init('catalog/product', 'entity_id');
+        $this->_init('catalog_product_entity', 'entity_id');
     }
 
     /**
@@ -53,11 +53,11 @@ class Mage_Bundle_Model_Resource_Bundle extends Mage_Core_Model_Resource_Db_Abst
     protected function _getSelect($productId, $columns = array())
     {
         return $this->_getReadAdapter()->select()
-            ->from(array("bundle_option" => $this->getTable('bundle/option')), array('type', 'option_id'))
+            ->from(array("bundle_option" => $this->getTable('catalog_product_bundle_option')), array('type', 'option_id'))
             ->where("bundle_option.parent_id = ?", $productId)
             ->where("bundle_option.required = 1")
             ->joinLeft(array(
-                "bundle_selection" => $this->getTable('bundle/selection')),
+                "bundle_selection" => $this->getTable('catalog_product_bundle_selection')),
                 "bundle_selection.option_id = bundle_option.option_id",
                 $columns
             );
@@ -86,14 +86,14 @@ class Mage_Bundle_Model_Resource_Bundle extends Mage_Core_Model_Resource_Db_Abst
     {
         $quoteItemIds = $this->_getReadAdapter()->fetchCol(
             $this->_getReadAdapter()->select()
-            ->from($this->getTable('sales/quote_item'), array('item_id'))
+            ->from($this->getTable('sales_flat_quote_item'), array('item_id'))
             ->where('product_id = :product_id'),
             array('product_id' => $productId)
         );
 
         if ($quoteItemIds) {
             $this->_getWriteAdapter()->delete(
-                $this->getTable('sales/quote_item'),
+                $this->getTable('sales_flat_quote_item'),
                 array('parent_item_id IN(?)' => $quoteItemIds)
             );
         }
@@ -114,7 +114,7 @@ class Mage_Bundle_Model_Resource_Bundle extends Mage_Core_Model_Resource_Db_Abst
             $where['selection_id NOT IN (?) '] = $ids;
         }
         $this->_getWriteAdapter()
-            ->delete($this->getTable('bundle/selection'), $where);
+            ->delete($this->getTable('catalog_product_bundle_selection'), $where);
     }
 
     /**

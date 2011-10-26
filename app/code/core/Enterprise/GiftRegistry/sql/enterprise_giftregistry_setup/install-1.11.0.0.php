@@ -33,10 +33,10 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_giftregistry/type'
+ * Create table 'enterprise_giftregistry_type'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_giftregistry/type'))
+    ->newTable($installer->getTable('enterprise_giftregistry_type'))
     ->addColumn('type_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -52,10 +52,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_giftregistry/info'
+ * Create table 'enterprise_giftregistry_type_info'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_giftregistry/info'))
+    ->newTable($installer->getTable('enterprise_giftregistry_type_info'))
     ->addColumn('type_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -76,28 +76,28 @@ $table = $installer->getConnection()
     ->addColumn('sort_order', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Sort Order')
-    ->addIndex($installer->getIdxName('enterprise_giftregistry/info', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftregistry_type_info', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/info',
+            'enterprise_giftregistry_type_info',
             'type_id',
-            'enterprise_giftregistry/type',
+            'enterprise_giftregistry_type',
             'type_id'
         ),
-        'type_id', $installer->getTable('enterprise_giftregistry/type'), 'type_id',
+        'type_id', $installer->getTable('enterprise_giftregistry_type'), 'type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_giftregistry/info', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('enterprise_giftregistry_type_info', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Registry Info Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_giftregistry/label'
+ * Create table 'enterprise_giftregistry_label'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_giftregistry/label'))
+    ->newTable($installer->getTable('enterprise_giftregistry_label'))
     ->addColumn('type_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -120,30 +120,30 @@ $table = $installer->getConnection()
         ), 'Option Code')
     ->addColumn('label', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Label')
-    ->addIndex($installer->getIdxName('enterprise_giftregistry/label', array('type_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftregistry_label', array('type_id')),
         array('type_id'))
-    ->addIndex($installer->getIdxName('enterprise_giftregistry/label', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftregistry_label', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/label',
+            'enterprise_giftregistry_label',
             'type_id',
-            'enterprise_giftregistry/type',
+            'enterprise_giftregistry_type',
             'type_id'
         ),
-        'type_id', $installer->getTable('enterprise_giftregistry/type'), 'type_id',
+        'type_id', $installer->getTable('enterprise_giftregistry_type'), 'type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_giftregistry/label', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('enterprise_giftregistry_label', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Registry Label Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_giftregistry/entity'
+ * Create table 'enterprise_giftregistry_entity'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_giftregistry/entity'))
+    ->newTable($installer->getTable('enterprise_giftregistry_entity'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -188,48 +188,48 @@ $table = $installer->getConnection()
         ), 'Is Active')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Created At')
-    ->addIndex($installer->getIdxName('enterprise_giftregistry/entity', array('customer_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftregistry_entity', array('customer_id')),
         array('customer_id'))
-    ->addIndex($installer->getIdxName('enterprise_giftregistry/entity', array('website_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftregistry_entity', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('enterprise_giftregistry/entity', array('type_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftregistry_entity', array('type_id')),
         array('type_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/entity',
+            'enterprise_giftregistry_entity',
             'type_id',
-            'enterprise_giftregistry/type',
+            'enterprise_giftregistry_type',
             'type_id'
         ),
-        'type_id', $installer->getTable('enterprise_giftregistry/type'), 'type_id',
+        'type_id', $installer->getTable('enterprise_giftregistry_type'), 'type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/entity',
+            'enterprise_giftregistry_entity',
             'customer_id',
-            'customer/entity',
+            'customer_entity',
             'entity_id'
         ),
-        'customer_id', $installer->getTable('customer/entity'), 'entity_id',
+        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/entity',
+            'enterprise_giftregistry_entity',
             'website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Registry Entity Table');
 
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_giftregistry/item'
+ * Create table 'enterprise_giftregistry_item'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_giftregistry/item'))
+    ->newTable($installer->getTable('enterprise_giftregistry_item'))
     ->addColumn('item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -256,36 +256,36 @@ $table = $installer->getConnection()
         ), 'Added At')
     ->addColumn('custom_options', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Custom Options')
-    ->addIndex($installer->getIdxName('enterprise_giftregistry/item', array('entity_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftregistry_item', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('enterprise_giftregistry/item', array('product_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftregistry_item', array('product_id')),
         array('product_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/item',
+            'enterprise_giftregistry_item',
             'entity_id',
-            'enterprise_giftregistry/entity',
+            'enterprise_giftregistry_entity',
             'entity_id'
         ),
-        'entity_id', $installer->getTable('enterprise_giftregistry/entity'), 'entity_id',
+        'entity_id', $installer->getTable('enterprise_giftregistry_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/item',
+            'enterprise_giftregistry_item',
             'product_id',
-            'catalog/product',
+            'catalog_product_entity',
             'entity_id'
         ),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Registry Item Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_giftregistry/person'
+ * Create table 'enterprise_giftregistry_person'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_giftregistry/person'))
+    ->newTable($installer->getTable('enterprise_giftregistry_person'))
     ->addColumn('person_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -312,25 +312,25 @@ $table = $installer->getConnection()
     ->addColumn('custom_values', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         'nullable'  => false,
         ), 'Custom Values')
-    ->addIndex($installer->getIdxName('enterprise_giftregistry/person', array('entity_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftregistry_person', array('entity_id')),
         array('entity_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/person',
+            'enterprise_giftregistry_person',
             'entity_id',
-            'enterprise_giftregistry/entity',
+            'enterprise_giftregistry_entity',
             'entity_id'
         ),
-        'entity_id', $installer->getTable('enterprise_giftregistry/entity'), 'entity_id',
+        'entity_id', $installer->getTable('enterprise_giftregistry_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Registry Person Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_giftregistry/data'
+ * Create table 'enterprise_giftregistry_data'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_giftregistry/data'))
+    ->newTable($installer->getTable('enterprise_giftregistry_data'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -349,21 +349,21 @@ $table = $installer->getConnection()
         ), 'Event Location')
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/data',
+            'enterprise_giftregistry_data',
             'entity_id',
-            'enterprise_giftregistry/entity',
+            'enterprise_giftregistry_entity',
             'entity_id'
         ),
-        'entity_id', $installer->getTable('enterprise_giftregistry/entity'), 'entity_id',
+        'entity_id', $installer->getTable('enterprise_giftregistry_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Registry Data Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_giftregistry/item_option'
+ * Create table 'enterprise_giftregistry_item_option'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_giftregistry/item_option'))
+    ->newTable($installer->getTable('enterprise_giftregistry_item_option'))
     ->addColumn('option_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -386,12 +386,12 @@ $table = $installer->getConnection()
         ), 'Value')
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/item_option',
+            'enterprise_giftregistry_item_option',
             'item_id',
-            'enterprise_giftregistry/item',
+            'enterprise_giftregistry_item',
             'item_id'
         ),
-        'item_id', $installer->getTable('enterprise_giftregistry/item'), 'item_id',
+        'item_id', $installer->getTable('enterprise_giftregistry_item'), 'item_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Registry Item Option Table');
 $installer->getConnection()->createTable($table);

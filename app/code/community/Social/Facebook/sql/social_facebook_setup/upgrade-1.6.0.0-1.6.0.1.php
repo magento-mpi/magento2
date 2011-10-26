@@ -28,10 +28,10 @@
 $installer = $this;
 
 /**
- * Change table 'social_facebook/facebook'
+ * Change table 'social_facebook_actions'
  */
 $tables = array(
-    $installer->getTable('social_facebook/facebook') => array(
+    $installer->getTable('social_facebook_actions') => array(
         'columns' => array(
             'facebook_action' => array(
                 'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,

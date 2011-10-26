@@ -95,14 +95,14 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
      */
     protected function _construct()
     {
-        $this->_init('rating/rating_option', 'option_id');
+        $this->_init('rating_option', 'option_id');
 
-        $this->_reviewTable         = $this->getTable('review/review');
-        $this->_ratingOptionTable   = $this->getTable('rating/rating_option');
-        $this->_ratingVoteTable     = $this->getTable('rating/rating_option_vote');
-        $this->_aggregateTable      = $this->getTable('rating/rating_vote_aggregated');
-        $this->_reviewStoreTable    = $this->getTable('review/review_store');
-        $this->_ratingStoreTable    = $this->getTable('rating/rating_store');
+        $this->_reviewTable         = $this->getTable('review');
+        $this->_ratingOptionTable   = $this->getTable('rating_option');
+        $this->_ratingVoteTable     = $this->getTable('rating_option_vote');
+        $this->_aggregateTable      = $this->getTable('rating_option_vote_aggregated');
+        $this->_reviewStoreTable    = $this->getTable('review_store');
+        $this->_ratingStoreTable    = $this->getTable('rating_store');
     }
 
     /**

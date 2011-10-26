@@ -166,21 +166,21 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
         $sumCond = new Zend_Db_Expr("SUM(rating_option_vote.{$adapter->quoteIdentifier('percent')})");
         $countCond = new Zend_Db_Expr('COUNT(*)');
         $select = $adapter->select()
-            ->from(array('rating_option_vote'  => $this->getTable('rating/rating_option_vote')),
+            ->from(array('rating_option_vote'  => $this->getTable('rating_option_vote')),
                 array(
                     'rating_id' => 'rating_option_vote.rating_id',
                     'sum'         => $sumCond,
                     'count'       => $countCond
                 ))
             ->join(
-                array('review_store' => $this->getTable('review/review_store')),
+                array('review_store' => $this->getTable('review_store')),
                 'rating_option_vote.review_id=review_store.review_id AND review_store.store_id = :store_id',
                 array())
             ->join(
-                array('rst' => $this->getTable('rating/rating_store')),
+                array('rst' => $this->getTable('rating_store')),
                 'rst.rating_id = rating_option_vote.rating_id AND rst.store_id = :rst_store_id',
                 array())
-            ->join(array('review'              => $this->getTable('review/review')),
+            ->join(array('review'              => $this->getTable('review')),
                 'review_store.review_id=review.review_id AND review.status_id=1',
                 array())
             ->where($inCond)

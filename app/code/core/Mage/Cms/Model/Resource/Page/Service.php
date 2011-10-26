@@ -37,7 +37,7 @@ class Mage_Cms_Model_Resource_Page_Service extends Mage_Core_Model_Resource_Db_A
      */
     protected function _construct()
     {
-        $this->_init('cms/page', 'page_id');
+        $this->_init('cms_page', 'page_id');
     }
 
     /**
@@ -58,7 +58,7 @@ class Mage_Cms_Model_Resource_Page_Service extends Mage_Core_Model_Resource_Db_A
     {
         $readAdapter = $this->_getReadAdapter();
 
-        $linkTable = $this->getTable('cms/page_store');
+        $linkTable = $this->getTable('cms_page_store');
         $mainTable = $this->getMainTable();
         $byLinkTable = $byLinkTable ? $byLinkTable : $linkTable;
 

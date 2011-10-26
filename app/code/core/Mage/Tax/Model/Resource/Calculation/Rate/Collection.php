@@ -50,7 +50,7 @@ class Mage_Tax_Model_Resource_Calculation_Rate_Collection extends Mage_Core_Mode
     public function joinCountryTable()
     {
         $this->_select->join(
-            array('country_table' => $this->getTable('directory/country')),
+            array('country_table' => $this->getTable('directory_country')),
             'main_table.tax_country_id = country_table.country_id',
             array('country_name' => 'iso2_code')
         );
@@ -66,7 +66,7 @@ class Mage_Tax_Model_Resource_Calculation_Rate_Collection extends Mage_Core_Mode
     public function joinRegionTable()
     {
         $this->_select->joinLeft(
-            array('region_table' => $this->getTable('directory/country_region')),
+            array('region_table' => $this->getTable('directory_country_region')),
             'main_table.tax_region_id = region_table.region_id',
             array('region_name' => 'code')
         );
@@ -83,7 +83,7 @@ class Mage_Tax_Model_Resource_Calculation_Rate_Collection extends Mage_Core_Mode
     {
         $storeId = (int)Mage::app()->getStore($store)->getId();
         $this->_select->joinLeft(
-            array('title_table' => $this->getTable('tax/tax_calculation_rate_title')),
+            array('title_table' => $this->getTable('tax_calculation_rate_title')),
             $this->getConnection()->quoteInto('main_table.tax_calculation_rate_id = title_table.tax_calculation_rate_id AND title_table.store_id = ?', $storeId),
             array('title' => 'value')
         );
@@ -106,7 +106,7 @@ class Mage_Tax_Model_Resource_Calculation_Rate_Collection extends Mage_Core_Mode
                 $this->getConnection()->quoteInto($tableAlias . '.store_id = ?', $store->getId())
             ));
             $this->_select->joinLeft(
-                array($tableAlias => $this->getTable('tax/tax_calculation_rate_title')),
+                array($tableAlias => $this->getTable('tax_calculation_rate_title')),
                 $joinCondition,
                 array($tableAlias => 'value')
             );

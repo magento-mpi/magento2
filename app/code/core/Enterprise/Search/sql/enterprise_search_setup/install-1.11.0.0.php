@@ -30,25 +30,25 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->getConnection()
-    ->addColumn($installer->getTable('catalog/eav_attribute'), 'search_weight', array(
+    ->addColumn($installer->getTable('catalog_eav_attribute'), 'search_weight', array(
         'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '1',
         'comment'   => 'Search Weight',
     ));
-$installer->getConnection()->addIndex($installer->getTable('catalogsearch/search_query'),
-    $installer->getIdxName('catalogsearch/search_query', array('num_results')),
+$installer->getConnection()->addIndex($installer->getTable('catalogsearch_query'),
+    $installer->getIdxName('catalogsearch_query', array('num_results')),
     'num_results');
-$installer->getConnection()->addIndex($installer->getTable('catalogsearch/search_query'),
-    $installer->getIdxName('catalogsearch/search_query', array('query_text')),
+$installer->getConnection()->addIndex($installer->getTable('catalogsearch_query'),
+    $installer->getIdxName('catalogsearch_query', array('query_text')),
     'query_text');
-$installer->getConnection()->addIndex($installer->getTable('catalogsearch/search_query'),
-    $installer->getIdxName('catalogsearch/search_query', array('query_text', 'store_id', 'num_results')),
+$installer->getConnection()->addIndex($installer->getTable('catalogsearch_query'),
+    $installer->getIdxName('catalogsearch_query', array('query_text', 'store_id', 'num_results')),
     array('query_text', 'store_id', 'num_results'));
 
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_search/recommendations'))
+    ->newTable($installer->getTable('catalogsearch_recommendations'))
     ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -65,11 +65,11 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Relation Id')
-    ->addForeignKey($installer->getFkName('enterprise_search/recommendations', 'query_id', 'catalogsearch/search_query', 'query_id'),
-        'query_id', $installer->getTable('catalogsearch/search_query'), 'query_id',
+    ->addForeignKey($installer->getFkName('catalogsearch_recommendations', 'query_id', 'catalogsearch_query', 'query_id'),
+        'query_id', $installer->getTable('catalogsearch_query'), 'query_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_search/recommendations', 'relation_id', 'catalogsearch/search_query', 'query_id'),
-        'relation_id', $installer->getTable('catalogsearch/search_query'), 'query_id',
+    ->addForeignKey($installer->getFkName('catalogsearch_recommendations', 'relation_id', 'catalogsearch_query', 'query_id'),
+        'relation_id', $installer->getTable('catalogsearch_query'), 'query_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Search Recommendations');
 $installer->getConnection()->createTable($table);

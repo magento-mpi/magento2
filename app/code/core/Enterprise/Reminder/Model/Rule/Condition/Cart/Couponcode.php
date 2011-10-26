@@ -94,7 +94,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode
      */
     public function getConditionsSql($customer, $website)
     {
-        $table = $this->getResource()->getTable('sales/quote');
+        $table = $this->getResource()->getTable('sales_flat_quote');
         $inversion = ((int)$this->getValue() ? '' : 'NOT');
 
         $select = $this->getResource()->createSelect();

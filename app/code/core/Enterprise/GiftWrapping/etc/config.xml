@@ -40,11 +40,6 @@
             </enterprise_giftwrapping>
             <enterprise_giftwrapping_resource>
                 <class>Enterprise_GiftWrapping_Model_Resource</class>
-                <entities>
-                    <wrapping><table>enterprise_giftwrapping</table></wrapping>
-                    <attribute><table>enterprise_giftwrapping_store_attributes</table></attribute>
-                    <website><table>enterprise_giftwrapping_website</table></website>
-                </entities>
             </enterprise_giftwrapping_resource>
         </models>
         <helpers>

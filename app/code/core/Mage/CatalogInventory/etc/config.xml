@@ -39,23 +39,6 @@
             </cataloginventory>
             <cataloginventory_resource>
                 <class>Mage_CatalogInventory_Model_Resource</class>
-                <entities>
-                    <stock>
-                        <table>cataloginventory_stock</table>
-                    </stock>
-                    <stock_item>
-                        <table>cataloginventory_stock_item</table>
-                    </stock_item>
-                    <stock_status>
-                        <table>cataloginventory_stock_status</table>
-                    </stock_status>
-                    <stock_status_indexer_idx>
-                        <table>cataloginventory_stock_status_idx</table>
-                    </stock_status_indexer_idx>
-                    <stock_status_indexer_tmp>
-                        <table>cataloginventory_stock_status_tmp</table>
-                    </stock_status_indexer_tmp>
-                </entities>
             </cataloginventory_resource>
         </models>
         <helpers>

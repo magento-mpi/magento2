@@ -39,20 +39,6 @@
             </enterprise_customersegment>
             <enterprise_customersegment_resource>
                 <class>Enterprise_CustomerSegment_Model_Resource</class>
-                <entities>
-                    <segment>
-                        <table>enterprise_customersegment_segment</table>
-                    </segment>
-                    <event>
-                        <table>enterprise_customersegment_event</table>
-                    </event>
-                    <customer>
-                        <table>enterprise_customersegment_customer</table>
-                    </customer>
-                    <website>
-                        <table>enterprise_customersegment_website</table>
-                    </website>
-                </entities>
             </enterprise_customersegment_resource>
         </models>
         <helpers>

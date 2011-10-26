@@ -47,7 +47,7 @@ class Mage_Catalog_Model_Resource_Product_Flat extends Mage_Core_Model_Resource_
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_flat', 'entity_id');
+        $this->_init('catalog_product_flat', 'entity_id');
         $this->_storeId = (int)Mage::app()->getStore()->getId();
     }
 
@@ -88,7 +88,7 @@ class Mage_Catalog_Model_Resource_Product_Flat extends Mage_Core_Model_Resource_
         if ($store === null) {
             $store = $this->getStoreId();
         }
-        return $this->getTable(array('catalog/product_flat', $store));
+        return $this->getTable('catalog_product_flat_' . $store);
     }
 
     /**

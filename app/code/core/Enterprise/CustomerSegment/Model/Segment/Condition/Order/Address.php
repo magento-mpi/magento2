@@ -93,9 +93,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
         $resource = $this->getResource();
         $select = $resource->createSelect();
 
-        $mainAddressTable   = $this->getResource()->getTable('sales/order_address');
-        $extraAddressTable  = $this->getResource()->getTable('enterprise_customer/sales_order_address');
-        $orderTable         = $this->getResource()->getTable('sales/order');
+        $mainAddressTable   = $this->getResource()->getTable('sales_flat_order_address');
+        $extraAddressTable  = $this->getResource()->getTable('enterprise_customer_sales_flat_order_address');
+        $orderTable         = $this->getResource()->getTable('sales_flat_order');
 
         $select
             ->from(array('order_address' => $mainAddressTable), array(new Zend_Db_Expr(1)))

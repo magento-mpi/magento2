@@ -40,7 +40,7 @@ class Enterprise_Staging_Model_Resource_Staging_Log extends Mage_Core_Model_Reso
      */
     protected function _construct()
     {
-        $this->_init('enterprise_staging/staging_log', 'log_id');
+        $this->_init('enterprise_staging_log', 'log_id');
     }
 
     /**

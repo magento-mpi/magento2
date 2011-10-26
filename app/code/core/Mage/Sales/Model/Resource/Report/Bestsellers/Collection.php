@@ -57,7 +57,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
     {
         parent::_construct();
         $this->setModel('adminhtml/report_item');
-        $this->_resource = Mage::getResourceModel('sales/report')->init('sales/bestsellers_aggregated_daily');
+        $this->_resource = Mage::getResourceModel('sales/report')->init('sales_bestsellers_aggregated_daily');
         $this->setConnection($this->getResource()->getReadConnection());
         // overwrite default behaviour
         $this->_applyFilters = false;
@@ -132,16 +132,16 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
             $cols = $this->_getSelectedColumns();
             $cols['qty_ordered'] = 'SUM(qty_ordered)';
             if ($this->_from || $this->_to) {
-                $mainTable = $this->getTable('sales/bestsellers_aggregated_daily');
+                $mainTable = $this->getTable('sales_bestsellers_aggregated_daily');
                 $select->from($mainTable, $cols);
             } else {
-                $mainTable = $this->getTable('sales/bestsellers_aggregated_yearly');
+                $mainTable = $this->getTable('sales_bestsellers_aggregated_yearly');
                 $select->from($mainTable, $cols);
             }
 
             //exclude removed products
             $subSelect = $this->getConnection()->select();
-            $subSelect->from(array('existed_products' => $this->getTable('catalog/product')), new Zend_Db_Expr('1)'));
+            $subSelect->from(array('existed_products' => $this->getTable('catalog_product_entity')), new Zend_Db_Expr('1)'));
 
             $select->exists($subSelect, $mainTable . '.product_id = existed_products.entity_id')
                 ->group('product_id')
@@ -152,13 +152,13 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
         }
 
         if ('year' == $this->_period) {
-            $mainTable = $this->getTable('sales/bestsellers_aggregated_yearly');
+            $mainTable = $this->getTable('sales_bestsellers_aggregated_yearly');
             $select->from($mainTable, $this->_getSelectedColumns());
         } elseif ('month' == $this->_period) {
-            $mainTable = $this->getTable('sales/bestsellers_aggregated_monthly');
+            $mainTable = $this->getTable('sales_bestsellers_aggregated_monthly');
             $select->from($mainTable, $this->_getSelectedColumns());
         } else {
-            $mainTable = $this->getTable('sales/bestsellers_aggregated_daily');
+            $mainTable = $this->getTable('sales_bestsellers_aggregated_daily');
             $select->from($mainTable, $this->_getSelectedColumns());
         }
         if (!$this->isTotals()) {

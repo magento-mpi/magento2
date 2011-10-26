@@ -39,7 +39,7 @@ class Enterprise_Cms_Model_Resource_Page_Version extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('enterprise_cms/page_version', 'version_id');
+        $this->_init('enterprise_cms_page_version', 'version_id');
     }
 
     /**
@@ -76,10 +76,10 @@ class Enterprise_Cms_Model_Resource_Page_Version extends Mage_Core_Model_Resourc
     public function isVersionHasPublishedRevision(Mage_Core_Model_Abstract $object)
     {
         $select = $this->_getReadAdapter()->select();
-        $select->from(array('p' => $this->getTable('cms/page')), array())
+        $select->from(array('p' => $this->getTable('cms_page')), array())
             ->where('p.page_id = ?', (int)$object->getPageId())
             ->join(
-                array('r' => $this->getTable('enterprise_cms/page_revision')),
+                array('r' => $this->getTable('enterprise_cms_page_revision')),
                 'r.revision_id = p.published_revision_id',
                 'r.version_id');
 

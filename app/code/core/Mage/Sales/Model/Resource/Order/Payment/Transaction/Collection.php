@@ -222,7 +222,7 @@ class Mage_Sales_Model_Resource_Order_Payment_Transaction_Collection
         }
         if ($this->_addPaymentInformation) {
             $this->getSelect()->joinInner(
-                array('sop' => $this->getTable('sales/order_payment')),
+                array('sop' => $this->getTable('sales_flat_order_payment')),
                 'main_table.payment_id = sop.entity_id',
                 $this->_addPaymentInformation
             );
@@ -233,7 +233,7 @@ class Mage_Sales_Model_Resource_Order_Payment_Transaction_Collection
         }
         if ($this->_addOrderInformation) {
             $this->getSelect()->joinInner(
-                array('so' => $this->getTable('sales/order')),
+                array('so' => $this->getTable('sales_flat_order')),
                 'main_table.order_id = so.entity_id',
                 $this->_addOrderInformation
             );

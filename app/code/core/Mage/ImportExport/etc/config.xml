@@ -39,11 +39,6 @@
             </importexport>
             <importexport_resource>
                 <class>Mage_ImportExport_Model_Resource</class>
-                <entities>
-                    <importdata>
-                        <table>importexport_importdata</table>
-                    </importdata>
-                </entities>
             </importexport_resource>
         </models>
         <blocks>

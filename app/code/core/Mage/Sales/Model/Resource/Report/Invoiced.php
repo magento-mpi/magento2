@@ -73,9 +73,9 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
      */
     protected function _aggregateByInvoiceCreatedAt($from, $to)
     {
-        $table       = $this->getTable('sales/invoiced_aggregated');
-        $sourceTable = $this->getTable('sales/invoice');
-        $orderTable  = $this->getTable('sales/order');
+        $table       = $this->getTable('sales_invoiced_aggregated');
+        $sourceTable = $this->getTable('sales_flat_invoice');
+        $orderTable  = $this->getTable('sales_flat_order');
         $helper      = Mage::getResourceHelper('core');
         $adapter     = $this->_getWriteAdapter();
 
@@ -191,8 +191,8 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
      */
     protected function _aggregateByOrderCreatedAt($from, $to)
     {
-        $table       = $this->getTable('sales/invoiced_aggregated_order');
-        $sourceTable = $this->getTable('sales/order');
+        $table       = $this->getTable('sales_invoiced_aggregated_order');
+        $sourceTable = $this->getTable('sales_flat_order');
         $adapter     = $this->_getWriteAdapter();
 
 

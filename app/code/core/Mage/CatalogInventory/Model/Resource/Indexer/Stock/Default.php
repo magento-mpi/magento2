@@ -56,7 +56,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
      */
     protected function _construct()
     {
-        $this->_init('cataloginventory/stock_status', 'product_id');
+        $this->_init('cataloginventory_stock_status', 'product_id');
     }
 
     /**
@@ -154,16 +154,16 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
         $adapter = $this->_getWriteAdapter();
         $qtyExpr = $adapter->getCheckSql('cisi.qty > 0', 'cisi.qty', 0);
         $select  = $adapter->select()
-            ->from(array('e' => $this->getTable('catalog/product')), array('entity_id'));
+            ->from(array('e' => $this->getTable('catalog_product_entity')), array('entity_id'));
         $this->_addWebsiteJoinToSelect($select, true);
         $this->_addProductWebsiteJoinToSelect($select, 'cw.website_id', 'e.entity_id');
         $select->columns('cw.website_id')
             ->join(
-                array('cis' => $this->getTable('cataloginventory/stock')),
+                array('cis' => $this->getTable('cataloginventory_stock')),
                 '',
                 array('stock_id'))
             ->joinLeft(
-                array('cisi' => $this->getTable('cataloginventory/stock_item')),
+                array('cisi' => $this->getTable('cataloginventory_stock_item')),
                 'cisi.stock_id = cis.stock_id AND cisi.product_id = e.entity_id',
                 array())
             ->columns(array('qty' => $qtyExpr))
@@ -267,8 +267,8 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
     public function getIdxTable($table = null)
     {
         if ($this->useIdxTable()) {
-            return $this->getTable('cataloginventory/stock_status_indexer_idx');
+            return $this->getTable('cataloginventory_stock_status_idx');
         }
-        return $this->getTable('cataloginventory/stock_status_indexer_tmp');
+        return $this->getTable('cataloginventory_stock_status_tmp');
     }
 }

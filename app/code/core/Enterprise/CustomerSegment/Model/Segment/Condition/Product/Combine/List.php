@@ -145,12 +145,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
         switch ($this->getValue()) {
             case self::WISHLIST:
                 $select->from(
-                    array('item' => $this->getResource()->getTable('wishlist/item')),
+                    array('item' => $this->getResource()->getTable('wishlist_item')),
                     array(new Zend_Db_Expr(1))
                 );
                 $conditions = "item.wishlist_id = list.wishlist_id";
                 $select->joinInner(
-                    array('list' => $this->getResource()->getTable('wishlist/wishlist')),
+                    array('list' => $this->getResource()->getTable('wishlist')),
                     $conditions,
                     array()
                 );
@@ -158,12 +158,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
                 break;
             default:
                 $select->from(
-                    array('item' => $this->getResource()->getTable('sales/quote_item')),
+                    array('item' => $this->getResource()->getTable('sales_flat_quote_item')),
                     array(new Zend_Db_Expr(1))
                 );
                 $conditions = "item.quote_id = list.entity_id";
                 $select->joinInner(
-                    array('list' => $this->getResource()->getTable('sales/quote')),
+                    array('list' => $this->getResource()->getTable('sales_flat_quote')),
                     $conditions,
                     array()
                 );

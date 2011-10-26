@@ -37,10 +37,10 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'rating/rating_entity'
+ * Create table 'rating_entity'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('rating/rating_entity'))
+    ->newTable($installer->getTable('rating_entity'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -50,16 +50,16 @@ $table = $installer->getConnection()
     ->addColumn('entity_code', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
         'nullable'  => false
         ), 'Entity Code')
-    ->addIndex($installer->getIdxName('rating/rating_entity', array('entity_code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('rating_entity', array('entity_code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('entity_code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->setComment('Rating entities');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'rating/rating'
+ * Create table 'rating'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('rating/rating'))
+    ->newTable($installer->getTable('rating'))
     ->addColumn('rating_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -79,21 +79,21 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => 0
         ), 'Rating Position On Frontend')
-    ->addIndex($installer->getIdxName('rating/rating', array('rating_code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('rating', array('rating_code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('rating_code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('rating/rating', array('entity_id')),
+    ->addIndex($installer->getIdxName('rating', array('entity_id')),
         array('entity_id'))
-    ->addForeignKey($installer->getFkName('rating/rating', 'entity_id', 'rating/rating_entity', 'entity_id'),
-        'entity_id', $installer->getTable('rating/rating_entity'), 'entity_id',
+    ->addForeignKey($installer->getFkName('rating', 'entity_id', 'rating_entity', 'entity_id'),
+        'entity_id', $installer->getTable('rating_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Ratings');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'rating/rating_option'
+ * Create table 'rating_option'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('rating/rating_option'))
+    ->newTable($installer->getTable('rating_option'))
     ->addColumn('option_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -118,19 +118,19 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => 0
         ), 'Ration option position on frontend')
-    ->addIndex($installer->getIdxName('rating/rating_option', array('rating_id')),
+    ->addIndex($installer->getIdxName('rating_option', array('rating_id')),
         array('rating_id'))
-    ->addForeignKey($installer->getFkName('rating/rating_option', 'rating_id', 'rating/rating', 'rating_id'),
-        'rating_id', $installer->getTable('rating/rating'), 'rating_id',
+    ->addForeignKey($installer->getFkName('rating_option', 'rating_id', 'rating', 'rating_id'),
+        'rating_id', $installer->getTable('rating'), 'rating_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Rating options');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'rating/rating_option_vote'
+ * Create table 'rating_option_vote'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('rating/rating_option_vote'))
+    ->newTable($installer->getTable('rating_option_vote'))
     ->addColumn('vote_id', Varien_Db_Ddl_Table::TYPE_BIGINT, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -174,19 +174,19 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => 0
         ), 'Vote option value')
-    ->addIndex($installer->getIdxName('rating/rating_option_vote', array('option_id')),
+    ->addIndex($installer->getIdxName('rating_option_vote', array('option_id')),
         array('option_id'))
-    ->addForeignKey($installer->getFkName('rating/rating_option_vote', 'option_id', 'rating/rating_option', 'option_id'),
-        'option_id', $installer->getTable('rating/rating_option'), 'option_id',
+    ->addForeignKey($installer->getFkName('rating_option_vote', 'option_id', 'rating_option', 'option_id'),
+        'option_id', $installer->getTable('rating_option'), 'option_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Rating option values');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'rating/rating_vote_aggregated'
+ * Create table 'rating_option_vote_aggregated'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('rating/rating_vote_aggregated'))
+    ->newTable($installer->getTable('rating_option_vote_aggregated'))
     ->addColumn('primary_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -224,24 +224,24 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => 0
         ), 'Store Id')
-    ->addIndex($installer->getIdxName('rating/rating_vote_aggregated', array('rating_id')),
+    ->addIndex($installer->getIdxName('rating_option_vote_aggregated', array('rating_id')),
         array('rating_id'))
-    ->addIndex($installer->getIdxName('rating/rating_vote_aggregated', array('store_id')),
+    ->addIndex($installer->getIdxName('rating_option_vote_aggregated', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('rating/rating_vote_aggregated', 'rating_id', 'rating/rating', 'rating_id'),
-        'rating_id', $installer->getTable('rating/rating'), 'rating_id',
+    ->addForeignKey($installer->getFkName('rating_option_vote_aggregated', 'rating_id', 'rating', 'rating_id'),
+        'rating_id', $installer->getTable('rating'), 'rating_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('rating/rating_vote_aggregated', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('rating_option_vote_aggregated', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Rating vote aggregated');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'rating/rating_store'
+ * Create table 'rating_store'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('rating/rating_store'))
+    ->newTable($installer->getTable('rating_store'))
     ->addColumn('rating_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -254,22 +254,22 @@ $table = $installer->getConnection()
         'default'   => 0,
         'primary'   => true
         ), 'Store id')
-    ->addIndex($installer->getIdxName('rating/rating_store', array('store_id')),
+    ->addIndex($installer->getIdxName('rating_store', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('rating/rating_store', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('rating_store', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('rating/rating_store', 'rating_id', 'rating/rating', 'rating_id'),
-        'rating_id', $installer->getTable('rating/rating'), 'rating_id',
+    ->addForeignKey($installer->getFkName('rating_store', 'rating_id', 'rating', 'rating_id'),
+        'rating_id', $installer->getTable('rating'), 'rating_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->setComment('Rating Store');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'rating/rating_title'
+ * Create table 'rating_title'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('rating/rating_title'))
+    ->newTable($installer->getTable('rating_title'))
     ->addColumn('rating_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -285,25 +285,25 @@ $table = $installer->getConnection()
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false
         ), 'Rating Label')
-    ->addIndex($installer->getIdxName('rating/rating_title', array('store_id')),
+    ->addIndex($installer->getIdxName('rating_title', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('rating/rating_title', 'rating_id', 'rating/rating', 'rating_id'),
-        'rating_id', $installer->getTable('rating/rating'), 'rating_id',
+    ->addForeignKey($installer->getFkName('rating_title', 'rating_id', 'rating', 'rating_id'),
+        'rating_id', $installer->getTable('rating'), 'rating_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('rating/rating_title', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('rating_title', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Rating Title');
 $installer->getConnection()->createTable($table);
 
 /**
  * Review/Rating module upgrade.
- * Create FK for 'rating/rating_option_vote'
+ * Create FK for 'rating_option_vote'
  */
 $table = $installer->getConnection()->addForeignKey(
-    $installer->getFkName('rating/rating_option_vote', 'review_id', 'review/review', 'review_id'),
-    $installer->getTable('rating/rating_option_vote'), 'review_id',
-    $installer->getTable('review/review'), 'review_id',
+    $installer->getFkName('rating_option_vote', 'review_id', 'review', 'review_id'),
+    $installer->getTable('rating_option_vote'), 'review_id',
+    $installer->getTable('review'), 'review_id',
     Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE);
 
 $installer->endSetup();

@@ -40,6 +40,6 @@ class Mage_Newsletter_Model_Resource_Problem extends Mage_Core_Model_Resource_Db
      */
     protected function _construct()
     {
-        $this->_init('newsletter/problem', 'problem_id');
+        $this->_init('newsletter_problem', 'problem_id');
     }
 }

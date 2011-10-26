@@ -33,10 +33,10 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_rma/rma'
+ * Create table 'enterprise_rma'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_rma/rma'))
+    ->newTable($installer->getTable('enterprise_rma'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -69,36 +69,36 @@ $table = $installer->getConnection()
         ), 'Customer Id')
     ->addColumn('customer_custom_email', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Customer Custom Email')
-    ->addIndex($installer->getIdxName('enterprise_rma/rma', array('status')),
+    ->addIndex($installer->getIdxName('enterprise_rma', array('status')),
         array('status'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma', array('is_active')),
+    ->addIndex($installer->getIdxName('enterprise_rma', array('is_active')),
         array('is_active'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma', array('increment_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma', array('increment_id')),
         array('increment_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma', array('date_requested')),
+    ->addIndex($installer->getIdxName('enterprise_rma', array('date_requested')),
         array('date_requested'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma', array('order_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma', array('order_id')),
         array('order_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma', array('order_increment_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma', array('order_increment_id')),
         array('order_increment_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma', array('customer_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma', array('customer_id')),
         array('customer_id'))
-    ->addForeignKey($installer->getFkName('enterprise_rma/rma', 'customer_id', 'customer/entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer/entity'), 'entity_id',
+    ->addForeignKey($installer->getFkName('enterprise_rma', 'customer_id', 'customer_entity', 'entity_id'),
+        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_rma/rma', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addForeignKey($installer->getFkName('enterprise_rma', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('RMA LIst');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_rma/rma_grid'
+ * Create table 'enterprise_rma_grid'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_rma/rma_grid'))
+    ->newTable($installer->getTable('enterprise_rma_grid'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -127,35 +127,35 @@ $table = $installer->getConnection()
         ), 'Customer Id')
     ->addColumn('customer_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Customer Billing Name')
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_grid', array('status')),
+    ->addIndex($installer->getIdxName('enterprise_rma_grid', array('status')),
         array('status'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_grid', array('increment_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma_grid', array('increment_id')),
         array('increment_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_grid', array('date_requested')),
+    ->addIndex($installer->getIdxName('enterprise_rma_grid', array('date_requested')),
         array('date_requested'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_grid', array('order_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma_grid', array('order_id')),
         array('order_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_grid', array('order_increment_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma_grid', array('order_increment_id')),
         array('order_increment_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_grid', array('order_date')),
+    ->addIndex($installer->getIdxName('enterprise_rma_grid', array('order_date')),
         array('order_date'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_grid', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma_grid', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_grid', array('customer_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma_grid', array('customer_id')),
         array('customer_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_grid', array('customer_name')),
+    ->addIndex($installer->getIdxName('enterprise_rma_grid', array('customer_name')),
         array('customer_name'))
-    ->addForeignKey($installer->getFkName('enterprise_rma/rma_grid', 'entity_id', 'enterprise_rma/rma', 'entity_id'),
-        'entity_id', $installer->getTable('enterprise_rma/rma'), 'entity_id',
+    ->addForeignKey($installer->getFkName('enterprise_rma_grid', 'entity_id', 'enterprise_rma', 'entity_id'),
+        'entity_id', $installer->getTable('enterprise_rma'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('RMA Grid');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_rma/rma_status_history'
+ * Create table 'enterprise_rma_status_history'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_rma/rma_status_history'))
+    ->newTable($installer->getTable('enterprise_rma_status_history'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -182,14 +182,14 @@ $table = $installer->getConnection()
         ), 'Created At')
     ->addColumn('is_admin', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         ), 'Is this Merchant Comment')
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_status_history', array('rma_entity_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma_status_history', array('rma_entity_id')),
         array('rma_entity_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_status_history', array('created_at')),
+    ->addIndex($installer->getIdxName('enterprise_rma_status_history', array('created_at')),
         array('created_at'))
     ->addForeignKey(
-        $installer->getFkName('enterprise_rma/rma_status_history', 'rma_entity_id', 'enterprise_rma/rma', 'entity_id'),
+        $installer->getFkName('enterprise_rma_status_history', 'rma_entity_id', 'enterprise_rma', 'entity_id'),
         'rma_entity_id',
-        $installer->getTable('enterprise_rma/rma'),
+        $installer->getTable('enterprise_rma'),
         'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -197,10 +197,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_rma/item_entity'
+ * Create table 'enterprise_rma_item_entity'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_rma/item_entity'))
+    ->newTable($installer->getTable('enterprise_rma_item_entity'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -244,12 +244,12 @@ $table = $installer->getConnection()
         ), 'Product Name')
     ->addColumn('product_sku', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Product Sku')
-    ->addIndex($installer->getIdxName('enterprise_rma/item_entity', array('entity_type_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma_item_entity', array('entity_type_id')),
         array('entity_type_id'))
     ->addForeignKey(
-        $installer->getFkName('enterprise_rma/item_entity', 'rma_entity_id', 'enterprise_rma/rma', 'entity_id'),
+        $installer->getFkName('enterprise_rma_item_entity', 'rma_entity_id', 'enterprise_rma', 'entity_id'),
         'rma_entity_id',
-        $installer->getTable('enterprise_rma/rma'),
+        $installer->getTable('enterprise_rma'),
         'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -257,10 +257,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_rma/item_eav_attribute'
+ * Create table 'enterprise_rma_item_eav_attribute'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_rma/item_eav_attribute'))
+    ->newTable($installer->getTable('enterprise_rma_item_eav_attribute'))
     ->addColumn('attribute_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'identity'  => false,
         'unsigned'  => true,
@@ -294,8 +294,8 @@ $table = $installer->getConnection()
     ->addColumn('data_model', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Data Model')
     ->addForeignKey(
-        $installer->getFkName('enterprise_rma/item_eav_attribute', 'attribute_id', 'eav/attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        $installer->getFkName('enterprise_rma_item_eav_attribute', 'attribute_id', 'eav_attribute', 'attribute_id'),
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('RMA Item EAV Attribute');
 $installer->getConnection()->createTable($table);
@@ -344,24 +344,24 @@ $table = $installer->getConnection()
         $installer->getIdxName('enterprise_rma_item_entity_datetime', array('entity_id', 'attribute_id', 'value')),
         array('entity_id', 'attribute_id', 'value'))
     ->addForeignKey(
-        $installer->getFkName('enterprise_rma_item_entity_datetime', 'attribute_id', 'eav/attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        $installer->getFkName('enterprise_rma_item_entity_datetime', 'attribute_id', 'eav_attribute', 'attribute_id'),
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
             'enterprise_rma_item_entity_datetime',
             'entity_id',
-            'enterprise_rma/item_entity',
+            'enterprise_rma_item_entity',
             'entity_id'),
-        'entity_id', $installer->getTable('enterprise_rma/item_entity'), 'entity_id',
+        'entity_id', $installer->getTable('enterprise_rma_item_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
             'enterprise_rma_item_entity_datetime',
             'entity_type_id',
-            'eav/entity_type',
+            'eav_entity_type',
             'entity_type_id'),
-        'entity_type_id', $installer->getTable('eav/entity_type'), 'entity_type_id',
+        'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('RMA Item Entity Datetime');
 $installer->getConnection()->createTable($table);
@@ -411,24 +411,24 @@ $table = $installer->getConnection()
         $installer->getIdxName('enterprise_rma_item_entity_decimal', array('entity_id', 'attribute_id', 'value')),
         array('entity_id', 'attribute_id', 'value'))
     ->addForeignKey(
-        $installer->getFkName('enterprise_rma_item_entity_decimal', 'attribute_id', 'eav/attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        $installer->getFkName('enterprise_rma_item_entity_decimal', 'attribute_id', 'eav_attribute', 'attribute_id'),
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
             'enterprise_rma_item_entity_decimal',
             'entity_id',
-            'enterprise_rma/item_entity',
+            'enterprise_rma_item_entity',
             'entity_id'),
-        'entity_id', $installer->getTable('enterprise_rma/item_entity'), 'entity_id',
+        'entity_id', $installer->getTable('enterprise_rma_item_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
             'enterprise_rma_item_entity_decimal',
             'entity_type_id',
-            'eav/entity_type',
+            'eav_entity_type',
             'entity_type_id'),
-        'entity_type_id', $installer->getTable('eav/entity_type'), 'entity_type_id',
+        'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('RMA Item Entity Decimal');
 $installer->getConnection()->createTable($table);
@@ -477,16 +477,16 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('enterprise_rma_item_entity_int', array('entity_id', 'attribute_id', 'value')),
         array('entity_id', 'attribute_id', 'value'))
     ->addForeignKey(
-        $installer->getFkName('enterprise_rma_item_entity_int', 'attribute_id', 'eav/attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        $installer->getFkName('enterprise_rma_item_entity_int', 'attribute_id', 'eav_attribute', 'attribute_id'),
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('enterprise_rma_item_entity_int', 'entity_id', 'enterprise_rma/item_entity', 'entity_id'),
-        'entity_id', $installer->getTable('enterprise_rma/item_entity'), 'entity_id',
+        $installer->getFkName('enterprise_rma_item_entity_int', 'entity_id', 'enterprise_rma_item_entity', 'entity_id'),
+        'entity_id', $installer->getTable('enterprise_rma_item_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('enterprise_rma_item_entity_int', 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
-        'entity_type_id', $installer->getTable('eav/entity_type'), 'entity_type_id',
+        $installer->getFkName('enterprise_rma_item_entity_int', 'entity_type_id', 'eav_entity_type', 'entity_type_id'),
+        'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('RMA Item Entity Int');
 $installer->getConnection()->createTable($table);
@@ -532,20 +532,20 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('enterprise_rma_item_entity_text', array('entity_id')),
         array('entity_id'))
     ->addForeignKey(
-        $installer->getFkName('enterprise_rma_item_entity_text', 'attribute_id', 'eav/attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        $installer->getFkName('enterprise_rma_item_entity_text', 'attribute_id', 'eav_attribute', 'attribute_id'),
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
             'enterprise_rma_item_entity_text',
             'entity_id',
-            'enterprise_rma/item_entity',
+            'enterprise_rma_item_entity',
             'entity_id'),
-        'entity_id', $installer->getTable('enterprise_rma/item_entity'), 'entity_id',
+        'entity_id', $installer->getTable('enterprise_rma_item_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('enterprise_rma_item_entity_text', 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
-        'entity_type_id', $installer->getTable('eav/entity_type'), 'entity_type_id',
+        $installer->getFkName('enterprise_rma_item_entity_text', 'entity_type_id', 'eav_entity_type', 'entity_type_id'),
+        'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('RMA Item Entity Text');
 $installer->getConnection()->createTable($table);
@@ -593,33 +593,33 @@ $table = $installer->getConnection()
         $installer->getIdxName('enterprise_rma_item_entity_varchar', array('entity_id', 'attribute_id', 'value')),
         array('entity_id', 'attribute_id', 'value'))
     ->addForeignKey(
-        $installer->getFkName('enterprise_rma_item_entity_varchar', 'attribute_id', 'eav/attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        $installer->getFkName('enterprise_rma_item_entity_varchar', 'attribute_id', 'eav_attribute', 'attribute_id'),
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
             'enterprise_rma_item_entity_varchar',
             'entity_id',
-            'enterprise_rma/item_entity',
+            'enterprise_rma_item_entity',
             'entity_id'),
-        'entity_id', $installer->getTable('enterprise_rma/item_entity'), 'entity_id',
+        'entity_id', $installer->getTable('enterprise_rma_item_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
             'enterprise_rma_item_entity_varchar',
             'entity_type_id',
-            'eav/entity_type',
+            'eav_entity_type',
             'entity_type_id'),
-        'entity_type_id', $installer->getTable('eav/entity_type'), 'entity_type_id',
+        'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('RMA Item Entity Varchar');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_rma/item_form_attribute'
+ * Create table 'enterprise_rma_item_form_attribute'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_rma/item_form_attribute'))
+    ->newTable($installer->getTable('enterprise_rma_item_form_attribute'))
     ->addColumn('form_code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'nullable'  => false,
         'primary'   => true,
@@ -629,12 +629,12 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Attribute Id')
-    ->addIndex($installer->getIdxName('enterprise_rma/item_form_attribute', array('attribute_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma_item_form_attribute', array('attribute_id')),
         array('attribute_id'))
     ->addForeignKey(
-        $installer->getFkName('enterprise_rma/item_form_attribute', 'attribute_id', 'eav/attribute', 'attribute_id'),
+        $installer->getFkName('enterprise_rma_item_form_attribute', 'attribute_id', 'eav_attribute', 'attribute_id'),
         'attribute_id',
-        $installer->getTable('eav/attribute'),
+        $installer->getTable('eav_attribute'),
         'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -642,10 +642,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_rma/item_eav_attribute_website'
+ * Create table 'enterprise_rma_item_eav_attribute_website'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_rma/item_eav_attribute_website'))
+    ->newTable($installer->getTable('enterprise_rma_item_eav_attribute_website'))
     ->addColumn('attribute_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -667,19 +667,19 @@ $table = $installer->getConnection()
     ->addColumn('multiline_count', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Multiline Count')
-    ->addIndex($installer->getIdxName('enterprise_rma/item_eav_attribute_website', array('website_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma_item_eav_attribute_website', array('website_id')),
         array('website_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_rma/item_eav_attribute_website',
+            'enterprise_rma_item_eav_attribute_website',
             'attribute_id',
-            'eav/attribute',
+            'eav_attribute',
             'attribute_id'),
-        'attribute_id', $installer->getTable('eav/attribute'), 'attribute_id',
+        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('enterprise_rma/item_eav_attribute_website', 'website_id', 'core/website', 'website_id'),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+        $installer->getFkName('enterprise_rma_item_eav_attribute_website', 'website_id', 'core_website', 'website_id'),
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise RMA Item Eav Attribute Website');
 $installer->getConnection()->createTable($table);

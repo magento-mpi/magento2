@@ -125,7 +125,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
             Mage::throwException(Mage::helper('enterprise_reminder')->__('Root shopping cart condition should have days value at least 0.'));
         }
 
-        $table = $this->getResource()->getTable('sales/quote');
+        $table = $this->getResource()->getTable('sales_flat_quote');
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();

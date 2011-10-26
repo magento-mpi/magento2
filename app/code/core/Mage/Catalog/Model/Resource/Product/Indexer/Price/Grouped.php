@@ -73,13 +73,13 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Grouped
         $table = $this->getIdxTable();
 
         $select = $write->select()
-            ->from(array('e' => $this->getTable('catalog/product')), 'entity_id')
+            ->from(array('e' => $this->getTable('catalog_product_entity')), 'entity_id')
             ->joinLeft(
-                array('l' => $this->getTable('catalog/product_link')),
+                array('l' => $this->getTable('catalog_product_link')),
                 'e.entity_id = l.product_id AND l.link_type_id=' . Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED,
                 array())
             ->join(
-                array('cg' => $this->getTable('customer/customer_group')),
+                array('cg' => $this->getTable('customer_group')),
                 '',
                 array('customer_group_id'));
         $this->_addWebsiteJoinToSelect($select, true);
@@ -88,7 +88,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Grouped
         $maxCheckSql = $write->getCheckSql('le.required_options = 0', 'i.max_price', 0);
         $select->columns('website_id', 'cw')
             ->joinLeft(
-                array('le' => $this->getTable('catalog/product')),
+                array('le' => $this->getTable('catalog_product_entity')),
                 'le.entity_id = l.linked_product_id',
                 array())
             ->joinLeft(

@@ -225,8 +225,8 @@ class Mage_Core_Model_Cache
     protected function getDbAdapterOptions()
     {
         $options['adapter_callback'] = array($this, 'getDbAdapter');
-        $options['data_table']  = Mage::getSingleton('core/resource')->getTableName('core/cache');
-        $options['tags_table']  = Mage::getSingleton('core/resource')->getTableName('core/cache_tag');
+        $options['data_table']  = Mage::getSingleton('core/resource')->getTableName('core_cache');
+        $options['tags_table']  = Mage::getSingleton('core/resource')->getTableName('core_cache_tag');
         return $options;
     }
 

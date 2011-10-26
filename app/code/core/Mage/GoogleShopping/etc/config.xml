@@ -39,17 +39,6 @@
             </googleshopping>
             <googleshopping_resource>
                 <class>Mage_GoogleShopping_Model_Resource</class>
-                <entities>
-                    <types>
-                        <table>googleshopping_types</table>
-                    </types>
-                    <items>
-                        <table>googleshopping_items</table>
-                    </items>
-                    <attributes>
-                        <table>googleshopping_attributes</table>
-                    </attributes>
-                </entities>
             </googleshopping_resource>
         </models>
         <helpers>

@@ -40,7 +40,7 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _construct()
     {
-        $this->_init('bundle/option', 'option_id');
+        $this->_init('catalog_product_bundle_option', 'option_id');
     }
 
     /**
@@ -59,14 +59,14 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
         );
 
         $write = $this->_getWriteAdapter();
-        $write->delete($this->getTable('bundle/option_value'), $condition);
+        $write->delete($this->getTable('catalog_product_bundle_option_value'), $condition);
 
         $data = new Varien_Object();
         $data->setOptionId($object->getId())
             ->setStoreId($object->getStoreId())
             ->setTitle($object->getTitle());
 
-        $write->insert($this->getTable('bundle/option_value'), $data->getData());
+        $write->insert($this->getTable('catalog_product_bundle_option_value'), $data->getData());
 
         /**
          * also saving default value if this store view scope
@@ -75,7 +75,7 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
         if ($object->getStoreId()) {
             $data->setStoreId(0);
             $data->setTitle($object->getDefaultTitle());
-            $write->insert($this->getTable('bundle/option_value'), $data->getData());
+            $write->insert($this->getTable('catalog_product_bundle_option_value'), $data->getData());
         }
 
         return $this;
@@ -92,7 +92,7 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
         parent::_afterDelete($object);
 
         $this->_getWriteAdapter()->delete(
-            $this->getTable('bundle/option_value'),
+            $this->getTable('catalog_product_bundle_option_value'),
             array('option_id = ?' => $object->getId())
         );
 
@@ -121,12 +121,12 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
         $select = $adapter->select()
             ->from(array('opt' => $this->getMainTable()), array())
             ->join(
-                array('option_title_default' => $this->getTable('bundle/option_value')),
+                array('option_title_default' => $this->getTable('catalog_product_bundle_option_value')),
                 'option_title_default.option_id = opt.option_id AND option_title_default.store_id = 0',
                 array()
             )
             ->joinLeft(
-                array('option_title_store' => $this->getTable('bundle/option_value')),
+                array('option_title_store' => $this->getTable('catalog_product_bundle_option_value')),
                 'option_title_store.option_id = opt.option_id AND option_title_store.store_id = :store_id',
                 array('title' => $title)
             )

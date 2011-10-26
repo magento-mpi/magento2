@@ -131,7 +131,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
             ->where('attr_table.store_id IN (?)', $storeIds);
         if ($setId) {
             $select->join(
-                array('set_table' => $this->getTable('eav/entity_attribute')),
+                array('set_table' => $this->getTable('eav_entity_attribute')),
                 $this->_getReadAdapter()->quoteInto('attr_table.attribute_id = set_table.attribute_id' .
                 ' AND set_table.attribute_set_id = ?', $setId),
                 array()

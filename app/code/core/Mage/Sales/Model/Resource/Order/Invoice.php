@@ -68,7 +68,7 @@ class Mage_Sales_Model_Resource_Order_Invoice extends Mage_Sales_Model_Resource_
      */
     protected function _construct()
     {
-        $this->_init('sales/invoice', 'entity_id');
+        $this->_init('sales_flat_invoice', 'entity_id');
     }
 
     /**
@@ -85,19 +85,19 @@ class Mage_Sales_Model_Resource_Order_Invoice extends Mage_Sales_Model_Resource_
         
         $this->addVirtualGridColumn(
             'billing_name',
-            'sales/order_address',
+            'sales_flat_order_address',
             array('billing_address_id' => 'entity_id'),
             $adapter->getConcatSql(array($checkedFirstname, $adapter->quote(' '), $checkedLastname))
         )
         ->addVirtualGridColumn(
             'order_increment_id',
-            'sales/order',
+            'sales_flat_order',
             array('order_id' => 'entity_id'),
             'increment_id'
         )
         ->addVirtualGridColumn(
             'order_created_at',
-            'sales/order',
+            'sales_flat_order',
             array('order_id' => 'entity_id'),
             'created_at'
         );

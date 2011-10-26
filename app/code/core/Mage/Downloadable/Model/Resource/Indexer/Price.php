@@ -76,9 +76,9 @@ class Mage_Downloadable_Model_Resource_Indexer_Price extends Mage_Catalog_Model_
     protected function _getDownloadableLinkPriceTable()
     {
         if ($this->useIdxTable()) {
-            return $this->getTable('downloadable/product_price_indexer_idx');
+            return $this->getTable('catalog_product_index_price_downlod_idx');
         }
-        return $this->getTable('downloadable/product_price_indexer_tmp');
+        return $this->getTable('catalog_product_index_price_downlod_tmp');
     }
 
     /**
@@ -118,15 +118,15 @@ class Mage_Downloadable_Model_Resource_Indexer_Price extends Mage_Catalog_Model_
                     . " AND dl.store_id = 0",
                 array())
             ->join(
-                array('dll' => $this->getTable('downloadable/link')),
+                array('dll' => $this->getTable('downloadable_link')),
                 'dll.product_id = i.entity_id',
                 array())
             ->join(
-                array('dlpd' => $this->getTable('downloadable/link_price')),
+                array('dlpd' => $this->getTable('downloadable_link_price')),
                 'dll.link_id = dlpd.link_id AND dlpd.website_id = 0',
                 array())
             ->joinLeft(
-                array('dlpw' => $this->getTable('downloadable/link_price')),
+                array('dlpw' => $this->getTable('downloadable_link_price')),
                 'dlpd.link_id = dlpw.link_id AND dlpw.website_id = i.website_id',
                 array())
             ->where('dl.value = ?', 1)

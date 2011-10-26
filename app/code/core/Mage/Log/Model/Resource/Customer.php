@@ -82,14 +82,14 @@ class Mage_Log_Model_Resource_Customer extends Mage_Core_Model_Resource_Db_Abstr
      */
     protected function _construct()
     {
-        $this->_init('log/customer', 'log_id');
+        $this->_init('log_customer', 'log_id');
 
-        $this->_visitorTable        = $this->getTable('log/visitor');
-        $this->_visitorInfoTable    = $this->getTable('log/visitor_info');
-        $this->_urlTable            = $this->getTable('log/url_table');
-        $this->_urlInfoTable        = $this->getTable('log/url_info_table');
-        $this->_customerTable       = $this->getTable('log/customer');
-        $this->_quoteTable          = $this->getTable('log/quote_table');
+        $this->_visitorTable        = $this->getTable('log_visitor');
+        $this->_visitorInfoTable    = $this->getTable('log_visitor_info');
+        $this->_urlTable            = $this->getTable('log_url');
+        $this->_urlInfoTable        = $this->getTable('log_url_info');
+        $this->_customerTable       = $this->getTable('log_customer');
+        $this->_quoteTable          = $this->getTable('log_quote');
     }
 
     /**

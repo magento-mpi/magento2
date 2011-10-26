@@ -66,29 +66,6 @@
             </customer>
             <customer_resource>
                 <class>Mage_Customer_Model_Resource</class>
-                <entities>
-                    <entity>
-                        <table>customer_entity</table>
-                    </entity>
-                    <address_entity>
-                        <table>customer_address_entity</table>
-                    </address_entity>
-                    <value_prefix>
-                        <table>customer_entity</table>
-                    </value_prefix>
-                    <customer_group>
-                        <table>customer_group</table>
-                    </customer_group>
-                    <eav_attribute>
-                        <table>customer_eav_attribute</table>
-                    </eav_attribute>
-                    <eav_attribute_website>
-                        <table>customer_eav_attribute_website</table>
-                    </eav_attribute_website>
-                    <form_attribute>
-                        <table>customer_form_attribute</table>
-                    </form_attribute>
-                </entities>
             </customer_resource>
         </models>
         <resources>

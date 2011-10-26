@@ -72,10 +72,10 @@ class Mage_Downloadable_Model_Resource_Link_Collection extends Mage_Core_Model_R
         $ifNullDefaultTitle = $this->getConnection()
             ->getIfNullSql('st.title', 'd.title');
         $this->getSelect()
-            ->joinLeft(array('d' => $this->getTable('downloadable/link_title')),
+            ->joinLeft(array('d' => $this->getTable('downloadable_link_title')),
                 'd.link_id=main_table.link_id AND d.store_id = 0',
                 array('default_title' => 'title'))
-            ->joinLeft(array('st' => $this->getTable('downloadable/link_title')),
+            ->joinLeft(array('st' => $this->getTable('downloadable_link_title')),
                 'st.link_id=main_table.link_id AND st.store_id = ' . (int)$storeId,
                 array('store_title' => 'title','title' => $ifNullDefaultTitle))
             ->order('main_table.sort_order ASC')
@@ -95,10 +95,10 @@ class Mage_Downloadable_Model_Resource_Link_Collection extends Mage_Core_Model_R
         $ifNullDefaultPrice = $this->getConnection()
             ->getIfNullSql('stp.price', 'dp.price');
         $this->getSelect()
-            ->joinLeft(array('dp' => $this->getTable('downloadable/link_price')),
+            ->joinLeft(array('dp' => $this->getTable('downloadable_link_price')),
                 'dp.link_id=main_table.link_id AND dp.website_id = 0',
                 array('default_price' => 'price'))
-            ->joinLeft(array('stp' => $this->getTable('downloadable/link_price')),
+            ->joinLeft(array('stp' => $this->getTable('downloadable_link_price')),
                 'stp.link_id=main_table.link_id AND stp.website_id = ' . (int)$websiteId,
                 array('website_price' => 'price','price' => $ifNullDefaultPrice));
 

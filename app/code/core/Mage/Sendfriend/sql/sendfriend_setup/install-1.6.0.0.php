@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sendfriend/sendfriend'))
+    ->newTable($installer->getTable('sendfriend_log'))
     ->addColumn('log_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -52,8 +52,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Website ID')
-    ->addIndex($installer->getIdxName('sendfriend/sendfriend', 'ip'), 'ip')
-    ->addIndex($installer->getIdxName('sendfriend/sendfriend', 'time'), 'time')
+    ->addIndex($installer->getIdxName('sendfriend_log', 'ip'), 'ip')
+    ->addIndex($installer->getIdxName('sendfriend_log', 'time'), 'time')
     ->setComment('Send to friend function log storage table');
 $installer->getConnection()->createTable($table);
 

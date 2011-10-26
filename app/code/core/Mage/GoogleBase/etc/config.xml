@@ -39,17 +39,6 @@
             </googlebase>
             <googlebase_resource>
                 <class>Mage_GoogleBase_Model_Resource</class>
-                <entities>
-                    <types>
-                        <table>googlebase_types</table>
-                    </types>
-                    <items>
-                        <table>googlebase_items</table>
-                    </items>
-                    <attributes>
-                        <table>googlebase_attributes</table>
-                    </attributes>
-                </entities>
             </googlebase_resource>
         </models>
         <helpers>

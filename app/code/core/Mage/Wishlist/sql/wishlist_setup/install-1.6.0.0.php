@@ -30,10 +30,10 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'wishlist/wishlist'
+ * Create table 'wishlist'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('wishlist/wishlist'))
+    ->newTable($installer->getTable('wishlist'))
     ->addColumn('wishlist_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -54,22 +54,22 @@ $table = $installer->getConnection()
         ), 'Sharing encrypted code')
     ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Last updated date')
-    ->addIndex($installer->getIdxName('wishlist/wishlist', 'shared'), 'shared')
+    ->addIndex($installer->getIdxName('wishlist', 'shared'), 'shared')
     ->addIndex(
-        $installer->getIdxName('wishlist/wishlist', 'customer_id', Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        $installer->getIdxName('wishlist', 'customer_id', Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         'customer_id',
         array('type'=>Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addForeignKey($installer->getFkName('wishlist/wishlist', 'customer_id', 'customer/entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer/entity'), 'entity_id',
+    ->addForeignKey($installer->getFkName('wishlist', 'customer_id', 'customer_entity', 'entity_id'),
+        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Wishlist main Table');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'wishlist/item'
+ * Create table 'wishlist_item'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('wishlist/item'))
+    ->newTable($installer->getTable('wishlist_item'))
     ->addColumn('wishlist_item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -97,26 +97,26 @@ $table = $installer->getConnection()
     ->addColumn('qty', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         'nullable'  => false,
         ), 'Qty')
-    ->addIndex($installer->getIdxName('wishlist/item', 'wishlist_id'), 'wishlist_id')
-    ->addForeignKey($installer->getFkName('wishlist/item', 'wishlist_id', 'wishlist/wishlist', 'wishlist_id'),
-        'wishlist_id', $installer->getTable('wishlist/wishlist'), 'wishlist_id',
+    ->addIndex($installer->getIdxName('wishlist_item', 'wishlist_id'), 'wishlist_id')
+    ->addForeignKey($installer->getFkName('wishlist_item', 'wishlist_id', 'wishlist', 'wishlist_id'),
+        'wishlist_id', $installer->getTable('wishlist'), 'wishlist_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addIndex($installer->getIdxName('wishlist/item', 'product_id'), 'product_id')
-    ->addForeignKey($installer->getFkName('wishlist/item', 'product_id', 'catalog/product', 'entity_id'),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+    ->addIndex($installer->getIdxName('wishlist_item', 'product_id'), 'product_id')
+    ->addForeignKey($installer->getFkName('wishlist_item', 'product_id', 'catalog_product_entity', 'entity_id'),
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addIndex($installer->getIdxName('wishlist/item', 'store_id'), 'store_id')
-    ->addForeignKey($installer->getFkName('wishlist/item', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+    ->addIndex($installer->getIdxName('wishlist_item', 'store_id'), 'store_id')
+    ->addForeignKey($installer->getFkName('wishlist_item', 'store_id', 'core_store', 'store_id'),
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Wishlist items');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'wishlist/item_option'
+ * Create table 'wishlist_item_option'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('wishlist/item_option'))
+    ->newTable($installer->getTable('wishlist_item_option'))
     ->addColumn('option_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -138,8 +138,8 @@ $table = $installer->getConnection()
         'nullable'  => true,
         ), 'Value')
     ->addForeignKey(
-        $installer->getFkName('wishlist/item_option', 'wishlist_item_id', 'wishlist/item', 'wishlist_item_id'),
-        'wishlist_item_id', $installer->getTable('wishlist/item'), 'wishlist_item_id',
+        $installer->getFkName('wishlist_item_option', 'wishlist_item_id', 'wishlist_item', 'wishlist_item_id'),
+        'wishlist_item_id', $installer->getTable('wishlist_item'), 'wishlist_item_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Wishlist Item Option Table');
 $installer->getConnection()->createTable($table);

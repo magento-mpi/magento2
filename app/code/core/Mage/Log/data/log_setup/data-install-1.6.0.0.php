@@ -44,5 +44,5 @@ $data = array(
 );
 
 foreach ($data as $bind) {
-    $installer->getConnection()->insertForce($installer->getTable('log/summary_type_table'), $bind);
+    $installer->getConnection()->insertForce($installer->getTable('log_summary_type'), $bind);
 }

@@ -39,44 +39,6 @@
             </bundle>
             <bundle_resource>
                 <class>Mage_Bundle_Model_Resource</class>
-                <entities>
-                    <option>
-                        <table>catalog_product_bundle_option</table>
-                    </option>
-                    <option_value>
-                        <table>catalog_product_bundle_option_value</table>
-                    </option_value>
-                    <selection>
-                        <table>catalog_product_bundle_selection</table>
-                    </selection>
-                    <selection_price>
-                        <table>catalog_product_bundle_selection_price</table>
-                    </selection_price>
-                    <price_index>
-                        <table>catalog_product_bundle_price_index</table>
-                    </price_index>
-                    <stock_index>
-                        <table>catalog_product_bundle_stock_index</table>
-                    </stock_index>
-                    <price_indexer_idx>
-                        <table>catalog_product_index_price_bundle_idx</table>
-                    </price_indexer_idx>
-                    <price_indexer_tmp>
-                        <table>catalog_product_index_price_bundle_tmp</table>
-                    </price_indexer_tmp>
-                    <selection_indexer_idx>
-                        <table>catalog_product_index_price_bundle_sel_idx</table>
-                    </selection_indexer_idx>
-                    <selection_indexer_tmp>
-                        <table>catalog_product_index_price_bundle_sel_tmp</table>
-                    </selection_indexer_tmp>
-                    <option_indexer_idx>
-                        <table>catalog_product_index_price_bundle_opt_idx</table>
-                    </option_indexer_idx>
-                    <option_indexer_tmp>
-                        <table>catalog_product_index_price_bundle_opt_tmp</table>
-                    </option_indexer_tmp>
-                </entities>
             </bundle_resource>
         </models>
         <resources>

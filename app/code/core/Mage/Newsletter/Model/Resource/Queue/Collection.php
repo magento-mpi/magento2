@@ -84,11 +84,11 @@ class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
     {
         /** @var $select Varien_Db_Select */
         $select = $this->getConnection()->select()
-            ->from(array('qlt' => $this->getTable('newsletter/queue_link')), 'COUNT(qlt.queue_link_id)')
+            ->from(array('qlt' => $this->getTable('newsletter_queue_link')), 'COUNT(qlt.queue_link_id)')
             ->where('qlt.queue_id = main_table.queue_id');
         $totalExpr = new Zend_Db_Expr(sprintf('(%s)', $select->assemble()));
         $select = $this->getConnection()->select()
-            ->from(array('qls' => $this->getTable('newsletter/queue_link')), 'COUNT(qls.queue_link_id)')
+            ->from(array('qls' => $this->getTable('newsletter_queue_link')), 'COUNT(qls.queue_link_id)')
             ->where('qls.queue_id = main_table.queue_id')
             ->where('qls.letter_sent_at IS NOT NULL');
         $sentExpr  = new Zend_Db_Expr(sprintf('(%s)', $select->assemble()));
@@ -155,7 +155,7 @@ class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
     {
         $select = $this->getConnection()->select()
             ->from(
-                $this->getTable('newsletter/queue_link'),
+                $this->getTable('newsletter_queue_link'),
                 array('queue_id', 'total' => new Zend_Db_Expr('COUNT(queue_link_id)'))
             )
             ->group('queue_id')
@@ -182,7 +182,7 @@ class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
      */
     public function addSubscriberFilter($subscriberId)
     {
-        $this->getSelect()->join(array('link'=>$this->getTable('newsletter/queue_link')),
+        $this->getSelect()->join(array('link'=>$this->getTable('newsletter_queue_link')),
             'main_table.queue_id=link.queue_id',
             array('letter_sent_at')
         )
@@ -238,7 +238,7 @@ class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
     public function addStoreFilter($storeIds)
     {
         if (!$this->_isStoreFilter) {
-            $this->getSelect()->joinInner(array('store_link' => $this->getTable('newsletter/queue_store_link')),
+            $this->getSelect()->joinInner(array('store_link' => $this->getTable('newsletter_queue_store_link')),
                 'main_table.queue_id = store_link.queue_id', array()
             )
             ->where('store_link.store_id IN (?)', $storeIds)

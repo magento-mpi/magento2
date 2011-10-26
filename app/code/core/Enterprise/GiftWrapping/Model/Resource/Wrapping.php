@@ -53,9 +53,9 @@ class Enterprise_GiftWrapping_Model_Resource_Wrapping extends Mage_Core_Model_Re
      */
     protected function _construct()
     {
-        $this->_init('enterprise_giftwrapping/wrapping', 'wrapping_id');
-        $this->_websiteTable = $this->getTable('enterprise_giftwrapping/website');
-        $this->_storeAttributesTable = $this->getTable('enterprise_giftwrapping/attribute');
+        $this->_init('enterprise_giftwrapping', 'wrapping_id');
+        $this->_websiteTable = $this->getTable('enterprise_giftwrapping_website');
+        $this->_storeAttributesTable = $this->getTable('enterprise_giftwrapping_store_attributes');
     }
 
     /**

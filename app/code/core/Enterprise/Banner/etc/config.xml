@@ -39,23 +39,6 @@
             </enterprise_banner>
             <enterprise_banner_resource>
                 <class>Enterprise_Banner_Model_Resource</class>
-                <entities>
-                    <banner>
-                        <table>enterprise_banner</table>
-                    </banner>
-                    <content>
-                        <table>enterprise_banner_content</table>
-                    </content>
-                    <customersegment>
-                        <table>enterprise_banner_customersegment</table>
-                    </customersegment>
-                    <catalogrule>
-                        <table>enterprise_banner_catalogrule</table>
-                    </catalogrule>
-                    <salesrule>
-                        <table>enterprise_banner_salesrule</table>
-                    </salesrule>
-                </entities>
             </enterprise_banner_resource>
         </models>
         <helpers>

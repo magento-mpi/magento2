@@ -45,7 +45,7 @@ class Mage_ProductAlert_Model_Resource_Stock_Customer_Collection
     public function join($productId, $websiteId)
     {
         $this->getSelect()->join(
-            array('alert' => $this->getTable('productalert/stock')),
+            array('alert' => $this->getTable('product_alert_stock')),
             'alert.customer_id=e.entity_id',
             array('alert_stock_id', 'add_date', 'send_date', 'send_count', 'status')
         );

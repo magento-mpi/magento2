@@ -46,7 +46,7 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Customer_Collection
     {
         $this->_reset();
         $this->getSelect()
-            ->join(array('invitation' => $this->getTable('enterprise_invitation/invitation')),
+            ->join(array('invitation' => $this->getTable('enterprise_invitation')),
                 'invitation.customer_id = e.entity_id',
                 array(
                     'sent' => new Zend_Db_Expr('COUNT(invitation.invitation_id)'),
@@ -65,7 +65,7 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Customer_Collection
 
         // Add customer group
         $this->addAttributeToSelect('group_id', 'inner');
-        $this->joinField('group_name', 'customer/customer_group', 'customer_group_code', 'customer_group_id=group_id');
+        $this->joinField('group_name', 'customer_group', 'customer_group_code', 'customer_group_id=group_id');
 
         $this->orderByCustomerRegistration();
 

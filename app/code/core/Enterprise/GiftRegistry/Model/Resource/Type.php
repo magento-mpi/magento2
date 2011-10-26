@@ -55,9 +55,9 @@ class Enterprise_GiftRegistry_Model_Resource_Type extends Mage_Core_Model_Resour
      */
     protected function _construct()
     {
-        $this->_init('enterprise_giftregistry/type', 'type_id');
-        $this->_infoTable  = $this->getTable('enterprise_giftregistry/info');
-        $this->_labelTable = $this->getTable('enterprise_giftregistry/label');
+        $this->_init('enterprise_giftregistry_type', 'type_id');
+        $this->_infoTable  = $this->getTable('enterprise_giftregistry_type_info');
+        $this->_labelTable = $this->getTable('enterprise_giftregistry_label');
     }
 
     /**
@@ -213,15 +213,15 @@ class Enterprise_GiftRegistry_Model_Resource_Type extends Mage_Core_Model_Resour
      */
     public function deleteAttributeValues($typeId, $attributeCode, $personValue = false)
     {
-        $entityTable = $this->getTable('enterprise_giftregistry/entity');
+        $entityTable = $this->getTable('enterprise_giftregistry_entity');
         $select      = $this->_getReadAdapter()->select();
         $select->from(array('e' => $entityTable), array('entity_id'))
             ->where('type_id = ?', (int)$typeId);
 
         if ($personValue) {
-            $table = $this->getTable('enterprise_giftregistry/person');
+            $table = $this->getTable('enterprise_giftregistry_person');
         } else {
-            $table = $this->getTable('enterprise_giftregistry/data');
+            $table = $this->getTable('enterprise_giftregistry_data');
         }
 
         $this->_getWriteAdapter()->update($table,

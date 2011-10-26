@@ -40,7 +40,7 @@ class Mage_CatalogSearch_Model_Resource_Advanced extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('catalog/product', 'entity_id');
+        $this->_init('catalog_product_entity', 'entity_id');
     }
 
     /**
@@ -152,9 +152,9 @@ class Mage_CatalogSearch_Model_Resource_Advanced extends Mage_Core_Model_Resourc
     public function addIndexableAttributeModifiedFilter($collection, $attribute, $value)
     {
         if ($attribute->getIndexType() == 'decimal') {
-            $table = $this->getTable('catalog/product_index_eav_decimal');
+            $table = $this->getTable('catalog_product_index_eav_decimal');
         } else {
-            $table = $this->getTable('catalog/product_index_eav');
+            $table = $this->getTable('catalog_product_index_eav');
         }
 
         $tableAlias = 'a_' . $attribute->getAttributeId();

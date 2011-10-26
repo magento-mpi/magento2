@@ -40,7 +40,7 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
      */
     protected function _construct()
     {
-        $this->_init('enterprise_reward/reward_history', 'history_id');
+        $this->_init('enterprise_reward_history', 'history_id');
     }
 
     /**
@@ -85,7 +85,7 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
     public function isExistHistoryUpdate($customerId, $action, $websiteId, $entity)
     {
         $select = $this->_getWriteAdapter()->select()
-            ->from(array('reward_table' => $this->getTable('enterprise_reward/reward')), array())
+            ->from(array('reward_table' => $this->getTable('enterprise_reward')), array())
             ->joinInner(array('history_table' => $this->getMainTable()),
                 'history_table.reward_id = reward_table.reward_id', array())
             ->where('history_table.action = :action')
@@ -116,7 +116,7 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
         $select = $this->_getReadAdapter()
             ->select()
             ->from(array('history_table' => $this->getMainTable()), array('COUNT(*)'))
-            ->joinInner(array('reward_table' => $this->getTable('enterprise_reward/reward')),
+            ->joinInner(array('reward_table' => $this->getTable('enterprise_reward')),
                 'history_table.reward_id = reward_table.reward_id', array())
             ->where('history_table.action=:action')
             ->where('reward_table.customer_id=:customer_id')
@@ -277,7 +277,7 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
                     )
                 );
                 $where = array('reward_id=?' => $rewardId);
-                $adapter->update($this->getTable('enterprise_reward/reward'), $bind, $where);
+                $adapter->update($this->getTable('enterprise_reward'), $bind, $where);
             }
 
             // duplicate expired records

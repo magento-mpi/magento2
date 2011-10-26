@@ -97,7 +97,7 @@ class Enterprise_Cms_Model_Resource_Page_Version_Collection
     {
         if (!$this->getFlag('revisions_joined')) {
             $this->getSelect()->joinLeft(
-                array('rev_table' => $this->getTable('enterprise_cms/page_revision')),
+                array('rev_table' => $this->getTable('enterprise_cms_page_revision')),
                 'rev_table.version_id = main_table.version_id', '*');
 
             $this->setFlag('revisions_joined');

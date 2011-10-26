@@ -40,7 +40,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _construct()
     {
-        $this->_init('rating/rating', 'rating_id');
+        $this->_init('rating', 'rating_id');
     }
 
     /**
@@ -75,7 +75,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
         $codeExpr   = $adapter->getIfNullSql('title.value', "{$table}.rating_code");
 
         $select->joinLeft(
-            array('title' => $this->getTable('rating/rating_title')),
+            array('title' => $this->getTable('rating_title')),
             $adapter->quoteInto("{$table}.rating_id = title.rating_id AND title.store_id = ?", $storeId),
             array('rating_code' => $codeExpr));
 
@@ -100,7 +100,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
         $bind    = array(':rating_id' => (int)$object->getId());
         // load rating titles
         $select  = $adapter->select()
-            ->from($this->getTable('rating/rating_title'), array('store_id', 'value'))
+            ->from($this->getTable('rating_title'), array('store_id', 'value'))
             ->where('rating_id=:rating_id');
 
         $result  = $adapter->fetchPairs($select, $bind);
@@ -110,7 +110,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
 
         // load rating available in stores
         $select  = $adapter->select()
-            ->from($this->getTable('rating/rating_store'), 'store_id')
+            ->from($this->getTable('rating_store'), 'store_id')
             ->where('rating_id=:rating_id');
         $result  = $adapter->fetchCol($select, $bind);
         $object->setStores($result);
@@ -132,7 +132,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
         $ratingId = (int)$object->getId();
 
         if ($object->hasRatingCodes()) {
-            $ratingTitleTable = $this->getTable('rating/rating_title');
+            $ratingTitleTable = $this->getTable('rating_title');
             $adapter->beginTransaction();
             try {
                 $select = $adapter->select()
@@ -177,7 +177,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
         }
 
         if ($object->hasStores()) {
-            $ratingStoreTable = $this->getTable('rating/rating_store');
+            $ratingStoreTable = $this->getTable('rating_store');
             $adapter->beginTransaction();
             try {
                 $select = $adapter->select()
@@ -302,21 +302,21 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
         $countColumn    = new Zend_Db_Expr("COUNT(*)");
 
         $select = $adapter->select()
-            ->from(array('rating_vote' => $this->getTable('rating/rating_option_vote')),
+            ->from(array('rating_vote' => $this->getTable('rating_option_vote')),
                 array(
                     'entity_pk_value' => 'rating_vote.entity_pk_value',
                     'sum'             => $sumColumn,
                     'count'           => $countColumn))
-            ->join(array('review' => $this->getTable('review/review')),
+            ->join(array('review' => $this->getTable('review')),
                 'rating_vote.review_id=review.review_id',
                 array())
-            ->joinLeft(array('review_store' => $this->getTable('review/review_store')),
+            ->joinLeft(array('review_store' => $this->getTable('review_store')),
                 'rating_vote.review_id=review_store.review_id',
                 array('review_store.store_id'))
-            ->join(array('rating_store' => $this->getTable('rating/rating_store')),
+            ->join(array('rating_store' => $this->getTable('rating_store')),
                 'rating_store.rating_id = rating_vote.rating_id AND rating_store.store_id = review_store.store_id',
                 array())
-            ->join(array('review_status' => $this->getTable('review/review_status')),
+            ->join(array('review_status' => $this->getTable('review_status')),
                 'review.status_id = review_status.status_id',
                 array())
             ->where('review_status.status_code = :status_code')
@@ -347,15 +347,15 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
         $sumColumn      = new Zend_Db_Expr("SUM(rating_vote.{$adapter->quoteIdentifier('percent')})");
         $countColumn    = new Zend_Db_Expr('COUNT(*)');
         $select = $adapter->select()
-            ->from(array('rating_vote' => $this->getTable('rating/rating_option_vote')),
+            ->from(array('rating_vote' => $this->getTable('rating_option_vote')),
                 array(
                     'sum'   => $sumColumn,
                     'count' => $countColumn
                 ))
-            ->joinLeft(array('review_store' => $this->getTable('review/review_store')),
+            ->joinLeft(array('review_store' => $this->getTable('review_store')),
                 'rating_vote.review_id = review_store.review_id',
                 array('review_store.store_id'))
-            ->join(array('rating_store' => $this->getTable('rating/rating_store')),
+            ->join(array('rating_store' => $this->getTable('rating_store')),
                 'rating_store.rating_id = rating_vote.rating_id AND rating_store.store_id = review_store.store_id',
                 array())
             ->where('rating_vote.review_id = :review_id')
@@ -408,7 +408,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
     public function getEntityIdByCode($entityCode)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('rating/rating_entity'), array('entity_id'))
+            ->from($this->getTable('rating_entity'), array('entity_id'))
             ->where('entity_code = :entity_code');
 
         return $this->_getReadAdapter()->fetchOne($select, array(':entity_code' => $entityCode));
@@ -434,7 +434,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
                 'entity_pk_value = ?' => (int) $productId,
                 'rating_id IN(?)'     => $ratingIds
             );
-            $adapter->delete($this->getTable('rating/rating_vote_aggregated'), $where);
+            $adapter->delete($this->getTable('rating_option_vote_aggregated'), $where);
         }
 
         return $this;

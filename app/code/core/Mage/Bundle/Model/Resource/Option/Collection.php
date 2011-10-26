@@ -67,7 +67,7 @@ class Mage_Bundle_Model_Resource_Option_Collection extends Mage_Core_Model_Resou
     {
         $this->getSelect()
             ->joinLeft(
-                array('option_value_default' => $this->getTable('bundle/option_value')),
+                array('option_value_default' => $this->getTable('catalog_product_bundle_option_value')),
                 'main_table.option_id = option_value_default.option_id and option_value_default.store_id = 0',
                 array()
             )
@@ -81,7 +81,7 @@ class Mage_Bundle_Model_Resource_Option_Collection extends Mage_Core_Model_Resou
         if ($storeId !== null) {
             $this->getSelect()
                 ->columns(array('title' => $title))
-                ->joinLeft(array('option_value' => $this->getTable('bundle/option_value')),
+                ->joinLeft(array('option_value' => $this->getTable('catalog_product_bundle_option_value')),
                     $this->getConnection()->quoteInto(
                         'main_table.option_id = option_value.option_id and option_value.store_id = ?',
                         $storeId

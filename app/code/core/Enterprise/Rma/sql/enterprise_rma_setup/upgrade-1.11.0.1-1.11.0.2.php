@@ -27,7 +27,7 @@
 /** @var $installer Enterprise_Rma_Model_Resource_Setup */
 $installer = $this;
 
-$tableName = $installer->getTable('enterprise_rma/item_entity');
+$tableName = $installer->getTable('enterprise_rma_item_entity');
 
 $installer->getConnection()
     ->addColumn(

@@ -44,14 +44,6 @@
             </checkout>
             <checkout_resource>
                 <class>Mage_Checkout_Model_Resource</class>
-                <entities>
-                    <agreement>
-                        <table>checkout_agreement</table>
-                    </agreement>
-                    <agreement_store>
-                        <table>checkout_agreement_store</table>
-                    </agreement_store>
-                </entities>
             </checkout_resource>
         </models>
         <resources>

@@ -69,7 +69,7 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_Re
         }
 
         $select = $adapter->select()
-            ->from(array($this->getTable('catalog/category_product_index')), $columns)
+            ->from(array($this->getTable('catalog_category_product_index')), $columns)
             ->where('product_id IN (?)', $productIds)
             ->where('store_id = ?', $storeId)
             ->group('product_id');
@@ -112,7 +112,7 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_Re
         $adapter = $this->_getWriteAdapter();
         $prefix  = $this->_engine->getFieldsPrefix();
         $select = $adapter->select()
-            ->from($this->getTable('catalog/product_index_price'),
+            ->from($this->getTable('catalog_product_index_price'),
                 array('entity_id', 'customer_group_id', 'website_id', 'min_price'));
 
         if ($productIds) {
@@ -188,11 +188,11 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_Re
         $select = $adapter->select()
             ->distinct()
             ->from(
-                array('c_p' => $this->getTable('catalog/category_product')),
+                array('c_p' => $this->getTable('catalog_category_product')),
                 array('product_id')
             )
             ->join(
-                array('c_e' => $this->getTable('catalog/category')),
+                array('c_e' => $this->getTable('catalog_category_entity')),
                 'c_p.category_id = c_e.entity_id',
                 array()
             )

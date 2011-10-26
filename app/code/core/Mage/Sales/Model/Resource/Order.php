@@ -75,7 +75,7 @@ class Mage_Sales_Model_Resource_Order extends Mage_Sales_Model_Resource_Order_Ab
      */
     protected function _construct()
     {
-        $this->_init('sales/order', 'entity_id');
+        $this->_init('sales_flat_order', 'entity_id');
     }
 
     /**
@@ -92,13 +92,13 @@ class Mage_Sales_Model_Resource_Order extends Mage_Sales_Model_Resource_Order_Ab
         $concatAddress = $adapter->getConcatSql(array($ifnullFirst, $adapter->quote(' '), $ifnullLast));
         $this->addVirtualGridColumn(
                 'billing_name',
-                'sales/order_address',
+                'sales_flat_order_address',
                 array('billing_address_id' => 'entity_id'),
                 $concatAddress
             )
             ->addVirtualGridColumn(
                 'shipping_name',
-                'sales/order_address',
+                'sales_flat_order_address',
                  array('shipping_address_id' => 'entity_id'),
                  $concatAddress
             );
@@ -119,10 +119,10 @@ class Mage_Sales_Model_Resource_Order extends Mage_Sales_Model_Resource_Order_Ab
         $adapter = $this->getReadConnection();
         $select  = $adapter->select()
             ->from(
-                array('o' => $this->getTable('sales/order_item')),
+                array('o' => $this->getTable('sales_flat_order_item')),
                 array('o.product_type', new Zend_Db_Expr('COUNT(*)')))
             ->joinInner(
-                array('p' => $this->getTable('catalog/product')),
+                array('p' => $this->getTable('catalog_product_entity')),
                 'o.product_id=p.entity_id',
                 array())
             ->where('o.order_id=?', $orderId)

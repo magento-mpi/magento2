@@ -179,14 +179,14 @@ class Mage_Eav_Model_Resource_Form_Attribute_Collection extends Mage_Core_Model_
         $caColumns  = array();
         $saColumns  = array();
 
-        $eaDescribe = $connection->describeTable($this->getTable('eav/attribute'));
+        $eaDescribe = $connection->describeTable($this->getTable('eav_attribute'));
         unset($eaDescribe['attribute_id']);
         foreach (array_keys($eaDescribe) as $columnName) {
             $eaColumns[$columnName] = $columnName;
         }
 
         $select->join(
-            array('ea' => $this->getTable('eav/attribute')),
+            array('ea' => $this->getTable('eav_attribute')),
             'main_table.attribute_id = ea.attribute_id',
             $eaColumns
         );
@@ -250,7 +250,7 @@ class Mage_Eav_Model_Resource_Form_Attribute_Collection extends Mage_Core_Model_
             $joinExpression = $connection
                 ->quoteInto('al.attribute_id = main_table.attribute_id AND al.store_id = ?', (int)$store->getId());
             $select->joinLeft(
-                array('al' => $this->getTable('eav/attribute_label')),
+                array('al' => $this->getTable('eav_attribute_label')),
                 $joinExpression,
                 array('store_label' => $storeLabelExpr)
             );

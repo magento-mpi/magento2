@@ -29,10 +29,10 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'persistent/session'
+ * Create table 'persistent_session'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('persistent/session'))
+    ->newTable($installer->getTable('persistent_session'))
     ->addColumn('persistent_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity' => true,
         'primary'  => true,
@@ -52,24 +52,24 @@ $table = $installer->getConnection()
     ), 'Website ID')
     ->addColumn('info', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(), 'Session Data')
     ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(), 'Updated At')
-    ->addIndex($installer->getIdxName('persistent/session', array('key')), array('key'), array(
+    ->addIndex($installer->getIdxName('persistent_session', array('key')), array('key'), array(
         'type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE,
     ))
-    ->addIndex($installer->getIdxName('persistent/session', array('customer_id')), array('customer_id'), array(
+    ->addIndex($installer->getIdxName('persistent_session', array('customer_id')), array('customer_id'), array(
         'type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE,
     ))
-    ->addIndex($installer->getIdxName('persistent/session', array('updated_at')), array('updated_at'))
+    ->addIndex($installer->getIdxName('persistent_session', array('updated_at')), array('updated_at'))
     ->addForeignKey(
-        $installer->getFkName('persistent/session', 'customer_id', 'customer/entity', 'entity_id'),
+        $installer->getFkName('persistent_session', 'customer_id', 'customer_entity', 'entity_id'),
         'customer_id',
-        $installer->getTable('customer/entity'),
+        $installer->getTable('customer_entity'),
         'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE
     )
     ->addForeignKey(
-        $installer->getFkName('persistent/session', 'website_id', 'core/website', 'website_id'),
+        $installer->getFkName('persistent_session', 'website_id', 'core_website', 'website_id'),
         'website_id',
-        $installer->getTable('core/website'),
+        $installer->getTable('core_website'),
         'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE
     )
@@ -83,7 +83,7 @@ $installer->getConnection()->createTable($table);
  */
 $installer->getConnection()
     ->addColumn(
-        $installer->getTable('sales/quote'),
+        $installer->getTable('sales_flat_quote'),
         'is_persistent',
         array(
             'type'     => Varien_Db_Ddl_Table::TYPE_SMALLINT,

@@ -94,7 +94,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Virtual
      */
     public function getConditionsSql($customer, $website)
     {
-        $table = $this->getResource()->getTable('sales/quote');
+        $table = $this->getResource()->getTable('sales_flat_quote');
 
         $select = $this->getResource()->createSelect();
         $select->from(array('quote' => $table), array(new Zend_Db_Expr(1)));

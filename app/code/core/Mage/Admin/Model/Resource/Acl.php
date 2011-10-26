@@ -42,7 +42,7 @@ class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _construct()
     {
-        $this->_init('admin/role', 'role_id');
+        $this->_init('admin_role', 'role_id');
     }
 
     /**
@@ -56,9 +56,9 @@ class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
 
         Mage::getSingleton('admin/config')->loadAclResources($acl);
 
-        $roleTable   = $this->getTable('admin/role');
-        $ruleTable   = $this->getTable('admin/rule');
-        $assertTable = $this->getTable('admin/assert');
+        $roleTable   = $this->getTable('admin_role');
+        $ruleTable   = $this->getTable('admin_rule');
+        $assertTable = $this->getTable('admin_assert');
 
         $adapter = $this->_getReadAdapter();
 
@@ -149,7 +149,7 @@ class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
                 //if ( eregi("^Resource '(.*)' not found", $m) ) {
                     // Deleting non existent resource rule from rules table
                     //$cond = $this->_write->quoteInto('resource_id = ?', $resource);
-                    //$this->_write->delete(Mage::getSingleton('core/resource')->getTableName('admin/rule'), $cond);
+                    //$this->_write->delete(Mage::getSingleton('core/resource')->getTableName('admin_rule'), $cond);
                 //} else {
                     //TODO: We need to log such exceptions to somewhere like a system/errors.log
                 //}

@@ -86,7 +86,7 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Rss_Block_Abstract
         $product = Mage::getModel('catalog/product');
         /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = $product->getCollection();
-        $stockItemTable = $collection->getTable('cataloginventory/stock_item');
+        $stockItemTable = $collection->getTable('cataloginventory_stock_item');
 
         $stockItemWhere = '({{table}}.low_stock_date is not null) '
             . " AND ( ({{table}}.use_config_manage_stock=1 AND {$configManageStock}=1)"
@@ -96,7 +96,7 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Rss_Block_Abstract
 
         $collection
             ->addAttributeToSelect('name', true)
-            ->joinTable('cataloginventory/stock_item', 'product_id=entity_id',
+            ->joinTable('cataloginventory_stock_item', 'product_id=entity_id',
                 array(
                      'qty'=>'qty',
                      'notify_stock_qty'=>'notify_stock_qty',

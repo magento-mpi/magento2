@@ -304,7 +304,10 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetTablePrefix()
     {
-        $this->assertEquals('', (string)$this->_createModel(true)->getTablePrefix());
+        $_prefix = 'prefix_';
+        $_model = $this->_createModel(true);
+        $_model->setNode('global/resources/db/table_prefix', $_prefix);
+        $this->assertEquals($_prefix, (string)$_model->getTablePrefix());
     }
 
     public function testGetEventConfig()

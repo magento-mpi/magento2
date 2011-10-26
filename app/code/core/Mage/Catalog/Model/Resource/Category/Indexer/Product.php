@@ -82,12 +82,12 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
      */
     protected function _construct()
     {
-        $this->_init('catalog/category_product_index', 'category_id');
-        $this->_categoryTable        = $this->getTable('catalog/category');
-        $this->_categoryProductTable = $this->getTable('catalog/category_product');
-        $this->_productWebsiteTable  = $this->getTable('catalog/product_website');
-        $this->_storeTable           = $this->getTable('core/store');
-        $this->_groupTable           = $this->getTable('core/store_group');
+        $this->_init('catalog_category_product_index', 'category_id');
+        $this->_categoryTable        = $this->getTable('catalog_category_entity');
+        $this->_categoryProductTable = $this->getTable('catalog_category_product');
+        $this->_productWebsiteTable  = $this->getTable('catalog_product_website');
+        $this->_storeTable           = $this->getTable('core_store');
+        $this->_groupTable           = $this->getTable('core_store_group');
     }
 
     /**
@@ -355,7 +355,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
 
             $select = $adapter->select()
                 ->distinct(true)
-                ->from(array('cc' => $this->getTable('catalog/category')), null)
+                ->from(array('cc' => $this->getTable('catalog_category_entity')), null)
                 ->join(
                     array('i' => $this->getMainTable()),
                     'i.category_id = cc.entity_id and i.store_id = 1',
@@ -898,7 +898,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             $idxAdapter->query($query);
 
             $select = $idxAdapter->select()
-                ->from(array('e' => $this->getTable('catalog/product')), null)
+                ->from(array('e' => $this->getTable('catalog_product_entity')), null)
                 ->join(
                     array('ei' => $enabledTable),
                     'ei.product_id = e.entity_id',
@@ -1005,9 +1005,9 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
     protected function _getEnabledProductsTemporaryTable()
     {
         if ($this->useIdxTable()) {
-            return $this->getTable('catalog/category_product_enabled_indexer_idx');
+            return $this->getTable('catalog_category_product_index_enbl_idx');
         }
-        return $this->getTable('catalog/category_product_enabled_indexer_tmp');
+        return $this->getTable('catalog_category_product_index_enbl_tmp');
     }
 
     /**
@@ -1020,13 +1020,13 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
         if (is_null($this->_storesInfo)) {
             $adapter = $this->_getReadAdapter();
             $select = $adapter->select()
-                ->from(array('s' => $this->getTable('core/store')), array('store_id', 'website_id'))
+                ->from(array('s' => $this->getTable('core_store')), array('store_id', 'website_id'))
                 ->join(
-                    array('sg' => $this->getTable('core/store_group')),
+                    array('sg' => $this->getTable('core_store_group')),
                     'sg.group_id = s.group_id',
                     array())
                 ->join(
-                    array('c' => $this->getTable('catalog/category')),
+                    array('c' => $this->getTable('catalog_category_entity')),
                     'c.entity_id = sg.root_category_id',
                     array(
                         'root_path' => 'path',
@@ -1088,9 +1088,9 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
     protected function _getAnchorCategoriesTemporaryTable()
     {
         if ($this->useIdxTable()) {
-            return $this->getTable('catalog/category_anchor_indexer_idx');
+            return $this->getTable('catalog_category_anc_categs_index_idx');
         }
-        return $this->getTable('catalog/category_anchor_indexer_tmp');
+        return $this->getTable('catalog_category_anc_categs_index_tmp');
     }
 
     /**
@@ -1101,9 +1101,9 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
     protected function _getAnchorCategoriesProductsTemporaryTable()
     {
         if ($this->useIdxTable()) {
-            return $this->getTable('catalog/category_anchor_products_indexer_idx');
+            return $this->getTable('catalog_category_anc_products_index_idx');
         }
-        return $this->getTable('catalog/category_anchor_products_indexer_tmp');
+        return $this->getTable('catalog_category_anc_products_index_tmp');
     }
 
     /**
@@ -1115,8 +1115,8 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
     public function getIdxTable($table = null)
     {
         if ($this->useIdxTable()) {
-            return $this->getTable('catalog/category_product_indexer_idx');
+            return $this->getTable('catalog_category_product_index_idx');
         }
-        return $this->getTable('catalog/category_product_indexer_tmp');
+        return $this->getTable('catalog_category_product_index_tmp');
     }
 }

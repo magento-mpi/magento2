@@ -40,7 +40,7 @@ class Mage_Api_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _construct()
     {
-        $this->_init('api/role', 'role_id');
+        $this->_init('api_role', 'role_id');
     }
 
     /**
@@ -57,16 +57,16 @@ class Mage_Api_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
 
         $rolesArr = $adapter->fetchAll(
             $adapter->select()
-                ->from($this->getTable('api/role'))
+                ->from($this->getTable('api_role'))
                 ->order(array('tree_level', 'role_type'))
         );
         $this->loadRoles($acl, $rolesArr);
 
         $rulesArr =  $adapter->fetchAll(
             $adapter->select()
-                ->from(array('r'=>$this->getTable('api/rule')))
+                ->from(array('r'=>$this->getTable('api_rule')))
                 ->joinLeft(
-                    array('a'=>$this->getTable('api/assert')),
+                    array('a'=>$this->getTable('api_assert')),
                     'a.assert_id=r.assert_id',
                     array('assert_type', 'assert_data')
                 ));
@@ -135,7 +135,7 @@ class Mage_Api_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
                 //if ( eregi("^Resource '(.*)' not found", $m) ) {
                     // Deleting non existent resource rule from rules table
                     //$cond = $this->_write->quoteInto('resource_id = ?', $resource);
-                    //$this->_write->delete(Mage::getSingleton('core/resource')->getTableName('admin/rule'), $cond);
+                    //$this->_write->delete(Mage::getSingleton('core/resource')->getTableName('admin_rule'), $cond);
                 //} else {
                     //TODO: We need to log such exceptions to somewhere like a system/errors.log
                 //}

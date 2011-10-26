@@ -114,7 +114,7 @@ class Mage_Sales_Model_Resource_Order_Collection extends Mage_Sales_Model_Resour
     {
         $billingAliasName = 'billing_o_a';
         $shippingAliasName = 'shipping_o_a';
-        $joinTable = $this->getTable('sales/order_address');
+        $joinTable = $this->getTable('sales_flat_order_address');
 
         $this
             ->addFilterToMap('billing_firstname', $billingAliasName . '.firstname')
@@ -215,7 +215,7 @@ class Mage_Sales_Model_Resource_Order_Collection extends Mage_Sales_Model_Resour
         $agreements = (is_array($agreements)) ? $agreements : array($agreements);
         $this->getSelect()
             ->joinInner(
-                array('sbao' => $this->getTable('sales/billing_agreement_order')),
+                array('sbao' => $this->getTable('sales_billing_agreement_order')),
                 'main_table.entity_id = sbao.order_id',
                 array())
             ->where('sbao.agreement_id IN(?)', $agreements);
@@ -233,7 +233,7 @@ class Mage_Sales_Model_Resource_Order_Collection extends Mage_Sales_Model_Resour
         $ids = (is_array($ids)) ? $ids : array($ids);
         $this->getSelect()
             ->joinInner(
-                array('srpo' => $this->getTable('sales/recurring_profile_order')),
+                array('srpo' => $this->getTable('sales_recurring_profile_order')),
                 'main_table.entity_id = srpo.order_id',
                 array())
             ->where('srpo.profile_id IN(?)', $ids);

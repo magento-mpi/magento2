@@ -616,8 +616,8 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                 );
                 $writeAdapter->query($sql);
 
-                if ($entityName == 'catalog/product_website') {
-                    $unlinkedTable = $this->getTable('enterprise_staging/staging_product_unlinked');
+                if ($entityName == 'catalog_product_website') {
+                    $unlinkedTable = $this->getTable('enterprise_staging_product_unlinked');
 
                     $select = $writeAdapter->select()
                         ->from($unlinkedTable, array('product_id'))

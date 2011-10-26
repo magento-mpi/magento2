@@ -166,10 +166,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
      */
     public function setMainTable($table)
     {
-        if (strpos($table, '/') !== false) {
-            $table = $this->getTable($table);
-        }
-
+        $table = $this->getTable($table);
         if ($this->_mainTable !== null && $table !== $this->_mainTable && $this->getSelect() !== null) {
             $from = $this->getSelect()->getPart(Zend_Db_Select::FROM);
             if (isset($from['main_table'])) {

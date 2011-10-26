@@ -66,8 +66,8 @@ class Mage_Catalog_Model_Resource_Product_Option_Value_Collection
     public function addTitlesToResult($storeId)
     {
         $adapter = $this->getConnection();
-        $optionTypePriceTable = $this->getTable('catalog/product_option_type_price');
-        $optionTitleTable     = $this->getTable('catalog/product_option_type_title');
+        $optionTypePriceTable = $this->getTable('catalog_product_option_type_price');
+        $optionTitleTable     = $this->getTable('catalog_product_option_type_title');
         $priceExpr = $adapter->getCheckSql(
             'store_value_price.price IS NULL',
             'default_value_price.price',
@@ -133,7 +133,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value_Collection
      */
     public function addTitleToResult($storeId)
     {
-        $optionTitleTable = $this->getTable('catalog/product_option_type_title');
+        $optionTitleTable = $this->getTable('catalog_product_option_type_title');
         $titleExpr = $this->getConnection()
             ->getCheckSql('store_value_title.title IS NULL', 'default_value_title.title', 'store_value_title.title');
 
@@ -166,7 +166,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value_Collection
      */
     public function addPriceToResult($storeId)
     {
-        $optionTypeTable = $this->getTable('catalog/product_option_type_price');
+        $optionTypeTable = $this->getTable('catalog_product_option_type_price');
         $priceExpr = $this->getConnection()
             ->getCheckSql('store_value_price.price IS NULL', 'default_value_price.price', 'store_value_price.price');
         $priceTypeExpr = $this->getConnection()

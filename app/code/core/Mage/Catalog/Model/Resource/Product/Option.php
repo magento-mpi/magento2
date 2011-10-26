@@ -40,7 +40,7 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_option', 'option_id');
+        $this->_init('catalog_product_option', 'option_id');
     }
 
     /**
@@ -65,7 +65,7 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
      */
     protected function _saveValuePrices(Mage_Core_Model_Abstract $object)
     {
-        $priceTable   = $this->getTable('catalog/product_option_price');
+        $priceTable   = $this->getTable('catalog_product_option_price');
         $readAdapter  = $this->_getReadAdapter();
         $writeAdapter = $this->_getWriteAdapter();
 
@@ -210,7 +210,7 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
     {
         $readAdapter  = $this->_getReadAdapter();
         $writeAdapter = $this->_getWriteAdapter();
-        $titleTable = $this->getTable('catalog/product_option_title');
+        $titleTable = $this->getTable('catalog_product_option_title');
 
         //title
         if (!$object->getData('scope', 'title')) {
@@ -312,7 +312,7 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
     public function deletePrices($optionId)
     {
         $this->_getWriteAdapter()->delete(
-            $this->getTable('catalog/product_option_price'),
+            $this->getTable('catalog_product_option_price'),
             array(
                 'option_id = ?' => $optionId
             )
@@ -330,7 +330,7 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
     public function deleteTitles($optionId)
     {
         $this->_getWriteAdapter()->delete(
-            $this->getTable('catalog/product_option_title'),
+            $this->getTable('catalog_product_option_title'),
             array(
                 'option_id = ?' => $optionId
             )
@@ -357,7 +357,7 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
 
         // read and prepare original product options
         $select = $read->select()
-            ->from($this->getTable('catalog/product_option'))
+            ->from($this->getTable('catalog_product_option'))
             ->where('product_id = ?', $oldProductId);
 
         $query = $read->query($select);
@@ -377,7 +377,7 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
         // copy options prefs
         foreach ($optionsCond as $oldOptionId => $newOptionId) {
             // title
-            $table = $this->getTable('catalog/product_option_title');
+            $table = $this->getTable('catalog_product_option_title');
 
             $select = $this->_getReadAdapter()->select()
                 ->from($table, array(new Zend_Db_Expr($newOptionId), 'store_id', 'title'))
@@ -392,7 +392,7 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
             $write->query($insertSelect);
 
             // price
-            $table = $this->getTable('catalog/product_option_price');
+            $table = $this->getTable('catalog_product_option_price');
 
             $select = $read->select()
                 ->from($table, array(new Zend_Db_Expr($newOptionId), 'store_id', 'price', 'price_type'))
@@ -454,12 +454,12 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
         $select = $adapter->select()
             ->from(array('product_option' => $this->getMainTable()), null)
             ->join(
-                array('option_title_default' => $this->getTable('catalog/product_option_title')),
+                array('option_title_default' => $this->getTable('catalog_product_option_title')),
                 $defaultOptionJoin,
                 array()
             )
             ->joinLeft(
-                array('option_title_store' => $this->getTable('catalog/product_option_title')),
+                array('option_title_store' => $this->getTable('catalog_product_option_title')),
                 $storeOptionJoin,
                 array('title' => $titleCheckSql)
             )
@@ -486,17 +486,17 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
         $select = $adapter->select()
             ->from(array('product_option' => $this->getMainTable()), null)
             ->join(
-                array('option_type' => $this->getTable('catalog/product_option_type_value')),
+                array('option_type' => $this->getTable('catalog_product_option_type_value')),
                 'option_type.option_id=product_option.option_id',
                 array()
             )
             ->join(
-                array('option_title_default' => $this->getTable('catalog/product_option_type_title')),
+                array('option_title_default' => $this->getTable('catalog_product_option_type_title')),
                 $defaultOptionJoin,
                 array()
             )
             ->joinLeft(
-                array('option_title_store' => $this->getTable('catalog/product_option_type_title')),
+                array('option_title_store' => $this->getTable('catalog_product_option_type_title')),
                 $storeOptionJoin,
                 array('title' => $titleCheckSql)
             )

@@ -30,10 +30,10 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_pci/admin_passwords'
+ * Create table 'enterprise_admin_passwords'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_pci/admin_passwords'))
+    ->newTable($installer->getTable('enterprise_admin_passwords'))
     ->addColumn('password_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -57,16 +57,16 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Last Updated')
-    ->addIndex($installer->getIdxName('enterprise_pci/admin_passwords', array('user_id')),
+    ->addIndex($installer->getIdxName('enterprise_admin_passwords', array('user_id')),
         array('user_id'))
-    ->addForeignKey($installer->getFkName('enterprise_pci/admin_passwords', 'user_id', 'admin/user', 'user_id'),
-        'user_id', $installer->getTable('admin/user'), 'user_id',
+    ->addForeignKey($installer->getFkName('enterprise_admin_passwords', 'user_id', 'admin_user', 'user_id'),
+        'user_id', $installer->getTable('admin_user'), 'user_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Admin Passwords');
 $installer->getConnection()->createTable($table);
 
-$tableAdmins     = $installer->getTable('admin/user');
-$tableApiUsers   = $installer->getTable('api/user');
+$tableAdmins     = $installer->getTable('admin_user');
+$tableApiUsers   = $installer->getTable('api_user');
 
 $installer->getConnection()->changeColumn($tableAdmins, 'password', 'password', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,

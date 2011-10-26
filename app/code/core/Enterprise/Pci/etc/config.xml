@@ -39,11 +39,6 @@
             </enterprise_pci>
             <enterprise_pci_resource>
                 <class>Enterprise_Pci_Model_Resource</class>
-                <entities>
-                    <admin_passwords>
-                        <table>enterprise_admin_passwords</table>
-                    </admin_passwords>
-                </entities>
             </enterprise_pci_resource>
         </models>
         <blocks>

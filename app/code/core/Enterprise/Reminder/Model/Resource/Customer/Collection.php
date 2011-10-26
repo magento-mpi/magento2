@@ -52,10 +52,10 @@ class Enterprise_Reminder_Model_Resource_Customer_Collection extends Mage_Custom
         $rule = Mage::registry('current_reminder_rule');
         $select = $this->getSelect();
 
-        $customerTable = $this->getTable('customer/entity');
-        $couponTable = $this->getTable('enterprise_reminder/coupon');
-        $logTable = $this->getTable('enterprise_reminder/log');
-        $salesRuleCouponTable = $this->getTable('salesrule/coupon');
+        $customerTable = $this->getTable('customer_entity');
+        $couponTable = $this->getTable('enterprise_reminder_rule_coupon');
+        $logTable = $this->getTable('enterprise_reminder_rule_log');
+        $salesRuleCouponTable = $this->getTable('salesrule_coupon');
 
         $select->from(array('c' => $couponTable), array('associated_at', 'emails_failed', 'is_active'));
         $select->where('c.rule_id = ?', $rule->getId());

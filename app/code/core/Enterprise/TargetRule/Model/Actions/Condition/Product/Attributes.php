@@ -289,7 +289,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
 
         if ($attributeCode == 'category_ids') {
             $select = $object->select()
-                ->from($resource->getTable('catalog/category_product'), 'COUNT(*)')
+                ->from($resource->getTable('catalog_category_product'), 'COUNT(*)')
                 ->where('product_id=e.entity_id');
             if ($valueType == self::VALUE_TYPE_SAME_AS) {
                 $operator = ('!{}' == $operator) ? '!()' : '()';
@@ -299,9 +299,9 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
             } else if ($valueType == self::VALUE_TYPE_CHILD_OF) {
                 $concatenated = $resource->getReadConnection()->getConcatSql(array('tp.path', "'/%'"));
                 $subSelect = $resource->select()
-                    ->from(array('tc' => $resource->getTable('catalog/category')), 'entity_id')
+                    ->from(array('tc' => $resource->getTable('catalog_category_entity')), 'entity_id')
                     ->join(
-                        array('tp' => $resource->getTable('catalog/category')),
+                        array('tp' => $resource->getTable('catalog_category_entity')),
                         "tc.path ".($operator == '!()' ? 'NOT ' : '')."LIKE {$concatenated}",
                         array())
                     ->where($resource->getOperatorBindCondition('tp.entity_id', 'category_ids', '()', $bind,

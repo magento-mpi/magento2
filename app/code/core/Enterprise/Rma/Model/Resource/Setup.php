@@ -66,9 +66,9 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
             'rma_item'                           => array(
                 'entity_model'                   => 'enterprise_rma/item',
                 'attribute_model'                => 'enterprise_rma/item_attribute',
-                'table'                          => 'enterprise_rma/item_entity',
+                'table'                          => 'enterprise_rma_item_entity',
                 'increment_model'                => 'eav/entity_increment_numeric',
-                'additional_attribute_table'     => 'enterprise_rma/item_eav_attribute',
+                'additional_attribute_table'     => 'enterprise_rma_item_eav_attribute',
                 'increment_per_store'            => 1,
                 'entity_attribute_collection'    => null,
                 'increment_per_store'            => 1,
@@ -150,7 +150,7 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
                         'input'              => 'select',
                         'sort_order'         => 90,
                         'position'           => 90,
-                        'source'             => 'eav/entity_attribute_source_table',
+                        'source'             => 'eav_entity_attribute_source_table',
                         'system'             => false,
                         'option'             => array('values' => array('Exchange', 'Refund', 'Store Credit')),
                         'validate_rules'     => 'a:0:{}',
@@ -161,7 +161,7 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
                         'input'              => 'select',
                         'sort_order'         => 100,
                         'position'           => 100,
-                        'source'             => 'eav/entity_attribute_source_table',
+                        'source'             => 'eav_entity_attribute_source_table',
                         'system'             => false,
                         'option'             => array('values' => array('Unopened', 'Opened', 'Damaged')),
                         'validate_rules'     => 'a:0:{}',
@@ -172,7 +172,7 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
                         'input'              => 'select',
                         'sort_order'         => 110,
                         'position'           => 110,
-                        'source'             => 'eav/entity_attribute_source_table',
+                        'source'             => 'eav_entity_attribute_source_table',
                         'system'             => false,
                         'option'             => array('values' => array('Wrong Color', 'Wrong Size', 'Out of Service')),
                         'validate_rules'     => 'a:0:{}',
@@ -203,7 +203,7 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
         $attributeIds       = array();
         $select = $this->getConnection()->select()
             ->from(
-                array('ea' => $this->getTable('eav/attribute')),
+                array('ea' => $this->getTable('eav_attribute')),
                 array('entity_type_id', 'attribute_code', 'attribute_id'))
             ->where('ea.entity_type_id = ?', $rma_item);
         foreach ($this->getConnection()->fetchAll($select) as $row) {
@@ -231,7 +231,7 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
         }
 
         if ($data) {
-            $this->getConnection()->insertMultiple($this->getTable('enterprise_rma/item_form_attribute'), $data);
+            $this->getConnection()->insertMultiple($this->getTable('enterprise_rma_item_form_attribute'), $data);
         }
     }
 }

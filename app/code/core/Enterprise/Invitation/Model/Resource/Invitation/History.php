@@ -40,6 +40,6 @@ class Enterprise_Invitation_Model_Resource_Invitation_History extends Mage_Core_
      */
     protected function _construct()
     {
-        $this->_init('enterprise_invitation/invitation_history', 'history_id');
+        $this->_init('enterprise_invitation_status_history', 'history_id');
     }
 }

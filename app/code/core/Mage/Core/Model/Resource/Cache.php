@@ -40,7 +40,7 @@ class Mage_Core_Model_Resource_Cache extends Mage_Core_Model_Resource_Db_Abstrac
      */
     protected function _construct()
     {
-        $this->_init('core/cache_option', 'code');
+        $this->_init('core_cache_option', 'code');
     }
 
     /**

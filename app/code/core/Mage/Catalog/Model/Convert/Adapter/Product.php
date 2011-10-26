@@ -185,7 +185,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
             $qtyAttr = array();
             $qtyAttr['alias']       = 'qty';
-            $qtyAttr['attribute']   = 'cataloginventory/stock_item';
+            $qtyAttr['attribute']   = 'cataloginventory_stock_item';
             $qtyAttr['field']       = 'qty';
             $qtyAttr['bind']        = 'product_id=entity_id';
             $qtyAttr['cond']        = "{{table}}.qty between '{$qtyFrom}' AND '{$qtyTo}'";

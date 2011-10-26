@@ -105,9 +105,9 @@ class Enterprise_GiftCard_Model_Resource_Indexer_Price extends Mage_Catalog_Mode
 
         $write  = $this->_getWriteAdapter();
         $select = $write->select()
-            ->from(array('e' => $this->getTable('catalog/product')), array('entity_id'))
+            ->from(array('e' => $this->getTable('catalog_product_entity')), array('entity_id'))
             ->join(
-                array('cg' => $this->getTable('customer/customer_group')),
+                array('cg' => $this->getTable('customer_group')),
                 '',
                 array('customer_group_id')
             );
@@ -130,7 +130,7 @@ class Enterprise_GiftCard_Model_Resource_Indexer_Price extends Mage_Catalog_Mode
         $attrAmounts = $this->_getAttribute('giftcard_amounts');
         // join giftCard amounts table
         $select->joinLeft(
-            array('gca' => $this->getTable('enterprise_giftcard/amount')),
+            array('gca' => $this->getTable('enterprise_giftcard_amount')),
             'gca.entity_id = e.entity_id AND gca.attribute_id = '
             . $attrAmounts->getAttributeId()
             . ' AND (gca.website_id = cw.website_id OR gca.website_id = 0)',

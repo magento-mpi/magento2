@@ -40,7 +40,7 @@ class Enterprise_GiftCardAccount_Model_Resource_History extends Mage_Core_Model_
      */
     protected function _construct()
     {
-        $this->_init('enterprise_giftcardaccount/history', 'history_id');
+        $this->_init('enterprise_giftcardaccount_history', 'history_id');
     }
 
     /**

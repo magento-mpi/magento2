@@ -40,14 +40,6 @@
             </xmlconnect>
             <xmlconnect_resource>
                 <class>Mage_XmlConnect_Model_Resource</class>
-                <entities>
-                    <application><table>xmlconnect_application</table></application>
-                    <history><table>xmlconnect_history</table></history>
-                    <application_design><table>xmlconnect_application</table></application_design>
-                    <queue><table>xmlconnect_queue</table></queue>
-                    <template><table>xmlconnect_notification_template</table></template>
-                    <configData><table>xmlconnect_config_data</table></configData>
-                </entities>
             </xmlconnect_resource>
         </models>
         <blocks>

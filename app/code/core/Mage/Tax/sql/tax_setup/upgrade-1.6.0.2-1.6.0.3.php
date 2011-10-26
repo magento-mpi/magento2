@@ -28,11 +28,11 @@ $installer = $this;
 /* @var $installer Mage_Tax_Model_Resource_Setup */
 
 /**
- * Add new field to 'tax/sales_order_tax_item'
+ * Add new field to 'sales_order_tax_item'
  */
 $installer->getConnection()
     ->addColumn(
-        $installer->getTable('tax/sales_order_tax_item'),
+        $installer->getTable('sales_order_tax_item'),
         'tax_percent',
         array(
             'TYPE'      => Varien_Db_Ddl_Table::TYPE_DECIMAL,

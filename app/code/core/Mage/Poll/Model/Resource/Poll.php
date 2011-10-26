@@ -40,7 +40,7 @@ class Mage_Poll_Model_Resource_Poll extends Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _construct()
     {
-        $this->_init('poll/poll', 'poll_id');
+        $this->_init('poll', 'poll_id');
     }
 
     /**
@@ -78,7 +78,7 @@ class Mage_Poll_Model_Resource_Poll extends Mage_Core_Model_Resource_Db_Abstract
         $storeId = $object->getStoreFilter();
         if ($storeId) {
             $select->join(
-                array('store' => $this->getTable('poll/poll_store')),
+                array('store' => $this->getTable('poll_store')),
                 'main_table.poll_id=store.poll_id AND store.store_id = ' . $read->quote($storeId),
                 array()
             );
@@ -206,14 +206,14 @@ class Mage_Poll_Model_Resource_Poll extends Mage_Core_Model_Resource_Db_Abstract
     {
         /** stores */
         $deleteWhere = $this->_getWriteAdapter()->quoteInto('poll_id = ?', $object->getId());
-        $this->_getWriteAdapter()->delete($this->getTable('poll/poll_store'), $deleteWhere);
+        $this->_getWriteAdapter()->delete($this->getTable('poll_store'), $deleteWhere);
 
         foreach ($object->getStoreIds() as $storeId) {
             $pollStoreData = array(
             'poll_id'   => $object->getId(),
             'store_id'  => $storeId
             );
-            $this->_getWriteAdapter()->insert($this->getTable('poll/poll_store'), $pollStoreData);
+            $this->_getWriteAdapter()->insert($this->getTable('poll_store'), $pollStoreData);
         }
 
         /** answers */
@@ -233,7 +233,7 @@ class Mage_Poll_Model_Resource_Poll extends Mage_Core_Model_Resource_Db_Abstract
     {
         return $this->_getReadAdapter()->fetchCol(
             $this->_getReadAdapter()->select()
-                ->from($this->getTable('poll/poll_store'), 'store_id')
+                ->from($this->getTable('poll_store'), 'store_id')
                 ->where("{$this->getIdFieldName()} = :id_field"),
             array(':id_field' => $id)
         );

@@ -40,7 +40,7 @@ class Mage_Dataflow_Model_Resource_Import extends Mage_Core_Model_Resource_Db_Ab
      */
     protected function _construct()
     {
-        $this->_init('dataflow/import', 'import_id');
+        $this->_init('dataflow_import_data', 'import_id');
     }
 
     /**
@@ -79,7 +79,7 @@ class Mage_Dataflow_Model_Resource_Import extends Mage_Core_Model_Resource_Db_Ab
         );
         $read = $this->_getReadAdapter();
         $select = $read->select()
-            ->from($this->getTable('dataflow/import'))
+            ->from($this->getTable('dataflow_import_data'))
             ->where('import_id >= :min_id')
             ->where('import_id >= :max_id')
             ->where('status= :status')
@@ -101,7 +101,7 @@ class Mage_Dataflow_Model_Resource_Import extends Mage_Core_Model_Resource_Db_Ab
         );
         $read = $this->_getReadAdapter();
         $select = $read->select()
-            ->from($this->getTable('dataflow/import'),
+            ->from($this->getTable('dataflow_import_data'),
                 array('max'=>'max(import_id)', 'min'=>'min(import_id)', 'cnt'=>'count(*)'))
             ->where('status = :status')
             ->where('session_id = :$session_id');
@@ -122,7 +122,7 @@ class Mage_Dataflow_Model_Resource_Import extends Mage_Core_Model_Resource_Db_Ab
         );
         $read = $this->_getReadAdapter();
         $select = $read->select()
-            ->from($this->getTable('dataflow/import'))
+            ->from($this->getTable('dataflow_import_data'))
             ->where('status = :status')
             ->where('import_id = :import_id');
         return $read->fetchRow($select, $bind);

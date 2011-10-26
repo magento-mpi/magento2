@@ -47,10 +47,10 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
      * @var array
      */
     protected $_tablesMap = array(
-        'sales/order_grid'      => 'enterprise_salesarchive/order_grid',
-        'sales/invoice_grid'    => 'enterprise_salesarchive/invoice_grid',
-        'sales/creditmemo_grid' => 'enterprise_salesarchive/creditmemo_grid',
-        'sales/shipment_grid'   => 'enterprise_salesarchive/shipment_grid'
+        'sales_flat_order_grid'      => 'enterprise_sales_order_grid_archive',
+        'sales_flat_invoice_grid'    => 'enterprise_sales_invoice_grid_archive',
+        'sales_flat_creditmemo_grid' => 'enterprise_sales_creditmemo_grid_archive',
+        'sales_flat_shipment_grid'   => 'enterprise_sales_shipment_grid_archive'
     );
 
     /**
@@ -59,10 +59,10 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
      * @var array
      */
     protected $_tableContraintMap = array(
-        'sales/order_grid'      => array('SALES_FLAT_ORDER_GRID',      'SALES_FLAT_ORDER_GRID_ARCHIVE'),
-        'sales/invoice_grid'    => array('SALES_FLAT_INVOICE_GRID',    'SALES_FLAT_INVOICE_GRID_ARCHIVE'),
-        'sales/creditmemo_grid' => array('SALES_FLAT_CREDITMEMO_GRID', 'SALES_FLAT_CREDITMEMO_GRID_ARCHIVE'),
-        'sales/shipment_grid'   => array('SALES_FLAT_SHIPMENT_GRID',   'SALES_FLAT_SHIPMENT_GRID_ARCHIVE')
+        'sales_flat_order_grid'      => array('SALES_FLAT_ORDER_GRID',      'SALES_FLAT_ORDER_GRID_ARCHIVE'),
+        'sales_flat_invoice_grid'    => array('SALES_FLAT_INVOICE_GRID',    'SALES_FLAT_INVOICE_GRID_ARCHIVE'),
+        'sales_flat_creditmemo_grid' => array('SALES_FLAT_CREDITMEMO_GRID', 'SALES_FLAT_CREDITMEMO_GRID_ARCHIVE'),
+        'sales_flat_shipment_grid'   => array('SALES_FLAT_SHIPMENT_GRID',   'SALES_FLAT_SHIPMENT_GRID_ARCHIVE')
     );
 
     /**
@@ -303,8 +303,13 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
 
             if (!isset($targetConstraints[$targetConstraint]) ||
                 $this->_checkConstraintDifference($constraintInfo, $targetConstraints[$targetConstraint])) {
-                $this->getConnection()->addConstraint(
-                    $targetConstraint,
+                $this->getConnection()->addForeignKey(
+                    $this->getConnection()->getForeignKeyName(
+                        $targetTable,
+                        $constraintInfo['COLUMN_NAME'],
+                        $constraintInfo['REF_TABLE_NAME'],
+                        $constraintInfo['REF_COLUMN_NAME']
+                    ),
                     $targetTable,
                     $constraintInfo['COLUMN_NAME'],
                     $constraintInfo['REF_TABLE_NAME'],

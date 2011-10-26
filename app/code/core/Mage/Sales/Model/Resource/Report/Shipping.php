@@ -72,8 +72,8 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
      */
     protected function _aggregateByOrderCreatedAt($from, $to)
     {
-        $table       = $this->getTable('sales/shipping_aggregated_order');
-        $sourceTable = $this->getTable('sales/order');
+        $table       = $this->getTable('sales_shipping_aggregated_order');
+        $sourceTable = $this->getTable('sales_flat_order');
         $adapter     = $this->_getWriteAdapter();
         $adapter->beginTransaction();
 
@@ -174,9 +174,9 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
      */
     protected function _aggregateByShippingCreatedAt($from, $to)
     {
-        $table       = $this->getTable('sales/shipping_aggregated');
-        $sourceTable = $this->getTable('sales/invoice');
-        $orderTable  = $this->getTable('sales/order');
+        $table       = $this->getTable('sales_shipping_aggregated');
+        $sourceTable = $this->getTable('sales_flat_invoice');
+        $orderTable  = $this->getTable('sales_flat_order');
         $adapter     = $this->_getWriteAdapter();
         $adapter->beginTransaction();
 

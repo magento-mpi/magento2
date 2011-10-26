@@ -120,7 +120,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
         if (is_array($setId)) {
             if (!empty($setId)) {
                 $this->join(
-                    'entity_attribute',
+                    array('entity_attribute' => $this->getTable('eav_entity_attribute')),
                     'entity_attribute.attribute_id = main_table.attribute_id',
                     'attribute_id'
                 );
@@ -130,7 +130,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
             }
         } elseif ($setId) {
             $this->join(
-                'entity_attribute',
+                array('entity_attribute' => $this->getTable('eav_entity_attribute')),
                 'entity_attribute.attribute_id = main_table.attribute_id'
             );
             $this->addFieldToFilter('entity_attribute.attribute_set_id', $setId);
@@ -151,7 +151,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
     {
         $this->getSelect()->distinct(true);
         $this->join(
-            array('entity_attribute' => $this->getTable('eav/entity_attribute')),
+            array('entity_attribute' => $this->getTable('eav_entity_attribute')),
             'entity_attribute.attribute_id = main_table.attribute_id',
             'attribute_id'
         );
@@ -178,7 +178,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
             $joinCondition = $this->getConnection()
                 ->quoteInto("{$alias}.attribute_id = main_table.attribute_id AND {$alias}.attribute_set_id =?", $setId);
             $this->join(
-                array($alias => 'eav/entity_attribute'),
+                array($alias => 'eav_entity_attribute'),
                 $joinCondition,
                 'attribute_id'
             );
@@ -199,7 +199,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
     public function setAttributeSetExcludeFilter($setId)
     {
         $this->join(
-            'entity_attribute',
+            array('entity_attribute' => $this->getTable('eav_entity_attribute')),
             'entity_attribute.attribute_id = main_table.attribute_id'
         );
         $this->addFieldToFilter('entity_attribute.attribute_set_id', array('neq' => $setId));
@@ -228,7 +228,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
     public function setAttributeGroupFilter($groupId)
     {
         $this->join(
-            'entity_attribute',
+            array('entity_attribute' => $this->getTable('eav_entity_attribute')),
             'entity_attribute.attribute_id = main_table.attribute_id'
         );
         $this->addFieldToFilter('entity_attribute.attribute_group_id', $groupId);
@@ -284,7 +284,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
 
         $this->getSelect()
             ->joinLeft(
-                array('ao' => $this->getTable('eav/attribute_option')),
+                array('ao' => $this->getTable('eav_attribute_option')),
                 'ao.attribute_id = main_table.attribute_id',
                 'option_id')
             ->group('main_table.attribute_id')
@@ -336,11 +336,11 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
             if (count($attributeIds) > 0) {
                 $select = $adapter->select()
                     ->from(
-                        array('entity' => $this->getTable('eav/entity_attribute')),
+                        array('entity' => $this->getTable('eav_entity_attribute')),
                         array('attribute_id', 'attribute_set_id', 'attribute_group_id', 'sort_order')
                     )
                     ->joinLeft(
-                        array('attribute_group' => $this->getTable('eav/attribute_group')),
+                        array('attribute_group' => $this->getTable('eav_attribute_group')),
                         'entity.attribute_group_id = attribute_group.attribute_group_id',
                         array('group_sort_order' => 'sort_order')
                     )
@@ -425,7 +425,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
         $joinExpression = $adapter
             ->quoteInto('al.attribute_id = main_table.attribute_id AND al.store_id = ?', (int) $storeId);
         $this->getSelect()->joinLeft(
-            array('al' => $this->getTable('eav/attribute_label')),
+            array('al' => $this->getTable('eav_attribute_label')),
             $joinExpression,
             array('store_label' => $adapter->getIfNullSql('al.value', 'main_table.frontend_label'))
         );

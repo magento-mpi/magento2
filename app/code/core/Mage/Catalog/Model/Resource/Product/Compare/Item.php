@@ -40,7 +40,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item extends Mage_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('catalog/compare_item', 'catalog_compare_item_id');
+        $this->_init('catalog_compare_item', 'catalog_compare_item_id');
     }
 
     /**
@@ -109,7 +109,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item extends Mage_Core_Model_R
             $select = $this->_getReadAdapter()->select()
                 ->from(array('compare_table' => $this->getMainTable()), array('catalog_compare_item_id'))
                 ->joinLeft(
-                    array('visitor_table' => $this->getTable('log/visitor')),
+                    array('visitor_table' => $this->getTable('log_visitor')),
                     'visitor_table.visitor_id=compare_table.visitor_id AND compare_table.customer_id IS NULL',
                     array())
                 ->where('compare_table.visitor_id > ?', 0)

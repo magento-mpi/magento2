@@ -87,7 +87,7 @@ class Mage_CatalogSearch_Model_Resource_Query_Collection extends Mage_Core_Model
             ->getIfNullSql('synonym_for', 'query_text');
         $this->getSelect()->reset(Zend_Db_Select::FROM)->distinct(true)
             ->from(
-                array('main_table' => $this->getTable('catalogsearch/search_query')),
+                array('main_table' => $this->getTable('catalogsearch_query')),
                 array('query'      => $ifSynonymFor, 'num_results')
             )
             ->where('num_results > 0 AND display_in_terms = 1 AND query_text LIKE ?',
@@ -116,7 +116,7 @@ class Mage_CatalogSearch_Model_Resource_Query_Collection extends Mage_Core_Model
             ->reset(Zend_Db_Select::COLUMNS)
             ->distinct(true)
             ->from(
-                array('main_table' => $this->getTable('catalogsearch/search_query')),
+                array('main_table' => $this->getTable('catalogsearch_query')),
                 array('name' => $ifSynonymFor, 'num_results', 'popularity')
             );
         if ($storeIds) {

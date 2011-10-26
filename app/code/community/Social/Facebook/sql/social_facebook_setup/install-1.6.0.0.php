@@ -28,10 +28,10 @@
 $installer = $this;
 
 /**
- * Create table 'social_facebook/facebook'
+ * Create table 'social_facebook_actions'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('social_facebook/facebook'))
+    ->newTable($installer->getTable('social_facebook_actions'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,

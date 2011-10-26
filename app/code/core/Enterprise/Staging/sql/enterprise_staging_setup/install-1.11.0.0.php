@@ -29,10 +29,10 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_staging/staging'
+ * Create table 'enterprise_staging'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_staging/staging'))
+    ->newTable($installer->getTable('enterprise_staging'))
     ->addColumn('staging_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -66,40 +66,40 @@ $table = $installer->getConnection()
         ), 'Merge Scheduling Date')
     ->addColumn('merge_scheduling_map', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Merge Scheduling Map')
-    ->addIndex($installer->getIdxName('enterprise_staging/staging', array('status')),
+    ->addIndex($installer->getIdxName('enterprise_staging', array('status')),
         array('status'))
-    ->addIndex($installer->getIdxName('enterprise_staging/staging', array('sort_order')),
+    ->addIndex($installer->getIdxName('enterprise_staging', array('sort_order')),
         array('sort_order'))
-    ->addIndex($installer->getIdxName('enterprise_staging/staging', array('master_website_id')),
+    ->addIndex($installer->getIdxName('enterprise_staging', array('master_website_id')),
         array('master_website_id'))
-    ->addIndex($installer->getIdxName('enterprise_staging/staging', array('staging_website_id')),
+    ->addIndex($installer->getIdxName('enterprise_staging', array('staging_website_id')),
         array('staging_website_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_staging/staging',
+            'enterprise_staging',
             'master_website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
-        'master_website_id', $installer->getTable('core/website'), 'website_id',
+        'master_website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_staging/staging',
+            'enterprise_staging',
             'staging_website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
-        'staging_website_id', $installer->getTable('core/website'), 'website_id',
+        'staging_website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Staging');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_staging/staging_item'
+ * Create table 'enterprise_staging_item'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_staging/staging_item'))
+    ->newTable($installer->getTable('enterprise_staging_item'))
     ->addColumn('staging_item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -117,30 +117,30 @@ $table = $installer->getConnection()
         ), 'Sort Order')
     ->addIndex(
         $installer->getIdxName(
-            'enterprise_staging/staging_item',
+            'enterprise_staging_item',
             array('staging_id', 'code'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('staging_id', 'code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('enterprise_staging/staging_item', array('staging_id', 'sort_order')),
+    ->addIndex($installer->getIdxName('enterprise_staging_item', array('staging_id', 'sort_order')),
         array('staging_id', 'sort_order'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_staging/staging_item',
+            'enterprise_staging_item',
             'staging_id',
-            'enterprise_staging/staging',
+            'enterprise_staging',
             'staging_id'
         ),
-        'staging_id', $installer->getTable('enterprise_staging/staging'), 'staging_id',
+        'staging_id', $installer->getTable('enterprise_staging'), 'staging_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Staging Item');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_staging/staging_action'
+ * Create table 'enterprise_staging_action'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_staging/staging_action'))
+    ->newTable($installer->getTable('enterprise_staging_action'))
     ->addColumn('action_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -177,44 +177,44 @@ $table = $installer->getConnection()
     ->addColumn('master_website_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Master Website Id')
-    ->addIndex($installer->getIdxName('enterprise_staging/staging_action', array('staging_id')),
+    ->addIndex($installer->getIdxName('enterprise_staging_action', array('staging_id')),
         array('staging_id'))
-    ->addIndex($installer->getIdxName('enterprise_staging/staging_action', array('status')),
+    ->addIndex($installer->getIdxName('enterprise_staging_action', array('status')),
         array('status'))
-    ->addIndex($installer->getIdxName('enterprise_staging/staging_action', array('mage_version')),
+    ->addIndex($installer->getIdxName('enterprise_staging_action', array('mage_version')),
         array('mage_version'))
-    ->addIndex($installer->getIdxName('enterprise_staging/staging_action', array('master_website_id')),
+    ->addIndex($installer->getIdxName('enterprise_staging_action', array('master_website_id')),
         array('master_website_id'))
-    ->addIndex($installer->getIdxName('enterprise_staging/staging_action', array('staging_website_id')),
+    ->addIndex($installer->getIdxName('enterprise_staging_action', array('staging_website_id')),
         array('staging_website_id'))
-    ->addIndex($installer->getIdxName('enterprise_staging/staging_action', array('type')),
+    ->addIndex($installer->getIdxName('enterprise_staging_action', array('type')),
         array('type'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_staging/staging_action',
+            'enterprise_staging_action',
             'staging_website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
-        'staging_website_id', $installer->getTable('core/website'), 'website_id',
+        'staging_website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_staging/staging_action',
+            'enterprise_staging_action',
             'master_website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
-        'master_website_id', $installer->getTable('core/website'), 'website_id',
+        'master_website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Staging Action');
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_staging/staging_log'
+ * Create table 'enterprise_staging_log'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_staging/staging_log'))
+    ->newTable($installer->getTable('enterprise_staging_log'))
     ->addColumn('log_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -265,56 +265,56 @@ $table = $installer->getConnection()
         ), 'Master Website Id')
     ->addColumn('master_website_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Master Website Name')
-    ->addIndex($installer->getIdxName('enterprise_staging/staging_log', array('staging_id')),
+    ->addIndex($installer->getIdxName('enterprise_staging_log', array('staging_id')),
         array('staging_id'))
-    ->addIndex($installer->getIdxName('enterprise_staging/staging_log', array('status')),
+    ->addIndex($installer->getIdxName('enterprise_staging_log', array('status')),
         array('status'))
-    ->addIndex($installer->getIdxName('enterprise_staging/staging_log', array('is_backuped')),
+    ->addIndex($installer->getIdxName('enterprise_staging_log', array('is_backuped')),
         array('is_backuped'))
-    ->addIndex($installer->getIdxName('enterprise_staging/staging_log', array('is_admin_notified')),
+    ->addIndex($installer->getIdxName('enterprise_staging_log', array('is_admin_notified')),
         array('is_admin_notified'))
-    ->addIndex($installer->getIdxName('enterprise_staging/staging_log', array('master_website_id')),
+    ->addIndex($installer->getIdxName('enterprise_staging_log', array('master_website_id')),
         array('master_website_id'))
-    ->addIndex($installer->getIdxName('enterprise_staging/staging_log', array('staging_website_id')),
+    ->addIndex($installer->getIdxName('enterprise_staging_log', array('staging_website_id')),
         array('staging_website_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_staging/staging_log',
+            'enterprise_staging_log',
             'master_website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
-        'master_website_id', $installer->getTable('core/website'), 'website_id',
+        'master_website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_staging/staging_log',
+            'enterprise_staging_log',
             'staging_website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
-        'staging_website_id', $installer->getTable('core/website'), 'website_id',
+        'staging_website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Staging Log');
 $installer->getConnection()->createTable($table);
 
-$installer->getConnection()->addColumn($installer->getTable('core/website'), 'is_staging', array(
+$installer->getConnection()->addColumn($installer->getTable('core_website'), 'is_staging', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_BOOLEAN,
     'nullable'  => false,
     'default'   => 0,
     'comment'   => 'Is Staging Flag'
 ));
-$installer->getConnection()->addColumn($installer->getTable('core/website'), 'master_login', array(
+$installer->getConnection()->addColumn($installer->getTable('core_website'), 'master_login', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
     'length'    => 40,
     'comment'   => 'Master Login'
 ));
-$installer->getConnection()->addColumn($installer->getTable('core/website'), 'master_password', array(
+$installer->getConnection()->addColumn($installer->getTable('core_website'), 'master_password', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
     'length'    => 100,
     'comment'   => 'Master Password'
 ));
-$installer->getConnection()->addColumn($installer->getTable('core/website'), 'visibility', array(
+$installer->getConnection()->addColumn($installer->getTable('core_website'), 'visibility', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
     'length'    => 40,
     'comment'   => 'Visibility'

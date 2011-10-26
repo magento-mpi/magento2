@@ -83,7 +83,7 @@ class Enterprise_Banner_Model_Resource_Banner_Collection extends Mage_Core_Model
         if (sizeof($bannerIds) > 0) {
             $adapter = $this->getConnection();
             $select = $adapter->select()
-                ->from($this->getTable('enterprise_banner/content'), array('store_id', 'banner_id'))
+                ->from($this->getTable('enterprise_banner_content'), array('store_id', 'banner_id'))
                 ->where('banner_id IN(?)', $bannerIds);
             $bannersRaw = $adapter->fetchAll($select);
 
@@ -121,7 +121,7 @@ class Enterprise_Banner_Model_Resource_Banner_Collection extends Mage_Core_Model
             }
 
             $this->getSelect()->join(
-                array('store_table' => $this->getTable('enterprise_banner/content')),
+                array('store_table' => $this->getTable('enterprise_banner_content')),
                 'main_table.banner_id = store_table.banner_id',
                 array()
             )

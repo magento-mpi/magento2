@@ -37,7 +37,7 @@ class Enterprise_Rma_Model_Resource_Shipping extends Mage_Core_Model_Resource_Db
      * Internal constructor
      */
     protected function _construct() {
-        $this->_init('enterprise_rma/rma_shipping_label', 'entity_id');
+        $this->_init('enterprise_rma_shipping_label', 'entity_id');
     }
 
     /**
@@ -60,6 +60,6 @@ class Enterprise_Rma_Model_Resource_Shipping extends Mage_Core_Model_Resource_Db
             Enterprise_Rma_Model_Shipping::IS_ADMIN_STATUS_ADMIN_LABEL_TRACKING_NUMBER
         );
 
-        return $adapter->delete($this->getTable('enterprise_rma/rma_shipping_label'), $where);
+        return $adapter->delete($this->getTable('enterprise_rma_shipping_label'), $where);
     }
 }
