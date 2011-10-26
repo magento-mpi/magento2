@@ -62,7 +62,7 @@ manage_sales_shipments:
 
 create_shipment:
     mca: sales_order_shipment/new/order_id/%id%/
-    title: New shipment / Shipments / Sales / Magento Admin
+    title: New Shipment / Shipments / Sales / Magento Admin
     uimap:
         form: &orderShipment
             fieldsets:

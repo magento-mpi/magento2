@@ -62,7 +62,7 @@ manage_sales_invoices:
 
 create_invoice:
     mca: sales_order_invoice/new/order_id/%id%/
-    title: New invoice / Invoices / Sales / Magento Admin
+    title: New Invoice / Invoices / Sales / Magento Admin
     uimap:
         form: &orderInvoice
             fieldsets:

@@ -329,7 +329,7 @@ gift_options_data: &gift_options
 #*********************************************
 #*         Payment Data                      *
 #*********************************************
-saved_visa: &visaSavedCC
+front_saved_visa: &visaSavedCC
     name_on_card: 'Test Account'
     card_type: 'Visa'
     card_number: '4024007127653'
