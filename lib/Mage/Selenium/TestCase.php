@@ -2118,7 +2118,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
                             $elemXPath = $baseXpath . $fieldXPath;
                             if ($this->isElementPresent($elemXPath)) {
-                                $labels = $this->getSelectedLabels($elemXPath);
+                                $labels = array();
+                                $countSelected = $this->getXpathCount($elemXPath . '//option[@selected]');
+                                for ($i = 1; $i <= $countSelected; $i++) {
+                                    $labels[] = trim($this->getText($elemXPath . '//option[@selected]'));
+                                }
+//                                $labels = $this->getSelectedLabels($elemXPath);
                                 if (!in_array($d_val, $labels)) {
                                     $this->messages['error'][] = "The stored value for '"
                                             . $d_key . "' field is not equal to specified: ('$d_val' != '$labels')";
