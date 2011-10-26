@@ -39,6 +39,7 @@ class Mage_Index_Model_Indexer
     /**
      * Indexer processes lock flag
      *
+     * @deprecated after 1.6.1.0
      * @var bool
      */
     protected $_lockFlag = false;
@@ -102,6 +103,9 @@ class Mage_Index_Model_Indexer
 
     /**
      * Lock indexer actions
+     * @deprecated after 1.6.1.0
+     *
+     * @return Mage_Index_Model_Indexer
      */
     public function lockIndexer()
     {
@@ -111,6 +115,9 @@ class Mage_Index_Model_Indexer
 
     /**
      * Unlock indexer actions
+     * @deprecated after 1.6.1.0
+     *
+     * @return Mage_Index_Model_Indexer
      */
     public function unlockIndexer()
     {
@@ -121,6 +128,7 @@ class Mage_Index_Model_Indexer
     /**
      * Check if onject actions are locked
      *
+     * @deprecated after 1.6.1.0
      * @return bool
      */
     public function isLocked()
@@ -138,10 +146,6 @@ class Mage_Index_Model_Indexer
      */
     public function indexEvents($entity=null, $type=null)
     {
-        if ($this->isLocked()) {
-            return $this;
-        }
-
         $allowTableChanges = $this->_allowTableChanges;
         if ($allowTableChanges) {
             $this->_changeKeyStatus(false, array($entity, $type));
@@ -173,10 +177,6 @@ class Mage_Index_Model_Indexer
      */
     public function indexEvent(Mage_Index_Model_Event $event)
     {
-        if ($this->isLocked()) {
-            return $this;
-        }
-
         $this->_runAll('safeProcessEvent', array($event));
         return $this;
     }
@@ -188,10 +188,6 @@ class Mage_Index_Model_Indexer
      */
     public function registerEvent(Mage_Index_Model_Event $event)
     {
-        if ($this->isLocked()) {
-            return $this;
-        }
-
         $this->_runAll('register', array($event));
         return $this;
     }
@@ -207,9 +203,6 @@ class Mage_Index_Model_Indexer
      */
     public function logEvent(Varien_Object $entity, $entityType, $eventType, $doSave=true)
     {
-        if ($this->isLocked()) {
-            return $this;
-        }
         $event = Mage::getModel('index/event')
             ->setEntity($entityType)
             ->setType($eventType)
@@ -234,9 +227,6 @@ class Mage_Index_Model_Indexer
      */
     public function processEntityAction(Varien_Object $entity, $entityType, $eventType)
     {
-        if ($this->isLocked()) {
-            return $this;
-        }
         $event = $this->logEvent($entity, $entityType, $eventType, false);
         /**
          * Index and save event just in case if some process matched it
@@ -288,29 +278,17 @@ class Mage_Index_Model_Indexer
                 continue;
             }
 
-            if (!$this->_allowTableChanges && is_callable(array($process, 'setAllowTableChanges'))) {
-                $process->setAllowTableChanges(false);
-            }
             if ($process->getDepends()) {
                 foreach ($process->getDepends() as $processCode) {
                     $dependProcess = $this->getProcessByCode($processCode);
                     if ($dependProcess && !in_array($processCode, $processed)) {
-                        if (!$this->_allowTableChanges && is_callable(array($dependProcess, 'setAllowTableChanges'))) {
-                            $dependProcess->setAllowTableChanges(false);
-                        }
                         call_user_func_array(array($dependProcess, $method), $args);
-                        if (!$this->_allowTableChanges && is_callable(array($dependProcess, 'setAllowTableChanges'))) {
-                            $dependProcess->setAllowTableChanges(true);
-                        }
                         $processed[] = $processCode;
                     }
                 }
             }
 
             call_user_func_array(array($process, $method), $args);
-            if (!$this->_allowTableChanges && is_callable(array($process, 'setAllowTableChanges'))) {
-                $process->setAllowTableChanges(true);
-            }
 
             $processed[] = $code;
         }

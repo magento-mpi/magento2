@@ -312,8 +312,9 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         if ($this->isLocked()) {
             return $this;
         }
-        $this->lock();
 
+        $this->lock();
+        $this->_getResource()->updateProcessStartDate($this);
         try {
             /**
              * Prepare events collection
@@ -327,8 +328,10 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
             }
 
             $this->_processEventsCollection($eventsCollection);
+            $this->_getResource()->updateProcessEndDate($this);
             $this->unlock();
         } catch (Exception $e) {
+            $this->_getResource()->updateProcessEndDate($this);
             $this->unlock();
             throw $e;
         }
@@ -596,10 +599,13 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
             return $this;
         }
         $this->lock();
+        $this->_getResource()->updateProcessStartDate($this);
         try {
             $this->processEvent($event);
+            $this->_getResource()->updateProcessEndDate($this);
             $this->unlock();
         } catch (Exception $e) {
+            $this->_getResource()->updateProcessEndDate($this);
             $this->unlock();
             throw $e;
         }
