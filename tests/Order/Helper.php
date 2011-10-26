@@ -135,7 +135,9 @@ class Order_Helper extends Mage_Selenium_TestCase
             $this->verifyProductsTotal($verPrTotal);
         }
 
-        $this->saveForm('submit_order');
+        $this->saveForm('submit_order', false);
+        $this->defineOrderId();
+        $this->validatePage();
     }
 
     /**
@@ -235,17 +237,16 @@ class Order_Helper extends Mage_Selenium_TestCase
      * @param string $fieldset
      * @return bool|integer
      */
-    public function defineOrderIdFromTitle()
+    public function defineOrderId()
     {
-        try {
-            $item_id = 0;
-            $title_arr = explode('/', $this->getTitle());
-            $item_id = preg_replace("/^[^0-9]?(.*?)[^0-9]?$/i", "$1", $title_arr[0]);
-            return $item_id;
-        } catch (Exception $e) {
-            $this->_error = TRUE;
-            return FALSE;
+        $xpath = "//*[contains(@class,'head-sales-order')]";
+        if ($this->isElementPresent($xpath)) {
+            $text = $this->getText($xpath);
+            $orderId = trim(substr($text, strpos($text, "#") + 1, -(strpos(strrev($text), "|") + 1)));
+            $this->addParameter('order_id', '#' . $orderId);
+            return $orderId;
         }
+        return 0;
     }
 
     /**
@@ -479,7 +480,7 @@ class Order_Helper extends Mage_Selenium_TestCase
         $storeSelectorXpath = $page->findFieldset('order_store_selector')->getXpath();
         // Select a store if there is more then one default store
         if ($this->isElementPresent($storeSelectorXpath .
-                "[not(contains(@style,'display: none'))][not(contains(@style,'display:none'))]")) {
+                        "[not(contains(@style,'display: none'))][not(contains(@style,'display:none'))]")) {
             if ($storeView) {
                 $this->addParameter('storeName', $storeView);
                 $this->clickControl('radiobutton', 'choose_main_store', FALSE);
