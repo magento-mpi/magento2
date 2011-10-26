@@ -2022,10 +2022,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Performs save opened form for submit
      *
      * @param string $buttonName Name of the button, what intended to save (submit) form (from UIMap)
+     * @param boolean $validate
      *
      * @return Mage_Selenium_TestCase
      */
-    public function saveForm($buttonName, $wait=false)
+    public function saveForm($buttonName, $validate = true)
     {
         $this->messages = array();
         $this->_parseMessages();
@@ -2045,10 +2046,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 ${$message} .= $exclude;
             }
         }
-        $this->clickButton($buttonName, $wait);
+        $this->clickButton($buttonName, false);
         $this->waitForElement(array($success, $error, $validation));
         $this->addParameter('id', $this->defineIdFromUrl());
-        $this->validatePage();
+        if ($validate) {
+            $this->validatePage();
+        }
 
         return $this;
     }
