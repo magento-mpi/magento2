@@ -52,6 +52,8 @@ manage_cms_pages:
                             filter_last_modified_to: //input[@name='update_time[to]']
                         links:
                             preview: //a[contains(@href, '%url%')]
+                        pageelements:
+                            page_grid_head: //div[@id='cmsPageGrid']//thead/tr[@class='headings']
             buttons:
                 add_new_page: //button[span='Add New Page']
             messages:
@@ -76,6 +78,8 @@ create_cms_page:
                                         url_key: //input[@name='identifier']
                                     dropdowns:
                                         status: //select[@name='is_active']
+                                    multiselects:
+                                        store_view: //select[@name='stores[]']
                 -
                     content:
                         xpath: //a[@title='Content']
@@ -85,7 +89,7 @@ create_cms_page:
                                     xpath: //div[@id='page_tabs_content_section_content']
                                     fields:
                                         content_heading: //input[@name='content_heading']
-                                        editor: //textarea[@name='content']
+                                        editor: "//textarea[@name='content' and not(contains(@style,'display: none;'))]"
                                     buttons:
                                         insert_widget: //button[span='Insert Widget...']
                                         insert_image: //button[span='Insert Image...']
@@ -104,10 +108,8 @@ create_cms_page:
                                         number_of_products_to_display_compared_and_viewed: //input[@name='parameters[page_size]']
                                         cache_lifetime: //input[@name='parameters[cache_lifetime]']
                                     buttons:
-                                        insert_widget: //button[span='Insert Widget']
-                                        select_page: //button[span='Select Page...']
-                                        select_block: //button[span='Select Block...']
-                                        select_category: //button[span='Select Category...']
+                                        submit_widget_insert: //button[span='Insert Widget']
+                                        select_option: //div[div/h3='Widget Insertion']//button[contains(span,'Select')]
                                         close_widget_insertion: //div[@id='widget_window_close']
                                     pageelements:
                                         chosen_option: //label[@class='widget-option-label' and normalize-space(text())='%elementName%']
@@ -148,6 +150,7 @@ create_cms_page:
                                     links:
                                         root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
                                         sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
                                     buttons:
                                         close_category_insertion: //div[@id='widget-chooser_close']
                             -
@@ -167,6 +170,7 @@ create_cms_page:
                                     links:
                                         root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
                                         sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
                             -
                                 file_insertion:
                                     xpath: //div[@id='browser_window' and //div[text()='Insert File...']]
@@ -228,6 +232,15 @@ create_cms_page:
             invalid_url_key_with_numbers_only: //li[normalize-space(@class)='error-msg' and contains(.,'The page URL key cannot consist only of numbers.')]
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
+
+create_cms_page_with_sharp:
+    mca: cms_page/new/#
+    title: New Page / Manage Content / Pages / CMS / Magento Admin
+    uimap:
+        form: *createPage
+        buttons: *pageButtons
+        messages: *pageMessages
+
 
 edit_cms_page:
     mca: cms_page/edit/page_id/%id%/
