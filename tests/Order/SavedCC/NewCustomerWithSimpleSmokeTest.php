@@ -434,7 +434,9 @@ class Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCas
         }
         $this->fillForm(array('card_number' => $data['card_number'],
             'card_verification_number' => $data['card_verification_number']));
-        $this->saveForm('submit_order');
+        $this->saveForm('submit_order', false);
+        $this->orderHelper()->defineOrderId();
+        $this->validatePage();
         //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         if ($errors) {

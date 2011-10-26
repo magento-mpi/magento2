@@ -389,7 +389,9 @@ class Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mage_Selenium
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         //Steps
         $this->clickButton('reorder');
-        $this->saveForm('submit_order');
+        $this->saveForm('submit_order', false);
+        $this->orderHelper()->defineOrderId();
+        $this->validatePage();
         //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
     }

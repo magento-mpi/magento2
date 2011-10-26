@@ -191,7 +191,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
-        $orderId = $this->orderHelper()->defineOrderIdFromTitle();
+        $orderId = $this->orderHelper()->defineOrderId();
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
         $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
@@ -330,7 +330,9 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
         }
         $this->fillForm(array('card_number' => $data['card_number'],
             'card_verification_number' => $data['card_verification_number']));
-        $this->saveForm('submit_order');
+        $this->saveForm('submit_order', false);
+        $this->orderHelper()->defineOrderId();
+        $this->validatePage();
         //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         if ($errors) {

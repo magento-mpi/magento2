@@ -105,7 +105,18 @@ class OrderInvoice_Helper extends Mage_Selenium_TestCase
         if (is_string($searchData)) {
             $searchData = $this->loadData($searchData);
         }
-        $this->assertTrue($this->searchAndOpen($searchData), 'Invoice is not found');
+        $searchData = $this->arrayEmptyClear($searchData);
+        $xpathTR = $this->search($searchData, 'sales_invoice_grid');
+        $this->assertNotEquals(null, $xpathTR, 'Invoice is not found');
+        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('invoice_grid_head', false);
+        if (array_key_exists('Invoice #', $names)) {
+            $text = $this->getText($xpathTR . '//td[' . $names['Invoice #'] . ']');
+            $this->addParameter('invoiceId', '#'.$text);
+        }
+        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
+        $this->click($xpathTR . "//a[text()='View']");
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
     }
 
 }

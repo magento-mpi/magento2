@@ -59,6 +59,8 @@ manage_sales_invoices:
                             filter_billing_name: //input[@name='billing_name']
                             filter_amount_from: //input[@name='grand_total[from]']
                             filter_amount_to: //input[@name='grand_total[to]']
+                        pageelements:
+                            invoice_grid_head: //*[@id='sales_invoice_grid_table']//thead/tr[@class='headings']
 
 create_invoice:
     mca: sales_order_invoice/new/order_id/%id%/
