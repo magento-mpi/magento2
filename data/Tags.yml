@@ -30,3 +30,36 @@
 new_tag:
     product_name: %noValue%
     new_tag_names: serty werty wertyuiop
+
+backend_base_tag:
+    tag_name: tag_name
+    tag_status: Approved
+    base_popularity: %noValue%
+
+backend_new_tag:
+    tag_name: tag_name
+    tag_status: Approved
+    base_popularity: %noValue%
+    switch_store: %noValue%
+    products_tagged_by_admins:
+        prod_tag_admin_id_from: %noValue%
+        prod_tag_admin_id_to: %noValue%
+        prod_tag_admin_name: %noValue%
+        prod_tag_admin_name_in_default_sore_view: %noValue%
+        prod_tag_admin_type: %noValue%
+        prod_tag_admin_attribute_set_name: %noValue%
+        prod_tag_admin_sku: %noValue%
+        prod_tag_admin_price_from: %noValue%
+        prod_tag_admin_price_to: %noValue%
+        prod_tag_admin_price_in: %noValue%
+        prod_tag_admin_visibility: %noValue%
+        prod_tag_admin_status: %noValue%
+    customers_submitted_tags:
+        customers_submit_tag_id: %noValue%
+        customers_submit_tag_first_name: %noValue%
+        customers_submit_tag_last_name: %noValue%
+    products_tagged_by_customers:
+        prod_tag_customer_id: %noValue%
+        prod_tag_customer_product_name: %noValue%
+        prod_tag_customer_number_of_users_from: %noValue%
+        prod_tag_customer_number_of_users_to: %noValue%

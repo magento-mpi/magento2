@@ -54,6 +54,7 @@ all_tags:
             add_new_tag: //button[span='Add New Tag']
         messages: &tagsMesssages
             success_created_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been created.')]
+            success_saved_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been saved.')]
             success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedTags% record(s) have been deleted.')]
             success_changed_status: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedTags% record(s) have been updated.')]
             confirmation_for_delete: Are you sure you want to do this?
@@ -68,6 +69,10 @@ new_tag:
         form:
             fieldsets:
                 -
+                    store_views:
+                        xpath: //p[@class='switcher']
+                        dropdowns:
+                            switch_store: //select[@id='store_switcher']
                     general_info:
                         xpath: //form[@id='edit_form']
                         dropdowns:
@@ -86,10 +91,14 @@ new_tag:
 edit_tag:
     mca: tag/edit/store/%storeId%/tag_id/%tagId%
     title: %tagName% / Tags / Catalog / Magento Admin
-    uimap:
+    uimap: &editTagUimap
         form:
             fieldsets:
                 -
+                    store_views:
+                        xpath: //p[@class='switcher']
+                        dropdowns:
+                            switch_store: //select[@id='store_switcher']
                     general_info:
                         xpath: //div[@class='entry-edit']
                         dropdowns:
@@ -100,9 +109,11 @@ edit_tag:
                 -
                     products_tagged_by_admins:
                         xpath: //dl[@id='tag_assigned_grid']
+                        links:
+                            prod_tag_admin_expand:  //dl[@id='tag_assigned_grid']//a[contains(.,'Products Tagged by Administrators')]
                         buttons:
-                            prod_tag_admin_reset_filter: //dl[@id='tag_assigned_grid']//button[span='Reset Filter']
-                            prod_tag_admin_search: //dl[@id='tag_assigned_grid']//button[span='Search']
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
                         dropdowns:
                             prod_tag_admin_tags_massaction: //select[@id='tag_assigned_product_grid_filter_in_products']
                             prod_tag_admin_type: //select[@id='tag_assigned_product_grid_filter_type']
@@ -121,9 +132,11 @@ edit_tag:
                 -
                     customers_submitted_tags:
                         xpath: //dd[@id='dd-tag_customer']
+                        links:
+                            customers_submit_tag_expand:  //dl[@id='tag_customer_and_product_accordion']//a[contains(.,'Customers Submitted this Tag')]
                         buttons:
-                            customers_submit_tag_reset_filter: //dd[@id='dd-tag_customer']//button[span='Reset Filter']
-                            customers_submit_tag_search: //dd[@id='dd-tag_customer']//button[span='Search']
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
                         fields:
                             customers_submit_tag_id: //input[@name='customer_id']
                             customers_submit_tag_first_name: //input[@name='firstname']
@@ -131,9 +144,11 @@ edit_tag:
                 -
                     products_tagged_by_customers:
                         xpath: //dd[@id='dd-tag_product']
+                        links:
+                            prod_tag_customer_expand:  //dl[@id='tag_customer_and_product_accordion']//a[contains(.,'Products Tagged by Customers')]
                         buttons:
-                            prod_tag_customer_reset_filter: //dd[@id='dd-tag_product']//button[span='Reset Filter']
-                            prod_tag_customer_search: //dd[@id='dd-tag_product']//button[span='Search']
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
                         fields:
                             prod_tag_customer_id: //input[@name='product_id']
                             prod_tag_customer_product_name: //input[@name='name']
@@ -147,6 +162,12 @@ edit_tag:
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages: *tagsMesssages
 
+# Edit tag '%tagName%' page
+edit_tag_more_options:
+    mca: tag/edit/tag_id/%tagId%/store/%storeId%/ret/
+    title: %tagName% / Tags / Catalog / Magento Admin
+    uimap: *editTagUimap
+
 # Pending Tags page
 pending_tags:
     mca: tag/pending
@@ -159,9 +180,9 @@ pending_tags:
                     pending_tags_grid:
                         xpath: //div[@id='pending_grid']
                         buttons:
-                            pending_reset_filter: //button[span='Reset Filter']
-                            pending_search: //button[span='Search']
-                            pending_submit: //button[span='Submit']
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                            submit: //button[span='Submit']
                         dropdowns:
                             pending_actions: //select[@id='pending_grid_massaction-select']
                             pending_select_massaction: //select[@id='pending_grid_filter_massaction']

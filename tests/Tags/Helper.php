@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -81,10 +80,10 @@ class Tags_Helper extends Mage_Selenium_TestCase
 
 
         $tagNameArray = explode(' ', $tagName);
-        foreach ($tagNameArray as $value){
-                $this->addParameter('tagName', $value);
-                $xpath = $this->_getControlXpath('link', 'product_info');
-                $this->assertTrue($this->isElementPresent($xpath), "Cannot find tag with name: $value");
+        foreach ($tagNameArray as $value) {
+            $this->addParameter('tagName', $value);
+            $xpath = $this->_getControlXpath('link', 'product_info');
+            $this->assertTrue($this->isElementPresent($xpath), "Cannot find tag with name: $value");
         }
         $this->navigate('my_account_my_tags');
         foreach ($tagNameArray as $value) {
@@ -100,4 +99,76 @@ class Tags_Helper extends Mage_Selenium_TestCase
             $this->clickControl('link', 'back_to_tags_list');
         }
     }
+
+    /**
+     * Select store view on Create/Edit tag page
+     *
+     * @param string $store_view Name of the store
+     */
+    protected function selectStoreView($store_view)
+    {
+        if (!$store_view) {
+            return true;
+        }
+        $xpath = $this->_getControlXpath('dropdown', 'switch_store');
+        $toSelect = $xpath . "//option[contains(.,'" . $store_view . "')]";
+        $isSelected = $toSelect . '[@selected]';
+        if (!$this->isElementPresent($isSelected)) {
+            $storeId = $this->getAttribute($toSelect . '/@value');
+            $this->addParameter('storeId', $storeId);
+            $this->fillForm(array('switch_store' => $store_view));
+            $this->waitForPageToLoad();
+        }
+    }
+
+    /**
+     * Adds a new tag in backend
+     *
+     * @param string|array $tagData
+     */
+    public function addTag($tagData)
+    {
+        if (is_string($tagData))
+            $tagData = $this->loadData($tagData);
+        $tagData = $this->arrayEmptyClear($tagData);
+        $this->clickButton('add_new_tag');
+        // Select store view if available
+        if (array_key_exists('switch_store', $tagData)) {
+            if ($this->controlIsPresent('dropdown', 'switch_store')) {
+                $store_view = (isset($tagData['switch_store'])) ? $tagData['switch_store'] : NULL;
+                $this->selectStoreView($store_view);
+            } else {
+                unset($tagData['switch_store']);
+            }
+        }
+        // Fill general options
+        $this->fillForm($tagData, 'general_info');
+        $this->addParameter('tagName', $tagData['tag_name']);
+        $this->clickButton('save_and_continue_edit');
+        //Fill additional options
+        if (!$this->controlIsPresent('field', 'prod_tag_admin_name')) {
+            $this->clickControl('link', 'prod_tag_admin_expand', false);
+            $this->waitForAjax();
+        }
+        $prod_tag_admin = (isset($tagData['products_tagged_by_admins'])) ? $tagData['products_tagged_by_admins'] : null;
+        if ($prod_tag_admin) {
+            $this->searchAndChoose($prod_tag_admin, 'products_tagged_by_admins');
+        };
+        $this->clickButton('save_tag');
+    }
+
+    /**
+     * Opens a tag in backend
+     *
+     * @param string|array $tagData
+     */
+    public function openTag($tagData)
+    {
+        if (is_string($tagData))
+            $tagData = $this->loadData($tagData);
+        $tagData = $this->arrayEmptyClear($tagData);
+        // TODO: Open
+//        $this->searchAndOpen($tagData);
+    }
+
 }
