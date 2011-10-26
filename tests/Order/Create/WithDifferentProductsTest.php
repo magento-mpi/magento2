@@ -86,7 +86,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
-        $this->saveForm('submit_order');
+        $this->orderHelper()->submitOreder();
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
@@ -151,7 +151,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
-        $this->saveForm('submit_order');
+        $this->orderHelper()->submitOreder();
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
@@ -191,7 +191,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
-        $this->saveForm('submit_order');
+        $this->orderHelper()->submitOreder();
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
@@ -229,7 +229,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
-        $this->saveForm('submit_order');
+        $this->orderHelper()->submitOreder();
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
@@ -269,7 +269,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
-        $this->saveForm('submit_order');
+        $this->orderHelper()->submitOreder();
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
@@ -321,7 +321,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
-        $this->saveForm('submit_order');
+        $this->orderHelper()->submitOreder();
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
@@ -363,7 +363,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
-        $this->saveForm('submit_order');
+        $this->orderHelper()->submitOreder();
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
@@ -415,7 +415,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
-        $this->saveForm('submit_order');
+        $this->orderHelper()->submitOreder();
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
@@ -454,7 +454,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
-        $this->saveForm('submit_order');
+        $this->orderHelper()->submitOreder();
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
@@ -490,7 +490,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
-        $this->saveForm('submit_order');
+        $this->orderHelper()->submitOreder();
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
@@ -537,7 +537,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
-        $this->saveForm('submit_order');
+        $this->orderHelper()->submitOreder();
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
@@ -579,7 +579,7 @@ class Order_Create_WithDifferentProductsTest extends Mage_Selenium_TestCase
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
-        $this->saveForm('submit_order');
+        $this->orderHelper()->submitOreder();
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);

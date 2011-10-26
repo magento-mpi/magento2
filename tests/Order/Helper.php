@@ -134,7 +134,14 @@ class Order_Helper extends Mage_Selenium_TestCase
         if ($verPrTotal) {
             $this->verifyProductsTotal($verPrTotal);
         }
+        $this->submitOreder();
+    }
 
+    /**
+     *
+     */
+    public function submitOreder()
+    {
         $this->saveForm('submit_order', false);
         $this->defineOrderId();
         $this->validatePage();

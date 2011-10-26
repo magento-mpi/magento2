@@ -98,6 +98,9 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         //Data
         $orderData = $this->loadData('order_physical',
                 array('filter_sku' => $simpleSku, 'customer_email' => $this->generate('email', 32, 'valid')));
+        $param = $orderData['billing_addr_data']['billing_first_name'] . ' '
+                . $orderData['billing_addr_data']['billing_last_name'];
+        $this->addParameter('customer_first_last_name', $param);
         $searchCustomer = $this->loadData('search_customer',
                 array('email' => $orderData['account_data']['customer_email']));
         //Steps
@@ -145,6 +148,9 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
                 array('filter_sku' => $simpleSku, 'customer_email' => $this->generate('email', 32, 'valid')));
         $orderData['billing_addr_data'] = $this->loadData('billing_address_all');
         $orderData['shipping_addr_data'] = $this->loadData('shipping_address_all');
+        $param = $orderData['billing_addr_data']['billing_first_name'] . ' '
+                . $orderData['billing_addr_data']['billing_last_name'];
+        $this->addParameter('customer_first_last_name', $param);
         $searchCustomer = $this->loadData('search_customer',
                 array('email' => $orderData['account_data']['customer_email']));
         $addressVerify[] = $this->loadData('billing');

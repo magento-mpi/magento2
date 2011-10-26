@@ -272,7 +272,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
         $this->orderHelper()->selectPaymentMethod($orderData['payment_data']);
         $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
         $this->pleaseWait();
-        $this->saveForm('submit_order');
+        $this->orderHelper()->submitOreder();
         //Verifying
         $this->assertTrue($this->errorMessage('shipping_must_be_specified'), $this->messages);
     }

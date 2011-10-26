@@ -97,7 +97,7 @@ class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
         $this->pleaseWait();
         $this->orderHelper()->selectShippingMethod($orderData['shipping_data']);
         $this->orderHelper()->selectPaymentMethod($orderData['payment_data']);
-        $this->saveForm('submit_order');
+        $this->orderHelper()->submitOreder();
         //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
