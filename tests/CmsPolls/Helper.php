@@ -86,7 +86,7 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
     /**
      * Open Poll
      *
-     * @param string|array $pollData Poll to open. Either a dataset name (string) or the whole data set (array).
+     * @param string|array $pollData Poll to open.
      */
     public function openPoll($searchPollData)
     {
@@ -94,10 +94,14 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
         if ($this->controlIsPresent('dropdown', 'filter_visible_in')) {
             $this->isVisibleIn = true;
         }
-        if (array_key_exists('filter_visible_in', $searchData) && !$this->isVisibleIn) {
-            unset($data['visible_in']);
+        if (array_key_exists('visible_in', $searchPollData) && !$this->isVisibleIn) {
+            unset($searchPollData['visible_in']);
         }
-        $xpathTR = $this->search($searchData, 'poll_grid');
+        //remove "Answers" array from search
+        if (array_key_exists('assigned_answers_set', $searchPollData)) {
+            unset($searchPollData['assigned_answers_set']);
+        }
+        $xpathTR = $this->search($searchPollData, 'poll_grid');
         $this->assertNotEquals(null, $xpathTR, 'Poll is not found');
         $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('poll_grid_head', false);
         if (array_key_exists('Poll Question', $names)) {
@@ -122,7 +126,7 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
         $page = $this->getCurrentLocationUimapPage();
         $pollXpath = $page->findFieldset('community_poll')->getXpath();
         if (!$this->isElementPresent($pollXpath)) {
-            $this->fail('Community poll block is not displayed on the page');
+            return false;
         }
         $pollTitleXPath = $page->findPageelement('poll_title');
 
@@ -148,10 +152,16 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
     {
         $this->clickButton('reset_filter');
         $xpathTR = $this->search(array('filter_status' => 'Open'));
+        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('poll_grid_head', false);
+        if (array_key_exists('Poll Question', $names)) {
+            $columnId = $names['Poll Question'];
+        }
         while ($this->isElementPresent($xpathTR)) {
             $itemId = $this->defineIdFromTitle($xpathTR);
             $this->addParameter('id', $itemId);
-            $this->clickAndWait($xpathTR . '/td');
+            $pollName = $this->getText($xpathTR . '[1]//td[' . $columnId . ']');
+            $this->addParameter('pollName', $pollName);
+            $this->clickAndWait($xpathTR . '//td[' . $columnId . ']');
             $this->validatePage();
             $this->fillForm(array('poll_status' => 'Closed'), 'poll_information');
             $this->saveForm('save_poll');
@@ -168,12 +178,27 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
         //@TODO Fix for verifyForm function. Multiselect label will have space before value
         if (isset($pollData['visible_in']))
             $pollData['visible_in'] = '    ' . $pollData['visible_in'];
-        if (array_key_exists($key, $searchData) && !$this->isVisibleIn)
+        if (array_key_exists('visible_in', $pollData) && !$this->isVisibleIn)
             unset($pollData['visible_in']);
+        $this->openPoll($pollData);
         $this->assertTrue($this->verifyForm($pollData, 'poll_information', array('assigned_answers_set'),
                         $this->messages));
         $this->clickControl('tab', 'poll_answers', false);
-        $this->assertTrue($this->verifyForm($pollData['assigned_answers_set'], 'poll_answers'));
+        $answersXpath = $this->getCurrentLocationUimapPage()->findFieldset('assigned_answers_set')->getXpath();
+        $answersCount = $this->getXpathCount($answersXpath);
+        if (count($pollData['assigned_answers_set']) == $answersCount){
+            $i = 1;
+            foreach ($pollData['assigned_answers_set'] as $value) {
+                $attId = $this->getAttribute($answersXpath . "[$i]@id");
+                $answerId = explode("_", $attId);
+                $this->addParameter('answerId', end($answerId));
+                $this->assertTrue($this->verifyForm($value, 'poll_answers'),$this->messages);
+                $i++;
+            }
+        }else{
+            $this->fail("Unexpected count of answers: "
+                    . count($pollData['assigned_answers_set']) . "!= $answersCount");
+        }
         $this->clickButton('back');
     }
 
