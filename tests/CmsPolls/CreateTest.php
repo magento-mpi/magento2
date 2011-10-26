@@ -36,8 +36,6 @@
  */
 class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
 
-    protected $pollToBeDeleted = null;
-
     /**
      * <p>Log in to Backend.</p>
      * <p>Close all opened Polls</p>
@@ -76,17 +74,20 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
     {
         //Data
         $pollData = $this->loadData('poll_open', null, 'poll_question');
+        $searchPollData = $this->loadData('search_poll',
+                array('filter_question' => $pollData['poll_question'],
+                    'filter_status' => $pollData['poll_status']));
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_poll'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('poll_manager'), $this->messages);
+        $this->cmsPollsHelper()->openPoll($searchPollData);
         $this->cmsPollsHelper()->checkPollData($pollData);
         $this->frontend();
-        $this->assertTrue($this->cmsPollsHelper()->frontCheckPoll($pollData['poll_question']),
+        $this->assertTrue($this->cmsPollsHelper()->frontCheckPoll($searchPollData['filter_question']),
                 "There is no " . $pollData['poll_question'] . " poll on home page");
         //Cleanup
-        $this->pollToBeDeleted = $pollData;
     }
 
     /**
@@ -111,7 +112,6 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
         //Verifying
         if (!$this->cmsPollsHelper()->isVisibleIn and $emptyField=='visible_in') {
             $this->assertTrue($this->successMessage(), $this->messages);
-            $this->pollToBeDeleted = $pollData;
         } else {
             $this->addFieldIdToMessage($fieldType, $emptyField);
             $this->assertTrue($this->validationMessage(), $this->messages);
@@ -170,6 +170,9 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
     {
         //Data
         $pollData = $this->loadData('poll_open', null, 'poll_question');
+        $searchPollData = $this->loadData('search_poll',
+                array('filter_question' => $pollData['poll_question'],
+                      'filter_status' => $pollData['poll_status']));
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
@@ -180,13 +183,11 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
                 "There is no " . $pollData['poll_question'] . " poll on home page");
         //Steps
         $this->admin('poll_manager');
-        $this->cmsPollsHelper()->setPollState($pollData, 'Closed');
+        $this->cmsPollsHelper()->setPollState($searchPollData, 'Closed');
         //Verifying
         $this->frontend();
         $this->assertFalse($this->cmsPollsHelper()->frontCheckPoll($pollData['poll_question']),
                 "There is " . $pollData['poll_question'] . " poll on home page");
-        //Cleanup
-        $this->pollToBeDeleted = $pollData;
     }
 
     /**
@@ -222,18 +223,5 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
         $this->frontend();
         $this->assertFalse($this->cmsPollsHelper()->frontCheckPoll($pollData['poll_question']),
                 "There is " . $pollData['poll_question'] . " poll on home page");
-        //Cleanup
-        $this->pollToBeDeleted = $pollData;
     }
-
-    protected function tearDown()
-    {
-        if (isset($this->pollToBeDeleted) and $this->pollToBeDeleted['poll_question'] != '') {
-            $this->admin('poll_manager');
-            //search and delete Poll by title
-            $this->cmsPollsHelper()->deletePoll(array('poll_question' => $this->pollToBeDeleted['poll_question']));
-        }
-        $this->pollToBeDeleted = null;
-    }
-
 }

@@ -94,12 +94,8 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
         if ($this->controlIsPresent('dropdown', 'filter_visible_in')) {
             $this->isVisibleIn = true;
         }
-        if (array_key_exists('visible_in', $searchPollData) && !$this->isVisibleIn) {
-            unset($searchPollData['visible_in']);
-        }
-        //remove "Answers" array from search
-        if (array_key_exists('assigned_answers_set', $searchPollData)) {
-            unset($searchPollData['assigned_answers_set']);
+        if (array_key_exists('filter_visible_in', $searchPollData) && !$this->isVisibleIn) {
+            unset($searchPollData['filter_visible_in']);
         }
         $xpathTR = $this->search($searchPollData, 'poll_grid');
         $this->assertNotEquals(null, $xpathTR, 'Poll is not found');
@@ -180,7 +176,6 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
             $pollData['visible_in'] = '    ' . $pollData['visible_in'];
         if (array_key_exists('visible_in', $pollData) && !$this->isVisibleIn)
             unset($pollData['visible_in']);
-        $this->openPoll($pollData);
         $this->assertTrue($this->verifyForm($pollData, 'poll_information', array('assigned_answers_set'),
                         $this->messages));
         $this->clickControl('tab', 'poll_answers', false);
