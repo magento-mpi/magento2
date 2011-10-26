@@ -34,7 +34,8 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
+class CmsPolls_CreateTest extends Mage_Selenium_TestCase
+{
 
     /**
      * <p>Log in to Backend.</p>
@@ -43,7 +44,6 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $this->navigate('poll_manager');
     }
 
     /**
@@ -54,7 +54,6 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
     {
         $this->admin('poll_manager');
         $this->cmsPollsHelper()->closeAllPolls();
-        $this->assertTrue($this->checkCurrentPage('poll_manager'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -76,18 +75,16 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
         $pollData = $this->loadData('poll_open', null, 'poll_question');
         $searchPollData = $this->loadData('search_poll',
                 array('filter_question' => $pollData['poll_question'],
-                    'filter_status' => $pollData['poll_status']));
+                        'filter_status' => $pollData['poll_status']));
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_poll'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('poll_manager'), $this->messages);
         $this->cmsPollsHelper()->openPoll($searchPollData);
         $this->cmsPollsHelper()->checkPollData($pollData);
         $this->frontend();
         $this->assertTrue($this->cmsPollsHelper()->frontCheckPoll($searchPollData['filter_question']),
                 "There is no " . $pollData['poll_question'] . " poll on home page");
-        //Cleanup
     }
 
     /**
@@ -110,7 +107,7 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
         $this->cmsPollsHelper()->createPoll($pollData);
         $tst = $this->cmsPollsHelper()->isVisibleIn;
         //Verifying
-        if (!$this->cmsPollsHelper()->isVisibleIn and $emptyField=='visible_in') {
+        if (!$this->cmsPollsHelper()->isVisibleIn and $emptyField == 'visible_in') {
             $this->assertTrue($this->successMessage(), $this->messages);
         } else {
             $this->addFieldIdToMessage($fieldType, $emptyField);
@@ -163,7 +160,7 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
      * <p>Expected result:</p>
      * <p>Poll should not be displayed.</p>
      *
-   //  * @depends createNew
+     * @depends createNew
      * @test
      */
     public function closedIsNotDispalyed()
@@ -172,7 +169,7 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
         $pollData = $this->loadData('poll_open', null, 'poll_question');
         $searchPollData = $this->loadData('search_poll',
                 array('filter_question' => $pollData['poll_question'],
-                      'filter_status' => $pollData['poll_status']));
+                        'filter_status' => $pollData['poll_status']));
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
@@ -224,4 +221,5 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
         $this->assertFalse($this->cmsPollsHelper()->frontCheckPoll($pollData['poll_question']),
                 "There is " . $pollData['poll_question'] . " poll on home page");
     }
+
 }

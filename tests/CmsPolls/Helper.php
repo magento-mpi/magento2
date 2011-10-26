@@ -171,9 +171,6 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
      */
     public function checkPollData($pollData)
     {
-        //@TODO Fix for verifyForm function. Multiselect label will have space before value
-        if (isset($pollData['visible_in']))
-            $pollData['visible_in'] = '    ' . $pollData['visible_in'];
         if (array_key_exists('visible_in', $pollData) && !$this->isVisibleIn)
             unset($pollData['visible_in']);
         $this->assertTrue($this->verifyForm($pollData, 'poll_information', array('assigned_answers_set'),
@@ -181,16 +178,16 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase
         $this->clickControl('tab', 'poll_answers', false);
         $answersXpath = $this->getCurrentLocationUimapPage()->findFieldset('assigned_answers_set')->getXpath();
         $answersCount = $this->getXpathCount($answersXpath);
-        if (count($pollData['assigned_answers_set']) == $answersCount){
+        if (count($pollData['assigned_answers_set']) == $answersCount) {
             $i = 1;
             foreach ($pollData['assigned_answers_set'] as $value) {
                 $attId = $this->getAttribute($answersXpath . "[$i]@id");
                 $answerId = explode("_", $attId);
                 $this->addParameter('answerId', end($answerId));
-                $this->assertTrue($this->verifyForm($value, 'poll_answers'),$this->messages);
+                $this->assertTrue($this->verifyForm($value, 'poll_answers'), $this->messages);
                 $i++;
             }
-        }else{
+        } else {
             $this->fail("Unexpected count of answers: "
                     . count($pollData['assigned_answers_set']) . "!= $answersCount");
         }
