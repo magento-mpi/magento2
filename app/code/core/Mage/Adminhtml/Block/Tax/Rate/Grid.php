@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'align'         => 'left',
             'index'         => 'tax_country_id',
             'filter_index'  => 'main_table.tax_country_id',
-            'renderer'      => 'adminhtml/tax_rate_grid_renderer_country',
+            'renderer'      => 'Mage_Adminhtml_Block_Tax_Rate_Grid_Renderer_Country',
             'sortable'      => false
         ));
 
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'index'         => 'rate',
             'type'          => 'number',
             'default'       => '0.00',
-            'renderer'      => 'adminhtml/tax_rate_grid_renderer_data',
+            'renderer'      => 'Mage_Adminhtml_Block_Tax_Rate_Grid_Renderer_Data',
         ));
 
         $this->addExportType('*/*/exportCsv', Mage::helper('tax')->__('CSV'));

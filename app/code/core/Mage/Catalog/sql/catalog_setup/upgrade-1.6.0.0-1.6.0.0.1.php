@@ -48,7 +48,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'msrp_enabled', arr
     'user_defined'  => false,
     'default'       => '',
     'apply_to'      => $productTypes,
-    'input_renderer'   => 'adminhtml/catalog_product_helper_form_msrp_enabled',
+    'input_renderer'   => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Msrp_Enabled',
     'visible_on_front' => false,
     'used_in_product_listing' => true
 ));
@@ -66,7 +66,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'msrp_display_actua
     'user_defined'  => false,
     'default'       => '',
     'apply_to'      => $productTypes,
-    'input_renderer'   => 'adminhtml/catalog_product_helper_form_msrp_price',
+    'input_renderer'   => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Msrp_Price',
     'visible_on_front' => false,
     'used_in_product_listing' => true
 ));

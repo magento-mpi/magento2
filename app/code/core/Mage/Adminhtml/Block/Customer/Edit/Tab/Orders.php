@@ -116,7 +116,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
                 'filter'    => false,
                 'sortable'  => false,
                 'width'     => '100px',
-                'renderer'  => 'adminhtml/sales_reorder_renderer_action'
+                'renderer'  => 'Mage_Adminhtml_Block_Sales_Reorder_Renderer_Action'
             ));
         }
 

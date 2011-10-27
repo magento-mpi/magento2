@@ -137,7 +137,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
             'type'      => 'number',
             'index'     => 'position',
             'editable'  => !$this->getCategory()->getProductsReadonly()
-            //'renderer'  => 'adminhtml/widget_grid_column_renderer_input'
+            //'renderer'  => 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Input'
         ));
 
         return parent::_prepareColumns();

@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Dashboard_Searches_Top extends Mage_Adminhtml_Block_D
             'header'    => $this->__('Search Term'),
             'sortable'  => false,
             'index'     => 'name',
-            'renderer'  => 'adminhtml/dashboard_searches_renderer_searchquery',
+            'renderer'  => 'Mage_Adminhtml_Block_Dashboard_Searches_Renderer_Searchquery',
         ));
 
         $this->addColumn('num_results', array(

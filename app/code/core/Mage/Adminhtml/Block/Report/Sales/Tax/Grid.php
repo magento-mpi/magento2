@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Report_Sales_Tax_Grid extends Mage_Adminhtml_Block_Re
             'width'             => '100',
             'sortable'          => false,
             'period_type'       => $this->getPeriodType(),
-            'renderer'          => 'adminhtml/report_sales_grid_column_renderer_date',
+            'renderer'          => 'Mage_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
             'totals_label'      => Mage::helper('sales')->__('Total'),
             'subtotals_label'   => Mage::helper('sales')->__('Subtotal'),
             'html_decorators' => array('nobr'),

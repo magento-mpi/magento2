@@ -159,7 +159,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'type'      => 'select',
             'index'     => 'type',
             'filter'    => 'adminhtml/review_grid_filter_type',
-            'renderer'  => 'adminhtml/review_grid_renderer_type'
+            'renderer'  => 'Mage_Adminhtml_Block_Review_Grid_Renderer_Type'
         ));
 
         $this->addColumn('name', array(

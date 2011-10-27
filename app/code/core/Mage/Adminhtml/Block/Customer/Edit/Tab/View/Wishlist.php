@@ -85,7 +85,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Mage_Adminhtm
         $this->addColumn('product_name', array(
             'header'    => Mage::helper('customer')->__('Product Name'),
             'index'     => 'product_name',
-            'renderer'  => 'adminhtml/customer_edit_tab_view_grid_renderer_item'
+            'renderer'  => 'Mage_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item'
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {

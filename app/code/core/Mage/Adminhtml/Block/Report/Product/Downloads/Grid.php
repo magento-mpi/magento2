@@ -92,7 +92,7 @@ class Mage_Adminhtml_Block_Report_Product_Downloads_Grid extends Mage_Adminhtml_
             'filter'    => false,
             'index'     => 'purchases',
             'type'      => 'number',
-            'renderer'  => 'adminhtml/report_product_downloads_renderer_purchases',
+            'renderer'  => 'Mage_Adminhtml_Block_Report_Product_Downloads_Renderer_Purchases',
         ));
 
         $this->addColumn('downloads', array(

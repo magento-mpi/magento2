@@ -108,13 +108,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         $this->addColumn('product_name', array(
             'header'    => Mage::helper('catalog')->__('Product name'),
             'index'     => 'product_name',
-            'renderer'  => 'adminhtml/customer_edit_tab_view_grid_renderer_item'
+            'renderer'  => 'Mage_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item'
         ));
 
         $this->addColumn('description', array(
             'header'    => Mage::helper('wishlist')->__('User description'),
             'index'     => 'description',
-            'renderer'  => 'adminhtml/customer_edit_tab_wishlist_grid_renderer_description'
+            'renderer'  => 'Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Description'
         ));
 
         $this->addColumn('qty', array(
@@ -149,7 +149,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         $this->addColumn('action', array(
             'header'    => Mage::helper('customer')->__('Action'),
             'index'     => 'wishlist_item_id',
-            'renderer'  => 'adminhtml/customer_grid_renderer_multiaction',
+            'renderer'  => 'Mage_Adminhtml_Block_Customer_Grid_Renderer_Multiaction',
             'filter'    => false,
             'sortable'  => false,
             'actions'   => array(

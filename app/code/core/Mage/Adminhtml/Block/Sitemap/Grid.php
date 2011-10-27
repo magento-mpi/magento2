@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Sitemap_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->addColumn('link', array(
             'header'    => Mage::helper('sitemap')->__('Link for Google'),
             'index'     => 'concat(sitemap_path, sitemap_filename)',
-            'renderer'  => 'adminhtml/sitemap_grid_renderer_link',
+            'renderer'  => 'Mage_Adminhtml_Block_Sitemap_Grid_Renderer_Link',
         ));
 
         $this->addColumn('sitemap_time', array(
@@ -95,7 +95,7 @@ class Mage_Adminhtml_Block_Sitemap_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'filter'   => false,
             'sortable' => false,
             'width'    => '100',
-            'renderer' => 'adminhtml/sitemap_grid_renderer_action'
+            'renderer' => 'Mage_Adminhtml_Block_Sitemap_Grid_Renderer_Action'
         ));
 
         return parent::_prepareColumns();

@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Report_Sales_Bestsellers_Grid extends Mage_Adminhtml_
             'width'         => 100,
             'sortable'      => false,
             'period_type'   => $this->getPeriodType(),
-            'renderer'      => 'adminhtml/report_sales_grid_column_renderer_date',
+            'renderer'      => 'Mage_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
             'totals_label'  => Mage::helper('adminhtml')->__('Total'),
             'html_decorators' => array('nobr'),
         ));

@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
             array(
                 'header'=>Mage::helper('newsletter')->__('Sender'),
                 'index'=>'template_sender_email',
-                'renderer' => 'adminhtml/newsletter_template_grid_renderer_sender'
+                'renderer' => 'Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Sender'
         ));
 
         $this->addColumn('type',
@@ -106,7 +106,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
                 'filter'   => false,
                 'no_link' => true,
                 'width'	   => '170px',
-                'renderer' => 'adminhtml/newsletter_template_grid_renderer_action'
+                'renderer' => 'Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action'
         ));
 
         return $this;

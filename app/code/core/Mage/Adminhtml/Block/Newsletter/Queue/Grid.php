@@ -115,7 +115,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
             'sortable'	=>	false,
             'no_link'   => true,
             'width'		=> '100px',
-            'renderer'	=>	'adminhtml/newsletter_queue_grid_renderer_action'
+            'renderer'	=>	'Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action'
         ));
 
         return parent::_prepareColumns();

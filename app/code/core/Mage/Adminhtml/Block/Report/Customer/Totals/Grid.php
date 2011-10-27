@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Report_Customer_Totals_Grid extends Mage_Adminhtml_Bl
             'currency_code'  => $baseCurrencyCode,
             'index'     => 'orders_avg_amount',
             'total'     => 'orders_sum_amount/orders_count',
-            'renderer'  => 'adminhtml/report_grid_column_renderer_currency',
+            'renderer'  => 'Mage_Adminhtml_Block_Report_Grid_Column_Renderer_Currency',
             'rate'      => $rate,
         ));
 
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Report_Customer_Totals_Grid extends Mage_Adminhtml_Bl
             'currency_code'  => $baseCurrencyCode,
             'index'     => 'orders_sum_amount',
             'total'     => 'sum',
-            'renderer'  => 'adminhtml/report_grid_column_renderer_currency',
+            'renderer'  => 'Mage_Adminhtml_Block_Report_Grid_Column_Renderer_Currency',
             'rate'      => $rate,
         ));
 

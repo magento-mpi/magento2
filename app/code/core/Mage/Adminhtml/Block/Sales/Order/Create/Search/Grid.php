@@ -128,7 +128,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
         ));
         $this->addColumn('name', array(
             'header'    => Mage::helper('sales')->__('Product Name'),
-            'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_product',
+            'renderer'  => 'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product',
             'index'     => 'name'
         ));
         $this->addColumn('sku', array(
@@ -144,7 +144,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
             'currency_code' => $this->getStore()->getCurrentCurrencyCode(),
             'rate'      => $this->getStore()->getBaseCurrency()->getRate($this->getStore()->getCurrentCurrencyCode()),
             'index'     => 'price',
-            'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_price',
+            'renderer'  => 'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price',
         ));
 
         $this->addColumn('in_products', array(
@@ -162,7 +162,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
             'filter'    => false,
             'sortable'  => false,
             'header'    => Mage::helper('sales')->__('Qty To Add'),
-            'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_qty',
+            'renderer'  => 'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty',
             'name'      => 'qty',
             'inline_css'=> 'qty',
             'align'     => 'center',

@@ -103,7 +103,7 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
             'header'    => Mage::helper('customer')->__('IP Address'),
             'default'   => Mage::helper('customer')->__('n/a'),
             'index'     => 'remote_addr',
-            'renderer'  => 'adminhtml/customer_online_grid_renderer_ip',
+            'renderer'  => 'Mage_Adminhtml_Block_Customer_Online_Grid_Renderer_Ip',
             'filter'    => false,
             'sort'      => false
         ));
@@ -136,7 +136,7 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
             'index'     => 'type',
             'type'      => 'options',
             'options'   => $typeOptions,
-//            'renderer'  => 'adminhtml/customer_online_grid_renderer_type',
+//            'renderer'  => 'Mage_Adminhtml_Block_Customer_Online_Grid_Renderer_Type',
             'index'     => 'visitor_type'
         ));
 
@@ -145,7 +145,7 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
             'type'      => 'wrapline',
             'lineLength' => '60',
             'default'   => Mage::helper('customer')->__('n/a'),
-            'renderer'  => 'adminhtml/customer_online_grid_renderer_url',
+            'renderer'  => 'Mage_Adminhtml_Block_Customer_Online_Grid_Renderer_Url',
             'index'     => 'last_url'
         ));
 

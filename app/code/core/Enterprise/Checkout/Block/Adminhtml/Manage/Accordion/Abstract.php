@@ -167,7 +167,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
         $this->addColumn('qty', array(
             'sortable'  => false,
             'header'    => Mage::helper('enterprise_checkout')->__('Qty To Add'),
-            'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_qty',
+            'renderer'  => 'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty',
             'name'      => 'qty',
             'inline_css'=> 'qty',
             'align'     => 'right',

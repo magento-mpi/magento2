@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Newsletter_Problem_Grid extends Mage_Adminhtml_Block_
         $this->addColumn('checkbox', array(
              'sortable' 	=> false,
             'filter'	=> 'adminhtml/newsletter_problem_grid_filter_checkbox',
-            'renderer'	=> 'adminhtml/newsletter_problem_grid_renderer_checkbox',
+            'renderer'	=> 'Mage_Adminhtml_Block_Newsletter_Problem_Grid_Renderer_Checkbox',
             'width'		=> '20px'
         ));
 

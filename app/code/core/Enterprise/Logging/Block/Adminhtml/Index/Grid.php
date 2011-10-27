@@ -108,7 +108,7 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
             'index'     => 'ip',
             'type'      => 'text',
             'filter'    => 'enterprise_logging/adminhtml_grid_filter_ip',
-            'renderer'  => 'adminhtml/widget_grid_column_renderer_ip',
+            'renderer'  => 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Ip',
             'sortable'  => false,
             'width'     => 125,
         ));

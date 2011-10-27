@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded_Grid extends Mage_Adminhtml_Blo
             'width'         => 100,
             'sortable'      => false,
             'period_type'   => $this->getPeriodType(),
-            'renderer'      => 'adminhtml/report_sales_grid_column_renderer_date',
+            'renderer'      => 'Mage_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
             'totals_label'  => Mage::helper('sales')->__('Total'),
             'html_decorators' => array('nobr'),
         ));

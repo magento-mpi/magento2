@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Mage_Adminhtml
             'type'      => 'currency',
             'currency_code'  => $baseCurrencyCode,
             'index'     => 'orders_avg_amount',
-            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
+            'renderer'  =>'Mage_Adminhtml_Block_Report_Grid_Column_Renderer_Currency'
         ));
 
         $this->addColumn('orders_sum_amount', array(
@@ -100,7 +100,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Mage_Adminhtml
             'type'      => 'currency',
             'currency_code'  => $baseCurrencyCode,
             'index'     => 'orders_sum_amount',
-            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
+            'renderer'  =>'Mage_Adminhtml_Block_Report_Grid_Column_Renderer_Currency'
         ));
 
         $this->setFilterVisibility(false);

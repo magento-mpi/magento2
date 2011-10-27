@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Notification_Grid extends Mage_Adminhtml_Block_Widget
             'header'    => Mage::helper('adminnotification')->__('Severity'),
             'width'     => '60px',
             'index'     => 'severity',
-            'renderer'  => 'adminhtml/notification_grid_renderer_severity',
+            'renderer'  => 'Mage_Adminhtml_Block_Notification_Grid_Renderer_Severity',
         ));
 
         $this->addColumn('date_added', array(
@@ -77,14 +77,14 @@ class Mage_Adminhtml_Block_Notification_Grid extends Mage_Adminhtml_Block_Widget
         $this->addColumn('title', array(
             'header'    => Mage::helper('adminnotification')->__('Message'),
             'index'     => 'title',
-            'renderer'  => 'adminhtml/notification_grid_renderer_notice',
+            'renderer'  => 'Mage_Adminhtml_Block_Notification_Grid_Renderer_Notice',
         ));
 
         $this->addColumn('actions', array(
             'header'    => Mage::helper('adminnotification')->__('Actions'),
             'width'     => '250px',
             'sortable'  => false,
-            'renderer'  => 'adminhtml/notification_grid_renderer_actions',
+            'renderer'  => 'Mage_Adminhtml_Block_Notification_Grid_Renderer_Actions',
         ));
 
         return parent::_prepareColumns();

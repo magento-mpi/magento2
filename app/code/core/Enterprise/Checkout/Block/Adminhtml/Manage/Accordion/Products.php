@@ -96,7 +96,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
 
         $this->addColumn('name', array(
             'header'    => Mage::helper('enterprise_checkout')->__('Product Name'),
-            'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_product',
+            'renderer'  => 'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product',
             'index'     => 'name'
         ));
 
@@ -113,7 +113,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
             'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
             'rate'      => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
             'index'     => 'price',
-            'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_price'
+            'renderer'  => 'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price'
         ));
 
         $this->_addControlColumns();

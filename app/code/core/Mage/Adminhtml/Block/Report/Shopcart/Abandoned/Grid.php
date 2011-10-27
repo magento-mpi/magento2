@@ -125,7 +125,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
             'currency_code' => $currencyCode,
             'index'         => 'subtotal',
             'sortable'      => false,
-            'renderer'      => 'adminhtml/report_grid_column_renderer_currency',
+            'renderer'      => 'Mage_Adminhtml_Block_Report_Grid_Column_Renderer_Currency',
             'rate'          => $this->getRate($currencyCode),
         ));
 

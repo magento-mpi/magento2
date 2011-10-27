@@ -109,7 +109,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Mage_Adminh
             'align'     =>  'center',
             'filter'    =>  'adminhtml/customer_edit_tab_newsletter_grid_filter_status',
             'index'     => 'queue_status',
-            'renderer'  =>  'adminhtml/customer_edit_tab_newsletter_grid_renderer_status'
+            'renderer'  =>  'Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Status'
         ));
 
         $this->addColumn('action', array(
@@ -117,7 +117,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Mage_Adminh
             'align'     =>  'center',
             'filter'    =>  false,
             'sortable'  =>  false,
-            'renderer'  =>  'adminhtml/customer_edit_tab_newsletter_grid_renderer_action'
+            'renderer'  =>  'Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Action'
         ));
 
         return parent::_prepareColumns();

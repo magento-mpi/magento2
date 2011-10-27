@@ -180,7 +180,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
                 'values'    => $this->_getSelectedProducts(),
                 'align'     => 'center',
                 'index'     => 'entity_id',
-                'renderer'  => 'adminhtml/catalog_product_edit_tab_super_config_grid_renderer_checkbox',
+                'renderer'  => 'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Checkbox',
                 'attributes' => $attributes
             ));
         }
@@ -226,7 +226,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
 
         $this->addColumn('is_saleable', array(
             'header'    => Mage::helper('catalog')->__('Inventory'),
-            'renderer'  => 'adminhtml/catalog_product_edit_tab_super_config_grid_renderer_inventory',
+            'renderer'  => 'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Inventory',
             'filter'    => 'adminhtml/catalog_product_edit_tab_super_config_grid_filter_inventory',
             'index'     => 'is_saleable'
         ));

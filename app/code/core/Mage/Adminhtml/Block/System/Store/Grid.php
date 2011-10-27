@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_System_Store_Grid extends Mage_Adminhtml_Block_Widget
             'align'         =>'left',
             'index'         => 'name',
             'filter_index'  => 'main_table.name',
-            'renderer'      => 'adminhtml/system_store_grid_render_website'
+            'renderer'      => 'Mage_Adminhtml_Block_System_Store_Grid_Render_Website'
         ));
 
         $this->addColumn('group_title', array(
@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_System_Store_Grid extends Mage_Adminhtml_Block_Widget
             'align'         =>'left',
             'index'         => 'group_title',
             'filter_index'  => 'group_table.name',
-            'renderer'      => 'adminhtml/system_store_grid_render_group'
+            'renderer'      => 'Mage_Adminhtml_Block_System_Store_Grid_Render_Group'
         ));
 
         $this->addColumn('store_title', array(
@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_System_Store_Grid extends Mage_Adminhtml_Block_Widget
             'align'         =>'left',
             'index'         => 'store_title',
             'filter_index'  => 'store_table.name',
-            'renderer'      => 'adminhtml/system_store_grid_render_store'
+            'renderer'      => 'Mage_Adminhtml_Block_System_Store_Grid_Render_Store'
         ));
 
         return parent::_prepareColumns();

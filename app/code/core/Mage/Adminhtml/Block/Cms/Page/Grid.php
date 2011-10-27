@@ -117,7 +117,7 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'width'     => 10,
             'sortable'  => false,
             'filter'    => false,
-            'renderer'  => 'adminhtml/cms_page_grid_renderer_action',
+            'renderer'  => 'Mage_Adminhtml_Block_Cms_Page_Grid_Renderer_Action',
         ));
 
         return parent::_prepareColumns();

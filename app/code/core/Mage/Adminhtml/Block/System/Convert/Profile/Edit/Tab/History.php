@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_History extends Mage_
             'header'    => Mage::helper('adminhtml')->__('Profile Action'),
             'index'     => 'action_code',
             'filter'    => 'adminhtml/system_convert_profile_edit_filter_action',
-            'renderer'  => 'adminhtml/system_convert_profile_edit_renderer_action',
+            'renderer'  => 'Mage_Adminhtml_Block_System_Convert_Profile_Edit_Renderer_Action',
         ));
 
         $this->addColumn('performed_at', array(
