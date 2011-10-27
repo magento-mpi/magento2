@@ -308,7 +308,7 @@ body > header dd.menu-box a {
     padding:10px;
     display:block;
 }
-body > header dd.menu-box a:hover {
+body > header dd.menu-box .links a:hover {
     -webkit-box-shadow:inset 0 8px 8px rgba(0, 0, 0, .75);
 }
 
@@ -729,6 +729,7 @@ input[type="text"] {
 .login-box .new-users p { padding:9px 0 0; }
 .login-box .new-users input[type="submit"] { padding:5px 20px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; -webkit-background-clip:padding-box; }
 .messages { margin:-11px -10px 10px; }
+.customer-account-index .messages { margin:0 -10px -10px; }
 .customer-account-login .messages .error-msg { background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#f85032), color-stop(50%,#f16f5c), color-stop(51%,#f6290c), color-stop(71%,#f02f17), color-stop(100%,#e73827)); color:#fff; padding:10px; font-size:16px; font-weight:bold; text-align:center; text-shadow:0 1px #222; }
 .customer-account-logoutsuccess .page-title { background:-webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#ccc)); border:solid #999; border-width:1px 0; border-top-color:#ccc; margin:0 -10px 10px; padding:10px; }
 
