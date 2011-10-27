@@ -312,11 +312,11 @@ class Tags_Helper extends Mage_Selenium_TestCase
     /**
      * Deletes a tag from backend
      *
-     * @param string|array $tagData
+     * @param string|array $searchData Data used in Search Grid for tags. Same as data used for openTag
      */
-    public function deleteTag($tagData)
+    public function deleteTag($searchData)
     {
-        $this->openTag($tagData);
+        $this->openTag($searchData);
         $this->clickButtonAndConfirm('delete_tag', 'confirmation_for_delete');
     }
 
