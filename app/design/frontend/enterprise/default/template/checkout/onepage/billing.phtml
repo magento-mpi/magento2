@@ -40,7 +40,7 @@
             <input type="hidden" name="billing[address_id]" value="<?php echo $this->getAddress()->getId() ?>" id="billing:address_id" />
             <ul>
                 <li class="fields">
-                <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject( $this->getAddress() )->setForceUseCustomerRequiredAttributes(!$this->isCustomerLoggedIn())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
+                <?php echo $this->getLayout()->createBlock('Mage_Customer_Block_Widget_Name')->setObject( $this->getAddress() )->setForceUseCustomerRequiredAttributes(!$this->isCustomerLoggedIn())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
                 </li>
                 <li>
                     <label for="billing:company"><?php echo $this->__('Company') ?></label>
@@ -126,9 +126,9 @@
                 <?php endif;?>
 
                 <?php if(!$this->isCustomerLoggedIn()): ?>
-                <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
-                <?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
-                <?php $_gender = $this->getLayout()->createBlock('customer/widget_gender') ?>
+                <?php $_dob = $this->getLayout()->createBlock('Mage_Customer_Block_Widget_Dob') ?>
+                <?php $_taxvat = $this->getLayout()->createBlock('Mage_Customer_Block_Widget_Taxvat') ?>
+                <?php $_gender = $this->getLayout()->createBlock('Mage_Customer_Block_Widget_Gender') ?>
                 <?php if ($_dob->isEnabled() || $_taxvat->isEnabled() || $_gender->isEnabled() ): ?>
                 <li class="fields">
                     <?php if ($_dob->isEnabled()): ?>

@@ -51,7 +51,7 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
 
         $this->loadLayout();
         $this->_setActiveMenu('system/index');
-        $this->_addContent($this->getLayout()->createBlock('index/adminhtml_process'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Index_Block_Adminhtml_Process'));
         $this->renderLayout();
     }
 

@@ -42,7 +42,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('catalog')->__('Catalog'), Mage::helper('catalog')->__('Catalog'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/catalog_search'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Search'))
             ->renderLayout();
     }
 

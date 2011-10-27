@@ -167,7 +167,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         $url        = $this->getUrl('*/rma/printLabel', $data);
 
         return $this->getLayout()
-            ->createBlock('adminhtml/widget_button')
+            ->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'   => Mage::helper('enterprise_rma')->__('Print Shipping Label'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
@@ -183,7 +183,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     public function getShowPackagesButton()
     {
         return $this->getLayout()
-            ->createBlock('adminhtml/widget_button')
+            ->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'   => Mage::helper('enterprise_rma')->__('Show Packages'),
                 'onclick' => 'showPackedWindow();'
@@ -202,7 +202,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         $url        = $this->getUrl('*/rma/printPackage', $data);
 
         return $this->getLayout()
-            ->createBlock('adminhtml/widget_button')
+            ->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'   => Mage::helper('enterprise_rma')->__('Print'),
                 'onclick' => 'setLocation(\'' . $url . '\')'

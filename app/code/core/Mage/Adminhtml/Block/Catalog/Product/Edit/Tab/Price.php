@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price extends Mage_Adminhtml
         ));
 
         $form->getElement('tier_price')->setRenderer(
-            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_price_tier')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier')
         );
 
         $this->setForm($form);

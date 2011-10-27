@@ -47,7 +47,7 @@ class Mage_Adminhtml_SalesController extends Mage_Adminhtml_Controller_Action
         $this->loadLayout();
         $this->_setActiveMenu('sales');
 
-        $block = $this->getLayout()->createBlock('adminhtml/sales', 'sales');
+        $block = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales', 'sales');
         $this->_addContent($block);
 
         $this->_addBreadcrumb($this->__('Sales'), $this->__('Sales'));

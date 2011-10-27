@@ -83,7 +83,7 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
      */
     public function getLocaleSelect()
     {
-        $html = $this->getLayout()->createBlock('core/html_select')
+        $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName('config[locale]')
             ->setId('locale')
             ->setTitle(Mage::helper('install')->__('Locale'))
@@ -101,7 +101,7 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
      */
     public function getTimezoneSelect()
     {
-        $html = $this->getLayout()->createBlock('core/html_select')
+        $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName('config[timezone]')
             ->setId('timezone')
             ->setTitle(Mage::helper('install')->__('Time Zone'))
@@ -135,7 +135,7 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
      */
     public function getCurrencySelect()
     {
-        $html = $this->getLayout()->createBlock('core/html_select')
+        $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName('config[currency]')
             ->setId('currency')
             ->setTitle(Mage::helper('install')->__('Default Currency'))

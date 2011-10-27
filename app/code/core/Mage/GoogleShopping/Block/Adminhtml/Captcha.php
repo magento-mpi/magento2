@@ -48,7 +48,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Captcha extends Mage_Adminhtml_Block_T
      */
     public function getConfirmButtonHtml()
     {
-        $confirmButton = $this->getLayout()->createBlock('adminhtml/widget_button')
+        $confirmButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'     => $this->__('Confirm'),
                 'onclick'   => "if($('user_confirm').value != '')

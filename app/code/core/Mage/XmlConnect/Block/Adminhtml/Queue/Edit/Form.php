@@ -99,7 +99,7 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Edit_Form
 
         // field dependencies
         if (isset($this->_dependentFields['message_title']) || isset($this->_dependentFields['content'])) {
-            $dependenceBlock = $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence');
+            $dependenceBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence');
 
             $dependenceBlock->addFieldMap(
                 $this->_dependentFields['message_title']->getHtmlId(),

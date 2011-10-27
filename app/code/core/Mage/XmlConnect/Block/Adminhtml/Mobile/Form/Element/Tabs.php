@@ -45,7 +45,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Tabs
             return '';
         }
 
-        $blockClassName = Mage::getConfig()->getBlockClassName('adminhtml/template');
+        $blockClassName = Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_Template');
         $block = new $blockClassName;
         $device = Mage::helper('xmlconnect')->getDeviceType();
         if (array_key_exists($device, Mage::helper('xmlconnect')->getSupportedDevices())) {

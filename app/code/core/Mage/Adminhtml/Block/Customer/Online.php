@@ -42,13 +42,13 @@ class Mage_Adminhtml_Block_Customer_Online extends Mage_Adminhtml_Block_Template
 
     public function _beforeToHtml()
     {
-        $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/customer_online_grid', 'customer.grid'));
+        $this->setChild('grid', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Online_Grid', 'customer.grid'));
         return parent::_beforeToHtml();
     }
 
     protected function _prepareLayout()
     {
-        $this->setChild('filterForm', $this->getLayout()->createBlock('adminhtml/customer_online_filter'));
+        $this->setChild('filterForm', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Online_Filter'));
         return parent::_prepareLayout();
     }
 

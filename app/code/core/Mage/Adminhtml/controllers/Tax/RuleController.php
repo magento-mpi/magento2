@@ -40,7 +40,7 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
              ->_title($this->__('Manage Tax Rules'));
 
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tax_rule'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tax_Rule'))
             ->renderLayout();
         return $this;
     }
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
 
         $this->_initAction()
             ->_addBreadcrumb($taxRuleId ? Mage::helper('tax')->__('Edit Rule') :  Mage::helper('tax')->__('New Rule'), $taxRuleId ?  Mage::helper('tax')->__('Edit Rule') :  Mage::helper('tax')->__('New Rule'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tax_rule_edit')->setData('action', $this->getUrl('*/tax_rule/save')))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tax_Rule_Edit')->setData('action', $this->getUrl('*/tax_rule/save')))
             ->renderLayout();
     }
 

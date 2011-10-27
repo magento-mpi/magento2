@@ -304,7 +304,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     {
         $this->_initOrder();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_invoices')->toHtml()
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices')->toHtml()
         );
     }
 
@@ -315,7 +315,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     {
         $this->_initOrder();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_shipments')->toHtml()
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_View_Tab_Shipments')->toHtml()
         );
     }
 
@@ -326,7 +326,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     {
         $this->_initOrder();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_creditmemos')->toHtml()
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos')->toHtml()
         );
     }
 
@@ -336,7 +336,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     public function commentsHistoryAction()
     {
         $this->_initOrder();
-        $html = $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_history')->toHtml();
+        $html = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_View_Tab_History')->toHtml();
         /* @var $translate Mage_Core_Model_Translate_Inline */
         $translate = Mage::getModel('core/translate_inline');
         $translate->isAllowed() && $translate->processResponseBody($html);
@@ -687,7 +687,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     public function exportCsvAction()
     {
         $fileName   = 'orders.csv';
-        $grid       = $this->getLayout()->createBlock('adminhtml/sales_order_grid');
+        $grid       = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_Grid');
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
 
@@ -697,7 +697,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     public function exportExcelAction()
     {
         $fileName   = 'orders.xml';
-        $grid       = $this->getLayout()->createBlock('adminhtml/sales_order_grid');
+        $grid       = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_Grid');
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
 

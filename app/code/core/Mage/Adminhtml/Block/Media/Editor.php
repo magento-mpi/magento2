@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
     {
         $this->setChild(
             'rotatecw_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->addData(array(
                     'id'      => $this->_getButtonId('rotatecw'),
                     'label'   => Mage::helper('adminhtml')->__('Rotate CW'),
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
 
         $this->setChild(
             'rotateccw_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->addData(array(
                     'id'      => $this->_getButtonId('rotateccw'),
                     'label'   => Mage::helper('adminhtml')->__('Rotate CCW'),
@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
 
         $this->setChild(
             'resize_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->addData(array(
                     'id'      => $this->_getButtonId('upload'),
                     'label'   => Mage::helper('adminhtml')->__('Resize'),
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
 
         $this->setChild(
             'image_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->addData(array(
                     'id'      => $this->_getButtonId('image'),
                     'label'   => Mage::helper('adminhtml')->__('Get Image Base64'),

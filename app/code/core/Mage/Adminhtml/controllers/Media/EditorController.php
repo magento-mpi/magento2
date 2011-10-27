@@ -38,7 +38,7 @@ class Mage_Adminhtml_Media_EditorController extends Mage_Adminhtml_Controller_Ac
     {
         $this->loadLayout();
         $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/media_editor')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Media_Editor')
         );
         $this->renderLayout();
     }

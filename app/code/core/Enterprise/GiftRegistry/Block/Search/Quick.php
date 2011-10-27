@@ -62,7 +62,7 @@ class Enterprise_GiftRegistry_Block_Search_Quick extends Mage_Core_Block_Templat
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('core/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setData(array(
                 'id'    => 'quick_search_type_id',
                 'class' => 'select'

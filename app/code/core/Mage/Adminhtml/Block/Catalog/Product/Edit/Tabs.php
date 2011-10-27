@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 $this->addTab('inventory', array(
                     'label'     => Mage::helper('catalog')->__('Inventory'),
                     'content'   => $this->_translateHtml($this->getLayout()
-                        ->createBlock('adminhtml/catalog_product_edit_tab_inventory')->toHtml()),
+                        ->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory')->toHtml()),
                 ));
             }
 
@@ -95,7 +95,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 $this->addTab('websites', array(
                     'label'     => Mage::helper('catalog')->__('Websites'),
                     'content'   => $this->_translateHtml($this->getLayout()
-                        ->createBlock('adminhtml/catalog_product_edit_tab_websites')->toHtml()),
+                        ->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites')->toHtml()),
                 ));
             }
 
@@ -135,7 +135,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 $this->addTab('productalert', array(
                     'label'     => Mage::helper('catalog')->__('Product Alerts'),
                     'content'   => $this->_translateHtml($this->getLayout()
-                        ->createBlock('adminhtml/catalog_product_edit_tab_alerts', 'admin.alerts.products')->toHtml())
+                        ->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts', 'admin.alerts.products')->toHtml())
                 ));
             }
 
@@ -185,7 +185,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
             $this->addTab('set', array(
                 'label'     => Mage::helper('catalog')->__('Settings'),
                 'content'   => $this->_translateHtml($this->getLayout()
-                    ->createBlock('adminhtml/catalog_product_edit_tab_settings')->toHtml()),
+                    ->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Settings')->toHtml()),
                 'active'    => true
             ));
         }

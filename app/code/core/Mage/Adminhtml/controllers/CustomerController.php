@@ -71,7 +71,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
          * Append customers block to content
          */
         $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/customer', 'customer')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer', 'customer')
         );
 
         /**
@@ -86,7 +86,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function gridAction()
     {
         $this->loadLayout();
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_grid')->toHtml());
+        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Grid')->toHtml());
     }
 
     /**
@@ -360,7 +360,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function exportCsvAction()
     {
         $fileName   = 'customers.csv';
-        $content    = $this->getLayout()->createBlock('adminhtml/customer_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Grid')
             ->getCsvFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -372,7 +372,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function exportXmlAction()
     {
         $fileName   = 'customers.xml';
-        $content    = $this->getLayout()->createBlock('adminhtml/customer_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Grid')
             ->getExcelFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -425,7 +425,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
         Mage::register('subscriber', $subscriber);
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/customer_edit_tab_newsletter_grid')->toHtml());
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid')->toHtml());
     }
 
     public function wishlistAction()
@@ -486,7 +486,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
 
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/customer_edit_tab_cart', 'admin.customer.view.cart',
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Edit_Tab_Cart', 'admin.customer.view.cart',
                 array('website_id'=>$websiteId))->toHtml()
         );
     }
@@ -550,7 +550,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initCustomer();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/customer_edit_tab_tag', 'admin.customer.tags')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Edit_Tab_Tag', 'admin.customer.tags')
                 ->setCustomerId(Mage::registry('current_customer'))
                 ->toHtml()
         );

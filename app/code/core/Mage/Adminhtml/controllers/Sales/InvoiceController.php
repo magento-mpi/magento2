@@ -37,7 +37,7 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_S
     public function exportCsvAction()
     {
         $fileName   = 'invoices.csv';
-        $grid       = $this->getLayout()->createBlock('adminhtml/sales_invoice_grid');
+        $grid       = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Invoice_Grid');
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
 
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_S
     public function exportExcelAction()
     {
         $fileName   = 'invoices.xml';
-        $grid       = $this->getLayout()->createBlock('adminhtml/sales_invoice_grid');
+        $grid       = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Invoice_Grid');
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
 }

@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Widget extends Mage_Adminhtml_Block_Template
      * @return string
      */
     public function getButtonHtml($label, $onclick, $class='', $id=null) {
-        return $this->getLayout()->createBlock('adminhtml/widget_button')
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'     => $label,
                 'onclick'   => $onclick,

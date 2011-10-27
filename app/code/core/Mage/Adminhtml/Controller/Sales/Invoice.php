@@ -61,7 +61,7 @@ class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_
     {
         $this->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/sales_invoice_grid')->toHtml()
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Invoice_Grid')->toHtml()
         );
     }
 
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_
         $this->_title($this->__('Sales'))->_title($this->__('Invoices'));
 
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/sales_invoice'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Invoice'))
             ->renderLayout();
     }
 

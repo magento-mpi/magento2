@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     {
         if (!$this->getRequest()->getParam('popup')) {
             $this->setChild('back_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setData(array(
                         'label'     => Mage::helper('catalog')->__('Back'),
                         'onclick'   => 'setLocation(\''.$this->getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             );
         } else {
             $this->setChild('back_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setData(array(
                         'label'     => Mage::helper('catalog')->__('Close Window'),
                         'onclick'   => 'window.close()',
@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
         if (!$this->getProduct()->isReadonly()) {
             $this->setChild('reset_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setData(array(
                         'label'     => Mage::helper('catalog')->__('Reset'),
                         'onclick'   => 'setLocation(\''.$this->getUrl('*/*/*', array('_current'=>true)).'\')'
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             );
 
             $this->setChild('save_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setData(array(
                         'label'     => Mage::helper('catalog')->__('Save'),
                         'onclick'   => 'productForm.submit()',
@@ -94,7 +94,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         if (!$this->getRequest()->getParam('popup')) {
             if (!$this->getProduct()->isReadonly()) {
                 $this->setChild('save_and_edit_button',
-                    $this->getLayout()->createBlock('adminhtml/widget_button')
+                    $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                         ->setData(array(
                             'label'     => Mage::helper('catalog')->__('Save and Continue Edit'),
                             'onclick'   => 'saveAndContinueEdit(\''.$this->getSaveAndContinueUrl().'\')',
@@ -104,7 +104,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             }
             if ($this->getProduct()->isDeleteable()) {
                 $this->setChild('delete_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                         ->setData(array(
                             'label'     => Mage::helper('catalog')->__('Delete'),
                             'onclick'   => 'confirmSetLocation(\''.Mage::helper('catalog')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
@@ -115,7 +115,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
             if ($this->getProduct()->isDuplicable()) {
                 $this->setChild('duplicate_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setData(array(
                         'label'     => Mage::helper('catalog')->__('Duplicate'),
                         'onclick'   => 'setLocation(\'' . $this->getDuplicateUrl() . '\')',

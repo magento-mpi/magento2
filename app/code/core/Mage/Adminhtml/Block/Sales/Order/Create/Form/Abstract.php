@@ -53,13 +53,13 @@ abstract class Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
         parent::_prepareLayout();
 
         Varien_Data_Form::setElementRenderer(
-            $this->getLayout()->createBlock('adminhtml/widget_form_renderer_element')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Renderer_Element')
         );
         Varien_Data_Form::setFieldsetRenderer(
-            $this->getLayout()->createBlock('adminhtml/widget_form_renderer_fieldset')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
         );
         Varien_Data_Form::setFieldsetElementRenderer(
-            $this->getLayout()->createBlock('adminhtml/widget_form_renderer_fieldset_element')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element')
         );
 
         return $this;
@@ -95,9 +95,9 @@ abstract class Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
     protected function _getAdditionalFormElementTypes()
     {
         return array(
-            'file'      => Mage::getConfig()->getBlockClassName('adminhtml/customer_form_element_file'),
-            'image'     => Mage::getConfig()->getBlockClassName('adminhtml/customer_form_element_image'),
-            'boolean'   => Mage::getConfig()->getBlockClassName('adminhtml/customer_form_element_boolean'),
+            'file'      => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_Customer_Form_Element_File'),
+            'image'     => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_Customer_Form_Element_Image'),
+            'boolean'   => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_Customer_Form_Element_Boolean'),
         );
     }
 
@@ -109,7 +109,7 @@ abstract class Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
     protected function _getAdditionalFormElementRenderers()
     {
         return array(
-            'region'    => $this->getLayout()->createBlock('adminhtml/customer_edit_renderer_region'),
+            'region'    => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Edit_Renderer_Region'),
         );
     }
 

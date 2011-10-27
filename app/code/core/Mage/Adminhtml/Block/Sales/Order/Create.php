@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
     public function getHeaderHtml()
     {
         $out = '<div id="order-header">'
-            . $this->getLayout()->createBlock('adminhtml/sales_order_create_header')->toHtml()
+            . $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_Create_Header')->toHtml()
             . '</div>';
         return $out;
     }
@@ -91,7 +91,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
     public function getFormHtml()
     {
         $html = parent::getFormHtml();
-        $html .= $this->getLayout()->createBlock('adminhtml/catalog_product_composite_configure')->toHtml();
+        $html .= $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Composite_Configure')->toHtml();
         return $html;
     }
 

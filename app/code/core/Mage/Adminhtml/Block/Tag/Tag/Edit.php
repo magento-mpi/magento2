@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Tag_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $this->setChild('accordion', $this->getLayout()->createBlock('adminhtml/tag_edit_accordion'));
+        $this->setChild('accordion', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Edit_Accordion'));
         return $this;
     }
 

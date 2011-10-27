@@ -44,7 +44,7 @@ class Mage_Bundle_Adminhtml_Bundle_Product_EditController extends Mage_Adminhtml
     {
         $product = $this->_initProduct();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('bundle/adminhtml_catalog_product_edit_tab_bundle', 'admin.product.bundle.items')
+            $this->getLayout()->createBlock('Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle', 'admin.product.bundle.items')
                 ->setProductId($product->getId())
                 ->toHtml()
         );

@@ -144,7 +144,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
             ),
         ));
 
-        $renderer = Mage::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
+        $renderer = Mage::getBlockSingleton('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/promo_quote/newActionHtml/form/rule_actions_fieldset'));
 
@@ -157,7 +157,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
             'label' => Mage::helper('salesrule')->__('Apply To'),
             'title' => Mage::helper('salesrule')->__('Apply To'),
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('rule/actions'));
+        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Actions'));
 
         Mage::dispatchEvent('adminhtml_block_salesrule_actions_prepareform', array('form' => $form));
 

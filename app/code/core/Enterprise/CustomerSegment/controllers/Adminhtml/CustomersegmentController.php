@@ -258,7 +258,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
      */
     public function chooserDaterangeAction()
     {
-        $block = $this->getLayout()->createBlock('adminhtml/promo_widget_chooser_daterange');
+        $block = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Promo_Widget_Chooser_Daterange');
         if ($block) {
             // set block data from request
             $block->setTargetElementId($this->getRequest()->getParam('value_element_id'));

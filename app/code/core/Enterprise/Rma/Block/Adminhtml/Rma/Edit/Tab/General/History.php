@@ -42,7 +42,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
     protected function _prepareLayout()
     {
         $onclick = "submitAndReloadArea($('rma-history-block').parentNode, '".$this->getSubmitUrl()."')";
-        $button = $this->getLayout()->createBlock('adminhtml/widget_button')
+        $button = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'   => Mage::helper('enterprise_rma')->__('Submit Comment'),
                 'class'   => 'save',

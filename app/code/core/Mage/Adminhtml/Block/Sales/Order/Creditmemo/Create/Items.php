@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Admi
         $onclick = "submitAndReloadArea($('creditmemo_item_container'),'".$this->getUpdateUrl()."')";
         $this->setChild(
             'update_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
                 'label'     => Mage::helper('sales')->__('Update Qty\'s'),
                 'class'     => 'update-button',
                 'onclick'   => $onclick,
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Admi
             if ($this->getCreditmemo()->getInvoice() && $this->getCreditmemo()->getInvoice()->getTransactionId()) {
                 $this->setChild(
                     'submit_button',
-                    $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+                    $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
                         'label'     => Mage::helper('sales')->__('Refund'),
                         'class'     => 'save submit-button',
                         'onclick'   => 'disableElements(\'submit-button\');submitCreditMemo()',
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Admi
             }
             $this->setChild(
                 'submit_offline',
-                $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
                     'label'     => Mage::helper('sales')->__('Refund Offline'),
                     'class'     => 'save submit-button',
                     'onclick'   => 'disableElements(\'submit-button\');submitCreditMemoOffline()',
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Admi
         else {
             $this->setChild(
                 'submit_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
                     'label'     => Mage::helper('sales')->__('Refund Offline'),
                     'class'     => 'save submit-button',
                     'onclick'   => 'disableElements(\'submit-button\');submitCreditMemoOffline()',

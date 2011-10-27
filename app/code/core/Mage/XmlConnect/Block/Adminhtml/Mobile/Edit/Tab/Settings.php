@@ -38,7 +38,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Settings
     protected function _prepareLayout()
     {
         $this->setChild('continue_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Continue'),
                     'onclick'   => "if (editForm.submit()) { return false }",

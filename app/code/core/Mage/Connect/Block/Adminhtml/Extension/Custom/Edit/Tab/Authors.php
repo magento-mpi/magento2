@@ -61,7 +61,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Authors
      */
     public function getAddAuthorButtonHtml()
     {
-        return $this->getLayout()->createBlock('adminhtml/widget_button')
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setType('button')
             ->setClass('add')
             ->setLabel($this->__('Add Author'))

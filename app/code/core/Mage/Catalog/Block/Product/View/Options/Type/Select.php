@@ -50,7 +50,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
             || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
             $require = ($_option->getIsRequire()) ? ' required-entry' : '';
             $extraParams = '';
-            $select = $this->getLayout()->createBlock('core/html_select')
+            $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
                 ->setData(array(
                     'id' => 'select_'.$_option->getId(),
                     'class' => $require.' product-custom-option'

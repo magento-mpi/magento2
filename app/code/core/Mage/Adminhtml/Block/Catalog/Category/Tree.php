@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
         ));
 
         $this->setChild('add_sub_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Add Subcategory'),
                     'onclick'   => "addNew('".$addUrl."', false)",
@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
 
         if ($this->canAddRootCategory()) {
             $this->setChild('add_root_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setData(array(
                         'label'     => Mage::helper('catalog')->__('Add Root Category'),
                         'onclick'   => "addNew('".$addUrl."', true)",
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
         }
 
         $this->setChild('store_switcher',
-            $this->getLayout()->createBlock('adminhtml/store_switcher')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher')
                 ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, '_query'=>false, 'store'=>null)))
                 ->setTemplate('store/switcher/enhanced.phtml')
         );

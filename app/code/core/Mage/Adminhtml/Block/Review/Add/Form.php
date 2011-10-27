@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
         $fieldset->addField('detailed_rating', 'note', array(
             'label'     => Mage::helper('review')->__('Product Rating'),
             'required'  => true,
-            'text'      => '<div id="rating_detail">' . $this->getLayout()->createBlock('adminhtml/review_rating_detailed')->toHtml() . '</div>',
+            'text'      => '<div id="rating_detail">' . $this->getLayout()->createBlock('Mage_Adminhtml_Block_Review_Rating_Detailed')->toHtml() . '</div>',
         ));
 
         $fieldset->addField('status_id', 'select', array(
@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
 
         /*$gridFieldset = $form->addFieldset('add_review_grid', array('legend' => Mage::helper('review')->__('Please select a product')));
         $gridFieldset->addField('products_grid', 'note', array(
-            'text' => $this->getLayout()->createBlock('adminhtml/review_product_grid')->toHtml(),
+            'text' => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Review_Product_Grid')->toHtml(),
         ));*/
 
         $form->setMethod('post');

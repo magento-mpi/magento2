@@ -55,7 +55,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
         $this->_initAction()
             ->_setActiveMenu('report/customer/accounts')
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('New Accounts'), Mage::helper('adminhtml')->__('New Accounts'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/report_customer_accounts'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Accounts'))
             ->renderLayout();
     }
 
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     public function exportAccountsCsvAction()
     {
         $fileName   = 'new_accounts.csv';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_customer_accounts_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Accounts_Grid')
             ->getCsv();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     public function exportAccountsExcelAction()
     {
         $fileName   = 'accounts.xml';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_customer_accounts_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Accounts_Grid')
             ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
             ->_setActiveMenu('report/customer/orders')
             ->_addBreadcrumb(Mage::helper('reports')->__('Customers by Number of Orders'),
                 Mage::helper('reports')->__('Customers by Number of Orders'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/report_customer_orders'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Orders'))
             ->renderLayout();
     }
 
@@ -103,7 +103,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     public function exportOrdersCsvAction()
     {
         $fileName   = 'customers_orders.csv';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_customer_orders_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Orders_Grid')
             ->getCsv();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -115,7 +115,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     public function exportOrdersExcelAction()
     {
         $fileName   = 'customers_orders.xml';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_customer_orders_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Orders_Grid')
             ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -131,7 +131,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
             ->_setActiveMenu('report/customer/totals')
             ->_addBreadcrumb(Mage::helper('reports')->__('Customers by Orders Total'),
                 Mage::helper('reports')->__('Customers by Orders Total'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/report_customer_totals'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Totals'))
             ->renderLayout();
     }
 
@@ -141,7 +141,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     public function exportTotalsCsvAction()
     {
         $fileName   = 'cuatomer_totals.csv';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_customer_totals_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Totals_Grid')
             ->getCsv();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -153,7 +153,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     public function exportTotalsExcelAction()
     {
         $fileName   = 'customer_totals.xml';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_customer_totals_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Totals_Grid')
             ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);

@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
     {
         $onclick = "setSuperSettings('".$this->getContinueUrl()."','attribute-checkbox', 'attributes')";
         $this->setChild('continue_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Continue'),
                     'onclick'   => $onclick,
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
                 ))
         );
 
-        $backButton = $this->getLayout()->createBlock('adminhtml/widget_button')
+        $backButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'     => Mage::helper('catalog')->__('Back'),
                 'onclick'   => "setLocation('".$this->getBackUrl()."')",

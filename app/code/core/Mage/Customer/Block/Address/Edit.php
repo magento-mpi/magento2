@@ -74,7 +74,7 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
     public function getNameBlockHtml()
     {
         $nameBlock = $this->getLayout()
-            ->createBlock('customer/widget_name')
+            ->createBlock('Mage_Customer_Block_Widget_Name')
             ->setObject($this->getAddress());
 
         return $nameBlock->toHtml();

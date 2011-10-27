@@ -43,7 +43,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         foreach ($attributes as $code) {
             if ($weeeTax = $form->getElement($code)) {
                 $weeeTax->setRenderer(
-                    Mage::app()->getLayout()->createBlock('weee/renderer_weee_tax')
+                    Mage::app()->getLayout()->createBlock('Mage_Weee_Block_Renderer_Weee_Tax')
                 );
             }
         }
@@ -153,7 +153,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
     {
         $response = $observer->getEvent()->getResponse();
         $types    = $response->getTypes();
-        $types['weee'] = Mage::getConfig()->getBlockClassName('weee/element_weee_tax');
+        $types['weee'] = Mage::getConfig()->getBlockClassName('Mage_Weee_Block_Element_Weee_Tax');
         $response->setTypes($types);
         return $this;
     }

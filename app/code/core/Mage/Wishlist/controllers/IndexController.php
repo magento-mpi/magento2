@@ -543,10 +543,10 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
 
             /*if share rss added rss feed to email template*/
             if ($this->getRequest()->getParam('rss_url')) {
-                $rss_url = $this->getLayout()->createBlock('wishlist/share_email_rss')->toHtml();
+                $rss_url = $this->getLayout()->createBlock('Mage_Wishlist_Block_Share_Email_Rss')->toHtml();
                 $message .=$rss_url;
             }
-            $wishlistBlock = $this->getLayout()->createBlock('wishlist/share_email_items')->toHtml();
+            $wishlistBlock = $this->getLayout()->createBlock('Mage_Wishlist_Block_Share_Email_Items')->toHtml();
 
             $emails = array_unique($emails);
             /* @var $emailModel Mage_Core_Model_Email_Template */

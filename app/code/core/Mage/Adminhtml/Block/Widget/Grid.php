@@ -221,7 +221,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected function _prepareLayout()
     {
         $this->setChild('export_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => Mage::helper('adminhtml')->__('Export'),
                     'onclick'   => $this->getJsObjectName().'.doExport()',
@@ -229,14 +229,14 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
                 ))
         );
         $this->setChild('reset_filter_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => Mage::helper('adminhtml')->__('Reset Filter'),
                     'onclick'   => $this->getJsObjectName().'.resetFilter()',
                 ))
         );
         $this->setChild('search_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => Mage::helper('adminhtml')->__('Search'),
                     'onclick'   => $this->getJsObjectName().'.doFilter()',
@@ -302,7 +302,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     public function addColumn($columnId, $column)
     {
         if (is_array($column)) {
-            $this->_columns[$columnId] = $this->getLayout()->createBlock('adminhtml/widget_grid_column')
+            $this->_columns[$columnId] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Grid_Column')
                 ->setData($column)
                 ->setGrid($this);
         }
@@ -587,7 +587,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected function _prepareMassactionColumn()
     {
         $columnId = 'massaction';
-        $massactionColumn = $this->getLayout()->createBlock('adminhtml/widget_grid_column')
+        $massactionColumn = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Grid_Column')
                 ->setData(array(
                     'index'     => $this->getMassactionIdField(),
                     'type'      => 'massaction',

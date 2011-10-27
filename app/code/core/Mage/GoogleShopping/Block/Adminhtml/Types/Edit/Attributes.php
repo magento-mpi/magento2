@@ -47,7 +47,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
     protected function _prepareLayout()
     {
         $this->setChild('add_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label' => Mage::helper('googleshopping')->__('Add New Attribute'),
                     'class' => 'add',
@@ -56,7 +56,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
                 ))
         );
         $this->setChild('delete_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label' => Mage::helper('googleshopping')->__('Remove'),
                     'class' => 'delete delete-product-option',
@@ -132,7 +132,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
      */
     public function getAttributesSelectHtml($escapeJsQuotes = false)
     {
-        $select = $this->getLayout()->createBlock('adminhtml/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
             ->setId($this->getFieldId().'_{{index}}_attribute')
             ->setName($this->getFieldName().'[{{index}}][attribute_id]')
             ->setOptions($this->_getAttributes($this->getAttributeSetId(), $escapeJsQuotes));

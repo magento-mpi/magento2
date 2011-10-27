@@ -88,7 +88,7 @@ class Mage_Install_Block_Config extends Mage_Install_Block_Abstract
 
     public function getSessionSaveSelect()
     {
-        $html = $this->getLayout()->createBlock('core/html_select')
+        $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName('config[session_save]')
             ->setId('session_save')
             ->setTitle(Mage::helper('install')->__('Save Session Files In'))

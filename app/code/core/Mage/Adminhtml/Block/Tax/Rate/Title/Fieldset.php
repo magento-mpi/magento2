@@ -34,6 +34,6 @@ class Mage_Adminhtml_Block_Tax_Rate_Title_Fieldset extends Varien_Data_Form_Elem
 {
     public function getChildrenHtml()
     {
-        return Mage::getBlockSingleton('adminhtml/tax_rate_title')->toHtml();
+        return Mage::getBlockSingleton('Mage_Adminhtml_Block_Tax_Rate_Title')->toHtml();
     }
 }

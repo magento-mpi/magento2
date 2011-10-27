@@ -80,7 +80,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
                 }
             }
 
-            $select = $this->getLayout()->createBlock('core/html_select')
+            $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
                 ->setName($type.'_address_id')
                 ->setId($type.'-address-select')
                 ->setExtraParams('onchange="'.$type.'.newAddress(!this.value)"')
@@ -96,7 +96,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
 
     public function getCountryHtmlSelect($address, $type)
     {
-        $select = $this->getLayout()->createBlock('core/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName($type.'[country_id]')
             ->setId($type.':country_id')
             ->setTitle(Mage::helper('checkout')->__('Country'))
@@ -114,7 +114,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
 
     public function getRegionHtmlSelect($address, $type)
     {
-        $select = $this->getLayout()->createBlock('core/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName($type.'[region]')
             ->setId($type.':region')
             ->setTitle(Mage::helper('checkout')->__('State/Province'))

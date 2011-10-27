@@ -119,7 +119,7 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
         }
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('page/html_pager')
+        $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager')
             ->setCollection($this->getRelatedOrders())->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
         $this->getRelatedOrders()->load();

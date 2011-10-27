@@ -127,7 +127,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
             'values'   => $this->getPackegeThemeOptionsArray()
         ));
         $continueButton = $this->getLayout()
-            ->createBlock('adminhtml/widget_button')
+            ->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'     => Mage::helper('widget')->__('Continue'),
                 'onclick'   => "setSettings('".$this->getContinueUrl()."', 'type', 'package_theme')",

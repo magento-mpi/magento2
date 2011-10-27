@@ -40,7 +40,7 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
     public function indexAction()
     {
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('paypal/adminhtml_settlement_report'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Paypal_Block_Adminhtml_Settlement_Report'))
             ->renderLayout();
     }
 
@@ -51,7 +51,7 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
     {
         $this->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('paypal/adminhtml_settlement_report_grid')->toHtml()
+            $this->getLayout()->createBlock('Mage_Paypal_Block_Adminhtml_Settlement_Report_Grid')->toHtml()
         );
     }
 
@@ -69,7 +69,7 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
         Mage::register('current_transaction', $row);
         $this->_initAction()
             ->_title($this->__('View Transaction'))
-            ->_addContent($this->getLayout()->createBlock('paypal/adminhtml_settlement_details', 'settlementDetails'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Paypal_Block_Adminhtml_Settlement_Details', 'settlementDetails'))
             ->renderLayout();
     }
 

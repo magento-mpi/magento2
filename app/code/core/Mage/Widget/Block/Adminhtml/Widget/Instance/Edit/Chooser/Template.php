@@ -48,7 +48,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Template
             $html = '<input type="hidden" name="template" value="' . $widgetTemplate['value'] . '" />';
             $html .= $widgetTemplate['label'];
         } else {
-            $html = $this->getLayout()->createBlock('core/html_select')
+            $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
                 ->setName('template')
                 ->setClass('select')
                 ->setOptions($this->getWidgetTemplates())

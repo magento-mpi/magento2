@@ -168,7 +168,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
 
         /* @var $layoutBlock Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout */
         $layoutBlock = $this->getLayout()
-            ->createBlock('widget/adminhtml_widget_instance_edit_tab_main_layout')
+            ->createBlock('Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout')
             ->setWidgetInstance($widgetInstance);
         $fieldset = $form->addFieldset('layout_updates_fieldset',
             array('legend' => Mage::helper('widget')->__('Layout Updates'))

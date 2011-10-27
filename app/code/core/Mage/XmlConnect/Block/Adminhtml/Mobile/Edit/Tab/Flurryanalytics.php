@@ -107,7 +107,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Flurryanalytics
 
         // field dependencies
         $this->setChild('form_after', $this->getLayout()
-            ->createBlock('adminhtml/widget_form_element_dependence')
+            ->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
             ->addFieldMap($flurryApiCode->getHtmlId(), $flurryApiCode->getName())
             ->addFieldMap($enabled->getHtmlId(), $enabled->getName())
             ->addFieldDependence(

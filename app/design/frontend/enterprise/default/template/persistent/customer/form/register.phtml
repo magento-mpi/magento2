@@ -45,7 +45,7 @@
             <h2 class="legend"><?php echo $this->__('Personal Information') ?></h2>
             <ul class="form-list">
                 <li class="fields">
-                <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getFormData())->setForceUseCustomerAttributes(true)->toHtml() ?>
+                <?php echo $this->getLayout()->createBlock('Mage_Customer_Block_Widget_Name')->setObject($this->getFormData())->setForceUseCustomerAttributes(true)->toHtml() ?>
                 </li>
                 <li>
                     <label for="email_address" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
@@ -61,15 +61,15 @@
                     <label for="is_subscribed"><?php echo $this->__('Sign Up for Newsletter') ?></label>
                 </li>
                 <?php endif ?>
-            <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
+            <?php $_dob = $this->getLayout()->createBlock('Mage_Customer_Block_Widget_Dob') ?>
             <?php if ($_dob->isEnabled()): ?>
                 <li><?php echo $_dob->setDate($this->getFormData()->getDob())->toHtml() ?></li>
             <?php endif ?>
-            <?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
+            <?php $_taxvat = $this->getLayout()->createBlock('Mage_Customer_Block_Widget_Taxvat') ?>
             <?php if ($_taxvat->isEnabled()): ?>
                 <li><?php echo $_taxvat->setTaxvat($this->getFormData()->getTaxvat())->toHtml() ?></li>
             <?php endif ?>
-            <?php $_gender = $this->getLayout()->createBlock('customer/widget_gender') ?>
+            <?php $_gender = $this->getLayout()->createBlock('Mage_Customer_Block_Widget_Gender') ?>
             <?php if ($_gender->isEnabled()): ?>
                 <li><?php echo $_gender->setGender($this->getFormData()->getGender())->toHtml() ?></li>
             <?php endif ?>

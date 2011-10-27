@@ -46,6 +46,6 @@ class Mage_Adminhtml_Block_Api_Roles extends Mage_Adminhtml_Block_Template
 
     public function getGridHtml()
     {
-        return $this->getLayout()->createBlock('adminhtml/api_grid_role')->toHtml();
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_Grid_Role')->toHtml();
     }
 }

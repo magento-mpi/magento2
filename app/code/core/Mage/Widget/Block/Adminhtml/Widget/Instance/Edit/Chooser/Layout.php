@@ -124,7 +124,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout
      */
     protected function _toHtml()
     {
-        $selectBlock = $this->getLayout()->createBlock('core/html_select')
+        $selectBlock = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName($this->getSelectName())
             ->setId('layout_handle')
             ->setClass('required-entry select')

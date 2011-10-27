@@ -215,7 +215,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $storeId = $this->getRequest()->getParam('store_id', 0);
         $storeMediaUrl = Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
 
-        $content = $this->getLayout()->createBlock('adminhtml/catalog_helper_form_wysiwyg_content', '', array(
+        $content = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg_Content', '', array(
             'editor_element_id' => $elementId,
             'store_id'          => $storeId,
             'store_media_url'   => $storeMediaUrl,
@@ -241,7 +241,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 return;
             }
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('adminhtml/catalog_category_tree')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Category_Tree')
                     ->getTreeJson($category)
             );
         }
@@ -429,7 +429,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             return;
         }
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/catalog_category_tab_product', 'category.product.grid')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Category_Tab_Product', 'category.product.grid')
                 ->toHtml()
         );
     }
@@ -455,7 +455,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 
         $category = $this->_initCategory(true);
 
-        $block = $this->getLayout()->createBlock('adminhtml/catalog_category_tree');
+        $block = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Category_Tree');
         $root  = $block->getRoot();
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode(array(
             'data' => $block->getTree(),

@@ -83,7 +83,7 @@ class Mage_Bundle_Block_Catalog_Product_Price extends Mage_Catalog_Block_Product
             $addToCartUrl  = $this->getLayout()->getBlock('product.info.bundle')->getAddToCartUrl($product);
             $product->setAddToCartUrl($addToCartUrl);
             $html = $this->getLayout()
-                ->createBlock('catalog/product_price')
+                ->createBlock('Mage_Catalog_Block_Product_Price')
                 ->setTemplate($this->getMAPTemplate())
                 ->setRealPriceHtml($hiddenPriceHtml)
                 ->setPriceElementIdPrefix('bundle-price-')

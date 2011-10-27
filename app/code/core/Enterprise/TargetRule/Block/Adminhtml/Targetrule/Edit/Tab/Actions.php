@@ -51,7 +51,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions extends 
         $newCondUrl = $this->getUrl('*/targetrule/newActionsHtml/', array(
             'form'  => $fieldset->getHtmlId()
         ));
-        $renderer   = Mage::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
+        $renderer   = Mage::getBlockSingleton('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
             ->setTemplate('enterprise/targetrule/edit/conditions/fieldset.phtml')
             ->setNewChildUrl($newCondUrl);
         $fieldset->setRenderer($renderer);

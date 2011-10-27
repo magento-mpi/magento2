@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Export extends Varien_Data_F
 {
     public function getElementHtml()
     {
-        $buttonBlock = $this->getForm()->getParent()->getLayout()->createBlock('adminhtml/widget_button');
+        $buttonBlock = $this->getForm()->getParent()->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button');
 
         $params = array(
             'website' => $buttonBlock->getRequest()->getParam('website')

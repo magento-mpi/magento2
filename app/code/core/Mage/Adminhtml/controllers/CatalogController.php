@@ -39,7 +39,7 @@ class Mage_Adminhtml_CatalogController extends Mage_Adminhtml_Controller_Action
         $this->_setActiveMenu('catalog');
         $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Catalog'), Mage::helper('adminhtml')->__('Catalog'));
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog'));
         $this->renderLayout();
     }
 

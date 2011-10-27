@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_C
 
         // links to products/categories (if any) selectors
         if ($this->getProductId()) {
-            $this->setChild('product_link', $this->getLayout()->createBlock('adminhtml/urlrewrite_link')
+            $this->setChild('product_link', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Link')
                 ->setData(array(
                     'item_url' => Mage::helper('adminhtml')->getUrl('*/*/*') . 'product',
                     'item'     => Mage::registry('current_product'),
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_C
             if ($this->getProductId()) {
                 $itemUrl = Mage::helper('adminhtml')->getUrl('*/*/*', array('product' => $this->getProductId())) . 'category';
             }
-            $this->setChild('category_link', $this->getLayout()->createBlock('adminhtml/urlrewrite_link')
+            $this->setChild('category_link', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Link')
                 ->setData(array(
                     'item_url' => $itemUrl,
                     'item'     => Mage::registry('current_category'),
@@ -103,9 +103,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_C
             }
             // categories selector & skip categories button
             else {
-                $this->setChild('categories_tree', $this->getLayout()->createBlock('adminhtml/urlrewrite_category_tree'));
+                $this->setChild('categories_tree', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Category_Tree'));
                 $this->setChild('skip_categories',
-                    $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+                    $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
                         'label'   => Mage::helper('adminhtml')->__('Skip Category Selection'),
                         'onclick' => 'window.location = \'' . Mage::helper('adminhtml')->getUrl('*/*/*', array(
                             'product' => $this->getProductId()
@@ -124,7 +124,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_C
         }
         // modes selector and products/categories selectors, as well as edit form for custom urlrewrite
         else {
-            $this->setChild('selector', $this->getLayout()->createBlock('adminhtml/urlrewrite_selector'));
+            $this->setChild('selector', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Selector'));
 
             if ($this->isMode('id')) {
                 $this->updateModeLayout('id');
@@ -150,7 +150,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_C
      */
     protected function _setFormChild()
     {
-        $this->setChild('form', Mage::getBlockSingleton('adminhtml/urlrewrite_edit_form'));
+        $this->setChild('form', Mage::getBlockSingleton('Mage_Adminhtml_Block_Urlrewrite_Edit_Form'));
         if ($this->getUrlrewriteId()) {
             $this->_addButton('reset', array(
                 'label'   => Mage::helper('adminhtml')->__('Reset'),
@@ -264,7 +264,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_C
     public function updateModeLayout($mode = null)
     {
         if (!$mode) {
-            $modes = array_keys(Mage::getBlockSingleton('adminhtml/urlrewrite_selector')->getModes());
+            $modes = array_keys(Mage::getBlockSingleton('Mage_Adminhtml_Block_Urlrewrite_Selector')->getModes());
             $mode  = array_shift($modes);
         }
 
@@ -274,11 +274,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_C
         }
         // products grid
         elseif ('product' === $mode) {
-            $this->setChild('products_grid', $this->getLayout()->createBlock('adminhtml/urlrewrite_product_grid'));
+            $this->setChild('products_grid', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Product_Grid'));
         }
         // categories tree
         elseif ('category' === $mode) {
-            $this->setChild('categories_tree', $this->getLayout()->createBlock('adminhtml/urlrewrite_category_tree'));
+            $this->setChild('categories_tree', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Category_Tree'));
         }
         return $this;
     }

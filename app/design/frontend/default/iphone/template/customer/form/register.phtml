@@ -135,15 +135,15 @@
             <?php endif; ?>
             <div class="fieldset">
                 <ul class="form-list">
-                <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
+                <?php $_dob = $this->getLayout()->createBlock('Mage_Customer_Block_Widget_Dob') ?>
                 <?php if ($_dob->isEnabled()): ?>
                     <li><?php echo $_dob->setDate($this->getFormData()->getDob())->toHtml() ?></li>
                 <?php endif ?>
-                <?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
+                <?php $_taxvat = $this->getLayout()->createBlock('Mage_Customer_Block_Widget_Taxvat') ?>
                 <?php if ($_taxvat->isEnabled()): ?>
                     <li><?php echo $_taxvat->setTaxvat($this->getFormData()->getTaxvat())->toHtml() ?></li>
                 <?php endif ?>
-                <?php $_gender = $this->getLayout()->createBlock('customer/widget_gender') ?>
+                <?php $_gender = $this->getLayout()->createBlock('Mage_Customer_Block_Widget_Gender') ?>
                 <?php if ($_gender->isEnabled()): ?>
                     <li><?php echo $_gender->setGender($this->getFormData()->getGender())->toHtml() ?></li>
                 <?php endif ?>

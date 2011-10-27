@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_System_Design extends Mage_Adminhtml_Block_Template
         $this->setTemplate('system/design/index.phtml');
 
         $this->setChild('add_new_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Add Design Change'),
                     'onclick'   => "setLocation('".$this->getUrl('*/*/new')."')",
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_System_Design extends Mage_Adminhtml_Block_Template
                     ))
                 );
 
-        $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/system_design_grid', 'design.grid'));
+        $this->setChild('grid', $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Design_Grid', 'design.grid'));
         return parent::_prepareLayout();
     }
 }

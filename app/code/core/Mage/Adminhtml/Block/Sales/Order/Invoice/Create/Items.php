@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Adminht
         $onclick = "submitAndReloadArea($('invoice_item_container'),'".$this->getUpdateUrl()."')";
         $this->setChild(
             'update_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
                 'class'     => 'update-button',
                 'label'     => Mage::helper('sales')->__('Update Qty\'s'),
                 'onclick'   => $onclick,
@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Adminht
         }
         $this->setChild(
             'submit_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
                 'label'     => $_submitLabel,
                 'class'     => 'save submit-button' . $_submitButtonClass,
                 'onclick'   => 'disableElements(\'submit-button\');$(\'edit_form\').submit()',

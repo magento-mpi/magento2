@@ -238,7 +238,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
         $this->setForm($form);
 
         // field dependencies
-        $this->setChild('form_after', $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence')
+        $this->setChild('form_after', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
             ->addFieldMap($couponTypeFiled->getHtmlId(), $couponTypeFiled->getName())
             ->addFieldMap($couponCodeFiled->getHtmlId(), $couponCodeFiled->getName())
             ->addFieldMap($usesPerCouponFiled->getHtmlId(), $usesPerCouponFiled->getName())

@@ -303,7 +303,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'class'     => 'add' . (($this->isLockedByOther()) ? ' disabled' : ''),
             'disabled'  => $this->isLockedByOther()
         );
-        return $this->getLayout()->createBlock('adminhtml/widget_button')
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData($addButtonData)->toHtml();
     }
 
@@ -315,21 +315,21 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     public function getPagePropertiesButtons()
     {
         $buttons = array();
-        $buttons[] = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'delete_node_button',
             'label'     => Mage::helper('enterprise_cms')->__('Remove From Tree'),
             'onclick'   => 'hierarchyNodes.deleteNodePage()',
             'class'     => 'delete' . (($this->isLockedByOther()) ? ' disabled' : ''),
             'disabled'  => $this->isLockedByOther()
         ))->toHtml();
-        $buttons[] = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'cancel_node_button',
             'label'     => Mage::helper('enterprise_cms')->__('Cancel'),
             'onclick'   => 'hierarchyNodes.cancelNodePage()',
             'class'     => 'delete' . (($this->isLockedByOther()) ? ' disabled' : ''),
             'disabled'  => $this->isLockedByOther()
         ))->toHtml();
-        $buttons[] = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'save_node_button',
             'label'     => Mage::helper('enterprise_cms')->__('Save'),
             'onclick'   => 'hierarchyNodes.saveNodePage()',
@@ -347,7 +347,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function getTreeButtonsHtml()
     {
-        return $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'new_node_button',
             'label'     => Mage::helper('enterprise_cms')->__('Add Node...'),
             'onclick'   => 'hierarchyNodes.newNodePage()',

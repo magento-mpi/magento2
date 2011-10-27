@@ -37,7 +37,7 @@ class Mage_Adminhtml_Sales_ShipmentController extends Mage_Adminhtml_Controller_
     public function exportCsvAction()
     {
         $fileName   = 'shipments.csv';
-        $grid       = $this->getLayout()->createBlock('adminhtml/sales_shipment_grid');
+        $grid       = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Shipment_Grid');
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
 
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Sales_ShipmentController extends Mage_Adminhtml_Controller_
     public function exportExcelAction()
     {
         $fileName   = 'shipments.xml';
-        $grid       = $this->getLayout()->createBlock('adminhtml/sales_shipment_grid');
+        $grid       = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Shipment_Grid');
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
 }

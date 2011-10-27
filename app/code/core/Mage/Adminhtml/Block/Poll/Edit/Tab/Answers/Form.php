@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_Form extends Mage_Adminhtml_Blo
         );
 
         $fieldset->addField('add_button', 'note', array(
-                    'text' => $this->getLayout()->createBlock('adminhtml/widget_button')
+                    'text' => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                                     ->setData(array(
                                         'label'     => Mage::helper('poll')->__('Add Answer'),
                                         'onclick'   => 'answers.add();',

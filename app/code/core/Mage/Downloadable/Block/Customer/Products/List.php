@@ -75,7 +75,7 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
     {
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('page/html_pager', 'downloadable.customer.products.pager')
+        $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager', 'downloadable.customer.products.pager')
             ->setCollection($this->getItems());
         $this->setChild('pager', $pager);
         $this->getItems()->load();

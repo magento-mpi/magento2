@@ -133,7 +133,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Notification
         ));
 
         // field dependencies
-        $this->setChild('form_after', $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence')
+        $this->setChild('form_after', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
             ->addFieldMap($applicationKey->getHtmlId(), $applicationKey->getName())
             ->addFieldMap($applicationSecret->getHtmlId(), $applicationSecret->getName())
             ->addFieldMap($applicationMasterSecret->getHtmlId(), $applicationMasterSecret->getName())

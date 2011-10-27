@@ -82,7 +82,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('All Tags'), Mage::helper('adminhtml')->__('All Tags'))
             ->_setActiveMenu('catalog/tag/all')
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_tag'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Tag'))
             ->renderLayout();
     }
 
@@ -93,7 +93,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function ajaxGridAction()
     {
         $this->loadLayout();
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/tag_tag_grid')->toHtml());
+        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Tag_Grid')->toHtml());
     }
 
     /**
@@ -103,7 +103,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function ajaxPendingGridAction()
     {
         $this->loadLayout();
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/tag_grid_pending')->toHtml());
+        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Grid_Pending')->toHtml());
     }
 
     /**
@@ -234,7 +234,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('Pending Tags'), Mage::helper('adminhtml')->__('Pending Tags'))
             ->_setActiveMenu('catalog/tag/pending')
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_pending'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Pending'))
             ->renderLayout();
     }
 
@@ -269,7 +269,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function productAction()
     {
         $this->_initTag();
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/tag_product_grid')->toHtml());
+        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Product_Grid')->toHtml());
     }
 
     /**
@@ -279,7 +279,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function customerAction()
     {
         $this->_initTag();
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/tag_customer_grid')->toHtml());
+        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Customer_Grid')->toHtml());
     }
 
     /**

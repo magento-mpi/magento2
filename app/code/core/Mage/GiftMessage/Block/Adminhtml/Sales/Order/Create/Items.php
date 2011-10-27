@@ -66,7 +66,7 @@ class Mage_GiftMessage_Block_Adminhtml_Sales_Order_Create_Items extends Mage_Adm
      */
     public function getFormHtml()
     {
-        return $this->getLayout()->createBlock('adminhtml/sales_order_create_giftmessage_form')
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form')
             ->setEntity($this->getItem())
             ->setEntityType('item')
             ->toHtml();

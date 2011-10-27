@@ -53,7 +53,7 @@ class Mage_Downloadable_Adminhtml_Downloadable_Product_EditController extends Ma
     {
         $this->_initProduct();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('downloadable/adminhtml_catalog_product_edit_tab_downloadable', 'admin.product.downloadable.information')
+            $this->getLayout()->createBlock('Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable', 'admin.product.downloadable.information')
                 ->toHtml()
         );
     }

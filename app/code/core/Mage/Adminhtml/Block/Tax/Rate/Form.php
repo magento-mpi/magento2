@@ -195,14 +195,14 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         $form->setMethod('post');
 
         if (!Mage::app()->isSingleStoreMode()) {
-            $form->addElement(Mage::getBlockSingleton('adminhtml/tax_rate_title_fieldset')->setLegend(Mage::helper('tax')->__('Tax Titles')));
+            $form->addElement(Mage::getBlockSingleton('Mage_Adminhtml_Block_Tax_Rate_Title_Fieldset')->setLegend(Mage::helper('tax')->__('Tax Titles')));
         }
 
         $form->setValues($rateObject->getData());
         $this->setForm($form);
 
         $this->setChild('form_after',
-            $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
             ->addFieldMap("zip_is_range", 'zip_is_range')
             ->addFieldMap("tax_postcode", 'tax_postcode')
             ->addFieldMap("zip_from", 'zip_from')

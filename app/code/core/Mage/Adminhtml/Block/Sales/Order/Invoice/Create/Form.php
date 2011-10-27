@@ -65,22 +65,22 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Mage_Adminhtm
 
     protected function _prepareLayout()
     {
-      /*  $infoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_view_info')
+      /*  $infoBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_View_Info')
            ->setOrder($this->getInvoice()->getOrder());
        $this->setChild('order_info', $infoBlock);
 */
      /*  $this->setChild(
           'items',
-            $this->getLayout()->createBlock('adminhtml/sales_order_invoice_create_items')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items')
         );
         */
-        $trackingBlock = $this->getLayout()->createBlock('adminhtml/sales_order_invoice_create_tracking');
+        $trackingBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking');
        //$this->setChild('order_tracking', $trackingBlock);
           $this->setChild('tracking', $trackingBlock);
 
 
               /*
-        $paymentInfoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_payment')
+        $paymentInfoBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_Payment')
            ->setPayment($this->getInvoice()->getOrder()->getPayment());
         $this->setChild('payment_info', $paymentInfoBlock);
         */

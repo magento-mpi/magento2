@@ -115,7 +115,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
             'after_element_html' => '<br /><strong>[' .  Mage::app()->getBaseCurrencyCode() . ']</strong>'
         ));
 
-        $uploadButton = $this->getLayout()->createBlock('adminhtml/widget_button')
+        $uploadButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label' => Mage::helper('enterprise_giftwrapping')->__('Upload File'),
                 'id' => 'upload_image_button',

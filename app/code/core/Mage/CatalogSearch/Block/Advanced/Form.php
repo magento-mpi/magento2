@@ -222,7 +222,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
     {
         $block = $this->getData('_select_block');
         if (is_null($block)) {
-            $block = $this->getLayout()->createBlock('core/html_select');
+            $block = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select');
             $this->setData('_select_block', $block);
         }
         return $block;
@@ -232,7 +232,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
     {
         $block = $this->getData('_date_block');
         if (is_null($block)) {
-            $block = $this->getLayout()->createBlock('core/html_date');
+            $block = $this->getLayout()->createBlock('Mage_Core_Block_Html_Date');
             $this->setData('_date_block', $block);
         }
         return $block;

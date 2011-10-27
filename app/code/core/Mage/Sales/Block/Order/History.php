@@ -56,7 +56,7 @@ class Mage_Sales_Block_Order_History extends Mage_Core_Block_Template
     {
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('page/html_pager', 'sales.order.history.pager')
+        $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager', 'sales.order.history.pager')
             ->setCollection($this->getOrders());
         $this->setChild('pager', $pager);
         $this->getOrders()->load();

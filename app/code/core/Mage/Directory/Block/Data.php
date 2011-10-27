@@ -65,7 +65,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
                 Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
             }
         }
-        $html = $this->getLayout()->createBlock('core/html_select')
+        $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName($name)
             ->setId($id)
             ->setTitle(Mage::helper('directory')->__($title))
@@ -104,7 +104,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
                 Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
             }
         }
-        $html = $this->getLayout()->createBlock('core/html_select')
+        $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName('region')
             ->setTitle(Mage::helper('directory')->__('State/Province'))
             ->setId('state')

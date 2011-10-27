@@ -47,7 +47,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
         $this->_initAction()
             ->_addContent(
                 $this->getLayout()
-                    ->createBlock('adminhtml/tax_class')
+                    ->createBlock('Mage_Adminhtml_Block_Tax_Class')
                     ->setClassType(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER)
             )
             ->renderLayout();
@@ -99,7 +99,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
             )
             ->_addContent(
                 $this->getLayout()
-                    ->createBlock('adminhtml/tax_class_edit')
+                    ->createBlock('Mage_Adminhtml_Block_Tax_Class_Edit')
                     ->setData('action', $this->getUrl('*/tax_class/save'))
                     ->setClassType(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER)
             )

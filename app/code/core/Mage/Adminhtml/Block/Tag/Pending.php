@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Tag_Pending extends Mage_Adminhtml_Block_Template
 
     protected function _prepareLayout()
     {
-        $this->setChild('tagsGrid', $this->getLayout()->createBlock('adminhtml/tag_grid_pending'));
+        $this->setChild('tagsGrid', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Grid_Pending'));
         return parent::_prepareLayout();
     }
 

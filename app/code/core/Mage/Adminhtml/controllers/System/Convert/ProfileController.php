@@ -81,7 +81,7 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
          * Append profiles block to content
          */
         $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/system_convert_profile', 'convert_profile')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Convert_Profile', 'convert_profile')
         );
 
         /**
@@ -100,7 +100,7 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
     public function gridAction()
     {
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/system_convert_profile_grid')->toHtml()
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Convert_Profile_Grid')->toHtml()
         );
     }
 
@@ -126,13 +126,13 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
         $this->_setActiveMenu('system/convert');
 
         $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/system_convert_profile_edit')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Convert_Profile_Edit')
         );
 
         /**
          * Append edit tabs to left block
          */
-        $this->_addLeft($this->getLayout()->createBlock('adminhtml/system_convert_profile_edit_tabs'));
+        $this->_addLeft($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tabs'));
 
         $this->renderLayout();
     }
@@ -306,7 +306,7 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
     public function historyAction() {
         $this->_initProfile();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/system_convert_profile_edit_tab_history')->toHtml()
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_History')->toHtml()
         );
     }
 

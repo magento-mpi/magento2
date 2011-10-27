@@ -38,7 +38,7 @@
                 <li>
                     <label for="country" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
                     <div class="input-box">
-                        <?php echo Mage::getBlockSingleton('directory/data')->getCountryHtmlSelect($this->getEstimateCountryId()) ?>
+                        <?php echo Mage::getBlockSingleton('Mage_Directory_Block_Data')->getCountryHtmlSelect($this->getEstimateCountryId()) ?>
                     </div>
                 </li>
             <?php //if($this->getStateActive()): ?>

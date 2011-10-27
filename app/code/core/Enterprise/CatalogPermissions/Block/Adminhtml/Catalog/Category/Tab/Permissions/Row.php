@@ -42,7 +42,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
 
     protected function _prepareLayout()
     {
-        $this->setChild('delete_button', $this->getLayout()->createBlock('adminhtml/widget_button')
+        $this->setChild('delete_button', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->addData(array(
                 //'label' => $this->helper('enterprise_catalogpermissions')->__('Remove Permission'),
                 'class' => 'delete' . ($this->isReadonly() ? ' disabled' : ''),

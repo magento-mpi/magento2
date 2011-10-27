@@ -393,7 +393,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         }
 
         if ( is_object($response)){
-            $className = Mage::getConfig()->getBlockClassName('adminhtml/template');
+            $className = Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_Template');
             $block = new $className();
             $block->setType('adminhtml/template')
                 ->setIsAnonymous(true)
@@ -742,7 +742,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         $this->_initShipment();
         return $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('adminhtml/sales_order_shipment_packaging_grid')
+                ->createBlock('Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()
            );

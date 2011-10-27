@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_System_Store_Delete_Website extends Mage_Adminhtml_Bl
         $this->setTemplate('system/store/delete_website.phtml');
         $this->setAction($this->getUrl('*/*/deleteWebsitePost', array('website_id'=>$itemId)));
         $this->setChild('confirm_deletion_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => Mage::helper('core')->__('Delete Website'),
                     'onclick'   => "deleteForm.submit()",
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_System_Store_Delete_Website extends Mage_Adminhtml_Bl
         );
         $onClick = "setLocation('".$this->getUrl('*/*/editWebsite', array('website_id'=>$itemId))."')";
         $this->setChild('cancel_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => Mage::helper('core')->__('Cancel'),
                     'onclick'   => $onClick,
@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_System_Store_Delete_Website extends Mage_Adminhtml_Bl
                 ))
         );
         $this->setChild('back_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => Mage::helper('core')->__('Back'),
                     'onclick'   => $onClick,

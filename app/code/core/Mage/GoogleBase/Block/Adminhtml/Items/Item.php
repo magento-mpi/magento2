@@ -154,7 +154,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
 //    {
 //        $confirmMsg = $this->__('This action will update items statistics and remove the items which are not available in Google Base. Continue?');
 //
-//        $refreshButtonHtml = $this->getLayout()->createBlock('adminhtml/widget_button')
+//        $refreshButtonHtml = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
 //            ->setData(array(
 //                'label'     => $this->__('Synchronize'),
 //                'onclick'   => "if(confirm('".$confirmMsg."'))

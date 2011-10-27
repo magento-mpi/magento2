@@ -44,7 +44,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
              ->_title($this->__('Users'));
 
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/api_user'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_User'))
             ->renderLayout();
     }
 
@@ -83,10 +83,10 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
 
         $this->_initAction()
             ->_addBreadcrumb($id ? $this->__('Edit User') : $this->__('New User'), $id ? $this->__('Edit User') : $this->__('New User'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/api_user_edit')->setData('action', $this->getUrl('*/api_user/save')))
-            ->_addLeft($this->getLayout()->createBlock('adminhtml/api_user_edit_tabs'));
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_User_Edit')->setData('action', $this->getUrl('*/api_user/save')))
+            ->_addLeft($this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_User_Edit_Tabs'));
 
-        $this->_addJs($this->getLayout()->createBlock('adminhtml/template')->setTemplate('api/user_roles_grid_js.phtml'));
+        $this->_addJs($this->getLayout()->createBlock('Mage_Adminhtml_Block_Template')->setTemplate('api/user_roles_grid_js.phtml'));
         $this->renderLayout();
     }
 
@@ -163,14 +163,14 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
         }
 
         Mage::register('api_user', $model);
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/api_user_edit_tab_roles')->toHtml());
+        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_User_Edit_Tab_Roles')->toHtml());
     }
 
     public function roleGridAction()
     {
         $this->getResponse()
             ->setBody($this->getLayout()
-            ->createBlock('adminhtml/api_user_grid')
+            ->createBlock('Mage_Adminhtml_Block_Api_User_Grid')
             ->toHtml()
         );
     }

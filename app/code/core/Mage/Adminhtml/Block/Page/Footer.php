@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Page_Footer extends Mage_Adminhtml_Block_Template
         $html    = Mage::app()->loadCache($cacheId);
 
         if (!$html) {
-            $html = $this->getLayout()->createBlock('adminhtml/html_select')
+            $html = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
                 ->setName('locale')
                 ->setId('interface_locale')
                 ->setTitle(Mage::helper('page')->__('Interface Language'))

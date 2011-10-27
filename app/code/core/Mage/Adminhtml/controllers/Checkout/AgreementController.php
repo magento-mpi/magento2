@@ -38,7 +38,7 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
         $this->_title($this->__('Sales'))->_title($this->__('Terms and Conditions'));
 
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/checkout_agreement'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Checkout_Agreement'))
             ->renderLayout();
         return $this;
     }
@@ -75,7 +75,7 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
 
         $this->_initAction()
             ->_addBreadcrumb($id ? $hlp->__('Edit Condition') :  $hlp->__('New Condition'), $id ?  $hlp->__('Edit Condition') :  $hlp->__('New Condition'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/checkout_agreement_edit')->setData('action', $this->getUrl('*/*/save')))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Checkout_Agreement_Edit')->setData('action', $this->getUrl('*/*/save')))
             ->renderLayout();
     }
 

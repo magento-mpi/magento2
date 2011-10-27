@@ -89,7 +89,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
      */
     public function getShareButton()
     {
-        return $this->getLayout()->createBlock('adminhtml/widget_button')
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->addData(array(
                 'id'      => '',
                 'label'   => Mage::helper('enterprise_giftregistry')->__('Share Gift Registry'),

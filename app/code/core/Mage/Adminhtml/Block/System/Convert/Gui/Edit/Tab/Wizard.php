@@ -106,7 +106,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
     public function getAddMapButtonHtml()
     {
         if (!$this->_addMapButtonHtml) {
-            $this->_addMapButtonHtml = $this->getLayout()->createBlock('adminhtml/widget_button')->setType('button')
+            $this->_addMapButtonHtml = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setType('button')
                 ->setClass('add')->setLabel($this->__('Add Field Mapping'))
                 ->setOnClick("addFieldMapping()")->toHtml();
         }
@@ -116,7 +116,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
     public function getRemoveMapButtonHtml()
     {
         if (!$this->_removeMapButtonHtml) {
-            $this->_removeMapButtonHtml = $this->getLayout()->createBlock('adminhtml/widget_button')->setType('button')
+            $this->_removeMapButtonHtml = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setType('button')
                 ->setClass('delete')->setLabel($this->__('Remove'))
                 ->setOnClick("removeFieldMapping(this)")->toHtml();
         }

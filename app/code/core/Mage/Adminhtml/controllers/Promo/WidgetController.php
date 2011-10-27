@@ -95,7 +95,7 @@ class Mage_Adminhtml_Promo_WidgetController extends Mage_Adminhtml_Controller_Ac
                 return;
             }
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('adminhtml/catalog_category_tree')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Category_Tree')
                     ->getTreeJson($category)
             );
         }

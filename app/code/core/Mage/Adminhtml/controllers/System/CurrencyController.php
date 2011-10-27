@@ -57,7 +57,7 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
 
         $this->loadLayout();
         $this->_setActiveMenu('system/currency');
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/system_currency'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Currency'));
         $this->renderLayout();
     }
 

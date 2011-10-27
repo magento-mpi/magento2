@@ -78,13 +78,13 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
 
         $fieldset->addField('summary_rating', 'note', array(
             'label'     => Mage::helper('review')->__('Summary Rating'),
-            'text'      => $this->getLayout()->createBlock('adminhtml/review_rating_summary')->toHtml(),
+            'text'      => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Review_Rating_Summary')->toHtml(),
         ));
 
         $fieldset->addField('detailed_rating', 'note', array(
             'label'     => Mage::helper('review')->__('Detailed Rating'),
             'required'  => true,
-            'text'      => '<div id="rating_detail">' . $this->getLayout()->createBlock('adminhtml/review_rating_detailed')->toHtml() . '</div>',
+            'text'      => '<div id="rating_detail">' . $this->getLayout()->createBlock('Mage_Adminhtml_Block_Review_Rating_Detailed')->toHtml() . '</div>',
         ));
 
         $fieldset->addField('status_id', 'select', array(

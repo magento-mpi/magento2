@@ -40,7 +40,7 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
 
         $this->loadLayout();
         $this->_setActiveMenu('system/account');
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/system_account_edit'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Account_Edit'));
         $this->renderLayout();
     }
 

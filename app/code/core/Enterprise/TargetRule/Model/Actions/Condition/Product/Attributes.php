@@ -208,7 +208,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
             'value'         => $this->getValueType(),
             'value_name'    => $this->getValueTypeName(),
             'class'         => 'value-type-chooser',
-        ))->setRenderer(Mage::getBlockSingleton('rule/editable'));
+        ))->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Editable'));
         return $element;
     }
 

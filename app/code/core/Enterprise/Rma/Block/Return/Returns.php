@@ -51,7 +51,7 @@ class Enterprise_Rma_Block_Return_Returns extends Mage_Core_Block_Template
         parent::_prepareLayout();
 
         $pager = $this->getLayout()
-            ->createBlock('page/html_pager', 'sales.order.history.pager')
+            ->createBlock('Mage_Page_Block_Html_Pager', 'sales.order.history.pager')
             ->setCollection($this->getReturns());
         $this->setChild('pager', $pager);
         $this->getReturns()->load();

@@ -275,7 +275,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
     public function chooserAction()
     {
         $uniqId = $this->getRequest()->getParam('uniq_id');
-        $chooserBlock = $this->getLayout()->createBlock('adminhtml/promo_widget_chooser', '', array(
+        $chooserBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Promo_Widget_Chooser', '', array(
             'id' => $uniqId
         ));
         $this->getResponse()->setBody($chooserBlock->toHtml());

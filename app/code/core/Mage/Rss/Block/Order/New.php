@@ -72,7 +72,7 @@ class Mage_Rss_Block_Order_New extends Mage_Core_Block_Template
             ->addAttributeToSort('created_at','desc')
         ;
 
-        $detailBlock = Mage::getBlockSingleton('rss/order_details');
+        $detailBlock = Mage::getBlockSingleton('Mage_Rss_Block_Order_Details');
 
         Mage::dispatchEvent('rss_order_new_collection_select', array('collection' => $collection));
 

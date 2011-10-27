@@ -71,7 +71,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
      */
     public function getAddButtonHtml()
     {
-        $addButton = $this->getLayout()->createBlock('adminhtml/widget_button')
+        $addButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label' => Mage::helper('downloadable')->__('Add New Row'),
                 'id' => 'add_sample_item',
@@ -149,7 +149,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
     {
         $this->setChild(
             'upload_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->addData(array(
                     'id'      => '',
                     'label'   => Mage::helper('adminhtml')->__('Upload Files'),

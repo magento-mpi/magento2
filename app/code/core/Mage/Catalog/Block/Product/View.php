@@ -49,7 +49,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
      */
     protected function _prepareLayout()
     {
-        $this->getLayout()->createBlock('catalog/breadcrumbs');
+        $this->getLayout()->createBlock('Mage_Catalog_Block_Breadcrumbs');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $product = $this->getProduct();

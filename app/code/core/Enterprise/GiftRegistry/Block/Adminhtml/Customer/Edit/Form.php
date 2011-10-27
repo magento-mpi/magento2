@@ -48,7 +48,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
         $this->setChild('entity_items', $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_customer_edit_items'));
         $this->setChild('cart_items', $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_customer_edit_cart'));
         $this->setChild('sharing_form', $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_customer_edit_sharing'));
-        $this->setChild('update_button', $this->getLayout()->createBlock('adminhtml/widget_button')
+        $this->setChild('update_button', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->addData(array(
                 'label' => $this->helper('enterprise_giftregistry')->__('Update Items and Qty\'s'),
                 'type'  => 'submit'

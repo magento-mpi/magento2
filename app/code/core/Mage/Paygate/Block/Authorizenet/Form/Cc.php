@@ -42,7 +42,7 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
      */
     public function getMethodFormBlock()
     {
-        return $this->getLayout()->createBlock('payment/form_cc')
+        return $this->getLayout()->createBlock('Mage_Payment_Block_Form_Cc')
             ->setMethod($this->getMethod());
     }
 
@@ -53,7 +53,7 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
      */
     public function getCardsBlock()
     {
-        return $this->getLayout()->createBlock('paygate/authorizenet_info_cc')
+        return $this->getLayout()->createBlock('Mage_Paygate_Block_Authorizenet_Info_Cc')
             ->setMethod($this->getMethod())
             ->setInfo($this->getMethod()->getInfoInstance())
             ->setCheckoutProgressBlock(false)
@@ -175,7 +175,7 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
      */
     public function getCancelButtonHtml()
     {
-        $cancelButton = $this->getLayout()->createBlock('adminhtml/widget_button')
+        $cancelButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'id'      => 'payment_cancel',
                 'label'   => Mage::helper('paygate')->__('Cancel'),

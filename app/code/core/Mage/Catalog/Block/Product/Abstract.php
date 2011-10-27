@@ -283,7 +283,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
             if (!Mage::helper('catalog')->isModuleEnabled('Mage_Review')) {
                 return false;
             } else {
-                $this->_reviewsHelperBlock = $this->getLayout()->createBlock('review/helper');
+                $this->_reviewsHelperBlock = $this->getLayout()->createBlock('Mage_Review_Block_Helper');
             }
         }
 

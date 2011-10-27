@@ -63,14 +63,14 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
         );
 
         $fieldset->setProductName($item->getProductAdminName());
-        $okButton = $this->getLayout()->createBlock('adminhtml/widget_button')
+        $okButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'   => Mage::helper('enterprise_rma')->__('OK'),
                 'class'   => 'ok_button',
             ));
         $fieldset->setOkButton($okButton->toHtml());
 
-        $cancelButton = $this->getLayout()->createBlock('adminhtml/widget_button')
+        $cancelButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'   => Mage::helper('enterprise_rma')->__('Cancel'),
                 'class'   => 'cancel_button',
@@ -100,13 +100,13 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
     protected function _prepareLayout()
     {
         Varien_Data_Form::setElementRenderer(
-            $this->getLayout()->createBlock('adminhtml/widget_form_renderer_element')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Renderer_Element')
         );
         Varien_Data_Form::setFieldsetRenderer(
             $this->getLayout()->createBlock('enterprise_rma/adminhtml_rma_edit_item_renderer_fieldset')
         );
         Varien_Data_Form::setFieldsetElementRenderer(
-            $this->getLayout()->createBlock('adminhtml/widget_form_renderer_fieldset_element')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element')
         );
 
         return $this;

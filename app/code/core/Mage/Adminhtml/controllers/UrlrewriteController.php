@@ -69,7 +69,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
         $this->loadLayout();
         $this->_setActiveMenu('catalog/urlrewrite');
         $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/urlrewrite')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite')
         );
         $this->renderLayout();
     }
@@ -86,7 +86,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
 
         $this->loadLayout();
         $this->_setActiveMenu('catalog/urlrewrite');
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/urlrewrite_edit'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Edit'));
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
         $this->renderLayout();
     }
@@ -97,7 +97,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
      */
     public function productGridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/urlrewrite_product_grid')->toHtml());
+        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Product_Grid')->toHtml());
     }
 
     /**
@@ -107,7 +107,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
     public function categoriesJsonAction()
     {
         $id = $this->getRequest()->getParam('id', null);
-        $this->getResponse()->setBody(Mage::getBlockSingleton('adminhtml/urlrewrite_category_tree')
+        $this->getResponse()->setBody(Mage::getBlockSingleton('Mage_Adminhtml_Block_Urlrewrite_Category_Tree')
             ->getTreeArray($id, true, 1)
         );
     }

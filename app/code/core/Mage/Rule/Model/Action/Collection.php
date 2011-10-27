@@ -99,7 +99,7 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
            'name'=>'rule[actions]['.$this->getId().'][new_child]',
            'values'=>$this->getNewChildSelectOptions(),
            'value_name'=>$this->getNewChildName(),
-       ))->setRenderer(Mage::getBlockSingleton('rule/newchild'));
+       ))->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Newchild'));
     }
 
     public function asHtmlRecursive()

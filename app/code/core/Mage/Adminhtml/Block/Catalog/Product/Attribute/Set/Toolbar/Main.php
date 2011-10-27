@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main extends Ma
     protected function _prepareLayout()
     {
         $this->setChild('addButton',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Add New Set'),
                     'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/add') . '\')',

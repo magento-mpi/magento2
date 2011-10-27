@@ -165,7 +165,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
 
                 // field dependencies
                 $this->setChild('form_after', $this->getLayout()
-                    ->createBlock('adminhtml/widget_form_element_dependence')
+                    ->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
                     ->addFieldMap($paypalMepAllowSpecific->getHtmlId(), $paypalMepAllowSpecific->getName())
                     ->addFieldMap($paypalMepApplicable->getHtmlId(), $paypalMepApplicable->getName())
                     ->addFieldMap($merchantlabelField->getHtmlId(), $merchantlabelField->getName())

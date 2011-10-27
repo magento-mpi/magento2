@@ -45,7 +45,7 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
 
         $this->_initAction()
             ->_addContent(
-                $this->getLayout()->createBlock('adminhtml/tax_class')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tax_Class')
                     ->setClassType(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
             )
             ->renderLayout();
@@ -98,7 +98,7 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
                 $classId ?  Mage::helper('tax')->__('Edit Class') :  Mage::helper('tax')->__('New Class')
             )
             ->_addContent(
-                $this->getLayout()->createBlock('adminhtml/tax_class_edit')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tax_Class_Edit')
                     ->setData('action', $this->getUrl('*/tax_class/save'))
                     ->setClassType(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
             )

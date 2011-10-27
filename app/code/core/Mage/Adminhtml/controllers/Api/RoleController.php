@@ -52,7 +52,7 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
 
         $this->_initAction();
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/api_roles'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_Roles'));
 
         $this->renderLayout();
     }
@@ -61,7 +61,7 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
     {
         $this->getResponse()
             ->setBody($this->getLayout()
-            ->createBlock('adminhtml/api_grid_role')
+            ->createBlock('Mage_Adminhtml_Block_Api_Grid_Role')
             ->toHtml()
         );
     }
@@ -89,16 +89,16 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $this->_addLeft(
-            $this->getLayout()->createBlock('adminhtml/api_editroles')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_Editroles')
         );
         $resources = Mage::getModel('api/roles')->getResourcesList();
         $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/api_buttons')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_Buttons')
                 ->setRoleId($roleId)
                 ->setRoleInfo(Mage::getModel('api/roles')->load($roleId))
                 ->setTemplate('api/roleinfo.phtml')
         );
-        $this->_addJs($this->getLayout()->createBlock('adminhtml/template')->setTemplate('api/role_users_grid_js.phtml'));
+        $this->_addJs($this->getLayout()->createBlock('Mage_Adminhtml_Block_Template')->setTemplate('api/role_users_grid_js.phtml'));
         $this->renderLayout();
     }
 
@@ -174,7 +174,7 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
 
     public function editrolegridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/api_role_grid_user')->toHtml());
+        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_Role_Grid_User')->toHtml());
     }
 
     protected function _deleteUserFromRole($userId, $roleId)

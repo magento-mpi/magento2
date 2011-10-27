@@ -127,8 +127,8 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
 
         $this->_configFields = Mage::getSingleton('adminhtml/config');
 
-        $this->_defaultFieldsetRenderer = Mage::getBlockSingleton('adminhtml/system_config_form_fieldset');
-        $this->_defaultFieldRenderer = Mage::getBlockSingleton('adminhtml/system_config_form_field');
+        $this->_defaultFieldsetRenderer = Mage::getBlockSingleton('Mage_Adminhtml_Block_System_Config_Form_Fieldset');
+        $this->_defaultFieldRenderer = Mage::getBlockSingleton('Mage_Adminhtml_Block_System_Config_Form_Field');
         return $this;
     }
 
@@ -230,7 +230,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
     {
         if (!$this->getChild('element_dependense')){
             $this->setChild('element_dependense',
-                $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence'));
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence'));
         }
         return $this->getChild('element_dependense');
     }
@@ -674,12 +674,12 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'export'        => Mage::getConfig()->getBlockClassName('adminhtml/system_config_form_field_export'),
-            'import'        => Mage::getConfig()->getBlockClassName('adminhtml/system_config_form_field_import'),
+            'export'        => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_System_Config_Form_Field_Export'),
+            'import'        => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_System_Config_Form_Field_Import'),
             'allowspecific' => Mage::getConfig()
-                ->getBlockClassName('adminhtml/system_config_form_field_select_allowspecific'),
-            'image'         => Mage::getConfig()->getBlockClassName('adminhtml/system_config_form_field_image'),
-            'file'          => Mage::getConfig()->getBlockClassName('adminhtml/system_config_form_field_file')
+                ->getBlockClassName('Mage_Adminhtml_Block_System_Config_Form_Field_Select_Allowspecific'),
+            'image'         => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_System_Config_Form_Field_Image'),
+            'file'          => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_System_Config_Form_Field_File')
         );
     }
 

@@ -115,7 +115,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
         ));
 
         $insertVariableButton = $this->getLayout()
-            ->createBlock('adminhtml/widget_button', '', array(
+            ->createBlock('Mage_Adminhtml_Block_Widget_Button', '', array(
                 'type' => 'button',
                 'label' => Mage::helper('adminhtml')->__('Insert Variable...'),
                 'onclick' => 'templateControl.openVariableChooser();return false;'

@@ -44,7 +44,7 @@ class Mage_Shipping_TrackingController extends Mage_Core_Controller_Front_Action
             $response = '';
             $tracks = $order->getTracksCollection();
 
-            $className = Mage::getConfig()->getBlockClassName('core/template');
+            $className = Mage::getConfig()->getBlockClassName('Mage_Core_Block_Template');
             $block = new $className();
             $block->setType('core/template')
                 ->setIsAnonymous(true)

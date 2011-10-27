@@ -218,7 +218,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
         $selected = $this->getRequest()->getParam('selected', '');
         $isAnchorOnly = $this->getRequest()->getParam('is_anchor_only', 0);
         $chooser = $this->getLayout()
-            ->createBlock('adminhtml/catalog_category_widget_chooser')
+            ->createBlock('Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser')
             ->setUseMassaction(true)
             ->setId(Mage::helper('core')->uniqHash('categories'))
             ->setIsAnchorOnly($isAnchorOnly)
@@ -235,13 +235,13 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
         $selected = $this->getRequest()->getParam('selected', '');
         $productTypeId = $this->getRequest()->getParam('product_type_id', '');
         $chooser = $this->getLayout()
-            ->createBlock('adminhtml/catalog_product_widget_chooser')
+            ->createBlock('Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser')
             ->setName(Mage::helper('core')->uniqHash('products_grid_'))
             ->setUseMassaction(true)
             ->setProductTypeId($productTypeId)
             ->setSelectedProducts(explode(',', $selected));
         /* @var $serializer Mage_Adminhtml_Block_Widget_Grid_Serializer */
-        $serializer = $this->getLayout()->createBlock('adminhtml/widget_grid_serializer');
+        $serializer = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Grid_Serializer');
         $serializer->initSerializerBlock($chooser, 'getSelectedProducts', 'selected_products', 'selected_products');
         $this->getResponse()->setBody($chooser->toHtml().$serializer->toHtml());
     }
@@ -257,7 +257,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
         $layout = $this->getRequest()->getParam('layout');
         $selected = $this->getRequest()->getParam('selected', null);
         $blocksChooser = $this->getLayout()
-            ->createBlock('widget/adminhtml_widget_instance_edit_chooser_block')
+            ->createBlock('Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block')
             ->setArea($widgetInstance->getArea())
             ->setPackage($widgetInstance->getPackage())
             ->setTheme($widgetInstance->getTheme())
@@ -278,7 +278,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
         $block = $this->getRequest()->getParam('block');
         $selected = $this->getRequest()->getParam('selected', null);
         $templateChooser = $this->getLayout()
-            ->createBlock('widget/adminhtml_widget_instance_edit_chooser_template')
+            ->createBlock('Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Template')
             ->setSelected($selected)
             ->setWidgetTemplates($widgetInstance->getWidgetSupportedTemplatesByBlock($block));
         $this->getResponse()->setBody($templateChooser->toHtml());

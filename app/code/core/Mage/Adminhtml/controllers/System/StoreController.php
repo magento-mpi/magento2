@@ -56,7 +56,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
              ->_title($this->__('Stores'));
 
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/system_store_store'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Store_Store'))
             ->renderLayout();
     }
 
@@ -151,7 +151,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             }
 
             $this->_initAction()
-                ->_addContent($this->getLayout()->createBlock('adminhtml/system_store_edit'))
+                ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Store_Edit'))
                 ->renderLayout();
         }
         else {
@@ -267,7 +267,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('core')->__('Delete Website'), Mage::helper('core')->__('Delete Website'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/system_store_delete')
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Store_Delete')
                 ->setFormActionUrl($this->getUrl('*/*/deleteWebsitePost'))
                 ->setBackUrl($this->getUrl('*/*/editWebsite', array('website_id' => $itemId)))
                 ->setStoreTypeTitle(Mage::helper('core')->__('Website'))
@@ -299,7 +299,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('core')->__('Delete Store'), Mage::helper('core')->__('Delete Store'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/system_store_delete')
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Store_Delete')
                 ->setFormActionUrl($this->getUrl('*/*/deleteGroupPost'))
                 ->setBackUrl($this->getUrl('*/*/editGroup', array('group_id' => $itemId)))
                 ->setStoreTypeTitle(Mage::helper('core')->__('Store'))
@@ -331,7 +331,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('core')->__('Delete Store View'), Mage::helper('core')->__('Delete Store View'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/system_store_delete')
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Store_Delete')
                 ->setFormActionUrl($this->getUrl('*/*/deleteStorePost'))
                 ->setBackUrl($this->getUrl('*/*/editStore', array('store_id' => $itemId)))
                 ->setStoreTypeTitle(Mage::helper('core')->__('Store View'))

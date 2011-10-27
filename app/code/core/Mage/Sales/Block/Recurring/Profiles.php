@@ -43,7 +43,7 @@ class Mage_Sales_Block_Recurring_Profiles extends Mage_Core_Block_Template
     {
         $this->_prepareProfiles(array('reference_id', 'state', 'created_at', 'updated_at', 'method_code'));
 
-        $pager = $this->getLayout()->createBlock('page/html_pager')
+        $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager')
             ->setCollection($this->_profiles)->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
 

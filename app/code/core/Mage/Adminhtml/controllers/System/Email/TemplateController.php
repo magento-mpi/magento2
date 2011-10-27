@@ -46,13 +46,13 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
         $this->_setActiveMenu('system/email_template');
         $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Transactional Emails'), Mage::helper('adminhtml')->__('Transactional Emails'));
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/system_email_template', 'template'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Email_Template', 'template'));
         $this->renderLayout();
     }
 
     public function gridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/system_email_template_grid')->toHtml());
+        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Email_Template_Grid')->toHtml());
     }
 
 
@@ -84,7 +84,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
 
         $this->_title($template->getId() ? $template->getTemplateCode() : $this->__('New Template'));
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/system_email_template_edit', 'template_edit')
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Email_Template_Edit', 'template_edit')
                                                             ->setEditMode((bool)$this->getRequest()->getParam('id')));
         $this->renderLayout();
     }
@@ -188,7 +188,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
         $template->setData('orig_template_code', $templateCode);
         $template->setData('template_variables', Zend_Json::encode($template->getVariablesOptionArray(true)));
 
-        $templateBlock = $this->getLayout()->createBlock('adminhtml/system_email_template_edit');
+        $templateBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Email_Template_Edit');
         $template->setData('orig_template_used_default_for', $templateBlock->getUsedDefaultForPaths(false));
 
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($template->getData()));

@@ -99,7 +99,7 @@ abstract class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
     {
         if (!isset($this->_addRowButtonHtml[$container])) {
             $this->_addRowButtonHtml[$container] = $this->getLayout()
-                ->createBlock('adminhtml/widget_button')
+                ->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setType('button')
                     ->setClass('add')
                     ->setLabel($this->__($title))
@@ -116,7 +116,7 @@ abstract class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
     {
         if (!$this->_removeRowButtonHtml) {
             $this->_removeRowButtonHtml = $this->getLayout()
-                ->createBlock('adminhtml/widget_button')
+                ->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setType('button')
                     ->setClass('delete')
                     ->setLabel($this->__('Remove'))
@@ -130,7 +130,7 @@ abstract class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
     {
         if (!$this->_addFileDepButtonHtml) {
             $this->_addFileDepButtonHtml = $this->getLayout()
-                ->createBlock('adminhtml/widget_button')
+                ->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setType('button')
                     ->setClass('add')
                     ->setLabel($this->__('Add files'))

@@ -40,7 +40,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
         $form = new Varien_Data_Form();
         $model = Mage::registry('current_reminder_rule');
 
-        $renderer = Mage::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
+        $renderer = Mage::getBlockSingleton('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/reminder/newConditionHtml/form/rule_conditions_fieldset'));
         $fieldset = $form->addFieldset('rule_conditions_fieldset', array(
@@ -51,7 +51,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
         $fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('rule/conditions'));
+        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Conditions'));
 
         $form->setValues($model->getData());
         $this->setForm($form);

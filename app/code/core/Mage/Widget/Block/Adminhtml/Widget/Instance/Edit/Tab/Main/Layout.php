@@ -128,7 +128,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
      */
     public function getDisplayOnSelectHtml()
     {
-        $selectBlock = $this->getLayout()->createBlock('core/html_select')
+        $selectBlock = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName('widget_instance[{{id}}][page_group]')
             ->setId('widget_instance[{{id}}][page_group]')
             ->setClass('required-entry page_group_select select')
@@ -248,7 +248,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
     public function getLayoutsChooser()
     {
         $layouts = $this->getLayout()
-            ->createBlock('widget/adminhtml_widget_instance_edit_chooser_layout')
+            ->createBlock('Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout')
             ->setSelectName('widget_instance[{{id}}][pages][layout_handle]')
             ->setArea($this->getWidgetInstance()->getArea())
             ->setPackage($this->getWidgetInstance()->getPackage())
@@ -263,7 +263,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
      */
     public function getAddLayoutButtonHtml()
     {
-        $button = $this->getLayout()->createBlock('adminhtml/widget_button')
+        $button = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'     => Mage::helper('widget')->__('Add Layout Update'),
                 'onclick'   => 'WidgetInstance.addPageGroup({})',
@@ -279,7 +279,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
      */
     public function getRemoveLayoutButtonHtml()
     {
-        $button = $this->getLayout()->createBlock('adminhtml/widget_button')
+        $button = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'     => $this->helper('core')->jsQuoteEscape(Mage::helper('widget')->__('Remove Layout Update')),
                 'onclick'   => 'WidgetInstance.removePageGroup(this)',

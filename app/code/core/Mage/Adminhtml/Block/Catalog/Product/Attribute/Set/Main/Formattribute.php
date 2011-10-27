@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formattribute exte
 
         $fieldset->addField('submit', 'note',
                             array(
-                                'text' => $this->getLayout()->createBlock('adminhtml/widget_button')
+                                'text' => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                                             ->setData(array(
                                                 'label'     => Mage::helper('catalog')->__('Add Attribute'),
                                                 'onclick'   => 'this.form.submit();',

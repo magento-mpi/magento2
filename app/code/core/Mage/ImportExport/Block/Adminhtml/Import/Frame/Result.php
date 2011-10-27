@@ -181,7 +181,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Frame_Result extends Mage_Adminht
     public function getMessagesHtml()
     {
         /** @var $messagesBlock Mage_Core_Block_Messages */
-        $messagesBlock = $this->_layout->createBlock('core/messages');
+        $messagesBlock = $this->_layout->createBlock('Mage_Core_Block_Messages');
 
         foreach ($this->_messages as $priority => $messages) {
             $method = "add{$priority}";

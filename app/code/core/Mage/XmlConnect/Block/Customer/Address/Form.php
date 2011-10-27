@@ -205,7 +205,7 @@ class Mage_XmlConnect_Block_Customer_Address_Form extends Mage_Customer_Block_Ad
     ) {
         if (is_object(Mage::getConfig()->getNode('modules/Enterprise_Customer'))) {
             $this->setNameWidgetBlock(
-                $this->getLayout()->createBlock('customer/widget_name')->setObject(
+                $this->getLayout()->createBlock('Mage_Customer_Block_Widget_Name')->setObject(
                     $this->getAddress()->getFirstname() ? $this->getAddress() : $this->getCustomer()
             ));
 

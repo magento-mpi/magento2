@@ -94,7 +94,7 @@
                 'label' => Mage::helper('enterprise_giftregistry')->__('New Address')
             );
 
-            $select = $this->getLayout()->createBlock('core/html_select')
+            $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
                 ->setName('address_type_or_id')
                 ->setId($domId)
                 ->setClass('address-select')

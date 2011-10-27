@@ -88,7 +88,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
      */
     protected function _prepareLayout()
     {
-        $accordion = $this->getLayout()->createBlock('adminhtml/widget_accordion');
+        $accordion = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Accordion');
         $accordion->addItem('reward_points_history', array(
             'title'       => Mage::helper('enterprise_reward')->__('Reward Points History'),
             'open'        => false,

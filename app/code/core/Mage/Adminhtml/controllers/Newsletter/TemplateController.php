@@ -68,7 +68,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
         $this->loadLayout();
         $this->_setActiveMenu('newsletter/template');
         $this->_addBreadcrumb(Mage::helper('newsletter')->__('Newsletter Templates'), Mage::helper('newsletter')->__('Newsletter Templates'));
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/newsletter_template', 'template'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Template', 'template'));
         $this->renderLayout();
     }
 
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
     public function gridAction ()
     {
         $this->loadLayout();
-        $grid = $this->getLayout()->createBlock('adminhtml/newsletter_template_grid')
+        $grid = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Template_Grid')
             ->toHtml();
         $this->getResponse()->setBody($grid);
     }

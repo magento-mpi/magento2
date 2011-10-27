@@ -152,7 +152,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
      */
     protected function _toHtml()
     {
-        $selectBlock = $this->getLayout()->createBlock('core/html_select')
+        $selectBlock = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName('block')
             ->setClass('required-entry select')
             ->setExtraParams('onchange="WidgetInstance.loadSelectBoxByType(\'block_template\', this.up(\'div.group_container\'), this.value)"')

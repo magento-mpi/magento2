@@ -87,7 +87,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      */
     public function getPurchasedSeparatelySelect()
     {
-        $select = $this->getLayout()->createBlock('adminhtml/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
             ->setName('product[links_purchased_separately]')
             ->setId('downloadable_link_purchase_type')
             ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray())
@@ -103,7 +103,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      */
     public function getAddButtonHtml()
     {
-        $addButton = $this->getLayout()->createBlock('adminhtml/widget_button')
+        $addButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label' => Mage::helper('downloadable')->__('Add New Row'),
                 'id'    => 'add_link_item',
@@ -247,7 +247,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     {
         $this->setChild(
             'upload_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')->addData(array(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->addData(array(
                 'id'      => '',
                 'label'   => Mage::helper('adminhtml')->__('Upload Files'),
                 'type'    => 'button',

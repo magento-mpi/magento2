@@ -44,7 +44,7 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
         $this->_addBreadcrumb(Mage::helper('poll')->__('Edit Poll Answer'),
                               Mage::helper('poll')->__('Edit Poll Answer'));
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/poll_answer_edit'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Poll_Answer_Edit'));
 
         $this->renderLayout();
     }
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
     public function gridAction()
     {
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/poll_edit_tab_answers_grid')->toHtml()
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_Grid')->toHtml()
         );
     }
 

@@ -77,12 +77,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
     protected function _prepareLayout()
     {
         $this->setChild('grid',
-            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_config_grid',
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid',
                 'admin.product.edit.tab.super.config.grid')
         );
 
         $this->setChild('create_empty',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label' => Mage::helper('catalog')->__('Create Empty'),
                     'class' => 'add',
@@ -92,12 +92,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
 
         if ($this->_getProduct()->getId()) {
             $this->setChild('simple',
-                $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_config_simple',
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple',
                     'catalog.product.edit.tab.super.config.simple')
             );
 
             $this->setChild('create_from_configurable',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setData(array(
                         'label' => Mage::helper('catalog')->__('Copy From Configurable'),
                         'class' => 'add',

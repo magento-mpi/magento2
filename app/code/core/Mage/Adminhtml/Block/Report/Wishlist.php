@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Report_Wishlist extends Mage_Adminhtml_Block_Template
 
     public function _beforeToHtml()
     {
-        $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/report_wishlist_grid', 'report.grid'));
+        $this->setChild('grid', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Wishlist_Grid', 'report.grid'));
 
         $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Wishlist_Collection');
 

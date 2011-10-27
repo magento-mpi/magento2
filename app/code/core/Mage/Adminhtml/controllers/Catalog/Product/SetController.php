@@ -50,8 +50,8 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
             Mage::helper('catalog')->__('Manage Attribute Sets'),
             Mage::helper('catalog')->__('Manage Attribute Sets'));
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_toolbar_main'));
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_grid'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Grid'));
 
         $this->renderLayout();
     }
@@ -84,7 +84,7 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
             Mage::helper('catalog')->__('Manage Product Sets'),
             Mage::helper('catalog')->__('Manage Product Sets'));
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_main'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main'));
 
         $this->renderLayout();
     }
@@ -94,7 +94,7 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
         $this->_setTypeId();
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('adminhtml/catalog_product_attribute_set_grid')
+                ->createBlock('Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Grid')
                 ->toHtml());
     }
 
@@ -187,7 +187,7 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
         $this->loadLayout();
         $this->_setActiveMenu('catalog/sets');
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_toolbar_add'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Add'));
 
         $this->renderLayout();
     }

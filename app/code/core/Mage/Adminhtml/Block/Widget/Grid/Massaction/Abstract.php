@@ -64,7 +64,7 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
      */
     public function addItem($itemId, array $item)
     {
-        $this->_items[$itemId] =  $this->getLayout()->createBlock('adminhtml/widget_grid_massaction_item')
+        $this->_items[$itemId] =  $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Grid_Massaction_Item')
             ->setData($item)
             ->setMassaction($this)
             ->setId($itemId);

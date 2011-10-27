@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Adminhtm
 
     protected function _prepareLayout()
     {
-        $accordion = $this->getLayout()->createBlock('adminhtml/widget_accordion')
+        $accordion = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Accordion')
             ->setId('productAlerts');
         /* @var $accordion Mage_Adminhtml_Block_Widget_Accordion */
 
@@ -53,14 +53,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Adminhtm
         if ($alertPriceAllow) {
             $accordion->addItem('price', array(
                 'title'     => Mage::helper('adminhtml')->__('Price alert subscription was saved.'),
-                'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_alerts_price')->toHtml() . '<br />',
+                'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Price')->toHtml() . '<br />',
                 'open'      => true
             ));
         }
         if ($alertStockAllow) {
             $accordion->addItem('stock', array(
                 'title'     => Mage::helper('adminhtml')->__('Stock notification was saved.'),
-                'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_alerts_stock'),
+                'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Stock'),
                 'open'      => true
             ));
         }

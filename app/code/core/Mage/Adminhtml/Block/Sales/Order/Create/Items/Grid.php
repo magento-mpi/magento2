@@ -329,7 +329,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
             $options['title'] = Mage::helper('sales')->__('This product does not have any configurable options');
         }
 
-        return $this->getLayout()->createBlock('adminhtml/widget_button')
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData($options)
             ->toHtml();
     }

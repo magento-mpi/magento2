@@ -51,7 +51,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
         $this->_addBreadcrumb(Mage::helper('newsletter')->__('Subscribers'), Mage::helper('newsletter')->__('Subscribers'));
 
         $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/newsletter_subscriber','subscriber')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Subscriber','subscriber')
         );
 
         $this->renderLayout();
@@ -61,7 +61,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
     {
         $this->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/newsletter_subscriber_grid')->toHtml()
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Subscriber_Grid')->toHtml()
         );
     }
 
@@ -71,7 +71,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
     public function exportCsvAction()
     {
         $fileName   = 'subscribers.csv';
-        $content    = $this->getLayout()->createBlock('adminhtml/newsletter_subscriber_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Subscriber_Grid')
             ->getCsvFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
     public function exportXmlAction()
     {
         $fileName   = 'subscribers.xml';
-        $content    = $this->getLayout()->createBlock('adminhtml/newsletter_subscriber_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Subscriber_Grid')
             ->getExcelFile();
 
         $this->_prepareDownloadResponse($fileName, $content);

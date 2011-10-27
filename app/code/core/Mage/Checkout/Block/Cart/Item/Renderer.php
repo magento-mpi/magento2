@@ -355,7 +355,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
      */
     public function getMsrpHtml($item)
     {
-        return $this->getLayout()->createBlock('catalog/product_price')
+        return $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Price')
             ->setTemplate('catalog/product/price_msrp_item.phtml')
             ->setProduct($item->getProduct())
             ->toHtml();

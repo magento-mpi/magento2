@@ -61,7 +61,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
         $this->_title($this->__('Catalog'))->_title($this->__('Google Sitemaps'));
 
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/sitemap'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Sitemap'))
             ->renderLayout();
     }
 
@@ -112,7 +112,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
             ->_addBreadcrumb(
                 $id ? Mage::helper('sitemap')->__('Edit Sitemap') : Mage::helper('sitemap')->__('New Sitemap'),
                 $id ? Mage::helper('sitemap')->__('Edit Sitemap') : Mage::helper('sitemap')->__('New Sitemap'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/sitemap_edit'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Sitemap_Edit'))
             ->renderLayout();
     }
 

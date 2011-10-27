@@ -33,13 +33,13 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
 
         $this->loadLayout();
         $this->_setActiveMenu('system');
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/system_design'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Design'));
         $this->renderLayout();
     }
 
     public function gridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/system_design_grid')->toHtml());
+        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Design_Grid')->toHtml());
     }
 
     public function newAction()
@@ -66,8 +66,8 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
 
         Mage::register('design', $design);
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/system_design_edit'));
-        $this->_addLeft($this->getLayout()->createBlock('adminhtml/system_design_edit_tabs', 'design_tabs'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Design_Edit'));
+        $this->_addLeft($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Design_Edit_Tabs', 'design_tabs'));
 
         $this->renderLayout();
     }

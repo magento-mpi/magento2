@@ -176,7 +176,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
     {
         $html = parent::_afterToHtml($html);
         if ($this->_customerHasOrphanPoints) {
-            $deleteOrhanPointsButton = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+            $deleteOrhanPointsButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
                 'label'     => Mage::helper('enterprise_reward')->__('Delete Orphan Points'),
                 'onclick'   => 'setLocation(\'' . $this->getDeleteOrphanPointsUrl() .'\')',
                 'class'     => 'scalable delete',

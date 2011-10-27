@@ -51,7 +51,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
             'enterprise_catalogpermissions/adminhtml_catalog_category_tab_permissions_row'
         ));
 
-        $this->setChild('add_button', $this->getLayout()->createBlock('adminhtml/widget_button')
+        $this->setChild('add_button', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->addData(array(
                 'label' => $this->helper('enterprise_catalogpermissions')->__('New Permission'),
                 'class' => 'add' . ($this->isReadonly() ? ' disabled' : ''),

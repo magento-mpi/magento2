@@ -54,7 +54,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items extends Mage_Adminhtml_Block_Widget_
             'label' => $this->__('View Available Products'),
         );
         return $this->getLayout()
-            ->createBlock('adminhtml/widget_button')
+            ->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData($addButtonData)
             ->toHtml();
     }

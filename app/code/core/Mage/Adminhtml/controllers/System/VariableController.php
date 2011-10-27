@@ -76,7 +76,7 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
         $this->_title($this->__('System'))->_title($this->__('Custom Variables'));
 
         $this->_initLayout()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/system_variable'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Variable'))
             ->renderLayout();
     }
 
@@ -100,8 +100,8 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
         $this->_title($variable->getId() ? $variable->getCode() : $this->__('New Variable'));
 
         $this->_initLayout()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/system_variable_edit'))
-            ->_addJs($this->getLayout()->createBlock('core/template', '', array('template' => 'system/variable/js.phtml')))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Variable_Edit'))
+            ->_addJs($this->getLayout()->createBlock('Mage_Core_Block_Template', '', array('template' => 'system/variable/js.phtml')))
             ->renderLayout();
     }
 

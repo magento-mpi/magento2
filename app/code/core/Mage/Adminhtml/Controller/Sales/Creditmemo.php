@@ -60,7 +60,7 @@ class Mage_Adminhtml_Controller_Sales_Creditmemo extends Mage_Adminhtml_Controll
     public function indexAction()
     {
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/sales_creditmemo'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Creditmemo'))
             ->renderLayout();
     }
 

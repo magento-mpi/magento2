@@ -48,20 +48,20 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
         if (Mage::registry('current_customer')->getId()) {
             $this->addTab('view', array(
                 'label'     => Mage::helper('customer')->__('Customer View'),
-                'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view')->toHtml(),
+                'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Edit_Tab_View')->toHtml(),
                 'active'    => true
             ));
         }
 */
         $this->addTab('account', array(
             'label'     => Mage::helper('customer')->__('Account Information'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_account')->initForm()->toHtml(),
+            'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Edit_Tab_Account')->initForm()->toHtml(),
             'active'    => Mage::registry('current_customer')->getId() ? false : true
         ));
 
         $this->addTab('addresses', array(
             'label'     => Mage::helper('customer')->__('Addresses'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_addresses')->initForm()->toHtml(),
+            'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses')->initForm()->toHtml(),
         ));
 
 
@@ -92,7 +92,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
             if (Mage::getSingleton('admin/session')->isAllowed('newsletter/subscriber')) {
                 $this->addTab('newsletter', array(
                     'label'     => Mage::helper('customer')->__('Newsletter'),
-                    'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_newsletter')->initForm()->toHtml()
+                    'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter')->initForm()->toHtml()
                 ));
             }
 

@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesusers extends Mage_Adminhtml_Blo
 
     protected function _prepareLayout()
     {
-        $this->setChild('userGrid', $this->getLayout()->createBlock('adminhtml/permissions_role_grid_user', 'roleUsersGrid'));
+        $this->setChild('userGrid', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Permissions_Role_Grid_User', 'roleUsersGrid'));
         return parent::_prepareLayout();
     }
 

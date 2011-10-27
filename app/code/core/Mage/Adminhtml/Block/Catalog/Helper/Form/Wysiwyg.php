@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Varien_Data_Form_
         if ($this->getIsWysiwygEnabled()) {
             $disabled = ($this->getDisabled() || $this->getReadonly());
             $html .= Mage::getSingleton('core/layout')
-                ->createBlock('adminhtml/widget_button', '', array(
+                ->createBlock('Mage_Adminhtml_Block_Widget_Button', '', array(
                     'label'   => Mage::helper('catalog')->__('WYSIWYG Editor'),
                     'type'    => 'button',
                     'disabled' => $disabled,

@@ -96,19 +96,19 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             $this->getUrl('*/system'));
 
         $this->getLayout()->getBlock('left')
-            ->append($this->getLayout()->createBlock('adminhtml/system_config_tabs')->initTabs());
+            ->append($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Config_Tabs')->initTabs());
 
         if ($this->_isSectionAllowedFlag) {
-            $this->_addContent($this->getLayout()->createBlock('adminhtml/system_config_edit')->initForm());
+            $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Config_Edit')->initForm());
 
             $this->_addJs($this->getLayout()
-                ->createBlock('adminhtml/template')
+                ->createBlock('Mage_Adminhtml_Block_Template')
                 ->setTemplate('system/shipping/ups.phtml'));
             $this->_addJs($this->getLayout()
-                ->createBlock('adminhtml/template')
+                ->createBlock('Mage_Adminhtml_Block_Template')
                 ->setTemplate('system/config/js.phtml'));
             $this->_addJs($this->getLayout()
-                ->createBlock('adminhtml/template')
+                ->createBlock('Mage_Adminhtml_Block_Template')
                 ->setTemplate('system/shipping/applicable_country.phtml'));
 
             $this->renderLayout();
@@ -234,7 +234,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     {
         $fileName   = 'tablerates.csv';
         /** @var $gridBlock Mage_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid */
-        $gridBlock  = $this->getLayout()->createBlock('adminhtml/shipping_carrier_tablerate_grid');
+        $gridBlock  = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid');
         $website    = Mage::app()->getWebsite($this->getRequest()->getParam('website'));
         if ($this->getRequest()->getParam('conditionName')) {
             $conditionName = $this->getRequest()->getParam('conditionName');

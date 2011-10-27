@@ -544,7 +544,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         if ($block) {
             return $block;
         }
-        return $this->createBlock('core/messages', 'messages');
+        return $this->createBlock('Mage_Core_Block_Messages', 'messages');
     }
 
     /**

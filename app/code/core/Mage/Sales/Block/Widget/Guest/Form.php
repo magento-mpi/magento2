@@ -53,7 +53,7 @@ class Mage_Sales_Block_Widget_Guest_Form
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('core/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setData(array(
                 'id'    => 'quick_search_type_id',
                 'class' => 'select guest-select',

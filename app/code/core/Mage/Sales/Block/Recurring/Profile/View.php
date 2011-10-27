@@ -257,7 +257,7 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
             'in' => Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates()
         ));
 
-        $pager = $this->getLayout()->createBlock('page/html_pager')
+        $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager')
             ->setCollection($this->_relatedOrders)->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
 

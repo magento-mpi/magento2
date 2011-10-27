@@ -163,7 +163,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
             $type = $blockParameters['type'];
             $block = $layout->createBlock($type, null, $blockParameters);
         } elseif (isset($blockParameters['id'])) {
-            $block = $layout->createBlock('cms/block');
+            $block = $layout->createBlock('Mage_Cms_Block_Block');
             if ($block) {
                 $block->setBlockId($blockParameters['id']);
             }

@@ -215,7 +215,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
     protected function _afterToHtml($html)
     {
         $jsScripts = $this->getLayout()
-            ->createBlock('eav/adminhtml_attribute_edit_js')->toHtml();
+            ->createBlock('Mage_Eav_Block_Adminhtml_Attribute_Edit_Js')->toHtml();
         return $html.$jsScripts;
     }
 

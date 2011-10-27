@@ -73,9 +73,9 @@ class Enterprise_PageCache_Model_Container_Breadcrumbs extends Enterprise_PageCa
         }
 
         /** @var Mage_Page_Block_Html_Breadcrumbs $breadcrumbsBlock */
-        $breadcrumbsBlock = Mage::app()->getLayout()->createBlock('page/html_breadcrumbs');
+        $breadcrumbsBlock = Mage::app()->getLayout()->createBlock('Mage_Page_Block_Html_Breadcrumbs');
         $breadcrumbsBlock->setNameInLayout('breadcrumbs');
-        Mage::app()->getLayout()->createBlock('catalog/breadcrumbs');
+        Mage::app()->getLayout()->createBlock('Mage_Catalog_Block_Breadcrumbs');
         Mage::dispatchEvent('render_block', array('block' => $breadcrumbsBlock, 'placeholder' => $this->_placeholder));
         return $breadcrumbsBlock->toHtml();
     }

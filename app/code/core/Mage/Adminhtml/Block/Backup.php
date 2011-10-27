@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Backup extends Mage_Adminhtml_Block_Template
     {
         parent::_prepareLayout();
         $this->setChild('createButton',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label' => Mage::helper('backup')->__('Create Backup'),
                     'onclick' => "window.location.href='" . $this->getUrl('*/*/create') . "'",
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Backup extends Mage_Adminhtml_Block_Template
                 ))
         );
         $this->setChild('backupsGrid',
-            $this->getLayout()->createBlock('adminhtml/backup_grid')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Backup_Grid')
         );
     }
 

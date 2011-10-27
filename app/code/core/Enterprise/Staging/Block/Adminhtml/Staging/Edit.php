@@ -60,7 +60,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit extends Mage_Adminhtml_Blo
     protected function _prepareLayout()
     {
         $this->setChild('back_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => Mage::helper('enterprise_staging')->__('Back'),
                     'onclick'   => 'setLocation(\''.$this->getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
@@ -69,7 +69,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit extends Mage_Adminhtml_Blo
         );
 
         $this->setChild('reset_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => Mage::helper('enterprise_staging')->__('Reset'),
                     'onclick'   => 'setLocation(\''.$this->getUrl('*/*/*', array('_current'=>true)).'\')'
@@ -78,7 +78,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit extends Mage_Adminhtml_Blo
 
         if ($this->getStaging()->canMerge()) {
             $this->setChild('merge_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setData(array(
                         'label'     => Mage::helper('enterprise_staging')->__('Merge...'),
                         'onclick'   => 'setLocation(\''.$this->getMergeUrl().'\')',
@@ -87,7 +87,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit extends Mage_Adminhtml_Blo
             );
         } elseif ($this->getStaging()->getId()) {
             $this->setChild('merge_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setData(array(
                         'label'     => Mage::helper('enterprise_staging')->__('Merge'),
                         'class'     => 'disabled'
@@ -97,7 +97,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit extends Mage_Adminhtml_Blo
 
         if ($this->getStaging()->canSave()) {
             $this->setChild('save_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setData(array(
                         'label'     => Mage::helper('enterprise_staging')->__('Save'),
                         'onclick'   => $this->getEditFormJsObject().'.submit()',
@@ -107,7 +107,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit extends Mage_Adminhtml_Blo
         } else {
             if ($this->getRequest()->getParam('type')) {
                 $this->setChild('create_button',
-                    $this->getLayout()->createBlock('adminhtml/widget_button')
+                    $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                         ->setData(array(
                             'label'     => Mage::helper('enterprise_staging')->__('Create'),
                             'onclick'   => $this->getEditFormJsObject().'.runCreate()',
@@ -119,7 +119,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit extends Mage_Adminhtml_Blo
 
         if ($this->getStaging()->canResetStatus()) {
             $this->setChild('reset_status_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setData(array(
                         'label'     => Mage::helper('enterprise_staging')->__('Reset Status'),
                         'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/resetStatus', array('_current'=>true)) . '\')',
@@ -131,7 +131,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit extends Mage_Adminhtml_Blo
         $stagingId = $this->getStagingId();
         if ($stagingId && $this->getStaging()->isScheduled()) {
             $this->setChild('unschedule_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setData(array(
                         'label'     => Mage::helper('enterprise_staging')->__('Unschedule Merge'),
                         'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/unschedule', array('id' => $stagingId)) . '\')',

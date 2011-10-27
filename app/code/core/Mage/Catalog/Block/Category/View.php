@@ -37,7 +37,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     {
         parent::_prepareLayout();
 
-        $this->getLayout()->createBlock('catalog/breadcrumbs');
+        $this->getLayout()->createBlock('Mage_Catalog_Block_Breadcrumbs');
 
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $category = $this->getCurrentCategory();
@@ -101,7 +101,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     public function getCmsBlockHtml()
     {
         if (!$this->getData('cms_block_html')) {
-            $html = $this->getLayout()->createBlock('cms/block')
+            $html = $this->getLayout()->createBlock('Mage_Cms_Block_Block')
                 ->setBlockId($this->getCurrentCategory()->getLandingPage())
                 ->toHtml();
             $this->setData('cms_block_html', $html);

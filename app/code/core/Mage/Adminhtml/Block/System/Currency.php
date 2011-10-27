@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_System_Currency extends Mage_Adminhtml_Block_Template
     protected function _prepareLayout()
     {
         $this->setChild('save_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => Mage::helper('adminhtml')->__('Save Currency Rates'),
                     'onclick'   => 'currencyForm.submit();',
@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_System_Currency extends Mage_Adminhtml_Block_Template
         )));
 
         $this->setChild('reset_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => Mage::helper('adminhtml')->__('Reset'),
                     'onclick'   => 'document.location.reload()',
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_System_Currency extends Mage_Adminhtml_Block_Template
         )));
 
         $this->setChild('import_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => Mage::helper('adminhtml')->__('Import'),
                     'class'     => 'add',
@@ -67,11 +67,11 @@ class Mage_Adminhtml_Block_System_Currency extends Mage_Adminhtml_Block_Template
         )));
 
         $this->setChild('rates_matrix',
-            $this->getLayout()->createBlock('adminhtml/system_currency_rate_matrix')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Currency_Rate_Matrix')
         );
 
         $this->setChild('import_services',
-            $this->getLayout()->createBlock('adminhtml/system_currency_rate_services')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Currency_Rate_Services')
         );
 
         return parent::_prepareLayout();
