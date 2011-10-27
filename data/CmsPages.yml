@@ -89,3 +89,20 @@ new_page:
     meta_data:
         keywords: %noValue%
         description: %noValue%
+
+
+#<-----------------------------Required Fields--------------------------------->
+new_page_req:
+    page_information:
+        page_title: new page
+        url_key: new_page
+        status: Enabled
+    content:
+        content_heading: %noValue%
+        widgets:
+            widget_1:
+                widget_type: CMS Page Link
+                chosen_option:
+                    filter_url_key: no-route
+    design:
+        layout: 1 column

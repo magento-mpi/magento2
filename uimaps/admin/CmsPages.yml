@@ -90,6 +90,7 @@ create_cms_page:
                                     fields:
                                         content_heading: //input[@name='content_heading']
                                         editor: "//textarea[@name='content' and not(contains(@style,'display: none;'))]"
+                                        editor_disabled: "//textarea[@name='content' and contains(@style,'display: none;')]"
                                     buttons:
                                         insert_widget: //button[span='Insert Widget...']
                                         insert_image: //button[span='Insert Image...']

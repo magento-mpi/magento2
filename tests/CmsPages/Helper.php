@@ -161,7 +161,11 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
         $this->logoutCustomer();
         $this->addParameter('url_key', $pageData['page_information']['url_key']);
         $this->addParameter('page_title', $pageData['page_information']['page_title']);
-        $this->addParameter('content_heading', $pageData['content']['content_heading']);
+        if (array_key_exists('content', $pageData)) {
+            if (array_key_exists('content_heading', $pageData['content'])) {
+                $this->addParameter('content_heading', $pageData['content']['content_heading']);
+            }
+        }
         $this->frontend('test_page');
         foreach ($this->countElements($pageData) as $key => $value) {
             $xpath = $this->_getControlXpath('pageelement', $key);
@@ -240,8 +244,7 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
         $searchPage = $this->arrayEmptyClear($searchPage);
         if (!empty($searchPage)) {
             $this->openWidget($searchPage);
-            $this->answerOnNextPrompt('OK');
-            $this->clickButton('delete_page');
+            $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
             $this->assertTrue($this->checkMessage('successfully_deleted_page'), 'The page has not been deleted');
         }
     }
