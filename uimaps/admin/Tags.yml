@@ -44,52 +44,29 @@ all_tags:
                             tags_massaction: //select[@id='tag_tag_grid_massaction-select']
                             filter_massaction: //select[@name='massaction']
                             tags_status: //select[@name='status']
+                            store_view: //select[@name='visible_in']
                         fields:
                             tag_name: //input[@name='name']
-                            product_price_from: //input[@name='products[from]']
-                            product_price_to: //input[@name='products[to]']
-                            product_qty_from: //input[@name='customers[from]']
-                            product_qty_to: //input[@name='customers[to]']
+                            product_products_from: //input[@name='products[from]']
+                            product_products_to: //input[@name='products[to]']
+                            product_customers_from: //input[@name='customers[from]']
+                            product_customers_to: //input[@name='customers[to]']
+                        pageelements:
+                            tags_grid_head: //table[@id='tag_tag_grid_table']//thead/tr[@class='headings']
         buttons:
             add_new_tag: //button[span='Add New Tag']
         messages: &tagsMesssages
             success_created_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been created.')]
             success_saved_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been saved.')]
+            success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]
             success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedTags% record(s) have been deleted.')]
             success_changed_status: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedTags% record(s) have been updated.')]
             confirmation_for_delete: Are you sure you want to do this?
             tag_already_exists: //li[@class='error-msg' and contains(.,'Tag already exists.')]
 
-# New Tag page
-new_tag:
-    mca: tag/edit/store/%storeId%
-    click_xpath: //div[@class='nav-bar']//a[span='All Tags']
-    title: New Tag / Tags / Catalog / Magento Admin
-    uimap:
-        form:
-            fieldsets:
-                -
-                    store_views:
-                        xpath: //p[@class='switcher']
-                        dropdowns:
-                            switch_store: //select[@id='store_switcher']
-                    general_info:
-                        xpath: //form[@id='edit_form']
-                        dropdowns:
-                            tag_status: //select[@name='tag_status']
-                        fields:
-                            tag_name: //input[@name='tag_name']
-                            base_popularity: //input[@name='base_popularity']
-        buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            save_tag: //button[span='Save Tag']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
-        messages: *tagsMesssages
-
 # Edit Tag Page
 edit_tag:
-    mca: tag/edit/store/%storeId%/tag_id/%tagId%
+    mca: tag/edit/store/%storeId%/tag_id/%id%
     title: %tagName% / Tags / Catalog / Magento Admin
     uimap: &editTagUimap
         form:
@@ -102,10 +79,10 @@ edit_tag:
                     general_info:
                         xpath: //div[@class='entry-edit']
                         dropdowns:
-                            general_tag_status: //select[@name='tag_status']
+                            tag_status: //select[@name='tag_status']
                         fields:
-                            general_tag_name: //input[@name='tag_name']
-                            general_base_popularity: //input[@name='base_popularity']
+                            tag_name: //input[@name='tag_name']
+                            base_popularity: //input[@name='base_popularity']
                 -
                     products_tagged_by_admins:
                         xpath: //dl[@id='tag_assigned_grid']
@@ -164,9 +141,36 @@ edit_tag:
 
 # Edit tag '%tagName%' page
 edit_tag_more_options:
-    mca: tag/edit/tag_id/%tagId%/store/%storeId%/ret/
+    mca: tag/edit/tag_id/%id%/store/%storeId%/ret/
     title: %tagName% / Tags / Catalog / Magento Admin
     uimap: *editTagUimap
+
+# New Tag page
+new_tag:
+    mca: tag/edit/store/%storeId%
+    click_xpath: //div[@class='nav-bar']//a[span='All Tags']
+    title: New Tag / Tags / Catalog / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_views:
+                        xpath: //p[@class='switcher']
+                        dropdowns:
+                            switch_store: //select[@id='store_switcher']
+                    general_info:
+                        xpath: //form[@id='edit_form']
+                        dropdowns:
+                            tag_status: //select[@name='tag_status']
+                        fields:
+                            tag_name: //input[@name='tag_name']
+                            base_popularity: //input[@name='base_popularity']
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save_tag: //button[span='Save Tag']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+        messages: *tagsMesssages
 
 # Pending Tags page
 pending_tags:

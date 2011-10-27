@@ -63,3 +63,12 @@ backend_new_tag:
         prod_tag_customer_product_name: %noValue%
         prod_tag_customer_number_of_users_from: %noValue%
         prod_tag_customer_number_of_users_to: %noValue%
+
+backend_search_tag:
+    tag_name: %noValue%
+    product_products_from: %noValue%
+    product_products_to: %noValue%
+    product_customers_from: %noValue%
+    product_customers_to: %noValue%
+    tags_status: %noValue%
+    store_view: %noValue%

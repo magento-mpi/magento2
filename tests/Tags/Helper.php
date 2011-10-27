@@ -188,38 +188,39 @@ class Tags_Helper extends Mage_Selenium_TestCase
         }
     }
 
+    /* ----------------------------------- Backend ----------------------------------- */
+
     /**
      * Select store view on Create/Edit tag page
      *
-     * @param string $store_view Name of the store
+     * @param string $store_view_name Name of the store
      */
-    protected function selectStoreView($store_view)
+    protected function selectStoreView($store_view_name)
     {
-        if (!$store_view) {
-            return true;
+        if (!$store_view_name) {
+            return false;
         }
         $xpath = $this->_getControlXpath('dropdown', 'switch_store');
-        $toSelect = $xpath . "//option[contains(.,'" . $store_view . "')]";
+        $toSelect = $xpath . "//option[contains(.,'" . $store_view_name . "')]";
         $isSelected = $toSelect . '[@selected]';
         if (!$this->isElementPresent($isSelected)) {
             $storeId = $this->getAttribute($toSelect . '/@value');
             $this->addParameter('storeId', $storeId);
-            $this->fillForm(array('switch_store' => $store_view));
+            $this->fillForm(array('switch_store' => $store_view_name));
             $this->waitForPageToLoad();
         }
     }
 
     /**
-     * Adds a new tag in backend
+     * Edits a tag in backend
      *
      * @param string|array $tagData
      */
-    public function addTag($tagData)
+    public function fillTagSettings($tagData)
     {
         if (is_string($tagData))
             $tagData = $this->loadData($tagData);
         $tagData = $this->arrayEmptyClear($tagData);
-        $this->clickButton('add_new_tag');
         // Select store view if available
         if (array_key_exists('switch_store', $tagData)) {
             if ($this->controlIsPresent('dropdown', 'switch_store')) {
@@ -231,9 +232,16 @@ class Tags_Helper extends Mage_Selenium_TestCase
         }
         // Fill general options
         $this->fillForm($tagData, 'general_info');
-        $this->addParameter('tagName', $tagData['tag_name']);
-        $this->clickButton('save_and_continue_edit');
+        // Add tag name to parameters
+        $xpathTagName = $this->_getControlXpath('field', 'tag_name');
+        $tagName = $this->getElementByXpath($xpathTagName, 'value');
+        if (empty($tagName)) {
+            print_r('Tag name is empty!');
+        } else {
+            $this->addParameter('tagName', $tagName);
+        }
         //Fill additional options
+        $this->clickButton('save_and_continue_edit');
         if (!$this->controlIsPresent('field', 'prod_tag_admin_name')) {
             $this->clickControl('link', 'prod_tag_admin_expand', false);
             $this->waitForAjax();
@@ -242,21 +250,74 @@ class Tags_Helper extends Mage_Selenium_TestCase
         if ($prod_tag_admin) {
             $this->searchAndChoose($prod_tag_admin, 'products_tagged_by_admins');
         };
+    }
+
+    /**
+     * Adds a new tag in backend
+     *
+     * @param string|array $tagData
+     */
+    public function addTag($tagData)
+    {
+        $this->clickButton('add_new_tag');
+        $this->fillTagSettings($tagData);
         $this->clickButton('save_tag');
     }
 
     /**
      * Opens a tag in backend
      *
+     * @param string|array $searchData Data used in Search Grid for tags
+     */
+    public function openTag($searchData)
+    {
+        if (is_string($searchData))
+            $searchData = $this->loadData($searchData);
+        $searchData = $this->arrayEmptyClear($searchData);
+        // Check if store views are available
+        $key = 'filter_store_view';
+        if (array_key_exists($key, $searchData)) {
+            if (!$this->controlIsPresent('dropdown', 'store_view')) {
+                unset($searchData[$key]);
+            }
+        }
+        // Search and open
+        $this->navigate('all_tags');
+        $xpathTR = $this->search($searchData, 'tags_grid');
+        $this->assertNotEquals(null, $xpathTR, 'Tag ' . implode(',', $searchData) . ' is not found');
+        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('tags_grid_head', false);
+        if (array_key_exists('Tag', $names)) {
+            $text = $this->getText($xpathTR . '//td[' . $names['Tag'] . ']');
+            $this->addParameter('tagName', $text);
+        }
+        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
+        $this->click($xpathTR . '//td[' . $names['Tag'] . ']');
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->validatePage();
+    }
+
+    /**
+     * Approves a tag in backend
+     *
+     * @param string|array $searchData Data used in Search Grid for tags. Same as data used for openTag
+     * @param string $status New status
+     */
+    public function changeTagStatus($searchData, $newStatus)
+    {
+        $this->openTag($searchData);
+        $this->fillTagSettings(array('tag_status' => $newStatus));
+        $this->clickButton('save_tag');
+    }
+
+    /**
+     * Deletes a tag from backend
+     *
      * @param string|array $tagData
      */
-    public function openTag($tagData)
+    public function deleteTag($tagData)
     {
-        if (is_string($tagData))
-            $tagData = $this->loadData($tagData);
-        $tagData = $this->arrayEmptyClear($tagData);
-        // TODO: Open
-//        $this->searchAndOpen($tagData);
+        $this->openTag($tagData);
+        $this->clickButtonAndConfirm('delete_tag', 'confirmation_for_delete');
     }
 
 }
