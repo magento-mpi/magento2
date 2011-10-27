@@ -48,9 +48,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
         } else {
             $this->fail('Array key is absent in array');
         }
-        $tagNameArray = array();
-        preg_match_all('/[^\s\']+/', $tagName, $tagNameArray);
-        $tagQty = count($tagNameArray[0]);
+        $tagQty = count(explode(' ', $tagName));
         $this->addParameter('tagQty', $tagQty);
         $tagXpath = $this->_getControlXpath('field', 'input_new_tags');
         if (!$this->isElementPresent($tagXpath)) {
@@ -302,13 +300,29 @@ class Tags_Helper extends Mage_Selenium_TestCase
      * Approves a tag in backend
      *
      * @param string|array $searchData Data used in Search Grid for tags. Same as data used for openTag
-     * @param string $status New status
+     * @param string $newStatus New status
      */
     public function changeTagStatus($searchData, $newStatus)
     {
         $this->openTag($searchData);
         $this->fillTagSettings(array('tag_status' => $newStatus));
         $this->clickButton('save_tag');
+    }
+
+    /**
+     * Mass action: approves tags in backend
+     *
+     * @param array $tagsSearchData Set of tags to change status
+     * @param string $newStatus New status
+     */
+    public function changeTagsStatus(array $tagsSearchData, $newStatus)
+    {
+        foreach ($tagsSearchData as $searchData) {
+            $this->searchAndChoose($searchData);
+        }
+        $this->fillForm(array('tags_massaction' => 'Change status'));
+        $this->fillForm(array('tags_status' => $newStatus));
+        $this->clickButton('submit');
     }
 
     /**
