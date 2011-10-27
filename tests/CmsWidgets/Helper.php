@@ -179,60 +179,52 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
     {
         if (is_string($widgetOptions)) {
             $widgetOptions = $this->loadData($widgetOptions);
-            $widgetOptions = $this->arrayEmptyClear($widgetOptions);
         }
+        $widgetOptions = $this->arrayEmptyClear($widgetOptions);
+        $options = (isset($widgetOptions['chosen_option'])) ? $widgetOptions['chosen_option'] : null;
         $this->clickControl('tab', 'widgets_options', FALSE);
         $this->fillForm($widgetOptions);
-        $type = $this->_paramsHelper->getParameter('type');
-        if (array_key_exists('chosen_option', $widgetOptions)) {
-            $options = $widgetOptions['chosen_option'];
-            $this->clickButton('select_option', FALSE);
-            $this->pleaseWait();
-            switch ($type) {
-                case 'cms-widget_page_link':
-                    $searchData = array();
-                    foreach ($options as $key => $value) {
-                        if (preg_match('/filter/' , $key)) {
-                            $searchData[$key] = $value;
-                        }
-                    }
-                    $this->searchAndOpen($searchData, FALSE);
-                    $this->checkChosenOption($options['title']);
-                    break;
-                case 'cms-widget_block':
-                    $searchData = array();
-                    foreach ($options as $key => $value) {
-                        if (preg_match('/filter/' , $key)) {
-                            $searchData[$key] = $value;
-                        }
-                    }
-                    $this->searchAndOpen($searchData, FALSE);
-                    $this->checkChosenOption($options['title']);
-                    break;
-                case 'catalog-category_widget_link':
-                    $this->addParameter('param', "//div[@id='widget-chooser_content']");
-                    if (array_key_exists('category_path', $options)) {
-                        $this->categoryHelper()->selectCategory($options['category_path']);
-                    }
-                    $this->checkChosenOption($options['title']);
-                    break;
-                case 'catalog-product_widget_link':
-                    $this->addParameter('param', "//div[@id='widget-chooser_content']");
-                    if (array_key_exists('category_path', $options)) {
-                        $this->categoryHelper()->selectCategory($options['category_path']);
-                        $this->waitForAjax();
-                    }
-                    $searchData = array();
-                    foreach ($options as $key => $value) {
-                        if (preg_match('/filter/', $key)) {
-                            $searchData[$key] = $value;
-                        }
-                    }
-                    $this->searchAndOpen($searchData, FALSE);
-                    $this->checkChosenOption($options['title']);
-                    break;
-            }
+        if ($options) {
+            $this->fillSelectOption($options);
         }
+
+    }
+
+    /**
+     * Fills selections for widgets
+     *
+     * @param array $options
+     */
+    public function fillSelectOption(array $options)
+    {
+        $rowNames = array('Title', 'Product Name');
+        $this->clickButton('select_option', FALSE);
+        $this->pleaseWait();
+        $title = 'Not Selected';
+        if (array_key_exists('category_path', $options)) {
+            $this->addParameter('param', "//div[@id='widget-chooser_content']");
+            $title = end(explode('/', $options['category_path']));
+            $this->categoryHelper()->selectCategory($options['category_path']);
+            $this->waitForAjax();
+            unset($options['category_path']);
+        }
+        if (count($options) > 0) {
+            $xpathTR = $this->search($options);
+            $this->assertNotEquals(null, $xpathTR, 'Element is not found');
+            $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('product_table_head', false);
+            foreach ($rowNames as $value) {
+                if (array_key_exists($value, $names)) {
+                    if ($title == 'Not Selected') {
+                        $title = $this->getText($xpathTR . '//td[' . $names[$value] . ']');
+                    } else {
+                        $title = $title . ' / ' . $this->getText($xpathTR . '//td[' . $names[$value] . ']');
+                    }
+                    break;
+                }
+            }
+            $this->click($xpathTR);
+        }
+        $this->checkChosenOption($title);
     }
 
     /**

@@ -121,7 +121,6 @@ cms_page_link_widget:
         anchor_custom_title: custom_title
         chosen_option:
             filter_url_key: no-route
-            title: 404 Not Found 1
 
 #<----------------------------CMS Static Block Widget-------------------------->
 cms_static_block_widget:
@@ -205,7 +204,6 @@ cms_static_block_widget:
     widget_options:
         chosen_option:
             filter_identifier: footer_links
-            title: Footer Links
 
 #<-------------------------Catalog Category Link Widget------------------------>
 catalog_category_link_widget:
@@ -302,7 +300,6 @@ catalog_category_link_widget:
         anchor_custom_title: custom_title
         chosen_option:
             category_path: %noValue%
-            title: %noValue%
 
 #<-------------------------Catalog New Products List--------------------------->
 catalog_new_products_list_widget:
@@ -494,7 +491,6 @@ catalog_product_link_widget:
         chosen_option:
             category_path: %noValue%
             filter_sku: %noValue%
-            title: %noValue%
 
 #<-------------------------Orders and Returns---------------------------------->
 orders_and_returns_widget:
@@ -781,7 +777,6 @@ cms_page_link_widget_req:
     widget_options:
         chosen_option:
             filter_url_key: no-route
-            title: 404 Not Found 1
 
 #<----------------------------CMS Static Block Widget-------------------------->
 cms_static_block_widget_req:
@@ -798,7 +793,6 @@ cms_static_block_widget_req:
     widget_options:
         chosen_option:
             filter_identifier: footer_links
-            title: Footer Links
 
 #<-------------------------Catalog Category Link Widget------------------------>
 catalog_category_link_widget_req:
@@ -818,7 +812,6 @@ catalog_category_link_widget_req:
         anchor_custom_title: custom_title
         chosen_option:
             category_path: %noValue%
-            title: %noValue%
 
 #<-------------------------Catalog New Products List--------------------------->
 catalog_new_products_list_widget_req:
@@ -851,7 +844,6 @@ catalog_product_link_widget_req:
         chosen_option:
             category_path: %noValue%
             filter_sku: %noValue%
-            title: %noValue%
 
 #<-------------------------Orders and Returns---------------------------------->
 orders_and_returns_widget_req:

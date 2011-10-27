@@ -151,14 +151,6 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         $temp = array();
         $temp['filter_sku'] = self::$products['sku']['simple'];
         $temp['category_path'] = $category;
-        if ($dataWidgetType == 'catalog_category_link') {
-            $nodes = explode('/', $category);
-            $temp['title'] = $nodes[1];
-        }
-        if ($dataWidgetType == 'catalog_product_link') {
-            $nodes = explode('/', $category);
-            $temp['title'] = $nodes[1] . ' / ' . self::$products['name']['simple'];
-        }
         $widgetData = $this->loadData($dataWidgetType . '_widget', $temp, 'widget_instance_title');
         $i = 1;
         foreach (self::$products['sku'] as $key => $value) {
@@ -204,14 +196,6 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         $temp = array();
         $temp['filter_sku'] = self::$products['sku']['simple'];
         $temp['category_path'] = $category;
-        if ($dataWidgetType == 'catalog_category_link') {
-            $nodes = explode('/', $category);
-            $temp['title'] = $nodes[1];
-        }
-        if ($dataWidgetType == 'catalog_product_link') {
-            $nodes = explode('/', $category);
-            $temp['title'] = $nodes[1] . ' / ' . self::$products['name']['simple'];
-        }
         $widgetData = $this->loadData($dataWidgetType . '_widget_req', $temp, 'widget_instance_title');
         $this->cmsWidgetsHelper()->createWidget($widgetData);
 
@@ -250,14 +234,6 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         $temp = array();
         $temp['filter_sku'] = self::$products['sku']['simple'];
         $temp['category_path'] = $category;
-        if ($dataWidgetType == 'catalog_category_link') {
-            $nodes = explode('/', $category);
-            $temp['title'] = $nodes[1];
-        }
-        if ($dataWidgetType == 'catalog_product_link') {
-            $nodes = explode('/', $category);
-            $temp['title'] = $nodes[1] . ' / ' . self::$products['name']['simple'];
-        }
         if ($fieldType == 'field') {
             $temp[$emptyField] = ' ';
         } elseif ($fieldType == 'dropdown') {

@@ -181,6 +181,8 @@ add_widget_options:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
                                         close_page_insertion: //div[@id='widget-chooser_close']
+                                    pageelements:
+                                        product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                             -
                                 select_block:
                                     xpath: //div[@id='widget-chooser' and //div[text()='Select Block...']]
@@ -196,6 +198,8 @@ add_widget_options:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
                                         close_block_insertion: //div[@id='widget-chooser_close']
+                                    pageelements:
+                                        product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                             -
                                 select_category:
                                     xpath: //div[@id='widget-chooser' and //div[text()='Select Category...']]
@@ -223,6 +227,8 @@ add_widget_options:
                                         root_category: %param%//ul/div/li[contains(div/a/span,'%rootName%')]
                                         sub_category: %param%//*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
                                         expand_category: %param%//*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                    pageelements:
+                                        product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
