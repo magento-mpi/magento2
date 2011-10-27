@@ -34,14 +34,23 @@
 
 class Mage_Connect_Packager
 {
-    const CONFIG_FILE_NAME='downloader/connect.cfg';
-    const CACHE_FILE_NAME='downloader/cache.cfg';
+    const CONFIG_FILE_NAME = 'downloader/connect.cfg';
+    const CACHE_FILE_NAME = 'downloader/cache.cfg';
+
+    /**
+     * Install state of package
+     */
+    const INSTALL_STATE_INSTALL = 'install';
+    const INSTALL_STATE_UPGRADE = 'upgrade';
+    const INSTALL_STATE_WRONG_VERSION = 'wrong_version';
+    const INSTALL_STATE_ALREADY_INSTALLED = 'already_installed';
+    const INSTALL_STATE_INCOMPATIBLE = 'incompatible';
 
     protected  $install_states = array(
-                    'install' => 'Ready to install',
-                    'upgrade' => 'Ready to upgrade',
-                    'already_installed' => 'Already installed',
-                    'wrong_version' => 'Wrong version',
+                    self::INSTALL_STATE_INSTALL => 'Ready to install',
+                    self::INSTALL_STATE_UPGRADE => 'Ready to upgrade',
+                    self::INSTALL_STATE_ALREADY_INSTALLED => 'Already installed',
+                    self::INSTALL_STATE_WRONG_VERSION => 'Wrong version',
                 );
 
     /**
@@ -656,7 +665,7 @@ class Mage_Connect_Packager
         static $_depsHash = array();
         static $_deps = array();
         static $_failed = array();
-        $install_state = 'install';
+        $install_state = self::INSTALL_STATE_INSTALL;
         $version = '';
         $stability = '';
         $message = '';
@@ -717,16 +726,16 @@ class Mage_Connect_Packager
                      * @todo check versions!!!
                      */
                     if (version_compare($version, $installedPackage['version'], '>')) {
-                        $install_state = 'upgrade';
+                        $install_state = self::INSTALL_STATE_UPGRADE;
                     } elseif (version_compare($version, $installedPackage['version'], '<')) {
                         $version = $installedPackage['version'];
                         $stability = $installedPackage['stability'];
-                        $install_state = 'wrong_version';
+                        $install_state = self::INSTALL_STATE_WRONG_VERSION;
                     } else {
-                        $install_state = 'already_installed';
+                        $install_state = self::INSTALL_STATE_ALREADY_INSTALLED;
                     }
                 } else {
-                    $install_state = 'incompatible';
+                    $install_state = self::INSTALL_STATE_INCOMPATIBLE;
                 }
             }
 
@@ -758,10 +767,12 @@ class Mage_Connect_Packager
             // $keyOuter = $chanName . "/" . $package;
             $keyOuter = $package;
 
-            $this->addHashData($_depsHash, $package, $chanName, $version, $stability, $versionMin,
-                    $versionMax, $install_state, $message, $dependencies);
+            if (self::INSTALL_STATE_INCOMPATIBLE != $install_state) {
+                $this->addHashData($_depsHash, $package, $chanName, $version, $stability, $versionMin,
+                        $versionMax, $install_state, $message, $dependencies);
+            }
 
-            if ($withDepsRecursive && 'incompatible' != $install_state) {
+            if ($withDepsRecursive && self::INSTALL_STATE_INCOMPATIBLE != $install_state) {
                 $flds = array('name','channel','min','max');
                 $fldsCount = count($flds);
                 foreach($dependencies as $row) {
