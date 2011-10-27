@@ -62,8 +62,8 @@ manage_sales_creditmemos:
 create_credit_memo:
     mca: sales_order_creditmemo/new/order_id/%id%/
     title: New Memo / Credit Memos / Sales / Magento Admin
-    uimap:
-        form: &orderCreditmemo
+    uimap: &orderCreditmemo
+        form:
             fieldsets:
                 -
                     order_number:
@@ -131,8 +131,7 @@ create_credit_memo:
 create_credit_memo_for_invoice:
     mca: sales_order_creditmemo/new/order_id/%id%/invoice_id/%invoice_id%/
     title: New Memo for %invoiceId% / Credit Memos / Sales / Magento Admin
-    uimap:
-        form: *orderCreditmemo
+    uimap: *orderCreditmemo
 
 view_credit_memo:
     mca: sales_creditmemo/view/creditmemo_id/%id%/
