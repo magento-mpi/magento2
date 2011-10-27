@@ -146,6 +146,7 @@ class Mage_Index_Model_Indexer
      */
     public function indexEvents($entity=null, $type=null)
     {
+        Mage::dispatchEvent('start_index_events' . $this->_getEventTypeName($entity, $type));
         $allowTableChanges = $this->_allowTableChanges;
         if ($allowTableChanges) {
             $this->_changeKeyStatus(false, array($entity, $type));
@@ -166,6 +167,7 @@ class Mage_Index_Model_Indexer
             $this->_allowTableChanges = true;
             $this->_changeKeyStatus(true, array($entity, $type));
         }
+        Mage::dispatchEvent('end_index_events' . $this->_getEventTypeName($entity, $type));
         return $this;
     }
 
@@ -232,6 +234,7 @@ class Mage_Index_Model_Indexer
          * Index and save event just in case if some process matched it
          */
         if ($event->getProcessIds()) {
+            Mage::dispatchEvent('start_process_event' . $this->_getEventTypeName($entityType, $eventType));
             $allowTableChanges = $this->_allowTableChanges;
             if ($allowTableChanges) {
                 $this->_changeKeyStatus(false, $event);
@@ -256,6 +259,7 @@ class Mage_Index_Model_Indexer
                 $this->_changeKeyStatus(true, $event);
             }
             $event->save();
+            Mage::dispatchEvent('end_process_event' . $this->_getEventTypeName($entityType, $eventType));
         }
         return $this;
     }
@@ -376,5 +380,22 @@ class Mage_Index_Model_Indexer
     {
         $this->_allowTableChanges = false;
         return $this;
+    }
+
+    /**
+     * Get event type name
+     *
+     * @param null|string $entityType
+     * @param null|string $eventType
+     * @return string
+     */
+    protected function _getEventTypeName($entityType = null, $eventType = null)
+    {
+        $eventName = $entityType . '_' . $eventType;
+        $eventName = trim($eventName, '_');
+        if (!empty($eventName)) {
+            $eventName = '_' . $eventName;
+        }
+        return $eventName;
     }
 }

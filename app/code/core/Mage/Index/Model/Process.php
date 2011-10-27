@@ -239,11 +239,11 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
      */
     public function processEvent(Mage_Index_Model_Event $event)
     {
-        if ($this->getMode() == self::MODE_MANUAL) {
-            $this->changeStatus(self::STATUS_REQUIRE_REINDEX);
+        if (!$this->matchEvent($event)) {
             return $this;
         }
-        if (!$this->matchEvent($event)) {
+        if ($this->getMode() == self::MODE_MANUAL) {
+            $this->changeStatus(self::STATUS_REQUIRE_REINDEX);
             return $this;
         }
 
@@ -597,6 +597,9 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     public function safeProcessEvent(Mage_Index_Model_Event $event)
     {
         if ($this->isLocked()) {
+            return $this;
+        }
+        if (!$this->matchEvent($event)) {
             return $this;
         }
         $this->lock();
