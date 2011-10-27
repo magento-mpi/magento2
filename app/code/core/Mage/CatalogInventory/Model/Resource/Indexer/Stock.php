@@ -80,7 +80,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
                 'force_reindex_required'   => 1
             ));
             $massObject->setProductIds(array($productId));
-            Mage::getSingleton('index/indexer')->processEntityAction(
+            Mage::getSingleton('index/indexer')->logEvent(
                 $massObject, Mage_Catalog_Model_Product::ENTITY, Mage_Index_Model_Event::TYPE_MASS_ACTION
             );
         }

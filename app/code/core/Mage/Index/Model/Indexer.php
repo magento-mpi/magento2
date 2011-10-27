@@ -96,6 +96,7 @@ class Mage_Index_Model_Indexer
      */
     public function indexEvents($entity=null, $type=null)
     {
+        Mage::dispatchEvent('start_index_events' . $this->_getEventTypeName($entity, $type));
         /** @var $resourceModel Mage_Index_Model_Resource_Process */
         $resourceModel = Mage::getResourceSingleton('index/process');
         $resourceModel->beginTransaction();
@@ -106,6 +107,7 @@ class Mage_Index_Model_Indexer
             $resourceModel->rollBack();
             throw $e;
         }
+        Mage::dispatchEvent('end_index_events' . $this->_getEventTypeName($entity, $type));
         return $this;
     }
 
@@ -172,8 +174,9 @@ class Mage_Index_Model_Indexer
          * Index and save event just in case if some process matched it
          */
         if ($event->getProcessIds()) {
-            /** @var $resourceModel Mage_Index_Model_Resource_Abstract */
-            $resourceModel = Mage::getResourceModel('index/process');
+            Mage::dispatchEvent('start_process_event' . $this->_getEventTypeName($entityType, $eventType));
+            /** @var $resourceModel Mage_Index_Model_Resource_Process */
+            $resourceModel = Mage::getResourceSingleton('index/process');
             $resourceModel->beginTransaction();
             try {
                 $this->indexEvent($event);
@@ -183,6 +186,7 @@ class Mage_Index_Model_Indexer
                 throw $e;
             }
             $event->save();
+            Mage::dispatchEvent('end_process_event' . $this->_getEventTypeName($entityType, $eventType));
         }
         return $this;
     }
@@ -217,5 +221,22 @@ class Mage_Index_Model_Indexer
             call_user_func_array(array($process, $method), $args);
             $processed[] = $code;
         }
+    }
+
+    /**
+     * Get event type name
+     *
+     * @param null|string $entityType
+     * @param null|string $eventType
+     * @return string
+     */
+    protected function _getEventTypeName($entityType = null, $eventType = null)
+    {
+        $eventName = $entityType . '_' . $eventType;
+        $eventName = trim($eventName, '_');
+        if (!empty($eventName)) {
+            $eventName = '_' . $eventName;
+        }
+        return $eventName;
     }
 }
