@@ -29,7 +29,7 @@
 
     <adminhtml_sales_order_create_index>
         <reference name="js">
-            <block type="adminhtml/template" name="pbridge.js" template="enterprise/pbridge/sales/order/create/js.phtml" />
+            <block type="Mage_Adminhtml_Block_Template" name="pbridge.js" template="enterprise/pbridge/sales/order/create/js.phtml" />
         </reference>
     </adminhtml_sales_order_create_index>
 

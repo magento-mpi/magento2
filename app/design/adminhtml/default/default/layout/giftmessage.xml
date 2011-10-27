@@ -34,7 +34,7 @@
             </block>
         </reference>
         <reference name="order_tab_info">
-            <block type="adminhtml/template" name="popup_window" template="giftmessage/popup.phtml">
+            <block type="Mage_Adminhtml_Block_Template" name="popup_window" template="giftmessage/popup.phtml">
                 <block type="giftmessage/adminhtml_sales_order_view_form" name="gift_options_form" template="giftmessage/giftoptionsform.phtml" />
              </block>
         </reference>
@@ -47,7 +47,7 @@
             </block>
         </reference>
         <reference name="items_grid">
-            <block type="adminhtml/template" name="popup_window" template="giftmessage/popup.phtml">
+            <block type="Mage_Adminhtml_Block_Template" name="popup_window" template="giftmessage/popup.phtml">
                 <block type="giftmessage/adminhtml_sales_order_create_form" name="gift_options_form" template="giftmessage/giftoptionsform.phtml" />
              </block>
         </reference>
@@ -60,7 +60,7 @@
             </block>
         </reference>
         <reference name="items_grid">
-            <block type="adminhtml/template" name="popup_window" template="giftmessage/popup.phtml">
+            <block type="Mage_Adminhtml_Block_Template" name="popup_window" template="giftmessage/popup.phtml">
                 <block type="giftmessage/adminhtml_sales_order_create_form" name="gift_options_form" template="giftmessage/giftoptionsform.phtml" />
              </block>
         </reference>
@@ -73,7 +73,7 @@
             </block>
         </reference>
         <reference name="items_grid">
-            <block type="adminhtml/template" name="popup_window" template="giftmessage/popup.phtml">
+            <block type="Mage_Adminhtml_Block_Template" name="popup_window" template="giftmessage/popup.phtml">
                 <block type="giftmessage/adminhtml_sales_order_create_form" name="gift_options_form" template="giftmessage/giftoptionsform.phtml" />
              </block>
         </reference>

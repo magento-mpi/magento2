@@ -46,18 +46,18 @@ Default layout, loads most of the pages
 
         <!-- Mage_Catalog -->
         <reference name="top.menu">
-            <block type="catalog/navigation" name="catalog.topnav" template="catalog/navigation/top.phtml"/>
+            <block type="Mage_Catalog_Block_Navigation" name="catalog.topnav" template="Mage_Catalog_Block_Navigation/top.phtml"/>
         </reference>
         <reference name="left">
-            <block type="core/template" name="left.permanent.callout" template="callouts/left_col.phtml">
+            <block type="Mage_Core_Block_Template" name="left.permanent.callout" template="callouts/left_col.phtml">
                 <action method="setImgSrc"><src>images/media/col_left_callout.jpg</src></action>
                 <action method="setImgAlt" translate="alt" module="catalog"><alt>Our customer service is available 24/7. Call us at (555) 555-0123.</alt></action>
                 <action method="setLinkUrl"><url>checkout/cart</url></action>
             </block>
         </reference>
         <reference name="right">
-            <block type="catalog/product_compare_sidebar" before="cart_sidebar" name="catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
-            <block type="core/template" name="right.permanent.callout" template="callouts/right_col.phtml">
+            <block type="Mage_Catalog_Block_Product_Compare_Sidebar" before="cart_sidebar" name="catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
+            <block type="Mage_Core_Block_Template" name="right.permanent.callout" template="callouts/right_col.phtml">
                 <action method="setImgSrc"><src>images/media/col_right_callout.jpg</src></action>
                 <action method="setImgAlt" translate="alt" module="catalog"><alt>Keep your eyes open for our special Back to School items and save A LOT!</alt></action>
             </block>
@@ -65,7 +65,7 @@ Default layout, loads most of the pages
         <reference name="footer_links">
             <action method="addLink" translate="label title" module="catalog" ifconfig="catalog/seo/site_map"><label>Site Map</label><url helper="catalog/map/getCategoryUrl" /><title>Site Map</title></action>
         </reference>
-        <block type="catalog/product_price_template" name="catalog_product_price_template" />
+        <block type="Mage_Catalog_Block_Product_Price_Template" name="catalog_product_price_template" />
     </default>
 
 
@@ -76,13 +76,13 @@ Category default layout
     <catalog_category_default translate="label">
         <label>Catalog Category (Non-Anchor)</label>
         <reference name="left">
-            <block type="catalog/navigation" name="catalog.leftnav" after="currency" template="catalog/navigation/left.phtml"/>
+            <block type="Mage_Catalog_Block_Navigation" name="catalog.leftnav" after="currency" template="Mage_Catalog_Block_Navigation/left.phtml"/>
         </reference>
         <reference name="content">
-            <block type="catalog/category_view" name="category.products" template="catalog/category/view.phtml">
-                <block type="catalog/product_list" name="product_list" template="catalog/product/list.phtml">
-                    <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
-                        <block type="page/html_pager" name="product_list_toolbar_pager"/>
+            <block type="Mage_Catalog_Block_Category_View" name="category.products" template="catalog/category/view.phtml">
+                <block type="Mage_Catalog_Block_Product_List" name="product_list" template="catalog/product/list.phtml">
+                    <block type="Mage_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                        <block type="Mage_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
                         <!-- The following code shows how to set your own pager increments -->
                         <!--
                             <action method="setDefaultListPerPage"><limit>4</limit></action>
@@ -112,14 +112,14 @@ Category layered navigation layout
     <catalog_category_layered translate="label">
         <label>Catalog Category (Anchor)</label>
         <reference name="left">
-            <block type="catalog/layer_view" name="catalog.leftnav" after="currency" template="catalog/layer/view.phtml"/>
+            <block type="Mage_Catalog_Block_Layer_View" name="catalog.leftnav" after="currency" template="catalog/layer/view.phtml"/>
         </reference>
         <reference name="content">
-            <block type="catalog/category_view" name="category.products" template="catalog/category/view.phtml">
-                <block type="catalog/product_list" name="product_list" template="catalog/product/list.phtml">
+            <block type="Mage_Catalog_Block_Category_View" name="category.products" template="catalog/category/view.phtml">
+                <block type="Mage_Catalog_Block_Product_List" name="product_list" template="catalog/product/list.phtml">
                     <!-- <action method="addReviewSummaryTemplate"><type>default</type><template>review/helper/su.phtml</template></action> -->
-                    <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
-                        <block type="page/html_pager" name="product_list_toolbar_pager"/>
+                    <block type="Mage_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                        <block type="Mage_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
                         <!-- The following code shows how to set your own pager increments -->
                         <!--
                             <action method="setDefaultListPerPage"><limit>4</limit></action>
@@ -161,7 +161,7 @@ Compare products page
             <action method="addJs"><script>varien/product.js</script></action>
         </reference>
         <reference name="content">
-            <block type="catalog/product_compare_list" name="catalog.compare.list" template="catalog/product/compare/list.phtml"/>
+            <block type="Mage_Catalog_Block_Product_Compare_List" name="catalog.compare.list" template="catalog/product/compare/list.phtml"/>
         </reference>
     </catalog_product_compare_index>
 
@@ -190,64 +190,64 @@ Product view
             <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
         </reference>
         <reference name="content">
-            <block type="catalog/product_view" name="product.info" template="catalog/product/view.phtml">
+            <block type="Mage_Catalog_Block_Product_View" name="product.info" template="catalog/product/view.phtml">
                 <!--
                 <action method="addReviewSummaryTemplate"><type>default</type><template>review/helper/summary.phtml</template></action>
                 <action method="addReviewSummaryTemplate"><type>short</type><template>review/helper/summary_short.phtml</template></action>
                 <action method="addReviewSummaryTemplate"><type>...</type><template>...</template></action>
                 -->
-                <block type="catalog/product_view_media" name="product.info.media" as="media" template="catalog/product/view/media.phtml"/>
-                <block type="core/text_list" name="alert.urls" as="alert_urls" translate="label">
+                <block type="Mage_Catalog_Block_Product_View_Media" name="product.info.media" as="media" template="catalog/product/view/media.phtml"/>
+                <block type="Mage_Core_Block_Text_List" name="alert.urls" as="alert_urls" translate="label">
                     <label>Alert Urls</label>
                 </block>
 
                 <action method="setTierPriceTemplate"><template>catalog/product/view/tierprices.phtml</template></action>
 
-                <block type="catalog/product_list_upsell" name="product.info.upsell" as="upsell_products" template="catalog/product/list/upsell.phtml">
+                <block type="Mage_Catalog_Block_Product_List_Upsell" name="product.info.upsell" as="upsell_products" template="catalog/product/list/upsell.phtml">
                     <action method="setColumnCount"><columns>4</columns></action>
                     <action method="setItemLimit"><type>upsell</type><limit>4</limit></action>
                 </block>
 
-                <block type="catalog/product_view_additional" name="product.info.additional" as="product_additional_data" />
-                <block type="catalog/product_view_description" name="product.description" as="description" template="catalog/product/view/description.phtml">
+                <block type="Mage_Catalog_Block_Product_View_Additional" name="product.info.additional" as="product_additional_data" />
+                <block type="Mage_Catalog_Block_Product_View_Description" name="product.description" as="description" template="catalog/product/view/description.phtml">
                     <action method="addToParentGroup"><group>detailed_info</group></action>
                 </block>
-                <block type="catalog/product_view_attributes" name="product.attributes" as="additional" template="catalog/product/view/attributes.phtml">
+                <block type="Mage_Catalog_Block_Product_View_Attributes" name="product.attributes" as="additional" template="catalog/product/view/attributes.phtml">
                     <action method="addToParentGroup"><group>detailed_info</group></action>
                 </block>
-                <block type="catalog/product_view" name="product.info.addto" as="addto" template="catalog/product/view/addto.phtml"/>
-                <block type="catalog/product_view" name="product.info.addtocart" as="addtocart" template="catalog/product/view/addtocart.phtml"/>
+                <block type="Mage_Catalog_Block_Product_View" name="product.info.addto" as="addto" template="catalog/product/view/addto.phtml"/>
+                <block type="Mage_Catalog_Block_Product_View" name="product.info.addtocart" as="addtocart" template="catalog/product/view/addtocart.phtml"/>
 
-                <block type="core/text_list" name="product.info.extrahint" as="extrahint" translate="label">
+                <block type="Mage_Core_Block_Text_List" name="product.info.extrahint" as="extrahint" translate="label">
                     <label>Product View Extra Hint</label>
                 </block>
 
-                <block type="catalog/product_view" name="product.info.options.wrapper" as="product_options_wrapper" template="catalog/product/view/options/wrapper.phtml" translate="label">
+                <block type="Mage_Catalog_Block_Product_View" name="product.info.options.wrapper" as="product_options_wrapper" template="catalog/product/view/options/wrapper.phtml" translate="label">
                     <label>Info Column Options Wrapper</label>
-                    <block type="core/template" name="options_js" template="catalog/product/view/options/js.phtml"/>
-                    <block type="catalog/product_view_options" name="product.info.options" as="product_options" template="catalog/product/view/options.phtml">
+                    <block type="Mage_Core_Block_Template" name="options_js" template="catalog/product/view/options/js.phtml"/>
+                    <block type="Mage_Catalog_Block_Product_View_Options" name="product.info.options" as="product_options" template="catalog/product/view/options.phtml">
                         <action method="addOptionRenderer"><type>text</type><block>catalog/product_view_options_type_text</block><template>catalog/product/view/options/type/text.phtml</template></action>
                         <action method="addOptionRenderer"><type>file</type><block>catalog/product_view_options_type_file</block><template>catalog/product/view/options/type/file.phtml</template></action>
                         <action method="addOptionRenderer"><type>select</type><block>catalog/product_view_options_type_select</block><template>catalog/product/view/options/type/select.phtml</template></action>
                         <action method="addOptionRenderer"><type>date</type><block>catalog/product_view_options_type_date</block><template>catalog/product/view/options/type/date.phtml</template></action>
                 </block>
-                        <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+                        <block type="Mage_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
                     </block>
-                <block type="catalog/product_view" name="product.info.options.wrapper.bottom" as="product_options_wrapper_bottom" template="catalog/product/view/options/wrapper/bottom.phtml" translate="label">
+                <block type="Mage_Catalog_Block_Product_View" name="product.info.options.wrapper.bottom" as="product_options_wrapper_bottom" template="catalog/product/view/options/wrapper/bottom.phtml" translate="label">
                     <label>Bottom Block Options Wrapper</label>
                     <action method="insert"><block>product.tierprices</block></action>
-                    <block type="catalog/product_view" name="product.clone_prices" as="prices" template="catalog/product/view/price_clone.phtml"/>
+                    <block type="Mage_Catalog_Block_Product_View" name="product.clone_prices" as="prices" template="catalog/product/view/price_clone.phtml"/>
                     <action method="append"><block>product.info.addtocart</block></action>
                     <action method="append"><block>product.info.addto</block></action>
                 </block>
 
-                <block type="core/template_facade" name="product.info.container1" as="container1">
+                <block type="Mage_Core_Block_Template_Facade" name="product.info.container1" as="container1">
                     <action method="setDataByKey"><key>alias_in_layout</key><value>container1</value></action>
                     <action method="setDataByKeyFromRegistry"><key>options_container</key><key_in_registry>product</key_in_registry></action>
                     <action method="append"><block>product.info.options.wrapper</block></action>
                     <action method="append"><block>product.info.options.wrapper.bottom</block></action>
                 </block>
-                <block type="core/template_facade" name="product.info.container2" as="container2">
+                <block type="Mage_Core_Block_Template_Facade" name="product.info.container2" as="container2">
                     <action method="setDataByKey"><key>alias_in_layout</key><value>container2</value></action>
                     <action method="setDataByKeyFromRegistry"><key>options_container</key><key_in_registry>product</key_in_registry></action>
                     <action method="append"><block>product.info.options.wrapper</block></action>
@@ -258,7 +258,7 @@ Product view
             </block>
         </reference>
         <reference name="right">
-            <block type="catalog/product_list_related" name="catalog.product.related" before="-" template="catalog/product/list/related.phtml"/>
+            <block type="Mage_Catalog_Block_Product_List_Related" name="catalog.product.related" before="-" template="catalog/product/list/related.phtml"/>
         </reference>
     </catalog_product_view>
 
@@ -268,8 +268,8 @@ Additional block dependant on product type
     <PRODUCT_TYPE_simple translate="label" module="catalog">
         <label>Catalog Product View (Simple)</label>
         <reference name="product.info">
-            <block type="catalog/product_view_type_simple" name="product.info.simple" as="product_type_data" template="catalog/product/view/type/default.phtml">
-                <block type="core/text_list" name="product.info.simple.extra" as="product_type_data_extra" translate="label">
+            <block type="Mage_Catalog_Block_Product_View_Type_Simple" name="product.info.simple" as="product_type_data" template="catalog/product/view/type/default.phtml">
+                <block type="Mage_Core_Block_Text_List" name="product.info.simple.extra" as="product_type_data_extra" translate="label">
                     <label>Product Extra Info</label>
                 </block>
             </block>
@@ -278,21 +278,21 @@ Additional block dependant on product type
     <PRODUCT_TYPE_configurable translate="label" module="catalog">
         <label>Catalog Product View (Configurable)</label>
         <reference name="product.info">
-            <block type="catalog/product_view_type_configurable" name="product.info.configurable" as="product_type_data" template="catalog/product/view/type/default.phtml">
-                <block type="core/text_list" name="product.info.configurable.extra" as="product_type_data_extra" translate="label">
+            <block type="Mage_Catalog_Block_Product_View_Type_Configurable" name="product.info.configurable" as="product_type_data" template="catalog/product/view/type/default.phtml">
+                <block type="Mage_Core_Block_Text_List" name="product.info.configurable.extra" as="product_type_data_extra" translate="label">
                     <label>Product Extra Info</label>
                 </block>
             </block>
         </reference>
         <reference name="product.info.options.wrapper">
-            <block type="catalog/product_view_type_configurable" name="product.info.options.configurable" as="options_configurable" before="-" template="catalog/product/view/type/options/configurable.phtml"/>
+            <block type="Mage_Catalog_Block_Product_View_Type_Configurable" name="product.info.options.configurable" as="options_configurable" before="-" template="catalog/product/view/type/options/configurable.phtml"/>
         </reference>
     </PRODUCT_TYPE_configurable>
     <PRODUCT_TYPE_grouped translate="label" module="catalog">
         <label>Catalog Product View (Grouped)</label>
         <reference name="product.info">
-            <block type="catalog/product_view_type_grouped" name="product.info.grouped" as="product_type_data" template="catalog/product/view/type/grouped.phtml">
-                <block type="core/text_list" name="product.info.grouped.extra" as="product_type_data_extra" translate="label">
+            <block type="Mage_Catalog_Block_Product_View_Type_Grouped" name="product.info.grouped" as="product_type_data" template="catalog/product/view/type/grouped.phtml">
+                <block type="Mage_Core_Block_Text_List" name="product.info.grouped.extra" as="product_type_data_extra" translate="label">
                     <label>Product Extra Info</label>
                 </block>
             </block>
@@ -301,8 +301,8 @@ Additional block dependant on product type
     <PRODUCT_TYPE_virtual translate="label" module="catalog">
         <label>Catalog Product View (Virtual)</label>
         <reference name="product.info">
-            <block type="catalog/product_view_type_virtual" name="product.info.virtual" as="product_type_data" template="catalog/product/view/type/default.phtml">
-                <block type="core/text_list" name="product.info.virtual.extra" as="product_type_data_extra" translate="label">
+            <block type="Mage_Catalog_Block_Product_View_Type_Virtual" name="product.info.virtual" as="product_type_data" template="catalog/product/view/type/default.phtml">
+                <block type="Mage_Core_Block_Text_List" name="product.info.virtual.extra" as="product_type_data_extra" translate="label">
                     <label>Product Extra Info</label>
                 </block>
             </block>
@@ -325,7 +325,7 @@ Product send to friend
             <action method="addJs"><script>varien/product.js</script></action>
         </reference>
         <reference name="content">
-            <block type="catalog/product_send" name="product.send" template="catalog/product/send.phtml">
+            <block type="Mage_Catalog_Block_Product_Send" name="product.send" template="catalog/product/send.phtml">
             </block>
         </reference>
     </catalog_product_send>
@@ -341,7 +341,7 @@ Product additional images gallery popup
             <action method="setTemplate"><template>page/popup.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="catalog/product_gallery" name="catalog_product_gallery" template="catalog/product/gallery.phtml"/>
+            <block type="Mage_Catalog_Block_Product_Gallery" name="catalog_product_gallery" template="catalog/product/gallery.phtml"/>
         </reference>
     </catalog_product_gallery>
 
@@ -358,10 +358,10 @@ SEO Site Map
             <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="page/template_container" name="seo.sitemap.container" template="catalog/seo/sitemap/container.phtml">
-                <block type="page/template_links" name="seo.sitemap.links" as="links" template="page/template/links.phtml"/>
-                <block type="page/html_pager" name="seo.sitemap.pager.top" as="pager_top" template="page/html/pager.phtml"/>
-                <block type="page/html_pager" name="seo.sitemap.pager.bottom" as="pager_bottom" template="page/html/pager.phtml"/>
+            <block type="Mage_Page_Block_Template_Container" name="seo.sitemap.container" template="catalog/seo/sitemap/container.phtml">
+                <block type="Mage_Page_Block_Template_Links" name="seo.sitemap.links" as="links" template="page/template/links.phtml"/>
+                <block type="Mage_Page_Block_Html_Pager" name="seo.sitemap.pager.top" as="pager_top" template="page/html/pager.phtml"/>
+                <block type="Mage_Page_Block_Html_Pager" name="seo.sitemap.pager.bottom" as="pager_bottom" template="page/html/pager.phtml"/>
             </block>
         </reference>
     </catalog_seo_sitemap>
@@ -374,7 +374,7 @@ SEO Site Map
         <update handle="catalog_seo_sitemap" />
         <reference name="seo.sitemap.container">
             <action method="setTitle" translate="title" module="catalog"><title>Categories</title></action>
-            <block type="catalog/seo_sitemap_category" name="seo.sitemap.sitemap" as="sitemap" after="pager_top" template="catalog/seo/sitemap.phtml">
+            <block type="Mage_Catalog_Block_Seo_Sitemap_Category" name="seo.sitemap.sitemap" as="sitemap" after="pager_top" template="catalog/seo/sitemap.phtml">
                 <action method="bindPager"><pager>seo.sitemap.pager.top</pager></action>
                 <action method="bindPager"><pager>seo.sitemap.pager.bottom</pager></action>
                 <action method="setItemsTitle" translate="title" module="catalog"><title>categories</title></action>
@@ -390,10 +390,10 @@ SEO Site Map
         <reference name="seo.sitemap.container">
             <remove name="seo.sitemap.pager.top" />
             <remove name="seo.sitemap.pager.bottom" />
-            <block type="catalog/seo_sitemap_tree_pager" name="seo.sitemap.tree.pager.top" as="pager_top" template="page/html/pager.phtml"/>
-            <block type="catalog/seo_sitemap_tree_pager" name="seo.sitemap.tree.pager.bottom" as="pager_bottom" template="page/html/pager.phtml"/>
+            <block type="Mage_Catalog_Block_Seo_Sitemap_Tree_Pager" name="seo.sitemap.tree.pager.top" as="pager_top" template="page/html/pager.phtml"/>
+            <block type="Mage_Catalog_Block_Seo_Sitemap_Tree_Pager" name="seo.sitemap.tree.pager.bottom" as="pager_bottom" template="page/html/pager.phtml"/>
             <remove name="seo.sitemap.sitemap" />
-            <block type="catalog/seo_sitemap_tree_category" name="seo.sitemap.sitemap_tree" as="sitemap" after="pager_top" template="catalog/seo/tree.phtml">
+            <block type="Mage_Catalog_Block_Seo_Sitemap_Tree_Category" name="seo.sitemap.sitemap_tree" as="sitemap" after="pager_top" template="catalog/seo/tree.phtml">
                 <action method="bindPager"><pager>seo.sitemap.tree.pager.top</pager></action>
                 <action method="bindPager"><pager>seo.sitemap.tree.pager.bottom</pager></action>
             </block>
@@ -408,7 +408,7 @@ SEO Site Map
         <update handle="catalog_seo_sitemap" />
         <reference name="seo.sitemap.container">
             <action method="setTitle" translate="title" module="catalog"><title>Products</title></action>
-            <block type="catalog/seo_sitemap_product" name="seo.sitemap.sitemap" as="sitemap" after="pager_top" template="catalog/seo/sitemap.phtml">
+            <block type="Mage_Catalog_Block_Seo_Sitemap_Product" name="seo.sitemap.sitemap" as="sitemap" after="pager_top" template="catalog/seo/sitemap.phtml">
                 <action method="bindPager"><pager>seo.sitemap.pager.top</pager></action>
                 <action method="bindPager"><pager>seo.sitemap.pager.bottom</pager></action>
                 <action method="setItemsTitle" translate="title" module="catalog"><title>products</title></action>

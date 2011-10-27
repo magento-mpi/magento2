@@ -38,7 +38,7 @@
         <label>Customer My Account Downloadable Items</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="downloadable/customer_products_list" name="downloadable_customer_products_list" template="downloadable/customer/products/list.phtml" />
+            <block type="Mage_Downloadable_Block_Customer_Products_List" name="downloadable_customer_products_list" template="downloadable/customer/products/list.phtml" />
         </reference>
         <reference name="root">
             <action method="setHeaderTitle" translate="title" module="downloadable"><title>My Downloadable Products</title></action>
@@ -59,7 +59,7 @@
 
     <checkout_onepage_success>
         <reference name="checkout.success">
-            <block type="downloadable/checkout_success" name="downloadable.checkout.success" template="downloadable/checkout/success.phtml"/>
+            <block type="Mage_Downloadable_Block_Checkout_Success" name="downloadable.checkout.success" template="downloadable/checkout/success.phtml"/>
         </reference>
     </checkout_onepage_success>
 
@@ -83,7 +83,7 @@
 
     <checkout_multishipping_success>
         <reference name="checkout_success">
-            <block type="downloadable/checkout_success" name="downloadable.checkout.success" template="downloadable/checkout/success.phtml"/>
+            <block type="Mage_Downloadable_Block_Checkout_Success" name="downloadable.checkout.success" template="downloadable/checkout/success.phtml"/>
         </reference>
     </checkout_multishipping_success>
 
@@ -223,13 +223,13 @@ Emails
     <PRODUCT_TYPE_downloadable translate="label" module="downloadable">
         <label>Catalog Product View (Downloadable)</label>
         <reference name="product.info">
-            <block type="downloadable/catalog_product_view_type" name="product.info.downloadable" as="product_type_data" template="downloadable/catalog/product/type.phtml">
-                 <block type="downloadable/catalog_product_samples" name="product.info.downloadable.samples" as="samples" template="downloadable/catalog/product/samples.phtml"/>
+            <block type="Mage_Downloadable_Block_Catalog_Product_View_Type" name="product.info.downloadable" as="product_type_data" template="downloadable/catalog/product/type.phtml">
+                 <block type="Mage_Downloadable_Block_Catalog_Product_Samples" name="product.info.downloadable.samples" as="samples" template="downloadable/catalog/product/samples.phtml"/>
                  <block type="cataloginventory/stockqty_default" name="product.info.downloadable.extra" as="product_type_data_extra" template="cataloginventory/stockqty/default.phtml"/>
             </block>
         </reference>
         <reference name="product.info.options.wrapper">
-            <block type="downloadable/catalog_product_links" name="product.info.downloadable.options" as="type_downloadable_options" before="-" template="downloadable/catalog/product/links.phtml"/>
+            <block type="Mage_Downloadable_Block_Catalog_Product_Links" name="product.info.downloadable.options" as="type_downloadable_options" before="-" template="downloadable/catalog/product/links.phtml"/>
             <action method="insert"><block>product.info.downloadable.options</block></action>
         </reference>
     </PRODUCT_TYPE_downloadable>

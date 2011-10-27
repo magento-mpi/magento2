@@ -40,7 +40,7 @@
         </reference>
         <reference name="my.account.wrapper">
             <block type="enterprise_rma/return_history" name="rma.return.history">
-                <block type="core/text_list" name="rma.return.history.info" as="info" translate="label">
+                <block type="Mage_Core_Block_Text_List" name="rma.return.history.info" as="info" translate="label">
                     <label>Returns History Info</label>
                 </block>
             </block>
@@ -98,7 +98,7 @@
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
             <block type="enterprise_rma/return_view" name="rma.return.history">
-                <block type="core/text_list" name="rma.return.history.info" as="info" translate="label">
+                <block type="Mage_Core_Block_Text_List" name="rma.return.history.info" as="info" translate="label">
                     <label>Customer My Account Return View</label>
                 </block>
             </block>
@@ -124,8 +124,8 @@
         <label>Customer My Account Order Returns View</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="sales/order_info" as="info" name="sales.order.info">
-                <block type="sales/order_info_buttons" as="buttons" name="sales.order.info.buttons">
+            <block type="Mage_Sales_Block_Order_Info" as="info" name="sales.order.info">
+                <block type="Mage_Sales_Block_Order_Info_Buttons" as="buttons" name="sales.order.info.buttons">
                     <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="rma/order/button.phtml" />
                 </block>
             </block>
@@ -147,7 +147,7 @@
         </reference>
         <reference name="content">
             <block type="enterprise_rma/return_info" as="info" name="sales.order.info">
-                <block type="sales/order_info_buttons" as="buttons" name="sales.order.info.buttons">
+                <block type="Mage_Sales_Block_Order_Info_Buttons" as="buttons" name="sales.order.info.buttons">
                     <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="rma/order/button.phtml" />
                 </block>
             </block>
@@ -173,12 +173,12 @@
         <update handle="customer_account"/>
         <reference name="content">
             <block type="enterprise_rma/return_info" as="info" name="sales.order.info">
-                <block type="sales/order_info_buttons" as="buttons" name="sales.order.info.buttons">
+                <block type="Mage_Sales_Block_Order_Info_Buttons" as="buttons" name="sales.order.info.buttons">
                     <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="rma/order/button.phtml" />
                 </block>
             </block>
             <block type="enterprise_rma/return_view" name="rma.return.history">
-                <block type="core/text_list" name="rma.return.history.info" as="info" translate="label">
+                <block type="Mage_Core_Block_Text_List" name="rma.return.history.info" as="info" translate="label">
                     <label>View Return</label>
                 </block>
             </block>

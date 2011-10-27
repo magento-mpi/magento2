@@ -30,7 +30,7 @@
 
     <default>
         <reference name="header">
-            <block type="core/template" name="top.search" as="topSearch" template="catalogsearch/form.mini.phtml"/>
+            <block type="Mage_Core_Block_Template" name="top.search" as="topSearch" template="catalogsearch/form.mini.phtml"/>
         </reference>
         <reference name="footer_links">
             <action method="addLink" translate="label title" module="catalogsearch" ifconfig="catalog/seo/search_terms"><label>Search Terms</label><url helper="catalogsearch/getSearchTermUrl" /><title>Search Terms</title></action>
@@ -48,11 +48,11 @@
         </reference>
         <reference name="content">
             <block type="catalogsearch/result" name="search.result" template="catalogsearch/result.phtml">
-                <block type="catalog/product_list" name="search_result_list" template="catalog/product/list.phtml">
-                    <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
-                        <block type="page/html_pager" name="product_list_toolbar_pager"/>
+                <block type="Mage_Catalog_Block_Product_List" name="search_result_list" template="catalog/product/list.phtml">
+                    <block type="Mage_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                        <block type="Mage_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
                     </block>
-                    <block type="core/text_list" name="additional" translate="label">
+                    <block type="Mage_Core_Block_Text_List" name="additional" translate="label">
                         <label>Additional Info</label>
                         <block type='enterprise_search/suggestions' name='search_suggestions' template="search/suggestions.phtml"></block>
                         <block type='enterprise_search/recommendations' name='search_recommendations' template="search/recommendations.phtml"></block>
@@ -86,7 +86,7 @@
         </reference>
         <reference name="content">
             <block type="catalogsearch/advanced_form" name="catalogsearch_advanced_form" template="catalogsearch/advanced/form.phtml"/>
-            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+            <block type="Mage_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
         </reference>
     </catalogsearch_advanced_index>
 
@@ -102,9 +102,9 @@ Advanced search results
         </reference>
         <reference name="content">
             <block type="catalogsearch/advanced_result" name="catalogsearch_advanced_result" template="catalogsearch/advanced/result.phtml">
-                <block type="catalog/product_list" name="search_result_list" template="catalog/product/list.phtml">
-                    <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
-                        <block type="page/html_pager" name="product_list_toolbar_pager"/>
+                <block type="Mage_Catalog_Block_Product_List" name="search_result_list" template="catalog/product/list.phtml">
+                    <block type="Mage_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                        <block type="Mage_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
                     </block>
                     <action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
                     <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>

@@ -75,7 +75,7 @@
             </template>
         </parameters>
     </cms_page_link>
-    <cms_static_block type="cms/widget_block" translate="name description" module="cms">
+    <cms_static_block type="Mage_Cms_Block_Widget_Block" translate="name description" module="cms">
         <name>CMS Static Block</name>
         <description>Contents of a Static Block</description>
         <parameters>

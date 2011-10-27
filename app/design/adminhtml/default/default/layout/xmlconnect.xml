@@ -120,7 +120,7 @@
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_cache" name="mobile_edit_tab_cache"/>
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_social" name="mobile_edit_tab_social" />
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_notification" name="mobile_edit_tab_notification">
-                    <block type="core/template" name="mobile_edit_tab_notification_helper" as="app_notification_helper" template="xmlconnect/mobile/notification_helper.phtml" />
+                    <block type="Mage_Core_Block_Template" name="mobile_edit_tab_notification_helper" as="app_notification_helper" template="xmlconnect/mobile/notification_helper.phtml" />
                 </block>
 
                 <action method="addTab"><id>general_section</id><block>mobile_edit_tab_general</block></action>
@@ -167,7 +167,7 @@
     </adminhtml_mobile_submission>
 
     <adminhtml_mobile_grid>
-        <block type="xmlconnect/adminhtml_mobile_grid" name="mobile_grid" output="toHtml"/>
+        <block type="Mage_Xmlconnect_Block_Adminhtml_Mobile_Grid" name="mobile_grid" output="toHtml"/>
     </adminhtml_mobile_grid>
 
     <adminhtml_mobile_history_grid>
@@ -175,13 +175,13 @@
     </adminhtml_mobile_history_grid>
 
     <adminhtml_mobile_template_preview>
-        <block type="core/template" name="root" output="toHtml" template="xmlconnect/template/preview.phtml">
+        <block type="Mage_Core_Block_Template" name="root" output="toHtml" template="xmlconnect/template/preview.phtml">
             <block type="xmlconnect/adminhtml_template_preview" name="content" as="content"></block>
         </block>
     </adminhtml_mobile_template_preview>
 
     <adminhtml_mobile_previewhome>
-        <block type="core/text_list" name="root" output="toHtml">
+        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
             <block type="xmlconnect/adminhtml_mobile_preview_content" name="preview_home_content">
                 <action method="setTemplate"><templateType>home</templateType></action>
                 <block type="xmlconnect/adminhtml_mobile_preview_tabitems" name="preview_tab_items" as="tab_items">
@@ -192,7 +192,7 @@
     </adminhtml_mobile_previewhome>
 
     <adminhtml_mobile_previewhomehor>
-        <block type="core/text_list" name="root" output="toHtml">
+        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
             <block type="xmlconnect/adminhtml_mobile_preview_content" name="preview_home_hor_content">
                 <action method="setTemplate"><templateType>home_hor</templateType></action>
                 <block type="xmlconnect/adminhtml_mobile_preview_tabitems" name="preview_tab_items" as="tab_items">
@@ -203,7 +203,7 @@
     </adminhtml_mobile_previewhomehor>
 
     <adminhtml_mobile_previewcataloghor>
-        <block type="core/text_list" name="root" output="toHtml">
+        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
             <block type="xmlconnect/adminhtml_mobile_preview_content" name="preview_catalog_hor_content">
                 <action method="setTemplate"><templateType>catalog_hor</templateType></action>
                 <block type="xmlconnect/adminhtml_mobile_preview_tabitems" name="preview_tab_items" as="tab_items">
@@ -214,7 +214,7 @@
     </adminhtml_mobile_previewcataloghor>
 
     <adminhtml_mobile_previewcatalog>
-        <block type="core/text_list" name="root" output="toHtml">
+        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
             <block type="xmlconnect/adminhtml_mobile_preview_content" name="preview_catalog_content">
                 <action method="setTemplate"><templateType>catalog</templateType></action>
                 <block type="xmlconnect/adminhtml_mobile_preview_tabitems" name="preview_tab_items" as="tab_items">
@@ -225,7 +225,7 @@
     </adminhtml_mobile_previewcatalog>
 
     <adminhtml_mobile_previewproductinfo>
-        <block type="core/text_list" name="root" output="toHtml">
+        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
             <block type="xmlconnect/adminhtml_mobile_preview_content" name="preview_productinfo_content">
                 <action method="setTemplate"><templateType>productinfo</templateType></action>
                 <block type="xmlconnect/adminhtml_mobile_preview_tabitems" name="preview_tab_items" as="tab_items">

@@ -39,8 +39,8 @@
             <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="sales/recurring_profiles" name="sales.recurring.profiles" template="sales/recurring/profiles.phtml">
-                <block type="sales/recurring_profiles" name="sales.recurring.profiles.grid" as="grid" template="sales/recurring/grid.phtml">
+            <block type="Mage_Sales_Block_Recurring_Profiles" name="sales.recurring.profiles" template="sales/recurring/profiles.phtml">
+                <block type="Mage_Sales_Block_Recurring_Profiles" name="sales.recurring.profiles.grid" as="grid" template="sales/recurring/grid.phtml">
                     <action method="prepareProfilesGrid"/>
                     <action method="setEmptyGridMessage" translate="value"><value>There are no recurring profiles yet.</value></action>
                     <action method="setGridHtmlId"><value>recurring_profile_list_view</value></action>
@@ -54,28 +54,28 @@
             <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="sales/recurring_profile_view" name="sales.recurring.profile.view" template="sales/recurring/profile/view.phtml">
+            <block type="Mage_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view" template="sales/recurring/profile/view.phtml">
                 <action method="prepareViewData"/>
                 <action method="setShouldPrepareInfoTabs"><value>1</value></action>
-                <block type="core/text" as="profile_info" name="sales.recurring.profile.view.tab.profile">
+                <block type="Mage_Core_Block_Text" as="profile_info" name="sales.recurring.profile.view.tab.profile">
                     <action method="addToParentGroup"><value>info_tabs</value></action>
                     <action method="setViewLabel" translate="value"><value>Profile Information</value></action>
                     <action method="setViewAction"><value>view</value></action>
                 </block>
 <!-- not implemented
-                <block type="core/text" as="history" name="sales.recurring.profile.view.tab.history">
+                <block type="Mage_Core_Block_Text" as="history" name="sales.recurring.profile.view.tab.history">
                     <action method="addToParentGroup"><value>info_tabs</value></action>
                     <action method="setViewLabel" translate="value"><value>History</value></action>
                     <action method="setViewAction"><value>history</value></action>
                 </block>
 -->
-                <block type="core/text" as="related_orders" name="sales.recurring.profile.view.tab.orders">
+                <block type="Mage_Core_Block_Text" as="related_orders" name="sales.recurring.profile.view.tab.orders">
                     <action method="addToParentGroup"><value>info_tabs</value></action>
                     <action method="setViewLabel" translate="value"><value>Related Orders</value></action>
                     <action method="setViewAction"><value>orders</value></action>
                 </block>
 <!-- not implemented
-                <block type="core/text" as="vendor_info" name="sales.recurring.profile.view.tab.vendor">
+                <block type="Mage_Core_Block_Text" as="vendor_info" name="sales.recurring.profile.view.tab.vendor">
                     <action method="addToParentGroup"><value>info_tabs</value></action>
                     <action method="setViewLabel" translate="value"><value>Gateway Information</value></action>
                     <action method="setViewAction"><value>vendor</value></action>
@@ -92,37 +92,37 @@
             <action method="setIsViewCurrent"><v>1</v></action>
         </reference>
         <reference name="sales.recurring.profile.view">
-            <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.general" as="general" template="sales/recurring/profile/view/info.phtml">
+            <block type="Mage_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.general" as="general" template="sales/recurring/profile/view/info.phtml">
                 <action method="prepareReferenceInfo"/>
                 <action method="addToParentGroup"><value>info_blocks_row_1</value></action>
                 <action method="setViewColumn"><value>1</value></action>
                 <action method="setViewLabel" translate="value"><value>Reference</value></action>
             </block>
-            <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.item" as="item" template="sales/recurring/profile/view/info.phtml">
+            <block type="Mage_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.item" as="item" template="sales/recurring/profile/view/info.phtml">
                 <action method="prepareItemInfo"/>
                 <action method="addToParentGroup"><value>info_blocks_row_1</value></action>
                 <action method="setViewColumn"><value>2</value></action>
                 <action method="setViewLabel" translate="value"><value>Purchased Item</value></action>
             </block>
-            <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.schedule" as="profile" template="sales/recurring/profile/view/info.phtml">
+            <block type="Mage_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.schedule" as="profile" template="sales/recurring/profile/view/info.phtml">
                 <action method="prepareScheduleInfo"/>
                 <action method="addToParentGroup"><value>info_blocks_row_2</value></action>
                 <action method="setViewColumn"><value>1</value></action>
                 <action method="setViewLabel" translate="value"><value>Profile Schedule</value></action>
             </block>
-            <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.fees" as="fees" template="sales/recurring/profile/view/info.phtml">
+            <block type="Mage_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.fees" as="fees" template="sales/recurring/profile/view/info.phtml">
                 <action method="prepareFeesInfo"/>
                 <action method="addToParentGroup"><value>info_blocks_row_2</value></action>
                 <action method="setViewColumn"><value>2</value></action>
                 <action method="setViewLabel" translate="value"><value>Profile Payments</value></action>
             </block>
-            <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.billing" as="billing_address" template="sales/recurring/profile/view/info.phtml">
+            <block type="Mage_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.billing" as="billing_address" template="sales/recurring/profile/view/info.phtml">
                 <action method="prepareAddressInfo"/>
                 <action method="addToParentGroup"><value>info_blocks_row_3</value></action>
                 <action method="setViewColumn"><value>1</value></action>
                 <action method="setViewLabel" translate="value"><value>Billing Address</value></action>
             </block>
-            <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.shipping" as="shipping_address" template="sales/recurring/profile/view/info.phtml">
+            <block type="Mage_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.shipping" as="shipping_address" template="sales/recurring/profile/view/info.phtml">
                 <action method="setAddressType"><value>shipping</value></action>
                 <action method="prepareAddressInfo"/>
                 <action method="addToParentGroup"><value>info_blocks_row_3</value></action>
@@ -149,7 +149,7 @@
             <action method="setIsViewCurrent"><v>1</v></action>
         </reference>
         <reference name="sales.recurring.profile.view">
-            <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.orders" as="table" template="sales/recurring/grid.phtml">
+            <block type="Mage_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.orders" as="table" template="sales/recurring/grid.phtml">
                 <action method="prepareRelatedOrdersFrontendGrid"/>
                 <action method="setViewLabel" translate="value"><value>Orders Based on This Profile</value></action>
                 <action method="setEmptyGridMessage" translate="value"><value>There are no orders yet.</value></action>

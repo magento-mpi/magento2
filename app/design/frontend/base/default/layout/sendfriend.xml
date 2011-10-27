@@ -35,7 +35,7 @@
             <action method="addJs"><script>varien/product.js</script></action>
         </reference>
         <reference name="content">
-            <block type="sendfriend/send" name="sendfriend.send" template="sendfriend/send.phtml" />
+            <block type="Mage_Sendfriend_Block_Send" name="sendfriend.send" template="Mage_Sendfriend_Block_Send.phtml" />
         </reference>
     </sendfriend_product_send>
 </layout>

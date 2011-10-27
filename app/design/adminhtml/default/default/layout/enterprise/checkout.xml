@@ -41,7 +41,7 @@
             <action method="addJs"><file>enterprise/adminhtml/checkout.js</file></action>
         </reference>
         <reference name="content">
-            <block type="adminhtml/catalog_product_composite_configure" name="configure.popup"/>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Composite_Configure" name="configure.popup"/>
             <block type="enterprise_checkout/adminhtml_manage" name="ID" template="enterprise/checkout/manage.phtml">
                 <block type="enterprise_checkout/adminhtml_manage_store_switcher" name="checkout.store.switcher"/>
                 <block type="enterprise_checkout/adminhtml_manage_messages" name="checkout.message"/>
@@ -56,7 +56,7 @@
                 </block>
                 <block type="enterprise_checkout/adminhtml_manage_form_coupon" template="enterprise/checkout/form/coupon.phtml" name="checkout.form_coupon"/>
             </block>
-            <block type="adminhtml/catalog_product_composite_configure" name="configure.popup"/>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Composite_Configure" name="configure.popup"/>
         </reference>
     </adminhtml_checkout_index>
 
@@ -113,7 +113,7 @@
 
     <adminhtml_checkout_manage_load_block_plain>
         <reference name="root">
-            <block type="core/text_list" name="content" />
+            <block type="Mage_Core_Block_Text_List" name="content" />
         </reference>
     </adminhtml_checkout_manage_load_block_plain>
     

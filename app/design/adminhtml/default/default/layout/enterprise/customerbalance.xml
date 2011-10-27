@@ -47,7 +47,7 @@
 
 
     <adminhtml_customerbalance_form>
-        <block type="core/text_list" name="root">
+        <block type="Mage_Core_Block_Text_List" name="root">
             <block type="enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance" name="customerbalance.balance" template="enterprise/customerbalance/balance.phtml">
                 <block type="enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance_grid" name="customer.balance.grid" as="grid"/>
             </block>
@@ -58,11 +58,11 @@
 
     <adminhtml_sales_order_view>
         <reference name="order_totals">
-            <block type="adminhtml/sales_order_totals_item" name="customerbalance" template="enterprise/customerbalance/sales/order/totals/customerbalance.phtml">
+            <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="enterprise/customerbalance/sales/order/totals/customerbalance.phtml">
                 <action method="setSourceField"><value>customer_balance_amount</value></action>
                 <action method="setLabel"><value>Store Credit</value></action>
             </block>
-            <block type="adminhtml/sales_order_totals_item" name="customerbalance_refunded" template="sales/order/totals/item.phtml">
+            <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance_refunded" template="sales/order/totals/item.phtml">
                 <action method="setSourceField"><value>customer_bal_total_refunded</value></action>
                 <action method="setLabel"><value>Refunded to Store Credit</value></action>
                 <action method="setDisplayArea"><value>footer</value></action>
@@ -74,7 +74,7 @@
 
     <adminhtml_sales_order_invoice_new>
         <reference name="invoice_totals">
-            <block type="adminhtml/sales_order_totals_item" name="customerbalance" template="enterprise/customerbalance/sales/order/totals/customerbalance.phtml" after="-">
+            <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="enterprise/customerbalance/sales/order/totals/customerbalance.phtml" after="-">
                 <action method="setSourceField"><value>customer_balance_amount</value></action>
                 <action method="setLabel"><value>Store Credit</value></action>
             </block>
@@ -83,7 +83,7 @@
 
     <adminhtml_sales_order_invoice_updateqty>
         <reference name="invoice_totals">
-            <block type="adminhtml/sales_order_totals_item" name="customerbalance" template="enterprise/customerbalance/sales/order/totals/customerbalance.phtml" after="-">
+            <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="enterprise/customerbalance/sales/order/totals/customerbalance.phtml" after="-">
                 <action method="setSourceField"><value>customer_balance_amount</value></action>
                 <action method="setLabel"><value>Store Credit</value></action>
             </block>
@@ -92,7 +92,7 @@
 
     <adminhtml_sales_order_invoice_view>
         <reference name="invoice_totals">
-            <block type="adminhtml/sales_order_totals_item" name="customerbalance" template="enterprise/customerbalance/sales/order/totals/customerbalance.phtml" after="-">
+            <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="enterprise/customerbalance/sales/order/totals/customerbalance.phtml" after="-">
                 <action method="setSourceField"><value>customer_balance_amount</value></action>
                 <action method="setLabel"><value>Store Credit</value></action>
             </block>
@@ -119,20 +119,20 @@
 
     <adminhtml_sales_order_creditmemo_new>
         <reference name="creditmemo_totals">
-            <block type="adminhtml/sales_order_totals_item" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/totals/customerbalance.phtml" after="-" />
+            <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/totals/customerbalance.phtml" after="-" />
         </reference>
     </adminhtml_sales_order_creditmemo_new>
 
     <adminhtml_sales_order_creditmemo_updateqty>
         <reference name="creditmemo_totals">
-            <block type="adminhtml/sales_order_totals_item" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/totals/customerbalance.phtml" after="-" />
+            <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/totals/customerbalance.phtml" after="-" />
         </reference>
     </adminhtml_sales_order_creditmemo_updateqty>
 
     <adminhtml_sales_order_creditmemo_view>
         <reference name="creditmemo_totals">
-            <block type="adminhtml/sales_order_totals_item" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/totals/view.phtml" after="-" />
-            <block type="adminhtml/sales_order_totals_item" name="customerbalance_refunded" template="sales/order/totals/item.phtml">
+            <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/totals/view.phtml" after="-" />
+            <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance_refunded" template="sales/order/totals/item.phtml">
                 <action method="setSourceField"><value>customer_bal_total_refunded</value></action>
                 <action method="setAfterCondition"><condition>last</condition></action>
                 <action method="setLabel"><value>Refunded to Store Credit</value></action>
@@ -141,7 +141,7 @@
             </block>
         </reference>
         <!--<reference name="footer">
-            <block type="adminhtml/sales_order_totals_item" name="customerbalance_refunded" template="sales/order/totals/item.phtml" after="-">
+            <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance_refunded" template="sales/order/totals/item.phtml" after="-">
                 <action method="setSourceField"><value>customer_bal_total_refunded</value></action>
                 <action method="setLabel"><value>Refunded to Store Credit</value></action>
             </block>

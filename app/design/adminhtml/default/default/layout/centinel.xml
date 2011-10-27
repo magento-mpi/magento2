@@ -29,11 +29,11 @@
 <layout version="0.1.0">
 
     <adminhtml_centinel_index_authenticationstart>
-        <block type="centinel/authentication_start" name="root" output="toHtml" template="centinel/authentication/start.phtml"/>
+        <block type="Mage_Centinel_Block_Authentication_Start" name="root" output="toHtml" template="centinel/authentication/start.phtml"/>
     </adminhtml_centinel_index_authenticationstart>
     
     <adminhtml_centinel_index_authenticationcomplete>
-        <block type="centinel/authentication_complete" name="root" output="toHtml" template="centinel/authentication/complete.phtml"/>
+        <block type="Mage_Centinel_Block_Authentication_Complete" name="root" output="toHtml" template="centinel/authentication/complete.phtml"/>
     </adminhtml_centinel_index_authenticationcomplete>
 
     <adminhtml_sales_order_create_index>
@@ -41,8 +41,8 @@
             <action method="addJs"><script>mage/adminhtml/sales/centinel.js</script></action>
         </reference>
         <reference name="data">
-            <block type="centinel/adminhtml_validation" as="card_validation" name="card_validation" template="sales/order/create/abstract.phtml">
-                <block type="centinel/adminhtml_validation_form" template="centinel/validation/form.phtml" name="form" />
+            <block type="Mage_Centinel_Block_Adminhtml_Validation" as="card_validation" name="card_validation" template="sales/order/create/abstract.phtml">
+                <block type="Mage_Centinel_Block_Adminhtml_Validation_Form" template="centinel/validation/form.phtml" name="form" />
             </block>
         </reference>
     </adminhtml_sales_order_create_index>
@@ -53,16 +53,16 @@
 
     <adminhtml_sales_order_create_load_block_data>
         <reference name="data">
-            <block type="centinel/adminhtml_validation" as="card_validation" name="card_validation" template="sales/order/create/abstract.phtml">
-                <block type="centinel/adminhtml_validation_form" template="centinel/validation/form.phtml" name="form" />
+            <block type="Mage_Centinel_Block_Adminhtml_Validation" as="card_validation" name="card_validation" template="sales/order/create/abstract.phtml">
+                <block type="Mage_Centinel_Block_Adminhtml_Validation_Form" template="centinel/validation/form.phtml" name="form" />
             </block>
         </reference>
     </adminhtml_sales_order_create_load_block_data>
 
     <adminhtml_sales_order_create_load_block_card_validation>
         <reference name="content">
-            <block type="centinel/adminhtml_validation" as="card_validation" name="card_validation" template="sales/order/create/abstract.phtml">
-                <block type="centinel/adminhtml_validation_form" template="centinel/validation/form.phtml" name="form" />
+            <block type="Mage_Centinel_Block_Adminhtml_Validation" as="card_validation" name="card_validation" template="sales/order/create/abstract.phtml">
+                <block type="Mage_Centinel_Block_Adminhtml_Validation_Form" template="centinel/validation/form.phtml" name="form" />
             </block>
         </reference>
     </adminhtml_sales_order_create_load_block_card_validation>

@@ -76,21 +76,21 @@ $installer->endSetup();
 $cms = Mage::getModel('cms/page')->load('home', 'identifier');
 
 $reportLayoutUpdate    = '<!--<reference name="content">
-        <block type="catalog/product_new" name="home.catalog.product.new" alias="product_new" template="catalog/product/new.phtml" after="cms_page">
+        <block type="Mage_Catalog_Block_Product_New" name="home.catalog.product.new" alias="product_new" template="catalog/product/new.phtml" after="cms_page">
             <action method="addPriceBlockType">
                 <type>bundle</type>
                 <block>bundle/catalog_product_price</block>
                 <template>bundle/catalog/product/price.phtml</template>
             </action>
         </block>
-        <block type="reports/product_viewed" name="home.reports.product.viewed" alias="product_viewed" template="reports/home_product_viewed.phtml" after="product_new">
+        <block type="Mage_Reports_Block_Product_Viewed" name="home.reports.product.viewed" alias="product_viewed" template="reports/home_product_viewed.phtml" after="product_new">
             <action method="addPriceBlockType">
                 <type>bundle</type>
                 <block>bundle/catalog_product_price</block>
                 <template>bundle/catalog/product/price.phtml</template>
             </action>
         </block>
-        <block type="reports/product_compared" name="home.reports.product.compared" template="reports/home_product_compared.phtml" after="product_viewed">
+        <block type="Mage_Reports_Block_Product_Compared" name="home.reports.product.compared" template="reports/home_product_compared.phtml" after="product_viewed">
             <action method="addPriceBlockType">
                 <type>bundle</type>
                 <block>bundle/catalog_product_price</block>

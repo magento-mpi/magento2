@@ -32,9 +32,9 @@ Default layout, loads most of the pages
 
     <default translate="label" module="page">
         <label>All Pages</label>
-        <block type="page/html" name="root" output="toHtml" template="page/3columns.phtml">
+        <block type="Mage_Page_Block_Html" name="root" output="toHtml" template="page/3columns.phtml">
 
-            <block type="page/html_head" name="head" as="head">
+            <block type="Mage_Page_Block_Html_Head" name="head" as="head">
                 <action method="addJs"><script>prototype/prototype.js</script></action>
                 <action method="addJs"><script>lib/ccard.js</script></action>
                 <action method="addJs"><script>prototype/validation.js</script></action>
@@ -49,7 +49,7 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>mage/translate.js</script></action>
                 <action method="addJs"><script>mage/cookies.js</script></action>
 
-                <block type="page/js_cookie" name="js_cookies" template="page/js/cookie.phtml"/>
+                <block type="Mage_Page_Block_Js_Cookie" name="js_cookies" template="page/js/cookie.phtml"/>
 
                 <action method="addCss"><stylesheet>css/styles.css</stylesheet></action>
                 <action method="addItem"><type>skin_css</type><name>css/styles-ie.css</name><params/><if>lt IE 8</if></action>
@@ -60,51 +60,51 @@ Default layout, loads most of the pages
                 <action method="addItem"><type>skin_js</type><name>js/ie6.js</name><params/><if>lt IE 7</if></action>
             </block>
 
-            <block type="core/text_list" name="after_body_start" as="after_body_start" translate="label">
+            <block type="Mage_Core_Block_Text_List" name="after_body_start" as="after_body_start" translate="label">
                 <label>Page Top</label>
             </block>
 
-            <block type="page/html_notices" name="global_notices" as="global_notices" template="page/html/notices.phtml" />
+            <block type="Mage_Page_Block_Html_Notices" name="global_notices" as="global_notices" template="page/html/notices.phtml" />
 
-            <block type="page/html_header" name="header" as="header">
-                <block type="page/template_links" name="top.links" as="topLinks"/>
-                <block type="page/switch" name="store_language" as="store_language" template="page/switch/languages.phtml"/>
-                <block type="core/text_list" name="top.menu" as="topMenu" translate="label">
+            <block type="Mage_Page_Block_Html_Header" name="header" as="header">
+                <block type="Mage_Page_Block_Template_Links" name="top.links" as="topLinks"/>
+                <block type="Mage_Page_Block_Switch" name="store_language" as="store_language" template="Mage_Page_Block_Switch/languages.phtml"/>
+                <block type="Mage_Core_Block_Text_List" name="top.menu" as="topMenu" translate="label">
                     <label>Navigation Bar</label>
                 </block>
-                <block type="page/html_wrapper" name="top.container" as="topContainer" translate="label">
+                <block type="Mage_Page_Block_Html_Wrapper" name="top.container" as="topContainer" translate="label">
                     <label>Page Header</label>
                     <action method="setElementClass"><value>top-container</value></action>
                 </block>
             </block>
 
-            <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
+            <block type="Mage_Page_Block_Html_Breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
 
-            <block type="core/text_list" name="left" as="left" translate="label">
+            <block type="Mage_Core_Block_Text_List" name="left" as="left" translate="label">
                 <label>Left Column</label>
             </block>
 
-            <block type="core/messages" name="global_messages" as="global_messages"/>
-            <block type="core/messages" name="messages" as="messages"/>
+            <block type="Mage_Core_Block_Messages" name="global_messages" as="global_messages"/>
+            <block type="Mage_Core_Block_Messages" name="messages" as="messages"/>
 
-            <block type="core/text_list" name="content" as="content" translate="label">
+            <block type="Mage_Core_Block_Text_List" name="content" as="content" translate="label">
                 <label>Main Content Area</label>
             </block>
 
-            <block type="core/text_list" name="right" as="right" translate="label">
+            <block type="Mage_Core_Block_Text_List" name="right" as="right" translate="label">
                 <label>Right Column</label>
             </block>
 
-            <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml">
-                <block type="page/html_wrapper" name="bottom.container" as="bottomContainer" translate="label">
+            <block type="Mage_Page_Block_Html_Footer" name="footer" as="footer" template="page/html/footer.phtml">
+                <block type="Mage_Page_Block_Html_Wrapper" name="bottom.container" as="bottomContainer" translate="label">
                     <label>Page Footer</label>
                     <action method="setElementClass"><value>bottom-container</value></action>
                 </block>
-                <block type="page/switch" name="store_switcher" as="store_switcher" template="page/switch/stores.phtml"/>
-                <block type="page/template_links" name="footer_links" as="footer_links" template="page/template/links.phtml"/>
+                <block type="Mage_Page_Block_Switch" name="store_switcher" as="store_switcher" template="Mage_Page_Block_Switch/stores.phtml"/>
+                <block type="Mage_Page_Block_Template_Links" name="footer_links" as="footer_links" template="page/template/links.phtml"/>
             </block>
 
-            <block type="core/text_list" name="before_body_end" as="before_body_end" translate="label">
+            <block type="Mage_Core_Block_Text_List" name="before_body_end" as="before_body_end" translate="label">
                 <label>Page Bottom</label>
             </block>
         </block>
@@ -113,9 +113,9 @@ Default layout, loads most of the pages
     <print translate="label" module="page">
         <label>All Pages (Print Version)</label>
         <!-- Mage_Page -->
-        <block type="page/html" name="root" output="toHtml" template="page/print.phtml">
+        <block type="Mage_Page_Block_Html" name="root" output="toHtml" template="page/print.phtml">
 
-            <block type="page/html_head" name="head" as="head">
+            <block type="Mage_Page_Block_Html_Head" name="head" as="head">
                 <action method="addJs"><script>prototype/prototype.js</script></action>
                 <action method="addJs"><script>mage/translate.js</script></action>
                 <action method="addJs"><script>lib/ccard.js</script></action>
@@ -132,7 +132,7 @@ Default layout, loads most of the pages
 
             </block>
 
-            <block type="core/text_list" name="content" as="content" translate="label">
+            <block type="Mage_Core_Block_Text_List" name="content" as="content" translate="label">
                 <label>Main Content Area</label>
             </block>
 

@@ -28,6 +28,6 @@
 -->
 <layout version="0.1.0">
     <default>
-        <block name="formkey" type="core/template" template="core/formkey.phtml" />
+        <block name="formkey" type="Mage_Core_Block_Template" template="core/formkey.phtml" />
     </default>
 </layout>

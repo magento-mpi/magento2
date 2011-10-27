@@ -42,7 +42,7 @@
     <adminhtml_giftwrapping_edit>
         <reference name="content">
             <block type="enterprise_giftwrapping/adminhtml_giftwrapping_edit" name="giftwrapping_edit" />
-            <block type="adminhtml/store_switcher" name="store_switcher" before="-" />
+            <block type="Mage_Adminhtml_Block_Store_Switcher" name="store_switcher" before="-" />
         </reference>
     </adminhtml_giftwrapping_edit>
 

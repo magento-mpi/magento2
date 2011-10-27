@@ -29,7 +29,7 @@
 <layout>
     <adminhtml_report_statistics_index>
         <reference name="content">
-            <block type="adminhtml/report_refresh_statistics" template="report/refresh/statistics.phtml" name="sales.report.refreshstatistics" />
+            <block type="Mage_Adminhtml_Block_Report_Refresh_Statistics" template="report/refresh/statistics.phtml" name="sales.report.refreshstatistics" />
         </reference>
     </adminhtml_report_statistics_index>
 </layout>

@@ -30,8 +30,8 @@
     <default>
         <!-- Mage_Reports -->
         <reference name="right">
-            <block type="reports/product_viewed" before="right.permanent.callout" name="right.reports.product.viewed" template="reports/product_viewed.phtml" />
-            <block type="reports/product_compared" before="right.permanent.callout" name="right.reports.product.compared" template="reports/product_compared.phtml" />
+            <block type="Mage_Reports_Block_Product_Viewed" before="right.permanent.callout" name="right.reports.product.viewed" template="Mage_Reports_Block_Product_Viewed.phtml" />
+            <block type="Mage_Reports_Block_Product_Compared" before="right.permanent.callout" name="right.reports.product.compared" template="Mage_Reports_Block_Product_Compared.phtml" />
         </reference>
     </default>
 
@@ -39,7 +39,7 @@
         <label>Catalog Category (Without Subcategories)</label>
         <remove name="right.reports.product.viewed" />
         <reference name="right">
-            <block type="reports/product_viewed" before="right.permanent.callout" name="left.reports.product.viewed" template="reports/product_viewed.phtml" />
+            <block type="Mage_Reports_Block_Product_Viewed" before="right.permanent.callout" name="left.reports.product.viewed" template="Mage_Reports_Block_Product_Viewed.phtml" />
         </reference>
     </catalog_category_layered_nochildren>
 </layout>

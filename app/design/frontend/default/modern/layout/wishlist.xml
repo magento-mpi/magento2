@@ -35,13 +35,13 @@ Default layout, loads most of the pages
     <default>
 
         <reference name="top.links">
-            <block type="wishlist/links" name="wishlist_link"/>
+            <block type="Mage_Wishlist_Block_Links" name="wishlist_link"/>
             <action method="addLinkBlock"><blockName>wishlist_link</blockName></action>
         </reference>
 
         <!-- Mage_Wishlist -->
         <reference name="left">
-            <block type="wishlist/customer_sidebar" name="wishlist_sidebar" as="wishlist" after="cart_sidebar" template="wishlist/sidebar.phtml"/>
+            <block type="Mage_Wishlist_Block_Customer_Sidebar" name="wishlist_sidebar" as="wishlist" after="cart_sidebar" template="wishlist/sidebar.phtml"/>
         </reference>
 
     </default>
@@ -77,7 +77,7 @@ Wishlist pages
         <!-- Mage_Wishlist -->
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="wishlist/customer_wishlist" name="customer.wishlist" template="wishlist/view.phtml"/>
+            <block type="Mage_Wishlist_Block_Customer_Wishlist" name="customer.wishlist" template="wishlist/view.phtml"/>
         </reference>
         <reference name="right">
             <action method="unsetChild"><name>wishlist_customer_sidebar</name></action>
@@ -89,7 +89,7 @@ Wishlist pages
         <!-- Mage_Wishlist -->
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="wishlist/customer_sharing" name="wishlist.sharing" template="wishlist/sharing.phtml"/>
+            <block type="Mage_Wishlist_Block_Customer_Sharing" name="wishlist.sharing" template="wishlist/sharing.phtml"/>
         </reference>
         <reference name="right">
             <action method="unsetChild"><name>wishlist_customer_sidebar</name></action>
@@ -100,7 +100,7 @@ Wishlist pages
         <label>Configure Wishlist Item</label>
         <update handle="catalog_product_view"/>
         <reference name="product.info">
-            <block type="wishlist/item_configure" name="product.info.addto" as="addto" template="wishlist/item/configure/addto.phtml"/>
+            <block type="Mage_Wishlist_Block_Item_Configure" name="product.info.addto" as="addto" template="wishlist/item/configure/addto.phtml"/>
         </reference>
         <reference name="product.info.options.wrapper.bottom">
             <action method="unsetChild"><name>product.info.addto</name></action>
@@ -112,7 +112,7 @@ Wishlist pages
         <label>Customer Shared Wishlist View</label>
         <!-- Mage_Wishlist -->
         <reference name="content">
-            <block type="wishlist/share_wishlist" name="customer.wishlist" template="wishlist/shared.phtml"/>
+            <block type="Mage_Wishlist_Block_Share_Wishlist" name="customer.wishlist" template="wishlist/shared.phtml"/>
         </reference>
     </wishlist_shared_index>
 </layout>

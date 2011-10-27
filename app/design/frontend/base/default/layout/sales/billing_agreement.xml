@@ -33,7 +33,7 @@
             <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="sales/billing_agreements" name="customer.account.billing.agreement" template="sales/billing/agreements.phtml"/>
+            <block type="Mage_Sales_Block_Billing_Agreements" name="customer.account.billing.agreement" template="sales/billing/agreements.phtml"/>
         </reference>
     </sales_billing_agreement_index>
 
@@ -43,7 +43,7 @@
             <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="sales/billing_agreement_view" name="customer.account.billing.agreement" template="sales/billing/agreement/view.phtml"/>
+            <block type="Mage_Sales_Block_Billing_Agreement_View" name="customer.account.billing.agreement" template="sales/billing/agreement/view.phtml"/>
         </reference>
     </sales_billing_agreement_view>
 

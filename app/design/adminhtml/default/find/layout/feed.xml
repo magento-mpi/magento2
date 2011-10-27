@@ -34,7 +34,7 @@
             <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
         </reference>
         <reference name="content">
-            <block type="core/template" template="head/window.phtml" name="head.window" />
+            <block type="Mage_Core_Block_Template" template="head/window.phtml" name="head.window" />
             <block type="find_feed/adminhtml_list_codes" name="adminhtml_list_codes" />
         </reference>
     </adminhtml_codes_grid_index>

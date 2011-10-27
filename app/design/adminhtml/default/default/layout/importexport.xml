@@ -2,9 +2,9 @@
 <layout>
     <adminhtml_import_index>
         <reference name="content">
-            <block type="adminhtml/template" template="importexport/import/form/before.phtml" name="import.form.before" alias="form_before"/>
+            <block type="Mage_Adminhtml_Block_Template" template="importexport/import/form/before.phtml" name="import.form.before" alias="form_before"/>
             <block type="importexport/adminhtml_import_edit" name="import.form.container"/>
-            <block type="adminhtml/template" template="importexport/import/form/after.phtml" name="import.form.after" alias="form_after"/>
+            <block type="Mage_Adminhtml_Block_Template" template="importexport/import/form/after.phtml" name="import.form.after" alias="form_after"/>
         </reference>
     </adminhtml_import_index>
     <adminhtml_import_validate>
@@ -15,18 +15,18 @@
     </adminhtml_import_start>
     <adminhtml_import_busy>
         <reference name="content">
-            <block type="core/template" template="importexport/busy.phtml" name="busy" alias="busy"/>
+            <block type="Mage_Core_Block_Template" template="importexport/busy.phtml" name="busy" alias="busy"/>
         </reference>
     </adminhtml_import_busy>
     <adminhtml_export_index>
         <reference name="content">
-            <block type="adminhtml/template" template="importexport/export/form/before.phtml" name="export.form.before" alias="form_before"/>
+            <block type="Mage_Adminhtml_Block_Template" template="importexport/export/form/before.phtml" name="export.form.before" alias="form_before"/>
             <block type="importexport/adminhtml_export_edit" name="export.form.container"/>
-            <block type="adminhtml/template" template="importexport/export/form/after.phtml" name="export.form.after" alias="form_after"/>
+            <block type="Mage_Adminhtml_Block_Template" template="importexport/export/form/after.phtml" name="export.form.after" alias="form_after"/>
         </reference>
     </adminhtml_export_index>
     <adminhtml_export_getfilter>
-        <block type="core/text_list" name="root">
+        <block type="Mage_Core_Block_Text_List" name="root">
             <block type="importexport/adminhtml_export_filter" name="export.filter"/>
         </block>
     </adminhtml_export_getfilter>

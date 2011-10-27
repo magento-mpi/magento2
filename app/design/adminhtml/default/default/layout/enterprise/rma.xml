@@ -63,8 +63,8 @@
         </reference>
         <reference name="content">
             <block type="enterprise_rma/adminhtml_rma_edit" name="enterprise_rma_edit" />
-            <block type="adminhtml/template" template="enterprise/rma/edit/details.phtml" />
-            <block type="adminhtml/template" template="enterprise/rma/edit/reason.phtml" />
+            <block type="Mage_Adminhtml_Block_Template" template="enterprise/rma/edit/details.phtml" />
+            <block type="Mage_Adminhtml_Block_Template" template="enterprise/rma/edit/reason.phtml" />
         </reference>
         <reference name="left">
             <block type="enterprise_rma/adminhtml_rma_edit_tabs" name="enterprise_rma_edit_tabs">
@@ -85,7 +85,7 @@
             </block>
         </reference>
         <reference name="before_body_end">
-            <block type="adminhtml/template" template="enterprise/rma/edit/mask.phtml" />
+            <block type="Mage_Adminhtml_Block_Template" template="enterprise/rma/edit/mask.phtml" />
             <block type="enterprise_rma/adminhtml_rma_edit_js" template="enterprise/rma/edit/js.phtml" name="enterprise_rma_js_create" />
         </reference>
     </adminhtml_rma_edit>
@@ -147,7 +147,7 @@
             </block>
         </reference>
         <reference name="before_body_end">
-            <block type="adminhtml/template" template="enterprise/rma/edit/mask.phtml" />
+            <block type="Mage_Adminhtml_Block_Template" template="enterprise/rma/edit/mask.phtml" />
             <block type="enterprise_rma/adminhtml_product_bundle_js" template="enterprise/rma/edit/bundle/js.phtml" name="enterprise_rma_js_create" />
         </reference>
     </adminhtml_rma_new>

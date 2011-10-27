@@ -94,7 +94,7 @@
         <reference name="root">
             <action method="setTemplate"><template>enterprise/cms/page/preview.phtml</template></action>
             <block type="enterprise_cms/adminhtml_cms_page_preview_form" name="preview_form" />
-            <block type="core/text_list" name="tools" as="tools">
+            <block type="Mage_Core_Block_Text_List" name="tools" as="tools">
                 <block type="enterprise_cms/adminhtml_cms_page_preview_store" name="store_switcher" template="enterprise/cms/page/preview/store.phtml" />
                 <block type="enterprise_cms/adminhtml_cms_page_preview_revision" name="revision_switcher" template="enterprise/cms/page/preview/revision.phtml" />
                 <block type="enterprise_cms/adminhtml_cms_page_preview_buttons" name="preview_control_buttons" />
@@ -133,7 +133,7 @@
                 <block type="enterprise_cms/adminhtml_cms_hierarchy_edit_form_grid" name="cms_page_grid" />
             </block>
         </reference>
-        <block type="adminhtml/store_switcher" name="store_switcher" />
+        <block type="Mage_Adminhtml_Block_Store_Switcher" name="store_switcher" />
     </adminhtml_cms_hierarchy_index>
 
 <!--

@@ -65,7 +65,7 @@
     <scope_switcher>
         <block type="enterprise_customer/adminhtml_form_renderer_fieldset_element" name="fieldset_element_renderer" template="enterprise/customer/form/renderer/fieldset/element.phtml" />
         <reference name="left">
-            <block type="adminhtml/store_switcher" name="website_switcher" before="-" template="enterprise/customer/website/switcher.phtml">
+            <block type="Mage_Adminhtml_Block_Store_Switcher" name="website_switcher" before="-" template="enterprise/customer/website/switcher.phtml">
                 <action method="setStoreVarName"><value>website</value></action>
                 <action method="setDefaultStoreName" translate="name"><name>Default Values</name></action>
             </block>

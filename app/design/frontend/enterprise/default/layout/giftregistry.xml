@@ -38,7 +38,7 @@
 
     <wishlist_index_index>
         <block type="enterprise_giftregistry/wishlist_view" name="giftregistry.customer.wishlist" template="giftregistry/wishlist/view.phtml">
-            <block type="wishlist/customer_wishlist_item_options" name="customer.wishlist.item.options" as="item_options"/>
+            <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Options" name="customer.wishlist.item.options" as="item_options"/>
         </block>
     </wishlist_index_index>
 
@@ -124,7 +124,7 @@
         <reference name="content">
             <block type="enterprise_giftregistry/view" name="enterprise.giftregistry.view" template="giftregistry/view.phtml">
                 <block type="enterprise_giftregistry/items" name="giftregistry_items" template="giftregistry/view/items.phtml">
-                    <block type="catalog/product_price" template="catalog/product/price_msrp_item.phtml" name="enterprise.giftregistry.item.price" />
+                    <block type="Mage_Catalog_Block_Product_Price" template="catalog/product/price_msrp_item.phtml" name="enterprise.giftregistry.item.price" />
 
                     <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>giftregistry/view/items/default.phtml</template></action>
                     <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>giftregistry/view/items/default.phtml</template></action>
@@ -138,8 +138,8 @@
         </reference>
         <update handle="MAP_popup" />
         <reference name="product.tooltip">
-            <block type="page/html_wrapper" name="product.info.addtocart.paypal.wrapper" translate="label">
-                <block type="paypal/express_shortcut" name="product.info.addtocart.paypal" template="paypal/express/shortcut.phtml" module="paypal">
+            <block type="Mage_Page_Block_Html_Wrapper" name="product.info.addtocart.paypal.wrapper" translate="label">
+                <block type="Mage_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="paypal/express/shortcut.phtml" module="paypal">
                     <action method="setIsInCatalogProduct"><value>1</value></action>
                     <action method="setShowOrPosition"><value>after</value></action>
                 </block>
@@ -166,7 +166,7 @@
             <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
         </reference>
         <reference name="content">
-            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+            <block type="Mage_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
         </reference>
     </calendar>
 
