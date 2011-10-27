@@ -102,10 +102,9 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase
     public function withEmptyRequiredFields($emptyField, $fieldType)
     {
         //Data
-        $pollData = $this->loadData('poll_open', array($emptyField => ''), 'poll_question');
+        $pollData = $this->loadData('poll_empty_required', array($emptyField => ''), 'poll_question');
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
-        $tst = $this->cmsPollsHelper()->isVisibleIn;
         //Verifying
         if (!$this->cmsPollsHelper()->isVisibleIn and $emptyField == 'visible_in') {
             $this->assertTrue($this->successMessage(), $this->messages);
@@ -120,8 +119,34 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase
     {
         return array(
             array('poll_question', 'field'),
-            array('visible_in', 'multiselect')
+            array('visible_in', 'multiselect'),
+            array('answer_title', 'field'),
+            array('votes_count', 'field')
         );
+    }
+
+       /**
+     * <p>Creating a new poll without answers</p>
+     * <p>Steps:</p>
+     * <p>1. Click button "Add New Poll"</p>
+     * <p>2. Fill in the fields, but don't add any answer;</p>
+     * <p>3. Click button "Save Poll".</p>
+     * <p>Expected result:</p>
+     * <p>Received error message "Please, add some answers to this poll first."</p>
+     *
+
+     * @test
+     */
+    public function withoutAnswer()
+    {
+        //Data
+        $pollData = $this->loadData('poll_open', null, 'poll_question');
+        //Remove answers
+        unset($pollData['assigned_answers_set']);
+        //Steps
+        $this->cmsPollsHelper()->createPoll($pollData);
+        //Verifying
+        $this->assertTrue($this->validationMessage('add_answers'), $this->messages);
     }
 
     /**

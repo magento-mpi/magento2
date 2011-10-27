@@ -70,13 +70,16 @@ class CmsPolls_DeleteTest extends Mage_Selenium_TestCase {
     {
         //Data
         $pollData = $this->loadData('poll_open', null, 'poll_question');
+        $searchPollData = $this->loadData('search_poll',
+                array('filter_question' => $pollData['poll_question'],
+                      'filter_status' => $pollData['poll_status']));
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_poll'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('poll_manager'), $this->messages);
         //Steps
-        $this->cmsPollsHelper()->deletePoll($pollData);
+        $this->cmsPollsHelper()->deletePoll($searchPollData);
         //Verifying
         $this->assertTrue($this->successMessage('success_deleted_poll'), $this->messages);
     }

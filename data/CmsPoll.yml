@@ -51,6 +51,8 @@ answers_set: &answersSet
   2: *answer2
   3: *answer3
 
+answers_set_empty_required: &answersSetEmptyRequired
+  1: *answer1
 
 #*********************************************
 #*         General Poll Data                 *
@@ -77,3 +79,9 @@ search_poll:
     filter_date_closed_to: %noValue%
     filter_visible_in: %noValue%
     filter_status: %noValue%
+
+poll_empty_required:
+    poll_question: Test Poll
+    poll_status: Open
+    visible_in: Default Store View
+    assigned_answers_set: *answersSetEmptyRequired
