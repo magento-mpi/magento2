@@ -116,15 +116,15 @@ document.observe("dom:loaded", function() {
             orientation = "landscape";
             break;
         }
-        
+
         $$("#nav-container ul").each(function(ul) {
             ul.setStyle({'width' : document.body.offsetWidth + "px"});
         });
-                
+
         page = Math.floor(Math.abs(sliderPosition/viewportWidth));
         sliderPosition = (sliderPosition + viewportWidth*page) - document.body.offsetWidth*page;
         viewportWidth = document.body.offsetWidth;
-        
+
         $("nav-container").setStyle({"-webkit-transform" : "translate3d(" + sliderPosition + "px, 0, 0)"});
 
         if ( upSellCarousel ) {
@@ -721,9 +721,9 @@ document.observe("dom:loaded", function() {
         );
     }
     */
-    
+
     /*
-    
+
     $$('#product-gallery img').each(function (img) {
         img.observe('gesturestart', function (e) {
             e.preventDefault();
