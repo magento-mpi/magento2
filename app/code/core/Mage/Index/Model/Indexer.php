@@ -37,13 +37,6 @@ class Mage_Index_Model_Indexer
     protected $_processesCollection;
 
     /**
-     * Indexer processes lock flag
-     *
-     * @var bool
-     */
-    protected $_lockFlag = false;
-
-    /**
      * Class constructor. Initialize index processes based on configuration
      */
     public function __construct()
@@ -94,34 +87,6 @@ class Mage_Index_Model_Indexer
     }
 
     /**
-     * Lock indexer actions
-     */
-    public function lockIndexer()
-    {
-        $this->_lockFlag = true;
-        return $this;
-    }
-
-    /**
-     * Unlock indexer actions
-     */
-    public function unlockIndexer()
-    {
-        $this->_lockFlag = false;
-        return $this;
-    }
-
-    /**
-     * Check if onject actions are locked
-     *
-     * @return bool
-     */
-    public function isLocked()
-    {
-        return $this->_lockFlag;
-    }
-
-    /**
      * Indexing all pending events.
      * Events set can be limited by event entity and type
      *
@@ -131,11 +96,18 @@ class Mage_Index_Model_Indexer
      */
     public function indexEvents($entity=null, $type=null)
     {
-        if ($this->isLocked()) {
-            return $this;
+        Mage::dispatchEvent('start_index_events' . $this->_getEventTypeName($entity, $type));
+        /** @var $resourceModel Mage_Index_Model_Resource_Process */
+        $resourceModel = Mage::getResourceSingleton('index/process');
+        $resourceModel->beginTransaction();
+        try {
+            $this->_runAll('indexEvents', array($entity, $type));
+            $resourceModel->commit();
+        } catch (Exception $e) {
+            $resourceModel->rollBack();
+            throw $e;
         }
-
-        $this->_runAll('indexEvents', array($entity, $type));
+        Mage::dispatchEvent('end_index_events' . $this->_getEventTypeName($entity, $type));
         return $this;
     }
 
@@ -147,11 +119,7 @@ class Mage_Index_Model_Indexer
      */
     public function indexEvent(Mage_Index_Model_Event $event)
     {
-        if ($this->isLocked()) {
-            return $this;
-        }
-
-        $this->_runAll('processEvent', array($event));
+        $this->_runAll('safeProcessEvent', array($event));
         return $this;
     }
 
@@ -162,10 +130,6 @@ class Mage_Index_Model_Indexer
      */
     public function registerEvent(Mage_Index_Model_Event $event)
     {
-        if ($this->isLocked()) {
-            return $this;
-        }
-
         $this->_runAll('register', array($event));
         return $this;
     }
@@ -181,9 +145,6 @@ class Mage_Index_Model_Indexer
      */
     public function logEvent(Varien_Object $entity, $entityType, $eventType, $doSave=true)
     {
-        if ($this->isLocked()) {
-            return $this;
-        }
         $event = Mage::getModel('index/event')
             ->setEntity($entityType)
             ->setType($eventType)
@@ -208,16 +169,14 @@ class Mage_Index_Model_Indexer
      */
     public function processEntityAction(Varien_Object $entity, $entityType, $eventType)
     {
-        if ($this->isLocked()) {
-            return $this;
-        }
         $event = $this->logEvent($entity, $entityType, $eventType, false);
         /**
          * Index and save event just in case if some process matched it
          */
         if ($event->getProcessIds()) {
-            /** @var $resourceModel Mage_Index_Model_Resource_Abstract */
-            $resourceModel = Mage::getResourceModel('index/process');
+            Mage::dispatchEvent('start_process_event' . $this->_getEventTypeName($entityType, $eventType));
+            /** @var $resourceModel Mage_Index_Model_Resource_Process */
+            $resourceModel = Mage::getResourceSingleton('index/process');
             $resourceModel->beginTransaction();
             try {
                 $this->indexEvent($event);
@@ -227,6 +186,7 @@ class Mage_Index_Model_Indexer
                 throw $e;
             }
             $event->save();
+            Mage::dispatchEvent('end_process_event' . $this->_getEventTypeName($entityType, $eventType));
         }
         return $this;
     }
@@ -261,5 +221,22 @@ class Mage_Index_Model_Indexer
             call_user_func_array(array($process, $method), $args);
             $processed[] = $code;
         }
+    }
+
+    /**
+     * Get event type name
+     *
+     * @param null|string $entityType
+     * @param null|string $eventType
+     * @return string
+     */
+    protected function _getEventTypeName($entityType = null, $eventType = null)
+    {
+        $eventName = $entityType . '_' . $eventType;
+        $eventName = trim($eventName, '_');
+        if (!empty($eventName)) {
+            $eventName = '_' . $eventName;
+        }
+        return $eventName;
     }
 }

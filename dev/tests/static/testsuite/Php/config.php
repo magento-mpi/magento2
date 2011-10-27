@@ -17,6 +17,8 @@ return array(
         "{$baseDir}/app/code/core/Mage/Core/Model/Design.php",
         "{$baseDir}/dev/tests/integration",
         "{$baseDir}/dev/tests/static",
+        "{$baseDir}/dev/tests/unit",
+        "{$baseDir}/dev/tools/batch_tests/batch.php",
         "{$baseDir}/lib/Magento/Profiler",
         "{$baseDir}/lib/Magento/Profiler.php",
         "{$baseDir}/lib/Varien/Object.php",

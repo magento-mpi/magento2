@@ -101,7 +101,8 @@ document.observe("dom:loaded", function() {
     }
 
     Event.observe(window, 'orientationchange', function() {
-        var orientation;
+        var orientation,
+            page;
         switch(window.orientation){
             case 0:
             orientation = "portrait";
@@ -115,7 +116,16 @@ document.observe("dom:loaded", function() {
             orientation = "landscape";
             break;
         }
-        $$("#nav-container ul").each(function(ul) { ul.style.width = document.body.offsetWidth + "px"; });
+        
+        $$("#nav-container ul").each(function(ul) {
+            ul.setStyle({'width' : document.body.offsetWidth + "px"});
+        });
+                
+        page = Math.floor(Math.abs(sliderPosition/viewportWidth));
+        sliderPosition = (sliderPosition + viewportWidth*page) - document.body.offsetWidth*page;
+        viewportWidth = document.body.offsetWidth;
+        
+        $("nav-container").setStyle({"-webkit-transform" : "translate3d(" + sliderPosition + "px, 0, 0)"});
 
         if ( upSellCarousel ) {
             if (orientation === 'landscape') {
@@ -153,6 +163,7 @@ document.observe("dom:loaded", function() {
     // Home Page Slider
 
     var sliderPosition = 0,
+        viewportWidth = document.body.offsetWidth,
         last,
         diff;
 
@@ -199,7 +210,7 @@ document.observe("dom:loaded", function() {
                     new NoClickDelay(this.clonedSubmenuList);
                 };
 
-                $("nav-container").insert(this.clonedSubmenuList);
+                $("nav-container").insert(this.clonedSubmenuList.setStyle({'width' : document.body.offsetWidth + 'px'}));
                 $('nav-container').setStyle({'height' : this.clonedSubmenuList.getHeight() + 'px'});
                 $("nav-container").setStyle({"-webkit-transform" : "translate3d(" + (sliderPosition - document.body.offsetWidth) + "px, 0, 0)"});
 
@@ -405,7 +416,7 @@ document.observe("dom:loaded", function() {
                    this.controls.hide();
            }
         },
-        moveRight: function () {
+        moveRight: function (e) {
             if(Math.abs(this.itemPos) < this.lastItemPos) {
                 this.itemPos -= 100/this.options.visibleElements * this.options.visibleElements;
                 this.items.setStyle({
@@ -422,7 +433,7 @@ document.observe("dom:loaded", function() {
                 this.counter.select('.active')[0].removeClassName('active').next().addClassName('active');
             }
         },
-        moveLeft: function () {
+        moveLeft: function (e) {
             if (this.itemPos !== 0) {
                 this.itemPos += 100/this.options.visibleElements * this.options.visibleElements;
                 this.items.setStyle({
@@ -462,10 +473,10 @@ document.observe("dom:loaded", function() {
             var changeX;
             changeX = this.originalCoord.x - this.finalCoord.x;
             if(changeX > this.options.threshold.x) {
-                this.moveRight();
+                this.moveRight(e);
             }
             if(changeX < this.options.threshold.x * -1) {
-                this.moveLeft();
+                this.moveLeft(e);
             }
         }
     });
@@ -693,6 +704,23 @@ document.observe("dom:loaded", function() {
             );
         });
     }
+    
+    /*
+    if ( $$('.product-view')[0] ) {
+        new Swipe($$('.product-view')[0],
+            function(e) {
+                if ( !$(e.target).up('.carousel-items') ) {
+                    alert(1);
+                }
+            },
+            function(e) {
+                if ( !$(e.target).up('.carousel-items') ) {
+                    alert(2);
+                }
+            }
+        );
+    }
+    */
     
     /*
     

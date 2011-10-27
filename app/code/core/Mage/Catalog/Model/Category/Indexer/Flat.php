@@ -34,6 +34,8 @@
  */
 class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_Abstract
 {
+    const EVENT_MATCH_RESULT_KEY = 'catalog_category_flat_match_result';
+
     /**
      * Matched entity events
      *
@@ -97,12 +99,10 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
         }
 
         $data       = $event->getNewData();
-        $resultKey = 'catalog_category_flat_match_result';
-        if (isset($data[$resultKey])) {
-            return $data[$resultKey];
+        if (isset($data[self::EVENT_MATCH_RESULT_KEY])) {
+            return $data[self::EVENT_MATCH_RESULT_KEY];
         }
 
-        $result = null;
         $entity = $event->getEntity();
         if ($entity == Mage_Core_Model_Store::ENTITY) {
             if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
@@ -110,7 +110,10 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
             } else if ($event->getType() == Mage_Index_Model_Event::TYPE_SAVE) {
                 /* @var $store Mage_Core_Model_Store */
                 $store = $event->getDataObject();
-                if ($store->isObjectNew() || $store->dataHasChangedFor('group_id') || $store->dataHasChangedFor('root_catefory_id')) {
+                if ($store && ($store->isObjectNew()
+                    || $store->dataHasChangedFor('group_id')
+                    || $store->dataHasChangedFor('root_catefory_id')
+                )) {
                     $result = true;
                 } else {
                     $result = false;
@@ -121,7 +124,7 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
         } else if ($entity == Mage_Core_Model_Store_Group::ENTITY) {
             /* @var $storeGroup Mage_Core_Model_Store_Group */
             $storeGroup = $event->getDataObject();
-            if ($storeGroup->dataHasChangedFor('website_id')) {
+            if ($storeGroup && $storeGroup->dataHasChangedFor('website_id')) {
                 $result = true;
             } else {
                 $result = false;
@@ -130,7 +133,7 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
             $result = parent::matchEvent($event);
         }
 
-        $event->addNewData($resultKey, $result);
+        $event->addNewData(self::EVENT_MATCH_RESULT_KEY, $result);
 
         return $result;
     }
@@ -142,6 +145,7 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
      */
     protected function _registerEvent(Mage_Index_Model_Event $event)
     {
+        $event->addNewData(self::EVENT_MATCH_RESULT_KEY, true);
         switch ($event->getEntity()) {
             case Mage_Catalog_Model_Category::ENTITY:
                 $this->_registerCatalogCategoryEvent($event);
@@ -234,6 +238,6 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
      */
     public function reindexAll()
     {
-        $this->_getIndexer()->rebuild();
+        $this->_getIndexer()->reindexAll();
     }
 }
