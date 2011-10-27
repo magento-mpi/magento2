@@ -28,13 +28,13 @@
  */
 
 /**
- * Delete Widget Test
+ * Delete Page Test
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CmsPages_BuffTest extends Mage_Selenium_TestCase
+class CmsPages_DeleteTest extends Mage_Selenium_TestCase
 {
     protected static $products = array();
 
@@ -129,18 +129,29 @@ class CmsPages_BuffTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Creates and deletes Page with required fields</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to Manage Pages page</p>
+     * <p>2. Create page with required fields</p>
+     * <p>3. Open newly created page</p>
+     * <p>4. Delete newly created page</p>
+     * <p>Expected result</p>
+     * <p>Page is created and deleted successfully</p>
+     *
      * @depends createCategory
      * @test
      */
-    public function some($category)
+    public function deletePage($category)
     {
         $this->navigate('manage_cms_pages');
         $temp = array();
         $temp['filter_sku'] = self::$products['sku']['simple'];
         $temp['category_path'] = $category;
-        $nodes = explode('/', $category);
-        $pageData = $this->loadData('new_page', $temp, array('page_title', 'url_key'));
+        $pageData = $this->loadData('new_page_req', $temp, array('page_title', 'url_key'));
         $this->cmsPagesHelper()->createPage($pageData);
-        $this->cmsPagesHelper()->frontValidatePage($pageData);
+        $pageToDelete = array('filter_title' => $pageData['page_information']['page_title'],
+            'filter_url_key' => $pageData['page_information']['url_key']);
+        $this->cmsPagesHelper()->deletePage($pageToDelete);
     }
+
 }

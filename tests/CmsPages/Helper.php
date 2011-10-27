@@ -127,7 +127,7 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
             $this->clickButton('insert_widget', FALSE);
             $this->waitForAjax();
             $this->fillForm($value);
-            if ($options) {
+            if (!empty($options)) {
                 $this->cmsWidgetsHelper()->fillSelectOption($options);
             }
             $this->clickButton('submit_widget_insert', FALSE);
@@ -220,7 +220,7 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
      */
     public function openPage(array $searchPage)
     {
-        $this->_prepareDataForSearch($searchPage);
+        $this->_modPrepareDataForSearch($searchPage);
         $xpathTR = $this->search($searchPage, 'cms_pages_grid');
         $this->assertNotEquals(NULL, $xpathTR, 'Page is not found');
         $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('page_grid_head', FALSE);
@@ -235,6 +235,29 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Prepare data array to search in grid
+     *
+     * @param array $data Array of looking up data
+     *
+     * @return @array
+     */
+    protected function _modPrepareDataForSearch(array &$data)
+    {
+        foreach ($data as $key => $val) {
+            if ($val == '%noValue%' or empty($val)) {
+                unset($data[$key]);
+            } elseif (preg_match('/store_view/', $key)) {
+                $xpathField = $this->getCurrentLocationUimapPage()->getMainForm()->findDropdown($key);
+                if (!$this->isElementPresent($xpathField)) {
+                    unset($data[$key]);
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    /**
      * Deletes page
      *
      * @param array $searchPage
@@ -243,8 +266,8 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
     {
         $searchPage = $this->arrayEmptyClear($searchPage);
         if (!empty($searchPage)) {
-            $this->openWidget($searchPage);
-            $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
+            $this->openPage($searchPage);
+            $this->clickButtonAndConfirm('delete_page', 'confirmation_for_delete');
             $this->assertTrue($this->checkMessage('successfully_deleted_page'), 'The page has not been deleted');
         }
     }
