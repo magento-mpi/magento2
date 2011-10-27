@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tabs extends Mage_Adminhtml_Block_Wi
      *
      * @var string
      */
-    protected $_attributeTabBlock = 'adminhtml/catalog_category_tab_attributes';
+    protected $_attributeTabBlock = 'Mage_Adminhtml_Block_Catalog_Category_Tab_Attributes';
 
     /**
      * Initialize Tabs

@@ -42,7 +42,7 @@ class Mage_Rss_Block_Catalog_Abstract extends Mage_Rss_Block_Abstract
      * @var string
      */
     protected $_priceBlockDefaultTemplate = 'catalog/rss/product/price.phtml';
-    protected $_priceBlockDefaultType = 'catalog/product_price';
+    protected $_priceBlockDefaultType = 'Mage_Catalog_Block_Product_Price';
 
     /**
      * Whether to show "As low as" as a link

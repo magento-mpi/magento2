@@ -39,8 +39,8 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
      */
     protected $_code = Mage_Paypal_Model_Config::METHOD_PAYFLOWLINK;
 
-    protected $_formBlockType = 'paypal/payflow_link_form';
-    protected $_infoBlockType = 'paypal/payflow_link_info';
+    protected $_formBlockType = 'Mage_Paypal_Block_Payflow_Link_Form';
+    protected $_infoBlockType = 'Mage_Paypal_Block_Payflow_Link_Info';
 
     /**
      * Availability options

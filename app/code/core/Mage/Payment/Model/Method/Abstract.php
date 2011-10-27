@@ -43,8 +43,8 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     const STATUS_SUCCESS    = 'SUCCESS';
 
     protected $_code;
-    protected $_formBlockType = 'payment/form';
-    protected $_infoBlockType = 'payment/info';
+    protected $_formBlockType = 'Mage_Payment_Block_Form';
+    protected $_infoBlockType = 'Mage_Payment_Block_Info';
 
     /**
      * Payment Method features

@@ -32,8 +32,8 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     implements Mage_Payment_Model_Recurring_Profile_MethodInterface
 {
     protected $_code  = Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS;
-    protected $_formBlockType = 'paypal/express_form';
-    protected $_infoBlockType = 'paypal/payment_info';
+    protected $_formBlockType = 'Mage_Paypal_Block_Express_Form';
+    protected $_infoBlockType = 'Mage_Paypal_Block_Payment_Info';
 
     /**
      * Website Payments Pro instance type

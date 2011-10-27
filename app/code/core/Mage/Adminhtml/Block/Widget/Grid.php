@@ -180,7 +180,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *
      * @var string
      */
-    protected $_massactionBlockName = 'adminhtml/widget_grid_massaction';
+    protected $_massactionBlockName = 'Mage_Adminhtml_Block_Widget_Grid_Massaction';
 
     /**
     * RSS list

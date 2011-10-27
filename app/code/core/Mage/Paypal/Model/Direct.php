@@ -33,7 +33,7 @@
 class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
 {
     protected $_code  = Mage_Paypal_Model_Config::METHOD_WPP_DIRECT;
-    protected $_infoBlockType = 'paypal/payment_info';
+    protected $_infoBlockType = 'Mage_Paypal_Block_Payment_Info';
 
     /**
      * Availability options

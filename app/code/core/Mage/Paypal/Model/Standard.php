@@ -33,8 +33,8 @@
 class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
 {
     protected $_code  = Mage_Paypal_Model_Config::METHOD_WPS;
-    protected $_formBlockType = 'paypal/standard_form';
-    protected $_infoBlockType = 'paypal/payment_info';
+    protected $_formBlockType = 'Mage_Paypal_Block_Standard_Form';
+    protected $_infoBlockType = 'Mage_Paypal_Block_Payment_Info';
     protected $_isInitializeNeeded      = true;
     protected $_canUseInternal          = false;
     protected $_canUseForMultishipping  = false;

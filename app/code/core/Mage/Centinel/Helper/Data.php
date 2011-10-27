@@ -147,7 +147,7 @@ class Mage_Centinel_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getMethodFormBlock($method)
     {
-        $blockType = 'centinel/logo';
+        $blockType = 'Mage_Centinel_Block_Logo';
         if ($this->getLayout()) {
             $block = $this->getLayout()->createBlock($blockType);
         }

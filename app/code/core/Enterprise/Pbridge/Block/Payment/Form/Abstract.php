@@ -46,7 +46,7 @@ abstract class Enterprise_Pbridge_Block_Payment_Form_Abstract extends Mage_Payme
      *
      * @var string
      */
-    protected $_iframeBlockType = 'core/template';
+    protected $_iframeBlockType = 'Mage_Core_Block_Template';
 
     /**
      * Default iframe template

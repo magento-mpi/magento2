@@ -37,8 +37,8 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
     const PAYMENT_CODE = 'ogone';
 
     protected $_code  = self::PAYMENT_CODE;
-    protected $_formBlockType = 'ogone/form';
-    protected $_infoBlockType = 'ogone/info';
+    protected $_formBlockType = 'Mage_Ogone_Block_Form';
+    protected $_infoBlockType = 'Mage_Ogone_Block_Info';
     protected $_config = null;
 
      /**

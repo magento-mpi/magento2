@@ -215,61 +215,61 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
 
         switch ($type) {
             case 'date':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_date';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Date';
                 break;
             case 'datetime':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_datetime';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Datetime';
                 break;
             case 'number':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_number';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Number';
                 break;
             case 'currency':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_currency';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency';
                 break;
             case 'price':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_price';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Price';
                 break;
             case 'country':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_country';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Country';
                 break;
             case 'concat':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_concat';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Concat';
                 break;
             case 'action':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_action';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action';
                 break;
             case 'options':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_options';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Options';
                 break;
             case 'checkbox':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_checkbox';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Checkbox';
                 break;
             case 'massaction':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_massaction';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Massaction';
                 break;
             case 'radio':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_radio';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Radio';
                 break;
             case 'input':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_input';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Input';
                 break;
             case 'select':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_select';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Select';
                 break;
             case 'text':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_longtext';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Longtext';
                 break;
             case 'store':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_store';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store';
                 break;
             case 'wrapline':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_wrapline';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Wrapline';
                 break;
             case 'theme':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_theme';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Theme';
                 break;
             default:
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_text';
+                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Text';
                 break;
         }
         return $rendererClass;
@@ -309,45 +309,45 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
 
         switch ($type) {
             case 'datetime':
-                $filterClass = 'adminhtml/widget_grid_column_filter_datetime';
+                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Datetime';
                 break;
             case 'date':
-                $filterClass = 'adminhtml/widget_grid_column_filter_date';
+                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date';
                 break;
             case 'range':
             case 'number':
             case 'currency':
-                $filterClass = 'adminhtml/widget_grid_column_filter_range';
+                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Range';
                 break;
             case 'price':
-                $filterClass = 'adminhtml/widget_grid_column_filter_price';
+                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Price';
                 break;
             case 'country':
-                $filterClass = 'adminhtml/widget_grid_column_filter_country';
+                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Country';
                 break;
             case 'options':
-                $filterClass = 'adminhtml/widget_grid_column_filter_select';
+                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select';
                 break;
 
             case 'massaction':
-                $filterClass = 'adminhtml/widget_grid_column_filter_massaction';
+                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Massaction';
                 break;
 
             case 'checkbox':
-                $filterClass = 'adminhtml/widget_grid_column_filter_checkbox';
+                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Checkbox';
                 break;
 
             case 'radio':
-                $filterClass = 'adminhtml/widget_grid_column_filter_radio';
+                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Radio';
                 break;
             case 'store':
-                $filterClass = 'adminhtml/widget_grid_column_filter_store';
+                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Store';
                 break;
             case 'theme':
-                $filterClass = 'adminhtml/widget_grid_column_filter_theme';
+                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Theme';
                 break;
             default:
-                $filterClass = 'adminhtml/widget_grid_column_filter_text';
+                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Text';
                 break;
         }
         return $filterClass;

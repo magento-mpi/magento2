@@ -27,8 +27,8 @@
 
 class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
 {
-    protected $_formBlockType = 'payment/form_cc';
-    protected $_infoBlockType = 'payment/info_cc';
+    protected $_formBlockType = 'Mage_Payment_Block_Form_Cc';
+    protected $_infoBlockType = 'Mage_Payment_Block_Info_Cc';
     protected $_canSaveCc     = false;
 
     /**

@@ -63,7 +63,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract extends Ent
      *
      * @var string
      */
-    protected $_iframeBlockType = 'adminhtml/template';
+    protected $_iframeBlockType = 'Mage_Adminhtml_Block_Template';
 
     /**
      * Adminhtml iframe template

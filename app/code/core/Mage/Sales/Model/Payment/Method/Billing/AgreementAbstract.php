@@ -38,8 +38,8 @@ abstract class Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract extends
     const TRANSPORT_BILLING_AGREEMENT_ID = 'ba_agreement_id';
     const PAYMENT_INFO_REFERENCE_ID      = 'ba_reference_id';
 
-    protected $_infoBlockType = 'sales/payment_info_billing_agreement';
-    protected $_formBlockType = 'sales/payment_form_billing_agreement';
+    protected $_infoBlockType = 'Mage_Sales_Block_Payment_Info_Billing_Agreement';
+    protected $_formBlockType = 'Mage_Sales_Block_Payment_Form_Billing_Agreement';
 
     /**
      * Is method instance available
