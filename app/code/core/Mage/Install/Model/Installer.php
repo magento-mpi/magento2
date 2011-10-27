@@ -266,11 +266,6 @@ class Mage_Install_Model_Installer extends Varien_Object
         $data->save();
         $data->setRoleIds(array(1))->saveRelations();
 
-        /*Mage::getModel("permissions/user")->setRoleId(1)
-            ->setUserId($user->getId())
-            ->setFirstname($user->getFirstname())
-            ->add();*/
-
         return true;
     }
 

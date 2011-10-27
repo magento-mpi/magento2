@@ -80,16 +80,6 @@ class Enterprise_Rma_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get all available item states
-     *
-     * @return array
-     */
-    public function getAllStates()
-    {
-        return Mage::getModel('enterprise_rma/item_attribute_source_state_status')->getAllOptions();
-    }
-
-    /**
      * Declare rma instance
      *
      * @param   Enterprise_Rma_Model_Rma $rma
