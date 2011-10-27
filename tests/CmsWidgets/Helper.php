@@ -272,8 +272,7 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
         $searchWidget = $this->arrayEmptyClear($searchWidget);
         if (!empty($searchWidget)) {
             $this->openWidget($searchWidget);
-            $this->answerOnNextPrompt('OK');
-            $this->clickButton('delete');
+            $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
             $this->assertTrue($this->checkMessage('successfully_deleted_widget'), 'The widget has not been deleted');
         }
     }
