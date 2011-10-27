@@ -183,7 +183,7 @@
                         </express_pe>
                         <payflow_link translate="label comment">
                             <label>Payflow Link (for USA and Canada)</label>
-                            <comment>Accept payments with a PCI-compliant checkout that keeps customers on your site.  For use with a merchant account from a company other than PayPal.</comment>
+                            <comment>Accept payments with a PCI-compliant checkout that keeps customers on your site. For use with your own merchant account.</comment>
                             <more_url><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_payflow-link-overview-outside]]></more_url>
                             <backend_congif>
                                 <enable_for_countries>US, CA</enable_for_countries>
