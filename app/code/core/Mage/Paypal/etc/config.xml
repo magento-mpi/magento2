@@ -254,19 +254,22 @@
             </paypal_billing_agreement>
             <payflow_link>
                 <model>paypal/payflowlink</model>
-                <title>Payflow Link</title>
                 <payment_action>Authorization</payment_action>
                 <verbosity>HIGH</verbosity>
                 <pwd backend_model="adminhtml/system_config_backend_encrypted"/>
                 <group>paypal</group>
+                <title>Credit Card</title>
             </payflow_link>
             <payflow_advanced>
                 <model>paypal/payflowadvanced</model>
-                <title>Payments Advanced</title>
                 <payment_action>Authorization</payment_action>
                 <verbosity>HIGH</verbosity>
                 <pwd backend_model="adminhtml/system_config_backend_encrypted"/>
                 <group>paypal</group>
+                <title>Credit Card</title>
+                <partner>PayPal</partner>
+                <vendor>PayPal</vendor>
+                <user>PayPal</user>
             </payflow_advanced>
             <hosted_pro>
                 <model>paypal/hostedpro</model>

@@ -94,21 +94,3 @@
         </ul>
     </div>
 </div>
-<script type="text/javascript">
-//<![CDATA[
-    document.observe("dom:loaded", function() {
-        if ($('paypal_payflow_advanced_title').empty()) {
-            $('paypal_payflow_advanced_title').setValue('<?php echo $this->__('Credit Card')?>');
-        }
-        if ($('paypal_payflow_advanced_partner').empty()) {
-            $('paypal_payflow_advanced_partner').setValue('<?php echo $this->__('PayPal')?>');
-        }
-        if ($('paypal_payflow_advanced_vendor').empty()) {
-            $('paypal_payflow_advanced_vendor').setValue('<?php echo $this->__('PayPal')?>');
-        }
-        if ($('paypal_payflow_advanced_user').empty()) {
-            $('paypal_payflow_advanced_user').setValue('<?php echo $this->__('PayPal')?>');
-        }
-    });
-//]]>
-</script>
