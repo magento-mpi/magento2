@@ -36,7 +36,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Select extends Mage_Adminht
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('googleshopping/types/edit/select.phtml');
+        $this->setTemplate('types/edit/select.phtml');
     }
 
 }

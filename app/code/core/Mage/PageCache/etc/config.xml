@@ -59,8 +59,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <pagecache>
-                    <file>pagecache.xml</file>
+                <pagecache module="Mage_PageCache">
+                    <file>layout.xml</file>
                 </pagecache>
             </updates>
         </layout>
@@ -77,8 +77,8 @@
     <frontend>
         <layout>
             <updates>
-                <pagecache>
-                    <file>pagecache.xml</file>
+                <pagecache module="Mage_PageCache">
+                    <file>layout.xml</file>
                 </pagecache>
             </updates>
         </layout>

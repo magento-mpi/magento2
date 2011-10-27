@@ -35,7 +35,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Totals extends Mage_Checkout_Block_
      *
      * @var string
      */
-    protected $_template = 'giftwrapping/checkout/totals.phtml';
+    protected $_template = 'checkout/totals.phtml';
 
     /**
      * Return information for showing

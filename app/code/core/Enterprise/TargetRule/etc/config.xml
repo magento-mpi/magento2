@@ -82,8 +82,8 @@
         </translate>
         <layout>
             <updates>
-                <enterprise_targetrule>
-                    <file>enterprise/targetrule.xml</file>
+                <enterprise_targetrule module="Enterprise_TargetRule">
+                    <file>layout.xml</file>
                 </enterprise_targetrule>
             </updates>
         </layout>
@@ -103,7 +103,7 @@
         <layout>
             <updates>
                 <enterprise_targetrule module="Enterprise_TargetRule">
-                    <file>targetrule.xml</file>
+                    <file>layout.xml</file>
                 </enterprise_targetrule>
             </updates>
         </layout>

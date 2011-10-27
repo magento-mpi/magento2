@@ -1335,4 +1335,19 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
 
         return '<!--SID=' . $cacheKey . '-->';
     }
+
+    /**
+     * Get variable value from view configuration
+     *
+     * Module name can be omitted. If omitted, it will be determined automatically.
+     *
+     * @param string $name variable name
+     * @param string $module optional module name
+     * @return string|false
+     */
+    public function getVar($name, $module = null)
+    {
+        $module = $module ?: $this->getModuleName();
+        return Mage::getDesign()->getViewConfig()->getVarValue($module, $name);
+    }
 }

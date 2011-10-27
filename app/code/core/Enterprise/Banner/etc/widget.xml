@@ -29,6 +29,7 @@
     <enterprise_banner type="enterprise_banner/widget_banner" translate="name description" module="enterprise_banner">
         <name>Banner Rotator</name>
         <description>Displays Specified or Promotion Banners</description>
+        <placeholder_image>Enterprise_Banner::widget_banner.gif</placeholder_image>
         <parameters>
             <display_mode translate="label">
                 <required>1</required>
@@ -95,14 +96,14 @@
             </banner_ids>
             <template>
                 <required>1</required>
-                <value>banner/widget/block.phtml</value>
+                <value>widget/block.phtml</value>
                 <values>
                     <block translate="label">
-                        <value>banner/widget/block.phtml</value>
+                        <value>widget/block.phtml</value>
                         <label>Banner Block Template</label>
                     </block>
                     <inline translate="label">
-                        <value>banner/widget/inline.phtml</value>
+                        <value>widget/inline.phtml</value>
                         <label>Banner Inline Template</label>
                     </inline>
                 </values>

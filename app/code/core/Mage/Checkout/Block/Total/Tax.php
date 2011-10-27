@@ -32,5 +32,5 @@
  */
 class Mage_Checkout_Block_Total_Tax extends Mage_Checkout_Block_Total_Default
 {
-    protected $_template = 'checkout/total/tax.phtml';
+    protected $_template = 'total/tax.phtml';
 }

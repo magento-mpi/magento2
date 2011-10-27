@@ -43,7 +43,7 @@ abstract class Mage_Checkout_Block_Cart_Abstract extends Mage_Core_Block_Templat
     public function __construct()
     {
         parent::__construct();
-        $this->addItemRender('default', 'checkout/cart_item_renderer', 'checkout/cart/item/default.phtml');
+        $this->addItemRender('default', 'checkout/cart_item_renderer', 'cart/item/default.phtml');
     }
 
     /**

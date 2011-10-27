@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Widget_Accordion extends Mage_Adminhtml_Block_Widget
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('widget/accordion.phtml');
+        $this->setTemplate('Mage_Adminhtml::widget/accordion.phtml');
     }
     
     public function getItems()

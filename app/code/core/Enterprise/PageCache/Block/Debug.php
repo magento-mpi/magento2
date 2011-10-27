@@ -34,6 +34,6 @@ class Enterprise_PageCache_Block_Debug extends Mage_Core_Block_Template
      */
     public function __construct()
     {
-        $this->setTemplate('pagecache/blockdebug.phtml');
+        $this->setTemplate('blockdebug.phtml');
     }
 }

@@ -68,7 +68,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit
         );
 
         $this->_updateButton('save', 'label', Mage::helper('enterprise_customer')->__('Save Attribute'));
-        if (!$this->_getAttribute()->getIsUserDefined()) {
+        if (!$this->_getAttribute() || !$this->_getAttribute()->getIsUserDefined()) {
             $this->_removeButton('delete');
         } else {
             $this->_updateButton('delete', 'label', Mage::helper('enterprise_customer')->__('Delete Attribute'));

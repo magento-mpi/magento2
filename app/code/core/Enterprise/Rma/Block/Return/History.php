@@ -29,7 +29,7 @@ class Enterprise_Rma_Block_Return_History extends Mage_Core_Block_Template
     public function _construct()
     {
         parent::_construct();
-        $this->setTemplate('rma/return/history.phtml');
+        $this->setTemplate('return/history.phtml');
 
         $returns = Mage::getResourceModel('enterprise_rma/rma_grid_collection')
             ->addFieldToSelect('*')

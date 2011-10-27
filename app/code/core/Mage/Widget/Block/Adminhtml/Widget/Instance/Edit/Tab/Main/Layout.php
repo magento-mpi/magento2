@@ -45,7 +45,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('widget/instance/edit/layout.phtml');
+        $this->setTemplate('instance/edit/layout.phtml');
     }
 
     /**

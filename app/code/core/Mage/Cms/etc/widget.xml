@@ -30,6 +30,7 @@
         <name>CMS Page Link</name>
         <description>Link to a CMS Page</description>
         <is_email_compatible>1</is_email_compatible>
+        <placeholder_image>Mage_Cms::images/widget_page_link.gif</placeholder_image>
         <parameters>
             <page_id type="complex" translate="label">
                 <visible>1</visible>
@@ -61,14 +62,14 @@
                 <label>Template</label>
                 <visible>1</visible>
                 <type>select</type>
-                <value>cms/widget/link/link_block.phtml</value>
+                <value>widget/link/link_block.phtml</value>
                 <values>
                     <default translate="label">
-                        <value>cms/widget/link/link_block.phtml</value>
+                        <value>widget/link/link_block.phtml</value>
                         <label>CMS Page Link Block Template</label>
                     </default>
                     <link_inline translate="label">
-                        <value>cms/widget/link/link_inline.phtml</value>
+                        <value>widget/link/link_inline.phtml</value>
                         <label>CMS Page Link Inline Template</label>
                     </link_inline>
                 </values>
@@ -78,6 +79,7 @@
     <cms_static_block type="cms/widget_block" translate="name description" module="cms">
         <name>CMS Static Block</name>
         <description>Contents of a Static Block</description>
+        <placeholder_image>Mage_Cms::images/widget_block.gif</placeholder_image>
         <parameters>
             <block_id type="complex" translate="label">
                 <visible>1</visible>
@@ -98,10 +100,10 @@
                 <label>Template</label>
                 <visible>1</visible>
                 <type>select</type>
-                <value>cms/widget/static_block/default.phtml</value>
+                <value>widget/static_block/default.phtml</value>
                 <values>
                     <default translate="label">
-                        <value>cms/widget/static_block/default.phtml</value>
+                        <value>widget/static_block/default.phtml</value>
                         <label>CMS Static Block Default Template</label>
                     </default>
                 </values>

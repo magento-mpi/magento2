@@ -82,8 +82,8 @@
         </translate>
         <layout>
             <updates>
-                <reports>
-                    <file>reports.xml</file>
+                <reports module="Mage_Reports">
+                    <file>layout.xml</file>
                 </reports>
             </updates>
         </layout>

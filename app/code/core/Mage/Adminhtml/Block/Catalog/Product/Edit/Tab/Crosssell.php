@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
         $this->setId('cross_sell_product_grid');
         $this->setDefaultSort('entity_id');
         $this->setUseAjax(true);
-        if ($this->_getProduct()->getId()) {
+        if ($this->_getProduct() && $this->_getProduct()->getId()) {
             $this->setDefaultFilter(array('in_products'=>1));
         }
         if ($this->isReadonly()) {
@@ -122,7 +122,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
      */
     public function isReadonly()
     {
-        return $this->_getProduct()->getCrosssellReadonly();
+        return $this->_getProduct() && $this->_getProduct()->getCrosssellReadonly();
     }
 
     /**

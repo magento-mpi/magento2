@@ -62,8 +62,8 @@
         <template>
             <email>
                 <enterprise_reminder_email_template translate="label" module="enterprise_reminder">
-                    <label>Rule Reminder</label>
-                    <file>enterprise/reminder.html</file>
+                    <label>Promotion Notification/Reminder</label>
+                    <file>email/promotion.html</file>
                     <type>html</type>
                 </enterprise_reminder_email_template>
             </email>
@@ -101,8 +101,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_reminder>
-                    <file>enterprise/reminder.xml</file>
+                <enterprise_reminder module="Enterprise_Reminder">
+                    <file>layout.xml</file>
                 </enterprise_reminder>
             </updates>
         </layout>

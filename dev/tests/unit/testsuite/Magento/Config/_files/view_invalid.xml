@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Framework
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<view>
+    <vars module="Namespace_Module">
+        <var name="var1">Value1</var>
+    </vars>
+    <vars module="Namespace_Module"><!-- duplicate vars module -->
+        <var name="var1">Value1</var>
+        <var name="var1">Value1</var><!-- duplicate var name -->
+    </vars>
+</view>

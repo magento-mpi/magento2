@@ -127,8 +127,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <index>
-                    <file>index.xml</file>
+                <index module="Mage_Index">
+                    <file>layout.xml</file>
                 </index>
             </updates>
         </layout>

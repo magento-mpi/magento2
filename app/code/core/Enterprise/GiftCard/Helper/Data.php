@@ -37,12 +37,6 @@ class Enterprise_GiftCard_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $className = Mage::getConfig()->getBlockClassName('core/template');
         $block = new $className;
-        if (Mage::app()->getStore()->isAdmin()) {
-            $block->setTemplate('enterprise/giftcard/email/generated.phtml');
-            $block->setArea('adminhtml');
-        } else {
-            $block->setTemplate('giftcard/email/generated.phtml');
-        }
-        return $block;
-    }
+        $block->setTemplate('Eenterprise_GiftCard::email/generated.phtml');
+        return $block;    }
 }

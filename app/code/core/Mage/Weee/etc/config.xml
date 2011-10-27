@@ -191,8 +191,8 @@
     <frontend>
         <layout>
             <updates>
-                <weee>
-                    <file>weee.xml</file>
+                <weee module="Mage_Weee">
+                    <file>layout.xml</file>
                 </weee>
             </updates>
         </layout>

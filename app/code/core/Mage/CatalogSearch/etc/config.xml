@@ -87,8 +87,8 @@
         </translate>
         <layout>
             <updates>
-                <catalogsearch>
-                    <file>catalogsearch.xml</file>
+                <catalogsearch module="Mage_CatalogSearch">
+                    <file>layout.xml</file>
                 </catalogsearch>
             </updates>
         </layout>
@@ -103,13 +103,6 @@
                 </Mage_CatalogSearch>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <catalogsearch>
-                    <file>search.xml</file>
-                </catalogsearch>
-            </updates>
-        </layout>
     </adminhtml>
     <default>
         <catalog>

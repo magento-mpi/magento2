@@ -39,7 +39,7 @@ abstract class Enterprise_Pbridge_Block_Payment_Form_Abstract extends Mage_Payme
      *
      * @var string
      */
-    protected $_template = 'pbridge/checkout/payment/pbridge.phtml';
+    protected $_template = 'Enterprise_Pbridge::checkout/payment/pbridge.phtml';
 
     /**
      * Default iframe block type
@@ -53,7 +53,7 @@ abstract class Enterprise_Pbridge_Block_Payment_Form_Abstract extends Mage_Payme
      *
      * @var string
      */
-    protected $_iframeTemplate = 'pbridge/checkout/payment/iframe.phtml';
+    protected $_iframeTemplate = 'Enterprise_Pbridge::checkout/payment/iframe.phtml';
 
     /**
      * Return original payment method code

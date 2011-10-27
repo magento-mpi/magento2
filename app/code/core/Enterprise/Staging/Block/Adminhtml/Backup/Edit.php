@@ -35,7 +35,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit extends Mage_Adminhtml_Bloc
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('enterprise/staging/backup/edit.phtml');
+        $this->setTemplate('backup/edit.phtml');
         $this->setId('enterprise_staging_backup_edit');
 
         $this->setEditFormJsObject('enterpriseStagingBackupForm');

@@ -148,7 +148,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
      */
     public function getBackUrl()
     {
-        if ($this->_getCustomer()->getId()) {
+        if ($this->_getCustomer() && $this->_getCustomer()->getId()) {
             return $this->getUrl('*/customer/edit', array('id' => $this->_getCustomer()->getId()));
         } else {
             return $this->getUrl('*/customer');

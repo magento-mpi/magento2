@@ -103,11 +103,15 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
     public function getBackUrl()
     {
         if ($this->getRequest()->getParam('category')) {
-            return $this->getUrl('*/catalog_category/edit',
-                                array('clear' => 1, 'id' => $this->getEvent()->getCategoryId()));
-        } elseif (!$this->getEvent()->getId() && $this->getEvent()->getCategoryId()) {
-            return $this->getUrl('*/*/new',
-                                 array('_current' => true, 'category_id' => null));
+            return $this->getUrl(
+                '*/catalog_category/edit',
+                array('clear' => 1, 'id' => $this->getEvent()->getCategoryId())
+            );
+        } elseif ($this->getEvent() && !$this->getEvent()->getId() && $this->getEvent()->getCategoryId()) {
+            return $this->getUrl(
+                '*/*/new',
+                array('_current' => true, 'category_id' => null)
+            );
         }
 
         return parent::getBackUrl();

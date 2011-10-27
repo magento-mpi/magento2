@@ -51,7 +51,7 @@ class Mage_Page_Block_Html_Toplinks extends Mage_Core_Block_Template
     function __construct()
     {
         parent::__construct();
-        $this->setTemplate('page/html/top.links.phtml');
+        $this->setTemplate('html/top.links.phtml');
     }
 
     /**
