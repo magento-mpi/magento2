@@ -67,6 +67,11 @@ category_page:
                             ex_price_special_inlcuding_tax: //li[h2/a='%productName%']//p[@class='special-price']/span[@class='price-including-tax']
                             ex_as_low_as: //li[h2/a='%productName%']//a[@class='minimal-price-link']/span[@class='price']
                 -
+                    category_title:
+                        xpath: //div[@class='page-title']
+                        pageelements:
+                            product_tagged: //div[@class='page-title']/h1[contains(.,'%tagName%')]
+                -
                     compare_products:
                         xpath: //div[@class[contains(.,'block-compare')]]
                 -
