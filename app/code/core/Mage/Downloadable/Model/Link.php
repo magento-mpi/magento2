@@ -71,7 +71,7 @@ class Mage_Downloadable_Model_Link extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('downloadable/link');
+        $this->_init('Mage_Downloadable_Model_Resource_Link');
         parent::_construct();
     }
 

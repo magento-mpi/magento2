@@ -39,7 +39,7 @@ class Mage_Paypal_Model_Cert extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('paypal/cert');
+        $this->_init('Mage_Paypal_Model_Resource_Cert');
     }
 
     /**

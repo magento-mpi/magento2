@@ -56,7 +56,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('log/visitor');
+        $this->_init('Mage_Log_Model_Resource_Visitor');
         $userAgent = Mage::helper('Mage_Core_Helper_Http')->getHttpUserAgent();
         $ignoreAgents = Mage::getConfig()->getNode('global/ignore_user_agents');
         if ($ignoreAgents) {

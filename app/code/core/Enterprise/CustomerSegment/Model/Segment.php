@@ -59,7 +59,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('enterprise_customersegment/segment');
+        $this->_init('Enterprise_CustomerSegment_Model_Resource_Segment');
     }
 
     /**

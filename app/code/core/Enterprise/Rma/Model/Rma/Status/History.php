@@ -38,7 +38,7 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('enterprise_rma/rma_status_history');
+        $this->_init('Enterprise_Rma_Model_Resource_Rma_Status_History');
     }
 
     /**

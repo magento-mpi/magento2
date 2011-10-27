@@ -41,7 +41,7 @@ class Mage_Rating_Model_Rating_Entity extends Mage_Core_Model_Abstract
 {
     protected function _construct()
     {
-        $this->_init('rating/rating_entity');
+        $this->_init('Mage_Rating_Model_Resource_Rating_Entity');
     }
 
     public function getIdByCode($entityCode)

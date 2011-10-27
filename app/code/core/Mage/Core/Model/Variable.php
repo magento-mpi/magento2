@@ -51,7 +51,7 @@ class Mage_Core_Model_Variable extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('core/variable');
+        $this->_init('Mage_Core_Model_Resource_Variable');
     }
 
     /**

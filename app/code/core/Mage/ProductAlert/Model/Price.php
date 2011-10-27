@@ -55,7 +55,7 @@ class Mage_ProductAlert_Model_Price extends Mage_Core_Model_Abstract
 {
     protected function _construct()
     {
-        $this->_init('productalert/price');
+        $this->_init('Mage_ProductAlert_Model_Resource_Price');
     }
 
     public function getCustomerCollection()

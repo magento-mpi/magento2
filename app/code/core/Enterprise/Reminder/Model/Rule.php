@@ -73,7 +73,7 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Rule
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('enterprise_reminder/rule');
+        $this->_init('Enterprise_Reminder_Model_Resource_Rule');
     }
 
     /**

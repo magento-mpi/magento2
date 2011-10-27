@@ -63,7 +63,7 @@ class Mage_Sales_Model_Quote_Address_Rate extends Mage_Shipping_Model_Rate_Abstr
 
     protected function _construct()
     {
-        $this->_init('sales/quote_address_rate');
+        $this->_init('Mage_Sales_Model_Resource_Quote_Address_Rate');
     }
 
     protected function _beforeSave()

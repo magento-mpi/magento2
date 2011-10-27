@@ -88,7 +88,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('sendfriend/sendfriend');
+        $this->_init('Mage_Sendfriend_Model_Resource_Sendfriend');
     }
 
     /**

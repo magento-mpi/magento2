@@ -58,7 +58,7 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('enterprise_giftcardaccount/history');
+        $this->_init('Enterprise_GiftCardAccount_Model_Resource_History');
     }
 
     public function getActionNamesArray()

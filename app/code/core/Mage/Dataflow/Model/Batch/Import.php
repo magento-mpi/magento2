@@ -43,6 +43,6 @@ class Mage_Dataflow_Model_Batch_Import extends Mage_Dataflow_Model_Batch_Abstrac
 {
     protected function _construct()
     {
-        $this->_init('dataflow/batch_import');
+        $this->_init('Mage_Dataflow_Model_Resource_Batch_Import');
     }
 }

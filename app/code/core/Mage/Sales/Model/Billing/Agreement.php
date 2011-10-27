@@ -68,7 +68,7 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
      */
     protected function _construct()
     {
-        $this->_init('sales/billing_agreement');
+        $this->_init('Mage_Sales_Model_Resource_Billing_Agreement');
     }
 
     /**

@@ -218,7 +218,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('core/store');
+        $this->_init('Mage_Core_Model_Resource_Store');
         $this->_configCacheBaseNodes = array(
             self::XML_PATH_PRICE_SCOPE,
             self::XML_PATH_SECURE_BASE_URL,

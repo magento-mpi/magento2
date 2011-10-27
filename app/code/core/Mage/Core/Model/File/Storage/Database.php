@@ -62,7 +62,7 @@ class Mage_Core_Model_File_Storage_Database extends Mage_Core_Model_File_Storage
      */
     public function __construct($connectionName = null)
     {
-        $this->_init('core/file_storage_database');
+        $this->_init('Mage_Core_Model_Resource_File_Storage_Database');
 
         parent::__construct($connectionName);
     }

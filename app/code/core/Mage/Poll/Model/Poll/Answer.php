@@ -47,7 +47,7 @@ class Mage_Poll_Model_Poll_Answer extends Mage_Core_Model_Abstract
 {
     protected function _construct()
     {
-        $this->_init('poll/poll_answer');
+        $this->_init('Mage_Poll_Model_Resource_Poll_Answer');
     }
 
     public function countPercent($poll)

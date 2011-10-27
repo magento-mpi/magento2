@@ -166,7 +166,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('sales/order_creditmemo');
+        $this->_init('Mage_Sales_Model_Resource_Order_Creditmemo');
     }
 
     /**

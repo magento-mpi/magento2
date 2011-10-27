@@ -52,7 +52,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('directory/currency');
+        $this->_init('Mage_Directory_Model_Resource_Currency');
     }
 
     /**

@@ -95,7 +95,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('newsletter/subscriber');
+        $this->_init('Mage_Newsletter_Model_Resource_Subscriber');
     }
 
     /**

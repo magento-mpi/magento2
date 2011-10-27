@@ -77,7 +77,7 @@ class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('enterprise_pagecache/crawler');
+        $this->_init('Enterprise_PageCache_Model_Resource_Crawler');
     }
 
     /**

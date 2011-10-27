@@ -64,7 +64,7 @@ class Mage_XmlConnect_Model_ConfigData extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('xmlconnect/configData');
+        $this->_init('Mage_XmlConnect_Model_Resource_ConfigData');
     }
 
     /**

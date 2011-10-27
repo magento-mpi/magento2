@@ -58,7 +58,7 @@ class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('core/design');
+        $this->_init('Mage_Core_Model_Resource_Design');
     }
 
     public function validate()

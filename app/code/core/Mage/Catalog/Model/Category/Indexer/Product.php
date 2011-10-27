@@ -80,7 +80,7 @@ class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Index
      */
     protected function _construct()
     {
-        $this->_init('catalog/category_indexer_product');
+        $this->_init('Mage_Catalog_Model_Resource_Category_Indexer_Product');
     }
 
     /**

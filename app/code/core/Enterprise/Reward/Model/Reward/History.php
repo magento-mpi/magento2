@@ -80,7 +80,7 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('enterprise_reward/reward_history');
+        $this->_init('Enterprise_Reward_Model_Resource_Reward_History');
     }
 
     /**

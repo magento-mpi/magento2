@@ -102,7 +102,7 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
      */
     protected function _construct()
     {
-        $this->_init('newsletter/queue');
+        $this->_init('Mage_Newsletter_Model_Resource_Queue');
     }
 
     /**

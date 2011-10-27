@@ -196,7 +196,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
      */
     protected function _construct()
     {
-        $this->_init('sales/quote_item');
+        $this->_init('Mage_Sales_Model_Resource_Quote_Item');
         $this->_errorInfos = Mage::getModel('sales/status_list');
     }
 

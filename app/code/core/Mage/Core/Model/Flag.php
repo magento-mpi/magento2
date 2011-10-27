@@ -60,7 +60,7 @@ class Mage_Core_Model_Flag extends Mage_Core_Model_Abstract
         if ($this->hasData('flag_code')) {
             $this->_flagCode = $this->getData('flag_code');
         }
-        $this->_init('core/flag');
+        $this->_init('Mage_Core_Model_Resource_Flag');
     }
 
     /**

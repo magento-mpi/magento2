@@ -87,7 +87,7 @@ class Mage_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer_Ab
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_indexer_eav');
+        $this->_init('Mage_Catalog_Model_Resource_Product_Indexer_Eav');
     }
 
     /**

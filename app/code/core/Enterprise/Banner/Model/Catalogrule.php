@@ -47,6 +47,6 @@ class Enterprise_Banner_Model_Catalogrule extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('enterprise_banner/catalogrule');
+        $this->_init('Enterprise_Banner_Model_Resource_Catalogrule');
     }
 }

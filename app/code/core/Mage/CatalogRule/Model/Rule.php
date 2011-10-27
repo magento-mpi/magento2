@@ -109,7 +109,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('catalogrule/rule');
+        $this->_init('Mage_CatalogRule_Model_Resource_Rule');
         $this->setIdFieldName('rule_id');
     }
 

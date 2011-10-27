@@ -117,10 +117,10 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     protected function _construct()
     {
         if (Mage::helper('Mage_Catalog_Helper_Category_Flat')->isEnabled()) {
-            $this->_init('catalog/category_flat');
+            $this->_init('Mage_Catalog_Model_Resource_Category_Flat');
             $this->_useFlatResource = true;
         } else {
-            $this->_init('catalog/category');
+            $this->_init('Mage_Catalog_Model_Resource_Category');
         }
     }
 

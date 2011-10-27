@@ -80,7 +80,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('enterprise_cms/page_version');
+        $this->_init('Enterprise_Cms_Model_Resource_Page_Version');
     }
 
     /**

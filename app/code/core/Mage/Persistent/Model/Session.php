@@ -56,7 +56,7 @@ class Mage_Persistent_Model_Session extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('persistent/session');
+        $this->_init('Mage_Persistent_Model_Resource_Session');
     }
 
     /**

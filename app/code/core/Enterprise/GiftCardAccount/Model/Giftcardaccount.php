@@ -84,7 +84,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
 
     protected function _construct()
     {
-        $this->_init('enterprise_giftcardaccount/giftcardaccount');
+        $this->_init('Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount');
     }
 
     protected function _beforeSave()

@@ -75,7 +75,7 @@ class Mage_Index_Model_Event extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('index/event');
+        $this->_init('Mage_Index_Model_Resource_Event');
     }
 
     /**

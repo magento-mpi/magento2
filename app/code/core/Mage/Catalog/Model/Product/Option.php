@@ -80,7 +80,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('catalog/product_option');
+        $this->_init('Mage_Catalog_Model_Resource_Product_Option');
     }
 
     /**

@@ -72,7 +72,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
      */
     protected function _construct()
     {
-        $this->_init('enterprise_importexport/scheduled_operation');
+        $this->_init('Enterprise_ImportExport_Model_Resource_Scheduled_Operation');
     }
 
     /**

@@ -80,7 +80,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('enterprise_reward/reward');
+        $this->_init('Enterprise_Reward_Model_Resource_Reward');
         self::$_actionModelClasses = self::$_actionModelClasses + array(
             self::REWARD_ACTION_ADMIN               => 'enterprise_reward/action_admin',
             self::REWARD_ACTION_ORDER               => 'enterprise_reward/action_order',

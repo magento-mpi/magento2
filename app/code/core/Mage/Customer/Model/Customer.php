@@ -128,7 +128,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     function _construct()
     {
-        $this->_init('customer/customer');
+        $this->_init('Mage_Customer_Model_Resource_Customer');
     }
 
     /**

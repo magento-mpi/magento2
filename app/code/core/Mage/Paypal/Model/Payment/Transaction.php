@@ -75,7 +75,7 @@ class Mage_Paypal_Model_Payment_Transaction extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('paypal/payment_transaction');
+        $this->_init('Mage_Paypal_Model_Resource_Payment_Transaction');
         return parent::_construct();
     }
 

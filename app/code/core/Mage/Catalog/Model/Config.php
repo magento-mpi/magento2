@@ -68,7 +68,7 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
      */
     protected function _construct()
     {
-        $this->_init('catalog/config');
+        $this->_init('Mage_Catalog_Model_Resource_Config');
     }
 
     /**

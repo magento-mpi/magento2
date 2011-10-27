@@ -114,7 +114,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('catalog/product');
+        $this->_init('Mage_Catalog_Model_Resource_Product');
     }
 
     /**

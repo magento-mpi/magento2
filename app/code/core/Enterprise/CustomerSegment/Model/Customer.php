@@ -75,7 +75,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('enterprise_customersegment/customer');
+        $this->_init('Enterprise_CustomerSegment_Model_Resource_Customer');
     }
 
     /**

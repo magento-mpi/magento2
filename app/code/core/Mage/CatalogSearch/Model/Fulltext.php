@@ -49,7 +49,7 @@ class Mage_CatalogSearch_Model_Fulltext extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('catalogsearch/fulltext');
+        $this->_init('Mage_CatalogSearch_Model_Resource_Fulltext');
     }
 
     /**

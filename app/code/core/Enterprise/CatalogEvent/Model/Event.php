@@ -92,7 +92,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('enterprise_catalogevent/event');
+        $this->_init('Enterprise_CatalogEvent_Model_Resource_Event');
     }
 
     /**

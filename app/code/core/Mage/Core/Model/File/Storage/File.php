@@ -60,7 +60,7 @@ class Mage_Core_Model_File_Storage_File extends Mage_Core_Model_File_Storage_Abs
      */
     public function __construct()
     {
-        $this->_init('core/file_storage_file');
+        $this->_init('Mage_Core_Model_Resource_File_Storage_File');
     }
 
     /**

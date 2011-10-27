@@ -98,7 +98,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('sales/order_shipment');
+        $this->_init('Mage_Sales_Model_Resource_Order_Shipment');
     }
 
     /**

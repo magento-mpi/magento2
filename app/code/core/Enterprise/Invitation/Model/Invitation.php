@@ -77,7 +77,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('enterprise_invitation/invitation');
+        $this->_init('Enterprise_Invitation_Model_Resource_Invitation');
     }
 
     /**

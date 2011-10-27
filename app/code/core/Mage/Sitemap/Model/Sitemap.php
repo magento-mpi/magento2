@@ -59,7 +59,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('sitemap/sitemap');
+        $this->_init('Mage_Sitemap_Model_Resource_Sitemap');
     }
 
     protected function _beforeSave()

@@ -89,7 +89,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
      */
     protected function _construct()
     {
-        $this->_init('core/email_template');
+        $this->_init('Mage_Core_Model_Resource_Email_Template');
     }
 
     /**

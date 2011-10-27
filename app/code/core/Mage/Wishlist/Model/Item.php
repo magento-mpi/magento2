@@ -107,7 +107,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('wishlist/item');
+        $this->_init('Mage_Wishlist_Model_Resource_Item');
     }
 
     /**

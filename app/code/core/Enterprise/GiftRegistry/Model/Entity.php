@@ -96,7 +96,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      * Init resource model
      */
     protected function _construct() {
-        $this->_init('enterprise_giftregistry/entity');
+        $this->_init('Enterprise_GiftRegistry_Model_Resource_Entity');
         parent::_construct();
     }
 

@@ -63,7 +63,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('googlebase/item');
+        $this->_init('Mage_GoogleBase_Model_Resource_Item');
     }
 
     /**

@@ -58,7 +58,7 @@ class Mage_AdminNotification_Model_Inbox extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('adminnotification/inbox');
+        $this->_init('Mage_AdminNotification_Model_Resource_Inbox');
     }
 
     /**

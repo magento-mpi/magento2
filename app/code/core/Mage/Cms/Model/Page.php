@@ -95,7 +95,7 @@ class Mage_Cms_Model_Page extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('cms/page');
+        $this->_init('Mage_Cms_Model_Resource_Page');
     }
 
     /**

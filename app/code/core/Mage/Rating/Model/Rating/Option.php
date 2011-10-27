@@ -46,7 +46,7 @@ class Mage_Rating_Model_Rating_Option extends Mage_Core_Model_Abstract
 {
     protected function _construct()
     {
-        $this->_init('rating/rating_option');
+        $this->_init('Mage_Rating_Model_Resource_Rating_Option');
     }
 
     public function addVote()

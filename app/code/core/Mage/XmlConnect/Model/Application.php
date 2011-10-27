@@ -261,7 +261,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('xmlconnect/application');
+        $this->_init('Mage_XmlConnect_Model_Resource_Application');
         $this->_configModel = Mage::getModel('xmlconnect/configData');
         $this->_configModel->setDeleteOnUpdate($this->getDeleteOnUpdateConfig());
     }

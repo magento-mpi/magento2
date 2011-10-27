@@ -76,7 +76,7 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
      */
     protected function _construct()
     {
-        $this->_init('tag/indexer_summary');
+        $this->_init('Mage_Tag_Model_Resource_Indexer_Summary');
     }
 
     /**

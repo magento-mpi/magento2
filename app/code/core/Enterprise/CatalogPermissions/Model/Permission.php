@@ -57,6 +57,6 @@ class Enterprise_CatalogPermissions_Model_Permission extends Mage_Core_Model_Abs
      */
     protected function _construct()
     {
-        $this->_init('enterprise_catalogpermissions/permission');
+        $this->_init('Enterprise_CatalogPermissions_Model_Resource_Permission');
     }
 }

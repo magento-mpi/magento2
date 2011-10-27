@@ -89,7 +89,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
      */
     protected function _construct()
     {
-        $this->_init('cataloginventory/indexer_stock');
+        $this->_init('Mage_CatalogInventory_Model_Resource_Indexer_Stock');
     }
 
     /**

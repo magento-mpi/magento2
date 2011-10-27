@@ -99,7 +99,7 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('enterprise_cms/page_revision');
+        $this->_init('Enterprise_Cms_Model_Resource_Page_Revision');
         $this->_config = Mage::getSingleton('enterprise_cms/config');
     }
 

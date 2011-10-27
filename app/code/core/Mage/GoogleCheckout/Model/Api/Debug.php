@@ -47,6 +47,6 @@ class Mage_GoogleCheckout_Model_Api_Debug extends Mage_Core_Model_Abstract
 {
     protected function _construct()
     {
-        $this->_init('googlecheckout/api_debug');
+        $this->_init('Mage_GoogleCheckout_Model_Resource_Api_Debug');
     }
 }

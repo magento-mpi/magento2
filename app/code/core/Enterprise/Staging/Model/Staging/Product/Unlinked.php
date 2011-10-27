@@ -35,7 +35,7 @@ class Enterprise_Staging_Model_Staging_Product_Unlinked extends Mage_Core_Model_
 {
     protected function _construct()
     {
-        $this->_init('enterprise_staging/staging_product_unlinked');
+        $this->_init('Enterprise_Staging_Model_Resource_Staging_Product_Unlinked');
     }
 
     /**

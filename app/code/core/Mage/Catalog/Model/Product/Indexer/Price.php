@@ -85,7 +85,7 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_indexer_price');
+        $this->_init('Mage_Catalog_Model_Resource_Product_Indexer_Price');
     }
 
     /**

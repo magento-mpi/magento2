@@ -55,7 +55,7 @@ class Mage_Admin_Model_Roles extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('admin/roles');
+        $this->_init('Mage_Admin_Model_Resource_Roles');
     }
 
     public function update()

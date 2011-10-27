@@ -54,7 +54,7 @@ class Enterprise_GiftWrapping_Model_Wrapping extends Mage_Core_Model_Abstract
      */
     protected function _construct ()
     {
-        $this->_init('enterprise_giftwrapping/wrapping');
+        $this->_init('Enterprise_GiftWrapping_Model_Resource_Wrapping');
     }
 
     /**

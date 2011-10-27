@@ -88,7 +88,7 @@ class Mage_XmlConnect_Model_Queue extends Mage_Core_Model_Template
      */
     protected function _construct()
     {
-        $this->_init('xmlconnect/queue');
+        $this->_init('Mage_XmlConnect_Model_Resource_Queue');
     }
 
     /**

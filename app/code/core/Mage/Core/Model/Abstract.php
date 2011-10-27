@@ -137,11 +137,11 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      * @param string $resourceName
      * @param string|null $resourceCollectionName
      */
-    protected function _setResourceModel($resourceName, $resourceCollectionName=null)
+    protected function _setResourceModel($resourceName, $resourceCollectionName = null)
     {
         $this->_resourceName = $resourceName;
         if (is_null($resourceCollectionName)) {
-            $resourceCollectionName = $resourceName.'_collection';
+            $resourceCollectionName = $resourceName . '_Collection';
         }
         $this->_resourceCollectionName = $resourceCollectionName;
     }

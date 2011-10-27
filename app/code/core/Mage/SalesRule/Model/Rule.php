@@ -155,7 +155,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('salesrule/rule');
+        $this->_init('Mage_SalesRule_Model_Resource_Rule');
         $this->setIdFieldName('rule_id');
     }
 

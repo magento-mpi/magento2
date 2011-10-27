@@ -16,8 +16,8 @@
  */
 class Mage_Catalog_Model_AbstractTestAbstract extends Mage_Catalog_Model_Abstract
 {
-    protected $_resourceCollectionName = 'catalog/product_collection';
-    protected $_resourceName = 'catalog/product';
+    protected $_resourceCollectionName = 'Mage_Catalog_Model_Resource_Product_Collection';
+    protected $_resourceName = 'Mage_Catalog_Model_Resource_Product';
 }
 
 /**

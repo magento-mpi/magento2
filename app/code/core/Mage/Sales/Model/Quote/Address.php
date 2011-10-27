@@ -197,7 +197,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
      */
     protected function _construct()
     {
-        $this->_init('sales/quote_address');
+        $this->_init('Mage_Sales_Model_Resource_Quote_Address');
     }
 
     /**

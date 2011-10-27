@@ -42,7 +42,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('googleshopping/type');
+        $this->_init('Mage_GoogleShopping_Model_Resource_Type');
     }
 
     /**

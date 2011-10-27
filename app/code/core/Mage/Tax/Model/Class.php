@@ -46,6 +46,6 @@ class Mage_Tax_Model_Class extends Mage_Core_Model_Abstract
 
     public function _construct()
     {
-        $this->_init('tax/class');
+        $this->_init('Mage_Tax_Model_Resource_Class');
     }
 }

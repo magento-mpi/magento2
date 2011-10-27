@@ -40,7 +40,7 @@ class Mage_XmlConnect_Model_Template extends Mage_Core_Model_Template
      */
     protected function _construct()
     {
-        $this->_init('xmlconnect/template');
+        $this->_init('Mage_XmlConnect_Model_Resource_Template');
     }
 
     /**

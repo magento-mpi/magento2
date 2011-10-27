@@ -80,7 +80,7 @@ class Mage_Downloadable_Model_Link_Purchased_Item extends Mage_Core_Model_Abstra
      */
     protected function _construct()
     {
-        $this->_init('downloadable/link_purchased_item');
+        $this->_init('Mage_Downloadable_Model_Resource_Link_Purchased_Item');
         parent::_construct();
     }
 

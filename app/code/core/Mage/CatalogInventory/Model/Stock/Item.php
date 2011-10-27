@@ -134,7 +134,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('cataloginventory/stock_item');
+        $this->_init('Mage_CatalogInventory_Model_Resource_Stock_Item');
     }
 
     /**

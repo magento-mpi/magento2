@@ -57,7 +57,7 @@ class Mage_Reports_Model_Product_Index_Compared extends Mage_Reports_Model_Produ
      */
     protected function _construct()
     {
-        $this->_init('reports/product_index_compared');
+        $this->_init('Mage_Reports_Model_Resource_Product_Index_Compared');
     }
 
     /**

@@ -73,7 +73,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
     protected $_flagOptionsSaved = null;
 
     function _construct() {
-        $this->_init('enterprise_giftregistry/item');
+        $this->_init('Enterprise_GiftRegistry_Model_Resource_Item');
     }
 
     /**
