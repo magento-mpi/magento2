@@ -147,7 +147,7 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
             'index'     => 'info',
             'type'      => 'text',
             'sortable'  => false,
-            'filter'    => 'adminhtml/widget_grid_column_filter_text',
+            'filter'    => 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Text',
             'renderer'  => 'enterprise_logging/adminhtml_grid_renderer_details',
             'width'     => 100,
         ));

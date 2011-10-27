@@ -67,8 +67,8 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
      */
     protected function _construct()
     {
-        $this->addColumnRender('qty', 'adminhtml/sales_items_column_qty', 'sales/items/column/qty.phtml');
-        $this->addColumnRender('name', 'adminhtml/sales_items_column_name', 'sales/items/column/name.phtml');
+        $this->addColumnRender('qty', 'Mage_Adminhtml_Block_Sales_Items_Column_Qty', 'sales/items/column/qty.phtml');
+        $this->addColumnRender('name', 'Mage_Adminhtml_Block_Sales_Items_Column_Name', 'sales/items/column/name.phtml');
         parent::_construct();
     }
 

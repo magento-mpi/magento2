@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_Report_Product_Lowstock_Grid extends Mage_Adminhtml_B
             'width'     =>'215px',
             'align'     =>'right',
             'sortable'  =>false,
-            'filter'    =>'adminhtml/widget_grid_column_filter_range',
+            'filter'    =>'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Range',
             'index'     =>'qty',
             'type'      =>'number'
         ));

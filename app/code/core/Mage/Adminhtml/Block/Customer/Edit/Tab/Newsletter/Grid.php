@@ -107,7 +107,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Mage_Adminh
          $this->addColumn('status', array(
             'header'    =>  Mage::helper('customer')->__('Status'),
             'align'     =>  'center',
-            'filter'    =>  'adminhtml/customer_edit_tab_newsletter_grid_filter_status',
+            'filter'    =>  'Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Filter_Status',
             'index'     => 'queue_status',
             'renderer'  =>  'Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Status'
         ));

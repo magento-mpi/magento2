@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options extends Ma
         parent::__construct();
         $this->addOptionRenderer(
             'default',
-            'catalog/product_view_options_type_default',
+            'Mage_Catalog_Block_Product_View_Options_Type_Default',
             'catalog/product/composite/fieldset/options/type/default.phtml'
         );
     }

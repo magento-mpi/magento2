@@ -69,7 +69,11 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     protected function _construct()
     {
         parent::_construct();
-        $this->addItemPriceBlockType('default', 'wishlist/render_item_price', 'wishlist/render/item/price.phtml');
+        $this->addItemPriceBlockType(
+            'default',
+            'Mage_Wishlist_Block_Render_Item_Price',
+            'wishlist/render/item/price.phtml'
+        );
     }
 
     /**

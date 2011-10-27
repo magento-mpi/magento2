@@ -118,7 +118,7 @@ class Mage_Persistent_Model_Observer
     protected function _applyAccountLinksPersistentData()
     {
         if (!Mage::app()->getLayout()->getBlock('header.additional')) {
-            Mage::app()->getLayout()->addBlock('persistent/header_additional', 'header.additional');
+            Mage::app()->getLayout()->addBlock('Mage_Persistent_Block_Header_Additional', 'header.additional');
         }
     }
 

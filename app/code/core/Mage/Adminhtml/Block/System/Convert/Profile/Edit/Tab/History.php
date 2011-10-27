@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_History extends Mage_
         $this->addColumn('action_code', array(
             'header'    => Mage::helper('adminhtml')->__('Profile Action'),
             'index'     => 'action_code',
-            'filter'    => 'adminhtml/system_convert_profile_edit_filter_action',
+            'filter'    => 'Mage_Adminhtml_Block_System_Convert_Profile_Edit_Filter_Action',
             'renderer'  => 'Mage_Adminhtml_Block_System_Convert_Profile_Edit_Renderer_Action',
         ));
 

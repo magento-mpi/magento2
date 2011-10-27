@@ -41,7 +41,7 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Sales_Block_Items_
         parent::_construct();
         $this->addItemRender(
             $this->_getRowItemType('default'),
-            'checkout/cart_item_renderer',
+            'Mage_Checkout_Block_Cart_Item_Renderer',
             'checkout/multishipping/overview/item.phtml'
         );
     }

@@ -39,7 +39,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
      *
      * @var string
      */
-    protected $_defaultToolbarBlock = 'catalog/product_list_toolbar';
+    protected $_defaultToolbarBlock = 'Mage_Catalog_Block_Product_List_Toolbar';
 
     /**
      * Product Collection

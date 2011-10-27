@@ -41,7 +41,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      *
      * @var string
      */
-    protected $_block = 'catalog/product_price';
+    protected $_block = 'Mage_Catalog_Block_Product_Price';
 
     protected $_priceBlockDefaultTemplate = 'catalog/product/price.phtml';
 

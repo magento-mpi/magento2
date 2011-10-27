@@ -59,7 +59,7 @@ class Mage_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_Test
 
         $this->assertEquals(
             array(
-                'block'     => 'catalog/product_view_options_type_default',
+                'block'     => 'Mage_Catalog_Block_Product_View_Options_Type_Default',
                 'template'  => 'catalog/product/view/options/type/default.phtml',
                 'renderer'  => null,
             ),

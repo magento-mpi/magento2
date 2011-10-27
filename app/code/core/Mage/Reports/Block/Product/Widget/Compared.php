@@ -46,6 +46,10 @@ class Mage_Reports_Block_Product_Widget_Compared
             ->addColumnCountLayoutDepend('two_columns_left', 4)
             ->addColumnCountLayoutDepend('two_columns_right', 4)
             ->addColumnCountLayoutDepend('three_columns', 3);
-        $this->addPriceBlockType('bundle', 'bundle/catalog_product_price', 'bundle/catalog/product/price.phtml');
+        $this->addPriceBlockType(
+            'bundle',
+            'Mage_Bundle_Block_Catalog_Product_Price',
+            'bundle/catalog/product/price.phtml'
+        );
     }
 }

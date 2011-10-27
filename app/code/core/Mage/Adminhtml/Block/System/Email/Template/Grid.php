@@ -99,7 +99,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Grid extends Mage_Adminhtml_Blo
             array(
                 'header'=>Mage::helper('adminhtml')->__('Template Type'),
                 'index'=>'template_type',
-                'filter' => 'adminhtml/system_email_template_grid_filter_type',
+                'filter' => 'Mage_Adminhtml_Block_System_Email_Template_Grid_Filter_Type',
                 'renderer' => 'Mage_Adminhtml_Block_System_Email_Template_Grid_Renderer_Type'
         ));
 

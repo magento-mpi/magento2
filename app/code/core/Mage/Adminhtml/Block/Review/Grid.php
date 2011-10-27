@@ -158,7 +158,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'header'    => Mage::helper('review')->__('Type'),
             'type'      => 'select',
             'index'     => 'type',
-            'filter'    => 'adminhtml/review_grid_filter_type',
+            'filter'    => 'Mage_Adminhtml_Block_Review_Grid_Filter_Type',
             'renderer'  => 'Mage_Adminhtml_Block_Review_Grid_Renderer_Type'
         ));
 

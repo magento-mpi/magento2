@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Ma
     {
         parent::_construct();
 
-        $this->_block = 'adminhtml/catalog_product_price';
+        $this->_block = 'Mage_Adminhtml_Block_Catalog_Product_Price';
         $this->_useLinkForAsLowAs = false;
 
         $taxCalculation = Mage::getSingleton('tax/calculation');

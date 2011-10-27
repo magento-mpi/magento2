@@ -227,7 +227,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         $this->addColumn('is_saleable', array(
             'header'    => Mage::helper('catalog')->__('Inventory'),
             'renderer'  => 'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Inventory',
-            'filter'    => 'adminhtml/catalog_product_edit_tab_super_config_grid_filter_inventory',
+            'filter'    => 'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Filter_Inventory',
             'index'     => 'is_saleable'
         ));
 

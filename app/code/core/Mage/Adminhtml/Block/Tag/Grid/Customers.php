@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Customers extends Mage_Adminhtml_Block_Widge
 //        ));
 //        $this->addColumn('billing_country_name', array(
 //            'header'    =>Mage::helper('tag')->__('Country'),
-//            #'filter'    => 'adminhtml/customer_grid_filter_country',
+//            #'filter'    => 'Mage_Adminhtml_Block_Customer_Grid_Filter_Country',
 //            'index'     =>'billing_country_name',
 //        ));
 //        $this->addColumn('customer_since', array(

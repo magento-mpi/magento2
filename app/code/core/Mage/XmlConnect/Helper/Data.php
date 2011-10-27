@@ -206,18 +206,22 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
         switch ($key) {
             case 'price':
                 $filterModelName = 'catalog/layer_filter_price';
+                $filterBlockClass = 'Mage_Catalog_Block_Layer_Filter_Price';
                 break;
             case 'decimal':
                 $filterModelName = 'catalog/layer_filter_decimal';
+                $filterBlockClass = 'Mage_Catalog_Block_Layer_Filter_Decimal';
                 break;
             case 'category':
                 $filterModelName = 'catalog/layer_filter_category';
+                $filterBlockClass = 'Mage_Catalog_Block_Layer_Filter_Category';
                 break;
             default:
                 $filterModelName = 'catalog/layer_filter_attribute';
+                $filterBlockClass = 'Mage_Catalog_Block_Layer_Filter_Attribute';
                 break;
         }
-        return array(Mage::getModel($filterModelName), $this->getLayout()->createBlock($filterModelName));
+        return array(Mage::getModel($filterModelName), $this->getLayout()->createBlock($filterBlockClass));
     }
 
     /**

@@ -43,7 +43,11 @@ class Mage_Catalog_Block_Product_Widget_New
     {
         parent::_construct();
 
-        $this->addPriceBlockType('bundle', 'bundle/catalog_product_price', 'bundle/catalog/product/price.phtml');
+        $this->addPriceBlockType(
+            'bundle',
+            'Mage_Bundle_Block_Catalog_Product_Price',
+            'bundle/catalog/product/price.phtml'
+        );
     }
 
     /**

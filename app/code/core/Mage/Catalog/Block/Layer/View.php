@@ -83,11 +83,11 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
      */
     protected function _initBlocks()
     {
-        $this->_stateBlockName              = 'catalog/layer_state';
-        $this->_categoryBlockName           = 'catalog/layer_filter_category';
-        $this->_attributeFilterBlockName    = 'catalog/layer_filter_attribute';
-        $this->_priceFilterBlockName        = 'catalog/layer_filter_price';
-        $this->_decimalFilterBlockName      = 'catalog/layer_filter_decimal';
+        $this->_stateBlockName              = 'Mage_Catalog_Block_Layer_State';
+        $this->_categoryBlockName           = 'Mage_Catalog_Block_Layer_Filter_Category';
+        $this->_attributeFilterBlockName    = 'Mage_Catalog_Block_Layer_Filter_Attribute';
+        $this->_priceFilterBlockName        = 'Mage_Catalog_Block_Layer_Filter_Price';
+        $this->_decimalFilterBlockName      = 'Mage_Catalog_Block_Layer_Filter_Decimal';
     }
 
     /**
@@ -99,7 +99,7 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
      */
     protected function _getAttributeFilterBlockName()
     {
-        return 'catalog/layer_filter_attribute';
+        return 'Mage_Catalog_Block_Layer_Filter_Attribute';
     }
 
     /**

@@ -239,7 +239,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
     {
         switch ($this->getRequest()->getParam('attribute')) {
             case 'sku':
-                $type = 'adminhtml/promo_widget_chooser_sku';
+                $type = 'Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku';
                 break;
 
             case 'categories':

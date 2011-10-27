@@ -155,7 +155,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         $accordion->addItem('links', array(
             'title'   => Mage::helper('adminhtml')->__('Links'),
             'content' => $this->getLayout()->createBlock(
-                'downloadable/adminhtml_catalog_product_edit_tab_downloadable_links',
+                'Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links',
                 'catalog.product.edit.tab.downloadable.links')->toHtml(),
             'open'    => true,
         ));

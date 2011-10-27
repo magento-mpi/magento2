@@ -34,7 +34,7 @@
  */
 class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
 {
-    const DEFAULT_ADDRESS_RENDERER  = 'customer/address_renderer_default';
+    const DEFAULT_ADDRESS_RENDERER  = 'Mage_Customer_Block_Address_Renderer_Default';
     const XML_PATH_ADDRESS_TEMPLATE = 'customer/address_templates/';
     const DEFAULT_ADDRESS_FORMAT    = 'oneline';
 

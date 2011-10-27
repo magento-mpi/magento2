@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
             if (!$form->getElement('media_gallery')
                  && Mage::getSingleton('admin/session')->isAllowed('catalog/attributes/attributes')) {
                 $headerBar = $this->getLayout()->createBlock(
-                    'adminhtml/catalog_product_edit_tab_attributes_create'
+                    'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create'
                 );
 
                 $headerBar->getConfig()

@@ -26,7 +26,7 @@
  */
 -->
 <widgets>
-    <sales_widget_guestfrom type="sales/widget_guest_form" translate="name description" module="sales">
+    <sales_widget_guestfrom type="Mage_Sales_Block_Widget_Guest_Form" translate="name description" module="sales">
         <name>Orders and Returns</name>
         <description>Orders and Returns Search Form</description>
         <is_email_compatible>1</is_email_compatible>

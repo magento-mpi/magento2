@@ -33,7 +33,7 @@
  */
 class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widget
 {
-    const DEFAULT_SECTION_BLOCK = 'adminhtml/system_config_form';
+    const DEFAULT_SECTION_BLOCK = 'Mage_Adminhtml_Block_System_Config_Form';
 
     protected $_section;
 
