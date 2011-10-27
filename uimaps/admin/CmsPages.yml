@@ -129,6 +129,8 @@ create_cms_page:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
                                         close_page_insertion: //div[@id='widget-chooser_close']
+                                    pageelements:
+                                        product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                             -
                                 select_block:
                                     xpath: //div[@id='widget-chooser' and //div[text()='Select Block...']]
@@ -144,6 +146,8 @@ create_cms_page:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
                                         close_block_insertion: //div[@id='widget-chooser_close']
+                                    pageelements:
+                                        product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                             -
                                 select_category:
                                     xpath: //div[@id='widget-chooser' and //div[text()='Select Category...']]
@@ -171,6 +175,8 @@ create_cms_page:
                                         root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
                                         sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
                                         expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                    pageelements:
+                                        product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                             -
                                 file_insertion:
                                     xpath: //div[@id='browser_window' and //div[text()='Insert File...']]

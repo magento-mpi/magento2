@@ -79,12 +79,11 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
      */
     public function fillPageInfo(array $pageInfo, $validate = FALSE)
     {
-        $xpath = $this->_getControlXpath('multiselect', 'store_view');
-        if ($this->isElementPresent($xpath) && $validate == FALSE) {
+        if ($this->controlIsPresent('multiselect', 'store_view') && $validate == FALSE) {
             if (!array_key_exists('store_view', $pageInfo)) {
                 $pageInfo['store_view'] = 'All Store Views';
             }
-        } elseif (!$this->isElementPresent($xpath) && $validate == FALSE) {
+        } elseif (!$this->controlIsPresent('multiselect', 'store_view') && $validate == FALSE) {
             if (array_key_exists('store_view', $pageInfo)) {
                 unset($pageInfo['store_view']);
             }
@@ -120,67 +119,19 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
      */
     public function insertWidget(array $widgets)
     {
-        $editor = $this->_getControlXpath('field', 'editor');
-        if (!$this->isElementPresent($editor)) {
+        if (!$this->controlIsPresent('field', 'editor')) {
             $this->clickButton('show_hide_editor', FALSE);
         }
         foreach ($widgets as $key => $value) {
+            $options = (isset($value['chosen_option'])) ? $value['chosen_option'] : null;
             $this->clickButton('insert_widget', FALSE);
             $this->waitForAjax();
             $this->fillForm($value);
-            if (array_key_exists('chosen_option', $value)) {
-                $this->clickButton('select_option', FALSE);
-                $this->pleaseWait();
-                $options = $value['chosen_option'];
-                switch ($value['widget_type']) {
-                    case 'CMS Page Link':
-                    case 'CMS Static Block':
-                        $searchData = array();
-                        foreach ($options as $key => $value) {
-                            if (preg_match('/filter/' , $key)) {
-                                $searchData[$key] = $value;
-                            }
-                        }
-                        $this->searchAndOpen($searchData, FALSE);
-                        $this->checkChosenOption($options['title']);
-                        break;
-                    case 'Catalog Category Link':
-                        if (array_key_exists('category_path', $options)) {
-                            $this->categoryHelper()->selectCategory($options['category_path']);
-                        }
-                        $this->checkChosenOption($options['title']);
-                        break;
-                    case 'Catalog Product Link':
-                        if (array_key_exists('category_path', $options)) {
-                            $this->categoryHelper()->selectCategory($options['category_path']);
-                        }
-                        $searchData = array();
-                        foreach ($options as $key => $value) {
-                            if (preg_match('/filter/' , $key)) {
-                                $searchData[$key] = $value;
-                            }
-                        }
-                        $this->searchAndOpen($searchData, FALSE);
-                        $this->checkChosenOption($options['title']);
-                        break;
-                }
+            if ($options) {
+                $this->cmsWidgetsHelper()->fillSelectOption($options);
             }
             $this->clickButton('submit_widget_insert', FALSE);
             $this->waitForAjax();
-        }
-    }
-
-    /**
-     * Checks the chosen option while inserting widget
-     *
-     * @param string $option
-     */
-    public function checkChosenOption($option)
-    {
-        $this->addParameter('elementName', $option);
-        $xpathOption = $this->_getControlXpath('pageelement', 'chosen_option');
-        if (!$this->isElementPresent($xpathOption)) {
-            $this->fail('The element ' . $option . ' was not selected');
         }
     }
 
@@ -191,8 +142,7 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
      */
     public function insertVariable($variable)
     {
-        $editor = $this->_getControlXpath('field', 'editor');
-        if (!$this->isElementPresent($editor)) {
+        if (!$this->controlIsPresent('field', 'editor')) {
             $this->clickButton('show_hide_editor', FALSE);
         }
         $this->clickButton('insert_variable', FALSE);
@@ -213,7 +163,6 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
         $this->addParameter('page_title', $pageData['page_information']['page_title']);
         $this->addParameter('content_heading', $pageData['content']['content_heading']);
         $this->frontend('test_page');
-        $this->validatePage();
         foreach ($this->countElements($pageData) as $key => $value) {
             $xpath = $this->_getControlXpath('pageelement', $key);
             $this->assertTrue($this->getXpathCount($xpath) == $value);
@@ -250,10 +199,10 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
      */
     function searchArray($pageData, $key = NULL){
 
-        $found = ($key !== null ? array_keys($pageData, $key) : array_keys($pageData));
+        $found = ($key !== NULL ? array_keys($pageData, $key) : array_keys($pageData));
         foreach($pageData as $value){
             if(is_array($value)){
-                $found = ($key !== null ? array_merge($found, $this->searchArray($value, $key))
+                $found = ($key !== NULL ? array_merge($found, $this->searchArray($value, $key))
                         : array_merge($found, $this->searchArray($value)));
             }
         }

@@ -42,13 +42,11 @@ new_page:
                 template: CMS Page Link Block Template
                 chosen_option:
                     filter_url_key: no-route
-                    title: 404 Not Found 1
             widget_2:
                 widget_type: CMS Static Block
                 template: CMS Static Block Default Template
                 chosen_option:
                     filter_identifier: footer_links
-                    title: Footer Links
             widget_3:
                 widget_type: Catalog Category Link
                 anchor_custom_text: test
@@ -56,7 +54,6 @@ new_page:
                 template: Category Link Block Template
                 chosen_option:
                     category_path: %noValue%
-                    title: %noValue%
             widget_4:
                 widget_type: Catalog New Products List
                 number_of_products_to_display: 10
@@ -70,7 +67,6 @@ new_page:
                 chosen_option:
                     category_path: %noValue%
                     filter_sku: %noValue%
-                    title: %noValue%
             widget_6:
                 widget_type: Orders and Returns
             widget_7:

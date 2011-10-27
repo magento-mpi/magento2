@@ -140,9 +140,6 @@ class CmsPages_BuffTest extends Mage_Selenium_TestCase
         $temp['category_path'] = $category;
         $nodes = explode('/', $category);
         $pageData = $this->loadData('new_page', $temp, array('page_title', 'url_key'));
-        $pageData['content']['widgets']['widget_3']['chosen_option']['title'] = $nodes[1];
-        $pageData['content']['widgets']['widget_5']['chosen_option']['title'] = $nodes[1] .
-                ' / ' . self::$products['name']['simple'];
         $this->cmsPagesHelper()->createPage($pageData);
         $this->cmsPagesHelper()->frontValidatePage($pageData);
     }
