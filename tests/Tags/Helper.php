@@ -56,6 +56,9 @@ class Tags_Helper extends Mage_Selenium_TestCase
         }
         $this->type($tagXpath, $tagName);
         $this->clickButton('add_tags');
+        if ($this->checkCurrentPage('customer_login') == TRUE) {
+            $this->fail('Customer is not Logged In');
+        }
     }
 
     /**
@@ -75,28 +78,113 @@ class Tags_Helper extends Mage_Selenium_TestCase
         } else {
             $this->fail('Array key is absent in array');
         }
+        //Verification in "My Recent tags" area
         $this->navigate('customer_account');
         $this->addParameter('productName', $productName);
-
-
-        $tagNameArray = explode(' ', $tagName);
-        foreach ($tagNameArray as $value) {
+        $tagNameArray = array();
+        preg_match_all('/[^\s\']+/', $tagName, $tagNameArray);
+        foreach ($tagNameArray[0] as $value) {
             $this->addParameter('tagName', $value);
-            $xpath = $this->_getControlXpath('link', 'product_info');
-            $this->assertTrue($this->isElementPresent($xpath), "Cannot find tag with name: $value");
+            $tagXpath = $this->_getControlXpath('link', 'product_info');
+            $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
+            $this->clickControl('link', 'product_info');
+            $tagXpath = $this->_getControlXpath('link', 'product_name');
+            $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
+            $tagXpath = $this->_getControlXpath('pageelement', 'tag_name_box');
+            $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
+            $this->navigate('customer_account');
         }
+        //Verification in "My Account -> My Tags"
         $this->navigate('my_account_my_tags');
+        foreach ($tagNameArray[0] as $value) {
+            $this->addParameter('tagName', $value);
+            $tagXpath = $this->_getControlXpath('link', 'tag_name');
+            $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
+            $this->clickControl('link', 'tag_name');
+            $tagXpath = $this->_getControlXpath('link', 'product_name');
+            $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
+            $tagXpath = $this->_getControlXpath('pageelement', 'tag_name_box');
+            $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
+            $this->clickControl('link', 'back_to_tags_list');
+        }
+    }
+
+    /**
+     * Verification tags in category
+     *
+     * @param array $verificationData
+     */
+    public function frontendTagVerificationInCategory($verificationData)
+    {
+        if (is_array($verificationData) && array_key_exists('new_tag_names', $verificationData)) {
+            $tagName = $verificationData['new_tag_names'];
+        } else {
+            $this->fail('Array keys are absent in array');
+        }
+        $category = $verificationData['category'];
+        $category = substr($category, strpos($category, '/') + 1);
+        $url = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $category)), '-');
+        $this->addParameter('categoryTitle', $category);
+        $this->addParameter('categoryUrl', $url);
+        $this->frontend('category_page');
+        $tagNameArray = array();
+        preg_match_all('/[^\s\']+/', $tagName, $tagNameArray);
+        foreach ($tagNameArray[0] as $value) {
+            $this->addParameter('tagName', $value);
+            $tagXpath = $this->_getControlXpath('link', 'tag_name');
+            $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
+            $this->clickControl('link', 'tag_name');
+        }
+    }
+
+    /**
+     * Approve Tags
+     *
+     * @param array $verificationData
+     */
+    public function backendApproveTags($verificationData)
+    {
+        if (is_array($verificationData) && array_key_exists('new_tag_names', $verificationData)) {
+            $tagName = $verificationData['new_tag_names'];
+        } else {
+            $this->fail('Array keys are absent in array');
+        }
+        $tagNameArray = array();
+        preg_match_all('/[^\s\']+/', $tagName, $tagNameArray);
+        foreach ($tagNameArray[0] as $value) {
+            $this->addParameter('tagName', $value);
+            $tagXpath = $this->_getControlXpath('link', 'tag_name');
+            $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
+            $this->clickControl('link', 'tag_name');
+        }
+    }
+
+    /**
+     * Delete tag
+     * Need to be modified
+     *
+     * @param array $verificationData
+     */
+    public function frontendDeleteTag($verificationData)
+    {
+        if (is_array($verificationData) && array_key_exists('new_tag_names', $verificationData)) {
+            $tagName = $verificationData['new_tag_names'];
+        } else {
+            $this->fail('Array key is absent in array');
+        }
+        $tagNameArray = explode(' ', $tagName);
+//        print_r($tagNameArray);
+
         foreach ($tagNameArray as $value) {
             $this->addParameter('tagName', $value);
             $xpath = $this->_getControlXpath('link', 'tag_name');
             $this->assertTrue($this->isElementPresent($xpath), "Cannot find tag with name: $value");
-
             $this->clickControl('link', 'tag_name');
-            $xpath = $this->_getControlXpath('link', 'product_name');
-            $this->assertTrue($this->isElementPresent($xpath), "Cannot find tag with name: $value");
-            $xpath = $this->_getControlXpath('pageelement', 'tag_name_box');
-            $this->assertTrue($this->isElementPresent($xpath), "Cannot find tag with name: $value");
-            $this->clickControl('link', 'back_to_tags_list');
+            $this->clickControl('link', 'delete_tag');
+            $this->pleaseWait();
+            $this->answerOnNextPrompt('OK');
+            $this->pleaseWait();
+            $this->assertTrue($this->successMessage('success_deleted_tag'), $this->messages);
         }
     }
 
