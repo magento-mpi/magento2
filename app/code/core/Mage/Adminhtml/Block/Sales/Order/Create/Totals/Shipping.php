@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Totals_Shipping extends Mage_Admin
      */
     public function getIncludeTaxLabel()
     {
-        return $this->helper('tax')->__('Shipping Incl. Tax (%s)', $this->getTotal()->getAddress()->getShippingDescription());
+        return $this->helper('Mage_Tax_Helper_Data')->__('Shipping Incl. Tax (%s)', $this->getTotal()->getAddress()->getShippingDescription());
     }
 
     /**
@@ -92,6 +92,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Totals_Shipping extends Mage_Admin
      */
     public function getExcludeTaxLabel()
     {
-        return $this->helper('tax')->__('Shipping Excl. Tax (%s)', $this->getTotal()->getAddress()->getShippingDescription());
+        return $this->helper('Mage_Tax_Helper_Data')->__('Shipping Excl. Tax (%s)', $this->getTotal()->getAddress()->getShippingDescription());
     }
 }

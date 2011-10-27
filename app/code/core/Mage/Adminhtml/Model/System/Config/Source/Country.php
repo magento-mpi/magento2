@@ -37,7 +37,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Country
 
         $options = $this->_options;
         if(!$isMultiselect){
-            array_unshift($options, array('value'=>'', 'label'=> Mage::helper('adminhtml')->__('--Please Select--')));
+            array_unshift($options, array('value'=>'', 'label'=> Mage::helper('Mage_Adminhtml_Helper_Data')->__('--Please Select--')));
         }
 
         return $options;

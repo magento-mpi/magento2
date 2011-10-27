@@ -79,9 +79,9 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            '==' => Mage::helper('rule')->__('for'),
-            '>'  => Mage::helper('rule')->__('for greater than'),
-            '>=' => Mage::helper('rule')->__('for or greater than')
+            '==' => Mage::helper('Mage_Rule_Helper_Data')->__('for'),
+            '>'  => Mage::helper('Mage_Rule_Helper_Data')->__('for greater than'),
+            '>=' => Mage::helper('Mage_Rule_Helper_Data')->__('for or greater than')
         ));
         return $this;
     }
@@ -104,7 +104,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Wishlist is not empty and abandoned %s %s days and %s of these conditions match:',
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Wishlist is not empty and abandoned %s %s days and %s of these conditions match:',
                 $this->getOperatorElementHtml(),
                 $this->getValueElementHtml(),
                 $this->getAggregatorElement()->getHtml())
@@ -122,7 +122,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     {
         $conditionValue = (int)$this->getValue();
         if ($conditionValue < 1) {
-            Mage::throwException(Mage::helper('enterprise_reminder')->__('Root wishlist condition should have days value at least 1.'));
+            Mage::throwException(Mage::helper('Enterprise_Reminder_Helper_Data')->__('Root wishlist condition should have days value at least 1.'));
         }
 
         $wishlistTable = $this->getResource()->getTable('wishlist');

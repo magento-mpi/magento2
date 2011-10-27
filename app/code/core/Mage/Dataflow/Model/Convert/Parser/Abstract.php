@@ -109,7 +109,7 @@ abstract class Mage_Dataflow_Model_Convert_Parser_Abstract
     {
         $ioAdapter = new Varien_Io_File();
         if (!$ioAdapter->fileExists($file)) {
-            Mage::throwException(Mage::helper('dataflow')->__('File "%s" does not exist.', $file));
+            Mage::throwException(Mage::helper('Mage_Dataflow_Helper_Data')->__('File "%s" does not exist.', $file));
         }
 
         $ioAdapter->setAllowCreateFolders(true);

@@ -142,7 +142,7 @@ class Mage_XmlConnect_Model_Queue extends Mage_Core_Model_Template
         if ($this->getApplicationName()) {
             return $this->getApplicationName();
         } else {
-            return Mage::helper('xmlconnect')->getApplicationName($this->getAppCode());
+            return Mage::helper('Mage_XmlConnect_Helper_Data')->getApplicationName($this->getAppCode());
         }
     }
 
@@ -156,7 +156,7 @@ class Mage_XmlConnect_Model_Queue extends Mage_Core_Model_Template
         if ($this->getTemplateName()) {
             return $this->getTemplateName();
         } else {
-            return Mage::helper('xmlconnect')->getTemplateName($this->getTemplateId());
+            return Mage::helper('Mage_XmlConnect_Helper_Data')->getTemplateName($this->getTemplateId());
         }
     }
 
@@ -185,16 +185,16 @@ EOT;
 
         switch ($this->getData('type')) {
             case Mage_XmlConnect_Model_Queue::MESSAGE_TYPE_AIRMAIL:
-                $html  = sprintf($htmlDescription, Mage::helper('xmlconnect')->__('Push title'))
+                $html  = sprintf($htmlDescription, Mage::helper('Mage_XmlConnect_Helper_Data')->__('Push title'))
                     . $this->getPushTitle()
-                    . sprintf($htmlDescription, Mage::helper('xmlconnect')->__('Message title'))
+                    . sprintf($htmlDescription, Mage::helper('Mage_XmlConnect_Helper_Data')->__('Message title'))
                     . $this->getMessageTitle()
-                    . sprintf($htmlDescription, Mage::helper('xmlconnect')->__('Message content'))
+                    . sprintf($htmlDescription, Mage::helper('Mage_XmlConnect_Helper_Data')->__('Message content'))
                     . $processor->filter($this->getContent());
                 break;
             case Mage_XmlConnect_Model_Queue::MESSAGE_TYPE_PUSH:
             default:
-                $html  = sprintf($htmlDescription, Mage::helper('xmlconnect')->__('Push title'))
+                $html  = sprintf($htmlDescription, Mage::helper('Mage_XmlConnect_Helper_Data')->__('Push title'))
                     . $this->getPushTitle();
                 break;
         }
@@ -244,7 +244,7 @@ EOT;
             'title' => $this->getMessageTitle(),
             'message' => $this->getContent(),
         );
-        return Mage::helper('core')->jsonEncode($payload);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($payload);
     }
 
     /**
@@ -277,7 +277,7 @@ EOT;
                 'sound' => 'default'
             )
         );
-        return Mage::helper('core')->jsonEncode($payload);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($payload);
     }
 
     /**

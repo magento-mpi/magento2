@@ -118,11 +118,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Varien_Da
         }
 
         if ($attribute->isScopeGlobal()) {
-            $html .= '<br/>' . Mage::helper('adminhtml')->__('[GLOBAL]');
+            $html .= '<br/>' . Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]');
         } elseif ($attribute->isScopeWebsite()) {
-            $html .= '<br/>' . Mage::helper('adminhtml')->__('[WEBSITE]');
+            $html .= '<br/>' . Mage::helper('Mage_Adminhtml_Helper_Data')->__('[WEBSITE]');
         } elseif ($attribute->isScopeStore()) {
-            $html .= '<br/>' . Mage::helper('adminhtml')->__('[STORE VIEW]');
+            $html .= '<br/>' . Mage::helper('Mage_Adminhtml_Helper_Data')->__('[STORE VIEW]');
         }
         return $html;
     }

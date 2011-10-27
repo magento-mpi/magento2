@@ -45,7 +45,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Design
     {
         parent::_prepareForm();
 
-        Mage::helper('enterprise_cms')->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
+        Mage::helper('Enterprise_Cms_Helper_Data')->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
 
         return $this;
     }

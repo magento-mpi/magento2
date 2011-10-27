@@ -41,9 +41,9 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
      */
     protected function _prepareForm()
     {
-        $this->setGeneralSettingsLabel(Mage::helper('enterprise_importexport')->__('Import Settings'));
-        $this->setFileSettingsLabel(Mage::helper('enterprise_importexport')->__('Import File Information'));
-        $this->setEmailSettingsLabel(Mage::helper('enterprise_importexport')->__('Import Failed Emails'));
+        $this->setGeneralSettingsLabel(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Import Settings'));
+        $this->setFileSettingsLabel(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Import File Information'));
+        $this->setEmailSettingsLabel(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Import Failed Emails'));
 
         parent::_prepareForm();
         $form = $this->getForm();
@@ -51,16 +51,16 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
         $fieldset = $form->getElement('operation_settings');
         $fieldset->addField('behavior', 'select', array(
             'name'      => 'behavior',
-            'title'     => Mage::helper('enterprise_importexport')->__('Import Behavior'),
-            'label'     => Mage::helper('enterprise_importexport')->__('Import Behavior'),
+            'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Import Behavior'),
+            'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Import Behavior'),
             'required'  => true,
             'values'    => Mage::getModel('importexport/source_import_behavior')->toOptionArray()
         ), 'entity');
 
         $fieldset->addField('force_import', 'select', array(
             'name'      => 'force_import',
-            'title'     => Mage::helper('enterprise_importexport')->__('On Error'),
-            'label'     => Mage::helper('enterprise_importexport')->__('On Error'),
+            'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('On Error'),
+            'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('On Error'),
             'required'  => true,
             'values'    => Mage::getSingleton('enterprise_importexport/scheduled_operation_data')
                 ->getForcedImportOptionArray()
@@ -74,8 +74,8 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
 
         $form->getElement('file_settings')->addField('file_name', 'text', array(
             'name'      => 'file_info[file_name]',
-            'title'     => Mage::helper('enterprise_importexport')->__('File Name'),
-            'label'     => Mage::helper('enterprise_importexport')->__('File Name'),
+            'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('File Name'),
+            'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('File Name'),
             'required'  => true
         ), 'file_path');
 

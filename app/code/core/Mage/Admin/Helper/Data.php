@@ -46,7 +46,7 @@ class Mage_Admin_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function generateResetPasswordLinkToken()
     {
-        return Mage::helper('core')->uniqHash();
+        return Mage::helper('Mage_Core_Helper_Data')->uniqHash();
     }
 
     /**

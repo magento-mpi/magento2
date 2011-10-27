@@ -41,7 +41,7 @@ class Enterprise_Reward_Model_Action_Newsletter extends Enterprise_Reward_Model_
      */
     public function getPoints($websiteId)
     {
-        return (int)Mage::helper('enterprise_reward')->getPointsConfig('newsletter', $websiteId);
+        return (int)Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig('newsletter', $websiteId);
     }
 
     /**
@@ -85,7 +85,7 @@ class Enterprise_Reward_Model_Action_Newsletter extends Enterprise_Reward_Model_
     public function getHistoryMessage($args = array())
     {
         $email = isset($args['email']) ? $args['email'] : '';
-        return Mage::helper('enterprise_reward')->__('Signed up for newsletter with email %s.', $email);
+        return Mage::helper('Enterprise_Reward_Helper_Data')->__('Signed up for newsletter with email %s.', $email);
     }
 
     /**

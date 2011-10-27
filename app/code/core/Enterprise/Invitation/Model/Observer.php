@@ -60,9 +60,9 @@ class Enterprise_Invitation_Model_Observer
         $result = $observer->getEvent()->getResult();
 
         if (!$result->getIsAllowed()) {
-            Mage::helper('enterprise_invitation')->isRegistrationAllowed(false);
+            Mage::helper('Enterprise_Invitation_Helper_Data')->isRegistrationAllowed(false);
         } else {
-            Mage::helper('enterprise_invitation')->isRegistrationAllowed(true);
+            Mage::helper('Enterprise_Invitation_Helper_Data')->isRegistrationAllowed(true);
             $result->setIsAllowed(!$this->_config->getInvitationRequired());
         }
     }

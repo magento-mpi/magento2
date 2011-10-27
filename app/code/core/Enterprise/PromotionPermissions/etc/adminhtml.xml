@@ -34,21 +34,21 @@
                         <children>
                             <catalog>
                                 <children>
-                                    <edit translate="title" module="enterprise_promotionpermissions">
+                                    <edit translate="title" module="Enterprise_PromotionPermissions">
                                         <title>Edit Catalog Price Rules</title>
                                     </edit>
                                 </children>
                             </catalog>
                             <quote>
                                 <children>
-                                    <edit translate="title" module="enterprise_promotionpermissions">
+                                    <edit translate="title" module="Enterprise_PromotionPermissions">
                                         <title>Edit Shopping Cart Price Rules</title>
                                     </edit>
                                 </children>
                             </quote>
                             <enterprise_reminder>
                                 <children>
-                                    <edit translate="title" module="enterprise_promotionpermissions">
+                                    <edit translate="title" module="Enterprise_PromotionPermissions">
                                         <title>Edit Automated Email Reminder Rules</title>
                                     </edit>
                                 </children>

@@ -49,7 +49,7 @@ class Mage_Core_AjaxController extends Mage_Core_Controller_Front_Action
             $item['custom'] = $filter->filter($item['custom']);
         }
 
-        $response = Mage::helper('core/translate')->apply($translation, $area);
+        $response = Mage::helper('Mage_Core_Helper_Translate')->apply($translation, $area);
         $this->getResponse()->setBody($response);
         $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
     }

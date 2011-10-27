@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Report_Product_Downloads extends Mage_Adminhtml_Block
     public function __construct()
     {
         $this->_controller = 'report_product_downloads';
-        $this->_headerText = Mage::helper('reports')->__('Downloads');
+        $this->_headerText = Mage::helper('Mage_Reports_Helper_Data')->__('Downloads');
         parent::__construct();
         $this->_removeButton('add');
     }

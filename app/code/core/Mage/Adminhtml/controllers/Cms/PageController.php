@@ -45,8 +45,8 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         // load layout, set active menu and breadcrumbs
         $this->loadLayout()
             ->_setActiveMenu('cms/page')
-            ->_addBreadcrumb(Mage::helper('cms')->__('CMS'), Mage::helper('cms')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('cms')->__('Manage Pages'), Mage::helper('cms')->__('Manage Pages'))
+            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('CMS'), Mage::helper('Mage_Cms_Helper_Data')->__('CMS'))
+            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'), Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'))
         ;
         return $this;
     }
@@ -91,7 +91,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
             $model->load($id);
             if (! $model->getId()) {
                 Mage::getSingleton('adminhtml/session')->addError(
-                    Mage::helper('cms')->__('This page no longer exists.'));
+                    Mage::helper('Mage_Cms_Helper_Data')->__('This page no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -111,10 +111,10 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         // 5. Build edit form
         $this->_initAction()
             ->_addBreadcrumb(
-                $id ? Mage::helper('cms')->__('Edit Page')
-                    : Mage::helper('cms')->__('New Page'),
-                $id ? Mage::helper('cms')->__('Edit Page')
-                    : Mage::helper('cms')->__('New Page'));
+                $id ? Mage::helper('Mage_Cms_Helper_Data')->__('Edit Page')
+                    : Mage::helper('Mage_Cms_Helper_Data')->__('New Page'),
+                $id ? Mage::helper('Mage_Cms_Helper_Data')->__('Edit Page')
+                    : Mage::helper('Mage_Cms_Helper_Data')->__('New Page'));
 
         $this->renderLayout();
     }
@@ -151,7 +151,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
 
                 // display success message
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('cms')->__('The page has been saved.'));
+                    Mage::helper('Mage_Cms_Helper_Data')->__('The page has been saved.'));
                 // clear previously saved data from session
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
                 // check if 'Save and Continue'
@@ -168,7 +168,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
             }
             catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('cms')->__('An error occurred while saving the page.'));
+                    Mage::helper('Mage_Cms_Helper_Data')->__('An error occurred while saving the page.'));
             }
 
             $this->_getSession()->setFormData($data);
@@ -194,7 +194,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
                 $model->delete();
                 // display success message
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('cms')->__('The page has been deleted.'));
+                    Mage::helper('Mage_Cms_Helper_Data')->__('The page has been deleted.'));
                 // go to grid
                 Mage::dispatchEvent('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'success'));
                 $this->_redirect('*/*/');
@@ -210,7 +210,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
             }
         }
         // display error message
-        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('cms')->__('Unable to find a page to delete.'));
+        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Cms_Helper_Data')->__('Unable to find a page to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }

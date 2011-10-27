@@ -116,7 +116,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     protected function _construct()
     {
-        if (Mage::helper('catalog/category_flat')->isEnabled()) {
+        if (Mage::helper('Mage_Catalog_Helper_Category_Flat')->isEnabled()) {
             $this->_init('catalog/category_flat');
             $this->_useFlatResource = true;
         } else {
@@ -192,17 +192,17 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 
         if (!$parent->getId()) {
             Mage::throwException(
-                Mage::helper('catalog')->__('Category move operation is not possible: the new parent category was not found.')
+                Mage::helper('Mage_Catalog_Helper_Data')->__('Category move operation is not possible: the new parent category was not found.')
             );
         }
 
         if (!$this->getId()) {
             Mage::throwException(
-                Mage::helper('catalog')->__('Category move operation is not possible: the current category was not found.')
+                Mage::helper('Mage_Catalog_Helper_Data')->__('Category move operation is not possible: the current category was not found.')
             );
         } elseif ($parent->getId() == $this->getId()) {
             Mage::throwException(
-                Mage::helper('catalog')->__('Category move operation is not possible: parent category is equal to child category.')
+                Mage::helper('Mage_Catalog_Helper_Data')->__('Category move operation is not possible: parent category is equal to child category.')
             );
         }
 
@@ -474,7 +474,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function formatUrlKey($str)
     {
-        $str = Mage::helper('core')->removeAccents($str);
+        $str = Mage::helper('Mage_Core_Helper_Data')->removeAccents($str);
         $urlKey = preg_replace('#[^0-9a-z]+#i', '-', $str);
         $urlKey = strtolower($urlKey);
         $urlKey = trim($urlKey, '-');

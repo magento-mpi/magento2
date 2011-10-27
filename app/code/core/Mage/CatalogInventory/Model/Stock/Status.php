@@ -514,7 +514,7 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
      */
     public function prepareCatalogProductIndexSelect(Varien_Db_Select $select, $entityField, $websiteField)
     {
-        if (Mage::helper('cataloginventory')->isShowOutOfStock()) {
+        if (Mage::helper('Mage_CatalogInventory_Helper_Data')->isShowOutOfStock()) {
             return $this;
         }
 

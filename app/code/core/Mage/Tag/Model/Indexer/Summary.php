@@ -86,7 +86,7 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
      */
     public function getName()
     {
-        return Mage::helper('tag')->__('Tag Aggregation Data');
+        return Mage::helper('Mage_Tag_Helper_Data')->__('Tag Aggregation Data');
     }
 
     /**
@@ -96,7 +96,7 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
      */
     public function getDescription()
     {
-        return Mage::helper('tag')->__('Rebuild Tag aggregation data');
+        return Mage::helper('Mage_Tag_Helper_Data')->__('Rebuild Tag aggregation data');
     }
 
     /**

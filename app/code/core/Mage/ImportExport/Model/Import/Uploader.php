@@ -60,7 +60,7 @@ class Mage_ImportExport_Model_Import_Uploader extends Mage_Core_Model_File_Uploa
         $this->setFilesDispersion(true);
         $this->setAllowedExtensions(array_keys($this->_allowedMimeTypes));
         $this->addValidateCallback('catalog_product_image',
-                Mage::helper('catalog/image'), 'validateUploadFile');
+                Mage::helper('Mage_Catalog_Helper_Image'), 'validateUploadFile');
         $this->_uploadType = self::SINGLE_STYLE;
     }
 

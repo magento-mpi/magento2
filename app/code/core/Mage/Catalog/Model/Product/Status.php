@@ -138,8 +138,8 @@ class Mage_Catalog_Model_Product_Status extends Mage_Core_Model_Abstract
     static public function getOptionArray()
     {
         return array(
-            self::STATUS_ENABLED    => Mage::helper('catalog')->__('Enabled'),
-            self::STATUS_DISABLED   => Mage::helper('catalog')->__('Disabled')
+            self::STATUS_ENABLED    => Mage::helper('Mage_Catalog_Helper_Data')->__('Enabled'),
+            self::STATUS_DISABLED   => Mage::helper('Mage_Catalog_Helper_Data')->__('Disabled')
         );
     }
 
@@ -165,7 +165,7 @@ class Mage_Catalog_Model_Product_Status extends Mage_Core_Model_Abstract
         $res = array(
             array(
                 'value' => '',
-                'label' => Mage::helper('catalog')->__('-- Please Select --')
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('-- Please Select --')
             )
         );
         foreach (self::getOptionArray() as $index => $value) {

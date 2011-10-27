@@ -47,7 +47,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Totalquantity
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('enterprise_reminder')->__('Items Quantity'));
+            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Items Quantity'));
     }
 
     /**
@@ -58,7 +58,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Totalquantity
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Total shopping cart items quantity %s %s:',
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Total shopping cart items quantity %s %s:',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }

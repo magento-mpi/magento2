@@ -40,8 +40,8 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance extends Mage_Adminhtml_Block_W
     {
         $this->_blockGroup = 'widget';
         $this->_controller = 'adminhtml_widget_instance';
-        $this->_headerText = Mage::helper('widget')->__('Manage Widget Instances');
+        $this->_headerText = Mage::helper('Mage_Widget_Helper_Data')->__('Manage Widget Instances');
         parent::__construct();
-        $this->_updateButton('add', 'label', Mage::helper('widget')->__('Add New Widget Instance'));
+        $this->_updateButton('add', 'label', Mage::helper('Mage_Widget_Helper_Data')->__('Add New Widget Instance'));
     }
 }

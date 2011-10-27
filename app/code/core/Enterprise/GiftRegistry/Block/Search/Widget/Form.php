@@ -124,7 +124,7 @@ class Enterprise_GiftRegistry_Block_Search_Widget_Form
         $options = array_merge(array(
             array(
                 'value' => '',
-                'label' => Mage::helper('enterprise_giftregistry')->__('Select Search Type'))
+                'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Select Search Type'))
             ),
             $this->getSearchFormOptions()
         );

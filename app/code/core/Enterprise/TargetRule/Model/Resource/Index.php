@@ -83,7 +83,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
 
             default:
                 Mage::throwException(
-                    Mage::helper('enterprise_targetrule')->__('Undefined Catalog Product List Type')
+                    Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Undefined Catalog Product List Type')
                 );
         }
 
@@ -120,7 +120,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
             ->where('store_id = :store_id')
             ->where('customer_group_id = :customer_group_id');
 
-        $rotationMode = Mage::helper('enterprise_targetrule')->getRotationMode($object->getType());
+        $rotationMode = Mage::helper('Enterprise_TargetRule_Helper_Data')->getRotationMode($object->getType());
         if ($rotationMode == Enterprise_TargetRule_Model_Rule::ROTATION_SHUFFLE) {
             $this->orderRand($select);
         }

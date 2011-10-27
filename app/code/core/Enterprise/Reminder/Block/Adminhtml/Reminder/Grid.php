@@ -61,20 +61,20 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_B
     protected function _prepareColumns()
     {
         $this->addColumn('rule_id', array(
-            'header'    => Mage::helper('enterprise_reminder')->__('ID'),
+            'header'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('ID'),
             'align'     => 'right',
             'width'     => '50px',
             'index'     => 'rule_id',
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('enterprise_reminder')->__('Rule Name'),
+            'header'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Rule Name'),
             'align'     => 'left',
             'index'     => 'name',
         ));
 
         $this->addColumn('from_date', array(
-            'header'    => Mage::helper('enterprise_reminder')->__('Active From'),
+            'header'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Active From'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -83,7 +83,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_B
         ));
 
         $this->addColumn('to_date', array(
-            'header'    => Mage::helper('enterprise_reminder')->__('Active To'),
+            'header'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Active To'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -92,7 +92,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_B
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('enterprise_reminder')->__('Status'),
+            'header'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'is_active',
@@ -105,7 +105,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_B
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('rule_website', array(
-                'header'    => Mage::helper('enterprise_reminder')->__('Website'),
+                'header'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Website'),
                 'align'     =>'left',
                 'index'     => 'website_ids',
                 'type'      => 'options',

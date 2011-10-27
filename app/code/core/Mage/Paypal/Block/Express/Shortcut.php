@@ -98,14 +98,14 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
         }
 
         // check payment method availability
-        $methodInstance = Mage::helper('payment')->getMethodInstance($this->_paymentMethodCode);
+        $methodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance($this->_paymentMethodCode);
         if (!$methodInstance || !$methodInstance->isAvailable($quote)) {
             $this->_shouldRender = false;
             return $result;
         }
 
         // set misc data
-        $this->setShortcutHtmlId($this->helper('core')->uniqHash('ec_shortcut_'))
+        $this->setShortcutHtmlId($this->helper('Mage_Core_Helper_Data')->uniqHash('ec_shortcut_'))
             ->setCheckoutUrl($this->getUrl($this->_startAction))
         ;
 
@@ -121,11 +121,11 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
 
         // ask whether to create a billing agreement
         $customerId = Mage::getSingleton('customer/session')->getCustomerId(); // potential issue for caching
-        if (Mage::helper('paypal')->shouldAskToCreateBillingAgreement($config, $customerId)) {
+        if (Mage::helper('Mage_Paypal_Helper_Data')->shouldAskToCreateBillingAgreement($config, $customerId)) {
             $this->setConfirmationUrl($this->getUrl($this->_startAction,
                 array(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1)
             ));
-            $this->setConfirmationMessage(Mage::helper('paypal')->__('Would you like to sign a billing agreement to streamline further purchases with PayPal?'));
+            $this->setConfirmationMessage(Mage::helper('Mage_Paypal_Helper_Data')->__('Would you like to sign a billing agreement to streamline further purchases with PayPal?'));
         }
 
         return $result;

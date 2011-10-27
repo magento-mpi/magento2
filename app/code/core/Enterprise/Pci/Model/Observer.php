@@ -78,7 +78,7 @@ class Enterprise_Pci_Model_Observer
             $lockExpires = new Zend_Date($lockExpires, Varien_Date::DATETIME_INTERNAL_FORMAT);
             $lockExpires = $lockExpires->toValue();
             if ($lockExpires > time()) {
-                throw new Mage_Core_Exception(Mage::helper('enterprise_pci')->__('This account is locked.'), self::ADMIN_USER_LOCKED);
+                throw new Mage_Core_Exception(Mage::helper('Enterprise_Pci_Helper_Data')->__('This account is locked.'), self::ADMIN_USER_LOCKED);
             }
         }
 
@@ -95,10 +95,10 @@ class Enterprise_Pci_Model_Observer
         if ($latestPassword = Mage::getResourceSingleton('enterprise_pci/admin_user')->getLatestPassword($user->getId())) {
             if (isset($latestPassword['expires']) && ((int)$latestPassword['expires'] < time() && Mage::getStoreConfig('admin/security/password_lifetime') !== '')) {
                 if ($this->isPasswordChangeForced()) {
-                    $message = Mage::helper('enterprise_pci')->__('Your password has expired, you must change it now.');
+                    $message = Mage::helper('Enterprise_Pci_Helper_Data')->__('Your password has expired, you must change it now.');
                 } else {
                     $myAccountUrl = Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/system_account/');
-                    $message = Mage::helper('enterprise_pci')->__('Your password has expired, please <a href="%s">change it</a>.', $myAccountUrl);
+                    $message = Mage::helper('Enterprise_Pci_Helper_Data')->__('Your password has expired, please <a href="%s">change it</a>.', $myAccountUrl);
                 }
                 Mage::getSingleton('adminhtml/session')->addNotice($message);
                 if ($message = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()) {
@@ -109,7 +109,7 @@ class Enterprise_Pci_Model_Observer
         }
 
         // upgrade admin password
-        if (!Mage::helper('core')->getEncryptor()->validateHashByVersion($password, $user->getPassword())) {
+        if (!Mage::helper('Mage_Core_Helper_Data')->getEncryptor()->validateHashByVersion($password, $user->getPassword())) {
             Mage::getModel('admin/user')->load($user->getId())
                 ->setNewPassword($password)->setForceNewPassword(true)
                 ->save();
@@ -125,7 +125,7 @@ class Enterprise_Pci_Model_Observer
     {
         $apiKey = $observer->getEvent()->getApiKey();
         $model  = $observer->getEvent()->getModel();
-        if (!Mage::helper('core')->getEncryptor()->validateHashByVersion($apiKey, $model->getApiKey())) {
+        if (!Mage::helper('Mage_Core_Helper_Data')->getEncryptor()->validateHashByVersion($apiKey, $model->getApiKey())) {
             Mage::getModel('acl/user')->load($model->getId())->setNewApiKey($apiKey)->save();
         }
     }
@@ -139,7 +139,7 @@ class Enterprise_Pci_Model_Observer
     {
         $password = $observer->getEvent()->getPassword();
         $model    = $observer->getEvent()->getModel();
-        if (!Mage::helper('core')->getEncryptor()->validateHashByVersion($password, $model->getPassword())) {
+        if (!Mage::helper('Mage_Core_Helper_Data')->getEncryptor()->validateHashByVersion($password, $model->getPassword())) {
             $model->changePassword($password, false);
         }
     }
@@ -161,10 +161,10 @@ class Enterprise_Pci_Model_Observer
         if ($password && !$user->getForceNewPassword() && $user->getId()) {
             // check whether password was used before
             $resource     = Mage::getResourceSingleton('enterprise_pci/admin_user');
-            $passwordHash = Mage::helper('core')->getHash($password, false);
+            $passwordHash = Mage::helper('Mage_Core_Helper_Data')->getHash($password, false);
             foreach ($resource->getOldPasswords($user) as $oldPasswordHash) {
                 if ($passwordHash === $oldPasswordHash) {
-                    Mage::throwException(Mage::helper('enterprise_pci')->__('This password was used earlier, try another one.'));
+                    Mage::throwException(Mage::helper('Enterprise_Pci_Helper_Data')->__('This password was used earlier, try another one.'));
                 }
             }
         }
@@ -184,7 +184,7 @@ class Enterprise_Pci_Model_Observer
             $passwordLifetime = $this->getAdminPasswordLifetime();
             if ($passwordLifetime && $password && !$user->getForceNewPassword()) {
                 $resource     = Mage::getResourceSingleton('enterprise_pci/admin_user');
-                $passwordHash = Mage::helper('core')->getHash($password, false);
+                $passwordHash = Mage::helper('Mage_Core_Helper_Data')->getHash($password, false);
                 $resource->trackPassword($user, $passwordHash, $passwordLifetime);
                 Mage::getSingleton('adminhtml/session')->getMessages()->deleteMessageByIdentifier('enterprise_pci_password_expired');
                 Mage::getSingleton('admin/session')->unsPciAdminUserIsPasswordExpired();
@@ -241,7 +241,7 @@ class Enterprise_Pci_Model_Observer
                     Mage::getSingleton('admin/session')->unsetAll();
                     Mage::getSingleton('adminhtml/session')->unsetAll();
                     Mage::getSingleton('adminhtml/session')->addError(
-                        Mage::helper('enterprise_pci')->__('Your password has expired, please contact administrator.')
+                        Mage::helper('Enterprise_Pci_Helper_Data')->__('Your password has expired, please contact administrator.')
                     );
                     $controller->getRequest()->setDispatched(false);
                 }

@@ -53,8 +53,8 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
 
         $this->loadLayout();
         $this->_setActiveMenu('customer/group');
-        $this->_addBreadcrumb(Mage::helper('customer')->__('Customers'), Mage::helper('customer')->__('Customers'));
-        $this->_addBreadcrumb(Mage::helper('customer')->__('Customer Groups'), Mage::helper('customer')->__('Customer Groups'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Customer_Helper_Data')->__('Customers'), Mage::helper('Mage_Customer_Helper_Data')->__('Customers'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Customer_Helper_Data')->__('Customer Groups'), Mage::helper('Mage_Customer_Helper_Data')->__('Customer Groups'));
         $this->renderLayout();
     }
 
@@ -66,15 +66,15 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
         $this->_initGroup();
         $this->loadLayout();
         $this->_setActiveMenu('customer/group');
-        $this->_addBreadcrumb(Mage::helper('customer')->__('Customers'), Mage::helper('customer')->__('Customers'));
-        $this->_addBreadcrumb(Mage::helper('customer')->__('Customer Groups'), Mage::helper('customer')->__('Customer Groups'), $this->getUrl('*/customer_group'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Customer_Helper_Data')->__('Customers'), Mage::helper('Mage_Customer_Helper_Data')->__('Customers'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Customer_Helper_Data')->__('Customer Groups'), Mage::helper('Mage_Customer_Helper_Data')->__('Customer Groups'), $this->getUrl('*/customer_group'));
 
         $currentGroup = Mage::registry('current_group');
 
         if (!is_null($currentGroup->getId())) {
-            $this->_addBreadcrumb(Mage::helper('customer')->__('Edit Group'), Mage::helper('customer')->__('Edit Customer Groups'));
+            $this->_addBreadcrumb(Mage::helper('Mage_Customer_Helper_Data')->__('Edit Group'), Mage::helper('Mage_Customer_Helper_Data')->__('Edit Customer Groups'));
         } else {
-            $this->_addBreadcrumb(Mage::helper('customer')->__('New Group'), Mage::helper('customer')->__('New Customer Groups'));
+            $this->_addBreadcrumb(Mage::helper('Mage_Customer_Helper_Data')->__('New Group'), Mage::helper('Mage_Customer_Helper_Data')->__('New Customer Groups'));
         }
 
         $this->_title($currentGroup->getId() ? $currentGroup->getCode() : $this->__('New Group'));
@@ -110,7 +110,7 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
                 $customerGroup->setCode($this->getRequest()->getParam('code'))
                     ->setTaxClassId($taxClass)
                     ->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('customer')->__('The customer group has been saved.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Customer_Helper_Data')->__('The customer group has been saved.'));
                 $this->getResponse()->setRedirect($this->getUrl('*/customer_group'));
                 return;
             } catch (Exception $e) {
@@ -135,7 +135,7 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
             try {
                 $customerGroup->load($id);
                 $customerGroup->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('customer')->__('The customer group has been deleted.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Customer_Helper_Data')->__('The customer group has been deleted.'));
                 $this->getResponse()->setRedirect($this->getUrl('*/customer_group'));
                 return;
             } catch (Exception $e) {

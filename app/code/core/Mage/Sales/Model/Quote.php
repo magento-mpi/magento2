@@ -424,7 +424,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
-        Mage::helper('core')->copyFieldset('customer_account', 'to_quote', $customer, $this);
+        Mage::helper('Mage_Core_Helper_Data')->copyFieldset('customer_account', 'to_quote', $customer, $this);
         return $this;
     }
 
@@ -822,7 +822,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
          */
         if ($item->isNominal() && $this->hasItems() || $this->hasNominalItems()) {
             Mage::throwException(
-                Mage::helper('sales')->__('Nominal item can be purchased standalone only. To proceed please remove other items from the quote.')
+                Mage::helper('Mage_Sales_Helper_Data')->__('Nominal item can be purchased standalone only. To proceed please remove other items from the quote.')
             );
         }
 
@@ -852,7 +852,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $request = new Varien_Object(array('qty'=>$request));
         }
         if (!($request instanceof Varien_Object)) {
-            Mage::throwException(Mage::helper('sales')->__('Invalid request for adding product to quote.'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Invalid request for adding product to quote.'));
         }
 
         $cartCandidates = $product->getTypeInstance(true)
@@ -998,7 +998,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         $item = $this->getItemById($itemId);
         if (!$item) {
-            Mage::throwException(Mage::helper('sales')->__('Wrong quote item id to update configuration.'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Wrong quote item id to update configuration.'));
         }
         $productId = $item->getProduct()->getId();
 
@@ -1014,7 +1014,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $params = new Varien_Object($params);
         }
         $params->setCurrentConfig($item->getBuyRequest());
-        $buyRequest = Mage::helper('catalog/product')->addParamsToBuyRequest($buyRequest, $params);
+        $buyRequest = Mage::helper('Mage_Catalog_Helper_Product')->addParamsToBuyRequest($buyRequest, $params);
 
         $buyRequest->setResetCount(true);
         $resultItem = $this->addProduct($product, $buyRequest);
@@ -1236,8 +1236,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $this->setBaseGrandTotal((float) $this->getBaseGrandTotal() + $address->getBaseGrandTotal());
         }
 
-        Mage::helper('sales')->checkQuoteAmount($this, $this->getGrandTotal());
-        Mage::helper('sales')->checkQuoteAmount($this, $this->getBaseGrandTotal());
+        Mage::helper('Mage_Sales_Helper_Data')->checkQuoteAmount($this, $this->getGrandTotal());
+        Mage::helper('Mage_Sales_Helper_Data')->checkQuoteAmount($this, $this->getBaseGrandTotal());
 
         $this->setItemsCount(0);
         $this->setItemsQty(0);
@@ -1812,6 +1812,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     public function isAllowedGuestCheckout()
     {
-        return Mage::helper('checkout')->isAllowedGuestCheckout($this, $this->getStoreId());
+        return Mage::helper('Mage_Checkout_Helper_Data')->isAllowedGuestCheckout($this, $this->getStoreId());
     }
 }

@@ -41,7 +41,7 @@ class Enterprise_Reward_Model_Action_Tag extends Enterprise_Reward_Model_Action_
      */
     public function getPoints($websiteId)
     {
-        return (int)Mage::helper('enterprise_reward')->getPointsConfig('tag', $websiteId);
+        return (int)Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig('tag', $websiteId);
     }
 
     /**
@@ -51,7 +51,7 @@ class Enterprise_Reward_Model_Action_Tag extends Enterprise_Reward_Model_Action_
      */
     public function getRewardLimit()
     {
-        return Mage::helper('enterprise_reward')->getPointsConfig('tag_limit', $this->getReward()->getWebsiteId());
+        return Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig('tag_limit', $this->getReward()->getWebsiteId());
     }
 
     /**
@@ -63,7 +63,7 @@ class Enterprise_Reward_Model_Action_Tag extends Enterprise_Reward_Model_Action_
     public function getHistoryMessage($args = array())
     {
         $tag = isset($args['tag']) ? $args['tag'] : '';
-        return Mage::helper('enterprise_reward')->__('For submitting tag (%s).', $tag);
+        return Mage::helper('Enterprise_Reward_Helper_Data')->__('For submitting tag (%s).', $tag);
     }
 
     /**

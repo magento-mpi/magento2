@@ -759,7 +759,7 @@ class Mage_Core_Model_Url extends Varien_Object
             $session = Mage::getSingleton('core/session');
             if (!$session->isValidForHost($this->getHost())) {
                 if (!self::$_encryptedSessionId) {
-                    $helper = Mage::helper('core');
+                    $helper = Mage::helper('Mage_Core_Helper_Data');
                     if (!$helper) {
                         return $this;
                     }
@@ -781,7 +781,7 @@ class Mage_Core_Model_Url extends Varien_Object
         $session = Mage::getSingleton('core/session');
 
         if (!self::$_encryptedSessionId) {
-            $helper = Mage::helper('core');
+            $helper = Mage::helper('Mage_Core_Helper_Data');
             if (!$helper) {
                 return $this;
             }

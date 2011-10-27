@@ -64,6 +64,7 @@ class Mage_Core_Model_ConfigFactoryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Mage_Core_Helper_Data', $this->_model->getHelperClassName('core'));
         $this->assertEquals('Mage_Core_Helper_String', $this->_model->getHelperClassName('core/string'));
         $this->assertEquals('Mage_Core_Helper_Http', $this->_model->getHelperClassName('Mage_Core_Helper_Http'));
+        $this->assertEquals('Mage_Core_Helper_Data', $this->_model->getHelperClassName('Mage_Core'));
     }
 
     public function testGetResourceHelper()

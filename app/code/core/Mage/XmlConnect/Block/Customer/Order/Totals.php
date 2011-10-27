@@ -133,7 +133,7 @@ class Mage_XmlConnect_Block_Customer_Order_Totals extends Mage_Sales_Block_Order
     protected function _formatPrice($total)
     {
         if (!$total->getIsFormated()) {
-            return Mage::helper('xmlconnect/customer_order')->formatPrice($this, $total->getValue());
+            return Mage::helper('Mage_XmlConnect_Helper_Customer_Order')->formatPrice($this, $total->getValue());
         }
         return $total->getValue();
     }

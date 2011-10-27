@@ -137,7 +137,7 @@ class Enterprise_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_rma')->__('RMA');
+        return Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA');
     }
 
     /**
@@ -147,7 +147,7 @@ class Enterprise_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_rma')->__('RMA');
+        return Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA');
     }
 
     /**

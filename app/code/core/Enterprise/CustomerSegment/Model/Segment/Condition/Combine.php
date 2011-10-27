@@ -51,11 +51,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
         $conditions = array(
             array( // subconditions combo
                 'value' => 'enterprise_customersegment/segment_condition_combine',
-                'label' => Mage::helper('enterprise_customersegment')->__('Conditions Combination')),
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions Combination')),
 
             array( // customer address combo
                 'value' => 'enterprise_customersegment/segment_condition_customer_address',
-                'label' => Mage::helper('enterprise_customersegment')->__('Customer Address')),
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Address')),
 
             // customer attribute group
             Mage::getModel('enterprise_customersegment/segment_condition_customer')->getNewChildSelectOptions(),
@@ -66,12 +66,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
             array('value' => array(
                     array( // product list combo
                         'value' => 'enterprise_customersegment/segment_condition_product_combine_list',
-                        'label' => Mage::helper('enterprise_customersegment')->__('Product List')),
+                        'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Product List')),
                     array( // product history combo
                         'value' => 'enterprise_customersegment/segment_condition_product_combine_history',
-                        'label' => Mage::helper('enterprise_customersegment')->__('Product History')),
+                        'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Product History')),
                 ),
-                'label' => Mage::helper('enterprise_customersegment')->__('Products'),
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Products'),
             ),
 
             // sales group

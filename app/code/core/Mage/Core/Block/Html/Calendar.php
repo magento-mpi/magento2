@@ -41,32 +41,32 @@ class Mage_Core_Block_Html_Calendar extends Mage_Core_Block_Template
         // get days names
         $days = Zend_Locale_Data::getList($localeCode, 'days');
         $this->assign('days', array(
-            'wide'        => Mage::helper('core')->jsonEncode(array_values($days['format']['wide'])),
-            'abbreviated' => Mage::helper('core')->jsonEncode(array_values($days['format']['abbreviated']))
+            'wide'        => Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array_values($days['format']['wide'])),
+            'abbreviated' => Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array_values($days['format']['abbreviated']))
         ));
 
         // get months names
         $months = Zend_Locale_Data::getList($localeCode, 'months');
         $this->assign('months', array(
-            'wide'        => Mage::helper('core')->jsonEncode(array_values($months['format']['wide'])),
-            'abbreviated' => Mage::helper('core')->jsonEncode(array_values($months['format']['abbreviated']))
+            'wide'        => Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array_values($months['format']['wide'])),
+            'abbreviated' => Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array_values($months['format']['abbreviated']))
         ));
 
         // get "today" and "week" words
-        $this->assign('today', Mage::helper('core')->jsonEncode(Zend_Locale_Data::getContent($localeCode, 'relative', 0)));
-        $this->assign('week', Mage::helper('core')->jsonEncode(Zend_Locale_Data::getContent($localeCode, 'field', 'week')));
+        $this->assign('today', Mage::helper('Mage_Core_Helper_Data')->jsonEncode(Zend_Locale_Data::getContent($localeCode, 'relative', 0)));
+        $this->assign('week', Mage::helper('Mage_Core_Helper_Data')->jsonEncode(Zend_Locale_Data::getContent($localeCode, 'field', 'week')));
 
         // get "am" & "pm" words
-        $this->assign('am', Mage::helper('core')->jsonEncode(Zend_Locale_Data::getContent($localeCode, 'am')));
-        $this->assign('pm', Mage::helper('core')->jsonEncode(Zend_Locale_Data::getContent($localeCode, 'pm')));
+        $this->assign('am', Mage::helper('Mage_Core_Helper_Data')->jsonEncode(Zend_Locale_Data::getContent($localeCode, 'am')));
+        $this->assign('pm', Mage::helper('Mage_Core_Helper_Data')->jsonEncode(Zend_Locale_Data::getContent($localeCode, 'pm')));
 
         // get first day of week and weekend days
         $this->assign('firstDay',    (int)Mage::getStoreConfig('general/locale/firstday'));
-        $this->assign('weekendDays', Mage::helper('core')->jsonEncode((string)Mage::getStoreConfig('general/locale/weekend')));
+        $this->assign('weekendDays', Mage::helper('Mage_Core_Helper_Data')->jsonEncode((string)Mage::getStoreConfig('general/locale/weekend')));
 
         // define default format and tooltip format
-        $this->assign('defaultFormat', Mage::helper('core')->jsonEncode(Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM)));
-        $this->assign('toolTipFormat', Mage::helper('core')->jsonEncode(Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_LONG)));
+        $this->assign('defaultFormat', Mage::helper('Mage_Core_Helper_Data')->jsonEncode(Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM)));
+        $this->assign('toolTipFormat', Mage::helper('Mage_Core_Helper_Data')->jsonEncode(Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_LONG)));
 
         // get days and months for en_US locale - calendar will parse exactly in this locale
         $days = Zend_Locale_Data::getList('en_US', 'days');
@@ -75,7 +75,7 @@ class Mage_Core_Block_Html_Calendar extends Mage_Core_Block_Template
         $enUS->m = new stdClass();
         $enUS->m->wide = array_values($months['format']['wide']);
         $enUS->m->abbr = array_values($months['format']['abbreviated']);
-        $this->assign('enUS', Mage::helper('core')->jsonEncode($enUS));
+        $this->assign('enUS', Mage::helper('Mage_Core_Helper_Data')->jsonEncode($enUS));
 
         return parent::_toHtml();
     }

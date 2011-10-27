@@ -196,7 +196,7 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Template
     public function getProcessedTemplate(array $variables = array(), $usePreprocess = false)
     {
         /* @var $processor Mage_Newsletter_Model_Template_Filter */
-        $processor = Mage::helper('newsletter')->getTemplateProcessor();
+        $processor = Mage::helper('Mage_Newsletter_Helper_Data')->getTemplateProcessor();
 
         if (!$this->_preprocessFlag) {
             $variables['this'] = $this;
@@ -386,7 +386,7 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Template
     {
         if (!$this->getData('template_text') && !$this->getId()) {
             $this->setData('template_text',
-                Mage::helper('newsletter')->__('Follow this link to unsubscribe <!-- This tag is for unsubscribe link  --><a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}</a>')
+                Mage::helper('Mage_Newsletter_Helper_Data')->__('Follow this link to unsubscribe <!-- This tag is for unsubscribe link  --><a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}</a>')
             );
         }
 

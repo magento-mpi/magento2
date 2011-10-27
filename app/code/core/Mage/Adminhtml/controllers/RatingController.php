@@ -40,7 +40,7 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
         $this->loadLayout();
 
         $this->_setActiveMenu('catalog/ratings');
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Manage Ratings'), Mage::helper('adminhtml')->__('Manage Ratings'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Manage Ratings'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Manage Ratings'));
         $this->_addContent($this->getLayout()->createBlock('adminhtml/rating_rating'));
 
         $this->renderLayout();
@@ -59,7 +59,7 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
         $this->_title($ratingModel->getId() ? $ratingModel->getRatingCode() : $this->__('New Rating'));
 
         $this->_setActiveMenu('catalog/ratings');
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Manage Ratings'), Mage::helper('adminhtml')->__('Manage Ratings'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Manage Ratings'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Manage Ratings'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/rating_edit'))
             ->_addLeft($this->getLayout()->createBlock('adminhtml/rating_edit_tabs'));
@@ -107,7 +107,7 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
                     }
                 }
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('The rating has been saved.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The rating has been saved.'));
                 Mage::getSingleton('adminhtml/session')->setRatingData(false);
 
                 $this->_redirect('*/*/');
@@ -130,7 +130,7 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
                 /* @var $model Mage_Rating_Model_Rating */
                 $model->load($this->getRequest()->getParam('id'))
                     ->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('The rating has been deleted.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The rating has been deleted.'));
                 $this->_redirect('*/*/');
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());

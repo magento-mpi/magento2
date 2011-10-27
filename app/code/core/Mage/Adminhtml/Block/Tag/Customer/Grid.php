@@ -76,31 +76,31 @@ class Mage_Adminhtml_Block_Tag_Customer_Grid extends Mage_Adminhtml_Block_Widget
     protected function _prepareColumns()
     {
         $this->addColumn('customer_id', array(
-            'header'        => Mage::helper('tag')->__('ID'),
+            'header'        => Mage::helper('Mage_Tag_Helper_Data')->__('ID'),
             'width'         => 50,
             'align'         => 'right',
             'index'         => 'entity_id',
         ));
 
         $this->addColumn('firstname', array(
-            'header'    => Mage::helper('tag')->__('First Name'),
+            'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('First Name'),
             'index'     => 'firstname',
         ));
 
         $this->addColumn('lastname', array(
-            'header'    => Mage::helper('tag')->__('Last Name'),
+            'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('Last Name'),
             'index'     => 'lastname',
         ));
 
         $this->addColumn('product', array(
-            'header'    => Mage::helper('tag')->__('Product Name'),
+            'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('Product Name'),
             'filter'    => false,
             'sortable'  => false,
             'index'     => 'product',
         ));
 
         $this->addColumn('product_sku', array(
-            'header'    => Mage::helper('tag')->__('Product SKU'),
+            'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('Product SKU'),
             'filter'    => false,
             'sortable'  => false,
             'width'     => 50,

@@ -46,12 +46,12 @@ class Mage_XmlConnect_Block_Customer_Storecredit extends Mage_Core_Block_Templat
         $accountBalance = $this->getLayout()
             ->addBlock('enterprise_customerbalance/account_balance', 'account_balance');
 
-        $customerBalanceHelper = Mage::helper('enterprise_customerbalance');
+        $customerBalanceHelper = Mage::helper('Enterprise_CustomerBalance_Helper_Data');
 
         $xmlModel->addCustomChild('balance', null, array(
             'label' => $customerBalanceHelper->__('Your current balance is:'),
             'value' => $accountBalance->getBalance(),
-            'formatted_value' => Mage::helper('core')->currency($accountBalance->getBalance(), true, false)
+            'formatted_value' => Mage::helper('Mage_Core_Helper_Data')->currency($accountBalance->getBalance(), true, false)
         ));
 
         $accountHistory = $this->getLayout()
@@ -73,15 +73,15 @@ class Mage_XmlConnect_Block_Customer_Storecredit extends Mage_Core_Block_Templat
                 ));
 
                 $item->addCustomChild('balance_change', null, array(
-                    'value' => Mage::helper('core')->currency($event->getBalanceDelta(), true, false)
+                    'value' => Mage::helper('Mage_Core_Helper_Data')->currency($event->getBalanceDelta(), true, false)
                 ));
 
                 $item->addCustomChild('balance', null, array(
-                    'value' => Mage::helper('core')->currency($event->getBalanceAmount(), true, false)
+                    'value' => Mage::helper('Mage_Core_Helper_Data')->currency($event->getBalanceAmount(), true, false)
                 ));
 
                 $item->addCustomChild('date', null, array(
-                    'value' => Mage::helper('core')->formatDate($event->getUpdatedAt(), 'short', true)
+                    'value' => Mage::helper('Mage_Core_Helper_Data')->formatDate($event->getUpdatedAt(), 'short', true)
                 ));
             }
         }

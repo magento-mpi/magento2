@@ -37,7 +37,7 @@ class Mage_Adminhtml_SystemController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout();
         $this->_setActiveMenu('system');
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('System'), Mage::helper('adminhtml')->__('System'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'));
         $this->renderLayout();
     }
 

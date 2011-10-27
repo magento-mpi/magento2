@@ -34,7 +34,7 @@ class Enterprise_CustomerBalance_Model_Total_Invoice_Customerbalance extends Mag
      */
     public function collect(Mage_Sales_Model_Order_Invoice $invoice)
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return $this;
         }
         $order = $invoice->getOrder();

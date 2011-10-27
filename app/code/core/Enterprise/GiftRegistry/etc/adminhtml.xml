@@ -34,7 +34,7 @@
                         <children>
                             <config>
                                 <children>
-                                    <enterprise_giftregistry translate="title" module="enterprise_giftregistry">
+                                    <enterprise_giftregistry translate="title" module="Enterprise_GiftRegistry">
                                         <title>Gift Registry Section</title>
                                     </enterprise_giftregistry>
                                 </children>
@@ -43,7 +43,7 @@
                     </system>
                     <customer>
                         <children>
-                            <enterprise_giftregistry translate="title" module="enterprise_giftregistry">
+                            <enterprise_giftregistry translate="title" module="Enterprise_GiftRegistry">
                                 <title>Gift Registry</title>
                                 <sort_order>30</sort_order>
                             </enterprise_giftregistry>
@@ -56,7 +56,7 @@
     <menu>
         <customer>
             <children>
-                <enterprise_giftregistry translate="title" module="enterprise_giftregistry">
+                <enterprise_giftregistry translate="title" module="Enterprise_GiftRegistry">
                     <title>Gift Registry</title>
                     <action>adminhtml/giftregistry</action>
                     <depends>

@@ -55,20 +55,20 @@ class Mage_Adminhtml_Block_Report_Review_Customer_Grid extends Mage_Adminhtml_Bl
     protected function _prepareColumns()
     {
         $this->addColumn('customer_name', array(
-            'header'    => Mage::helper('reports')->__('Customer Name'),
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Customer Name'),
             'index'     => 'customer_name',
-            'default'   => Mage::helper('reports')->__('Guest'),
+            'default'   => Mage::helper('Mage_Reports_Helper_Data')->__('Guest'),
         ));
 
         $this->addColumn('review_cnt', array(
-            'header'    => Mage::helper('reports')->__('Number Of Reviews'),
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Number Of Reviews'),
             'width'     => '40px',
             'align'     => 'right',
             'index'     => 'review_cnt'
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('reports')->__('Action'),
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Action'),
             'width'     => '100px',
             'align'     => 'center',
             'filter'    => false,
@@ -79,8 +79,8 @@ class Mage_Adminhtml_Block_Report_Review_Customer_Grid extends Mage_Adminhtml_Bl
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportCustomerCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportCustomerExcel', Mage::helper('reports')->__('Excel XML'));
+        $this->addExportType('*/*/exportCustomerCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportCustomerExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

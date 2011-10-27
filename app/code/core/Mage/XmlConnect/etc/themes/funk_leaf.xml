@@ -27,7 +27,7 @@
 -->
 
 <theme>
-    <manifest translate="label" module="xmlconnect">
+    <manifest translate="label" module="Mage_XmlConnect">
         <name>funk_leaf</name>
         <label>Funk Leaf</label>
         <version>1.0</version>

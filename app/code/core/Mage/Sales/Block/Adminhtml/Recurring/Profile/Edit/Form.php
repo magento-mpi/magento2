@@ -126,17 +126,17 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Mage_Adminh
             $form->addField('', 'hidden', array('name' => ''));
         }
 
-        $noYes = array(Mage::helper('adminhtml')->__('No'), Mage::helper('adminhtml')->__('Yes'));
+        $noYes = array(Mage::helper('Mage_Adminhtml_Helper_Data')->__('No'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Yes'));
 
         // schedule
         $schedule = $form->addFieldset('schedule_fieldset', array(
-            'legend' => Mage::helper('sales')->__('Schedule'),
+            'legend' => Mage::helper('Mage_Sales_Helper_Data')->__('Schedule'),
             'disabled'  => $this->_isReadOnly
         ));
         $schedule->addField('start_date_is_editable', 'select', array(
             'name'    => 'start_date_is_editable',
-            'label'   => Mage::helper('sales')->__('Customer Can Define Start Date'),
-            'comment' => Mage::helper('sales')->__('Whether buyer can define the date when billing for the profile begins.'),
+            'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Customer Can Define Start Date'),
+            'comment' => Mage::helper('Mage_Sales_Helper_Data')->__('Whether buyer can define the date when billing for the profile begins.'),
             'options' => $noYes,
             'disabled' => $this->_isReadOnly
         ));
@@ -146,22 +146,22 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Mage_Adminh
 
         // billing
         $billing = $form->addFieldset('billing_fieldset', array(
-            'legend' => Mage::helper('sales')->__('Billing'),
+            'legend' => Mage::helper('Mage_Sales_Helper_Data')->__('Billing'),
             'disabled'  => $this->_isReadOnly
         ));
         $this->_addField($billing, 'period_unit', array(
-            'options' => $this->_getPeriodUnitOptions(Mage::helper('adminhtml')->__('-- Please Select --')),
+            'options' => $this->_getPeriodUnitOptions(Mage::helper('Mage_Adminhtml_Helper_Data')->__('-- Please Select --')),
         ), 'select');
         $this->_addField($billing, 'period_frequency');
         $this->_addField($billing, 'period_max_cycles');
 
         // trial
         $trial = $form->addFieldset('trial_fieldset', array(
-            'legend' => Mage::helper('sales')->__('Trial Period'),
+            'legend' => Mage::helper('Mage_Sales_Helper_Data')->__('Trial Period'),
             'disabled'  => $this->_isReadOnly
         ));
         $this->_addField($trial, 'trial_period_unit', array(
-            'options' => $this->_getPeriodUnitOptions(Mage::helper('adminhtml')->__('-- Not Selected --')),
+            'options' => $this->_getPeriodUnitOptions(Mage::helper('Mage_Adminhtml_Helper_Data')->__('-- Not Selected --')),
         ), 'select');
         $this->_addField($trial, 'trial_period_frequency');
         $this->_addField($trial, 'trial_period_max_cycles');
@@ -169,7 +169,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Mage_Adminh
 
         // initial fees
         $initial = $form->addFieldset('initial_fieldset', array(
-            'legend' => Mage::helper('sales')->__('Initial Fees'),
+            'legend' => Mage::helper('Mage_Sales_Helper_Data')->__('Initial Fees'),
             'disabled'  => $this->_isReadOnly
         ));
         $this->_addField($initial, 'init_amount');

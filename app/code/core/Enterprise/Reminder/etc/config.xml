@@ -61,7 +61,7 @@
         </resources>
         <template>
             <email>
-                <enterprise_reminder_email_template translate="label" module="enterprise_reminder">
+                <enterprise_reminder_email_template translate="label" module="Enterprise_Reminder">
                     <label>Rule Reminder</label>
                     <file>enterprise/reminder.html</file>
                     <type>html</type>

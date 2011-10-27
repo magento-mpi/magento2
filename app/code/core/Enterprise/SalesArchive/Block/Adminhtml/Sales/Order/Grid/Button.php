@@ -37,7 +37,7 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Button extends Ma
         if ($parent && $ordersCount) {
             $url = $this->getUrl('*/sales_archive/orders');
             $parent->addButton('go_to_archive',  array(
-                'label'     => Mage::helper('enterprise_salesarchive')->__('Go to Archive (%s orders)', $ordersCount),
+                'label'     => Mage::helper('Enterprise_SalesArchive_Helper_Data')->__('Go to Archive (%s orders)', $ordersCount),
                 'onclick'   => 'setLocation(\'' . $url . '\')',
                 'class'     => 'go'
             ));

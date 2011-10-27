@@ -113,7 +113,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             'method_instance' => $this->getOriginalMethodInstance(),
             'quote'           => $quote,
         ));
-        return $checkResult->isAvailable && Mage::helper('enterprise_pbridge')->isEnabled($storeId)
+        return $checkResult->isAvailable && Mage::helper('Enterprise_Pbridge_Helper_Data')->isEnabled($storeId)
             && $this->getOriginalMethodInstance()->getConfigData('using_pbridge', $storeId);
     }
 
@@ -205,7 +205,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             if (null === $this->_originalMethodCode) {
                 return null;
             }
-            $this->_originalMethodInstance = Mage::helper('payment')
+            $this->_originalMethodInstance = Mage::helper('Mage_Payment_Helper_Data')
                  ->getMethodInstance($this->_originalMethodCode);
         }
         return $this->_originalMethodInstance;
@@ -235,7 +235,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     {
         parent::validate();
         if (!$this->getPbridgeResponse('token')) {
-            Mage::throwException(Mage::helper('enterprise_pbridge')->__('Payment Bridge authentication data is not present'));
+            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payment Bridge authentication data is not present'));
         }
         return $this;
     }
@@ -356,7 +356,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             return $api->getResponse();
 
         } else {
-            Mage::throwException(Mage::helper('enterprise_pbridge')->__('Impossible to issue a refund transaction, because capture transaction does not exist.'));
+            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Impossible to issue a refund transaction, because capture transaction does not exist.'));
         }
     }
 
@@ -378,7 +378,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             $this->_getApi()->doVoid($request);
 
         } else {
-            Mage::throwException(Mage::helper('enterprise_pbridge')->__('Authorization transaction is required to void.'));
+            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Authorization transaction is required to void.'));
         }
         return $this->_getApi()->getResponse();
     }
@@ -422,7 +422,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      */
     protected function _getCart(Mage_Core_Model_Abstract $order)
     {
-        list($items, $totals) = Mage::helper('enterprise_pbridge')->prepareCart($order);
+        list($items, $totals) = Mage::helper('Enterprise_Pbridge_Helper_Data')->prepareCart($order);
         //Getting cart items
         $result = array();
 
@@ -443,7 +443,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     protected function _importResultToPayment(Mage_Sales_Model_Order_Payment $payment, $apiResponse)
     {
         if (!empty($apiResponse['gateway_transaction_id'])) {
-            $payment->setPreparedMessage(Mage::helper('enterprise_pbridge')->__('Original gateway transaction id: #%s.',
+            $payment->setPreparedMessage(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Original gateway transaction id: #%s.',
                 $apiResponse['gateway_transaction_id']));
         }
 
@@ -461,7 +461,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     protected function _getApiRequest()
     {
         $request = new Varien_Object();
-        $request->setCountryCode(Mage::helper('core')->getDefaultCountry());
+        $request->setCountryCode(Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry());
         $request->setClientIdentifier($this->_getCustomerIdentifier());
 
         return $request;

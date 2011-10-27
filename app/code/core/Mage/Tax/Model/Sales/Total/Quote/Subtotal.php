@@ -74,7 +74,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
     public function __construct()
     {
         $this->setCode('tax_subtotal');
-        $this->_helper      = Mage::helper('tax');
+        $this->_helper      = Mage::helper('Mage_Tax_Helper_Data');
         $this->_calculator  = Mage::getSingleton('tax/calculation');
         $this->_config      = Mage::getSingleton('tax/config');
     }

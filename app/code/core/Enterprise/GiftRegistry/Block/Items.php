@@ -59,14 +59,14 @@ class Enterprise_GiftRegistry_Block_Items extends Mage_Checkout_Block_Cart
                     ->setOptions($item->getOptions());
 
                 $product->setCustomOptions($item->getOptionsByCode());
-                if (Mage::helper('catalog')->canApplyMsrp($product)) {
+                if (Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($product)) {
                     $quoteItem->setCanApplyMsrp(true);
                     $product->setRealPriceHtml(
                         Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
-                            Mage::helper('tax')->getPrice($product, $product->getFinalPrice(), true)
+                            Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $product->getFinalPrice(), true)
                         ))
                     );
-                    $product->setAddToCartUrl($this->helper('checkout/cart')->getAddUrl($product));
+                    $product->setAddToCartUrl($this->helper('Mage_Checkout_Helper_Cart')->getAddUrl($product));
                 } else {
                     $quoteItem->setGiftRegistryPrice($product->getFinalPrice());
                     $quoteItem->setCanApplyMsrp(false);

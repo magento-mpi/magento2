@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Grid extends Mage_Adminhtml_Blo
 
     protected function _construct()
     {
-        $this->setEmptyText(Mage::helper('adminhtml')->__('No Templates Found'));
+        $this->setEmptyText(Mage::helper('Mage_Adminhtml_Helper_Data')->__('No Templates Found'));
         $this->setId('systemEmailTemplateGrid');
         $this->setUseAjax(true);
         $this->setSaveParametersInSession(true);
@@ -55,20 +55,20 @@ class Mage_Adminhtml_Block_System_Email_Template_Grid extends Mage_Adminhtml_Blo
     {
         $this->addColumn('template_id',
             array(
-                  'header'=>Mage::helper('adminhtml')->__('ID'),
+                  'header'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('ID'),
                   'index'=>'template_id'
             )
         );
 
         $this->addColumn('code',
             array(
-                'header'=>Mage::helper('adminhtml')->__('Template Name'),
+                'header'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Template Name'),
                 'index'=>'template_code'
         ));
 
         $this->addColumn('added_at',
             array(
-                'header'=>Mage::helper('adminhtml')->__('Date Added'),
+                'header'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Date Added'),
                 'index'=>'added_at',
                 'gmtoffset' => true,
                 'type'=>'datetime'
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Grid extends Mage_Adminhtml_Blo
 
         $this->addColumn('modified_at',
             array(
-                'header'=>Mage::helper('adminhtml')->__('Date Updated'),
+                'header'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Date Updated'),
                 'index'=>'modified_at',
                 'gmtoffset' => true,
                 'type'=>'datetime'
@@ -84,20 +84,20 @@ class Mage_Adminhtml_Block_System_Email_Template_Grid extends Mage_Adminhtml_Blo
 
         $this->addColumn('subject',
             array(
-                'header'=>Mage::helper('adminhtml')->__('Subject'),
+                'header'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Subject'),
                 'index'=>'template_subject'
         ));
         /*
         $this->addColumn('sender',
             array(
-                'header'=>Mage::helper('adminhtml')->__('Sender'),
+                'header'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Sender'),
                 'index'=>'template_sender_email',
                 'renderer' => 'adminhtml/system_email_template_grid_renderer_sender'
         ));
         */
         $this->addColumn('type',
             array(
-                'header'=>Mage::helper('adminhtml')->__('Template Type'),
+                'header'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Template Type'),
                 'index'=>'template_type',
                 'filter' => 'adminhtml/system_email_template_grid_filter_type',
                 'renderer' => 'adminhtml/system_email_template_grid_renderer_type'
@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Grid extends Mage_Adminhtml_Blo
 
         $this->addColumn('action',
             array(
-                'header'	=> Mage::helper('adminhtml')->__('Action'),
+                'header'	=> Mage::helper('Mage_Adminhtml_Helper_Data')->__('Action'),
                 'index'		=> 'template_id',
                 'sortable'  => false,
                 'filter' 	=> false,

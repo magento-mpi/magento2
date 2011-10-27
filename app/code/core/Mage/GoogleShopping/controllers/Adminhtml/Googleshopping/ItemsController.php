@@ -43,8 +43,8 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
     {
         $this->loadLayout()
             ->_setActiveMenu('catalog/googleshopping/items')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Catalog'), Mage::helper('adminhtml')->__('Catalog'))
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Google Content'), Mage::helper('adminhtml')->__('Google Content'));
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Catalog'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Catalog'))
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Google Content'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Google Content'));
         return $this;
     }
 
@@ -65,10 +65,10 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
 
         if ($this->getRequest()->getParam('captcha_token') && $this->getRequest()->getParam('captcha_url')) {
             $contentBlock->setGcontentCaptchaToken(
-                Mage::helper('core')->urlDecode($this->getRequest()->getParam('captcha_token'))
+                Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('captcha_token'))
             );
             $contentBlock->setGcontentCaptchaUrl(
-                Mage::helper('core')->urlDecode($this->getRequest()->getParam('captcha_url'))
+                Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('captcha_url'))
             );
         }
 
@@ -84,7 +84,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
         }
 
         $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('googleshopping')->__('Items'), Mage::helper('googleshopping')->__('Items'))
+            ->_addBreadcrumb(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Items'), Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Items'))
             ->_addContent($contentBlock)
             ->renderLayout();
     }
@@ -169,7 +169,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
         try {
             Mage::getModel('googleshopping/service')->getClient(
                 $storeId,
-                Mage::helper('core')->urlDecode($this->getRequest()->getParam('captcha_token')),
+                Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('captcha_token')),
                 $this->getRequest()->getParam('user_confirm')
             );
             $this->_getSession()->addSuccess($this->__('Captcha has been confirmed.'));
@@ -179,7 +179,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
             $this->_redirectToCaptcha($e);
             return;
         } catch (Zend_Gdata_App_Exception $e) {
-            $this->_getSession()->addError( Mage::helper('googleshopping')->parseGdataExceptionMessage($e->getMessage()) );
+            $this->_getSession()->addError( Mage::helper('Mage_GoogleShopping_Helper_Data')->parseGdataExceptionMessage($e->getMessage()) );
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()->addError($this->__('Captcha confirmation error.'));
@@ -197,8 +197,8 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
     {
         $this->_redirect('*/*/index',
             array('store' => $this->_getStore()->getId(),
-                'captcha_token' => Mage::helper('core')->urlEncode($e->getCaptchaToken()),
-                'captcha_url' => Mage::helper('core')->urlEncode($e->getCaptchaUrl())
+                'captcha_token' => Mage::helper('Mage_Core_Helper_Data')->urlEncode($e->getCaptchaToken()),
+                'captcha_url' => Mage::helper('Mage_Core_Helper_Data')->urlEncode($e->getCaptchaUrl())
             )
         );
     }

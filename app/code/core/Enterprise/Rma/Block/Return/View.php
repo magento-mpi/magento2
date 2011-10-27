@@ -224,7 +224,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
 
     public function getAddress()
     {
-        return  Mage::helper('enterprise_rma')->getReturnAddress();
+        return  Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddress();
     }
 
     public function getSubmitUrl()
@@ -235,7 +235,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
     public function getCustomerName()
     {
         if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            return Mage::helper('customer')->getCustomerName();
+            return Mage::helper('Mage_Customer_Helper_Data')->getCustomerName();
         } else {
             $billingAddress = Mage::registry('current_order')->getBillingAddress();
 
@@ -313,10 +313,10 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
         return $this->getLayout()
             ->createBlock('core/html_link')
             ->setData(array(
-                'label'   => Mage::helper('enterprise_rma')->__('Print Shipping Label'),
+                'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Print Shipping Label'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
             ))
-            ->setAnchorText(Mage::helper('enterprise_rma')->__('Print Shipping Label'))
+            ->setAnchorText(Mage::helper('Enterprise_Rma_Helper_Data')->__('Print Shipping Label'))
             ->toHtml();
     }
 
@@ -331,13 +331,13 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
             ->createBlock('core/html_link')
             ->setData(array(
                 'href'      => "javascript:void(0)",
-                'title'     => Mage::helper('enterprise_rma')->__('Show Packages'),
+                'title'     => Mage::helper('Enterprise_Rma_Helper_Data')->__('Show Packages'),
                 'onclick'   => "popWin(
-                        '".$this->helper('enterprise_rma')->getPackagePopupUrlByRmaModel($this->getRma())."',
+                        '".$this->helper('Enterprise_Rma_Helper_Data')->getPackagePopupUrlByRmaModel($this->getRma())."',
                         'package',
                         'width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;"
             ))
-            ->setAnchorText(Mage::helper('enterprise_rma')->__('Show Packages'))
+            ->setAnchorText(Mage::helper('Enterprise_Rma_Helper_Data')->__('Show Packages'))
             ->toHtml();
     }
 
@@ -351,13 +351,13 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
         return $this->getLayout()
             ->createBlock('core/html_link')
             ->setData(array(
-                'href'      => $this->helper('enterprise_rma')->getPackagePopupUrlByRmaModel(
+                'href'      => $this->helper('Enterprise_Rma_Helper_Data')->getPackagePopupUrlByRmaModel(
                     $this->getRma(),
                     'printlabel'
                 ),
-                'title'     => Mage::helper('enterprise_rma')->__('Print Shipping Label'),
+                'title'     => Mage::helper('Enterprise_Rma_Helper_Data')->__('Print Shipping Label'),
             ))
-            ->setAnchorText(Mage::helper('enterprise_rma')->__('Print Shipping Label'))
+            ->setAnchorText(Mage::helper('Enterprise_Rma_Helper_Data')->__('Print Shipping Label'))
             ->toHtml();
     }
 
@@ -368,7 +368,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
      */
     public function getCarriers()
     {
-        return Mage::helper('enterprise_rma')->getShippingCarriers($this->getRma()->getStoreId());
+        return Mage::helper('Enterprise_Rma_Helper_Data')->getShippingCarriers($this->getRma()->getStoreId());
     }
 
     /**

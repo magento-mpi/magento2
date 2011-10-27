@@ -118,9 +118,9 @@ class Mage_CatalogSearch_Model_Fulltext extends Mage_Core_Model_Abstract
     public function prepareResult($query = null)
     {
         if (!$query instanceof Mage_CatalogSearch_Model_Query) {
-            $query = Mage::helper('catalogsearch')->getQuery();
+            $query = Mage::helper('Mage_CatalogSearch_Helper_Data')->getQuery();
         }
-        $queryText = Mage::helper('catalogsearch')->getQueryText();
+        $queryText = Mage::helper('Mage_CatalogSearch_Helper_Data')->getQueryText();
         if ($query->getSynonymFor()) {
             $queryText = $query->getSynonymFor();
         }

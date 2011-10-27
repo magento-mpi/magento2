@@ -41,7 +41,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_banner')->__('Content');
+        return Mage::helper('Enterprise_Banner_Helper_Data')->__('Content');
     }
 
     /**
@@ -99,20 +99,20 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
 
         // add default content fieldset
         $fieldset = $form->addFieldset('default_fieldset', array(
-            'legend'       => Mage::helper('enterprise_banner')->__('Default Content'),
+            'legend'       => Mage::helper('Enterprise_Banner_Helper_Data')->__('Default Content'),
             'class'        => $fieldsetHtmlClass,
         ));
 
         $fieldset->addField('store_0_content_use', 'checkbox', array(
             'name'      => 'store_contents_not_use[0]',
             'required'  => false,
-            'label'    => Mage::helper('enterprise_banner')->__('Banner Default Content for All Store Views'),
+            'label'    => Mage::helper('Enterprise_Banner_Helper_Data')->__('Banner Default Content for All Store Views'),
             'onclick'   => "$('store_default_content').toggle();
                 $('" . $form->getHtmlIdPrefix() . "store_default_content').disabled = !$('" . $form->getHtmlIdPrefix() . "store_default_content').disabled;",
             'checked'   => isset($storeContents[0]) ? false : (!$model->getId() ? false : true),
             'after_element_html' => '<label for="' . $form->getHtmlIdPrefix()
                 . 'store_0_content_use">'
-                . Mage::helper('enterprise_banner')->__('No Default Content') . '</label>',
+                . Mage::helper('Enterprise_Banner_Helper_Data')->__('No Default Content') . '</label>',
             'value'     => 0,
             'fieldset_html_class' => 'store',
             'disabled'  => (bool)$model->getIsReadonly() || ($model->getCanSaveAllStoreViewsContent() === false)
@@ -136,7 +136,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
 
         // fieldset and content areas per store views
         $fieldset = $form->addFieldset('scopes_fieldset', array(
-            'legend' => Mage::helper('enterprise_banner')->__('Store View Specific Content'),
+            'legend' => Mage::helper('Enterprise_Banner_Helper_Data')->__('Store View Specific Content'),
             'class'  => $fieldsetHtmlClass,
             'table_class' => 'form-list stores-tree',
         ));
@@ -167,7 +167,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
                         'checked'   => $storeContent ? false : true,
                         'after_element_html' => '<label for="' . $form->getHtmlIdPrefix()
                             . 'store_' . $store->getId() .'_content_use">'
-                            . Mage::helper('enterprise_banner')->__('Use Default') . '</label>',
+                            . Mage::helper('Enterprise_Banner_Helper_Data')->__('Use Default') . '</label>',
                         'value'     => $store->getId(),
                         'fieldset_html_class' => 'store',
                         'disabled'  => (bool)$model->getIsReadonly()

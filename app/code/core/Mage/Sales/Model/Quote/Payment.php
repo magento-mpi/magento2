@@ -142,7 +142,7 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
         $this->getQuote()->collectTotals();
 
         if (!$method->isAvailable($this->getQuote())) {
-            Mage::throwException(Mage::helper('sales')->__('The requested Payment Method is not available.'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('The requested Payment Method is not available.'));
         }
 
         $method->assignData($data);

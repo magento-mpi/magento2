@@ -331,7 +331,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
             }
         }
 
-        $returnAddress = Mage::helper('enterprise_rma')->getReturnAddress('html', array(), $this->getStoreId());
+        $returnAddress = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddress('html', array(), $this->getStoreId());
 
         foreach ($sendTo as $recipient) {
             $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
@@ -414,8 +414,8 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
 
         $preparePost['product_name']        = $realItem->getName();
         $preparePost['product_sku']         = $realItem->getSku();
-        $preparePost['product_admin_name']  = Mage::helper('enterprise_rma')->getAdminProductName($realItem);
-        $preparePost['product_admin_sku']   = Mage::helper('enterprise_rma')->getAdminProductSku($realItem);
+        $preparePost['product_admin_name']  = Mage::helper('Enterprise_Rma_Helper_Data')->getAdminProductName($realItem);
+        $preparePost['product_admin_sku']   = Mage::helper('Enterprise_Rma_Helper_Data')->getAdminProductSku($realItem);
         $preparePost['product_options']     = serialize($realItem->getProductOptions());
         $preparePost['is_qty_decimal']      = $realItem->getIsQtyDecimal();
 
@@ -449,7 +449,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         if ($errors) {
             $session = Mage::getSingleton('core/session');
             $session->addError(
-                Mage::helper('enterprise_rma')->__('There is an error in quantities for item %s.', $preparePost['product_name'])
+                Mage::helper('Enterprise_Rma_Helper_Data')->__('There is an error in quantities for item %s.', $preparePost['product_name'])
             );
         }
 
@@ -468,7 +468,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         $errors     = array();
         $errorKeys  = array();
         if (!$this->getIsUpdate()) {
-            $availableItems = Mage::helper('enterprise_rma')->getOrderItems($orderId);
+            $availableItems = Mage::helper('Enterprise_Rma_Helper_Data')->getOrderItems($orderId);
         } else {
             $availableItems = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item')->getOrderItemsCollection($orderId);
         }
@@ -498,7 +498,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                 foreach ($validation as $key => $value) {
                     if (!is_null($previousValue) && ($value > $previousValue)) {
                         $errors[] =
-                            Mage::helper('enterprise_rma')->__('There is an error in quantities for item %s.', $name);
+                            Mage::helper('Enterprise_Rma_Helper_Data')->__('There is an error in quantities for item %s.', $name);
                         $errorKeys[$item->getId()] = $key;
                         $errorKeys['tabs'] = 'items_section';
                         break;
@@ -509,15 +509,15 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                 //if we change item status i.e. to authorized, then qty_authorized must be non-empty and so on.
                 $qtyToStatus = array(
                     'qty_authorized' => array(
-                            'name' => Mage::helper('enterprise_rma')->__('Authorized Qty'),
+                            'name' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Authorized Qty'),
                             'status' => Enterprise_Rma_Model_Rma_Source_Status::STATE_AUTHORIZED
                         ),
                     'qty_returned' => array(
-                            'name' => Mage::helper('enterprise_rma')->__('Returned Qty'),
+                            'name' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Returned Qty'),
                             'status' => Enterprise_Rma_Model_Rma_Source_Status::STATE_RECEIVED
                         ),
                     'qty_approved' => array(
-                            'name' => Mage::helper('enterprise_rma')->__('Approved Qty'),
+                            'name' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Approved Qty'),
                             'status' => Enterprise_Rma_Model_Rma_Source_Status::STATE_APPROVED
                         ),
 
@@ -527,7 +527,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                         && ($item->getOrigData('status') !== $qtyValue['status'])
                         && !$item->getData($qtyKey)) {
                         $errors[] =
-                            Mage::helper('enterprise_rma')->__('%s for item %s cannot be empty.', $qtyValue['name'], $name);
+                            Mage::helper('Enterprise_Rma_Helper_Data')->__('%s for item %s cannot be empty.', $qtyValue['name'], $name);
                         $errorKeys[$item->getId()] = $qtyKey;
                         $errorKeys['tabs'] = 'items_section';
                     }
@@ -547,10 +547,10 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         foreach ($itemsArray as $key=>$qty) {
             $name = $availableItemsArray[$key]['name'];
             if (!array_key_exists($key, $availableItemsArray)) {
-                $errors[] = Mage::helper('enterprise_rma')->__('You cannot return %s.', $name);
+                $errors[] = Mage::helper('Enterprise_Rma_Helper_Data')->__('You cannot return %s.', $name);
             }
             if (isset($availableItemsArray[$key]) && $availableItemsArray[$key]['qty'] < $qty) {
-                $errors[] = Mage::helper('enterprise_rma')->__('Quantity of %s is greater than you can return.', $name);
+                $errors[] = Mage::helper('Enterprise_Rma_Helper_Data')->__('Quantity of %s is greater than you can return.', $name);
                 $errorKeys[$key] = 'qty_requested';
                 $errorKeys['tabs'] = 'items_section';
             }
@@ -686,43 +686,43 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
      */
     protected function _validateEmail($value)
     {
-        $label = Mage::helper('enterprise_rma')->getContactEmailLabel();
+        $label = Mage::helper('Enterprise_Rma_Helper_Data')->getContactEmailLabel();
 
         $validator = new Zend_Validate_EmailAddress();
         $validator->setMessage(
-            Mage::helper('enterprise_rma')->__('"%s" invalid type entered.', $label),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" invalid type entered.', $label),
             Zend_Validate_EmailAddress::INVALID
         );
         $validator->setMessage(
-            Mage::helper('enterprise_rma')->__('"%s" is not a valid email address.', $label),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" is not a valid email address.', $label),
             Zend_Validate_EmailAddress::INVALID_FORMAT
         );
         $validator->setMessage(
-            Mage::helper('enterprise_rma')->__('"%s" is not a valid hostname.', $label),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" is not a valid hostname.', $label),
             Zend_Validate_EmailAddress::INVALID_HOSTNAME
         );
         $validator->setMessage(
-            Mage::helper('enterprise_rma')->__('"%s" is not a valid hostname.', $label),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" is not a valid hostname.', $label),
             Zend_Validate_EmailAddress::INVALID_MX_RECORD
         );
         $validator->setMessage(
-            Mage::helper('enterprise_rma')->__('"%s" is not a valid hostname.', $label),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" is not a valid hostname.', $label),
             Zend_Validate_EmailAddress::INVALID_MX_RECORD
         );
         $validator->setMessage(
-            Mage::helper('enterprise_rma')->__('"%s" is not a valid email address.', $label),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" is not a valid email address.', $label),
             Zend_Validate_EmailAddress::DOT_ATOM
         );
         $validator->setMessage(
-            Mage::helper('enterprise_rma')->__('"%s" is not a valid email address.', $label),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" is not a valid email address.', $label),
             Zend_Validate_EmailAddress::QUOTED_STRING
         );
         $validator->setMessage(
-            Mage::helper('enterprise_rma')->__('"%s" is not a valid email address.', $label),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" is not a valid email address.', $label),
             Zend_Validate_EmailAddress::INVALID_LOCAL_PART
         );
         $validator->setMessage(
-            Mage::helper('enterprise_rma')->__('"%s" exceeds the allowed length.', $label),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" exceeds the allowed length.', $label),
             Zend_Validate_EmailAddress::LENGTH_EXCEEDED
         );
         if (!$validator->isValid($value)) {
@@ -740,7 +740,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
      */
     public function getCreatedAtFormated($format)
     {
-        return Mage::helper('core')->formatDate($this->getCreatedAtStoreDate(), $format, true);
+        return Mage::helper('Mage_Core_Helper_Data')->formatDate($this->getCreatedAtStoreDate(), $format, true);
     }
 
     /**
@@ -822,7 +822,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
      */
     protected function _requestShippingRates($items, $address, $store, $subtotal, $weight, $qty)
     {
-        $shippingDestinationInfo = Mage::helper('enterprise_rma')->getReturnAddressModel($this->getStoreId());
+        $shippingDestinationInfo = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddressModel($this->getStoreId());
 
         /** @var $request Mage_Shipping_Model_Rate_Request */
         $request = Mage::getModel('shipping/rate_request');
@@ -897,7 +897,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                 if (
                     in_array(
                         $shippingRate->getCarrier(),
-                        array_keys(Mage::helper('enterprise_rma')->getShippingCarriers())
+                        array_keys(Mage::helper('Enterprise_Rma_Helper_Data')->getShippingCarriers())
                     )
                 ) {
                     $found[] = Mage::getModel('sales/quote_address_rate')->importShippingRate($shippingRate);

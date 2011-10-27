@@ -27,13 +27,13 @@
 -->
 <config>
     <tabs>
-        <customer translate="label" module="customer">
+        <customer translate="label" module="Mage_Customer">
             <label>Customers</label>
             <sort_order>300</sort_order>
         </customer>
     </tabs>
     <sections>
-        <customer translate="label" module="customer">
+        <customer translate="label" module="Mage_Customer">
             <class>separator-top</class>
             <label>Customer Configuration</label>
             <tab>customer</tab>

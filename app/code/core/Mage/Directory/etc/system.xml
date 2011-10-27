@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-        <currency translate="label" module="directory">
+        <currency translate="label" module="Mage_Directory">
             <label>Currency Setup</label>
             <tab>general</tab>
             <sort_order>60</sort_order>

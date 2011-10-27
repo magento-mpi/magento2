@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-        <enterprise_reward translate="label" module="enterprise_reward">
+        <enterprise_reward translate="label" module="Enterprise_Reward">
             <label>Reward Points</label>
             <class>separator-top</class>
             <tab>customer</tab>
@@ -36,7 +36,7 @@
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
             <groups>
-                <general translate="label" module="enterprise_reward">
+                <general translate="label" module="Enterprise_Reward">
                     <label>Reward Points</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>10</sort_order>
@@ -131,7 +131,7 @@
                         </landing_page>
                     </fields>
                 </general>
-                <points translate="label" module="enterprise_reward">
+                <points translate="label" module="Enterprise_Reward">
                     <label>Actions for Acquiring Reward Points by Customers</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>20</sort_order>
@@ -249,7 +249,7 @@
                         </tag_limit>
                     </fields>
                 </points>
-                <notification translate="label" module="enterprise_reward">
+                <notification translate="label" module="Enterprise_Reward">
                     <label>Email Notification Settings</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>30</sort_order>

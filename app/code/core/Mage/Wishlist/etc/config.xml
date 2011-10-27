@@ -55,7 +55,7 @@
         </resources>
         <template>
             <email>
-                <wishlist_email_email_template translate="label" module="wishlist">
+                <wishlist_email_email_template translate="label" module="Mage_Wishlist">
                     <label>Share Wishlist</label>
                     <file>wishlist_share.html</file>
                     <type>html</type>
@@ -111,7 +111,7 @@
         </translate>
         <layout>
             <updates>
-                <wishlist module="Mage_Wishlist">
+                <wishlist module="Mage_Mage_Wishlist">
                     <file>wishlist.xml</file>
                 </wishlist>
             </updates>

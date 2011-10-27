@@ -31,11 +31,11 @@ class Mage_Adminhtml_Model_System_Config_Source_Price_Step
         return array(
             array(
                 'value' => Mage_Catalog_Model_Layer_Filter_Price::RANGE_CALCULATION_AUTO,
-                'label' => Mage::helper('adminhtml')->__('Automatic')
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Automatic')
             ),
             array(
                 'value' => Mage_Catalog_Model_Layer_Filter_Price::RANGE_CALCULATION_MANUAL,
-                'label' => Mage::helper('adminhtml')->__('Manual')
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Manual')
             ),
         );
     }

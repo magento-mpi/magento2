@@ -227,7 +227,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $product = $this->_initProduct();
 
         if ($productId && !$product->getId()) {
-            $this->_getSession()->addError(Mage::helper('catalog')->__('This product no longer exists.'));
+            $this->_getSession()->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('This product no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -519,7 +519,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 //            if (is_array($errors = $product->validate())) {
 //                foreach ($errors as $code => $error) {
 //                    if ($error === true) {
-//                        Mage::throwException(Mage::helper('catalog')->__('Attribute "%s" is invalid.', $product->getResource()->getAttribute($code)->getFrontend()->getLabel()));
+//                        Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute "%s" is invalid.', $product->getResource()->getAttribute($code)->getFrontend()->getLabel()));
 //                    }
 //                    else {
 //                        Mage::throwException($error);
@@ -601,17 +601,17 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
          */
         $links = $this->getRequest()->getPost('links');
         if (isset($links['related']) && !$product->getRelatedReadonly()) {
-            $product->setRelatedLinkData(Mage::helper('adminhtml/js')->decodeGridSerializedInput($links['related']));
+            $product->setRelatedLinkData(Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['related']));
         }
         if (isset($links['upsell']) && !$product->getUpsellReadonly()) {
-            $product->setUpSellLinkData(Mage::helper('adminhtml/js')->decodeGridSerializedInput($links['upsell']));
+            $product->setUpSellLinkData(Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['upsell']));
         }
         if (isset($links['crosssell']) && !$product->getCrosssellReadonly()) {
-            $product->setCrossSellLinkData(Mage::helper('adminhtml/js')
+            $product->setCrossSellLinkData(Mage::helper('Mage_Adminhtml_Helper_Js')
                 ->decodeGridSerializedInput($links['crosssell']));
         }
         if (isset($links['grouped']) && !$product->getGroupedReadonly()) {
-            $product->setGroupedLinkData(Mage::helper('adminhtml/js')->decodeGridSerializedInput($links['grouped']));
+            $product->setGroupedLinkData(Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['grouped']));
         }
 
         /**
@@ -631,12 +631,12 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if (($data = $this->getRequest()->getPost('configurable_products_data'))
             && !$product->getConfigurableReadonly()
         ) {
-            $product->setConfigurableProductsData(Mage::helper('core')->jsonDecode($data));
+            $product->setConfigurableProductsData(Mage::helper('Mage_Core_Helper_Data')->jsonDecode($data));
         }
         if (($data = $this->getRequest()->getPost('configurable_attributes_data'))
             && !$product->getConfigurableReadonly()
         ) {
-            $product->setConfigurableAttributesData(Mage::helper('core')->jsonDecode($data));
+            $product->setConfigurableAttributesData(Mage::helper('Mage_Core_Helper_Data')->jsonDecode($data));
         }
 
         $product->setCanSaveConfigurableAttributes(
@@ -844,7 +844,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function addAttributeAction()
     {
         $this->_getSession()->addNotice(
-            Mage::helper('catalog')->__('Please click on the Close Window button if it is not closed automatically.')
+            Mage::helper('Mage_Catalog_Helper_Data')->__('Please click on the Close Window button if it is not closed automatically.')
         );
         $this->loadLayout('popup');
         $this->_initProduct();
@@ -857,7 +857,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function createdAction()
     {
         $this->_getSession()->addNotice(
-            Mage::helper('catalog')->__('Please click on the Close Window button if it is not closed automatically.')
+            Mage::helper('Mage_Catalog_Helper_Data')->__('Please click on the Close Window button if it is not closed automatically.')
         );
         $this->loadLayout('popup');
         $this->_addContent(
@@ -1041,7 +1041,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 //                $strErrors = array();
 //                foreach($errors as $code=>$error) {
 //                    $codeLabel = $product->getResource()->getAttribute($code)->getFrontend()->getLabel();
-//                    $strErrors[] = ($error === true)? Mage::helper('catalog')->__('Value for "%s" is invalid.', $codeLabel) : Mage::helper('catalog')->__('Value for "%s" is invalid: %s', $codeLabel, $error);
+//                    $strErrors[] = ($error === true)? Mage::helper('Mage_Catalog_Helper_Data')->__('Value for "%s" is invalid.', $codeLabel) : Mage::helper('Mage_Catalog_Helper_Data')->__('Value for "%s" is invalid: %s', $codeLabel, $error);
 //                }
 //                Mage::throwException('data_invalid', implode("\n", $strErrors));
 //            }
@@ -1049,7 +1049,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $product->validate();
             $product->save();
             $result['product_id'] = $product->getId();
-            $this->_getSession()->addSuccess(Mage::helper('catalog')->__('The product has been created.'));
+            $this->_getSession()->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('The product has been created.'));
             $this->_initLayoutMessages('adminhtml/session');
             $result['messages']  = $this->getLayout()->getMessagesBlock()->getGroupedHtml();
         } catch (Mage_Core_Exception $e) {
@@ -1067,7 +1067,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
              );
         }
 
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**
@@ -1090,7 +1090,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $session = Mage::getSingleton('adminhtml/session');
         if ($session->hasCompositeProductResult() && $session->getCompositeProductResult() instanceof Varien_Object){
             /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
-            $helper = Mage::helper('adminhtml/catalog_product_composite');
+            $helper = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Composite');
             $helper->renderUpdateResult($this, $session->getCompositeProductResult());
             $session->unsCompositeProductResult();
         } else {

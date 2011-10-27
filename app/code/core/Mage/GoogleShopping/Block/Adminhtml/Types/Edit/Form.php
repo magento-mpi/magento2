@@ -78,7 +78,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml
             'text'      => '<div id="attribute_set_select">' . $attributeSetsSelect->toHtml() . '</div>',
         ));
 
-        $categories = Mage::helper('googleshopping/category')->getCategories();
+        $categories = Mage::helper('Mage_GoogleShopping_Helper_Category')->getCategories();
         $fieldset->addField('category', 'select', array(
             'label'     => $this->__('Google Product Category'),
             'title'     => $this->__('Google Product Category'),

@@ -55,7 +55,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
         /** @var $collection Enterprise_Reward_Model_Resource_Reward_History_Collection */
         $collection = Mage::getModel('enterprise_reward/reward_history')->getCollection()
             ->addCustomerFilter($this->getCustomerId())
-            ->setExpiryConfig(Mage::helper('enterprise_reward')->getExpiryConfig())
+            ->setExpiryConfig(Mage::helper('Enterprise_Reward_Helper_Data')->getExpiryConfig())
             ->addExpirationDate()
             ->setOrder('history_id', 'desc');
         $collection->setDefaultOrder();
@@ -95,7 +95,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
         $this->addColumn('points_balance', array(
             'type'     => 'number',
             'index'    => 'points_balance',
-            'header'   => Mage::helper('enterprise_reward')->__('Balance'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Balance'),
             'sortable' => false,
             'filter'   => false,
             'width'    => 1,
@@ -106,7 +106,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
             'currency' => 'base_currency_code',
             'rate'     => 1,
             'index'    => 'currency_amount',
-            'header'   => Mage::helper('enterprise_reward')->__('Amount Balance'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Amount Balance'),
             'sortable' => false,
             'filter'   => false,
             'width'    => 1,
@@ -115,7 +115,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
         $this->addColumn('points_delta', array(
             'type'     => 'number',
             'index'    => 'points_delta',
-            'header'   => Mage::helper('enterprise_reward')->__('Points'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Points'),
             'sortable' => false,
             'filter'   => false,
             'show_number_sign' => true,
@@ -127,7 +127,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
             'currency' => 'base_currency_code',
             'rate'     => 1,
             'index'    => 'currency_delta',
-            'header'   => Mage::helper('enterprise_reward')->__('Amount'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Amount'),
             'sortable' => false,
             'filter'   => false,
             'show_number_sign' => true,
@@ -136,7 +136,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
 
         $this->addColumn('rate', array(
             'getter' => 'getRateText',
-            'header'   => Mage::helper('enterprise_reward')->__('Rate'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Rate'),
             'sortable' => false,
             'filter'   => false
         ));
@@ -146,7 +146,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
             'type'     => 'options',
             'options'  => Mage::getModel('enterprise_reward/source_website')->toOptionArray(false),
             'index'    => 'website_id',
-            'header'   => Mage::helper('enterprise_reward')->__('Website'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
             'sortable' => false,
         ));
 
@@ -155,7 +155,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
             'index'    => 'message',
             'type'     => 'text',
             'getter'   => 'getMessage',
-            'header'   => Mage::helper('enterprise_reward')->__('Reason'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Reason'),
             'sortable' => false,
             'filter'   => false,
             'renderer' => 'enterprise_reward/adminhtml_customer_edit_tab_reward_history_grid_column_renderer_reason',
@@ -164,7 +164,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
         $this->addColumn('created_at', array(
             'type'     => 'datetime',
             'index'    => 'created_at',
-            'header'   => Mage::helper('enterprise_reward')->__('Created At'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Created At'),
             'sortable' => false,
             'align'    => 'left',
             'html_decorators' => 'nobr',
@@ -173,7 +173,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
         $this->addColumn('expiration_date', array(
             'type'     => 'datetime',
             'getter'   => 'getExpiresAt',
-            'header'   => Mage::helper('enterprise_reward')->__('Expires At'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Expires At'),
             'sortable' => false,
             'filter'   => false, // needs custom filter
             'align'    => 'left',
@@ -183,7 +183,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
 // TODO: merge with reason
         $this->addColumn('comment', array(
             'index'    => 'comment',
-            'header'   => Mage::helper('enterprise_reward')->__('Comment'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Comment'),
             'sortable' => false,
             'filter'   => false,
             'align'    => 'left',

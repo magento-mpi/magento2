@@ -43,13 +43,13 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Condit
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/customersegment/newConditionHtml/form/segment_conditions_fieldset'));
         $fieldset = $form->addFieldset('conditions_fieldset', array(
-            'legend'=>Mage::helper('enterprise_customersegment')->__('Conditions'))
+            'legend'=>Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'))
         )->setRenderer($renderer);
 
         $fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
-            'label' => Mage::helper('enterprise_customersegment')->__('Conditions'),
-            'title' => Mage::helper('enterprise_customersegment')->__('Conditions'),
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
+            'title' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getBlockSingleton('rule/conditions'));
 

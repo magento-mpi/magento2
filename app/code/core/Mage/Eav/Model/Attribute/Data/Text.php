@@ -57,7 +57,7 @@ class Mage_Eav_Model_Attribute_Data_Text extends Mage_Eav_Model_Attribute_Data_A
     {
         $errors     = array();
         $attribute  = $this->getAttribute();
-        $label      = Mage::helper('eav')->__($attribute->getStoreLabel());
+        $label      = Mage::helper('Mage_Eav_Helper_Data')->__($attribute->getStoreLabel());
 
         if ($value === false) {
             // try to load original value and validate it
@@ -65,7 +65,7 @@ class Mage_Eav_Model_Attribute_Data_Text extends Mage_Eav_Model_Attribute_Data_A
         }
 
         if ($attribute->getIsRequired() && empty($value)) {
-            $errors[] = Mage::helper('eav')->__('"%s" is a required value.', $label);
+            $errors[] = Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is a required value.', $label);
         }
 
         if (!$errors && !$attribute->getIsRequired() && empty($value)) {
@@ -73,16 +73,16 @@ class Mage_Eav_Model_Attribute_Data_Text extends Mage_Eav_Model_Attribute_Data_A
         }
 
         // validate length
-        $length = Mage::helper('core/string')->strlen(trim($value));
+        $length = Mage::helper('Mage_Core_Helper_String')->strlen(trim($value));
 
         $validateRules = $attribute->getValidateRules();
         if (!empty($validateRules['min_text_length']) && $length < $validateRules['min_text_length']) {
             $v = $validateRules['min_text_length'];
-            $errors[] = Mage::helper('eav')->__('"%s" length must be equal or greater than %s characters.', $label, $v);
+            $errors[] = Mage::helper('Mage_Eav_Helper_Data')->__('"%s" length must be equal or greater than %s characters.', $label, $v);
         }
         if (!empty($validateRules['max_text_length']) && $length > $validateRules['max_text_length']) {
             $v = $validateRules['max_text_length'];
-            $errors[] = Mage::helper('eav')->__('"%s" length must be equal or less than %s characters.', $label, $v);
+            $errors[] = Mage::helper('Mage_Eav_Helper_Data')->__('"%s" length must be equal or less than %s characters.', $label, $v);
         }
 
         $result = $this->_validateInputRule($value);

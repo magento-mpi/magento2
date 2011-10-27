@@ -37,8 +37,8 @@ class Mage_Ogone_Model_Source_Template
     public function toOptionArray()
     {
         return array(
-            array('value' => Mage_Ogone_Model_Api::TEMPLATE_OGONE, 'label' => Mage::helper('ogone')->__('Ogone')),
-            array('value' => Mage_Ogone_Model_Api::TEMPLATE_MAGENTO, 'label' => Mage::helper('ogone')->__('Magento')),
+            array('value' => Mage_Ogone_Model_Api::TEMPLATE_OGONE, 'label' => Mage::helper('Mage_Ogone_Helper_Data')->__('Ogone')),
+            array('value' => Mage_Ogone_Model_Api::TEMPLATE_MAGENTO, 'label' => Mage::helper('Mage_Ogone_Helper_Data')->__('Magento')),
         );
     }
 }

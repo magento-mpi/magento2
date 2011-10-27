@@ -37,8 +37,8 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
     {
         $act = $this->getRequest()->getActionName();
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))
-            ->_addBreadcrumb(Mage::helper('reports')->__('Shopping Cart'), Mage::helper('reports')->__('Shopping Cart'));
+            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Reports'), Mage::helper('Mage_Reports_Helper_Data')->__('Reports'))
+            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Shopping Cart'), Mage::helper('Mage_Reports_Helper_Data')->__('Shopping Cart'));
         return $this;
     }
 
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
 
         $this->_initAction()
             ->_setActiveMenu('report/shopcart/customer')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Customers Report'), Mage::helper('reports')->__('Customers Report'))
+            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Customers Report'), Mage::helper('Mage_Reports_Helper_Data')->__('Customers Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_shopcart_customer'))
             ->renderLayout();
     }
@@ -87,7 +87,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
 
         $this->_initAction()
             ->_setActiveMenu('report/shopcart/product')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Products Report'), Mage::helper('reports')->__('Products Report'))
+            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Products Report'), Mage::helper('Mage_Reports_Helper_Data')->__('Products Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_shopcart_product'))
             ->renderLayout();
     }
@@ -124,7 +124,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
 
         $this->_initAction()
             ->_setActiveMenu('report/shopcart/abandoned')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Abandoned Carts'), Mage::helper('reports')->__('Abandoned Carts'))
+            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Abandoned Carts'), Mage::helper('Mage_Reports_Helper_Data')->__('Abandoned Carts'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_shopcart_abandoned'))
             ->renderLayout();
     }

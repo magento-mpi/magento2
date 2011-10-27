@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Save Config'),
+                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save Config'),
                     'onclick'   => 'configForm.submit()',
                     'class' => 'save',
                 ))

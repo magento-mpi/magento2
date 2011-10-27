@@ -30,7 +30,7 @@
 
     <customer_account>
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="downloadable"><name>downloadable_products</name><path>downloadable/customer/products</path><label>My Downloadable Products</label></action>
+            <action method="addLink" translate="label" module="Mage_Downloadable"><name>downloadable_products</name><path>downloadable/customer/products</path><label>My Downloadable Products</label></action>
         </reference>
     </customer_account>
 
@@ -41,7 +41,7 @@
             <block type="downloadable/customer_products_list" name="downloadable_customer_products_list" template="downloadable/customer/products/list.phtml" />
         </reference>
         <reference name="root">
-            <action method="setHeaderTitle" translate="title" module="downloadable"><title>My Downloadable Products</title></action>
+            <action method="setHeaderTitle" translate="title" module="Mage_Downloadable"><title>My Downloadable Products</title></action>
         </reference>
     </downloadable_customer_products>
 
@@ -220,7 +220,7 @@ Emails
         </reference>
     </sales_email_order_creditmemo_items>
 
-    <PRODUCT_TYPE_downloadable translate="label" module="downloadable">
+    <PRODUCT_TYPE_downloadable translate="label" module="Mage_Downloadable">
         <label>Catalog Product View (Downloadable)</label>
         <reference name="product.info">
             <block type="downloadable/catalog_product_view_type" name="product.info.downloadable" as="product_type_data" template="downloadable/catalog/product/type.phtml">

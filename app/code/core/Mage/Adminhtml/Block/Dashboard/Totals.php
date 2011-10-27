@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Dashboard_Totals extends Mage_Adminhtml_Block_Dashboa
 
     protected function _prepareLayout()
     {
-        if (!Mage::helper('core')->isModuleEnabled('Mage_Reports')) {
+        if (!Mage::helper('Mage_Core_Helper_Data')->isModuleEnabled('Mage_Reports')) {
             return $this;
         }
         $isFilter = $this->getRequest()->getParam('store') || $this->getRequest()->getParam('website') || $this->getRequest()->getParam('group');

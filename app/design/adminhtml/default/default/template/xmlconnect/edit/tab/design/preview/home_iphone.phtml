@@ -26,7 +26,7 @@
 ?>
 <?php
 /** @var $previewModel Mage_XmlConnect_Model_Preview_Iphone */
-$previewModel = Mage::helper('xmlconnect')->getPreviewModel();
+$previewModel = Mage::helper('Mage_XmlConnect_Helper_Data')->getPreviewModel();
 
 $categoryItemTintColor = $previewModel->getCategoryItemTintColor();
 $categoryItemBackgroundColor = $previewModel->getData('conf/categoryItem/backgroundColor');

@@ -266,7 +266,7 @@
         </events>
         <template>
             <email>
-                <giftcard_giftcardaccount_email_template translate="label" module="enterprise_giftcardaccount">
+                <giftcard_giftcardaccount_email_template translate="label" module="Enterprise_GiftCardAccount">
                     <label>Gift Card Account Sent From Edit Page</label>
                     <file>enterprise/giftcardaccount.html</file>
                     <type>html</type>
@@ -307,7 +307,7 @@
         </routers>
         <layout>
             <updates>
-                <enterprise_giftcardaccount module="Enterprise_GiftCardAccount">
+                <enterprise_giftcardaccount module="Mage_Enterprise_GiftCardAccount">
                     <file>giftcardaccount.xml</file>
                 </enterprise_giftcardaccount>
             </updates>

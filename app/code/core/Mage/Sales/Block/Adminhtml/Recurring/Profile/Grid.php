@@ -73,7 +73,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Mage_Adminhtml_B
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'     => Mage::helper('adminhtml')->__('Store'),
+                'header'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Store'),
                 'index'      => 'store_id',
                 'type'       => 'store',
                 'store_view' => true,
@@ -107,7 +107,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Mage_Adminhtml_B
         ));
 
         $methods = array();
-        foreach (Mage::helper('payment')->getRecurringProfileMethods() as $method) {
+        foreach (Mage::helper('Mage_Payment_Helper_Data')->getRecurringProfileMethods() as $method) {
             $methods[$method->getCode()] = $method->getTitle();
         }
         $this->addColumn('method_code', array(

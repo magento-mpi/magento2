@@ -40,7 +40,7 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Eav_Helper_Data
      */
     public function getAttributeFormOptions()
     {
-        Mage::throwException(Mage::helper('enterprise_customer')->__('Use helper with defined EAV entity'));
+        Mage::throwException(Mage::helper('Enterprise_Customer_Helper_Data')->__('Use helper with defined EAV entity'));
     }
 
     /**
@@ -50,7 +50,7 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Eav_Helper_Data
      */
     protected function _getEntityTypeCode()
     {
-        Mage::throwException(Mage::helper('enterprise_customer')->__('Use helper with defined EAV entity'));
+        Mage::throwException(Mage::helper('Enterprise_Customer_Helper_Data')->__('Use helper with defined EAV entity'));
     }
 
     /**
@@ -60,7 +60,7 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Eav_Helper_Data
      */
     public function getCustomerAttributeFormOptions()
     {
-        return Mage::helper('enterprise_customer/customer')->getAttributeFormOptions();
+        return Mage::helper('Enterprise_Customer_Helper_Customer')->getAttributeFormOptions();
     }
 
     /**
@@ -70,7 +70,7 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Eav_Helper_Data
      */
     public function getCustomerAddressAttributeFormOptions()
     {
-        return Mage::helper('enterprise_customer/address')->getAttributeFormOptions();
+        return Mage::helper('Enterprise_Customer_Helper_Address')->getAttributeFormOptions();
     }
 
     /**
@@ -80,7 +80,7 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Eav_Helper_Data
      */
     public function getCustomerUserDefinedAttributeCodes()
     {
-        return Mage::helper('enterprise_customer/customer')->getUserDefinedAttributeCodes();
+        return Mage::helper('Enterprise_Customer_Helper_Customer')->getUserDefinedAttributeCodes();
     }
 
     /**
@@ -90,6 +90,6 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Eav_Helper_Data
      */
     public function getCustomerAddressUserDefinedAttributeCodes()
     {
-        return Mage::helper('enterprise_customer/address')->getUserDefinedAttributeCodes();
+        return Mage::helper('Enterprise_Customer_Helper_Address')->getUserDefinedAttributeCodes();
     }
 }

@@ -26,7 +26,7 @@
  */
 -->
 <widgets>
-    <cms_page_link type="cms/widget_page_link" translate="name description" module="cms">
+    <cms_page_link type="cms/widget_page_link" translate="name description" module="Mage_Cms">
         <name>CMS Page Link</name>
         <description>Link to a CMS Page</description>
         <is_email_compatible>1</is_email_compatible>
@@ -75,7 +75,7 @@
             </template>
         </parameters>
     </cms_page_link>
-    <cms_static_block type="cms/widget_block" translate="name description" module="cms">
+    <cms_static_block type="cms/widget_block" translate="name description" module="Mage_Cms">
         <name>CMS Static Block</name>
         <description>Contents of a Static Block</description>
         <parameters>

@@ -437,7 +437,7 @@ class Mage_Paypal_Model_Config
     {
         $countryCode = Mage::getStoreConfig($this->_mapGeneralFieldset('merchant_country'), $this->_storeId);
         if (!$countryCode) {
-            $countryCode = Mage::helper('core')->getDefaultCountry($this->_storeId);
+            $countryCode = Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry($this->_storeId);
         }
         return $countryCode;
     }
@@ -755,14 +755,14 @@ class Mage_Paypal_Model_Config
     public function getAdditionalOptionsLogoTypes()
     {
         return array(
-            'wePrefer_150x60'       => Mage::helper('paypal')->__('We prefer PayPal (150 X 60)'),
-            'wePrefer_150x40'       => Mage::helper('paypal')->__('We prefer PayPal (150 X 40)'),
-            'nowAccepting_150x60'   => Mage::helper('paypal')->__('Now accepting PayPal (150 X 60)'),
-            'nowAccepting_150x40'   => Mage::helper('paypal')->__('Now accepting PayPal (150 X 40)'),
-            'paymentsBy_150x60'     => Mage::helper('paypal')->__('Payments by PayPal (150 X 60)'),
-            'paymentsBy_150x40'     => Mage::helper('paypal')->__('Payments by PayPal (150 X 40)'),
-            'shopNowUsing_150x60'   => Mage::helper('paypal')->__('Shop now using (150 X 60)'),
-            'shopNowUsing_150x40'   => Mage::helper('paypal')->__('Shop now using (150 X 40)'),
+            'wePrefer_150x60'       => Mage::helper('Mage_Paypal_Helper_Data')->__('We prefer PayPal (150 X 60)'),
+            'wePrefer_150x40'       => Mage::helper('Mage_Paypal_Helper_Data')->__('We prefer PayPal (150 X 40)'),
+            'nowAccepting_150x60'   => Mage::helper('Mage_Paypal_Helper_Data')->__('Now accepting PayPal (150 X 60)'),
+            'nowAccepting_150x40'   => Mage::helper('Mage_Paypal_Helper_Data')->__('Now accepting PayPal (150 X 40)'),
+            'paymentsBy_150x60'     => Mage::helper('Mage_Paypal_Helper_Data')->__('Payments by PayPal (150 X 60)'),
+            'paymentsBy_150x40'     => Mage::helper('Mage_Paypal_Helper_Data')->__('Payments by PayPal (150 X 40)'),
+            'shopNowUsing_150x60'   => Mage::helper('Mage_Paypal_Helper_Data')->__('Shop now using (150 X 60)'),
+            'shopNowUsing_150x40'   => Mage::helper('Mage_Paypal_Helper_Data')->__('Shop now using (150 X 40)'),
         );
     }
 
@@ -816,8 +816,8 @@ class Mage_Paypal_Model_Config
     public function getExpressCheckoutButtonFlavors()
     {
         return array(
-            self::EC_FLAVOR_DYNAMIC => Mage::helper('paypal')->__('Dynamic'),
-            self::EC_FLAVOR_STATIC  => Mage::helper('paypal')->__('Static'),
+            self::EC_FLAVOR_DYNAMIC => Mage::helper('Mage_Paypal_Helper_Data')->__('Dynamic'),
+            self::EC_FLAVOR_STATIC  => Mage::helper('Mage_Paypal_Helper_Data')->__('Static'),
         );
     }
 
@@ -829,8 +829,8 @@ class Mage_Paypal_Model_Config
     public function getExpressCheckoutButtonTypes()
     {
         return array(
-            self::EC_BUTTON_TYPE_SHORTCUT => Mage::helper('paypal')->__('Shortcut'),
-            self::EC_BUTTON_TYPE_MARK     => Mage::helper('paypal')->__('Acceptance Mark Image'),
+            self::EC_BUTTON_TYPE_SHORTCUT => Mage::helper('Mage_Paypal_Helper_Data')->__('Shortcut'),
+            self::EC_BUTTON_TYPE_MARK     => Mage::helper('Mage_Paypal_Helper_Data')->__('Acceptance Mark Image'),
         );
     }
 
@@ -842,11 +842,11 @@ class Mage_Paypal_Model_Config
     public function getPaymentActions()
     {
         $paymentActions = array(
-            self::PAYMENT_ACTION_AUTH => Mage::helper('paypal')->__('Authorization'),
-            self::PAYMENT_ACTION_SALE => Mage::helper('paypal')->__('Sale')
+            self::PAYMENT_ACTION_AUTH => Mage::helper('Mage_Paypal_Helper_Data')->__('Authorization'),
+            self::PAYMENT_ACTION_SALE => Mage::helper('Mage_Paypal_Helper_Data')->__('Sale')
         );
         if (!is_null($this->_methodCode) && $this->_methodCode == self::METHOD_WPP_EXPRESS) {
-            $paymentActions[self::PAYMENT_ACTION_ORDER] = Mage::helper('paypal')->__('Order');
+            $paymentActions[self::PAYMENT_ACTION_ORDER] = Mage::helper('Mage_Paypal_Helper_Data')->__('Order');
         }
         return $paymentActions;
     }
@@ -876,9 +876,9 @@ class Mage_Paypal_Model_Config
     public function getAuthorizationAmounts()
     {
         $authorizationAmount = array(
-            self::AUTHORIZATION_AMOUNT_ZERO => Mage::helper('paypal')->__('$0 Auth'),
-            self::AUTHORIZATION_AMOUNT_ONE  => Mage::helper('paypal')->__('$1 Auth'),
-            self::AUTHORIZATION_AMOUNT_FULL => Mage::helper('paypal')->__('Full Auth'),
+            self::AUTHORIZATION_AMOUNT_ZERO => Mage::helper('Mage_Paypal_Helper_Data')->__('$0 Auth'),
+            self::AUTHORIZATION_AMOUNT_ONE  => Mage::helper('Mage_Paypal_Helper_Data')->__('$1 Auth'),
+            self::AUTHORIZATION_AMOUNT_FULL => Mage::helper('Mage_Paypal_Helper_Data')->__('Full Auth'),
         );
         return $authorizationAmount;
     }
@@ -893,8 +893,8 @@ class Mage_Paypal_Model_Config
     public function getExpressCheckoutSolutionTypes()
     {
         return array(
-            self::EC_SOLUTION_TYPE_SOLE => Mage::helper('paypal')->__('Yes'),
-            self::EC_SOLUTION_TYPE_MARK => Mage::helper('paypal')->__('No'),
+            self::EC_SOLUTION_TYPE_SOLE => Mage::helper('Mage_Paypal_Helper_Data')->__('Yes'),
+            self::EC_SOLUTION_TYPE_MARK => Mage::helper('Mage_Paypal_Helper_Data')->__('No'),
         );
     }
 
@@ -906,9 +906,9 @@ class Mage_Paypal_Model_Config
     public function getExpressCheckoutBASignupOptions()
     {
         return array(
-            self::EC_BA_SIGNUP_AUTO  => Mage::helper('paypal')->__('Auto'),
-            self::EC_BA_SIGNUP_ASK   => Mage::helper('paypal')->__('Ask Customer'),
-            self::EC_BA_SIGNUP_NEVER => Mage::helper('paypal')->__('Never')
+            self::EC_BA_SIGNUP_AUTO  => Mage::helper('Mage_Paypal_Helper_Data')->__('Auto'),
+            self::EC_BA_SIGNUP_ASK   => Mage::helper('Mage_Paypal_Helper_Data')->__('Ask Customer'),
+            self::EC_BA_SIGNUP_NEVER => Mage::helper('Mage_Paypal_Helper_Data')->__('Never')
         );
     }
 
@@ -951,10 +951,10 @@ class Mage_Paypal_Model_Config
     public function getWpsPaymentDeliveryMethods()
     {
         return array(
-            self::WPS_TRANSPORT_IPN      => Mage::helper('adminhtml')->__('IPN (Instant Payment Notification) Only'),
+            self::WPS_TRANSPORT_IPN      => Mage::helper('Mage_Adminhtml_Helper_Data')->__('IPN (Instant Payment Notification) Only'),
             // not supported yet:
-//            self::WPS_TRANSPORT_PDT      => Mage::helper('adminhtml')->__('PDT (Payment Data Transfer) Only'),
-//            self::WPS_TRANSPORT_IPN_PDT  => Mage::helper('adminhtml')->__('Both IPN and PDT'),
+//            self::WPS_TRANSPORT_PDT      => Mage::helper('Mage_Adminhtml_Helper_Data')->__('PDT (Payment Data Transfer) Only'),
+//            self::WPS_TRANSPORT_IPN_PDT  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Both IPN and PDT'),
         );
     }
 
@@ -1348,8 +1348,8 @@ class Mage_Paypal_Model_Config
     public function getApiAuthenticationMethods()
     {
         return array(
-            '0' => Mage::helper('paypal')->__('API Signature'),
-            '1' => Mage::helper('paypal')->__('API Certificate')
+            '0' => Mage::helper('Mage_Paypal_Helper_Data')->__('API Signature'),
+            '1' => Mage::helper('Mage_Paypal_Helper_Data')->__('API Certificate')
         );
     }
 

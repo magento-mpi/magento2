@@ -256,7 +256,7 @@ class Mage_Install_Model_Installer extends Varien_Object
         if (is_array($data)) {
             $data = $this->validateAndPrepareAdministrator($data);
             if (is_array(data)) {
-                throw new Exception(Mage::helper('install')->__('Please correct the user data and try again.'));
+                throw new Exception(Mage::helper('Mage_Install_Helper_Data')->__('Please correct the user data and try again.'));
             }
         }
 
@@ -287,7 +287,7 @@ class Mage_Install_Model_Installer extends Varien_Object
 
         try {
             if ($key) {
-                Mage::helper('core')->validateKey($key);
+                Mage::helper('Mage_Core_Helper_Data')->validateKey($key);
             }
         } catch (Exception $e) {
             $errors[] = $e->getMessage();
@@ -310,7 +310,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     public function installEnryptionKey($key)
     {
         if ($key) {
-            Mage::helper('core')->validateKey($key);
+            Mage::helper('Mage_Core_Helper_Data')->validateKey($key);
         }
         Mage::getSingleton('install/installer_config')->replaceTmpEncryptKey($key);
         return $this;
@@ -322,7 +322,7 @@ class Mage_Install_Model_Installer extends Varien_Object
         Mage::app()->cleanCache();
 
         $cacheData = array();
-        foreach (Mage::helper('core')->getCacheTypes() as $type => $label) {
+        foreach (Mage::helper('Mage_Core_Helper_Data')->getCacheTypes() as $type => $label) {
             $cacheData[$type] = 1;
         }
         Mage::app()->saveUseCache($cacheData);

@@ -70,7 +70,7 @@ class Find_Feed_Model_Import extends Mage_Core_Model_Abstract
             $this->_deleteFtpFiles();
             $this->_sendFile($file);
             if (!$this->_deleteFile($file)) {
-                Mage::throwException(Mage::helper('find_feed')->__("FTP: Can't delete files"));
+                Mage::throwException(Mage::helper('Find_Feed_Helper_Data')->__("FTP: Can't delete files"));
             }
         }
     }
@@ -164,7 +164,7 @@ class Find_Feed_Model_Import extends Mage_Core_Model_Abstract
         $attributes = Mage::getResourceModel('Find_Feed_Model_Resource_Codes_Collection')
           ->getImportAttributes();
 
-        if (!Mage::helper('find_feed')->checkRequired($attributes)) {
+        if (!Mage::helper('Find_Feed_Helper_Data')->checkRequired($attributes)) {
             return false;
         }
         return $attributes;

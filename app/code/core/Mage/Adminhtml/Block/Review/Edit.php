@@ -41,9 +41,9 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
         $this->_objectId = 'id';
         $this->_controller = 'review';
 
-        $this->_updateButton('save', 'label', Mage::helper('review')->__('Save Review'));
+        $this->_updateButton('save', 'label', Mage::helper('Mage_Review_Helper_Data')->__('Save Review'));
         $this->_updateButton('save', 'id', 'save_button');
-        $this->_updateButton('delete', 'label', Mage::helper('review')->__('Delete Review'));
+        $this->_updateButton('delete', 'label', Mage::helper('Mage_Review_Helper_Data')->__('Delete Review'));
 
         if( $this->getRequest()->getParam('productId', false) ) {
             $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/catalog_product/edit', array('id' => $this->getRequest()->getParam('productId', false))) .'\')' );
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
 
         if( $this->getRequest()->getParam('ret', false) == 'pending' ) {
             $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/*/pending') .'\')' );
-            $this->_updateButton('delete', 'onclick', 'deleteConfirm(\'' . Mage::helper('review')->__('Are you sure you want to do this?') . '\', \'' . $this->getUrl('*/*/delete', array(
+            $this->_updateButton('delete', 'onclick', 'deleteConfirm(\'' . Mage::helper('Mage_Review_Helper_Data')->__('Are you sure you want to do this?') . '\', \'' . $this->getUrl('*/*/delete', array(
                 $this->_objectId => $this->getRequest()->getParam($this->_objectId),
                 'ret'           => 'pending',
             )) .'\')' );
@@ -85,9 +85,9 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
     public function getHeaderText()
     {
         if( Mage::registry('review_data') && Mage::registry('review_data')->getId() ) {
-            return Mage::helper('review')->__("Edit Review '%s'", $this->htmlEscape(Mage::registry('review_data')->getTitle()));
+            return Mage::helper('Mage_Review_Helper_Data')->__("Edit Review '%s'", $this->htmlEscape(Mage::registry('review_data')->getTitle()));
         } else {
-            return Mage::helper('review')->__('New Review');
+            return Mage::helper('Mage_Review_Helper_Data')->__('New Review');
         }
     }
 }

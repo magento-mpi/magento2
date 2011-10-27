@@ -103,7 +103,7 @@ class Mage_Core_Model_Variable extends Mage_Core_Model_Abstract
             $value = $this->getData('plain_value');
             //escape html if type is html, but html value is not defined
             if ($type == self::TYPE_HTML) {
-                $value = nl2br(Mage::helper('core')->htmlEscape($value));
+                $value = nl2br(Mage::helper('Mage_Core_Helper_Data')->htmlEscape($value));
             }
             return $value;
         }
@@ -120,11 +120,11 @@ class Mage_Core_Model_Variable extends Mage_Core_Model_Abstract
         if ($this->getCode() && $this->getName()) {
             $variable = $this->getResource()->getVariableByCode($this->getCode());
             if (!empty($variable) && $variable['variable_id'] != $this->getId()) {
-                return Mage::helper('core')->__('Variable Code must be unique.');
+                return Mage::helper('Mage_Core_Helper_Data')->__('Variable Code must be unique.');
             }
             return true;
         }
-        return Mage::helper('core')->__('Validation has failed.');
+        return Mage::helper('Mage_Core_Helper_Data')->__('Validation has failed.');
     }
 
     /**
@@ -141,12 +141,12 @@ class Mage_Core_Model_Variable extends Mage_Core_Model_Abstract
         foreach ($collection->toOptionArray() as $variable) {
             $variables[] = array(
                 'value' => '{{customVar code=' . $variable['value'] . '}}',
-                'label' => Mage::helper('core')->__('%s', $variable['label'])
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('%s', $variable['label'])
             );
         }
         if ($withGroup && $variables) {
             $variables = array(
-                'label' => Mage::helper('core')->__('Custom Variables'),
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Custom Variables'),
                 'value' => $variables
             );
         }

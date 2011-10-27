@@ -52,7 +52,7 @@ class Mage_Rss_Block_Catalog_Salesrule extends Mage_Rss_Block_Abstract
         $custGroup =   $this->_getCustomerGroupId();
 
         $newurl = Mage::getUrl('rss/catalog/salesrule');
-        $title = Mage::helper('rss')->__('%s - Discounts and Coupons',Mage::app()->getStore($storeId)->getName());
+        $title = Mage::helper('Mage_Rss_Helper_Data')->__('%s - Discounts and Coupons',Mage::app()->getStore($storeId)->getName());
         $lang = Mage::getStoreConfig('general/locale/code');
 
         $rssObj = Mage::getModel('rss/rss');

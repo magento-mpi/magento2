@@ -51,7 +51,7 @@
         </resources>
         <cache>
             <types>
-                <eav translate="label,description" module="eav">
+                <eav translate="label,description" module="Mage_Eav">
                     <label>EAV types and attributes</label>
                     <description>Entity types declaration cache.</description>
                     <tags>eav</tags>

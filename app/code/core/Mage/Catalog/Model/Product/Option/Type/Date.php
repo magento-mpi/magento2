@@ -81,11 +81,11 @@ class Mage_Catalog_Model_Product_Option_Type_Date extends Mage_Catalog_Model_Pro
         } elseif (!$isValid && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
             if (!$dateValid) {
-                Mage::throwException(Mage::helper('catalog')->__('Please specify date required option(s).'));
+                Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify date required option(s).'));
             } elseif (!$timeValid) {
-                Mage::throwException(Mage::helper('catalog')->__('Please specify time required option(s).'));
+                Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify time required option(s).'));
             } else {
-                Mage::throwException(Mage::helper('catalog')->__('Please specify the product required option(s).'));
+                Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the product required option(s).'));
             }
         } else {
             $this->setUserValue(null);

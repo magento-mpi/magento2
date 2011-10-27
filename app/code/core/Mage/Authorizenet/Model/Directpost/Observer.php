@@ -64,7 +64,7 @@ class Mage_Authorizenet_Model_Directpost_Observer
             if ($payment && $payment->getMethod() == Mage::getModel('authorizenet/directpost')->getCode()) {
                 /* @var $controller Mage_Core_Controller_Varien_Action */
                 $controller = $observer->getEvent()->getData('controller_action');
-                $result = Mage::helper('core')->jsonDecode(
+                $result = Mage::helper('Mage_Core_Helper_Data')->jsonDecode(
                     $controller->getResponse()->getBody('default'),
                     Zend_Json::TYPE_ARRAY
                 );
@@ -82,7 +82,7 @@ class Mage_Authorizenet_Model_Directpost_Observer
                     $result['directpost'] = array('fields' => $requestToPaygate->getData());
 
                     $controller->getResponse()->clearHeader('Location');
-                    $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+                    $controller->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
                 }
             }
         }
@@ -101,7 +101,7 @@ class Mage_Authorizenet_Model_Directpost_Observer
     {
          /* @var $order Mage_Sales_Model_Order */
         $order = $observer->getEvent()->getData('order');
-        Mage::helper('authorizenet')->updateOrderEditIncrements($order);
+        Mage::helper('Mage_Authorizenet_Helper_Data')->updateOrderEditIncrements($order);
 
         return $this;
     }

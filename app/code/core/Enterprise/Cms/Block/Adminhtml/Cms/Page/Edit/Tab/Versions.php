@@ -99,15 +99,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     {
 /*
         $this->addColumn('version_number', array(
-            'header' => Mage::helper('enterprise_cms')->__('Version #'),
+            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Version #'),
             'width' => 100,
             'index' => 'version_number',
             'type' => 'options',
-            'options' => Mage::helper('enterprise_cms')->getVersionsArray($this->getPage())
+            'options' => Mage::helper('Enterprise_Cms_Helper_Data')->getVersionsArray($this->getPage())
         ));
 */
         $this->addColumn('label', array(
-            'header' => Mage::helper('enterprise_cms')->__('Version Label'),
+            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Version Label'),
             'index' => 'label',
             'type' => 'options',
             'options' => $this->getCollection()
@@ -115,7 +115,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
         ));
 
         $this->addColumn('owner', array(
-            'header' => Mage::helper('enterprise_cms')->__('Owner'),
+            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Owner'),
             'index' => 'username',
             'type' => 'options',
             'options' => $this->getCollection()->getUsersArray(false),
@@ -123,22 +123,22 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
         ));
 
         $this->addColumn('access_level', array(
-            'header' => Mage::helper('enterprise_cms')->__('Access Level'),
+            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Access Level'),
             'index' => 'access_level',
             'type' => 'options',
             'width' => 100,
-            'options' => Mage::helper('enterprise_cms')->getVersionAccessLevels()
+            'options' => Mage::helper('Enterprise_Cms_Helper_Data')->getVersionAccessLevels()
         ));
 
         $this->addColumn('revisions', array(
-            'header' => Mage::helper('enterprise_cms')->__('Revisions Qty'),
+            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Revisions Qty'),
             'index' => 'revisions_count',
             'type' => 'number'
         ));
 
         $this->addColumn('created_at', array(
             'width'     => 150,
-            'header'    => Mage::helper('enterprise_cms')->__('Created At'),
+            'header'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Created At'),
             'index'     => 'created_at',
             'type'      => 'datetime',
         ));
@@ -173,7 +173,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_cms')->__('Versions');
+        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Versions');
     }
 
     /**
@@ -183,7 +183,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_cms')->__('Versions');
+        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Versions');
     }
 
     /**
@@ -219,9 +219,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
             $this->getMassactionBlock()->setFormFieldName('version');
 
             $this->getMassactionBlock()->addItem('delete', array(
-                'label'    => Mage::helper('enterprise_cms')->__('Delete'),
+                'label'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Delete'),
                 'url'      => $this->getUrl('*/*/massDeleteVersions', array('_current' => true)),
-                'confirm'  => Mage::helper('enterprise_cms')->__('Are you sure?'),
+                'confirm'  => Mage::helper('Enterprise_Cms_Helper_Data')->__('Are you sure?'),
                 'selected' => true,
             ));
         }

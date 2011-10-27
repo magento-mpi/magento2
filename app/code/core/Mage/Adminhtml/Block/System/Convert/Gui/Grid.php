@@ -54,23 +54,23 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
     protected function _prepareColumns()
     {
         $this->addColumn('profile_id', array(
-            'header'    => Mage::helper('adminhtml')->__('ID'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('ID'),
             'width'     => '50px',
             'index'     => 'profile_id',
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('adminhtml')->__('Profile Name'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Profile Name'),
             'index'     => 'name',
         ));
         $this->addColumn('direction', array(
-            'header'    => Mage::helper('adminhtml')->__('Profile Direction'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Profile Direction'),
             'index'     => 'direction',
             'type'      => 'options',
             'options'   => array('import'=>'Import', 'export'=>'Export'),
             'width'     => '120px',
         ));
         $this->addColumn('entity_type', array(
-            'header'    => Mage::helper('adminhtml')->__('Entity Type'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Entity Type'),
             'index'     => 'entity_type',
             'type'      => 'options',
             'options'   => array('product'=>'Products', 'customer'=>'Customers'),
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('store_id', array(
-            'header'    => Mage::helper('adminhtml')->__('Store'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Store'),
             'type'      => 'options',
             'align'     => 'center',
             'index'     => 'store_id',
@@ -87,20 +87,20 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('adminhtml')->__('Created At'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Created At'),
             'type'      => 'datetime',
             'align'     => 'center',
             'index'     => 'created_at',
         ));
         $this->addColumn('updated_at', array(
-            'header'    => Mage::helper('adminhtml')->__('Updated At'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Updated At'),
             'type'      => 'datetime',
             'align'     => 'center',
             'index'     => 'updated_at',
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('adminhtml')->__('Action'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Action'),
             'width'     => '60px',
             'align'     => 'center',
             'sortable'  => false,
@@ -109,7 +109,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
             'actions'   => array(
                 array(
                     'url'       => $this->getUrl('*/*/edit') . 'id/$profile_id',
-                    'caption'   => Mage::helper('adminhtml')->__('Edit')
+                    'caption'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Edit')
                 )
             )
         ));

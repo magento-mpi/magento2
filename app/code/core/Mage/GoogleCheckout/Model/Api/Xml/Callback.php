@@ -255,7 +255,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                                 $quote->getStoreId()
                             );
                             $price = number_format($price, 2, '.','');
-                            $price = (float) Mage::helper('tax')->getShippingPrice($price, false, false);
+                            $price = (float) Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice($price, false, false);
                             $address->setShippingMethod(null);
                             $address->setCollectShippingRates(true)->collectTotals();
                             $billingAddress->setCollectShippingRates(true)->collectTotals();
@@ -284,7 +284,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                 $address->setShippingMethod(null);
                 $address->setCollectShippingRates(true)->collectTotals();
                 $billingAddress->setCollectShippingRates(true)->collectTotals();
-                if (!Mage::helper('googlecheckout')->isShippingCarrierActive($this->getStoreId())) {
+                if (!Mage::helper('Mage_GoogleCheckout_Helper_Data')->isShippingCarrierActive($this->getStoreId())) {
                     $this->_applyShippingTaxClass($address, $shippingTaxClass);
                 }
 
@@ -317,7 +317,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         $request = $taxCalculationModel->getRateRequest($qAddress);
         $rate = $taxCalculationModel->getRate($request->setProductClassId($shippingTaxClass));
 
-        if (!Mage::helper('tax')->shippingPriceIncludesTax()) {
+        if (!Mage::helper('Mage_Tax_Helper_Data')->shippingPriceIncludesTax()) {
             $shippingTax    = $qAddress->getShippingAmount() * $rate/100;
             $shippingBaseTax= $qAddress->getBaseShippingAmount() * $rate/100;
         } else {
@@ -690,8 +690,8 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             // We get from Google price with discounts applied via merchant calculations
             $qAddress->setShippingAmountForDiscount(0);
 
-            /*if (!Mage::helper('tax')->shippingPriceIncludesTax($quote->getStore())) {
-                $includingTax = Mage::helper('tax')->getShippingPrice(
+            /*if (!Mage::helper('Mage_Tax_Helper_Data')->shippingPriceIncludesTax($quote->getStore())) {
+                $includingTax = Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice(
                     $excludingTax, true, $qAddress, $quote->getCustomerTaxClassId()
                 );
                 $shippingTax = $includingTax - $excludingTax;
@@ -836,7 +836,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
 
         $invoice = $order->prepareInvoice()
             ->setTransactionId($this->getGoogleOrderNumber())
-            ->addComment(Mage::helper('googlecheckout')->__('Auto-generated from GoogleCheckout Charge'))
+            ->addComment(Mage::helper('Mage_GoogleCheckout_Helper_Data')->__('Auto-generated from GoogleCheckout Charge'))
             ->register()
             ->pay();
 
@@ -1088,7 +1088,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
     protected function _formatAmount($amount)
     {
         // format currency in currency format, but don't enclose it into <span>
-        return Mage::helper('core')->currency($amount, true, false);
+        return Mage::helper('Mage_Core_Helper_Data')->currency($amount, true, false);
     }
 
 }

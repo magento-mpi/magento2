@@ -99,7 +99,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
         $select = $this->getLayout()->createBlock('core/html_select')
             ->setName($type.'[country_id]')
             ->setId($type.':country_id')
-            ->setTitle(Mage::helper('checkout')->__('Country'))
+            ->setTitle(Mage::helper('Mage_Checkout_Helper_Data')->__('Country'))
             ->setClass('validate-select')
             ->setValue($address->getCountryId())
             ->setOptions($this->getCountryCollection()->toOptionArray());
@@ -117,7 +117,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
         $select = $this->getLayout()->createBlock('core/html_select')
             ->setName($type.'[region]')
             ->setId($type.':region')
-            ->setTitle(Mage::helper('checkout')->__('State/Province'))
+            ->setTitle(Mage::helper('Mage_Checkout_Helper_Data')->__('State/Province'))
             ->setClass('required-entry validate-state')
             ->setValue($address->getRegionId())
             ->setOptions($this->getRegionCollection()->toOptionArray());

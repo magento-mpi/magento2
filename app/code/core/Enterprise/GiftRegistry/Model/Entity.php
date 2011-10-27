@@ -116,7 +116,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
 
             foreach ($quote->getAllVisibleItems() as $item) {
                 if (in_array($item->getId(), $itemsIds)) {
-                     if (!Mage::helper('enterprise_giftregistry')->canAddToGiftRegistry($item)) {
+                     if (!Mage::helper('Enterprise_GiftRegistry_Helper_Data')->canAddToGiftRegistry($item)) {
                         $skippedItems++;
                         continue;
                     }
@@ -246,7 +246,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             'entity' => $this,
             'message' => $message,
             'recipient_name' => $recipientName,
-            'url' => Mage::helper('enterprise_giftregistry')->getRegistryLink($this)
+            'url' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->getRegistryLink($this)
         );
 
         $mail->setDesignConfig(array('area' => 'frontend', 'store' => $storeId));
@@ -329,7 +329,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             'store' => $store,
             'owner' => $owner,
             'entity' => $this,
-            'url' => Mage::helper('enterprise_giftregistry')->getRegistryLink($this)
+            'url' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->getRegistryLink($this)
         );
 
         $mail->setDesignConfig(array('area' => 'frontend', 'store' => $store->getId()));
@@ -427,7 +427,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
                 return $entity;
             }
         } else {
-            Mage::throwException(Mage::helper('enterprise_giftregistry')->__('There is no active gift registries.'));
+            Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('There is no active gift registries.'));
         }
         return false;
     }
@@ -589,8 +589,8 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     {
         if (!isset($this->_optionsIsPublic)) {
             $this->_optionsIsPublic = array(
-                '0' => Mage::helper('enterprise_giftregistry')->__('Private'),
-                '1' => Mage::helper('enterprise_giftregistry')->__('Public'));
+                '0' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Private'),
+                '1' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Public'));
         }
         return $this->_optionsIsPublic;
     }
@@ -604,8 +604,8 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     {
         if (!isset($this->_optionsStatus)) {
             $this->_optionsStatus = array(
-                '0' => Mage::helper('enterprise_giftregistry')->__('Inactive'),
-                '1' => Mage::helper('enterprise_giftregistry')->__('Active'));
+                '0' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Inactive'),
+                '1' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Active'));
         }
         return $this->_optionsStatus;
     }
@@ -618,7 +618,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     public function validate()
     {
         $errors = array();
-        $helper = Mage::helper('enterprise_giftregistry');
+        $helper = Mage::helper('Enterprise_GiftRegistry_Helper_Data');
 
         if (!Zend_Validate::is($this->getTitle(), 'NotEmpty')) {
             $errors[] = $helper->__('Please enter the title.');
@@ -662,7 +662,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         $product = $this->_getData('product');
         if (is_null($product)) {
             if (!$productId) {
-                Mage::throwException(Mage::helper('enterprise_giftregistry')->__('Cannot specify product.'));
+                Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Cannot specify product.'));
             }
 
             $product = Mage::getModel('catalog/product')
@@ -732,7 +732,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      */
     public function getGenerateKeyId()
     {
-        return Mage::helper('core')->uniqHash();
+        return Mage::helper('Mage_Core_Helper_Data')->uniqHash();
     }
 
     /**

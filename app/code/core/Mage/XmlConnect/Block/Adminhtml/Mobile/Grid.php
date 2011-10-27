@@ -93,7 +93,7 @@ class Mage_Xmlconnect_Block_Adminhtml_Mobile_Grid extends Mage_Adminhtml_Block_W
             'index'     => 'type',
             'align'     => 'center',
             'filter'    => 'adminhtml/widget_grid_column_filter_select',
-            'options'   => Mage::helper('xmlconnect')->getSupportedDevices(),
+            'options'   => Mage::helper('Mage_XmlConnect_Helper_Data')->getSupportedDevices(),
             'renderer'  => 'xmlconnect/adminhtml_mobile_grid_renderer_type',
         ));
 
@@ -103,7 +103,7 @@ class Mage_Xmlconnect_Block_Adminhtml_Mobile_Grid extends Mage_Adminhtml_Block_W
             'renderer'  => 'xmlconnect/adminhtml_mobile_grid_renderer_bool',
             'align'     => 'center',
             'filter'    => 'adminhtml/widget_grid_column_filter_select',
-            'options'   => Mage::helper('xmlconnect')->getStatusOptions(),
+            'options'   => Mage::helper('Mage_XmlConnect_Helper_Data')->getStatusOptions(),
 
         ));
 

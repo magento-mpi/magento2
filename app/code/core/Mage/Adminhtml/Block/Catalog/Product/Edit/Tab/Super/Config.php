@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
         $this->setChild('create_empty',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('catalog')->__('Create Empty'),
+                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Create Empty'),
                     'class' => 'add',
                     'onclick' => 'superProduct.createEmptyProduct()'
                 ))
@@ -99,7 +99,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
             $this->setChild('create_from_configurable',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
-                        'label' => Mage::helper('catalog')->__('Copy From Configurable'),
+                        'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Copy From Configurable'),
                         'class' => 'add',
                         'onclick' => 'superProduct.createNewProduct()'
                     ))
@@ -145,7 +145,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
                 }
             }
         }
-        return Mage::helper('core')->jsonEncode($attributes);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($attributes);
     }
 
     /**
@@ -164,7 +164,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
         foreach ($products as $product) {
             $data[$product->getId()] = $this->getConfigurableSettings($product);
         }
-        return Mage::helper('core')->jsonEncode($data);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
     }
 
     /**
@@ -295,7 +295,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
      */
     public function getTabLabel()
     {
-        return Mage::helper('catalog')->__('Associated Products');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Associated Products');
     }
 
     /**
@@ -305,7 +305,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
      */
     public function getTabTitle()
     {
-        return Mage::helper('catalog')->__('Associated Products');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Associated Products');
     }
 
     /**
@@ -335,7 +335,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
      */
     public function getShowUseDefaultPrice()
     {
-        return !Mage::helper('catalog')->isPriceGlobal()
+        return !Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal()
             && $this->_getProduct()->getStoreId();
     }
 }

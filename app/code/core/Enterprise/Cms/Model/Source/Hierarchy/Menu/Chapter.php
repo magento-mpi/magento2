@@ -40,7 +40,7 @@ class Enterprise_Cms_Model_Source_Hierarchy_Menu_Chapter
      */
     public function toOptionArray()
     {
-        $helper = Mage::helper('enterprise_cms');
+        $helper = Mage::helper('Enterprise_Cms_Helper_Data');
         $options = array(
             array('label' => $helper->__('No'), 'value' => ''),
             array('label' => $helper->__('Chapter'), 'value' => 'chapter'),

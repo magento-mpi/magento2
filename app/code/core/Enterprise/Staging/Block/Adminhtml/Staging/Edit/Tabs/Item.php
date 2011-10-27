@@ -60,7 +60,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Item extends Mage_Adm
         $collection    = $staging->getItemsCollection();
 
         $fieldset = $form->addFieldset('staging_dataset_item',
-            array('legend' => Mage::helper('enterprise_staging')->__('Select Items to be Merged')));
+            array('legend' => Mage::helper('Enterprise_Staging_Helper_Data')->__('Select Items to be Merged')));
 
         $extendInfo = $this->getExtendInfo();
 
@@ -85,7 +85,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Item extends Mage_Adm
 
             $fieldset->addField('staging_item_code_'.$_code, 'checkbox',
                 array(
-                    'label'    => Mage::helper('enterprise_staging')->__((string)$stagingItem->label),
+                    'label'    => Mage::helper('Enterprise_Staging_Helper_Data')->__((string)$stagingItem->label),
                     'name'     => "{$_code}[staging_item_code]",
                     'value'    => $_code,
                     'checked'  => true,

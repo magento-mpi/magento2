@@ -50,7 +50,7 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
     public function initRewardType($action)
     {
         if ($action) {
-            if (!Mage::helper('enterprise_reward')->isEnabledOnFront()) {
+            if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()) {
                 return $this;
             }
             $customer = Mage::getSingleton('customer/session')->getCustomer();
@@ -73,12 +73,12 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
     public function getRewardAmount($amount = null, $asCurrency = false)
     {
         $amount = null === $amount ? $this->_getData('reward_amount') : $amount;
-        return Mage::helper('enterprise_reward')->formatAmount($amount, $asCurrency);
+        return Mage::helper('Enterprise_Reward_Helper_Data')->formatAmount($amount, $asCurrency);
     }
 
     public function renderLearnMoreLink($format = '<a href="%1$s">%2$s</a>', $anchorText = null)
     {
-        $anchorText = null === $anchorText ? Mage::helper('enterprise_reward')->__('Learn more...') : $anchorText;
+        $anchorText = null === $anchorText ? Mage::helper('Enterprise_Reward_Helper_Data')->__('Learn more...') : $anchorText;
         return sprintf($format, $this->getLandingPageUrl(), $anchorText);
     }
 
@@ -90,7 +90,7 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
         if ($this->_actionInstance) {
             $this->addData(array(
                 'reward_points' => $this->_rewardInstance->estimateRewardPoints($this->_actionInstance),
-                'landing_page_url' => Mage::helper('enterprise_reward')->getLandingPageUrl(),
+                'landing_page_url' => Mage::helper('Enterprise_Reward_Helper_Data')->getLandingPageUrl(),
             ));
 
             if ($this->_rewardInstance->getId()) {
@@ -115,7 +115,7 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
                 }
             } else {
                 if ($this->hasIsGuestNote() && !$this->hasGuestNote()) {
-                    $this->setGuestNote(Mage::helper('enterprise_reward')->__('Applies only to registered customers, may vary when logged in.'));
+                    $this->setGuestNote(Mage::helper('Enterprise_Reward_Helper_Data')->__('Applies only to registered customers, may vary when logged in.'));
                 }
             }
         }

@@ -68,7 +68,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
             $block->setRefererUrl($this->_getRefererUrl());
         }
 
-        $this->getLayout()->getBlock('head')->setTitle(Mage::helper('tag')->__('My Tags'));
+        $this->getLayout()->getBlock('head')->setTitle(Mage::helper('Mage_Tag_Helper_Data')->__('My Tags'));
         $this->renderLayout();
     }
 
@@ -91,7 +91,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
             }
 
             $this->_initLayoutMessages('checkout/session');
-            $this->getLayout()->getBlock('head')->setTitle(Mage::helper('tag')->__('My Tags'));
+            $this->getLayout()->getBlock('head')->setTitle(Mage::helper('Mage_Tag_Helper_Data')->__('My Tags'));
             $this->renderLayout();
         }
         else {
@@ -122,13 +122,13 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
                 $model = Mage::registry('tagModel');
                 $model->deactivate();
                 $tag = Mage::getModel('tag/tag')->load($tagId)->aggregate();
-                Mage::getSingleton('tag/session')->addSuccess(Mage::helper('tag')->__('The tag has been deleted.'));
+                Mage::getSingleton('tag/session')->addSuccess(Mage::helper('Mage_Tag_Helper_Data')->__('The tag has been deleted.'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/', array(
-                    self::PARAM_NAME_URL_ENCODED => Mage::helper('core')->urlEncode(Mage::getUrl('customer/account/'))
+                    self::PARAM_NAME_URL_ENCODED => Mage::helper('Mage_Core_Helper_Data')->urlEncode(Mage::getUrl('customer/account/'))
                 )));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('tag/session')->addError(Mage::helper('tag')->__('Unable to remove tag. Please, try again later.'));
+                Mage::getSingleton('tag/session')->addError(Mage::helper('Mage_Tag_Helper_Data')->__('Unable to remove tag. Please, try again later.'));
             }
         }
         else {

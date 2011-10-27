@@ -61,8 +61,8 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
 
         //load layout, set active menu and breadcrumbs
         $this->_setActiveMenu('cms/page')
-            ->_addBreadcrumb(Mage::helper('cms')->__('CMS'), Mage::helper('cms')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('cms')->__('Manage Pages'), Mage::helper('cms')->__('Manage Pages'));
+            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('CMS'), Mage::helper('Mage_Cms_Helper_Data')->__('CMS'))
+            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'), Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'));
 
         $this->_isLayoutLoaded = true;
 
@@ -115,10 +115,10 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
         $this->_title($page->getId() ? $page->getTitle() : $this->__('New Page'));
 
         $this->_initAction()
-            ->_addBreadcrumb($page->getId() ? Mage::helper('cms')->__('Edit Page')
-                    : Mage::helper('cms')->__('New Page'),
-                $page->getId() ? Mage::helper('cms')->__('Edit Page')
-                    : Mage::helper('cms')->__('New Page'));
+            ->_addBreadcrumb($page->getId() ? Mage::helper('Mage_Cms_Helper_Data')->__('Edit Page')
+                    : Mage::helper('Mage_Cms_Helper_Data')->__('New Page'),
+                $page->getId() ? Mage::helper('Mage_Cms_Helper_Data')->__('Edit Page')
+                    : Mage::helper('Mage_Cms_Helper_Data')->__('New Page'));
 
         $this->renderLayout();
     }
@@ -168,7 +168,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
-                $this->_getSession()->addError(Mage::helper('enterprise_cms')->__('An error occurred while deleting versions.'));
+                $this->_getSession()->addError(Mage::helper('Enterprise_Cms_Helper_Data')->__('An error occurred while deleting versions.'));
             }
         }
         $this->_redirect('*/*/edit', array('_current' => true, 'tab' => 'versions'));

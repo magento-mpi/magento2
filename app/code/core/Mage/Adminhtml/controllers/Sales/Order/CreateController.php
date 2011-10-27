@@ -265,7 +265,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
          */
         if ($data = $this->getRequest()->getPost('add_products')) {
             $this->_getGiftmessageSaveModel()
-                ->importAllowQuoteItemsFromProducts(Mage::helper('core')->jsonDecode($data));
+                ->importAllowQuoteItemsFromProducts(Mage::helper('Mage_Core_Helper_Data')->jsonDecode($data));
         }
 
         /**
@@ -297,7 +297,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     protected function _processFiles($items)
     {
         /* @var $productHelper Mage_Catalog_Helper_Product */
-        $productHelper = Mage::helper('catalog/product');
+        $productHelper = Mage::helper('Mage_Catalog_Helper_Product');
         foreach ($items as $id => $item) {
             $buyRequest = new Varien_Object($item);
             $params = array('files_prefix' => 'item_' . $id . '_');
@@ -329,7 +329,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $this->_getSession()->clear();
         $orderId = $this->getRequest()->getParam('order_id');
         $order = Mage::getModel('sales/order')->load($orderId);
-        if (!Mage::helper('sales/reorder')->canReorder($order)) {
+        if (!Mage::helper('Mage_Sales_Helper_Reorder')->canReorder($order)) {
             return $this->_forward('noRoute');
         }
 
@@ -544,7 +544,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
 
         // Render page
         /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('adminhtml/catalog_product_composite');
+        $helper = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -588,7 +588,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
 
         // Render page
         /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('adminhtml/catalog_product_composite');
+        $helper = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;

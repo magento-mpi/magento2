@@ -60,15 +60,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
 
         if (!empty($objId) && $config->canCurrentUserDeleteRevision()) {
             $this->_addButton('delete_revision', array(
-                'label'     => Mage::helper('enterprise_cms')->__('Delete'),
+                'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Delete'),
                 'class'     => 'delete',
-                'onclick'   => 'deleteConfirm(\''. Mage::helper('enterprise_cms')->__('Are you sure you want to delete this revision?')
+                'onclick'   => 'deleteConfirm(\''. Mage::helper('Enterprise_Cms_Helper_Data')->__('Are you sure you want to delete this revision?')
                                 .'\', \'' . $this->getDeleteUrl() . '\')',
             ));
         }
 
         $this->_addButton('preview', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Preview'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Preview'),
             'onclick'   => "previewAction('edit_form', editForm, '" . $this->getPreviewUrl() . "')",
             'class'     => 'preview',
         ));
@@ -76,7 +76,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
         if ($config->canCurrentUserPublishRevision()) {
             $this->_addButton('publish', array(
                 'id'        => 'publish_button',
-                'label'     => Mage::helper('enterprise_cms')->__('Publish'),
+                'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Publish'),
                 'onclick'   => "publishAction('" . $this->getPublishUrl() . "')",
                 'class'     => 'publish' . (Mage::registry('cms_page')->getId()? '' : ' no-display'),
             ), 1);
@@ -84,7 +84,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
             if ($config->canCurrentUserSaveRevision()) {
                 $this->_addButton('save_publish', array(
                     'id'        => 'save_publish_button',
-                    'label'     => Mage::helper('enterprise_cms')->__('Save and Publish'),
+                    'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save and Publish'),
                     'onclick'   => "saveAndPublishAction(editForm, '" . $this->getSaveUrl() . "')",
                     'class'     => 'publish no-display',
                 ), 1);
@@ -94,23 +94,23 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
         }
 
         if ($config->canCurrentUserSaveRevision()) {
-            $this->_updateButton('save', 'label', Mage::helper('enterprise_cms')->__('Save'));
+            $this->_updateButton('save', 'label', Mage::helper('Enterprise_Cms_Helper_Data')->__('Save'));
             $this->_updateButton('save', 'onclick', 'editForm.submit(\'' . $this->getSaveUrl() . '\');');
             $this->_updateButton('saveandcontinue', 'onclick', 'editForm.submit(\'' . $this->getSaveUrl() . '\'+\'back/edit/\');');
 
             // Adding button to create new version
             $this->_addButton('new_version', array(
                 'id'        => 'new_version',
-                'label'     => Mage::helper('enterprise_cms')->__('Save in New Version...'),
+                'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save in New Version...'),
                 'onclick'   => 'newVersionAction()',
                 'class'     => 'new',
             ));
 
             $this->_formScripts[] = "
                 function newVersionAction(){
-                    var versionName = prompt('" . Mage::helper('enterprise_cms')->__('Specify New Version Name (required)') . "', '')
+                    var versionName = prompt('" . Mage::helper('Enterprise_Cms_Helper_Data')->__('Specify New Version Name (required)') . "', '')
                     if (versionName == '') {
-                        alert('" . Mage::helper('enterprise_cms')->__('You should specify valid name') . "');
+                        alert('" . Mage::helper('Enterprise_Cms_Helper_Data')->__('You should specify valid name') . "');
                         return false;
                     } else if (versionName == null) {
                         return false;
@@ -141,9 +141,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
         $title = $this->htmlEscape(Mage::registry('cms_page')->getTitle());
 
         if ($revisionNumber) {
-            return Mage::helper('enterprise_cms')->__("Edit Page '%s' Revision #%s", $title, $this->htmlEscape($revisionNumber));
+            return Mage::helper('Enterprise_Cms_Helper_Data')->__("Edit Page '%s' Revision #%s", $title, $this->htmlEscape($revisionNumber));
         } else {
-            return Mage::helper('enterprise_cms')->__("Edit Page '%s' New Revision", $title);
+            return Mage::helper('Enterprise_Cms_Helper_Data')->__("Edit Page '%s' New Revision", $title);
         }
     }
 

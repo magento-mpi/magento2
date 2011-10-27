@@ -54,7 +54,7 @@ class Mage_XmlConnect_Model_Tabs
      */
     public function __construct($data)
     {
-        $this->_enabledTabs = Mage::helper('xmlconnect')->getDefaultApplicationDesignTabs();
+        $this->_enabledTabs = Mage::helper('Mage_XmlConnect_Helper_Data')->getDefaultApplicationDesignTabs();
         if (is_string($data)) {
             $data = json_decode($data);
             if (is_object($data)) {
@@ -80,13 +80,13 @@ class Mage_XmlConnect_Model_Tabs
 
                 if (is_array($tab)) {
                     if (isset($tab['label'])) {
-                        $tempTab['label'] = Mage::helper('xmlconnect')->getTabLabel($tab['action']);
+                        $tempTab['label'] = Mage::helper('Mage_XmlConnect_Helper_Data')->getTabLabel($tab['action']);
                     } else {
                         $tempTab['label'] = '';
                     }
                 } else {
                     if (isset($tab->label)) {
-                       $tempTab->label = Mage::helper('xmlconnect')->getTabLabel($tab->action);
+                       $tempTab->label = Mage::helper('Mage_XmlConnect_Helper_Data')->getTabLabel($tab->action);
                     }
                 }
             }

@@ -32,7 +32,7 @@
                 <children>
                     <system>
                         <children>
-                            <api translate="title" module="api">
+                            <api translate="title" module="Mage_Api">
                                 <title>Web Services</title>
                                 <sort_order>0</sort_order>
                                 <children>
@@ -48,7 +48,7 @@
                             </api>
                             <config>
                                 <children>
-                                    <api translate="title" module="api">
+                                    <api translate="title" module="Mage_Api">
                                         <title>Magento Core API Section</title>
                                     </api>
                                 </children>
@@ -62,7 +62,7 @@
     <menu>
         <system>
             <children>
-                <api translate="title" module="api">
+                <api translate="title" module="Mage_Api">
                     <title>Web Services</title>
                     <sort_order>25</sort_order>
                     <children>

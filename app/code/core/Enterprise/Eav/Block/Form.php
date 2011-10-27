@@ -139,10 +139,10 @@ class Enterprise_Eav_Block_Form extends Mage_Core_Block_Template
     protected function _prepareLayout()
     {
         if (empty($this->_xmlBlockName)) {
-            Mage::throwException(Mage::helper('enterprise_eav')->__('Current module XML block name is undefined'));
+            Mage::throwException(Mage::helper('Enterprise_Eav_Helper_Data')->__('Current module XML block name is undefined'));
         }
         if (empty($this->_formModelPath)) {
-            Mage::throwException(Mage::helper('enterprise_eav')->__('Current module form model pathname is undefined'));
+            Mage::throwException(Mage::helper('Enterprise_Eav_Helper_Data')->__('Current module form model pathname is undefined'));
         }
 
         /* $var $template Enterprise_Eav_Block_Form_Template */

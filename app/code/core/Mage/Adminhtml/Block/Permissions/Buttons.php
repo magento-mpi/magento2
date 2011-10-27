@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Permissions_Buttons extends Mage_Adminhtml_Block_Temp
         $this->setChild('backButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Back'),
+                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Back'),
                     'onclick'   => 'window.location.href=\''.$this->getUrl('*/*/').'\'',
                     'class' => 'back'
                 ))
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Permissions_Buttons extends Mage_Adminhtml_Block_Temp
         $this->setChild('resetButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Reset'),
+                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Reset'),
                     'onclick'   => 'window.location.reload()'
                 ))
         );
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Permissions_Buttons extends Mage_Adminhtml_Block_Temp
         $this->setChild('saveButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Save Role'),
+                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save Role'),
                     'onclick'   => 'roleForm.submit();return false;',
                     'class' => 'save'
                 ))
@@ -64,8 +64,8 @@ class Mage_Adminhtml_Block_Permissions_Buttons extends Mage_Adminhtml_Block_Temp
         $this->setChild('deleteButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Delete Role'),
-                    'onclick'   => 'deleteConfirm(\'' . Mage::helper('adminhtml')->__('Are you sure you want to do this?') . '\', \'' . $this->getUrl('*/*/delete', array('rid' => $this->getRequest()->getParam('rid'))) . '\')',
+                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Delete Role'),
+                    'onclick'   => 'deleteConfirm(\'' . Mage::helper('Mage_Adminhtml_Helper_Data')->__('Are you sure you want to do this?') . '\', \'' . $this->getUrl('*/*/delete', array('rid' => $this->getRequest()->getParam('rid'))) . '\')',
                     'class' => 'delete'
                 ))
         );

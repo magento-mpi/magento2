@@ -53,29 +53,29 @@ class Mage_Adminhtml_Block_Sitemap_Grid extends Mage_Adminhtml_Block_Widget_Grid
     protected function _prepareColumns()
     {
         $this->addColumn('sitemap_id', array(
-            'header'    => Mage::helper('sitemap')->__('ID'),
+            'header'    => Mage::helper('Mage_Sitemap_Helper_Data')->__('ID'),
             'width'     => '50px',
             'index'     => 'sitemap_id'
         ));
 
         $this->addColumn('sitemap_filename', array(
-            'header'    => Mage::helper('sitemap')->__('Filename'),
+            'header'    => Mage::helper('Mage_Sitemap_Helper_Data')->__('Filename'),
             'index'     => 'sitemap_filename'
         ));
 
         $this->addColumn('sitemap_path', array(
-            'header'    => Mage::helper('sitemap')->__('Path'),
+            'header'    => Mage::helper('Mage_Sitemap_Helper_Data')->__('Path'),
             'index'     => 'sitemap_path'
         ));
 
         $this->addColumn('link', array(
-            'header'    => Mage::helper('sitemap')->__('Link for Google'),
+            'header'    => Mage::helper('Mage_Sitemap_Helper_Data')->__('Link for Google'),
             'index'     => 'concat(sitemap_path, sitemap_filename)',
             'renderer'  => 'adminhtml/sitemap_grid_renderer_link',
         ));
 
         $this->addColumn('sitemap_time', array(
-            'header'    => Mage::helper('sitemap')->__('Last Time Generated'),
+            'header'    => Mage::helper('Mage_Sitemap_Helper_Data')->__('Last Time Generated'),
             'width'     => '150px',
             'index'     => 'sitemap_time',
             'type'      => 'datetime',
@@ -84,14 +84,14 @@ class Mage_Adminhtml_Block_Sitemap_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'    => Mage::helper('sitemap')->__('Store View'),
+                'header'    => Mage::helper('Mage_Sitemap_Helper_Data')->__('Store View'),
                 'index'     => 'store_id',
                 'type'      => 'store',
             ));
         }
 
         $this->addColumn('action', array(
-            'header'   => Mage::helper('sitemap')->__('Action'),
+            'header'   => Mage::helper('Mage_Sitemap_Helper_Data')->__('Action'),
             'filter'   => false,
             'sortable' => false,
             'width'    => '100',

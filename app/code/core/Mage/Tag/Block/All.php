@@ -84,6 +84,6 @@ class Mage_Tag_Block_All extends Mage_Core_Block_Template
 
     protected function _getHeadText()
     {
-        return Mage::helper('tag')->__('All Tags');
+        return Mage::helper('Mage_Tag_Helper_Data')->__('All Tags');
     }
 }

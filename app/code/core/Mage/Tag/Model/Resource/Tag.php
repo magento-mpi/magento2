@@ -52,7 +52,7 @@ class Mage_Tag_Model_Resource_Tag extends Mage_Core_Model_Resource_Db_Abstract
     {
         $this->_uniqueFields = array(array(
             'field' => 'name',
-            'title' => Mage::helper('tag')->__('Tag')
+            'title' => Mage::helper('Mage_Tag_Helper_Data')->__('Tag')
         ));
         return $this;
     }
@@ -69,8 +69,8 @@ class Mage_Tag_Model_Resource_Tag extends Mage_Core_Model_Resource_Db_Abstract
         if ( $name ) {
             $read = $this->_getReadAdapter();
             $select = $read->select();
-            if (Mage::helper('core/string')->strlen($name) > 255) {
-                $name = Mage::helper('core/string')->substr($name, 0, 255);
+            if (Mage::helper('Mage_Core_Helper_String')->strlen($name) > 255) {
+                $name = Mage::helper('Mage_Core_Helper_String')->substr($name, 0, 255);
             }
 
             $select->from($this->getMainTable())
@@ -100,8 +100,8 @@ class Mage_Tag_Model_Resource_Tag extends Mage_Core_Model_Resource_Db_Abstract
             }
         }
 
-        if (Mage::helper('core/string')->strlen($object->getName()) > 255) {
-            $object->setName(Mage::helper('core/string')->substr($object->getName(), 0, 255));
+        if (Mage::helper('Mage_Core_Helper_String')->strlen($object->getName()) > 255) {
+            $object->setName(Mage::helper('Mage_Core_Helper_String')->substr($object->getName(), 0, 255));
         }
 
         return parent::_beforeSave($object);

@@ -62,7 +62,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
         $form->setFieldNameSuffix('type');
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend'  => Mage::helper('enterprise_giftregistry')->__('General Information')
+            'legend'  => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('General Information')
         ));
 
         if ($this->getType()->getId()) {
@@ -73,26 +73,26 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
 
         $fieldset->addField('code', 'text', array(
             'name'     => 'code',
-            'label'    => Mage::helper('enterprise_giftregistry')->__('Code'),
+            'label'    => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Code'),
             'required' => true,
             'class'    => 'validate-code'
         ));
 
         $element = $fieldset->addField('label', 'text', array(
             'name'     => 'label',
-            'label'    => Mage::helper('enterprise_giftregistry')->__('Label'),
+            'label'    => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Label'),
             'required' => true,
             'scope'    => 'store'
         ));
 
         $fieldset->addField('sort_order', 'text', array(
             'name'     => 'sort_order',
-            'label'    => Mage::helper('enterprise_giftregistry')->__('Sort Order'),
+            'label'    => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Sort Order'),
             'scope'    => 'store'
         ));
 
         $fieldset->addField('is_listed', 'select', array(
-            'label'    => Mage::helper('enterprise_giftregistry')->__('Is Listed'),
+            'label'    => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Is Listed'),
             'name'     => 'is_listed',
             'values'   => Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray(),
             'scope'    => 'store'

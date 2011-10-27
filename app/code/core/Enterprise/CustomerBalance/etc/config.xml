@@ -61,7 +61,7 @@
         </helpers>
         <template>
             <email>
-                <customer_enterprise_customerbalance_email_template translate="label" module="enterprise_customerbalance">
+                <customer_enterprise_customerbalance_email_template translate="label" module="Enterprise_CustomerBalance">
                     <label>Store Credit Update</label>
                     <file>enterprise/customerbalance_update.html</file>
                     <type>html</type>
@@ -288,7 +288,7 @@
         </translate>
         <layout>
             <updates>
-                <enterprise_customerbalance module="Enterprise_CustomerBalance">
+                <enterprise_customerbalance module="Mage_Enterprise_CustomerBalance">
                     <file>customerbalance.xml</file>
                 </enterprise_customerbalance>
             </updates>

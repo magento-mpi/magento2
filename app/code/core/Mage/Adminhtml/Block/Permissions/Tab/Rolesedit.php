@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Bloc
      */
     public function getTabLabel()
     {
-        return Mage::helper('adminhtml')->__('Role Resources');
+        return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Resources');
     }
 
     /**
@@ -127,7 +127,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Bloc
 
         $rootArray = $this->_getNodeJson($resources->admin, 1);
 
-        $json = Mage::helper('core')->jsonEncode(isset($rootArray['children']) ? $rootArray['children'] : array());
+        $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(isset($rootArray['children']) ? $rootArray['children'] : array());
 
         return $json;
     }
@@ -157,7 +157,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Bloc
         $selres = $this->getSelectedResources();
 
         if ($level != 0) {
-            $item['text'] = Mage::helper('adminhtml')->__((string)$node->title);
+            $item['text'] = Mage::helper('Mage_Adminhtml_Helper_Data')->__((string)$node->title);
             $item['sort_order'] = isset($node->sort_order) ? (string)$node->sort_order : 0;
             $item['id'] = (string)$node->attributes()->aclpath;
 

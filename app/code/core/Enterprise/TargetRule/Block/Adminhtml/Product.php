@@ -40,7 +40,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
      */
     protected function _getRuleHelper()
     {
-        return Mage::helper('enterprise_targetrule');
+        return Mage::helper('Enterprise_TargetRule_Helper_Data');
     }
 
     /**

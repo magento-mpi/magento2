@@ -110,29 +110,29 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
             ));
         }
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('catalog')->__('ID'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('ID'),
             'sortable'  => true,
             'width'     => '60',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('catalog')->__('Name'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Name'),
             'index'     => 'name'
         ));
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('catalog')->__('SKU'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
             'width'     => '80',
             'index'     => 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => Mage::helper('catalog')->__('Price'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Price'),
             'type'  => 'currency',
             'width'     => '1',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
         $this->addColumn('position', array(
-            'header'    => Mage::helper('catalog')->__('Position'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Position'),
             'width'     => '1',
             'type'      => 'number',
             'index'     => 'position',

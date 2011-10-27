@@ -52,17 +52,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
         $additionalTypes = array(
             array(
                 'value' => 'price',
-                'label' => Mage::helper('catalog')->__('Price')
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Price')
             ),
             array(
                 'value' => 'media_image',
-                'label' => Mage::helper('catalog')->__('Media Image')
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Media Image')
             )
         );
         if ($attributeObject->getFrontendInput() == 'gallery') {
             $additionalTypes[] = array(
                 'value' => 'gallery',
-                'label' => Mage::helper('catalog')->__('Gallery')
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Gallery')
             );
         }
 
@@ -89,9 +89,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
         $yesnoSource = Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray();
 
         $scopes = array(
-            Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>Mage::helper('catalog')->__('Store View'),
-            Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE =>Mage::helper('catalog')->__('Website'),
-            Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL =>Mage::helper('catalog')->__('Global'),
+            Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>Mage::helper('Mage_Catalog_Helper_Data')->__('Store View'),
+            Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE =>Mage::helper('Mage_Catalog_Helper_Data')->__('Website'),
+            Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL =>Mage::helper('Mage_Catalog_Helper_Data')->__('Global'),
         );
 
         if ($attributeObject->getAttributeCode() == 'status' || $attributeObject->getAttributeCode() == 'tax_class_id') {
@@ -100,99 +100,99 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
 
         $fieldset->addField('is_global', 'select', array(
             'name'  => 'is_global',
-            'label' => Mage::helper('catalog')->__('Scope'),
-            'title' => Mage::helper('catalog')->__('Scope'),
-            'note'  => Mage::helper('catalog')->__('Declare attribute value saving scope'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Scope'),
+            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Scope'),
+            'note'  => Mage::helper('Mage_Catalog_Helper_Data')->__('Declare attribute value saving scope'),
             'values'=> $scopes
         ), 'attribute_code');
 
         $fieldset->addField('apply_to', 'apply', array(
             'name'        => 'apply_to[]',
-            'label'       => Mage::helper('catalog')->__('Apply To'),
+            'label'       => Mage::helper('Mage_Catalog_Helper_Data')->__('Apply To'),
             'values'      => Mage_Catalog_Model_Product_Type::getOptions(),
             'mode_labels' => array(
-                'all'     => Mage::helper('catalog')->__('All Product Types'),
-                'custom'  => Mage::helper('catalog')->__('Selected Product Types')
+                'all'     => Mage::helper('Mage_Catalog_Helper_Data')->__('All Product Types'),
+                'custom'  => Mage::helper('Mage_Catalog_Helper_Data')->__('Selected Product Types')
             ),
             'required'    => true
         ), 'frontend_class');
 
         $fieldset->addField('is_configurable', 'select', array(
             'name' => 'is_configurable',
-            'label' => Mage::helper('catalog')->__('Use To Create Configurable Product'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Use To Create Configurable Product'),
             'values' => $yesnoSource,
         ), 'apply_to');
 
         // frontend properties fieldset
-        $fieldset = $form->addFieldset('front_fieldset', array('legend'=>Mage::helper('catalog')->__('Frontend Properties')));
+        $fieldset = $form->addFieldset('front_fieldset', array('legend'=>Mage::helper('Mage_Catalog_Helper_Data')->__('Frontend Properties')));
 
         $fieldset->addField('is_searchable', 'select', array(
             'name'     => 'is_searchable',
-            'label'    => Mage::helper('catalog')->__('Use in Quick Search'),
-            'title'    => Mage::helper('catalog')->__('Use in Quick Search'),
+            'label'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Use in Quick Search'),
+            'title'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Use in Quick Search'),
             'values'   => $yesnoSource,
         ));
 
         $fieldset->addField('is_visible_in_advanced_search', 'select', array(
             'name' => 'is_visible_in_advanced_search',
-            'label' => Mage::helper('catalog')->__('Use in Advanced Search'),
-            'title' => Mage::helper('catalog')->__('Use in Advanced Search'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Use in Advanced Search'),
+            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Use in Advanced Search'),
             'values' => $yesnoSource,
         ));
 
         $fieldset->addField('is_comparable', 'select', array(
             'name' => 'is_comparable',
-            'label' => Mage::helper('catalog')->__('Comparable on Front-end'),
-            'title' => Mage::helper('catalog')->__('Comparable on Front-end'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Comparable on Front-end'),
+            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Comparable on Front-end'),
             'values' => $yesnoSource,
         ));
 
         $fieldset->addField('is_filterable', 'select', array(
             'name' => 'is_filterable',
-            'label' => Mage::helper('catalog')->__("Use In Layered Navigation"),
-            'title' => Mage::helper('catalog')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
-            'note' => Mage::helper('catalog')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__("Use In Layered Navigation"),
+            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
+            'note' => Mage::helper('Mage_Catalog_Helper_Data')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
             'values' => array(
-                array('value' => '0', 'label' => Mage::helper('catalog')->__('No')),
-                array('value' => '1', 'label' => Mage::helper('catalog')->__('Filterable (with results)')),
-                array('value' => '2', 'label' => Mage::helper('catalog')->__('Filterable (no results)')),
+                array('value' => '0', 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('No')),
+                array('value' => '1', 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Filterable (with results)')),
+                array('value' => '2', 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Filterable (no results)')),
             ),
         ));
 
         $fieldset->addField('is_filterable_in_search', 'select', array(
             'name' => 'is_filterable_in_search',
-            'label' => Mage::helper('catalog')->__("Use In Search Results Layered Navigation"),
-            'title' => Mage::helper('catalog')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
-            'note' => Mage::helper('catalog')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__("Use In Search Results Layered Navigation"),
+            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
+            'note' => Mage::helper('Mage_Catalog_Helper_Data')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
             'values' => $yesnoSource,
         ));
 
         $fieldset->addField('is_used_for_promo_rules', 'select', array(
             'name' => 'is_used_for_promo_rules',
-            'label' => Mage::helper('catalog')->__('Use for Promo Rule Conditions'),
-            'title' => Mage::helper('catalog')->__('Use for Promo Rule Conditions'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Use for Promo Rule Conditions'),
+            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Use for Promo Rule Conditions'),
             'values' => $yesnoSource,
         ));
 
         $fieldset->addField('position', 'text', array(
             'name' => 'position',
-            'label' => Mage::helper('catalog')->__('Position'),
-            'title' => Mage::helper('catalog')->__('Position in Layered Navigation'),
-            'note' => Mage::helper('catalog')->__('Position of attribute in layered navigation block'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Position'),
+            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Position in Layered Navigation'),
+            'note' => Mage::helper('Mage_Catalog_Helper_Data')->__('Position of attribute in layered navigation block'),
             'class' => 'validate-digits',
         ));
 
         $fieldset->addField('is_wysiwyg_enabled', 'select', array(
             'name' => 'is_wysiwyg_enabled',
-            'label' => Mage::helper('catalog')->__('Enable WYSIWYG'),
-            'title' => Mage::helper('catalog')->__('Enable WYSIWYG'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Enable WYSIWYG'),
+            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Enable WYSIWYG'),
             'values' => $yesnoSource,
         ));
 
         $htmlAllowed = $fieldset->addField('is_html_allowed_on_front', 'select', array(
             'name' => 'is_html_allowed_on_front',
-            'label' => Mage::helper('catalog')->__('Allow HTML Tags on Frontend'),
-            'title' => Mage::helper('catalog')->__('Allow HTML Tags on Frontend'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Allow HTML Tags on Frontend'),
+            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Allow HTML Tags on Frontend'),
             'values' => $yesnoSource,
         ));
         if (!$attributeObject->getId() || $attributeObject->getIsWysiwygEnabled()) {
@@ -201,23 +201,23 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
 
         $fieldset->addField('is_visible_on_front', 'select', array(
             'name'      => 'is_visible_on_front',
-            'label'     => Mage::helper('catalog')->__('Visible on Product View Page on Front-end'),
-            'title'     => Mage::helper('catalog')->__('Visible on Product View Page on Front-end'),
+            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Visible on Product View Page on Front-end'),
+            'title'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Visible on Product View Page on Front-end'),
             'values'    => $yesnoSource,
         ));
 
         $fieldset->addField('used_in_product_listing', 'select', array(
             'name'      => 'used_in_product_listing',
-            'label'     => Mage::helper('catalog')->__('Used in Product Listing'),
-            'title'     => Mage::helper('catalog')->__('Used in Product Listing'),
-            'note'      => Mage::helper('catalog')->__('Depends on design theme'),
+            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Used in Product Listing'),
+            'title'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Used in Product Listing'),
+            'note'      => Mage::helper('Mage_Catalog_Helper_Data')->__('Depends on design theme'),
             'values'    => $yesnoSource,
         ));
         $fieldset->addField('used_for_sort_by', 'select', array(
             'name'      => 'used_for_sort_by',
-            'label'     => Mage::helper('catalog')->__('Used for Sorting in Product Listing'),
-            'title'     => Mage::helper('catalog')->__('Used for Sorting in Product Listing'),
-            'note'      => Mage::helper('catalog')->__('Depends on design theme'),
+            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Used for Sorting in Product Listing'),
+            'title'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Used for Sorting in Product Listing'),
+            'note'      => Mage::helper('Mage_Catalog_Helper_Data')->__('Depends on design theme'),
             'values'    => $yesnoSource,
         ));
 

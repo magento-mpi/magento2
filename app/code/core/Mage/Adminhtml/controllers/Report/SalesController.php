@@ -43,8 +43,8 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
     public function _initAction()
     {
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))
-            ->_addBreadcrumb(Mage::helper('reports')->__('Sales'), Mage::helper('reports')->__('Sales'));
+            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Reports'), Mage::helper('Mage_Reports_Helper_Data')->__('Reports'))
+            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Sales'), Mage::helper('Mage_Reports_Helper_Data')->__('Sales'));
         return $this;
     }
 
@@ -54,7 +54,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
             $blocks = array($blocks);
         }
 
-        $requestData = Mage::helper('adminhtml')->prepareFilterString($this->getRequest()->getParam('filter'));
+        $requestData = Mage::helper('Mage_Adminhtml_Helper_Data')->prepareFilterString($this->getRequest()->getParam('filter'));
         $requestData = $this->_filterDates($requestData, array('from', 'to'));
         $requestData['store_ids'] = $this->getRequest()->getParam('store_ids');
         $params = new Varien_Object();
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
         $this->_initAction()
             ->_setActiveMenu('report/sales/sales')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Sales Report'), Mage::helper('adminhtml')->__('Sales Report'));
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Sales Report'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Sales Report'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_sales.grid');
         $filterFormBlock = $this->getLayout()->getBlock('grid.filter.form');
@@ -104,7 +104,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
         $this->_initAction()
             ->_setActiveMenu('report/sales/bestsellers')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Products Bestsellers Report'), Mage::helper('adminhtml')->__('Products Bestsellers Report'));
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Products Bestsellers Report'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Products Bestsellers Report'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_bestsellers.grid');
         $filterFormBlock = $this->getLayout()->getBlock('grid.filter.form');
@@ -162,7 +162,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
         $refreshStatsLink = $this->getUrl('*/*/refreshstatistics');
         $directRefreshLink = $this->getUrl('*/*/refreshRecent', array('code' => $refreshCode));
 
-        Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('adminhtml')->__('Last updated: %s. To refresh last day\'s <a href="%s">statistics</a>, click <a href="%s">here</a>.', $updatedAt, $refreshStatsLink, $directRefreshLink));
+        Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Last updated: %s. To refresh last day\'s <a href="%s">statistics</a>, click <a href="%s">here</a>.', $updatedAt, $refreshStatsLink, $directRefreshLink));
         return $this;
     }
 
@@ -218,7 +218,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
         $this->_initAction()
             ->_setActiveMenu('report/sales/tax')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Tax'), Mage::helper('adminhtml')->__('Tax'));
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Tax'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Tax'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_tax.grid');
         $filterFormBlock = $this->getLayout()->getBlock('grid.filter.form');
@@ -261,7 +261,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
         $this->_initAction()
             ->_setActiveMenu('report/sales/shipping')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Shipping'), Mage::helper('adminhtml')->__('Shipping'));
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Shipping'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Shipping'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_shipping.grid');
         $filterFormBlock = $this->getLayout()->getBlock('grid.filter.form');
@@ -304,7 +304,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
         $this->_initAction()
             ->_setActiveMenu('report/sales/invoiced')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Total Invoiced'), Mage::helper('adminhtml')->__('Total Invoiced'));
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total Invoiced'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total Invoiced'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_invoiced.grid');
         $filterFormBlock = $this->getLayout()->getBlock('grid.filter.form');
@@ -347,7 +347,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
         $this->_initAction()
             ->_setActiveMenu('report/sales/refunded')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Total Refunded'), Mage::helper('adminhtml')->__('Total Refunded'));
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total Refunded'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total Refunded'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_refunded.grid');
         $filterFormBlock = $this->getLayout()->getBlock('grid.filter.form');
@@ -390,7 +390,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
         $this->_initAction()
             ->_setActiveMenu('report/sales/coupons')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Coupons'), Mage::helper('adminhtml')->__('Coupons'));
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Coupons'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Coupons'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_coupons.grid');
         $filterFormBlock = $this->getLayout()->getBlock('grid.filter.form');

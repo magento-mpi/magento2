@@ -35,7 +35,7 @@
     <thead>
         <tr>
             <th><?php echo $this->escapeHtml($this->getFieldsetLabel()) ?></th>
-            <th class="paypal-selection-info"><a href="<?php echo $this->escapeHtml($this->getFieldsetHelpUrl()) ?>"><?php echo Mage::helper('paypal')->__('Help')?></a></th>
+            <th class="paypal-selection-info"><a href="<?php echo $this->escapeHtml($this->getFieldsetHelpUrl()) ?>"><?php echo Mage::helper('Mage_Paypal_Helper_Data')->__('Help')?></a></th>
         </tr>
     </thead>
     <tbody>
@@ -57,10 +57,10 @@
             </td>
             <td class="paypal-selection-info">
                 <?php if ($url = $this->getElementOriginalData($element, 'demo_url')):?>
-                    <a href="<?php echo $this->escapeHtml($url) ?>"><?php echo Mage::helper('paypal')->__('View Demo')?></a> |
+                    <a href="<?php echo $this->escapeHtml($url) ?>"><?php echo Mage::helper('Mage_Paypal_Helper_Data')->__('View Demo')?></a> |
                 <?php endif;?>
                 <?php if ($url = $this->getElementOriginalData($element, 'more_url')):?>
-                    <a href="<?php echo $this->escapeHtml($url) ?>"><?php echo Mage::helper('paypal')->__('Learn More')?></a>
+                    <a href="<?php echo $this->escapeHtml($url) ?>"><?php echo Mage::helper('Mage_Paypal_Helper_Data')->__('Learn More')?></a>
                 <?php endif;?>
             </td>
         <?php endif;?>

@@ -57,7 +57,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Notification
 
         $this->setForm($form);
 
-        $data = Mage::helper('xmlconnect')->getApplication()->getFormData();
+        $data = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getFormData();
 
         $yesNoValues = Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray();
 
@@ -187,7 +187,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Notification
     public function canShowTab()
     {
         return (bool) !Mage::getSingleton('adminhtml/session')->getNewApplication()
-            && Mage::helper('xmlconnect')->isNotificationsAllowed();
+            && Mage::helper('Mage_XmlConnect_Helper_Data')->isNotificationsAllowed();
     }
 
     /**

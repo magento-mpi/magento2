@@ -215,7 +215,7 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
         /* @var $resource Enterprise_Cms_Model_Resource_Page_Revision */
         if ($resource->isRevisionPublished($this)) {
             Mage::throwException(
-                Mage::helper('enterprise_cms')->__('Revision #%s could not be removed because it is published.', $this->getRevisionNumber())
+                Mage::helper('Enterprise_Cms_Helper_Data')->__('Revision #%s could not be removed because it is published.', $this->getRevisionNumber())
             );
         }
     }

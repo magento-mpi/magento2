@@ -75,7 +75,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
 
         return array(
             'value' => $conditions,
-            'label' => Mage::helper('enterprise_customersegment')->__('Order Address Attributes')
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Order Address Attributes')
         );
     }
 
@@ -186,7 +186,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
      */
     public function asHtml()
     {
-        return Mage::helper('enterprise_customersegment')->__('Order Address %s', parent::asHtml());
+        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Order Address %s', parent::asHtml());
     }
 
     /**

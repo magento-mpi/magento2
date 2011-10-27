@@ -63,7 +63,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit extends Mage_Adminhtml_Bloc
             $this->setChild('rollback_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
-                        'label'     => Mage::helper('enterprise_staging')->__('Rollback'),
+                        'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Rollback'),
                         'onclick'   => 'enterpriseRollbackForm.submit()',
                         'class'  => 'add'
                     ))
@@ -72,7 +72,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit extends Mage_Adminhtml_Bloc
             $this->setChild('rollback_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
-                        'label'     => Mage::helper('enterprise_staging')->__('Rollback'),
+                        'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Rollback'),
                         'class'  => 'disabled'
                     ))
             );
@@ -81,7 +81,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit extends Mage_Adminhtml_Bloc
         $this->setChild('back_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('enterprise_staging')->__('Back'),
+                    'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Back'),
                     'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
                     'class' => 'back'
                 ))
@@ -90,7 +90,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit extends Mage_Adminhtml_Bloc
         $this->setChild('reset_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('enterprise_staging')->__('Reset'),
+                    'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Reset'),
                     'onclick'   => 'setLocation(\''.$this->getUrl('*/*/*', array('_current'=>true)).'\')'
                 ))
         );
@@ -98,8 +98,8 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit extends Mage_Adminhtml_Bloc
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('enterprise_staging')->__('Delete'),
-                    'onclick'   => 'confirmSetLocation(\''.Mage::helper('enterprise_staging')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
+                    'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Delete'),
+                    'onclick'   => 'confirmSetLocation(\''.Mage::helper('Enterprise_Staging_Helper_Data')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
                     'class'  => 'delete'
                 ))
         );

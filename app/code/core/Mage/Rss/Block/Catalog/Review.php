@@ -65,7 +65,7 @@ class Mage_Rss_Block_Catalog_Review extends Mage_Rss_Block_Abstract
     {
         $newUrl = Mage::getUrl('rss/catalog/review');
         /* @var $helper Mage_Rss_Helper_Data */
-        $helper = Mage::helper('rss');
+        $helper = Mage::helper('Mage_Rss_Helper_Data');
         $title = $helper->__('Pending product review(s)');
         $helper->disableFlat();
 
@@ -108,7 +108,7 @@ class Mage_Rss_Block_Catalog_Review extends Mage_Rss_Block_Abstract
         $store = Mage::app()->getStore($row['store_id']);
         $urlModel = Mage::getModel('core/url')->setStore($store);
         $productUrl = $urlModel->getUrl('catalog/product/view', array('id' => $row['entity_id']));
-        $reviewUrl = Mage::helper('adminhtml')->getUrl(
+        $reviewUrl = Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl(
             'adminhtml/catalog_product_review/edit/',
             array('id' => $row['review_id'], '_secure' => true, '_nosecret' => true));
         $storeName = $store->getName();

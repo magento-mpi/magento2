@@ -338,7 +338,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
         $key    = 'rma_id';
         $method = 'getId';
         $param = array(
-             'hash' => Mage::helper('core')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
+             'hash' => Mage::helper('Mage_Core_Helper_Data')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
         );
 
          $storeId = is_object($model) ? $model->getStoreId() : null;
@@ -372,7 +372,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
     protected function _getTrackingUrl($key, $model, $method = 'getId')
     {
          $param = array(
-             'hash' => Mage::helper('core')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
+             'hash' => Mage::helper('Mage_Core_Helper_Data')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
          );
 
          $storeId = is_object($model) ? $model->getStoreId() : null;
@@ -388,7 +388,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function decodeTrackingHash($hash)
     {
-        $hash = explode(':', Mage::helper('core')->urlDecode($hash));
+        $hash = explode(':', Mage::helper('Mage_Core_Helper_Data')->urlDecode($hash));
         if (count($hash) === 3 && in_array($hash[0], $this->_allowedHashKeys)) {
             return array('key' => $hash[0], 'id' => (int)$hash[1], 'hash' => $hash[2]);
         }
@@ -430,7 +430,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
         $storeDate = Mage::app()->getLocale()
             ->storeDate(Mage::app()->getStore(), Varien_Date::toTimestamp($date), true);
 
-        return Mage::helper('core')
+        return Mage::helper('Mage_Core_Helper_Data')
             ->formatDateRespectTimezone($storeDate, Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
     }
 

@@ -345,7 +345,7 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
                 return $resourceAdapter;
             }
         }
-        throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Wrong item resource adapter model.'));
+        throw new Enterprise_Staging_Exception(Mage::helper('Enterprise_Staging_Helper_Data')->__('Wrong item resource adapter model.'));
     }
 
     /**

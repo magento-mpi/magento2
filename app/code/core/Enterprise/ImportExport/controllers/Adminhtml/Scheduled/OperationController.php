@@ -93,7 +93,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
     {
         $operationType = $this->getRequest()->getParam('type');
         $this->_initAction()
-            ->_title(Mage::helper('enterprise_importexport')->getOperationHeaderText($operationType, 'new'));
+            ->_title(Mage::helper('Enterprise_ImportExport_Helper_Data')->getOperationHeaderText($operationType, 'new'));
 
         $this->renderLayout();
     }
@@ -107,7 +107,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
     {
         $this->_initAction();
         $operationType = Mage::registry('current_operation')->getOperationType();
-        $this->_title(Mage::helper('enterprise_importexport')->getOperationHeaderText($operationType, 'edit'));
+        $this->_title(Mage::helper('Enterprise_ImportExport_Helper_Data')->getOperationHeaderText($operationType, 'edit'));
 
         $this->renderLayout();
     }
@@ -141,7 +141,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
                 $operation = Mage::getModel('enterprise_importexport/scheduled_operation')->setData($data);
                 $operation->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('enterprise_importexport')->getSuccessSaveMessage($operation->getOperationType())
+                    Mage::helper('Enterprise_ImportExport_Helper_Data')->getSuccessSaveMessage($operation->getOperationType())
                 );
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -168,7 +168,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
             try {
                 Mage::getModel('enterprise_importexport/scheduled_operation')->setId($id)->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('enterprise_importexport')->getSuccessDeleteMessage($request->getParam('type'))
+                    Mage::helper('Enterprise_ImportExport_Helper_Data')->getSuccessDeleteMessage($request->getParam('type'))
                 );
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -316,10 +316,10 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
 
         if ($result) {
             $this->_getSession()
-                ->addSuccess(Mage::helper('enterprise_importexport')->__('Operation has been successfully run'));
+                ->addSuccess(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Operation has been successfully run'));
         } else {
             $this->_getSession()
-                ->addError(Mage::helper('enterprise_importexport')->__('Unable to run operation'));
+                ->addError(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unable to run operation'));
         }
 
         $this->_redirect('*/*/index');
@@ -336,10 +336,10 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
         $result = Mage::getModel('enterprise_importexport/observer')->scheduledLogClean($schedule, true);
         if ($result) {
             $this->_getSession()
-                ->addSuccess(Mage::helper('enterprise_importexport')->__('History files have been deleted'));
+                ->addSuccess(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('History files have been deleted'));
         } else {
             $this->_getSession()
-                ->addError(Mage::helper('enterprise_importexport')->__('Unable to delete history files'));
+                ->addError(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unable to delete history files'));
         }
         $this->_redirect('*/system_config/edit', array('section' => $this->getRequest()->getParam('section')));
     }

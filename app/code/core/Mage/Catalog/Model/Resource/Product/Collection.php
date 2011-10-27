@@ -156,7 +156,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      */
     public function getFlatHelper()
     {
-        return Mage::helper('catalog/product_flat');
+        return Mage::helper('Mage_Catalog_Helper_Product_Flat');
     }
 
     /**
@@ -1039,7 +1039,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
 
             return $this;
         }
-        if (!Mage::helper('catalog')->isModuleEnabled('Mage_CatalogRule')) {
+        if (!Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogRule')) {
             return $this;
         }
         $wId = Mage::app()->getWebsite()->getId();

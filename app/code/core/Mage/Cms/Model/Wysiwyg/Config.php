@@ -68,7 +68,7 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
             'add_variables'                 => true,
             'add_widgets'                   => true,
             'no_display'                    => false,
-            'translator'                    => Mage::helper('cms'),
+            'translator'                    => Mage::helper('Mage_Cms_Helper_Data'),
             'encode_directives'             => true,
             'directives_url'                => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_wysiwyg/directive'),
             'popup_css'                     =>

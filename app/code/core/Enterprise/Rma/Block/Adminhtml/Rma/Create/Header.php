@@ -42,11 +42,11 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create_Header extends Enterprise_Rma_Bl
         if ($customerId && $storeId) {
             $storeName      = Mage::app()->getStore($storeId)->getName();
             $customerName   = $this->getCustomerName();
-            $out .= Mage::helper('enterprise_rma')->__('Create New RMA for %s in %s', $customerName, $storeName);
+            $out .= Mage::helper('Enterprise_Rma_Helper_Data')->__('Create New RMA for %s in %s', $customerName, $storeName);
         } elseif ($customerId) {
-            $out.= Mage::helper('enterprise_rma')->__('Create New RMA for %s', $this->getCustomerName());
+            $out.= Mage::helper('Enterprise_Rma_Helper_Data')->__('Create New RMA for %s', $this->getCustomerName());
         } else {
-            $out.= Mage::helper('enterprise_rma')->__('Create New RMA');
+            $out.= Mage::helper('Enterprise_Rma_Helper_Data')->__('Create New RMA');
         }
         $out = $this->escapeHtml($out);
         $out = '<h3 class="icon-head head-sales-order">' . $out . '</h3>';

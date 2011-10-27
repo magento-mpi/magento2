@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-        <rss translate="label" module="rss">
+        <rss translate="label" module="Mage_Rss">
             <label>RSS Feeds</label>
             <tab>catalog</tab>
             <frontend_type>text</frontend_type>

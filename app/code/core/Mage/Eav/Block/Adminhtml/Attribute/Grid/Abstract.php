@@ -52,38 +52,38 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Grid_Abstract extends Mage_Adm
         parent::_prepareColumns();
 
         $this->addColumn('attribute_code', array(
-            'header'=>Mage::helper('eav')->__('Attribute Code'),
+            'header'=>Mage::helper('Mage_Eav_Helper_Data')->__('Attribute Code'),
             'sortable'=>true,
             'index'=>'attribute_code'
         ));
 
         $this->addColumn('frontend_label', array(
-            'header'=>Mage::helper('eav')->__('Attribute Label'),
+            'header'=>Mage::helper('Mage_Eav_Helper_Data')->__('Attribute Label'),
             'sortable'=>true,
             'index'=>'frontend_label'
         ));
 
         $this->addColumn('is_required', array(
-            'header'=>Mage::helper('eav')->__('Required'),
+            'header'=>Mage::helper('Mage_Eav_Helper_Data')->__('Required'),
             'sortable'=>true,
             'index'=>'is_required',
             'type' => 'options',
             'options' => array(
-                '1' => Mage::helper('eav')->__('Yes'),
-                '0' => Mage::helper('eav')->__('No'),
+                '1' => Mage::helper('Mage_Eav_Helper_Data')->__('Yes'),
+                '0' => Mage::helper('Mage_Eav_Helper_Data')->__('No'),
             ),
             'align' => 'center',
         ));
 
         $this->addColumn('is_user_defined', array(
-            'header'=>Mage::helper('eav')->__('System'),
+            'header'=>Mage::helper('Mage_Eav_Helper_Data')->__('System'),
             'sortable'=>true,
             'index'=>'is_user_defined',
             'type' => 'options',
             'align' => 'center',
             'options' => array(
-                '0' => Mage::helper('eav')->__('Yes'),   // intended reverted use
-                '1' => Mage::helper('eav')->__('No'),    // intended reverted use
+                '0' => Mage::helper('Mage_Eav_Helper_Data')->__('Yes'),   // intended reverted use
+                '1' => Mage::helper('Mage_Eav_Helper_Data')->__('No'),    // intended reverted use
             ),
         ));
 

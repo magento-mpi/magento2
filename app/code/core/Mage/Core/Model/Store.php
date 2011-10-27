@@ -554,7 +554,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                     break;
 
                 default:
-                    throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid base url type'));
+                    throw Mage::exception('Mage_Core', Mage::helper('Mage_Core_Helper_Data')->__('Invalid base url type'));
             }
 
             if (false !== strpos($url, '{{base_url}}')) {
@@ -601,7 +601,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         $secureStringFlag = $secure ? 'secure' : 'unsecure';
         $url = $this->getConfig('web/' . $secureStringFlag . '/base_' . $type . '_url');
         if (!$this->getConfig(self::XML_PATH_USE_REWRITES)
-            && Mage::helper('core/file_storage_database')->checkDbUsage()
+            && Mage::helper('Mage_Core_Helper_File_Storage_Database')->checkDbUsage()
         ) {
             $urlStart = $this->getConfig('web/' . $secureStringFlag . '/base_url');
             $url = str_replace($urlStart, $urlStart . self::MEDIA_REWRITE_SCRIPT, $url);

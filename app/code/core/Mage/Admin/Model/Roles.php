@@ -90,7 +90,7 @@ class Mage_Admin_Model_Roles extends Mage_Core_Model_Abstract
     }
 
     protected function _buildResourcesArray(Varien_Simplexml_Element $resource = null,
-        $parentName = null, $level = 0, $represent2Darray = null, $rawNodes = false, $module = 'adminhtml')
+        $parentName = null, $level = 0, $represent2Darray = null, $rawNodes = false, $module = 'Mage_Adminhtml')
     {
         static $result;
         if (is_null($resource)) {

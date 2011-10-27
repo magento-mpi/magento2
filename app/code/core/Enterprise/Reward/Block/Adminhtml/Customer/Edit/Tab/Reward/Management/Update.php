@@ -56,45 +56,45 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Upda
         $form->setHtmlIdPrefix('reward_');
         $form->setFieldNameSuffix('reward');
         $fieldset = $form->addFieldset('update_fieldset', array(
-            'legend' => Mage::helper('enterprise_reward')->__('Update Reward Points Balance')
+            'legend' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Update Reward Points Balance')
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('store', 'select', array(
                 'name'  => 'store_id',
-                'title' => Mage::helper('enterprise_reward')->__('Store'),
-                'label' => Mage::helper('enterprise_reward')->__('Store'),
+                'title' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Store'),
+                'label' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Store'),
                 'values' => $this->_getStoreValues()
             ));
         }
 
         $fieldset->addField('points_delta', 'text', array(
             'name'  => 'points_delta',
-            'title' => Mage::helper('enterprise_reward')->__('Update Points'),
-            'label' => Mage::helper('enterprise_reward')->__('Update Points'),
-            'note'  => Mage::helper('enterprise_reward')->__('Enter a negative number to subtract from balance.')
+            'title' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Update Points'),
+            'label' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Update Points'),
+            'note'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Enter a negative number to subtract from balance.')
         ));
 
         $fieldset->addField('comment', 'text', array(
             'name'  => 'comment',
-            'title' => Mage::helper('enterprise_reward')->__('Comment'),
-            'label' => Mage::helper('enterprise_reward')->__('Comment')
+            'title' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Comment'),
+            'label' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Comment')
         ));
 
         $fieldset = $form->addFieldset('notification_fieldset', array(
-            'legend' => Mage::helper('enterprise_reward')->__('Reward Points Notifications')
+            'legend' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Reward Points Notifications')
         ));
 
         $fieldset->addField('update_notification', 'checkbox', array(
             'name'    => 'reward_update_notification',
-            'label'   => Mage::helper('enterprise_reward')->__('Subscribe for balance updates'),
+            'label'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Subscribe for balance updates'),
             'checked' => (bool)$this->getCustomer()->getRewardUpdateNotification(),
             'value'   => 1
         ));
 
         $fieldset->addField('warning_notification', 'checkbox', array(
             'name'    => 'reward_warning_notification',
-            'label'   => Mage::helper('enterprise_reward')->__('Subscribe for points expiration notifications'),
+            'label'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Subscribe for points expiration notifications'),
             'checked' => (bool)$this->getCustomer()->getRewardWarningNotification(),
             'value' => 1
         ));

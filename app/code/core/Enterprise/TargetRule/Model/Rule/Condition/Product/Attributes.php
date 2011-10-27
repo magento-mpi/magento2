@@ -75,7 +75,7 @@ class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
 
         return array(
             'value' => $conditions,
-            'label' => Mage::helper('enterprise_targetrule')->__('Product Attributes')
+            'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Product Attributes')
         );
     }
 }

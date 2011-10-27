@@ -61,37 +61,37 @@
         </helpers>
         <template>
             <email>
-                <sales_email_enterprise_rma_template translate="label" module="enterprise_rma">
+                <sales_email_enterprise_rma_template translate="label" module="Enterprise_Rma">
                     <label>New RMA</label>
                     <file>enterprise/rma_new.html</file>
                     <type>html</type>
                 </sales_email_enterprise_rma_template>
-                <sales_email_enterprise_rma_guest_template translate="label" module="enterprise_rma">
+                <sales_email_enterprise_rma_guest_template translate="label" module="Enterprise_Rma">
                     <label>New RMA for Guest</label>
                     <file>enterprise/rma_new_guest.html</file>
                     <type>html</type>
                 </sales_email_enterprise_rma_guest_template>
-                <sales_email_enterprise_rma_auth_template translate="label" module="enterprise_rma">
+                <sales_email_enterprise_rma_auth_template translate="label" module="Enterprise_Rma">
                     <label>RMA Authorization</label>
                     <file>enterprise/rma_auth.html</file>
                     <type>html</type>
                 </sales_email_enterprise_rma_auth_template>
-                <sales_email_enterprise_rma_auth_guest_template translate="label" module="enterprise_rma">
+                <sales_email_enterprise_rma_auth_guest_template translate="label" module="Enterprise_Rma">
                     <label>RMA Authorization for Guest</label>
                     <file>enterprise/rma_auth_guest.html</file>
                     <type>html</type>
                 </sales_email_enterprise_rma_auth_guest_template>
-                <sales_email_enterprise_rma_comment_template translate="label" module="enterprise_rma">
+                <sales_email_enterprise_rma_comment_template translate="label" module="Enterprise_Rma">
                     <label>RMA Admin Comments</label>
                     <file>enterprise/rma_comment.html</file>
                     <type>html</type>
                 </sales_email_enterprise_rma_comment_template>
-                <sales_email_enterprise_rma_comment_guest_template translate="label" module="enterprise_rma">
+                <sales_email_enterprise_rma_comment_guest_template translate="label" module="Enterprise_Rma">
                     <label>RMA Admin Comments for Guest</label>
                     <file>enterprise/rma_comment_guest.html</file>
                     <type>html</type>
                 </sales_email_enterprise_rma_comment_guest_template>
-                <sales_email_enterprise_rma_customer_comment_template translate="label" module="enterprise_rma">
+                <sales_email_enterprise_rma_customer_comment_template translate="label" module="Enterprise_Rma">
                     <label>RMA Customer Comments</label>
                     <file>enterprise/rma_customer_comment.html</file>
                     <type>html</type>

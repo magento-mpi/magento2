@@ -45,7 +45,7 @@ class Mage_Tax_Block_Adminhtml_Frontend_Region_Updater
                }
                </script>';
 
-        $html .= sprintf($js, $this->helper('directory')->getRegionJson());
+        $html .= sprintf($js, $this->helper('Mage_Directory_Helper_Data')->getRegionJson());
         return $html;
     }
 }

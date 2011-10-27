@@ -199,7 +199,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
         /**
          * Receive available methods for checkout
          */
-        $allAvailableMethods  = Mage::helper('payment')->getStoreMethods(
+        $allAvailableMethods  = Mage::helper('Mage_Payment_Helper_Data')->getStoreMethods(
             Mage::app()->getStore(), $this->getQuote()
         );
 
@@ -248,7 +248,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
                         continue;
                     }
                     try {
-                        $method = Mage::helper('payment')->getMethodInstance($methodCode);
+                        $method = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance($methodCode);
                         if (!is_subclass_of($method, $methodModelClassName)) {
                             continue;
                         }

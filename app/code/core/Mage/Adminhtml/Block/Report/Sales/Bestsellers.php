@@ -38,12 +38,12 @@ class Mage_Adminhtml_Block_Report_Sales_Bestsellers extends Mage_Adminhtml_Block
     public function __construct()
     {
         $this->_controller = 'report_sales_bestsellers';
-        $this->_headerText = Mage::helper('sales')->__('Products Bestsellers Report');
+        $this->_headerText = Mage::helper('Mage_Sales_Helper_Data')->__('Products Bestsellers Report');
         parent::__construct();
         $this->setTemplate('report/grid/container.phtml');
         $this->_removeButton('add');
         $this->addButton('filter_form_submit', array(
-            'label'     => Mage::helper('reports')->__('Show Report'),
+            'label'     => Mage::helper('Mage_Reports_Helper_Data')->__('Show Report'),
             'onclick'   => 'filterFormSubmit()'
         ));
     }

@@ -74,17 +74,17 @@ class Mage_GoogleShopping_Model_MassOperations
                     }
                 } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
                     // Google requires CAPTCHA for login
-                    $this->_getSession()->addError(Mage::helper('googleshopping')->__($e->getMessage()));
+                    $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__($e->getMessage()));
                     throw $e;
                 } catch (Zend_Gdata_App_Exception $e) {
                     $this->_addGeneralError();
                     $this->_getSession()->addError(
-                        Mage::helper('googleshopping')->parseGdataExceptionMessage($e->getMessage(), $product)
+                        Mage::helper('Mage_GoogleShopping_Helper_Data')->parseGdataExceptionMessage($e->getMessage(), $product)
                     );
                 } catch (Zend_Db_Statement_Exception $e) {
                     if ($e->getCode() == self::ERROR_CODE_SQL_UNIQUE_INDEX) {
                         $this->_getSession()->addError(
-                            Mage::helper('googleshopping')->__("The Google Content item for product '%s' (in '%s' store) has already exist.",
+                            Mage::helper('Mage_GoogleShopping_Helper_Data')->__("The Google Content item for product '%s' (in '%s' store) has already exist.",
                                 $product->getName(),
                                 Mage::app()->getStore($product->getStoreId())->getName()
                             )
@@ -95,7 +95,7 @@ class Mage_GoogleShopping_Model_MassOperations
                 } catch (Exception $e) {
                     Mage::logException($e);
                     $this->_getSession()->addError(
-                        Mage::helper('googleshopping')->__('The product "%s" hasn\'t been added to Google Content.', $product->getName())
+                        Mage::helper('Mage_GoogleShopping_Helper_Data')->__('The product "%s" hasn\'t been added to Google Content.', $product->getName())
                     );
                 }
             }
@@ -106,14 +106,14 @@ class Mage_GoogleShopping_Model_MassOperations
 
         if ($totalAdded > 0) {
             $this->_getSession()->addSuccess(
-                Mage::helper('googleshopping')->__('Total of %d product(s) have been added to Google Content.', $totalAdded)
+                Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Total of %d product(s) have been added to Google Content.', $totalAdded)
             );
         } elseif (is_null($productIds)) {
             $this->_getSession()->addError(
-                Mage::helper('googleshopping')->__('Session expired during export. Please revise exported products and repeat the process if necessary.')
+                Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Session expired during export. Please revise exported products and repeat the process if necessary.')
             );
         } else {
-            $this->_getSession()->addError(Mage::helper('googleshopping')->__('No products were added to Google Content'));
+            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('No products were added to Google Content'));
         }
 
         return $this;
@@ -151,7 +151,7 @@ class Mage_GoogleShopping_Model_MassOperations
                     } else {
                         $this->_addGeneralError();
                         $this->_getSession()->addError(
-                            Mage::helper('googleshopping')
+                            Mage::helper('Mage_GoogleShopping_Helper_Data')
                                 ->parseGdataExceptionMessage($e->getMessage(), $item->getProduct())
                         );
                         $totalFailed++;
@@ -163,14 +163,14 @@ class Mage_GoogleShopping_Model_MassOperations
                 } catch (Zend_Gdata_App_Exception $e) {
                     $this->_addGeneralError();
                     $this->_getSession()->addError(
-                        Mage::helper('googleshopping')
+                        Mage::helper('Mage_GoogleShopping_Helper_Data')
                             ->parseGdataExceptionMessage($e->getMessage(), $item->getProduct())
                     );
                     $totalFailed++;
                 } catch (Exception $e) {
                     Mage::logException($e);
                     $this->_getSession()->addError(
-                        Mage::helper('googleshopping')->__('The item "%s" hasn\'t been updated.', $item->getProduct()->getName())
+                        Mage::helper('Mage_GoogleShopping_Helper_Data')->__('The item "%s" hasn\'t been updated.', $item->getProduct()->getName())
                     );
                     $totalFailed++;
                 }
@@ -180,10 +180,10 @@ class Mage_GoogleShopping_Model_MassOperations
         }
 
         $this->_getSession()->addSuccess(
-            Mage::helper('googleshopping')->__('Total of %d items(s) have been deleted; total of %d items(s) have been updated.', $totalDeleted, $totalUpdated)
+            Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Total of %d items(s) have been deleted; total of %d items(s) have been updated.', $totalDeleted, $totalUpdated)
         );
         if ($totalFailed > 0) {
-            $this->_getSession()->addNotice(Mage::helper('googleshopping')->__("Cannot update %s items.", $totalFailed));
+            $this->_getSession()->addNotice(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("Cannot update %s items.", $totalFailed));
         }
 
         return $this;
@@ -216,13 +216,13 @@ class Mage_GoogleShopping_Model_MassOperations
                 } catch (Zend_Gdata_App_Exception $e) {
                     $this->_addGeneralError();
                     $this->_getSession()->addError(
-                        Mage::helper('googleshopping')
+                        Mage::helper('Mage_GoogleShopping_Helper_Data')
                             ->parseGdataExceptionMessage($e->getMessage(), $item->getProduct())
                     );
                 } catch (Exception $e) {
                     Mage::logException($e);
                     $this->_getSession()->addError(
-                        Mage::helper('googleshopping')->__('The item "%s" hasn\'t been deleted.', $item->getProduct()->getName())
+                        Mage::helper('Mage_GoogleShopping_Helper_Data')->__('The item "%s" hasn\'t been deleted.', $item->getProduct()->getName())
                     );
                 }
             }
@@ -232,10 +232,10 @@ class Mage_GoogleShopping_Model_MassOperations
 
         if ($totalDeleted > 0) {
             $this->_getSession()->addSuccess(
-                Mage::helper('googleshopping')->__('Total of %d items(s) have been removed from Google Content.', $totalDeleted)
+                Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Total of %d items(s) have been removed from Google Content.', $totalDeleted)
             );
         } else {
-            $this->_getSession()->addError(Mage::helper('googleshopping')->__('No items were deleted from Google Content'));
+            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('No items were deleted from Google Content'));
         }
 
         return $this;
@@ -277,7 +277,7 @@ class Mage_GoogleShopping_Model_MassOperations
     protected function _addGeneralError()
     {
         if (!$this->_hasError) {
-            $this->_getSession()->addError(Mage::helper('googleshopping/category')->getMessage());
+            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Category')->getMessage());
             $this->_hasError = true;
         }
     }

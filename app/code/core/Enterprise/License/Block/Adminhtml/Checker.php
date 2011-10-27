@@ -59,7 +59,7 @@ class Enterprise_License_Block_Adminhtml_Checker extends Mage_Core_Block_Templat
      */
     public function shouldDispalyNotification()
     {
-        $enterprise_license=Mage::helper('enterprise_license');
+        $enterprise_license=Mage::helper('Enterprise_License_Helper_Data');
         if($enterprise_license->isIoncubeLoaded() && $enterprise_license->isIoncubeEncoded()) {
             return ($this->_daysLeftBeforeExpired < 31);
         } else {
@@ -90,11 +90,11 @@ class Enterprise_License_Block_Adminhtml_Checker extends Mage_Core_Block_Templat
         $days = $this->getDaysLeftBeforeExpired();
 
         if($days < 0) {
-            $message = Mage::helper('enterprise_license')->__('Your Magento Enteprise Edition license expired. Please contact <a href="mailto:sales@varien.com">sales@varien.com</a> to renew the license.');
+            $message = Mage::helper('Enterprise_License_Helper_Data')->__('Your Magento Enteprise Edition license expired. Please contact <a href="mailto:sales@varien.com">sales@varien.com</a> to renew the license.');
         } elseif(0 == $days) {
-            $message = Mage::helper('enterprise_license')->__('Your Magento Enteprise Edition expires today. Please contact <a href="mailto:sales@varien.com">sales@varien.com</a> to renew the license.');
+            $message = Mage::helper('Enterprise_License_Helper_Data')->__('Your Magento Enteprise Edition expires today. Please contact <a href="mailto:sales@varien.com">sales@varien.com</a> to renew the license.');
         } elseif($days < 31) {
-            $message = Mage::helper('enterprise_license')->__('Your Magento Enteprise Edition will expire in %d days. Please contact <a href="mailto:sales@varien.com">sales@varien.com</a> to renew the license.', $days);
+            $message = Mage::helper('Enterprise_License_Helper_Data')->__('Your Magento Enteprise Edition will expire in %d days. Please contact <a href="mailto:sales@varien.com">sales@varien.com</a> to renew the license.', $days);
         }
 
         return $message;

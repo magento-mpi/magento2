@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Sales_Transactions_Detail extends Mage_Adminhtml_Bloc
 
         $backUrl = ($this->_txn->getOrderUrl()) ? $this->_txn->getOrderUrl() : $this->getUrl('*/*/');
         $this->_addButton('back', array(
-            'label'   => Mage::helper('sales')->__('Back'),
+            'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Back'),
             'onclick' => "setLocation('{$backUrl}')",
             'class'   => 'back'
         ));
@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Sales_Transactions_Detail extends Mage_Adminhtml_Bloc
             && $this->_txn->getOrderPaymentObject()->getMethodInstance()->canFetchTransactionInfo()) {
             $fetchUrl = $this->getUrl('*/*/fetch' , array('_current' => true));
             $this->_addButton('fetch', array(
-                'label'   => Mage::helper('sales')->__('Fetch'),
+                'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Fetch'),
                 'onclick' => "setLocation('{$fetchUrl}')",
                 'class'   => 'button'
             ));
@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Sales_Transactions_Detail extends Mage_Adminhtml_Bloc
      */
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__("Transaction # %s | %s",
+        return Mage::helper('Mage_Sales_Helper_Data')->__("Transaction # %s | %s",
             $this->_txn->getTxnId(),
             $this->formatDate($this->_txn->getCreatedAt(), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true)
         );
@@ -102,7 +102,7 @@ class Mage_Adminhtml_Block_Sales_Transactions_Detail extends Mage_Adminhtml_Bloc
         );
 
         $this->setIsClosedHtml(
-            ($this->_txn->getIsClosed()) ? Mage::helper('sales')->__('Yes') : Mage::helper('sales')->__('No')
+            ($this->_txn->getIsClosed()) ? Mage::helper('Mage_Sales_Helper_Data')->__('Yes') : Mage::helper('Mage_Sales_Helper_Data')->__('No')
         );
 
         $createdAt = (strtotime($this->_txn->getCreatedAt()))

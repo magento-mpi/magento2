@@ -230,7 +230,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
                 ->setPath($modelPath)
                 ->save();
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('cron')->__('Unable to save the cron expression.'));
+            Mage::throwException(Mage::helper('Mage_Cron_Helper_Data')->__('Unable to save the cron expression.'));
             Mage::logException($e);
         }
         return $this;
@@ -252,7 +252,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
                 ->load($this->getModelConfigPath(), 'path')
                 ->delete();
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('cron')->__('Unable to delete the cron task.'));
+            Mage::throwException(Mage::helper('Mage_Cron_Helper_Data')->__('Unable to delete the cron task.'));
             Mage::logException($e);
         }
         return $this;
@@ -293,7 +293,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
             $operationId = (int)substr($jobCode, $idPos + 1);
         }
         if (!isset($operationId) || !$operationId) {
-            Mage::throwException(Mage::helper('enterprise_importexport')->__('Invalid cron job task'));
+            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Invalid cron job task'));
         }
 
         return $this->load($operationId);
@@ -317,12 +317,12 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
 
         $filePath = $this->getHistoryFilePath();
         if (!file_exists($filePath)) {
-            $filePath = Mage::helper('enterprise_importexport')->__('File has been not created');
+            $filePath = Mage::helper('Enterprise_ImportExport_Helper_Data')->__('File has been not created');
         }
 
         if (!$result || isset($e) && is_object($e)) {
             $operation->addLogComment(
-                Mage::helper('enterprise_importexport')->__('Operation finished with fail status')
+                Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Operation finished with fail status')
             );
             $this->sendEmailNotification(array(
                 'operationName'  => $this->getName(),
@@ -350,20 +350,20 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
     {
         $fileInfo = $this->getFileInfo();
         if (empty($fileInfo['file_name'])) {
-            Mage::throwException(Mage::helper('enterprise_importexport')->__('Unable to read file source. File name is empty'));
+            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unable to read file source. File name is empty'));
         }
-        $operation->addLogComment(Mage::helper('enterprise_importexport')->__('Connecting to server'));
+        $operation->addLogComment(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Connecting to server'));
         $fs = $this->getServerIoDriver();
-        $operation->addLogComment(Mage::helper('enterprise_importexport')->__('Reading import file'));
+        $operation->addLogComment(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Reading import file'));
 
         $extension = pathinfo($fileInfo['file_name'], PATHINFO_EXTENSION);
         $filePath  = $fileInfo['file_name'];
         $tmpFilePath = sys_get_temp_dir() . DS . uniqid(time(), true) . '.' . $extension;
         if (!$fs->read($filePath, $tmpFilePath)) {
-            Mage::throwException(Mage::helper('enterprise_importexport')->__('Unable to read import file'));
+            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unable to read import file'));
         }
         $fs->close();
-        $operation->addLogComment(Mage::helper('enterprise_importexport')->__('Save history file content "%s"', $this->getHistoryFilePath()));
+        $operation->addLogComment(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Save history file content "%s"', $this->getHistoryFilePath()));
         $this->_saveOperationHistory($tmpFilePath);
         return $tmpFilePath;
     }
@@ -380,7 +380,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
     {
         $result = false;
 
-        $operation->addLogComment(Mage::helper('enterprise_importexport')->__('Save history file content "%s"', $this->getHistoryFilePath()));
+        $operation->addLogComment(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Save history file content "%s"', $this->getHistoryFilePath()));
         $this->_saveOperationHistory($fileContent);
 
         $fileInfo = $this->getFileInfo();
@@ -388,13 +388,13 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         $fileName = $operation->getScheduledFileName() . '.' . $fileInfo['file_format'];
         $result   = $fs->write($fileName, $fileContent);
         if (!$result) {
-            Mage::throwException(Mage::helper('enterprise_importexport')->__('Unable to write file "%s" to "%s" with "%s" driver',
+            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unable to write file "%s" to "%s" with "%s" driver',
                 $fileName,
                 $fileInfo['file_path'],
                 $fileInfo['server_type']
             ));
         }
-        $operation->addLogComment(Mage::helper('enterprise_importexport')->__('Save file content'));
+        $operation->addLogComment(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Save file content'));
 
         $fs->close();
 
@@ -412,7 +412,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
     {
         $operation = Mage::getModel('enterprise_importexport/' . $this->getOperationType());
         if (!$operation || !($operation instanceof Enterprise_ImportExport_Model_Scheduled_Operation_Interface)) {
-            Mage::throwException(Mage::helper('enterprise_importexport')->__('Invalid scheduled operation'));
+            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Invalid scheduled operation'));
         }
 
         $operation->initialize($this);
@@ -434,12 +434,12 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
             || !$fileInfo['server_type']
             || !isset($availableTypes[$fileInfo['server_type']])
         ) {
-            Mage::throwException(Mage::helper('enterprise_importexport')->__('Invalid server type'));
+            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Invalid server type'));
         }
 
         $class = 'Varien_Io_' . ucfirst(strtolower($fileInfo['server_type']));
         if (!class_exists($class)) {
-            Mage::throwException(Mage::helper('enterprise_importexport')->__('Invalid server comunication class "%s"', $class));
+            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Invalid server comunication class "%s"', $class));
         }
         $driver = new $class;
         $driver->open($this->_prepareIoConfiguration($fileInfo));
@@ -489,7 +489,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
             'path' => dirname($filePath)
         ));
         if (!$fs->write(basename($filePath), $source)) {
-            Mage::throwException(Mage::helper('enterprise_importexport')->__('Unable to save file history file'));
+            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unable to save file history file'));
         }
         return $this;
     }
@@ -519,7 +519,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         } elseif(isset($fileInfo['file_name'])) {
             $extension = pathinfo($fileInfo['file_name'], PATHINFO_EXTENSION);
         } else {
-            Mage::throwException(Mage::helper('enterprise_importexport')->__('Unknown file format'));
+            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unknown file format'));
         }
 
         return $dirPath . $fileName . '.' . $extension;

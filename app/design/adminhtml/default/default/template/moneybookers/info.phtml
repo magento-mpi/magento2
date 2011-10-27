@@ -20,7 +20,7 @@
 ?>
 <?php echo $this->htmlEscape($this->getMethod()->getTitle()) ?><br />
 <?php if ($this->getInfo()->getLastTransId() == ''): ?>
-    <?php echo Mage::helper('moneybookers')->__('Payment has not been processed yet.') ?><br />
+    <?php echo Mage::helper('Phoenix_Moneybookers_Helper_Data')->__('Payment has not been processed yet.') ?><br />
 <?php else: ?>
-    <?php echo Mage::helper('moneybookers')->__('Moneybookers Transaction ID: %s', $this->htmlEscape($this->getInfo()->getLastTransId())) ?><br />
+    <?php echo Mage::helper('Phoenix_Moneybookers_Helper_Data')->__('Moneybookers Transaction ID: %s', $this->htmlEscape($this->getInfo()->getLastTransId())) ?><br />
 <?php endif; ?>

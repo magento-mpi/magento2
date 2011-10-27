@@ -55,7 +55,7 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quote_
     public function __construct()
     {
         $this->setCode('weee');
-        $this->_helper = Mage::helper('weee');
+        $this->_helper = Mage::helper('Mage_Weee_Helper_Data');
         $this->_config = Mage::getSingleton('tax/config');
     }
 
@@ -205,7 +205,7 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quote_
     protected function _processDiscountSettings($item, $value, $baseValue)
     {
         if ($this->_helper->isDiscounted($this->_store)) {
-            Mage::helper('salesrule')->addItemDiscountPrices($item, $baseValue, $value);
+            Mage::helper('Mage_SalesRule_Helper_Data')->addItemDiscountPrices($item, $baseValue, $value);
         }
         return $this;
     }

@@ -84,7 +84,7 @@ class Mage_Api_Model_Roles extends Mage_Core_Model_Abstract
         return $this->getResource()->getRoleUsers($this);
     }
 
-    protected function _buildResourcesArray(Varien_Simplexml_Element $resource=null, $parentName=null, $level=0, $represent2Darray=null, $rawNodes = false, $module = 'adminhtml')
+    protected function _buildResourcesArray(Varien_Simplexml_Element $resource=null, $parentName=null, $level=0, $represent2Darray=null, $rawNodes = false, $module = 'Mage_Adminhtml')
     {
         static $result;
 

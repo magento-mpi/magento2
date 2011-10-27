@@ -187,7 +187,7 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Wishlist_Block_Abstract
      */
     public function getCommentValue(Mage_Wishlist_Model_Item $item)
     {
-        return $this->hasDescription($item) ? $this->getEscapedDescription($item) : Mage::helper('wishlist')->defaultCommentString();
+        return $this->hasDescription($item) ? $this->getEscapedDescription($item) : Mage::helper('Mage_Wishlist_Helper_Data')->defaultCommentString();
     }
 
     /**

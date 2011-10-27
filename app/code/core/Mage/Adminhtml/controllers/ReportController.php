@@ -36,7 +36,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     public function _initAction()
     {
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Reports'), Mage::helper('adminhtml')->__('Reports'));
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Reports'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Reports'));
         return $this;
     }
 
@@ -46,7 +46,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initAction()
             ->_setActiveMenu('report/wishlist')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Wishlist Report'), Mage::helper('adminhtml')->__('Wishlist Report'))
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wishlist Report'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wishlist Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_wishlist'))
             ->renderLayout();
     }
@@ -83,7 +83,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
 
         $this->_initAction()
             ->_setActiveMenu('report/search')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Search Terms'), Mage::helper('adminhtml')->__('Search Terms'))
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Search Terms'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Search Terms'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_search'))
             ->renderLayout();
     }
@@ -116,7 +116,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initAction()
             ->_setActiveMenu('report/orders')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Recent Orders'), Mage::helper('adminhtml')->__('Recent Orders'))
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Recent Orders'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Recent Orders'))
             ->renderLayout();
     }
 
@@ -124,7 +124,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initAction()
             ->_setActiveMenu('report/totals')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Order Totals'), Mage::helper('adminhtml')->__('Order Totals'))
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Order Totals'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Order Totals'))
             ->renderLayout();
     }
 */

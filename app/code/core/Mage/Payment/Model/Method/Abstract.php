@@ -307,7 +307,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      */
     protected function _getHelper()
     {
-        return Mage::helper('payment');
+        return Mage::helper('Mage_Payment_Helper_Data');
     }
 
     /**
@@ -544,7 +544,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function acceptPayment(Mage_Payment_Model_Info $payment)
     {
         if (!$this->canReviewPayment($payment)) {
-            Mage::throwException(Mage::helper('payment')->__('The payment review action is unavailable.'));
+            Mage::throwException(Mage::helper('Mage_Payment_Helper_Data')->__('The payment review action is unavailable.'));
         }
         return false;
     }
@@ -559,7 +559,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function denyPayment(Mage_Payment_Model_Info $payment)
     {
         if (!$this->canReviewPayment($payment)) {
-            Mage::throwException(Mage::helper('payment')->__('The payment review action is unavailable.'));
+            Mage::throwException(Mage::helper('Mage_Payment_Helper_Data')->__('The payment review action is unavailable.'));
         }
         return false;
     }

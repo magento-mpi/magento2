@@ -74,58 +74,58 @@ class Mage_Adminhtml_Block_Sales_Transactions_Grid extends Mage_Adminhtml_Block_
     protected function _prepareColumns()
     {
         $this->addColumn('transaction_id', array(
-            'header'    => Mage::helper('sales')->__('ID #'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('ID #'),
             'index'     => 'transaction_id',
             'type'      => 'number'
         ));
 
         $this->addColumn('increment_id', array(
-            'header'    => Mage::helper('sales')->__('Order ID'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Order ID'),
             'index'     => 'increment_id',
             'type'      => 'text'
         ));
 
         $this->addColumn('txn_id', array(
-            'header'    => Mage::helper('sales')->__('Transaction ID'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Transaction ID'),
             'index'     => 'txn_id',
             'type'      => 'text'
         ));
 
         $this->addColumn('parent_txn_id', array(
-            'header'    => Mage::helper('sales')->__('Parent Transaction ID'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Parent Transaction ID'),
             'index'     => 'parent_txn_id',
             'type'      => 'text'
         ));
 
         $this->addColumn('method', array(
-            'header'    => Mage::helper('sales')->__('Payment Method Name'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Payment Method Name'),
             'index'     => 'method',
             'type'      => 'options',
-            'options'       => Mage::helper('payment')->getPaymentMethodList(true),
-            'option_groups' => Mage::helper('payment')->getPaymentMethodList(true, true, true),
+            'options'       => Mage::helper('Mage_Payment_Helper_Data')->getPaymentMethodList(true),
+            'option_groups' => Mage::helper('Mage_Payment_Helper_Data')->getPaymentMethodList(true, true, true),
         ));
 
         $this->addColumn('txn_type', array(
-            'header'    => Mage::helper('sales')->__('Transaction Type'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Transaction Type'),
             'index'     => 'txn_type',
             'type'      => 'options',
             'options'   => Mage::getSingleton('sales/order_payment_transaction')->getTransactionTypes()
         ));
 
         $this->addColumn('is_closed', array(
-            'header'    => Mage::helper('sales')->__('Is Closed'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Is Closed'),
             'index'     => 'is_closed',
             'width'     => 1,
             'type'      => 'options',
             'align'     => 'center',
             'options'   => array(
-                1  => Mage::helper('sales')->__('Yes'),
-                0  => Mage::helper('sales')->__('No'),
+                1  => Mage::helper('Mage_Sales_Helper_Data')->__('Yes'),
+                0  => Mage::helper('Mage_Sales_Helper_Data')->__('No'),
             )
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('sales')->__('Created At'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Created At'),
             'index'     => 'created_at',
             'width'     => 1,
             'type'      => 'datetime',

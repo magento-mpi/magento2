@@ -66,7 +66,7 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
         $addressCards = array();
         $usedAddressCards = array();
         if ($baseUsed) {
-            $quoteCards = $this->_sortGiftCards(Mage::helper('enterprise_giftcardaccount')->getCards($address->getQuote()));
+            $quoteCards = $this->_sortGiftCards(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($address->getQuote()));
             foreach ($quoteCards as $quoteCard) {
                 $card = $quoteCard;
                 if ($quoteCard['ba'] + $skipped <= $address->getQuote()->getBaseGiftCardsAmountUsed()) {
@@ -97,9 +97,9 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
                 $skipped += $quoteCard['ba'];
             }
         }
-        Mage::helper('enterprise_giftcardaccount')->setCards($address, $usedAddressCards);
+        Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->setCards($address, $usedAddressCards);
         $address->setUsedGiftCards($address->getGiftCards());
-        Mage::helper('enterprise_giftcardaccount')->setCards($address, $addressCards);
+        Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->setCards($address, $addressCards);
 
         $baseTotalUsed = $address->getQuote()->getBaseGiftCardsAmountUsed() + $baseUsed;
         $totalUsed = $address->getQuote()->getGiftCardsAmountUsed() + $used;
@@ -124,7 +124,7 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
 
             $baseAmount = 0;
             $amount = 0;
-            $cards = Mage::helper('enterprise_giftcardaccount')->getCards($quote);
+            $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($quote);
             foreach ($cards as $k=>&$card) {
                 $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->load($card['i']);
                 if ($model->isExpired() || $model->getBalance() == 0) {
@@ -137,7 +137,7 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
                     $amount += $card['a'];
                 }
             }
-            Mage::helper('enterprise_giftcardaccount')->setCards($quote, $cards);
+            Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->setCards($quote, $cards);
 
             $quote->setBaseGiftCardsAmount($baseAmount);
             $quote->setGiftCardsAmount($amount);
@@ -155,13 +155,13 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
     public function fetch(Mage_Sales_Model_Quote_Address $address)
     {
         if ($address->getQuote()->isVirtual()) {
-            $giftCards = Mage::helper('enterprise_giftcardaccount')->getCards($address->getQuote()->getBillingAddress());
+            $giftCards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($address->getQuote()->getBillingAddress());
         } else {
-            $giftCards = Mage::helper('enterprise_giftcardaccount')->getCards($address);
+            $giftCards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($address);
         }
         $address->addTotal(array(
             'code'=>$this->getCode(),
-            'title'=>Mage::helper('enterprise_giftcardaccount')->__('Gift Cards'),
+            'title'=>Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Cards'),
             'value'=>-$address->getGiftCardsAmount(),
             'gift_cards'=>$giftCards,
         ));

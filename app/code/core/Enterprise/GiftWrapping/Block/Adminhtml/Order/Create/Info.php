@@ -87,7 +87,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
      */
     public function getDisplayCardBothPrices()
     {
-        return Mage::helper('enterprise_giftwrapping')->displayCartCardBothPrices($this->getStoreId());
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->displayCartCardBothPrices($this->getStoreId());
     }
 
     /**
@@ -97,7 +97,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
      */
     public function getDisplayCardPriceInclTax()
     {
-        return Mage::helper('enterprise_giftwrapping')->displayCartCardIncludeTaxPrice($this->getStoreId());
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->displayCartCardIncludeTaxPrice($this->getStoreId());
     }
 
     /**
@@ -107,7 +107,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
      */
     public function getAllowPrintedCard()
     {
-        return Mage::helper('enterprise_giftwrapping')->allowPrintedCard($this->getStoreId());
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->allowPrintedCard($this->getStoreId());
     }
 
     /**
@@ -117,7 +117,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
      */
     public function getAllowGiftReceipt()
     {
-        return Mage::helper('enterprise_giftwrapping')->allowGiftReceipt($this->getStoreId());
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->allowGiftReceipt($this->getStoreId());
     }
 
     /**
@@ -127,7 +127,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
      */
     public function canDisplayGiftWrappingForOrder()
     {
-        return (Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForOrder($this->getStoreId())
+        return (Mage::helper('Enterprise_GiftWrapping_Helper_Data')->isGiftWrappingAvailableForOrder($this->getStoreId())
             || $this->getAllowPrintedCard()
             || $this->getAllowGiftReceipt())
                 && !$this->getQuote()->isVirtual();
@@ -140,7 +140,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
      */
     public function isGiftWrappingForEntireOrder()
     {
-        return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForOrder($this->getStoreId());
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->isGiftWrappingAvailableForOrder($this->getStoreId());
     }
 
     /**

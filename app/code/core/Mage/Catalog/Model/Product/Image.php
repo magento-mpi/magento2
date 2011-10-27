@@ -305,7 +305,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         $baseFile = $baseDir . $file;
 
         if ((!$file) || (!file_exists($baseFile))) {
-            throw new Exception(Mage::helper('catalog')->__('Image file was not found.'));
+            throw new Exception(Mage::helper('Mage_Catalog_Helper_Data')->__('Image file was not found.'));
         }
 
         $this->_baseFile = $baseFile;
@@ -482,7 +482,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     {
         $filename = $this->getNewFile();
         $this->getImageProcessor()->save($filename);
-        Mage::helper('core/file_storage_database')->saveFile($filename);
+        Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFile($filename);
         return $this;
     }
 
@@ -689,7 +689,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         $io = new Varien_Io_File();
         $io->rmdir($directory, true);
 
-        Mage::helper('core/file_storage_database')->deleteFolder($directory);
+        Mage::helper('Mage_Core_Helper_File_Storage_Database')->deleteFolder($directory);
     }
 
     /**
@@ -703,7 +703,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         if (file_exists($filename)) {
             return true;
         } else {
-            return Mage::helper('core/file_storage_database')->saveFileToFilesystem($filename);
+            return Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($filename);
         }
     }
 }

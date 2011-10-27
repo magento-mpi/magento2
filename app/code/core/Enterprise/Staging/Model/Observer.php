@@ -60,7 +60,7 @@ class Enterprise_Staging_Model_Observer
                 }
             }
         } catch (Enterprise_Staging_Exception $e) {
-            Mage::throwException(Mage::helper('enterprise_staging')->__('Cannot run the staging website.'));
+            Mage::throwException(Mage::helper('Enterprise_Staging_Helper_Data')->__('Cannot run the staging website.'));
         }
     }
 
@@ -133,7 +133,7 @@ class Enterprise_Staging_Model_Observer
             }
 
             $password   = $_SERVER['PHP_AUTH_PW'];
-            if (Mage::helper('core')->decrypt($website->getMasterPassword()) != $password) {
+            if (Mage::helper('Mage_Core_Helper_Data')->decrypt($website->getMasterPassword()) != $password) {
                 throw new Exception('Invalid password.');
             }
         } catch (Exception $e) {

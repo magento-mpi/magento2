@@ -42,7 +42,7 @@ class Enterprise_Reward_Model_Observer
      */
     public function saveRewardPoints($observer)
     {
-        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabled()) {
             return;
         }
 
@@ -81,7 +81,7 @@ class Enterprise_Reward_Model_Observer
      */
     public function saveRewardNotifications($observer)
     {
-        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabled()) {
             return;
         }
 
@@ -89,7 +89,7 @@ class Enterprise_Reward_Model_Observer
         $customer = $observer->getEvent()->getCustomer();
 
         $data = $request->getPost('reward');
-        $subscribeByDefault = Mage::helper('enterprise_reward')->getNotificationConfig('subscribe_by_default');
+        $subscribeByDefault = Mage::helper('Enterprise_Reward_Helper_Data')->getNotificationConfig('subscribe_by_default');
         if ($customer->isObjectNew()) {
             $data['reward_update_notification']  = (int)$subscribeByDefault;
             $data['reward_warning_notification'] = (int)$subscribeByDefault;
@@ -109,7 +109,7 @@ class Enterprise_Reward_Model_Observer
      */
     public function customerRegister($observer)
     {
-        if (!Mage::helper('enterprise_reward')->isEnabledOnFront()) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()) {
             return $this;
         }
         /* @var $customer Mage_Customer_Model_Customer */
@@ -117,7 +117,7 @@ class Enterprise_Reward_Model_Observer
         $customerOrigData = $customer->getOrigData();
         if (empty($customerOrigData)) {
             try {
-                $subscribeByDefault = Mage::helper('enterprise_reward')
+                $subscribeByDefault = Mage::helper('Enterprise_Reward_Helper_Data')
                     ->getNotificationConfig('subscribe_by_default', Mage::app()->getStore()->getWebsiteId());
                 $reward = Mage::getModel('enterprise_reward/reward')
                     ->setCustomer($customer)
@@ -149,7 +149,7 @@ class Enterprise_Reward_Model_Observer
         /* @var $review Mage_Review_Model_Review */
         $review = $observer->getEvent()->getObject();
         $websiteId = Mage::app()->getStore($review->getStoreId())->getWebsiteId();
-        if (!Mage::helper('enterprise_reward')->isEnabledOnFront($websiteId)) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($websiteId)) {
             return $this;
         }
         if ($review->isApproved() && $review->getCustomerId()) {
@@ -175,7 +175,7 @@ class Enterprise_Reward_Model_Observer
         /* @var $tag Mage_Tag_Model_Tag */
         $tag = $observer->getEvent()->getObject();
         $websiteId = Mage::app()->getStore($tag->getFirstStoreId())->getWebsiteId();
-        if (!Mage::helper('enterprise_reward')->isEnabledOnFront($websiteId)) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($websiteId)) {
             return $this;
         }
         if (($tag->getApprovedStatus() == $tag->getStatus()) && $tag->getFirstCustomerId()) {
@@ -204,7 +204,7 @@ class Enterprise_Reward_Model_Observer
             return $this;
         }
         $websiteId = Mage::app()->getStore($subscriber->getStoreId())->getWebsiteId();
-        if (!Mage::helper('enterprise_reward')->isEnabledOnFront($websiteId)) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($websiteId)) {
             return $this;
         }
 
@@ -229,7 +229,7 @@ class Enterprise_Reward_Model_Observer
         /* @var $invitation Enterprise_Invitation_Model_Invitation */
         $invitation = $observer->getEvent()->getInvitation();
         $websiteId = Mage::app()->getStore($invitation->getStoreId())->getWebsiteId();
-        if (!Mage::helper('enterprise_reward')->isEnabledOnFront($websiteId)) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($websiteId)) {
             return $this;
         }
 
@@ -256,7 +256,7 @@ class Enterprise_Reward_Model_Observer
         /* @var $order Mage_Sales_Model_Order */
         $order = $observer->getEvent()->getOrder();
         if ($order->getCustomerIsGuest()
-            || !Mage::helper('enterprise_reward')->isEnabledOnFront($order->getStore()->getWebsiteId()))
+            || !Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($order->getStore()->getWebsiteId()))
         {
             return $this;
         }
@@ -271,7 +271,7 @@ class Enterprise_Reward_Model_Observer
                 ->updateRewardPoints();
             if ($reward->getRewardPointsUpdated() && $reward->getPointsDelta()) {
                 $order->addStatusHistoryComment(
-                    Mage::helper('enterprise_reward')->__('Customer earned %s for the order.', Mage::helper('enterprise_reward')->formatReward($reward->getPointsDelta()))
+                    Mage::helper('Enterprise_Reward_Helper_Data')->__('Customer earned %s for the order.', Mage::helper('Enterprise_Reward_Helper_Data')->formatReward($reward->getPointsDelta()))
                 )->save();
             }
         }
@@ -364,7 +364,7 @@ class Enterprise_Reward_Model_Observer
      */
     public function paymentDataImport(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_reward')->isEnabledOnFront()) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()) {
             return $this;
         }
         $input = $observer->getEvent()->getInput();
@@ -382,7 +382,7 @@ class Enterprise_Reward_Model_Observer
      */
     public function preparePaymentMethod($observer)
     {
-        if (!Mage::helper('enterprise_reward')->isEnabledOnFront()) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()) {
             return $this;
         }
         $quote = $observer->getEvent()->getQuote();
@@ -417,7 +417,7 @@ class Enterprise_Reward_Model_Observer
     {
         /* @var $quote Mage_Sales_Model_Quote */
         $quote = $observer->getEvent()->getOrderCreateModel()->getQuote();
-        if (!Mage::helper('enterprise_reward')->isEnabledOnFront($quote->getStore()->getWebsiteId())) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($quote->getStore()->getWebsiteId())) {
             return $this;
         }
         $request = $observer->getEvent()->getRequest();
@@ -487,7 +487,7 @@ class Enterprise_Reward_Model_Observer
                     ->setUpdateSection('payment-method')
                     ->setGotoSection('payment');
 
-                Mage::throwException(Mage::helper('enterprise_reward')->__('Not enough Reward Points to complete this Order.'));
+                Mage::throwException(Mage::helper('Enterprise_Reward_Helper_Data')->__('Not enough Reward Points to complete this Order.'));
             }
         }
 
@@ -502,7 +502,7 @@ class Enterprise_Reward_Model_Observer
      */
     public function processBeforeOrderPlace(Varien_Event_Observer $observer)
     {
-        if (Mage::helper('enterprise_reward')->isEnabledOnFront()) {
+        if (Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()) {
             $order = $observer->getEvent()->getOrder();
             $this->_checkRewardPointsBalance($order);
         }
@@ -518,7 +518,7 @@ class Enterprise_Reward_Model_Observer
      */
     public function processOrderPlace(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_reward')->isEnabledOnFront()
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()
             || (Mage::app()->getStore()->isAdmin()
                 && !Mage::getSingleton('admin/session')
                     ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_AFFECT))
@@ -738,7 +738,7 @@ class Enterprise_Reward_Model_Observer
         $order = $creditmemo->getOrder();
 
         if ($creditmemo->getAutomaticallyCreated()) {
-            if (Mage::helper('enterprise_reward')->isAutoRefundEnabled()) {
+            if (Mage::helper('Enterprise_Reward_Helper_Data')->isAutoRefundEnabled()) {
                 $creditmemo->setRewardPointsBalanceRefund($creditmemo->getRewardPointsBalance());
             } else {
                 return $this;
@@ -780,7 +780,7 @@ class Enterprise_Reward_Model_Observer
      */
     public function disableLayout(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabled()) {
             unset($observer->getUpdates()->enterprise_reward);
         }
         return $this;
@@ -793,20 +793,20 @@ class Enterprise_Reward_Model_Observer
      */
     public function scheduledBalanceExpireNotification()
     {
-        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabled()) {
             return $this;
         }
 
         foreach (Mage::app()->getWebsites() as $website) {
-            if (!Mage::helper('enterprise_reward')->isEnabledOnFront($website->getId())) {
+            if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($website->getId())) {
                 continue;
             }
-            $inDays = (int)Mage::helper('enterprise_reward')->getNotificationConfig('expiry_day_before');
+            $inDays = (int)Mage::helper('Enterprise_Reward_Helper_Data')->getNotificationConfig('expiry_day_before');
             if (!$inDays) {
                 continue;
             }
             $collection = Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward_History_Collection')
-                ->setExpiryConfig(Mage::helper('enterprise_reward')->getExpiryConfig())
+                ->setExpiryConfig(Mage::helper('Enterprise_Reward_Helper_Data')->getExpiryConfig())
                 ->loadExpiredSoonPoints($website->getId(), true)
                 ->addNotificationSentFlag(false)
                 ->addCustomerInfo()
@@ -834,14 +834,14 @@ class Enterprise_Reward_Model_Observer
      */
     public function scheduledPointsExpiration()
     {
-        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabled()) {
             return $this;
         }
         foreach (Mage::app()->getWebsites() as $website) {
-            if (!Mage::helper('enterprise_reward')->isEnabledOnFront($website->getId())) {
+            if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($website->getId())) {
                 continue;
             }
-            $expiryType = Mage::helper('enterprise_reward')->getGeneralConfig('expiry_calculation', $website->getId());
+            $expiryType = Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig('expiry_calculation', $website->getId());
             Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward_History')
                 ->expirePoints($website->getId(), $expiryType, 100);
         }
@@ -872,15 +872,15 @@ class Enterprise_Reward_Model_Observer
      */
     public function prepareSalesruleForm(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabled()) {
             return $this;
         }
         $form = $observer->getEvent()->getForm();
         $fieldset = $form->getElement('action_fieldset');
         $fieldset->addField('reward_points_delta', 'text', array(
             'name'  => 'reward_points_delta',
-            'label' => Mage::helper('enterprise_reward')->__('Add Reward Points'),
-            'title' => Mage::helper('enterprise_reward')->__('Add Reward Points')
+            'label' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Add Reward Points'),
+            'title' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Add Reward Points')
         ), 'stop_rules_processing');
         return $this;
     }
@@ -893,7 +893,7 @@ class Enterprise_Reward_Model_Observer
      */
     public function loadRewardSalesruleData(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabled()) {
             return $this;
         }
         /* @var $salesRule Mage_SalesRule_Model_Rule */
@@ -916,7 +916,7 @@ class Enterprise_Reward_Model_Observer
      */
     public function saveRewardSalesruleData(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabled()) {
             return $this;
         }
         /* @var $salesRule Mage_SalesRule_Model_Rule */
@@ -936,7 +936,7 @@ class Enterprise_Reward_Model_Observer
     {
         /* @var $order Mage_Sales_Model_Order */
         $order = $observer->getEvent()->getInvoice()->getOrder();
-        if (!Mage::helper('enterprise_reward')->isEnabledOnFront($order->getStore()->getWebsiteId())) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($order->getStore()->getWebsiteId())) {
             return $this;
         }
         if ($order->getCustomerId() && !$order->canInvoice() && $order->getRewardSalesrulePoints()) {
@@ -949,7 +949,7 @@ class Enterprise_Reward_Model_Observer
                 ->updateRewardPoints();
             if ($reward->getPointsDelta()) {
                 $order->addStatusHistoryComment(
-                    Mage::helper('enterprise_reward')->__('Customer earned promotion extra %s.', Mage::helper('enterprise_reward')->formatReward($reward->getPointsDelta()))
+                    Mage::helper('Enterprise_Reward_Helper_Data')->__('Customer earned promotion extra %s.', Mage::helper('Enterprise_Reward_Helper_Data')->formatReward($reward->getPointsDelta()))
                 )->save();
             }
         }
@@ -964,7 +964,7 @@ class Enterprise_Reward_Model_Observer
      */
     public function checkRates(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_reward')->isEnabledOnFront()) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()) {
             return $this;
         }
 
@@ -982,7 +982,7 @@ class Enterprise_Reward_Model_Observer
                 Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS
             )->getId();
 
-        Mage::helper('enterprise_reward')->setHasRates($hasRates);
+        Mage::helper('Enterprise_Reward_Helper_Data')->setHasRates($hasRates);
 
         return $this;
     }
@@ -1000,7 +1000,7 @@ class Enterprise_Reward_Model_Observer
             $paypalCart->updateTotal(
                 Mage_Paypal_Model_Cart::TOTAL_DISCOUNT,
                 (float)$salesEntity->getBaseRewardCurrencyAmount(),
-                Mage::helper('enterprise_reward')->formatReward($salesEntity->getRewardPointsBalance())
+                Mage::helper('Enterprise_Reward_Helper_Data')->formatReward($salesEntity->getRewardPointsBalance())
             );
         }
     }

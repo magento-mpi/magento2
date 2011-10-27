@@ -25,7 +25,7 @@
  */
 ?>
 <div class="entry-edit-head">
-    <h4><?php echo Mage::helper('widget')->__('Layout Updates') ?></h4>
+    <h4><?php echo Mage::helper('Mage_Widget_Helper_Data')->__('Layout Updates') ?></h4>
     <div class="right"><?php echo $this->getAddLayoutButtonHtml() ?></div>
 </div>
 <div class="fieldset">
@@ -55,9 +55,9 @@ var pageGroupTemplate = '<div class="options-box page_group_container" id="page_
             '<col />'+
             '<thead>'+
                 '<tr>'+
-                    '<th><label><?php echo $this->helper('core')->jsQuoteEscape(Mage::helper('widget')->__('%s', $container['label'])) ?></label></th>'+
-                    '<th><label><?php echo $this->helper('core')->jsQuoteEscape(Mage::helper('widget')->__('Block Reference')) ?> <span class="required">*</span></label></th>'+
-                    '<th><label><?php echo $this->helper('core')->jsQuoteEscape(Mage::helper('widget')->__('Template')) ?></label></th>'+
+                    '<th><label><?php echo $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Widget_Helper_Data')->__('%s', $container['label'])) ?></label></th>'+
+                    '<th><label><?php echo $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Widget_Helper_Data')->__('Block Reference')) ?> <span class="required">*</span></label></th>'+
+                    '<th><label><?php echo $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Widget_Helper_Data')->__('Template')) ?></label></th>'+
                     '<th>&nbsp;</th>'+
                 '</tr>'+
             '</thead>'+
@@ -65,9 +65,9 @@ var pageGroupTemplate = '<div class="options-box page_group_container" id="page_
                 '<tr>'+
                     '<td>'+
                         '<input type="radio" class="radio for_all" id="all_<?php echo $container['name'] ?>_{{id}}" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][for]" value="all" onclick="WidgetInstance.togglePageGroupChooser(this)" checked="checked" />&nbsp;'+
-                        '<label for="all_<?php echo $container['name'] ?>_{{id}}"><?php echo $this->helper('core')->jsQuoteEscape(Mage::helper('widget')->__('All')) ?></label>&nbsp;&nbsp;&nbsp;'+
+                        '<label for="all_<?php echo $container['name'] ?>_{{id}}"><?php echo $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Widget_Helper_Data')->__('All')) ?></label>&nbsp;&nbsp;&nbsp;'+
                         '<input type="radio" class="radio for_specific" id="specific_<?php echo $container['name'] ?>_{{id}}" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][for]" value="specific" onclick="WidgetInstance.togglePageGroupChooser(this)" />&nbsp;'+
-                        '<label for="specific_<?php echo $container['name'] ?>_{{id}}"><?php echo $this->helper('core')->jsQuoteEscape(Mage::helper('widget')->__('Specific %s', $container['label'])) ?></label>'+
+                        '<label for="specific_<?php echo $container['name'] ?>_{{id}}"><?php echo $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Widget_Helper_Data')->__('Specific %s', $container['label'])) ?></label>'+
                     '</td>'+
                     '<td>'+
                         '<div class="block_reference_container">'+
@@ -87,11 +87,11 @@ var pageGroupTemplate = '<div class="options-box page_group_container" id="page_
             '<input type="hidden" class="product_type_id" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][product_type_id]" value="<?php echo $container['product_type_id'] ?>" />'+
             '<p>' +
                 '<input type="text" class="input-text entities" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][entities]" value="{{<?php echo $container['name'] ?>_entities}}" readonly="readonly" />&nbsp;' +
-                '<a class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayEntityChooser(\'<?php echo $container['code'] ?>\', \'<?php echo $container['name'] ?>_ids_{{id}}\')" title="<?php echo $this->helper('core')->jsQuoteEscape(Mage::helper('widget')->__('Open Chooser')); ?>">' +
-                    '<img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>" class="v-middle" alt="<?php echo $this->helper('core')->jsQuoteEscape(Mage::helper('widget')->__('Open Chooser')); ?>" />' +
+                '<a class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayEntityChooser(\'<?php echo $container['code'] ?>\', \'<?php echo $container['name'] ?>_ids_{{id}}\')" title="<?php echo $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Widget_Helper_Data')->__('Open Chooser')); ?>">' +
+                    '<img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>" class="v-middle" alt="<?php echo $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Widget_Helper_Data')->__('Open Chooser')); ?>" />' +
                 '</a>&nbsp;' +
-                '<a href="javascript:void(0)" onclick="WidgetInstance.hideEntityChooser(\'<?php echo $container['name'] ?>_ids_{{id}}\')" title="<?php echo $this->helper('core')->jsQuoteEscape(Mage::helper('widget')->__('Apply')); ?>">' +
-                    '<img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>" class="v-middle" alt="<?php echo $this->helper('core')->jsQuoteEscape(Mage::helper('widget')->__('Apply')); ?>" />' +
+                '<a href="javascript:void(0)" onclick="WidgetInstance.hideEntityChooser(\'<?php echo $container['name'] ?>_ids_{{id}}\')" title="<?php echo $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Widget_Helper_Data')->__('Apply')); ?>">' +
+                    '<img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>" class="v-middle" alt="<?php echo $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Widget_Helper_Data')->__('Apply')); ?>" />' +
                 '</a>' +
             '</p>'+
             '<div class="chooser"></div>'+
@@ -109,8 +109,8 @@ var pageGroupTemplate = '<div class="options-box page_group_container" id="page_
         '<col />'+
         '<thead>'+
             '<tr>'+
-                '<th><label><?php echo $this->helper('core')->jsQuoteEscape(Mage::helper('widget')->__('Block Reference')) ?> <span class="required">*</span></label></th>'+
-                '<th><label><?php echo $this->helper('core')->jsQuoteEscape(Mage::helper('widget')->__('Template')) ?></label></th>'+
+                '<th><label><?php echo $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Widget_Helper_Data')->__('Block Reference')) ?> <span class="required">*</span></label></th>'+
+                '<th><label><?php echo $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Widget_Helper_Data')->__('Template')) ?></label></th>'+
                 '<th>&nbsp;</th>'+
             '</tr>'+
         '</thead>'+
@@ -142,9 +142,9 @@ var pageGroupTemplate = '<div class="options-box page_group_container" id="page_
         '<col />'+
         '<thead>'+
             '<tr>'+
-                '<th><label><?php echo $this->helper('core')->jsQuoteEscape(Mage::helper('widget')->__('Page')) ?> <span class="required">*</span></label></th>'+
-                '<th><label><?php echo $this->helper('core')->jsQuoteEscape(Mage::helper('widget')->__('Block Reference')) ?> <span class="required">*</span></label></th>'+
-                '<th><label><?php echo $this->helper('core')->jsQuoteEscape(Mage::helper('widget')->__('Template')) ?></label></th>'+
+                '<th><label><?php echo $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Widget_Helper_Data')->__('Page')) ?> <span class="required">*</span></label></th>'+
+                '<th><label><?php echo $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Widget_Helper_Data')->__('Block Reference')) ?> <span class="required">*</span></label></th>'+
+                '<th><label><?php echo $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Widget_Helper_Data')->__('Template')) ?></label></th>'+
                 '<th>&nbsp;</th>'+
             '</tr>'+
         '</thead>'+

@@ -55,25 +55,25 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Product ID'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Product ID'),
             'index'  => 'product_id',
             'type'   => 'number',
             'width'  => '100px',
         ));
 
         $this->addColumn('name', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Product Name'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Product Name'),
             'index' => 'name',
         ));
 
         $this->addColumn('sku', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Product SKU'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Product SKU'),
             'index' => 'sku',
             'width' => '200px',
         ));
 
         $this->addColumn('price', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Price'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Price'),
             'index' => 'price',
             'type'  => 'currency',
             'width' => '120px',
@@ -81,14 +81,14 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
         ));
 
         $this->addColumn('qty', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Quantity'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Quantity'),
             'index' => 'qty',
             'type'  => 'number',
             'width' => '120px',
         ));
 
         $this->addColumn('total', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Total'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Total'),
             'index' => 'row_total',
             'type'  => 'currency',
             'width' => '120px',
@@ -108,9 +108,9 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
         $this->setMassactionIdField('item_id');
         $this->getMassactionBlock()->setFormFieldName('products');
         $this->getMassactionBlock()->addItem('add', array(
-            'label'    => Mage::helper('enterprise_giftregistry')->__('Add to Gift Registry'),
+            'label'    => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Add to Gift Registry'),
             'url'      => $this->getUrl('*/*/add', array('id' => $this->getEntity()->getId())),
-            'confirm'  => Mage::helper('enterprise_giftregistry')->__('Are you sure you want to add these products?')
+            'confirm'  => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Are you sure you want to add these products?')
         ));
 
         return $this;

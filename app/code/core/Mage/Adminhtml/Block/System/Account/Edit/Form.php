@@ -43,28 +43,28 @@ class Mage_Adminhtml_Block_System_Account_Edit_Form extends Mage_Adminhtml_Block
 
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('adminhtml')->__('Account Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Account Information')));
 
         $fieldset->addField('username', 'text', array(
                 'name'  => 'username',
-                'label' => Mage::helper('adminhtml')->__('User Name'),
-                'title' => Mage::helper('adminhtml')->__('User Name'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Name'),
+                'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Name'),
                 'required' => true,
             )
         );
 
         $fieldset->addField('firstname', 'text', array(
                 'name'  => 'firstname',
-                'label' => Mage::helper('adminhtml')->__('First Name'),
-                'title' => Mage::helper('adminhtml')->__('First Name'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('First Name'),
+                'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('First Name'),
                 'required' => true,
             )
         );
 
         $fieldset->addField('lastname', 'text', array(
                 'name'  => 'lastname',
-                'label' => Mage::helper('adminhtml')->__('Last Name'),
-                'title' => Mage::helper('adminhtml')->__('Last Name'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Last Name'),
+                'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Last Name'),
                 'required' => true,
             )
         );
@@ -76,23 +76,23 @@ class Mage_Adminhtml_Block_System_Account_Edit_Form extends Mage_Adminhtml_Block
 
         $fieldset->addField('email', 'text', array(
                 'name'  => 'email',
-                'label' => Mage::helper('adminhtml')->__('Email'),
-                'title' => Mage::helper('adminhtml')->__('User Email'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Email'),
+                'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Email'),
                 'required' => true,
             )
         );
 
         $fieldset->addField('password', 'password', array(
                 'name'  => 'new_password',
-                'label' => Mage::helper('adminhtml')->__('New Password'),
-                'title' => Mage::helper('adminhtml')->__('New Password'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Password'),
+                'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Password'),
                 'class' => 'input-text validate-admin-password',
             )
         );
 
         $fieldset->addField('confirmation', 'password', array(
                 'name'  => 'password_confirmation',
-                'label' => Mage::helper('adminhtml')->__('Password Confirmation'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Password Confirmation'),
                 'class' => 'input-text validate-cpassword',
             )
         );

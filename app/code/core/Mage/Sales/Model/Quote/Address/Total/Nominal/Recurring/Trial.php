@@ -45,7 +45,7 @@ class Mage_Sales_Model_Quote_Address_Total_Nominal_Recurring_Trial
      */
     public function getLabel()
     {
-        return Mage::helper('sales')->__('Trial Payment');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Trial Payment');
     }
 
     /**

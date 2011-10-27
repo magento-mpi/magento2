@@ -266,7 +266,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         if (!$this->isLoggedIn()) {
             $this->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_current'=>true)));
             if (is_null($loginUrl)) {
-                $loginUrl = Mage::helper('customer')->getLoginUrl();
+                $loginUrl = Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl();
             }
             $action->getResponse()->setRedirect($loginUrl);
             return false;
@@ -283,7 +283,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     protected function _setAuthUrl($key, $url)
     {
-        $url = Mage::helper('core/url')
+        $url = Mage::helper('Mage_Core_Helper_Url')
             ->removeRequestParam($url, Mage::getSingleton('core/session')->getSessionIdQueryParam());
         return $this->setData($key, $url);
     }

@@ -29,7 +29,7 @@
     <sections>
         <giftcard>
             <groups>
-                <email translate="label" module="enterprise_giftcard">
+                <email translate="label" module="Enterprise_GiftCard">
                     <label>Gift Card Email Settings</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>100</sort_order>
@@ -57,7 +57,7 @@
                         </template>
                     </fields>
                 </email>
-                <general translate="label" module="enterprise_giftcard">
+                <general translate="label" module="Enterprise_GiftCard">
                     <label>Gift Card General Settings</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>200</sort_order>

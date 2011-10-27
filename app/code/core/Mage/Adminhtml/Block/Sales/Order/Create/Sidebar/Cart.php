@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart extends Mage_Adminhtm
 
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Shopping Cart');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Shopping Cart');
     }
 
     /**

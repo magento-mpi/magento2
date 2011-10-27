@@ -56,8 +56,8 @@ class Mage_Rss_Block_Order_New extends Mage_Core_Block_Template
         $order = Mage::getModel('sales/order');
         $passDate = $order->getResource()->formatDate(mktime(0,0,0,date('m'),date('d')-7));
 
-        $newurl = Mage::helper('adminhtml')->getUrl('adminhtml/sales_order', array('_secure' => true, '_nosecret' => true));
-        $title = Mage::helper('rss')->__('New Orders');
+        $newurl = Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('adminhtml/sales_order', array('_secure' => true, '_nosecret' => true));
+        $title = Mage::helper('Mage_Rss_Helper_Data')->__('New Orders');
 
         $rssObj = Mage::getModel('rss/rss');
         $data = array('title' => $title,
@@ -89,8 +89,8 @@ class Mage_Rss_Block_Order_New extends Mage_Core_Block_Template
         $detailBlock = $args['detailBlock'];
         $order->reset()->load($args['row']['entity_id']);
         if ($order && $order->getId()) {
-            $title = Mage::helper('rss')->__('Order #%s created at %s', $order->getIncrementId(), $this->formatDate($order->getCreatedAt()));
-            $url = Mage::helper('adminhtml')->getUrl('adminhtml/sales_order/view', array('_secure' => true, 'order_id' => $order->getId(), '_nosecret' => true));
+            $title = Mage::helper('Mage_Rss_Helper_Data')->__('Order #%s created at %s', $order->getIncrementId(), $this->formatDate($order->getCreatedAt()));
+            $url = Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('adminhtml/sales_order/view', array('_secure' => true, 'order_id' => $order->getId(), '_nosecret' => true));
             $detailBlock->setOrder($order);
             $data = array(
                     'title'         => $title,

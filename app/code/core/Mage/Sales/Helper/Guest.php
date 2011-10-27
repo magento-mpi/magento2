@@ -135,8 +135,8 @@ class Mage_Sales_Helper_Guest extends Mage_Core_Helper_Data
         $breadcrumbs->addCrumb(
             'home',
             array(
-                'label' => Mage::helper('cms')->__('Home'),
-                'title' => Mage::helper('cms')->__('Go to Home Page'),
+                'label' => Mage::helper('Mage_Cms_Helper_Data')->__('Home'),
+                'title' => Mage::helper('Mage_Cms_Helper_Data')->__('Go to Home Page'),
                 'link'  => Mage::getBaseUrl()
             )
         );

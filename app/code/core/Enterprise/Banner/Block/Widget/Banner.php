@@ -231,7 +231,7 @@ class Enterprise_Banner_Block_Widget_Banner
 
         // filtering directives
         /* @var $helper Mage_Cms_Helper_Data */
-        $helper = Mage::helper('cms');
+        $helper = Mage::helper('Mage_Cms_Helper_Data');
         $processor = $helper->getPageTemplateProcessor();
         foreach ($bannersContent as $bannerId => $content) {
             $bannersContent[$bannerId] = $processor->filter($content);

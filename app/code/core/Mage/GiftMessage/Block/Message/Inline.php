@@ -105,7 +105,7 @@ class Mage_GiftMessage_Block_Message_Inline extends Mage_Core_Block_Template
      */
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->helper('giftmessage/message')->getGiftMessage(
+        $this->_giftMessage = $this->helper('Mage_GiftMessage_Helper_Message')->getGiftMessage(
             $this->getEntity()->getGiftMessageId()
         );
         return $this;
@@ -154,7 +154,7 @@ class Mage_GiftMessage_Block_Message_Inline extends Mage_Core_Block_Template
         if ($entity) {
             if (!$entity->getGiftMessage()) {
                 $entity->setGiftMessage(
-                    $this->helper('giftmessage/message')->getGiftMessage($entity->getGiftMessageId())
+                    $this->helper('Mage_GiftMessage_Helper_Message')->getGiftMessage($entity->getGiftMessageId())
                 );
             }
             return $entity->getGiftMessage();
@@ -263,7 +263,7 @@ class Mage_GiftMessage_Block_Message_Inline extends Mage_Core_Block_Template
      */
     public function isMessagesAvailable()
     {
-        return Mage::helper('giftmessage/message')->isMessagesAvailable('quote', $this->getEntity());
+        return Mage::helper('Mage_GiftMessage_Helper_Message')->isMessagesAvailable('quote', $this->getEntity());
     }
 
     /**
@@ -274,6 +274,6 @@ class Mage_GiftMessage_Block_Message_Inline extends Mage_Core_Block_Template
     public function isItemMessagesAvailable($item)
     {
         $type = substr($this->getType(), 0, 5) == 'multi' ? 'address_item' : 'item';
-        return Mage::helper('giftmessage/message')->isMessagesAvailable($type, $item);
+        return Mage::helper('Mage_GiftMessage_Helper_Message')->isMessagesAvailable($type, $item);
     }
 }

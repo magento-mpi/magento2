@@ -146,7 +146,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
          * Check shipment create availability
          */
         if (!$order->canShip()) {
-             $this->_fault('data_invalid', Mage::helper('sales')->__('Cannot do shipment for order.'));
+             $this->_fault('data_invalid', Mage::helper('Mage_Sales_Helper_Data')->__('Cannot do shipment for order.'));
         }
 
          /* @var $shipment Mage_Sales_Model_Order_Shipment */
@@ -194,7 +194,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
         $carriers = $this->_getCarriers($shipment);
 
         if (!isset($carriers[$carrier])) {
-            $this->_fault('data_invalid', Mage::helper('sales')->__('Invalid carrier specified.'));
+            $this->_fault('data_invalid', Mage::helper('Mage_Sales_Helper_Data')->__('Invalid carrier specified.'));
         }
 
         $track = Mage::getModel('sales/order_shipment_track')
@@ -339,7 +339,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
             $object->getStoreId()
         );
 
-        $carriers['custom'] = Mage::helper('sales')->__('Custom Value');
+        $carriers['custom'] = Mage::helper('Mage_Sales_Helper_Data')->__('Custom Value');
         foreach ($carrierInstances as $code => $carrier) {
             if ($carrier->isTrackingAvailable()) {
                 $carriers[$code] = $carrier->getConfigData('title');

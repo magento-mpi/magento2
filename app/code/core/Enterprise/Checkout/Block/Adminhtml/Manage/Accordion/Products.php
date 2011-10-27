@@ -44,7 +44,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
         $this->setDefaultSort('entity_id');
         $this->setPagerVisibility(true);
         $this->setFilterVisibility(true);
-        $this->setHeaderText(Mage::helper('enterprise_checkout')->__('Products'));
+        $this->setHeaderText(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Products'));
     }
 
     /**
@@ -88,26 +88,26 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('enterprise_checkout')->__('ID'),
+            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('ID'),
             'sortable'  => true,
             'width'     => '60',
             'index'     => 'entity_id'
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('enterprise_checkout')->__('Product Name'),
+            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Product Name'),
             'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_product',
             'index'     => 'name'
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('enterprise_checkout')->__('SKU'),
+            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('SKU'),
             'width'     => '80',
             'index'     => 'sku'
         ));
 
         $this->addColumn('price', array(
-            'header'    => Mage::helper('enterprise_checkout')->__('Price'),
+            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Price'),
             'type'      => 'currency',
             'column_css_class' => 'price',
             'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
@@ -165,7 +165,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     protected function _getSelectedProducts()
     {
         if ($this->getRequest()->getPost('source')) {
-            $source = Mage::helper('core')->jsonDecode($this->getRequest()->getPost('source'));
+            $source = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('source'));
             if (isset($source['source_products']) && is_array($source['source_products'])) {
                 return array_keys($source['source_products']);
             }

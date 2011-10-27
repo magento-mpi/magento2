@@ -28,38 +28,38 @@
 <config>
     <api>
         <resources>
-            <sales_order translate="title" module="sales">
+            <sales_order translate="title" module="Mage_Sales">
                 <model>sales/order_api</model>
                 <title>Order API</title>
                 <acl>sales/order</acl>
                 <methods>
-                    <list translate="title" module="sales">
+                    <list translate="title" module="Mage_Sales">
                         <title>Retrieve list of orders by filters</title>
                         <method>items</method>
                         <acl>sales/order/info</acl>
                     </list>
-                    <info translate="title" module="sales">
+                    <info translate="title" module="Mage_Sales">
                         <title>Retrieve order information</title>
                         <acl>sales/order/info</acl>
                     </info>
-                    <addComment translate="title" module="sales">
+                    <addComment translate="title" module="Mage_Sales">
                         <title>Add comment to order</title>
                         <acl>sales/order/change</acl>
                     </addComment>
-                    <hold translate="title" module="sales">
+                    <hold translate="title" module="Mage_Sales">
                         <title>Hold order</title>
                         <acl>sales/order/change</acl>
                     </hold>
-                    <unhold translate="title" module="sales">
+                    <unhold translate="title" module="Mage_Sales">
                         <title>Unhold order</title>
                         <acl>sales/order/change</acl>
                     </unhold>
-                    <cancel translate="title" module="sales">
+                    <cancel translate="title" module="Mage_Sales">
                         <title>Cancel order</title>
                         <acl>sales/order/change</acl>
                     </cancel>
                 </methods>
-                <faults module="sales">
+                <faults module="Mage_Sales">
                     <not_exists>
                         <code>100</code>
                         <message>Requested order not exists.</message>
@@ -83,28 +83,28 @@
                 <model>sales/order_shipment_api</model>
                 <acl>sales/order/shipment</acl>
                 <methods>
-                    <list translate="title" module="sales">
+                    <list translate="title" module="Mage_Sales">
                         <title>Retrieve list of shipments by filters</title>
                         <method>items</method>
                         <acl>sales/order/shipment/info</acl>
                     </list>
-                    <info translate="title" module="sales">
+                    <info translate="title" module="Mage_Sales">
                         <title>Retrieve shipment information</title>
                         <acl>sales/order/shipment/info</acl>
                     </info>
-                    <create translate="title" module="sales">
+                    <create translate="title" module="Mage_Sales">
                         <title>Create new shipment for order</title>
                         <acl>sales/order/shipment/create</acl>
                     </create>
-                    <addComment translate="title" module="sales">
+                    <addComment translate="title" module="Mage_Sales">
                         <title>Add new comment to shipment</title>
                         <acl>sales/order/shipment/comment</acl>
                     </addComment>
-                    <addTrack translate="title" module="sales">
+                    <addTrack translate="title" module="Mage_Sales">
                         <title>Add new tracking number</title>
                         <acl>sales/order/shipment/track</acl>
                     </addTrack>
-                    <removeTrack translate="title" module="sales">
+                    <removeTrack translate="title" module="Mage_Sales">
                         <title>Remove tracking number</title>
                         <acl>sales/order/shipment/track</acl>
                     </removeTrack>
@@ -112,7 +112,7 @@
                         <title>Retrieve list of allowed carriers for order</title>
                     </getCarriers>
                 </methods>
-                <faults module="sales">
+                <faults module="Mage_Sales">
                     <not_exists>
                         <code>100</code>
                         <message>Requested shipment not exists.</message>
@@ -144,37 +144,37 @@
                 <model>sales/order_invoice_api</model>
                 <acl>sales/order/invoice</acl>
                 <methods>
-                    <list translate="title" module="sales">
+                    <list translate="title" module="Mage_Sales">
                         <title>Retrieve list of invoices by filters</title>
                         <method>items</method>
                         <acl>sales/order/invoice/info</acl>
                     </list>
-                    <info translate="title" module="sales">
+                    <info translate="title" module="Mage_Sales">
                         <title>Retrieve invoice information</title>
                         <acl>sales/order/invoice/info</acl>
                     </info>
-                    <create translate="title" module="sales">
+                    <create translate="title" module="Mage_Sales">
                         <title>Create new invoice for order</title>
                         <acl>sales/order/invoice/create</acl>
                     </create>
-                    <addComment translate="title" module="sales">
+                    <addComment translate="title" module="Mage_Sales">
                         <title>Add new comment to shipment</title>
                         <acl>sales/order/invoice/comment</acl>
                     </addComment>
-                    <capture translate="title" module="sales">
+                    <capture translate="title" module="Mage_Sales">
                         <title>Capture invoice</title>
                         <acl>sales/order/invoice/capture</acl>
                     </capture>
-                    <void translate="title" module="sales">
+                    <void translate="title" module="Mage_Sales">
                         <title>Void invoice</title>
                         <acl>sales/order/invoice/void</acl>
                     </void>
-                    <cancel translate="title" module="sales">
+                    <cancel translate="title" module="Mage_Sales">
                         <title>Cancel invoice</title>
                         <acl>sales/order/invoice/cancel</acl>
                     </cancel>
                 </methods>
-                <faults module="sales">
+                <faults module="Mage_Sales">
                     <not_exists>
                         <code>100</code>
                         <message>Requested invoice does not exist.</message>
@@ -212,50 +212,50 @@
         </v2>
         <acl>
             <resources>
-                <sales translate="title" module="sales">
+                <sales translate="title" module="Mage_Sales">
                     <title>Sales</title>
                     <sort_order>2</sort_order>
-                    <order translate="title" module="sales">
+                    <order translate="title" module="Mage_Sales">
                         <title>Order</title>
-                        <change translate="title" module="sales">
+                        <change translate="title" module="Mage_Sales">
                             <title>Change status, add comments</title>
                         </change>
-                        <info translate="title" module="sales">
+                        <info translate="title" module="Mage_Sales">
                             <title>Retrieve orders info</title>
                         </info>
-                        <shipment translate="title" module="sales">
+                        <shipment translate="title" module="Mage_Sales">
                             <title>Order shipments</title>
-                            <create translate="title" module="sales">
+                            <create translate="title" module="Mage_Sales">
                                 <title>Create</title>
                             </create>
-                            <comment translate="title" module="sales">
+                            <comment translate="title" module="Mage_Sales">
                                 <title>Comments</title>
                             </comment>
-                            <track translate="title" module="sales">
+                            <track translate="title" module="Mage_Sales">
                                 <title>Tracking</title>
                             </track>
-                            <info translate="title" module="sales">
+                            <info translate="title" module="Mage_Sales">
                                 <title>Retrieve shipment info</title>
                             </info>
                         </shipment>
-                        <invoice translate="title" module="sales">
+                        <invoice translate="title" module="Mage_Sales">
                             <title>Order invoice</title>
-                            <create translate="title" module="sales">
+                            <create translate="title" module="Mage_Sales">
                                 <title>Create</title>
                             </create>
-                            <comment translate="title" module="sales">
+                            <comment translate="title" module="Mage_Sales">
                                 <title>Comments</title>
                             </comment>
-                            <capture translate="title" module="sales">
+                            <capture translate="title" module="Mage_Sales">
                                 <title>Capture</title>
                             </capture>
-                            <void translate="title" module="sales">
+                            <void translate="title" module="Mage_Sales">
                                 <title>Void</title>
                             </void>
-                            <cancel translate="title" module="sales">
+                            <cancel translate="title" module="Mage_Sales">
                                 <title>Cancel</title>
                             </cancel>
-                            <info translate="title" module="sales">
+                            <info translate="title" module="Mage_Sales">
                                 <title>Retrieve invoice info</title>
                             </info>
                         </invoice>

@@ -41,8 +41,8 @@ function registerTaxRecalcs()
     Event.observe($('tax_class_id'), 'change', recalculateTax);
 }
 
-var priceFormat = <?php echo $this->helper('tax')->getPriceFormat($this->getStore()); ?>;
-var taxRates = <?php echo $this->helper('tax')->getAllRatesByProductClass($this->getStore()); ?>;
+var priceFormat = <?php echo $this->helper('Mage_Tax_Helper_Data')->getPriceFormat($this->getStore()); ?>;
+var taxRates = <?php echo $this->helper('Mage_Tax_Helper_Data')->getAllRatesByProductClass($this->getStore()); ?>;
 
 function recalculateTax()
 {

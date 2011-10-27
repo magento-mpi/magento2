@@ -29,32 +29,32 @@
     <menu>
         <sales>
             <children>
-                <archive translate="title" module="enterprise_salesarchive">
+                <archive translate="title" module="Enterprise_SalesArchive">
                     <title>Archive</title>
                     <sort_order>15</sort_order>
                     <depends>
                         <config>sales/enterprise_salesarchive/active</config>
                     </depends>
                     <children>
-                        <orders translate="title" module="enterprise_salesarchive">
+                        <orders translate="title" module="Enterprise_SalesArchive">
                             <title>Orders</title>
                             <action>adminhtml/sales_archive/orders</action>
                             <sort_order>10</sort_order>
                         </orders>
                         
-                        <invoices translate="title" module="enterprise_salesarchive">
+                        <invoices translate="title" module="Enterprise_SalesArchive">
                             <title>Invoices</title>
                             <action>adminhtml/sales_archive/invoices</action>
                             <sort_order>20</sort_order>
                         </invoices>
                         
-                        <shipments translate="title" module="enterprise_salesarchive">
+                        <shipments translate="title" module="Enterprise_SalesArchive">
                             <title>Shipments</title>
                             <action>adminhtml/sales_archive/shipments</action>
                             <sort_order>30</sort_order>
                         </shipments>
                         
-                        <creditmemos translate="title" module="enterprise_salesarchive">
+                        <creditmemos translate="title" module="Enterprise_SalesArchive">
                             <title>Creditmemos</title>
                             <action>adminhtml/sales_archive/creditmemos</action>
                             <sort_order>40</sort_order>
@@ -70,7 +70,7 @@
                 <children>
                     <sales>
                         <children>
-                            <archive translate="title" module="enterprise_salesarchive">
+                            <archive translate="title" module="Enterprise_SalesArchive">
                                  <title>Archive</title>
                                  <children>
                                     <orders translate="title">

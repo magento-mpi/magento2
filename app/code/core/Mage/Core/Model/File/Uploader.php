@@ -54,14 +54,14 @@ class Mage_Core_Model_File_Uploader extends Varien_File_Uploader
         }
 
         /** @var $helper Mage_Core_Helper_File_Storage */
-        $helper = Mage::helper('core/file_storage');
+        $helper = Mage::helper('Mage_Core_Helper_File_Storage');
 
         if ($helper->isInternalStorage() || $this->skipDbProcessing()) {
             return $this;
         }
 
         /** @var $dbHelper Mage_Core_Helper_File_Storage_Database */
-        $dbHelper = Mage::helper('core/file_storage_database');
+        $dbHelper = Mage::helper('Mage_Core_Helper_File_Storage_Database');
         $this->_result['file'] = $dbHelper->saveUploadedFile($result);
 
         return $this;

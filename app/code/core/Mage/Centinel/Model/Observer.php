@@ -65,7 +65,7 @@ class Mage_Centinel_Model_Observer extends Varien_Object
 
         $payment = $observer->getEvent()->getPayment();
         $transport = $observer->getEvent()->getTransport();
-        $helper = Mage::helper('centinel');
+        $helper = Mage::helper('Mage_Centinel_Helper_Data');
 
         $info = array(
             Mage_Centinel_Model_Service::CMPI_PARES,
@@ -96,7 +96,7 @@ class Mage_Centinel_Model_Observer extends Varien_Object
         if ($method && $method->getIsCentinelValidationEnabled()) {
             $paymentFormBlock->setChild(
                'payment.method.' . $method->getCode() . 'centinel.logo',
-                Mage::helper('centinel')->getMethodFormBlock($method)
+                Mage::helper('Mage_Centinel_Helper_Data')->getMethodFormBlock($method)
             );
         }
         return $this;

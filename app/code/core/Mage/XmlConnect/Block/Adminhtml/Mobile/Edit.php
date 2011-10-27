@@ -44,7 +44,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit
         $this->_blockGroup  = 'xmlconnect';
         parent::__construct();
         if ((bool)!Mage::getSingleton('adminhtml/session')->getNewApplication()) {
-            $app = Mage::helper('xmlconnect')->getApplication();
+            $app = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
             $this->_updateButton('save', 'label', $this->__('Save'));
             $this->_updateButton('save', 'onclick', 'if (editForm.submit()) {disableElements(\'save\')}');
 
@@ -92,7 +92,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit
         $this->getLayout()->getBlock('head')->addJs('scriptaculous/scriptaculous.js');
 
         if ((bool)!Mage::getSingleton('adminhtml/session')->getNewApplication()) {
-            $deviceType = Mage::helper('xmlconnect')->getDeviceType();
+            $deviceType = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceType();
             switch ($deviceType) {
                 case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE:
                     $this->getLayout()->getBlock('head')->addItem('skin_css', 'xmlconnect/mobile-home.css');
@@ -124,7 +124,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit
     public function getHeaderText()
     {
         if ((bool)!Mage::getSingleton('adminhtml/session')->getNewApplication()) {
-            $app = Mage::helper('xmlconnect')->getApplication();
+            $app = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
         }
 
         if (isset($app) && $app->getId()) {

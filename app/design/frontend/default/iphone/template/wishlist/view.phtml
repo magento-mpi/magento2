@@ -25,7 +25,7 @@
  */
 /* @var $this Mage_Wishlist_Block_Customer_Wishlist */
 ?>
-<?php if ($this->helper('wishlist')->isAllow()) : ?>
+<?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
 <div class="my-wishlist">
     <h1><?php echo $this->__('My Wishlist') ?></h1>
 
@@ -40,7 +40,7 @@
                             $isVisibleProduct = $product->isVisibleInSiteVisibility();
                         ?>
                         <li>
-                            <a href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(45, 45); ?>" width="45" height="45" alt="<?php echo $this->escapeHtml($product->getName()) ?>" /></a>
+                            <a href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><img src="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($product, 'small_image')->resize(45, 45); ?>" width="45" height="45" alt="<?php echo $this->escapeHtml($product->getName()) ?>" /></a>
                              <div class="wishlist-item">
                                 <h2><a href="<?php echo $this->getProductUrl($item) ?>"><?php echo $this->escapeHtml($product->getName()) ?></a>
                                     <?php if ($isVisibleProduct): ?>
@@ -82,10 +82,10 @@
     }
 
     function focusComment(obj) {
-        if( obj.value == '<?php echo $this->helper('wishlist')->defaultCommentString() ?>' ) {
+        if( obj.value == '<?php echo $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString() ?>' ) {
             obj.value = '';
         } else if( obj.value == '' ) {
-            obj.value = '<?php echo $this->helper('wishlist')->defaultCommentString() ?>';
+            obj.value = '<?php echo $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString() ?>';
         }
     }
 

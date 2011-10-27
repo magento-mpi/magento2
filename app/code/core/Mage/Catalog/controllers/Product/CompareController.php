@@ -54,7 +54,7 @@ class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_
 
         if ($beforeUrl = $this->getRequest()->getParam(self::PARAM_NAME_URL_ENCODED)) {
             Mage::getSingleton('catalog/session')
-                ->setBeforeCompareUrl(Mage::helper('core')->urlDecode($beforeUrl));
+                ->setBeforeCompareUrl(Mage::helper('Mage_Core_Helper_Data')->urlDecode($beforeUrl));
         }
 
         if ($items) {
@@ -82,12 +82,12 @@ class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_
             if ($product->getId()/* && !$product->isSuper()*/) {
                 Mage::getSingleton('catalog/product_compare_list')->addProduct($product);
                 Mage::getSingleton('catalog/session')->addSuccess(
-                    $this->__('The product %s has been added to comparison list.', Mage::helper('core')->escapeHtml($product->getName()))
+                    $this->__('The product %s has been added to comparison list.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName()))
                 );
                 Mage::dispatchEvent('catalog_product_compare_add_product', array('product'=>$product));
             }
 
-            Mage::helper('catalog/product_compare')->calculate();
+            Mage::helper('Mage_Catalog_Helper_Product_Compare')->calculate();
         }
 
         $this->_redirectReferer();
@@ -124,7 +124,7 @@ class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_
                         $this->__('The product %s has been removed from comparison list.', $product->getName())
                     );
                     Mage::dispatchEvent('catalog_product_compare_remove_product', array('product'=>$item));
-                    Mage::helper('catalog/product_compare')->calculate();
+                    Mage::helper('Mage_Catalog_Helper_Product_Compare')->calculate();
                 }
             }
         }
@@ -155,7 +155,7 @@ class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_
         try {
             $items->clear();
             $session->addSuccess($this->__('The comparison list was cleared.'));
-            Mage::helper('catalog/product_compare')->calculate();
+            Mage::helper('Mage_Catalog_Helper_Product_Compare')->calculate();
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Exception $e) {

@@ -51,7 +51,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking exte
      */
     public function getCarriers()
     {
-        return Mage::helper('enterprise_rma')->getAllowedShippingCarriers($this->getRma()->getStoreId());
+        return Mage::helper('Enterprise_Rma_Helper_Data')->getAllowedShippingCarriers($this->getRma()->getStoreId());
     }
 
     /**
@@ -80,7 +80,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking exte
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
-                        'label'   => Mage::helper('sales')->__('Add'),
+                        'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Add'),
                         'class'   => 'save',
                         'onclick' => $onclick
                     )
@@ -143,7 +143,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking exte
         if ($carrier = Mage::getSingleton('shipping/config')->getCarrierInstance($code)) {
             return $carrier->getConfigData('title');
         } else {
-            return Mage::helper('sales')->__('Custom Value');
+            return Mage::helper('Mage_Sales_Helper_Data')->__('Custom Value');
         }
         return false;
     }

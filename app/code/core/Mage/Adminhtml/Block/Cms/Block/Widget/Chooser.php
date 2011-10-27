@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Cms_Block_Widget_Chooser extends Mage_Adminhtml_Block
      */
     public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        $uniqId = Mage::helper('core')->uniqHash($element->getId());
+        $uniqId = Mage::helper('Mage_Core_Helper_Data')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/cms_block_widget/chooser', array('uniq_id' => $uniqId));
 
         $chooser = $this->getLayout()->createBlock('widget/adminhtml_widget_chooser')
@@ -120,32 +120,32 @@ class Mage_Adminhtml_Block_Cms_Block_Widget_Chooser extends Mage_Adminhtml_Block
     protected function _prepareColumns()
     {
         $this->addColumn('chooser_id', array(
-            'header'    => Mage::helper('cms')->__('ID'),
+            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('ID'),
             'align'     => 'right',
             'index'     => 'block_id',
             'width'     => 50
         ));
 
         $this->addColumn('chooser_title', array(
-            'header'    => Mage::helper('cms')->__('Title'),
+            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Title'),
             'align'     => 'left',
             'index'     => 'title',
         ));
 
         $this->addColumn('chooser_identifier', array(
-            'header'    => Mage::helper('cms')->__('Identifier'),
+            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Identifier'),
             'align'     => 'left',
             'index'     => 'identifier'
         ));
 
 
         $this->addColumn('chooser_is_active', array(
-            'header'    => Mage::helper('cms')->__('Status'),
+            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(
-                0 => Mage::helper('cms')->__('Disabled'),
-                1 => Mage::helper('cms')->__('Enabled')
+                0 => Mage::helper('Mage_Cms_Helper_Data')->__('Disabled'),
+                1 => Mage::helper('Mage_Cms_Helper_Data')->__('Enabled')
             ),
         ));
 

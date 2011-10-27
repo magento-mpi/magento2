@@ -138,7 +138,7 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
         }
 
         // check by ip
-        if (count($this->_getResource()->getVotedPollIdsByIp(Mage::helper('core/http')->getRemoteAddr(), $pollId))) {
+        if (count($this->_getResource()->getVotedPollIdsByIp(Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(), $pollId))) {
             return true;
         }
 
@@ -224,7 +224,7 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
         }
 
         // load from db for this ip
-        foreach ($this->_getResource()->getVotedPollIdsByIp(Mage::helper('core/http')->getRemoteAddr()) as $pollId) {
+        foreach ($this->_getResource()->getVotedPollIdsByIp(Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr()) as $pollId) {
             $idsArray[$pollId] = $pollId;
         }
 

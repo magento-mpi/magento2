@@ -107,7 +107,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
         if ($tier_price) {
             $tier_price->setRenderer(
                 $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_price_tier')
-                    ->setPriceColumnHeader(Mage::helper('bundle')->__('Percent Discount'))
+                    ->setPriceColumnHeader(Mage::helper('Mage_Bundle_Helper_Data')->__('Percent Discount'))
                     ->setPriceValidation('validate-greater-than-zero validate-percents')
             );
         }

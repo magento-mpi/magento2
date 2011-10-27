@@ -53,7 +53,7 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
         $adapterMethod = $this->getVar('method', 'saveRow');
 
         if (!$adapterName || !$adapterMethod) {
-            $message = Mage::helper('dataflow')->__('Please declare "adapter" and "method" nodes first.');
+            $message = Mage::helper('Mage_Dataflow_Helper_Data')->__('Please declare "adapter" and "method" nodes first.');
             $this->addException($message, Mage_Dataflow_Model_Convert_Exception::FATAL);
             return $this;
         }
@@ -62,13 +62,13 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
             $adapter = Mage::getModel($adapterName);
         }
         catch (Exception $e) {
-            $message = Mage::helper('dataflow')->__('Declared adapter %s was not found.', $adapterName);
+            $message = Mage::helper('Mage_Dataflow_Helper_Data')->__('Declared adapter %s was not found.', $adapterName);
             $this->addException($message, Mage_Dataflow_Model_Convert_Exception::FATAL);
             return $this;
         }
 
         if (!is_callable(array($adapter, $adapterMethod))) {
-            $message = Mage::helper('dataflow')->__('Method "%s" not defined in adapter %s.', $adapterMethod, $adapterName);
+            $message = Mage::helper('Mage_Dataflow_Helper_Data')->__('Method "%s" not defined in adapter %s.', $adapterMethod, $adapterName);
             $this->addException($message, Mage_Dataflow_Model_Convert_Exception::FATAL);
             return $this;
         }
@@ -116,8 +116,8 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
                 ->save();
         }
 
-        $this->addException(Mage::helper('dataflow')->__('Found %d rows.', $countRows));
-        $this->addException(Mage::helper('dataflow')->__('Starting %s :: %s', $adapterName, $adapterMethod));
+        $this->addException(Mage::helper('Mage_Dataflow_Helper_Data')->__('Found %d rows.', $countRows));
+        $this->addException(Mage::helper('Mage_Dataflow_Helper_Data')->__('Starting %s :: %s', $adapterName, $adapterMethod));
 
         $batchModel->setParams($this->getVars())
             ->setAdapter($adapterName)

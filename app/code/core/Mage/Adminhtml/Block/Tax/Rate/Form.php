@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
             $regions = array(array('value'=>'', 'label'=>'*'));
         }
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('tax')->__('Tax Rate Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rate Information')));
 
         if( $rateObject->getTaxCalculationRateId() > 0 ) {
             $fieldset->addField('tax_calculation_rate_id', 'hidden',
@@ -90,8 +90,8 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         $fieldset->addField('code', 'text',
             array(
                 'name' => 'code',
-                'label' => Mage::helper('tax')->__('Tax Identifier'),
-                'title' => Mage::helper('tax')->__('Tax Identifier'),
+                'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Identifier'),
+                'title' => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Identifier'),
                 'class' => 'required-entry',
                 'value' => $rateModel->getCode(),
                 'required' => true,
@@ -101,7 +101,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         $fieldset->addField('tax_country_id', 'select',
             array(
                 'name' => 'tax_country_id',
-                'label' => Mage::helper('tax')->__('Country'),
+                'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Country'),
                 'required' => true,
                 'values' => $countries
             )
@@ -110,7 +110,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         $fieldset->addField('tax_region_id', 'select',
             array(
                 'name' => 'tax_region_id',
-                'label' => Mage::helper('tax')->__('State'),
+                'label' => Mage::helper('Mage_Tax_Helper_Data')->__('State'),
                 'values' => $regions
             )
         );
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         $fieldset->addField('tax_county_id', 'select',
             array(
                 'name' => 'tax_county_id',
-                'label' => Mage::helper('tax')->__('County'),
+                'label' => Mage::helper('Mage_Tax_Helper_Data')->__('County'),
                 'values' => array(
                     array(
                         'label' => '*',
@@ -133,10 +133,10 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
 
         $fieldset->addField('zip_is_range', 'select', array(
             'name' => 'zip_is_range',
-            'label' => Mage::helper('tax')->__('Zip/Post is Range'),
+            'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Zip/Post is Range'),
             'options'   => array(
-                    '0' => Mage::helper('tax')->__('No'),
-                    '1' => Mage::helper('tax')->__('Yes'),
+                    '0' => Mage::helper('Mage_Tax_Helper_Data')->__('No'),
+                    '1' => Mage::helper('Mage_Tax_Helper_Data')->__('Yes'),
                 )
         ));
 
@@ -147,15 +147,15 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         $fieldset->addField('tax_postcode', 'text',
             array(
                 'name' => 'tax_postcode',
-                'label' => Mage::helper('tax')->__('Zip/Post Code'),
-                'note' => Mage::helper('tax')->__("'*' - matches any; 'xyz*' - matches any that begins on 'xyz' and not longer than %d.", Mage::helper('tax')->getPostCodeSubStringLength()),
+                'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Zip/Post Code'),
+                'note' => Mage::helper('Mage_Tax_Helper_Data')->__("'*' - matches any; 'xyz*' - matches any that begins on 'xyz' and not longer than %d.", Mage::helper('Mage_Tax_Helper_Data')->getPostCodeSubStringLength()),
             )
         );
 
         $fieldset->addField('zip_from', 'text',
             array(
                 'name' => 'zip_from',
-                'label' => Mage::helper('tax')->__('Range From'),
+                'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Range From'),
                 'value' => $rateObject->getZipFrom(),
                 'required' => true,
                 'class' => 'validate-digits'
@@ -165,7 +165,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         $fieldset->addField('zip_to', 'text',
             array(
                 'name' => 'zip_to',
-                'label' => Mage::helper('tax')->__('Range To'),
+                'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Range To'),
                 'value' => $rateObject->getZipTo(),
                 'required' => true,
                 'class' => 'validate-digits'
@@ -181,8 +181,8 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         $fieldset->addField('rate', 'text',
             array(
                 'name' => "rate",
-                'label' => Mage::helper('tax')->__('Rate Percent'),
-                'title' => Mage::helper('tax')->__('Rate Percent'),
+                'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Rate Percent'),
+                'title' => Mage::helper('Mage_Tax_Helper_Data')->__('Rate Percent'),
                 'value' => number_format($value, 4),
                 'required' => true,
                 'class' => 'validate-not-negative-number'
@@ -195,7 +195,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         $form->setMethod('post');
 
         if (!Mage::app()->isSingleStoreMode()) {
-            $form->addElement(Mage::getBlockSingleton('adminhtml/tax_rate_title_fieldset')->setLegend(Mage::helper('tax')->__('Tax Titles')));
+            $form->addElement(Mage::getBlockSingleton('adminhtml/tax_rate_title_fieldset')->setLegend(Mage::helper('Mage_Tax_Helper_Data')->__('Tax Titles')));
         }
 
         $form->setValues($rateObject->getData());

@@ -398,8 +398,8 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         );
 
         // collect ip data
-        if (Mage::helper('core/http')->getRemoteAddr()) {
-            $parts[self::VALIDATOR_REMOTE_ADDR_KEY] = Mage::helper('core/http')->getRemoteAddr();
+        if (Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr()) {
+            $parts[self::VALIDATOR_REMOTE_ADDR_KEY] = Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr();
         }
         if (isset($_ENV['HTTP_VIA'])) {
             $parts[self::VALIDATOR_HTTP_VIA_KEY] = (string)$_ENV['HTTP_VIA'];

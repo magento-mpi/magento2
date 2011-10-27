@@ -55,17 +55,17 @@
         </resources>
         <template>
             <email>
-                <newsletter_subscription_confirm_email_template translate="label" module="newsletter">
+                <newsletter_subscription_confirm_email_template translate="label" module="Mage_Newsletter">
                     <label>Newsletter subscription confirmation</label>
                     <file>newsletter_subscr_confirm.html</file>
                     <type>html</type>
                 </newsletter_subscription_confirm_email_template>
-                <newsletter_subscription_success_email_template translate="label" module="newsletter">
+                <newsletter_subscription_success_email_template translate="label" module="Mage_Newsletter">
                     <label>Newsletter subscription success</label>
                     <file>newsletter_subscr_success.html</file>
                     <type>html</type>
                 </newsletter_subscription_success_email_template>
-                <newsletter_subscription_un_email_template translate="label" module="newsletter">
+                <newsletter_subscription_un_email_template translate="label" module="Mage_Newsletter">
                     <label>Newsletter unsubscription success</label>
                     <file>newsletter_unsub_success.html</file>
                     <type>html</type>
@@ -151,7 +151,7 @@
         </translate>
         <layout>
             <updates>
-                <newsletter module="Mage_Newsletter">
+                <newsletter module="Mage_Mage_Newsletter">
                     <file>newsletter.xml</file>
                 </newsletter>
             </updates>

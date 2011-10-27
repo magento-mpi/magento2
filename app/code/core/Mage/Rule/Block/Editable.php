@@ -55,8 +55,8 @@ class Mage_Rule_Block_Editable extends Mage_Core_Block_Abstract
 
             $translate = Mage::getSingleton('core/translate_inline');
 
-            $html .= $translate->isAllowed() ? Mage::helper('core')->escapeHtml($valueName) :
-                Mage::helper('core')->escapeHtml(Mage::helper('core/string')->truncate($valueName, 33, '...'));
+            $html .= $translate->isAllowed() ? Mage::helper('Mage_Core_Helper_Data')->escapeHtml($valueName) :
+                Mage::helper('Mage_Core_Helper_Data')->escapeHtml(Mage::helper('Mage_Core_Helper_String')->truncate($valueName, 33, '...'));
 
             $html .= '</a><span class="element"> ' . $element->getElementHtml();
 

@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-        <cataloginventory translate="label" module="cataloginventory">
+        <cataloginventory translate="label" module="Mage_CatalogInventory">
             <label>Inventory</label>
             <tab>catalog</tab>
             <frontend_type>text</frontend_type>

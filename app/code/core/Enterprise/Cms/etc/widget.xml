@@ -26,7 +26,7 @@
  */
 -->
 <widgets>
-    <cms_hierarchy_node type="enterprise_cms/widget_node" translate="name description" module="enterprise_cms">
+    <cms_hierarchy_node type="enterprise_cms/widget_node" translate="name description" module="Enterprise_Cms">
         <name>CMS Hierarchy Node Link</name>
         <description>Link to Specified CMS Hierarchy Node</description>
         <is_email_compatible>1</is_email_compatible>

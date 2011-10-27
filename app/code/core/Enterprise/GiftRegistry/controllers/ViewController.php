@@ -35,7 +35,7 @@ class Enterprise_GiftRegistry_ViewController extends Mage_Core_Controller_Front_
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('enterprise_giftregistry')->isEnabled()) {
+        if (!Mage::helper('Enterprise_GiftRegistry_Helper_Data')->isEnabled()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
@@ -64,7 +64,7 @@ class Enterprise_GiftRegistry_ViewController extends Mage_Core_Controller_Front_
         $this->_initLayoutMessages('customer/session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('enterprise_giftregistry')->__('Gift Registry Info'));
+            $headBlock->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Info'));
         }
         $this->renderLayout();
     }
@@ -102,12 +102,12 @@ class Enterprise_GiftRegistry_ViewController extends Mage_Core_Controller_Front_
             $success = true;
             if (!$count) {
                 $success = false;
-                $session->addError(Mage::helper('enterprise_giftregistry')->__('Please specify the quantity of items that you want to add to cart.'));
+                $session->addError(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please specify the quantity of items that you want to add to cart.'));
             }
         } catch (Mage_Core_Exception $e) {
-            $session->addError(Mage::helper('enterprise_giftregistry')->__($e->getMessage()));
+            $session->addError(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__($e->getMessage()));
         } catch (Exception $e) {
-            $session->addException($e, Mage::helper('enterprise_giftregistry')->__('Cannot add item to shopping cart'));
+            $session->addException($e, Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Cannot add item to shopping cart'));
             Mage::logException($e);
         }
         if (!$success) {

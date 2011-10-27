@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
         $this->setChild('back_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Back'),
+                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Back'),
                     'onclick'   => 'setLocation(\''.$this->getUrl('*/catalog_product/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
                     'class' => 'back'
                 ))
@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
         $this->setChild('reset_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Reset'),
+                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Reset'),
                     'onclick'   => 'setLocation(\''.$this->getUrl('*/*/*', array('_current'=>true)).'\')'
                 ))
         );
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Save'),
+                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save'),
                     'onclick'   => 'attributesForm.submit()',
                     'class'     => 'save'
                 ))
@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
      */
     protected function _getHelper()
     {
-        return $this->helper('adminhtml/catalog_product_edit_action_attribute');
+        return $this->helper('Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute');
     }
     
     /**
@@ -121,7 +121,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/*/save', array('store'=>Mage::helper('adminhtml/catalog_product_edit_action_attribute')->getSelectedStoreId()));
+        return $this->getUrl('*/*/save', array('store'=>Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')->getSelectedStoreId()));
     }
     
     /**

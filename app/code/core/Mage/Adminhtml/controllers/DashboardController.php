@@ -39,7 +39,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
 
         $this->loadLayout();
         $this->_setActiveMenu('dashboard');
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Dashboard'), Mage::helper('adminhtml')->__('Dashboard'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Dashboard'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Dashboard'));
         $this->renderLayout();
     }
 
@@ -90,7 +90,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
         $gaData = $this->getRequest()->getParam('ga');
         $gaHash = $this->getRequest()->getParam('h');
         if ($gaData && $gaHash) {
-            $newHash = Mage::helper('adminhtml/dashboard_data')->getChartDataHash($gaData);
+            $newHash = Mage::helper('Mage_Adminhtml_Helper_Dashboard_Data')->getChartDataHash($gaData);
             if ($newHash == $gaHash) {
                 if ($params = unserialize(base64_decode(urldecode($gaData)))) {
                     $response = $httpClient->setUri(Mage_Adminhtml_Block_Dashboard_Graph::API_URL)

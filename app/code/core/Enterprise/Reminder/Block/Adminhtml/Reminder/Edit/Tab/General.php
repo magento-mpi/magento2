@@ -42,8 +42,8 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
         $model = Mage::registry('current_reminder_rule');
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend'  => Mage::helper('enterprise_reminder')->__('General Information'),
-            'comment' => Mage::helper('enterprise_reminder')->__('Reminder emails may promote a shopping cart price rule with or without coupon. If a shopping cart price rule defines an auto-generated coupon, this reminder rule will generate a random coupon code for each customer.'),
+            'legend'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('General Information'),
+            'comment' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Reminder emails may promote a shopping cart price rule with or without coupon. If a shopping cart price rule defines an auto-generated coupon, this reminder rule will generate a random coupon code for each customer.'),
         ));
 
         if ($model->getId()) {
@@ -54,22 +54,22 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
 
         $fieldset->addField('name', 'text', array(
             'name'     => 'name',
-            'label'    => Mage::helper('enterprise_reminder')->__('Rule Name'),
+            'label'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Rule Name'),
             'required' => true,
         ));
 
         $fieldset->addField('description', 'textarea', array(
             'name'  => 'description',
-            'label' => Mage::helper('enterprise_reminder')->__('Description'),
+            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Description'),
             'style' => 'width: 98%; height: 100px;',
         ));
 
         $field = $fieldset->addField('salesrule_id', 'note', array(
             'name'  => 'salesrule_id',
-            'label' => Mage::helper('enterprise_reminder')->__('Shopping Cart Price Rule'),
+            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Shopping Cart Price Rule'),
             'class' => 'widget-option',
             'value' => $model->getSalesruleId(),
-            'note'  => Mage::helper('enterprise_reminder')->__('Promotion rule this reminder will advertise.'),
+            'note'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Promotion rule this reminder will advertise.'),
             'readonly' => !$isEditable
         ));
 
@@ -79,7 +79,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
         if ($helperBlock instanceof Varien_Object) {
             $helperBlock->setConfig($this->getChooserConfig())
                 ->setFieldsetId($fieldset->getId())
-                ->setTranslationHelper(Mage::helper('salesrule'))
+                ->setTranslationHelper(Mage::helper('Mage_SalesRule_Helper_Data'))
                 ->prepareElementHtml($field);
         }
 
@@ -87,19 +87,19 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             $fieldset->addField('website_ids','multiselect',array(
                 'name'     => 'website_ids',
                 'required' => true,
-                'label'    => Mage::helper('newsletter')->__('Assigned to Websites'),
+                'label'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Assigned to Websites'),
                 'values'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(),
                 'value'    => $model->getWebsiteIds()
             ));
         }
 
         $fieldset->addField('is_active', 'select', array(
-            'label'    => Mage::helper('enterprise_reminder')->__('Status'),
+            'label'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Status'),
             'name'     => 'is_active',
             'required' => true,
             'options'  => array(
-                '1' => Mage::helper('enterprise_reminder')->__('Active'),
-                '0' => Mage::helper('enterprise_reminder')->__('Inactive'),
+                '1' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Active'),
+                '0' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Inactive'),
             ),
         ));
 
@@ -111,16 +111,16 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
 
         $fieldset->addField('active_from', 'date', array(
             'name'   => 'active_from',
-            'label'  => Mage::helper('enterprise_reminder')->__('Active From'),
-            'title'  => Mage::helper('enterprise_reminder')->__('Active From'),
+            'label'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Active From'),
+            'title'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Active From'),
             'image'  => $this->getSkinUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
             'format'       => $dateFormatIso
         ));
         $fieldset->addField('active_to', 'date', array(
             'name'   => 'active_to',
-            'label'  => Mage::helper('enterprise_reminder')->__('Active To'),
-            'title'  => Mage::helper('enterprise_reminder')->__('Active To'),
+            'label'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Active To'),
+            'title'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Active To'),
             'image'  => $this->getSkinUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
             'format'       => $dateFormatIso
@@ -128,8 +128,8 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
 
         $fieldset->addField('schedule', 'text', array(
             'name' => 'schedule',
-            'label' => Mage::helper('enterprise_reminder')->__('Repeat Schedule'),
-            'note' => Mage::helper('enterprise_reminder')->__('In what number of days to repeat reminder email, if the rule condition still matches. Enter days, comma-separated.'),
+            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Repeat Schedule'),
+            'note' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('In what number of days to repeat reminder email, if the rule condition still matches. Enter days, comma-separated.'),
         ));
 
         $form->setValues($model->getData());

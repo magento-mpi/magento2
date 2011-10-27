@@ -28,7 +28,7 @@
 <layout version="0.1.0">
     <customer_account>
         <block type="enterprise_rma/link" name="enterprise_rma_link_dashboard">
-            <action method="addDashboardLink" translate="label" module="enterprise_rma"><block>customer_account_navigation</block><name>return</name><path>rma/return/history/</path><label>My Returns</label></action>
+            <action method="addDashboardLink" translate="label" module="Enterprise_Rma"><block>customer_account_navigation</block><name>return</name><path>rma/return/history/</path><label>My Returns</label></action>
         </block>
     </customer_account>
 
@@ -132,11 +132,11 @@
             <block type="enterprise_rma/return_returns" name="rma.return.returns" />
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path>sales/order/view</path><label>Order Information</label></action>
-            <action method="addLink" translate="label" module="sales"><name>invoice</name><path>sales/order/invoice</path><label>Invoices</label></action>
-            <action method="addLink" translate="label" module="sales"><name>shipment</name><path>sales/order/shipment</path><label>Shipments</label></action>
-            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>sales/order/creditmemo</path><label>Refunds</label></action>
-            <action method="addLink" translate="label" module="sales"><name>returns</name><path></path><label>Returns</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>view</name><path>sales/order/view</path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>invoice</name><path>sales/order/invoice</path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>shipment</name><path>sales/order/shipment</path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>creditmemo</name><path>sales/order/creditmemo</path><label>Refunds</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>returns</name><path></path><label>Returns</label></action>
         </reference>
     </enterprise_rma_return_returns>
 
@@ -154,11 +154,11 @@
             <block type="enterprise_rma/return_returns" name="rma.return.returns" />
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path>sales/guest/view</path><label>Order Information</label></action>
-            <action method="addLink" translate="label" module="sales"><name>invoice</name><path>sales/guest/invoice</path><label>Invoices</label></action>
-            <action method="addLink" translate="label" module="sales"><name>shipment</name><path>sales/guest/shipment</path><label>Shipments</label></action>
-            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>sales/guest/creditmemo</path><label>Refunds</label></action>
-            <action method="addLink" translate="label" module="sales"><name>returns</name><path></path><label>Returns</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>view</name><path>sales/guest/view</path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>invoice</name><path>sales/guest/invoice</path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>shipment</name><path>sales/guest/shipment</path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>creditmemo</name><path>sales/guest/creditmemo</path><label>Refunds</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>returns</name><path></path><label>Returns</label></action>
         </reference>
     </enterprise_rma_guest_returns>
 
@@ -186,11 +186,11 @@
         </reference>
         <update handle="enterprise_rma_return_view_handle"/>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path>sales/guest/view</path><label>Order Information</label></action>
-            <action method="addLink" translate="label" module="sales"><name>invoice</name><path>sales/guest/invoice</path><label>Invoices</label></action>
-            <action method="addLink" translate="label" module="sales"><name>shipment</name><path>sales/guest/shipment</path><label>Shipments</label></action>
-            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>sales/guest/creditmemo</path><label>Refunds</label></action>
-            <action method="addLink" translate="label" module="sales"><name>returns</name><path></path><label>Returns</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>view</name><path>sales/guest/view</path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>invoice</name><path>sales/guest/invoice</path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>shipment</name><path>sales/guest/shipment</path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>creditmemo</name><path>sales/guest/creditmemo</path><label>Refunds</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>returns</name><path></path><label>Returns</label></action>
         </reference>
         <block type="enterprise_rma/return_tracking" name="rma.return.tracking" as="tracking" />
     </enterprise_rma_guest_view>
@@ -210,11 +210,11 @@
         </reference>
         <update handle="enterprise_rma_return_create_handle"/>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path>sales/guest/view</path><label>Order Information</label></action>
-            <action method="addLink" translate="label" module="sales"><name>invoice</name><path>sales/guest/invoice</path><label>Invoices</label></action>
-            <action method="addLink" translate="label" module="sales"><name>shipment</name><path>sales/guest/shipment</path><label>Shipments</label></action>
-            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>sales/guest/creditmemo</path><label>Refunds</label></action>
-            <action method="addLink" translate="label" module="sales"><name>returns</name><path></path><label>Returns</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>view</name><path>sales/guest/view</path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>invoice</name><path>sales/guest/invoice</path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>shipment</name><path>sales/guest/shipment</path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>creditmemo</name><path>sales/guest/creditmemo</path><label>Refunds</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>returns</name><path></path><label>Returns</label></action>
         </reference>
     </enterprise_rma_guest_create>
 

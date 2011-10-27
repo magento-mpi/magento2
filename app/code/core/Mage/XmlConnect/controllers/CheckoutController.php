@@ -71,7 +71,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
      */
     public function indexAction()
     {
-        if (!Mage::helper('checkout')->canOnepageCheckout()) {
+        if (!Mage::helper('Mage_Checkout_Helper_Data')->canOnepageCheckout()) {
             $this->_message($this->__('Onepage checkout is disabled.'), self::MESSAGE_STATUS_ERROR);
             return;
         }
@@ -451,7 +451,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
         }
 
         try {
-            if ($requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds()) {
+            if ($requiredAgreements = Mage::helper('Mage_Checkout_Helper_Data')->getRequiredAgreementIds()) {
                 $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
                 if (array_diff($requiredAgreements, $postedAgreements)) {
                     $error = $this->__('Please agree to all the terms and conditions before placing the order.');
@@ -484,11 +484,11 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
             return;
         } catch (Mage_Core_Exception $e) {
             Mage::logException($e);
-            Mage::helper('checkout')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
+            Mage::helper('Mage_Checkout_Helper_Data')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
             $error = $e->getMessage();
         } catch (Exception $e) {
             Mage::logException($e);
-            Mage::helper('checkout')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
+            Mage::helper('Mage_Checkout_Helper_Data')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
             $error = $this->__('An error occurred while processing your order. Please contact us or try again later.');
         }
         $this->getOnepage()->getQuote()->save();

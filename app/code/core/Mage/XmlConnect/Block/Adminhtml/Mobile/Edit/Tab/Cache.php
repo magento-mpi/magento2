@@ -46,13 +46,13 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Cache
         $form = new Varien_Data_Form();
         $this->setForm($form);
 
-        $data = Mage::helper('xmlconnect')->getApplication()->getFormData();
+        $data = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getFormData();
 
         $fieldset = $form->addFieldset('cache_management', array('legend' => $this->__('Cache Management')));
         if (isset($data['conf[native][cacheLifetime]'])) {
             $lifetime = $data['conf[native][cacheLifetime]'];
         } else {
-            $lifetime = Mage::helper('xmlconnect')->getDefaultCacheLifetime();
+            $lifetime = Mage::helper('Mage_XmlConnect_Helper_Data')->getDefaultCacheLifetime();
         }
         $fieldset->addField('conf/native/cacheLifetime', 'text', array(
             'label'     => $this->__('Cache Lifetime (seconds)'),

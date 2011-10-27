@@ -86,7 +86,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('Number of Orders %s %s while %s of these Conditions match:',
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Number of Orders %s %s while %s of these Conditions match:',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml(),
                 $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();

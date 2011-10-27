@@ -61,7 +61,7 @@ class Mage_Cms_Model_Observer
         $redirect = $observer->getEvent()->getRedirect();
 
         $pageId  = Mage::getStoreConfig(Mage_Cms_Helper_Page::XML_PATH_NO_COOKIES_PAGE);
-        $pageUrl = Mage::helper('cms/page')->getPageUrl($pageId);
+        $pageUrl = Mage::helper('Mage_Cms_Helper_Page')->getPageUrl($pageId);
 
         if ($pageUrl) {
             $redirect->setRedirectUrl($pageUrl);

@@ -86,7 +86,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
      */
     protected function _getLanguageCodeByLocaleCode($localeCode)
     {
-        return Mage::helper('enterprise_search')->getLanguageCodeByLocaleCode($localeCode);
+        return Mage::helper('Enterprise_Search_Helper_Data')->getLanguageCodeByLocaleCode($localeCode);
     }
 
     /**
@@ -98,7 +98,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
      */
     protected function _getLanguageSuffix($localeCode)
     {
-        return Mage::helper('enterprise_search')->getLanguageSuffix($localeCode);
+        return Mage::helper('Enterprise_Search_Helper_Data')->getLanguageSuffix($localeCode);
     }
 
     /**
@@ -448,6 +448,6 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
         $entityType     = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
         $attribute      = Mage::getSingleton('eav/config')->getAttribute($entityType, $attributeCode);
 
-        return Mage::helper('enterprise_search')->getAttributeSolrFieldName($attribute);
+        return Mage::helper('Enterprise_Search_Helper_Data')->getAttributeSolrFieldName($attribute);
     }
 }

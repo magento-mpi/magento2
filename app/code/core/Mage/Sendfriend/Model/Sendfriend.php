@@ -98,7 +98,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
      */
     protected function _getHelper()
     {
-        return Mage::helper('sendfriend');
+        return Mage::helper('Mage_Sendfriend_Helper_Data');
     }
 
     /**
@@ -114,7 +114,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
     public function send()
     {
         if ($this->isExceedLimit()){
-            Mage::throwException(Mage::helper('sendfriend')->__('You have exceeded limit of %d sends in an hour', $this->getMaxSendsToFriend()));
+            Mage::throwException(Mage::helper('Mage_Sendfriend_Helper_Data')->__('You have exceeded limit of %d sends in an hour', $this->getMaxSendsToFriend()));
         }
 
         /* @var $translate Mage_Core_Model_Translate */
@@ -150,7 +150,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
                     'message'       => $message,
                     'sender_name'   => $sender['name'],
                     'sender_email'  => $sender['email'],
-                    'product_image' => Mage::helper('catalog/image')->init($this->getProduct(),
+                    'product_image' => Mage::helper('Mage_Catalog_Helper_Image')->init($this->getProduct(),
                         'small_image')->resize(75),
                 )
             );
@@ -173,34 +173,34 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
 
         $name = $this->getSender()->getName();
         if (empty($name)) {
-            $errors[] = Mage::helper('sendfriend')->__('The sender name cannot be empty.');
+            $errors[] = Mage::helper('Mage_Sendfriend_Helper_Data')->__('The sender name cannot be empty.');
         }
 
         $email = $this->getSender()->getEmail();
         if (empty($email) OR !Zend_Validate::is($email, 'EmailAddress')) {
-            $errors[] = Mage::helper('sendfriend')->__('Invalid sender email.');
+            $errors[] = Mage::helper('Mage_Sendfriend_Helper_Data')->__('Invalid sender email.');
         }
 
         $message = $this->getSender()->getMessage();
         if (empty($message)) {
-            $errors[] = Mage::helper('sendfriend')->__('The message cannot be empty.');
+            $errors[] = Mage::helper('Mage_Sendfriend_Helper_Data')->__('The message cannot be empty.');
         }
 
         if (!$this->getRecipients()->getEmails()) {
-            $errors[] = Mage::helper('sendfriend')->__('At least one recipient must be specified.');
+            $errors[] = Mage::helper('Mage_Sendfriend_Helper_Data')->__('At least one recipient must be specified.');
         }
 
         // validate recipients email addresses
         foreach ($this->getRecipients()->getEmails() as $email) {
             if (!Zend_Validate::is($email, 'EmailAddress')) {
-                $errors[] = Mage::helper('sendfriend')->__('An invalid email address for recipient was entered.');
+                $errors[] = Mage::helper('Mage_Sendfriend_Helper_Data')->__('An invalid email address for recipient was entered.');
                 break;
             }
         }
 
         $maxRecipients = $this->getMaxRecipients();
         if (count($this->getRecipients()->getEmails()) > $maxRecipients) {
-            $errors[] = Mage::helper('sendfriend')->__('No more than %d emails can be sent at a time.', $this->getMaxRecipients());
+            $errors[] = Mage::helper('Mage_Sendfriend_Helper_Data')->__('No more than %d emails can be sent at a time.', $this->getMaxRecipients());
         }
 
         if (empty($errors)) {
@@ -231,7 +231,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
     {
         $cookie = $this->_getData('_cookie');
         if (!$cookie instanceof Mage_Core_Model_Cookie) {
-            Mage::throwException(Mage::helper('sendfriend')->__('Please define a correct Cookie instance.'));
+            Mage::throwException(Mage::helper('Mage_Sendfriend_Helper_Data')->__('Please define a correct Cookie instance.'));
         }
         return $cookie;
     }
@@ -353,7 +353,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
     {
         $product = $this->_getData('_product');
         if (!$product instanceof Mage_Catalog_Model_Product) {
-            Mage::throwException(Mage::helper('sendfriend')->__('Please define a correct Product instance.'));
+            Mage::throwException(Mage::helper('Mage_Sendfriend_Helper_Data')->__('Please define a correct Product instance.'));
         }
         return $product;
     }
@@ -367,7 +367,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
     public function setSender($sender)
     {
         if (!is_array($sender)) {
-            Mage::helper('sendfriend')->__('Invalid Sender Information');
+            Mage::helper('Mage_Sendfriend_Helper_Data')->__('Invalid Sender Information');
         }
 
         return $this->setData('_sender', new Varien_Object($sender));
@@ -383,7 +383,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
     {
         $sender = $this->_getData('_sender');
         if (!$sender instanceof Varien_Object) {
-            Mage::throwException(Mage::helper('sendfriend')->__('Please define the correct Sender information.'));
+            Mage::throwException(Mage::helper('Mage_Sendfriend_Helper_Data')->__('Please define the correct Sender information.'));
         }
         return $sender;
     }

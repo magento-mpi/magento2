@@ -83,7 +83,7 @@ class Mage_Bundle_Model_Observer
         /**
          * Check is current product type is allowed for bundle selection product type
          */
-        if (!in_array($product->getTypeId(), Mage::helper('bundle')->getAllowedSelectionTypes())) {
+        if (!in_array($product->getTypeId(), Mage::helper('Mage_Bundle_Helper_Data')->getAllowedSelectionTypes())) {
             return $this;
         }
 
@@ -250,7 +250,7 @@ class Mage_Bundle_Model_Observer
     {
         $product = $observer->getEvent()->getProduct();
         if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
-            Mage::helper('adminhtml/catalog')
+            Mage::helper('Mage_Adminhtml_Helper_Catalog')
                 ->setAttributeTabBlock('bundle/adminhtml_catalog_product_edit_tab_attributes');
         }
         return $this;

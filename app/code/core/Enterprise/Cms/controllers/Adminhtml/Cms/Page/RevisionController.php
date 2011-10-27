@@ -47,8 +47,8 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
         // load layout, set active menu and breadcrumbs
         $this->loadLayout()
             ->_setActiveMenu('cms/page')
-            ->_addBreadcrumb(Mage::helper('cms')->__('CMS'), Mage::helper('cms')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('cms')->__('Manage Pages'), Mage::helper('cms')->__('Manage Pages'))
+            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('CMS'), Mage::helper('Mage_Cms_Helper_Data')->__('CMS'))
+            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'), Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'))
         ;
         return $this;
     }
@@ -97,7 +97,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
 
         if ($revisionId && !$revision->getId()) {
             Mage::getSingleton('adminhtml/session')->addError(
-                Mage::helper('enterprise_cms')->__('Could not load specified revision.'));
+                Mage::helper('Enterprise_Cms_Helper_Data')->__('Could not load specified revision.'));
 
             $this->_redirect('*/cms_page/edit',
                 array('page_id' => $this->getRequest()->getParam('page_id')));
@@ -112,8 +112,8 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
         }
 
         $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('enterprise_cms')->__('Edit Revision'),
-                Mage::helper('enterprise_cms')->__('Edit Revision'));
+            ->_addBreadcrumb(Mage::helper('Enterprise_Cms_Helper_Data')->__('Edit Revision'),
+                Mage::helper('Enterprise_Cms_Helper_Data')->__('Edit Revision'));
 
         $this->renderLayout();
     }
@@ -148,7 +148,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
                 $revision->save();
 
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('The revision has been saved.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Enterprise_Cms_Helper_Data')->__('The revision has been saved.'));
                 // clear previously saved data from session
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
                 // check if 'Save and Continue'
@@ -194,7 +194,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
         try {
             $revision->publish();
             // display success message
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('The revision has been published.'));
+            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Enterprise_Cms_Helper_Data')->__('The revision has been published.'));
             $this->_redirect('*/cms_page/edit', array('page_id' => $revision->getPageId()));
             return;
         } catch (Exception $e) {
@@ -332,7 +332,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
                     ->setTheme($designChange->getTheme());
             }
 
-            Mage::helper('cms/page')->renderPageExtended($this);
+            Mage::helper('Mage_Cms_Helper_Page')->renderPageExtended($this);
             Mage::app()->getLocale()->revert();
 
         } else {
@@ -355,7 +355,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
                 $revision = $this->_initRevision();
                 $revision->delete();
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('The revision has been deleted.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Enterprise_Cms_Helper_Data')->__('The revision has been deleted.'));
                 $this->_redirect('*/cms_page_version/edit', array(
                         'page_id' => $revision->getPageId(),
                         'version_id' => $revision->getVersionId()
@@ -367,7 +367,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
                 $error = true;
             } catch (Exception $e) {
                 Mage::logException($e);
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_cms')->__('An error occurred while deleting the revision.'));
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Enterprise_Cms_Helper_Data')->__('An error occurred while deleting the revision.'));
                 $error = true;
             }
 
@@ -378,7 +378,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
             }
         }
         // display error message
-        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_cms')->__('Unable to find a revision to delete.'));
+        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Enterprise_Cms_Helper_Data')->__('Unable to find a revision to delete.'));
         // go to grid
         $this->_redirect('*/cms_page/edit', array('_current' => true));
     }

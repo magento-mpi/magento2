@@ -49,7 +49,7 @@ class Mage_ImportExport_Block_Adminhtml_Export_Filter extends Mage_Adminhtml_Blo
     {
         parent::__construct();
 
-        $this->_helper = Mage::helper('importexport');
+        $this->_helper = Mage::helper('Mage_ImportExport_Helper_Data');
 
         $this->setRowClickCallback(null);
         $this->setId('export_filter_grid');

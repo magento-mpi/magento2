@@ -54,7 +54,7 @@ class Mage_GiftMessage_Block_Adminhtml_Sales_Order_Create_Items extends Mage_Adm
         if (!$item) {
             return false;
         }
-        return $this->helper('giftmessage/message')->getIsMessagesAvailable(
+        return $this->helper('Mage_GiftMessage_Helper_Message')->getIsMessagesAvailable(
             'item', $item, $item->getStoreId()
         );
     }
@@ -80,7 +80,7 @@ class Mage_GiftMessage_Block_Adminhtml_Sales_Order_Create_Items extends Mage_Adm
     public function getMessageText()
     {
         if ($this->getItem()->getGiftMessageId()) {
-            $model = $this->helper('giftmessage/message')->getGiftMessage($this->getItem()->getGiftMessageId());
+            $model = $this->helper('Mage_GiftMessage_Helper_Message')->getGiftMessage($this->getItem()->getGiftMessageId());
             return $this->htmlEscape($model->getMessage());
         }
         return '';

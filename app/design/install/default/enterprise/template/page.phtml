@@ -33,7 +33,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo Mage::helper('install')->__('Magento Installation Wizard') ?></title>
+<title><?php echo Mage::helper('Mage_Install_Helper_Data')->__('Magento Installation Wizard') ?></title>
 
 <link rel="icon" href="<?php echo $this->getSkinUrl('favicon.ico') ?>" type="image/x-icon" />
 <link rel="shortcut icon" href="<?php echo $this->getSkinUrl('favicon.ico') ?>" type="image/x-icon" />
@@ -50,7 +50,7 @@
 <!--[if IE]><link rel="stylesheet" href="<?php echo $this->getSkinUrl('css/iestyles.css') ?>" type="text/css" media="all" /><![endif]-->
 <!--[if lt IE 7]><link rel="stylesheet" href="<?php echo $this->getSkinUrl('css/ie7minus.css') ?>" type="text/css" media="all" /><![endif]-->
 
-<?php echo $this->helper('core/js')->getTranslatorScript() ?>
+<?php echo $this->helper('Mage_Core_Helper_Js')->getTranslatorScript() ?>
 
 </head>
 
@@ -60,7 +60,7 @@
         <div class="header-top-container">
             <div class="header-top">
                 <h1 id="logo">
-                    <a href="<?php echo $this->getUrl('') ?>"><img src="<?php echo $this->getSkinUrl('images/logo.gif') ?>" title="<?php echo Mage::helper('install')->__('Magento') ?>" alt="<?php echo Mage::helper('install')->__('Magento') ?>" /></a>
+                    <a href="<?php echo $this->getUrl('') ?>"><img src="<?php echo $this->getSkinUrl('images/logo.gif') ?>" title="<?php echo Mage::helper('Mage_Install_Helper_Data')->__('Magento') ?>" alt="<?php echo Mage::helper('Mage_Install_Helper_Data')->__('Magento') ?>" /></a>
                 </h1>
 
                 <?php echo $this->getChildHtml('topSearch') ?>
@@ -107,13 +107,13 @@
     <div class="footer-container">
         <div class="footer">
         <p class="legality">
-            <?php echo Mage::helper('install')->__('Help Us to Keep Magento Healthy') ?> - <a href="https://support.varien.com/" id="bug_tracking_link"><strong><?php echo Mage::helper('install')->__('Report All Bugs') ?></strong></a> <?php echo Mage::helper('install')->__('(ver. %s)', Mage::getVersion()) ?><br/>
+            <?php echo Mage::helper('Mage_Install_Helper_Data')->__('Help Us to Keep Magento Healthy') ?> - <a href="https://support.varien.com/" id="bug_tracking_link"><strong><?php echo Mage::helper('Mage_Install_Helper_Data')->__('Report All Bugs') ?></strong></a> <?php echo Mage::helper('Mage_Install_Helper_Data')->__('(ver. %s)', Mage::getVersion()) ?><br/>
 <script type="text/javascript">
 //<![CDATA[
     $('bug_tracking_link').target = "varien_external";
 //]]>
 </script>
-            <?php echo Mage::helper('install')->__('Magento is a trademark of Magento Inc. Copyright &copy; %s Magento Inc.', date('Y')) ?>
+            <?php echo Mage::helper('Mage_Install_Helper_Data')->__('Magento is a trademark of Magento Inc. Copyright &copy; %s Magento Inc.', date('Y')) ?>
         </p>
         </div>
     </div>

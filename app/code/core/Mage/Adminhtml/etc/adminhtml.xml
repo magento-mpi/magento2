@@ -27,12 +27,12 @@
 -->
 <config>
     <menu>
-        <dashboard translate="title" module="adminhtml">
+        <dashboard translate="title" module="Mage_Adminhtml">
             <title>Dashboard</title>
             <sort_order>10</sort_order>
             <action>adminhtml/dashboard</action>
         </dashboard>
-        <system translate="title" module="adminhtml">
+        <system translate="title" module="Mage_Adminhtml">
             <title>System</title>
             <sort_order>90</sort_order>
             <!-- action>adminhtml/system</action -->
@@ -101,7 +101,7 @@
                     <action>adminhtml/cache</action>
                     <sort_order>90</sort_order>
                 </cache>
-                <store translate="title" module="core">
+                <store translate="title" module="Mage_Core">
                     <title>Manage Stores</title>
                     <action>adminhtml/system_store/</action>
                     <sort_order>100</sort_order>
@@ -119,7 +119,7 @@
             <all>
                 <title>Allow everything</title>
             </all>
-            <admin translate="title" module="adminhtml">
+            <admin translate="title" module="Mage_Adminhtml">
                 <title>Magento Admin</title>
                 <children>
                     <dashboard translate="title">

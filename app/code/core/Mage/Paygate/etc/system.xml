@@ -29,7 +29,7 @@
    <sections>
         <payment>
             <groups>
-                <authorizenet translate="label" module="paygate">
+                <authorizenet translate="label" module="Mage_Paygate">
                     <label>Authorize.net</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>10</sort_order>

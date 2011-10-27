@@ -442,7 +442,7 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
             }
 
 	    /*if ($exception && $this->getType() == 'QUOTE' && $noQuote == 0) {
-                Mage::throwException(Mage::helper('loadtest')->__('All active customers already have active quotes.'));
+                Mage::throwException(Mage::helper('Mage_LoadTest_Helper_Data')->__('All active customers already have active quotes.'));
             }
             if ($exception && $this->getType() == 'QUOTE' && $this->getCountQuotes() > $noQuote) {
                 $this->setCountQuotes($noQuote);
@@ -496,10 +496,10 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
             unset($customers_ids);
 
             /*if ($exception && count($this->_customers) == 0) {
-                Mage::throwException(Mage::helper('loadtest')->__('Customers not found, please create customer(s) first.'));
+                Mage::throwException(Mage::helper('Mage_LoadTest_Helper_Data')->__('Customers not found, please create customer(s) first.'));
             }
             if ($exception && $this->getType() == 'QUOTE' && $noQuote == 0) {
-                Mage::throwException(Mage::helper('loadtest')->__('All active customers already have active quotes.'));
+                Mage::throwException(Mage::helper('Mage_LoadTest_Helper_Data')->__('All active customers already have active quotes.'));
             }
             if ($exception && $this->getType() == 'QUOTE' && $this->getCountQuotes() > $noQuote) {
                 $this->setCountQuotes($noQuote);
@@ -527,7 +527,7 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
             unset($product_ids);
 
             if (count($this->_products) == 0) {
-                Mage::throwException(Mage::helper('loadtest')->__('Products not found, please create product(s) first.'));
+                Mage::throwException(Mage::helper('Mage_LoadTest_Helper_Data')->__('Products not found, please create product(s) first.'));
             }
         }
     }

@@ -28,12 +28,12 @@ class Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype
     public function toOptionArray()
     {
         return array(
-            array('value' => 'text', 'label' => Mage::helper('eav')->__('Text Field')),
-            array('value' => 'textarea', 'label' => Mage::helper('eav')->__('Text Area')),
-            array('value' => 'date', 'label' => Mage::helper('eav')->__('Date')),
-            array('value' => 'boolean', 'label' => Mage::helper('eav')->__('Yes/No')),
-            array('value' => 'multiselect', 'label' => Mage::helper('eav')->__('Multiple Select')),
-            array('value' => 'select', 'label' => Mage::helper('eav')->__('Dropdown'))
+            array('value' => 'text', 'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Text Field')),
+            array('value' => 'textarea', 'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Text Area')),
+            array('value' => 'date', 'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Date')),
+            array('value' => 'boolean', 'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Yes/No')),
+            array('value' => 'multiselect', 'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Multiple Select')),
+            array('value' => 'select', 'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Dropdown'))
         );
     }
 }

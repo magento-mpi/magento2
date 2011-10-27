@@ -120,7 +120,7 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
     //public function refund(Varien_Object $payment, $amount)
     public function refund(Varien_Object $payment, $amount)
     {
-        $hlp = Mage::helper('googlecheckout');
+        $hlp = Mage::helper('Mage_GoogleCheckout_Helper_Data');
 
 //        foreach ($payment->getCreditMemo()->getCommentsCollection() as $comment) {
 //            $this->setReason($hlp->__('See Comments'));
@@ -152,7 +152,7 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
     public function cancel(Varien_Object $payment)
     {
         if (!$payment->getOrder()->getBeingCanceledFromGoogleApi()) {
-            $hlp = Mage::helper('googlecheckout');
+            $hlp = Mage::helper('Mage_GoogleCheckout_Helper_Data');
             $reason = $this->getReason() ? $this->getReason() : $hlp->__('Unknown Reason');
             $comment = $this->getComment() ? $this->getComment() : $hlp->__('No Comment');
 

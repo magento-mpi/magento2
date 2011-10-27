@@ -214,7 +214,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
     protected function _getSource()
     {
         if (!$this->_source) {
-            Mage::throwException(Mage::helper('importexport')->__('No source specified'));
+            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('No source specified'));
         }
         return $this->_source;
     }
@@ -420,7 +420,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
      */
     public function getErrorMessages()
     {
-        $translator = Mage::helper('importexport');
+        $translator = Mage::helper('Mage_ImportExport_Helper_Data');
         $messages   = array();
 
         foreach ($this->_errors as $errorCode => $errorRows) {
@@ -504,7 +504,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
     public function getSource()
     {
         if (!$this->_source) {
-            Mage::throwException(Mage::helper('importexport')->__('Source is not set'));
+            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Source is not set'));
         }
         return $this->_source;
     }
@@ -543,8 +543,8 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
     {
         switch ($attrParams['type']) {
             case 'varchar':
-                $val   = Mage::helper('core/string')->cleanString($rowData[$attrCode]);
-                $valid = Mage::helper('core/string')->strlen($val) < self::DB_MAX_VARCHAR_LENGTH;
+                $val   = Mage::helper('Mage_Core_Helper_String')->cleanString($rowData[$attrCode]);
+                $valid = Mage::helper('Mage_Core_Helper_String')->strlen($val) < self::DB_MAX_VARCHAR_LENGTH;
                 break;
             case 'decimal':
                 $val   = trim($rowData[$attrCode]);
@@ -564,8 +564,8 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
                          || preg_match('/^\d{2}.\d{2}.\d{2,4}(?:\s+\d{1,2}.\d{1,2}(?:.\d{1,2})?)?$/', $val);
                 break;
             case 'text':
-                $val   = Mage::helper('core/string')->cleanString($rowData[$attrCode]);
-                $valid = Mage::helper('core/string')->strlen($val) < self::DB_MAX_TEXT_LENGTH;
+                $val   = Mage::helper('Mage_Core_Helper_String')->cleanString($rowData[$attrCode]);
+                $valid = Mage::helper('Mage_Core_Helper_String')->strlen($val) < self::DB_MAX_TEXT_LENGTH;
                 break;
             default:
                 $valid = true;
@@ -573,10 +573,10 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
         }
 
         if (!$valid) {
-            $this->addRowError(Mage::helper('importexport')->__("Invalid value for '%s'"), $rowNum, $attrCode);
+            $this->addRowError(Mage::helper('Mage_ImportExport_Helper_Data')->__("Invalid value for '%s'"), $rowNum, $attrCode);
         } elseif (!empty($attrParams['is_unique'])) {
             if (isset($this->_uniqueAttributes[$attrCode][$rowData[$attrCode]])) {
-                $this->addRowError(Mage::helper('importexport')->__("Duplicate Unique Attribute for '%s'"), $rowNum, $attrCode);
+                $this->addRowError(Mage::helper('Mage_ImportExport_Helper_Data')->__("Duplicate Unique Attribute for '%s'"), $rowNum, $attrCode);
                 return false;
             }
             $this->_uniqueAttributes[$attrCode][$rowData[$attrCode]] = true;
@@ -664,7 +664,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
             // does all permanent columns exists?
             if (($colsAbsent = array_diff($this->_permanentAttributes, $this->_getSource()->getColNames()))) {
                 Mage::throwException(
-                    Mage::helper('importexport')->__('Can not find required columns: %s', implode(', ', $colsAbsent))
+                    Mage::helper('Mage_ImportExport_Helper_Data')->__('Can not find required columns: %s', implode(', ', $colsAbsent))
                 );
             }
 
@@ -682,7 +682,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
             }
             if ($invalidColumns) {
                 Mage::throwException(
-                    Mage::helper('importexport')->__('Column names: "%s" are invalid', implode('", "', $invalidColumns))
+                    Mage::helper('Mage_ImportExport_Helper_Data')->__('Column names: "%s" are invalid', implode('", "', $invalidColumns))
                 );
             }
             $this->_saveValidatedBunches();

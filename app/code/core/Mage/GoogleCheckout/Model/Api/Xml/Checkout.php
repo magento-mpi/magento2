@@ -347,7 +347,7 @@ EOT;
      */
     protected function _getVirtualOrderShippingXml()
     {
-        $title = Mage::helper('googlecheckout')->__('Free Shipping');
+        $title = Mage::helper('Mage_GoogleCheckout_Helper_Data')->__('Free Shipping');
 
         $xml = <<<EOT
             <shipping-methods>
@@ -431,7 +431,7 @@ EOT;
             Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_ADDRESS_CATEGORY,
             $storeId
         );
-        $defPrice = (float) Mage::helper('tax')->getShippingPrice($defPrice, false, false);
+        $defPrice = (float) Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice($defPrice, false, false);
 
         $this->getQuote()->getShippingAddress()
             ->setCountryId($country)
@@ -556,7 +556,7 @@ EOT;
             $title         = Mage::getStoreConfig('google/checkout_shipping_flatrate/title_' . $i, $storeId);
             $price         = (float)Mage::getStoreConfig('google/checkout_shipping_flatrate/price_' . $i, $storeId);
             $price         = number_format($price, 2, '.', '');
-            $price         = (float)Mage::helper('tax')->getShippingPrice($price, false, false);
+            $price         = (float)Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice($price, false, false);
             $allowSpecific = Mage::getStoreConfigFlag(
                 'google/checkout_shipping_flatrate/sallowspecific_' . $i,
                 $storeId
@@ -642,7 +642,7 @@ EOT;
 
         $xml           = '';
         $methods       = unserialize($methods);
-        $taxHelper     = Mage::helper('tax');
+        $taxHelper     = Mage::helper('Mage_Tax_Helper_Data');
         $shippingModel = Mage::getModel('shipping/shipping');
 
         foreach ($methods['method'] as $i => $method) {
@@ -700,7 +700,7 @@ EOT;
 
         $title = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_TITLE, $storeId);
         $price = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_PRICE, $storeId);
-        $price = (float) Mage::helper('tax')->getShippingPrice($price, false, false);
+        $price = (float) Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice($price, false, false);
 
         $xml = <<<EOT
                 <pickup name="{$title}">
@@ -748,7 +748,7 @@ EOT;
 EOT;
                         if ($rate['country'] === Mage_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID) {
                             if (!empty($rate['postcode']) && $rate['postcode'] !== '*') {
-                                $rate['postcode'] = Mage::helper('googlecheckout')
+                                $rate['postcode'] = Mage::helper('Mage_GoogleCheckout_Helper_Data')
                                     ->zipRangeToZipPattern($rate['postcode']);
                                 foreach ($rate['postcode'] as $postcode) {
                                     $xml .= <<<EOT
@@ -919,7 +919,7 @@ EOT;
         $taxCalculationModel = Mage::getSingleton('tax/calculation');
 
         if ($shippingTaxClass) {
-            if (Mage::helper('tax')->getTaxBasedOn() == 'origin') {
+            if (Mage::helper('Mage_Tax_Helper_Data')->getTaxBasedOn() == 'origin') {
                 $request = $taxCalculationModel->getRateRequest();
                 $request
                     ->setCustomerClassId($customerTaxClass)
@@ -952,7 +952,7 @@ EOT;
         $customerTaxClass    = $this->_getCustomerTaxClass();
         $taxCalculationModel = Mage::getSingleton('tax/calculation');
 
-        if (Mage::helper('tax')->getTaxBasedOn() == 'origin') {
+        if (Mage::helper('Mage_Tax_Helper_Data')->getTaxBasedOn() == 'origin') {
             $request = $taxCalculationModel->getRateRequest()->setCustomerClassId($customerTaxClass);
             return $taxCalculationModel->getRatesForAllProductTaxClasses($request);
         }
@@ -1099,41 +1099,41 @@ EOT;
             'ups' => array(
                 'googleCarrierCompany' => 'UPS',
                 'methods' => array(
-                    'GND' => Mage::helper('usa')->__('Ground'),
-                    '1DA' => Mage::helper('usa')->__('Next Day Air'),
-                    '1DM' => Mage::helper('usa')->__('Next Day Air Early AM'),
-                    '1DP' => Mage::helper('usa')->__('Next Day Air Saver'),
-                    '2DA' => Mage::helper('usa')->__('2nd Day Air'),
-                    '2DM' => Mage::helper('usa')->__('2nd Day Air AM'),
-                    '3DS' => Mage::helper('usa')->__('3 Day Select'),
-                    '03'  => Mage::helper('usa')->__('Ground'),
-                    '01'  => Mage::helper('usa')->__('Next Day Air'),
-                    '14'  => Mage::helper('usa')->__('Next Day Air Early AM'),
-                    '13'  => Mage::helper('usa')->__('Next Day Air Saver'),
-                    '02'  => Mage::helper('usa')->__('2nd Day Air'),
-                    '59'  => Mage::helper('usa')->__('2nd Day Air AM'),
-                    '12'  => Mage::helper('usa')->__('3 Day Select')
+                    'GND' => Mage::helper('Mage_Usa_Helper_Data')->__('Ground'),
+                    '1DA' => Mage::helper('Mage_Usa_Helper_Data')->__('Next Day Air'),
+                    '1DM' => Mage::helper('Mage_Usa_Helper_Data')->__('Next Day Air Early AM'),
+                    '1DP' => Mage::helper('Mage_Usa_Helper_Data')->__('Next Day Air Saver'),
+                    '2DA' => Mage::helper('Mage_Usa_Helper_Data')->__('2nd Day Air'),
+                    '2DM' => Mage::helper('Mage_Usa_Helper_Data')->__('2nd Day Air AM'),
+                    '3DS' => Mage::helper('Mage_Usa_Helper_Data')->__('3 Day Select'),
+                    '03'  => Mage::helper('Mage_Usa_Helper_Data')->__('Ground'),
+                    '01'  => Mage::helper('Mage_Usa_Helper_Data')->__('Next Day Air'),
+                    '14'  => Mage::helper('Mage_Usa_Helper_Data')->__('Next Day Air Early AM'),
+                    '13'  => Mage::helper('Mage_Usa_Helper_Data')->__('Next Day Air Saver'),
+                    '02'  => Mage::helper('Mage_Usa_Helper_Data')->__('2nd Day Air'),
+                    '59'  => Mage::helper('Mage_Usa_Helper_Data')->__('2nd Day Air AM'),
+                    '12'  => Mage::helper('Mage_Usa_Helper_Data')->__('3 Day Select')
                 )
             ),
             'usps' => array(
                 'googleCarrierCompany' => 'USPS',
                 'methods' => array(
-                    'Express Mail'  => Mage::helper('usa')->__('Express Mail'),
-                    'Priority Mail' => Mage::helper('usa')->__('Priority Mail'),
-                    'Parcel Post'   => Mage::helper('usa')->__('Parcel Post'),
-                    'Media Mail'    => Mage::helper('usa')->__('Media Mail')
+                    'Express Mail'  => Mage::helper('Mage_Usa_Helper_Data')->__('Express Mail'),
+                    'Priority Mail' => Mage::helper('Mage_Usa_Helper_Data')->__('Priority Mail'),
+                    'Parcel Post'   => Mage::helper('Mage_Usa_Helper_Data')->__('Parcel Post'),
+                    'Media Mail'    => Mage::helper('Mage_Usa_Helper_Data')->__('Media Mail')
                 )
             ),
             'fedex' => array(
                 'googleCarrierCompany' => 'FedEx',
                 'methods' => array(
-                    'FEDEX_GROUND'        => Mage::helper('usa')->__('Ground'),
-                    'GROUND_HOME_DELIVERY' => Mage::helper('usa')->__('Home Delivery'),
-                    'FEDEX_EXPRESS_SAVER'  => Mage::helper('usa')->__('Express Saver'),
-                    'FIRST_OVERNIGHT'     => Mage::helper('usa')->__('First Overnight'),
-                    'PRIORITY_OVERNIGHT'  => Mage::helper('usa')->__('Priority Overnight'),
-                    'STANDARD_OVERNIGHT'  => Mage::helper('usa')->__('Standard Overnight'),
-                    'FEDEX_2_DAY'          => Mage::helper('usa')->__('2Day')
+                    'FEDEX_GROUND'        => Mage::helper('Mage_Usa_Helper_Data')->__('Ground'),
+                    'GROUND_HOME_DELIVERY' => Mage::helper('Mage_Usa_Helper_Data')->__('Home Delivery'),
+                    'FEDEX_EXPRESS_SAVER'  => Mage::helper('Mage_Usa_Helper_Data')->__('Express Saver'),
+                    'FIRST_OVERNIGHT'     => Mage::helper('Mage_Usa_Helper_Data')->__('First Overnight'),
+                    'PRIORITY_OVERNIGHT'  => Mage::helper('Mage_Usa_Helper_Data')->__('Priority Overnight'),
+                    'STANDARD_OVERNIGHT'  => Mage::helper('Mage_Usa_Helper_Data')->__('Standard Overnight'),
+                    'FEDEX_2_DAY'          => Mage::helper('Mage_Usa_Helper_Data')->__('2Day')
                 )
             )
         );

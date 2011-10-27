@@ -289,7 +289,7 @@ class Mage_Sales_Model_Service_Quote
      */
     protected function _validate()
     {
-        $helper = Mage::helper('sales');
+        $helper = Mage::helper('Mage_Sales_Helper_Data');
         if (!$this->getQuote()->isVirtual()) {
             $address = $this->getQuote()->getShippingAddress();
             $addressValidation = $address->validate();

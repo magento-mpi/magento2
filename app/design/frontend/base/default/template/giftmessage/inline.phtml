@@ -161,7 +161,7 @@ billing.onSave = function(evt){
                  <li class="item">
                      <div class="product-img-box">
                          <p class="product-image">
-                             <img src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail')->resize(75); ?>" width="75" height="75" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" />
+                             <img src="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'thumbnail')->resize(75); ?>" width="75" height="75" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" />
                          </p>
                          <p class="number"><?php echo $this->__('Item %d of %d', $_index+1, $this->countItems()) ?></p>
                      </div>
@@ -278,7 +278,7 @@ billing.onSave = function(evt){
              <?php $_product=$_item->getProduct() ?>
                  <li class="item">
                      <div class="product-img-box">
-                         <p class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(75); ?>" width="75" height="75" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" /></p>
+                         <p class="product-image"><img src="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'small_image')->resize(75); ?>" width="75" height="75" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" /></p>
                          <p class="number"><?php echo $this->__('Item %d of %d', $_index+1, $this->countItems()) ?></p>
                      </div>
                      <div class="details">

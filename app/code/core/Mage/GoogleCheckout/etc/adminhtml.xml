@@ -34,7 +34,7 @@
                         <children>
                             <config>
                                 <children>
-                                    <google translate="title" module="googlecheckout">
+                                    <google translate="title" module="Mage_GoogleCheckout">
                                         <title>Google API</title>
                                     </google>
                                 </children>

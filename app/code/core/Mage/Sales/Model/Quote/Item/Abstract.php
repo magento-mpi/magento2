@@ -255,7 +255,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setMessage($e->getMessage());
         } catch (Exception $e){
             $this->setHasError(true);
-            $this->setMessage(Mage::helper('sales')->__('Item qty declaration error.'));
+            $this->setMessage(Mage::helper('Mage_Sales_Helper_Data')->__('Item qty declaration error.'));
         }
 
         try {
@@ -265,13 +265,13 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setMessage($e->getMessage());
             $this->getQuote()->setHasError(true);
             $this->getQuote()->addMessage(
-                Mage::helper('sales')->__('Some of the products below do not have all the required options. Please edit them and configure all the required options.')
+                Mage::helper('Mage_Sales_Helper_Data')->__('Some of the products below do not have all the required options. Please edit them and configure all the required options.')
             );
         } catch (Exception $e) {
             $this->setHasError(true);
-            $this->setMessage(Mage::helper('sales')->__('Item options declaration error.'));
+            $this->setMessage(Mage::helper('Mage_Sales_Helper_Data')->__('Item options declaration error.'));
             $this->getQuote()->setHasError(true);
-            $this->getQuote()->addMessage(Mage::helper('sales')->__('Items options declaration error.'));
+            $this->getQuote()->addMessage(Mage::helper('Mage_Sales_Helper_Data')->__('Items options declaration error.'));
         }
 
         return $this;
@@ -610,8 +610,8 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     {
         $store = $this->getStore();
 
-        if (!Mage::helper('tax')->priceIncludesTax($store)) {
-            if (Mage::helper('tax')->applyTaxAfterDiscount($store)) {
+        if (!Mage::helper('Mage_Tax_Helper_Data')->priceIncludesTax($store)) {
+            if (Mage::helper('Mage_Tax_Helper_Data')->applyTaxAfterDiscount($store)) {
                 $rowTotal       = $this->getRowTotalWithDiscount();
                 $rowBaseTotal   = $this->getBaseRowTotalWithDiscount();
             } else {
@@ -629,7 +629,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setTaxBeforeDiscount($store->roundPrice($rowTotal * $taxPercent));
             $this->setBaseTaxBeforeDiscount($store->roundPrice($rowBaseTotal * $taxPercent));
         } else {
-            if (Mage::helper('tax')->applyTaxAfterDiscount($store)) {
+            if (Mage::helper('Mage_Tax_Helper_Data')->applyTaxAfterDiscount($store)) {
                 $totalBaseTax = $this->getBaseTaxAmount();
                 $totalTax = $this->getTaxAmount();
 
@@ -643,7 +643,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             }
         }
 
-        if (Mage::helper('tax')->discountTax($store) && !Mage::helper('tax')->applyTaxAfterDiscount($store)) {
+        if (Mage::helper('Mage_Tax_Helper_Data')->discountTax($store) && !Mage::helper('Mage_Tax_Helper_Data')->applyTaxAfterDiscount($store)) {
             if ($this->getDiscountPercent()) {
                 $baseTaxAmount =  $this->getBaseTaxBeforeDiscount();
                 $taxAmount = $this->getTaxBeforeDiscount();
@@ -692,7 +692,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     {
         $store = $this->getQuote()->getStore();
 
-        if (Mage::helper('tax')->priceIncludesTax($store)) {
+        if (Mage::helper('Mage_Tax_Helper_Data')->priceIncludesTax($store)) {
             $bAddress = $this->getQuote()->getBillingAddress();
             $sAddress = $this->getQuote()->getShippingAddress();
 
@@ -713,7 +713,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
                 $sAddress = $bAddress;
             }
 
-            $priceExcludingTax = Mage::helper('tax')->getPrice(
+            $priceExcludingTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice(
                 $this->getProduct()->setTaxPercent(null),
                 $value,
                 false,
@@ -723,7 +723,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
                 $store
             );
 
-            $priceIncludingTax = Mage::helper('tax')->getPrice(
+            $priceIncludingTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice(
                 $this->getProduct()->setTaxPercent(null),
                 $value,
                 true,
@@ -739,9 +739,9 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
                     $qty = $qty*$this->getParentItem()->getQty();
                 }
 
-                if (Mage::helper('tax')->displayCartPriceInclTax($store)) {
+                if (Mage::helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax($store)) {
                     $rowTotal = $value*$qty;
-                    $rowTotalExcTax = Mage::helper('tax')->getPrice(
+                    $rowTotalExcTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice(
                         $this->getProduct()->setTaxPercent(null),
                         $rowTotal,
                         false,
@@ -750,7 +750,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
                         $this->getQuote()->getCustomerTaxClassId(),
                         $store
                     );
-                    $rowTotalIncTax = Mage::helper('tax')->getPrice(
+                    $rowTotalIncTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice(
                         $this->getProduct()->setTaxPercent(null),
                         $rowTotal,
                         true,

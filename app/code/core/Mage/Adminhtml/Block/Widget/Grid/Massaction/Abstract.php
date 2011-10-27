@@ -44,7 +44,7 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
     {
         parent::__construct();
         $this->setTemplate('widget/grid/massaction.phtml');
-        $this->setErrorText(Mage::helper('catalog')->jsQuoteEscape(Mage::helper('catalog')->__('Please select items.')));
+        $this->setErrorText(Mage::helper('Mage_Catalog_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Catalog_Helper_Data')->__('Please select items.')));
     }
 
     /**
@@ -114,7 +114,7 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
             $result[$itemId] = $item->toArray();
         }
 
-        return Mage::helper('core')->jsonEncode($result);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
     }
 
     /**
@@ -187,7 +187,7 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
         if($selected = $this->getRequest()->getParam($this->getFormFieldNameInternal())) {
             $selected = explode(',', $selected);
             return join(',', $selected);
-//            return Mage::helper('core')->jsonEncode($selected);
+//            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($selected);
         } else {
             return '';
 //            return '[]';
@@ -240,7 +240,7 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
 
         if(!empty($gridIds)) {
             return join(",", $gridIds);
-            //return Mage::helper('core')->jsonEncode($gridIds);
+            //return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($gridIds);
         }
         return '';
         //return '[]';

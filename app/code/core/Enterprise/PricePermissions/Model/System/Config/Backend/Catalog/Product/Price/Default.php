@@ -43,7 +43,7 @@ class Enterprise_PricePermissions_Model_System_Config_Backend_Catalog_Product_Pr
     {
         parent::_beforeSave();
         $defaultProductPriceValue = floatval($this->getValue());
-        if (!Mage::helper('enterprise_pricepermissions')->getCanAdminEditProductPrice()
+        if (!Mage::helper('Enterprise_PricePermissions_Helper_Data')->getCanAdminEditProductPrice()
             || ($defaultProductPriceValue < 0)
         ) {
             $defaultProductPriceValue = floatval($this->getOldValue());
@@ -60,7 +60,7 @@ class Enterprise_PricePermissions_Model_System_Config_Backend_Catalog_Product_Pr
     protected function _afterLoad()
     {
         parent::_afterLoad();
-        if (!Mage::helper('enterprise_pricepermissions')->getCanAdminReadProductPrice()) {
+        if (!Mage::helper('Enterprise_PricePermissions_Helper_Data')->getCanAdminReadProductPrice()) {
             $this->setValue(null);
         }
         return $this;

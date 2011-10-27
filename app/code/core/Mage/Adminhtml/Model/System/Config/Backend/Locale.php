@@ -54,29 +54,29 @@ class Mage_Adminhtml_Model_System_Config_Backend_Locale extends Mage_Core_Model_
                 if (!in_array($data->getValue(), $values)) {
                     $currencyName = Mage::app()->getLocale()->currency($data->getValue())->getName();
                     if ($match[1] == 'base') {
-                        $fieldName = Mage::helper('adminhtml')->__('Base currency');
+                        $fieldName = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Base currency');
                     }
                     else {
-                        $fieldName = Mage::helper('adminhtml')->__('Display default currency');
+                        $fieldName = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Display default currency');
                     }
 
                     switch ($data->getScope()) {
                         case 'default':
-                            $scopeName = Mage::helper('adminhtml')->__('Default scope');
+                            $scopeName = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Default scope');
                             break;
 
                         case 'website':
                             $websiteName = Mage::getModel('core/website')->load($data->getScopeId())->getName();
-                            $scopeName = Mage::helper('adminhtml')->__('website(%s) scope', $websiteName);
+                            $scopeName = Mage::helper('Mage_Adminhtml_Helper_Data')->__('website(%s) scope', $websiteName);
                             break;
 
                         case 'store':
                             $storeName = Mage::getModel('core/store')->load($data->getScopeId())->getName();
-                            $scopeName = Mage::helper('adminhtml')->__('store(%s) scope', $storeName);
+                            $scopeName = Mage::helper('Mage_Adminhtml_Helper_Data')->__('store(%s) scope', $storeName);
                             break;
                     }
 
-                    $exceptions[] = Mage::helper('adminhtml')->__('Currency "%s" is used as %s in %s.',
+                    $exceptions[] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Currency "%s" is used as %s in %s.',
                         $currencyName,
                         $fieldName,
                         $scopeName

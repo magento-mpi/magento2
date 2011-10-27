@@ -57,7 +57,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Combine
                 Mage::getModel("{$prefix}quantity")->getNewChildSelectOptions(),
                 array( // subselection combo
                     'value' => 'enterprise_reminder/rule_condition_wishlist_subselection',
-                    'label' => Mage::helper('enterprise_reminder')->__('Items Subselection')
+                    'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Items Subselection')
                 )
             )
         );

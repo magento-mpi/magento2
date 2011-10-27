@@ -121,23 +121,23 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('sales')->__('ID'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('ID'),
             'sortable'  => true,
             'width'     => '60',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('sales')->__('Product Name'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Product Name'),
             'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_product',
             'index'     => 'name'
         ));
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('sales')->__('SKU'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('SKU'),
             'width'     => '80',
             'index'     => 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => Mage::helper('sales')->__('Price'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Price'),
             'column_css_class' => 'price',
             'align'     => 'center',
             'type'      => 'currency',
@@ -148,7 +148,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('in_products', array(
-            'header'    => Mage::helper('sales')->__('Select'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Select'),
             'header_css_class' => 'a-center',
             'type'      => 'checkbox',
             'name'      => 'in_products',
@@ -161,7 +161,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
         $this->addColumn('qty', array(
             'filter'    => false,
             'sortable'  => false,
-            'header'    => Mage::helper('sales')->__('Qty To Add'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Qty To Add'),
             'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_qty',
             'name'      => 'qty',
             'inline_css'=> 'qty',

@@ -65,8 +65,8 @@ class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_
         /**
          * Add breadcrumb item
          */
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Import/Export'), Mage::helper('adminhtml')->__('Import/Export'));
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Profiles'), Mage::helper('adminhtml')->__('Profiles'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Import/Export'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Import/Export'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Profiles'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Profiles'));
 
         $this->renderLayout();
     }

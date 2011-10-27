@@ -45,7 +45,7 @@ class Mage_XmlConnect_Block_Customer_GiftcardCheck extends Enterprise_GiftCardAc
             /** @var $xmlModel Mage_XmlConnect_Model_Simplexml_Element */
             $xmlModel = Mage::getModel('xmlconnect/simplexml_element', '<gift_card_account></gift_card_account>');
 
-            $balance = Mage::helper('core')->currency($card->getBalance(), true, false);
+            $balance = Mage::helper('Mage_Core_Helper_Data')->currency($card->getBalance(), true, false);
 
             $result[] = $this->__("Gift Card: %s", $card->getCode());
             $result[] = $this->__('Current Balance: %s', $balance);

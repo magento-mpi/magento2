@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
 
         $emptyAddress = $this->getCustomer()
             ->getAddressById(null)
-            ->setCountryId(Mage::helper('core')->getDefaultCountry($this->getStore()));
+            ->setCountryId(Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry($this->getStore()));
         $data[0] = $addressForm->setEntity($emptyAddress)
             ->outputData(Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON);
 
@@ -85,7 +85,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
             $addressForm->setEntity($address);
             $data[$address->getId()] = $addressForm->outputData(Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON);
         }
-        return Mage::helper('core')->jsonEncode($data);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
     }
 
     /**
@@ -107,14 +107,14 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
 
         $attributes = $addressForm->getAttributes();
         if(isset($attributes['street'])) {
-            Mage::helper('adminhtml/addresses')
+            Mage::helper('Mage_Adminhtml_Helper_Addresses')
                 ->processStreetAttribute($attributes['street']);
         }
         $this->_addAttributesToForm($attributes, $fieldset);
 
         $prefixElement = $this->_form->getElement('prefix');
         if ($prefixElement) {
-            $prefixOptions = $this->helper('customer')->getNamePrefixOptions($this->getStore());
+            $prefixOptions = $this->helper('Mage_Customer_Helper_Data')->getNamePrefixOptions($this->getStore());
             if (!empty($prefixOptions)) {
                 $fieldset->removeField($prefixElement->getId());
                 $prefixField = $fieldset->addField($prefixElement->getId(),
@@ -131,7 +131,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
 
         $suffixElement = $this->_form->getElement('suffix');
         if ($suffixElement) {
-            $suffixOptions = $this->helper('customer')->getNameSuffixOptions($this->getStore());
+            $suffixOptions = $this->helper('Mage_Customer_Helper_Data')->getNameSuffixOptions($this->getStore());
             if (!empty($suffixOptions)) {
                 $fieldset->removeField($suffixElement->getId());
                 $suffixField = $fieldset->addField($suffixElement->getId(),
@@ -165,7 +165,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
         }
         if (!$this->_form->getElement('country_id')->getValue()) {
             $this->_form->getElement('country_id')->setValue(
-                Mage::helper('core')->getDefaultCountry($this->getStore())
+                Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry($this->getStore())
             );
         }
 

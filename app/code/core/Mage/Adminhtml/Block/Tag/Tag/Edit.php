@@ -53,15 +53,15 @@ class Mage_Adminhtml_Block_Tag_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form
 
         if( $this->getRequest()->getParam('ret', false) == 'pending' ) {
             $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/*/pending') .'\')' );
-            $this->_updateButton('delete', 'onclick', 'deleteConfirm(\'' . Mage::helper('tag')->__('Are you sure you want to do this?') . '\', \'' . $this->getUrl('*/*/delete', array(
+            $this->_updateButton('delete', 'onclick', 'deleteConfirm(\'' . Mage::helper('Mage_Tag_Helper_Data')->__('Are you sure you want to do this?') . '\', \'' . $this->getUrl('*/*/delete', array(
                 $this->_objectId => $this->getRequest()->getParam($this->_objectId),
                 'ret'           => 'pending',
             )) .'\')' );
             Mage::register('ret', 'pending');
         }
 
-        $this->_updateButton('save', 'label', Mage::helper('tag')->__('Save Tag'));
-        $this->_updateButton('delete', 'label', Mage::helper('tag')->__('Delete Tag'));
+        $this->_updateButton('save', 'label', Mage::helper('Mage_Tag_Helper_Data')->__('Save Tag'));
+        $this->_updateButton('delete', 'label', Mage::helper('Mage_Tag_Helper_Data')->__('Delete Tag'));
     }
 
     /**
@@ -90,10 +90,10 @@ class Mage_Adminhtml_Block_Tag_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form
     public function getHeaderText()
     {
         if (Mage::registry('tag_tag')->getId()) {
-            return Mage::helper('tag')->__("Edit Tag '%s'", $this->htmlEscape(Mage::registry('tag_tag')->getName()));
+            return Mage::helper('Mage_Tag_Helper_Data')->__("Edit Tag '%s'", $this->htmlEscape(Mage::registry('tag_tag')->getName()));
         }
         else {
-            return Mage::helper('tag')->__('New Tag');
+            return Mage::helper('Mage_Tag_Helper_Data')->__('New Tag');
         }
     }
 

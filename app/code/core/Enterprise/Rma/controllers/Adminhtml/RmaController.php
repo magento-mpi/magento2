@@ -118,9 +118,9 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             try {
                 $createModel = $this->_initCreateModel();
                 $model = $this->_initModel();
-                if (!Mage::helper('enterprise_rma')->canCreateRma($orderId, true)) {
+                if (!Mage::helper('Enterprise_Rma_Helper_Data')->canCreateRma($orderId, true)) {
                     Mage::getSingleton('adminhtml/session')->addError(
-                        Mage::helper('enterprise_rma')->__('There are no applicable items for return in this order')
+                        Mage::helper('Enterprise_Rma_Helper_Data')->__('There are no applicable items for return in this order')
                     );
                 }
             } catch (Mage_Core_Exception $e) {
@@ -388,7 +388,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
 
             $rma = Mage::registry('current_rma');
             if (!$rma) {
-                Mage::throwException(Mage::helper('enterprise_rma')->__('Invalid RMA.'));
+                Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Invalid RMA.'));
             }
 
             if (!empty($comment)) {
@@ -403,7 +403,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                     ->setIsAdmin(1)
                     ->save();
             } else {
-                Mage::throwException(Mage::helper('enterprise_rma')->__('Enter valid message.'));
+                Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Enter valid message.'));
             }
 
             if ($notify && $history) {
@@ -426,7 +426,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -476,7 +476,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             $this->_initModel();
             $order = Mage::registry('current_order');
             if (!$order) {
-                Mage::throwException(Mage::helper('enterprise_rma')->__('Invalid order.'));
+                Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Invalid order.'));
             }
             $this->loadLayout();
             $response = $this->getLayout()->getBlock('add_product_grid')->toHtml();
@@ -492,7 +492,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -566,7 +566,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $response = $block->toHtml();
 
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -594,7 +594,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             ->toHtml();
 
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -651,7 +651,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             ->toHtml();
 
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -711,7 +711,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         ;
 
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -727,10 +727,10 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $plain  = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $file   = Mage::helper('core')->urlDecode($this->getRequest()->getParam('file'));
+            $file   = Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('file'));
         } else if ($this->getRequest()->getParam('image')) {
             // show plain image
-            $file   = Mage::helper('core')->urlDecode($this->getRequest()->getParam('image'));
+            $file   = Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
             return $this->norouteAction();
@@ -825,7 +825,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         ;
 
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -874,7 +874,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         ;
 
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -902,7 +902,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $thisPage       = $this->getUrl('*/*/edit', $urlParams);
 
         $code    = $this->getRequest()->getParam('method');
-        $carrier = Mage::helper('enterprise_rma')->getCarrier($code, $model->getStoreId());
+        $carrier = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($code, $model->getStoreId());
         if ($carrier) {
             $getCustomizableContainers =  $carrier->getCustomizableContainerTypes();
         }
@@ -924,9 +924,9 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $data = array(
             'createLabelUrl'            => $createLabelUrl,
             'itemsGridUrl'              => $itemsGridUrl,
-            'errorQtyOverLimit'         => Mage::helper('enterprise_rma')->__('The quantity you want to add exceeds the total shipped quantity for some of selected Product(s)'),
-            'titleDisabledSaveBtn'      => Mage::helper('enterprise_rma')->__('Products should be added to package(s)'),
-            'validationErrorMsg'        => Mage::helper('enterprise_rma')->__('The value that you entered is not valid.'),
+            'errorQtyOverLimit'         => Mage::helper('Enterprise_Rma_Helper_Data')->__('The quantity you want to add exceeds the total shipped quantity for some of selected Product(s)'),
+            'titleDisabledSaveBtn'      => Mage::helper('Enterprise_Rma_Helper_Data')->__('Products should be added to package(s)'),
+            'validationErrorMsg'        => Mage::helper('Enterprise_Rma_Helper_Data')->__('The value that you entered is not valid.'),
             'shipmentItemsQty'          => $itemsQty,
             'shipmentItemsPrice'        => $itemsPrice,
             'shipmentItemsName'         => $itemsName,
@@ -939,7 +939,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             'customizable'              => $getCustomizableContainers
         );
 
-        return Mage::helper('core')->jsonEncode($data);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
     }
 
     /**
@@ -955,7 +955,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         ;
 
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -989,7 +989,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         } catch (Exception $e) {
                 Mage::logException($e);
                 $responseAjax->setError(true);
-                $responseAjax->setMessage(Mage::helper('enterprise_rma')->__('An error occurred while creating shipping label.'));
+                $responseAjax->setMessage(Mage::helper('Enterprise_Rma_Helper_Data')->__('An error occurred while creating shipping label.'));
         }
         $this->getResponse()->setBody($responseAjax->toJson());
     }
@@ -1006,7 +1006,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             $shipment = $this->_initShipment();
             if ($this->_createShippingLabel($shipment)) {
                 $shipment->save();
-                $this->_getSession()->addSuccess(Mage::helper('enterprise_rma')->__('The shipping label has been created.'));
+                $this->_getSession()->addSuccess(Mage::helper('Enterprise_Rma_Helper_Data')->__('The shipping label has been created.'));
                 $response->setOk(true);
             }
         } catch (Mage_Core_Exception $e) {
@@ -1015,7 +1015,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         } catch (Exception $e) {
             Mage::logException($e);
             $response->setError(true);
-            $response->setMessage(Mage::helper('enterprise_rma')->__('An error occurred while creating shipping label.'));
+            $response->setMessage(Mage::helper('Enterprise_Rma_Helper_Data')->__('An error occurred while creating shipping label.'));
         }
 
         $this->getResponse()->setBody($response->toJson());
@@ -1036,7 +1036,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             $shipment =  Mage::getModel('enterprise_rma/shipping')
                 ->getShippingLabelByRma($model);
 
-            $carrier = Mage::helper('enterprise_rma')->getCarrier($data['code'], $model->getStoreId());
+            $carrier = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($data['code'], $model->getStoreId());
             if (!$carrier->isShippingLabelsAvailable()) {
                 return false;
             }
@@ -1121,7 +1121,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                     $pdf = new Zend_Pdf();
                     $page = $this->_createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->_getSession()->addError(Mage::helper('enterprise_rma')->__('File extension not known or unsupported type in the following shipment: %s', $model->getIncrementId()));
+                        $this->_getSession()->addError(Mage::helper('Enterprise_Rma_Helper_Data')->__('File extension not known or unsupported type in the following shipment: %s', $model->getIncrementId()));
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();
@@ -1138,7 +1138,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()
-                ->addError(Mage::helper('enterprise_rma')->__('An error occurred while creating shipping label.'));
+                ->addError(Mage::helper('Enterprise_Rma_Helper_Data')->__('An error occurred while creating shipping label.'));
        }
         $this->_redirect('*/*/edit', array(
             'id' => $this->getRequest()->getParam('id')
@@ -1271,7 +1271,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -1310,7 +1310,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }

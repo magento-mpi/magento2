@@ -64,10 +64,10 @@ class Enterprise_Staging_Model_Resource_Adapter_Website extends Enterprise_Stagi
             $stagingWebsite->setData('master_login', $website->getMasterLogin());
             $password = trim($website->getMasterPassword());
             if ($password) {
-                 if(Mage::helper('core/string')->strlen($password)<6){
-                    throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('The password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
+                 if(Mage::helper('Mage_Core_Helper_String')->strlen($password)<6){
+                    throw new Enterprise_Staging_Exception(Mage::helper('Enterprise_Staging_Helper_Data')->__('The password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
                 }
-                $stagingWebsite->setData('master_password' , Mage::helper('core')->encrypt($password));
+                $stagingWebsite->setData('master_password' , Mage::helper('Mage_Core_Helper_Data')->encrypt($password));
             }
 
             if (!$stagingWebsite->getId()) {
@@ -136,10 +136,10 @@ class Enterprise_Staging_Model_Resource_Adapter_Website extends Enterprise_Stagi
             $stagingWebsite->setData('master_login', $website->getMasterLogin());
             $password = trim($website->getMasterPassword());
             if ($password) {
-                 if(Mage::helper('core/string')->strlen($password)<6){
-                    throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('The password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
+                 if(Mage::helper('Mage_Core_Helper_String')->strlen($password)<6){
+                    throw new Enterprise_Staging_Exception(Mage::helper('Enterprise_Staging_Helper_Data')->__('The password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
                 }
-                $stagingWebsite->setData('master_password' , Mage::helper('core')->encrypt($password));
+                $stagingWebsite->setData('master_password' , Mage::helper('Mage_Core_Helper_Data')->encrypt($password));
             }
 
             $stagingWebsite->save();

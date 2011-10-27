@@ -47,25 +47,25 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Release
         $form->setHtmlIdPrefix('_release');
 
         $fieldset = $form->addFieldset('release_fieldset', array(
-            'legend'    => Mage::helper('adminhtml')->__('Release')
+            'legend'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Release')
         ));
 
         $stabilityOptions = Mage::getModel('connect/extension')->getStabilityOptions();
         $fieldset->addField('version', 'text', array(
             'name'      => 'version',
-            'label'     => Mage::helper('adminhtml')->__('Release Version'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Release Version'),
             'required'  => true,
         ));
 
         $fieldset->addField('stability', 'select', array(
             'name'      => 'stability',
-            'label'     => Mage::helper('adminhtml')->__('Release Stability'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Release Stability'),
             'options'   => $stabilityOptions,
         ));
 
         $fieldset->addField('notes', 'textarea', array(
             'name'      => 'notes',
-            'label'     => Mage::helper('adminhtml')->__('Notes'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Notes'),
             'style'     => 'height:300px;',
             'required'  => true,
         ));
@@ -83,7 +83,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Release
      */
     public function getTabLabel()
     {
-        return Mage::helper('connect')->__('Release Info');
+        return Mage::helper('Mage_Connect_Helper_Data')->__('Release Info');
     }
 
     /**
@@ -93,6 +93,6 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Release
      */
     public function getTabTitle()
     {
-        return Mage::helper('connect')->__('Release Info');
+        return Mage::helper('Mage_Connect_Helper_Data')->__('Release Info');
     }
 }

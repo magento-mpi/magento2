@@ -131,7 +131,7 @@
         </events>
         <layout>
             <updates>
-                <payment module="Mage_Payment">
+                <payment module="Mage_Mage_Payment">
                     <file>payment.xml</file>
                 </payment>
             </updates>

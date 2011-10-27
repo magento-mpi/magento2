@@ -44,11 +44,11 @@ $_height = $this->getImagesHeight();
         <?php endif; ?>
         </p>
         <?php if($this->getFileWidth($file)): ?>
-            <small><?php echo $this->getFileWidth($file) ?>x<?php echo $this->getFileHeight($file) ?> <?php echo $this->helper('cms')->__('px.') ?></small><br/>
+            <small><?php echo $this->getFileWidth($file) ?>x<?php echo $this->getFileHeight($file) ?> <?php echo $this->helper('Mage_Cms_Helper_Data')->__('px.') ?></small><br/>
         <?php endif; ?>
         <small><?php echo $this->getFileShortName($file); ?></small>
     </div>
     <?php endforeach; ?>
 <?php else: ?>
-    <?php echo $this->helper('cms')->__('No files found') ?>
+    <?php echo $this->helper('Mage_Cms_Helper_Data')->__('No files found') ?>
 <?php endif; ?>

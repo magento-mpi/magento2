@@ -66,7 +66,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Mage_A
             $result = $this->_getNodesArray($this->getRoot(null, $recursionLevel));
         }
         if ($asJson) {
-            return Mage::helper('core')->jsonEncode($result);
+            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
         }
         return $result;
     }
@@ -103,7 +103,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Mage_A
             'is_active'      => (bool)$node->getIsActive(),
             'disabled'       => ($node->getLevel() <= 1 || in_array(
                                     $node->getId(),
-                                    $this->helper('enterprise_catalogevent/adminhtml_event')->getInEventCategoryIds()
+                                    $this->helper('Enterprise_CatalogEvent_Helper_Adminhtml_Event')->getInEventCategoryIds()
                                 )),
             'name'           => $node->getName(),
             'level'          => (int)$node->getLevel(),

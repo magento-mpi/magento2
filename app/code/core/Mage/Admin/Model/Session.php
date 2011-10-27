@@ -106,7 +106,7 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
                     exit;
                 }
             } else {
-                Mage::throwException(Mage::helper('adminhtml')->__('Invalid User Name or Password.'));
+                Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Invalid User Name or Password.'));
             }
         } catch (Mage_Core_Exception $e) {
             Mage::dispatchEvent('admin_session_user_login_failed',

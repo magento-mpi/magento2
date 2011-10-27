@@ -62,7 +62,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
             //echo "<pre>".print_r($pfm->getValidationWarnings(), 1)."</pre>";
             $message = $pfm->getValidationWarnings();
             //$message = $message[0]['message'];
-             throw Mage::exception('Mage_Adminhtml', Mage::helper('adminhtml')->__($message[0]['message']));
+             throw Mage::exception('Mage_Adminhtml', Mage::helper('Mage_Adminhtml_Helper_Data')->__($message[0]['message']));
 
             return $this;
         }
@@ -143,7 +143,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
 
                     case 'subpackage':
                         if ($type==='conflicts') {
-                            Mage::throwException(Mage::helper('adminhtml')->__("Subpackage cannot be conflicting."));
+                            Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__("Subpackage cannot be conflicting."));
                         }
                         $pfm->addSubpackageDepWithChannel(
                             $type, $name, $channel, $min, $max, $recommended, $exclude);
@@ -178,14 +178,14 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
             switch ($contents['type'][$i]) {
                 case 'file':
                     if (!is_file($fullPath)) {
-                        Mage::throwException(Mage::helper('adminhtml')->__("Invalid file: %s", $fullPath));
+                        Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__("Invalid file: %s", $fullPath));
                     }
                     $pfm->addFile('/', $contents['path'][$i], array('role'=>$role, 'md5sum'=>md5_file($fullPath)));
                     break;
 
                 case 'dir':
                     if (!is_dir($fullPath)) {
-                        Mage::throwException(Mage::helper('adminhtml')->__("Invalid directory: %s", $fullPath));
+                        Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__("Invalid directory: %s", $fullPath));
                     }
                     $path = $contents['path'][$i];
                     $include = $contents['include'][$i];
@@ -287,7 +287,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         $pkgver = $this->getName().'-'.$this->getReleaseVersion();
         $this->unsPackageXml();
         $this->unsRoles();
-        $xml = Mage::helper('core')->assocToXml($this->getData());
+        $xml = Mage::helper('Mage_Core_Helper_Data')->assocToXml($this->getData());
         $xml = new Varien_Simplexml_Element($xml->asXML());
 
         // prepare dir to save

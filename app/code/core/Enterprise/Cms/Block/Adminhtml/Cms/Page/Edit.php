@@ -54,7 +54,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit
                 if ($page) {
                     if ($page->getId()) {
                         $editBlock->addButton('preview', array(
-                            'label'     => Mage::helper('enterprise_cms')->__('Preview'),
+                            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Preview'),
                             'onclick'   => 'pagePreviewAction()',
                             'class'     => 'preview',
                         ));

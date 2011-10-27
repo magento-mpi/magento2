@@ -169,14 +169,14 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
         if ($productId = Mage::getSingleton('catalog/session')->getLastViewedProductId()) {
             $product = Mage::getModel('catalog/product')->load($productId);
             /* @var $product Mage_Catalog_Model_Product */
-            if (Mage::helper('catalog/product')->canShow($product, 'catalog')) {
+            if (Mage::helper('Mage_Catalog_Helper_Product')->canShow($product, 'catalog')) {
                 return $product->getProductUrl();
             }
         }
         if ($categoryId = Mage::getSingleton('catalog/session')->getLastViewedCategoryId()) {
             $category = Mage::getModel('catalog/category')->load($categoryId);
             /* @var $category Mage_Catalog_Model_Category */
-            if (!Mage::helper('catalog/category')->canShow($category)) {
+            if (!Mage::helper('Mage_Catalog_Helper_Category')->canShow($category)) {
                 return '';
             }
             return $category->getCategoryUrl();
@@ -194,7 +194,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function splitSku($sku, $length = 30)
     {
-        return Mage::helper('core/string')->str_split($sku, $length, true, false, '[\-\s]');
+        return Mage::helper('Mage_Core_Helper_String')->str_split($sku, $length, true, false, '[\-\s]');
     }
 
     /**

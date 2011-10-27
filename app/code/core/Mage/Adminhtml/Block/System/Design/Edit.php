@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_System_Design_Edit extends Mage_Adminhtml_Block_Widge
         $this->setChild('back_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('core')->__('Back'),
+                    'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Back'),
                     'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
                     'class' => 'back'
                 ))
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_System_Design_Edit extends Mage_Adminhtml_Block_Widge
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('core')->__('Save'),
+                    'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Save'),
                     'onclick'   => 'designForm.submit()',
                     'class' => 'save'
                 ))
@@ -56,8 +56,8 @@ class Mage_Adminhtml_Block_System_Design_Edit extends Mage_Adminhtml_Block_Widge
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('core')->__('Delete'),
-                    'onclick'   => 'confirmSetLocation(\''.Mage::helper('core')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
+                    'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Delete'),
+                    'onclick'   => 'confirmSetLocation(\''.Mage::helper('Mage_Core_Helper_Data')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
                     'class'  => 'delete'
                 ))
         );
@@ -88,9 +88,9 @@ class Mage_Adminhtml_Block_System_Design_Edit extends Mage_Adminhtml_Block_Widge
     {
         $header = '';
         if (Mage::registry('design')->getId()) {
-            $header = Mage::helper('core')->__('Edit Design Change');
+            $header = Mage::helper('Mage_Core_Helper_Data')->__('Edit Design Change');
         } else {
-            $header = Mage::helper('core')->__('New Design Change');
+            $header = Mage::helper('Mage_Core_Helper_Data')->__('New Design Change');
         }
         return $header;
     }

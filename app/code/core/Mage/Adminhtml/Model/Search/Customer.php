@@ -60,10 +60,10 @@ class Mage_Adminhtml_Model_Search_Customer extends Varien_Object
         foreach ($collection->getItems() as $customer) {
             $arr[] = array(
                 'id'            => 'customer/1/'.$customer->getId(),
-                'type'          => Mage::helper('adminhtml')->__('Customer'),
+                'type'          => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Customer'),
                 'name'          => $customer->getName(),
                 'description'   => $customer->getCompany(),
-                'url' => Mage::helper('adminhtml')->getUrl('*/customer/edit', array('id'=>$customer->getId())),
+                'url' => Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('*/customer/edit', array('id'=>$customer->getId())),
             );
         }
 

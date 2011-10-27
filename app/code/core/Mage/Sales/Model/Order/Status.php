@@ -103,7 +103,7 @@ class Mage_Sales_Model_Order_Status extends Mage_Core_Model_Abstract
                 return $labels[$store->getId()];
             }
         }
-        return Mage::helper('sales')->__($this->getLabel());
+        return Mage::helper('Mage_Sales_Helper_Data')->__($this->getLabel());
     }
 
     /**

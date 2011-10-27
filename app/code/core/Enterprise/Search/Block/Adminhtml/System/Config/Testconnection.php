@@ -68,7 +68,7 @@ class Enterprise_Search_Block_Adminhtml_System_Config_Testconnection
     {
         $originalData = $element->getOriginalData();
         $this->addData(array(
-            'button_label' => Mage::helper('enterprise_search')->__($originalData['button_label']),
+            'button_label' => Mage::helper('Enterprise_Search_Helper_Data')->__($originalData['button_label']),
             'html_id' => $element->getHtmlId(),
             'ajax_url' => Mage::getSingleton('adminhtml/url')->getUrl('*/search_system_config_testconnection/ping')
         ));

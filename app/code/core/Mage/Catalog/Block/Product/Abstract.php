@@ -100,7 +100,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
 
             return $this->getProductUrl($product, $additional);
         }
-        return $this->helper('checkout/cart')->getAddUrl($product, $additional);
+        return $this->helper('Mage_Checkout_Helper_Cart')->getAddUrl($product, $additional);
     }
 
     /**
@@ -133,7 +133,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      */
     public function getAddToWishlistUrl($product)
     {
-        return $this->helper('wishlist')->getAddUrl($product);
+        return $this->helper('Mage_Wishlist_Helper_Data')->getAddUrl($product);
     }
 
     /**
@@ -144,7 +144,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      */
     public function getAddToCompareUrl($product)
     {
-        return $this->helper('catalog/product_compare')->getAddUrl($product);
+        return $this->helper('Mage_Catalog_Helper_Product_Compare')->getAddUrl($product);
     }
 
     public function getMinimalQty($product)
@@ -204,7 +204,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
     public function getPriceHtml($product, $displayMinimalPrice = false, $idSuffix = '')
     {
         $type_id = $product->getTypeId();
-        if (Mage::helper('catalog')->canApplyMsrp($product)) {
+        if (Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($product)) {
             $realPriceHtml = $this->_preparePriceRenderer($type_id)
                 ->setProduct($product)
                 ->setDisplayMinimalPrice($displayMinimalPrice)
@@ -280,7 +280,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
     protected function _initReviewsHelperBlock()
     {
         if (!$this->_reviewsHelperBlock) {
-            if (!Mage::helper('catalog')->isModuleEnabled('Mage_Review')) {
+            if (!Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_Review')) {
                 return false;
             } else {
                 $this->_reviewsHelperBlock = $this->getLayout()->createBlock('review/helper');
@@ -354,16 +354,16 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
                     $price['savePercent'] = ceil(100 - ((100 / $_productPrice) * $price['price']));
 
                     $tierPrice = Mage::app()->getStore()->convertPrice(
-                        Mage::helper('tax')->getPrice($product, $price['website_price'])
+                        Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $price['website_price'])
                     );
                     $price['formated_price'] = Mage::app()->getStore()->formatPrice($tierPrice);
                     $price['formated_price_incl_tax'] = Mage::app()->getStore()->formatPrice(
                         Mage::app()->getStore()->convertPrice(
-                            Mage::helper('tax')->getPrice($product, $price['website_price'], true)
+                            Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $price['website_price'], true)
                         )
                     );
 
-                    if (Mage::helper('catalog')->canApplyMsrp($product)) {
+                    if (Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($product)) {
                         $oldPrice = $product->getFinalPrice();
                         $product->setPriceCalculation(false);
                         $product->setPrice($tierPrice);
@@ -535,7 +535,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      */
     public function getPageLayout()
     {
-        return $this->helper('page/layout')->getCurrentPageLayout();
+        return $this->helper('Mage_Page_Helper_Layout')->getCurrentPageLayout();
     }
 
     /**

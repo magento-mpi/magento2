@@ -54,26 +54,26 @@ class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Wi
     protected function _prepareColumns()
     {
         $this->addColumn('user_id', array(
-            'header'    =>Mage::helper('adminhtml')->__('ID'),
+            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('ID'),
             'width'     =>5,
             'align'     =>'right',
             'sortable'  =>true,
             'index'     =>'user_id'
         ));
         $this->addColumn('username', array(
-            'header'    =>Mage::helper('adminhtml')->__('User Name'),
+            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Name'),
             'index'     =>'username'
         ));
         $this->addColumn('firstname', array(
-            'header'    =>Mage::helper('adminhtml')->__('First Name'),
+            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('First Name'),
             'index'     =>'firstname'
         ));
         $this->addColumn('lastname', array(
-            'header'    =>Mage::helper('adminhtml')->__('Last Name'),
+            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Last Name'),
             'index'     =>'lastname'
         ));
         $this->addColumn('email', array(
-            'header'    =>Mage::helper('adminhtml')->__('Email'),
+            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Email'),
             'width'     =>40,
             'align'     =>'left',
             'index'     =>'email'

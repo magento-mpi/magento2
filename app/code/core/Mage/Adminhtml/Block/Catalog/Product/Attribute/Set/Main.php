@@ -61,48 +61,48 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
 
         $this->setChild('delete_group_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('catalog')->__('Delete Selected Group'),
+                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Selected Group'),
                 'onclick'   => 'editSet.submit();',
                 'class'     => 'delete'
         )));
 
         $this->setChild('add_group_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('catalog')->__('Add New'),
+                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add New'),
                 'onclick'   => 'editSet.addGroup();',
                 'class'     => 'add'
         )));
 
         $this->setChild('back_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('catalog')->__('Back'),
+                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Back'),
                 'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
                 'class'     => 'back'
         )));
 
         $this->setChild('reset_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('catalog')->__('Reset'),
+                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Reset'),
                 'onclick'   => 'window.location.reload()'
         )));
 
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('catalog')->__('Save Attribute Set'),
+                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save Attribute Set'),
                 'onclick'   => 'editSet.save();',
                 'class'     => 'save'
         )));
 
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('catalog')->__('Delete Attribute Set'),
-                'onclick'   => 'deleteConfirm(\''. $this->jsQuoteEscape(Mage::helper('catalog')->__('All products of this set will be deleted! Are you sure you want to delete this attribute set?')) . '\', \'' . $this->getUrl('*/*/delete', array('id' => $setId)) . '\')',
+                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Attribute Set'),
+                'onclick'   => 'deleteConfirm(\''. $this->jsQuoteEscape(Mage::helper('Mage_Catalog_Helper_Data')->__('All products of this set will be deleted! Are you sure you want to delete this attribute set?')) . '\', \'' . $this->getUrl('*/*/delete', array('id' => $setId)) . '\')',
                 'class'     => 'delete'
         )));
 
         $this->setChild('rename_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('catalog')->__('New Set Name'),
+                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('New Set Name'),
                 'onclick'   => 'editSet.rename()'
         )));
 
@@ -136,7 +136,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
      */
     protected function _getHeader()
     {
-        return Mage::helper('catalog')->__("Edit Attribute Set '%s'", $this->_getAttributeSet()->getAttributeSetName());
+        return Mage::helper('Mage_Catalog_Helper_Data')->__("Edit Attribute Set '%s'", $this->_getAttributeSet()->getAttributeSetName());
     }
 
     /**
@@ -217,7 +217,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
             $items[] = $item;
         }
 
-        return Mage::helper('core')->jsonEncode($items);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($items);
     }
 
     /**
@@ -263,7 +263,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
 
         if (count($items) == 0) {
             $items[] = array(
-                'text'      => Mage::helper('catalog')->__('Empty'),
+                'text'      => Mage::helper('Mage_Catalog_Helper_Data')->__('Empty'),
                 'id'        => 'empty',
                 'cls'       => 'folder',
                 'allowDrop' => false,
@@ -271,7 +271,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
             );
         }
 
-        return Mage::helper('core')->jsonEncode($items);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($items);
     }
 
     /**

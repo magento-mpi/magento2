@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Dashboard_Searches_Last extends Mage_Adminhtml_Block_
 
     protected function _prepareCollection()
     {
-        if (!Mage::helper('core')->isModuleEnabled('Mage_CatalogSearch')) {
+        if (!Mage::helper('Mage_Core_Helper_Data')->isModuleEnabled('Mage_CatalogSearch')) {
             return parent::_prepareCollection();
         }
         $this->_collection = Mage::getModel('catalogsearch/query')

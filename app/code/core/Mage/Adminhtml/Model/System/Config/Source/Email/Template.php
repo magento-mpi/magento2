@@ -54,12 +54,12 @@ class Mage_Adminhtml_Model_System_Config_Source_Email_Template extends Varien_Ob
             Mage::register('config_system_email_template', $collection);
         }
         $options = $collection->toOptionArray();
-        $templateName = Mage::helper('adminhtml')->__('Default Template from Locale');
+        $templateName = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Default Template from Locale');
         $nodeName = str_replace('/', '_', $this->getPath());
         $templateLabelNode = Mage::app()->getConfig()->getNode(self::XML_PATH_TEMPLATE_EMAIL . $nodeName . '/label');
         if ($templateLabelNode) {
-            $templateName = Mage::helper('adminhtml')->__((string)$templateLabelNode);
-            $templateName = Mage::helper('adminhtml')->__('%s (Default Template from Locale)', $templateName);
+            $templateName = Mage::helper('Mage_Adminhtml_Helper_Data')->__((string)$templateLabelNode);
+            $templateName = Mage::helper('Mage_Adminhtml_Helper_Data')->__('%s (Default Template from Locale)', $templateName);
         }
         array_unshift(
             $options,

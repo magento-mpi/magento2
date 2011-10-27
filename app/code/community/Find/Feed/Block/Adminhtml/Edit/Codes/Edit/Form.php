@@ -92,16 +92,16 @@ class Find_Feed_Block_Adminhtml_Edit_Codes_Edit_Form extends Mage_Adminhtml_Bloc
         ));
 
         $fieldset = $form->addFieldset('generate_fieldset', array(
-            'legend' => Mage::helper('find_feed')->__('Item params')
+            'legend' => Mage::helper('Find_Feed_Helper_Data')->__('Item params')
         ));
         $fieldset->addField('import_code', 'select', array(
-            'label'     => Mage::helper('find_feed')->__('Import code'),
+            'label'     => Mage::helper('Find_Feed_Helper_Data')->__('Import code'),
             'name'      => 'import_code',
             'required'  => true,
             'options'   => $this->_getImportCodeList()
         ));
         $fieldset->addField('eav_code', 'select', array(
-            'label'     => Mage::helper('find_feed')->__('Eav code'),
+            'label'     => Mage::helper('Find_Feed_Helper_Data')->__('Eav code'),
             'name'      => 'eav_code',
             'required'  => true,
             'options'   => $this->_getEavAttributeList()
@@ -111,7 +111,7 @@ class Find_Feed_Block_Adminhtml_Edit_Codes_Edit_Form extends Mage_Adminhtml_Bloc
         $isImportedOptions = $source->getOptionArray();
 
         $fieldset->addField('is_imported', 'select', array(
-            'label'     => Mage::helper('find_feed')->__('Is imported'),
+            'label'     => Mage::helper('Find_Feed_Helper_Data')->__('Is imported'),
             'name'      => 'is_imported',
             'value'     => 1,
             'options'   => $isImportedOptions

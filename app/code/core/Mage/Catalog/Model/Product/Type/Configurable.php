@@ -611,7 +611,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
                     }
 
                     if (!isset($_result[0])) {
-                        return Mage::helper('checkout')->__('Cannot add the item to shopping cart');
+                        return Mage::helper('Mage_Checkout_Helper_Data')->__('Cannot add the item to shopping cart');
                     }
 
                     /**
@@ -681,7 +681,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function getSpecifyOptionMessage()
     {
-        return Mage::helper('catalog')->__('Please specify the product\'s option(s).');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the product\'s option(s).');
     }
 
     /**
@@ -783,7 +783,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
             $option->setProduct($optionProduct);
         } else {
             $option->getItem()->setHasError('error');
-            $option->getItem()->addMessage(Mage::helper('catalog')->__('Selected configuration is not available.', $this->getProduct($product)->getName()));
+            $option->getItem()->addMessage(Mage::helper('Mage_Catalog_Helper_Data')->__('Selected configuration is not available.', $this->getProduct($product)->getName()));
         }
 
         return $this;

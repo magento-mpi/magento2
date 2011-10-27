@@ -77,7 +77,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Mage_A
     protected function _prepareColumns()
     {
         $this->addColumn('folder', array(
-            'header'  => Mage::helper('connect')->__('Folder'),
+            'header'  => Mage::helper('Mage_Connect_Helper_Data')->__('Folder'),
             'index'   => 'folder',
             'width'   => 100,
             'type'    => 'options',
@@ -85,7 +85,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Mage_A
         ));
 
         $this->addColumn('package', array(
-            'header' => Mage::helper('connect')->__('Package'),
+            'header' => Mage::helper('Mage_Connect_Helper_Data')->__('Package'),
             'index'  => 'package',
         ));
 

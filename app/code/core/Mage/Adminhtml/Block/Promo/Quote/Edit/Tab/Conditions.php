@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions
      */
     public function getTabLabel()
     {
-        return Mage::helper('salesrule')->__('Conditions');
+        return Mage::helper('Mage_SalesRule_Helper_Data')->__('Conditions');
     }
 
     /**
@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions
      */
     public function getTabTitle()
     {
-        return Mage::helper('salesrule')->__('Conditions');
+        return Mage::helper('Mage_SalesRule_Helper_Data')->__('Conditions');
     }
 
     /**
@@ -90,23 +90,23 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions
             ->setNewChildUrl($this->getUrl('*/promo_quote/newConditionHtml/form/rule_conditions_fieldset'));
 
         $fieldset = $form->addFieldset('conditions_fieldset', array(
-            'legend'=>Mage::helper('salesrule')->__('Apply the rule only if the following conditions are met (leave blank for all products)')
+            'legend'=>Mage::helper('Mage_SalesRule_Helper_Data')->__('Apply the rule only if the following conditions are met (leave blank for all products)')
         ))->setRenderer($renderer);
 
         $fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
-            'label' => Mage::helper('salesrule')->__('Conditions'),
-            'title' => Mage::helper('salesrule')->__('Conditions'),
+            'label' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Conditions'),
+            'title' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Conditions'),
         ))->setRule($model)->setRenderer(Mage::getBlockSingleton('rule/conditions'));
 /*
         $fieldset = $form->addFieldset('actions_fieldset', array(
-            'legend'=>Mage::helper('salesrule')->__('Apply the rule to cart items matching the following conditions')
+            'legend'=>Mage::helper('Mage_SalesRule_Helper_Data')->__('Apply the rule to cart items matching the following conditions')
         ))->setRenderer($renderer);
 
         $fieldset->addField('actions', 'text', array(
             'name' => 'actions',
-            'label' => Mage::helper('salesrule')->__('Apply To'),
-            'title' => Mage::helper('salesrule')->__('Apply To'),
+            'label' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Apply To'),
+            'title' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Apply To'),
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getBlockSingleton('rule/actions'));
 */

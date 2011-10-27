@@ -37,8 +37,8 @@ class Mage_Adminhtml_Block_Api_User extends Mage_Adminhtml_Block_Widget_Grid_Con
     public function __construct()
     {
         $this->_controller = 'api_user';
-        $this->_headerText = Mage::helper('adminhtml')->__('Users');
-        $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add New User');
+        $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Users');
+        $this->_addButtonLabel = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add New User');
         parent::__construct();
     }
 

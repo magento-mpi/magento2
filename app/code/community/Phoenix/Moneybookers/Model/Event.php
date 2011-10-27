@@ -85,19 +85,19 @@ class Phoenix_Moneybookers_Model_Event
             $msg = '';
             switch($params['status']) {
                 case self::MONEYBOOKERS_STATUS_FAIL: //fail
-                    $msg = Mage::helper('moneybookers')->__('Payment failed.');
+                    $msg = Mage::helper('Phoenix_Moneybookers_Helper_Data')->__('Payment failed.');
                     $this->_processCancel($msg);
                     break;
                 case self::MONEYBOOKERS_STATUS_CANCEL: //cancel
-                    $msg = Mage::helper('moneybookers')->__('Payment was canceled.');
+                    $msg = Mage::helper('Phoenix_Moneybookers_Helper_Data')->__('Payment was canceled.');
                     $this->_processCancel($msg);
                     break;
                 case self::MONEYBOOKERS_STATUS_PENDING: //pending
-                    $msg = Mage::helper('moneybookers')->__('Pending bank transfer created.');
+                    $msg = Mage::helper('Phoenix_Moneybookers_Helper_Data')->__('Pending bank transfer created.');
                     $this->_processSale($params['status'], $msg);
                     break;
                 case self::MONEYBOOKERS_STATUS_SUCCESS: //ok
-                    $msg = Mage::helper('moneybookers')->__('The amount has been authorized and captured by Moneybookers.');
+                    $msg = Mage::helper('Phoenix_Moneybookers_Helper_Data')->__('The amount has been authorized and captured by Moneybookers.');
                     $this->_processSale($params['status'], $msg);
                     break;
             }
@@ -117,7 +117,7 @@ class Phoenix_Moneybookers_Model_Event
         try {
             $this->_validateEventData(false);
             $this->_processCancel('Payment was canceled.');
-            return Mage::helper('moneybookers')->__('The order has been canceled.');
+            return Mage::helper('Phoenix_Moneybookers_Helper_Data')->__('The order has been canceled.');
         } catch (Mage_Core_Exception $e) {
             return $e->getMessage();
         } catch(Exception $e) {

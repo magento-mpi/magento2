@@ -41,7 +41,7 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Details extends Mage_Adminhtml_Bloc
     {
         parent::__construct();
         $this->_controller = '';
-        $this->_headerText = Mage::helper('paypal')->__('View Transaction Details');
+        $this->_headerText = Mage::helper('Mage_Paypal_Helper_Data')->__('View Transaction Details');
         $this->_removeButton('reset')
             ->_removeButton('delete')
             ->_removeButton('save');

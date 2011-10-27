@@ -107,7 +107,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     public static function setActionModelClass($actionId, $actionModelClass)
     {
         if (!is_int($actionId)) {
-            Mage::throwException(Mage::helper('enterprise_reward')->__('Given action ID has to be an integer value.'));
+            Mage::throwException(Mage::helper('Enterprise_Reward_Helper_Data')->__('Given action ID has to be an integer value.'));
         }
         self::$_actionModelClasses[$actionId] = $actionModelClass;
     }
@@ -453,7 +453,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     {
         $websiteId = $this->getWebsiteId();
         $uncappedPts = (int)$action->getPoints($websiteId);
-        $max = (int)Mage::helper('enterprise_reward')->getGeneralConfig('max_points_balance', $websiteId);
+        $max = (int)Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig('max_points_balance', $websiteId);
         if ($max > 0) {
             return min(max($max - (int)$this->getPointsBalance(), 0), $uncappedPts);
         }
@@ -514,7 +514,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         }
         $pointsBalance = 0;
         $pointsBalance = (int)$this->getPointsBalance() + $points;
-        $maxPointsBalance = (int)(Mage::helper('enterprise_reward')
+        $maxPointsBalance = (int)(Mage::helper('Enterprise_Reward_Helper_Data')
             ->getGeneralConfig('max_points_balance', $this->getWebsiteId()));
         if ($maxPointsBalance != 0 && ($pointsBalance > $maxPointsBalance)) {
             $pointsBalance = $maxPointsBalance;
@@ -623,13 +623,13 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         $templateVars = array(
             'store' => $store,
             'customer' => $this->getCustomer(),
-            'unsubscription_url' => Mage::helper('enterprise_reward/customer')
+            'unsubscription_url' => Mage::helper('Enterprise_Reward_Helper_Customer')
                 ->getUnsubscribeUrl('update', $store->getId()),
             'points_balance' => $this->getPointsBalance(),
-            'reward_amount_was' => Mage::helper('enterprise_reward')->formatAmount(
+            'reward_amount_was' => Mage::helper('Enterprise_Reward_Helper_Data')->formatAmount(
                 $this->getCurrencyAmount() - $history->getCurrencyDelta()
                 , true, $store->getStoreId()),
-            'reward_amount_now' => Mage::helper('enterprise_reward')->formatAmount(
+            'reward_amount_now' => Mage::helper('Enterprise_Reward_Helper_Data')->formatAmount(
                 $this->getCurrencyAmount()
                 , true, $store->getStoreId()),
             'reward_pts_was' => ($this->getPointsBalance() - $delta),
@@ -664,17 +664,17 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         /* @var $mail Mage_Core_Model_Email_Template */
         $mail->setDesignConfig(array('area' => 'frontend', 'store' => $item->getStoreId()));
         $store = Mage::app()->getStore($item->getStoreId());
-        $amount = Mage::helper('enterprise_reward')
+        $amount = Mage::helper('Enterprise_Reward_Helper_Data')
             ->getRateFromRatesArray($item->getPointsBalanceTotal(),$websiteId, $item->getCustomerGroupId());
         $action = Mage::getSingleton('enterprise_reward/reward')->getActionInstance($item->getAction());
         $templateVars = array(
             'store' => $store,
             'customer_name' => $item->getCustomerFirstname().' '.$item->getCustomerLastname(),
-            'unsubscription_url' => Mage::helper('enterprise_reward/customer')->getUnsubscribeUrl('warning'),
+            'unsubscription_url' => Mage::helper('Enterprise_Reward_Helper_Customer')->getUnsubscribeUrl('warning'),
             'remaining_days' => $store->getConfig('enterprise_reward/notification/expiry_day_before'),
             'points_balance' => $item->getPointsBalanceTotal(),
             'points_expiring' => $item->getTotalExpired(),
-            'reward_amount_now' => Mage::helper('enterprise_reward')->formatAmount($amount, true, $item->getStoreId()),
+            'reward_amount_now' => Mage::helper('Enterprise_Reward_Helper_Data')->formatAmount($amount, true, $item->getStoreId()),
             'update_message' => ($action !== null ? $action->getHistoryMessage($item->getAdditionalData()) : '')
         );
         $mail->sendTransactional(

@@ -215,14 +215,14 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Mage_Admi
         $fieldset->addField('sender', 'text',
             array(
                 'name'     => $this->_getFieldName('sender'),
-                'label'    => Mage::helper('sales')->__('From'),
+                'label'    => Mage::helper('Mage_Sales_Helper_Data')->__('From'),
                 'required' => $this->getMessage()->getMessage() ? true : false
             )
         );
         $fieldset->addField('recipient', 'text',
             array(
                 'name'     => $this->_getFieldName('recipient'),
-                'label'    => Mage::helper('sales')->__('To'),
+                'label'    => Mage::helper('Mage_Sales_Helper_Data')->__('To'),
                 'required' => $this->getMessage()->getMessage() ? true : false
             )
         );
@@ -230,7 +230,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Mage_Admi
         $fieldset->addField('message', 'textarea',
             array(
                 'name'      => $this->_getFieldName('message'),
-                'label'     => Mage::helper('sales')->__('Message'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Message'),
                 'rows'      => '5',
                 'cols'      => '20',
             )
@@ -245,7 +245,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Mage_Admi
      */
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->helper('giftmessage/message')->getGiftMessage(
+        $this->_giftMessage = $this->helper('Mage_GiftMessage_Helper_Message')->getGiftMessage(
                                    $this->getEntity()->getGiftMessageId()
                               );
         return $this;

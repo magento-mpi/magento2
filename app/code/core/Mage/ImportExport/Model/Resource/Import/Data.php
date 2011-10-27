@@ -97,7 +97,7 @@ class Mage_ImportExport_Model_Resource_Import_Data
                 ->from($this->getMainTable(), array('behavior'))
         ));
         if (count($behaviors) != 1) {
-            Mage::throwException(Mage::helper('importexport')->__('Error in data structure: behaviors are mixed'));
+            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Error in data structure: behaviors are mixed'));
         }
         return $behaviors[0];
     }
@@ -116,7 +116,7 @@ class Mage_ImportExport_Model_Resource_Import_Data
                 ->from($this->getMainTable(), array('entity'))
         ));
         if (count($entityCodes) != 1) {
-            Mage::throwException(Mage::helper('importexport')->__('Error in data structure: entity codes are mixed'));
+            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Error in data structure: entity codes are mixed'));
         }
         return $entityCodes[0];
     }
@@ -134,7 +134,7 @@ class Mage_ImportExport_Model_Resource_Import_Data
         }
         if ($this->_iterator->valid()) {
             $dataRow = $this->_iterator->current();
-            $dataRow = Mage::helper('core')->jsonDecode($dataRow[0]);
+            $dataRow = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($dataRow[0]);
             $this->_iterator->next();
         } else {
             $this->_iterator = null;
@@ -155,7 +155,7 @@ class Mage_ImportExport_Model_Resource_Import_Data
     {
         return $this->_getWriteAdapter()->insert(
             $this->getMainTable(),
-            array('behavior' => $behavior, 'entity' => $entity, 'data' => Mage::helper('core')->jsonEncode($data))
+            array('behavior' => $behavior, 'entity' => $entity, 'data' => Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data))
         );
     }
 }

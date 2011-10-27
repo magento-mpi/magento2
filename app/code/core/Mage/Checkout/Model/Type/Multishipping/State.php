@@ -62,19 +62,19 @@ class Mage_Checkout_Model_Type_Multishipping_State extends Varien_Object
         parent::__construct();
         $this->_steps = array(
             self::STEP_SELECT_ADDRESSES => new Varien_Object(array(
-                'label' => Mage::helper('checkout')->__('Select Addresses')
+                'label' => Mage::helper('Mage_Checkout_Helper_Data')->__('Select Addresses')
             )),
             self::STEP_SHIPPING => new Varien_Object(array(
-                'label' => Mage::helper('checkout')->__('Shipping Information')
+                'label' => Mage::helper('Mage_Checkout_Helper_Data')->__('Shipping Information')
             )),
             self::STEP_BILLING => new Varien_Object(array(
-                'label' => Mage::helper('checkout')->__('Billing Information')
+                'label' => Mage::helper('Mage_Checkout_Helper_Data')->__('Billing Information')
             )),
             self::STEP_OVERVIEW => new Varien_Object(array(
-                'label' => Mage::helper('checkout')->__('Place Order')
+                'label' => Mage::helper('Mage_Checkout_Helper_Data')->__('Place Order')
             )),
             self::STEP_SUCCESS => new Varien_Object(array(
-                'label' => Mage::helper('checkout')->__('Order Success')
+                'label' => Mage::helper('Mage_Checkout_Helper_Data')->__('Order Success')
             )),
         );
 

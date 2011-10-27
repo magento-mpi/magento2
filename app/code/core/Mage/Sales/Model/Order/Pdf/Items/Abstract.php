@@ -138,7 +138,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
     public function getOrder()
     {
         if (is_null($this->_order)) {
-            Mage::throwException(Mage::helper('sales')->__('Order object is not specified.'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Order object is not specified.'));
         }
         return $this->_order;
     }
@@ -152,7 +152,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
     public function getSource()
     {
         if (is_null($this->_source)) {
-            Mage::throwException(Mage::helper('sales')->__('Source object is not specified.'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Source object is not specified.'));
         }
         return $this->_source;
     }
@@ -166,7 +166,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
     public function getItem()
     {
         if (is_null($this->_item)) {
-            Mage::throwException(Mage::helper('sales')->__('Item object is not specified.'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Item object is not specified.'));
         }
         return $this->_item;
     }
@@ -180,7 +180,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
     public function getPdf()
     {
         if (is_null($this->_pdf)) {
-            Mage::throwException(Mage::helper('sales')->__('PDF object is not specified.'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('PDF object is not specified.'));
         }
         return $this->_pdf;
     }
@@ -194,7 +194,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
     public function getPage()
     {
         if (is_null($this->_pdfPage)) {
-            Mage::throwException(Mage::helper('sales')->__('PDF page object is not specified.'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('PDF page object is not specified.'));
         }
         return $this->_pdfPage;
     }

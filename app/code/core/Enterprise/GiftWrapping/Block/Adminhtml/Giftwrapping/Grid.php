@@ -68,20 +68,20 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Grid extends Mage_Adm
     protected function _prepareColumns()
     {
         $this->addColumn('wrapping_id', array(
-            'header' => Mage::helper('enterprise_giftwrapping')->__('ID'),
+            'header' => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('ID'),
             'width'  => '50px',
             'type'   => 'number',
             'index'  => 'wrapping_id'
         ));
 
         $this->addColumn('design', array(
-            'header' => Mage::helper('enterprise_giftwrapping')->__('Gift Wrapping Design'),
+            'header' => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Gift Wrapping Design'),
             'index'  => 'design'
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('websites', array(
-                'header'    => Mage::helper('enterprise_giftwrapping')->__('Websites'),
+                'header'    => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Websites'),
                 'index'     => 'website_ids',
                 'type'      => 'options',
                 'sortable'  => false,
@@ -90,11 +90,11 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Grid extends Mage_Adm
         }
 
         $statusList = array(
-            Mage::helper('enterprise_giftwrapping')->__('Disabled'),
-            Mage::helper('enterprise_giftwrapping')->__('Enabled')
+            Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Disabled'),
+            Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Enabled')
         );
         $this->addColumn('status', array(
-            'header'  => Mage::helper('enterprise_giftwrapping')->__('Status'),
+            'header'  => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Status'),
             'index'   => 'status',
             'type'    => 'options',
             'width'   => '100px',
@@ -102,7 +102,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Grid extends Mage_Adm
         ));
 
         $this->addColumn('base_price', array(
-            'header'  => Mage::helper('enterprise_giftwrapping')->__('Price'),
+            'header'  => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Price'),
             'index'   => 'base_price',
             'type'    => 'price',
             'currency_code' => Mage::app()->getWebsite()->getBaseCurrencyCode()
@@ -110,13 +110,13 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Grid extends Mage_Adm
 
         $this->addColumn('action',
             array(
-                'header'  => Mage::helper('enterprise_giftwrapping')->__('Action'),
+                'header'  => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Action'),
                 'width'   => '50px',
                 'type'    => 'action',
                 'getter'  => 'getId',
                 'actions' => array(
                     array(
-                        'caption' => Mage::helper('enterprise_giftwrapping')->__('Edit'),
+                        'caption' => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Edit'),
                         'url' => array(
                             'base' => '*/*/edit',
                             'params' => array()
@@ -142,26 +142,26 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Grid extends Mage_Adm
         $this->getMassactionBlock()->setFormFieldName('wrapping_ids');
 
         $this->getMassactionBlock()->addItem('delete', array(
-            'label' => Mage::helper('enterprise_giftwrapping')->__('Delete'),
+            'label' => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Delete'),
             'url' => $this->getUrl('*/*/massDelete'),
-            'confirm' => Mage::helper('enterprise_giftwrapping')->__('Are you sure you want to delete the selected gift wrappings?')
+            'confirm' => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Are you sure you want to delete the selected gift wrappings?')
         ));
 
         $statusList = array(
             array('label' => '', 'value' => ''),
-            array('label' => Mage::helper('enterprise_giftwrapping')->__('Enabled'), 'value' => '1'),
-            array('label' => Mage::helper('enterprise_giftwrapping')->__('Disabled'), 'value' => '0')
+            array('label' => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Enabled'), 'value' => '1'),
+            array('label' => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Disabled'), 'value' => '0')
         );
 
         $this->getMassactionBlock()->addItem('status', array(
-            'label'=> Mage::helper('enterprise_giftwrapping')->__('Change status'),
+            'label'=> Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Change status'),
             'url'  => $this->getUrl('*/*/changeStatus', array('_current'=>true)),
             'additional' => array(
                 'visibility' => array(
                     'name'   => 'status',
                     'type'   => 'select',
                     'class'  => 'required-entry',
-                    'label'  => Mage::helper('enterprise_giftwrapping')->__('Status'),
+                    'label'  => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Status'),
                     'values' => $statusList
                 )
             )

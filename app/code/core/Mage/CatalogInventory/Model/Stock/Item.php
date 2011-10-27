@@ -306,7 +306,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
         if (!array_key_exists($customerGroupId, $this->_minSaleQtyCache)) {
             if ($this->getUseConfigMinSaleQty()) {
-                $minSaleQty = Mage::helper('cataloginventory/minsaleqty')->getConfigValue($customerGroupId);
+                $minSaleQty = Mage::helper('Mage_CatalogInventory_Helper_Minsaleqty')->getConfigValue($customerGroupId);
             } else {
                 $minSaleQty = $this->getData('min_sale_qty');
             }
@@ -517,7 +517,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         $result->setHasError(false);
 
         /** @var $_helper Mage_CatalogInventory_Helper_Data */
-        $_helper = Mage::helper('cataloginventory');
+        $_helper = Mage::helper('Mage_CatalogInventory_Helper_Data');
 
         if (!is_numeric($qty)) {
             $qty = Mage::app()->getLocale()->getNumber($qty);
@@ -659,16 +659,16 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if ($qtyIncrements && ($qty % $qtyIncrements != 0)) {
             $result->setHasError(true)
                 ->setQuoteMessage(
-                    Mage::helper('cataloginventory')->__('Some of the products cannot be ordered in the requested quantity.')
+                    Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Some of the products cannot be ordered in the requested quantity.')
                 )
                 ->setQuoteMessageIndex('qty');
             if ($this->getIsChildItem()) {
                 $result->setMessage(
-                    Mage::helper('cataloginventory')->__('%s is available for purchase in increments of %s only.',$this->getProductName(), $qtyIncrements * 1)
+                    Mage::helper('Mage_CatalogInventory_Helper_Data')->__('%s is available for purchase in increments of %s only.',$this->getProductName(), $qtyIncrements * 1)
                 );
             } else {
                 $result->setMessage(
-                    Mage::helper('cataloginventory')->__('This product is available for purchase in increments of %s only.', $qtyIncrements * 1)
+                    Mage::helper('Mage_CatalogInventory_Helper_Data')->__('This product is available for purchase in increments of %s only.', $qtyIncrements * 1)
                 );
             }
         }

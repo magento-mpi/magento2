@@ -41,14 +41,14 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_View extends Mage_Adminht
         $model = Mage::registry('current_convert_profile');
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend'=>Mage::helper('adminhtml')->__('View Actions XML'),
+            'legend'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('View Actions XML'),
             'class'=>'fieldset-wide'
         ));
 
         $fieldset->addField('actions_xml', 'textarea', array(
             'name' => 'actions_xml_view',
-            'label' => Mage::helper('adminhtml')->__('Actions XML'),
-            'title' => Mage::helper('adminhtml')->__('Actions XML'),
+            'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Actions XML'),
+            'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Actions XML'),
             'style' => 'height:30em',
             'readonly' => 'readonly',
         ));

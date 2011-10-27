@@ -71,8 +71,8 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     {
         if (empty($this->_values)) {
             $this->_values = array(
-                array('label'=>Mage::helper('adminhtml')->__('Enable'), 'value'=>0),
-                array('label'=>Mage::helper('adminhtml')->__('Disable'), 'value'=>1),
+                array('label'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Enable'), 'value'=>0),
+                array('label'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Disable'), 'value'=>1),
             );
         }
         return $this->_values;

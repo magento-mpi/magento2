@@ -134,7 +134,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
      */
     public function createOrder($quoteId, $store = null, $agreements = null)
     {
-        $requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds();
+        $requiredAgreements = Mage::helper('Mage_Checkout_Helper_Data')->getRequiredAgreementIds();
         if (!empty($requiredAgreements)) {
             $diff = array_diff($agreements, $requiredAgreements);
             if (!empty($diff)) {
@@ -147,7 +147,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
             $this->_fault('invalid_checkout_type');
         }
         if ($quote->getCheckoutMethod() == Mage_Checkout_Model_Api_Resource_Customer::MODE_GUEST
-                && !Mage::helper('checkout')->isAllowedGuestCheckout($quote, $quote->getStoreId())) {
+                && !Mage::helper('Mage_Checkout_Helper_Data')->isAllowedGuestCheckout($quote, $quote->getStoreId())) {
             $this->_fault('guest_checkout_is_not_enabled');
         }
 

@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Store
         $value = $this->getColumn()->getValue();
         if ($allShow) {
             $html .= '<option value="0"' . ($value == 0 ? ' selected="selected"' : '') . '>'
-                  . Mage::helper('adminhtml')->__('All Store Views') . '</option>';
+                  . Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Store Views') . '</option>';
         } else {
             $html .= '<option value=""' . (!$value ? ' selected="selected"' : '') . '></option>';
         }

@@ -37,12 +37,12 @@ class Enterprise_CustomerSegment_Model_Observer
      */
     public function addSegmentsToSalesRuleCombine(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_customersegment')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled()) {
             return;
         }
         $additional = $observer->getEvent()->getAdditional();
         $additional->setConditions(array(array(
-            'label' => Mage::helper('enterprise_customersegment')->__('Customer Segment'),
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Segment'),
             'value' => 'enterprise_customersegment/segment_condition_segment'
         )));
     }
@@ -124,8 +124,8 @@ class Enterprise_CustomerSegment_Model_Observer
         $fieldset   = $form->getElement('base_fieldset');
         $fieldset->addField('is_used_for_customer_segment', 'select', array(
             'name'      => 'is_used_for_customer_segment',
-            'label'     => Mage::helper('enterprise_customersegment')->__('Use in Customer Segment'),
-            'title'     => Mage::helper('enterprise_customersegment')->__('Use in Customer Segment'),
+            'label'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Use in Customer Segment'),
+            'title'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Use in Customer Segment'),
             'values'    => Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray(),
         ));
     }

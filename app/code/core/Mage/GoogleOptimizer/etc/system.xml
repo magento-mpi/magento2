@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-        <google translate="label" module="googleoptimizer">
+        <google translate="label" module="Mage_GoogleOptimizer">
             <groups>
                 <optimizer translate="label">
                     <label>Google Website Optimizer</label>

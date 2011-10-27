@@ -64,7 +64,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
 
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
             $this->_setFontRegular($page);
-            $page->drawText(Mage::helper('sales')->__('Packingslip # ') . $shipment->getIncrementId(), 35, 780, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Packingslip # ') . $shipment->getIncrementId(), 35, 780, 'UTF-8');
 
             /* Add table */
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
@@ -76,9 +76,9 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
             $page->drawRectangle(25, $this->y, 570, $this->y-15);
             $this->y -=10;
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
-            $page->drawText(Mage::helper('sales')->__('Qty'), 35, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('SKU'), 470, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Qty'), 35, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Products'), 60, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('SKU'), 470, $this->y, 'UTF-8');
 
             $this->y -=15;
 
@@ -129,9 +129,9 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
             $this->y -=10;
 
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
-            $page->drawText(Mage::helper('sales')->__('Qty'), 35, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('SKU'), 470, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Qty'), 35, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Products'), 60, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('SKU'), 470, $this->y, 'UTF-8');
 
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
             $this->y -=20;

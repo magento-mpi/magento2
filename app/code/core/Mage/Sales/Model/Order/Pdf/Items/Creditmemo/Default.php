@@ -48,14 +48,14 @@ class Mage_Sales_Model_Order_Pdf_Items_Creditmemo_Default extends Mage_Sales_Mod
         $x = $leftBound;
         // draw Product name
         $lines[0] = array(array(
-            'text' => Mage::helper('core/string')->str_split($item->getName(), 60, true, true),
+            'text' => Mage::helper('Mage_Core_Helper_String')->str_split($item->getName(), 60, true, true),
             'feed' => $x,
         ));
 
         $x += 220;
         // draw SKU
         $lines[0][] = array(
-            'text'  => Mage::helper('core/string')->str_split($this->getSku($item), 25),
+            'text'  => Mage::helper('Mage_Core_Helper_String')->str_split($this->getSku($item), 25),
             'feed'  => $x
         );
 
@@ -114,7 +114,7 @@ class Mage_Sales_Model_Order_Pdf_Items_Creditmemo_Default extends Mage_Sales_Mod
             foreach ($options as $option) {
                 // draw options label
                 $lines[][] = array(
-                    'text' => Mage::helper('core/string')->str_split(strip_tags($option['label']), 70, true, true),
+                    'text' => Mage::helper('Mage_Core_Helper_String')->str_split(strip_tags($option['label']), 70, true, true),
                     'font' => 'italic',
                     'feed' => $leftBound
                 );
@@ -122,7 +122,7 @@ class Mage_Sales_Model_Order_Pdf_Items_Creditmemo_Default extends Mage_Sales_Mod
                 // draw options value
                 $_printValue = isset($option['print_value']) ? $option['print_value'] : strip_tags($option['value']);
                 $lines[][] = array(
-                    'text' => Mage::helper('core/string')->str_split($_printValue, 50, true, true),
+                    'text' => Mage::helper('Mage_Core_Helper_String')->str_split($_printValue, 50, true, true),
                     'feed' => $leftBound + 5
                 );
             }

@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-        <checkout translate="label" module="checkout">
+        <checkout translate="label" module="Mage_Checkout">
             <label>Checkout</label>
             <tab>sales</tab>
             <frontend_type>text</frontend_type>

@@ -180,7 +180,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
             $this->_collectBlocks();
             array_unshift($this->_blocks, array(
                 'value' => '',
-                'label' => Mage::helper('widget')->__('-- Please Select --')
+                'label' => Mage::helper('Mage_Widget_Helper_Data')->__('-- Please Select --')
             ));
         }
         return $this->_blocks;

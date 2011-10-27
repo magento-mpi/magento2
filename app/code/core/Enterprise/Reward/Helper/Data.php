@@ -108,7 +108,7 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
         if ($websiteId === null) {
             $websiteId = Mage::app()->getStore()->getWebsiteId();
         }
-        return $allowed = (bool)(int)Mage::helper('enterprise_reward')->getPointsConfig('order', $websiteId);
+        return $allowed = (bool)(int)Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig('order', $websiteId);
     }
 
     /**

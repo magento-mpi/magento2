@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('role_user_id', array(
-            'header'    =>Mage::helper('adminhtml')->__('User ID'),
+            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('User ID'),
             'width'     =>5,
             'align'     =>'left',
             'sortable'  =>true,
@@ -95,49 +95,49 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('role_user_username', array(
-            'header'    =>Mage::helper('adminhtml')->__('User Name'),
+            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Name'),
             'align'     =>'left',
             'index'     =>'username'
         ));
 
         $this->addColumn('role_user_firstname', array(
-            'header'    =>Mage::helper('adminhtml')->__('First Name'),
+            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('First Name'),
             'align'     =>'left',
             'index'     =>'firstname'
         ));
 
         $this->addColumn('role_user_lastname', array(
-            'header'    =>Mage::helper('adminhtml')->__('Last Name'),
+            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Last Name'),
             'align'     =>'left',
             'index'     =>'lastname'
         ));
 
         $this->addColumn('role_user_email', array(
-            'header'    =>Mage::helper('adminhtml')->__('Email'),
+            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Email'),
             'width'     =>40,
             'align'     =>'left',
             'index'     =>'email'
         ));
 
         $this->addColumn('role_user_is_active', array(
-            'header'    => Mage::helper('adminhtml')->__('Status'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Status'),
             'index'     => 'is_active',
             'align'     =>'left',
             'type'      => 'options',
-            'options'   => array('1' => Mage::helper('adminhtml')->__('Active'), '0' => Mage::helper('adminhtml')->__('Inactive')),
+            'options'   => array('1' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Active'), '0' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Inactive')),
         ));
 
        /*
         $this->addColumn('grid_actions',
             array(
-                'header'=>Mage::helper('adminhtml')->__('Actions'),
+                'header'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Actions'),
                 'width'=>5,
                 'sortable'=>false,
                 'filter'    =>false,
                 'type' => 'action',
                 'actions'   => array(
                                     array(
-                                        'caption' => Mage::helper('adminhtml')->__('Remove'),
+                                        'caption' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Remove'),
                                         'onClick' => 'role.deleteFromRole($role_id);'
                                     )
                                 )
@@ -165,7 +165,7 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
             if ( $json ) {
                 $jsonUsers = Array();
                 foreach($users as $usrid) $jsonUsers[$usrid] = 0;
-                return Mage::helper('core')->jsonEncode((object)$jsonUsers);
+                return Mage::helper('Mage_Core_Helper_Data')->jsonEncode((object)$jsonUsers);
             } else {
                 return array_values($users);
             }

@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-<!--        <google translate="label" module="googlebase">-->
+<!--        <google translate="label" module="Mage_GoogleBase">-->
 <!--            <groups>-->
 <!--                <googlebase translate="label">-->
 <!--                    <label>Google Base</label>-->

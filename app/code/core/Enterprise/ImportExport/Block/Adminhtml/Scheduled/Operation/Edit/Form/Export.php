@@ -41,9 +41,9 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
      */
     protected function _prepareForm()
     {
-        $this->setGeneralSettingsLabel(Mage::helper('enterprise_importexport')->__('Export Settings'));
-        $this->setFileSettingsLabel(Mage::helper('enterprise_importexport')->__('Export File Information'));
-        $this->setEmailSettingsLabel(Mage::helper('enterprise_importexport')->__('Export Failed Emails'));
+        $this->setGeneralSettingsLabel(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Export Settings'));
+        $this->setFileSettingsLabel(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Export File Information'));
+        $this->setEmailSettingsLabel(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Export Failed Emails'));
 
         parent::_prepareForm();
         $form = $this->getForm();
@@ -52,8 +52,8 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
         $fieldset = $form->getElement('operation_settings');
         $fieldset->addField('file_format', 'select', array(
             'name'      => 'file_info[file_format]',
-            'title'     => Mage::helper('enterprise_importexport')->__('File Format'),
-            'label'     => Mage::helper('enterprise_importexport')->__('File Format'),
+            'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('File Format'),
+            'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('File Format'),
             'required'  => true,
             'values'    => Mage::getModel('importexport/source_export_format')->toOptionArray()
         ), 'entity');
@@ -68,7 +68,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
             ->setData('onchange', 'editForm.getFilter();');
 
         $fieldset = $form->addFieldset('export_filter_grid_container', array(
-            'legend' => Mage::helper('enterprise_importexport')->__('Entity Attributes'),
+            'legend' => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Entity Attributes'),
             'fieldset_container_id' => 'export_filter_container'
         ));
 

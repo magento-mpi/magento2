@@ -66,9 +66,9 @@ class Enterprise_GiftCard_Model_Source_Type extends Mage_Eav_Model_Entity_Attrib
     protected function _getValues()
     {
         return array(
-            Enterprise_GiftCard_Model_Giftcard::TYPE_VIRTUAL  => Mage::helper('enterprise_giftcard')->__('Virtual'),
-            Enterprise_GiftCard_Model_Giftcard::TYPE_PHYSICAL => Mage::helper('enterprise_giftcard')->__('Physical'),
-            Enterprise_GiftCard_Model_Giftcard::TYPE_COMBINED => Mage::helper('enterprise_giftcard')->__('Combined'),
+            Enterprise_GiftCard_Model_Giftcard::TYPE_VIRTUAL  => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Virtual'),
+            Enterprise_GiftCard_Model_Giftcard::TYPE_PHYSICAL => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Physical'),
+            Enterprise_GiftCard_Model_Giftcard::TYPE_COMBINED => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Combined'),
         );
     }
 
@@ -86,7 +86,7 @@ class Enterprise_GiftCard_Model_Source_Type extends Mage_Eav_Model_Entity_Attrib
             'extra'     => null
         );
 
-        if (Mage::helper('core')->useDbCompatibleMode()) {
+        if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
             $column['type']     = 'tinyint';
             $column['is_null']  = true;
         } else {

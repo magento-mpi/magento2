@@ -148,9 +148,9 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     {
         $this->_getResource()->beginTransaction();
         try {
-            $this->setInternalReferenceId(Mage::helper('core')->uniqHash('temporary-'));
+            $this->setInternalReferenceId(Mage::helper('Mage_Core_Helper_Data')->uniqHash('temporary-'));
             $this->save();
-            $this->setInternalReferenceId(Mage::helper('core')->uniqHash($this->getId() . '-'));
+            $this->setInternalReferenceId(Mage::helper('Mage_Core_Helper_Data')->uniqHash($this->getId() . '-'));
             $this->getMethodInstance()->submitRecurringProfile($this, $this->getQuote()->getPayment());
             $this->save();
             $this->_getResource()->commit();
@@ -380,7 +380,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
 
         // state
         if (!in_array($this->getState(), $this->getAllStates(false), true)) {
-            $this->_errors['state'][] = Mage::helper('sales')->__('Wrong state: "%s".', $this->getState());
+            $this->_errors['state'][] = Mage::helper('Mage_Sales_Helper_Data')->__('Wrong state: "%s".', $this->getState());
         }
 
         return empty($this->_errors);
@@ -462,13 +462,13 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     {
         switch ($field) {
             case 'order_item_id':
-                return Mage::helper('sales')->__('Purchased Item');
+                return Mage::helper('Mage_Sales_Helper_Data')->__('Purchased Item');
             case 'state':
-                return Mage::helper('sales')->__('Profile State');
+                return Mage::helper('Mage_Sales_Helper_Data')->__('Profile State');
             case 'created_at':
-                return Mage::helper('adminhtml')->__('Created At');
+                return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Created At');
             case 'updated_at':
-                return Mage::helper('adminhtml')->__('Updated At');
+                return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Updated At');
             default:
                 return parent::getFieldLabel($field);
         }
@@ -484,7 +484,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     {
         switch ($field) {
             case 'order_item_id':
-                return Mage::helper('sales')->__('Original order item that recurring payment profile correspondss to.');
+                return Mage::helper('Mage_Sales_Helper_Data')->__('Original order item that recurring payment profile correspondss to.');
             default:
                 return parent::getFieldComment($field);
         }
@@ -520,12 +520,12 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     public function getStateLabel($state)
     {
         switch ($state) {
-            case self::STATE_UNKNOWN:   return Mage::helper('sales')->__('Not Initialized');
-            case self::STATE_PENDING:   return Mage::helper('sales')->__('Pending');
-            case self::STATE_ACTIVE:    return Mage::helper('sales')->__('Active');
-            case self::STATE_SUSPENDED: return Mage::helper('sales')->__('Suspended');
-            case self::STATE_CANCELED:  return Mage::helper('sales')->__('Canceled');
-            case self::STATE_EXPIRED:   return Mage::helper('sales')->__('Expired');
+            case self::STATE_UNKNOWN:   return Mage::helper('Mage_Sales_Helper_Data')->__('Not Initialized');
+            case self::STATE_PENDING:   return Mage::helper('Mage_Sales_Helper_Data')->__('Pending');
+            case self::STATE_ACTIVE:    return Mage::helper('Mage_Sales_Helper_Data')->__('Active');
+            case self::STATE_SUSPENDED: return Mage::helper('Mage_Sales_Helper_Data')->__('Suspended');
+            case self::STATE_CANCELED:  return Mage::helper('Mage_Sales_Helper_Data')->__('Canceled');
+            case self::STATE_EXPIRED:   return Mage::helper('Mage_Sales_Helper_Data')->__('Expired');
             default: return $state;
         }
     }
@@ -629,7 +629,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
         $result = (!empty($this->_workflow[$state])) && in_array($againstState, $this->_workflow[$state]);
         if (!$soft && !$result) {
             Mage::throwException(
-                Mage::helper('sales')->__('This profile state cannot be changed to "%s".', $againstState)
+                Mage::helper('Mage_Sales_Helper_Data')->__('This profile state cannot be changed to "%s".', $againstState)
             );
         }
         return $result;
@@ -721,12 +721,12 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
         $item = $this->_getRegularItem($itemInfo);
 
         $item->setName(
-            Mage::helper('sales')->__('Trial ') . $item->getName()
+            Mage::helper('Mage_Sales_Helper_Data')->__('Trial ') . $item->getName()
         );
 
         $option = array(
-            'label' => Mage::helper('sales')->__('Payment type'),
-            'value' => Mage::helper('sales')->__('Trial period payment')
+            'label' => Mage::helper('Mage_Sales_Helper_Data')->__('Payment type'),
+            'value' => Mage::helper('Mage_Sales_Helper_Data')->__('Trial period payment')
         );
 
         $this->_addAdditionalOptionToItem($item, $option);
@@ -751,7 +751,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
             ->setProductType(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL)
             ->setIsVirtual(1)
             ->setSku('initial_fee')
-            ->setName(Mage::helper('sales')->__('Recurring Profile Initial Fee'))
+            ->setName(Mage::helper('Mage_Sales_Helper_Data')->__('Recurring Profile Initial Fee'))
             ->setDescription('')
             ->setWeight(0)
             ->setQtyOrdered(1)
@@ -765,8 +765,8 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
             ->setShippingAmount($shippingAmount);
 
         $option = array(
-            'label' => Mage::helper('sales')->__('Payment type'),
-            'value' => Mage::helper('sales')->__('Initial period payment')
+            'label' => Mage::helper('Mage_Sales_Helper_Data')->__('Payment type'),
+            'value' => Mage::helper('Mage_Sales_Helper_Data')->__('Initial period payment')
         );
 
         $this->_addAdditionalOptionToItem($item, $option);

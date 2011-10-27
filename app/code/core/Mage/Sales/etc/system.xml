@@ -27,13 +27,13 @@
 -->
 <config>
     <tabs>
-        <sales translate="label" module="sales">
+        <sales translate="label" module="Mage_Sales">
             <label>Sales</label>
             <sort_order>400</sort_order>
         </sales>
     </tabs>
     <sections>
-        <sales translate="label" module="sales">
+        <sales translate="label" module="Mage_Sales">
             <class>separator-top</class>
             <label>Sales</label>
             <tab>sales</tab>
@@ -245,7 +245,7 @@
                 </dashboard>
             </groups>
         </sales>
-        <sales_email translate="label" module="sales">
+        <sales_email translate="label" module="Mage_Sales">
             <label>Sales Emails</label>
             <tab>sales</tab>
             <frontend_type>text</frontend_type>
@@ -772,7 +772,7 @@
                 </creditmemo_comment>
             </groups>
         </sales_email>
-        <sales_pdf translate="label" module="sales">
+        <sales_pdf translate="label" module="Mage_Sales">
             <label>PDF Print-outs</label>
             <tab>sales</tab>
             <frontend_type>text</frontend_type>

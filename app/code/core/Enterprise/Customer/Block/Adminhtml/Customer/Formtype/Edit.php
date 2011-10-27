@@ -59,7 +59,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit extends Mage_Ad
         if ($editMode == 'edit') {
             $this->_updateButton('save', 'onclick', 'formType.save(false)');
             $this->_addButton('save_and_edit_button', array(
-                'label'     => Mage::helper('enterprise_customer')->__('Save and Continue Edit'),
+                'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Save and Continue Edit'),
                 'onclick'   => 'formType.save(true)',
                 'class'     => 'save'
             ));
@@ -68,9 +68,9 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit extends Mage_Ad
                 $this->_removeButton('delete');
             }
 
-            $this->_headerText = Mage::helper('enterprise_customer')->__('Edit Form Type "%s"', $this->_getFormType()->getCode());
+            $this->_headerText = Mage::helper('Enterprise_Customer_Helper_Data')->__('Edit Form Type "%s"', $this->_getFormType()->getCode());
         } else {
-            $this->_headerText = Mage::helper('enterprise_customer')->__('New Form Type');
+            $this->_headerText = Mage::helper('Enterprise_Customer_Helper_Data')->__('New Form Type');
         }
     }
 }

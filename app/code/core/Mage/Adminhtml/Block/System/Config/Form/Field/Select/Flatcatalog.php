@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Select_Flatcatalog extends M
 {
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        if (!Mage::helper('catalog/category_flat')->isRebuilt()) {
+        if (!Mage::helper('Mage_Catalog_Helper_Category_Flat')->isRebuilt()) {
             $element->setDisabled('disabled')
                 ->setValue(0);
         }

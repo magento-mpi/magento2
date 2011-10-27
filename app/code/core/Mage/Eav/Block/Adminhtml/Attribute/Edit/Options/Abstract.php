@@ -50,14 +50,14 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('eav')->__('Delete'),
+                    'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Delete'),
                     'class' => 'delete delete-option'
                 )));
 
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('eav')->__('Add Option'),
+                    'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Add Option'),
                     'class' => 'add',
                     'id'    => 'add_new_option_button'
                 )));

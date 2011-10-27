@@ -162,12 +162,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
     public function getCustomerGroups($groupId = null)
     {
         if ($this->_customerGroups === null) {
-            if (!Mage::helper('catalog')->isModuleEnabled('Mage_Customer')) {
+            if (!Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_Customer')) {
                 return array();
             }
             $collection = Mage::getModel('customer/group')->getCollection();
             $this->_customerGroups = array(
-                Mage_Customer_Model_Group::CUST_GROUP_ALL => Mage::helper('catalog')->__('ALL GROUPS')
+                Mage_Customer_Model_Group::CUST_GROUP_ALL => Mage::helper('Mage_Catalog_Helper_Data')->__('ALL GROUPS')
             );
 
             foreach ($collection as $item) {
@@ -216,7 +216,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
 
         $this->_websites = array(
             0   => array(
-                'name'      => Mage::helper('catalog')->__('All Websites'),
+                'name'      => Mage::helper('Mage_Catalog_Helper_Data')->__('All Websites'),
                 'currency'  => Mage::app()->getBaseCurrencyCode()
             )
         );
@@ -280,7 +280,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
     {
         $button = $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setData(array(
-                'label'     => Mage::helper('catalog')->__('Add Tier'),
+                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Tier'),
                 'onclick'   => 'return tierPriceControl.addItem()',
                 'class'     => 'add'
             ));

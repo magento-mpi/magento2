@@ -117,7 +117,7 @@ abstract class Enterprise_TargetRule_Block_Product_Abstract extends Mage_Catalog
      */
     public function getTargetRuleHelper()
     {
-        return Mage::helper('enterprise_targetrule');
+        return Mage::helper('Enterprise_TargetRule_Helper_Data');
     }
 
     /**

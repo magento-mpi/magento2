@@ -27,7 +27,7 @@
 -->
 <config>
    <sections>
-        <sitemap translate="label" module="sitemap">
+        <sitemap translate="label" module="Mage_Sitemap">
             <label>Google Sitemap</label>
             <tab>catalog</tab>
             <frontend_type>text</frontend_type>

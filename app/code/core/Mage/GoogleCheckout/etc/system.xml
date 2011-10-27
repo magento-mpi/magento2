@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-        <google translate="label" module="googlecheckout">
+        <google translate="label" module="Mage_GoogleCheckout">
             <label>Google API</label>
             <tab>general</tab>
             <frontend_type>text</frontend_type>

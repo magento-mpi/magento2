@@ -57,13 +57,13 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $baseUrl = $this->getUrl();
 
         $this->addColumn('title', array(
-            'header'    => Mage::helper('cms')->__('Title'),
+            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Title'),
             'align'     => 'left',
             'index'     => 'title',
         ));
 
         $this->addColumn('identifier', array(
-            'header'    => Mage::helper('cms')->__('URL Key'),
+            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('URL Key'),
             'align'     => 'left',
             'index'     => 'identifier'
         ));
@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
 
         $this->addColumn('root_template', array(
-            'header'    => Mage::helper('cms')->__('Layout'),
+            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Layout'),
             'index'     => 'root_template',
             'type'      => 'options',
             'options'   => Mage::getSingleton('page/source_layout')->getOptions(),
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
          */
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'        => Mage::helper('cms')->__('Store View'),
+                'header'        => Mage::helper('Mage_Cms_Helper_Data')->__('Store View'),
                 'index'         => 'store_id',
                 'type'          => 'store',
                 'store_all'     => true,
@@ -94,26 +94,26 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
         }
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('cms')->__('Status'),
+            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => Mage::getSingleton('cms/page')->getAvailableStatuses()
         ));
 
         $this->addColumn('creation_time', array(
-            'header'    => Mage::helper('cms')->__('Date Created'),
+            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Date Created'),
             'index'     => 'creation_time',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('update_time', array(
-            'header'    => Mage::helper('cms')->__('Last Modified'),
+            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Last Modified'),
             'index'     => 'update_time',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('page_actions', array(
-            'header'    => Mage::helper('cms')->__('Action'),
+            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Action'),
             'width'     => 10,
             'sortable'  => false,
             'filter'    => false,

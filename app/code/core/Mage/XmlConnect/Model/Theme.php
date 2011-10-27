@@ -64,24 +64,24 @@ class Mage_XmlConnect_Model_Theme
     {
         $this->_file = $file;
         if (!file_exists($file)) {
-            Mage::throwException(Mage::helper('xmlconnect')->__('File doesn\'t exist "%s".', $file));
+            Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('File doesn\'t exist "%s".', $file));
         }
         if (!is_readable($file)) {
-            Mage::throwException(Mage::helper('xmlconnect')->__('Can\'t read file "%s".', $file));
+            Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('Can\'t read file "%s".', $file));
         }
         try {
             $text = file_get_contents($file);
             $this->_xml = simplexml_load_string($text);
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('xmlconnect')->__('Can\'t load XML.'));
+            Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('Can\'t load XML.'));
         }
         if (empty($this->_xml)) {
-            Mage::throwException(Mage::helper('xmlconnect')->__('Invalid XML.'));
+            Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('Invalid XML.'));
         }
         $this->_conf = $this->_xmlToArray($this->_xml->configuration);
         $this->_conf = $this->_conf['configuration'];
         if (!is_array($this->_conf)) {
-            Mage::throwException(Mage::helper('xmlconnect')->__('Wrong theme format.'));
+            Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('Wrong theme format.'));
         }
     }
 
@@ -168,9 +168,9 @@ class Mage_XmlConnect_Model_Theme
     protected function _createThemeName()
     {
         /** @var $themesHelper Mage_XmlConnect_Helper_Theme */
-        $themesHelper = Mage::helper('xmlconnect/theme');
+        $themesHelper = Mage::helper('Mage_XmlConnect_Helper_Theme');
         /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = Mage::helper('core');
+        $coreHelper = Mage::helper('Mage_Core_Helper_Data');
 
         $themeFileName = $themesHelper->getMediaThemePath() . DS .$themesHelper->getCustomThemeName() . '_' . time()
             . '_' . $coreHelper->getRandomString(10, 'abcdefghijklmnopqrstuvwxyz0123456789') . '.xml';
@@ -190,7 +190,7 @@ class Mage_XmlConnect_Model_Theme
         $ioFile = new Varien_Io_File();
         if (!$ioFile->cp($currentThemeFileName, $filePath)) {
             Mage::throwException(
-                Mage::helper('xmlconnect')->__('Can\'t copy file "%s" to "%s".', $currentThemeFileName, $filePath)
+                Mage::helper('Mage_XmlConnect_Helper_Data')->__('Can\'t copy file "%s" to "%s".', $currentThemeFileName, $filePath)
             );
         } else {
             $ioFile->chmod($filePath, 0755);
@@ -319,7 +319,7 @@ class Mage_XmlConnect_Model_Theme
         if (is_writeable($this->_file)) {
             file_put_contents($this->_file, $xml->asXML());
         } else {
-            Mage::throwException(Mage::helper('xmlconnect')->__('Can\'t write to file "%s".', $this->_file));
+            Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('Can\'t write to file "%s".', $this->_file));
         }
     }
 }

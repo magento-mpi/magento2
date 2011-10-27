@@ -63,11 +63,11 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Mage_Adminhtml
             return '';
         }
 
-        $idSuffix = Mage::helper('core')->uniqHash();
+        $idSuffix = Mage::helper('Mage_Core_Helper_Data')->uniqHash();
         $form = new Varien_Data_Form();
         foreach (array(
-            'from' => Mage::helper('adminhtml')->__('From'),
-            'to'   => Mage::helper('adminhtml')->__('To')) as $key => $label) {
+            'from' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('From'),
+            'to'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('To')) as $key => $label) {
             $id = "{$key}_{$idSuffix}";
             $element = new Varien_Data_Form_Element_Date(array(
                 'format'   => Varien_Date::DATE_INTERNAL_FORMAT, // hardcode because hardcoded values delimiter

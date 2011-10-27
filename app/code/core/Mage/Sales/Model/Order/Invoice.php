@@ -544,9 +544,9 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     {
         if (is_null(self::$_states)) {
             self::$_states = array(
-                self::STATE_OPEN       => Mage::helper('sales')->__('Pending'),
-                self::STATE_PAID       => Mage::helper('sales')->__('Paid'),
-                self::STATE_CANCELED   => Mage::helper('sales')->__('Canceled'),
+                self::STATE_OPEN       => Mage::helper('Mage_Sales_Helper_Data')->__('Pending'),
+                self::STATE_PAID       => Mage::helper('Mage_Sales_Helper_Data')->__('Paid'),
+                self::STATE_CANCELED   => Mage::helper('Mage_Sales_Helper_Data')->__('Canceled'),
             );
         }
         return self::$_states;
@@ -570,7 +570,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         if (isset(self::$_states[$stateId])) {
             return self::$_states[$stateId];
         }
-        return Mage::helper('sales')->__('Unknown State');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Unknown State');
     }
 
     /**
@@ -583,7 +583,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     public function register()
     {
         if ($this->getId()) {
-            Mage::throwException(Mage::helper('sales')->__('Cannot register existing invoice'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Cannot register existing invoice'));
         }
 
         foreach ($this->getAllItems() as $item) {
@@ -721,7 +721,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!Mage::helper('sales')->canSendNewInvoiceEmail($storeId)) {
+        if (!Mage::helper('Mage_Sales_Helper_Data')->canSendNewInvoiceEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
@@ -738,7 +738,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
 
         try {
             // Retrieve specified view block from appropriate design package (depends on emulated store)
-            $paymentBlock = Mage::helper('payment')->getInfoBlock($order->getPayment())
+            $paymentBlock = Mage::helper('Mage_Payment_Helper_Data')->getInfoBlock($order->getPayment())
                 ->setIsSecureMode(true);
             $paymentBlock->getMethod()->setStore($storeId);
             $paymentBlockHtml = $paymentBlock->toHtml();
@@ -813,7 +813,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!Mage::helper('sales')->canSendInvoiceCommentEmail($storeId)) {
+        if (!Mage::helper('Mage_Sales_Helper_Data')->canSendInvoiceCommentEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to

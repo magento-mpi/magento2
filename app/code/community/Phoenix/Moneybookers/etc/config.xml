@@ -127,7 +127,7 @@
                             <children>
                                 <config>
                                     <children>
-                                        <moneybookers translate="title" module="moneybookers">
+                                        <moneybookers translate="title" module="Phoenix_Moneybookers">
                                             <title>Moneybookers Settings</title>
                                         </moneybookers>
                                     </children>

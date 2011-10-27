@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Assign_Form extends Mage_Adminhtml
         ));
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
-            'legend'    => Mage::helper('sales')->__('Assignment Information')
+            'legend'    => Mage::helper('Mage_Sales_Helper_Data')->__('Assignment Information')
         ));
 
         $statuses = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Status_Collection')
@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Assign_Form extends Mage_Adminhtml
         $fieldset->addField('status', 'select',
             array(
                 'name'      => 'status',
-                'label'     => Mage::helper('sales')->__('Order Status'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Order Status'),
                 'class'     => 'required-entry',
                 'values'    => $statuses,
                 'required'  => true,
@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Assign_Form extends Mage_Adminhtml
         $fieldset->addField('state', 'select',
             array(
                 'name'      => 'state',
-                'label'     => Mage::helper('sales')->__('Order State'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Order State'),
                 'class'     => 'required-entry',
                 'values'    => $states,
                 'required'  => true,
@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Assign_Form extends Mage_Adminhtml
         $fieldset->addField('is_default', 'checkbox',
             array(
                 'name'      => 'is_default',
-                'label'     => Mage::helper('sales')->__('Use Order Status As Default'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Use Order Status As Default'),
                 'value'     => 1,
             )
         );

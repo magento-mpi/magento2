@@ -157,7 +157,7 @@ class Mage_SalesRule_Model_Observer
 
         if ($disabledRulesCount) {
             Mage::getSingleton('adminhtml/session')->addWarning(
-                Mage::helper('salesrule')->__('%d Shopping Cart Price Rules based on "%s" attribute have been disabled.', $disabledRulesCount, $attributeCode));
+                Mage::helper('Mage_SalesRule_Helper_Data')->__('%d Shopping Cart Price Rules based on "%s" attribute have been disabled.', $disabledRulesCount, $attributeCode));
         }
 
         return $this;

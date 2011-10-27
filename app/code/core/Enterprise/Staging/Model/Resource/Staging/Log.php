@@ -65,7 +65,7 @@ class Enterprise_Staging_Model_Resource_Staging_Log extends Mage_Core_Model_Reso
             $object->setUsername('CRON');
         }
 
-        $object->setIp(Mage::helper('core/http')->getRemoteAddr(true));
+        $object->setIp(Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(true));
 
         return parent::_beforeSave($object);
     }

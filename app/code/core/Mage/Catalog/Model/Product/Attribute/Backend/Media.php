@@ -89,7 +89,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         if ($this->getAttribute()->getIsUnique()) {
             if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
                 $label = $this->getAttribute()->getFrontend()->getLabel();
-                Mage::throwException(Mage::helper('eav')->__('The value of attribute "%s" must be unique.', $label));
+                Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('The value of attribute "%s" must be unique.', $label));
             }
         }
 
@@ -105,7 +105,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         }
 
         if(!is_array($value['images']) && strlen($value['images']) > 0) {
-           $value['images'] = Mage::helper('core')->jsonDecode($value['images']);
+           $value['images'] = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($value['images']);
         }
 
         if (!is_array($value['images'])) {
@@ -265,12 +265,12 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         $file = realpath($file);
 
         if (!$file || !file_exists($file)) {
-            Mage::throwException(Mage::helper('catalog')->__('Image does not exist.'));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Image does not exist.'));
         }
         $pathinfo = pathinfo($file);
         $imgExtensions = array('jpg','jpeg','gif','png');
         if (!isset($pathinfo['extension']) || !in_array(strtolower($pathinfo['extension']), $imgExtensions)) {
-            Mage::throwException(Mage::helper('catalog')->__('Invalid image file type.'));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid image file type.'));
         }
 
         $fileName       = Mage_Core_Model_File_Uploader::getCorrectFileName($pathinfo['basename']);
@@ -289,7 +289,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
             ));
 
             /** @var $storageHelper Mage_Core_Helper_File_Storage_Database */
-            $storageHelper = Mage::helper('core/file_storage_database');
+            $storageHelper = Mage::helper('Mage_Core_Helper_File_Storage_Database');
             if ($move) {
                 $ioAdapter->mv($file, $this->_getConfig()->getTmpMediaPath($fileName));
 
@@ -303,7 +303,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
             }
         }
         catch (Exception $e) {
-            Mage::throwException(Mage::helper('catalog')->__('Failed to move file: %s', $e->getMessage()));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Failed to move file: %s', $e->getMessage()));
         }
 
         $fileName = str_replace(DS, '/', $fileName);
@@ -559,7 +559,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         $destFile = $this->_getUniqueFileName($file, $ioObject->dirsep());
 
         /** @var $storageHelper Mage_Core_Helper_File_Storage_Database */
-        $storageHelper = Mage::helper('core/file_storage_database');
+        $storageHelper = Mage::helper('Mage_Core_Helper_File_Storage_Database');
 
         if ($storageHelper->checkDbUsage()) {
             $storageHelper->renameFile(
@@ -586,8 +586,8 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
      * @return string
      */
     protected function _getUniqueFileName($file, $dirsep) {
-        if (Mage::helper('core/file_storage_database')->checkDbUsage()) {
-            $destFile = Mage::helper('core/file_storage_database')
+        if (Mage::helper('Mage_Core_Helper_File_Storage_Database')->checkDbUsage()) {
+            $destFile = Mage::helper('Mage_Core_Helper_File_Storage_Database')
                 ->getUniqueFilename(
                     Mage::getSingleton('catalog/product_media_config')->getBaseMediaUrlAddition(),
                     $file
@@ -619,8 +619,8 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
                 throw new Exception();
             }
 
-            if (Mage::helper('core/file_storage_database')->checkDbUsage()) {
-                Mage::helper('core/file_storage_database')
+            if (Mage::helper('Mage_Core_Helper_File_Storage_Database')->checkDbUsage()) {
+                Mage::helper('Mage_Core_Helper_File_Storage_Database')
                     ->copyFile($this->_getConfig()->getMediaShortUrl($file),
                                $this->_getConfig()->getMediaShortUrl($destFile));
 
@@ -635,7 +635,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         } catch (Exception $e) {
             $file = $this->_getConfig()->getMediaPath($file);
             Mage::throwException(
-                Mage::helper('catalog')->__('Failed to copy file %s. Please, delete media with non-existing images and try again.', $file)
+                Mage::helper('Mage_Catalog_Helper_Data')->__('Failed to copy file %s. Please, delete media with non-existing images and try again.', $file)
             );
         }
 

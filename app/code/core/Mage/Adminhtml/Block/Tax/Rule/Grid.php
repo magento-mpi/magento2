@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
     {
         $this->addColumn('code',
             array(
-                'header'=>Mage::helper('tax')->__('Name'),
+                'header'=>Mage::helper('Mage_Tax_Helper_Data')->__('Name'),
                 'align' =>'left',
                 'index' => 'code',
                 'filter_index' => 'code',
@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         $this->addColumn('customer_tax_classes',
             array(
-                'header'=>Mage::helper('tax')->__('Customer Tax Class'),
+                'header'=>Mage::helper('Mage_Tax_Helper_Data')->__('Customer Tax Class'),
                 'sortable'  => false,
                 'align' =>'left',
                 'index' => 'customer_tax_classes',
@@ -97,7 +97,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         $this->addColumn('product_tax_classes',
             array(
-                'header'=>Mage::helper('tax')->__('Product Tax Class'),
+                'header'=>Mage::helper('Mage_Tax_Helper_Data')->__('Product Tax Class'),
                 'sortable'  => false,
                 'align' =>'left',
                 'index' => 'product_tax_classes',
@@ -111,7 +111,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $this->addColumn('tax_rates',
             array(
                 'sortable'  => false,
-                'header'  => Mage::helper('tax')->__('Tax Rate'),
+                'header'  => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rate'),
                 'align'   => 'left',
                 'index'   => 'tax_rates',
                 'filter_index' => 'rate.tax_calculation_rate_id',
@@ -123,7 +123,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         $this->addColumn('priority',
             array(
-                'header'=>Mage::helper('tax')->__('Priority'),
+                'header'=>Mage::helper('Mage_Tax_Helper_Data')->__('Priority'),
                 'width' => '50px',
                 'index' => 'priority'
             )
@@ -131,7 +131,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         $this->addColumn('position',
             array(
-                'header'=>Mage::helper('tax')->__('Sort Order'),
+                'header'=>Mage::helper('Mage_Tax_Helper_Data')->__('Sort Order'),
                 'width' => '50px',
                 'index' => 'position'
             )

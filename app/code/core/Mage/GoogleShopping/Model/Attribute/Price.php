@@ -50,7 +50,7 @@ class Mage_GoogleShopping_Model_Attribute_Price extends Mage_GoogleShopping_Mode
         $isSalePriceAllowed = ($targetCountry == 'US');
 
         // get tax settings
-        $taxHelp = Mage::helper('tax');
+        $taxHelp = Mage::helper('Mage_Tax_Helper_Data');
         $priceDisplayType = $taxHelp->getPriceDisplayType($product->getStoreId());
         $inclTax = ($priceDisplayType == Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
 
@@ -64,7 +64,7 @@ class Mage_GoogleShopping_Model_Attribute_Price extends Mage_GoogleShopping_Mode
         if (!is_null($salePriceMapValue) && floatval($salePriceMapValue) > .0001) {
             $finalPrice = $salePriceMapValue;
         } else if ($isSalePriceAllowed) {
-            $finalPrice = Mage::helper('googleshopping/price')->getCatalogPrice($product, $store, $inclTax);
+            $finalPrice = Mage::helper('Mage_GoogleShopping_Helper_Price')->getCatalogPrice($product, $store, $inclTax);
         }
         if ($product->getTypeId() != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
             $finalPrice = $taxHelp->getPrice($product, $finalPrice, $inclTax, null, null, null, $product->getStoreId());
@@ -76,10 +76,10 @@ class Mage_GoogleShopping_Model_Attribute_Price extends Mage_GoogleShopping_Mode
         if (!is_null($priceMapValue) && floatval($priceMapValue) > .0001) {
             $price = $priceMapValue;
         } else if ($isSalePriceAllowed) {
-            $price = Mage::helper('googleshopping/price')->getCatalogRegularPrice($product, $store);
+            $price = Mage::helper('Mage_GoogleShopping_Helper_Price')->getCatalogRegularPrice($product, $store);
         } else {
             $inclTax = ($priceDisplayType != Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX);
-            $price = Mage::helper('googleshopping/price')->getCatalogPrice($product, $store, $inclTax);
+            $price = Mage::helper('Mage_GoogleShopping_Helper_Price')->getCatalogPrice($product, $store, $inclTax);
         }
         if ($product->getTypeId() != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
             $price = $taxHelp->getPrice($product, $price, $inclTax, null, null, null, $product->getStoreId());

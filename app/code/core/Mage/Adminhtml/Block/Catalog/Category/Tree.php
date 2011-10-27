@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
         $this->setChild('add_sub_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Add Subcategory'),
+                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Subcategory'),
                     'onclick'   => "addNew('".$addUrl."', false)",
                     'class'     => 'add',
                     'id'        => 'add_subcategory_button',
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             $this->setChild('add_root_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
-                        'label'     => Mage::helper('catalog')->__('Add Root Category'),
+                        'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Root Category'),
                         'onclick'   => "addNew('".$addUrl."', true)",
                         'class'     => 'add',
                         'id'        => 'add_root_category_button'
@@ -174,7 +174,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
     public function getTreeJson($parenNodeCategory=null)
     {
         $rootArray = $this->_getNodeJson($this->getRoot($parenNodeCategory));
-        $json = Mage::helper('core')->jsonEncode(isset($rootArray['children']) ? $rootArray['children'] : array());
+        $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(isset($rootArray['children']) ? $rootArray['children'] : array());
         return $json;
     }
 
@@ -201,7 +201,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
         }
         return
             '<script type="text/javascript">'
-            . $javascriptVarName . ' = ' . Mage::helper('core')->jsonEncode($categories) . ';'
+            . $javascriptVarName . ' = ' . Mage::helper('Mage_Core_Helper_Data')->jsonEncode($categories) . ';'
             . ($this->canAddSubCategory() ? '$("add_subcategory_button").show();' : '$("add_subcategory_button").hide();')
             . '</script>';
     }

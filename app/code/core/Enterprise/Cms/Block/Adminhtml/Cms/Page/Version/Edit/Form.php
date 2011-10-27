@@ -69,7 +69,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mage_Adm
         $isPublisher = $config->canCurrentUserPublishRevision();
 
         $fieldset = $form->addFieldset('version_fieldset',
-            array('legend' => Mage::helper('enterprise_cms')->__('Version Information'),
+            array('legend' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Version Information'),
             'class' => 'fieldset-wide'));
 
         $fieldset->addField('version_id', 'hidden', array(
@@ -82,25 +82,25 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mage_Adm
 
         $fieldset->addField('label', 'text', array(
             'name'      => 'label',
-            'label'     => Mage::helper('enterprise_cms')->__('Version Label'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Version Label'),
             'disabled'  => !$isOwner,
             'required'  => true
         ));
 
         $fieldset->addField('access_level', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Access Level'),
-            'title'     => Mage::helper('enterprise_cms')->__('Access Level'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Access Level'),
+            'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Access Level'),
             'name'      => 'access_level',
-            'options'   => Mage::helper('enterprise_cms')->getVersionAccessLevels(),
+            'options'   => Mage::helper('Enterprise_Cms_Helper_Data')->getVersionAccessLevels(),
             'disabled'  => !$isOwner && !$isPublisher
         ));
 
         if ($isPublisher) {
             $fieldset->addField('user_id', 'select', array(
-                'label'     => Mage::helper('enterprise_cms')->__('Owner'),
-                'title'     => Mage::helper('enterprise_cms')->__('Owner'),
+                'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Owner'),
+                'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Owner'),
                 'name'      => 'user_id',
-                'options'   => Mage::helper('enterprise_cms')->getUsersArray(!$version->getUserId()),
+                'options'   => Mage::helper('Enterprise_Cms_Helper_Data')->getUsersArray(!$version->getUserId()),
                 'required'  => !$version->getUserId()
             ));
         }

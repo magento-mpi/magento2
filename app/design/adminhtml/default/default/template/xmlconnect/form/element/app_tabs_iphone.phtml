@@ -34,9 +34,9 @@
 
 // disabledTabNumber — another numbers
 
-enabledTabs = <?php echo Mage::helper('core')->jsonEncode($this->getTabs()->getEnabledTabs()); ?>
+enabledTabs = <?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getTabs()->getEnabledTabs()); ?>
 
-disabledTabs = <?php echo Mage::helper('core')->jsonEncode($this->getTabs()->getDisabledTabs()); ?>
+disabledTabs = <?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getTabs()->getDisabledTabs()); ?>
 
 disabledTabsMaxCount = 5;
 visibleTabsCount = 5;
@@ -54,7 +54,7 @@ function XmlconnectTabUpdate() {
             if(isActive) {
                 // Enabled tabs
                 if(tags[j].className.indexOf('mm_img')>0) {
-                    tags[j].innerHTML = '<img src="<?php echo Mage::helper('xmlconnect/image')->getSkinImagesUrl(); ?>'+enabledTabs[i].image+'" alt="" />'
+                    tags[j].innerHTML = '<img src="<?php echo Mage::helper('Mage_XmlConnect_Helper_Image')->getSkinImagesUrl(); ?>'+enabledTabs[i].image+'" alt="" />'
                     tags[j].style.visibility = 'visible'
                 }
                 if(tags[j].className.indexOf('mm_name')>0) {
@@ -66,7 +66,7 @@ function XmlconnectTabUpdate() {
             } else {
                 // Empty places
                 if(tags[j].className.indexOf('mm_img')>0) {
-                    tags[j].innerHTML = '<img src="<?php echo Mage::helper('xmlconnect/image')->getSkinImagesUrl('tab_empty.png'); ?>" alt="" />'
+                    tags[j].innerHTML = '<img src="<?php echo Mage::helper('Mage_XmlConnect_Helper_Image')->getSkinImagesUrl('tab_empty.png'); ?>" alt="" />'
                     tags[j].style.visibility = 'hidden'
                 }
                 if(tags[j].className.indexOf('mm_name')>0) {
@@ -84,7 +84,7 @@ function XmlconnectTabUpdate() {
             if(i<disabledTabs.length && disabledTabs[i] && (disabledTabs[i].action != moreActionText)) {
                 // Disabled tabs
                 if(tags[j].className.indexOf('mm_img')>0) {
-                    tags[j].innerHTML = '<img src="<?php echo Mage::helper('xmlconnect/image')->getSkinImagesUrl(); ?>'+disabledTabs[i].image+'" alt="" />'
+                    tags[j].innerHTML = '<img src="<?php echo Mage::helper('Mage_XmlConnect_Helper_Image')->getSkinImagesUrl(); ?>'+disabledTabs[i].image+'" alt="" />'
                     tags[j].style.visibility = 'visible'
                 }
                 if(tags[j].className.indexOf('mm_name')>0) {
@@ -96,7 +96,7 @@ function XmlconnectTabUpdate() {
             } else {
                 // Empty places
                 if(tags[j].className.indexOf('mm_img')>0) {
-                    tags[j].innerHTML = '<img src="<?php echo Mage::helper('xmlconnect/image')->getSkinImagesUrl('tab_empty.png'); ?>" alt="" />'
+                    tags[j].innerHTML = '<img src="<?php echo Mage::helper('Mage_XmlConnect_Helper_Image')->getSkinImagesUrl('tab_empty.png'); ?>" alt="" />'
                     tags[j].style.visibility = 'hidden'
                 }
                 if(tags[j].className.indexOf('mm_name')>0) {

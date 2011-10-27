@@ -28,7 +28,7 @@
 <config>
     <api>
         <resources>
-            <catalog_category translate="title" module="catalog">
+            <catalog_category translate="title" module="Mage_Catalog">
                 <model>catalog/category_api</model>
                 <title>Category API</title>
                 <acl>catalog/category</acl>
@@ -36,51 +36,51 @@
                     <currentStore>
                         <title>Set/Get current store view</title>
                     </currentStore>
-                    <tree translate="title" module="catalog">
+                    <tree translate="title" module="Mage_Catalog">
                         <title>Retrieve hierarchical tree</title>
                         <acl>catalog/category/tree</acl>
                     </tree>
-                    <level translate="title" module="catalog">
+                    <level translate="title" module="Mage_Catalog">
                         <title>Retrieve one level of categories by website/store view/parent category</title>
                     </level>
-                    <info translate="title" module="catalog">
+                    <info translate="title" module="Mage_Catalog">
                         <title>Retrieve category data</title>
                         <acl>catalog/category/info</acl>
                     </info>
-                    <create translate="title" module="catalog">
+                    <create translate="title" module="Mage_Catalog">
                         <title>Create new category</title>
                         <acl>catalog/category/create</acl>
                     </create>
-                    <update translate="title" module="catalog">
+                    <update translate="title" module="Mage_Catalog">
                         <title>Update category</title>
                         <acl>catalog/category/update</acl>
                     </update>
-                    <move translate="title" module="catalog">
+                    <move translate="title" module="Mage_Catalog">
                         <title>Move category in tree</title>
                         <acl>catalog/category/move</acl>
                     </move>
-                    <delete translate="title" module="catalog">
+                    <delete translate="title" module="Mage_Catalog">
                         <title>Delete category</title>
                         <acl>catalog/category/delete</acl>
                     </delete>
-                    <assignedProducts translate="title" module="catalog">
+                    <assignedProducts translate="title" module="Mage_Catalog">
                         <title>Retrieve list of assigned products</title>
                         <acl>catalog/category/product</acl>
                     </assignedProducts>
-                    <assignProduct translate="title" module="catalog">
+                    <assignProduct translate="title" module="Mage_Catalog">
                         <title>Assign product to category</title>
                         <acl>catalog/category/product/assign</acl>
                     </assignProduct>
-                    <updateProduct translate="title" module="catalog">
+                    <updateProduct translate="title" module="Mage_Catalog">
                         <title>Update assigned product</title>
                         <acl>catalog/category/product/update</acl>
                     </updateProduct>
-                    <removeProduct translate="title" module="catalog">
+                    <removeProduct translate="title" module="Mage_Catalog">
                         <title>Remove product assignment</title>
                         <acl>catalog/category/product/remove</acl>
                     </removeProduct>
                 </methods>
-                <faults module="catalog">
+                <faults module="Mage_Catalog">
                     <store_not_exists>
                         <code>100</code>
                         <message>Requested store view not found.</message>
@@ -111,23 +111,23 @@
                     </product_not_assigned>
                 </faults>
             </catalog_category>
-            <catalog_category_attribute translate="title" module="catalog">
+            <catalog_category_attribute translate="title" module="Mage_Catalog">
                 <title>Category attributes API</title>
                 <model>catalog/category_attribute_api</model>
                 <acl>catalog/category</acl>
                 <methods>
-                    <currentStore translate="title" module="catalog">
+                    <currentStore translate="title" module="Mage_Catalog">
                         <title>Set/Get current store view</title>
                     </currentStore>
-                    <list translate="title" module="catalog">
+                    <list translate="title" module="Mage_Catalog">
                         <title>Retrieve category attributes</title>
                         <method>items</method>
                     </list>
-                    <options translate="title" module="catalog">
+                    <options translate="title" module="Mage_Catalog">
                         <title>Retrieve attribute options</title>
                     </options>
                 </methods>
-                <faults module="catalog">
+                <faults module="Mage_Catalog">
                     <store_not_exists>
                         <code>100</code>
                         <message>Requested store view not found.</message>
@@ -138,44 +138,44 @@
                     </not_exists>
                 </faults>
             </catalog_category_attribute>
-            <catalog_product translate="title" module="catalog">
+            <catalog_product translate="title" module="Mage_Catalog">
                 <title>Product API</title>
                 <model>catalog/product_api</model>
                 <acl>catalog/product</acl>
                 <methods>
-                    <currentStore translate="title" module="catalog">
+                    <currentStore translate="title" module="Mage_Catalog">
                         <title>Set/Get current store view</title>
                     </currentStore>
-                    <list translate="title" module="catalog">
+                    <list translate="title" module="Mage_Catalog">
                         <title>Retrieve products list by filters</title>
                         <method>items</method>
                         <acl>catalog/product/info</acl>
                     </list>
-                    <info translate="title" module="catalog">
+                    <info translate="title" module="Mage_Catalog">
                         <title>Retrieve product</title>
                         <acl>catalog/product/info</acl>
                     </info>
-                    <create translate="title" module="catalog">
+                    <create translate="title" module="Mage_Catalog">
                         <title>Create new product</title>
                         <acl>catalog/product/create</acl>
                     </create>
-                    <update translate="title" module="catalog">
+                    <update translate="title" module="Mage_Catalog">
                         <title>Update product</title>
                         <acl>catalog/product/update</acl>
                     </update>
-                    <delete translate="title" module="catalog">
+                    <delete translate="title" module="Mage_Catalog">
                         <title>Delete product</title>
                         <acl>catalog/product/delete</acl>
                     </delete>
-                    <getSpecialPrice translate="title" module="catalog">
+                    <getSpecialPrice translate="title" module="Mage_Catalog">
                         <title>Get special price</title>
                     </getSpecialPrice>
-                    <setSpecialPrice translate="title" module="catalog">
+                    <setSpecialPrice translate="title" module="Mage_Catalog">
                         <title>Set special price</title>
                         <acl>catalog/product/update</acl>
                     </setSpecialPrice>
                 </methods>
-                <faults module="catalog">
+                <faults module="Mage_Catalog">
                     <store_not_exists>
                         <code>100</code>
                         <message>Requested store view not found.</message>
@@ -194,26 +194,26 @@
                     </not_deleted>
                 </faults>
             </catalog_product>
-            <catalog_product_attribute translate="title" module="catalog">
+            <catalog_product_attribute translate="title" module="Mage_Catalog">
                 <title>Product attributes API</title>
                 <model>catalog/product_attribute_api</model>
                 <acl>catalog/product</acl>
                 <methods>
-                    <currentStore translate="title" module="catalog">
+                    <currentStore translate="title" module="Mage_Catalog">
                         <title>Set/Get current store view</title>
                         <acl>catalog/product/attribute/write</acl>
                     </currentStore>
-                    <list translate="title" module="catalog">
+                    <list translate="title" module="Mage_Catalog">
                         <title>Retrieve attribute list</title>
                         <method>items</method>
                         <acl>catalog/product/attribute/read</acl>
                     </list>
-                    <options translate="title" module="catalog">
+                    <options translate="title" module="Mage_Catalog">
                         <title>Retrieve attribute options</title>
                         <acl>catalog/product/attribute/read</acl>
                     </options>
                 </methods>
-                <faults module="catalog">
+                <faults module="Mage_Catalog">
                     <store_not_exists>
                         <code>100</code>
                         <message>Requested store view not found.</message>
@@ -224,64 +224,64 @@
                     </not_exists>
                 </faults>
             </catalog_product_attribute>
-            <catalog_product_attribute_set translate="title" module="catalog">
+            <catalog_product_attribute_set translate="title" module="Mage_Catalog">
                 <title>Product attribute sets API</title>
                 <model>catalog/product_attribute_set_api</model>
                 <acl>catalog/product</acl>
                 <methods>
-                    <list translate="title" module="catalog">
+                    <list translate="title" module="Mage_Catalog">
                         <title>Retrieve product attribute sets</title>
                         <method>items</method>
                     </list>
                 </methods>
-                <faults module="catalog">
+                <faults module="Mage_Catalog">
                 </faults>
             </catalog_product_attribute_set>
-            <catalog_product_type translate="title" module="catalog">
+            <catalog_product_type translate="title" module="Mage_Catalog">
                 <title>Product types API</title>
                 <model>catalog/product_type_api</model>
                 <acl>catalog/product</acl>
                 <methods>
-                    <list translate="title" module="catalog">
+                    <list translate="title" module="Mage_Catalog">
                         <title>Retrieve product types</title>
                         <method>items</method>
                     </list>
                 </methods>
-                <faults module="catalog">
+                <faults module="Mage_Catalog">
                 </faults>
             </catalog_product_type>
-            <catalog_product_attribute_media translate="title" module="catalog">
+            <catalog_product_attribute_media translate="title" module="Mage_Catalog">
                 <title>Product Images API</title>
                 <model>catalog/product_attribute_media_api</model>
                 <acl>catalog/product/media</acl>
                 <methods>
-                    <currentStore translate="title" module="catalog">
+                    <currentStore translate="title" module="Mage_Catalog">
                         <title>Set/Get current store view</title>
                     </currentStore>
-                    <list translate="title" module="catalog">
+                    <list translate="title" module="Mage_Catalog">
                         <title>Retrieve product image list</title>
                         <method>items</method>
                     </list>
-                    <info translate="title" module="catalog">
+                    <info translate="title" module="Mage_Catalog">
                         <title>Retrieve product image</title>
                     </info>
-                    <types translate="title" module="catalog">
+                    <types translate="title" module="Mage_Catalog">
                         <title>Retrieve product image types</title>
                     </types>
-                    <create translate="title" module="catalog">
+                    <create translate="title" module="Mage_Catalog">
                         <title>Upload new product image </title>
                         <acl>catalog/product/media/create</acl>
                     </create>
-                    <update translate="title" module="catalog">
+                    <update translate="title" module="Mage_Catalog">
                         <title>Update product image</title>
                         <acl>catalog/product/media/update</acl>
                     </update>
-                    <remove translate="title" module="catalog">
+                    <remove translate="title" module="Mage_Catalog">
                         <title>Remove product image</title>
                         <acl>catalog/product/media/remove</acl>
                     </remove>
                 </methods>
-                <faults module="catalog">
+                <faults module="Mage_Catalog">
                     <store_not_exists>
                         <code>100</code>
                         <message>Requested store view not found.</message>
@@ -316,20 +316,20 @@
                     </not_media>
                 </faults>
             </catalog_product_attribute_media>
-            <catalog_product_attribute_tier_price translate="title" module="catalog">
+            <catalog_product_attribute_tier_price translate="title" module="Mage_Catalog">
                 <title>Product Tier Price API</title>
                 <model>catalog/product_attribute_tierprice_api</model>
                 <acl>catalog/product</acl>
                 <methods>
-                    <info translate="title" module="catalog">
+                    <info translate="title" module="Mage_Catalog">
                         <title>Retrieve product tier prices</title>
                     </info>
-                    <update translate="title" module="catalog">
+                    <update translate="title" module="Mage_Catalog">
                         <title>Update product tier prices</title>
                         <acl>catalog/product/update_tier_price</acl>
                     </update>
                 </methods>
-                <faults module="catalog">
+                <faults module="Mage_Catalog">
                     <product_not_exists>
                         <code>100</code>
                         <message>Product not exists.</message>
@@ -344,35 +344,35 @@
                     </not_updated>
                 </faults>
             </catalog_product_attribute_tier_price>
-            <catalog_product_link translate="title" module="catalog">
+            <catalog_product_link translate="title" module="Mage_Catalog">
                 <title>Product links API (related, cross sells, up sells)</title>
                 <model>catalog/product_link_api</model>
                 <acl>catalog/product/link</acl>
                 <methods>
-                    <list translate="title" module="catalog">
+                    <list translate="title" module="Mage_Catalog">
                         <title>Retrieve linked products</title>
                         <method>items</method>
                     </list>
-                    <assign translate="title" module="catalog">
+                    <assign translate="title" module="Mage_Catalog">
                         <title>Assign product link</title>
                         <acl>catalog/product/link/assign</acl>
                     </assign>
-                    <update translate="title" module="catalog">
+                    <update translate="title" module="Mage_Catalog">
                         <title>Update product link</title>
                         <acl>catalog/product/link/update</acl>
                     </update>
-                    <remove translate="title" module="catalog">
+                    <remove translate="title" module="Mage_Catalog">
                         <title>Remove product link</title>
                         <acl>catalog/product/link/remove</acl>
                     </remove>
-                    <types translate="title" module="catalog">
+                    <types translate="title" module="Mage_Catalog">
                         <title>Retrieve product link types</title>
                     </types>
-                    <attributes translate="title" module="catalog">
+                    <attributes translate="title" module="Mage_Catalog">
                         <title>Retrieve product link type attributes</title>
                     </attributes>
                 </methods>
-                <faults module="catalog">
+                <faults module="Mage_Catalog">
                     <type_not_exists>
                         <code>100</code>
                         <message>Given invalid link type.</message>
@@ -420,93 +420,93 @@
         </v2>
         <acl>
             <resources>
-                <catalog translate="title" module="catalog">
+                <catalog translate="title" module="Mage_Catalog">
                     <title>Catalog</title>
                     <sort_order>1</sort_order>
-                    <category translate="title" module="catalog">
+                    <category translate="title" module="Mage_Catalog">
                         <title>Category</title>
-                        <create translate="title" module="catalog">
+                        <create translate="title" module="Mage_Catalog">
                             <title>Create</title>
                         </create>
-                        <update translate="title" module="catalog">
+                        <update translate="title" module="Mage_Catalog">
                             <title>Update</title>
                         </update>
-                        <move translate="title" module="catalog">
+                        <move translate="title" module="Mage_Catalog">
                             <title>Move</title>
                         </move>
-                        <delete translate="title" module="catalog">
+                        <delete translate="title" module="Mage_Catalog">
                             <title>Delete</title>
                         </delete>
-                        <tree translate="title" module="catalog">
+                        <tree translate="title" module="Mage_Catalog">
                             <title>Retrieve categories tree</title>
                         </tree>
-                        <info translate="title" module="catalog">
+                        <info translate="title" module="Mage_Catalog">
                             <title>Retrieve category data</title>
                         </info>
-                        <product translate="title" module="catalog">
+                        <product translate="title" module="Mage_Catalog">
                             <title>Assigned Products</title>
                             <sort_order>100</sort_order>
-                            <assign translate="title" module="catalog">
+                            <assign translate="title" module="Mage_Catalog">
                                 <title>Assign</title>
                             </assign>
-                            <update translate="title" module="catalog">
+                            <update translate="title" module="Mage_Catalog">
                                 <title>Update</title>
                             </update>
-                            <remove translate="title" module="catalog">
+                            <remove translate="title" module="Mage_Catalog">
                                 <title>Remove</title>
                             </remove>
                         </product>
                     </category>
-                    <product translate="title" module="catalog">
+                    <product translate="title" module="Mage_Catalog">
                         <title>Product</title>
-                        <create translate="title" module="catalog">
+                        <create translate="title" module="Mage_Catalog">
                             <title>Create</title>
                         </create>
-                        <update translate="title" module="catalog">
+                        <update translate="title" module="Mage_Catalog">
                             <title>Update</title>
                         </update>
-                        <delete translate="title" module="catalog">
+                        <delete translate="title" module="Mage_Catalog">
                             <title>Delete</title>
                         </delete>
-                        <update_tier_price translate="title" module="catalog">
+                        <update_tier_price translate="title" module="Mage_Catalog">
                             <title>Update Tier Price</title>
                         </update_tier_price>
-                        <info translate="title" module="catalog">
+                        <info translate="title" module="Mage_Catalog">
                             <title>Retrieve products data</title>
                         </info>
-                        <attribute translate="title" module="catalog">
+                        <attribute translate="title" module="Mage_Catalog">
                             <title>Product Attributes</title>
                             <sort_order>100</sort_order>
-                            <read translate="title" module="catalog">
+                            <read translate="title" module="Mage_Catalog">
                                 <title>Retrieve attribute data</title>
                             </read>
-                            <write translate="title" module="catalog">
+                            <write translate="title" module="Mage_Catalog">
                                 <title>Change or Retrieve attribute store view</title>
                             </write>
                         </attribute>
-                        <link translate="title" module="catalog">
+                        <link translate="title" module="Mage_Catalog">
                             <title>Link (Related, Up sell, Cross sell)</title>
                             <sort_order>101</sort_order>
-                            <assign translate="title" module="catalog">
+                            <assign translate="title" module="Mage_Catalog">
                                 <title>Assign</title>
                             </assign>
-                            <update translate="title" module="catalog">
+                            <update translate="title" module="Mage_Catalog">
                                 <title>Update</title>
                             </update>
-                            <remove translate="title" module="catalog">
+                            <remove translate="title" module="Mage_Catalog">
                                 <title>Remove</title>
                             </remove>
                         </link>
-                        <media translate="title" module="catalog">
+                        <media translate="title" module="Mage_Catalog">
                             <title>Product Images</title>
                             <sort_order>102</sort_order>
-                            <create translate="title" module="catalog">
+                            <create translate="title" module="Mage_Catalog">
                                 <title>Create (Upload)</title>
                             </create>
-                            <update translate="title" module="catalog">
+                            <update translate="title" module="Mage_Catalog">
                                 <title>Update</title>
                             </update>
-                            <remove translate="title" module="catalog">
+                            <remove translate="title" module="Mage_Catalog">
                                 <title>Remove</title>
                             </remove>
                         </media>

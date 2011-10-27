@@ -226,7 +226,7 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         if ('' == trim($this->getName())) {
-            Mage::throwException(Mage::helper('enterprise_banner')->__('Name must not be empty.'));
+            Mage::throwException(Mage::helper('Enterprise_Banner_Helper_Data')->__('Name must not be empty.'));
         }
         $bannerContents = $this->getStoreContents();
         $flag = false;
@@ -237,7 +237,7 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
             }
         }
         if (!$flag) {
-            Mage::throwException(Mage::helper('enterprise_banner')->__('Please specify default content for at least one store view.'));
+            Mage::throwException(Mage::helper('Enterprise_Banner_Helper_Data')->__('Please specify default content for at least one store view.'));
         }
         return parent::_beforeSave();
     }

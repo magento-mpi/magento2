@@ -302,7 +302,7 @@ class Enterprise_Logging_Model_Processor
         }
         $errors = Mage::getModel('adminhtml/session')->getMessages()->getErrors();
         $loggingEvent = Mage::getModel('enterprise_logging/event')->setData(array(
-            'ip'            => Mage::helper('core/http')->getRemoteAddr(),
+            'ip'            => Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(),
             'x_forwarded_ip'=> Mage::app()->getRequest()->getServer('HTTP_X_FORWARDED_FOR'),
             'user'          => $username,
             'user_id'       => $userId,
@@ -318,7 +318,7 @@ class Enterprise_Logging_Model_Processor
             }
             $loggingEvent->setAction($_conf->action);
             $loggingEvent->setEventCode($_conf->getParent()->getParent()->getName());
-            $loggingEvent->setInfo(Mage::helper('enterprise_logging')->__('Access denied'));
+            $loggingEvent->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Access denied'));
             $loggingEvent->setIsSuccess(0);
             $loggingEvent->save();
             return;

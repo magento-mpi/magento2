@@ -59,7 +59,7 @@ class Mage_Poll_VoteController extends Mage_Core_Controller_Front_Action
         if ($poll->getId() && !$poll->getClosed() && !$poll->isVoted()) {
             $vote = Mage::getModel('poll/poll_vote')
                 ->setPollAnswerId($answerId)
-                ->setIpAddress(Mage::helper('core/http')->getRemoteAddr(true))
+                ->setIpAddress(Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(true))
                 ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
 
             $poll->addVote($vote);

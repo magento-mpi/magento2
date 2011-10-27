@@ -85,13 +85,13 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    => Mage::helper('sales')->__('ID'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('sales')->__('Product Name'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Product Name'),
             'index'     => 'name',
             'column_css_class'=> 'name'
         ));
@@ -103,7 +103,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
 
         $this->addColumn('set_name',
             array(
-                'header'=> Mage::helper('catalog')->__('Attrib. Set Name'),
+                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Attrib. Set Name'),
                 'width' => '100px',
                 'index' => 'attribute_set_id',
                 'type'  => 'options',
@@ -111,13 +111,13 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('sales')->__('SKU'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('SKU'),
             'width'     => '80px',
             'index'     => 'sku',
             'column_css_class'=> 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => Mage::helper('sales')->__('Price'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Price'),
             'align'     => 'center',
             'type'      => 'currency',
             'currency_code' => $this->getStore()->getCurrentCurrencyCode(),
@@ -137,7 +137,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
         $this->addColumn('qty', array(
             'filter'    => false,
             'sortable'  => false,
-            'header'    => Mage::helper('sales')->__('Qty to Add'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Qty to Add'),
             'name'      => 'qty',
             'inline_css'=> 'qty',
             'align'     => 'right',
@@ -184,6 +184,6 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
      */
     public function getAllowedSelectionTypes()
     {
-        return Mage::helper('bundle')->getAllowedSelectionTypes();
+        return Mage::helper('Mage_Bundle_Helper_Data')->getAllowedSelectionTypes();
     }
 }

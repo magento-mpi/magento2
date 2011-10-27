@@ -47,7 +47,7 @@ class Mage_Paypal_Model_System_Config_Backend_MerchantCountry extends Mage_Core_
                 $defaultCountry = Mage::app()->getWebsite($this->getWebsite())
                     ->getConfig(Mage_Core_Helper_Data::XML_PATH_DEFAULT_COUNTRY);
             } else {
-                $defaultCountry = Mage::helper('core')->getDefaultCountry($this->getStore());
+                $defaultCountry = Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry($this->getStore());
             }
             $this->setValue($defaultCountry);
         }

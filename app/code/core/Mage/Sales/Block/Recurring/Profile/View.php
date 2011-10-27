@@ -71,7 +71,7 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
             'can_update'   => $this->_profile->canFetchUpdate(),
             'update_url'   => $this->getUrl('*/*/updateProfile', array('profile' => $this->_profile->getId())),
             'back_url'     => $this->getUrl('*/*/'),
-            'confirmation_message' => Mage::helper('sales')->__('Are you sure you want to do this?'),
+            'confirmation_message' => Mage::helper('Mage_Sales_Helper_Data')->__('Are you sure you want to do this?'),
         ));
     }
 
@@ -115,9 +115,9 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
         $this->_shouldRenderInfo = true;
         $key = 'order_item_info';
 
-        foreach (array('name' => Mage::helper('catalog')->__('Product Name'),
-            'sku'  => Mage::helper('catalog')->__('SKU'),
-            'qty'  => Mage::helper('catalog')->__('Quantity'),
+        foreach (array('name' => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Name'),
+            'sku'  => Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
+            'qty'  => Mage::helper('Mage_Catalog_Helper_Data')->__('Quantity'),
             ) as $itemKey => $label
         ) {
             $value = $this->_profile->getInfoValue($key, $itemKey);
@@ -215,7 +215,7 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
             if ($value) {
                 $this->_addInfo(array(
                     'label' => $this->_profile->getFieldLabel($key),
-                    'value' => Mage::helper('core')->formatCurrency($value, false),
+                    'value' => Mage::helper('Mage_Core_Helper_Data')->formatCurrency($value, false),
                     'is_amount' => true,
                 ));
             }
@@ -299,7 +299,7 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
                 'increment_id' => $order->getIncrementId(),
                 'created_at' => $this->formatDate($order->getCreatedAt()),
                 'customer_name' => $order->getCustomerName(),
-                'base_grand_total' => Mage::helper('core')->formatCurrency($order->getBaseGrandTotal(), false),
+                'base_grand_total' => Mage::helper('Mage_Core_Helper_Data')->formatCurrency($order->getBaseGrandTotal(), false),
                 'status' => $order->getStatusLabel(),
                 'increment_id_link_url' => $this->getUrl('sales/order/view/', array('order_id' => $order->getId())),
             ));

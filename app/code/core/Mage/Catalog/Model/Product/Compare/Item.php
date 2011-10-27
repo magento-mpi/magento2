@@ -172,7 +172,7 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
     {
         $this->_getResource()->updateCustomerFromVisitor($this);
 
-        Mage::helper('catalog/product_compare')->setCustomerId($this->getCustomerId())->calculate();
+        Mage::helper('Mage_Catalog_Helper_Product_Compare')->setCustomerId($this->getCustomerId())->calculate();
         return $this;
     }
 
@@ -186,7 +186,7 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
     {
         $this->_getResource()->purgeVisitorByCustomer($this);
 
-        Mage::helper('catalog/product_compare')->calculate(true);
+        Mage::helper('Mage_Catalog_Helper_Product_Compare')->calculate(true);
         return $this;
     }
 

@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Adminht
             'update_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
                 'class'     => 'update-button',
-                'label'     => Mage::helper('sales')->__('Update Qty\'s'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Update Qty\'s'),
                 'onclick'   => $onclick,
             ))
         );
@@ -65,9 +65,9 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Adminht
             }
         }
         if ($this->getOrder()->getForcedShipmentWithInvoice()) {
-            $_submitLabel = Mage::helper('sales')->__('Submit Invoice and Shipment');
+            $_submitLabel = Mage::helper('Mage_Sales_Helper_Data')->__('Submit Invoice and Shipment');
         } else {
-            $_submitLabel = Mage::helper('sales')->__('Submit Invoice');
+            $_submitLabel = Mage::helper('Mage_Sales_Helper_Data')->__('Submit Invoice');
         }
         $this->setChild(
             'submit_button',
@@ -141,11 +141,11 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Adminht
     {
         $totalbarData = array();
         $this->setPriceDataObject($this->getInvoice()->getOrder());
-        $totalbarData[] = array(Mage::helper('sales')->__('Paid Amount'), $this->displayPriceAttribute('amount_paid'), false);
-        $totalbarData[] = array(Mage::helper('sales')->__('Refund Amount'), $this->displayPriceAttribute('amount_refunded'), false);
-        $totalbarData[] = array(Mage::helper('sales')->__('Shipping Amount'), $this->displayPriceAttribute('shipping_captured'), false);
-        $totalbarData[] = array(Mage::helper('sales')->__('Shipping Refund'), $this->displayPriceAttribute('shipping_refunded'), false);
-        $totalbarData[] = array(Mage::helper('sales')->__('Order Grand Total'), $this->displayPriceAttribute('grand_total'), true);
+        $totalbarData[] = array(Mage::helper('Mage_Sales_Helper_Data')->__('Paid Amount'), $this->displayPriceAttribute('amount_paid'), false);
+        $totalbarData[] = array(Mage::helper('Mage_Sales_Helper_Data')->__('Refund Amount'), $this->displayPriceAttribute('amount_refunded'), false);
+        $totalbarData[] = array(Mage::helper('Mage_Sales_Helper_Data')->__('Shipping Amount'), $this->displayPriceAttribute('shipping_captured'), false);
+        $totalbarData[] = array(Mage::helper('Mage_Sales_Helper_Data')->__('Shipping Refund'), $this->displayPriceAttribute('shipping_refunded'), false);
+        $totalbarData[] = array(Mage::helper('Mage_Sales_Helper_Data')->__('Order Grand Total'), $this->displayPriceAttribute('grand_total'), true);
 
         return $totalbarData;
     }
@@ -217,6 +217,6 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Adminht
 
     public function canSendInvoiceEmail()
     {
-        return Mage::helper('sales')->canSendNewInvoiceEmail($this->getOrder()->getStore()->getId());
+        return Mage::helper('Mage_Sales_Helper_Data')->canSendNewInvoiceEmail($this->getOrder()->getStore()->getId());
     }
 }

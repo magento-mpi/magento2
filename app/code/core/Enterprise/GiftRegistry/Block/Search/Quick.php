@@ -39,7 +39,7 @@ class Enterprise_GiftRegistry_Block_Search_Quick extends Mage_Core_Block_Templat
      */
     public function getEnabled()
     {
-        return  Mage::helper('enterprise_giftregistry')->isEnabled();
+        return  Mage::helper('Enterprise_GiftRegistry_Helper_Data')->isEnabled();
     }
 
     /**

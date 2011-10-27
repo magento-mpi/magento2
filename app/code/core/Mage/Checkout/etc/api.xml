@@ -28,38 +28,38 @@
 <config>
     <api>
         <resources>
-            <cart translate="title" module="checkout">
+            <cart translate="title" module="Mage_Checkout">
                 <model>checkout/cart_api</model>
                 <title>Shopping Cart</title>
                 <acl>cart</acl>
                 <methods>
-                    <create translate="title" module="checkout">
+                    <create translate="title" module="Mage_Checkout">
                         <title>Create shopping cart</title>
                         <method>create</method>
                         <acl>cart/create</acl>
                     </create>
-                    <order translate="title" module="checkout">
+                    <order translate="title" module="Mage_Checkout">
                         <title>Create an order from shopping cart</title>
                         <method>createOrder</method>
                         <acl>cart/order</acl>
                     </order>
-                    <info translate="title" module="checkout">
+                    <info translate="title" module="Mage_Checkout">
                         <title>Retrieve information about shopping cart</title>
                         <method>info</method>
                         <acl>cart/info</acl>
                     </info>
-                    <totals translate="title" module="checkout">
+                    <totals translate="title" module="Mage_Checkout">
                         <title>Get total prices for shopping cart</title>
                         <method>totals</method>
                         <acl>cart/totals</acl>
                     </totals>
-                    <license translate="title" module="checkout">
+                    <license translate="title" module="Mage_Checkout">
                         <title>Get terms and conditions</title>
                         <method>licenseAgreement</method>
                         <acl>cart/license</acl>
                     </license>
                 </methods>
-                <faults module="checkout">
+                <faults module="Mage_Checkout">
                     <store_not_exists>
                         <code>1001</code>
                         <message>Can not make operation because store is not exists</message>
@@ -94,27 +94,27 @@
                     </create_order_fault>
                 </faults>
             </cart>
-            <cart_product translate="title" module="checkout">
+            <cart_product translate="title" module="Mage_Checkout">
                 <model>checkout/cart_product_api</model>
                 <title>Cart Product API</title>
                 <acl>cart/product</acl>
                 <methods>
-                    <add translate="title" module="checkout">
+                    <add translate="title" module="Mage_Checkout">
                         <title>Add product to shopping cart</title>
                         <method>add</method>
                         <acl>cart/product/add</acl>
                     </add>
-                    <update translate="title" module="checkout">
+                    <update translate="title" module="Mage_Checkout">
                         <title>Update product quantities in shopping cart</title>
                         <method>update</method>
                         <acl>cart/product/update</acl>
                     </update>
-                    <remove translate="title" module="checkout">
+                    <remove translate="title" module="Mage_Checkout">
                         <title>Remove product from shopping cart</title>
                         <method>remove</method>
                         <acl>cart/product/remove</acl>
                     </remove>
-                    <list translate="title" module="checkout">
+                    <list translate="title" module="Mage_Checkout">
                         <title>Get list of products in shopping cart</title>
                         <method>items</method>
                         <acl>cart/product/list</acl>
@@ -125,7 +125,7 @@
                         <acl>cart/product/moveToCustomerQuote</acl>
                     </moveToCustomerQuote>
                 </methods>
-                <faults module="checkout">
+                <faults module="Mage_Checkout">
                     <store_not_exists>
                         <code>1001</code>
                         <message>Can not make operation because store is not exists</message>
@@ -184,23 +184,23 @@
                     </product_move_quote_save_fault>
                 </faults>
             </cart_product>
-            <cart_customer translate="title" module="checkout">
+            <cart_customer translate="title" module="Mage_Checkout">
                 <model>checkout/cart_customer_api</model>
                 <title>Customer Information</title>
                 <acl>cart/customer</acl>
                 <methods>
-                    <set translate="title" module="checkout">
+                    <set translate="title" module="Mage_Checkout">
                         <title>Set customer for shopping cart</title>
                         <method>set</method>
                         <acl>cart/customer/set</acl>
                     </set>
-                    <addresses translate="title" module="checkout">
+                    <addresses translate="title" module="Mage_Checkout">
                         <title>Set customer's addresses in shopping cart</title>
                         <method>setAddresses</method>
                         <acl>cart/customer/addresses</acl>
                     </addresses>
                 </methods>
-                <faults module="checkout">
+                <faults module="Mage_Checkout">
                     <store_not_exists>
                         <code>1001</code>
                         <message>Can not make operation because store is not exists</message>
@@ -251,23 +251,23 @@
                     </address_not_belong_customer>
                 </faults>
             </cart_customer>
-            <cart_shipping translate="title" module="checkout">
+            <cart_shipping translate="title" module="Mage_Checkout">
                 <model>checkout/cart_shipping_api</model>
                 <title>Shipping information</title>
                 <acl>cart/shipping</acl>
                 <methods>
-                    <method translate="title" module="checkout">
+                    <method translate="title" module="Mage_Checkout">
                         <title>Set shipping method</title>
                         <method>setShippingMethod</method>
                         <acl>cart/shipping/method</acl>
                     </method>
-                    <list translate="title" module="checkout">
+                    <list translate="title" module="Mage_Checkout">
                         <title>Get list of available shipping methods</title>
                         <method>getShippingMethodsList</method>
                         <acl>cart/shipping/list</acl>
                     </list>
                 </methods>
-                <faults module="checkout">
+                <faults module="Mage_Checkout">
                     <store_not_exists>
                         <code>1001</code>
                         <message>Can not make operation because store is not exists</message>
@@ -294,23 +294,23 @@
                     </shipping_methods_list_could_not_be_retrived>
                 </faults>
             </cart_shipping>
-            <cart_payment translate="title" module="checkout">
+            <cart_payment translate="title" module="Mage_Checkout">
                 <model>checkout/cart_payment_api</model>
                 <title>Payment method information</title>
                 <acl>cart/payment</acl>
                 <methods>
-                    <method translate="title" module="checkout">
+                    <method translate="title" module="Mage_Checkout">
                         <title>Set payment method</title>
                         <method>setPaymentMethod</method>
                         <acl>cart/payment/method</acl>
                     </method>
-                    <list translate="title" module="checkout">
+                    <list translate="title" module="Mage_Checkout">
                         <title>Get list of available payment methods</title>
                         <method>getPaymentMethodsList</method>
                         <acl>cart/payment/list</acl>
                     </list>
                 </methods>
-                <faults module="checkout">
+                <faults module="Mage_Checkout">
                     <store_not_exists>
                         <code>1001</code>
                         <message>Can not make operation because store is not exists</message>
@@ -341,23 +341,23 @@
                     </payment_method_is_not_set>
                 </faults>
             </cart_payment>
-            <cart_coupon translate="title" module="checkout">
+            <cart_coupon translate="title" module="Mage_Checkout">
                 <model>checkout/cart_coupon_api</model>
                 <title>Shopping cart ability to set coupon code</title>
                 <acl>cart/coupon</acl>
                 <methods>
-                    <add translate="title" module="checkout">
+                    <add translate="title" module="Mage_Checkout">
                         <title>Add coupon code for shopping cart</title>
                         <method>add</method>
                         <acl>cart/coupon/add</acl>
                     </add>
-                    <remove translate="title" module="checkout">
+                    <remove translate="title" module="Mage_Checkout">
                         <title>Remove coupon code from shopping cart</title>
                         <method>remove</method>
                         <acl>cart/coupon/remove</acl>
                     </remove>
                 </methods>
-                <faults module="checkout">
+                <faults module="Mage_Checkout">
                     <store_not_exists>
                         <code>1001</code>
                         <message>Can not make operation because store is not exists</message>
@@ -383,65 +383,65 @@
         </resources>
         <acl>
             <resources>
-                <cart translate="title" module="checkout">
+                <cart translate="title" module="Mage_Checkout">
                     <title>Shopping Cart</title>
-                    <create translate="title" module="checkout">
+                    <create translate="title" module="Mage_Checkout">
                         <title>Create shopping cart</title>
                     </create>
-                    <order translate="title" module="checkout">
+                    <order translate="title" module="Mage_Checkout">
                         <title>Create an order from shopping cart</title>
                     </order>
-                    <info translate="title" module="checkout">
+                    <info translate="title" module="Mage_Checkout">
                         <title>Retrieve information about shopping cart</title>
                     </info>
-                    <totals translate="title" module="checkout">
+                    <totals translate="title" module="Mage_Checkout">
                         <title>Get total prices for shopping cart</title>
                     </totals>
-                    <license translate="title" module="checkout">
+                    <license translate="title" module="Mage_Checkout">
                         <title>Get terms and conditions</title>
                     </license>
-                    <product translate="title" module="checkout">
+                    <product translate="title" module="Mage_Checkout">
                         <title>Products</title>
-                        <add translate="title" module="checkout">
+                        <add translate="title" module="Mage_Checkout">
                             <title>Add product(s) to shopping cart</title>
                         </add>
-                        <update translate="title" module="checkout">
+                        <update translate="title" module="Mage_Checkout">
                             <title>Update product(s) quantities in shopping cart</title>
                         </update>
-                        <remove translate="title" module="checkout">
+                        <remove translate="title" module="Mage_Checkout">
                             <title>Remove product(s) from shopping cart</title>
                         </remove>
-                        <list translate="title" module="checkout">
+                        <list translate="title" module="Mage_Checkout">
                             <title>Get list of products in shopping cart</title>
                         </list>
                         <moveToCustomerQuote>
                             <title>Move product(s) to customer quote</title>
                         </moveToCustomerQuote>
                     </product>
-                    <customer translate="title" module="checkout">
+                    <customer translate="title" module="Mage_Checkout">
                         <title>Customer's information</title>
-                        <set translate="title" module="checkout">
+                        <set translate="title" module="Mage_Checkout">
                            <title>Set customer for shopping cart</title>
                         </set>
-                        <addresses translate="title" module="checkout">
+                        <addresses translate="title" module="Mage_Checkout">
                             <title>Set customer's addresses in shopping cart</title>
                         </addresses>
                     </customer>
-                    <shipping translate="title" module="checkout">
+                    <shipping translate="title" module="Mage_Checkout">
                         <title>Shipping methods in shopping cart</title>
-                        <method translate="title" module="checkout">
+                        <method translate="title" module="Mage_Checkout">
                             <title>Set shipping method</title>
                         </method>
-                        <list translate="title" module="checkout">
+                        <list translate="title" module="Mage_Checkout">
                             <title>Get list of available shipping methods</title>
                         </list>
                     </shipping>
-                    <payment translate="title" module="checkout">
+                    <payment translate="title" module="Mage_Checkout">
                         <title>Payment methods in shopping cart</title>
-                        <method translate="title" module="checkout">
+                        <method translate="title" module="Mage_Checkout">
                             <title>Set payment method</title>
                         </method>
-                        <list translate="title" module="checkout">
+                        <list translate="title" module="Mage_Checkout">
                             <title>Get list of available payment methods</title>
                         </list>
                     </payment>

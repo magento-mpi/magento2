@@ -99,7 +99,7 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController
         }
 
         /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('adminhtml/catalog_product_composite');
+        $helper = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;

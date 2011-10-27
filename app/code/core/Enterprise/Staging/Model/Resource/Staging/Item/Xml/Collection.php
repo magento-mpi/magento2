@@ -103,7 +103,7 @@ class Enterprise_Staging_Model_Resource_Staging_Item_Xml_Collection extends Vari
                 $checked = false;
                 $availabilityText = $extendInfo[$_code]["reason"];
             } else {
-                $availabilityText = Mage::helper('enterprise_staging')->__('available');
+                $availabilityText = Mage::helper('Enterprise_Staging_Helper_Data')->__('available');
             }
         }
         $item->setData('id', $_code);

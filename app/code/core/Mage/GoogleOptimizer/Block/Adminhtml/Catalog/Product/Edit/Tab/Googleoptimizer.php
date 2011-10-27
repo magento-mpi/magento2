@@ -40,13 +40,13 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('googleoptimizer_fields',
-            array('legend' => Mage::helper('googleoptimizer')->__('Google Optimizer Scripts'))
+            array('legend' => Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Google Optimizer Scripts'))
         );
 
         if ($this->getProduct()->getStoreId() == '0') {
-            Mage::helper('googleoptimizer')->setStoreId(Mage::app()->getDefaultStoreView());
+            Mage::helper('Mage_GoogleOptimizer_Helper_Data')->setStoreId(Mage::app()->getDefaultStoreView());
         } else {
-            Mage::helper('googleoptimizer')->setStoreId($this->getProduct()->getStoreId());
+            Mage::helper('Mage_GoogleOptimizer_Helper_Data')->setStoreId($this->getProduct()->getStoreId());
         }
 
 
@@ -68,7 +68,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
                     array(
                         'name'  => 'store_flag',
                         'value' => '1',
-                        'label' => Mage::helper('googleoptimizer')->__('Use Default Values'),
+                        'label' => Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Use Default Values'),
                         'class' => 'checkbox',
                         'required' => false,
                         'onchange' => 'googleOptimizerScopeAction()',
@@ -80,7 +80,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
         $fieldset->addField('conversion_page', 'select',
             array(
                 'name'  => 'conversion_page',
-                'label' => Mage::helper('googleoptimizer')->__('Conversion Page'),
+                'label' => Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Conversion Page'),
                 'values'=>
                     Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')
                         ->toOptionArray(),
@@ -94,19 +94,19 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
             $fieldset->addField('conversion_page_url', 'note',
                 array(
                     'name'  => 'conversion_page_url',
-                    'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
-                    'text' => Mage::helper('googleoptimizer')->__('Please select store view to see the URL.')
+                    'label' => Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Conversion Page URL'),
+                    'text' => Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Please select store view to see the URL.')
                 )
             );
         } else {
             $fieldset->addField('conversion_page_url', 'text',
                 array(
                     'name'  => 'conversion_page_url',
-                    'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
+                    'label' => Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Conversion Page URL'),
                     'class' => 'input-text',
                     'readonly' => 'readonly',
                     'required' => false,
-                    'note' => Mage::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form.')
+                    'note' => Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Please copy and paste this value to experiment edit form.')
                 )
             );
         }
@@ -116,7 +116,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
         $fieldset->addField('control_script', 'textarea',
             array(
                 'name'  => 'control_script',
-                'label' => Mage::helper('googleoptimizer')->__('Control Script'),
+                'label' => Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Control Script'),
                 'class' => 'textarea googleoptimizer validate-googleoptimizer',
                 'required' => false,
             )
@@ -124,7 +124,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
         $fieldset->addField('tracking_script', 'textarea',
             array(
                 'name'  => 'tracking_script',
-                'label' => Mage::helper('googleoptimizer')->__('Tracking Script'),
+                'label' => Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Tracking Script'),
                 'class' => 'textarea googleoptimizer validate-googleoptimizer',
                 'required' => false,
             )
@@ -132,31 +132,31 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
         $fieldset->addField('conversion_script', 'textarea',
             array(
                 'name'  => 'conversion_script',
-                'label' => Mage::helper('googleoptimizer')->__('Conversion Script'),
+                'label' => Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Conversion Script'),
                 'class' => 'textarea googleoptimizer validate-googleoptimizer',
                 'required' => false,
             )
         );
 
-        $attributes = Mage::helper('googleoptimizer')->getProductAttributes($this->getProduct());
+        $attributes = Mage::helper('Mage_GoogleOptimizer_Helper_Data')->getProductAttributes($this->getProduct());
         $fieldset->addField('attributes', 'multiselect',
             array(
                 'name'  => 'attributes',
-                'label' => Mage::helper('googleoptimizer')->__('Attributes'),
+                'label' => Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Attributes'),
                 'class' => 'googleoptimizer validate-googleoptimizer validate-googleoptimizer-attributes',
                 'values' => $attributes,
                 'required' => false,
                 'onchange' => 'googleOptimizerAttributesCheckAction(this)',
-                'note' => Mage::helper('googleoptimizer')->__('The limit is 8 attributes only.')
+                'note' => Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('The limit is 8 attributes only.')
             )
         );
 
-        if (Mage::helper('googleoptimizer')->getConversionPagesUrl()
+        if (Mage::helper('Mage_GoogleOptimizer_Helper_Data')->getConversionPagesUrl()
             && $this->getGoogleOptimizer()
             && $this->getGoogleOptimizer()->getConversionPage())
         {
             $form->getElement('conversion_page_url')
-                ->setValue(Mage::helper('googleoptimizer')
+                ->setValue(Mage::helper('Mage_GoogleOptimizer_Helper_Data')
                     ->getConversionPagesUrl()->getData($this->getGoogleOptimizer()->getConversionPage())
                 );
         }
@@ -201,17 +201,17 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
 
     public function getTabLabel()
     {
-        return Mage::helper('googleoptimizer')->__('Product View Optimization');
+        return Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Product View Optimization');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('googleoptimizer')->__('Product View Optimization');
+        return Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Product View Optimization');
     }
 
     public function canShowTab()
     {
-        if (Mage::helper('googleoptimizer')->isOptimizerActive($this->getProduct()->getStoreId())
+        if (Mage::helper('Mage_GoogleOptimizer_Helper_Data')->isOptimizerActive($this->getProduct()->getStoreId())
             && $this->getProduct()->getAttributeSetId())
         {
             return true;

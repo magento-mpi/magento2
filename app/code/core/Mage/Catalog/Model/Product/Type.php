@@ -109,7 +109,7 @@ class Mage_Catalog_Model_Product_Type
     {
         $options = array();
         foreach(self::getTypes() as $typeId=>$type) {
-            $options[$typeId] = Mage::helper('catalog')->__($type['label']);
+            $options[$typeId] = Mage::helper('Mage_Catalog_Helper_Data')->__($type['label']);
         }
 
         return $options;
@@ -158,7 +158,7 @@ class Mage_Catalog_Model_Product_Type
         if (is_null(self::$_types)) {
             $productTypes = Mage::getConfig()->getNode('global/catalog/product/type')->asArray();
             foreach ($productTypes as $productKey => $productConfig) {
-                $moduleName = 'catalog';
+                $moduleName = 'Mage_Catalog_Helper_Data';
                 if (isset($productConfig['@']['module'])) {
                     $moduleName = $productConfig['@']['module'];
                 }

@@ -47,7 +47,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Category
 
         if ($addEmpty) {
             $options[] = array(
-                'label' => Mage::helper('adminhtml')->__('-- Please Select a Category --'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('-- Please Select a Category --'),
                 'value' => ''
             );
         }

@@ -289,7 +289,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
 
         $this->_profilerOperationStart();
 
-        $categoryName = Mage::helper('loadtest')->__('Catalog %s', $mask);
+        $categoryName = Mage::helper('Mage_LoadTest_Helper_Data')->__('Catalog %s', $mask);
         $category = Mage::getModel('catalog/category');
 
         if (!$parentId) {
@@ -334,7 +334,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
         foreach (array_rand($rand, 4) as $v) {
             $setKey .= $rand[$v];
         }
-        $setName = Mage::helper('loadtest')->__('Attribute Set %s', $setKey);
+        $setName = Mage::helper('Mage_LoadTest_Helper_Data')->__('Attribute Set %s', $setKey);
 
         $setModel = Mage::getModel('eav/entity_attribute_set')
             ->setAttributeSetName($setName)
@@ -370,7 +370,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
         }
         $this->_attributeData['groups'][] = array(
             'ynode-245',
-            Mage::helper('loadtest')->__('Group %s', $setKey),
+            Mage::helper('Mage_LoadTest_Helper_Data')->__('Group %s', $setKey),
             count($this->_attributeData['groups']) + 1
         );
 
@@ -537,7 +537,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
             }
 
             if (count($this->_categoryIds) == 0) {
-                Mage::throwException(Mage::helper('loadtest')->__('Categories not found, please create category(ies) first'));
+                Mage::throwException(Mage::helper('Mage_LoadTest_Helper_Data')->__('Categories not found, please create category(ies) first'));
             }
         }
 
@@ -552,9 +552,9 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
 
         $this->_profilerOperationStart();
 
-        $productName = Mage::helper('loadtest')->__('Product #%s', $mask);
-        $productDescription = Mage::helper('loadtest')->__('Description for Product #%s', $mask);
-        $productShortDescription = Mage::helper('loadtest')->__('Short description for Product #%s', $mask);
+        $productName = Mage::helper('Mage_LoadTest_Helper_Data')->__('Product #%s', $mask);
+        $productDescription = Mage::helper('Mage_LoadTest_Helper_Data')->__('Description for Product #%s', $mask);
+        $productShortDescription = Mage::helper('Mage_LoadTest_Helper_Data')->__('Short description for Product #%s', $mask);
         $productSku = $this->_getSku($mask);
         $productPrice = rand($this->getMinPrice(), $this->getMaxPrice());
         $stockData = array(

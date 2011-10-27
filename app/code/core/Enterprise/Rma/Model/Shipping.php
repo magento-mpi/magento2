@@ -92,22 +92,22 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
         /** @var $order Mage_Sales_Model_Order */
         $order              = Mage::getModel('sales/order')->load($this->getRma()->getOrderId());
         $shipperAddress     = $order->getShippingAddress();
-        $recipientAddress   = Mage::helper('enterprise_rma')->getReturnAddressModel($this->getRma()->getStoreId());
+        $recipientAddress   = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddressModel($this->getRma()->getStoreId());
 
         list($carrierCode, $shippingMethod) = explode('_', $this->getCode(), 2);
 
-        $shipmentCarrier    = Mage::helper('enterprise_rma')->getCarrier($this->getCode(), $shipmentStoreId);
+        $shipmentCarrier    = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($this->getCode(), $shipmentStoreId);
         $baseCurrencyCode   = Mage::app()->getStore($shipmentStoreId)->getBaseCurrencyCode();
 
         if (!$shipmentCarrier) {
-            Mage::throwException(Mage::helper('enterprise_rma')->__('Invalid carrier: %s.', $carrierCode));
+            Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Invalid carrier: %s.', $carrierCode));
         }
 
         $shipperRegionCode  = Mage::getModel('directory/region')->load($shipperAddress->getRegionId())->getCode();
 
         $recipientRegionCode= $recipientAddress->getRegionId();
 
-        $recipientContactName = Mage::helper('enterprise_rma')->getReturnContactName($this->getRma()->getStoreId());
+        $recipientContactName = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnContactName($this->getRma()->getStoreId());
 
         if (!$recipientContactName->getName()
             || !$recipientContactName->getLastName()
@@ -120,7 +120,7 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
             || !$recipientAddress->getCountryId()
         ) {
             Mage::throwException(
-                Mage::helper('enterprise_rma')->__('Insufficient information to create shipping label(s). Please verify your Store Information and Shipping Settings.')
+                Mage::helper('Enterprise_Rma_Helper_Data')->__('Insufficient information to create shipping label(s). Please verify your Store Information and Shipping Settings.')
             );
         }
 
@@ -192,7 +192,7 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
         }
 
         if (!$trackingInfo = $carrierInstance->getTrackingInfo($this->getTrackNumber())) {
-            return Mage::helper('enterprise_rma')->__('No detail for number "%s"', $this->getTrackNumber());
+            return Mage::helper('Enterprise_Rma_Helper_Data')->__('No detail for number "%s"', $this->getTrackNumber());
         }
 
         return $trackingInfo;

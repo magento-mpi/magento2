@@ -53,20 +53,20 @@ class Mage_Adminhtml_Block_Tax_Class_Edit_Form extends Mage_Adminhtml_Block_Widg
         $classType  = $this->getClassType();
 
         $this->setTitle($classType == Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER
-            ? Mage::helper('cms')->__('Customer Tax Class Information')
-            : Mage::helper('cms')->__('Product Tax Class Information')
+            ? Mage::helper('Mage_Cms_Helper_Data')->__('Customer Tax Class Information')
+            : Mage::helper('Mage_Cms_Helper_Data')->__('Product Tax Class Information')
         );
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
             'legend'    => $classType == Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER
-                ? Mage::helper('tax')->__('Customer Tax Class Information')
-                : Mage::helper('tax')->__('Product Tax Class Information')
+                ? Mage::helper('Mage_Tax_Helper_Data')->__('Customer Tax Class Information')
+                : Mage::helper('Mage_Tax_Helper_Data')->__('Product Tax Class Information')
         ));
 
         $fieldset->addField('class_name', 'text',
             array(
                 'name'  => 'class_name',
-                'label' => Mage::helper('tax')->__('Class Name'),
+                'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Class Name'),
                 'class' => 'required-entry',
                 'value' => $model->getClassName(),
                 'required' => true,

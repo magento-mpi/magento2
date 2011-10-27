@@ -73,11 +73,11 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit
         if ($formBlock) {
             $this->setChild('form', $formBlock);
         } else {
-            Mage::throwException(Mage::helper('enterprise_importexport')->__('Invalid scheduled operation type'));
+            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Invalid scheduled operation type'));
         }
 
         $this->_updateButton('delete', 'onclick', 'deleteConfirm(\''
-            . Mage::helper('enterprise_importexport')->getConfirmationDeleteMessage($operation->getOperationType())
+            . Mage::helper('Enterprise_ImportExport_Helper_Data')->getConfirmationDeleteMessage($operation->getOperationType())
             .'\', \'' . $this->getDeleteUrl() . '\')'
         );
 
@@ -110,7 +110,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit
         } else {
             $action = 'new';
         }
-        return Mage::helper('enterprise_importexport')->getOperationHeaderText(
+        return Mage::helper('Enterprise_ImportExport_Helper_Data')->getOperationHeaderText(
             $operation->getOperationType(),
             $action
         );

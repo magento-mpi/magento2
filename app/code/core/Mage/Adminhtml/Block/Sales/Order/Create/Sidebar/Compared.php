@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Compared extends Mage_Admi
 
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Products in Comparison List');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Products in Comparison List');
     }
 
     /**

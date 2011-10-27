@@ -84,7 +84,7 @@ class Mage_Wishlist_Model_Observer extends Mage_Core_Model_Abstract
 
         if (!empty($productIds)) {
             $wishlist->save();
-            Mage::helper('wishlist')->calculate();
+            Mage::helper('Mage_Wishlist_Helper_Data')->calculate();
         }
         return $this;
     }
@@ -147,7 +147,7 @@ class Mage_Wishlist_Model_Observer extends Mage_Core_Model_Abstract
      */
     public function customerLogin(Varien_Event_Observer $observer)
     {
-        Mage::helper('wishlist')->calculate();
+        Mage::helper('Mage_Wishlist_Helper_Data')->calculate();
 
         return $this;
     }

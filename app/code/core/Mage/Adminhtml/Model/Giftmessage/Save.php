@@ -236,7 +236,7 @@ class Mage_Adminhtml_Model_Giftmessage_Save extends Varien_Object
      */
     public function isGiftMessagesAvailable($item)
     {
-        return Mage::helper('giftmessage/message')->getIsMessagesAvailable(
+        return Mage::helper('Mage_GiftMessage_Helper_Message')->getIsMessagesAvailable(
             'item', $item, $item->getStore()
         );
     }

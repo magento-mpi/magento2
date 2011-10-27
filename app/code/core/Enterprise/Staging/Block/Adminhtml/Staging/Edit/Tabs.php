@@ -36,7 +36,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs extends Mage_Adminhtm
         parent::__construct();
         $this->setId('enterprise_staging_tabs');
         $this->setDestElementId('enterprise_staging_form');
-        $this->setTitle(Mage::helper('enterprise_staging')->__('Staging Website Information'));
+        $this->setTitle(Mage::helper('Enterprise_Staging_Helper_Data')->__('Staging Website Information'));
     }
 
     /**
@@ -54,14 +54,14 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs extends Mage_Adminhtm
 
         if ($type) {
             $this->addTab('website', array(
-                'label'     => Mage::helper('enterprise_staging')->__('General Information'),
+                'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('General Information'),
                 'content'   => $this->getLayout()
                     ->createBlock('enterprise_staging/adminhtml_staging_edit_tabs_website')
                     ->toHtml(),
             ));
         } else {
             $this->addTab('set', array(
-                'label'     => Mage::helper('enterprise_staging')->__('Settings'),
+                'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Settings'),
                 'content'   => $this->getLayout()
                     ->createBlock('enterprise_staging/adminhtml_staging_edit_tabs_settings')
                     ->toHtml(),

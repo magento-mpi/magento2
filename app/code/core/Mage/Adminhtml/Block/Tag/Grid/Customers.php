@@ -63,58 +63,58 @@ class Mage_Adminhtml_Block_Tag_Grid_Customers extends Mage_Adminhtml_Block_Widge
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('tag')->__('ID'),
+            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('ID'),
             'width'     => '40px',
             'align'     =>'center',
             'sortable'  =>true,
             'index'     =>'entity_id'
         ));
         $this->addColumn('firstname', array(
-            'header'    =>Mage::helper('tag')->__('First Name'),
+            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('First Name'),
             'index'     =>'firstname'
         ));
         $this->addColumn('lastname', array(
-            'header'    =>Mage::helper('tag')->__('Last Name'),
+            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('Last Name'),
             'index'     =>'lastname'
         ));
 //        $this->addColumn('email', array(
-//            'header'    =>Mage::helper('tag')->__('Email'),
+//            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('Email'),
 //            'align'     =>'center',
 //            'index'     =>'email'
 //        ));
 //        $this->addColumn('Telephone', array(
-//            'header'    =>Mage::helper('tag')->__('Telephone'),
+//            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('Telephone'),
 //            'align'     =>'center',
 //            'index'     =>'billing_telephone'
 //        ));
 //        $this->addColumn('billing_postcode', array(
-//            'header'    =>Mage::helper('tag')->__('ZIP/Post Code'),
+//            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('ZIP/Post Code'),
 //            'index'     =>'billing_postcode',
 //        ));
 //        $this->addColumn('billing_country_name', array(
-//            'header'    =>Mage::helper('tag')->__('Country'),
+//            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('Country'),
 //            #'filter'    => 'adminhtml/customer_grid_filter_country',
 //            'index'     =>'billing_country_name',
 //        ));
 //        $this->addColumn('customer_since', array(
-//            'header'    =>Mage::helper('tag')->__('Customer Since'),
+//            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('Customer Since'),
 //            'type'      => 'date',
 //            'align'     => 'center',
 //            #'format'    => 'Y.m.d',
 //            'index'     =>'created_at',
 //        ));
         $this->addColumn('tags', array(
-            'header'    => Mage::helper('tag')->__('Tags'),
+            'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('Tags'),
             'index'     => 'tags',
             'sortable'  => false,
             'filter'    => false,
             'renderer'  => 'adminhtml/tag_grid_column_renderer_tags'
         ));
         $this->addColumn('action', array(
-            'header'    =>Mage::helper('tag')->__('Action'),
+            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('Action'),
             'align'     =>'center',
             'width'     => '120px',
-            'format'    =>'<a href="'.$this->getUrl('*/*/products/customer_id/$entity_id').'">'.Mage::helper('tag')->__('View Products').'</a>',
+            'format'    =>'<a href="'.$this->getUrl('*/*/products/customer_id/$entity_id').'">'.Mage::helper('Mage_Tag_Helper_Data')->__('View Products').'</a>',
             'filter'    =>false,
             'sortable'  =>false,
             'is_system' =>true
@@ -125,8 +125,8 @@ class Mage_Adminhtml_Block_Tag_Grid_Customers extends Mage_Adminhtml_Block_Widge
             ->setColumnFilter('firstname')
             ->setColumnFilter('lastname');
 
-//        $this->addExportType('*/*/exportCsv', Mage::helper('tag')->__('CSV'));
-//        $this->addExportType('*/*/exportXml', Mage::helper('tag')->__('XML'));
+//        $this->addExportType('*/*/exportCsv', Mage::helper('Mage_Tag_Helper_Data')->__('CSV'));
+//        $this->addExportType('*/*/exportXml', Mage::helper('Mage_Tag_Helper_Data')->__('XML'));
         return parent::_prepareColumns();
     }
 

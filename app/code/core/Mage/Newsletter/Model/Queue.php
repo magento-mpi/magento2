@@ -201,7 +201,7 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
             ->setTemplateSubject($this->getNewsletterSubject())
             ->setTemplateText($this->getNewsletterText())
             ->setTemplateStyles($this->getNewsletterStyles())
-            ->setTemplateFilter(Mage::helper('newsletter')->getTemplateProcessor());
+            ->setTemplateFilter(Mage::helper('Mage_Newsletter_Helper_Data')->getTemplateProcessor());
 
         foreach($collection->getItems() as $item) {
             $email = $item->getSubscriberEmail();
@@ -215,7 +215,7 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
                 $item->received($this);
             } else {
                 $problem = Mage::getModel('newsletter/problem');
-                $notification = Mage::helper('newsletter')->__('Please refer to exeption.log');
+                $notification = Mage::helper('Mage_Newsletter_Helper_Data')->__('Please refer to exeption.log');
                 $problem->addSubscriberData($item)
                     ->addQueueData($this)
                     ->addErrorData(new Exception($notification))

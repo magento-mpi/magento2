@@ -52,26 +52,26 @@ class Mage_Adminhtml_Block_Urlrewrite_Product_Grid extends Mage_Adminhtml_Block_
     {
         $this->addColumn('entity_id',
             array(
-                'header'=> Mage::helper('adminhtml')->__('ID'),
+                'header'=> Mage::helper('Mage_Adminhtml_Helper_Data')->__('ID'),
                 'width' => 50,
                 'index' => 'entity_id',
         ));
 
         $this->addColumn('name',
             array(
-                'header'=> Mage::helper('adminhtml')->__('Name'),
+                'header'=> Mage::helper('Mage_Adminhtml_Helper_Data')->__('Name'),
                 'index' => 'name',
         ));
 
         $this->addColumn('sku',
             array(
-                'header'=> Mage::helper('adminhtml')->__('SKU'),
+                'header'=> Mage::helper('Mage_Adminhtml_Helper_Data')->__('SKU'),
                 'width' => 80,
                 'index' => 'sku',
         ));
         $this->addColumn('status',
             array(
-                'header'=> Mage::helper('adminhtml')->__('Status'),
+                'header'=> Mage::helper('Mage_Adminhtml_Helper_Data')->__('Status'),
                 'width' => 50,
                 'index' => 'status',
                 'type'  => 'options',

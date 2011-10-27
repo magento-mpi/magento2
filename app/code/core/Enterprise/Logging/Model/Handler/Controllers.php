@@ -47,7 +47,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     public function postDispatchGeneric($config, $eventModel, $processorModel)
     {
         if ($collectedIds = $processorModel->getCollectedIds()) {
-            $eventModel->setInfo(Mage::helper('enterprise_logging')->implodeValues($collectedIds));
+            $eventModel->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->implodeValues($collectedIds));
             return true;
         }
         return false;
@@ -284,7 +284,7 @@ class Enterprise_Logging_Model_Handler_Controllers
 
         $this->postDispatchGeneric($config, $eventModel, $processorModel);
         if ($request->getParam('auto_apply')) {
-            $eventModel->setInfo(Mage::helper('enterprise_logging')->__('%s & applied', $eventModel->getInfo()));
+            $eventModel->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('%s & applied', $eventModel->getInfo()));
         }
 
         return $eventModel;
@@ -329,7 +329,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('enterprise_logging')->__('Tax Rates Import'));
+        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Tax Rates Import'));
     }
 
     /**
@@ -351,7 +351,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         $change = Mage::getModel('enterprise_logging/event_changes');
         $products = $request->getParam('product');
         if (!$products) {
-            $products = Mage::helper('adminhtml/catalog_product_edit_action_attribute')->getProductIds();
+            $products = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')->getProductIds();
         }
         if ($products) {
             $processor->addEventChanges(clone $change->setSourceName('product')
@@ -385,7 +385,7 @@ class Enterprise_Logging_Model_Handler_Controllers
                 ->setResultData(array('ids' => implode(', ', $websiteIds))));
         }
 
-        return $eventModel->setInfo(Mage::helper('enterprise_logging')->__('Attributes Updated'));
+        return $eventModel->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Attributes Updated'));
     }
 
      /**
@@ -427,7 +427,7 @@ class Enterprise_Logging_Model_Handler_Controllers
                 ->getSegmentCustomersQty($request->getParam('id'));
         return $eventModel->setInfo(
             $request->getParam('id') ?
-                Mage::helper('enterprise_customersegment')->__('Matched %d Customers of Segment %s', $customersQty, $request->getParam('id')) :
+                Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Matched %d Customers of Segment %s', $customersQty, $request->getParam('id')) :
                 '-'
         );
     }
@@ -561,7 +561,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('enterprise_logging')->__('Currency Rates Saved'));
+        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Currency Rates Saved'));
     }
 
     /**
@@ -581,7 +581,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         $cacheTypes = $request->getPost('types');
         if (is_array($cacheTypes) && !empty($cacheTypes)) {
             $cacheTypes = implode(', ', $cacheTypes);
-            $info = Mage::helper('enterprise_logging')->__('Cache types: %s ', $cacheTypes);
+            $info = Mage::helper('Enterprise_Logging_Helper_Data')->__('Cache types: %s ', $cacheTypes);
         }
 
         $success = true;
@@ -609,7 +609,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('enterprise_logging')->__('Tax Rates Export'));
+        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Tax Rates Export'));
     }
 
     /**

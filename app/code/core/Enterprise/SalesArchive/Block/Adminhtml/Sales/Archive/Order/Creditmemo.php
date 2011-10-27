@@ -34,6 +34,6 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo ext
     protected function _construct()
     {
         $this->_controller = 'sales_creditmemo';
-        $this->_headerText = Mage::helper('enterprise_salesarchive')->__('Creditmemos Archive');
+        $this->_headerText = Mage::helper('Enterprise_SalesArchive_Helper_Data')->__('Creditmemos Archive');
     }
 }

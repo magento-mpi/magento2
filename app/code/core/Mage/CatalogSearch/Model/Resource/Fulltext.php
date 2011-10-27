@@ -76,7 +76,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     protected function _construct()
     {
         $this->_init('catalogsearch_fulltext', 'product_id');
-        $this->_engine = Mage::helper('catalogsearch')->getEngine();
+        $this->_engine = Mage::helper('Mage_CatalogSearch_Helper_Data')->getEngine();
     }
 
     /**
@@ -340,7 +340,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
                 || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE
             ) {
                 $helper = Mage::getResourceHelper('core');
-                $words = Mage::helper('core/string')->splitWords($queryText, true, $query->getMaxQueryWords());
+                $words = Mage::helper('Mage_Core_Helper_String')->splitWords($queryText, true, $query->getMaxQueryWords());
                 foreach ($words as $word) {
                     $like[] = $helper->getCILike('s.data_index', $word, array('position' => 'any'));
                 }
@@ -662,7 +662,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             return $this->_engine->prepareEntityIndex($index, $this->_separator);
         }
 
-        return Mage::helper('catalogsearch')->prepareIndexdata($index, $this->_separator);
+        return Mage::helper('Mage_CatalogSearch_Helper_Data')->prepareIndexdata($index, $this->_separator);
     }
 
     /**

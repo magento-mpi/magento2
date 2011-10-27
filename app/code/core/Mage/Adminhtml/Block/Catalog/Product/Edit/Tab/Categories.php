@@ -118,7 +118,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
                 }
             }
             elseif($root && $root->getId() == Mage_Catalog_Model_Category::TREE_ROOT_ID) {
-                $root->setName(Mage::helper('catalog')->__('Root'));
+                $root->setName(Mage::helper('Mage_Catalog_Helper_Data')->__('Root'));
             }
 
             Mage::register('root', $root);
@@ -195,7 +195,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
             $children[] = $this->_getNodeJson($child);
         }
 
-        return Mage::helper('core')->jsonEncode($children);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($children);
     }
 
     public function getLoadTreeUrl($expanded=null)

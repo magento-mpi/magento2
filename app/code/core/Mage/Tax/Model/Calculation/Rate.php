@@ -121,7 +121,7 @@ class Mage_Tax_Model_Calculation_Rate extends Mage_Core_Model_Abstract
     protected function _beforeDelete()
     {
         if ($this->_isInRule()) {
-            Mage::throwException(Mage::helper('tax')->__('Tax rate cannot be removed. It exists in tax rule'));
+            Mage::throwException(Mage::helper('Mage_Tax_Helper_Data')->__('Tax rate cannot be removed. It exists in tax rule'));
         }
         return parent::_beforeDelete();
     }

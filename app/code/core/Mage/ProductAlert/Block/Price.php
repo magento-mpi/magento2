@@ -47,6 +47,6 @@ class Mage_ProductAlert_Block_Price extends Mage_Core_Block_Template
 
     public function getUrl($route = '', $params = array())
     {
-        return Mage::helper('productalert')->getSaveUrl('price');
+        return Mage::helper('Mage_ProductAlert_Helper_Data')->getSaveUrl('price');
     }
 }

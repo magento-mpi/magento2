@@ -42,7 +42,7 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
         if ($postData = $this->getRequest()->getPost()) {
 
             //filtering
-            $postData['class_name'] = Mage::helper('adminhtml')->stripTags($postData['class_name']);
+            $postData['class_name'] = Mage::helper('Mage_Adminhtml_Helper_Data')->stripTags($postData['class_name']);
 
             $model = Mage::getModel('tax/class')->setData($postData);
 
@@ -53,7 +53,7 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
                 $classUrl   = '*/tax_class_' . strtolower($classType);
 
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('tax')->__('The tax class has been saved.')
+                    Mage::helper('Mage_Tax_Helper_Data')->__('The tax class has been saved.')
                 );
                 $this->_redirect($classUrl);
 
@@ -64,7 +64,7 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
                 $this->_redirectReferer();
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError(
-                    Mage::helper('tax')->__('An error occurred while saving this tax class.')
+                    Mage::helper('Mage_Tax_Helper_Data')->__('An error occurred while saving this tax class.')
                 );
                 Mage::getSingleton('adminhtml/session')->setClassData($postData);
                 $this->_redirectReferer();
@@ -86,8 +86,8 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
         $classType = strtolower($this->getRequest()->getParam('classType'));
         $this->loadLayout()
             ->_setActiveMenu('sales/tax/tax_classes_' . $classType)
-            ->_addBreadcrumb(Mage::helper('tax')->__('Sales'), Mage::helper('tax')->__('Sales'))
-            ->_addBreadcrumb(Mage::helper('tax')->__('Tax'), Mage::helper('tax')->__('Tax'))
+            ->_addBreadcrumb(Mage::helper('Mage_Tax_Helper_Data')->__('Sales'), Mage::helper('Mage_Tax_Helper_Data')->__('Sales'))
+            ->_addBreadcrumb(Mage::helper('Mage_Tax_Helper_Data')->__('Tax'), Mage::helper('Mage_Tax_Helper_Data')->__('Tax'))
         ;
 
         return $this;

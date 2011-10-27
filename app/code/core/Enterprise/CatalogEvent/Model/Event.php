@@ -304,11 +304,11 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     {
         parent::_beforeSave();
         $dateChanged = false;
-        $fieldTitles = array('date_start' => Mage::helper('enterprise_catalogevent')->__('Start Date') , 'date_end' => Mage::helper('enterprise_catalogevent')->__('End Date'));
+        $fieldTitles = array('date_start' => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Start Date') , 'date_end' => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('End Date'));
         foreach (array('date_start' , 'date_end') as $dateType) {
             $date = $this->getData($dateType);
             if (empty($date)) { // Date fields is required.
-                Mage::throwException(Mage::helper('enterprise_catalogevent')->__('%s is required.', $fieldTitles[$dateType]));
+                Mage::throwException(Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('%s is required.', $fieldTitles[$dateType]));
             }
             if ($date != $this->getOrigData($dateType)) {
                 $dateChanged = true;
@@ -335,7 +335,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
             return true;
         }
         else {
-            return array(Mage::helper('enterprise_catalogevent')->__('End date should be greater than start date.'));
+            return array(Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('End date should be greater than start date.'));
         }
     }
 

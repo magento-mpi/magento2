@@ -56,7 +56,7 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Details_Form extends Mage_Adminhtml
                     ),
                     'custom_field' => array('label' => $settlement->getFieldLabel('custom_field')),
                 ),
-                'legend' => Mage::helper('paypal')->__('Reference Information')
+                'legend' => Mage::helper('Mage_Paypal_Helper_Data')->__('Reference Information')
             ),
 
             'transaction_fieldset' => array(
@@ -67,11 +67,11 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Details_Form extends Mage_Adminhtml
                     ),
                     'transaction_initiation_date' => array(
                         'label' => $settlement->getFieldLabel('transaction_initiation_date'),
-                        'value' => $this->helper('core')->formatDate($model->getData('transaction_initiation_date'), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true)
+                        'value' => $this->helper('Mage_Core_Helper_Data')->formatDate($model->getData('transaction_initiation_date'), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true)
                     ),
                     'transaction_completion_date' => array(
                         'label' => $settlement->getFieldLabel('transaction_completion_date'),
-                        'value' => $this->helper('core')->formatDate($model->getData('transaction_completion_date'), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true)
+                        'value' => $this->helper('Mage_Core_Helper_Data')->formatDate($model->getData('transaction_completion_date'), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true)
                     ),
                     'transaction_debit_or_credit' => array(
                         'label' => $settlement->getFieldLabel('transaction_debit_or_credit'),
@@ -84,7 +84,7 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Details_Form extends Mage_Adminhtml
                                        ->toCurrency($model->getData('gross_transaction_amount'))
                     ),
                 ),
-                'legend' => Mage::helper('paypal')->__('Transaction Information')
+                'legend' => Mage::helper('Mage_Paypal_Helper_Data')->__('Transaction Information')
             ),
 
             'fee_fieldset' => array(
@@ -100,7 +100,7 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Details_Form extends Mage_Adminhtml
                                        ->toCurrency($model->getData('fee_amount'))
                     ),
                 ),
-                'legend' => Mage::helper('paypal')->__('PayPal Fee Information')
+                'legend' => Mage::helper('Mage_Paypal_Helper_Data')->__('PayPal Fee Information')
             ),
         );
 

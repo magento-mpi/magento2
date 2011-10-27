@@ -54,8 +54,8 @@ class Mage_Wishlist_Block_Links extends Mage_Page_Block_Template_Links_Block
      */
     public function initLinkProperties()
     {
-        if ($this->helper('wishlist')->isAllow()) {
-            $count = $this->getItemCount() ? $this->getItemCount() : $this->helper('wishlist')->getItemCount();
+        if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) {
+            $count = $this->getItemCount() ? $this->getItemCount() : $this->helper('Mage_Wishlist_Helper_Data')->getItemCount();
             if ($count > 1) {
                 $text = $this->__('My Wishlist (%d items)', $count);
             } else if ($count == 1) {

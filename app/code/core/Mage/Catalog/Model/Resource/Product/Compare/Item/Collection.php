@@ -325,7 +325,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection
      */
     public function isEnabledFlat()
     {
-        if (!Mage::helper('catalog/product_compare')->getAllowUsedFlat()) {
+        if (!Mage::helper('Mage_Catalog_Helper_Product_Compare')->getAllowUsedFlat()) {
             return false;
         }
         return parent::isEnabledFlat();

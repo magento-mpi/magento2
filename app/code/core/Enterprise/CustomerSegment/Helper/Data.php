@@ -49,11 +49,11 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
                 'value' => ''
             ),
             array(
-                'label' => Mage::helper('enterprise_customersegment')->__('Union'),
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Union'),
                 'value' => Enterprise_CustomerSegment_Model_Segment::VIEW_MODE_UNION_CODE
             ),
             array(
-                'label' => Mage::helper('enterprise_customersegment')->__('Intersection'),
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Intersection'),
                 'value' => Enterprise_CustomerSegment_Model_Segment::VIEW_MODE_INTERSECT_CODE
             )
         );

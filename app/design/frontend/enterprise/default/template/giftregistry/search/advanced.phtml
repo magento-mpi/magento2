@@ -43,7 +43,7 @@
 <?php endif; ?>
 
 <?php if ($this->getRegionJsVisible()): ?>
-    regionJSON = <?php echo $this->helper('directory')->getRegionJson(); ?>;
+    regionJSON = <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson(); ?>;
     new RegionUpdater('<?php echo $this->getFieldIdPrefix().$this->getElementCountry()?>', '<?php echo $this->getFieldIdPrefix().$this->getElementRegionText()?>', '<?php echo $this->getFieldIdPrefix().$this->getElementRegion()?>', regionJSON);
 <?php endif; ?>
 //]]>

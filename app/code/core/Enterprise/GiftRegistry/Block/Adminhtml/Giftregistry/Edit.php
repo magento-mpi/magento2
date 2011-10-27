@@ -39,18 +39,18 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Mage_Adm
         parent::__construct();
 
         if (Mage::registry('current_giftregistry_type')) {
-            $this->_updateButton('save', 'label', Mage::helper('enterprise_giftregistry')->__('Save'));
+            $this->_updateButton('save', 'label', Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Save'));
             $this->_updateButton('save', 'onclick', 'editForm.submit(\'' . $this->getSaveUrl() . '\');');
 
-            $confirmMessage = Mage::helper('enterprise_giftregistry')->__("Deleting this gift registry type will also remove all customers' gift registries created based on it. Are you sure you want to proceed?");
-            $this->_updateButton('delete', 'label', Mage::helper('enterprise_giftregistry')->__('Delete'));
+            $confirmMessage = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__("Deleting this gift registry type will also remove all customers' gift registries created based on it. Are you sure you want to proceed?");
+            $this->_updateButton('delete', 'label', Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Delete'));
             $this->_updateButton('delete', 'onclick',
                 'deleteConfirm(\'' . $this->jsQuoteEscape($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
             );
 
             $this->_addButton('save_and_continue_edit', array(
                 'class'   => 'save',
-                'label'   => Mage::helper('enterprise_giftregistry')->__('Save and Continue Edit'),
+                'label'   => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Save and Continue Edit'),
                 'onclick' => 'editForm.submit(\'' . $this->getSaveUrl() . '\' + \'back/edit/\')',
             ), 3);
         }
@@ -65,10 +65,10 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Mage_Adm
     {
         $type = Mage::registry('current_giftregistry_type');
         if ($type->getId()) {
-            return Mage::helper('enterprise_giftregistry')->__("Edit '%s' Gift Registry Type", $this->escapeHtml($type->getLabel()));
+            return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__("Edit '%s' Gift Registry Type", $this->escapeHtml($type->getLabel()));
         }
         else {
-            return Mage::helper('enterprise_giftregistry')->__('New Gift Registry Type');
+            return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('New Gift Registry Type');
         }
     }
 

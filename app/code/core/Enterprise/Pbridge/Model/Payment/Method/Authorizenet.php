@@ -73,7 +73,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('payment')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance('pbridge');
             if ($this->_pbridgeMethodInstance) {
                 $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
             }
@@ -255,7 +255,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
     public function setStore($store)
     {
         $this->setData('store', $store);
-        Mage::helper('enterprise_pbridge')->setStoreId(is_object($store) ? $store->getId() : $store);
+        Mage::helper('Enterprise_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
     }
 

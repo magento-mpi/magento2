@@ -63,13 +63,13 @@ class Enterprise_Logging_Block_Adminhtml_Archive_Grid extends Mage_Adminhtml_Blo
         $downloadUrl = $this->getUrl('*/*/download');
 
         $this->addColumn('download', array(
-            'header'    => Mage::helper('enterprise_logging')->__('Archive File'),
+            'header'    => Mage::helper('Enterprise_Logging_Helper_Data')->__('Archive File'),
             'format'    => '<a href="' . $downloadUrl .'basename/$basename/">$basename</a>',
             'index'     => 'basename',
         ));
 
         $this->addColumn('date', array(
-            'header'    => Mage::helper('enterprise_logging')->__('Date'),
+            'header'    => Mage::helper('Enterprise_Logging_Helper_Data')->__('Date'),
             'type'      => 'date',
             'index'     => 'time',
             'filter'    => 'enterprise_logging/adminhtml_archive_grid_filter_date'

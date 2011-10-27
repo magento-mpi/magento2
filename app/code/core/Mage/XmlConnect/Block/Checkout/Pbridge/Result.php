@@ -40,7 +40,7 @@ class Mage_XmlConnect_Block_Checkout_Pbridge_Result extends Mage_Core_Block_Temp
      */
     public function getPbridgeParamsAsUrl()
     {
-        $pbParams = Mage::helper('enterprise_pbridge')->getPbridgeParams();
+        $pbParams = Mage::helper('Enterprise_Pbridge_Helper_Data')->getPbridgeParams();
         $params = array_merge(
             array('_nosid' => true, 'method' => 'pbridge_' . $pbParams['original_payment_method']),
             $pbParams

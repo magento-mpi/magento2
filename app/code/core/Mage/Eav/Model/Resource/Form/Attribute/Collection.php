@@ -70,10 +70,10 @@ class Mage_Eav_Model_Resource_Form_Attribute_Collection extends Mage_Core_Model_
     protected function _construct()
     {
         if (empty($this->_moduleName)) {
-            Mage::throwException(Mage::helper('eav')->__('Current module pathname is undefined'));
+            Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('Current module pathname is undefined'));
         }
         if (empty($this->_entityTypeCode)) {
-            Mage::throwException(Mage::helper('eav')->__('Current module EAV entity is undefined'));
+            Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('Current module EAV entity is undefined'));
         }
     }
 

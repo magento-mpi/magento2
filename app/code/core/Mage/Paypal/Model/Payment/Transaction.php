@@ -144,7 +144,7 @@ class Mage_Paypal_Model_Payment_Transaction extends Mage_Core_Model_Abstract
     public function setAdditionalInformation($key, $value)
     {
         if (is_object($value)) {
-            Mage::throwException(Mage::helper('paypal')->__('Payment transactions disallow storing objects.'));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Payment transactions disallow storing objects.'));
         }
         $info = $this->_getData('additional_information');
         if (!$info) {
@@ -224,7 +224,7 @@ class Mage_Paypal_Model_Payment_Transaction extends Mage_Core_Model_Abstract
     protected function _verifyTxnId($txnId)
     {
         if (null !== $txnId && 0 == strlen($txnId)) {
-            Mage::throwException(Mage::helper('paypal')->__('Transaction ID must not be empty.'));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Transaction ID must not be empty.'));
         }
     }
 
@@ -236,7 +236,7 @@ class Mage_Paypal_Model_Payment_Transaction extends Mage_Core_Model_Abstract
     protected function _verifyThisTransactionExists()
     {
         if (!$this->getId()) {
-            Mage::throwException(Mage::helper('paypal')->__('This operation requires an existing transaction object.'));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('This operation requires an existing transaction object.'));
         }
     }
 }

@@ -56,7 +56,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widge
 
         if (!$statusIsClosed) {
             $this->_addButton('save_and_edit_button', array(
-                    'label'   => Mage::helper('enterprise_rma')->__('Save and Continue Edit'),
+                    'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Save and Continue Edit'),
                     'onclick' => 'saveAndContinueEdit()',
                     'class'   => 'save'
                 ), 100
@@ -65,9 +65,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widge
                 editForm.submit($(\'edit_form\').action + \'back/edit/\');}';
 
             $this->_addButton('close', array(
-                'label'     => Mage::helper('enterprise_rma')->__('Close'),
+                'label'     => Mage::helper('Enterprise_Rma_Helper_Data')->__('Close'),
                 'onclick'   => 'confirmSetLocation(\''
-                                . Mage::helper('enterprise_rma')->__('Are you sure you want to close this RMA request?')
+                                . Mage::helper('Enterprise_Rma_Helper_Data')->__('Are you sure you want to close this RMA request?')
                                 .'\', \'' . $this->getCloseUrl().'\')'
                 )
             );
@@ -77,7 +77,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widge
         }
 
         $this->_addButton('print', array(
-            'label'     => Mage::helper('enterprise_rma')->__('Print'),
+            'label'     => Mage::helper('Enterprise_Rma_Helper_Data')->__('Print'),
             'class'     => 'save',
             'onclick'   => 'setLocation(\''.$this->getPrintUrl().'\')'
             ), 101
@@ -135,7 +135,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widge
     public function getHeaderText()
     {
         if ($this->getRma()->getId()) {
-            return Mage::helper('enterprise_rma')
+            return Mage::helper('Enterprise_Rma_Helper_Data')
                 ->__('RMA #%s - %s',
                     intval($this->getRma()->getIncrementId()),
                     $this->getRma()->getStatusLabel());

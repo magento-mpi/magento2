@@ -41,7 +41,7 @@ class Enterprise_Reward_Model_Action_InvitationOrder extends Enterprise_Reward_M
      */
     public function getPoints($websiteId)
     {
-        return (int)Mage::helper('enterprise_reward')->getPointsConfig('invitation_order', $websiteId);
+        return (int)Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig('invitation_order', $websiteId);
     }
 
     /**
@@ -51,7 +51,7 @@ class Enterprise_Reward_Model_Action_InvitationOrder extends Enterprise_Reward_M
      */
     public function canAddRewardPoints()
     {
-        $frequency = Mage::helper('enterprise_reward')->getPointsConfig(
+        $frequency = Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig(
             'invitation_order_frequency', $this->getReward()->getWebsiteId()
         );
         if ($frequency == '*') {
@@ -68,7 +68,7 @@ class Enterprise_Reward_Model_Action_InvitationOrder extends Enterprise_Reward_M
      */
     public function getRewardLimit()
     {
-        return Mage::helper('enterprise_reward')->getPointsConfig('invitation_order_limit', $this->getReward()->getWebsiteId());
+        return Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig('invitation_order_limit', $this->getReward()->getWebsiteId());
     }
 
     /**
@@ -80,7 +80,7 @@ class Enterprise_Reward_Model_Action_InvitationOrder extends Enterprise_Reward_M
     public function getHistoryMessage($args = array())
     {
         $email = isset($args['email']) ? $args['email'] : '';
-        return Mage::helper('enterprise_reward')->__('Invitation to %s converted into an order.', $email);
+        return Mage::helper('Enterprise_Reward_Helper_Data')->__('Invitation to %s converted into an order.', $email);
     }
 
     /**

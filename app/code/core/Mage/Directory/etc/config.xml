@@ -65,7 +65,7 @@
         </resources>
         <template>
             <email>
-                <currency_import_error_email_template translate="label" module="directory">
+                <currency_import_error_email_template translate="label" module="Mage_Directory">
                     <label>Currency Update Warnings</label>
                     <file>currency_update_warning.html</file>
                     <type>text</type>

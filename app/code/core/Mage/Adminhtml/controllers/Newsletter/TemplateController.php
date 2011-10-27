@@ -67,7 +67,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
         }
         $this->loadLayout();
         $this->_setActiveMenu('newsletter/template');
-        $this->_addBreadcrumb(Mage::helper('newsletter')->__('Newsletter Templates'), Mage::helper('newsletter')->__('Newsletter Templates'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Templates'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Templates'));
         $this->_addContent($this->getLayout()->createBlock('adminhtml/newsletter_template', 'template'));
         $this->renderLayout();
     }
@@ -112,12 +112,12 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
         $this->_setActiveMenu('newsletter/template');
 
         if ($model->getId()) {
-            $breadcrumbTitle = Mage::helper('newsletter')->__('Edit Template');
+            $breadcrumbTitle = Mage::helper('Mage_Newsletter_Helper_Data')->__('Edit Template');
             $breadcrumbLabel = $breadcrumbTitle;
         }
         else {
-            $breadcrumbTitle = Mage::helper('newsletter')->__('New Template');
-            $breadcrumbLabel = Mage::helper('newsletter')->__('Create Newsletter Template');
+            $breadcrumbTitle = Mage::helper('Mage_Newsletter_Helper_Data')->__('New Template');
+            $breadcrumbLabel = Mage::helper('Mage_Newsletter_Helper_Data')->__('Create Newsletter Template');
         }
 
         $this->_title($model->getId() ? $model->getTemplateCode() : $this->__('New Template'));
@@ -191,7 +191,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
                 $this->getRequest()->getParams());
         }
         catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('An error occurred while saving this template.'));
+            $this->_getSession()->addException($e, Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while saving this template.'));
             $this->_getSession()->setData('newsletter_template_form_data', $this->getRequest()->getParams());
         }
         $this->_forward('new');
@@ -213,7 +213,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
                 $this->_getSession()->addError($e->getMessage());
             }
             catch (Exception $e) {
-                $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('An error occurred while deleting this template.'));
+                $this->_getSession()->addException($e, Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while deleting this template.'));
             }
         }
         $this->_redirect('*/*');

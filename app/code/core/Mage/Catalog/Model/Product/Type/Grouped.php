@@ -297,7 +297,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
                             }
 
                             if (!isset($_result[0])) {
-                                return Mage::helper('checkout')->__('Cannot process the item.');
+                                return Mage::helper('Mage_Checkout_Helper_Data')->__('Cannot process the item.');
                             }
 
                             if ($isStrictProcessMode) {
@@ -333,7 +333,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
             }
         }
 
-        return Mage::helper('catalog')->__('Please specify the quantity of product(s).');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the quantity of product(s).');
     }
 
     /**

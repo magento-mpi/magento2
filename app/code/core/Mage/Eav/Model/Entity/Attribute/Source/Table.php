@@ -150,7 +150,7 @@ class Mage_Eav_Model_Entity_Attribute_Source_Table extends Mage_Eav_Model_Entity
         $attributeCode = $this->getAttribute()->getAttributeCode();
         $isMulti = $this->getAttribute()->getFrontend()->getInputType() == 'multiselect';
 
-        if (Mage::helper('core')->useDbCompatibleMode()) {
+        if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
             $columns[$attributeCode] = array(
                 'type'      => $isMulti ? 'varchar(255)' : 'int',
                 'unsigned'  => false,

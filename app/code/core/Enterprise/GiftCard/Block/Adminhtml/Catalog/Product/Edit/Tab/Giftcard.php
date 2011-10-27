@@ -41,7 +41,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_giftcard')->__('Gift Card Information');
+        return Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Gift Card Information');
     }
 
     /**
@@ -51,7 +51,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_giftcard')->__('Gift Card Information');
+        return Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Gift Card Information');
     }
 
     /**
@@ -120,9 +120,9 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
     public function getCardTypes()
     {
         return array(
-            Enterprise_GiftCard_Model_Giftcard::TYPE_VIRTUAL  => Mage::helper('enterprise_giftcard')->__('Virtual'),
-            Enterprise_GiftCard_Model_Giftcard::TYPE_PHYSICAL => Mage::helper('enterprise_giftcard')->__('Physical'),
-            Enterprise_GiftCard_Model_Giftcard::TYPE_COMBINED => Mage::helper('enterprise_giftcard')->__('Combined'),
+            Enterprise_GiftCard_Model_Giftcard::TYPE_VIRTUAL  => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Virtual'),
+            Enterprise_GiftCard_Model_Giftcard::TYPE_PHYSICAL => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Physical'),
+            Enterprise_GiftCard_Model_Giftcard::TYPE_COMBINED => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Combined'),
         );
     }
 

@@ -41,7 +41,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
      */
     protected function _getHelper()
     {
-        return Mage::helper('catalog/product_flat');
+        return Mage::helper('Mage_Catalog_Helper_Product_Flat');
     }
 
     /**

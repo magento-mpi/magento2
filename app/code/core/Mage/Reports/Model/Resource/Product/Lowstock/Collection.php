@@ -183,7 +183,7 @@ class Mage_Reports_Model_Resource_Product_Lowstock_Collection extends Mage_Repor
     {
         if (!is_string($typeFilter) && !is_array($typeFilter)) {
             Mage::throwException(
-                Mage::helper('catalog')->__('Wrong product type filter specified')
+                Mage::helper('Mage_Catalog_Helper_Data')->__('Wrong product type filter specified')
             );
         }
         $this->addAttributeToFilter('type_id', $typeFilter);
@@ -199,7 +199,7 @@ class Mage_Reports_Model_Resource_Product_Lowstock_Collection extends Mage_Repor
     public function filterByIsQtyProductTypes()
     {
         $this->filterByProductType(
-            array_keys(array_filter(Mage::helper('cataloginventory')->getIsQtyTypeIds()))
+            array_keys(array_filter(Mage::helper('Mage_CatalogInventory_Helper_Data')->getIsQtyTypeIds()))
         );
         return $this;
     }

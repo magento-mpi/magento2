@@ -95,7 +95,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         $types = $response->getTypes();
         $types[] = array(
             'value' => 'weee',
-            'label' => Mage::helper('weee')->__('Fixed Product Tax'),
+            'label' => Mage::helper('Mage_Weee_Helper_Data')->__('Fixed Product Tax'),
             'hide_fields' => array(
                 'is_unique',
                 'is_required',
@@ -166,7 +166,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
      */
     public function updateDiscountPercents(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('weee')->isEnabled()) {
+        if (!Mage::helper('Mage_Weee_Helper_Data')->isEnabled()) {
             return $this;
         }
 
@@ -189,7 +189,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
      */
     public function updateCofigurableProductOptions(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('weee')->isEnabled()) {
+        if (!Mage::helper('Mage_Weee_Helper_Data')->isEnabled()) {
             return $this;
         }
 
@@ -200,11 +200,11 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         if (!$_product) {
             return $this;
         }
-        if (!Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+        if (!Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(0, 1, 4))) {
             return $this;
         }
-        $amount     = Mage::helper('weee')->getAmount($_product);
-        $origAmount = Mage::helper('weee')->getOriginalAmount($_product);
+        $amount     = Mage::helper('Mage_Weee_Helper_Data')->getAmount($_product);
+        $origAmount = Mage::helper('Mage_Weee_Helper_Data')->getOriginalAmount($_product);
 
         $options['oldPlusDisposition'] = $origAmount;
         $options['plusDisposition'] = $amount;
@@ -222,7 +222,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
      */
     public function updateBundleProductOptions(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('weee')->isEnabled()) {
+        if (!Mage::helper('Mage_Weee_Helper_Data')->isEnabled()) {
             return $this;
         }
 
@@ -231,7 +231,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         $options = $response->getAdditionalOptions();
 
         $_product = Mage::registry('current_product');
-        if (!Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+        if (!Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(0, 1, 4))) {
             return $this;
         }
         $typeDynamic = Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend::DYNAMIC;
@@ -239,7 +239,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $amount = Mage::helper('weee')->getAmount($selection);
+        $amount = Mage::helper('Mage_Weee_Helper_Data')->getAmount($selection);
         $options['plusDisposition'] = $amount;
 
         $response->setAdditionalOptions($options);

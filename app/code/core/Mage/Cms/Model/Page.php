@@ -145,8 +145,8 @@ class Mage_Cms_Model_Page extends Mage_Core_Model_Abstract
     public function getAvailableStatuses()
     {
         $statuses = new Varien_Object(array(
-            self::STATUS_ENABLED => Mage::helper('cms')->__('Enabled'),
-            self::STATUS_DISABLED => Mage::helper('cms')->__('Disabled'),
+            self::STATUS_ENABLED => Mage::helper('Mage_Cms_Helper_Data')->__('Enabled'),
+            self::STATUS_DISABLED => Mage::helper('Mage_Cms_Helper_Data')->__('Disabled'),
         ));
 
         Mage::dispatchEvent('cms_page_get_available_statuses', array('statuses' => $statuses));

@@ -40,7 +40,7 @@ class Enterprise_CustomerBalance_Model_Total_Creditmemo_Customerbalance extends 
         $creditmemo->setBaseCustomerBalanceReturnMax(0);
         $creditmemo->setCustomerBalanceReturnMax(0);
 
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return $this;
         }
 

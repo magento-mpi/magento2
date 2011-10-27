@@ -83,17 +83,17 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
             /* @var $reports Mage_Paypal_Model_Report_Settlement */
             $credentials = $reports->getSftpCredentials();
             if (empty($credentials)) {
-                Mage::throwException(Mage::helper('paypal')->__('Nothing to fetch because of an empty configuration.'));
+                Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Nothing to fetch because of an empty configuration.'));
             }
             foreach ($credentials as $config) {
                 try {
                     $fetched = $reports->fetchAndSave($config);
                     $this->_getSession()->addSuccess(
-                        Mage::helper('paypal')->__("Fetched %s report rows from '%s@%s'.", $fetched, $config['username'], $config['hostname'])
+                        Mage::helper('Mage_Paypal_Helper_Data')->__("Fetched %s report rows from '%s@%s'.", $fetched, $config['username'], $config['hostname'])
                     );
                 } catch (Exception $e) {
                     $this->_getSession()->addError(
-                        Mage::helper('paypal')->__("Failed to fetch reports from '%s@%s'.", $config['username'], $config['hostname'])
+                        Mage::helper('Mage_Paypal_Helper_Data')->__("Failed to fetch reports from '%s@%s'.", $config['username'], $config['hostname'])
                     );
                     Mage::logException($e);
                 }
@@ -115,9 +115,9 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
         $this->_title($this->__('Reports'))->_title($this->__('Sales'))->_title($this->__('PayPal Settlement Reports'));
         $this->loadLayout()
             ->_setActiveMenu('report/sales')
-            ->_addBreadcrumb(Mage::helper('paypal')->__('Reports'), Mage::helper('paypal')->__('Reports'))
-            ->_addBreadcrumb(Mage::helper('paypal')->__('Sales'), Mage::helper('paypal')->__('Sales'))
-            ->_addBreadcrumb(Mage::helper('paypal')->__('PayPal Settlement Reports'), Mage::helper('paypal')->__('PayPal Settlement Reports'));
+            ->_addBreadcrumb(Mage::helper('Mage_Paypal_Helper_Data')->__('Reports'), Mage::helper('Mage_Paypal_Helper_Data')->__('Reports'))
+            ->_addBreadcrumb(Mage::helper('Mage_Paypal_Helper_Data')->__('Sales'), Mage::helper('Mage_Paypal_Helper_Data')->__('Sales'))
+            ->_addBreadcrumb(Mage::helper('Mage_Paypal_Helper_Data')->__('PayPal Settlement Reports'), Mage::helper('Mage_Paypal_Helper_Data')->__('PayPal Settlement Reports'));
         return $this;
     }
 

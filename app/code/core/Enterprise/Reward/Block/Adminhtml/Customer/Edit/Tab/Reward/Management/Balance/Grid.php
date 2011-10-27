@@ -91,17 +91,17 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
         foreach ($this->getCollection() as $item) {
             $website = $item->getData('website_id');
             if ($website !== null) {
-                $minBalance = Mage::helper('enterprise_reward')->getGeneralConfig('min_points_balance', (int)$website);
-                $maxBalance = Mage::helper('enterprise_reward')->getGeneralConfig('max_points_balance', (int)$website);
+                $minBalance = Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig('min_points_balance', (int)$website);
+                $maxBalance = Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig('max_points_balance', (int)$website);
                 $item->addData(array(
                     'min_points_balance' => (int)$minBalance,
-                    'max_points_balance' => (!((int)$maxBalance)?Mage::helper('adminhtml')->__('Unlimited'):$maxBalance)
+                    'max_points_balance' => (!((int)$maxBalance)?Mage::helper('Mage_Adminhtml_Helper_Data')->__('Unlimited'):$maxBalance)
                 ));
             } else {
                 $this->_customerHasOrphanPoints = true;
                 $item->addData(array(
-                    'min_points_balance' => Mage::helper('adminhtml')->__('No Data'),
-                    'max_points_balance' => Mage::helper('adminhtml')->__('No Data')
+                    'min_points_balance' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('No Data'),
+                    'max_points_balance' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('No Data')
                 ));
             }
             $item->setCustomer($this->getCustomer());
@@ -117,7 +117,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
     protected function _prepareColumns()
     {
         $this->addColumn('website_id', array(
-            'header'   => Mage::helper('enterprise_reward')->__('Website'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
             'index'    => 'website_id',
             'sortable' => false,
             'type'     => 'options',
@@ -125,28 +125,28 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
         ));
 
         $this->addColumn('points_balance', array(
-            'header'   => Mage::helper('enterprise_reward')->__('Balance'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Balance'),
             'index'    => 'points_balance',
             'sortable' => false,
             'align'    => 'center'
         ));
 
         $this->addColumn('currency_amount', array(
-            'header'   => Mage::helper('enterprise_reward')->__('Currency Amount'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Currency Amount'),
             'getter'   => 'getFormatedCurrencyAmount',
             'align'    => 'right',
             'sortable' => false
         ));
 
         $this->addColumn('min_balance', array(
-            'header'   => Mage::helper('enterprise_reward')->__('Minimum Reward Points Balance to be able to Redeem'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Minimum Reward Points Balance to be able to Redeem'),
             'index'    => 'min_points_balance',
             'sortable' => false,
             'align'    => 'center'
         ));
 
         $this->addColumn('max_balance', array(
-            'header'   => Mage::helper('enterprise_reward')->__('Cap Reward Points Balance At'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Cap Reward Points Balance At'),
             'index'    => 'max_points_balance',
             'sortable' => false,
             'align'    => 'center'
@@ -177,7 +177,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
         $html = parent::_afterToHtml($html);
         if ($this->_customerHasOrphanPoints) {
             $deleteOrhanPointsButton = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('enterprise_reward')->__('Delete Orphan Points'),
+                'label'     => Mage::helper('Enterprise_Reward_Helper_Data')->__('Delete Orphan Points'),
                 'onclick'   => 'setLocation(\'' . $this->getDeleteOrphanPointsUrl() .'\')',
                 'class'     => 'scalable delete',
             ));

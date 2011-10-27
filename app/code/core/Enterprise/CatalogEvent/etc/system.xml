@@ -29,7 +29,7 @@
     <sections>
         <catalog>
             <groups>
-                <enterprise_catalogevent translate="label" module="enterprise_catalogevent">
+                <enterprise_catalogevent translate="label" module="Enterprise_CatalogEvent">
                     <label>Catalog Events</label>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>

@@ -141,11 +141,11 @@ class Mage_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element
             return $html;
         }
         if ($attribute->isScopeGlobal()) {
-            $html .= Mage::helper('adminhtml')->__('[GLOBAL]');
+            $html .= Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]');
         } elseif ($attribute->isScopeWebsite()) {
-            $html .= Mage::helper('adminhtml')->__('[WEBSITE]');
+            $html .= Mage::helper('Mage_Adminhtml_Helper_Data')->__('[WEBSITE]');
         } elseif ($attribute->isScopeStore()) {
-            $html .= Mage::helper('adminhtml')->__('[STORE VIEW]');
+            $html .= Mage::helper('Mage_Adminhtml_Helper_Data')->__('[STORE VIEW]');
         }
 
         return $html;

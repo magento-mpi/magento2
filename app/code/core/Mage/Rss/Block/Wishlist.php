@@ -73,7 +73,7 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
         if (is_null($this->_customer)) {
             $this->_customer = Mage::getModel('customer/customer');
 
-            $params = Mage::helper('core')->urlDecode($this->getRequest()->getParam('data'));
+            $params = Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('data'));
             $data   = explode(',', $params);
             $cId    = abs(intval($data[0]));
             if ($cId && ($cId == Mage::getSingleton('customer/session')->getCustomerId()) ) {
@@ -99,7 +99,7 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
                 'code'  => $this->_getWishlist()->getSharingCode()
             ));
 
-            $title  = Mage::helper('rss')->__('%s\'s Wishlist', $this->_getCustomer()->getName());
+            $title  = Mage::helper('Mage_Rss_Helper_Data')->__('%s\'s Wishlist', $this->_getCustomer()->getName());
             $lang   = Mage::getStoreConfig('general/locale/code');
 
             $rssObj->_addHeader(array(
@@ -127,10 +127,10 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
                 }
 
                 $description = '<table><tr><td><a href="' . $productUrl . '"><img src="'
-                    . $this->helper('catalog/image')->init($product, 'thumbnail')->resize(75, 75)
+                    . $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75)
                     . '" border="0" align="left" height="75" width="75"></a></td>'
                     . '<td style="text-decoration:none;">'
-                    . $this->helper('catalog/output')
+                    . $this->helper('Mage_Catalog_Helper_Output')
                         ->productAttribute($product, $product->getShortDescription(), 'short_description')
                     . '<p>';
 
@@ -139,8 +139,8 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
                 }
                 $description .= '</p>';
                 if ($this->hasDescription($product)) {
-                    $description .= '<p>' . Mage::helper('wishlist')->__('Comment:')
-                        . ' ' . $this->helper('catalog/output')
+                    $description .= '<p>' . Mage::helper('Mage_Wishlist_Helper_Data')->__('Comment:')
+                        . ' ' . $this->helper('Mage_Catalog_Helper_Output')
                             ->productAttribute($product, $product->getDescription(), 'description')
                         . '<p>';
                 }
@@ -148,7 +148,7 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
                 $description .= '</td></tr></table>';
 
                 $rssObj->_addEntry(array(
-                    'title'         => $this->helper('catalog/output')
+                    'title'         => $this->helper('Mage_Catalog_Helper_Output')
                         ->productAttribute($product, $product->getName(), 'name'),
                     'link'          => $productUrl,
                     'description'   => $description,
@@ -157,8 +157,8 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
         }
         else {
             $rssObj->_addHeader(array(
-                'title'         => Mage::helper('rss')->__('Cannot retrieve the wishlist'),
-                'description'   => Mage::helper('rss')->__('Cannot retrieve the wishlist'),
+                'title'         => Mage::helper('Mage_Rss_Helper_Data')->__('Cannot retrieve the wishlist'),
+                'description'   => Mage::helper('Mage_Rss_Helper_Data')->__('Cannot retrieve the wishlist'),
                 'link'          => Mage::getUrl(),
                 'charset'       => 'UTF-8',
             ));

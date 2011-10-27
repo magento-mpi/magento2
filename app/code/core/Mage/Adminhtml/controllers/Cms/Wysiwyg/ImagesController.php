@@ -49,7 +49,7 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
         $storeId = (int) $this->getRequest()->getParam('store');
 
         try {
-            Mage::helper('cms/wysiwyg_images')->getCurrentPath();
+            Mage::helper('Mage_Cms_Helper_Wysiwyg_Images')->getCurrentPath();
         } catch (Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
@@ -70,7 +70,7 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
                     ->getTreeJson()
             );
         } catch (Exception $e) {
-            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode(array()));
+            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array()));
         }
     }
 
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
             $this->renderLayout();
         } catch (Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -96,7 +96,7 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
         } catch (Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
         }
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 
     public function deleteFolderAction()
@@ -106,7 +106,7 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
             $this->getStorage()->deleteDirectory($path);
         } catch (Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -121,10 +121,10 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
             if (!$this->getRequest()->isPost()) {
                 throw new Exception ('Wrong request.');
             }
-            $files = Mage::helper('core')->jsonDecode($this->getRequest()->getParam('files'));
+            $files = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($this->getRequest()->getParam('files'));
 
             /** @var $helper Mage_Cms_Helper_Wysiwyg_Images */
-            $helper = Mage::helper('cms/wysiwyg_images');
+            $helper = Mage::helper('Mage_Cms_Helper_Wysiwyg_Images');
             $path = $this->getStorage()->getSession()->getCurrentPath();
             foreach ($files as $file) {
                 $file = $helper->idDecode($file);
@@ -137,7 +137,7 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
             }
         } catch (Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -154,7 +154,7 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
         } catch (Exception $e) {
             $result = array('error' => $e->getMessage(), 'errorcode' => $e->getCode());
         }
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
 
     }
 
@@ -163,14 +163,14 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
      */
     public function onInsertAction()
     {
-        $helper = Mage::helper('cms/wysiwyg_images');
+        $helper = Mage::helper('Mage_Cms_Helper_Wysiwyg_Images');
         $storeId = $this->getRequest()->getParam('store');
 
         $filename = $this->getRequest()->getParam('filename');
         $filename = $helper->idDecode($filename);
         $asIs = $this->getRequest()->getParam('as_is');
 
-        Mage::helper('catalog')->setStoreId($storeId);
+        Mage::helper('Mage_Catalog_Helper_Data')->setStoreId($storeId);
         $helper->setStoreId($storeId);
 
         $image = $helper->getImageHtmlDeclaration($filename, $asIs);
@@ -183,7 +183,7 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
     public function thumbnailAction()
     {
         $file = $this->getRequest()->getParam('file');
-        $file = Mage::helper('cms/wysiwyg_images')->idDecode($file);
+        $file = Mage::helper('Mage_Cms_Helper_Wysiwyg_Images')->idDecode($file);
         $thumb = $this->getStorage()->resizeOnTheFly($file);
         if ($thumb !== false) {
             $image = Varien_Image_Adapter::factory('GD2');
@@ -217,7 +217,7 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
     {
         $this->getStorage()
             ->getSession()
-            ->setCurrentPath(Mage::helper('cms/wysiwyg_images')->getCurrentPath());
+            ->setCurrentPath(Mage::helper('Mage_Cms_Helper_Wysiwyg_Images')->getCurrentPath());
         return $this;
     }
 

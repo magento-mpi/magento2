@@ -30,7 +30,7 @@
 Default layout, loads most of the pages
 -->
 
-    <default translate="label" module="page">
+    <default translate="label" module="Mage_Page">
         <label>All Pages</label>
         <block type="page/html" name="root" output="toHtml" template="page/3columns.phtml">
 
@@ -123,7 +123,7 @@ Default layout, loads most of the pages
         </block>
     </default>
 
-    <print translate="label" module="page">
+    <print translate="label" module="Mage_Page">
         <label>All Pages (Print Version)</label>
         <!-- Mage_Page -->
         <block type="page/html" name="root" output="toHtml" template="page/print.phtml">

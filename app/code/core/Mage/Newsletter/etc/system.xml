@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-        <newsletter translate="label" module="newsletter">
+        <newsletter translate="label" module="Mage_Newsletter">
             <label>Newsletter</label>
             <tab>customer</tab>
             <frontend_type>text</frontend_type>

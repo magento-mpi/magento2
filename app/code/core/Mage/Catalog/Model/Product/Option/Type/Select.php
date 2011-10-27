@@ -49,14 +49,14 @@ class Mage_Catalog_Model_Product_Option_Type_Select extends Mage_Catalog_Model_P
 
         if (empty($value) && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
-            Mage::throwException(Mage::helper('catalog')->__('Please specify the product required option(s).'));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the product required option(s).'));
         }
         if (!$this->_isSingleSelection()) {
             $valuesCollection = $option->getOptionValuesByOptionId($value, $this->getProduct()->getStoreId())
                 ->load();
             if ($valuesCollection->count() != count($value)) {
                 $this->setIsValid(false);
-                Mage::throwException(Mage::helper('catalog')->__('Please specify the product required option(s).'));
+                Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the product required option(s).'));
             }
         }
         return $this;
@@ -86,7 +86,7 @@ class Mage_Catalog_Model_Product_Option_Type_Select extends Mage_Catalog_Model_P
     public function getFormattedOptionValue($optionValue)
     {
         if ($this->_formattedOptionValue === null) {
-            $this->_formattedOptionValue = Mage::helper('core')->htmlEscape(
+            $this->_formattedOptionValue = Mage::helper('Mage_Core_Helper_Data')->htmlEscape(
                 $this->getEditableOptionValue($optionValue)
             );
         }
@@ -111,7 +111,7 @@ class Mage_Catalog_Model_Product_Option_Type_Select extends Mage_Catalog_Model_P
      */
     protected function _getWrongConfigurationMessage()
     {
-        return Mage::helper('catalog')->__('Some of the products below do not have all the required options. Please edit them and configure all the required options.');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Some of the products below do not have all the required options. Please edit them and configure all the required options.');
     }
 
     /**
@@ -140,7 +140,7 @@ class Mage_Catalog_Model_Product_Option_Type_Select extends Mage_Catalog_Model_P
                     }
                 }
             }
-            $result = Mage::helper('core/string')->substr($result, 0, -2);
+            $result = Mage::helper('Mage_Core_Helper_String')->substr($result, 0, -2);
         } elseif ($this->_isSingleSelection()) {
             if ($_result = $option->getValueById($optionValue)) {
                 $result = $_result->getTitle();

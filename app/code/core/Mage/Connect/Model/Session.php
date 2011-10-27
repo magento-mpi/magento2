@@ -68,14 +68,14 @@ class Mage_Connect_Model_Session extends Mage_Core_Model_Session_Abstract
                 }
                 // Convert channel from previous version for entire package
                 if (isset($data['channel'])) {
-                    $data['channel'] = Mage::helper('connect')->convertChannelFromV1x($data['channel']);
+                    $data['channel'] = Mage::helper('Mage_Connect_Helper_Data')->convertChannelFromV1x($data['channel']);
                 }
                 // Convert channel from previous version for each required package
                 $nRequiredPackages = count($data['depends']['package']['channel']);
                 for ($i = 0; $i < $nRequiredPackages; $i++) {
                     $channel = $data['depends']['package']['channel'][$i];
                     if ($channel) {
-                        $data['depends']['package']['channel'][$i] = Mage::helper('connect')->convertChannelFromV1x($channel);
+                        $data['depends']['package']['channel'][$i] = Mage::helper('Mage_Connect_Helper_Data')->convertChannelFromV1x($channel);
                     }
                 }
             }

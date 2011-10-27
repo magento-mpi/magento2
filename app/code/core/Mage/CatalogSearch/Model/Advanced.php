@@ -79,7 +79,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
     protected function _getEngine()
     {
         if ($this->_engine == null) {
-            $this->_engine = Mage::helper('catalogsearch')->getEngine();
+            $this->_engine = Mage::helper('Mage_CatalogSearch_Helper_Data')->getEngine();
         }
 
         return $this->_engine;
@@ -197,7 +197,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
         if ($allConditions) {
             $this->getProductCollection()->addFieldsToFilter($allConditions);
         } else if (!$hasConditions) {
-            Mage::throwException(Mage::helper('catalogsearch')->__('Please specify at least one search term.'));
+            Mage::throwException(Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Please specify at least one search term.'));
         }
 
         return $this;
@@ -230,10 +230,10 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
                         $value = sprintf('%s - %s', ($currencyModel ? $from : $value['from']), ($currencyModel ? $to : $value['to']));
                     } elseif (strlen($value['from']) > 0) {
                         // and more
-                        $value = Mage::helper('catalogsearch')->__('%s and greater', ($currencyModel ? $from : $value['from']));
+                        $value = Mage::helper('Mage_CatalogSearch_Helper_Data')->__('%s and greater', ($currencyModel ? $from : $value['from']));
                     } elseif (strlen($value['to']) > 0) {
                         // to
-                        $value = Mage::helper('catalogsearch')->__('up to %s', ($currencyModel ? $to : $value['to']));
+                        $value = Mage::helper('Mage_CatalogSearch_Helper_Data')->__('up to %s', ($currencyModel ? $to : $value['to']));
                     }
                 } else {
                     return $this;
@@ -256,8 +256,8 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
                 $value = $value['label'];
         } else if ($attribute->getFrontendInput() == 'boolean') {
             $value = $value == 1
-                ? Mage::helper('catalogsearch')->__('Yes')
-                : Mage::helper('catalogsearch')->__('No');
+                ? Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Yes')
+                : Mage::helper('Mage_CatalogSearch_Helper_Data')->__('No');
         }
 
         $this->_searchCriterias[] = array('name' => $name, 'value' => $value);

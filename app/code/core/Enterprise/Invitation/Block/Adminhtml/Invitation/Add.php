@@ -44,7 +44,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add extends Mage_Adminhtm
      */
     protected function _prepareLayout()
     {
-        $validationMessage = addcslashes(Mage::helper('enterprise_invitation')->__('Please enter valid email addresses, separated by new line.'), "\\'\n\r");
+        $validationMessage = addcslashes(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Please enter valid email addresses, separated by new line.'), "\\'\n\r");
         $this->_formInitScripts[] = "
         Validation.addAllThese([
             ['validate-emails', '$validationMessage', function (v) {
@@ -68,7 +68,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add extends Mage_Adminhtm
      */
     public function getHeaderText()
     {
-        return Mage::helper('enterprise_invitation')->__('New Invitations');
+        return Mage::helper('Enterprise_Invitation_Helper_Data')->__('New Invitations');
     }
 
 }

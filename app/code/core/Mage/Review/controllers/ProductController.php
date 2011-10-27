@@ -45,7 +45,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
     {
         parent::preDispatch();
 
-        $allowGuest = Mage::helper('review')->getIsGuestAllowToWrite();
+        $allowGuest = Mage::helper('Mage_Review_Helper_Data')->getIsGuestAllowToWrite();
         if (!$this->getRequest()->isDispatched()) {
             return;
         }
@@ -57,7 +57,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
                 Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_current' => true)));
                 Mage::getSingleton('review/session')->setFormData($this->getRequest()->getPost())
                     ->setRedirectUrl($this->_getRefererUrl());
-                $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
+                $this->_redirectUrl(Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl());
             }
         }
 
@@ -235,7 +235,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
                     'link'     => $product->getProductUrl(),
                     'readonly' => true,
                 ));
-                $breadcrumbsBlock->addCrumb('reviews', array('label' => Mage::helper('review')->__('Product Reviews')));
+                $breadcrumbsBlock->addCrumb('reviews', array('label' => Mage::helper('Mage_Review_Helper_Data')->__('Product Reviews')));
             }
 
             $this->renderLayout();
@@ -283,13 +283,13 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
         $update->addHandle('PRODUCT_TYPE_'.$product->getTypeId());
 
         if ($product->getPageLayout()) {
-            $this->getLayout()->helper('page/layout')
+            $this->getLayout()->helper('Mage_Page_Helper_Layout')
                 ->applyHandle($product->getPageLayout());
         }
 
         $this->loadLayoutUpdates();
         if ($product->getPageLayout()) {
-            $this->getLayout()->helper('page/layout')
+            $this->getLayout()->helper('Mage_Page_Helper_Layout')
                 ->applyTemplate($product->getPageLayout());
         }
         $update->addUpdate($product->getCustomLayoutUpdate());

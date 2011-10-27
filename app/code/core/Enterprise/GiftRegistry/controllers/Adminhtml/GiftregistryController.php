@@ -36,8 +36,8 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
         $this->loadLayout()
             ->_setActiveMenu('customer/giftregistry')
             ->_addBreadcrumb(
-                Mage::helper('enterprise_giftregistry')->__('Gift Registry'),
-                Mage::helper('enterprise_giftregistry')->__('Gift Registry')
+                Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry'),
+                Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry')
             );
 
         $this->_title($this->__('Customers'))->_title($this->__('Manage Gift Registry Types'));

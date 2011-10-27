@@ -32,15 +32,15 @@
                 <children>
                     <sales>
                         <children>
-                            <enterprise_rma translate="title" module="enterprise_rma">
+                            <enterprise_rma translate="title" module="Enterprise_Rma">
                                 <title>RMA</title>
                                 <sort_order>35</sort_order>
                                 <children>
-                                    <rma_manage translate="title" module="enterprise_rma">
+                                    <rma_manage translate="title" module="Enterprise_Rma">
                                         <title>Manage RMA</title>
                                         <sort_order>10</sort_order>
                                     </rma_manage>
-                                    <rma_attribute translate="title" module="enterprise_rma">
+                                    <rma_attribute translate="title" module="Enterprise_Rma">
                                         <title>Manage RMA Items Attributes</title>
                                         <sort_order>20</sort_order>
                                     </rma_attribute>
@@ -55,18 +55,18 @@
     <menu>
         <sales>
             <children>
-                <enterprise_rma translate="title" module="enterprise_rma">
+                <enterprise_rma translate="title" module="Enterprise_Rma">
                     <title>RMA</title>
                     <sort_order>35</sort_order>
                     <depends><module>Enterprise_Rma</module></depends>
                     <children>
-                        <rma translate="title" module="enterprise_rma">
+                        <rma translate="title" module="Enterprise_Rma">
                             <title>Manage RMA</title>
                             <action>adminhtml/rma</action>
                             <sort_order>10</sort_order>
                             <resource>sales/enterprise_rma</resource>
                         </rma>
-                        <rma_item_attribute translate="title" module="enterprise_rma">
+                        <rma_item_attribute translate="title" module="Enterprise_Rma">
                             <title>Manage RMA Items Attributes</title>
                             <action>adminhtml/rma_item_attribute</action>
                             <sort_order>20</sort_order>

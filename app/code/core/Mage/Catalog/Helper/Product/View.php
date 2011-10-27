@@ -74,7 +74,7 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
 
         // Apply custom layout (page) template once the blocks are generated
         if ($settings->getPageLayout()) {
-            $controller->getLayout()->helper('page/layout')->applyTemplate($settings->getPageLayout());
+            $controller->getLayout()->helper('Mage_Page_Helper_Layout')->applyTemplate($settings->getPageLayout());
         }
 
         $currentCategory = Mage::registry('current_category');
@@ -112,7 +112,7 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
     public function prepareAndRender($productId, $controller, $params = null)
     {
         // Prepare data
-        $productHelper = Mage::helper('catalog/product');
+        $productHelper = Mage::helper('Mage_Catalog_Helper_Product');
         if (!$params) {
             $params = new Varien_Object();
         }

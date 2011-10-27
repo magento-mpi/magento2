@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tabs extends Mage_Adminht
         parent::__construct();
         $this->setId('convert_profile_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('adminhtml')->__('Import/Export Profile'));
+        $this->setTitle(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Import/Export Profile'));
     }
 
     protected function _beforeToHtml()
@@ -46,19 +46,19 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tabs extends Mage_Adminht
         $new = !Mage::registry('current_convert_profile')->getId();
 
         $this->addTab('edit', array(
-            'label'     => Mage::helper('adminhtml')->__('Profile Actions XML'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Profile Actions XML'),
             'content'   => $this->getLayout()->createBlock('adminhtml/system_convert_profile_edit_tab_edit')->initForm()->toHtml(),
             'active'    => true,
         ));
 
         if (!$new) {
             $this->addTab('run', array(
-                'label'     => Mage::helper('adminhtml')->__('Run Profile'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Run Profile'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/system_convert_profile_edit_tab_run')->toHtml(),
             ));
 
             $this->addTab('history', array(
-                'label'     => Mage::helper('adminhtml')->__('Profile History'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Profile History'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/system_convert_profile_edit_tab_history')->toHtml(),
             ));
         }

@@ -42,7 +42,7 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
     {
         $this->loadLayout()
             ->_setActiveMenu('system/variable')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Custom Variables'), Mage::helper('adminhtml')->__('Custom Variables'));
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Custom Variables'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Custom Variables'));
         return $this;
     }
 
@@ -139,7 +139,7 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
             try {
                 $variable->save();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('adminhtml')->__('The custom variable has been saved.')
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('The custom variable has been saved.')
                 );
                 if ($back) {
                     $this->_redirect('*/*/edit', array('_current' => true, 'variable_id' => $variable->getId()));
@@ -168,7 +168,7 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
             try {
                 $variable->delete();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('adminhtml')->__('The custom variable has been deleted.')
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('The custom variable has been deleted.')
                 );
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

@@ -27,7 +27,7 @@
 /** @var $this Mage_Core_Model_Resource_Setup */
 $installer = $this;
 
-if (Mage::helper('googleshopping')->isModuleEnabled('Mage_GoogleBase')) {
+if (Mage::helper('Mage_GoogleShopping_Helper_Data')->isModuleEnabled('Mage_GoogleBase')) {
     $typesInsert = $installer->getConnection()
         ->select()
         ->from(

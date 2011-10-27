@@ -24,6 +24,6 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<form action="<?php echo $this->helper('catalogsearch')->getResultUrl() ?>" method="get">
-    <input type="search" name="<?php echo $this->helper('catalogsearch')->getQueryParamName() ?>" id="search" placeholder="Search" />
+<form action="<?php echo $this->helper('Mage_CatalogSearch_Helper_Data')->getResultUrl() ?>" method="get">
+    <input type="search" name="<?php echo $this->helper('Mage_CatalogSearch_Helper_Data')->getQueryParamName() ?>" id="search" placeholder="Search" />
 </form>

@@ -89,8 +89,8 @@ class Mage_Adminhtml_Block_Report_Customer_Orders_Grid extends Mage_Adminhtml_Bl
             'renderer'  => 'adminhtml/report_grid_column_renderer_currency',
         ));
 
-        $this->addExportType('*/*/exportOrdersCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportOrdersExcel', Mage::helper('reports')->__('Excel XML'));
+        $this->addExportType('*/*/exportOrdersCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportOrdersExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

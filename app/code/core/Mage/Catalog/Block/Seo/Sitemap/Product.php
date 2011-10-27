@@ -64,7 +64,7 @@ class Mage_Catalog_Block_Seo_Sitemap_Product extends Mage_Catalog_Block_Seo_Site
      */
     public function getItemUrl($product)
     {
-        $helper = Mage::helper('catalog/product');
+        $helper = Mage::helper('Mage_Catalog_Helper_Product');
         /* @var $helper Mage_Catalog_Helper_Product */
         return $helper->getProductUrl($product);
     }

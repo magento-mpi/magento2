@@ -177,7 +177,7 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
      */
     public function getMenuItemLabel($path)
     {
-        $moduleName = 'adminhtml';
+        $moduleName = 'Mage_Adminhtml_Helper_Data';
         $menuNode = $this->getAdminhtmlConfig()->getNode('menu/' . str_replace('/', '/children/', trim($path, '/')));
         if ($menuNode->getAttribute('module')) {
             $moduleName = (string)$menuNode->getAttribute('module');

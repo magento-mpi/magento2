@@ -53,21 +53,21 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('reports')->__('ID'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('ID'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'entity_id'
         ));
 
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('reports')->__('Product Name'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Product Name'),
             'index'     =>'name'
         ));
 
         $currencyCode = $this->getCurrentCurrencyCode();
 
         $this->addColumn('price', array(
-            'header'    =>Mage::helper('reports')->__('Price'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Price'),
             'width'     =>'80px',
             'type'      =>'currency',
             'currency_code' => $currencyCode,
@@ -77,14 +77,14 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
         ));
 
         $this->addColumn('carts', array(
-            'header'    =>Mage::helper('reports')->__('Carts'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Carts'),
             'width'     =>'80px',
             'align'     =>'right',
             'index'     =>'carts'
         ));
 
         $this->addColumn('orders', array(
-            'header'    =>Mage::helper('reports')->__('Orders'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Orders'),
             'width'     =>'80px',
             'align'     =>'right',
             'index'     =>'orders'
@@ -92,8 +92,8 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportProductCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportProductExcel', Mage::helper('reports')->__('Excel XML'));
+        $this->addExportType('*/*/exportProductCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportProductExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

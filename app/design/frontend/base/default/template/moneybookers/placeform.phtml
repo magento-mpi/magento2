@@ -25,7 +25,7 @@
  */
 ?>
 
-<b><?php echo Mage::helper('moneybookers')->__('Loading secure payment page (SSL)'); ?></b>
+<b><?php echo Mage::helper('Phoenix_Moneybookers_Helper_Data')->__('Loading secure payment page (SSL)'); ?></b>
 <form name="moneybookers" id="moneybookers_place_form" action="<?php echo $this->getFormAction();?>" method="POST">
 <?php if (is_array($this->getFormData())): ?>
     <?php foreach ($this->getFormData() as $name => $value): ?>

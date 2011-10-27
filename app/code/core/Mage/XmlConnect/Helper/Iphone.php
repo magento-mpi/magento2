@@ -191,37 +191,37 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
         if (!isset($this->_tabs)) {
             $this->_tabs = array(
                 array(
-                    'label' => Mage::helper('xmlconnect')->__('Home'),
+                    'label' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Home'),
                     'image' => 'tab_home.png',
                     'action' => 'Home',
                 ),
                 array(
-                    'label' => Mage::helper('xmlconnect')->__('Shop'),
+                    'label' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Shop'),
                     'image' => 'tab_shop.png',
                     'action' => 'Shop',
                 ),
                 array(
-                    'label' => Mage::helper('xmlconnect')->__('Search'),
+                    'label' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Search'),
                     'image' => 'tab_search.png',
                     'action' => 'Search',
                 ),
                 array(
-                    'label' => Mage::helper('xmlconnect')->__('Cart'),
+                    'label' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Cart'),
                     'image' => 'tab_cart.png',
                     'action' => 'Cart',
                 ),
                 array(
-                    'label' => Mage::helper('xmlconnect')->__('More'),
+                    'label' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('More'),
                     'image' => 'tab_more.png',
                     'action' => 'More',
                 ),
                 array(
-                    'label' => Mage::helper('xmlconnect')->__('Account'),
+                    'label' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Account'),
                     'image' => 'tab_account.png',
                     'action' => 'Account',
                 ),
                 array(
-                    'label' => Mage::helper('xmlconnect')->__('More Info'),
+                    'label' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('More Info'),
                     'image' => 'tab_page.png',
                     'action' => 'AboutUs',
                 ),
@@ -564,45 +564,45 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
         $errors = array();
 
         if (!Zend_Validate::is(isset($params['title']) ? $params['title'] : null, 'NotEmpty')) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please enter the Title.');
+            $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please enter the Title.');
         }
 
         if (isset($params['title'])) {
             $titleLength = self::SUBMISSION_TITLE_LENGTH;
             $strRules = array('min' => '1', 'max' => $titleLength);
             if (!Zend_Validate::is($params['title'], 'StringLength', $strRules)) {
-                $errors[] = Mage::helper('xmlconnect')->__('"Title" is more than %d characters long', $strRules['max']);
+                $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('"Title" is more than %d characters long', $strRules['max']);
             }
         }
 
         if (!Zend_Validate::is(isset($params['description']) ? $params['description'] : null, 'NotEmpty')) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please enter the Description.');
+            $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please enter the Description.');
         }
 
         if (isset($params['description'])) {
             $descriptionLength = self::SUBMISSION_DESCRIPTION_LENGTH;
             $strRules = array('min' => '1', 'max' => $descriptionLength);
             if (!Zend_Validate::is($params['title'], 'StringLength', $strRules)) {
-                $errors[] = Mage::helper('xmlconnect')->__('"Description" is more than %d characters long', $strRules['max']);
+                $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('"Description" is more than %d characters long', $strRules['max']);
             }
         }
 
         if (!Zend_Validate::is(isset($params['copyright']) ? $params['copyright'] : null, 'NotEmpty')) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please enter the Copyright.');
+            $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please enter the Copyright.');
         }
 
         if (empty($params['price_free'])) {
             if (!Zend_Validate::is(isset($params['price']) ? $params['price'] : null, 'NotEmpty')) {
-                $errors[] = Mage::helper('xmlconnect')->__('Please enter the Price.');
+                $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please enter the Price.');
             }
         }
 
         if (!Zend_Validate::is(isset($params['country']) ? $params['country'] : null, 'NotEmpty')) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please select at least one country.');
+            $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please select at least one country.');
         }
 
         $keyLenght = Mage_XmlConnect_Model_Application::APP_MAX_KEY_LENGTH;
-        if (Mage::helper('xmlconnect')->getApplication()->getIsResubmitAction()) {
+        if (Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getIsResubmitAction()) {
             if (isset($params['resubmission_activation_key'])) {
                 $resubmissionKey = $params['resubmission_activation_key'];
             } else {
@@ -610,16 +610,16 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
             }
 
             if (!Zend_Validate::is($resubmissionKey, 'NotEmpty')) {
-                $errors[] = Mage::helper('xmlconnect')->__('Please enter the Resubmission Key.');
+                $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please enter the Resubmission Key.');
             } elseif (!Zend_Validate::is($resubmissionKey, 'StringLength', array(1, $keyLenght))) {
-                $errors[] = Mage::helper('xmlconnect')->__('Submit App failure. Invalid activation key provided');
+                $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Submit App failure. Invalid activation key provided');
             }
         } else {
             $key = isset($params['key']) ? $params['key'] : null;
             if (!Zend_Validate::is($key, 'NotEmpty')) {
-                $errors[] = Mage::helper('xmlconnect')->__('Please enter the Activation Key.');
+                $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please enter the Activation Key.');
             } elseif (!Zend_Validate::is($key, 'StringLength', array(1, $keyLenght))) {
-                $errors[] = Mage::helper('xmlconnect')->__('Submit App failure. Invalid activation key provided');
+                $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Submit App failure. Invalid activation key provided');
             }
         }
         return $errors;
@@ -638,15 +638,15 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
         if ($native === false || (!isset($native['navigationBar']['icon'])
             || !Zend_Validate::is($native['navigationBar']['icon'], 'NotEmpty'))
         ) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Logo in Header" field from Design Tab.');
+            $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please upload  an image for "Logo in Header" field from Design Tab.');
         }
 
-        if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('bannerImage', $native)) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen" field from Design Tab.');
+        if (!Mage::helper('Mage_XmlConnect_Helper_Data')->validateConfFieldNotEmpty('bannerImage', $native)) {
+            $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please upload  an image for "Banner on Home Screen" field from Design Tab.');
         }
 
-        if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('backgroundImage', $native)) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background" field from Design Tab.');
+        if (!Mage::helper('Mage_XmlConnect_Helper_Data')->validateConfFieldNotEmpty('backgroundImage', $native)) {
+            $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please upload  an image for "App Background" field from Design Tab.');
         }
 
         return $errors;
@@ -674,7 +674,7 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
      */
     public function getCountryLabel()
     {
-        return Mage::helper('xmlconnect')->__('App Stores');
+        return Mage::helper('Mage_XmlConnect_Helper_Data')->__('App Stores');
     }
 
     /**
@@ -718,7 +718,7 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
     public function checkImages(array $data)
     {
         /** @var $helper Mage_XmlConnect_Helper_Image */
-        $helper = Mage::helper('xmlconnect/image');
+        $helper = Mage::helper('Mage_XmlConnect_Helper_Image');
 
         $icon =& $data['conf']['native']['navigationBar']['icon'];
 
@@ -755,13 +755,13 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
         }
 
         if (isset($data['navigationBar']['icon']) && empty($data['navigationBar']['icon'])) {
-            Mage::throwException(Mage::helper('xmlconnect')->__('Logo in Header image missing.'));
+            Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('Logo in Header image missing.'));
         }
         if (isset($data['body']['bannerImage']) && empty($data['body']['bannerImage'])) {
-            Mage::throwException(Mage::helper('xmlconnect')->__('Banner on Home Screen image missing.'));
+            Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('Banner on Home Screen image missing.'));
         }
         if (isset($data['body']['backgroundImage']) && empty($data['body']['backgroundImage'])) {
-            Mage::throwException(Mage::helper('xmlconnect')->__('App Background image missing.'));
+            Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('App Background image missing.'));
         }
     }
 

@@ -42,8 +42,8 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Found
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            1 => Mage::helper('salesrule')->__('FOUND'),
-            0 => Mage::helper('salesrule')->__('NOT FOUND')
+            1 => Mage::helper('Mage_SalesRule_Helper_Data')->__('FOUND'),
+            0 => Mage::helper('Mage_SalesRule_Helper_Data')->__('NOT FOUND')
         ));
         return $this;
     }
@@ -51,7 +51,7 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Found
     public function asHtml()
     {
         $html = $this->getTypeElement()->getHtml().
-            Mage::helper('salesrule')->__("If an item is %s in the cart with %s of these conditions true:",
+            Mage::helper('Mage_SalesRule_Helper_Data')->__("If an item is %s in the cart with %s of these conditions true:",
             $this->getValueElement()->getHtml(), $this->getAggregatorElement()->getHtml());
            if ($this->getId()!='1') {
                $html.= $this->getRemoveLinkHtml();

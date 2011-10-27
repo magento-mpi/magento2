@@ -148,9 +148,9 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_History
             return '';
         }
         if ('date' === $dateType) {
-            return $this->helper('core')->formatDate($item['created_at'], $format);
+            return $this->helper('Mage_Core_Helper_Data')->formatDate($item['created_at'], $format);
         }
-        return $this->helper('core')->formatTime($item['created_at'], $format);
+        return $this->helper('Mage_Core_Helper_Data')->formatTime($item['created_at'], $format);
     }
 
     /**
@@ -217,7 +217,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_History
      */
     public function getTabLabel()
     {
-        return Mage::helper('sales')->__('Comments History');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Comments History');
     }
 
     /**
@@ -227,7 +227,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_History
      */
     public function getTabTitle()
     {
-        return Mage::helper('sales')->__('Order History');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Order History');
     }
 
     /**

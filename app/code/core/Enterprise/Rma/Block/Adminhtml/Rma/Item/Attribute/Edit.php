@@ -60,19 +60,19 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit
         $this->_addButton(
             'save_and_edit_button',
             array(
-                'label'     => Mage::helper('enterprise_rma')->__('Save and Continue Edit'),
+                'label'     => Mage::helper('Enterprise_Rma_Helper_Data')->__('Save and Continue Edit'),
                 'onclick'   => 'saveAndContinueEdit()',
                 'class'     => 'save'
             ),
             100
         );
 
-        $this->_updateButton('save', 'label', Mage::helper('enterprise_rma')->__('Save Attribute'));
+        $this->_updateButton('save', 'label', Mage::helper('Enterprise_Rma_Helper_Data')->__('Save Attribute'));
 
         if (!$this->_getAttribute()->getIsUserDefined()) {
             $this->_removeButton('delete');
         } else {
-            $this->_updateButton('delete', 'label', Mage::helper('enterprise_rma')->__('Delete Attribute'));
+            $this->_updateButton('delete', 'label', Mage::helper('Enterprise_Rma_Helper_Data')->__('Delete Attribute'));
         }
     }
 
@@ -89,9 +89,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit
                 // restored label
                 $label = $label[0];
             }
-            return Mage::helper('enterprise_rma')->__('Edit RMA Item Attribute "%s"', $label);
+            return Mage::helper('Enterprise_Rma_Helper_Data')->__('Edit RMA Item Attribute "%s"', $label);
         } else {
-            return Mage::helper('enterprise_rma')->__('New RMA Item Attribute');
+            return Mage::helper('Enterprise_Rma_Helper_Data')->__('New RMA Item Attribute');
         }
     }
 

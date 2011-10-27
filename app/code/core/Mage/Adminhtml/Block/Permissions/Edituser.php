@@ -35,15 +35,15 @@ class Mage_Adminhtml_Block_Permissions_Edituser extends Mage_Adminhtml_Block_Wid
     protected function _beforeToHtml()
     {
         $this->addTab('account', array(
-            'label'     => Mage::helper('adminhtml')->__('User Info'),
-            'title'     => Mage::helper('adminhtml')->__('User Info'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Info'),
+            'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Info'),
             'content'   => $this->getLayout()->createBlock('adminhtml/permissions_tab_useredit')->toHtml(),
             'active'    => true
         ));
         if( $this->getUser()->getUserId() ) {
             $this->addTab('roles', array(
-                'label'     => Mage::helper('adminhtml')->__('Roles'),
-                'title'     => Mage::helper('adminhtml')->__('Roles'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Roles'),
+                'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Roles'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/permissions_tab_userroles')->toHtml(),
             ));
         }

@@ -32,8 +32,8 @@ class Enterprise_Invitation_Model_Adminhtml_System_Config_Source_Boolean_Registr
     public function toOptionArray()
     {
         return array(
-            1 => Mage::helper('enterprise_invitation')->__('By Invitation Only'),
-            0 => Mage::helper('enterprise_invitation')->__('Available to All')
+            1 => Mage::helper('Enterprise_Invitation_Helper_Data')->__('By Invitation Only'),
+            0 => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Available to All')
         );
     }
 }

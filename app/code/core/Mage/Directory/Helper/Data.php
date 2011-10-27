@@ -132,7 +132,7 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
                         'name' => $this->__($region->getName())
                     );
                 }
-                $json = Mage::helper('core')->jsonEncode($regions);
+                $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($regions);
 
                 if (Mage::app()->useCache('config')) {
                     Mage::app()->saveCache($json, $cacheKey, array('config'));
@@ -178,7 +178,7 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
                 Mage::getStoreConfig(self::OPTIONAL_ZIP_COUNTRIES_CONFIG_PATH), 0, PREG_SPLIT_NO_EMPTY);
         }
         if ($asJson) {
-            return Mage::helper('core')->jsonEncode($this->_optionalZipCountries);
+            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->_optionalZipCountries);
         }
         return $this->_optionalZipCountries;
     }

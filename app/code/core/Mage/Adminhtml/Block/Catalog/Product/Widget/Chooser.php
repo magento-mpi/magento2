@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
      */
     public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        $uniqId = Mage::helper('core')->uniqHash($element->getId());
+        $uniqId = Mage::helper('Mage_Core_Helper_Data')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/catalog_product_widget/chooser', array(
             'uniq_id' => $uniqId,
             'use_massaction' => false,
@@ -231,19 +231,19 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
         }
 
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('catalog')->__('ID'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
         $this->addColumn('chooser_sku', array(
-            'header'    => Mage::helper('catalog')->__('SKU'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
             'name'      => 'chooser_sku',
             'width'     => '80px',
             'index'     => 'sku'
         ));
         $this->addColumn('chooser_name', array(
-            'header'    => Mage::helper('catalog')->__('Product Name'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Name'),
             'name'      => 'chooser_name',
             'index'     => 'name'
         ));

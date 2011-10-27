@@ -116,7 +116,7 @@ class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
                 }
 
                 $type->setRenderer(
-                    Mage::helper('customer/address')->getRenderer($renderer)->setType($type)
+                    Mage::helper('Mage_Customer_Helper_Address')->getRenderer($renderer)->setType($type)
                 );
 
                 $this->_types[$storeId][] = $type;
@@ -143,7 +143,7 @@ class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
                         . '{{var street}}, {{var city}}, {{var region}} {{var postcode}}, {{var country}}');
 
             $this->_defaultType[$storeId]->setRenderer(
-                Mage::helper('customer/address')
+                Mage::helper('Mage_Customer_Helper_Address')
                     ->getRenderer(self::DEFAULT_ADDRESS_RENDERER)->setType($this->_defaultType[$storeId])
             );
         }

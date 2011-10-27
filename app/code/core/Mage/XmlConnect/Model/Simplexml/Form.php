@@ -240,7 +240,7 @@ class Mage_XmlConnect_Model_Simplexml_Form extends Mage_XmlConnect_Model_Simplex
     public function checkElementId($elementId)
     {
         if ($this->_elementIdExists($elementId)) {
-            throw new Exception(Mage::helper('xmlconnect')->__('Element with id %s already exists', $elementId));
+            throw new Exception(Mage::helper('Mage_XmlConnect_Helper_Data')->__('Element with id %s already exists', $elementId));
         }
         return true;
     }
@@ -383,6 +383,6 @@ class Mage_XmlConnect_Model_Simplexml_Form extends Mage_XmlConnect_Model_Simplex
         if ($this->getUseContainer()) {
             return $this->toXmlObject()->asNiceXml();
         }
-        Mage::throwException(Mage::helper('xmlconnect')->__('Container is not defined.'));
+        Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('Container is not defined.'));
     }
 }

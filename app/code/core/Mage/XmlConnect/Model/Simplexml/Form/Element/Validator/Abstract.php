@@ -71,7 +71,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_Validator_Abstract
      */
     protected function _setDefaultValidatorTypeMessages()
     {
-        $helper = Mage::helper('xmlconnect');
+        $helper = Mage::helper('Mage_XmlConnect_Helper_Data');
         $this->_validatorTypeMessages = array(
             'min_length' => $helper->__('Text length does not satisfy specified min text range.'),
             'max_length' => $helper->__('Text length does not satisfy specified max text range.'),
@@ -111,7 +111,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_Validator_Abstract
             } elseif(null !== $defValue){
                 $xmlObj->addAttribute($attribute, $xmlObj->xmlAttribute($defValue));
             } else {
-                Mage::throwException(Mage::helper('xmlconnect')->__('%s attribute is required.', $attribute));
+                Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('%s attribute is required.', $attribute));
             }
         }
         $this->_addMessage($xmlObj);
@@ -133,7 +133,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_Validator_Abstract
             $message = $this->_validatorTypeMessages[$this->getType()];
         } else {
             Mage::throwException(
-                Mage::helper('xmlconnect')->__('"message" attribute is required for "%s" validator rule.', $this->getType())
+                Mage::helper('Mage_XmlConnect_Helper_Data')->__('"message" attribute is required for "%s" validator rule.', $this->getType())
             );
         }
         $xmlObj->addAttribute('message', $xmlObj->xmlAttribute($message));

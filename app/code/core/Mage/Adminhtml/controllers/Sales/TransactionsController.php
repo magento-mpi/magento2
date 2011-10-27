@@ -110,12 +110,12 @@ class Mage_Adminhtml_Sales_TransactionsController extends Mage_Adminhtml_Control
                 ->setOrder($txn->getOrder())
                 ->importTransactionInfo($txn);
             $txn->save();
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')
+            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')
                 ->__('The transaction details have been updated.'));
         } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')
                 ->__('Unable to update transaction details.'));
             Mage::logException($e);
         }

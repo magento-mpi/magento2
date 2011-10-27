@@ -49,23 +49,23 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
             $item->addChild('name', $item->xmlentities($product->getName()));
             $item->addChild('entity_type', $product->getTypeId());
             $item->addChild('short_description', $item->xmlentities($product->getShortDescription()));
-            $description = Mage::helper('xmlconnect')->htmlize($item->xmlentities($product->getDescription()));
+            $description = Mage::helper('Mage_XmlConnect_Helper_Data')->htmlize($item->xmlentities($product->getDescription()));
             $item->addChild('description', $description);
             $item->addChild('link', $product->getProductUrl());
 
             if ($itemNodeName == 'item') {
-                $imageToResize = Mage::helper('xmlconnect/image')->getImageSizeForContent('product_small');
+                $imageToResize = Mage::helper('Mage_XmlConnect_Helper_Image')->getImageSizeForContent('product_small');
                 $propertyToResizeName = 'small_image';
             } else {
-                $imageToResize = Mage::helper('xmlconnect/image')->getImageSizeForContent('product_big');
+                $imageToResize = Mage::helper('Mage_XmlConnect_Helper_Image')->getImageSizeForContent('product_big');
                 $propertyToResizeName = 'image';
             }
 
-            $icon = clone Mage::helper('catalog/image')->init($product, $propertyToResizeName)->resize($imageToResize);
+            $icon = clone Mage::helper('Mage_Catalog_Helper_Image')->init($product, $propertyToResizeName)->resize($imageToResize);
 
             $iconXml = $item->addChild('icon', $icon);
 
-            $file = Mage::helper('xmlconnect')->urlToPath($icon);
+            $file = Mage::helper('Mage_XmlConnect_Helper_Data')->urlToPath($icon);
             $iconXml->addAttribute('modification_time', filemtime($file));
 
             $item->addChild('in_stock', (int)$product->getIsInStock());

@@ -70,7 +70,7 @@ class Mage_Paypal_Model_Observer
         $collection->addCreatedBeforeFilter($date->gmtDate(null, $createdBefore));
 
         /** @var $method Mage_Paypal_Model_Payflowlink */
-        $method = Mage::helper('payment')->getMethodInstance(Mage_Paypal_Model_Config::METHOD_PAYFLOWLINK);
+        $method = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance(Mage_Paypal_Model_Config::METHOD_PAYFLOWLINK);
 
         /** @var $item Mage_Paypal_Model_Payment_Transaction */
         foreach ($collection as $item) {
@@ -116,10 +116,10 @@ class Mage_Paypal_Model_Observer
 
         if ($order && $order->getId()) {
             $payment = $order->getPayment();
-            if ($payment && in_array($payment->getMethod(), Mage::helper('paypal/hss')->getHssMethods())) {
+            if ($payment && in_array($payment->getMethod(), Mage::helper('Mage_Paypal_Helper_Hss')->getHssMethods())) {
                 /* @var $controller Mage_Core_Controller_Varien_Action */
                 $controller = $observer->getEvent()->getData('controller_action');
-                $result = Mage::helper('core')->jsonDecode(
+                $result = Mage::helper('Mage_Core_Helper_Data')->jsonDecode(
                     $controller->getResponse()->getBody('default'),
                     Zend_Json::TYPE_ARRAY
                 );
@@ -134,7 +134,7 @@ class Mage_Paypal_Model_Observer
                     $result['redirect'] = false;
                     $result['success'] = false;
                     $controller->getResponse()->clearHeader('Location');
-                    $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+                    $controller->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
                 }
             }
         }

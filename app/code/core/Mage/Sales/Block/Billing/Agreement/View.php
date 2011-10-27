@@ -85,7 +85,7 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
                 $value = $order->getIncrementId();
                 break;
             case 'created_at':
-                $value = $this->helper('core')->formatDate($order->getCreatedAt(), 'short', true);
+                $value = $this->helper('Mage_Core_Helper_Data')->formatDate($order->getCreatedAt(), 'short', true);
                 break;
             case 'shipping_address':
                 $value = $order->getShippingAddress()
@@ -135,7 +135,7 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
     protected function _loadPaymentMethods()
     {
         if (!$this->_paymentMethods) {
-            foreach ($this->helper('payment')->getBillingAgreementMethods() as $paymentMethod) {
+            foreach ($this->helper('Mage_Payment_Helper_Data')->getBillingAgreementMethods() as $paymentMethod) {
                 $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }
         }
@@ -167,11 +167,11 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
             $createdAt = $this->_billingAgreementInstance->getCreatedAt();
             $updatedAt = $this->_billingAgreementInstance->getUpdatedAt();
             $this->setAgreementCreatedAt(
-                ($createdAt) ? $this->helper('core')->formatDate($createdAt, 'short', true) : $this->__('N/A')
+                ($createdAt) ? $this->helper('Mage_Core_Helper_Data')->formatDate($createdAt, 'short', true) : $this->__('N/A')
             );
             if ($updatedAt) {
                 $this->setAgreementUpdatedAt(
-                    $this->helper('core')->formatDate($updatedAt, 'short', true)
+                    $this->helper('Mage_Core_Helper_Data')->formatDate($updatedAt, 'short', true)
                 );
             }
             $this->setAgreementStatus($this->_billingAgreementInstance->getStatusLabel());

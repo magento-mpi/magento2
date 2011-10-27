@@ -41,7 +41,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
         parent::__construct();
         $this->setId('enterprise_reminder_rule_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('enterprise_reminder')->__('Email Reminder Rule'));
+        $this->setTitle(Mage::helper('Enterprise_Reminder_Helper_Data')->__('Email Reminder Rule'));
     }
 
     /**
@@ -52,19 +52,19 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
     protected function _beforeToHtml()
     {
         $this->addTab('general_section', array(
-            'label'   => Mage::helper('enterprise_reminder')->__('Rule Information'),
+            'label'   => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Rule Information'),
             'content' => $this->getLayout()->createBlock('enterprise_reminder/adminhtml_reminder_edit_tab_general',
                 'adminhtml_reminder_edit_tab_general')->toHtml(),
         ));
 
         $this->addTab('conditions_section', array(
-            'label'   => Mage::helper('enterprise_reminder')->__('Conditions'),
+            'label'   => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Conditions'),
             'content' => $this->getLayout()->createBlock('enterprise_reminder/adminhtml_reminder_edit_tab_conditions',
                 'adminhtml_reminder_edit_tab_conditions')->toHtml()
         ));
 
         $this->addTab('template_section', array(
-            'label'   => Mage::helper('enterprise_reminder')->__('Emails and Labels'),
+            'label'   => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Emails and Labels'),
             'content' => $this->getLayout()->createBlock('enterprise_reminder/adminhtml_reminder_edit_tab_templates',
                 'adminhtml_reminder_edit_tab_templates')->toHtml()
         ));
@@ -72,7 +72,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
         $rule = Mage::registry('current_reminder_rule');
         if ($rule && $rule->getId()) {
             $this->addTab('matched_customers', array(
-                'label' => Mage::helper('enterprise_reminder')->__('Matched Customers'),
+                'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Matched Customers'),
                 'url'   => $this->getUrl('*/*/customerGrid', array('rule_id' => $rule->getId())),
                 'class' => 'ajax'
             ));

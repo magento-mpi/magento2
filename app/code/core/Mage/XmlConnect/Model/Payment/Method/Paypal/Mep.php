@@ -108,6 +108,6 @@ class Mage_XmlConnect_Model_Payment_Method_Paypal_Mep extends Mage_Paypal_Model_
      */
     public function getTitle()
     {
-        return Mage::helper('xmlconnect')->__('PayPal MEP');
+        return Mage::helper('Mage_XmlConnect_Helper_Data')->__('PayPal MEP');
     }
 }

@@ -27,7 +27,7 @@
 -->
 <config>
    <sections>
-        <payment_services translate="label" module="payment">
+        <payment_services translate="label" module="Mage_Payment">
             <label>Payment Services</label>
             <tab>sales</tab>
             <frontend_type>text</frontend_type>

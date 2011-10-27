@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Mage_Adminhtml
         return $this->getLayout()
             ->createBlock('adminhtml/widget_button')
             ->setData(array(
-                'label'   => Mage::helper('sales')->__('Create Shipping Label...'),
+                'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Create Shipping Label...'),
                 'onclick' => 'packaging.showWindow();',
             ))
             ->toHtml();
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Mage_Adminhtml
         return $this->getLayout()
             ->createBlock('adminhtml/widget_button')
             ->setData(array(
-                'label'   => Mage::helper('sales')->__('Print Shipping Label'),
+                'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Print Shipping Label'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
             ))
             ->toHtml();
@@ -109,7 +109,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Mage_Adminhtml
         return $this->getLayout()
             ->createBlock('adminhtml/widget_button')
             ->setData(array(
-                'label'   => Mage::helper('sales')->__('Show Packages'),
+                'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Show Packages'),
                 'onclick' => 'showPackedWindow();'
             ))
             ->toHtml();

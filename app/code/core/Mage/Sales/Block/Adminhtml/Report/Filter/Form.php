@@ -53,7 +53,7 @@ class Mage_Sales_Block_Adminhtml_Report_Filter_Form extends Mage_Adminhtml_Block
             foreach ($statuses as $code => $label) {
                 if (false === strpos($code, 'pending')) {
                     $values[] = array(
-                        'label' => Mage::helper('reports')->__($label),
+                        'label' => Mage::helper('Mage_Reports_Helper_Data')->__($label),
                         'value' => $code
                     );
                 }
@@ -61,12 +61,12 @@ class Mage_Sales_Block_Adminhtml_Report_Filter_Form extends Mage_Adminhtml_Block
 
             $fieldset->addField('show_order_statuses', 'select', array(
                 'name'      => 'show_order_statuses',
-                'label'     => Mage::helper('reports')->__('Order Status'),
+                'label'     => Mage::helper('Mage_Reports_Helper_Data')->__('Order Status'),
                 'options'   => array(
-                        '0' => Mage::helper('reports')->__('Any'),
-                        '1' => Mage::helper('reports')->__('Specified'),
+                        '0' => Mage::helper('Mage_Reports_Helper_Data')->__('Any'),
+                        '1' => Mage::helper('Mage_Reports_Helper_Data')->__('Specified'),
                     ),
-                'note'      => Mage::helper('reports')->__('Applies to Any of the Specified Order Statuses'),
+                'note'      => Mage::helper('Mage_Reports_Helper_Data')->__('Applies to Any of the Specified Order Statuses'),
             ), 'to');
 
             $fieldset->addField('order_statuses', 'multiselect', array(

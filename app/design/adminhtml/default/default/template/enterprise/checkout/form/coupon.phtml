@@ -39,7 +39,7 @@
             <?php if($this->getCouponCode()): ?>
                 <p id="cc_info"><strong><?php echo $this->getCouponCode() ?></strong> [<a href="#" onclick="checkoutObj.applyCoupon();return false;" title="<?php echo $this->__('Remove Coupon Code') ?>"><?php echo $this->__('Remove') ?></a>]</p>
             <?php elseif ($invalid = $this->getInvalidCouponCode()): ?>
-                <p id="cc_info"><strong><?php echo $this->helper('enterprise_checkout')->__('Coupon code "%s" is not valid', $invalid) ?></strong></p>
+                <p id="cc_info"><strong><?php echo $this->helper('Enterprise_Checkout_Helper_Data')->__('Coupon code "%s" is not valid', $invalid) ?></strong></p>
             <?php endif; ?>
         </div>
     </fieldset>

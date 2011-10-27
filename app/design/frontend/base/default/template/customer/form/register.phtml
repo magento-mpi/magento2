@@ -99,7 +99,7 @@
                         <input type="text" name="street[]" value="<?php echo $this->htmlEscape($this->getFormData()->getStreet(1)) ?>" title="<?php echo $this->__('Street Address') ?>" id="street_1" class="input-text required-entry" />
                     </div>
                 </li>
-            <?php for ($_i=2, $_n=$this->helper('customer/address')->getStreetLines(); $_i<=$_n; $_i++): ?>
+            <?php for ($_i=2, $_n=$this->helper('Mage_Customer_Helper_Address')->getStreetLines(); $_i<=$_n; $_i++): ?>
                 <li class="wide">
                     <div class="input-box">
                         <input type="text" name="street[]" value="<?php echo $this->htmlEscape($this->getFormData()->getStreet($_i)) ?>" title="<?php echo $this->__('Street Address %s', $_i) ?>" id="street_<?php echo $_i?>" class="input-text" />
@@ -176,7 +176,7 @@
     //<![CDATA[
         var dataForm = new VarienForm('form-validate', true);
         <?php if($this->getShowAddressFields()): ?>
-        new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'zip');
+        new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?>, undefined, 'zip');
         <?php endif; ?>
     //]]>
     </script>

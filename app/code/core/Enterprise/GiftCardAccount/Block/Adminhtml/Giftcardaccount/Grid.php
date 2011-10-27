@@ -74,7 +74,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
     {
         $this->addColumn('giftcardaccount_id',
             array(
-                'header'=> Mage::helper('enterprise_giftcardaccount')->__('ID'),
+                'header'=> Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('ID'),
                 'width' => 30,
                 'type'  => 'number',
                 'index' => 'giftcardaccount_id',
@@ -82,13 +82,13 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
 
         $this->addColumn('code',
             array(
-                'header'=> Mage::helper('enterprise_giftcardaccount')->__('Code'),
+                'header'=> Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Code'),
                 'index' => 'code',
         ));
 
         $this->addColumn('website',
             array(
-                'header'    => Mage::helper('enterprise_giftcardaccount')->__('Website'),
+                'header'    => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Website'),
                 'width'     => 100,
                 'index'     => 'website_id',
                 'type'      => 'options',
@@ -97,7 +97,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
 
         $this->addColumn('date_created',
             array(
-                'header'=> Mage::helper('enterprise_giftcardaccount')->__('Date Created'),
+                'header'=> Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Date Created'),
                 'width' => 120,
                 'type'  => 'date',
                 'index' => 'date_created',
@@ -105,7 +105,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
 
         $this->addColumn('date_expires',
             array(
-                'header'  => Mage::helper('enterprise_giftcardaccount')->__('Expiration Date'),
+                'header'  => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Expiration Date'),
                 'width'   => 120,
                 'type'    => 'date',
                 'index'   => 'date_expires',
@@ -114,22 +114,22 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
 
         $this->addColumn('status',
             array(
-                'header'    => Mage::helper('enterprise_giftcardaccount')->__('Active'),
+                'header'    => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Active'),
                 'width'     => 50,
                 'align'     => 'center',
                 'index'     => 'status',
                 'type'      => 'options',
                 'options'   => array(
                     Enterprise_GiftCardAccount_Model_Giftcardaccount::STATUS_ENABLED =>
-                        Mage::helper('enterprise_giftcardaccount')->__('Yes'),
+                        Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Yes'),
                     Enterprise_GiftCardAccount_Model_Giftcardaccount::STATUS_DISABLED =>
-                        Mage::helper('enterprise_giftcardaccount')->__('No'),
+                        Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('No'),
                 ),
         ));
 
         $this->addColumn('state',
             array(
-                'header'    => Mage::helper('enterprise_giftcardaccount')->__('Status'),
+                'header'    => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Status'),
                 'width'     => 100,
                 'align'     => 'center',
                 'index'     => 'state',
@@ -139,7 +139,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
 
         $this->addColumn('balance',
             array(
-                'header'        => Mage::helper('enterprise_giftcardaccount')->__('Balance'),
+                'header'        => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Balance'),
                 'currency_code' => Mage::app()->getStore()->getBaseCurrency()->getCode(),
                 'type'          => 'number',
                 'renderer'      => 'enterprise_giftcardaccount/adminhtml_widget_grid_column_renderer_currency',
@@ -158,9 +158,9 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
         $this->getMassactionBlock()->setFormFieldName('giftcardaccount');
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'=> Mage::helper('enterprise_giftcardaccount')->__('Delete'),
+             'label'=> Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Delete'),
              'url'  => $this->getUrl('*/*/massDelete'),
-             'confirm' => Mage::helper('enterprise_giftcardaccount')->__('Are you sure you want to delete these gift card accounts?')
+             'confirm' => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Are you sure you want to delete these gift card accounts?')
         ));
 
         return $this;
@@ -190,8 +190,8 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
      */
     protected function _prepareGrid()
     {
-        $this->addExportType('*/*/exportCsv', Mage::helper('customer')->__('CSV'));
-        $this->addExportType('*/*/exportMsxml', Mage::helper('customer')->__('Excel XML'));
+        $this->addExportType('*/*/exportCsv', Mage::helper('Mage_Customer_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportMsxml', Mage::helper('Mage_Customer_Helper_Data')->__('Excel XML'));
         return parent::_prepareGrid();
     }
 }

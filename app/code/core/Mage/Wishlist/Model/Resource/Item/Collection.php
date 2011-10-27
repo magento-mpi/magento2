@@ -184,14 +184,14 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
             Mage::getSingleton('catalog/product_visibility')->addVisibleInSiteFilterToCollection($productCollection);
         }
         if ($this->_productSalable) {
-            $productCollection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($productCollection);
+            $productCollection = Mage::helper('Mage_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($productCollection);
         }
 
         Mage::dispatchEvent('wishlist_item_collection_products_after_load', array(
             'product_collection' => $productCollection
         ));
 
-        $checkInStock = $this->_productInStock && !Mage::helper('cataloginventory')->isShowOutOfStock();
+        $checkInStock = $this->_productInStock && !Mage::helper('Mage_CatalogInventory_Helper_Data')->isShowOutOfStock();
 
         foreach ($this as $item) {
             $product = $productCollection->getItemById($item->getProductId());

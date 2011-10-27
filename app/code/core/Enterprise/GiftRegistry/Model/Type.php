@@ -368,7 +368,7 @@ class Enterprise_GiftRegistry_Model_Type extends Mage_Core_Model_Abstract
     public function postDispatchTypeSave($config, $eventModel, $processor)
     {
         $typeData = Mage::app()->getRequest()->getParam('type');
-        $typeId = isset($typeData['type_id']) ? $typeData['type_id'] : Mage::helper('enterprise_logging')->__('New');
+        $typeId = isset($typeData['type_id']) ? $typeData['type_id'] : Mage::helper('Enterprise_Logging_Helper_Data')->__('New');
         return $eventModel->setInfo($typeId);
     }
 

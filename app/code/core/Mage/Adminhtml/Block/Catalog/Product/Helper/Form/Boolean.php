@@ -38,11 +38,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean extends Varien_Da
         parent::__construct($attributes);
         $this->setValues(array(
             array(
-                'label' => Mage::helper('catalog')->__('No'),
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('No'),
                 'value' => 0,
             ),
             array(
-                'label' => Mage::helper('catalog')->__('Yes'),
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Yes'),
                 'value' => 1,
             ),
         ));

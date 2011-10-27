@@ -346,7 +346,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
                 case Mage_SalesRule_Model_Rule::CART_FIXED_ACTION:
                     if (empty($this->_rulesItemTotals[$rule->getId()])) {
-                        Mage::throwException(Mage::helper('salesrule')->__('Item totals are not set for rule.'));
+                        Mage::throwException(Mage::helper('Mage_SalesRule_Helper_Data')->__('Item totals are not set for rule.'));
                     }
 
                     /**
@@ -747,7 +747,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
      */
     protected function _getItemOriginalPrice($item)
     {
-        return Mage::helper('tax')->getPrice($item, $item->getOriginalPrice(), true);
+        return Mage::helper('Mage_Tax_Helper_Data')->getPrice($item, $item->getOriginalPrice(), true);
     }
 
     /**
@@ -770,7 +770,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
      */
     protected function _getItemBaseOriginalPrice($item)
     {
-        return Mage::helper('tax')->getPrice($item, $item->getBaseOriginalPrice(), true);
+        return Mage::helper('Mage_Tax_Helper_Data')->getPrice($item, $item->getBaseOriginalPrice(), true);
     }
 
     /**

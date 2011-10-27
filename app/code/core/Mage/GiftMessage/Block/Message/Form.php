@@ -45,7 +45,7 @@ class Mage_GiftMessage_Block_Message_Form extends Mage_Core_Block_Template
 
     public function getSaveUrl()
     {
-        return $this->helper('giftmessage/url')->getSaveUrl(
+        return $this->helper('Mage_GiftMessage_Helper_Url')->getSaveUrl(
                             $this->getRequest()->getParam('item'),
                             $this->getRequest()->getParam('type'),
                             $this->getRequest()->getParam('message'),
@@ -55,7 +55,7 @@ class Mage_GiftMessage_Block_Message_Form extends Mage_Core_Block_Template
 
     public function getEditUrl()
     {
-        return $this->helper('giftmessage/url')->getEditUrl(
+        return $this->helper('Mage_GiftMessage_Helper_Url')->getEditUrl(
                             $this->getRequest()->getParam('entity'),
                             $this->getRequest()->getParam('type')
         );
@@ -63,7 +63,7 @@ class Mage_GiftMessage_Block_Message_Form extends Mage_Core_Block_Template
 
     public function getButtonUrl()
     {
-        return $this->helper('giftmessage/url')->getButtonUrl(
+        return $this->helper('Mage_GiftMessage_Helper_Url')->getButtonUrl(
                             $this->getRequest()->getParam('item'),
                             $this->getRequest()->getParam('type')
         );
@@ -71,7 +71,7 @@ class Mage_GiftMessage_Block_Message_Form extends Mage_Core_Block_Template
 
     public function getRemoveUrl()
     {
-        return $this->helper('giftmessage/url')->getRemoveUrl(
+        return $this->helper('Mage_GiftMessage_Helper_Url')->getRemoveUrl(
                             $this->getRequest()->getParam('item'),
                             $this->getRequest()->getParam('type'),
                             array('uniqueId'=>$this->getRequest()->getParam('uniqueId'))
@@ -80,7 +80,7 @@ class Mage_GiftMessage_Block_Message_Form extends Mage_Core_Block_Template
 
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->helper('giftmessage/message')->getGiftMessage(
+        $this->_giftMessage = $this->helper('Mage_GiftMessage_Helper_Message')->getGiftMessage(
                                             $this->getRequest()->getParam('message')
                               );
         return $this;

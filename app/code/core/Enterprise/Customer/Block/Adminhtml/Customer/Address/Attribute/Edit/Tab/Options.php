@@ -43,7 +43,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Op
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_customer')->__('Manage Label / Options');
+        return Mage::helper('Enterprise_Customer_Helper_Data')->__('Manage Label / Options');
     }
 
     /**
@@ -53,7 +53,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Op
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_customer')->__('Properties');
+        return Mage::helper('Enterprise_Customer_Helper_Data')->__('Properties');
     }
 
     /**

@@ -83,7 +83,7 @@ class Enterprise_Staging_Model_Staging_Config
         $config = self::getConfig($nodeName);
         if ($config) {
             foreach ($config->children() as $node) {
-                $label = Mage::helper('enterprise_staging')->__((string)$node->label);
+                $label = Mage::helper('Enterprise_Staging_Helper_Data')->__((string)$node->label);
                 $options[$node->getName()] = $label;
             }
         }
@@ -93,9 +93,9 @@ class Enterprise_Staging_Model_Staging_Config
     public function getVisibilityOptionArray()
     {
         return array(
-        self::VISIBILITY_NOT_ACCESSIBLE    => Mage::helper('enterprise_staging')->__('Not accessible'),
-        self::VISIBILITY_ACCESSIBLE        => Mage::helper('enterprise_staging')->__('Accessible'),
-        self::VISIBILITY_REQUIRE_HTTP_AUTH => Mage::helper('enterprise_staging')->__('Require HTTP Authentication')
+        self::VISIBILITY_NOT_ACCESSIBLE    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Not accessible'),
+        self::VISIBILITY_ACCESSIBLE        => Mage::helper('Enterprise_Staging_Helper_Data')->__('Accessible'),
+        self::VISIBILITY_REQUIRE_HTTP_AUTH => Mage::helper('Enterprise_Staging_Helper_Data')->__('Require HTTP Authentication')
         );
     }
 
@@ -219,7 +219,7 @@ class Enterprise_Staging_Model_Staging_Config
         $actionNode = self::getConfig('action/'.$actionCode);
         if ($actionNode) {
             $action = (string) $actionNode->label;
-            return Mage::helper('enterprise_staging')->__($action);
+            return Mage::helper('Enterprise_Staging_Helper_Data')->__($action);
         }
         return $action;
     }
@@ -233,7 +233,7 @@ class Enterprise_Staging_Model_Staging_Config
         $actionNode = self::getConfig('action')->asArray();
         $actionArray = array();
         foreach ($actionNode as $code => $node){
-            $actionArray[$code] = Mage::helper('enterprise_staging')->__((string)$node['label']);
+            $actionArray[$code] = Mage::helper('Enterprise_Staging_Helper_Data')->__((string)$node['label']);
         }
         asort($actionArray);
         return $actionArray;
@@ -250,7 +250,7 @@ class Enterprise_Staging_Model_Staging_Config
         $statusNode = self::getConfig('status/action/' . $status);
         if ($statusNode) {
             $status = (string) $statusNode->label;
-            return Mage::helper('enterprise_staging')->__($status);
+            return Mage::helper('Enterprise_Staging_Helper_Data')->__($status);
         }
         return $status;
     }

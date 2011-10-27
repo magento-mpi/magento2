@@ -29,7 +29,7 @@
    <sections>
         <catalog>
             <groups>
-                <review translate="label" module="review">
+                <review translate="label" module="Mage_Review">
                     <label>Product Reviews</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>100</sort_order>

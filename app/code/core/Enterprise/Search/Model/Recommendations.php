@@ -41,15 +41,15 @@ class Enterprise_Search_Model_Recommendations
     public function getSearchRecommendations()
     {
         $productCollection = Mage::getSingleton('enterprise_search/search_layer')->getProductCollection();
-        $searchQueryText = Mage::helper('catalogsearch')->getQuery()->getQueryText();
+        $searchQueryText = Mage::helper('Mage_CatalogSearch_Helper_Data')->getQuery()->getQueryText();
 
         $params = array(
             'store_id' => $productCollection->getStoreId(),
         );
 
-        $searchRecommendationsEnabled = (boolean)Mage::helper('enterprise_search')
+        $searchRecommendationsEnabled = (boolean)Mage::helper('Enterprise_Search_Helper_Data')
             ->getSearchConfigData('search_recommendations_enabled');
-        $searchRecommendationsCount   = (int)Mage::helper('enterprise_search')
+        $searchRecommendationsCount   = (int)Mage::helper('Enterprise_Search_Helper_Data')
             ->getSearchConfigData('search_recommendations_count');
 
         if ($searchRecommendationsCount < 1) {

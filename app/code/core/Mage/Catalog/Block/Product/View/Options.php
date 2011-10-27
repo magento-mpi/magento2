@@ -146,16 +146,16 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
                 $_tmpPriceValues = array();
                 foreach ($option->getValues() as $value) {
                     /* @var $value Mage_Catalog_Model_Product_Option_Value */
-                   $_tmpPriceValues[$value->getId()] = Mage::helper('core')->currency($value->getPrice(true), false, false);
+                   $_tmpPriceValues[$value->getId()] = Mage::helper('Mage_Core_Helper_Data')->currency($value->getPrice(true), false, false);
                 }
                 $priceValue = $_tmpPriceValues;
             } else {
-                $priceValue = Mage::helper('core')->currency($option->getPrice(true), false, false);
+                $priceValue = Mage::helper('Mage_Core_Helper_Data')->currency($option->getPrice(true), false, false);
             }
             $config[$option->getId()] = $priceValue;
         }
 
-        return Mage::helper('core')->jsonEncode($config);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
     }
 
     /**

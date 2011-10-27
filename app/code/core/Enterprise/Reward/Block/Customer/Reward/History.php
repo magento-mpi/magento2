@@ -61,7 +61,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
      */
     public function getPointsDelta(Enterprise_Reward_Model_Reward_History $item)
     {
-        return Mage::helper('enterprise_reward')->formatPointsDelta($item->getPointsDelta());
+        return Mage::helper('Enterprise_Reward_Helper_Data')->formatPointsDelta($item->getPointsDelta());
     }
 
     /**
@@ -83,7 +83,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
      */
     public function getCurrencyBalance(Enterprise_Reward_Model_Reward_History $item)
     {
-        return Mage::helper('core')->currency($item->getCurrencyAmount());
+        return Mage::helper('Mage_Core_Helper_Data')->currency($item->getCurrencyAmount());
     }
 
     /**
@@ -116,7 +116,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
      */
     public function getDate(Enterprise_Reward_Model_Reward_History $item)
     {
-        return Mage::helper('core')->formatDate($item->getCreatedAt(), 'short', true);
+        return Mage::helper('Mage_Core_Helper_Data')->formatDate($item->getCreatedAt(), 'short', true);
     }
 
     /**
@@ -129,7 +129,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
     {
         $expiresAt = $item->getExpiresAt();
         if ($expiresAt) {
-            return Mage::helper('core')->formatDate($expiresAt, 'short', true);
+            return Mage::helper('Mage_Core_Helper_Data')->formatDate($expiresAt, 'short', true);
         }
         return '';
     }
@@ -146,7 +146,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
             $this->_collection = Mage::getModel('enterprise_reward/reward_history')->getCollection()
                 ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
                 ->addWebsiteFilter($websiteId)
-                ->setExpiryConfig(Mage::helper('enterprise_reward')->getExpiryConfig())
+                ->setExpiryConfig(Mage::helper('Enterprise_Reward_Helper_Data')->getExpiryConfig())
                 ->addExpirationDate($websiteId)
                 ->skipExpiredDuplicates()
                 ->setDefaultOrder()
@@ -191,7 +191,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
      */
     protected function _isEnabled()
     {
-        return Mage::helper('enterprise_reward')->isEnabledOnFront()
-            && Mage::helper('enterprise_reward')->getGeneralConfig('publish_history');
+        return Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()
+            && Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig('publish_history');
     }
 }

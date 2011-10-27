@@ -47,7 +47,7 @@ class Enterprise_GiftRegistry_Block_Customer_Edit_Registrants extends  Enterpris
      */
     public function getMaxRegistrant()
     {
-        return Mage::helper('enterprise_giftregistry')->getMaxRegistrant();
+        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->getMaxRegistrant();
     }
 
     /**

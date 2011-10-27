@@ -46,7 +46,7 @@ class Enterprise_GiftRegistry_Block_Customer_Checkout extends Mage_Core_Block_Te
      */
     public function getEnabled()
     {
-        return  Mage::helper('enterprise_giftregistry')->isEnabled();
+        return  Mage::helper('Enterprise_GiftRegistry_Helper_Data')->isEnabled();
     }
 
     /**
@@ -117,7 +117,7 @@ class Enterprise_GiftRegistry_Block_Customer_Checkout extends Mage_Core_Block_Te
      */
     public function getAddressIdPrefix()
     {
-        return Mage::helper('enterprise_giftregistry')->getAddressIdPrefix();
+        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->getAddressIdPrefix();
     }
 
     /**

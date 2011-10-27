@@ -31,8 +31,8 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount extends Mage_Ad
     {
         $this->_controller = 'adminhtml_giftcardaccount';
         $this->_blockGroup = 'enterprise_giftcardaccount';
-        $this->_headerText = Mage::helper('enterprise_giftcardaccount')->__('Manage Gift Card Accounts');
-        $this->_addButtonLabel = Mage::helper('enterprise_giftcardaccount')->__('Add Gift Card Account');
+        $this->_headerText = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Manage Gift Card Accounts');
+        $this->_addButtonLabel = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Add Gift Card Account');
         parent::__construct();
     }
 }

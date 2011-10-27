@@ -53,10 +53,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends Varien_Data
             }
             $store = Mage::app()->getStore($storeId);
             $html.= '<strong>['.(string)$store->getBaseCurrencyCode().']</strong>';
-            if (Mage::helper('tax')->priceIncludesTax($store)) {
+            if (Mage::helper('Mage_Tax_Helper_Data')->priceIncludesTax($store)) {
                 if ($attribute->getAttributeCode()!=='cost') {
                     $addJsObserver = true;
-                    $html.= ' <strong>['.Mage::helper('tax')->__('Inc. Tax').'<span id="dynamic-tax-'.$attribute->getAttributeCode().'"></span>]</strong>';
+                    $html.= ' <strong>['.Mage::helper('Mage_Tax_Helper_Data')->__('Inc. Tax').'<span id="dynamic-tax-'.$attribute->getAttributeCode().'"></span>]</strong>';
                 }
             }
         }

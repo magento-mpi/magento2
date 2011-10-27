@@ -58,16 +58,16 @@ class Mage_Sales_Model_Resource_Order_Address extends Mage_Sales_Model_Resource_
     public function getAllAttributes()
     {
         $attributes = array(
-            'city'       => Mage::helper('sales')->__('City'),
-            'company'    => Mage::helper('sales')->__('Company'),
-            'country_id' => Mage::helper('sales')->__('Country'),
-            'email'      => Mage::helper('sales')->__('Email'),
-            'firstname'  => Mage::helper('sales')->__('First Name'),
-            'lastname'   => Mage::helper('sales')->__('Last Name'),
-            'region_id'  => Mage::helper('sales')->__('State/Province'),
-            'street'     => Mage::helper('sales')->__('Street Address'),
-            'telephone'  => Mage::helper('sales')->__('Telephone'),
-            'postcode'   => Mage::helper('sales')->__('Zip/Postal Code')
+            'city'       => Mage::helper('Mage_Sales_Helper_Data')->__('City'),
+            'company'    => Mage::helper('Mage_Sales_Helper_Data')->__('Company'),
+            'country_id' => Mage::helper('Mage_Sales_Helper_Data')->__('Country'),
+            'email'      => Mage::helper('Mage_Sales_Helper_Data')->__('Email'),
+            'firstname'  => Mage::helper('Mage_Sales_Helper_Data')->__('First Name'),
+            'lastname'   => Mage::helper('Mage_Sales_Helper_Data')->__('Last Name'),
+            'region_id'  => Mage::helper('Mage_Sales_Helper_Data')->__('State/Province'),
+            'street'     => Mage::helper('Mage_Sales_Helper_Data')->__('Street Address'),
+            'telephone'  => Mage::helper('Mage_Sales_Helper_Data')->__('Telephone'),
+            'postcode'   => Mage::helper('Mage_Sales_Helper_Data')->__('Zip/Postal Code')
         );
         asort($attributes);
         return $attributes;

@@ -70,20 +70,20 @@ class Mage_Install_Model_Installer_Env extends Mage_Install_Model_Installer_Abst
 
             if (!$oneLoaded) {
                 Mage::getSingleton('install/session')->addError(
-                    Mage::helper('install')->__('One of PHP Extensions "%s" must be loaded.', implode(',', $extension))
+                    Mage::helper('Mage_Install_Helper_Data')->__('One of PHP Extensions "%s" must be loaded.', implode(',', $extension))
                 );
                 return false;
             }
         }
         elseif (!extension_loaded($extension)) {
             Mage::getSingleton('install/session')->addError(
-                Mage::helper('install')->__('PHP extension "%s" must be loaded.', $extension)
+                Mage::helper('Mage_Install_Helper_Data')->__('PHP extension "%s" must be loaded.', $extension)
             );
             return false;
         }
         else {
             /*Mage::getSingleton('install/session')->addError(
-                Mage::helper('install')->__("PHP Extension '%s' loaded", $extension)
+                Mage::helper('Mage_Install_Helper_Data')->__("PHP Extension '%s' loaded", $extension)
             );*/
         }
         return true;

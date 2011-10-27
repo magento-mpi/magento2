@@ -39,18 +39,18 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
     public function __construct()
     {
         parent::__construct();
-        $this->_headerText = $this->helper('cms')->__('Media Storage');
+        $this->_headerText = $this->helper('Mage_Cms_Helper_Data')->__('Media Storage');
         $this->_removeButton('back')->_removeButton('edit');
         $this->_addButton('newfolder', array(
             'class'   => 'save',
-            'label'   => $this->helper('cms')->__('Create Folder...'),
+            'label'   => $this->helper('Mage_Cms_Helper_Data')->__('Create Folder...'),
             'type'    => 'button',
             'onclick' => 'MediabrowserInstance.newFolder();'
         ));
 
         $this->_addButton('delete_folder', array(
             'class'   => 'delete no-display',
-            'label'   => $this->helper('cms')->__('Delete Folder'),
+            'label'   => $this->helper('Mage_Cms_Helper_Data')->__('Delete Folder'),
             'type'    => 'button',
             'onclick' => 'MediabrowserInstance.deleteFolder();',
             'id'      => 'button_delete_folder'
@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
 
         $this->_addButton('delete_files', array(
             'class'   => 'delete no-display',
-            'label'   => $this->helper('cms')->__('Delete File'),
+            'label'   => $this->helper('Mage_Cms_Helper_Data')->__('Delete File'),
             'type'    => 'button',
             'onclick' => 'MediabrowserInstance.deleteFiles();',
             'id'      => 'button_delete_files'
@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
 
         $this->_addButton('insert_files', array(
             'class'   => 'save no-display',
-            'label'   => $this->helper('cms')->__('Insert File'),
+            'label'   => $this->helper('Mage_Cms_Helper_Data')->__('Insert File'),
             'type'    => 'button',
             'onclick' => 'MediabrowserInstance.insert();',
             'id'      => 'button_insert_files'
@@ -93,9 +93,9 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
         $setupObject = new Varien_Object();
 
         $setupObject->setData(array(
-            'newFolderPrompt'                 => $this->helper('cms')->__('New Folder Name:'),
-            'deleteFolderConfirmationMessage' => $this->helper('cms')->__('Are you sure you want to delete current folder?'),
-            'deleteFileConfirmationMessage'   => $this->helper('cms')->__('Are you sure you want to delete the selected file?'),
+            'newFolderPrompt'                 => $this->helper('Mage_Cms_Helper_Data')->__('New Folder Name:'),
+            'deleteFolderConfirmationMessage' => $this->helper('Mage_Cms_Helper_Data')->__('Are you sure you want to delete current folder?'),
+            'deleteFileConfirmationMessage'   => $this->helper('Mage_Cms_Helper_Data')->__('Are you sure you want to delete the selected file?'),
             'targetElementId' => $this->getTargetElementId(),
             'contentsUrl'     => $this->getContentsUrl(),
             'onInsertUrl'     => $this->getOnInsertUrl(),
@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
             'headerText'      => $this->getHeaderText()
         ));
 
-        return Mage::helper('core')->jsonEncode($setupObject);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($setupObject);
     }
 
     /**

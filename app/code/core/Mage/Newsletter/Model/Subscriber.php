@@ -134,7 +134,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
      * @return string
      */
     public function getConfirmationLink() {
-        return Mage::helper('newsletter')->getConfirmationUrl($this);
+        return Mage::helper('Mage_Newsletter_Helper_Data')->getConfirmationUrl($this);
     }
 
     /**
@@ -143,7 +143,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
      * @return string
      */
     public function getUnsubscriptionLink() {
-        return Mage::helper('newsletter')->getUnsubscribeUrl($this);
+        return Mage::helper('Mage_Newsletter_Helper_Data')->getUnsubscribeUrl($this);
     }
 
     /**
@@ -371,7 +371,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
     public function unsubscribe()
     {
         if ($this->hasCheckCode() && $this->getCode() != $this->getCheckCode()) {
-            Mage::throwException(Mage::helper('newsletter')->__('Invalid subscription confirmation code.'));
+            Mage::throwException(Mage::helper('Mage_Newsletter_Helper_Data')->__('Invalid subscription confirmation code.'));
         }
 
         $this->setSubscriberStatus(self::STATUS_UNSUBSCRIBED)

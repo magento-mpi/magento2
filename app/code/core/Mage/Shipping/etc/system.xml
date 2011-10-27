@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-        <shipping translate="label" module="shipping">
+        <shipping translate="label" module="Mage_Shipping">
             <label>Shipping Settings</label>
             <tab>sales</tab>
             <frontend_type>text</frontend_type>
@@ -125,7 +125,7 @@
                 </origin>
             </groups>
         </shipping>
-        <carriers translate="label" module="shipping">
+        <carriers translate="label" module="Mage_Shipping">
             <label>Shipping Methods</label>
             <tab>sales</tab>
             <frontend_type>text</frontend_type>

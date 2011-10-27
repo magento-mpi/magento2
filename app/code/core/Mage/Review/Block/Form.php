@@ -50,11 +50,11 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
             }
         }
 
-        $this->setAllowWriteReviewFlag($customerSession->isLoggedIn() || Mage::helper('review')->getIsGuestAllowToWrite());
+        $this->setAllowWriteReviewFlag($customerSession->isLoggedIn() || Mage::helper('Mage_Review_Helper_Data')->getIsGuestAllowToWrite());
         if (!$this->getAllowWriteReviewFlag) {
             $this->setLoginLink(
                 Mage::getUrl('customer/account/login/', array(
-                    Mage_Customer_Helper_Data::REFERER_QUERY_PARAM_NAME => Mage::helper('core')->urlEncode(
+                    Mage_Customer_Helper_Data::REFERER_QUERY_PARAM_NAME => Mage::helper('Mage_Core_Helper_Data')->urlEncode(
                         Mage::getUrl('*/*/*', array('_current' => true)) .
                         '#review-form')
                     )

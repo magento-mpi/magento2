@@ -43,20 +43,20 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
         switch (Mage::registry('store_type')) {
             case 'website':
                 $this->_objectId = 'website_id';
-                $saveLabel   = Mage::helper('core')->__('Save Website');
-                $deleteLabel = Mage::helper('core')->__('Delete Website');
+                $saveLabel   = Mage::helper('Mage_Core_Helper_Data')->__('Save Website');
+                $deleteLabel = Mage::helper('Mage_Core_Helper_Data')->__('Delete Website');
                 $deleteUrl   = $this->getUrl('*/*/deleteWebsite', array('item_id' => Mage::registry('store_data')->getId()));
                 break;
             case 'group':
                 $this->_objectId = 'group_id';
-                $saveLabel   = Mage::helper('core')->__('Save Store');
-                $deleteLabel = Mage::helper('core')->__('Delete Store');
+                $saveLabel   = Mage::helper('Mage_Core_Helper_Data')->__('Save Store');
+                $deleteLabel = Mage::helper('Mage_Core_Helper_Data')->__('Delete Store');
                 $deleteUrl   = $this->getUrl('*/*/deleteGroup', array('item_id' => Mage::registry('store_data')->getId()));
                 break;
             case 'store':
                 $this->_objectId = 'store_id';
-                $saveLabel   = Mage::helper('core')->__('Save Store View');
-                $deleteLabel = Mage::helper('core')->__('Delete Store View');
+                $saveLabel   = Mage::helper('Mage_Core_Helper_Data')->__('Save Store View');
+                $deleteLabel = Mage::helper('Mage_Core_Helper_Data')->__('Delete Store View');
                 $deleteUrl   = $this->getUrl('*/*/deleteStore', array('item_id' => Mage::registry('store_data')->getId()));
                 break;
         }
@@ -85,16 +85,16 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
     {
         switch (Mage::registry('store_type')) {
             case 'website':
-                $editLabel = Mage::helper('core')->__('Edit Website');
-                $addLabel  = Mage::helper('core')->__('New Website');
+                $editLabel = Mage::helper('Mage_Core_Helper_Data')->__('Edit Website');
+                $addLabel  = Mage::helper('Mage_Core_Helper_Data')->__('New Website');
                 break;
             case 'group':
-                $editLabel = Mage::helper('core')->__('Edit Store');
-                $addLabel  = Mage::helper('core')->__('New Store');
+                $editLabel = Mage::helper('Mage_Core_Helper_Data')->__('Edit Store');
+                $addLabel  = Mage::helper('Mage_Core_Helper_Data')->__('New Store');
                 break;
             case 'store':
-                $editLabel = Mage::helper('core')->__('Edit Store View');
-                $addLabel  = Mage::helper('core')->__('New Store View');
+                $editLabel = Mage::helper('Mage_Core_Helper_Data')->__('Edit Store View');
+                $addLabel  = Mage::helper('Mage_Core_Helper_Data')->__('New Store View');
                 break;
         }
 

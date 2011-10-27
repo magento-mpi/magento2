@@ -70,14 +70,14 @@ class Mage_Catalog_Block_Product_Compare_List extends Mage_Catalog_Block_Product
      */
     public function getAddToWishlistUrl($product)
     {
-        $continueUrl    = Mage::helper('core')->urlEncode($this->getUrl('customer/account'));
+        $continueUrl    = Mage::helper('Mage_Core_Helper_Data')->urlEncode($this->getUrl('customer/account'));
         $urlParamName   = Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
 
         $params = array(
             $urlParamName   => $continueUrl
         );
 
-        return $this->helper('wishlist')->getAddUrlWithParams($product, $params);
+        return $this->helper('Mage_Wishlist_Helper_Data')->getAddUrlWithParams($product, $params);
     }
 
     /**
@@ -89,7 +89,7 @@ class Mage_Catalog_Block_Product_Compare_List extends Mage_Catalog_Block_Product
     {
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('catalog')->__('Products Comparison List') . ' - ' . $headBlock->getDefaultTitle());
+            $headBlock->setTitle(Mage::helper('Mage_Catalog_Helper_Data')->__('Products Comparison List') . ' - ' . $headBlock->getDefaultTitle());
         }
         return parent::_prepareLayout();
     }
@@ -102,7 +102,7 @@ class Mage_Catalog_Block_Product_Compare_List extends Mage_Catalog_Block_Product
     public function getItems()
     {
         if (is_null($this->_items)) {
-            Mage::helper('catalog/product_compare')->setAllowUsedFlat(false);
+            Mage::helper('Mage_Catalog_Helper_Product_Compare')->setAllowUsedFlat(false);
 
             $this->_items = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Compare_Item_Collection')
                 ->useProductItem(true)
@@ -153,7 +153,7 @@ class Mage_Catalog_Block_Product_Compare_List extends Mage_Catalog_Block_Product
     public function getProductAttributeValue($product, $attribute)
     {
         if (!$product->hasData($attribute->getAttributeCode())) {
-            return Mage::helper('catalog')->__('N/A');
+            return Mage::helper('Mage_Catalog_Helper_Data')->__('N/A');
         }
 
         if ($attribute->getSourceModel()
@@ -164,7 +164,7 @@ class Mage_Catalog_Block_Product_Compare_List extends Mage_Catalog_Block_Product
         } else {
             $value = $product->getData($attribute->getAttributeCode());
         }
-        return ((string)$value == '') ? Mage::helper('catalog')->__('No') : $value;
+        return ((string)$value == '') ? Mage::helper('Mage_Catalog_Helper_Data')->__('No') : $value;
     }
 
     /**

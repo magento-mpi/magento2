@@ -108,7 +108,7 @@ class Mage_Checkout_Block_Cart_Shipping extends Mage_Checkout_Block_Cart_Abstrac
 
     public function getShippingPrice($price, $flag)
     {
-        return $this->formatPrice($this->helper('tax')->getShippingPrice(
+        return $this->formatPrice($this->helper('Mage_Tax_Helper_Data')->getShippingPrice(
             $price,
             $flag,
             $this->getAddress(),

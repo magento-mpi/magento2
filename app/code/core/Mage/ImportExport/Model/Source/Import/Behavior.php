@@ -40,7 +40,7 @@ class Mage_ImportExport_Model_Source_Import_Behavior
      */
     public function toOptionArray()
     {
-        $helper = Mage::helper('importexport');
+        $helper = Mage::helper('Mage_ImportExport_Helper_Data');
 
         return array(
             array(

@@ -32,18 +32,18 @@
                 <categories>
                     <disabled>1</disabled>
                 </categories>
-                <enterprise_catalogevent translate="title" module="enterprise_catalogevent">
+                <enterprise_catalogevent translate="title" module="Enterprise_CatalogEvent">
                     <title>Categories</title>
                     <sort_order>10</sort_order>
                     <resource>catalog/categories</resource>
                     <children>
-                        <categories translate="title" module="catalog">
+                        <categories translate="title" module="Mage_Catalog">
                             <title>Manage Categories</title>
                             <sort_order>0</sort_order>
                             <action>adminhtml/catalog_category/</action>
                             <resource>catalog/categories</resource>
                         </categories>
-                        <events translate="title" module="enterprise_catalogevent">
+                        <events translate="title" module="Enterprise_CatalogEvent">
                             <title>Catalog Events</title>
                             <sort_order>10</sort_order>
                             <action>adminhtml/catalog_event</action>
@@ -64,7 +64,7 @@
                 <children>
                      <catalog>
                         <children>
-                            <events translate="title" module="enterprise_catalogevent">
+                            <events translate="title" module="Enterprise_CatalogEvent">
                                 <title>Manage Catalog Events</title>
                                 <sort_order>60</sort_order>
                             </events>

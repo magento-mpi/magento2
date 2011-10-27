@@ -54,7 +54,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $params = new Varien_Object();
         $params->setCategoryId($categoryId);
 
-        return Mage::helper('catalog/product')->initProduct($productId, $this, $params);
+        return Mage::helper('Mage_Catalog_Helper_Product')->initProduct($productId, $this, $params);
     }
 
     /**
@@ -65,7 +65,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
      */
     protected function _initProductLayout($product)
     {
-        Mage::helper('catalog/product_view')->initProductLayout($product, $this);
+        Mage::helper('Mage_Catalog_Helper_Product_View')->initProductLayout($product, $this);
         return $this;
     }
 
@@ -122,7 +122,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $specifyOptions = $this->getRequest()->getParam('options');
 
         // Prepare helper and params
-        $viewHelper = Mage::helper('catalog/product_view');
+        $viewHelper = Mage::helper('Mage_Catalog_Helper_Product_View');
 
         $params = new Varien_Object();
         $params->setCategoryId($categoryId);

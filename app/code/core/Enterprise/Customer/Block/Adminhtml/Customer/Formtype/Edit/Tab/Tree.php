@@ -49,7 +49,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
     {
         $addButtonData = array(
             'id'        => 'add_node_button',
-            'label'     => Mage::helper('enterprise_customer')->__('New Fieldset'),
+            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('New Fieldset'),
             'onclick'   => 'formType.newFieldset()',
             'class'     => 'add',
         );
@@ -62,19 +62,19 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
         $buttons = array();
         $buttons[] = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
             'id'        => 'save_node_button',
-            'label'     => Mage::helper('enterprise_customer')->__('Save'),
+            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Save'),
             'onclick'   => 'formType.saveFieldset()',
             'class'     => 'save',
         ))->toHtml();
         $buttons[] = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
             'id'        => 'delete_node_button',
-            'label'     => Mage::helper('enterprise_customer')->__('Remove'),
+            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Remove'),
             'onclick'   => 'formType.deleteFieldset()',
             'class'     => 'delete',
         ))->toHtml();
         $buttons[] = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
             'id'        => 'cancel_node_button',
-            'label'     => Mage::helper('enterprise_customer')->__('Cancel'),
+            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Cancel'),
             'onclick'   => 'formType.cancelFieldset()',
             'class'     => 'cancel',
         ))->toHtml();
@@ -108,7 +108,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
             $result[$stores->getId()] = $stores->getName();
         }
 
-        return Mage::helper('core')->jsonEncode($result);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
     }
 
     /**
@@ -154,7 +154,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
             );
         }
 
-        return Mage::helper('core')->jsonEncode($nodes);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($nodes);
     }
 
     /**
@@ -164,7 +164,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_customer')->__('Attributes');
+        return Mage::helper('Enterprise_Customer_Helper_Data')->__('Attributes');
     }
 
     /**
@@ -174,7 +174,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_customer')->__('Attributes');
+        return Mage::helper('Enterprise_Customer_Helper_Data')->__('Attributes');
     }
 
     /**

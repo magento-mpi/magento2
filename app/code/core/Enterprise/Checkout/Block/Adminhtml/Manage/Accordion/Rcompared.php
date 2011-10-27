@@ -48,7 +48,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
         parent::__construct();
         $this->setId('source_rcompared');
         $this->setHeaderText(
-            Mage::helper('enterprise_checkout')->__('Recently Compared Products (%s)', $this->getItemsCount())
+            Mage::helper('Enterprise_Checkout_Helper_Data')->__('Recently Compared Products (%s)', $this->getItemsCount())
         );
 
     }
@@ -81,7 +81,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
             Mage::getResourceSingleton('reports/event')->applyLogToCollection(
                 $productCollection, Mage_Reports_Model_Event::EVENT_PRODUCT_COMPARE, $this->_getCustomer()->getId(), 0, $skipProducts
             );
-            $productCollection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($productCollection);
+            $productCollection = Mage::helper('Mage_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($productCollection);
             $productCollection->addOptionsToResult();
             $this->setData('items_collection', $productCollection);
         }

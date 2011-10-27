@@ -334,7 +334,7 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
     public function getAttributeUsedForSortByArray()
     {
         $options = array(
-            'position'  => Mage::helper('catalog')->__('Position')
+            'position'  => Mage::helper('Mage_Catalog_Helper_Data')->__('Position')
         );
         foreach ($this->getAttributesUsedForSortBy() as $attribute) {
             /* @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */

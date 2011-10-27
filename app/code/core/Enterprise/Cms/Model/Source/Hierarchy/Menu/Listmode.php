@@ -41,15 +41,15 @@ class Enterprise_Cms_Model_Source_Hierarchy_Menu_Listmode
     public function toOptionArray()
     {
         return array(
-            ''          => Mage::helper('enterprise_cms')->__('Default'),
-            '1'         => Mage::helper('enterprise_cms')->__('Numbers (1, 2, 3, ...)'),
-            'a'         => Mage::helper('enterprise_cms')->__('Lower Alpha (a, b, c, ...)'),
-            'A'         => Mage::helper('enterprise_cms')->__('Upper Alpha (A, B, C, ...)'),
-            'i'         => Mage::helper('enterprise_cms')->__('Lower Roman (i, ii, iii, ...)'),
-            'I'         => Mage::helper('enterprise_cms')->__('Upper Roman (I, II, III, ...)'),
-            'circle'    => Mage::helper('enterprise_cms')->__('Circle'),
-            'disc'      => Mage::helper('enterprise_cms')->__('Disc'),
-            'square'    => Mage::helper('enterprise_cms')->__('Square'),
+            ''          => Mage::helper('Enterprise_Cms_Helper_Data')->__('Default'),
+            '1'         => Mage::helper('Enterprise_Cms_Helper_Data')->__('Numbers (1, 2, 3, ...)'),
+            'a'         => Mage::helper('Enterprise_Cms_Helper_Data')->__('Lower Alpha (a, b, c, ...)'),
+            'A'         => Mage::helper('Enterprise_Cms_Helper_Data')->__('Upper Alpha (A, B, C, ...)'),
+            'i'         => Mage::helper('Enterprise_Cms_Helper_Data')->__('Lower Roman (i, ii, iii, ...)'),
+            'I'         => Mage::helper('Enterprise_Cms_Helper_Data')->__('Upper Roman (I, II, III, ...)'),
+            'circle'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Circle'),
+            'disc'      => Mage::helper('Enterprise_Cms_Helper_Data')->__('Disc'),
+            'square'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Square'),
         );
     }
 }

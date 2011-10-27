@@ -41,7 +41,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_S
         $this->setChild('add_select_row_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('enterprise_giftregistry')->__('Add New Option'),
+                    'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Add New Option'),
                     'class' => 'add add-select-row',
                     'id'    => '{{prefix}}_add_select_row_button_{{id}}'
                 ))
@@ -50,7 +50,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_S
         $this->setChild('delete_select_row_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('enterprise_giftregistry')->__('Delete Option'),
+                    'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Delete Option'),
                     'class' => 'delete delete-select-row icon-btn'
                 ))
         );

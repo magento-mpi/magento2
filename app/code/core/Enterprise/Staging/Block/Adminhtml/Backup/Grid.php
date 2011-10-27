@@ -60,21 +60,21 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Grid extends Mage_Adminhtml_Bloc
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    => Mage::helper('enterprise_staging')->__('Website'),
+            'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Website'),
             'index'     => 'name',
             'type'      => 'text',
             'sortable'  => false
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('enterprise_staging')->__('Created At'),
+            'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Created At'),
             'index'     => 'created_at',
             'filter_index' => 'main_table.created_at',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('enterprise_staging')->__('Action'),
+            'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Action'),
             'type'      => 'action',
             'getter'    => 'getId',
             'width'     => 80,
@@ -85,12 +85,12 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Grid extends Mage_Adminhtml_Bloc
             'actions'   => array(
                 array(
                     'url'       => $this->getUrl('*/*/edit', array('id' => '$action_id')),
-                    'caption'   => Mage::helper('enterprise_staging')->__('Edit')
+                    'caption'   => Mage::helper('Enterprise_Staging_Helper_Data')->__('Edit')
                 ),
                 array(
                     'url'       => $this->getUrl('*/*/delete', array('id' => '$action_id')),
-                    'caption'   => Mage::helper('enterprise_staging')->__('Delete'),
-                    'confirm'   => Mage::helper('enterprise_staging')->__('Are you sure you want to do this?')
+                    'caption'   => Mage::helper('Enterprise_Staging_Helper_Data')->__('Delete'),
+                    'confirm'   => Mage::helper('Enterprise_Staging_Helper_Data')->__('Are you sure you want to do this?')
                 )
             )
         ));
@@ -111,9 +111,9 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Grid extends Mage_Adminhtml_Bloc
         $this->getMassactionBlock()->setFormFieldName('backupDelete');
 
         $this->getMassactionBlock()->addItem('delete', array(
-            'label'   => Mage::helper('enterprise_staging')->__('Delete'),
+            'label'   => Mage::helper('Enterprise_Staging_Helper_Data')->__('Delete'),
             'url'     => $this->getUrl('*/*/massDelete'),
-            'confirm' => Mage::helper('enterprise_staging')->__('Are you sure?')
+            'confirm' => Mage::helper('Enterprise_Staging_Helper_Data')->__('Are you sure?')
         ));
         return $this;
     }

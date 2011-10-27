@@ -72,8 +72,8 @@ class Mage_XmlConnect_Block_Customer_Order_Details extends Mage_Payment_Block_In
              'order_date' => $this->__('Order Date: %s', $orderDate)
         ));
         if (!$order->getIsVirtual()) {
-            $shipping = Mage::helper('xmlconnect')->trimLineBreaks($order->getShippingAddress()->format('text'));
-            $billing  = Mage::helper('xmlconnect')->trimLineBreaks($order->getBillingAddress()->format('text'));
+            $shipping = Mage::helper('Mage_XmlConnect_Helper_Data')->trimLineBreaks($order->getShippingAddress()->format('text'));
+            $billing  = Mage::helper('Mage_XmlConnect_Helper_Data')->trimLineBreaks($order->getBillingAddress()->format('text'));
 
             $orderXmlObj->addCustomChild('shipping_address', $shipping);
             $orderXmlObj->addCustomChild('billing_address', $billing);
@@ -81,7 +81,7 @@ class Mage_XmlConnect_Block_Customer_Order_Details extends Mage_Payment_Block_In
             if ($order->getShippingDescription()) {
                 $shippingMethodDescription = $order->getShippingDescription();
             } else {
-                $shippingMethodDescription = Mage::helper('sales')->__('No shipping information available');
+                $shippingMethodDescription = Mage::helper('Mage_Sales_Helper_Data')->__('No shipping information available');
             }
             $orderXmlObj->addCustomChild('shipping_method', $shippingMethodDescription);
         }
@@ -116,7 +116,7 @@ class Mage_XmlConnect_Block_Customer_Order_Details extends Mage_Payment_Block_In
         $order = $this->_getOrder();
 
         // TODO: it's need to create an info blocks for other payment methods (including Enterprise)
-        $method = $this->helper('payment')->getInfoBlock($order->getPayment())->getMethod();
+        $method = $this->helper('Mage_Payment_Helper_Data')->getInfoBlock($order->getPayment())->getMethod();
         $methodCode = $method->getCode();
 
         $paymentNode = $orderXmlObj->addChild('payment_method');

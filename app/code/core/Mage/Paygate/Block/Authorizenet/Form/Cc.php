@@ -114,10 +114,10 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
         $lastActionState = $this->getMethod()->getPartialAuthorizationLastActionState();
         if ($lastActionState == Mage_Paygate_Model_Authorizenet::PARTIAL_AUTH_LAST_SUCCESS) {
             $this->getMethod()->unsetPartialAuthorizationLastActionState();
-            return Mage::helper('paygate')->__('The amount on your credit card is insufficient to complete your purchase. The available amount has been put on hold. To complete your purchase click OK and specify additional credit card number. To cancel the purchase and release the amount on hold, click Cancel.');
+            return Mage::helper('Mage_Paygate_Helper_Data')->__('The amount on your credit card is insufficient to complete your purchase. The available amount has been put on hold. To complete your purchase click OK and specify additional credit card number. To cancel the purchase and release the amount on hold, click Cancel.');
         } elseif ($lastActionState == Mage_Paygate_Model_Authorizenet::PARTIAL_AUTH_LAST_DECLINED) {
             $this->getMethod()->unsetPartialAuthorizationLastActionState();
-            return Mage::helper('paygate')->__('Your credit card has been declined. Click OK to specify another credit card to complete your purchase. Click Cancel to release the amount on hold and select another payment method.');
+            return Mage::helper('Mage_Paygate_Helper_Data')->__('Your credit card has been declined. Click OK to specify another credit card to complete your purchase. Click Cancel to release the amount on hold and select another payment method.');
         }
         return false;;
     }
@@ -133,13 +133,13 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
         $message = false;
         switch ($lastActionState) {
             case Mage_Paygate_Model_Authorizenet::PARTIAL_AUTH_ALL_CANCELED:
-                $message = Mage::helper('paygate')->__('Your payment has been cancelled. All authorized amounts have been released.');
+                $message = Mage::helper('Mage_Paygate_Helper_Data')->__('Your payment has been cancelled. All authorized amounts have been released.');
                 break;
             case Mage_Paygate_Model_Authorizenet::PARTIAL_AUTH_CARDS_LIMIT_EXCEEDED:
-                $message = Mage::helper('paygate')->__('You have reached the maximum number of credit cards that can be used for one payment. The available amounts on all used cards were insufficient to complete payment. The payment has been cancelled and amounts on hold have been released.');
+                $message = Mage::helper('Mage_Paygate_Helper_Data')->__('You have reached the maximum number of credit cards that can be used for one payment. The available amounts on all used cards were insufficient to complete payment. The payment has been cancelled and amounts on hold have been released.');
                 break;
             case Mage_Paygate_Model_Authorizenet::PARTIAL_AUTH_DATA_CHANGED:
-                $message = Mage::helper('paygate')->__('Your order has not been placed, because contents of the shopping cart and/or address has been changed. Authorized amounts from your previous payment that were left pending are now released. Please go through the checkout process for your recent cart contents.');
+                $message = Mage::helper('Mage_Paygate_Helper_Data')->__('Your order has not been placed, because contents of the shopping cart and/or address has been changed. Authorized amounts from your previous payment that were left pending are now released. Please go through the checkout process for your recent cart contents.');
                 break;
         }
         if ($message) {
@@ -178,7 +178,7 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
         $cancelButton = $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setData(array(
                 'id'      => 'payment_cancel',
-                'label'   => Mage::helper('paygate')->__('Cancel'),
+                'label'   => Mage::helper('Mage_Paygate_Helper_Data')->__('Cancel'),
                 'onclick' => 'cancelPaymentAuthorizations()'
             ));
         return $cancelButton->toHtml();

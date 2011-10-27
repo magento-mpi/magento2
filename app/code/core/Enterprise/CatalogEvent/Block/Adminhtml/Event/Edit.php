@@ -52,7 +52,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
             $this->_addButton(
                 'save_and_continue',
                 array(
-                    'label' => $this->helper('enterprise_catalogevent')->__('Save and Continue Edit'),
+                    'label' => $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Save and Continue Edit'),
                     'class' => 'save',
                     'onclick'   => 'saveAndContinue()',
                 ),
@@ -78,7 +78,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
         }
 
         if ($this->getRequest()->getParam('category')) {
-            $this->_updateButton('back', 'label', $this->helper('enterprise_catalogevent')->__('Back to Category'));
+            $this->_updateButton('back', 'label', $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Back to Category'));
         }
 
         if ($this->getEvent()->isReadonly() && $this->getEvent()->getImageReadonly()) {
@@ -122,10 +122,10 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
     public function getHeaderText()
     {
         if ($this->getEvent()->getId()) {
-            return Mage::helper('enterprise_catalogevent')->__('Edit Catalog Event');
+            return Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Edit Catalog Event');
         }
         else {
-            return Mage::helper('enterprise_catalogevent')->__('Add Catalog Event');
+            return Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Add Catalog Event');
         }
     }
 

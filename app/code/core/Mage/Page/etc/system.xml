@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-        <design translate="label" module="core">
+        <design translate="label" module="Mage_Core">
             <groups>
                 <head translate="label">
                     <label>HTML Head</label>

@@ -94,7 +94,7 @@ class Mage_Directory_Block_Currency extends Mage_Core_Block_Template
      */
     public function getSwitchCurrencyUrl($code)
     {
-        return Mage::helper('directory/url')->getSwitchCurrencyUrl(array('currency' => $code));
+        return Mage::helper('Mage_Directory_Helper_Url')->getSwitchCurrencyUrl(array('currency' => $code));
     }
 
     /**

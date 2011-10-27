@@ -95,11 +95,11 @@ class Enterprise_PricePermissions_Model_Observer
         // load role with true websites and store groups
         if ($session->isLoggedIn() && $session->getUser()->getRole()) {
             // Set all necessary flags
-            $this->_canEditProductPrice = Mage::helper('enterprise_pricepermissions')->getCanAdminEditProductPrice();
-            $this->_canReadProductPrice = Mage::helper('enterprise_pricepermissions')->getCanAdminReadProductPrice();
-            $this->_canEditProductStatus = Mage::helper('enterprise_pricepermissions')->getCanAdminEditProductStatus();
+            $this->_canEditProductPrice = Mage::helper('Enterprise_PricePermissions_Helper_Data')->getCanAdminEditProductPrice();
+            $this->_canReadProductPrice = Mage::helper('Enterprise_PricePermissions_Helper_Data')->getCanAdminReadProductPrice();
+            $this->_canEditProductStatus = Mage::helper('Enterprise_PricePermissions_Helper_Data')->getCanAdminEditProductStatus();
             // Retrieve value of the default product price
-            $this->_defaultProductPriceString = Mage::helper('enterprise_pricepermissions')
+            $this->_defaultProductPriceString = Mage::helper('Enterprise_PricePermissions_Helper_Data')
                     ->getDefaultProductPriceString();
         }
     }

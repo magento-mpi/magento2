@@ -114,7 +114,7 @@ class Mage_XmlConnect_Block_Cart_Totals extends Mage_Checkout_Block_Cart_Totals
                             $totalXmlObj = $totalsXmlObj->addChild($code);
                             $totalXmlObj->addChild('title', $totalsXmlObj->xmlentities($title));
                             $totalXmlObj->addChild('value', $value);
-                            $value = Mage::helper('xmlconnect')->formatPriceForXml($cardCode['a']);
+                            $value = Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml($cardCode['a']);
                             $formattedValue = $this->getQuote()->getStore()->formatPrice($value, false);
                             $totalXmlObj->addChild('formated_value', '-' . $formattedValue);
                         }
@@ -147,7 +147,7 @@ class Mage_XmlConnect_Block_Cart_Totals extends Mage_Checkout_Block_Cart_Totals
      */
     protected function _addTotalDataToXmlObj($totalsXmlObj, $code, $title, $value)
     {
-        $value = Mage::helper('xmlconnect')->formatPriceForXml($value);
+        $value = Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml($value);
         $totalXmlObj = $totalsXmlObj->addChild($code);
         $totalXmlObj->addChild('title', $totalsXmlObj->xmlentities($title));
         $formattedValue = $this->getQuote()->getStore()->formatPrice($value, false);

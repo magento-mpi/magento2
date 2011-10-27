@@ -190,7 +190,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
     {
         if ($this->getId()) {
             Mage::throwException(
-                Mage::helper('sales')->__('Cannot register existing shipment')
+                Mage::helper('Mage_Sales_Helper_Data')->__('Cannot register existing shipment')
             );
         }
 
@@ -375,7 +375,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!Mage::helper('sales')->canSendNewShipmentEmail($storeId)) {
+        if (!Mage::helper('Mage_Sales_Helper_Data')->canSendNewShipmentEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
@@ -392,7 +392,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
 
         try {
             // Retrieve specified view block from appropriate design package (depends on emulated store)
-            $paymentBlock = Mage::helper('payment')->getInfoBlock($order->getPayment())
+            $paymentBlock = Mage::helper('Mage_Payment_Helper_Data')->getInfoBlock($order->getPayment())
                 ->setIsSecureMode(true);
             $paymentBlock->getMethod()->setStore($storeId);
             $paymentBlockHtml = $paymentBlock->toHtml();
@@ -465,7 +465,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!Mage::helper('sales')->canSendShipmentCommentEmail($storeId)) {
+        if (!Mage::helper('Mage_Sales_Helper_Data')->canSendShipmentCommentEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
@@ -541,7 +541,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
     {
         if ((!$this->getId() || null !== $this->_items) && !count($this->getAllItems())) {
             Mage::throwException(
-                Mage::helper('sales')->__('Cannot create an empty shipment.')
+                Mage::helper('Mage_Sales_Helper_Data')->__('Cannot create an empty shipment.')
             );
         }
 

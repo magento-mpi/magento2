@@ -44,7 +44,7 @@ class Mage_Sales_OrderController extends Mage_Sales_Controller_Abstract
     {
         parent::preDispatch();
         $action = $this->getRequest()->getActionName();
-        $loginUrl = Mage::helper('customer')->getLoginUrl();
+        $loginUrl = Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl();
 
         if (!Mage::getSingleton('customer/session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);

@@ -128,29 +128,29 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
         ));
 
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('catalog')->__('ID'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('catalog')->__('Name'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Name'),
             'index'     => 'name'
         ));
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('catalog')->__('SKU'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
             'width'     => '80px',
             'index'     => 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => Mage::helper('catalog')->__('Price'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Price'),
             'type'      => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
 
         $this->addColumn('qty', array(
-            'header'    => Mage::helper('catalog')->__('Default Qty'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Default Qty'),
             'name'      => 'qty',
             'type'      => 'number',
             'validate_class' => 'validate-number',
@@ -160,7 +160,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
         ));
 
         $this->addColumn('position', array(
-            'header'    => Mage::helper('catalog')->__('Position'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Position'),
             'name'      => 'position',
             'type'      => 'number',
             'validate_class' => 'validate-number',
@@ -219,11 +219,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
 
     public function getTabLabel()
     {
-        return Mage::helper('catalog')->__('Associated Products');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Associated Products');
     }
     public function getTabTitle()
     {
-        return Mage::helper('catalog')->__('Associated Products');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Associated Products');
     }
     public function canShowTab()
     {

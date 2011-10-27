@@ -44,15 +44,15 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Grid_Renderer_Bool
     {
         $result = '';
         $status = (int) $row->getData($this->getColumn()->getIndex());
-        $options = Mage::helper('xmlconnect')->getStatusOptions();
+        $options = Mage::helper('Mage_XmlConnect_Helper_Data')->getStatusOptions();
         if ($status == Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS) {
             $result = '<img src="'
-                . Mage::helper('xmlconnect/image')->getSkinImagesUrl('gel_green.png')
+                . Mage::helper('Mage_XmlConnect_Helper_Image')->getSkinImagesUrl('gel_green.png')
                 . '" >&nbsp;'
                 . (isset($options[$status]) ? $options[$status] : '');
         } else if ($status == Mage_XmlConnect_Model_Application::APP_STATUS_INACTIVE) {
             $result = '<img src="'
-            . Mage::helper('xmlconnect/image')->getSkinImagesUrl('gel_red.png')
+            . Mage::helper('Mage_XmlConnect_Helper_Image')->getSkinImagesUrl('gel_red.png')
             . '" >&nbsp;'
             . (isset($options[$status]) ? $options[$status] : '');
         }

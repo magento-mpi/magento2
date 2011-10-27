@@ -151,7 +151,7 @@ class Mage_Paypal_Model_Info
         $result = $this->_getFullInfo(array_values($this->_paymentMap), $payment, $labelValuesOnly);
 
         // add last_trans_id
-        $label = Mage::helper('paypal')->__('Last Transaction ID');
+        $label = Mage::helper('Mage_Paypal_Helper_Data')->__('Last Transaction ID');
         $value = $payment->getLastTransId();
         if ($labelValuesOnly) {
             $result[$label] = $value;
@@ -293,30 +293,30 @@ class Mage_Paypal_Model_Info
     {
         switch ($code) {
             case 'address':
-                return Mage::helper('paypal')->__('Customer did not include a confirmed address.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Customer did not include a confirmed address.');
             case 'authorization':
             case 'order':
-                return Mage::helper('paypal')->__('The payment is authorized but not settled.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('The payment is authorized but not settled.');
             case 'echeck':
-                return Mage::helper('paypal')->__('The payment eCheck is not yet cleared.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('The payment eCheck is not yet cleared.');
             case 'intl':
-                return Mage::helper('paypal')->__('Merchant holds a non-U.S. account and does not have a withdrawal mechanism.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Merchant holds a non-U.S. account and does not have a withdrawal mechanism.');
             case 'multi-currency': // break is intentionally omitted
             case 'multi_currency': // break is intentionally omitted
             case 'multicurrency':
-                return Mage::helper('paypal')->__('The payment curency does not match any of the merchant\'s balances currency.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('The payment curency does not match any of the merchant\'s balances currency.');
             case 'paymentreview':
-                return Mage::helper('paypal')->__('The payment is pending while it is being reviewed by PayPal for risk.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('The payment is pending while it is being reviewed by PayPal for risk.');
             case 'unilateral':
-                return Mage::helper('paypal')->__('The payment is pending because it was made to an email address that is not yet registered or confirmed.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('The payment is pending because it was made to an email address that is not yet registered or confirmed.');
             case 'verify':
-                return Mage::helper('paypal')->__('The merchant account is not yet verified.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('The merchant account is not yet verified.');
             case 'upgrade':
-                return Mage::helper('paypal')->__('The payment was made via credit card. In order to receive funds merchant must upgrade account to Business or Premier status.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('The payment was made via credit card. In order to receive funds merchant must upgrade account to Business or Premier status.');
             case 'none': // break is intentionally omitted
             case 'other': // break is intentionally omitted
             default:
-                return Mage::helper('paypal')->__('Unknown reason. Please contact PayPal customer service.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Unknown reason. Please contact PayPal customer service.');
         }
     }
 
@@ -332,23 +332,23 @@ class Mage_Paypal_Model_Info
     {
         switch ($code) {
             case 'chargeback':
-                return Mage::helper('paypal')->__('Chargeback by customer.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Chargeback by customer.');
             case 'guarantee':
-                return Mage::helper('paypal')->__('Customer triggered a money-back guarantee.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Customer triggered a money-back guarantee.');
             case 'buyer-complaint':
-                return Mage::helper('paypal')->__('Customer complaint.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Customer complaint.');
             case 'refund':
-                return Mage::helper('paypal')->__('Refund issued by merchant.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Refund issued by merchant.');
             case 'adjustment_reversal':
-                return Mage::helper('paypal')->__('Reversal of an adjustment.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Reversal of an adjustment.');
             case 'chargeback_reimbursement':
-                return Mage::helper('paypal')->__('Reimbursement for a chargeback.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Reimbursement for a chargeback.');
             case 'chargeback_settlement':
-                return Mage::helper('paypal')->__('Settlement of a chargeback.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Settlement of a chargeback.');
             case 'none': // break is intentionally omitted
             case 'other':
             default:
-                return Mage::helper('paypal')->__('Unknown reason. Please contact PayPal customer service.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Unknown reason. Please contact PayPal customer service.');
         }
     }
 
@@ -420,33 +420,33 @@ class Mage_Paypal_Model_Info
     {
         switch ($key) {
             case 'paypal_payer_id':
-                return Mage::helper('paypal')->__('Payer ID');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Payer ID');
             case 'paypal_payer_email':
-                return Mage::helper('paypal')->__('Payer Email');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Payer Email');
             case 'paypal_payer_status':
-                return Mage::helper('paypal')->__('Payer Status');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Payer Status');
             case 'paypal_address_id':
-                return Mage::helper('paypal')->__('Payer Address ID');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Payer Address ID');
             case 'paypal_address_status':
-                return Mage::helper('paypal')->__('Payer Address Status');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Payer Address Status');
             case 'paypal_protection_eligibility':
-                return Mage::helper('paypal')->__('Merchant Protection Eligibility');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Merchant Protection Eligibility');
             case 'paypal_fraud_filters':
-                return Mage::helper('paypal')->__('Triggered Fraud Filters');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Triggered Fraud Filters');
             case 'paypal_correlation_id':
-                return Mage::helper('paypal')->__('Last Correlation ID');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Last Correlation ID');
             case 'paypal_avs_code':
-                return Mage::helper('paypal')->__('Address Verification System Response');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Address Verification System Response');
             case 'paypal_cvv2_match':
-                return Mage::helper('paypal')->__('CVV2 Check Result by PayPal');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('CVV2 Check Result by PayPal');
             case self::BUYER_TAX_ID :
-                return Mage::helper('paypal')->__('Buyer\'s Tax ID');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Buyer\'s Tax ID');
             case self::BUYER_TAX_ID_TYPE :
-                return Mage::helper('paypal')->__('Buyer\'s Tax ID Type');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Buyer\'s Tax ID Type');
             case self::CENTINEL_VPAS:
-                return Mage::helper('paypal')->__('PayPal/Centinel Visa Payer Authentication Service Result');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('PayPal/Centinel Visa Payer Authentication Service Result');
             case self::CENTINEL_ECI:
-                return Mage::helper('paypal')->__('PayPal/Centinel Electronic Commerce Indicator');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('PayPal/Centinel Electronic Commerce Indicator');
         }
         return '';
     }
@@ -495,52 +495,52 @@ class Mage_Paypal_Model_Info
             // Visa, MasterCard, Discover and American Express
             case 'A':
             case 'YN':
-                return Mage::helper('paypal')->__('Matched Address only (no ZIP)');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Matched Address only (no ZIP)');
             case 'B': // international "A"
-                return Mage::helper('paypal')->__('Matched Address only (no ZIP). International');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Matched Address only (no ZIP). International');
             case 'N':
-                return Mage::helper('paypal')->__('No Details matched');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('No Details matched');
             case 'C': // international "N"
-                return Mage::helper('paypal')->__('No Details matched. International');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('No Details matched. International');
             case 'X':
-                return Mage::helper('paypal')->__('Exact Match. Address and nine-digit ZIP code');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Exact Match. Address and nine-digit ZIP code');
             case 'D': // international "X"
-                return Mage::helper('paypal')->__('Exact Match. Address and Postal Code. International');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Exact Match. Address and Postal Code. International');
             case 'F': // UK-specific "X"
-                return Mage::helper('paypal')->__('Exact Match. Address and Postal Code. UK-specific');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Exact Match. Address and Postal Code. UK-specific');
             case 'E':
-                return Mage::helper('paypal')->__('N/A. Not allowed for MOTO (Internet/Phone) transactions');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('N/A. Not allowed for MOTO (Internet/Phone) transactions');
             case 'G':
-                return Mage::helper('paypal')->__('N/A. Global Unavailable');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('N/A. Global Unavailable');
             case 'I':
-                return Mage::helper('paypal')->__('N/A. International Unavailable');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('N/A. International Unavailable');
             case 'Z':
             case 'NY':
-                return Mage::helper('paypal')->__('Matched five-digit ZIP only (no Address)');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Matched five-digit ZIP only (no Address)');
             case 'P': // international "Z"
             case 'NY':
-                return Mage::helper('paypal')->__('Matched Postal Code only (no Address)');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Matched Postal Code only (no Address)');
             case 'R':
-                return Mage::helper('paypal')->__('N/A. Retry');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('N/A. Retry');
             case 'S':
-                return Mage::helper('paypal')->__('N/A. Service not Supported');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('N/A. Service not Supported');
             case 'U':
-                return Mage::helper('paypal')->__('N/A. Unavailable');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('N/A. Unavailable');
             case 'W':
-                return Mage::helper('paypal')->__('Matched whole nine-didgit ZIP (no Address)');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Matched whole nine-didgit ZIP (no Address)');
             case 'Y':
-                return Mage::helper('paypal')->__('Yes. Matched Address and five-didgit ZIP');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Yes. Matched Address and five-didgit ZIP');
             // Maestro and Solo
             case '0':
-                return Mage::helper('paypal')->__('All the address information matched');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('All the address information matched');
             case '1':
-                return Mage::helper('paypal')->__('None of the address information matched');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('None of the address information matched');
             case '2':
-                return Mage::helper('paypal')->__('Part of the address information matched');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Part of the address information matched');
             case '3':
-                return Mage::helper('paypal')->__('N/A. The merchant did not provide AVS information');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('N/A. The merchant did not provide AVS information');
             case '4':
-                return Mage::helper('paypal')->__('N/A. Address not checked, or acquirer had no response. Service not available');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('N/A. Address not checked, or acquirer had no response. Service not available');
             default:
                 return $value;
         }
@@ -558,28 +558,28 @@ class Mage_Paypal_Model_Info
         switch ($value) {
             // Visa, MasterCard, Discover and American Express
             case 'M':
-                return Mage::helper('paypal')->__('Matched (CVV2CSC)');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Matched (CVV2CSC)');
             case 'N':
-                return Mage::helper('paypal')->__('No match');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('No match');
             case 'P':
-                return Mage::helper('paypal')->__('N/A. Not processed');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('N/A. Not processed');
             case 'S':
-                return Mage::helper('paypal')->__('N/A. Service not supported');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('N/A. Service not supported');
             case 'U':
-                return Mage::helper('paypal')->__('N/A. Service not available');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('N/A. Service not available');
             case 'X':
-                return Mage::helper('paypal')->__('N/A. No response');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('N/A. No response');
             // Maestro and Solo
             case '0':
-                return Mage::helper('paypal')->__('Matched (CVV2)');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Matched (CVV2)');
             case '1':
-                return Mage::helper('paypal')->__('No match');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('No match');
             case '2':
-                return Mage::helper('paypal')->__('N/A. The merchant has not implemented CVV2 code handling');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('N/A. The merchant has not implemented CVV2 code handling');
             case '3':
-                return Mage::helper('paypal')->__('N/A. Merchant has indicated that CVV2 is not present on card');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('N/A. Merchant has indicated that CVV2 is not present on card');
             case '4':
-                return Mage::helper('paypal')->__('N/A. Service not available');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('N/A. Service not available');
             default:
                 return $value;
         }
@@ -597,23 +597,23 @@ class Mage_Paypal_Model_Info
         switch ($value) {
             case '2':
             case 'D':
-                return Mage::helper('paypal')->__('Authenticated, Good Result');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Authenticated, Good Result');
             case '1':
-                return Mage::helper('paypal')->__('Authenticated, Bad Result');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Authenticated, Bad Result');
             case '3':
             case '6':
             case '8':
             case 'A':
             case 'C':
-                return Mage::helper('paypal')->__('Attempted Authentication, Good Result');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Attempted Authentication, Good Result');
             case '4':
             case '7':
             case '9':
-                return Mage::helper('paypal')->__('Attempted Authentication, Bad Result');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Attempted Authentication, Bad Result');
             case '':
             case '0':
             case 'B':
-                return Mage::helper('paypal')->__('No Liability Shift');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('No Liability Shift');
             default:
                 return $value;
         }
@@ -631,11 +631,11 @@ class Mage_Paypal_Model_Info
         switch ($value) {
             case '01':
             case '07':
-                return Mage::helper('paypal')->__('Merchant Liability');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Merchant Liability');
             case '02':
             case '05':
             case '06':
-                return Mage::helper('paypal')->__('Issuer Liability');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Issuer Liability');
             default:
                 return $value;
         }
@@ -652,10 +652,10 @@ class Mage_Paypal_Model_Info
         $value = '';
         switch ($code) {
             case self::BUYER_TAX_ID_TYPE_CNPJ :
-                $value = Mage::helper('paypal')->__('CNPJ');
+                $value = Mage::helper('Mage_Paypal_Helper_Data')->__('CNPJ');
                 break;
             case self::BUYER_TAX_ID_TYPE_CPF :
-                $value = Mage::helper('paypal')->__('CPF');
+                $value = Mage::helper('Mage_Paypal_Helper_Data')->__('CPF');
                 break;
         }
         return $value;

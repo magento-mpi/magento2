@@ -47,9 +47,9 @@ class Enterprise_GiftRegistry_Block_Customer_Edit extends Mage_Directory_Block_D
     public function getFormHeader()
     {
         if (Mage::registry('enterprise_giftregistry_entity')->getId()) {
-            return Mage::helper('enterprise_giftregistry')->__('Edit Gift Registry');
+            return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Edit Gift Registry');
         } else {
-            return Mage::helper('enterprise_giftregistry')->__('Create Gift Registry');
+            return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Create Gift Registry');
         }
     }
 

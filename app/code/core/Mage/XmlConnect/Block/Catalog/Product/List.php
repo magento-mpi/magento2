@@ -106,7 +106,7 @@ class Mage_XmlConnect_Block_Catalog_Product_List extends Mage_XmlConnect_Block_C
                  */
                 foreach ($attributes as $attributeItem) {
                     $attributeCode  = $attributeItem->getAttributeCode();
-                    list($filterModel, $filterBlock) = $this->helper('xmlconnect')->getFilterByKey($attributeCode);
+                    list($filterModel, $filterBlock) = $this->helper('Mage_XmlConnect_Helper_Data')->getFilterByKey($attributeCode);
 
                     $filterModel->setLayer($layer)->setAttributeModel($attributeItem);
 
@@ -124,7 +124,7 @@ class Mage_XmlConnect_Block_Catalog_Product_List extends Mage_XmlConnect_Block_C
                 /**
                  * Separately apply and save category filter
                  */
-                list($categoryFilter, $categoryFilterBlock) = $this->helper('xmlconnect')->getFilterByKey('category');
+                list($categoryFilter, $categoryFilterBlock) = $this->helper('Mage_XmlConnect_Helper_Data')->getFilterByKey('category');
                 $filterParam = parent::REQUEST_FILTER_PARAM_REFIX . $categoryFilter->getRequestVar();
                 $categoryFilter->setLayer($layer)->setRequestVar($filterParam)
                     ->apply($this->getRequest(), $categoryFilterBlock);

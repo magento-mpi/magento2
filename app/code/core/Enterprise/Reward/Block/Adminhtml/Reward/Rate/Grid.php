@@ -64,21 +64,21 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid extends Mage_Adminhtml_
     protected function _prepareColumns()
     {
         $this->addColumn('rate_id', array(
-            'header' => Mage::helper('enterprise_reward')->__('ID'),
+            'header' => Mage::helper('Enterprise_Reward_Helper_Data')->__('ID'),
             'align'  => 'left',
             'index'  => 'rate_id',
             'width'  => 1,
         ));
 
         $this->addColumn('website_id', array(
-            'header'  => Mage::helper('enterprise_reward')->__('Website'),
+            'header'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
             'index'   => 'website_id',
             'type'    => 'options',
             'options' => Mage::getModel('enterprise_reward/source_website')->toOptionArray()
         ));
 
         $this->addColumn('customer_group_id', array(
-            'header'  => Mage::helper('enterprise_reward')->__('Customer Group'),
+            'header'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Customer Group'),
             'index'   => 'customer_group_id',
             'type'    => 'options',
             'options' => Mage::getModel('enterprise_reward/source_customer_groups')->toOptionArray()
@@ -86,7 +86,7 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid extends Mage_Adminhtml_
 
         $this->addColumn('rate', array(
             'getter'   => array($this, 'getRateText'),
-            'header'   => Mage::helper('enterprise_reward')->__('Rate'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Rate'),
             'filter'   => false,
             'sortable' => false,
             'html_decorators' => 'nobr',

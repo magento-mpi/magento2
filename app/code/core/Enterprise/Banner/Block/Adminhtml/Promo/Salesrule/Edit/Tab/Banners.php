@@ -42,7 +42,7 @@ implements Mage_Adminhtml_Block_Widget_Tab_Interface
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_banner')->__('Related Banners');
+        return Mage::helper('Enterprise_Banner_Helper_Data')->__('Related Banners');
     }
 
     /**
@@ -52,7 +52,7 @@ implements Mage_Adminhtml_Block_Widget_Tab_Interface
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_banner')->__('Related Banners');
+        return Mage::helper('Enterprise_Banner_Helper_Data')->__('Related Banners');
     }
 
     /**

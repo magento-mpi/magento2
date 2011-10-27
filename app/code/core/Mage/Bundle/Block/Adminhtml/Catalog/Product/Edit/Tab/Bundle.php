@@ -62,7 +62,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle extends Mage_A
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('bundle')->__('Add New Option'),
+                    'label' => Mage::helper('Mage_Bundle_Helper_Data')->__('Add New Option'),
                     'class' => 'add',
                     'id'    => 'add_new_option',
                     'on_click' => 'bOption.add()'
@@ -109,11 +109,11 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle extends Mage_A
 
     public function getTabLabel()
     {
-        return Mage::helper('bundle')->__('Bundle Items');
+        return Mage::helper('Mage_Bundle_Helper_Data')->__('Bundle Items');
     }
     public function getTabTitle()
     {
-        return Mage::helper('bundle')->__('Bundle Items');
+        return Mage::helper('Mage_Bundle_Helper_Data')->__('Bundle Items');
     }
     public function canShowTab()
     {

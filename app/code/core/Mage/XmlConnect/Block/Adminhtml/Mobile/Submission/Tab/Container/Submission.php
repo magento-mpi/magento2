@@ -55,7 +55,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
     {
         $block = $this->getLayout()->createBlock('adminhtml/template')
             ->setTemplate('xmlconnect/submission/app_icons_preview.phtml')
-            ->setImages(Mage::helper('xmlconnect')->getApplication()->getImages());
+            ->setImages(Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getImages());
         $this->setChild('images', $block);
         parent::_prepareLayout();
     }
@@ -88,11 +88,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
      */
     protected function _prepareForm()
     {
-        $deviceType = Mage::helper('xmlconnect')->getDeviceType();
+        $deviceType = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceType();
         $form = new Varien_Data_Form();
         $this->setForm($form);
         /** @var $app Mage_XmlConnect_Model_Application */
-        $app = Mage::helper('xmlconnect')->getApplication();
+        $app = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
         $form->setAction($this->getUrl('*/mobile/submission'));
         $isResubmit = $app->getIsResubmitAction();
         $formData = $app->getFormData();
@@ -218,13 +218,13 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             $selected = null;
         }
 
-        $deviceHelper = Mage::helper('xmlconnect')->getDeviceHelper();
+        $deviceHelper = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceHelper();
         $fieldset->addType('country', 'Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Country');
         $fieldset->addField('conf/submit_text/country', 'country', array(
             'id'                => 'submission-countries',
             'name'              => 'conf[submit_text][country][]',
             'label'             => $deviceHelper->getCountryLabel(),
-            'values'            => Mage::helper('xmlconnect')->getCountryOptionsArray(),
+            'values'            => Mage::helper('Mage_XmlConnect_Helper_Data')->getCountryOptionsArray(),
             'value'             => $selected,
             'note'              => $this->__('Make this app available in the following territories'),
             'columns'           => $deviceHelper->getCountryColumns(),

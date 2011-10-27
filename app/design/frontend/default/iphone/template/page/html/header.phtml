@@ -27,7 +27,7 @@
  * @var Mage_Page_Block_Html_Header $this
  */
 ?>
-<?php $_cartItems = $this->helper('checkout/cart')->getSummaryCount(); ?>
+<?php $_cartItems = $this->helper('Mage_Checkout_Helper_Cart')->getSummaryCount(); ?>
 <header>
     <div class="store-logo">
         <a href="<?php echo $this->getUrl('') ?>" id="home-link">

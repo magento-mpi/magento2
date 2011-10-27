@@ -68,7 +68,7 @@ class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_
         );
 
         return $this->getReward()->getPointsBalance() >= $minPointsBalance
-            && Mage::helper('enterprise_reward')->isEnabledOnFront($websiteId)
+            && Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($websiteId)
             && Mage::getSingleton('admin/session')
                 ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_AFFECT)
             && (float)$this->getCurrencyAmount();
@@ -102,7 +102,7 @@ class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_
     {
         $points = $this->getReward()->getPointsBalance();
         $amount = $this->getReward()->getCurrencyAmount();
-        $rewardFormatted = Mage::helper('enterprise_reward')
+        $rewardFormatted = Mage::helper('Enterprise_Reward_Helper_Data')
             ->formatReward($points, $amount, $this->getQuote()->getStore()->getId());
         $this->setPointsBalance($points)->setCurrencyAmount($amount)
             ->setUseLabel($this->__('Use my reward points, %s are available.', $rewardFormatted))

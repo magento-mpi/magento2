@@ -70,8 +70,8 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
     {
         $adapter    = $this->_getWriteAdapter();
         $data       = new Varien_Object(array(
-            'url'    => Mage::helper('core/string')->substr($visitor->getUrl(), 0, 250),
-            'referer'=> Mage::helper('core/string')->substr($visitor->getHttpReferer(), 0, 250)
+            'url'    => Mage::helper('Mage_Core_Helper_String')->substr($visitor->getUrl(), 0, 250),
+            'referer'=> Mage::helper('Mage_Core_Helper_String')->substr($visitor->getHttpReferer(), 0, 250)
         ));
         $bind = $this->_prepareDataForTable($data, $this->getTable('log_url_info'));
 
@@ -128,7 +128,7 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
     protected function _saveVisitorInfo($visitor)
     {
         /* @var $stringHelper Mage_Core_Helper_String */
-        $stringHelper = Mage::helper('core/string');
+        $stringHelper = Mage::helper('Mage_Core_Helper_String');
 
         $referer    = $stringHelper->cleanString($visitor->getHttpReferer());
         $referer    = $stringHelper->substr($referer, 0, 255);

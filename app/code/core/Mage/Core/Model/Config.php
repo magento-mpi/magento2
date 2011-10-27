@@ -649,7 +649,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 } elseif ('websites' == $scope) {
                     $scopeCode = Mage::app()->getWebsite($scopeCode)->getCode();
                 } else {
-                    Mage::throwException(Mage::helper('core')->__('Unknown scope "%s".', $scope));
+                    Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Unknown scope "%s".', $scope));
                 }
             }
             $path = $scope . ($scopeCode ? '/' . $scopeCode : '' ) . (empty($path) ? '' : '/' . $path);
@@ -849,7 +849,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             foreach ($moduleProps['depends'] as $depend => $true) {
                 if ($moduleProps['active'] && ((!isset($modules[$depend])) || empty($modules[$depend]['active']))) {
                     Mage::throwException(
-                        Mage::helper('core')->__('Module "%1$s" requires module "%2$s".', $moduleName, $depend)
+                        Mage::helper('Mage_Core_Helper_Data')->__('Module "%1$s" requires module "%2$s".', $moduleName, $depend)
                     );
                 }
                 $depends = array_merge($depends, $modules[$depend]['depends']);
@@ -874,7 +874,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             foreach ($moduleProp['depends'] as $dependModule => $true) {
                 if (!isset($definedModules[$dependModule])) {
                     Mage::throwException(
-                        Mage::helper('core')->__(
+                        Mage::helper('Mage_Core_Helper_Data')->__(
                             'Module "%1$s" cannot depend on "%2$s".', $moduleProp['module'], $dependModule
                         )
                     );
@@ -1322,8 +1322,14 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getHelperClassName($helperName)
     {
-        if (preg_match('/^[a-z]/', $helperName) && strpos($helperName, '/') === false) {
-            $helperName .= '/data';
+        if (preg_match('/^[a-z]/', $helperName)) {
+            if (strpos($helperName, '/') === false) {
+                $helperName .= '/data';
+            }
+        } else {
+            if (strpos($helperName, '_Helper_') === false) {
+                $helperName .= '_Helper_Data';
+            }
         }
         return $this->getGroupedClassName('helper', $helperName);
     }
@@ -1385,7 +1391,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         } else {
             /* throw Mage::exception(
                 'Mage_Core',
-                Mage::helper('core')->__('Model class does not exist: %s.', $modelClass)
+                Mage::helper('Mage_Core_Helper_Data')->__('Model class does not exist: %s.', $modelClass)
             ); */
             return false;
         }

@@ -56,11 +56,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region extends Mage_Adminhtml_
         $selectName = str_replace('region', 'region_id', $element->getName());
         $selectId   = $element->getHtmlId().'_id';
         $html.= '<select id="'.$selectId.'" name="'.$selectName.'" class="select required-entry" style="display:none">';
-        $html.= '<option value="">'.Mage::helper('customer')->__('Please select').'</option>';
+        $html.= '<option value="">'.Mage::helper('Mage_Customer_Helper_Data')->__('Please select').'</option>';
         $html.= '</select>';
 
         $html.= '<script type="text/javascript">'."\n";
-        $html.= 'new regionUpdater("'.$country->getHtmlId().'", "'.$element->getHtmlId().'", "'.$selectId.'", '.$this->helper('directory')->getRegionJson().');'."\n";
+        $html.= 'new regionUpdater("'.$country->getHtmlId().'", "'.$element->getHtmlId().'", "'.$selectId.'", '.$this->helper('Mage_Directory_Helper_Data')->getRegionJson().');'."\n";
         $html.= '</script>'."\n";
 
         $html.= '</td></tr>'."\n";

@@ -229,7 +229,7 @@ class Mage_Catalog_Model_Url
         if ($this->_saveRewritesHistory !== null) {
             return $this->_saveRewritesHistory;
         }
-        return Mage::helper('catalog')->shouldSaveUrlRewritesHistory($storeId);
+        return Mage::helper('Mage_Catalog_Helper_Data')->shouldSaveUrlRewritesHistory($storeId);
     }
 
     /**
@@ -661,7 +661,7 @@ class Mage_Catalog_Model_Url
      */
     public function getProductUrlSuffix($storeId)
     {
-        return Mage::helper('catalog/product')->getProductUrlSuffix($storeId);
+        return Mage::helper('Mage_Catalog_Helper_Product')->getProductUrlSuffix($storeId);
     }
 
     /**
@@ -672,7 +672,7 @@ class Mage_Catalog_Model_Url
      */
     public function getCategoryUrlSuffix($storeId)
     {
-        return Mage::helper('catalog/category')->getCategoryUrlSuffix($storeId);
+        return Mage::helper('Mage_Catalog_Helper_Category')->getCategoryUrlSuffix($storeId);
     }
 
     /**
@@ -698,7 +698,7 @@ class Mage_Catalog_Model_Url
         if ($category->getLevel() > 1) {
             // To ensure, that category has path either from attribute or generated now
             $this->_addCategoryUrlPath($category);
-            $categoryUrl = Mage::helper('catalog/category')->getCategoryUrlPath($category->getUrlPath(),
+            $categoryUrl = Mage::helper('Mage_Catalog_Helper_Category')->getCategoryUrlPath($category->getUrlPath(),
                 false, $storeId);
             $requestPath = $categoryUrl . '/' . $urlKey;
         } else {
@@ -776,7 +776,7 @@ class Mage_Catalog_Model_Url
     public function generatePath($type = 'target', $product = null, $category = null, $parentPath = null)
     {
         if (!$product && !$category) {
-            Mage::throwException(Mage::helper('core')->__('Please specify either a category or a product, or both.'));
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Please specify either a category or a product, or both.'));
         }
 
         // generate id_path
@@ -808,7 +808,7 @@ class Mage_Catalog_Model_Url
                 elseif ($parentPath == '/') {
                     $parentPath = '';
                 }
-                $parentPath = Mage::helper('catalog/category')->getCategoryUrlPath($parentPath,
+                $parentPath = Mage::helper('Mage_Catalog_Helper_Category')->getCategoryUrlPath($parentPath,
                     true, $category->getStoreId());
 
                 return $this->getUnusedPath($category->getStoreId(), $parentPath . $urlKey . $categoryUrlSuffix,
@@ -818,7 +818,7 @@ class Mage_Catalog_Model_Url
 
             // for product & category
             if (!$category) {
-                Mage::throwException(Mage::helper('core')->__('A category object is required for determining the product request path.')); // why?
+                Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('A category object is required for determining the product request path.')); // why?
             }
 
             if ($product->getUrlKey() == '') {
@@ -831,7 +831,7 @@ class Mage_Catalog_Model_Url
             if ($category->getLevel() > 1) {
                 // To ensure, that category has url path either from attribute or generated now
                 $this->_addCategoryUrlPath($category);
-                $categoryUrl = Mage::helper('catalog/category')->getCategoryUrlPath($category->getUrlPath(),
+                $categoryUrl = Mage::helper('Mage_Catalog_Helper_Category')->getCategoryUrlPath($category->getUrlPath(),
                     false, $category->getStoreId());
                 return $this->getUnusedPath($category->getStoreId(), $categoryUrl . '/' . $urlKey . $productUrlSuffix,
                     $this->generatePath('id', $product, $category)

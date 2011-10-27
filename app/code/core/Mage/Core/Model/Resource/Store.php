@@ -52,7 +52,7 @@ class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstrac
     {
         $this->_uniqueFields = array(array(
             'field' => 'code',
-            'title' => Mage::helper('core')->__('Store with the same code')
+            'title' => Mage::helper('Mage_Core_Helper_Data')->__('Store with the same code')
         ));
         return $this;
     }
@@ -67,7 +67,7 @@ class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstrac
     {
         if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $model->getCode())) {
             Mage::throwException(
-                Mage::helper('core')->__('The store code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'));
+                Mage::helper('Mage_Core_Helper_Data')->__('The store code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'));
         }
 
         return $this;

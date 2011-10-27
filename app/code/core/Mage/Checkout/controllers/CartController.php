@@ -198,7 +198,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
-                    $message = $this->__('%s was added to your shopping cart.', Mage::helper('core')->htmlEscape($product->getName()));
+                    $message = $this->__('%s was added to your shopping cart.', Mage::helper('Mage_Core_Helper_Data')->htmlEscape($product->getName()));
                     $this->_getSession()->addSuccess($message);
                 }
                 $this->_goBack();
@@ -217,7 +217,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             if ($url) {
                 $this->getResponse()->setRedirect($url);
             } else {
-                $this->_redirectReferer(Mage::helper('checkout/cart')->getCartUrl());
+                $this->_redirectReferer(Mage::helper('Mage_Checkout_Helper_Cart')->getCartUrl());
             }
         } catch (Exception $e) {
             $this->_getSession()->addException($e, $this->__('Cannot add the item to shopping cart.'));
@@ -282,7 +282,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $params->setConfigureMode(true);
             $params->setBuyRequest($quoteItem->getBuyRequest());
 
-            Mage::helper('catalog/product_view')->prepareAndRender($quoteItem->getProduct()->getId(), $this, $params);
+            Mage::helper('Mage_Catalog_Helper_Product_View')->prepareAndRender($quoteItem->getProduct()->getId(), $this, $params);
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('Cannot configure product.'));
             Mage::logException($e);
@@ -338,7 +338,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             );
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
-                    $message = $this->__('%s was updated in your shopping cart.', Mage::helper('core')->htmlEscape($item->getProduct()->getName()));
+                    $message = $this->__('%s was updated in your shopping cart.', Mage::helper('Mage_Core_Helper_Data')->htmlEscape($item->getProduct()->getName()));
                     $this->_getSession()->addSuccess($message);
                 }
                 $this->_goBack();
@@ -357,7 +357,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             if ($url) {
                 $this->getResponse()->setRedirect($url);
             } else {
-                $this->_redirectReferer(Mage::helper('checkout/cart')->getCartUrl());
+                $this->_redirectReferer(Mage::helper('Mage_Checkout_Helper_Cart')->getCartUrl());
             }
         } catch (Exception $e) {
             $this->_getSession()->addException($e, $this->__('Cannot update the item.'));
@@ -484,12 +484,12 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             if (strlen($couponCode)) {
                 if ($couponCode == $this->_getQuote()->getCouponCode()) {
                     $this->_getSession()->addSuccess(
-                        $this->__('Coupon code "%s" was applied.', Mage::helper('core')->htmlEscape($couponCode))
+                        $this->__('Coupon code "%s" was applied.', Mage::helper('Mage_Core_Helper_Data')->htmlEscape($couponCode))
                     );
                 }
                 else {
                     $this->_getSession()->addError(
-                        $this->__('Coupon code "%s" is not valid.', Mage::helper('core')->htmlEscape($couponCode))
+                        $this->__('Coupon code "%s" is not valid.', Mage::helper('Mage_Core_Helper_Data')->htmlEscape($couponCode))
                     );
                 }
             } else {

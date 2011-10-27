@@ -36,8 +36,8 @@ class Mage_Bundle_Model_Source_Option_Selection_Price_Type
     public function toOptionArray()
     {
         return array(
-            array('value' => '0', 'label' => Mage::helper('bundle')->__('Fixed')),
-            array('value' => '1', 'label' => Mage::helper('bundle')->__('Percent')),
+            array('value' => '0', 'label' => Mage::helper('Mage_Bundle_Helper_Data')->__('Fixed')),
+            array('value' => '1', 'label' => Mage::helper('Mage_Bundle_Helper_Data')->__('Percent')),
         );
     }
 }

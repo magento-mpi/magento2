@@ -37,9 +37,9 @@ class Mage_Adminhtml_Block_Catalog_Form_Renderer_Config_DateFieldsOrder extends 
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
         $_options = array(
-            'd' => Mage::helper('adminhtml')->__('Day'),
-            'm' => Mage::helper('adminhtml')->__('Month'),
-            'y' => Mage::helper('adminhtml')->__('Year')
+            'd' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Day'),
+            'm' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Month'),
+            'y' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Year')
         );
 
         $element->setValues($_options)

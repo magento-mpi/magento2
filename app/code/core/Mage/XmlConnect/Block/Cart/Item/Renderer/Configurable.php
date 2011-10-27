@@ -81,7 +81,7 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer_Configurable extends Mage_XmlConn
     public function getOptionList()
     {
         /* @var $helper Mage_Catalog_Helper_Product_Configuration */
-        $helper = Mage::helper('catalog/product_configuration');
+        $helper = Mage::helper('Mage_Catalog_Helper_Product_Configuration');
         return $helper->getConfigurableOptions($this->getItem());
     }
 }

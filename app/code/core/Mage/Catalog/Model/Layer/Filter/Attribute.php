@@ -127,7 +127,7 @@ class Mage_Catalog_Model_Layer_Filter_Attribute extends Mage_Catalog_Model_Layer
             if (is_array($option['value'])) {
                 continue;
             }
-            if (Mage::helper('core/string')->strlen($option['value'])) {
+            if (Mage::helper('Mage_Core_Helper_String')->strlen($option['value'])) {
                 // Check filter type
                 if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
                     if (!empty($optionsCount[$option['value']])) {

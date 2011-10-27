@@ -42,7 +42,7 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminht
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('enterprise_reward')->isEnabled() && $this->getRequest()->getActionName() != 'noroute') {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabled() && $this->getRequest()->getActionName() != 'noroute') {
             $this->_forward('noroute');
         }
         return $this;
@@ -84,7 +84,7 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminht
                 Mage::getModel('enterprise_reward/reward')
                     ->deleteOrphanPointsByCustomer($customerId);
                 $this->_getSession()
-                    ->addSuccess(Mage::helper('enterprise_reward')->__('The orphan points have been removed.'));
+                    ->addSuccess(Mage::helper('Enterprise_Reward_Helper_Data')->__('The orphan points have been removed.'));
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }

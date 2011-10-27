@@ -60,7 +60,7 @@ class Enterprise_GiftCard_Model_Attribute_Backend_Giftcard_Amount
 
             if (!empty($dup[$key1])) {
                 Mage::throwException(
-                    Mage::helper('catalog')->__('Duplicate amount found.')
+                    Mage::helper('Mage_Catalog_Helper_Data')->__('Duplicate amount found.')
                 );
             }
             $dup[$key1] = 1;

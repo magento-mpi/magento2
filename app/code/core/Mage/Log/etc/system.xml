@@ -29,7 +29,7 @@
     <sections>
         <system>
             <groups>
-                <log translate="label" module="log">
+                <log translate="label" module="Mage_Log">
                     <label>Log Cleaning</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>200</sort_order>

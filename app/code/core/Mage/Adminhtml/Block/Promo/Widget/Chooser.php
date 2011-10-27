@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser extends Mage_Adminhtml_Block_Wid
      */
     public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        $uniqId = Mage::helper('core')->uniqHash($element->getId());
+        $uniqId = Mage::helper('Mage_Core_Helper_Data')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/promo_quote/chooser', array('uniq_id' => $uniqId));
 
         $chooser = $this->getLayout()->createBlock('widget/adminhtml_widget_chooser')
@@ -114,27 +114,27 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser extends Mage_Adminhtml_Block_Wid
     protected function _prepareColumns()
     {
        $this->addColumn('rule_id', array(
-            'header'    => Mage::helper('salesrule')->__('ID'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('ID'),
             'align'     => 'right',
             'width'     => '50px',
             'index'     => 'rule_id',
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('salesrule')->__('Rule Name'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Rule Name'),
             'align'     => 'left',
             'index'     => 'name',
         ));
 
         $this->addColumn('coupon_code', array(
-            'header'    => Mage::helper('salesrule')->__('Coupon Code'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Coupon Code'),
             'align'     => 'left',
             'width'     => '150px',
             'index'     => 'code',
         ));
 
         $this->addColumn('from_date', array(
-            'header'    => Mage::helper('salesrule')->__('Date Start'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Date Start'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -142,7 +142,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser extends Mage_Adminhtml_Block_Wid
         ));
 
         $this->addColumn('to_date', array(
-            'header'    => Mage::helper('salesrule')->__('Date Expire'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Date Expire'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -151,7 +151,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser extends Mage_Adminhtml_Block_Wid
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('salesrule')->__('Status'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'is_active',

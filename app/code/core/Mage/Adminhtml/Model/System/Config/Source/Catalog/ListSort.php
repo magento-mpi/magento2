@@ -43,12 +43,12 @@ class Mage_Adminhtml_Model_System_Config_Source_Catalog_ListSort
     {
         $options = array();
         $options[] = array(
-            'label' => Mage::helper('catalog')->__('Best Value'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Best Value'),
             'value' => 'position'
         );
         foreach ($this->_getCatalogConfig()->getAttributesUsedForSortBy() as $attribute) {
             $options[] = array(
-                'label' => Mage::helper('catalog')->__($attribute['frontend_label']),
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__($attribute['frontend_label']),
                 'value' => $attribute['attribute_code']
             );
         }

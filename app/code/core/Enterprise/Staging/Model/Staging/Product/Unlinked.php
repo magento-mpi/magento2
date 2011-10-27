@@ -76,7 +76,7 @@ class Enterprise_Staging_Model_Staging_Product_Unlinked extends Mage_Core_Model_
             $this->_getResource()->addProductsUnlinkAssociations($productIds, $websiteIds);
         } catch (Exception $e) {
             Mage::throwException(
-                Mage::helper('enterprise_staging')->__('An error occurred while adding products that must be unlinked on merge with staging website.')
+                Mage::helper('Enterprise_Staging_Helper_Data')->__('An error occurred while adding products that must be unlinked on merge with staging website.')
             );
         }
 
@@ -98,7 +98,7 @@ class Enterprise_Staging_Model_Staging_Product_Unlinked extends Mage_Core_Model_
             $this->_getResource()->removeProductsUnlinkAssociations($productIds, $websiteIds);
         } catch (Exception $e) {
             Mage::throwException(
-                Mage::helper('enterprise_staging')->__('An error occurred while removing products that must be unlinked on merge with staging website.')
+                Mage::helper('Enterprise_Staging_Helper_Data')->__('An error occurred while removing products that must be unlinked on merge with staging website.')
             );
         }
 

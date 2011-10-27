@@ -198,7 +198,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         if ($controller) {
             $this->_request = $controller->getRequest();
         } else {
-            throw new Exception(Mage::helper('core')->__("Can't retrieve request object"));
+            throw new Exception(Mage::helper('Mage_Core_Helper_Data')->__("Can't retrieve request object"));
         }
         return $this->_request;
     }
@@ -642,7 +642,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
              * if we don't have block - don't throw exception because
              * block can simply removed using layout method remove
              */
-            //Mage::throwException(Mage::helper('core')->__('Invalid block name to set child %s: %s', $alias, $block));
+            //Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block name to set child %s: %s', $alias, $block));
             return $this;
         }
         if ($block->getIsAnonymous()) {
@@ -962,7 +962,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getUrlBase64($route = '', $params = array())
     {
-        return Mage::helper('core')->urlEncode($this->getUrl($route, $params));
+        return Mage::helper('Mage_Core_Helper_Data')->urlEncode($this->getUrl($route, $params));
     }
 
     /**
@@ -974,7 +974,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getUrlEncoded($route = '', $params = array())
     {
-        return Mage::helper('core')->urlEncode($this->getUrl($route, $params));
+        return Mage::helper('Mage_Core_Helper_Data')->urlEncode($this->getUrl($route, $params));
     }
 
     /**
@@ -1049,7 +1049,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function formatDate($date = null, $format =  Mage_Core_Model_Locale::FORMAT_TYPE_SHORT, $showTime = false)
     {
-        return $this->helper('core')->formatDate($date, $format, $showTime);
+        return $this->helper('Mage_Core_Helper_Data')->formatDate($date, $format, $showTime);
     }
 
     /**
@@ -1062,7 +1062,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function formatTime($time = null, $format =  Mage_Core_Model_Locale::FORMAT_TYPE_SHORT, $showDate = false)
     {
-        return $this->helper('core')->formatTime($time, $format, $showDate);
+        return $this->helper('Mage_Core_Helper_Data')->formatTime($time, $format, $showDate);
     }
 
     /**
@@ -1112,7 +1112,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function escapeHtml($data, $allowedTags = null)
     {
-        return $this->helper('core')->escapeHtml($data, $allowedTags);
+        return $this->helper('Mage_Core_Helper_Data')->escapeHtml($data, $allowedTags);
     }
 
     /**
@@ -1125,7 +1125,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function stripTags($data, $allowableTags = null, $allowHtmlEntities = false)
     {
-        return $this->helper('core')->stripTags($data, $allowableTags, $allowHtmlEntities);
+        return $this->helper('Mage_Core_Helper_Data')->stripTags($data, $allowableTags, $allowHtmlEntities);
     }
 
     /**
@@ -1145,7 +1145,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function escapeUrl($data)
     {
-        return $this->helper('core')->escapeUrl($data);
+        return $this->helper('Mage_Core_Helper_Data')->escapeUrl($data);
     }
 
     /**
@@ -1157,7 +1157,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function jsQuoteEscape($data, $quote = '\'')
     {
-        return $this->helper('core')->jsQuoteEscape($data, $quote);
+        return $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape($data, $quote);
     }
 
     /**

@@ -67,7 +67,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave extends Mage_Payment_
      */
     public function addPaymentFormToXmlObj(Mage_XmlConnect_Model_Simplexml_Element $paymentItemXmlObj)
     {
-        $helper = Mage::helper('xmlconnect');
+        $helper = Mage::helper('Mage_XmlConnect_Helper_Data');
         $method = $this->getMethod();
         if (!$method) {
             return $paymentItemXmlObj;

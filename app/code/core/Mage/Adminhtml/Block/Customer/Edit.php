@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
         if ($this->getCustomerId() &&
             Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/create')) {
             $this->_addButton('order', array(
-                'label' => Mage::helper('customer')->__('Create Order'),
+                'label' => Mage::helper('Mage_Customer_Helper_Data')->__('Create Order'),
                 'onclick' => 'setLocation(\'' . $this->getCreateOrderUrl() . '\')',
                 'class' => 'add',
             ), 0);
@@ -49,8 +49,8 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('customer')->__('Save Customer'));
-        $this->_updateButton('delete', 'label', Mage::helper('customer')->__('Delete Customer'));
+        $this->_updateButton('save', 'label', Mage::helper('Mage_Customer_Helper_Data')->__('Save Customer'));
+        $this->_updateButton('delete', 'label', Mage::helper('Mage_Customer_Helper_Data')->__('Delete Customer'));
 
         if (Mage::registry('current_customer')->isReadonly()) {
             $this->_removeButton('save');
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
             return $this->htmlEscape(Mage::registry('current_customer')->getName());
         }
         else {
-            return Mage::helper('customer')->__('New Customer');
+            return Mage::helper('Mage_Customer_Helper_Data')->__('New Customer');
         }
     }
 
@@ -103,7 +103,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
     {
         if (!Mage::registry('current_customer')->isReadonly()) {
             $this->_addButton('save_and_continue', array(
-                'label'     => Mage::helper('customer')->__('Save and Continue Edit'),
+                'label'     => Mage::helper('Mage_Customer_Helper_Data')->__('Save and Continue Edit'),
                 'onclick'   => 'saveAndContinueEdit(\''.$this->_getSaveAndContinueUrl().'\')',
                 'class'     => 'save'
             ), 10);

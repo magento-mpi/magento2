@@ -40,10 +40,10 @@
         <col width="1" />
         <thead>
             <tr class="headings">
-                <th <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>><?php echo Mage::helper('sales')->__('Website') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Country/State') ?> <span class="required">*</span></th>
-                <th><?php echo Mage::helper('catalog')->__('Tax') ?> <span class="required">*</span></th>
-                <th class="last"><?php echo Mage::helper('catalog')->__('Action') ?></th>
+                <th <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Website') ?></th>
+                <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Country/State') ?> <span class="required">*</span></th>
+                <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Tax') ?> <span class="required">*</span></th>
+                <th class="last"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Action') ?></th>
             </tr>
             <tr id="<?php echo $_htmlId ?>_add_template" class="template no-display">
                 <td <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>>
@@ -114,7 +114,7 @@
             $(data.prefix + '_weee_tax_row_'+data.index+'_country').value = data.country;
             $(data.prefix + '_weee_tax_row_'+data.index+'_website').value = data.website_id;
 
-            updater = new RegionUpdater(data.prefix + '_weee_tax_row_'+data.index+'_country', null, data.prefix + '_weee_tax_row_'+data.index+'_state', <?php echo $this->helper('directory')->getRegionJson() ?>, 'disable', true);
+            updater = new RegionUpdater(data.prefix + '_weee_tax_row_'+data.index+'_country', null, data.prefix + '_weee_tax_row_'+data.index+'_state', <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?>, 'disable', true);
             updater.update();
 
             $(data.prefix + '_weee_tax_row_'+data.index+'_state').value   = data.state;

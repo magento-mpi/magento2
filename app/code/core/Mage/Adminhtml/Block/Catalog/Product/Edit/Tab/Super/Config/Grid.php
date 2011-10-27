@@ -110,7 +110,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
     protected function _prepareCollection()
     {
         $allowProductTypes = array();
-        foreach (Mage::helper('catalog/product_configuration')->getConfigurableAllowedTypes() as $type) {
+        foreach (Mage::helper('Mage_Catalog_Helper_Product_Configuration')->getConfigurableAllowedTypes() as $type) {
             $allowProductTypes[] = $type->getName();
         }
 
@@ -126,7 +126,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             ->addFilterByRequiredOptions()
             ->joinAttribute('name', 'catalog_product/name', 'entity_id', null, 'inner');
 
-        if (Mage::helper('catalog')->isModuleEnabled('Mage_CatalogInventory')) {
+        if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
             Mage::getModel('cataloginventory/stock_item')->addCatalogInventoryToProductCollection($collection);
         }
 
@@ -186,13 +186,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         }
 
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('catalog')->__('ID'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('catalog')->__('Name'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Name'),
             'index'     => 'name'
         ));
 
@@ -204,7 +204,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
 
         $this->addColumn('set_name',
             array(
-                'header'=> Mage::helper('catalog')->__('Attrib. Set Name'),
+                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Attrib. Set Name'),
                 'width' => '130px',
                 'index' => 'attribute_set_id',
                 'type'  => 'options',
@@ -212,20 +212,20 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('catalog')->__('SKU'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
             'width'     => '80px',
             'index'     => 'sku'
         ));
 
         $this->addColumn('price', array(
-            'header'    => Mage::helper('catalog')->__('Price'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Price'),
             'type'      => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
 
         $this->addColumn('is_saleable', array(
-            'header'    => Mage::helper('catalog')->__('Inventory'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Inventory'),
             'renderer'  => 'adminhtml/catalog_product_edit_tab_super_config_grid_renderer_inventory',
             'filter'    => 'adminhtml/catalog_product_edit_tab_super_config_grid_filter_inventory',
             'index'     => 'is_saleable'
@@ -244,12 +244,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
 
          $this->addColumn('action',
             array(
-                'header'    => Mage::helper('catalog')->__('Action'),
+                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Action'),
                 'type'      => 'action',
                 'getter'     => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('catalog')->__('Edit'),
+                        'caption' => Mage::helper('Mage_Catalog_Helper_Data')->__('Edit'),
                         'url'     => $this->getEditParamsForAssociated(),
                         'field'   => 'id',
                         'onclick'  => 'superProduct.createPopup(this.href);return false;'

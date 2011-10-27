@@ -83,7 +83,7 @@ class Mage_Tag_Block_Product_List extends Mage_Core_Block_Template
     {
         return Mage::getUrl('tag/index/save', array(
             'product' => $this->getProductId(),
-            Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => Mage::helper('core/url')->getEncodedUrl()
+            Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => Mage::helper('Mage_Core_Helper_Url')->getEncodedUrl()
         ));
     }
 
@@ -114,7 +114,7 @@ class Mage_Tag_Block_Product_List extends Mage_Core_Block_Template
     public function getUniqueHtmlId($prefix = '')
     {
         if (is_null($this->_uniqueHtmlId)) {
-            $this->_uniqueHtmlId = Mage::helper('core/data')->uniqHash($prefix);
+            $this->_uniqueHtmlId = Mage::helper('Mage_Core_Helper_Data')->uniqHash($prefix);
         }
         return $this->_uniqueHtmlId;
     }

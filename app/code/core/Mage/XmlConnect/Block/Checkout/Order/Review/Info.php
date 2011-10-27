@@ -58,20 +58,20 @@ class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Blo
             $itemXml->addChild('name', $itemsXmlObj->xmlentities($renderer->getProductName()));
             $itemXml->addChild('qty', $renderer->getQty());
             $icon = $renderer->getProductThumbnail()->resize(
-                Mage::helper('xmlconnect/image')->getImageSizeForContent('product_small')
+                Mage::helper('Mage_XmlConnect_Helper_Image')->getImageSizeForContent('product_small')
             );
 
             $iconXml = $itemXml->addChild('icon', $icon);
 
-            $file = Mage::helper('xmlconnect')->urlToPath($icon);
+            $file = Mage::helper('Mage_XmlConnect_Helper_Data')->urlToPath($icon);
             $iconXml->addAttribute('modification_time', filemtime($file));
 
             /**
              * Price
              */
             $exclPrice = $inclPrice = 0.00;
-            if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()) {
-                $typeOfDisplay = Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales');
+            if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()) {
+                $typeOfDisplay = Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($item, array(0, 1, 4), 'sales');
                 if ($typeOfDisplay && $item->getWeeeTaxAppliedAmount()) {
                     $exclPrice = $item->getCalculationPrice() + $item->getWeeeTaxAppliedAmount()
                         + $item->getWeeeTaxDisposition();
@@ -80,9 +80,9 @@ class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Blo
                 }
             }
 
-            if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()) {
-                $_incl = $this->helper('checkout')->getPriceInclTax($item);
-                $typeOfDisplay = Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales');
+            if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()) {
+                $_incl = $this->helper('Mage_Checkout_Helper_Data')->getPriceInclTax($item);
+                $typeOfDisplay = Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($item, array(0, 1, 4), 'sales');
                 if ($typeOfDisplay && $item->getWeeeTaxAppliedAmount()) {
                     $inclPrice = $_incl + $item->getWeeeTaxAppliedAmount();
                 } else {
@@ -90,27 +90,27 @@ class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Blo
                 }
             }
 
-            $exclPrice = Mage::helper('xmlconnect')->formatPriceForXml($exclPrice);
+            $exclPrice = Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml($exclPrice);
             $formattedExclPrice = $quote->getStore()->formatPrice($exclPrice, false);
 
-            $inclPrice = Mage::helper('xmlconnect')->formatPriceForXml($inclPrice);
+            $inclPrice = Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml($inclPrice);
             $formattedInclPrice = $quote->getStore()->formatPrice($inclPrice, false);
 
             $priceXmlObj = $itemXml->addChild('price');
             $formattedPriceXmlObj = $itemXml->addChild('formated_price');
 
-            if ($this->helper('tax')->displayCartBothPrices()) {
+            if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()) {
                 $priceXmlObj->addAttribute('excluding_tax', $exclPrice);
                 $priceXmlObj->addAttribute('including_tax', $inclPrice);
 
                 $formattedPriceXmlObj->addAttribute('excluding_tax', $formattedExclPrice);
                 $formattedPriceXmlObj->addAttribute('including_tax', $formattedInclPrice);
             } else {
-                if ($this->helper('tax')->displayCartPriceExclTax()) {
+                if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax()) {
                     $priceXmlObj->addAttribute('regular', $exclPrice);
                     $formattedPriceXmlObj->addAttribute('regular', $formattedExclPrice);
                 }
-                if ($this->helper('tax')->displayCartPriceInclTax()) {
+                if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax()) {
                     $priceXmlObj->addAttribute('regular', $inclPrice);
                     $formattedPriceXmlObj->addAttribute('regular', $formattedInclPrice);
                 }
@@ -120,8 +120,8 @@ class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Blo
              * Subtotal
              */
             $exclPrice = $inclPrice = 0.00;
-            if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()) {
-                $typeOfDisplay = Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales');
+            if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()) {
+                $typeOfDisplay = Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($item, array(0, 1, 4), 'sales');
                 if ($typeOfDisplay && $item->getWeeeTaxAppliedAmount()) {
                     $exclPrice = $item->getRowTotal() + $item->getWeeeTaxAppliedRowAmount()
                         + $item->getWeeeTaxRowDisposition();
@@ -129,9 +129,9 @@ class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Blo
                     $exclPrice = $item->getRowTotal();
                 }
             }
-            if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()) {
-                $_incl = $this->helper('checkout')->getSubtotalInclTax($item);
-                if (Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales')
+            if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()) {
+                $_incl = $this->helper('Mage_Checkout_Helper_Data')->getSubtotalInclTax($item);
+                if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($item, array(0, 1, 4), 'sales')
                     && $item->getWeeeTaxAppliedAmount()
                 ) {
                     $inclPrice = $_incl + $item->getWeeeTaxAppliedRowAmount();
@@ -140,27 +140,27 @@ class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Blo
                 }
             }
 
-            $exclPrice = Mage::helper('xmlconnect')->formatPriceForXml($exclPrice);
+            $exclPrice = Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml($exclPrice);
             $formattedExclPrice = $quote->getStore()->formatPrice($exclPrice, false);
 
-            $inclPrice = Mage::helper('xmlconnect')->formatPriceForXml($inclPrice);
+            $inclPrice = Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml($inclPrice);
             $formattedInclPrice = $quote->getStore()->formatPrice($inclPrice, false);
 
             $subtotalPriceXmlObj = $itemXml->addChild('subtotal');
             $subtotalFormattedPriceXmlObj = $itemXml->addChild('formated_subtotal');
 
-            if ($this->helper('tax')->displayCartBothPrices()) {
+            if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()) {
                 $subtotalPriceXmlObj->addAttribute('excluding_tax', $exclPrice);
                 $subtotalPriceXmlObj->addAttribute('including_tax', $inclPrice);
 
                 $subtotalFormattedPriceXmlObj->addAttribute('excluding_tax', $formattedExclPrice);
                 $subtotalFormattedPriceXmlObj->addAttribute('including_tax', $formattedInclPrice);
             } else {
-                if ($this->helper('tax')->displayCartPriceExclTax()) {
+                if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax()) {
                     $subtotalPriceXmlObj->addAttribute('regular', $exclPrice);
                     $subtotalFormattedPriceXmlObj->addAttribute('regular', $formattedExclPrice);
                 }
-                if ($this->helper('tax')->displayCartPriceInclTax()) {
+                if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax()) {
                     $subtotalPriceXmlObj->addAttribute('regular', $inclPrice);
                     $subtotalFormattedPriceXmlObj->addAttribute('regular', $formattedInclPrice);
                 }

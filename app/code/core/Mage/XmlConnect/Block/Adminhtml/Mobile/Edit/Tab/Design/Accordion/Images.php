@@ -74,7 +74,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Images
             true
         );
 
-        $deviceType = Mage::helper('xmlconnect')->getDeviceType();
+        $deviceType = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceType();
         switch ($deviceType) {
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE:
                 $this->addImage($fieldset,
@@ -138,7 +138,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Images
                 break;
         }
 
-        $form->setValues(Mage::helper('xmlconnect')->getApplication()->getFormData());
+        $form->setValues(Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getFormData());
         $this->setForm($form);
         return parent::_prepareForm();
     }
@@ -151,7 +151,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Images
     */
     protected function _getDesignPreviewImageUrl($name)
     {
-        $name = Mage::helper('xmlconnect/image')->getInterfaceImagesPaths($name);
-        return Mage::helper('xmlconnect/image')->getDefaultDesignUrl($name);
+        $name = Mage::helper('Mage_XmlConnect_Helper_Image')->getInterfaceImagesPaths($name);
+        return Mage::helper('Mage_XmlConnect_Helper_Image')->getDefaultDesignUrl($name);
     }
 }

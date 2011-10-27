@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
             ->setFileField('image')
             ->setFilters(array(
                 'images' => array(
-                    'label' => Mage::helper('adminhtml')->__('Images (.gif, .jpg, .png)'),
+                    'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Images (.gif, .jpg, .png)'),
                     'files' => array('*.gif', '*.jpg','*.jpeg', '*.png')
                 )
             ));
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
     public function getAddImagesButton()
     {
         return $this->getButtonHtml(
-            Mage::helper('catalog')->__('Add New Images'),
+            Mage::helper('Mage_Catalog_Helper_Data')->__('Add New Images'),
             $this->getJsObjectName() . '.showUploader()',
             'add',
             $this->getHtmlId() . '_add_images_button'
@@ -104,7 +104,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
                     $image['url'] = Mage::getSingleton('catalog/product_media_config')
                                         ->getMediaUrl($image['file']);
                 }
-                return Mage::helper('core')->jsonEncode($value['images']);
+                return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($value['images']);
             }
         }
         return '[]';
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
                 $attribute->getAttributeCode()
             );
         }
-        return Mage::helper('core')->jsonEncode($values);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($values);
     }
 
     /**
@@ -134,7 +134,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
             /* @var $attribute Mage_Eav_Model_Entity_Attribute */
             $imageTypes[$attribute->getAttributeCode()] = array(
                 'label' => $attribute->getFrontend()->getLabel() . ' '
-                         . Mage::helper('catalog')->__($this->getElement()->getScopeLabel($attribute)),
+                         . Mage::helper('Mage_Catalog_Helper_Data')->__($this->getElement()->getScopeLabel($attribute)),
                 'field' => $this->getElement()->getAttributeFieldName($attribute)
             );
         }
@@ -164,7 +164,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
 
     public function getImageTypesJson()
     {
-        return Mage::helper('core')->jsonEncode($this->getImageTypes());
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getImageTypes());
     }
 
 }

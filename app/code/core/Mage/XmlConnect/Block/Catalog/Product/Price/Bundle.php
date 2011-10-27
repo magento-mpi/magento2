@@ -47,11 +47,11 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
         $priceXmlObj = $item->addChild('price');
 
         /** @var $_coreHelper Mage_Core_Helper_Data */
-        $_coreHelper = $this->helper('core');
+        $_coreHelper = $this->helper('Mage_Core_Helper_Data');
         /** @var $_weeeHelper Mage_Weee_Helper_Data */
-        $_weeeHelper = $this->helper('weee');
+        $_weeeHelper = $this->helper('Mage_Weee_Helper_Data');
         /** @var $_taxHelper Mage_Tax_Helper_Data */
-        $_taxHelper  = $this->helper('tax');
+        $_taxHelper  = $this->helper('Mage_Tax_Helper_Data');
 
         $_tierPrices = $this->_getTierPrices($product);
 
@@ -206,8 +206,8 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
                     }
                 }
 
-                $_maximalPriceTax = Mage::helper('tax')->getPrice($product, $_maximalPrice);
-                $_maximalPriceInclTax = Mage::helper('tax')->getPrice($product, $_maximalPrice, true);
+                $_maximalPriceTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $_maximalPrice);
+                $_maximalPriceInclTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $_maximalPrice, true);
 
                 if ($product->getPriceType() == 1) {
                     if ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($product, array(0, 1, 4))) {
@@ -365,13 +365,13 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
                 $price['savePercent'] = ceil(100 - $price['price']);
                 $price['formated_price'] = Mage::app()->getStore()->formatPrice(
                     Mage::app()->getStore()->convertPrice(
-                        Mage::helper('tax')->getPrice($product, $price['website_price'])
+                        Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $price['website_price'])
                     ),
                     false
                 );
                 $price['formated_price_incl_tax'] = Mage::app()->getStore()->formatPrice(
                     Mage::app()->getStore()->convertPrice(
-                        Mage::helper('tax')->getPrice($product, $price['website_price'], true)
+                        Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $price['website_price'], true)
                     ),
                     false
                 );

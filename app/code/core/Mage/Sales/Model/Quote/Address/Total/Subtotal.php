@@ -65,8 +65,8 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
         /**
          * Initialize grand totals
          */
-        Mage::helper('sales')->checkQuoteAmount($address->getQuote(), $address->getSubtotal());
-        Mage::helper('sales')->checkQuoteAmount($address->getQuote(), $address->getBaseSubtotal());
+        Mage::helper('Mage_Sales_Helper_Data')->checkQuoteAmount($address->getQuote(), $address->getSubtotal());
+        Mage::helper('Mage_Sales_Helper_Data')->checkQuoteAmount($address->getQuote(), $address->getBaseSubtotal());
         return $this;
     }
 
@@ -159,7 +159,7 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
     {
         $address->addTotal(array(
             'code'  => $this->getCode(),
-            'title' => Mage::helper('sales')->__('Subtotal'),
+            'title' => Mage::helper('Mage_Sales_Helper_Data')->__('Subtotal'),
             'value' => $address->getSubtotal()
         ));
         return $this;
@@ -172,6 +172,6 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
      */
     public function getLabel()
     {
-        return Mage::helper('sales')->__('Subtotal');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Subtotal');
     }
 }

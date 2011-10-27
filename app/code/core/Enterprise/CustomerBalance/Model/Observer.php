@@ -37,7 +37,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function prepareCustomerBalanceSave($observer)
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return;
         }
         /* @var $customer Mage_Customer_Model_Customer */
@@ -56,7 +56,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function customerSaveAfter($observer)
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return;
         }
         if ($data = $observer->getCustomer()->getCustomerBalanceData()) {
@@ -82,7 +82,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function paymentDataImport(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return;
         }
 
@@ -114,7 +114,7 @@ class Enterprise_CustomerBalance_Model_Observer
                     ->setUpdateSection('payment-method')
                     ->setGotoSection('payment');
 
-                Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Not enough Store Credit Amount to complete this Order.'));
+                Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Not enough Store Credit Amount to complete this Order.'));
             }
         }
 
@@ -129,7 +129,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function processBeforeOrderPlace(Varien_Event_Observer $observer)
     {
-        if (Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             $order = $observer->getEvent()->getOrder();
             $this->_checkStoreCreditBalance($order);
         }
@@ -145,7 +145,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function processOrderPlace(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return $this;
         }
 
@@ -230,7 +230,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function disableLayout($observer)
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             unset($observer->getUpdates()->enterprise_customerbalance);
         }
     }
@@ -242,7 +242,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function processOrderCreationData(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return $this;
         }
         $quote = $observer->getEvent()->getOrderCreateModel()->getQuote();
@@ -293,7 +293,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function togglePaymentMethods($observer)
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return;
         }
         $quote = $observer->getEvent()->getQuote();
@@ -384,7 +384,7 @@ class Enterprise_CustomerBalance_Model_Observer
         $order = $creditmemo->getOrder();
 
         if ($creditmemo->getAutomaticallyCreated()) {
-            if (Mage::helper('enterprise_customerbalance')->isAutoRefundEnabled()) {
+            if (Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isAutoRefundEnabled()) {
                 $creditmemo->setCustomerBalanceRefundFlag(true)
                     ->setCustomerBalTotalRefunded($creditmemo->getCustomerBalanceAmount())
                     ->setBsCustomerBalTotalRefunded($creditmemo->getBaseCustomerBalanceAmount());
@@ -396,7 +396,7 @@ class Enterprise_CustomerBalance_Model_Observer
             $creditmemo->getCustomerBalanceReturnMax();
 
         if ((float)(string)$creditmemo->getCustomerBalTotalRefunded() > (float)(string)$customerBalanceReturnMax) {
-            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Store credit amount cannot exceed order amount.'));
+            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Store credit amount cannot exceed order amount.'));
         }
         //doing actual refund to customer balance if user have submitted refund form
         if ($creditmemo->getCustomerBalanceRefundFlag() && $creditmemo->getBsCustomerBalTotalRefunded()) {
@@ -589,7 +589,7 @@ class Enterprise_CustomerBalance_Model_Observer
             $value = abs($salesEntity->getDataUsingMethod($balanceField));
             if ($value > 0.0001) {
                 $paypalCart->updateTotal(Mage_Paypal_Model_Cart::TOTAL_DISCOUNT, (float)$value,
-                    Mage::helper('enterprise_customerbalance')->__('Store Credit (%s)', Mage::app()->getStore()->convertPrice($value, true, false))
+                    Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Store Credit (%s)', Mage::app()->getStore()->convertPrice($value, true, false))
                 );
             }
         }

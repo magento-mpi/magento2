@@ -106,7 +106,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
      */
     protected function _getHelperValue(Varien_Simplexml_Element $child)
     {
-        $helperName         = 'adminhtml';
+        $helperName         = 'Mage_Adminhtml_Helper_Data';
         $titleNodeName      = 'title';
         $childAttributes    = $child->attributes();
         if (isset($childAttributes['module'])) {

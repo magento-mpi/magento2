@@ -40,7 +40,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Settings
         $this->setChild('continue_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Continue'),
+                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Continue'),
                     'onclick'   => "if (editForm.submit()) { return false }",
                     'class'     => 'save'
                 )
@@ -66,7 +66,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Settings
                 'name'      => 'type',
                 'label'     => $this->__('Device Type'),
                 'title'     => $this->__('Device Type'),
-                'values'    => Mage::helper('xmlconnect')->getDeviceTypeOptions(),
+                'values'    => Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceTypeOptions(),
                 'required'  => true
         ));
 

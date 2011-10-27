@@ -45,7 +45,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Purchaseorder extends M
         $orderItemXmlObj->addAttribute('title', $orderItemXmlObj->xmlAttribute($this->getMethod()->getTitle()));
 
         $orderItemXmlObj->addCustomChild('item', $this->getInfo()->getPoNumber(), array(
-            'label' => Mage::helper('sales')->__('Purchase Order Number:')
+            'label' => Mage::helper('Mage_Sales_Helper_Data')->__('Purchase Order Number:')
         ));
     }
 }

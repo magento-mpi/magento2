@@ -67,7 +67,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
     protected function _prepareColumns()
     {
         $this->addColumn('real_order_id', array(
-            'header'=> Mage::helper('sales')->__('Order #'),
+            'header'=> Mage::helper('Mage_Sales_Helper_Data')->__('Order #'),
             'width' => '80px',
             'type'  => 'text',
             'index' => 'increment_id',
@@ -75,7 +75,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'    => Mage::helper('sales')->__('Purchased From (Store)'),
+                'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Purchased From (Store)'),
                 'index'     => 'store_id',
                 'type'      => 'store',
                 'store_view'=> true,
@@ -84,38 +84,38 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
         }
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('sales')->__('Purchased On'),
+            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Purchased On'),
             'index' => 'created_at',
             'type' => 'datetime',
             'width' => '100px',
         ));
 
         $this->addColumn('billing_name', array(
-            'header' => Mage::helper('sales')->__('Bill to Name'),
+            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Bill to Name'),
             'index' => 'billing_name',
         ));
 
         $this->addColumn('shipping_name', array(
-            'header' => Mage::helper('sales')->__('Ship to Name'),
+            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Ship to Name'),
             'index' => 'shipping_name',
         ));
 
         $this->addColumn('base_grand_total', array(
-            'header' => Mage::helper('sales')->__('G.T. (Base)'),
+            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('G.T. (Base)'),
             'index' => 'base_grand_total',
             'type'  => 'currency',
             'currency' => 'base_currency_code',
         ));
 
         $this->addColumn('grand_total', array(
-            'header' => Mage::helper('sales')->__('G.T. (Purchased)'),
+            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('G.T. (Purchased)'),
             'index' => 'grand_total',
             'type'  => 'currency',
             'currency' => 'order_currency_code',
         ));
 
         $this->addColumn('status', array(
-            'header' => Mage::helper('sales')->__('Status'),
+            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Status'),
             'index' => 'status',
             'type'  => 'options',
             'width' => '70px',
@@ -125,13 +125,13 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
         if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/view')) {
             $this->addColumn('action',
                 array(
-                    'header'    => Mage::helper('sales')->__('Action'),
+                    'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Action'),
                     'width'     => '50px',
                     'type'      => 'action',
                     'getter'     => 'getId',
                     'actions'   => array(
                         array(
-                            'caption' => Mage::helper('sales')->__('View'),
+                            'caption' => Mage::helper('Mage_Sales_Helper_Data')->__('View'),
                             'url'     => array('base'=>'*/sales_order/view'),
                             'field'   => 'order_id'
                         )
@@ -194,7 +194,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
      */
     public function getTabLabel()
     {
-        return Mage::helper('sales')->__('Related Orders');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Related Orders');
     }
 
     /**

@@ -54,13 +54,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
         // Add 'new button' depending on permission
         if ($config->canCurrentUserSaveVersion()) {
             $this->_addButton('new', array(
-                    'label'     => Mage::helper('enterprise_cms')->__('Save as New Version'),
+                    'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save as New Version'),
                     'onclick'   => "editForm.submit('" . $this->getNewUrl() . "');",
                     'class'     => 'new',
                 ));
 
             $this->_addButton('new_revision', array(
-                    'label'     => Mage::helper('enterprise_cms')->__('New Revision...'),
+                    'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('New Revision...'),
                     'onclick'   => "setLocation('" . $this->getNewRevisionUrl() . "');",
                     'class'     => 'new',
                 ));
@@ -77,7 +77,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
         // Only owner and publisher can save version
         if (($isOwner || $isPublisher) && $config->canCurrentUserSaveVersion()) {
             $this->_addButton('saveandcontinue', array(
-                'label'     => Mage::helper('enterprise_cms')->__('Save and Continue Edit'),
+                'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save and Continue Edit'),
                 'onclick'   => "editForm.submit($('edit_form').action+'back/edit/');",
                 'class'     => 'save',
             ), 1);
@@ -98,10 +98,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
         $title = $this->htmlEscape(Mage::registry('cms_page')->getTitle());
 
         if (!$versionLabel) {
-            $versionLabel = Mage::helper('enterprise_cms')->__('N/A');
+            $versionLabel = Mage::helper('Enterprise_Cms_Helper_Data')->__('N/A');
         }
 
-        return Mage::helper('enterprise_cms')->__("Edit Page '%s' Version '%s'", $title, $versionLabel);
+        return Mage::helper('Enterprise_Cms_Helper_Data')->__("Edit Page '%s' Version '%s'", $title, $versionLabel);
     }
 
     /**

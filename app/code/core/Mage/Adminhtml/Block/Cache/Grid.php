@@ -164,15 +164,15 @@ class Mage_Adminhtml_Block_Cache_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $modeOptions = Mage::getModel('index/process')->getModesOptions();
 
         $this->getMassactionBlock()->addItem('enable', array(
-            'label'         => Mage::helper('index')->__('Enable'),
+            'label'         => Mage::helper('Mage_Index_Helper_Data')->__('Enable'),
             'url'           => $this->getUrl('*/*/massEnable'),
         ));
         $this->getMassactionBlock()->addItem('disable', array(
-            'label'    => Mage::helper('index')->__('Disable'),
+            'label'    => Mage::helper('Mage_Index_Helper_Data')->__('Disable'),
             'url'      => $this->getUrl('*/*/massDisable'),
         ));
         $this->getMassactionBlock()->addItem('refresh', array(
-            'label'    => Mage::helper('index')->__('Refresh'),
+            'label'    => Mage::helper('Mage_Index_Helper_Data')->__('Refresh'),
             'url'      => $this->getUrl('*/*/massRefresh'),
             'selected' => true,
         ));

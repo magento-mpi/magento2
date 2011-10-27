@@ -67,20 +67,20 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
     {
         // this column is mandatory for the chooser mode. It needs to be first
         $this->addColumn('grid_segment_id', array(
-            'header'    => Mage::helper('enterprise_customersegment')->__('ID'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('ID'),
             'align'     =>'right',
             'width'     => 50,
             'index'     => 'segment_id',
         ));
 
         $this->addColumn('grid_segment_name', array(
-            'header'    => Mage::helper('enterprise_customersegment')->__('Segment Name'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segment Name'),
             'align'     =>'left',
             'index'     => 'name',
         ));
 
         $this->addColumn('grid_segment_is_active', array(
-            'header'    => Mage::helper('enterprise_customersegment')->__('Status'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Status'),
             'align'     => 'left',
             'width'     => 80,
             'index'     => 'is_active',
@@ -93,7 +93,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('grid_segment_website', array(
-                'header'    => Mage::helper('enterprise_customersegment')->__('Website'),
+                'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Website'),
                 'align'     =>'left',
                 'index'     => 'website_ids',
                 'type'      => 'options',

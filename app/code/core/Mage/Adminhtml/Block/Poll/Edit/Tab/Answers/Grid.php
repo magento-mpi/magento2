@@ -55,27 +55,27 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_Grid extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('answer_id', array(
-            'header'    => Mage::helper('poll')->__('ID'),
+            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('ID'),
             'align'     =>'right',
             'width'     => '50px',
             'index'     => 'answer_id',
         ));
 
         $this->addColumn('answer_title', array(
-            'header'    => Mage::helper('poll')->__('Answer Title'),
+            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('Answer Title'),
             'align'     =>'left',
             'index'     => 'answer_title',
         ));
 
         $this->addColumn('votes_count', array(
-            'header'    => Mage::helper('poll')->__('Votes Count'),
+            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('Votes Count'),
             'type'      => 'number',
             'width'     => '50px',
             'index'     => 'votes_count',
         ));
 
         $this->addColumn('actions', array(
-            'header'    => Mage::helper('poll')->__('Actions'),
+            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('Actions'),
             'align'     => 'center',
             'type'      => 'action',
             'width'     => '10px',
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_Grid extends Mage_Adminhtml_Blo
             'sortable'  => false,
             'actions'   => array(
                 array(
-                    'caption'   => Mage::helper('poll')->__('Delete'),
+                    'caption'   => Mage::helper('Mage_Poll_Helper_Data')->__('Delete'),
                     'onClick'   => 'return answers.delete(\'$answer_id\')',
                     'url'       => '#',
                 ),

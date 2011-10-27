@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
     {
         parent::__construct();
         $this->setId('urlrewrite_form');
-        $this->setTitle(Mage::helper('adminhtml')->__('Block Information'));
+        $this->setTitle(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Block Information'));
     }
 
     /**
@@ -81,17 +81,17 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         }
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend'    => Mage::helper('adminhtml')->__('URL Rewrite Information')
+            'legend'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('URL Rewrite Information')
         ));
 
         $fieldset->addField('is_system', 'select', array(
-            'label'     => Mage::helper('adminhtml')->__('Type'),
-            'title'     => Mage::helper('adminhtml')->__('Type'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Type'),
+            'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Type'),
             'name'      => 'is_system',
             'required'  => true,
             'options'   => array(
-                1 => Mage::helper('adminhtml')->__('System'),
-                0 => Mage::helper('adminhtml')->__('Custom')
+                1 => Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'),
+                0 => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Custom')
             ),
             'disabled'  => true,
             'value'     => $model->getIsSystem()
@@ -150,8 +150,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
             }
 
             $element = $fieldset->addField('store_id', 'select', array(
-                'label'     => Mage::helper('adminhtml')->__('Store'),
-                'title'     => Mage::helper('adminhtml')->__('Store'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Store'),
+                'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Store'),
                 'name'      => 'store_id',
                 'required'  => true,
                 'values'    => $stores,
@@ -172,8 +172,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         }
 
         $idPath = $fieldset->addField('id_path', 'text', array(
-            'label'     => Mage::helper('adminhtml')->__('ID Path'),
-            'title'     => Mage::helper('adminhtml')->__('ID Path'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('ID Path'),
+            'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('ID Path'),
             'name'      => 'id_path',
             'required'  => true,
             'disabled'  => true,
@@ -181,16 +181,16 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         ));
 
         $requestPath = $fieldset->addField('request_path', 'text', array(
-            'label'     => Mage::helper('adminhtml')->__('Request Path'),
-            'title'     => Mage::helper('adminhtml')->__('Request Path'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Request Path'),
+            'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Request Path'),
             'name'      => 'request_path',
             'required'  => true,
             'value'     => $formValues['request_path']
         ));
 
         $targetPath = $fieldset->addField('target_path', 'text', array(
-            'label'     => Mage::helper('adminhtml')->__('Target Path'),
-            'title'     => Mage::helper('adminhtml')->__('Target Path'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Target Path'),
+            'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Target Path'),
             'name'      => 'target_path',
             'required'  => true,
             'disabled'  => true,
@@ -228,20 +228,20 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         }
 
         $fieldset->addField('options', 'select', array(
-            'label'     => Mage::helper('adminhtml')->__('Redirect'),
-            'title'     => Mage::helper('adminhtml')->__('Redirect'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Redirect'),
+            'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Redirect'),
             'name'      => 'options',
             'options'   => array(
-                ''   => Mage::helper('adminhtml')->__('No'),
-                'R'  => Mage::helper('adminhtml')->__('Temporary (302)'),
-                'RP' => Mage::helper('adminhtml')->__('Permanent (301)'),
+                ''   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('No'),
+                'R'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Temporary (302)'),
+                'RP' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Permanent (301)'),
             ),
             'value'     => $formValues['options']
         ));
 
         $fieldset->addField('description', 'textarea', array(
-            'label'     => Mage::helper('adminhtml')->__('Description'),
-            'title'     => Mage::helper('adminhtml')->__('Description'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Description'),
+            'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Description'),
             'name'      => 'description',
             'cols'      => 20,
             'rows'      => 5,
@@ -250,7 +250,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         ));
 
         $form->setUseContainer(true);
-        $form->setAction(Mage::helper('adminhtml')->getUrl('*/*/save', array(
+        $form->setAction(Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('*/*/save', array(
             'id'       => $model->getId(),
             'product'  => $product->getId(),
             'category' => $category->getId(),

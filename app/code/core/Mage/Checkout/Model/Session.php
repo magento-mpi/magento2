@@ -160,7 +160,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
             $this->_quote = $quote;
         }
 
-        if ($remoteAddr = Mage::helper('core/http')->getRemoteAddr()) {
+        if ($remoteAddr = Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr()) {
             $this->_quote->setRemoteIp($remoteAddr);
             $xForwardIp = Mage::app()->getRequest()->getServer('HTTP_X_FORWARDED_FOR');
             $this->_quote->setXForwardedFor($xForwardIp);

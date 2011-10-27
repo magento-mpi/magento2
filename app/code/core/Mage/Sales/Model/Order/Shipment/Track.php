@@ -149,7 +149,7 @@ class Mage_Sales_Model_Order_Shipment_Track extends Mage_Sales_Model_Abstract
         }
 
         if (!$trackingInfo = $carrierInstance->getTrackingInfo($this->getNumber())) {
-            return Mage::helper('sales')->__('No detail for number "%s"', $this->getNumber());
+            return Mage::helper('Mage_Sales_Helper_Data')->__('No detail for number "%s"', $this->getNumber());
         }
 
         return $trackingInfo;

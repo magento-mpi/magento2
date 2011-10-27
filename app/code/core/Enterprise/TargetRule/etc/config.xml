@@ -102,7 +102,7 @@
     <frontend>
         <layout>
             <updates>
-                <enterprise_targetrule module="Enterprise_TargetRule">
+                <enterprise_targetrule module="Mage_Enterprise_TargetRule">
                     <file>targetrule.xml</file>
                 </enterprise_targetrule>
             </updates>

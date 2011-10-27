@@ -192,6 +192,8 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function testGetHelper()
     {
         $this->assertInstanceOf('Mage_Core_Helper_Data', $this->_model->getHelper('core'));
+        $this->assertInstanceOf('Mage_Core_Helper_Data', $this->_model->getHelper('Mage_Core'));
+        $this->assertInstanceOf('Mage_Core_Helper_Data', $this->_model->getHelper('Mage_Core_Helper_Data'));
     }
 
     public function testGetBaseCurrencyCode()

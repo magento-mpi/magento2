@@ -29,7 +29,7 @@
     <sections>
         <sales>
             <groups>
-                <enterprise_salesarchive translate="label" module="enterprise_salesarchive">
+                <enterprise_salesarchive translate="label" module="Enterprise_SalesArchive">
                     <label>Orders, Invoices, Shipments, Credit Memos Archiving</label>
                     <sort_order>200</sort_order>
                     <show_in_default>1</show_in_default>

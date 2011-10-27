@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-        <google translate="label" module="googleshopping">
+        <google translate="label" module="Mage_GoogleShopping">
             <groups>
                 <googleshopping translate="label">
                     <label>Google Shopping</label>

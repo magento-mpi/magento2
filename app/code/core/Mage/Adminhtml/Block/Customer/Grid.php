@@ -64,25 +64,25 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('customer')->__('ID'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('ID'),
             'width'     => '50px',
             'index'     => 'entity_id',
             'type'  => 'number',
         ));
         /*$this->addColumn('firstname', array(
-            'header'    => Mage::helper('customer')->__('First Name'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('First Name'),
             'index'     => 'firstname'
         ));
         $this->addColumn('lastname', array(
-            'header'    => Mage::helper('customer')->__('Last Name'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Last Name'),
             'index'     => 'lastname'
         ));*/
         $this->addColumn('name', array(
-            'header'    => Mage::helper('customer')->__('Name'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Name'),
             'index'     => 'name'
         ));
         $this->addColumn('email', array(
-            'header'    => Mage::helper('customer')->__('Email'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Email'),
             'width'     => '150',
             'index'     => 'email'
         ));
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             ->toOptionHash();
 
         $this->addColumn('group', array(
-            'header'    =>  Mage::helper('customer')->__('Group'),
+            'header'    =>  Mage::helper('Mage_Customer_Helper_Data')->__('Group'),
             'width'     =>  '100',
             'index'     =>  'group_id',
             'type'      =>  'options',
@@ -101,32 +101,32 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         ));
 
         $this->addColumn('Telephone', array(
-            'header'    => Mage::helper('customer')->__('Telephone'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Telephone'),
             'width'     => '100',
             'index'     => 'billing_telephone'
         ));
 
         $this->addColumn('billing_postcode', array(
-            'header'    => Mage::helper('customer')->__('ZIP'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('ZIP'),
             'width'     => '90',
             'index'     => 'billing_postcode',
         ));
 
         $this->addColumn('billing_country_id', array(
-            'header'    => Mage::helper('customer')->__('Country'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Country'),
             'width'     => '100',
             'type'      => 'country',
             'index'     => 'billing_country_id',
         ));
 
         $this->addColumn('billing_region', array(
-            'header'    => Mage::helper('customer')->__('State/Province'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('State/Province'),
             'width'     => '100',
             'index'     => 'billing_region',
         ));
 
         $this->addColumn('customer_since', array(
-            'header'    => Mage::helper('customer')->__('Customer Since'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Customer Since'),
             'type'      => 'datetime',
             'align'     => 'center',
             'index'     => 'created_at',
@@ -135,7 +135,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('website_id', array(
-                'header'    => Mage::helper('customer')->__('Website'),
+                'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Website'),
                 'align'     => 'center',
                 'width'     => '80px',
                 'type'      => 'options',
@@ -146,13 +146,13 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         $this->addColumn('action',
             array(
-                'header'    =>  Mage::helper('customer')->__('Action'),
+                'header'    =>  Mage::helper('Mage_Customer_Helper_Data')->__('Action'),
                 'width'     => '100',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(
                     array(
-                        'caption'   => Mage::helper('customer')->__('Edit'),
+                        'caption'   => Mage::helper('Mage_Customer_Helper_Data')->__('Edit'),
                         'url'       => array('base'=> '*/*/edit'),
                         'field'     => 'id'
                     )
@@ -163,8 +163,8 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'is_system' => true,
         ));
 
-        $this->addExportType('*/*/exportCsv', Mage::helper('customer')->__('CSV'));
-        $this->addExportType('*/*/exportXml', Mage::helper('customer')->__('Excel XML'));
+        $this->addExportType('*/*/exportCsv', Mage::helper('Mage_Customer_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportXml', Mage::helper('Mage_Customer_Helper_Data')->__('Excel XML'));
         return parent::_prepareColumns();
     }
 
@@ -174,33 +174,33 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $this->getMassactionBlock()->setFormFieldName('customer');
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'    => Mage::helper('customer')->__('Delete'),
+             'label'    => Mage::helper('Mage_Customer_Helper_Data')->__('Delete'),
              'url'      => $this->getUrl('*/*/massDelete'),
-             'confirm'  => Mage::helper('customer')->__('Are you sure?')
+             'confirm'  => Mage::helper('Mage_Customer_Helper_Data')->__('Are you sure?')
         ));
 
         $this->getMassactionBlock()->addItem('newsletter_subscribe', array(
-             'label'    => Mage::helper('customer')->__('Subscribe to Newsletter'),
+             'label'    => Mage::helper('Mage_Customer_Helper_Data')->__('Subscribe to Newsletter'),
              'url'      => $this->getUrl('*/*/massSubscribe')
         ));
 
         $this->getMassactionBlock()->addItem('newsletter_unsubscribe', array(
-             'label'    => Mage::helper('customer')->__('Unsubscribe from Newsletter'),
+             'label'    => Mage::helper('Mage_Customer_Helper_Data')->__('Unsubscribe from Newsletter'),
              'url'      => $this->getUrl('*/*/massUnsubscribe')
         ));
 
-        $groups = $this->helper('customer')->getGroups()->toOptionArray();
+        $groups = $this->helper('Mage_Customer_Helper_Data')->getGroups()->toOptionArray();
 
         array_unshift($groups, array('label'=> '', 'value'=> ''));
         $this->getMassactionBlock()->addItem('assign_group', array(
-             'label'        => Mage::helper('customer')->__('Assign a Customer Group'),
+             'label'        => Mage::helper('Mage_Customer_Helper_Data')->__('Assign a Customer Group'),
              'url'          => $this->getUrl('*/*/massAssignGroup'),
              'additional'   => array(
                 'visibility'    => array(
                      'name'     => 'group',
                      'type'     => 'select',
                      'class'    => 'required-entry',
-                     'label'    => Mage::helper('customer')->__('Group'),
+                     'label'    => Mage::helper('Mage_Customer_Helper_Data')->__('Group'),
                      'values'   => $groups
                  )
             )

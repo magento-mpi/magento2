@@ -34,7 +34,7 @@
                         <children>
                             <config>
                                 <children>
-                                    <giftcardaccount translate="title" module="enterprise_giftcardaccount">
+                                    <giftcardaccount translate="title" module="Enterprise_GiftCardAccount">
                                         <title>Gift Card Accounts</title>
                                     </giftcardaccount>
                                 </children>
@@ -43,7 +43,7 @@
                     </system>
                     <customer>
                         <children>
-                            <giftcardaccount translate="title" module="enterprise_giftcardaccount">
+                            <giftcardaccount translate="title" module="Enterprise_GiftCardAccount">
                                 <title>Gift Card Accounts</title>
                                 <sort_order>30</sort_order>
                             </giftcardaccount>
@@ -56,7 +56,7 @@
     <menu>
         <customer>
             <children>
-                <giftcardaccount translate="title" module="enterprise_giftcardaccount">
+                <giftcardaccount translate="title" module="Enterprise_GiftCardAccount">
                     <title>Gift Card Accounts</title>
                     <action>adminhtml/giftcardaccount</action>
                     <depends><module>Enterprise_GiftCardAccount</module></depends>

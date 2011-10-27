@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Country extends Mage_Adminh
     protected function _getOptions()
     {
         $options = Mage::getResourceModel('Mage_Directory_Model_Resource_Country_Collection')->load()->toOptionArray(false);
-        array_unshift($options, array('value'=>'', 'label'=>Mage::helper('cms')->__('All Countries')));
+        array_unshift($options, array('value'=>'', 'label'=>Mage::helper('Mage_Cms_Helper_Data')->__('All Countries')));
         return $options;
     }
 }

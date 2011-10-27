@@ -172,7 +172,7 @@ class Mage_XmlConnect_Model_ConfigData extends Mage_Core_Model_Abstract
     {
         foreach ($configData as $path => $value) {
             if (!is_scalar($value)) {
-                Mage::throwException(Mage::helper('xmlconnect')->__('Unsupported value type received'));
+                Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('Unsupported value type received'));
             }
             $this->getResource()->saveConfig($applicationId, $category, $path, $value);
         }

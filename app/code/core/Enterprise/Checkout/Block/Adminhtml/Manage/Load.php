@@ -49,10 +49,10 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Load extends Mage_Core_Block_Te
                 $result[$name] = $block->toHtml();
             }
         }
-        $resultJson = Mage::helper('core')->jsonEncode($result);
+        $resultJson = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
         $jsVarname = $this->getRequest()->getParam('as_js_varname');
         if ($jsVarname) {
-            return Mage::helper('adminhtml/js')->getScript(sprintf('var %s = %s', $jsVarname, $resultJson));
+            return Mage::helper('Mage_Adminhtml_Helper_Js')->getScript(sprintf('var %s = %s', $jsVarname, $resultJson));
         } else {
             return $resultJson;
         }

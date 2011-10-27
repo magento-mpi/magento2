@@ -47,7 +47,7 @@ class Enterprise_GiftRegistry_Block_Cart_Link extends Mage_Core_Block_Template
      */
     public function getEnabled()
     {
-        return  Mage::helper('enterprise_giftregistry')->isEnabled();
+        return  Mage::helper('Enterprise_GiftRegistry_Helper_Data')->isEnabled();
     }
 
     /**
@@ -57,6 +57,6 @@ class Enterprise_GiftRegistry_Block_Cart_Link extends Mage_Core_Block_Template
      */
     public function getEntityValues()
     {
-        return Mage::helper('enterprise_giftregistry')->getCurrentCustomerEntityOptions();
+        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->getCurrentCustomerEntityOptions();
     }
 }

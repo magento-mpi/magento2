@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Mage_Adminhtml_Blo
         $this->setChild('deleteButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('poll')->__('Delete'),
+                    'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Delete'),
                     'onclick'   => 'answer.del(this)',
                     'class' => 'delete'
                 ))
@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Mage_Adminhtml_Blo
         $this->setChild('addButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('poll')->__('Add New Answer'),
+                    'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Add New Answer'),
                     'onclick'   => 'answer.add(this)',
                     'class' => 'add'
                 ))

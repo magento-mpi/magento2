@@ -63,7 +63,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro extends Mage_Paypal_Mod
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('payment')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance('pbridge');
             if ($this->_pbridgeMethodInstance) {
                 $this->_pbridgeMethodInstance->setOriginalMethodInstance($this->_pbridgePaymentMethod);
             }

@@ -198,7 +198,7 @@ class Mage_Core_Model_File_Storage_Directory_Database extends Mage_Core_Model_Fi
                     $directory->setUploadTime($dateSingleton->date());
                     $directory->save();
                 } else {
-                    Mage::throwException(Mage::helper('core')->__('Parent directory does not exist: %s', $dir['path']));
+                    Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Parent directory does not exist: %s', $dir['path']));
                 }
             } catch (Exception $e) {
                 Mage::logException($e);
@@ -227,7 +227,7 @@ class Mage_Core_Model_File_Storage_Directory_Database extends Mage_Core_Model_Fi
      */
     public function getSubdirectories($directory)
     {
-        $directory = Mage::helper('core/file_storage_database')->getMediaRelativePath($directory);
+        $directory = Mage::helper('Mage_Core_Helper_File_Storage_Database')->getMediaRelativePath($directory);
 
         return $this->_getResource()->getSubdirectories($directory);
     }
@@ -240,7 +240,7 @@ class Mage_Core_Model_File_Storage_Directory_Database extends Mage_Core_Model_Fi
      */
     public function deleteDirectory($dirPath)
     {
-        $dirPath = Mage::helper('core/file_storage_database')->getMediaRelativePath($dirPath);
+        $dirPath = Mage::helper('Mage_Core_Helper_File_Storage_Database')->getMediaRelativePath($dirPath);
         $name = basename($dirPath);
         $path = dirname($dirPath);
 

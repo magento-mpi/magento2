@@ -73,7 +73,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
     {
         $addButton = $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setData(array(
-                'label' => Mage::helper('downloadable')->__('Add New Row'),
+                'label' => Mage::helper('Mage_Downloadable_Helper_Data')->__('Add New Row'),
                 'id' => 'add_sample_item',
                 'class' => 'add',
             ));
@@ -97,17 +97,17 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
                 'sample_type' => $item->getSampleType(),
                 'sort_order' => $item->getSortOrder(),
             );
-            $file = Mage::helper('downloadable/file')->getFilePath(
+            $file = Mage::helper('Mage_Downloadable_Helper_File')->getFilePath(
                 Mage_Downloadable_Model_Sample::getBasePath(), $item->getSampleFile()
             );
             if ($item->getSampleFile() && !is_file($file)) {
-                Mage::helper('core/file_storage_database')->saveFileToFilesystem($file);
+                Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($file);
             }
             if ($item->getSampleFile() && is_file($file)) {
                 $tmpSampleItem['file_save'] = array(
                     array(
                         'file' => $item->getSampleFile(),
-                        'name' => Mage::helper('downloadable/file')->getFileFromPathFile($item->getSampleFile()),
+                        'name' => Mage::helper('Mage_Downloadable_Helper_File')->getFileFromPathFile($item->getSampleFile()),
                         'size' => filesize($file),
                         'status' => 'old'
                     ));
@@ -152,7 +152,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->addData(array(
                     'id'      => '',
-                    'label'   => Mage::helper('adminhtml')->__('Upload Files'),
+                    'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Upload Files'),
                     'type'    => 'button',
                     'onclick' => 'Downloadable.massUploadByType(\'samples\')'
                 ))
@@ -181,14 +181,14 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
         $this->getConfig()->setFileField('samples');
         $this->getConfig()->setFilters(array(
             'all'    => array(
-                'label' => Mage::helper('adminhtml')->__('All Files'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Files'),
                 'files' => array('*.*')
             )
         ));
         $this->getConfig()->setReplaceBrowseWithRemove(true);
         $this->getConfig()->setWidth('32');
         $this->getConfig()->setHideUploadButton(true);
-        return Mage::helper('core')->jsonEncode($this->getConfig()->getData());
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getConfig()->getData());
     }
 
     /**

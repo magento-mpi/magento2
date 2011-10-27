@@ -27,7 +27,7 @@
 
 <div class="box-left">
     <div class="entry-edit">
-        <div class="entry-edit-head"><h4><?php echo Mage::helper('enterprise_giftregistry')->__('General Information') ?></h4></div>
+        <div class="entry-edit-head"><h4><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('General Information') ?></h4></div>
         <fieldset>
             <table cellspacing="2" class="box-left">
                 <col width="120" />
@@ -75,7 +75,7 @@
     <?php echo $this->getChildHtml('sharing_form'); ?>
     <script type="text/javascript">
         Validation.addAllThese([
-            ['validate-emails', '<?php echo Mage::helper('enterprise_giftregistry')->__('Please enter valid email addresses, separated by comma.') ?>', function (v) {
+            ['validate-emails', '<?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter valid email addresses, separated by comma.') ?>', function (v) {
                 v = v.strip();
                 var emails = v.split(/,+/g);
                 for (var i = 0, l = emails.length; i < l; i++) {
@@ -91,7 +91,7 @@
 <div class="clear"></div>
 
 <div class="entry-edit">
-    <div class="entry-edit-head"><h4 ><?php echo Mage::helper('enterprise_giftregistry')->__('Gift Registry Items') ?></h4></div>
+    <div class="entry-edit-head"><h4 ><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Items') ?></h4></div>
         <fieldset>
             <form id="update_form" method="post" action="<?php echo $this->getActionUrl() ?>">
                 <?php echo $this->getBlockHtml('formkey')?>
@@ -103,7 +103,7 @@
 </div>
 
 <div class="entry-edit">
-    <div class="entry-edit-head"><h4 ><?php echo Mage::helper('enterprise_giftregistry')->__('Shopping Cart Items') ?></h4></div>
+    <div class="entry-edit-head"><h4 ><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Shopping Cart Items') ?></h4></div>
         <fieldset>
             <?php echo $this->getChildHtml('cart_items'); ?>
         </fieldset>

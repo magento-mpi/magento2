@@ -183,7 +183,7 @@ No page found
     <adminhtml_noroute>
         <reference name="content">
             <block type="core/text" name="content.noRoute">
-                <action method="setText" translate="text" module="adminhtml"><text><![CDATA[<h1 class="page-heading">404 Error</h1><p>Page not found.</p>]]></text></action>
+                <action method="setText" translate="text" module="Mage_Adminhtml"><text><![CDATA[<h1 class="page-heading">404 Error</h1><p>Page not found.</p>]]></text></action>
             </block>
         </reference>
     </adminhtml_noroute>

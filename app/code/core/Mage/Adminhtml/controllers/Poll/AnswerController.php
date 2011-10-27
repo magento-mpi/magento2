@@ -39,10 +39,10 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
         $this->loadLayout();
 
         $this->_setActiveMenu('cms/poll');
-        $this->_addBreadcrumb(Mage::helper('poll')->__('Poll Manager'),
-                              Mage::helper('poll')->__('Poll Manager'), $this->getUrl('*/*/'));
-        $this->_addBreadcrumb(Mage::helper('poll')->__('Edit Poll Answer'),
-                              Mage::helper('poll')->__('Edit Poll Answer'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Poll_Helper_Data')->__('Poll Manager'),
+                              Mage::helper('Mage_Poll_Helper_Data')->__('Poll Manager'), $this->getUrl('*/*/'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Poll_Helper_Data')->__('Edit Poll Answer'),
+                              Mage::helper('Mage_Poll_Helper_Data')->__('Edit Poll Answer'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/poll_answer_edit'));
 
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
                     ->save();
 
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('poll')->__('The answer has been saved.'));
+                    Mage::helper('Mage_Poll_Helper_Data')->__('The answer has been saved.'));
                 $this->_redirect('*/poll/edit',
                                  array('id' => $this->getRequest()->getParam('poll_id'), 'tab' => 'answers_section'));
                 return;
@@ -89,7 +89,7 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
             $data = Zend_Json::decode($post['data']);
             try {
                 if( trim($data['answer_title']) == '' ) {
-                    throw new Exception(Mage::helper('poll')->__('Invalid Answer.'));
+                    throw new Exception(Mage::helper('Mage_Poll_Helper_Data')->__('Invalid Answer.'));
                 }
                 $model = Mage::getModel('poll/poll_answer');
                 $model->setData($data)
@@ -118,7 +118,7 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
             }
         } else {
             $response->setError(1);
-            $response->setMessage(Mage::helper('poll')->__('Unable to find an answer to delete.'));
+            $response->setMessage(Mage::helper('Mage_Poll_Helper_Data')->__('Unable to find an answer to delete.'));
         }
         $this->getResponse()->setBody( $response->toJson() );
     }

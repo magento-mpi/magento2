@@ -46,7 +46,7 @@ Customer account pages, rendered for all tabs in dashboard
     <customer_account>
         <!-- Mage_Tag -->
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="tag"><name>tags</name><path>tag/customer/</path><label>My Tags</label></action>
+            <action method="addLink" translate="label" module="Mage_Tag"><name>tags</name><path>tag/customer/</path><label>My Tags</label></action>
         </reference>
     </customer_account>
 
@@ -112,7 +112,7 @@ All tags page
         <label>Customer My Account My Tags List</label>
         <update handle="customer_account"/>
         <reference name="root">
-            <action method="setHeaderTitle" translate="title" module="customer"><title>My Account</title></action>
+            <action method="setHeaderTitle" translate="title" module="Mage_Customer"><title>My Account</title></action>
         </reference>
         <reference name="my.account.wrapper">
             <block type="tag/customer_tags" name="customer_tags" template="tag/customer/tags.phtml"/>
@@ -123,7 +123,7 @@ All tags page
         <label>Customer My Account Tag View</label>
         <update handle="customer_account"/>
         <reference name="root">
-            <action method="setHeaderTitle" translate="title" module="customer"><title>My Account</title></action>
+            <action method="setHeaderTitle" translate="title" module="Mage_Customer"><title>My Account</title></action>
         </reference>
         <reference name="my.account.wrapper">
             <block type="tag/customer_view" name="customer_view" template="tag/customer/view.phtml"/>

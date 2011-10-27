@@ -39,15 +39,15 @@ class Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency
         if (!self::$_options) {
             self::$_options = array(
                 array(
-                    'label' => Mage::helper('cron')->__('Daily'),
+                    'label' => Mage::helper('Mage_Cron_Helper_Data')->__('Daily'),
                     'value' => self::CRON_DAILY,
                 ),
                 array(
-                    'label' => Mage::helper('cron')->__('Weekly'),
+                    'label' => Mage::helper('Mage_Cron_Helper_Data')->__('Weekly'),
                     'value' => self::CRON_WEEKLY,
                 ),
                 array(
-                    'label' => Mage::helper('cron')->__('Monthly'),
+                    'label' => Mage::helper('Mage_Cron_Helper_Data')->__('Monthly'),
                     'value' => self::CRON_MONTHLY,
                 ),
             );

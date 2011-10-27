@@ -29,7 +29,7 @@
    <sections>
         <payment>
             <groups>
-                <authorizenet_directpost translate="label" module="authorizenet">
+                <authorizenet_directpost translate="label" module="Mage_Authorizenet">
                     <label>Authorize.net Direct Post</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>10</sort_order>

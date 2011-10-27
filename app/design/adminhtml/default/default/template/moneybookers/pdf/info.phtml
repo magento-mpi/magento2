@@ -20,5 +20,5 @@
 ?>
 <?php echo $this->getMethod()->getTitle() ?>
     {{pdf_row_separator}}
-<?php echo Mage::helper('moneybookers')->__('Moneybookers Transaction ID: %s', $this->htmlEscape($this->getInfo()->getLastTransId())) ?>
+<?php echo Mage::helper('Phoenix_Moneybookers_Helper_Data')->__('Moneybookers Transaction ID: %s', $this->htmlEscape($this->getInfo()->getLastTransId())) ?>
     {{pdf_row_separator}}

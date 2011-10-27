@@ -26,7 +26,7 @@
 ?>
 <?php
 /** @var $previewModel Mage_XmlConnect_Model_Preview_Iphone */
-$previewModel = Mage::helper('xmlconnect')->getPreviewModel();
+$previewModel = Mage::helper('Mage_XmlConnect_Helper_Data')->getPreviewModel();
 
 $title1size = $previewModel->getConfigFontInfo('Title1/size');
 $title1name = $previewModel->getConfigFontInfo('Title1/name');

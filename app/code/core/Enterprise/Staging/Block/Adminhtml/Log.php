@@ -35,7 +35,7 @@ class Enterprise_Staging_Block_Adminhtml_Log extends Mage_Adminhtml_Block_Widget
     {
         $this->_blockGroup = 'enterprise_staging';
         $this->_controller = 'adminhtml_log';
-        $this->_headerText = Mage::helper('enterprise_staging')->__('Staging Operations Log');
+        $this->_headerText = Mage::helper('Enterprise_Staging_Helper_Data')->__('Staging Operations Log');
         parent::__construct();
 
         $this->_removeButton('add');

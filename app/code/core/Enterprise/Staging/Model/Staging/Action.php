@@ -219,21 +219,21 @@ class Enterprise_Staging_Model_Staging_Action extends Mage_Core_Model_Abstract
             $itemVersionCheck[$itemCode]["currentVersion"] =  $currentModuleVersion[$itemCheckModuleName];
             if ($backupModules[$itemCheckModuleName] == $currentModuleVersion[$itemCheckModuleName]) {
                 $itemVersionCheck[$itemCode]["disabled"] = false;
-                $itemVersionCheck[$itemCode]["note"] = Mage::helper('enterprise_staging')->__('ok');
+                $itemVersionCheck[$itemCode]["note"] = Mage::helper('Enterprise_Staging_Helper_Data')->__('ok');
             } else {
                 $itemVersionCheck[$itemCode]["disabled"] = true;
-                $itemVersionCheck[$itemCode]["reason"] = Mage::helper('enterprise_staging')->__('version mismatch');
+                $itemVersionCheck[$itemCode]["reason"] = Mage::helper('Enterprise_Staging_Helper_Data')->__('version mismatch');
                 $itemVersionCheck[$itemCode]["note"] =
-                    Mage::helper('enterprise_staging')->__('Backup version: ') . ' ' .
+                    Mage::helper('Enterprise_Staging_Helper_Data')->__('Backup version: ') . ' ' .
                     $backupModules[$itemCheckModuleName]. " ,".
-                    Mage::helper('enterprise_staging')->__('Current: ') .
+                    Mage::helper('Enterprise_Staging_Helper_Data')->__('Current: ') .
                     $currentModuleVersion[$itemCheckModuleName];
             }
         } else {
             $itemVersionCheck[$itemCode]["disabled"] = true;
-            $itemVersionCheck[$itemCode]["reason"] = Mage::helper('enterprise_staging')->__('unknown item');
+            $itemVersionCheck[$itemCode]["reason"] = Mage::helper('Enterprise_Staging_Helper_Data')->__('unknown item');
             $itemVersionCheck[$itemCode]["note"] =
-                Mage::helper('enterprise_staging')->__('Item model "%s" is not under backup', $itemModel);
+                Mage::helper('Enterprise_Staging_Helper_Data')->__('Item model "%s" is not under backup', $itemModel);
         }
 
         return $this;

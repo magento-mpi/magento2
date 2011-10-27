@@ -58,7 +58,7 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
         Enterprise_PageCache_Model_Cookie::setCategoryCookieValue($queryParams);
         $this->_prepareCatalogSession();
 
-        $category = Mage::helper('catalog')->getCategory();
+        $category = Mage::helper('Mage_Catalog_Helper_Data')->getCategory();
         if ($category) {
             $processor->setMetadata(self::METADATA_CATEGORY_ID, $category->getId());
             $this->_updateCategoryViewedCookie($processor);

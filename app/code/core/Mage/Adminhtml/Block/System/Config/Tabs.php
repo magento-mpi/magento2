@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
     protected function _construct()
     {
         $this->setId('system_config_tabs');
-        $this->setTitle(Mage::helper('adminhtml')->__('Configuration'));
+        $this->setTitle(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Configuration'));
         $this->setTemplate('system/config/tabs.phtml');
     }
 
@@ -147,7 +147,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
             }
         }
 
-        Mage::helper('adminhtml')->addPageHelpUrl($current.'/');
+        Mage::helper('Mage_Adminhtml_Helper_Data')->addPageHelpUrl($current.'/');
 
         return $this;
     }
@@ -212,7 +212,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
 
         $options = array();
         $options['default'] = array(
-            'label'    => Mage::helper('adminhtml')->__('Default Config'),
+            'label'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Default Config'),
             'url'      => $url->getUrl('*/*/*', array('section'=>$section)),
             'selected' => !$curWebsite && !$curStore,
             'style'    => 'background:#ccc; font-weight:bold;',
@@ -280,32 +280,32 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
 
         if (!$curWebsite && !$curStore) {
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('New Website'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Website'),
                 'onclick'   => "location.href='".$this->getUrl('*/system_website/new')."'",
                 'class'     => 'add',
             ))->toHtml();
         } elseif (!$curStore) {
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('Edit Website'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Edit Website'),
                 'onclick'   => "location.href='".$this->getUrl('*/system_website/edit', array('website'=>$curWebsite))."'",
             ))->toHtml();
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('New Store View'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Store View'),
                 'onclick'   => "location.href='".$this->getUrl('*/system_store/new', array('website'=>$curWebsite))."'",
                 'class'     => 'add',
             ))->toHtml();
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('Delete Website'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Delete Website'),
                 'onclick'   => "location.href='".$this->getUrl('*/system_website/delete', array('website'=>$curWebsite))."'",
                 'class'     => 'delete',
             ))->toHtml();
         } else {
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('Edit Store View'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Edit Store View'),
                 'onclick'   => "location.href='".$this->getUrl('*/system_store/edit', array('store'=>$curStore))."'",
             ))->toHtml();
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('Delete Store View'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Delete Store View'),
                 'onclick'   => "location.href='".$this->getUrl('*/system_store/delete', array('store'=>$curStore))."'",
                 'class'     => 'delete',
             ))->toHtml();

@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Mage_Adminh
         $this->setChild(
             'submit_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('sales')->__('Submit Shipment'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Submit Shipment'),
                 'class'     => 'save submit-button',
                 'onclick'   => 'submitShipment(this);',
             ))
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Mage_Adminh
      */
     public function canSendShipmentEmail()
     {
-        return Mage::helper('sales')->canSendNewShipmentEmail($this->getOrder()->getStore()->getId());
+        return Mage::helper('Mage_Sales_Helper_Data')->canSendNewShipmentEmail($this->getOrder()->getStore()->getId());
     }
 
     /**

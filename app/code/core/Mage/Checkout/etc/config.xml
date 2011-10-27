@@ -56,7 +56,7 @@
         </resources>
         <template>
             <email>
-                <checkout_payment_failed_template translate="label" module="sales">
+                <checkout_payment_failed_template translate="label" module="Mage_Sales">
                     <label>Payment Failed</label>
                     <file>payment_failed.html</file>
                     <type>html</type>

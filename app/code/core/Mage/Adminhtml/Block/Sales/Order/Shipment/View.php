@@ -45,17 +45,17 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View extends Mage_Adminhtml_Bloc
         $this->_removeButton('reset');
         $this->_removeButton('delete');
         if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/emails')) {
-            $this->_updateButton('save', 'label', Mage::helper('sales')->__('Send Tracking Information'));
+            $this->_updateButton('save', 'label', Mage::helper('Mage_Sales_Helper_Data')->__('Send Tracking Information'));
             $this->_updateButton('save',
                 'onclick', "deleteConfirm('"
-                . Mage::helper('sales')->__('Are you sure you want to send Shipment email to customer?')
+                . Mage::helper('Mage_Sales_Helper_Data')->__('Are you sure you want to send Shipment email to customer?')
                 . "', '" . $this->getEmailUrl() . "')"
             );
         }
 
         if ($this->getShipment()->getId()) {
             $this->_addButton('print', array(
-                'label'     => Mage::helper('sales')->__('Print'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Print'),
                 'class'     => 'save',
                 'onclick'   => 'setLocation(\''.$this->getPrintUrl().'\')'
                 )
@@ -76,12 +76,12 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View extends Mage_Adminhtml_Bloc
     public function getHeaderText()
     {
         if ($this->getShipment()->getEmailSent()) {
-            $emailSent = Mage::helper('sales')->__('the shipment email was sent');
+            $emailSent = Mage::helper('Mage_Sales_Helper_Data')->__('the shipment email was sent');
         }
         else {
-            $emailSent = Mage::helper('sales')->__('the shipment email is not sent');
+            $emailSent = Mage::helper('Mage_Sales_Helper_Data')->__('the shipment email is not sent');
         }
-        return Mage::helper('sales')->__('Shipment #%1$s | %3$s (%2$s)', $this->getShipment()->getIncrementId(), $emailSent, $this->formatDate($this->getShipment()->getCreatedAtDate(), 'medium', true));
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Shipment #%1$s | %3$s (%2$s)', $this->getShipment()->getIncrementId(), $emailSent, $this->formatDate($this->getShipment()->getCreatedAtDate(), 'medium', true));
     }
 
     public function getBackUrl()

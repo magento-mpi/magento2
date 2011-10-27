@@ -27,7 +27,7 @@
 -->
 <config>
    <sections>
-        <sendfriend translate="label" module="sendfriend">
+        <sendfriend translate="label" module="Mage_Sendfriend">
             <label>Email to a Friend</label>
             <tab>catalog</tab>
             <frontend_type>text</frontend_type>

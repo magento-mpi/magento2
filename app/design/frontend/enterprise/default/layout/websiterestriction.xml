@@ -27,7 +27,7 @@
 -->
 <layout version="0.1.0">
     <!-- stub-page for a closed website -->
-    <restriction_index_stub translate="label" module="enterprise_websiterestriction">
+    <restriction_index_stub translate="label" module="Enterprise_WebsiteRestriction">
         <label>Website Closed Stub Page</label>
         <block type="page/html" name="root" output="toHtml" template="page/1column.phtml">
             <block type="page/html_head" name="head" as="head">
@@ -57,7 +57,7 @@
     </restriction_index_stub>
 
     <!-- private sales mode additional layout update -->
-    <restriction_privatesales_mode translate="label" module="enterprise_websiterestriction">
+    <restriction_privatesales_mode translate="label" module="Enterprise_WebsiteRestriction">
         <label>Website Closed Private Sales Landing Page</label>
     </restriction_privatesales_mode>
 </layout>

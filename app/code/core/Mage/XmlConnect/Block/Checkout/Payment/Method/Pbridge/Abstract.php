@@ -85,6 +85,6 @@ abstract class Mage_XmlConnect_Block_Checkout_Payment_Method_Pbridge_Abstract
     {$this->getIframeBlock()->toHtml()}
 </div>
 EOT;
-        return $this->helper('xmlconnect')->htmlize($body);
+        return $this->helper('Mage_XmlConnect_Helper_Data')->htmlize($body);
     }
 }

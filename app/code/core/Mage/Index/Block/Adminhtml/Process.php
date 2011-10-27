@@ -30,7 +30,7 @@ class Mage_Index_Block_Adminhtml_Process extends Mage_Adminhtml_Block_Widget_Gri
     {
         $this->_blockGroup = 'index';
         $this->_controller = 'adminhtml_process';
-        $this->_headerText = Mage::helper('index')->__('Index Management');
+        $this->_headerText = Mage::helper('Mage_Index_Helper_Data')->__('Index Management');
         parent::__construct();
         $this->_removeButton('add');
     }

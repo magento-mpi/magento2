@@ -69,7 +69,7 @@ class Mage_Checkout_Model_Type_Onepage
      */
     public function __construct()
     {
-        $this->_helper = Mage::helper('checkout');
+        $this->_helper = Mage::helper('Mage_Checkout_Helper_Data');
         $this->_customerEmailExistsMessage = $this->_helper->__('There is already a customer registered using this email address. Please login using this email address or enter a different email address to register your account.');
         $this->_checkoutSession = Mage::getSingleton('checkout/session');
         $this->_customerSession = Mage::getSingleton('customer/session');
@@ -414,7 +414,7 @@ class Mage_Checkout_Model_Type_Onepage
         $quote->getBillingAddress()->setEmail($customer->getEmail());
 
         // copy customer data to quote
-        Mage::helper('core')->copyFieldset('customer_account', 'to_quote', $customer, $quote);
+        Mage::helper('Mage_Core_Helper_Data')->copyFieldset('customer_account', 'to_quote', $customer, $quote);
 
         return true;
     }
@@ -625,7 +625,7 @@ class Mage_Checkout_Model_Type_Onepage
      */
     public function validate()
     {
-        $helper = Mage::helper('checkout');
+        $helper = Mage::helper('Mage_Checkout_Helper_Data');
         $quote  = $this->getQuote();
         if ($quote->getIsMultiShipping()) {
             Mage::throwException($helper->__('Invalid checkout type.'));
@@ -678,7 +678,7 @@ class Mage_Checkout_Model_Type_Onepage
             $customerBilling->setIsDefaultShipping(true);
         }
 
-        Mage::helper('core')->copyFieldset('checkout_onepage_quote', 'to_customer', $quote, $customer);
+        Mage::helper('Mage_Core_Helper_Data')->copyFieldset('checkout_onepage_quote', 'to_customer', $quote, $customer);
         $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
         $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
         $quote->setCustomer($customer)
@@ -730,9 +730,9 @@ class Mage_Checkout_Model_Type_Onepage
         $customer = $this->getQuote()->getCustomer();
         if ($customer->isConfirmationRequired()) {
             $customer->sendNewAccountEmail('confirmation', '', $this->getQuote()->getStoreId());
-            $url = Mage::helper('customer')->getEmailConfirmationUrl($customer->getEmail());
+            $url = Mage::helper('Mage_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail());
             $this->getCustomerSession()->addSuccess(
-                Mage::helper('customer')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.', $url)
+                Mage::helper('Mage_Customer_Helper_Data')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.', $url)
             );
         } else {
             $customer->sendNewAccountEmail('registered', '', $this->getQuote()->getStoreId());
@@ -838,7 +838,7 @@ class Mage_Checkout_Model_Type_Onepage
      */
     protected function validateOrder()
     {
-        $helper = Mage::helper('checkout');
+        $helper = Mage::helper('Mage_Checkout_Helper_Data');
         if ($this->getQuote()->getIsMultiShipping()) {
             Mage::throwException($helper->__('Invalid checkout type.'));
         }
@@ -964,7 +964,7 @@ class Mage_Checkout_Model_Type_Onepage
 //                $billing->setCustomerGender($this->getQuote()->getCustomerGender());
 //            }
 //
-//            Mage::helper('core')->copyFieldset('checkout_onepage_billing', 'to_customer', $billing, $customer);
+//            Mage::helper('Mage_Core_Helper_Data')->copyFieldset('checkout_onepage_billing', 'to_customer', $billing, $customer);
 //
 //            $customer->setPassword($customer->decryptPassword($this->getQuote()->getPasswordHash()));
 //            $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
@@ -1061,7 +1061,7 @@ class Mage_Checkout_Model_Type_Onepage
 //            $this->getQuote()->setCustomerId($customer->getId());
 //
 //            $order->setCustomerId($customer->getId());
-//            Mage::helper('core')->copyFieldset('customer_account', 'to_order', $customer, $order);
+//            Mage::helper('Mage_Core_Helper_Data')->copyFieldset('customer_account', 'to_order', $customer, $order);
 //
 //            $billing->setCustomerId($customer->getId())->setCustomerAddressId($customerBillingId);
 //            if (!$this->getQuote()->isVirtual()) {
@@ -1125,7 +1125,7 @@ class Mage_Checkout_Model_Type_Onepage
 //             */
 //            $this->getQuote()->save();
 //            if ($customer->isConfirmationRequired()) {
-//                Mage::getSingleton('checkout/session')->addSuccess(Mage::helper('customer')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.', Mage::helper('customer')->getEmailConfirmationUrl($customer->getEmail())));
+//                Mage::getSingleton('checkout/session')->addSuccess(Mage::helper('Mage_Customer_Helper_Data')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.', Mage::helper('Mage_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail())));
 //            }
 //            else {
 //                Mage::getSingleton('customer/session')->loginById($customer->getId());
