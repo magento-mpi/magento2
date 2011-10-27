@@ -185,8 +185,9 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
                     throw $e;
                 }
             } else {
-                $this->getIndexer()->reindexAll();
+                //Update existing events since we'll do reindexAll
                 Mage::getResourceSingleton('index/event')->updateProcessEvents($this);
+                $this->getIndexer()->reindexAll();
             }
             $this->unlock();
             $this->_getResource()->endProcess($this);
