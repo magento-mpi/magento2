@@ -238,6 +238,8 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         if (!$this->matchEvent($event)) {
             return $this;
         }
+
+        $this->_getResource()->updateProcessStartDate($this);
         $this->_setEventNamespace($event);
         $isError = false;
 
@@ -248,7 +250,9 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         }
         $event->resetData();
         $this->_resetEventNamespace($event);
+        $this->_getResource()->updateProcessEndDate($this);
         $event->addProcessId($this->getId(), $isError ? self::EVENT_STATUS_ERROR : self::EVENT_STATUS_DONE);
+
         return $this;
     }
 
@@ -306,7 +310,6 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         }
 
         $this->lock();
-        $this->_getResource()->updateProcessStartDate($this);
         try {
             /**
              * Prepare events collection
@@ -320,10 +323,8 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
             }
 
             $this->_processEventsCollection($eventsCollection);
-            $this->_getResource()->updateProcessEndDate($this);
             $this->unlock();
         } catch (Exception $e) {
-            $this->_getResource()->updateProcessEndDate($this);
             $this->unlock();
             throw $e;
         }
@@ -550,13 +551,10 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
             return $this;
         }
         $this->lock();
-        $this->_getResource()->updateProcessStartDate($this);
         try {
             $this->processEvent($event);
-            $this->_getResource()->updateProcessEndDate($this);
             $this->unlock();
         } catch (Exception $e) {
-            $this->_getResource()->updateProcessEndDate($this);
             $this->unlock();
             throw $e;
         }
