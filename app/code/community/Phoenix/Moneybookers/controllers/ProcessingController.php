@@ -137,7 +137,7 @@ class Phoenix_Moneybookers_ProcessingController extends Mage_Core_Controller_Fro
     {
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('moneybookers/redirect')
+                ->createBlock('Phoenix_Moneybookers_Block_Redirect')
                 ->setRedirectUrl(Mage::getUrl($path, $arguments))
                 ->toHtml()
         );

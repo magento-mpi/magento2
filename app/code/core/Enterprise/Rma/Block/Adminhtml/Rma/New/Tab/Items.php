@@ -132,7 +132,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
             'name' => 'reason',
             'required' => false
         ))->setRenderer(
-            $this->getLayout()->createBlock('enterprise_rma/adminhtml_rma_new_tab_items_renderer_reason')
+            $this->getLayout()->createBlock('Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Renderer_Reason')
         );
 
         $fieldset->addField('condition', 'select', array(

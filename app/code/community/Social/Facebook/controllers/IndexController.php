@@ -94,7 +94,7 @@ class Social_Facebook_IndexController extends Mage_Core_Controller_Front_Action
             }
 
             $this->loadLayout();
-            $response = $this->getLayout()->createBlock('social_facebook/head')->toHtml();
+            $response = $this->getLayout()->createBlock('Social_Facebook_Block_Head')->toHtml();
             $this->getResponse()->setBody($response);
         }
     }

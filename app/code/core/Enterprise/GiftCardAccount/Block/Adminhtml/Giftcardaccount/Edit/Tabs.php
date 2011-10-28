@@ -39,20 +39,20 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tabs exten
     {
         $this->addTab('info', array(
             'label'     => Mage::helper('enterprise_giftcardaccount')->__('Information'),
-            'content'   => $this->getLayout()->createBlock('enterprise_giftcardaccount/adminhtml_giftcardaccount_edit_tab_info')->initForm()->toHtml(),
+            'content'   => $this->getLayout()->createBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info')->initForm()->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('send', array(
             'label'     => Mage::helper('enterprise_giftcardaccount')->__('Send Gift Card'),
-            'content'   => $this->getLayout()->createBlock('enterprise_giftcardaccount/adminhtml_giftcardaccount_edit_tab_send')->initForm()->toHtml(),
+            'content'   => $this->getLayout()->createBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send')->initForm()->toHtml(),
         ));
 
         $model = Mage::registry('current_giftcardaccount');
         if ($model->getId()) {
             $this->addTab('history', array(
                 'label'     => Mage::helper('enterprise_giftcardaccount')->__('History'),
-                'content'   => $this->getLayout()->createBlock('enterprise_giftcardaccount/adminhtml_giftcardaccount_edit_tab_history')->toHtml(),
+                'content'   => $this->getLayout()->createBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History')->toHtml(),
             ));
         }
 

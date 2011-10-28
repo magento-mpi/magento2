@@ -40,7 +40,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
         $elem = $form->getElement(self::ATTRIBUTE_CODE);
 
         if ($elem) {
-            $elem->setRenderer(Mage::app()->getLayout()->createBlock('enterprise_giftcard/adminhtml_renderer_amount'));
+            $elem->setRenderer(Mage::app()->getLayout()->createBlock('Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount'));
         }
     }
 

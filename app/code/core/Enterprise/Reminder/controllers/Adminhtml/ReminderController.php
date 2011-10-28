@@ -113,7 +113,7 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
 
         $model->getConditions()->setJsFormObject('rule_conditions_fieldset');
 
-        $block =  $this->getLayout()->createBlock('enterprise_reminder/adminhtml_reminder_edit',
+        $block =  $this->getLayout()->createBlock('Enterprise_Reminder_Block_Adminhtml_Reminder_Edit',
             'adminhtml_reminder_edit')->setData('form_action_url', $this->getUrl('*/*/save'));
 
         $this->_initAction();
@@ -126,7 +126,7 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
                 $model->getId() ? $this->__('Edit Rule') : $this->__('New Rule'),
                 $model->getId() ? $this->__('Edit Rule') : $this->__('New Rule'))
             ->_addContent($block)
-            ->_addLeft($this->getLayout()->createBlock('enterprise_reminder/adminhtml_reminder_edit_tabs',
+            ->_addLeft($this->getLayout()->createBlock('Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tabs',
                 'adminhtml_reminder_edit_tabs'))->renderLayout();
     }
 
@@ -248,7 +248,7 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
     public function customerGridAction()
     {
         if ($this->_initRule('rule_id')) {
-            $block = $this->getLayout()->createBlock('enterprise_reminder/adminhtml_reminder_edit_tab_customers');
+            $block = $this->getLayout()->createBlock('Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers');
             $this->getResponse()->setBody($block->toHtml());
         }
     }

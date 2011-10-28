@@ -250,7 +250,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
     {
         $id = $this->getRequest()->getParam('id', null);
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('enterprise_catalogevent/adminhtml_event_edit_category')
+            $this->getLayout()->createBlock('Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category')
                 ->getTreeArray($id, true, 1)
         );
     }

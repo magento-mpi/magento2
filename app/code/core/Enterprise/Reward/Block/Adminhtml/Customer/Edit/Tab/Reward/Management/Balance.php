@@ -59,7 +59,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
             $this->setTemplate(null);
         } else {
             $grid = $this->getLayout()
-                ->createBlock('enterprise_reward/adminhtml_customer_edit_tab_reward_management_balance_grid');
+                ->createBlock('Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance_Grid');
             $this->setChild('grid', $grid);
         }
         return parent::_prepareLayout();

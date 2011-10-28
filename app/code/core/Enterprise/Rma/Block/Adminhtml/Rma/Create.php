@@ -51,6 +51,6 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create extends Mage_Adminhtml_Block_Wid
 
     public function getHeaderHtml()
     {
-        return $this->getLayout()->createBlock('enterprise_rma/adminhtml_rma_create_header')->toHtml();
+        return $this->getLayout()->createBlock('Enterprise_Rma_Block_Adminhtml_Rma_Create_Header')->toHtml();
     }
 }

@@ -44,7 +44,7 @@ class Mage_XmlConnect_Block_Customer_Storecredit extends Mage_Core_Block_Templat
         $xmlModel = Mage::getModel('xmlconnect/simplexml_element', '<store_credits_info></store_credits_info>');
 
         $accountBalance = $this->getLayout()
-            ->addBlock('enterprise_customerbalance/account_balance', 'account_balance');
+            ->addBlock('Enterprise_CustomerBalance_Block_Account_Balance', 'account_balance');
 
         $customerBalanceHelper = Mage::helper('enterprise_customerbalance');
 
@@ -55,7 +55,7 @@ class Mage_XmlConnect_Block_Customer_Storecredit extends Mage_Core_Block_Templat
         ));
 
         $accountHistory = $this->getLayout()
-            ->addBlock('enterprise_customerbalance/account_history', 'account_history');
+            ->addBlock('Enterprise_CustomerBalance_Block_Account_History', 'account_history');
 
         if ($accountHistory->canShow() && $accountHistory->getEvents() && count($accountHistory->getEvents())) {
             $balanceHistory = $xmlModel->addCustomChild('balance_history', null, array(

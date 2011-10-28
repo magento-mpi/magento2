@@ -129,7 +129,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
 
         $this->_initAction()
             ->_addContent(
-                $this->getLayout()->createBlock('enterprise_customersegment/adminhtml_report_customer_segment')
+                $this->getLayout()->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment')
             )
             ->renderlayout();
     }
@@ -209,7 +209,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
         if ($this->_initSegment()) {
             $fileName = 'customersegment_customers.xml';
             $content = $this->getLayout()
-                ->createBlock('enterprise_customersegment/adminhtml_report_customer_segment_detail_grid')
+                ->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_Grid')
                 ->getExcelFile($fileName);
             $this->_prepareDownloadResponse($fileName, $content);
         } else {
@@ -227,7 +227,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
         if ($this->_initSegment()) {
             $fileName = 'customersegment_customers.csv';
             $content = $this->getLayout()
-                ->createBlock('enterprise_customersegment/adminhtml_report_customer_segment_detail_grid')
+                ->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_Grid')
                 ->getCsvFile();
             $this->_prepareDownloadResponse($fileName, $content);
         } else {
@@ -245,7 +245,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
             return;
         }
         $grid = $this->getLayout()
-            ->createBlock('enterprise_customersegment/adminhtml_report_customer_segment_detail_grid');
+            ->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_Grid');
         $this->getResponse()->setBody($grid->toHtml());
     }
 

@@ -191,7 +191,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
     {
         $this->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('enterprise_importexport/adminhtml_scheduled_operation_grid')->toHtml()
+            $this->getLayout()->createBlock('Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid')->toHtml()
         );
     }
 

@@ -99,7 +99,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
 
         $model->getConditions()->setJsFormObject('segment_conditions_fieldset');
 
-        $block =  $this->getLayout()->createBlock('enterprise_customersegment/adminhtml_customersegment_edit')
+        $block =  $this->getLayout()->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit')
             ->setData('form_action_url', $this->getUrl('*/*/save'));
 
         $this->_initAction();
@@ -112,7 +112,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
                 $model->getId() ? $this->__('Edit Segment') : $this->__('New Segment'),
                 $model->getId() ? $this->__('Edit Segment') : $this->__('New Segment'))
             ->_addContent($block)
-            ->_addLeft($this->getLayout()->createBlock('enterprise_customersegment/adminhtml_customersegment_edit_tabs'))
+            ->_addLeft($this->getLayout()->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs'))
             ->renderLayout();
     }
 

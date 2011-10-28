@@ -90,12 +90,12 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
         $this->_initAction();
         $this->_title($this->__('New Gift Registry Type'));
 
-        $block = $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_giftregistry_edit')
+        $block = $this->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit')
             ->setData('form_action_url', $this->getUrl('*/*/save'));
 
         $this->_addBreadcrumb($this->__('New Type'), $this->__('New Type'))
             ->_addContent($block)
-            ->_addLeft($this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_giftregistry_edit_tabs'))
+            ->_addLeft($this->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs'))
             ->renderLayout();
     }
 
@@ -116,12 +116,12 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
         $this->_initAction();
         $this->_title($this->__("Edit '%s' Gift Registry Type", $model->getLabel()));
 
-        $block = $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_giftregistry_edit')
+        $block = $this->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit')
             ->setData('form_action_url', $this->getUrl('*/*/save'));
 
         $this->_addBreadcrumb($this->__('Edit Type'), $this->__('Edit Type'))
             ->_addContent($block)
-            ->_addLeft($this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_giftregistry_edit_tabs'))
+            ->_addLeft($this->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs'))
             ->renderLayout();
     }
 

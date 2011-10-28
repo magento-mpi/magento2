@@ -58,7 +58,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
      */
     protected function _getIframeBlock()
     {
-        return $this->getLayout()->createBlock('directpost/iframe');
+        return $this->getLayout()->createBlock('Mage_Authorizenet_Block_Directpost_Iframe');
     }
 
     /**

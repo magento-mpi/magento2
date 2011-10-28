@@ -369,7 +369,7 @@ class Mage_XmlConnect_Block_Customer_Address_Form extends Mage_Customer_Block_Ad
         if (is_object(Mage::getConfig()->getNode('modules/Enterprise_Customer'))) {
             /** @var $addressAttrBlock Enterprise_Customer_Block_Form */
             $addressAttrBlock = $this->getLayout()
-                ->addBlock('enterprise_customer/form', 'customer_address_attr');
+                ->addBlock('Enterprise_Customer_Block_Form', 'customer_address_attr');
             $addressAttrBlock->setFormCode('customer_address_edit');
             $addressAttrBlock->setEntity($this->getAddress());
 

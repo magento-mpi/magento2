@@ -49,7 +49,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
         parent::_prepareLayout();
 
         Varien_Data_Form::setFieldsetElementRenderer(
-            $this->getLayout()->createBlock('enterprise_giftwrapping/adminhtml_giftwrapping_form_renderer_element')
+            $this->getLayout()->createBlock('Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Form_Renderer_Element')
         );
     }
 
@@ -153,7 +153,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'image' => Mage::getConfig()->getBlockClassName('enterprise_giftwrapping/adminhtml_giftwrapping_helper_image')
+            'image' => Mage::getConfig()->getBlockClassName('Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Helper_Image')
         );
     }
 }

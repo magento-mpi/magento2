@@ -103,7 +103,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Renderer_Element')
         );
         Varien_Data_Form::setFieldsetRenderer(
-            $this->getLayout()->createBlock('enterprise_rma/adminhtml_rma_edit_item_renderer_fieldset')
+            $this->getLayout()->createBlock('Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Renderer_Fieldset')
         );
         Varien_Data_Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element')
@@ -120,7 +120,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'image' => Mage::getConfig()->getBlockClassName('enterprise_rma/adminhtml_rma_edit_item_form_element_image')
+            'image' => Mage::getConfig()->getBlockClassName('Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Image')
         );
     }
 

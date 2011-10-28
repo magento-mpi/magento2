@@ -50,14 +50,14 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs exten
         $this->addTab('general_section', array(
             'label'     => Mage::helper('enterprise_customersegment')->__('General Properties'),
             'title'     => Mage::helper('enterprise_customersegment')->__('General Properties'),
-            'content'   => $this->getLayout()->createBlock('enterprise_customersegment/adminhtml_customersegment_edit_tab_general')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General')->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('conditions_section', array(
             'label'     => Mage::helper('enterprise_customersegment')->__('Conditions'),
             'title'     => Mage::helper('enterprise_customersegment')->__('Conditions'),
-            'content'   => $this->getLayout()->createBlock('enterprise_customersegment/adminhtml_customersegment_edit_tab_conditions')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Conditions')->toHtml(),
         ));
 
         $segment = Mage::registry('current_customer_segment');

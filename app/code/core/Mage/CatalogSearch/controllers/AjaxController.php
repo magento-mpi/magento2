@@ -39,6 +39,6 @@ class Mage_CatalogSearch_AjaxController extends Mage_Core_Controller_Front_Actio
             $this->getResponse()->setRedirect(Mage::getSingleton('core/url')->getBaseUrl());
         }
 
-        $this->getResponse()->setBody($this->getLayout()->createBlock('catalogsearch/autocomplete')->toHtml());
+        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_CatalogSearch_Block_Autocomplete')->toHtml());
     }
 }

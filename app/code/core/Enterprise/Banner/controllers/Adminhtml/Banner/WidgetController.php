@@ -40,7 +40,7 @@ class Enterprise_Banner_Adminhtml_Banner_WidgetController extends Mage_Adminhtml
     {
         $uniqId = $this->getRequest()->getParam('uniq_id');
 
-        $bannersGrid = $this->getLayout()->createBlock('enterprise_banner/adminhtml_widget_chooser', '', array(
+        $bannersGrid = $this->getLayout()->createBlock('Enterprise_Banner_Block_Adminhtml_Widget_Chooser', '', array(
             'id' => $uniqId
         ));
         $html = $bannersGrid->toHtml();

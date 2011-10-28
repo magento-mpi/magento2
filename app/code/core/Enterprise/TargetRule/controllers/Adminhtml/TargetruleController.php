@@ -100,7 +100,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
 
         Mage::register('current_target_rule', $model);
 
-        $block = $this->getLayout()->createBlock('enterprise_targetrule/adminhtml_targetrule_edit');
+        $block = $this->getLayout()->createBlock('Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit');
         $this->_initAction();
 
         $this->getLayout()->getBlock('head')
@@ -109,7 +109,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
 
         $this
             ->_addContent($block)
-            ->_addLeft($this->getLayout()->createBlock('enterprise_targetrule/adminhtml_targetrule_edit_tabs'))
+            ->_addLeft($this->getLayout()->createBlock('Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tabs'))
             ->renderLayout();
     }
 

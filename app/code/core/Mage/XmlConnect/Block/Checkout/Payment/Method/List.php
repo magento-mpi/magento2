@@ -88,7 +88,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
     {
         /** @var $customerBalanceBlock Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional */
         $customerBalanceBlock = $this->getLayout()
-            ->addBlock('enterprise_customerbalance/checkout_onepage_payment_additional', 'customer_balance');
+            ->addBlock('Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional', 'customer_balance');
         $storeCreditFlag = (int) Mage::getStoreConfig(Enterprise_CustomerBalance_Helper_Data::XML_PATH_ENABLED);
         if ($storeCreditFlag && $customerBalanceBlock->isDisplayContainer()) {
             $balance = $this->getQuote()->getStore()->formatPrice($customerBalanceBlock->getBalance(), false);

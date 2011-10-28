@@ -202,7 +202,7 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
     {
         if (is_null($this->_priceBlock)) {
             $this->_priceBlock = Mage::helper('productalert')
-                ->createBlock('productalert/email_price');
+                ->createBlock('Mage_ProductAlert_Block_Email_Price');
         }
         return $this->_priceBlock;
     }
@@ -216,7 +216,7 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
     {
         if (is_null($this->_stockBlock)) {
             $this->_stockBlock = Mage::helper('productalert')
-                ->createBlock('productalert/email_stock');
+                ->createBlock('Mage_ProductAlert_Block_Email_Stock');
         }
         return $this->_stockBlock;
     }

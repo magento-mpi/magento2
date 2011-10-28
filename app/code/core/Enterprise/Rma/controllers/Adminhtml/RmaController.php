@@ -443,7 +443,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             $this->getResponse()->setBody(
                 $this
                     ->getLayout()
-                    ->createBlock('enterprise_rma/adminhtml_customer_edit_tab_rma')
+                    ->createBlock('Enterprise_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma')
                     ->setCustomerId($customerId)
                     ->toHtml()
             );
@@ -459,7 +459,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $this->getResponse()->setBody(
             $this
                 ->getLayout()
-                ->createBlock('enterprise_rma/adminhtml_order_view_tab_rma')
+                ->createBlock('Enterprise_Rma_Block_Adminhtml_Order_View_Tab_Rma')
                 ->setOrderId($orderId)
                 ->toHtml()
         );
@@ -917,7 +917,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         }
 
         $shippingInformation = $this->getLayout()
-            ->createBlock('enterprise_rma/adminhtml_rma_edit_tab_general_shipping_information')
+            ->createBlock('Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Information')
             ->setIndex($this->getRequest()->getParam('index'))
             ->toHtml();
 
@@ -1157,7 +1157,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         if ($shipment) {
             $pdf = Mage::getModel('sales/order_pdf_shipment_packaging')
                     ->setPackageShippingBlock(
-                        Mage::getBlockSingleton('enterprise_rma/adminhtml_rma_edit_tab_general_shippingmethod')
+                        Mage::getBlockSingleton('Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod')
                     )
                     ->getPdf($shipment);
             $this->_prepareDownloadResponse(

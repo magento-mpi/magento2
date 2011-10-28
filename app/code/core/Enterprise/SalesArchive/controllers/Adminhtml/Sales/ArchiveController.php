@@ -267,7 +267,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     public function exportCsvAction()
     {
         $fileName   = 'orders_archive.csv';
-        $grid       = $this->getLayout()->createBlock('enterprise_salesarchive/adminhtml_sales_archive_order_grid');
+        $grid       = $this->getLayout()->createBlock('Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Grid');
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
 
@@ -277,7 +277,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     public function exportExcelAction()
     {
         $fileName   = 'orders_archive.xml';
-        $grid       = $this->getLayout()->createBlock('enterprise_salesarchive/adminhtml_sales_archive_order_grid');
+        $grid       = $this->getLayout()->createBlock('Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Grid');
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
 

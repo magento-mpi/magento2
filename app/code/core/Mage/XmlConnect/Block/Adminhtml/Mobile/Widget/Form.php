@@ -99,14 +99,14 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_Adminhtml_
     {
         $config = Mage::getConfig();
         return array(
-            'image' => $config->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_image'),
-            'font'  => $config->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_font'),
-            'color' => $config->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_color'),
-            'tabs'  => $config->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_tabs'),
-            'theme' => $config->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_theme'),
-            'page'  => $config->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_page'),
-            'addrow'=> $config->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_addrow'),
-            'datetime' => $config->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_datetime'),
+            'image' => $config->getBlockClassName('Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Image'),
+            'font'  => $config->getBlockClassName('Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Font'),
+            'color' => $config->getBlockClassName('Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Color'),
+            'tabs'  => $config->getBlockClassName('Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Tabs'),
+            'theme' => $config->getBlockClassName('Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Theme'),
+            'page'  => $config->getBlockClassName('Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Page'),
+            'addrow'=> $config->getBlockClassName('Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Addrow'),
+            'datetime' => $config->getBlockClassName('Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Datetime'),
         );
     }
 }

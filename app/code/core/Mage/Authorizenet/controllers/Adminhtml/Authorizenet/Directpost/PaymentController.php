@@ -197,7 +197,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController
         }
 
         $block = $this->getLayout()
-            ->createBlock('directpost/iframe')
+            ->createBlock('Mage_Authorizenet_Block_Directpost_Iframe')
             ->setParams(array_merge($params, $redirectParams));
         $this->getResponse()->setBody($block->toHtml());
     }

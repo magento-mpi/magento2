@@ -43,18 +43,18 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tabs extends Mage_Ad
     {
         $this->addTab('main_section', array(
             'label'     => Mage::helper('enterprise_targetrule')->__('Rule Information'),
-            'content'   => $this->getLayout()->createBlock('enterprise_targetrule/adminhtml_targetrule_edit_tab_main')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main')->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('conditions_section', array(
             'label'     => Mage::helper('enterprise_targetrule')->__('Products to Match'),
-            'content'   => $this->getLayout()->createBlock('enterprise_targetrule/adminhtml_targetrule_edit_tab_conditions')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions')->toHtml(),
         ));
 
         $this->addTab('targeted_products', array(
             'label'     => Mage::helper('enterprise_targetrule')->__('Products to Display'),
-            'content'   => $this->getLayout()->createBlock('enterprise_targetrule/adminhtml_targetrule_edit_tab_actions')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions')->toHtml(),
         ));
 
         return parent::_beforeToHtml();

@@ -53,19 +53,19 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
     {
         $this->addTab('general_section', array(
             'label'   => Mage::helper('enterprise_reminder')->__('Rule Information'),
-            'content' => $this->getLayout()->createBlock('enterprise_reminder/adminhtml_reminder_edit_tab_general',
+            'content' => $this->getLayout()->createBlock('Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General',
                 'adminhtml_reminder_edit_tab_general')->toHtml(),
         ));
 
         $this->addTab('conditions_section', array(
             'label'   => Mage::helper('enterprise_reminder')->__('Conditions'),
-            'content' => $this->getLayout()->createBlock('enterprise_reminder/adminhtml_reminder_edit_tab_conditions',
+            'content' => $this->getLayout()->createBlock('Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions',
                 'adminhtml_reminder_edit_tab_conditions')->toHtml()
         ));
 
         $this->addTab('template_section', array(
             'label'   => Mage::helper('enterprise_reminder')->__('Emails and Labels'),
-            'content' => $this->getLayout()->createBlock('enterprise_reminder/adminhtml_reminder_edit_tab_templates',
+            'content' => $this->getLayout()->createBlock('Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates',
                 'adminhtml_reminder_edit_tab_templates')->toHtml()
         ));
 

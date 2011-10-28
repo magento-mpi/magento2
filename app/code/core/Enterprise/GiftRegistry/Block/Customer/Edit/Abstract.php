@@ -169,7 +169,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
         }
 
         $calendar = $this->getLayout()
-            ->createBlock('enterprise_giftregistry/customer_date')
+            ->createBlock('Enterprise_GiftRegistry_Block_Customer_Date')
             ->setId($id)
             ->setName($name)
             ->setValue($this->formatDate($value, $format))

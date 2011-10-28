@@ -179,7 +179,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
         }
 
         $form->getElement('export_controls')->setRenderer(
-            $this->getLayout()->createBlock('googleoptimizer/adminhtml_catalog_form_renderer_import')
+            $this->getLayout()->createBlock('Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Form_Renderer_Import')
         );
 
         $form->addValues($values);

@@ -82,7 +82,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
     public function exportCsvAction()
     {
         $this->_prepareDownloadResponse('log.csv',
-            $this->getLayout()->createBlock('enterprise_logging/adminhtml_index_grid')->getCsvFile()
+            $this->getLayout()->createBlock('Enterprise_Logging_Block_Adminhtml_Index_Grid')->getCsvFile()
         );
     }
 
@@ -92,7 +92,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
     public function exportXmlAction()
     {
         $this->_prepareDownloadResponse('log.xml',
-            $this->getLayout()->createBlock('enterprise_logging/adminhtml_index_grid')->getExcelFile()
+            $this->getLayout()->createBlock('Enterprise_Logging_Block_Adminhtml_Index_Grid')->getExcelFile()
         );
     }
 

@@ -75,7 +75,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
                     'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
                     'disabled'  => $isElementDisabled
             ))->setRenderer(
-                $this->getLayout()->createBlock('googleoptimizer/adminhtml_cms_page_edit_renderer_conversion')
+                $this->getLayout()->createBlock('Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Renderer_Conversion')
             );
         } else {
             $fieldset->addField('conversion_page_url', 'text',
@@ -157,7 +157,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
                 );
         }
 
-        $renderer = $this->getLayout()->createBlock('googleoptimizer/adminhtml_catalog_form_renderer_import');
+        $renderer = $this->getLayout()->createBlock('Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Form_Renderer_Import');
         $form->getElement('export_controls')->setRenderer($renderer);
 
         $values = array();

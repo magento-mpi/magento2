@@ -61,7 +61,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions extends 
             'required'  => true
         ));
         $element->setRule($model);
-        $element->setRenderer(Mage::getBlockSingleton('enterprise_targetrule/adminhtml_actions_conditions'));
+        $element->setRenderer(Mage::getBlockSingleton('Enterprise_TargetRule_Block_Adminhtml_Actions_Conditions'));
 
         $model->getActions()->setJsFormObject($fieldset->getHtmlId());
         $form->setValues($model->getData());

@@ -91,7 +91,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
     {
         $export = $operation->getInstance();
         $block = $this->getLayout()
-            ->createBlock('enterprise_importexport/adminhtml_export_filter')
+            ->createBlock('Enterprise_ImportExport_Block_Adminhtml_Export_Filter')
             ->setOperation($export);
 
         $export->filterAttributeCollection($block->prepareCollection($export->getEntityAttributeCollection()));
