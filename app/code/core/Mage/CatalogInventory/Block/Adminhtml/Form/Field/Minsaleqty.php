@@ -47,7 +47,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Minsaleqty extends Mage_A
     {
         if (!$this->_groupRenderer) {
             $this->_groupRenderer = $this->getLayout()->createBlock(
-                'cataloginventory/adminhtml_form_field_customergroup', '',
+                'Mage_CatalogInventory_Block_Adminhtml_Form_Field_Customergroup', '',
                 array('is_render_to_js_template' => true)
             );
             $this->_groupRenderer->setClass('customer_group_select');

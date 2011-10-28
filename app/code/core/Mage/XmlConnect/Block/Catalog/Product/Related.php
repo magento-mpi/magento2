@@ -50,7 +50,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Related extends Mage_XmlConnect_Bloc
             Mage::register('product', $productObj);
 
             $productBlock = $this->getLayout()->addBlock(
-                'enterprise_targetrule/catalog_product_list_related', 'relatedProducts'
+                'Enterprise_TargetRule_Block_Catalog_Product_List_Related', 'relatedProducts'
             );
 
             $collection = $productBlock->getItemCollection();

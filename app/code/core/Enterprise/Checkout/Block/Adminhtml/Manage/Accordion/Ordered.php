@@ -70,7 +70,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
      */
     protected function _getPriceRenderer()
     {
-        return 'enterprise_checkout/adminhtml_manage_grid_renderer_ordered_price';
+        return 'Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Ordered_Price';
     }
 
     /**

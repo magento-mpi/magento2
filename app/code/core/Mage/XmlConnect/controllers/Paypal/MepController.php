@@ -76,7 +76,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
         try {
             if (is_object(Mage::getConfig()->getNode('modules/Enterprise_GiftCardAccount'))) {
                 $giftcardInfoBlock = $this->getLayout()->addBlock(
-                    'enterprise_giftcardaccount/checkout_onepage_payment_additional', 'giftcard_info'
+                    'Enterprise_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional', 'giftcard_info'
                 );
 
                 if (intval($giftcardInfoBlock->getAppliedGiftCardAmount())) {

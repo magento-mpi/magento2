@@ -296,7 +296,7 @@ class Mage_GoogleOptimizer_Model_Observer
             $tabs->addTab('googleoptimizer', array(
                 'label'     => Mage::helper('googleoptimizer')->__('Category View Optimization'),
                 'content'   => $tabs->getLayout()->createBlock(
-                    'googleoptimizer/adminhtml_catalog_category_edit_tab_googleoptimizer'
+                    'Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptimizer'
                 )->toHtml(),
             ));
         }

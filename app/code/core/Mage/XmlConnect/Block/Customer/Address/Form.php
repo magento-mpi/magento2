@@ -44,29 +44,29 @@ class Mage_XmlConnect_Block_Customer_Address_Form extends Mage_Customer_Block_Ad
      * Enterprise customer field renderer list as type => renderer block
      *
      * Original block relations:
-     * - 'text'      => 'enterprise_customer/form_renderer_text',
-     * - 'textarea'  => 'enterprise_customer/form_renderer_textarea',
-     * - 'multiline' => 'enterprise_customer/form_renderer_multiline',
-     * - 'date'      => 'enterprise_customer/form_renderer_date',
-     * - 'select'    => 'enterprise_customer/form_renderer_select',
-     * - 'multiselect' => 'enterprise_customer/form_renderer_multiselect',
-     * - 'boolean'   => 'enterprise_customer/form_renderer_boolean',
-     * - 'file'      => 'enterprise_customer/form_renderer_file'
-     * - 'image'     => 'enterprise_customer/form_renderer_image'
+     * - 'text'      => 'Enterprise_Customer_Block_Form_Renderer_Text',
+     * - 'textarea'  => 'Enterprise_Customer_Block_Form_Renderer_Textarea',
+     * - 'multiline' => 'Enterprise_Customer_Block_Form_Renderer_Multiline',
+     * - 'date'      => 'Enterprise_Customer_Block_Form_Renderer_Date',
+     * - 'select'    => 'Enterprise_Customer_Block_Form_Renderer_Select',
+     * - 'multiselect' => 'Enterprise_Customer_Block_Form_Renderer_Multiselect',
+     * - 'boolean'   => 'Enterprise_Customer_Block_Form_Renderer_Boolean',
+     * - 'file'      => 'Enterprise_Customer_Block_Form_Renderer_File'
+     * - 'image'     => 'Enterprise_Customer_Block_Form_Renderer_Image'
      *
      * @see customer.xml layout customer_form_template_handle node
      * @var array
      */
     protected $_customerFiledRenderer = array(
-        'text'      => 'xmlconnect/customer_form_renderer_text',
-        'textarea'  => 'xmlconnect/customer_form_renderer_textarea',
-        'multiline' => 'xmlconnect/customer_form_renderer_multiline',
-        'date'      => 'xmlconnect/customer_form_renderer_date',
-        'select'    => 'xmlconnect/customer_form_renderer_select',
-        'multiselect' => 'xmlconnect/customer_form_renderer_multiselect',
-        'boolean'   => 'xmlconnect/customer_form_renderer_boolean',
-        'file'      => 'xmlconnect/customer_form_renderer_file',
-        'image'     => 'xmlconnect/customer_form_renderer_image'
+        'text'      => 'Mage_XmlConnect_Block_Customer_Form_Renderer_Text',
+        'textarea'  => 'Mage_XmlConnect_Block_Customer_Form_Renderer_Textarea',
+        'multiline' => 'Mage_XmlConnect_Block_Customer_Form_Renderer_Multiline',
+        'date'      => 'Mage_XmlConnect_Block_Customer_Form_Renderer_Date',
+        'select'    => 'Mage_XmlConnect_Block_Customer_Form_Renderer_Select',
+        'multiselect' => 'Mage_XmlConnect_Block_Customer_Form_Renderer_Multiselect',
+        'boolean'   => 'Mage_XmlConnect_Block_Customer_Form_Renderer_Boolean',
+        'file'      => 'Mage_XmlConnect_Block_Customer_Form_Renderer_File',
+        'image'     => 'Mage_XmlConnect_Block_Customer_Form_Renderer_Image'
     );
 
     /**

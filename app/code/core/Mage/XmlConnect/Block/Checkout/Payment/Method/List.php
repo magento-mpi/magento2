@@ -110,7 +110,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
     public function addGiftcardToXmlObj(Mage_XmlConnect_Model_Simplexml_Element $methodsXmlObj)
     {
         $giftcardInfoBlock = $this->getLayout()->addBlock(
-            'enterprise_giftcardaccount/checkout_onepage_payment_additional', 'giftcard_info'
+            'Enterprise_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional', 'giftcard_info'
         );
 
         if (intval($giftcardInfoBlock->getAppliedGiftCardAmount())) {

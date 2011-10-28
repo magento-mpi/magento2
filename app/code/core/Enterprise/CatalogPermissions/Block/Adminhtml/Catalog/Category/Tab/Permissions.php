@@ -48,7 +48,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     protected function _prepareLayout()
     {
         $this->setChild('row', $this->getLayout()->createBlock(
-            'enterprise_catalogpermissions/adminhtml_catalog_category_tab_permissions_row'
+            'Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions_Row'
         ));
 
         $this->setChild('add_button', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
