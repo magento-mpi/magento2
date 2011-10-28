@@ -91,7 +91,7 @@ class Mage_Paypal_PayflowController extends Mage_Paypal_Controller_Express_Abstr
         }
 
         $redirectBlock = $this->_getIframeBlock()
-            ->setTemplate('paypal/payflowlink/redirect.phtml');
+            ->setTemplate('payflowlink/redirect.phtml');
 
         $redirectBlock->setErrorMsg($errorMsg);
         $redirectBlock->setGotoSection($gotoSection);

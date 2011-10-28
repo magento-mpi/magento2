@@ -62,7 +62,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
         $gotoSection = $this->_cancelPayment();
         $redirectBlock = $this->_getIframeBlock()
             ->setGotoSection($gotoSection)
-            ->setTemplate('paypal/payflowadvanced/redirect.phtml');
+            ->setTemplate('payflowadvanced/redirect.phtml');
         $this->getResponse()->setBody($redirectBlock->toHtml());
     }
 
@@ -92,7 +92,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
         }
 
         $redirectBlock = $this->_getIframeBlock()
-            ->setTemplate('paypal/payflowadvanced/redirect.phtml');
+            ->setTemplate('payflowadvanced/redirect.phtml');
 
         $redirectBlock->setErrorMsg($errorMsg);
         $redirectBlock->setGotoSection($gotoSection);

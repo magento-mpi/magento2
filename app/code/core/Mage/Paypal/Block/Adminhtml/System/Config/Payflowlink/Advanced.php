@@ -39,5 +39,5 @@
      *
      * @var string
      */
-    protected $_template = 'paypal/system/config/payflowlink/advanced.phtml';
+    protected $_template = 'system/config/payflowlink/advanced.phtml';
 }
