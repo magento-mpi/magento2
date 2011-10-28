@@ -41,14 +41,15 @@ class Tags_Helper extends Mage_Selenium_TestCase
      *
      * @param string $tagName
      */
-    public function frontendAddTag($tagName)
+    public function frontendAddTag($tagName, $loggedIn = TRUE)
     {
         if (is_array($tagName) && array_key_exists('new_tag_names', $tagName)) {
             $tagName = $tagName['new_tag_names'];
         } else {
             $this->fail('Array key is absent in array');
         }
-        $tagQty = count(explode(' ', $tagName));
+        $tagNameArray = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
+        $tagQty = count($tagNameArray);
         $this->addParameter('tagQty', $tagQty);
         $tagXpath = $this->_getControlXpath('field', 'input_new_tags');
         if (!$this->isElementPresent($tagXpath)) {
@@ -56,8 +57,10 @@ class Tags_Helper extends Mage_Selenium_TestCase
         }
         $this->type($tagXpath, $tagName);
         $this->clickButton('add_tags');
-        if ($this->checkCurrentPage('customer_login') == TRUE) {
-            $this->fail('Customer is not Logged In');
+        if ($loggedIn) {
+            $this->assertFalse($this->checkCurrentPage('customer_login'), 'Got on Login Page');
+        } else {
+            $this->assertTrue($this->checkCurrentPage('customer_login'), 'Did not get on Login Page');
         }
     }
 
@@ -81,10 +84,9 @@ class Tags_Helper extends Mage_Selenium_TestCase
         //Verification in "My Recent tags" area
         $this->navigate('customer_account');
         $this->addParameter('productName', $productName);
-        $tagNameArray = array();
-        preg_match_all('/[^\s\']+/', $tagName, $tagNameArray);
-        foreach ($tagNameArray[0] as $value) {
-            $this->addParameter('tagName', $value);
+        $tagNameArray = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
+        foreach ($tagNameArray as $value) {
+            $this->addParameter('tagName', trim($value));
             $tagXpath = $this->_getControlXpath('link', 'product_info');
             $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
             $this->clickControl('link', 'product_info');
@@ -96,8 +98,8 @@ class Tags_Helper extends Mage_Selenium_TestCase
         }
         //Verification in "My Account -> My Tags"
         $this->navigate('my_account_my_tags');
-        foreach ($tagNameArray[0] as $value) {
-            $this->addParameter('tagName', $value);
+        foreach ($tagNameArray as $value) {
+            $this->addParameter('tagName', trim($value));
             $tagXpath = $this->_getControlXpath('link', 'tag_name');
             $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
             $this->clickControl('link', 'tag_name');
@@ -127,9 +129,8 @@ class Tags_Helper extends Mage_Selenium_TestCase
         $this->addParameter('categoryTitle', $category);
         $this->addParameter('categoryUrl', $url);
         $this->frontend('category_page');
-        $tagNameArray = array();
-        preg_match_all('/[^\s\']+/', $tagName, $tagNameArray);
-        foreach ($tagNameArray[0] as $value) {
+        $tagNameArray = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
+        foreach ($tagNameArray as $value) {
             $this->addParameter('tagName', $value);
             $tagXpath = $this->_getControlXpath('link', 'tag_name');
             $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
@@ -150,7 +151,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
             $this->fail('Array keys are absent in array');
         }
         $tagNameArray = array();
-        preg_match_all('/[^\s\']+/', $tagName, $tagNameArray);
+        preg_match_all('/[^\']+/', $tagName, $tagNameArray);
         foreach ($tagNameArray[0] as $value) {
             $this->addParameter('tagName', $value);
             $tagXpath = $this->_getControlXpath('link', 'tag_name');
@@ -172,18 +173,13 @@ class Tags_Helper extends Mage_Selenium_TestCase
         } else {
             $this->fail('Array key is absent in array');
         }
-        $tagNameArray = explode(' ', $tagName);
-//        print_r($tagNameArray);
-
+        $tagNameArray = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
         foreach ($tagNameArray as $value) {
             $this->addParameter('tagName', $value);
             $xpath = $this->_getControlXpath('link', 'tag_name');
             $this->assertTrue($this->isElementPresent($xpath), "Cannot find tag with name: $value");
             $this->clickControl('link', 'tag_name');
-            $this->clickControl('link', 'delete_tag');
-            $this->pleaseWait();
-            $this->answerOnNextPrompt('OK');
-            $this->pleaseWait();
+            $this->clickButtonAndConfirm('delete_tag', 'confirmation_for_delete');
             $this->assertTrue($this->successMessage('success_deleted_tag'), $this->messages);
         }
     }

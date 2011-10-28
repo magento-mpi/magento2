@@ -96,6 +96,7 @@ my_account_view_tag:
                         xpath: //div[@class='my-account']
                         buttons:
                             add_to_cart: //tr[*//a='%productName%']//button[span='Add to Cart']
+                            delete_tag: //p[@class='my-tag-edit']/a[span='Delete']
                         dropdowns:
                             show_per_page: //div[@class='pager']/div[@class='limiter']/select
                         links:
@@ -112,7 +113,7 @@ my_account_my_tags:
     mca: tag/customer
     title: My Tags
     uimap:
-        form:
+        form: &my_tags
             fieldsets:
                 -
                     tags:
@@ -120,5 +121,13 @@ my_account_my_tags:
                         links:
                             tag_name: //a[text()='%tagName%']
                             back_to_tags_list: //p[@class='back-link']/a[@href]
+        messages:
+            success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]
+
+my_account_my_tags_after_delete:
+    mca: tag/customer/index/uenc/aHR0cDovL2tkLnZhcmllbi5jb20vZGV2L2V2Z2VuaXkubWlza292LzFfNi9pbmRleC5waHAvY3VzdG9tZXIvYWNjb3VudC8,/
+    title: My Tags
+    uimap:
+        form: *my_tags
         messages:
             success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]

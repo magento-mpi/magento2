@@ -27,9 +27,17 @@
 ---
 #Test data for Tags creating(Frontend)
 
-new_tag:
+new_tag_single:
     product_name: %noValue%
-    new_tag_names: serty werty wertyuiop
+    new_tag_names: 'serty'
+
+new_tag_double:
+    product_name: %noValue%
+    new_tag_names: serty werty
+
+new_tag_complex:
+    product_name: %noValue%
+    new_tag_names: ddddd 'dddddddd sdfd ' 2
 
 backend_base_tag:
     tag_name: tag_name

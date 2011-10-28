@@ -39,6 +39,7 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
 
     protected function assertPreConditions()
     {
+        $this->addParameter('storeId', '1');
         $this->loginAdminUser();
     }
 
@@ -61,22 +62,42 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create Simple Products for tests</p>
+     * <p>Preconditions</p>
+     * <p>Creates Category to use during tests</p>
      *
      * @test
      */
-    public function createProduct()
+    public function createCategory()
+    {
+        $this->navigate('manage_categories');
+        $this->categoryHelper()->checkCategoriesPage();
+        $rootCat = 'Default Category';
+        $categoryData = $this->loadData('sub_category_required', null, 'name');
+        $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
+        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->categoryHelper()->checkCategoriesPage();
+
+        return $rootCat . '/' . $categoryData['name'];
+    }
+
+    /**
+     * <p>Create Simple Products for tests</p>
+     *
+     * @depends createCategory
+     * @test
+     */
+    public function createProduct($category)
     {
         $this->navigate('manage_products');
-        $simpleProductData = $this->loadData('simple_product_for_prices_validation_front_1', NULL,
-                array('general_name', 'general_sku'));
+        $simpleProductData = $this->loadData('simple_product_for_prices_validation_front_1',
+                array('categories' => $category), array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($simpleProductData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         return $simpleProductData['general_name'];
     }
 
     /**
-     * <p>Create Tag</p>
+     * Tag creating with Logged Customer
      *
      * <p>1. Login to Frontend</p>
      * <p>2. Open created product</p>
@@ -89,16 +110,18 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>9. Open current tag - page with assigned product opens</p>
      * <p>10. Tag is assigned to correct product</p>
      *
+     * @dataProvider dataTagName
      * @depends createCustomer
+     * @depends createCategory
      * @depends createProduct
      *
      * @test
      */
-    public function frontendValidateTag($customer, $products)
+    public function frontendTagVerificationLoggedCustomer($dataTagName, $customer, $category, $products)
     {
         //Data
-        $verificationData = $this->loadData('new_tag', array('product_name' => $products), 'new_tag_names');
-        print_r($verificationData);
+        $verificationData = $this->loadData('new_tag_double',
+                array('product_name' => $products, 'new_tag_names' => $dataTagName), 'new_tag_names');
         $this->addParameter('productUrl', $products);
         //Preconditions
         $this->customerHelper()->frontLoginCustomer($customer);
@@ -108,6 +131,82 @@ class Tags_FrontendCreateTest extends Mage_Selenium_TestCase
         //Verification
         $this->assertTrue($this->successMessage('tag_accepted_success'), $this->messages);
         $this->tagsHelper()->frontendTagVerification($verificationData);
+        $this->navigate('my_account_my_tags');
+        $this->tagsHelper()->frontendDeleteTag($verificationData);
+    }
+
+    /**
+     * Tag creating with Not Logged Customer
+     *
+     * <p>1. Goto Frontend</p>
+     * <p>2. Open created product</p>
+     * <p>3. Add Tag to product</p>
+     * <p>4. Login page opened</p>
+     *
+     * @depends createCategory
+     * @depends createProduct
+     *
+     * @test
+     */
+    public function frontendTagVerificationNotLoggedCustomer($category, $products)
+    {
+        //Data
+        $verificationData = $this->loadData('new_tag_single', array('product_name' => $products), 'new_tag_names');
+        $this->addParameter('productUrl', $products);
+        //Preconditions
+        $this->logoutCustomer();
+        $this->productHelper()->frontOpenProduct($products);
+        //Steps
+        $this->tagsHelper()->frontendAddTag($verificationData, FALSE);
+    }
+
+//    /**
+//     * <p>Tags Verification in Category</p>
+//     *
+//     * <p>1. Login to Frontend</p>
+//     * <p>2. Open created product</p>
+//     * <p>3. Add Tag to product</p>
+//     * <p>4. Check confirmation message</p>
+//     * <p>5. Goto "My Account"</p>
+//     * <p>6. Check tag displaying in "My Recent Tags"</p>
+//     * <p>7. Goto "My Tags" tab</p>
+//     * <p>8. Check tag displaying on the page</p>
+//     * <p>9. Open current tag - page with assigned product opens</p>
+//     * <p>10. Tag is assigned to correct product</p>
+//     *
+//     * @depends createCustomer
+//     * @depends createCategory
+//     * @depends createProduct
+//     *
+//     * @test
+//     */
+//    public function frontendTagVerificationInCategory($customer, $category, $products){
+//        //Data
+//        $verificationData = $this->loadData('new_tag_complex', array('product_name' => $products,
+//                                            'category' => $category), 'new_tag_names');
+//        print_r($verificationData);
+//        $this->addParameter('productUrl', $products);
+//        //Preconditions
+//        $this->customerHelper()->frontLoginCustomer($customer);
+//        $this->productHelper()->frontOpenProduct($products);
+//        //Steps
+//        $this->tagsHelper()->frontendAddTag($verificationData);
+//        //Verification
+//        $this->assertTrue($this->successMessage('tag_accepted_success'), $this->messages);
+//        $this->logoutCustomer();
+//        $this->loginAdminUser();
+//        $this->navigate('pending_tags');
+//        $this->tagsHelper()->changeTagStatus($verificationData['new_tag_names'], 'Approved');
+//        $this->tagsHelper()->frontendTagVerificationInCategory($verificationData);
+//    }
+
+    public function dataTagName()
+    {
+        return array(
+            array('aaaaaa'),
+            array('aaaaaa aaaaaadddddd'),
+//            array('ddddd''dddddddd sdfd ''2')
+        );
     }
 
 }
