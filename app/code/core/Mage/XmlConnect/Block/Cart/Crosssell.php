@@ -40,7 +40,7 @@ class Mage_XmlConnect_Block_Cart_Crosssell extends Mage_Checkout_Block_Cart_Cros
     protected function _toHtml()
     {
         if (is_object(Mage::getConfig()->getNode('modules/Enterprise_TargetRule'))) {
-            $blockRenderer = 'enterprise_targetrule/checkout_cart_crosssell';
+            $blockRenderer = 'Enterprise_TargetRule_Block_Checkout_Cart_Crosssell';
             $blockName = 'targetrule.checkout.cart.crosssell';
             $this->getLayout()->createBlock($blockRenderer, $blockName);
             $this->setItems($this->getLayout()->getBlock($blockName)->getItemCollection());

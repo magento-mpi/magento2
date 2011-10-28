@@ -41,10 +41,10 @@ class Enterprise_Search_Block_Catalog_Layer_View extends Mage_Catalog_Block_Laye
         parent::_initBlocks();
 
         if (Mage::helper('enterprise_search')->getIsEngineAvailableForNavigation()) {
-            $this->_categoryBlockName        = 'enterprise_search/catalog_layer_filter_category';
-            $this->_attributeFilterBlockName = 'enterprise_search/catalog_layer_filter_attribute';
-            $this->_priceFilterBlockName     = 'enterprise_search/catalog_layer_filter_price';
-            $this->_decimalFilterBlockName   = 'enterprise_search/catalog_layer_filter_decimal';
+            $this->_categoryBlockName        = 'Enterprise_Search_Block_Catalog_Layer_Filter_Category';
+            $this->_attributeFilterBlockName = 'Enterprise_Search_Block_Catalog_Layer_Filter_Attribute';
+            $this->_priceFilterBlockName     = 'Enterprise_Search_Block_Catalog_Layer_Filter_Price';
+            $this->_decimalFilterBlockName   = 'Enterprise_Search_Block_Catalog_Layer_Filter_Decimal';
         }
     }
 

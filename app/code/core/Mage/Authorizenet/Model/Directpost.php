@@ -34,7 +34,7 @@
 class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
 {
     protected $_code  = 'authorizenet_directpost';
-    protected $_formBlockType = 'directpost/form';
+    protected $_formBlockType = 'Mage_Authorizenet_Block_Directpost_Form';
     protected $_infoBlockType = 'Mage_Payment_Block_Info';
 
     /**

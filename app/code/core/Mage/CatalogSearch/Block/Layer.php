@@ -58,7 +58,7 @@ class Mage_CatalogSearch_Block_Layer extends Mage_Catalog_Block_Layer_View
     {
         parent::_initBlocks();
 
-        $this->_attributeFilterBlockName = 'catalogsearch/layer_filter_attribute';
+        $this->_attributeFilterBlockName = 'Mage_CatalogSearch_Block_Layer_Filter_Attribute';
     }
 
     /**

@@ -30,7 +30,7 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
     const ACTION_AUTHORIZE_CAPTURE = 1;
 
     protected $_code  = 'googlecheckout';
-    protected $_formBlockType = 'googlecheckout/form';
+    protected $_formBlockType = 'Mage_GoogleCheckout_Block_Form';
 
     /**
      * Availability options

@@ -30,7 +30,7 @@
 class Mage_PaypalUk_Model_Express extends Mage_Paypal_Model_Express
 {
     protected $_code = Mage_Paypal_Model_Config::METHOD_WPP_PE_EXPRESS;
-    protected $_formBlockType = 'paypaluk/express_form';
+    protected $_formBlockType = 'Mage_PaypalUk_Block_Express_Form';
     protected $_canCreateBillingAgreement = false;
     protected $_canManageRecurringProfiles = false;
 

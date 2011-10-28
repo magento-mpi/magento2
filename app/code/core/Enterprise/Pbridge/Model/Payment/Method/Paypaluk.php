@@ -39,14 +39,14 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
      *
      * @var string
      */
-    protected $_formBlockType = 'enterprise_pbridge/checkout_payment_paypaluk';
+    protected $_formBlockType = 'Enterprise_Pbridge_Block_Checkout_Payment_Paypaluk';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = 'enterprise_pbridge/adminhtml_sales_order_create_paypal';
+    protected $_backendFormBlockType = 'Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Paypal';
 
     /**
      * Payment Bridge Payment Method Instance
