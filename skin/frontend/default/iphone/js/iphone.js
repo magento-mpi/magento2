@@ -36,6 +36,22 @@ document.observe("dom:loaded", function() {
         });
     });
     
+    if ( $('product-review-table') ) {
+        $('product-review-table').wrap('div', {'class' : 'review-table-wrap'}).on('click', 'input[type="radio"]', function (e) {
+        
+            $this = e.target;
+            
+            $this.up('tr').select('td').invoke('removeClassName', 'checked');
+            
+            $this.up().previousSiblings().each(function (td) {
+                if ( td.hasClassName('value') ) {
+                    td.addClassName('checked');
+                }
+            });
+            
+        });
+    }
+    
     var groupItems = Class.create({
         initialize: function (handle, removeHandle, photos, form) {
             this.handle = handle;
