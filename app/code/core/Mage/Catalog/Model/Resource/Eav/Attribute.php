@@ -318,7 +318,7 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
                 $storeId = Mage::app()->getStore()->getId();
             }
             $attributeLabels = array();
-            $attributes = Mage::getResourceSingleton('catalog/product')->getAttributesByCode();
+            $attributes = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product')->getAttributesByCode();
             foreach ($attributes as $attribute) {
                 if (strlen($attribute->getData('frontend_label')) > 0) {
                     $attributeLabels[] = $attribute->getData('frontend_label');

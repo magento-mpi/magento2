@@ -523,7 +523,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('catalog/product_attribute_backend_media');
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media');
     }
 
     /**

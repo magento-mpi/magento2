@@ -239,7 +239,7 @@ class Enterprise_Cms_Model_Observer
          * Updating sort order for nodes in parent nodes which have current page as child
          */
         foreach ($page->getNodesSortOrder() as $nodeId => $value) {
-            Mage::getResourceSingleton('enterprise_cms/hierarchy_node')->updateSortOrder($nodeId, $value);
+            Mage::getResourceSingleton('Enterprise_Cms_Model_Resource_Hierarchy_Node')->updateSortOrder($nodeId, $value);
         }
 
         return $this;
@@ -371,7 +371,7 @@ class Enterprise_Cms_Model_Observer
         /* @var $page Mage_Cms_Model_Page */
         $page = $observer->getEvent()->getObject();
 
-        Mage::getResourceSingleton('enterprise_cms/increment')
+        Mage::getResourceSingleton('Enterprise_Cms_Model_Resource_Increment')
             ->cleanIncrementRecord(Enterprise_Cms_Model_Increment::TYPE_PAGE,
                 $page->getId(),
                 Enterprise_Cms_Model_Increment::LEVEL_VERSION);

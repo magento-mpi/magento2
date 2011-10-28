@@ -82,7 +82,7 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
             /* @var $item Mage_Sales_Model_Quote_Item */
             if (!$item->getProduct()->isVisibleInSiteVisibility()) {
                 $productId = $item->getProduct()->getId();
-                $products  = Mage::getResourceSingleton('catalog/url')
+                $products  = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Url')
                     ->getRewriteByProductStore(array($productId => $item->getStoreId()));
                 if (!isset($products[$productId])) {
                     continue;

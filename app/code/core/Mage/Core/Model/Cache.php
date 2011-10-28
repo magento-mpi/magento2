@@ -434,7 +434,7 @@ class Mage_Core_Model_Cache
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('core/cache');
+        return Mage::getResourceSingleton('Mage_Core_Model_Resource_Cache');
     }
 
     /**

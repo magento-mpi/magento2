@@ -44,7 +44,7 @@ class Mage_Rating_Model_Observer
     {
         $eventProduct = $observer->getEvent()->getProduct();
         if ($eventProduct && $eventProduct->getId()) {
-            Mage::getResourceSingleton('rating/rating')->deleteAggregatedRatingsByProductId($eventProduct->getId());
+            Mage::getResourceSingleton('Mage_Rating_Model_Resource_Rating')->deleteAggregatedRatingsByProductId($eventProduct->getId());
         }
         return $this;
     }

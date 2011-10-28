@@ -41,7 +41,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('checkout/cart');
+        return Mage::getResourceSingleton('Mage_Checkout_Model_Resource_Cart');
     }
 
     /**

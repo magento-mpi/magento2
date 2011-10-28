@@ -71,7 +71,7 @@ abstract class Enterprise_Reminder_Model_Condition_Combine_Abstract extends Mage
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('enterprise_reminder/rule');
+        return Mage::getResourceSingleton('Enterprise_Reminder_Model_Resource_Rule');
     }
 
     /**

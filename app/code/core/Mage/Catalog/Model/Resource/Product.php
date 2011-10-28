@@ -164,7 +164,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
          * Check if declared category ids in object data.
          */
         if ($object->hasCategoryIds()) {
-            $categoryIds = Mage::getResourceSingleton('catalog/category')->verifyIds(
+            $categoryIds = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category')->verifyIds(
                 $object->getCategoryIds()
             );
             $object->setCategoryIds($categoryIds);
@@ -317,7 +317,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
         $writeAdapter->delete($this->getTable('catalog_category_product_index'), $condition);
 
         /** @var $categoryObject Mage_Catalog_Model_Resource_Category */
-        $categoryObject = Mage::getResourceSingleton('catalog/category');
+        $categoryObject = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category');
         if (!empty($categoryIds)) {
             $categoriesSelect = $writeAdapter->select()
                 ->from($this->getTable('catalog_category_entity'))

@@ -111,7 +111,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
 
         $fieldset->addField('customer_segment_ids', 'multiselect', array(
             'name'         => 'customer_segment_ids',
-            'values'       => Mage::getResourceSingleton('enterprise_customersegment/segment_collection')->toOptionArray(),
+            'values'       => Mage::getResourceSingleton('Enterprise_CustomerSegment_Model_Resource_Segment_Collection')->toOptionArray(),
             'can_be_empty' => true,
         ));
 

@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Grid extends Mage_Adminhtml_Blo
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceSingleton('core/email_template_collection');
+        $collection = Mage::getResourceSingleton('Mage_Core_Model_Resource_Email_Template_Collection');
 
         $this->setCollection($collection);
 

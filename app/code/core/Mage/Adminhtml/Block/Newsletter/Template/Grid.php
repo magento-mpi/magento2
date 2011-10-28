@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceSingleton('newsletter/template_collection')
+        $collection = Mage::getResourceSingleton('Mage_Newsletter_Model_Resource_Template_Collection')
             ->useOnlyActual();
 
         $this->setCollection($collection);

@@ -233,7 +233,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
      */
     protected function _prepareAttribute($attribute)
     {
-        Mage::getResourceSingleton('catalog/product')->getAttribute($attribute);
+        Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product')->getAttribute($attribute);
         return $attribute;
     }
 

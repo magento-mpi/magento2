@@ -191,7 +191,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             return '';
         }
 
-        $categories = Mage::getResourceSingleton('catalog/category_tree')
+        $categories = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category_Tree')
             ->setStoreId($this->getStore()->getId())->loadBreadcrumbsArray($path);
         if (empty($categories)) {
             return '';

@@ -100,7 +100,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
             }
 
             $ids = $this->getSelectedCategoriesPathIds($rootId);
-            $tree = Mage::getResourceSingleton('catalog/category_tree')
+            $tree = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category_Tree')
                 ->loadByIds($ids, false, false);
 
             if ($this->getCategory()) {

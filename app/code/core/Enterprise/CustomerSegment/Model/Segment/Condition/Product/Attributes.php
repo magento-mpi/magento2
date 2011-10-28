@@ -123,7 +123,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('enterprise_customersegment/segment');
+        return Mage::getResourceSingleton('Enterprise_CustomerSegment_Model_Resource_Segment');
     }
 
     /**

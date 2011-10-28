@@ -480,7 +480,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
      */
     public function getAdditionalAttributeTable($entityTypeId)
     {
-        return Mage::getResourceSingleton('eav/entity_type')->getAdditionalAttributeTable($entityTypeId);
+        return Mage::getResourceSingleton('Mage_Eav_Model_Resource_Entity_Type')->getAdditionalAttributeTable($entityTypeId);
     }
 
     /**

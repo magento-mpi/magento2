@@ -168,7 +168,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function getTreeModelInstance()
     {
         if (is_null($this->_treeModel)) {
-            $this->_treeModel = Mage::getResourceSingleton('catalog/category_tree');
+            $this->_treeModel = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category_Tree');
         }
         return $this->_treeModel;
     }

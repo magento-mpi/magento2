@@ -111,7 +111,7 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
             foreach ($data['attributes'] as $attribute) {
                 $ids[] = $attribute[0];
             }
-            $attributeIds = Mage::getResourceSingleton('eav/entity_attribute')
+            $attributeIds = Mage::getResourceSingleton('Mage_Eav_Model_Resource_Entity_Attribute')
                 ->getValidAttributeIds($ids);
         }
         if( $data['groups'] ) {

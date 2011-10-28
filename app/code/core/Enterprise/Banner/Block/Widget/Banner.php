@@ -111,7 +111,7 @@ class Enterprise_Banner_Block_Widget_Banner
     protected function _construct()
     {
         parent::_construct();
-        $this->_bannerResource  = Mage::getResourceSingleton('enterprise_banner/banner');
+        $this->_bannerResource  = Mage::getResourceSingleton('Enterprise_Banner_Model_Resource_Banner');
         $this->_currentStoreId  = Mage::app()->getStore()->getId();
         $this->_sessionInstance = Mage::getSingleton('core/session');
     }

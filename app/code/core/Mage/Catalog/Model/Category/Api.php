@@ -139,7 +139,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
         }
 
         /* @var $tree Mage_Catalog_Model_Resource_Category_Tree */
-        $tree = Mage::getResourceSingleton('catalog/category_tree')
+        $tree = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category_Tree')
             ->load();
 
         $root = $tree->getNodeById($parentId);

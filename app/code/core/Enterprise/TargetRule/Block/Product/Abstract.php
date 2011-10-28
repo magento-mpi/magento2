@@ -135,7 +135,7 @@ abstract class Enterprise_TargetRule_Block_Product_Abstract extends Mage_Catalog
                 $select = $this->_linkCollection->getSelect();
                 $rotationMode = $this->getTargetRuleHelper()->getRotationMode($this->getType());
                 if ($rotationMode == Enterprise_TargetRule_Model_Rule::ROTATION_SHUFFLE) {
-                    Mage::getResourceSingleton('enterprise_targetrule/index')->orderRand($select);
+                    Mage::getResourceSingleton('Enterprise_TargetRule_Model_Resource_Index')->orderRand($select);
                 } else {
                     $select->order('link_attribute_position_int.value ASC');
                 }

@@ -48,7 +48,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         switch($this->getSessionSaveMethod()) {
             case 'db':
                 ini_set('session.save_handler', 'user');
-                $sessionResource = Mage::getResourceSingleton('core/session');
+                $sessionResource = Mage::getResourceSingleton('Mage_Core_Model_Resource_Session');
                 /* @var $sessionResource Mage_Core_Model_Resource_Session */
                 $sessionResource->setSaveHandler();
                 break;

@@ -206,7 +206,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
      */
     public static function getDataSourceModel()
     {
-        return Mage::getResourceSingleton('importexport/import_data');
+        return Mage::getResourceSingleton('Mage_ImportExport_Model_Resource_Import_Data');
     }
 
     /**

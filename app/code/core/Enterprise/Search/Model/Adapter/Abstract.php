@@ -237,7 +237,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             $entityTypeId = Mage::getSingleton('eav/config')
                 ->getEntityType('catalog_product')
                 ->getEntityTypeId();
-            $items = Mage::getResourceSingleton('catalog/product_attribute_collection')
+            $items = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
                 ->setEntityTypeFilter($entityTypeId)
                 ->addToIndexFilter()
                 ->getItems();
@@ -271,8 +271,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
 
         $docs = array();
         $attributeParams = $this->_getIndexableAttributeParams();
-        $this->_separator = Mage::getResourceSingleton('catalogsearch/fulltext')->getSeparator();
-        $fieldPrefix = Mage::getResourceSingleton('enterprise_search/engine')->getFieldsPrefix();
+        $this->_separator = Mage::getResourceSingleton('Mage_CatalogSearch_Model_Resource_Fulltext')->getSeparator();
+        $fieldPrefix = Mage::getResourceSingleton('Enterprise_Search_Model_Resource_Engine')->getFieldsPrefix();
         $fieldPrefixLength = strlen($fieldPrefix);
 
         foreach ($docData as $entityId => $index) {

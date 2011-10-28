@@ -310,7 +310,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection
      */
     public function clear()
     {
-        Mage::getResourceSingleton('catalog/product_compare_item')
+        Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Compare_Item')
             ->clearItems($this->getVisitorId(), $this->getCustomerId());
         Mage::dispatchEvent('catalog_product_compare_item_collection_clear');
 

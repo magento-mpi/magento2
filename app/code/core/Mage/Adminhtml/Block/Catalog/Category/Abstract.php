@@ -102,7 +102,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
                 $rootId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
             }
 
-            $tree = Mage::getResourceSingleton('catalog/category_tree')
+            $tree = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category_Tree')
                 ->load(null, $recursionLevel);
 
             if ($this->getCategory()) {
@@ -139,7 +139,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
     {
         $root = Mage::registry('root');
         if (null === $root) {
-            $categoryTreeResource = Mage::getResourceSingleton('catalog/category_tree');
+            $categoryTreeResource = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category_Tree');
             $ids    = $categoryTreeResource->getExistingCategoryIdsBySpecifiedIds($ids);
             $tree   = $categoryTreeResource->loadByIds($ids);
             $rootId = Mage_Catalog_Model_Category::TREE_ROOT_ID;

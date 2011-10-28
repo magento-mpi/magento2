@@ -411,7 +411,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         }
 
         if ($objects && $this->hasFlag('url_data_object')) {
-            $objects = Mage::getResourceSingleton('catalog/url')
+            $objects = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Url')
                 ->getRewriteByProductStore($objects);
             foreach ($this->_items as $item) {
                 if (isset($objects[$item->getEntityId()])) {

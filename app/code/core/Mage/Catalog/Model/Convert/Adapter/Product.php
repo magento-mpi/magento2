@@ -510,7 +510,6 @@ class Mage_Catalog_Model_Convert_Adapter_Product
                             unset($default);
                         } // end
 
-                        #Mage::getResourceSingleton('catalog_entity/convert')->addProductToStore($model->getId(), 0);
                     }
                     if (!$new || 0!==$storeId) {
                         if (0!==$storeId) {

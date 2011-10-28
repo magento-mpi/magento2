@@ -83,7 +83,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         }
         catch (Exception $e) {
             $obj = new Varien_Object();
-            $obj->setEntity(Mage::getResourceSingleton('catalog/product'))
+            $obj->setEntity(Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product'))
                 ->setFrontendInput('text');
         }
         return $obj;
@@ -107,7 +107,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = Mage::getResourceSingleton('catalog/product')
+        $productAttributes = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product')
             ->loadAllAttributes()
             ->getAttributesByCode();
 

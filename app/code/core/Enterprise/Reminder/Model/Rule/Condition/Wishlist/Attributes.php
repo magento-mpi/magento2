@@ -122,7 +122,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('enterprise_reminder/rule');
+        return Mage::getResourceSingleton('Enterprise_Reminder_Model_Resource_Rule');
     }
 
     /**

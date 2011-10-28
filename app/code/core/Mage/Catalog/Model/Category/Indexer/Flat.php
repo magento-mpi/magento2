@@ -79,7 +79,7 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
      */
     protected function _getIndexer()
     {
-        return Mage::getResourceSingleton('catalog/category_flat');
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category_Flat');
     }
 
     /**

@@ -41,7 +41,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('catalogsearch/indexer_fulltext');
+        return Mage::getResourceSingleton('Mage_CatalogSearch_Model_Resource_Indexer_Fulltext');
     }
 
     /**

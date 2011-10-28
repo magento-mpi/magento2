@@ -48,7 +48,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice extends Mage_Catalo
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('catalog/product_attribute_backend_tierprice');
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice');
     }
 
     /**

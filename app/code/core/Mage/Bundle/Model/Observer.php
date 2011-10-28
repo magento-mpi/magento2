@@ -99,7 +99,7 @@ class Mage_Bundle_Model_Observer
         }
 
         /* @var $resource Mage_Bundle_Model_Resource_Selection */
-        $resource   = Mage::getResourceSingleton('bundle/selection');
+        $resource   = Mage::getResourceSingleton('Mage_Bundle_Model_Resource_Selection');
 
         $productIds = array_keys($collection->getItems());
         if (!is_null($limit) && $limit <= count($productIds)) {

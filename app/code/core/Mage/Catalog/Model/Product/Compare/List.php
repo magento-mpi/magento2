@@ -125,7 +125,7 @@ class Mage_Catalog_Model_Product_Compare_List extends Varien_Object
      */
     public function hasItems($customerId, $visitorId)
     {
-        return Mage::getResourceSingleton('catalog/product_compare_item')
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Compare_Item')
             ->getCount($customerId, $visitorId);
     }
 }

@@ -77,7 +77,7 @@ abstract class Enterprise_TargetRule_Model_Resource_Index_Abstract extends Mage_
      */
     public function getProductResource()
     {
-        return Mage::getResourceSingleton('catalog/product');
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product');
     }
 
     /**

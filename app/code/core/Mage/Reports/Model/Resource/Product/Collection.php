@@ -70,7 +70,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      */
     public function __construct()
     {
-        $product = Mage::getResourceSingleton('catalog/product');
+        $product = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product');
         /* @var $product Mage_Catalog_Model_Entity_Product */
         $this->setProductEntityId($product->getEntityIdField());
         $this->setProductEntityTableName($product->getEntityTable());

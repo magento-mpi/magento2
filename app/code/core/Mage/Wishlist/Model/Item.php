@@ -354,7 +354,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
             if ($product->getStoreId() == $storeId) {
                 return false;
             }
-            $urlData = Mage::getResourceSingleton('catalog/url')
+            $urlData = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Url')
                 ->getRewriteByProductStore(array($product->getId() => $storeId));
             if (!isset($urlData[$product->getId()])) {
                 return false;

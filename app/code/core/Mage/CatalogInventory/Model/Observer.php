@@ -677,7 +677,7 @@ class Mage_CatalogInventory_Model_Observer
         }
 
         if( count($productIds)) {
-            Mage::getResourceSingleton('cataloginventory/indexer_stock')->reindexProducts($productIds);
+            Mage::getResourceSingleton('Mage_CatalogInventory_Model_Resource_Indexer_Stock')->reindexProducts($productIds);
         }
 
         // Reindex previously remembered items
@@ -686,7 +686,7 @@ class Mage_CatalogInventory_Model_Observer
             $item->save();
             $productIds[] = $item->getProductId();
         }
-        Mage::getResourceSingleton('catalog/product_indexer_price')->reindexProductIds($productIds);
+        Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Indexer_Price')->reindexProductIds($productIds);
 
         $this->_itemsForReindex = array(); // Clear list of remembered items - we don't need it anymore
 
@@ -753,9 +753,9 @@ class Mage_CatalogInventory_Model_Observer
      */
     public function updateItemsStockUponConfigChange($observer)
     {
-        Mage::getResourceSingleton('cataloginventory/stock')->updateSetOutOfStock();
-        Mage::getResourceSingleton('cataloginventory/stock')->updateSetInStock();
-        Mage::getResourceSingleton('cataloginventory/stock')->updateLowStockDate();
+        Mage::getResourceSingleton('Mage_CatalogInventory_Model_Resource_Stock')->updateSetOutOfStock();
+        Mage::getResourceSingleton('Mage_CatalogInventory_Model_Resource_Stock')->updateSetInStock();
+        Mage::getResourceSingleton('Mage_CatalogInventory_Model_Resource_Stock')->updateLowStockDate();
         return $this;
     }
 

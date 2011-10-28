@@ -120,7 +120,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     protected function _getAllStoreGroups()
     {
         if (null === $this->_storeGroupCollection) {
-            $this->_storeGroupCollection = Mage::getResourceSingleton('core/store_group_collection');
+            $this->_storeGroupCollection = Mage::getResourceSingleton('Mage_Core_Model_Resource_Store_Group_Collection');
         }
         return $this->_storeGroupCollection;
     }
@@ -236,7 +236,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     {
         $oldWebsiteId = (string)$observer->getEvent()->getOldWebsiteId();
         $newWebsiteId = (string)$observer->getEvent()->getNewWebsiteId();
-        $roles = Mage::getResourceSingleton('admin/roles_collection');
+        $roles = Mage::getResourceSingleton('Mage_Admin_Model_Resource_Roles_Collection');
         foreach ($roles as $role) {
             $shouldRoleBeUpdated = false;
             $roleWebsites = explode(',', $role->getGwsWebsites());

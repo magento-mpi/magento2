@@ -354,7 +354,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
                 }
             }
             if (!$this->_engine) {
-                $this->_engine = Mage::getResourceSingleton('catalogsearch/fulltext_engine');
+                $this->_engine = Mage::getResourceSingleton('Mage_CatalogSearch_Model_Resource_Fulltext_Engine');
             }
         }
 

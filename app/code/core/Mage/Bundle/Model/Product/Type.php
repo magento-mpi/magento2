@@ -115,7 +115,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      */
     public function getChildrenIds($parentId, $required = true)
     {
-        return Mage::getResourceSingleton('bundle/selection')
+        return Mage::getResourceSingleton('Mage_Bundle_Model_Resource_Selection')
             ->getChildrenIds($parentId, $required);
     }
 
@@ -127,7 +127,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      */
     public function getParentIdsByChild($childId)
     {
-        return Mage::getResourceSingleton('bundle/selection')
+        return Mage::getResourceSingleton('Mage_Bundle_Model_Resource_Selection')
             ->getParentIdsByChild($childId);
     }
 

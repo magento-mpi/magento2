@@ -191,7 +191,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
      */
     protected function _afterDelete()
     {
-        Mage::getResourceSingleton('enterprise_cms/increment')
+        Mage::getResourceSingleton('Enterprise_Cms_Model_Resource_Increment')
             ->cleanIncrementRecord(Enterprise_Cms_Model_Increment::TYPE_PAGE,
                 $this->getId(),
                 Enterprise_Cms_Model_Increment::LEVEL_REVISION);

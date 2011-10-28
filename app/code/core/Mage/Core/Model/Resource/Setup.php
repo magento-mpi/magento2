@@ -208,7 +208,7 @@ class Mage_Core_Model_Resource_Setup
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('core/resource');
+        return Mage::getResourceSingleton('Mage_Core_Model_Resource_Resource');
     }
 
     /**

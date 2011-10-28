@@ -192,7 +192,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     public function checkCustomerId($customerId)
     {
         if ($this->_isCustomerIdChecked === null) {
-            $this->_isCustomerIdChecked = Mage::getResourceSingleton('customer/customer')->checkCustomerId($customerId);
+            $this->_isCustomerIdChecked = Mage::getResourceSingleton('Mage_Customer_Model_Resource_Customer')->checkCustomerId($customerId);
         }
         return $this->_isCustomerIdChecked;
     }

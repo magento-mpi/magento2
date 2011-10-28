@@ -83,7 +83,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = Mage::getResourceSingleton('customer/customer')
+        $productAttributes = Mage::getResourceSingleton('Mage_Customer_Model_Resource_Customer')
             ->loadAllAttributes()
             ->getAttributesByCode();
 

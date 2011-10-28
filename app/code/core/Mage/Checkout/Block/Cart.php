@@ -66,7 +66,7 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
         }
 
         if ($products) {
-            $products = Mage::getResourceSingleton('catalog/url')
+            $products = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Url')
                 ->getRewriteByProductStore($products);
             foreach ($this->getItems() as $item) {
                 $product    = $item->getProduct();

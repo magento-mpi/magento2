@@ -70,15 +70,15 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
     {
         switch ($type) {
             case Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS:
-                $model = 'related';
+                $model = 'Related';
                 break;
 
             case Enterprise_TargetRule_Model_Rule::UP_SELLS:
-                $model = 'upsell';
+                $model = 'Upsell';
                 break;
 
             case Enterprise_TargetRule_Model_Rule::CROSS_SELLS:
-                $model = 'crosssell';
+                $model = 'Crosssell';
                 break;
 
             default:
@@ -87,7 +87,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
                 );
         }
 
-        return Mage::getResourceSingleton('enterprise_targetrule/index_' . $model);
+        return Mage::getResourceSingleton('Enterprise_TargetRule_Model_Resource_Index_' . $model);
     }
 
     /**

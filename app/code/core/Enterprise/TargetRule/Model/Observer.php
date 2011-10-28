@@ -64,7 +64,7 @@ class Enterprise_TargetRule_Model_Observer
         $product = $observer->getEvent()->getProduct();
 
         /* @var $indexResource Enterprise_TargetRule_Model_Resource_Index */
-        $indexResource = Mage::getResourceSingleton('enterprise_targetrule/index');
+        $indexResource = Mage::getResourceSingleton('Enterprise_TargetRule_Model_Resource_Index');
 
         // remove old cache index data
         $indexResource->removeIndexByProductIds($product->getId());

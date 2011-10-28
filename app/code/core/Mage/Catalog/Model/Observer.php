@@ -62,7 +62,7 @@ class Mage_Catalog_Model_Observer
             if (Mage::helper('Mage_Catalog_Helper_Category_Flat')->isEnabled(true)) {
                 Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Flat')->synchronize(null, array($store->getId()));
             }
-            Mage::getResourceSingleton('catalog/product')->refreshEnabledIndex($store);
+            Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product')->refreshEnabledIndex($store);
         }
         return $this;
     }
@@ -87,7 +87,7 @@ class Mage_Catalog_Model_Observer
         /**
          * @see Mage_Catalog_Model_Category_Indexer_Product
          */
-        /*Mage::getResourceSingleton('catalog/category')->refreshProductIndex(
+        /*Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category')->refreshProductIndex(
             array(),
             array(),
             array($store->getId())
@@ -120,7 +120,7 @@ class Mage_Catalog_Model_Observer
                 /**
                  * @see Mage_Catalog_Model_Category_Indexer_Product
                  */
-                /*Mage::getResourceSingleton('catalog/category')->refreshProductIndex(
+                /*Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category')->refreshProductIndex(
                     array(),
                     array(),
                     array($store->getId())
@@ -167,7 +167,7 @@ class Mage_Catalog_Model_Observer
         /**
          * @see Mage_Catalog_Model_Category_Indexer_Product
          */
-        /*Mage::getResourceSingleton('catalog/category')->refreshProductIndex(array(
+        /*Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category')->refreshProductIndex(array(
             $categoryId, $prevParentId, $parentId
         ));*/
         //Mage::getModel('catalog/category')->load($prevParentId)->save();
@@ -188,7 +188,7 @@ class Mage_Catalog_Model_Observer
     public function catalogProductImportAfter(Varien_Event_Observer $observer)
     {
         Mage::getModel('catalog/url')->refreshRewrites();
-        Mage::getResourceSingleton('catalog/category')->refreshProductIndex();
+        Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category')->refreshProductIndex();
         return $this;
     }
 

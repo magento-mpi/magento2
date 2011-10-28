@@ -34,7 +34,7 @@ class Enterprise_GiftCard_Model_Attribute_Backend_Giftcard_Amount
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('enterprise_giftcard/attribute_backend_giftcard_amount');
+        return Mage::getResourceSingleton('Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount');
     }
 
     /**

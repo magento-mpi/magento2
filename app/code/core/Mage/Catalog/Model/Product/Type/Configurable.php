@@ -119,7 +119,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function getChildrenIds($parentId, $required = true)
     {
-        return Mage::getResourceSingleton('catalog/product_type_configurable')
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Type_Configurable')
             ->getChildrenIds($parentId, $required);
     }
 
@@ -131,7 +131,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function getParentIdsByChild($childId)
     {
-        return Mage::getResourceSingleton('catalog/product_type_configurable')
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Type_Configurable')
             ->getParentIdsByChild($childId);
     }
 
@@ -863,7 +863,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function getConfigurableOptions($product)
     {
-        return Mage::getResourceSingleton('catalog/product_type_configurable')
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Type_Configurable')
             ->getConfigurableOptions($product, $this->getUsedProductAttributes($product));
     }
 }

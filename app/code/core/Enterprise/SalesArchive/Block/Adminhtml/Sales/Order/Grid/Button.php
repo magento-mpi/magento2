@@ -32,7 +32,7 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Button extends Ma
 {
     protected function _prepareLayout()
     {
-        $ordersCount = Mage::getResourceSingleton('enterprise_salesarchive/order_collection')->getSize();
+        $ordersCount = Mage::getResourceSingleton('Enterprise_SalesArchive_Model_Resource_Order_Collection')->getSize();
         $parent = $this->getLayout()->getBlock('sales_order.grid.container');
         if ($parent && $ordersCount) {
             $url = $this->getUrl('*/sales_archive/orders');

@@ -67,7 +67,7 @@ class Enterprise_SalesArchive_Model_Archive
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('enterprise_salesarchive/archive');
+        return Mage::getResourceSingleton('Enterprise_SalesArchive_Model_Resource_Archive');
     }
 
     /**

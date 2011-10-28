@@ -140,7 +140,7 @@ class Mage_Newsletter_Model_Resource_Queue extends Mage_Core_Model_Resource_Db_A
             return $this;
         }
 
-        $subscribers = Mage::getResourceSingleton('newsletter/subscriber_collection')
+        $subscribers = Mage::getResourceSingleton('Mage_Newsletter_Model_Resource_Subscriber_Collection')
             ->addFieldToFilter('store_id', array('in'=>$stores))
             ->useOnlySubscribed()
             ->load();

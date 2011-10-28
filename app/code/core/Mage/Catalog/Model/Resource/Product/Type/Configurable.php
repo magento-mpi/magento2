@@ -90,7 +90,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable extends Mage_Core_Mo
         }
 
         // configurable product relations should be added to relation table
-        Mage::getResourceSingleton('catalog/product_relation')
+        Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Relation')
             ->processRelations($mainProductId, $productIds);
 
         return $this;

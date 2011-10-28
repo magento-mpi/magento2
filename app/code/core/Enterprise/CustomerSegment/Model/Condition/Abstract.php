@@ -76,7 +76,7 @@ class Enterprise_CustomerSegment_Model_Condition_Abstract extends Mage_Rule_Mode
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('enterprise_customersegment/segment');
+        return Mage::getResourceSingleton('Enterprise_CustomerSegment_Model_Resource_Segment');
     }
 
     /**

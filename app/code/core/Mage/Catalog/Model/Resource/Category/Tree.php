@@ -422,7 +422,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
     public function move($category, $newParent, $prevNode = null)
     {
         $this->_beforeMove($category, $newParent, $prevNode);
-        Mage::getResourceSingleton('catalog/category')->move($category->getId(), $newParent->getId());
+        Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category')->move($category->getId(), $newParent->getId());
         parent::move($category, $newParent, $prevNode);
 
         $this->_afterMove($category, $newParent, $prevNode);
@@ -587,7 +587,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
         }
         foreach ($attributes as $attributeCode) {
             /* @var $attribute Mage_Eav_Model_Entity_Attribute */
-            $attribute = Mage::getResourceSingleton('catalog/category')->getAttribute($attributeCode);
+            $attribute = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category')->getAttribute($attributeCode);
             // join non-static attribute table
             if (!$attribute->getBackend()->isStatic()) {
                 $tableDefault   = sprintf('d_%s', $attributeCode);

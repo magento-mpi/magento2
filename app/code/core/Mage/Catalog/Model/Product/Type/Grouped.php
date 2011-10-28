@@ -97,7 +97,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
      */
     public function getChildrenIds($parentId, $required = true)
     {
-        return Mage::getResourceSingleton('catalog/product_link')
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Link')
             ->getChildrenIds($parentId,
                 Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
     }
@@ -110,7 +110,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
      */
     public function getParentIdsByChild($childId)
     {
-        return Mage::getResourceSingleton('catalog/product_link')
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Link')
             ->getParentIdsByChild($childId,
                 Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
     }

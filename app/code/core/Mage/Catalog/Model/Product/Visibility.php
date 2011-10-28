@@ -230,7 +230,7 @@ class Mage_Catalog_Model_Product_Visibility extends Varien_Object
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceSingleton('eav/entity_attribute')
+        return Mage::getResourceSingleton('Mage_Eav_Model_Resource_Entity_Attribute')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 
