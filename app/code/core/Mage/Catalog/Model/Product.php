@@ -530,7 +530,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
-     * Saving product type related data
+     * Saving product type related data and init index
      *
      * @return Mage_Catalog_Model_Product
      */
@@ -544,21 +544,13 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
          */
         $this->getOptionInstance()->setProduct($this)
             ->saveOptions();
-        return parent::_afterSave();
-    }
 
-    /**
-     * Init indexing process after product data commit
-     *
-     * @return Mage_Catalog_Model_Product
-     */
-    public function afterCommitCallback()
-    {
-        parent::afterCommitCallback();
+        $result = parent::_afterSave();
+
         Mage::getSingleton('index/indexer')->processEntityAction(
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );
-        return $this;
+        return $result;
     }
 
     /**

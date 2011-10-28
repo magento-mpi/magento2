@@ -124,6 +124,8 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
 
         $this->assertContains('Products Comparison List', $responseBody);
 
+        $this->markTestIncomplete("Functionality not compatible with Magento 1.x");
+
         $this->assertContains('simple_product_1', $responseBody);
         $this->assertContains('Simple Product 1 Name', $responseBody);
         $this->assertContains('Simple Product 1 Full Description', $responseBody);

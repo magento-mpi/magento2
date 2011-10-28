@@ -53,6 +53,7 @@ class Mage_Catalog_Seo_SitemapControllerTest extends Magento_Test_TestCase_Contr
      */
     public function testCategoryActionTreeMode()
     {
+        $this->markTestIncomplete("Functionality not compatible with Magento 1.x");
         $this->dispatch('catalog/seo_sitemap/category/');
 
         /* Layout updates */

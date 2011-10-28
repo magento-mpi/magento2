@@ -138,6 +138,8 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
         $product = new Mage_Catalog_Model_Product;
         $this->assertTrue($this->_model->isSalable($product));
 
+        $this->markTestIncomplete("Functionality not compatible with Magento 1.x");
+
         $product->load(1); // fixture
         $this->assertTrue((bool)$this->_model->isSalable($product));
     }

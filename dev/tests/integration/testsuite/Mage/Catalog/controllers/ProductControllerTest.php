@@ -57,6 +57,9 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
         $this->assertContains('Simple Product 1 Full Description', $responseBody);
         $this->assertContains('Simple Product 1 Short Description', $responseBody);
         /* Stock info */
+
+        $this->markTestIncomplete("Functionality not compatible with Magento 1.x");
+
         $this->assertContains('$1,234.56', $responseBody);
         $this->assertContains('In stock', $responseBody);
         $this->assertContains('Add to Cart', $responseBody);

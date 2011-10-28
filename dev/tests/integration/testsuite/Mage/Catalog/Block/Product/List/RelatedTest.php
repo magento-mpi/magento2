@@ -19,6 +19,7 @@ class Mage_Catalog_Block_Product_List_RelatedTest extends PHPUnit_Framework_Test
 {
     public function testAll()
     {
+        $this->markTestIncomplete("Functionality not compatible with Magento 1.x");
         $product = new Mage_Catalog_Model_Product();
         $product->load(2);
         Mage::register('product', $product);

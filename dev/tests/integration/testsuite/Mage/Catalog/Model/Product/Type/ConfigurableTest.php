@@ -210,6 +210,7 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
 
     public function testIsSalable()
     {
+        $this->markTestIncomplete("Functionality not compatible with Magento 1.x");
         $this->_product->unsetData('is_salable');
         $this->assertTrue($this->_model->isSalable());
     }

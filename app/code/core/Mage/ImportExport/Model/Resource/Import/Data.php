@@ -80,7 +80,7 @@ class Mage_ImportExport_Model_Resource_Import_Data
      */
     public function cleanBunches()
     {
-        return $this->_getWriteAdapter()->truncateTable($this->getMainTable());
+        return $this->_getWriteAdapter()->delete($this->getMainTable());
     }
 
     /**

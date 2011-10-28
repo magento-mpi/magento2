@@ -49,6 +49,7 @@ class Mage_Catalog_Block_Product_View_Type_ConfigurableTest extends PHPUnit_Fram
 
     public function testGetAllowProducts()
     {
+        $this->markTestIncomplete("Functionality not compatible with Magento 1.x");
         $products = $this->_block->getAllowProducts();
         $this->assertGreaterThanOrEqual(2, count($products));
         foreach ($products as $products) {

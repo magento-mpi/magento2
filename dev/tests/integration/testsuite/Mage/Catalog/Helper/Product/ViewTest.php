@@ -72,6 +72,7 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
      */
     public function testPrepareAndRenderWrongController()
     {
+        $this->markTestIncomplete("Functionality not compatible with Magento 1.x");
         $controller = new Mage_Core_Controller_Front_Action(new Magento_Test_Request, new Magento_Test_Response);
         $this->_helper->prepareAndRender(10, $controller);
     }
