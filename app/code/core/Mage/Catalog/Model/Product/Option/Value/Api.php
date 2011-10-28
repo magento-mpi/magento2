@@ -112,7 +112,7 @@ class Mage_Catalog_Model_Product_Option_Value_Api extends Mage_Catalog_Model_Api
         $optionValueModel->setOption($option);
         foreach ($data as &$optionValue) {
             foreach ($optionValue as &$value) {
-                $value = Mage::helper('catalog')->stripTags($value);
+                $value = Mage::helper('Mage_Catalog_Helper_Data')->stripTags($value);
             }
         }
         $optionValueModel->setValues($data);
@@ -148,7 +148,7 @@ class Mage_Catalog_Model_Product_Option_Value_Api extends Mage_Catalog_Model_Api
         $productOptionValue->setOption($option);
         // Sanitize data
         foreach ($data as $key => $value) {
-            $data[$key] = Mage::helper('catalog')->stripTags($value);
+            $data[$key] = Mage::helper('Mage_Catalog_Helper_Data')->stripTags($value);
         }
         if (!isset($data['title']) OR empty($data['title'])) {
             $this->_fault('option_value_title_required');

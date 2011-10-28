@@ -63,7 +63,7 @@ class Social_Facebook_IndexController extends Mage_Core_Controller_Front_Action
             return;
         }
 
-        return Mage::helper('social_facebook')->getRedirectUrl($product);
+        return Mage::helper('Social_Facebook_Helper_Data')->getRedirectUrl($product);
     }
 
     /**

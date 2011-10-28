@@ -28,21 +28,21 @@
 <config>
     <api>
         <resources>
-            <enterprise_customerbalance translate="title" module="enterprise_customerbalance">
+            <enterprise_customerbalance translate="title" module="Enterprise_CustomerBalance">
                 <title>Customer Balance API</title>
                 <model>enterprise_customerbalance/api</model>
                 <acl>enterprise_customerbalance</acl>
                 <methods>
-                    <balance translate="title" module="enterprise_customerbalance">
+                    <balance translate="title" module="Enterprise_CustomerBalance">
                         <title>Retrieve customer store credit balance information</title>
                         <acl>enterprise_customerbalance/balance</acl>
                     </balance>
-                    <history translate="title" module="enterprise_customerbalance">
+                    <history translate="title" module="Enterprise_CustomerBalance">
                         <title>Retrieve customer store credit history information</title>
                         <acl>enterprise_customerbalance/history</acl>
                     </history>
                 </methods>
-                <faults module="enterprise_customerbalance">
+                <faults module="Enterprise_CustomerBalance">
                     <data_invalid>
                         <code>100</code>
                         <message>Provided data is invalid.</message>
@@ -57,7 +57,7 @@
                     </history_not_found>
                 </faults>
             </enterprise_customerbalance>
-            <enterprise_customerbalance_quote translate="title" module="enterprise_customerbalance">
+            <enterprise_customerbalance_quote translate="title" module="Enterprise_CustomerBalance">
                 <title>Customer Balance for Quote API</title>
                 <model>enterprise_customerbalance/quote_api</model>
                 <acl>cart/storecredit</acl>
@@ -103,22 +103,22 @@
         </v2>
         <acl>
             <resources>
-                <enterprise_customerbalance translate="title" module="enterprise_customerbalance">
+                <enterprise_customerbalance translate="title" module="Enterprise_CustomerBalance">
                     <title>Customer Balance</title>
-                    <balance translate="title" module="enterprise_customerbalance">
+                    <balance translate="title" module="Enterprise_CustomerBalance">
                         <title>Retrieve balance amount</title>
                     </balance>
-                    <history translate="title" module="enterprise_customerbalance">
+                    <history translate="title" module="Enterprise_CustomerBalance">
                         <title>Retrieve balance history</title>
                     </history>
                 </enterprise_customerbalance>
                 <cart>
-                    <storecredit translate="title" module="enterprise_customerbalance">
+                    <storecredit translate="title" module="Enterprise_CustomerBalance">
                         <title>Customer balance</title>
-                        <set translate="title" module="enterprise_customerbalance">
+                        <set translate="title" module="Enterprise_CustomerBalance">
                             <title>Set</title>
                         </set>
-                        <remove translate="title" module="enterprise_customerbalance">
+                        <remove translate="title" module="Enterprise_CustomerBalance">
                             <title>Remove</title>
                         </remove>
                     </storecredit>

@@ -64,7 +64,7 @@ class Enterprise_GiftCardAccount_Model_Observer
     public function processOrderCreateBefore(Varien_Event_Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
-        $cards = Mage::helper('enterprise_giftcardaccount')->getCards($quote);
+        $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($quote);
 
         if (is_array($cards)) {
             foreach ($cards as $card) {

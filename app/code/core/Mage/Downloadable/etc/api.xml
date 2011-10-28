@@ -28,27 +28,27 @@
 <config>
     <api>
         <resources>
-            <catalog_product_downloadable_link translate="title" module="downloadable">
+            <catalog_product_downloadable_link translate="title" module="Mage_Downloadable">
                 <model>downloadable/link_api</model>
                 <title>Category API</title>
                 <acl>downloadable/link</acl>
                 <methods>
-                    <add translate="title" module="downloadable">
+                    <add translate="title" module="Mage_Downloadable">
                         <title>Add links and samples to downloadable product</title>
                         <method>add</method>
                         <acl>downloadable/link/add</acl>
                     </add>
-                    <list translate="title" module="downloadable">
+                    <list translate="title" module="Mage_Downloadable">
                         <title>Retrieve links and samples list from downloadable product</title>
                         <method>items</method>
                         <acl>downloadable/link/list</acl>
                     </list>
-                    <remove translate="title" module="downloadable">
+                    <remove translate="title" module="Mage_Downloadable">
                         <title>Remove links and samples from downloadable product</title>
                         <acl>downloadable/link/remove</acl>
                     </remove>
                 </methods>
-                <faults module="downloadable">
+                <faults module="Mage_Downloadable">
                     <store_not_exists>
                         <code>100</code>
                         <message>Store with requested code/id does not exist.</message>
@@ -136,15 +136,15 @@
             <resources>
                 <catalog>
                     <product>
-                        <downloadable_link translate="title" module="downloadable">
+                        <downloadable_link translate="title" module="Mage_Downloadable">
                             <title>Product downloadable links</title>
-                            <add translate="title" module="downloadable">
+                            <add translate="title" module="Mage_Downloadable">
                                 <title>Add</title>
                             </add>
-                            <list translate="title" module="downloadable">
+                            <list translate="title" module="Mage_Downloadable">
                                 <title>List</title>
                             </list>
-                            <remove translate="title" module="downloadable">
+                            <remove translate="title" module="Mage_Downloadable">
                                 <title>Remove</title>
                             </remove>
                         </downloadable_link>

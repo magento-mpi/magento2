@@ -28,22 +28,22 @@
 <config>
     <api>
         <resources>
-            <core_store translate="title" module="core">
+            <core_store translate="title" module="Mage_Core">
                 <model>core/store_api</model>
                 <title>Store API</title>
                 <acl>core/store</acl>
                 <methods>
-                    <list translate="title" module="core">
+                    <list translate="title" module="Mage_Core">
                         <title>Retrieve store list</title>
                         <method>items</method>
                         <acl>core/store/list</acl>
                     </list>
-                    <info translate="title" module="core">
+                    <info translate="title" module="Mage_Core">
                         <title>Retrieve store data</title>
                         <acl>core/store/info</acl>
                     </info>
                 </methods>
-                <faults module="core">
+                <faults module="Mage_Core">
                     <store_not_exists>
                         <code>100</code>
                         <message>Requested store view not found.</message>
@@ -65,15 +65,15 @@
         </rest>
         <acl>
             <resources>
-                <core translate="title" module="core">
+                <core translate="title" module="Mage_Core">
                     <title>Core</title>
                     <sort_order>1</sort_order>
-                    <store translate="title" module="core">
+                    <store translate="title" module="Mage_Core">
                         <title>Store</title>
-                        <info translate="title" module="core">
+                        <info translate="title" module="Mage_Core">
                             <title>Retrieve store data</title>
                         </info>
-                        <list translate="title" module="core">
+                        <list translate="title" module="Mage_Core">
                             <title>List of stores</title>
                         </list>
                     </store>

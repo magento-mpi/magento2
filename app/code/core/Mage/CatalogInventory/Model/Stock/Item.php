@@ -720,7 +720,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             $typeId = $productTypeId;
         }
 
-        $isQty = Mage::helper('catalogInventory')->isQty($typeId);
+        $isQty = Mage::helper('Mage_CatalogInventory_Helper_Data')->isQty($typeId);
 
         if ($isQty) {
             if (!$this->verifyStock()) {

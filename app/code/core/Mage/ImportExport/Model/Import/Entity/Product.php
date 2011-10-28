@@ -1445,7 +1445,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         );
 
         $entityTable = Mage::getResourceModel('Mage_CatalogInventory_Model_Resource_Stock_Item')->getMainTable();
-        $helper      = Mage::helper('catalogInventory');
+        $helper      = Mage::helper('Mage_CatalogInventory_Helper_Data');
 
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             $stockData = array();

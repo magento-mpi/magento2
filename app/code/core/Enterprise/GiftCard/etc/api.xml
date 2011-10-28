@@ -28,16 +28,16 @@
 <config>
     <api>
         <resources>
-            <giftcard_customer translate="title" module="enterprise_giftcard">
+            <giftcard_customer translate="title" module="Enterprise_GiftCard">
                 <model>enterprise_giftcard/customer_api</model>
                 <title>GiftCard API</title>
                 <acl>giftcard_customer</acl>
                 <methods>
-                    <info translate="title" module="enterprise_giftcard">
+                    <info translate="title" module="Enterprise_GiftCard">
                         <title>Retrieve giftcard customer data</title>
                         <acl>giftcard_customer/info</acl>
                     </info>
-                    <redeem translate="title" module="enterprise_giftcard">
+                    <redeem translate="title" module="Enterprise_GiftCard">
                         <title>Redeem giftcard to customer store credit</title>
                         <acl>giftcard_customer/redeem</acl>
                     </redeem>
@@ -61,21 +61,21 @@
                     </unable_redeem>
                 </faults>
             </giftcard_customer>
-            <cart_giftcard translate="title" module="enterprise_giftcard">
+            <cart_giftcard translate="title" module="Enterprise_GiftCard">
                 <model>enterprise_giftcard/checkout_cart_api</model>
                 <title>GiftCard for Shopping Cart API</title>
                 <acl>cart_giftcard</acl>
                 <methods>
-                    <list translate="title" module="enterprise_giftcard">
+                    <list translate="title" module="Enterprise_GiftCard">
                         <title>Retrieve list of giftcards in shopping cart</title>
                         <method>items</method>
                         <acl>cart_giftcard/list</acl>
                     </list>
-                    <add translate="title" module="enterprise_giftcard">
+                    <add translate="title" module="Enterprise_GiftCard">
                         <title>Add giftcard to shopping cart (quote)</title>
                         <acl>cart_giftcard/add</acl>
                     </add>
-                    <remove translate="title" module="enterprise_giftcard">
+                    <remove translate="title" module="Enterprise_GiftCard">
                         <title>Remove giftcard from shopping cart (quote)</title>
                         <acl>cart_giftcard/remove</acl>
                     </remove>
@@ -112,26 +112,26 @@
         </v2>
         <acl>
             <resources>
-                <giftcard_customer translate="title" module="enterprise_giftcard">
+                <giftcard_customer translate="title" module="Enterprise_GiftCard">
                      <title>Gift Card for Customer</title>
                      <sort_order>1</sort_order>
-                     <info translate="title" module="enterprise_giftcard">
+                     <info translate="title" module="Enterprise_GiftCard">
                         <title>Retrieve gift card customer info</title>
                      </info>
-                     <redeem translate="title" module="enterprise_giftcard">
+                     <redeem translate="title" module="Enterprise_GiftCard">
                         <title>Redeem giftcard to customer store credit</title>
                      </redeem>
                 </giftcard_customer>
-                <cart_giftcard translate="title" module="enterprise_giftcard">
+                <cart_giftcard translate="title" module="Enterprise_GiftCard">
                      <title>Gift Card for Shopping Cart</title>
                      <sort_order>1</sort_order>
-                     <list translate="title" module="enterprise_giftcard">
+                     <list translate="title" module="Enterprise_GiftCard">
                         <title>Retrieve list of Giftcards in shopping cart</title>
                      </list>
-                     <add translate="title" module="enterprise_giftcard">
+                     <add translate="title" module="Enterprise_GiftCard">
                          <title>Add</title>
                      </add>
-                     <remove translate="title" module="enterprise_giftcard">
+                     <remove translate="title" module="Enterprise_GiftCard">
                          <title>Remove</title>
                      </remove>
                 </cart_giftcard>

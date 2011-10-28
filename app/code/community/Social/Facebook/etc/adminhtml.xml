@@ -34,7 +34,7 @@
                         <children>
                             <config>
                                 <children>
-                                    <facebook module="social_facebook" translate="title">
+                                    <facebook module="Social_Facebook" translate="title">
                                         <title>Facebook Section</title>
                                         <sort_order>75</sort_order>
                                     </facebook>

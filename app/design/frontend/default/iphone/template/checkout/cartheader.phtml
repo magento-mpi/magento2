@@ -55,14 +55,14 @@
                             <col width="*" />
                             <col width="30" />
                         </colgroup>
-                    <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
+                    <?php $mergedCells = ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices() ? 2 : 1); ?>
                         <thead>
-                            <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
                             <tr>
-                                <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
-                                <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
-                                <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
-                                <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                                <th class="a-right"><?php echo $this->helper('Mage_Tax_Helper_Data')->getIncExcTaxLabel(false) ?></th>
+                                <th><?php echo $this->helper('Mage_Tax_Helper_Data')->getIncExcTaxLabel(true) ?></th>
+                                <th class="a-right"><?php echo $this->helper('Mage_Tax_Helper_Data')->getIncExcTaxLabel(false) ?></th>
+                                <th><?php echo $this->helper('Mage_Tax_Helper_Data')->getIncExcTaxLabel(true) ?></th>
                             </tr>
                             <?php endif; ?>
                         </thead>

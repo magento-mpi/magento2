@@ -218,7 +218,7 @@ class Mage_Catalog_Model_Product_Attribute_Set_Api extends Mage_Api_Model_Resour
         $group = Mage::getModel('eav/entity_attribute_group');
         $group->setAttributeSetId($attributeSetId)
                 ->setAttributeGroupName(
-                    Mage::helper('catalog')->stripTags($groupName)
+                    Mage::helper('Mage_Catalog_Helper_Data')->stripTags($groupName)
                 );
         if ($group->itemExists()) {
             $this->_fault('group_already_exists');
@@ -247,7 +247,7 @@ class Mage_Catalog_Model_Product_Attribute_Set_Api extends Mage_Api_Model_Resour
         }
 
         $model->setAttributeGroupName(
-                Mage::helper('catalog')->stripTags($groupName)
+                Mage::helper('Mage_Catalog_Helper_Data')->stripTags($groupName)
         );
         try {
             $model->save();

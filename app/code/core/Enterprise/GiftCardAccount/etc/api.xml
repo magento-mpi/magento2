@@ -28,29 +28,29 @@
 <config>
     <api>
         <resources>
-            <giftcard_account translate="title" module="enterprise_giftcardaccount">
+            <giftcard_account translate="title" module="Enterprise_GiftCardAccount">
                 <model>enterprise_giftcardaccount/api</model>
                 <title>GiftCard Account API</title>
                 <acl>giftcard_account</acl>
                 <methods>
-                    <list translate="title" module="enterprise_giftcard">
+                    <list translate="title" module="Enterprise_GiftCard">
                         <title>Retrieve gift card accounts list</title>
                         <method>items</method>
                         <acl>giftcard_account/list</acl>
                     </list>
-                    <info translate="title" module="enterprise_giftcard">
+                    <info translate="title" module="Enterprise_GiftCard">
                         <title>Retrieve full gift card account info</title>
                         <acl>giftcard_account/info</acl>
                     </info>
-                    <create translate="title" module="enterprise_giftcardaccount">
+                    <create translate="title" module="Enterprise_GiftCardAccount">
                         <title>Create gift card account</title>
                         <acl>enterprise_giftcardaccount/create</acl>
                     </create>
-                    <update translate="title" module="enterprise_giftcard">
+                    <update translate="title" module="Enterprise_GiftCard">
                         <title>Update gift card account info</title>
                         <acl>giftcard_account/update</acl>
                     </update>
-                    <remove translate="title" module="enterprise_giftcardaccount">
+                    <remove translate="title" module="Enterprise_GiftCardAccount">
                         <title>Remove gift card account</title>
                         <acl>enterprise_giftcardaccount/remove</acl>
                     </remove>
@@ -94,22 +94,22 @@
         </v2>
         <acl>
             <resources>
-                <giftcard_account translate="title" module="enterprise_giftcardaccount">
+                <giftcard_account translate="title" module="Enterprise_GiftCardAccount">
                     <title>Gift Card Account</title>
                     <sort_order>1</sort_order>
-                    <list translate="title" module="enterprise_giftcardaccount">
+                    <list translate="title" module="Enterprise_GiftCardAccount">
                         <title>Retrieve gift card accounts list</title>
                     </list>
-                    <info translate="title" module="enterprise_giftcardaccount">
+                    <info translate="title" module="Enterprise_GiftCardAccount">
                         <title>Retrieve full gift card account info</title>
                     </info>
-                    <create translate="title" module="enterprise_giftcardaccount">
+                    <create translate="title" module="Enterprise_GiftCardAccount">
                         <title>Create</title>
                     </create>
-                    <update translate="title" module="enterprise_giftcardaccount">
+                    <update translate="title" module="Enterprise_GiftCardAccount">
                         <title>Update gift card info</title>
                     </update>
-                    <remove translate="title" module="enterprise_giftcardaccount">
+                    <remove translate="title" module="Enterprise_GiftCardAccount">
                         <title>Remove</title>
                     </remove>
                 </giftcard_account>

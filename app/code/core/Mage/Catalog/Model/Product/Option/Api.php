@@ -123,7 +123,7 @@ class Mage_Catalog_Model_Product_Option_Api extends Mage_Catalog_Model_Api_Resou
                         $this->_fault('invalid_data');
                     } else {
                         foreach ($row as $key => $value) {
-                            $row[$key] = Mage::helper('catalog')->stripTags($value);
+                            $row[$key] = Mage::helper('Mage_Catalog_Helper_Data')->stripTags($value);
                         }
                         if (!empty($row['value_id'])) {
                             // map 'value_id' to 'option_type_id'
@@ -151,7 +151,7 @@ class Mage_Catalog_Model_Product_Option_Api extends Mage_Catalog_Model_Api_Resou
     {
         foreach ($data as $key => $value) {
             if (is_string($value)) {
-                $data[$key] = Mage::helper('catalog')->stripTags($value);
+                $data[$key] = Mage::helper('Mage_Catalog_Helper_Data')->stripTags($value);
             }
         }
         // setProductOptions expects data to be an array of options arrays

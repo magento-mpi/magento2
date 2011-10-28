@@ -43,7 +43,7 @@ class Mage_SalesRule_Model_Resource_Coupon extends Mage_Core_Model_Resource_Db_A
         $this->_init('salesrule_coupon', 'coupon_id');
         $this->addUniqueField(array(
             'field' => 'code',
-            'title' => Mage::helper('salesRule')->__('Coupon with the same code')
+            'title' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Coupon with the same code')
         ));
     }
 

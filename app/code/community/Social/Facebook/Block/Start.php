@@ -31,7 +31,7 @@ class Social_Facebook_Block_Start extends Mage_Core_Block_Template
      */
     protected function _construct()
     {
-        if (!Mage::helper('social_facebook')->isEnabled()) {
+        if (!Mage::helper('Social_Facebook_Helper_Data')->isEnabled()) {
             return;
         }
         parent::_construct();
@@ -55,11 +55,11 @@ class Social_Facebook_Block_Start extends Mage_Core_Block_Template
 
         if (!$accessToken) {
             $this->setShowSumm(Social_Facebook_Block_Start::FACEBOOK_BLOCK_START_CONNECT);
-            $this->setConnectUrl(Mage::helper('social_facebook')->getRedirectUrl($product));
+            $this->setConnectUrl(Mage::helper('Social_Facebook_Helper_Data')->getRedirectUrl($product));
             $session->unsetData('facebook_action');
             $session->setData('no_boxes', 1);
         } else {
-            $actions = Mage::helper('social_facebook')->getAllActions();
+            $actions = Mage::helper('Social_Facebook_Helper_Data')->getAllActions();
             $users  = array();
             foreach ($actions as $action) {
                 $data = Mage::getModel('social_facebook/facebook')->getLinkedFriends($facebookId, $product->getId(),

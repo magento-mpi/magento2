@@ -28,34 +28,34 @@
 <config>
     <api>
         <resources>
-            <catalog_product_tag translate="title" module="tag">
+            <catalog_product_tag translate="title" module="Mage_Tag">
                 <title>Product Tag API</title>
                 <model>tag/api</model>
                 <acl>catalog/product/tag</acl>
                 <methods>
-                    <list translate="title" module="tag">
+                    <list translate="title" module="Mage_Tag">
                         <title>Retrieve list of tags by product</title>
                         <method>items</method>
                         <acl>catalog/product/tag/list</acl>
                     </list>
-                    <info translate="title" module="tag">
+                    <info translate="title" module="Mage_Tag">
                         <title>Retrieve product tag info</title>
                         <acl>catalog/product/tag/info</acl>
                     </info>
-                    <add translate="title" module="tag">
+                    <add translate="title" module="Mage_Tag">
                         <title>Add tag(s) to product</title>
                         <acl>catalog/product/tag/add</acl>
                     </add>
-                    <update translate="title" module="tag">
+                    <update translate="title" module="Mage_Tag">
                         <title>Update product tag</title>
                         <acl>catalog/product/tag/update</acl>
                     </update>
-                    <remove translate="title" module="tag">
+                    <remove translate="title" module="Mage_Tag">
                         <title>Remove product tag</title>
                         <acl>catalog/product/tag/remove</acl>
                     </remove>
                 </methods>
-                <faults module="tag">
+                <faults module="Mage_Tag">
                     <store_not_exists>
                         <code>101</code>
                         <message>Requested store does not exist.</message>
@@ -111,22 +111,22 @@
             <resources>
                 <catalog>
                     <product>
-                        <tag translate="title" module="tag">
+                        <tag translate="title" module="Mage_Tag">
                             <title>Tag</title>
                             <sort_order>103</sort_order>
-                            <list translate="title" module="tag">
+                            <list translate="title" module="Mage_Tag">
                                 <title>List</title>
                             </list>
-                            <info translate="title" module="tag">
+                            <info translate="title" module="Mage_Tag">
                                 <title>Info</title>
                             </info>
-                            <add translate="title" module="tag">
+                            <add translate="title" module="Mage_Tag">
                                 <title>Add</title>
                             </add>
-                            <update translate="title" module="tag">
+                            <update translate="title" module="Mage_Tag">
                                 <title>Update</title>
                             </update>
-                            <remove translate="title" module="tag">
+                            <remove translate="title" module="Mage_Tag">
                                 <title>Remove</title>
                             </remove>
                         </tag>

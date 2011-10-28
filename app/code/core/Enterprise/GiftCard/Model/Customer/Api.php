@@ -67,7 +67,7 @@ class Enterprise_GiftCard_Model_Customer_Api extends Mage_Api_Model_Resource_Abs
      */
     public function redeem($code, $customerId, $storeId = null)
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             $this->_fault('redemption_disabled');
         }
         /** @var $card Enterprise_GiftCardAccount_Model_Giftcardaccount */

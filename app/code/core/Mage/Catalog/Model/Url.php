@@ -711,7 +711,7 @@ class Mage_Catalog_Model_Url
         elseif ($parentPath == '/') {
             $parentPath = '';
         }
-        $parentPath = Mage::helper('catalog/category')->getCategoryUrlPath($parentPath,
+        $parentPath = Mage::helper('Mage_Catalog_Helper_Category')->getCategoryUrlPath($parentPath,
                                                                            true, $category->getStoreId());
 
         $requestPath = $parentPath . $urlKey . $categoryUrlSuffix;

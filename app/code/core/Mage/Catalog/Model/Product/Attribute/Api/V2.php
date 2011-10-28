@@ -41,9 +41,9 @@ class Mage_Catalog_Model_Product_Attribute_Api_V2 extends Mage_Catalog_Model_Pro
      */
     public function create($data)
     {
-        $helper = Mage::helper('api');
+        $helper = Mage::helper('Mage_Api_Helper_Data');
         $helper->v2AssociativeArrayUnpacker($data);
-        Mage::helper('api')->toArray($data);
+        Mage::helper('Mage_Api_Helper_Data')->toArray($data);
         return parent::create($data);
     }
 
@@ -56,9 +56,9 @@ class Mage_Catalog_Model_Product_Attribute_Api_V2 extends Mage_Catalog_Model_Pro
      */
     public function update($attribute, $data)
     {
-        $helper = Mage::helper('api');
+        $helper = Mage::helper('Mage_Api_Helper_Data');
         $helper->v2AssociativeArrayUnpacker($data);
-        Mage::helper('api')->toArray($data);
+        Mage::helper('Mage_Api_Helper_Data')->toArray($data);
         return parent::update($attribute, $data);
     }
 
@@ -71,7 +71,7 @@ class Mage_Catalog_Model_Product_Attribute_Api_V2 extends Mage_Catalog_Model_Pro
      */
     public function addOption($attribute, $data)
     {
-        Mage::helper('api')->toArray($data);
+        Mage::helper('Mage_Api_Helper_Data')->toArray($data);
         return parent::addOption($attribute, $data);
     }
 

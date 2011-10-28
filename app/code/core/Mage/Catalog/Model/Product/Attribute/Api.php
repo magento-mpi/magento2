@@ -148,7 +148,7 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
         /** @var $model Mage_Catalog_Model_Resource_Eav_Attribute */
         $model = Mage::getModel('catalog/resource_eav_attribute');
         /** @var $helper Mage_Catalog_Helper_Product */
-        $helper = Mage::helper('catalog/product');
+        $helper = Mage::helper('Mage_Catalog_Helper_Product');
 
         if (empty($data['attribute_code']) || !is_array($data['frontend_label'])) {
             $this->_fault('invalid_parameters');
@@ -369,7 +369,7 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
         }
 
         /** @var $helperCatalog Mage_Catalog_Helper_Data */
-        $helperCatalog = Mage::helper('catalog');
+        $helperCatalog = Mage::helper('Mage_Catalog_Helper_Data');
 
         $optionLabels = array();
         foreach ($data['label'] as $label) {
@@ -457,7 +457,7 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
     protected function _prepareDataForSave(&$data)
     {
         /** @var $helperCatalog Mage_Catalog_Helper_Data */
-        $helperCatalog = Mage::helper('catalog');
+        $helperCatalog = Mage::helper('Mage_Catalog_Helper_Data');
 
         if ($data['scope'] == 'global') {
             $data['is_global'] = Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL;

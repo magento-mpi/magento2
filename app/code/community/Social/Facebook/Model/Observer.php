@@ -41,7 +41,7 @@ class Social_Facebook_Model_Observer
      */
     public function catalogProduct()
     {
-        if (!Mage::helper('social_facebook')->isEnabled()) {
+        if (!Mage::helper('Social_Facebook_Helper_Data')->isEnabled()) {
             return false;
         }
         $session        = Mage::getSingleton('core/session');
@@ -57,7 +57,7 @@ class Social_Facebook_Model_Observer
             $result = $facebookModel->sendFacebookAction();
 
             if (!empty($result)) {
-                $session->addSuccess(Mage::helper('social_facebook')->__('I %s this product', $facebookAction));
+                $session->addSuccess(Mage::helper('Social_Facebook_Helper_Data')->__('I %s this product', $facebookAction));
                 $session->unsetData('facebook_action');
 
                 $user = $facebookModel->getFacebookUser();

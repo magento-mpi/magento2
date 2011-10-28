@@ -215,7 +215,7 @@ class Social_Facebook_Model_Facebook extends Mage_Core_Model_Abstract
             Mage::getSingleton('core/session')->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::getSingleton('core/session')->addError(
-                 Mage::helper('social_facebook')->__('Cannot Get Facebook Access Token')
+                 Mage::helper('Social_Facebook_Helper_Data')->__('Cannot Get Facebook Access Token')
             );
             Mage::logException($e);
         }
@@ -252,7 +252,7 @@ class Social_Facebook_Model_Facebook extends Mage_Core_Model_Abstract
         } catch (Exception $e) {
             $action = Mage::getSingleton('core/session')->getData('facebook_action');
             Mage::getSingleton('core/session')->addError(
-                 Mage::helper('social_facebook')->__('Cannot Make "%s" Action. Please, try later.', $action)
+                 Mage::helper('Social_Facebook_Helper_Data')->__('Cannot Make "%s" Action. Please, try later.', $action)
             );
             Mage::logException($e);
         }
@@ -276,7 +276,7 @@ class Social_Facebook_Model_Facebook extends Mage_Core_Model_Abstract
             Mage::getSingleton('core/session')->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::getSingleton('core/session')->addError(
-                 Mage::helper('social_facebook')->__('Cannot Get Your Facebook Friends')
+                 Mage::helper('Social_Facebook_Helper_Data')->__('Cannot Get Your Facebook Friends')
             );
             Mage::logException($e);
         }
@@ -304,7 +304,7 @@ class Social_Facebook_Model_Facebook extends Mage_Core_Model_Abstract
             Mage::getSingleton('core/session')->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::getSingleton('core/session')->addError(
-                 Mage::helper('social_facebook')->__('Cannot Get Facebook User')
+                 Mage::helper('Social_Facebook_Helper_Data')->__('Cannot Get Facebook User')
             );
             Mage::logException($e);
         }

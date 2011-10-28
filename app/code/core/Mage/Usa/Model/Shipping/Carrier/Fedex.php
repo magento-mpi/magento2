@@ -998,7 +998,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
            $error->setCarrier('fedex');
            $error->setCarrierTitle($this->getConfigData('title'));
            $error->setTracking($trackingValue);
-           $error->setErrorMessage($errorTitle ? $errorTitle : Mage::helper('usa')->__('Unable to retrieve tracking'));
+           $error->setErrorMessage($errorTitle ? $errorTitle : Mage::helper('Mage_Usa_Helper_Data')->__('Unable to retrieve tracking'));
            $this->_result->append($error);
         }
     }

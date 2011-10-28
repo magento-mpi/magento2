@@ -27,7 +27,7 @@ class Social_Facebook_Block_Box extends Mage_Core_Block_Template
      */
     protected function _construct()
     {
-        if (!Mage::helper('social_facebook')->isEnabled() || Mage::getSingleton('core/session')->getNoBoxes()) {
+        if (!Mage::helper('Social_Facebook_Helper_Data')->isEnabled() || Mage::getSingleton('core/session')->getNoBoxes()) {
             return;
         }
         parent::_construct();
@@ -35,7 +35,7 @@ class Social_Facebook_Block_Box extends Mage_Core_Block_Template
         $product = Mage::registry('product');
         $this->setProductId($product->getId());
 
-        $this->setAllActions(Mage::helper('social_facebook')->getAllActions());
+        $this->setAllActions(Mage::helper('Social_Facebook_Helper_Data')->getAllActions());
 
         $this->setFacebookId(Mage::getSingleton('core/session')->getData('facebook_id'));
 
