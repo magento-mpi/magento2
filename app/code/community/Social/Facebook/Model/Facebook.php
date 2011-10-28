@@ -52,7 +52,7 @@ class Social_Facebook_Model_Facebook extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('social_facebook/facebook');
+        $this->_init('Social_Facebook_Model_Resource_Facebook');
         parent::_construct();
     }
 
