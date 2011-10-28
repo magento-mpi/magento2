@@ -40,7 +40,7 @@ class Mage_ProductAlert_Model_Resource_Price_Collection extends Mage_Core_Model_
      */
     protected function _construct()
     {
-        $this->_init('productalert/price');
+        $this->_init('productalert/price', 'Mage_ProductAlert_Model_Resource_Price');
     }
 
     /**

@@ -56,7 +56,7 @@ class Mage_Sales_Model_Resource_Order_Invoice_Comment_Collection
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('sales/order_invoice_comment');
+        $this->_init('sales/order_invoice_comment', 'Mage_Sales_Model_Resource_Order_Invoice_Comment');
     }
 
     /**

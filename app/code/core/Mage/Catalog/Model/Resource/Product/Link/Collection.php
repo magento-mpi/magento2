@@ -60,7 +60,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Collection extends Mage_Core_Mode
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_link');
+        $this->_init('catalog/product_link', 'Mage_Catalog_Model_Resource_Product_Link');
     }
 
     /**

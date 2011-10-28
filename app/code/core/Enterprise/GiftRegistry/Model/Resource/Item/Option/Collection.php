@@ -54,7 +54,7 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Option_Collection
      */
     protected function _construct()
     {
-        $this->_init('enterprise_giftregistry/item_option');
+        $this->_init('enterprise_giftregistry/item_option', 'Enterprise_GiftRegistry_Model_Resource_Item_Option');
     }
 
     /**

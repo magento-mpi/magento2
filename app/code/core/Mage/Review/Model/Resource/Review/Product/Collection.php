@@ -69,7 +69,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
      */
     protected function _construct()
     {
-        $this->_init('catalog/product');
+        $this->_init('catalog/product', 'Mage_Catalog_Model_Resource_Product');
         $this->setRowIdFieldName('review_id');
         $this->_reviewStoreTable = Mage::getSingleton('core/resource')->getTableName('review_store');
         $this->_initTables();

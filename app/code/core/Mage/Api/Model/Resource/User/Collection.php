@@ -40,6 +40,6 @@ class Mage_Api_Model_Resource_User_Collection extends Mage_Core_Model_Resource_D
      */
     protected function _construct()
     {
-        $this->_init('api/user');
+        $this->_init('api/user', 'Mage_Api_Model_Resource_User');
     }
 }

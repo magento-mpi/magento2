@@ -47,7 +47,7 @@ class Mage_Rule_Model_Resource_Rule_Collection extends Mage_Core_Model_Resource_
      */
     protected function _construct()
     {
-        $this->_init('rule/rule');
+        $this->_init('rule/rule', 'Mage_Rule_Model_Resource_Rule');
     }
 
     /**

@@ -40,6 +40,6 @@ class Mage_Api_Model_Resource_Acl_Role_Collection extends Mage_Core_Model_Resour
      */
     protected function _construct()
     {
-        $this->_init('api/role');
+        $this->_init('api/role', 'Mage_Api_Model_Resource_Role');
     }
 }

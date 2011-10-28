@@ -47,7 +47,7 @@ class Enterprise_Reward_Model_Resource_Reward_History_Collection extends Mage_Co
      */
     protected function _construct()
     {
-        $this->_init('enterprise_reward/reward_history');
+        $this->_init('enterprise_reward/reward_history', 'Enterprise_Reward_Model_Resource_Reward_History');
     }
 
     /**

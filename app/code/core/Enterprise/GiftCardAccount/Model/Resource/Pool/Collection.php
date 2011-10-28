@@ -40,6 +40,6 @@ class Enterprise_GiftCardAccount_Model_Resource_Pool_Collection extends Mage_Cor
      */
     protected function _construct()
     {
-        $this->_init('enterprise_giftcardaccount/pool');
+        $this->_init('enterprise_giftcardaccount/pool', 'Enterprise_GiftCardAccount_Model_Resource_Pool');
     }
 }

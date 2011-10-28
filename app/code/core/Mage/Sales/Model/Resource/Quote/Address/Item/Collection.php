@@ -40,7 +40,7 @@ class Mage_Sales_Model_Resource_Quote_Address_Item_Collection extends Mage_Core_
      */
     protected function _construct()
     {
-        $this->_init('sales/quote_address_item');
+        $this->_init('sales/quote_address_item', 'Mage_Sales_Model_Resource_Quote_Address_Item');
     }
 
     /**

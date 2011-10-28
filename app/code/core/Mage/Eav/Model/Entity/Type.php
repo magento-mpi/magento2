@@ -339,6 +339,6 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
         if ($collection) {
             return $collection;
         }
-        return 'eav/entity_attribute_collection';
+        return 'Mage_Eav_Model_Resource_Entity_Attribute_Collection';
     }
 }

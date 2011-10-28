@@ -47,7 +47,7 @@ class Mage_Core_Model_Resource_Email_Template_Collection extends  Mage_Core_Mode
      */
     public function _construct()
     {
-        $this->_init('core/email_template');
+        $this->_init('core/email_template', 'Mage_Core_Model_Resource_Email_Template');
         $this->_templateTable = $this->getMainTable();
     }
 

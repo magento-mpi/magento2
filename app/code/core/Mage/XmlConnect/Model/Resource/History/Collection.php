@@ -38,7 +38,7 @@ class Mage_XmlConnect_Model_Resource_History_Collection extends Mage_Core_Model_
      */
     protected function _construct()
     {
-        $this->_init('xmlconnect/history');
+        $this->_init('xmlconnect/history', 'Mage_XmlConnect_Model_Resource_History');
     }
 
     /**

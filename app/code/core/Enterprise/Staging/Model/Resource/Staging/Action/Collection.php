@@ -41,7 +41,7 @@ class Enterprise_Staging_Model_Resource_Staging_Action_Collection
      */
     public function _construct()
     {
-        $this->_init('enterprise_staging/staging_action');
+        $this->_init('enterprise_staging/staging_action', 'Enterprise_Staging_Model_Resource_Staging_Action');
     }
 
     /**

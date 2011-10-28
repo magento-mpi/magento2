@@ -39,6 +39,6 @@ class Social_Facebook_Model_Resource_Facebook_Collection
      */
     protected function _construct()
     {
-        $this->_init('social_facebook/facebook');
+        $this->_init('social_facebook/facebook', 'Social_Facebook_Model_Resource_Facebook');
     }
 }

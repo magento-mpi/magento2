@@ -54,7 +54,7 @@ class Mage_Customer_Model_Resource_Form_Attribute_Collection extends Mage_Eav_Mo
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('eav/attribute', 'customer/form_attribute');
+        $this->_init('eav/attribute', 'Mage_Customer_Model_Resource_Form_Attribute');
     }
 
     /**

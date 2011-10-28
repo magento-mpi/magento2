@@ -54,7 +54,7 @@ class Mage_Sales_Model_Resource_Quote_Item_Collection extends Mage_Core_Model_Re
      */
     protected function _construct()
     {
-        $this->_init('sales/quote_item');
+        $this->_init('sales/quote_item', 'Mage_Sales_Model_Resource_Quote_Item');
     }
 
     /**

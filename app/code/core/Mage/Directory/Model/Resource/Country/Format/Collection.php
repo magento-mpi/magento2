@@ -40,7 +40,7 @@ class Mage_Directory_Model_Resource_Country_Format_Collection extends Mage_Core_
      */
     protected function _construct()
     {
-        $this->_init('directory/country_format');
+        $this->_init('directory/country_format', 'Mage_Directory_Model_Resource_Country_Format');
     }
 
     /**

@@ -97,7 +97,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
      */
     public function _construct()
     {
-        $this->_init('wishlist/item');
+        $this->_init('wishlist/item', 'Mage_Wishlist_Model_Resource_Item');
         $this->addFilterToMap('store_id', 'main_table.store_id');
     }
 

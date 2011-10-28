@@ -39,7 +39,7 @@ class Mage_Downloadable_Model_Resource_Link_Collection extends Mage_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('downloadable/link');
+        $this->_init('downloadable/link', 'Mage_Downloadable_Model_Resource_Link');
     }
 
     /**

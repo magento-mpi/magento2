@@ -42,7 +42,7 @@ class Mage_CatalogRule_Model_Resource_Rule_Product_Price_Collection
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('catalogrule/rule_product_price');
+        $this->_init('catalogrule/rule_product_price', 'Mage_CatalogRule_Model_Resource_Rule_Product_Price');
     }
 
     /**

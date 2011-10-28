@@ -49,7 +49,7 @@ class Mage_Directory_Model_Resource_Currency_Collection extends Mage_Core_Model_
      */
     protected function _construct()
     {
-        $this->_init('directory/currency');
+        $this->_init('directory/currency', 'Mage_Directory_Model_Resource_Currency');
 
         $this->_currencyRateTable   = $this->getTable('directory_currency_rate');
     }

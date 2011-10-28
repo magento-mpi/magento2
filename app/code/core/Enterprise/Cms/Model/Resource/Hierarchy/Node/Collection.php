@@ -40,7 +40,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
      */
     protected function _construct()
     {
-        $this->_init('enterprise_cms/hierarchy_node');
+        $this->_init('enterprise_cms/hierarchy_node', 'Enterprise_Cms_Model_Resource_Hierarchy_Node');
     }
 
     /**

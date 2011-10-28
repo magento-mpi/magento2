@@ -37,7 +37,7 @@ class Mage_Sales_Model_Entity_Quote_Payment_Collection extends Mage_Eav_Model_En
 {
     protected function _construct()
     {
-        $this->_init('sales/quote_payment');
+        $this->_init('sales/quote_payment', 'Mage_Sales_Model_Resource_Quote_Payment');
     }
     
     public function setQuoteFilter($quoteId)

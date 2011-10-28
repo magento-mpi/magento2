@@ -40,7 +40,7 @@ class Mage_Tag_Model_Resource_Popular_Collection extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('tag/tag');
+        $this->_init('tag/tag', 'Mage_Tag_Model_Resource_Tag');
     }
 
     /**

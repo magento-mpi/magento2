@@ -41,6 +41,6 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Collection
      */
     protected function _construct()
     {
-        $this->_init('enterprise_catalogpermissions/permission');
+        $this->_init('enterprise_catalogpermissions/permission', 'Enterprise_CatalogPermissions_Model_Resource_Permission');
     }
 }

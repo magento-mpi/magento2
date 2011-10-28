@@ -40,6 +40,6 @@ class Mage_Index_Model_Resource_Process_Collection extends Mage_Core_Model_Resou
      */
     protected function _construct()
     {
-        $this->_init('index/process');
+        $this->_init('index/process', 'Mage_Index_Model_Resource_Process');
     }
 }

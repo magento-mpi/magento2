@@ -40,7 +40,7 @@ class Mage_Dataflow_Model_Resource_Profile_History_Collection extends Mage_Core_
      */
     protected function _construct()
     {
-        $this->_init('dataflow/profile_history');
+        $this->_init('dataflow/profile_history', 'Mage_Dataflow_Model_Resource_Profile_History');
     }
 
     /**

@@ -405,12 +405,9 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
      * @param Mage_Core_Model_Resource_Db_Abstract $resourceModel
      * @return Mage_Core_Model_Resource_Db_Collection_Abstract
      */
-    protected function _init($model, $resourceModel = null)
+    protected function _init($model, $resourceModel)
     {
         $this->setModel($model);
-        if (is_null($resourceModel)) {
-            $resourceModel = $model;
-        }
         $this->setResourceModel($resourceModel);
         return $this;
     }

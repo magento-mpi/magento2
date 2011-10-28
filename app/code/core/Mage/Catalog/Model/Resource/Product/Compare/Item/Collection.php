@@ -61,7 +61,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_compare_item', 'catalog/product');
+        $this->_init('catalog/product_compare_item', 'Mage_Catalog_Model_Resource_Product');
         $this->_initTables();
     }
 

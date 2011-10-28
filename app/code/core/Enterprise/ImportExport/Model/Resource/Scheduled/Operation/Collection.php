@@ -40,7 +40,7 @@ class Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Collection
      */
     protected function _construct()
     {
-        $this->_init('enterprise_importexport/scheduled_operation');
+        $this->_init('enterprise_importexport/scheduled_operation', 'Enterprise_ImportExport_Model_Resource_Scheduled_Operation');
     }
 
     /**

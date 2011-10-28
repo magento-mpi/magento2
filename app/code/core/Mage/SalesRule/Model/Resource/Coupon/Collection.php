@@ -41,7 +41,7 @@ class Mage_SalesRule_Model_Resource_Coupon_Collection extends Mage_Core_Model_Re
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('salesrule/coupon');
+        $this->_init('salesrule/coupon', 'Mage_SalesRule_Model_Resource_Coupon');
     }
 
     /**

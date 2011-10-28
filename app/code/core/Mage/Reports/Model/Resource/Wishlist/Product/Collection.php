@@ -40,7 +40,7 @@ class Mage_Reports_Model_Resource_Wishlist_Product_Collection extends Mage_Wishl
      */
     protected function _construct()
     {
-        $this->_init('wishlist/wishlist');
+        $this->_init('wishlist/wishlist', 'Mage_Wishlist_Model_Resource_Wishlist');
     }
 
     /**

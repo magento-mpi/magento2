@@ -38,6 +38,6 @@ class Enterprise_Rma_Model_Resource_Shipping_Collection extends Mage_Core_Model_
      */
     protected function _construct()
     {
-        $this->_init('enterprise_rma/shipping');
+        $this->_init('enterprise_rma/shipping', 'Enterprise_Rma_Model_Resource_Shipping');
     }
 }

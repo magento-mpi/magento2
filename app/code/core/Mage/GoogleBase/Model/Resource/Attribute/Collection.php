@@ -48,7 +48,7 @@ class Mage_GoogleBase_Model_Resource_Attribute_Collection extends Mage_Core_Mode
      */
     protected function _construct()
     {
-        $this->_init('googlebase/attribute');
+        $this->_init('googlebase/attribute', 'Mage_GoogleBase_Model_Resource_Attribute');
     }
 
     /**

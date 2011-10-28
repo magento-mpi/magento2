@@ -40,6 +40,6 @@ class Mage_GiftMessage_Model_Resource_Message_Collection extends Mage_Core_Model
      */
     protected function _construct()
     {
-        $this->_init('giftmessage/message');
+        $this->_init('giftmessage/message', 'Mage_GiftMessage_Model_Resource_Message');
     }
 }

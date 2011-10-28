@@ -54,7 +54,7 @@ class Mage_Sales_Model_Resource_Order_Collection extends Mage_Sales_Model_Resour
      */
     protected function _construct()
     {
-        $this->_init('sales/order');
+        $this->_init('sales/order', 'Mage_Sales_Model_Resource_Order');
         $this
             ->addFilterToMap('entity_id', 'main_table.entity_id')
             ->addFilterToMap('customer_id', 'main_table.customer_id')

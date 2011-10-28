@@ -44,7 +44,7 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
      */
     protected function _construct()
     {
-        $this->_init('rating/rating');
+        $this->_init('rating/rating', 'Mage_Rating_Model_Resource_Rating');
     }
 
     /**

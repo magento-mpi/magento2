@@ -41,7 +41,7 @@ class Mage_Widget_Model_Resource_Widget_Instance_Collection extends Mage_Core_Mo
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('widget/widget_instance');
+        $this->_init('widget/widget_instance', 'Mage_Widget_Model_Resource_Widget_Instance');
     }
 
     /**

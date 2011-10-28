@@ -40,7 +40,7 @@ class Enterprise_Staging_Model_Resource_Staging_Item_Collection extends Mage_Cor
      */
     protected function _construct()
     {
-        $this->_init('enterprise_staging/staging_item');
+        $this->_init('enterprise_staging/staging_item', 'Enterprise_Staging_Model_Resource_Staging_Item');
     }
 
     /**

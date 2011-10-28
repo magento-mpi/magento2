@@ -61,7 +61,7 @@ class Mage_Sales_Model_Resource_Order_Item_Collection extends Mage_Sales_Model_R
      */
     protected function _construct()
     {
-        $this->_init('sales/order_item');
+        $this->_init('sales/order_item', 'Mage_Sales_Model_Resource_Order_Item');
     }
 
     /**

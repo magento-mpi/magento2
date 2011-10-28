@@ -40,7 +40,7 @@ class Mage_ProductAlert_Model_Resource_Stock_Collection extends Mage_Core_Model_
      */
     protected function _construct()
     {
-        $this->_init('productalert/stock');
+        $this->_init('productalert/stock', 'Mage_ProductAlert_Model_Resource_Stock');
     }
 
     /**

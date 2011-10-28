@@ -145,7 +145,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                 'table'                          => 'customer_entity',
                 'increment_model'                => 'eav/entity_increment_numeric',
                 'additional_attribute_table'     => 'customer_eav_attribute',
-                'entity_attribute_collection'    => 'customer/attribute_collection',
+                'entity_attribute_collection'    => 'Mage_Customer_Model_Resource_Attribute_Collection',
                 'attributes'                     => array(
                     'website_id'         => array(
                         'type'               => 'static',
@@ -333,7 +333,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                 'attribute_model'                => 'customer/attribute',
                 'table'                          => 'customer_address_entity',
                 'additional_attribute_table'     => 'customer_eav_attribute',
-                'entity_attribute_collection'    => 'customer/address_attribute_collection',
+                'entity_attribute_collection'    => 'Mage_Customer_Model_Resource_Address_Attribute_Collection',
                 'attributes'                     => array(
                     'prefix'             => array(
                         'type'               => 'varchar',

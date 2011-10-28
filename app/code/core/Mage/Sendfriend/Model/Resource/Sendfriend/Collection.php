@@ -40,6 +40,6 @@ class Mage_Sendfriend_Model_Resource_Sendfriend_Collection extends Mage_Core_Mod
      */
     protected function _construct()
     {
-        $this->_init('sendfriend/sendfriend');
+        $this->_init('sendfriend/sendfriend', 'Mage_Sendfriend_Model_Resource_Sendfriend');
     }
 }

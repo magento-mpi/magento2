@@ -39,7 +39,7 @@ class Mage_Tax_Model_Resource_Class_Collection extends Mage_Core_Model_Resource_
      */
     public function _construct()
     {
-        $this->_init('tax/class');
+        $this->_init('tax/class', 'Mage_Tax_Model_Resource_Class');
     }
 
     /**

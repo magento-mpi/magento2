@@ -54,7 +54,7 @@ class Mage_Sales_Model_Resource_Order_Shipment_Item_Collection extends Mage_Sale
      */
     protected function _construct()
     {
-        $this->_init('sales/order_shipment_item');
+        $this->_init('sales/order_shipment_item', 'Mage_Sales_Model_Resource_Order_Shipment_Item');
     }
 
     /**

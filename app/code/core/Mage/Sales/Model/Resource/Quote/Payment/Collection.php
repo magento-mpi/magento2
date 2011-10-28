@@ -40,7 +40,7 @@ class Mage_Sales_Model_Resource_Quote_Payment_Collection extends Mage_Core_Model
      */
     protected function _construct()
     {
-        $this->_init('sales/quote_payment');
+        $this->_init('sales/quote_payment', 'Mage_Sales_Model_Resource_Quote_Payment');
     }
 
     /**

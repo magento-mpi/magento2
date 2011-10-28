@@ -48,7 +48,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
      */
     protected function _construct()
     {
-        $this->_init('enterprise_customersegment/segment');
+        $this->_init('enterprise_customersegment/segment', 'Enterprise_CustomerSegment_Model_Resource_Segment');
     }
 
     /**

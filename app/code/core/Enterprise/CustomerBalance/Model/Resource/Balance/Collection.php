@@ -41,7 +41,7 @@ class Enterprise_CustomerBalance_Model_Resource_Balance_Collection
      */
     protected function _construct()
     {
-        $this->_init('enterprise_customerbalance/balance');
+        $this->_init('enterprise_customerbalance/balance', 'Enterprise_CustomerBalance_Model_Resource_Balance');
     }
 
     /**

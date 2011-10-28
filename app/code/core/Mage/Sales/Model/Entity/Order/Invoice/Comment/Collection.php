@@ -36,7 +36,7 @@ class Mage_Sales_Model_Entity_Order_Invoice_Comment_Collection extends Mage_Eav_
 {
     protected function _construct()
     {
-        $this->_init('sales/order_invoice_comment');
+        $this->_init('sales/order_invoice_comment', 'Mage_Sales_Model_Resource_Order_Invoice_Comment');
     }
 
     public function setInvoiceFilter($invoiceId)

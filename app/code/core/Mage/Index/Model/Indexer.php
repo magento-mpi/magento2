@@ -61,6 +61,7 @@ class Mage_Index_Model_Indexer
         return $this->_processesCollection;
     }
 
+
     /**
      * Get index process by specific id
      *

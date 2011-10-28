@@ -40,7 +40,7 @@ class Mage_Core_Model_Resource_Design_Collection extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('core/design');
+        $this->_init('core/design', 'Mage_Core_Model_Resource_Design');
     }
 
     /**

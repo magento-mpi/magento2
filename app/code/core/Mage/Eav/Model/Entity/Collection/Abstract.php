@@ -179,12 +179,9 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
      * @param string $model
      * @return Mage_Core_Model_Resource_Db_Collection_Abstract
      */
-    protected function _init($model, $entityModel = null)
+    protected function _init($model, $entityModel)
     {
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName($model));
-        if ($entityModel === null) {
-            $entityModel = $model;
-        }
         $entity = Mage::getResourceSingleton($entityModel);
         $this->setEntity($entity);
 

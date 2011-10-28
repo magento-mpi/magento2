@@ -184,10 +184,10 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     protected function _construct()
     {
         if ($this->isEnabledFlat()) {
-            $this->_init('catalog/product', 'catalog/product_flat');
+            $this->_init('catalog/product', 'Mage_Catalog_Model_Resource_Product_Flat');
         }
         else {
-            $this->_init('catalog/product');
+            $this->_init('catalog/product', 'Mage_Catalog_Model_Resource_Product');
         }
         $this->_initTables();
     }
@@ -209,7 +209,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      * @param unknown_type $entityModel
      * @return Mage_Catalog_Model_Resource_Product_Collection
      */
-    protected function _init($model, $entityModel = null)
+    protected function _init($model, $entityModel)
     {
         if ($this->isEnabledFlat()) {
             $entityModel = 'catalog/product_flat';

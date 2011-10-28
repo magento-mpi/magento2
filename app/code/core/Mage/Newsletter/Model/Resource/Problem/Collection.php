@@ -54,7 +54,7 @@ class Mage_Newsletter_Model_Resource_Problem_Collection extends Mage_Core_Model_
      */
     protected function _construct()
     {
-        $this->_init('newsletter/problem');
+        $this->_init('newsletter/problem', 'Mage_Newsletter_Model_Resource_Problem');
     }
 
     /**

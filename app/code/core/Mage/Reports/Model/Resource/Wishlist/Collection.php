@@ -47,7 +47,7 @@ class Mage_Reports_Model_Resource_Wishlist_Collection extends Mage_Core_Model_Re
      */
     protected function _construct()
     {
-        $this->_init('wishlist/wishlist');
+        $this->_init('wishlist/wishlist', 'Mage_Wishlist_Model_Resource_Wishlist');
         $this->setWishlistTable($this->getTable('wishlist'));
     }
     /**

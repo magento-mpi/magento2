@@ -61,7 +61,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate_Collection extends Mage_Cor
      */
     protected function _construct()
     {
-        $this->_init('shipping/carrier_tablerate');
+        $this->_init('shipping/carrier_tablerate', 'Mage_Shipping_Model_Resource_Carrier_Tablerate');
         $this->_shipTable       = $this->getMainTable();
         $this->_countryTable    = $this->getTable('directory_country');
         $this->_regionTable     = $this->getTable('directory_country_region');

@@ -61,7 +61,7 @@ class Mage_Catalog_Model_Resource_Category_Flat_Collection extends Mage_Core_Mod
      */
     protected function _construct()
     {
-        $this->_init('catalog/category_flat');
+        $this->_init('catalog/category_flat', 'Mage_Catalog_Model_Resource_Category_Flat');
         $this->setModel('catalog/category');
     }
 

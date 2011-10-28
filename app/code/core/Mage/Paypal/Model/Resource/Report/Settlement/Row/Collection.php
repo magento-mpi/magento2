@@ -41,7 +41,7 @@ class Mage_Paypal_Model_Resource_Report_Settlement_Row_Collection
      */
     protected function _construct()
     {
-        $this->_init('paypal/report_settlement_row');
+        $this->_init('paypal/report_settlement_row', 'Mage_Paypal_Model_Resource_Report_Settlement_Row');
     }
 
     /**

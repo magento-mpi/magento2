@@ -40,7 +40,7 @@ class Mage_Index_Model_Resource_Event_Collection extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('index/event');
+        $this->_init('index/event', 'Mage_Index_Model_Resource_Event');
     }
 
     /**

@@ -40,7 +40,7 @@ class Mage_Admin_Model_Resource_Role_Collection extends Mage_Core_Model_Resource
      */
     protected function _construct()
     {
-        $this->_init('admin/role');
+        $this->_init('admin/role', 'Mage_Admin_Model_Resource_Role');
     }
 
     /**

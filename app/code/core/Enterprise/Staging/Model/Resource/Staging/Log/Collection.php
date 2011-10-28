@@ -40,7 +40,7 @@ class Enterprise_Staging_Model_Resource_Staging_Log_Collection extends Mage_Core
      */
     public function _construct()
     {
-        $this->_init('enterprise_staging/staging_log');
+        $this->_init('enterprise_staging/staging_log', 'Enterprise_Staging_Model_Resource_Staging_Log');
     }
 
     /**

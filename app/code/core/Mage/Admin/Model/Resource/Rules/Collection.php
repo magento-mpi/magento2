@@ -40,7 +40,7 @@ class Mage_Admin_Model_Resource_Rules_Collection extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('admin/rules');
+        $this->_init('admin/rules', 'Mage_Admin_Model_Resource_Rules');
     }
 
     /**

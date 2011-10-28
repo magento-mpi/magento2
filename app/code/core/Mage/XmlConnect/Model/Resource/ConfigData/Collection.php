@@ -46,7 +46,7 @@ class Mage_XmlConnect_Model_Resource_ConfigData_Collection
      */
     protected function _construct()
     {
-        $this->_init('xmlconnect/configData');
+        $this->_init('xmlconnect/configData', 'Mage_XmlConnect_Model_Resource_ConfigData');
     }
 
     /**

@@ -65,7 +65,7 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
      */
     protected function _construct()
     {
-        $this->_init('tag/tag');
+        $this->_init('tag/tag', 'Mage_Tag_Model_Resource_Tag');
     }
 
     /**

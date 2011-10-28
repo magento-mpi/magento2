@@ -40,7 +40,7 @@ class Mage_Eav_Model_Resource_Form_Type_Collection extends Mage_Core_Model_Resou
      */
     protected function _construct()
     {
-        $this->_init('eav/form_type');
+        $this->_init('eav/form_type', 'Mage_Eav_Model_Resource_Form_Type');
     }
 
     /**

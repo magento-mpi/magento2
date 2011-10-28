@@ -35,7 +35,7 @@ class Mage_Sales_Model_Entity_Order_Payment_Collection extends Mage_Eav_Model_En
 {
     protected function _construct()
     {
-        $this->_init('sales/order_payment');
+        $this->_init('sales/order_payment', 'Mage_Sales_Model_Resource_Order_Payment');
     }
     
     public function setOrderFilter($orderId)

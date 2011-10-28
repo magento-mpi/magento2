@@ -41,6 +41,6 @@ class Mage_SalesRule_Model_Resource_Rule_Customer_Collection extends Mage_Core_M
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('salesrule/rule_customer');
+        $this->_init('salesrule/rule_customer', 'Mage_SalesRule_Model_Resource_Rule_Customer');
     }
 }
