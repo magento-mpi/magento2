@@ -28,6 +28,9 @@ return array(
         /* Files that intentionally violate the requirements for testing purposes */
         "{$baseDir}/dev/tests/static/testsuite/Php/Exemplar/_files/phpcs/input",
         "{$baseDir}/dev/tests/static/testsuite/Php/Exemplar/_files/phpmd/input",
+
+        // various fixtures, exempt from static code analysis
         "{$baseDir}/dev/tests/integration/framework/tests/unit/testsuite/Magento/Test/TestSuite/_files",
+        "{$baseDir}/dev/tests/integration/testsuite/Mage/Core/Block/_files",
     )
 );
