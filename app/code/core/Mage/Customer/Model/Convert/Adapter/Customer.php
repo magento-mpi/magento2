@@ -386,14 +386,8 @@ class Mage_Customer_Model_Convert_Adapter_Customer
                     if (!$model->getId()) {
                         $new = true;
                         $model->save();
-                        #Mage::getResourceSingleton('catalog_entity/convert')->addProductToStore($model->getId(), 0);
                     }
                     if (!$new || 0!==$storeId) {
-
-//                        if (0!==$storeId) {
-//                            Mage::getResourceSingleton('catalog_entity/convert')->addProductToStore($model->getId(), $storeId);
-//                        }
-
                         $model->save();
                     }
                     $i++;

@@ -194,7 +194,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
     public function getResource()
     {
         if (!$this->_resource) {
-            $this->_resource = Mage::getResourceSingleton('catalog_entity/convert');
+            $this->_resource = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Convert');
                 #->loadStores()
                 #->loadProducts()
                 #->loadAttributeSets()

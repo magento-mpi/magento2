@@ -513,7 +513,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
                     }
                     if (!$new || 0!==$storeId) {
                         if (0!==$storeId) {
-                            Mage::getResourceSingleton('catalog_entity/convert')->addProductToStore(
+                            Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Convert')->addProductToStore(
                                 $model->getId(),
                                 $storeId
                             );
