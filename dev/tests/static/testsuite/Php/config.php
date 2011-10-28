@@ -15,8 +15,10 @@ return array(
     'report_dir' => "{$baseDir}/dev/tests/static/report",
     'white_list' => array(
         "{$baseDir}/app/code/core/Mage/Core/Model/Design.php",
+        "{$baseDir}/app/bootstrap.php",
         "{$baseDir}/dev/tests/integration",
         "{$baseDir}/dev/tests/static",
+        "{$baseDir}/dev/tests/unit",
         "{$baseDir}/dev/tools",
         "{$baseDir}/lib/Magento/Profiler",
         "{$baseDir}/lib/Magento/Profiler.php",

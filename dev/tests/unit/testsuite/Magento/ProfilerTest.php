@@ -70,10 +70,10 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
 
     public function testEnableInitOnce()
     {
-        $isInitializedProperty = new ReflectionProperty('Magento_Profiler', '_isInitialized');
-        $isInitializedProperty->setAccessible(true);
-        $isInitializedProperty->setValue(false);
-        $isInitializedProperty->setAccessible(false);
+        $reflectionProperty = new ReflectionProperty('Magento_Profiler', '_isInitialized');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue(false);
+        $reflectionProperty->setAccessible(false);
         /** @var Magento_Profiler|PHPUnit_Framework_MockObject_MockObject $class */
         $class = $this->getMockClass('Magento_Profiler', array('_initialize'));
         $class::staticExpects($this->once())
