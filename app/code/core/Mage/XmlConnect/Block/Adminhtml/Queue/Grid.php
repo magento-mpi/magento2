@@ -74,7 +74,7 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Grid extends Mage_Adminhtml_Block_Wi
             'align'     => 'center',
             'index'     => 'main_table.queue_id',
             'width'     => '40px',
-            'renderer'  => 'xmlconnect/adminhtml_queue_grid_renderer_id'
+            'renderer'  => 'Mage_XmlConnect_Block_Adminhtml_Queue_Grid_Renderer_Id'
         ));
 
         $this->addColumn('exec_time', array(
@@ -91,7 +91,7 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Grid extends Mage_Adminhtml_Block_Wi
             'index'     => 'app.code',
             'type'      => 'options',
             'options'   => Mage::helper('xmlconnect')->getApplications(),
-            'renderer'  => 'xmlconnect/adminhtml_queue_grid_renderer_application'
+            'renderer'  => 'Mage_XmlConnect_Block_Adminhtml_Queue_Grid_Renderer_Application'
         ));
 
         $this->addColumn('name', array(
@@ -100,7 +100,7 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Grid extends Mage_Adminhtml_Block_Wi
             'index'     => 't.name',
             'type'      => 'text',
             'default'   => '--- Parent template has been deleted ---',
-            'renderer'  => 'xmlconnect/adminhtml_queue_grid_renderer_template'
+            'renderer'  => 'Mage_XmlConnect_Block_Adminhtml_Queue_Grid_Renderer_Template'
         ));
 
         $this->addColumn('push_title', array(
@@ -108,7 +108,7 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Grid extends Mage_Adminhtml_Block_Wi
             'align'     => 'left',
             'index'     => 'main_table.push_title',
             'type'      => 'text',
-            'renderer'  => 'xmlconnect/adminhtml_queue_grid_renderer_pushtitle'
+            'renderer'  => 'Mage_XmlConnect_Block_Adminhtml_Queue_Grid_Renderer_Pushtitle'
         ));
 
         $this->addColumn('message_title', array(
@@ -116,7 +116,7 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Grid extends Mage_Adminhtml_Block_Wi
             'align'     => 'left',
             'index'     => 'main_table.message_title',
             'type'      => 'text',
-            'renderer'  => 'xmlconnect/adminhtml_queue_grid_renderer_msgtitle'
+            'renderer'  => 'Mage_XmlConnect_Block_Adminhtml_Queue_Grid_Renderer_Msgtitle'
         ));
 
         $this->addColumn('status', array(
@@ -130,14 +130,14 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Grid extends Mage_Adminhtml_Block_Wi
                 Mage_XmlConnect_Model_Queue::STATUS_IN_QUEUE => $this->__('In Queue'),
                 Mage_XmlConnect_Model_Queue::STATUS_COMPLETED => $this->__('Completed'),
             ),
-            'renderer'  => 'xmlconnect/adminhtml_queue_grid_renderer_status',
+            'renderer'  => 'Mage_XmlConnect_Block_Adminhtml_Queue_Grid_Renderer_Status',
         ));
 
         $this->addColumn('action', array(
             'header'    => $this->__('Action'),
             'type'      => 'action',
             'getter'    => 'getId',
-            'renderer'  => 'xmlconnect/adminhtml_queue_grid_renderer_action',
+            'renderer'  => 'Mage_XmlConnect_Block_Adminhtml_Queue_Grid_Renderer_Action',
 
             'filter'    => false,
             'sortable'  => false,

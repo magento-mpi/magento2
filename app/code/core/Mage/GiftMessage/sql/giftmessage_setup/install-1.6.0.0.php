@@ -96,7 +96,7 @@ Mage::getResourceModel('Mage_Catalog_Model_Resource_Setup', 'catalog_setup')->ad
         'user_defined'  => false,
         'default'       => '',
         'apply_to'      => '',
-        'input_renderer'   => 'giftmessage/adminhtml_product_helper_form_config',
+        'input_renderer'   => 'Mage_GiftMessage_Block_Adminhtml_Product_Helper_Form_Config',
         'is_configurable'  => 0,
         'visible_on_front' => false
     )

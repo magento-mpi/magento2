@@ -72,7 +72,7 @@ class Enterprise_Logging_Block_Adminhtml_Archive_Grid extends Mage_Adminhtml_Blo
             'header'    => Mage::helper('enterprise_logging')->__('Date'),
             'type'      => 'date',
             'index'     => 'time',
-            'filter'    => 'enterprise_logging/adminhtml_archive_grid_filter_date'
+            'filter'    => 'Enterprise_Logging_Block_Adminhtml_Archive_Grid_Filter_Date'
         ));
 
         return parent::_prepareColumns();

@@ -53,7 +53,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
             'width'    => 50,
             'index'    => 'amount',
             'sortable' => false,
-            'renderer' => 'enterprise_customerbalance/adminhtml_widget_grid_column_renderer_currency',
+            'renderer' => 'Enterprise_CustomerBalance_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency',
         ));
 
         $this->addColumn('website_id', array(

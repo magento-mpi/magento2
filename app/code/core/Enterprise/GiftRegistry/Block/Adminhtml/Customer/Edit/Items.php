@@ -82,7 +82,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
             'header'   => Mage::helper('enterprise_giftregistry')->__('Requested Quantity'),
             'index'    => 'qty',
             'width'    => '120px',
-            'renderer' => 'enterprise_giftregistry/adminhtml_widget_grid_column_renderer_qty'
+            'renderer' => 'Enterprise_GiftRegistry_Block_Adminhtml_Widget_Grid_Column_Renderer_Qty'
         ));
 
         $this->addColumn('qty_fulfilled', array(
@@ -106,7 +106,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
                 'update' => Mage::helper('enterprise_giftregistry')->__('Update Qty'),
                 'remove' => Mage::helper('enterprise_giftregistry')->__('Remove Item')
             ),
-            'renderer' => 'enterprise_giftregistry/adminhtml_widget_grid_column_renderer_action'
+            'renderer' => 'Enterprise_GiftRegistry_Block_Adminhtml_Widget_Grid_Column_Renderer_Action'
         ));
 
         return parent::_prepareColumns();

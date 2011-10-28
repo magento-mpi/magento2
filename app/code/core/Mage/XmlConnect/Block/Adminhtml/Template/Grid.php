@@ -75,7 +75,7 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Grid extends Mage_Adminhtml_Block
             'header'    => $this->__('Template Name'),
             'align'     => 'left',
             'index'     => 'main_table.name',
-            'renderer'  => 'xmlconnect/adminhtml_template_grid_renderer_name',
+            'renderer'  => 'Mage_XmlConnect_Block_Adminhtml_Template_Grid_Renderer_Name',
             'escape'    => true
         ));
 
@@ -99,7 +99,7 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Grid extends Mage_Adminhtml_Block
             'type'      => 'options',
             'align'     => 'left',
             'options'   => Mage::helper('xmlconnect')->getApplications(),
-            'renderer'  => 'xmlconnect/adminhtml_template_grid_renderer_application',
+            'renderer'  => 'Mage_XmlConnect_Block_Adminhtml_Template_Grid_Renderer_Application',
             'escape'    => true
         ));
 

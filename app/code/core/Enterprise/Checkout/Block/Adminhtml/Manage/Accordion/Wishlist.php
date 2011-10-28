@@ -127,7 +127,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
         $this->addColumn('qty', array(
             'sortable'  => false,
             'header'    => Mage::helper('enterprise_checkout')->__('Qty To Add'),
-            'renderer'  => 'enterprise_checkout/adminhtml_manage_grid_renderer_wishlist_qty',
+            'renderer'  => 'Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Wishlist_Qty',
             'name'      => 'qty',
             'inline_css'=> 'qty',
             'align'     => 'right',

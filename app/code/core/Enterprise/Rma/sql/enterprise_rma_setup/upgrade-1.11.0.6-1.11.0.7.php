@@ -53,5 +53,5 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'is_returnable', ar
         Mage_Catalog_Model_Product_Type::TYPE_GROUPED . ',' .
         Mage_Catalog_Model_Product_Type::TYPE_BUNDLE,
     'is_configurable'   => false,
-    'input_renderer'    => 'enterprise_rma/adminhtml_product_renderer',
+    'input_renderer'    => 'Enterprise_Rma_Block_Adminhtml_Product_Renderer',
 ));

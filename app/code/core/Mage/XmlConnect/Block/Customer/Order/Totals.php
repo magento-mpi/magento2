@@ -46,16 +46,16 @@ class Mage_XmlConnect_Block_Customer_Order_Totals extends Mage_Sales_Block_Order
         $enterpriseBlocks = array(
             'reward.sales.order.total'  => array(
                 'module'    => 'Enterprise_Reward',
-                'block'     => 'enterprise_reward/sales_order_total'
+                'block'     => 'Enterprise_Reward_Block_Sales_Order_Total'
             ),
             'customerbalance'  => array(
                 'module'    => 'Enterprise_CustomerBalance',
-                'block'     => 'xmlconnect/customer_order_totals_customerbalance',
+                'block'     => 'Mage_XmlConnect_Block_Customer_Order_Totals_Customerbalance',
                 'template'  => 'customerbalance/order/customerbalance.phtml'
             ),
             'customerbalance_total_refunded'  => array(
                 'module'    => 'Enterprise_CustomerBalance',
-                'block'     => 'xmlconnect/customer_order_totals_customerbalance_refunded',
+                'block'     => 'Mage_XmlConnect_Block_Customer_Order_Totals_Customerbalance_Refunded',
                 'template'  => 'customerbalance/order/customerbalance_refunded.phtml',
                 'after'     => '-',
                 'action'    => array(
@@ -65,11 +65,11 @@ class Mage_XmlConnect_Block_Customer_Order_Totals extends Mage_Sales_Block_Order
             ),
             'giftwrapping'  => array(
                 'module'    => 'Enterprise_GiftWrapping',
-                'block'     => 'enterprise_giftwrapping/sales_totals'
+                'block'     => 'Enterprise_GiftWrapping_Block_Sales_Totals'
             ),
             'giftcards'  => array(
                 'module'    => 'Enterprise_GiftCardAccount',
-                'block'     => 'xmlconnect/customer_order_totals_giftcards',
+                'block'     => 'Mage_XmlConnect_Block_Customer_Order_Totals_Giftcards',
                 'template'  => 'giftcardaccount/order/giftcards.phtml'
             ),
         );

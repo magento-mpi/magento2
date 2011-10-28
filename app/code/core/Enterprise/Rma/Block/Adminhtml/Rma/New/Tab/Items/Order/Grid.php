@@ -184,7 +184,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
 
         $this->addColumn('product_name', array(
             'header'    => Mage::helper('enterprise_rma')->__('Product Name'),
-            'renderer'  => 'enterprise_rma/adminhtml_product_bundle_product',
+            'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Product_Bundle_Product',
             'index'     => 'name'
         ));
 
@@ -207,7 +207,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
             'width' => '80px',
             'type'  => 'text',
             'index' => 'available_qty',
-            'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_quantity',
+            'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity',
             'filter' => false,
             'sortable' => false,
         ));

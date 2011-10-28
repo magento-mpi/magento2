@@ -135,7 +135,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
             'header'=> Mage::helper('enterprise_rma')->__('Remaining Qty'),
             'width' => '80px',
             'getter'   => array($this, 'getQtyOrdered'),
-            'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_quantity',
+            'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity',
             'index' => 'qty_ordered',
             'order_data' => $this->getOrderItemsData(),
         ));
@@ -144,7 +144,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
             'header'=> Mage::helper('enterprise_rma')->__('Requested Qty'),
             'width' => '80px',
             'index' => 'qty_requested',
-            'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_textinput',
+            'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Textinput',
             'validate_class' => 'validate-greater-than-zero'
         ));
 
@@ -152,7 +152,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
             'header'=> Mage::helper('enterprise_rma')->__('Authorized Qty'),
             'width' => '80px',
             'index' => 'qty_authorized',
-            'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_textinput',
+            'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Textinput',
             'validate_class' => 'validate-greater-than-zero'
         ));
 
@@ -160,7 +160,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
             'header'=> Mage::helper('enterprise_rma')->__('Returned Qty'),
             'width' => '80px',
             'index' => 'qty_returned',
-            'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_textinput',
+            'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Textinput',
             'validate_class' => 'validate-greater-than-zero'
         ));
 
@@ -168,7 +168,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
             'header'=> Mage::helper('enterprise_rma')->__('Approved Qty'),
             'width' => '80px',
             'index' => 'qty_approved',
-            'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_textinput',
+            'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Textinput',
             'validate_class' => 'validate-greater-than-zero'
         ));
 
@@ -176,7 +176,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
             'header'=> Mage::helper('enterprise_rma')->__('Reason to Return'),
             'width' => '80px',
             'getter'   => array($this, 'getReasonOptionStringValue'),
-            'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_reasonselect',
+            'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Reasonselect',
             'options' => Mage::helper('enterprise_rma/eav')->getAttributeOptionValues('reason'),
             'index' => 'reason',
         ));
@@ -185,7 +185,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
             'header'=> Mage::helper('enterprise_rma')->__('Item Condition'),
             'width' => '80px',
             'getter'   => array($this, 'getConditionOptionStringValue'),
-            'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_textselect',
+            'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Textselect',
             'options' => Mage::helper('enterprise_rma/eav')->getAttributeOptionValues('condition'),
             'index' => 'condition',
         ));
@@ -195,7 +195,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
             'width' => '80px',
             'index' => 'resolution',
             'getter'   => array($this, 'getResolutionOptionStringValue'),
-            'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_textselect',
+            'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Textselect',
             'options' => Mage::helper('enterprise_rma/eav')->getAttributeOptionValues('resolution'),
         ));
 
@@ -204,7 +204,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
             'width' => '80px',
             'index' => 'status',
             'getter'=> array($this, 'getStatusOptionStringValue'),
-            'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_status',
+            'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Status',
         ));
 
         $actionsArray = array(
@@ -228,7 +228,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
             array(
                 'header'    =>  Mage::helper('enterprise_rma')->__('Action'),
                 'width'     => '100',
-                'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_action',
+                'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Action',
                 'actions'   => $actionsArray,
                 'is_system' => true,
         ));

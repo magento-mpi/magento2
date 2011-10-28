@@ -260,7 +260,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_wrapping_avai
     'apply_to'      => $applyTo,
     'class'         => 'hidden-for-virtual',
     'frontend_input_renderer' => 'enterprise_giftwrapping/adminhtml_product_helper_form_config',
-    'input_renderer'   => 'enterprise_giftwrapping/adminhtml_product_helper_form_config',
+    'input_renderer'   => 'Enterprise_GiftWrapping_Block_Adminhtml_Product_Helper_Form_Config',
     'visible_on_front' => false
 ));
 

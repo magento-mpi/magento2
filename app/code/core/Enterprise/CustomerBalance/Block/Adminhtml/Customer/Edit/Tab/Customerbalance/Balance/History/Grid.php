@@ -102,7 +102,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
             'type'      => 'price',
             'sortable'  => false,
             'filter'    => false,
-            'renderer'  => 'enterprise_customerbalance/adminhtml_widget_grid_column_renderer_currency',
+            'renderer'  => 'Enterprise_CustomerBalance_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency',
         ));
 
         $this->addColumn('balance_amount', array(
@@ -111,7 +111,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
             'index'     => 'balance_amount',
             'sortable'  => false,
             'filter'    => false,
-            'renderer'  => 'enterprise_customerbalance/adminhtml_widget_grid_column_renderer_currency',
+            'renderer'  => 'Enterprise_CustomerBalance_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency',
         ));
 
         $this->addColumn('is_customer_notified', array(

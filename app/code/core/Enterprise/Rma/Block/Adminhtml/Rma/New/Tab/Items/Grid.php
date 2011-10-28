@@ -123,7 +123,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
             'index' => 'qty_ordered',
             'sortable' => false,
             'order_data' => $this->getOrderItemsData(),
-            'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_quantity',
+            'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity',
         ));
 
         $this->addColumn('qty_requested', array(
@@ -181,7 +181,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
             array(
                 'header'    =>  Mage::helper('enterprise_rma')->__('Action'),
                 'width'     => '100',
-                'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_action',
+                'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Action',
                 'actions'   => $actionsArray,
                 'sortable'  => false,
                 'is_system' => true,

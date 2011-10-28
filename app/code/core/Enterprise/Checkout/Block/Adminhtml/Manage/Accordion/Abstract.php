@@ -125,7 +125,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     {
         $this->addColumn('product_name', array(
             'header'    => Mage::helper('enterprise_checkout')->__('Product name'),
-            'renderer'  => 'enterprise_checkout/adminhtml_manage_grid_renderer_product',
+            'renderer'  => 'Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Product',
             'index'     => 'name',
             'sortable'  => false
         ));

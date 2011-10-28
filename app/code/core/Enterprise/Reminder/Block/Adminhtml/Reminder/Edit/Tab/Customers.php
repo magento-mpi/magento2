@@ -67,7 +67,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends Ma
             'align'    => 'center',
             'width'    => 50,
             'index'    => 'entity_id',
-            'renderer' => 'enterprise_reminder/adminhtml_widget_grid_column_renderer_id'
+            'renderer' => 'Enterprise_Reminder_Block_Adminhtml_Widget_Grid_Column_Renderer_Id'
         ));
 
         $this->addColumn('grid_email', array(
@@ -75,7 +75,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends Ma
             'type'     => 'text',
             'align'    => 'left',
             'index'    => 'email',
-            'renderer' => 'enterprise_reminder/adminhtml_widget_grid_column_renderer_email'
+            'renderer' => 'Enterprise_Reminder_Block_Adminhtml_Widget_Grid_Column_Renderer_Email'
         ));
 
         $this->addColumn('grid_associated_at', array(

@@ -94,13 +94,13 @@ class Mage_Xmlconnect_Block_Adminhtml_Mobile_Grid extends Mage_Adminhtml_Block_W
             'align'     => 'center',
             'filter'    => 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select',
             'options'   => Mage::helper('xmlconnect')->getSupportedDevices(),
-            'renderer'  => 'xmlconnect/adminhtml_mobile_grid_renderer_type',
+            'renderer'  => 'Mage_XmlConnect_Block_Adminhtml_Mobile_Grid_Renderer_Type',
         ));
 
         $this->addColumn('status', array(
             'header'    => $this->__('Status'),
             'index'     => 'status',
-            'renderer'  => 'xmlconnect/adminhtml_mobile_grid_renderer_bool',
+            'renderer'  => 'Mage_XmlConnect_Block_Adminhtml_Mobile_Grid_Renderer_Bool',
             'align'     => 'center',
             'filter'    => 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select',
             'options'   => Mage::helper('xmlconnect')->getStatusOptions(),

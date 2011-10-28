@@ -65,7 +65,7 @@ class Enterprise_Logging_Block_Adminhtml_Details_Grid extends Mage_Adminhtml_Blo
         $this->addColumn('source_name', array(
             'header'    => Mage::helper('enterprise_logging')->__('Source Data'),
             'sortable'  => false,
-            'renderer'  => 'enterprise_logging/adminhtml_details_renderer_sourcename',
+            'renderer'  => 'Enterprise_Logging_Block_Adminhtml_Details_Renderer_Sourcename',
             'index'     => 'source_name',
             'width'     => 1
         ));
@@ -73,14 +73,14 @@ class Enterprise_Logging_Block_Adminhtml_Details_Grid extends Mage_Adminhtml_Blo
         $this->addColumn('original_data', array(
             'header'    => Mage::helper('enterprise_logging')->__('Value Before Change'),
             'sortable'  => false,
-            'renderer'  => 'enterprise_logging/adminhtml_details_renderer_diff',
+            'renderer'  => 'Enterprise_Logging_Block_Adminhtml_Details_Renderer_Diff',
             'index'     => 'original_data'
         ));
 
         $this->addColumn('result_data', array(
             'header'    => Mage::helper('enterprise_logging')->__('Value After Change'),
             'sortable'  => false,
-            'renderer'  => 'enterprise_logging/adminhtml_details_renderer_diff',
+            'renderer'  => 'Enterprise_Logging_Block_Adminhtml_Details_Renderer_Diff',
             'index'     => 'result_data'
         ));
 

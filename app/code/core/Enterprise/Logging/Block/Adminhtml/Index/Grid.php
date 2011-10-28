@@ -107,7 +107,7 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
             'header'    => Mage::helper('enterprise_logging')->__('IP Address'),
             'index'     => 'ip',
             'type'      => 'text',
-            'filter'    => 'enterprise_logging/adminhtml_grid_filter_ip',
+            'filter'    => 'Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip',
             'renderer'  => 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Ip',
             'sortable'  => false,
             'width'     => 125,
@@ -119,7 +119,7 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
             'type'      => 'text',
             'escape'    => true,
             'sortable'  => false,
-            'filter'    => 'enterprise_logging/adminhtml_grid_filter_user',
+            'filter'    => 'Enterprise_Logging_Block_Adminhtml_Grid_Filter_User',
             'width'     => 150,
         ));
 
@@ -148,7 +148,7 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
             'type'      => 'text',
             'sortable'  => false,
             'filter'    => 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Text',
-            'renderer'  => 'enterprise_logging/adminhtml_grid_renderer_details',
+            'renderer'  => 'Enterprise_Logging_Block_Adminhtml_Grid_Renderer_Details',
             'width'     => 100,
         ));
 

@@ -117,7 +117,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
             'header' => Mage::helper('enterprise_catalogevent')->__('Display Countdown Ticker On'),
             'index' => 'display_state',
             'type' => 'options',
-            'renderer' => 'enterprise_catalogevent/adminhtml_event_grid_column_renderer_bitmask',
+            'renderer' => 'Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid_Column_Renderer_Bitmask',
             'options' => array(
                 0 => Mage::helper('enterprise_catalogevent')->__('Lister Block'),
                 Enterprise_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE => Mage::helper('enterprise_catalogevent')->__('Category Page'),

@@ -142,7 +142,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
                 'header'        => Mage::helper('enterprise_giftcardaccount')->__('Balance'),
                 'currency_code' => Mage::app()->getStore()->getBaseCurrency()->getCode(),
                 'type'          => 'number',
-                'renderer'      => 'enterprise_giftcardaccount/adminhtml_widget_grid_column_renderer_currency',
+                'renderer'      => 'Enterprise_GiftCardAccount_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency',
                 'index'         => 'balance',
         ));
 
