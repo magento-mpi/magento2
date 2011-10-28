@@ -218,7 +218,7 @@ class Mage_Index_Model_Indexer
          */
         if ($event->getProcessIds()) {
             /** @var $resourceModel Mage_Index_Model_Resource_Abstract */
-            $resourceModel = Mage::getResourceModel('index/process');
+            $resourceModel = Mage::getResourceModel('Mage_Index_Model_Resource_Process');
             $resourceModel->beginTransaction();
             try {
                 $this->indexEvent($event);

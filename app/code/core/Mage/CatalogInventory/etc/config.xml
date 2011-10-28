@@ -199,10 +199,10 @@
                         <is_qty>1</is_qty>
                     </virtual>
                     <configurable>
-                        <stock_indexer>cataloginventory/indexer_stock_configurable</stock_indexer>
+                        <stock_indexer>Mage_CatalogInventory_Model_Resource_Indexer_Stock_Configurable</stock_indexer>
                     </configurable>
                     <grouped>
-                        <stock_indexer>cataloginventory/indexer_stock_grouped</stock_indexer>
+                        <stock_indexer>Mage_CatalogInventory_Model_Resource_Indexer_Stock_Grouped</stock_indexer>
                     </grouped>
                 </type>
             </product>

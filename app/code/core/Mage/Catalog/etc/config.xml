@@ -105,7 +105,7 @@
                             <virtual/>
                         </allow_product_types>
                         <index_priority>50</index_priority>
-                        <price_indexer>catalog/product_indexer_price_grouped</price_indexer>
+                        <price_indexer>Mage_Catalog_Model_Resource_Product_Indexer_Price_Grouped</price_indexer>
                     </grouped>
                     <configurable translate="label" module="Mage_Catalog">
                         <label>Configurable Product</label>
@@ -117,7 +117,7 @@
                             <virtual/>
                         </allow_product_types>
                         <index_priority>30</index_priority>
-                        <price_indexer>catalog/product_indexer_price_configurable</price_indexer>
+                        <price_indexer>Mage_Catalog_Model_Resource_Product_Indexer_Price_Configurable</price_indexer>
                     </configurable>
                     <virtual translate="label" module="Mage_Catalog">
                         <label>Virtual Product</label>

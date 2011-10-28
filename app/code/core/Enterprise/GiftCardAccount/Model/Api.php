@@ -63,7 +63,7 @@ class Enterprise_GiftCardAccount_Model_Api extends Mage_Api_Model_Resource_Abstr
     public function items($filters)
     {
         /** @var $collection Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Collection */
-        $collection = Mage::getResourceModel('enterprise_giftcardaccount/giftcardaccount_collection');
+        $collection = Mage::getResourceModel('Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Collection');
         if (is_array($filters)) {
             try {
                 foreach ($filters as $field => $value) {

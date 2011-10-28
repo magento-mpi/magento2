@@ -69,7 +69,7 @@
                         <index_priority>45</index_priority>
                         <composite>0</composite>
                         <is_qty>1</is_qty>
-                        <price_indexer>enterprise_giftcard/indexer_price</price_indexer>
+                        <price_indexer>Enterprise_GiftCard_Model_Resource_Indexer_Price</price_indexer>
                     </giftcard>
                 </type>
             </product>

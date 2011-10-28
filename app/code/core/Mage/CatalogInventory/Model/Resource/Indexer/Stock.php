@@ -47,7 +47,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
      *
      * @var string
      */
-    protected $_defaultIndexer   = 'cataloginventory/indexer_stock_default';
+    protected $_defaultIndexer   = 'Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default';
 
     /**
      * Initialize connection and define main table

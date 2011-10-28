@@ -37,7 +37,7 @@ class Mage_Catalog_Model_Product_Attribute_Group extends Mage_Eav_Model_Entity_A
     {
         $result = false;
         /** @var $attributesCollection Mage_Catalog_Model_Resource_Product_Attribute_Collection */
-        $attributesCollection = Mage::getResourceModel('catalog/product_attribute_collection');
+        $attributesCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection');
         $attributesCollection->setAttributeGroupFilter($this->getId());
         foreach ($attributesCollection as $attribute) {
             if (!$attribute->getIsUserDefined()) {
@@ -57,7 +57,7 @@ class Mage_Catalog_Model_Product_Attribute_Group extends Mage_Eav_Model_Entity_A
     {
         $result = false;
         /** @var $attributesCollection Mage_Catalog_Model_Resource_Product_Attribute_Collection */
-        $attributesCollection = Mage::getResourceModel('catalog/product_attribute_collection');
+        $attributesCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection');
         $attributesCollection->setAttributeGroupFilter($this->getId());
         foreach ($attributesCollection as $attribute) {
             if ($attribute->getIsConfigurable()) {

@@ -507,7 +507,7 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
      */
     protected function _getAttribute($attribute)
     {
-        $model = Mage::getResourceModel('catalog/eav_attribute')
+        $model = Mage::getResourceModel('Mage_Catalog_Model_Resource_Eav_Attribute')
             ->setEntityTypeId($this->_entityTypeId);
 
         if (is_numeric($attribute)) {

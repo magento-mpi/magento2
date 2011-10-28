@@ -39,7 +39,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
      *
      * @var string
      */
-    protected $_defaultPriceIndexer    = 'catalog/product_indexer_price_default';
+    protected $_defaultPriceIndexer    = 'Mage_Catalog_Model_Resource_Product_Indexer_Price_Default';
 
     /**
      * Product Type Price indexer resource models

@@ -67,8 +67,8 @@
                         </allowed_selection_types>
                         <price_model>bundle/product_price</price_model>
                         <index_priority>40</index_priority>
-                        <price_indexer>bundle/indexer_price</price_indexer>
-                        <stock_indexer>bundle/indexer_stock</stock_indexer>
+                        <price_indexer>Mage_Bundle_Model_Resource_Indexer_Price</price_indexer>
+                        <stock_indexer>Mage_Bundle_Model_Resource_Indexer_Stock</stock_indexer>
                     </bundle>
                 </type>
                 <options>

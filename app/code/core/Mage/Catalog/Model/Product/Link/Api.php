@@ -137,7 +137,7 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
             $indexerStock = Mage::getModel('cataloginventory/stock_status');
             $indexerStock->updateStatus($productId);
 
-            $indexerPrice = Mage::getResourceModel('catalog/product_indexer_price');
+            $indexerPrice = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Indexer_Price');
             $indexerPrice->reindexProductIds($productId);
         } catch (Exception $e) {
             $this->_fault('data_invalid', Mage::helper('Mage_Catalog_Helper_Data')->__('Link product does not exist.'));
@@ -193,7 +193,7 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
             $indexerStock = Mage::getModel('cataloginventory/stock_status');
             $indexerStock->updateStatus($productId);
 
-            $indexerPrice = Mage::getResourceModel('catalog/product_indexer_price');
+            $indexerPrice = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Indexer_Price');
             $indexerPrice->reindexProductIds($productId);
         } catch (Exception $e) {
             $this->_fault('data_invalid', Mage::helper('Mage_Catalog_Helper_Data')->__('Link product does not exist.'));

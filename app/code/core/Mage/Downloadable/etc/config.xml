@@ -73,7 +73,7 @@
                         <is_qty>1</is_qty>
                         <price_model>downloadable/product_price</price_model>
                         <composite>0</composite>
-                        <price_indexer>downloadable/indexer_price</price_indexer>
+                        <price_indexer>Mage_Downloadable_Model_Resource_Indexer_Price</price_indexer>
                         <can_use_qty_decimals>0</can_use_qty_decimals>
                     </downloadable>
                     <!--<bundle>-->
