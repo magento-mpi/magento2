@@ -63,6 +63,7 @@ manage_cms_static_blocks:
              specify_content: "//div[@id='advice-required-entry-block_content' and contains(text(),'This is a required field.') and not(contains(@style,'display: none'))]"
              specify_valid_xml_identifier: "//div[@id='advice-validate-xml-identifier-block_identifier' and not(contains(@style,'display: none'))]"
              already_existing_identifier: "//li[@class='error-msg' and contains(.,'A block identifier with the same properties already exists in the selected store.']"
+             widget_validation_message: //div[@id='widget_window']//div[@class='validation-advice']
 
 # 'Edit Block %blockName%' page
 edit_cms_static_block:
@@ -82,7 +83,7 @@ edit_cms_static_block:
                             block_title: //input[@name='title']
                             block_identifier: //input[@name='identifier']
                         multiselects:
-                            store_views: //select[@id='block_store_id']
+                            store_view: //select[@id='block_store_id']
                 -
                     simple_editor:
                         xpath: //div[@id='buttonsblock_content']/parent::td
@@ -118,10 +119,9 @@ edit_cms_static_block:
                             number_of_products_to_display_compared_and_viewed: //input[@name='parameters[page_size]']
                             cache_lifetime: //input[@name='parameters[cache_lifetime]']
                         buttons:
-                            insert_widget: //button[span='Insert Widget']
-                            select_page: //button[span='Select Page...']
-                            select_block: //button[span='Select Block...']
-                            select_category: //button[span='Select Category...']
+                            submit_widget_insert: //button[span='Insert Widget']
+                            select_option: //div[div/h3='Widget Insertion']//button[contains(span,'Select')]
+                            close_widget_insertion: //div[@id='widget_window_close']
                         pageelements:
                             chosen_option: //label[@class='widget-option-label' and normalize-space(text())='%elementName%']
                 -
@@ -139,6 +139,9 @@ edit_cms_static_block:
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
+                            close_page_insertion: //div[@id='widget-chooser_close']
+                        pageelements:
+                            product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                 -
                     select_block:
                         xpath: //div[@id='widget-chooser' and //div[text()='Select Block...']]
@@ -153,12 +156,18 @@ edit_cms_static_block:
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
+                            close_block_insertion: //div[@id='widget-chooser_close']
+                        pageelements:
+                            product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                 -
                     select_category:
                         xpath: //div[@id='widget-chooser' and //div[text()='Select Category...']]
                         links:
                             root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
                             sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                            expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                        buttons:
+                            close_category_insertion: //div[@id='widget-chooser_close']
                 -
                     select_product:
                         xpath: //div[@id='widget-chooser' and //div[text()='Select Product...']]
@@ -172,9 +181,13 @@ edit_cms_static_block:
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
+                            close_product_insertion: //div[@id='widget-chooser_close']
                         links:
                             root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
                             sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                            expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                        pageelements:
+                            product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                 -
                     file_insertion:
                         xpath: //div[@id='browser_window' and //div[text()='Insert File...']]
@@ -182,6 +195,7 @@ edit_cms_static_block:
                             browse_files: #TODO flash
                             template: #TODO flash
                             create_folder: //button[span='Create Folder...']
+                            close_file_insertion: //div[@id='browser_window_close']
                         links:
                             collapse_all: //a[text()='Collapse All']
                             expand_all: //a[text()='Expand All']
@@ -192,6 +206,8 @@ edit_cms_static_block:
                         xpath: //div[@id='variables-chooser' and //div[text()='Insert Variable...']]
                         links:
                             variable: //a[text()='%variableName%']
+                        buttons:
+                            close_variable_insertion: //div[@id='variables-chooser_close']
 
         buttons:
             back: //button[span='Back']

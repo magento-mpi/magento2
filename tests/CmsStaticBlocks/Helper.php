@@ -45,85 +45,108 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
     public function createStaticBlock(array $blockData)
     {
         $blockData = $this->arrayEmptyClear($blockData);
-
+        $content = (isset($blockData['content'])) ? $blockData['content'] : NULL;
         $this->clickButton('add_new_block');
-        // Check if store views are present
-        if (!$this->controlIsPresent('multiselect', 'store_views') && isset($blockData['store_views'])) {
-            unset($blockData['store_views']);
+        if ($blockData) {
+            $this->fillGeneralInfo($blockData);
         }
-        //
-        $widget = (isset($blockData['widget_data'])) ? $blockData['widget_data'] : null;
-        $image = (isset($blockData['image_data'])) ? $blockData['image_data'] : null;
-        $variable = (isset($blockData['variable_data'])) ? $blockData['variable_data'] : null;
-        // Switch to simple editor
-        if (!$this->controlIsPresent('field', 'simple_editor_content') && $this->buttonIsPresent('show_hide_editor')) {
-            $this->clickButton('show_hide_editor', false);
+        if ($content) {
+            $this->fillContent($content);
         }
-        //
-        $this->fillForm($blockData);
-        if ($widget) {
-            $this->addWidget($widget);
-        }
-        if ($image) {
-            $this->addImage($image);
-        }
-        if ($variable) {
-            $this->addVariable($variable);
-        }
-        //
         $this->saveForm('save_block');
     }
 
     /**
-     * Adds a widget to the static block
+     * Fills General Information
      *
-     * @param type $widgetDataSet
+     * @param array $generalInfo
      */
-    public function addWidget($widgetDataSet)
+    public function fillGeneralInfo(array $generalInfo)
     {
-        $this->arrayEmptyClear($widgetDataSet);
-        if (!$this->buttonIsPresent('editor_insert_widget') && $this->buttonIsPresent('show_hide_editor')) {
-            $this->clickButton('show_hide_editor', false);
-        }
-        foreach ($widgetDataSet as $widgetData) {
-            if (!$this->buttonIsPresent('editor_insert_variable') && $this->buttonIsPresent('show_hide_editor')) {
-                $this->clickButton('show_hide_editor', false);
+        if ($this->controlIsPresent('multiselect', 'store_view')) {
+            if (!array_key_exists('store_view', $generalInfo)) {
+                $generalInfo['store_view'] = 'All Store Views';
             }
-            $this->clickButton('editor_insert_widget', false);
-            $xpathInsertWidgetButton = $this->_getControlXpath('button', 'insert_widget');
-            $this->waitForElement($xpathInsertWidgetButton);
-        //@TODO
+        } elseif (!$this->controlIsPresent('multiselect', 'store_view')) {
+            if (array_key_exists('store_view', $generalInfo)) {
+                unset($generalInfo['store_view']);
+            }
+        }
+        $this->fillForm($generalInfo);
+    }
+
+    /**
+     * Fills Content tab
+     *
+     * @param string|array $content
+     */
+    public function fillContent($content)
+    {
+        if (is_string($content)) {
+            $content = $this->loadData($content);
+        }
+        $content = $this->arrayEmptyClear($content);
+        $this->fillForm($content);
+        if (array_key_exists('widgets', $content)) {
+            $this->addWidgets($content['widgets']);
+        }
+        if (array_key_exists('variables', $content)) {
+            $this->addVariables($content['variables']);
         }
     }
 
     /**
-     * Adds an image to the static block
+     * Adds a widget
      *
-     * @param type $imageData
+     * @param type $widgets
      */
-    public function addImage($imageData)
+    public function addWidgets($widgets)
     {
-        if (!$this->buttonIsPresent('editor_insert_image') && $this->buttonIsPresent('show_hide_editor')) {
+        if (!$this->buttonIsPresent('editor_insert_variable') && $this->buttonIsPresent('show_hide_editor')) {
             $this->clickButton('show_hide_editor', false);
         }
-        //@TODO. Flash buttons cannot be supported now.
+        foreach ($widgets as $key => $value) {
+            $options = (isset($value['chosen_option'])) ? $value['chosen_option'] : null;
+            $this->clickButton('editor_insert_widget', FALSE);
+            $this->waitForAjax();
+            $this->fillForm($value);
+            if ($options) {
+                $this->cmsWidgetsHelper()->fillSelectOption($options);
+            }
+            $this->clickButton('submit_widget_insert', FALSE);
+            // Check there are no validation errors on the page
+            $this->assertFalse($this->validationMessage('widget_validation_message'), $this->messages);
+            $this->waitForAjax();
+        }
     }
 
+//    /**
+//     * Adds an image
+//     *
+//     * @param type $images
+//     */
+//    public function addImages($images)
+//    {
+//        if (!$this->buttonIsPresent('editor_insert_image') && $this->buttonIsPresent('show_hide_editor')) {
+//            $this->clickButton('show_hide_editor', false);
+//        }
+//        //@TODO. Flash buttons cannot be supported now.
+//    }
+
     /**
-     * Adds a variable to the static block
+     * Adds a variable
      *
-     * @param array $variableSet Array of variable names
+     * @param array $variables Array of variable names
      */
-    public function addVariable(array $variableSet)
+    public function addVariables(array $variables)
     {
-        foreach ($variableSet as $variableName) {
+        foreach ($variables as $variableName) {
             $this->addParameter('variableName', $variableName);
             if (!$this->buttonIsPresent('editor_insert_variable') && $this->buttonIsPresent('show_hide_editor')) {
                 $this->clickButton('show_hide_editor', false);
             }
             $this->clickButton('editor_insert_variable', false);
-            $xpathVariable = $this->_getControlXpath('link', 'variable');
-            $this->waitForElement($xpathVariable);
+            $this->waitForAjax();
             $this->clickControl('link', 'variable', false);
         }
     }

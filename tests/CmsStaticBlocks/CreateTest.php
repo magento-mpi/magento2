@@ -82,6 +82,31 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         self::$blockToBeDeleted = $this->loadData('search_static_block',
                                         array('filter_block_identifier' => $setData['block_identifier']));
     }
+    /**
+     * <p>Creating a new static block</p>
+     * <p>Steps:</p>
+     * <p>1. Click button "Add New Block"</p>
+     * <p>2. Fill in the fields, add all types of widgets</p>
+     * <p>3. Click button "Save Block"</p>
+     * <p>Expected result:</p>
+     * <p>Received the message that the block has been saved.</p>
+     *
+     * @test
+     */
+    public function createNewWithWidgets()
+    {
+        //Data
+        $setData = $this->loadData('static_block_with_all_widgets', null, array('block_title', 'block_identifier'));
+        $this->addParameter('blockName', $setData['block_title']);
+        //Steps
+        $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
+        //Verifying
+        $this->assertTrue($this->checkCurrentPage('manage_cms_static_blocks'), $this->messages);
+        $this->assertTrue($this->successMessage('success_saved_block'), $this->messages);
+        //Cleanup
+        self::$blockToBeDeleted = $this->loadData('search_static_block',
+                                        array('filter_block_identifier' => $setData['block_identifier']));
+    }
 
     /**
      * <p>Creating a new static block with special values (long, special chars).</p>
@@ -145,7 +170,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
     public function withEmptyRequiredFields($emptyField, $validationMessage)
     {
         //Data
-        $setData = $this->loadData('basic_static_block', array($emptyField => ''));
+        $setData = $this->loadData('basic_static_block', array($emptyField => ''), 'block_identifier');
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
@@ -158,7 +183,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         return array(
             array('block_title', 'specify_title'),
             array('block_identifier', 'specify_identifier'),
-            array('variable_data', 'specify_content')
+            array('content', 'specify_content')
         );
     }
 
@@ -194,25 +219,25 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         );
     }
 
-    /**
-     * <p>Creating a new static block with existing XML identifier.</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Block"</p>
-     * <p>2. Fill in the fields, enter already existing identifier</p>
-     * <p>3. Click button "Save Block"</p>
-     * <p>Expected result:</p>
-     * <p>Received an error message about already existing identifier.</p>
-     *
-     * @depends createNew
-     * @test
-     */
-    public function withExistingIdentifier()
-    {
-        $this->markTestIncomplete(
-                'This test is skipped because behaves differently with different Magento configuration. '
-                . 'Depends on the number of store views.'
-        );
-    }
+//    /**
+//     * <p>Creating a new static block with existing XML identifier.</p>
+//     * <p>Steps:</p>
+//     * <p>1. Click button "Add New Block"</p>
+//     * <p>2. Fill in the fields, enter already existing identifier</p>
+//     * <p>3. Click button "Save Block"</p>
+//     * <p>Expected result:</p>
+//     * <p>Received an error message about already existing identifier.</p>
+//     *
+//     * @depends createNew
+//     * @test
+//     */
+//    public function withExistingIdentifier()
+//    {
+//        $this->markTestIncomplete(
+//                'This test is skipped because behaves differently with different Magento configuration. '
+//                . 'Depends on the number of store views.'
+//        );
+//    }
 
     protected function tearDown()
     {
