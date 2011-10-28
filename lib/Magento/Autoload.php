@@ -121,11 +121,7 @@ class Magento_Autoload
      */
     public function addIncludePath($path)
     {
-        if (is_array($path)) {
-            foreach ($path as $key => $value) {
-                $path[$key] = $value;
-            }
-        } else {
+        if (!is_array($path)) {
             $path = array($path);
         }
         $path[] = get_include_path();
@@ -142,11 +138,17 @@ class Magento_Autoload
      */
     public function addFilesMap($map)
     {
-        if (is_string($map) && is_readable($map)) {
-            $map = include $map;
+        if (is_string($map)) {
+            if (is_file($map) && is_readable($map)) {
+                $map = include $map;
+            } else {
+                throw new Exception($map . ' file not exists.');
+            }
         }
         if (is_array($map)) {
             $this->_filesMap = array_merge($this->_filesMap, $map);
+        } else {
+            throw new Exception('$map parameter should be an array or path map file.');
         }
         return $this;
     }
