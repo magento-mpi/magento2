@@ -48,82 +48,82 @@
             <email>
                 <sales_email_order_template translate="label" module="sales">
                     <label>New Order</label>
-                    <file>sales/order_new.html</file>
+                    <file>email/order_new.html</file>
                     <type>html</type>
                 </sales_email_order_template>
                 <sales_email_order_guest_template translate="label" module="sales">
                     <label>New Order for Guest</label>
-                    <file>sales/order_new_guest.html</file>
+                    <file>email/order_new_guest.html</file>
                     <type>html</type>
                 </sales_email_order_guest_template>
                 <sales_email_order_comment_template translate="label" module="sales">
                     <label>Order Update</label>
-                    <file>sales/order_update.html</file>
+                    <file>email/order_update.html</file>
                     <type>html</type>
                 </sales_email_order_comment_template>
                 <sales_email_order_comment_guest_template translate="label" module="sales">
                     <label>Order Update for Guest</label>
-                    <file>sales/order_update_guest.html</file>
+                    <file>email/order_update_guest.html</file>
                     <type>html</type>
                 </sales_email_order_comment_guest_template>
                 <sales_email_invoice_template translate="label" module="sales">
                     <label>New Invoice</label>
-                    <file>sales/invoice_new.html</file>
+                    <file>email/invoice_new.html</file>
                     <type>html</type>
                 </sales_email_invoice_template>
                 <sales_email_invoice_guest_template translate="label" module="sales">
                     <label>New Invoice for Guest</label>
-                    <file>sales/invoice_new_guest.html</file>
+                    <file>email/invoice_new_guest.html</file>
                     <type>html</type>
                 </sales_email_invoice_guest_template>
                 <sales_email_invoice_comment_template translate="label" module="sales">
                     <label>Invoice Update</label>
-                    <file>sales/invoice_update.html</file>
+                    <file>email/invoice_update.html</file>
                     <type>html</type>
                 </sales_email_invoice_comment_template>
                 <sales_email_invoice_comment_guest_template translate="label" module="sales">
                     <label>Invoice Update for Guest</label>
-                    <file>sales/invoice_update_guest.html</file>
+                    <file>email/invoice_update_guest.html</file>
                     <type>html</type>
                 </sales_email_invoice_comment_guest_template>
                 <sales_email_creditmemo_template translate="label" module="sales">
                     <label>New Credit Memo</label>
-                    <file>sales/creditmemo_new.html</file>
+                    <file>email/creditmemo_new.html</file>
                     <type>html</type>
                 </sales_email_creditmemo_template>
                 <sales_email_creditmemo_guest_template translate="label" module="sales">
                     <label>New Credit Memo for Guest</label>
-                    <file>sales/creditmemo_new_guest.html</file>
+                    <file>email/creditmemo_new_guest.html</file>
                     <type>html</type>
                 </sales_email_creditmemo_guest_template>
                 <sales_email_creditmemo_comment_template translate="label" module="sales">
                     <label>Credit Memo Update</label>
-                    <file>sales/creditmemo_update.html</file>
+                    <file>email/creditmemo_update.html</file>
                     <type>html</type>
                 </sales_email_creditmemo_comment_template>
                 <sales_email_creditmemo_comment_guest_template translate="label" module="sales">
                     <label>Credit Memo Update for Guest</label>
-                    <file>sales/creditmemo_update_guest.html</file>
+                    <file>email/creditmemo_update_guest.html</file>
                     <type>html</type>
                 </sales_email_creditmemo_comment_guest_template>
                 <sales_email_shipment_template translate="label" module="sales">
                     <label>New Shipment</label>
-                    <file>sales/shipment_new.html</file>
+                    <file>email/shipment_new.html</file>
                     <type>html</type>
                 </sales_email_shipment_template>
                 <sales_email_shipment_guest_template translate="label" module="sales">
                     <label>New Shipment for Guest</label>
-                    <file>sales/shipment_new_guest.html</file>
+                    <file>email/shipment_new_guest.html</file>
                     <type>html</type>
                 </sales_email_shipment_guest_template>
                 <sales_email_shipment_comment_template translate="label" module="sales">
                     <label>Shipment Update</label>
-                    <file>sales/shipment_update.html</file>
+                    <file>email/shipment_update.html</file>
                     <type>html</type>
                 </sales_email_shipment_comment_template>
                 <sales_email_shipment_comment_guest_template translate="label" module="sales">
                     <label>Shipment Update for Guest</label>
-                    <file>sales/shipment_update_guest.html</file>
+                    <file>email/shipment_update_guest.html</file>
                     <type>html</type>
                 </sales_email_shipment_comment_guest_template>
             </email>
@@ -442,13 +442,13 @@
         <layout>
             <updates>
                 <sales module="Mage_Sales">
-                    <file>sales.xml</file>
+                    <file>layout.xml</file>
                 </sales>
                 <sales_billing_agreement module="Mage_Sales">
-                    <file>sales/billing_agreement.xml</file>
+                    <file>billing_agreement.xml</file>
                 </sales_billing_agreement>
                 <sales_recurring_profile module="Mage_Sales">
-                    <file>sales/recurring_profile.xml</file>
+                    <file>recurring_profile.xml</file>
                 </sales_recurring_profile>
             </updates>
         </layout>
@@ -473,13 +473,6 @@
                 </Mage_Sales>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <sales>
-                    <file>sales.xml</file>
-                </sales>
-            </updates>
-        </layout>
         <events>
             <catalog_product_delete_before>
                 <observers>

@@ -44,7 +44,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Merge extends Mage_Adminhtml_Bl
     *
     * @var string
     */
-    private $_mergeSettingsBlockDefaultTemplate = 'enterprise/staging/merge/settings.phtml';
+    private $_mergeSettingsBlockDefaultTemplate = 'merge/settings.phtml';
 
     /**
      * merge settings block types

@@ -32,9 +32,9 @@
             </moneybookers>
         </models>
         <helpers>
-            <moneybookers>
+            <phoenix_moneybookers>
                 <class>Phoenix_Moneybookers_Helper</class>
-            </moneybookers>
+            </phoenix_moneybookers>
         </helpers>
         <resources>
             <moneybookers_setup>
@@ -48,11 +48,11 @@
         </blocks>
         <template>
             <email>
-               <moneybookers_activateemail>
-                   <label>Moneybookers activate email</label>
-                   <file>moneybookers_activateemail.html</file>
-                   <type>html</type>
-               </moneybookers_activateemail>
+                <moneybookers_activateemail translate="label" module="phoenix_moneybookers">
+                    <label>Activation of Payment Configuration</label>
+                    <file>email/activation.html</file>
+                    <type>html</type>
+                </moneybookers_activateemail>
             </email>
         </template>
         <payment>
@@ -85,8 +85,8 @@
         </translate>
         <layout>
             <updates>
-                <moneybookers>
-                    <file>moneybookers.xml</file>
+                <moneybookers module="Phoenix_Moneybookers">
+                    <file>layout.xml</file>
                 </moneybookers>
             </updates>
         </layout>
@@ -114,8 +114,8 @@
         </translate>
         <layout>
             <updates>
-                <moneybookers>
-                    <file>moneybookers.xml</file>
+                <moneybookers module="Phoenix_Moneybookers">
+                    <file>layout.xml</file>
                 </moneybookers>
             </updates>
         </layout>
@@ -127,7 +127,7 @@
                             <children>
                                 <config>
                                     <children>
-                                        <moneybookers translate="title" module="moneybookers">
+                                        <moneybookers translate="title" module="phoenix_moneybookers">
                                             <title>Moneybookers Settings</title>
                                         </moneybookers>
                                     </children>

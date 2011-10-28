@@ -43,7 +43,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design
     {
         parent::__construct();
         $this->setShowGlobalIcon(true);
-        $this->setTemplate('xmlconnect/edit/tab/design.phtml');
+        $this->setTemplate('edit/tab/design.phtml');
     }
 
     /**

@@ -31,7 +31,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Sales_Recurring_Profile_View_Getawayinfo extends Mage_Adminhtml_Block_Widget
+class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Getawayinfo extends Mage_Adminhtml_Block_Widget
 {
     /**
      * Return recurring profile getaway information for view
@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Sales_Recurring_Profile_View_Getawayinfo extends Mage
         $information = array();
         foreach($recurringProfile->getData() as $kay => $value) {
             $information[$recurringProfile->getFieldLabel($kay)] = $value;
-        } 
+        }
         return $information;
     }
 }

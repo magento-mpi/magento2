@@ -36,10 +36,12 @@ class Mage_Index_Block_Adminhtml_Process_Edit extends Mage_Adminhtml_Block_Widge
         parent::__construct();
 
         $this->_updateButton('save', 'label', Mage::helper('cms')->__('Save Process'));
-        $this->_addButton('reindex', array(
-            'label'     => Mage::helper('index')->__('Reindex Data'),
-            'onclick'   => "setLocation('{$this->getRunUrl()}')"
-        ));
+        if (Mage::registry('current_index_process')) {
+            $this->_addButton('reindex', array(
+                'label'     => Mage::helper('index')->__('Reindex Data'),
+                'onclick'   => "setLocation('{$this->getRunUrl()}')"
+            ));
+        }
         $this->_removeButton('reset');
         $this->_removeButton('delete');
     }

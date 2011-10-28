@@ -60,7 +60,7 @@ class Mage_Catalog_Block_Product extends Mage_Core_Block_Template
 
     public function getPriceHtml($product)
     {
-        $this->setTemplate('catalog/product/price.phtml');
+        $this->setTemplate('product/price.phtml');
         $this->setProduct($product);
         return $this->toHtml();
     }

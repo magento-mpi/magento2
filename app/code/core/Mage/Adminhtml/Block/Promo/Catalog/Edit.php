@@ -48,11 +48,11 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit extends Mage_Adminhtml_Block_Widge
 
         $rule = Mage::registry('current_promo_catalog_rule');
 
-        if (!$rule->isDeleteable()) {
+        if (!$rule || !$rule->isDeleteable()) {
             $this->_removeButton('delete');
         }
 
-        if (!$rule->isReadonly()) {
+        if (!$rule || !$rule->isReadonly()) {
             $this->_addButton('save_apply', array(
                 'class'=>'save',
                 'label'=>Mage::helper('catalogrule')->__('Save and Apply'),

@@ -146,40 +146,41 @@ class Mage_XmlConnect_Helper_Android extends Mage_Core_Helper_Abstract
     public function getDefaultDesignTabs()
     {
         if (!isset($this->_tabs)) {
+            $design = Mage::getDesign();
             $this->_tabs = array(
                 array(
                     'label' => Mage::helper('xmlconnect')->__('Home'),
-                    'image' => 'tab_home_android.png',
+                    'image' => $design->getSkinUrl('Mage_XmlConnect::images/tab_home_android.png'),
                     'action' => 'Home',
                     'menu' => self::TAGS_ID_FOR_TITLE_BAR,
                 ),
                 array(
                     'label' => Mage::helper('xmlconnect')->__('Search'),
-                    'image' => 'tab_search_android.png',
+                    'image' => $design->getSkinUrl('Mage_XmlConnect::images/tab_search_android.png'),
                     'action' => 'Search',
                     'menu' => self::TAGS_ID_FOR_TITLE_BAR,
                 ),
                 array(
                     'label' => Mage::helper('xmlconnect')->__('Account'),
-                    'image' => 'tab_account_android.png',
+                    'image' => $design->getSkinUrl('Mage_XmlConnect::images/tab_account_android.png'),
                     'action' => 'Account',
                     'menu' => self::TAGS_ID_FOR_TITLE_BAR,
                 ),
                 array(
                     'label' => Mage::helper('xmlconnect')->__('Shop'),
-                    'image' => 'tab_shop_android.png',
+                    'image' => $design->getSkinUrl('Mage_XmlConnect::images/tab_shop_android.png'),
                     'action' => 'Shop',
                     'menu' => self::TAGS_ID_FOR_OPTION_MENU,
                 ),
                 array(
                     'label' => Mage::helper('xmlconnect')->__('Cart'),
-                    'image' => 'tab_cart_android.png',
+                    'image' => $design->getSkinUrl('Mage_XmlConnect::images/tab_cart_android.png'),
                     'action' => 'Cart',
                     'menu' => self::TAGS_ID_FOR_OPTION_MENU,
                 ),
                 array(
                     'label' => Mage::helper('xmlconnect')->__('More Info'),
-                    'image' => 'tab_info_android.png',
+                    'image' => $design->getSkinUrl('Mage_XmlConnect::images/tab_info_android.png'),
                     'action' => 'AboutUs',
                     'menu' => self::TAGS_ID_FOR_OPTION_MENU,
                 ),

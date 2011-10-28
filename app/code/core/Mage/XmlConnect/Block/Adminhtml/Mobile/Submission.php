@@ -49,7 +49,13 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission
         $this->removeButton('save');
         $this->removeButton('reset');
 
-        $app = Mage::helper('xmlconnect')->getApplication();
+        try {
+            $app = Mage::helper('xmlconnect')->getApplication();
+        } catch (Mage_Core_Exception $e) {
+            Mage::logException($e);
+            return;
+        }
+
         if ($app && $app->getIsResubmitAction()) {
             $label = $this->__('Resubmit App');
         } else {
@@ -85,15 +91,15 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission
         $deviceType = Mage::helper('xmlconnect')->getDeviceType();
         switch ($deviceType) {
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE:
-                $this->getLayout()->getBlock('head')->addItem('skin_css', 'xmlconnect/mobile-home.css');
-                $this->getLayout()->getBlock('head')->addItem('skin_css', 'xmlconnect/mobile-catalog.css');
+                $this->getLayout()->getBlock('head')->addItem('skin_css', 'Mage_XmlConnect::css/mobile-home.css');
+                $this->getLayout()->getBlock('head')->addItem('skin_css', 'Mage_XmlConnect::css/mobile-catalog.css');
                 break;
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPAD:
-                $this->getLayout()->getBlock('head')->addItem('skin_css', 'xmlconnect/mobile-ipad-home.css');
-                $this->getLayout()->getBlock('head')->addItem('skin_css', 'xmlconnect/mobile-ipad-catalog.css');
+                $this->getLayout()->getBlock('head')->addItem('skin_css', 'Mage_XmlConnect::css/mobile-ipad-home.css');
+                $this->getLayout()->getBlock('head')->addItem('skin_css', 'Mage_XmlConnect::css/mobile-ipad-catalog.css');
                 break;
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_ANDROID:
-                $this->getLayout()->getBlock('head')->addItem('skin_css', 'xmlconnect/mobile-android.css');
+                $this->getLayout()->getBlock('head')->addItem('skin_css', 'Mage_XmlConnect::css/mobile-android.css');
                 break;
             default:
                 Mage::throwException(

@@ -107,7 +107,7 @@
         <layout>
             <updates>
                 <review module="Mage_Review">
-                    <file>review.xml</file>
+                    <file>layout.xml</file>
                 </review>
             </updates>
         </layout>

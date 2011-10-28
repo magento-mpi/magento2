@@ -51,11 +51,11 @@ class Mage_Paypal_Block_Standard_Form extends Mage_Payment_Block_Form
         $locale = Mage::app()->getLocale();
         $mark = Mage::getConfig()->getBlockClassName('core/template');
         $mark = new $mark;
-        $mark->setTemplate('paypal/payment/mark.phtml')
+        $mark->setTemplate('Mage_Paypal::payment/mark.phtml')
             ->setPaymentAcceptanceMarkHref($this->_config->getPaymentMarkWhatIsPaypalUrl($locale))
             ->setPaymentAcceptanceMarkSrc($this->_config->getPaymentMarkImageUrl($locale->getLocaleCode()))
         ; // known issue: code above will render only static mark image
-        $this->setTemplate('paypal/payment/redirect.phtml')
+        $this->setTemplate('Mage_Paypal::payment/redirect.phtml')
             ->setRedirectMessage(
                 Mage::helper('paypal')->__('You will be redirected to the PayPal website when you place an order.')
             )

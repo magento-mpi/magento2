@@ -112,8 +112,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_salesarchive>
-                    <file>enterprise/salesarchive.xml</file>
+                <enterprise_salesarchive module="Enterprise_SalesArchive">
+                    <file>layout.xml</file>
                 </enterprise_salesarchive>
             </updates>
         </layout>

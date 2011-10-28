@@ -62,18 +62,18 @@
         <template>
             <email>
                 <enterprise_giftregistry_owner_email_template translate="label" module="enterprise_giftregistry">
-                    <label>Gift Registry Owner Notification</label>
-                    <file>enterprise/giftregistry_owner.html</file>
+                    <label>New Registry</label>
+                    <file>email/owner.html</file>
                     <type>html</type>
                 </enterprise_giftregistry_owner_email_template>
                 <enterprise_giftregistry_sharing_email_template translate="label" module="enterprise_giftregistry">
-                    <label>Gift Registry Sharing</label>
-                    <file>enterprise/giftregistry_sharing.html</file>
+                    <label>Registry Sharing</label>
+                    <file>email/sharing.html</file>
                     <type>html</type>
                 </enterprise_giftregistry_sharing_email_template>
                 <enterprise_giftregistry_update_email_template translate="label" module="enterprise_giftregistry">
-                    <label>Gift Registry Update</label>
-                    <file>enterprise/giftregistry_update.html</file>
+                    <label>Registry Update</label>
+                    <file>email/update.html</file>
                     <type>html</type>
                 </enterprise_giftregistry_update_email_template>
             </email>
@@ -127,8 +127,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_giftregistry>
-                    <file>enterprise/giftregistry.xml</file>
+                <enterprise_giftregistry module="Enterprise_GiftRegistry">
+                    <file>layout.xml</file>
                 </enterprise_giftregistry>
             </updates>
         </layout>
@@ -155,8 +155,8 @@
     <frontend>
         <layout>
             <updates>
-                <enterprise_giftregistry>
-                    <file>giftregistry.xml</file>
+                <enterprise_giftregistry module="Enterprise_GiftRegistry">
+                    <file>layout.xml</file>
                 </enterprise_giftregistry>
             </updates>
         </layout>

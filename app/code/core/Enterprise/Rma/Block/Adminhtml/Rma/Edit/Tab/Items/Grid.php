@@ -70,11 +70,13 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
     protected function _gatherOrderItemsData()
     {
         $itemsData = array();
-        foreach (Mage::registry('current_order')->getItemsCollection() as $item) {
-            $itemsData[$item->getId()] = array(
-                'qty_shipped' => $item->getQtyShipped(),
-                'qty_returned' => $item->getQtyReturned()
-            );
+        if (Mage::registry('current_order')) {
+            foreach (Mage::registry('current_order')->getItemsCollection() as $item) {
+                $itemsData[$item->getId()] = array(
+                    'qty_shipped' => $item->getQtyShipped(),
+                    'qty_returned' => $item->getQtyReturned()
+                );
+            }
         }
         $this->setOrderItemsData($itemsData);
     }

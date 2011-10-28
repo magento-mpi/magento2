@@ -40,7 +40,7 @@
      *
      * @var string
      */
-    protected $_template = 'paypal/system/config/payflowlink/info.phtml';
+    protected $_template = 'system/config/payflowlink/info.phtml';
 
     /**
      * Render fieldset html

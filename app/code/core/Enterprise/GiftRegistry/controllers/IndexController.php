@@ -405,22 +405,6 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
     }
 
     /**
-     * View gift registry action
-     *
-     * @return void
-     */
-    public function viewAction()
-    {
-        $this->loadLayout();
-        $this->_initLayoutMessages('customer/session');
-        $this->loadLayoutUpdates();
-        if ($block = $this->getLayout()->getBlock('giftregistry_view')) {
-            $block->setRefererUrl($this->_getRefererUrl());
-        }
-        $this->renderLayout();
-    }
-
-    /**
      * Add select gift registry action
      *
      * @return void

@@ -26,7 +26,7 @@ class Phoenix_Moneybookers_MoneybookersController extends Mage_Adminhtml_Control
      */
     protected function _getHelper()
     {
-        return Mage::helper('moneybookers');
+        return Mage::helper('phoenix_moneybookers');
     }
 
     /**

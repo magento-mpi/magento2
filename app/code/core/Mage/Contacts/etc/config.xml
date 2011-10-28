@@ -52,8 +52,8 @@
         </translate>
         <layout>
             <updates>
-                <contact>
-                    <file>contacts.xml</file>
+                <contact module="Mage_Contacts">
+                    <file>layout.xml</file>
                 </contact>
             </updates>
         </layout>
@@ -70,7 +70,7 @@
             <email>
                 <contacts_email_email_template translate="label" module="contacts">
                     <label>Contact Form</label>
-                    <file>contact_form.html</file>
+                    <file>email/submitted_form.html</file>
                     <type>text</type>
                 </contacts_email_email_template>
             </email>

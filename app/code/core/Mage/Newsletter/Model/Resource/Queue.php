@@ -94,6 +94,7 @@ class Mage_Newsletter_Model_Resource_Queue extends Mage_Core_Model_Resource_Db_A
     {
         $adapter = $this->_getWriteAdapter();
         try {
+            $adapter->beginTransaction();
             $adapter->delete(
                 $this->getTable('newsletter_queue_link'),
                 array(
@@ -106,6 +107,7 @@ class Mage_Newsletter_Model_Resource_Queue extends Mage_Core_Model_Resource_Db_A
         }
         catch (Exception $e) {
             $adapter->rollBack();
+            throw $e;
         }
     }
 

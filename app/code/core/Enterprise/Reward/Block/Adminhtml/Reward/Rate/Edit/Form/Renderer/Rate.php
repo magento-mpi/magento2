@@ -41,7 +41,7 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form_Renderer_Rate
      */
     protected function _construct()
     {
-        $this->setTemplate('enterprise/reward/rate/form/renderer/rate.phtml');
+        $this->setTemplate('rate/form/renderer/rate.phtml');
     }
 
     /**

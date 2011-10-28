@@ -39,7 +39,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Mage_A
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('enterprise/catalogevent/categories.phtml');
+        $this->setTemplate('categories.phtml');
     }
 
     /**

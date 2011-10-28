@@ -42,6 +42,6 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option_Select
      */
     protected function _construct()
     {
-        $this->setTemplate('bundle/catalog/product/view/type/bundle/option/select.phtml');
+        $this->setTemplate('catalog/product/view/type/bundle/option/select.phtml');
     }
 }

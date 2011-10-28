@@ -35,7 +35,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
 {
     const DIRECTORY_NAME_REGEXP = '/^[a-z0-9\-\_]+$/si';
     const THUMBS_DIRECTORY_NAME = '.thumbs';
-    const THUMB_PLACEHOLDER_PATH_SUFFIX = 'images/placeholder/thumbnail.jpg';
+    const THUMB_PLACEHOLDER_PATH_SUFFIX = 'Mage_Cms::images/placeholder_thumbnail.jpg';
 
     /**
      * Config object
@@ -150,7 +150,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
                     $item->setHeight($size[1]);
                 }
             } else {
-                $thumbUrl = Mage::getDesign()->getSkinBaseUrl() . self::THUMB_PLACEHOLDER_PATH_SUFFIX;
+                $thumbUrl = Mage::getDesign()->getSkinUrl(self::THUMB_PLACEHOLDER_PATH_SUFFIX);
             }
 
             $item->setThumbUrl($thumbUrl);

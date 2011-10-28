@@ -62,8 +62,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_checkout>
-                    <file>enterprise/checkout.xml</file>
+                <enterprise_checkout module="Enterprise_Checkout">
+                    <file>layout.xml</file>
                 </enterprise_checkout>
             </updates>
         </layout>

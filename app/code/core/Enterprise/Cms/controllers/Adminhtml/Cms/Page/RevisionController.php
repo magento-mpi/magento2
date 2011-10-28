@@ -321,15 +321,14 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
             Mage::app()->getLocale()->emulate($selectedStoreId);
             Mage::app()->setCurrentStore(Mage::app()->getStore($selectedStoreId));
 
-            Mage::getDesign()->setArea('frontend')
-                ->setStore($selectedStoreId);
+            $theme = Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME, $selectedStoreId);
+            Mage::getDesign()->setDesignTheme($theme, 'frontend');
 
             $designChange = Mage::getSingleton('core/design')
                 ->loadChange($selectedStoreId);
 
             if ($designChange->getData()) {
-                Mage::getDesign()->setPackageName($designChange->getPackage())
-                    ->setTheme($designChange->getTheme());
+                Mage::getDesign()->setDesignTheme($designChange->getDesign());
             }
 
             Mage::helper('cms/page')->renderPageExtended($this);

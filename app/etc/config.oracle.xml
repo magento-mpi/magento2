@@ -51,8 +51,8 @@
 
         <layout>
             <updates>
-                <install_oracle>
-                    <file>oracle.xml</file>
+                <install_oracle module="Mage_Install">
+                    <file>layout_oracle.xml</file>
                 </install_oracle>
             </updates>
         </layout>

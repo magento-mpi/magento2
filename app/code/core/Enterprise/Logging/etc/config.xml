@@ -121,9 +121,9 @@
         </events>
         <layout>
             <updates>
-                <events>
-                    <file>enterprise/logging.xml</file>
-                </events>
+                <enterprise_logging module="Enterprise_Logging">
+                    <file>layout.xml</file>
+                </enterprise_logging>
             </updates>
         </layout>
         <translate>

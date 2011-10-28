@@ -142,4 +142,29 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
         $this->_model->noCookiesAction();
         $this->assertNotEmpty($this->_model->getResponse()->getBody());
     }
+
+    public function preDispatchDetectDesignDataProvider()
+    {
+        return array(
+            'install'  => array('Mage_Install_Controller_Action',    'install',   'default/default/default'),
+            'backend'  => array('Mage_Adminhtml_Controller_Action',  'adminhtml', 'default/default/default'),
+            'frontend' => array('Mage_Core_Controller_Front_Action', 'frontend',  'default/iphone/default'),
+        );
+    }
+
+    /**
+     * @magentoConfigFixture               install/design/theme/full_name   default/default/default
+     * @magentoConfigFixture               adminhtml/design/theme/full_name default/default/default
+     * @magentoConfigFixture current_store design/theme/full_name           default/iphone/default
+     * @magentoAppIsolation  enabled
+     * @dataProvider         preDispatchDetectDesignDataProvider
+     */
+    public function testPreDispatchDetectDesign($controllerClass, $expectedArea, $expectedDesign)
+    {
+        /** @var $controller Mage_Core_Controller_Varien_Action */
+        $controller = new $controllerClass(new Magento_Test_Request(), new Magento_Test_Response());
+        $controller->preDispatch();
+        $this->assertEquals($expectedArea, Mage::getDesign()->getArea());
+        $this->assertEquals($expectedDesign, Mage::getDesign()->getDesignTheme());
+    }
 }

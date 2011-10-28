@@ -59,8 +59,8 @@
         </translate>
         <layout>
             <updates>
-                <authorizenet>
-                    <file>authorizenet.xml</file>
+                <authorizenet module="Mage_Authorizenet">
+                    <file>layout.xml</file>
                 </authorizenet>
             </updates>
         </layout>
@@ -97,8 +97,8 @@
         </routers>
         <layout>
             <updates>
-                <authorizenet>
-                    <file>authorizenet.xml</file>
+                <authorizenet module="Mage_Authorizenet">
+                    <file>layout.xml</file>
                 </authorizenet>
             </updates>
         </layout>
