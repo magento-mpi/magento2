@@ -107,8 +107,10 @@ class CmsPages_Helper extends Mage_Selenium_TestCase
         if (array_key_exists('widgets', $content)) {
             $this->insertWidget($content['widgets']);
         }
-        if (array_key_exists('variable', $content)) {
-            $this->insertVariable($content['variable']);
+        if (array_key_exists('variable_data', $content)) {
+            foreach ($content['variable_data'] as $key => $value) {
+                $this->insertVariable($value);
+            }
         }
     }
 

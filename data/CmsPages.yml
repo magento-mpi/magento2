@@ -77,7 +77,8 @@ new_page_all_fields:
                 widget_type: Recently Viewed Products
                 number_of_products_to_display_compared_and_viewed: 10
                 template: Viewed Products Grid Template
-        variable: Base Unsecure URL
+        variable_data:
+            variable_1: Base Unsecure URL
     design:
         layout: 1 column
         layout_update_xml: %noValue%
