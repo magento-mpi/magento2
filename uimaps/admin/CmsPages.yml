@@ -237,6 +237,8 @@ create_cms_page:
             delete_page: //button[span='Delete Page']
         messages: &pageMessages
             invalid_url_key_with_numbers_only: //li[normalize-space(@class)='error-msg' and contains(.,'The page URL key cannot consist only of numbers.')]
+            existing_url_key: //li[normalize-space(@class)='error-msg' and contains(.,'A page URL key for specified store already exists.')]
+            invalid_urk_key_spec_sym: "//div[@id='advice-validate-identifier-%fieldId%' and not(contains(@style,'display: none;'))]"
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
 
@@ -252,6 +254,14 @@ create_cms_page_with_sharp:
 edit_cms_page:
     mca: cms_page/edit/page_id/%id%/
     title: %pageName% / Manage Content / Pages / CMS / Magento Admin
+    uimap:
+        form: *createPage
+        buttons: *pageButtons
+        messages: *pageMessages
+
+error_cms_page:
+    mca: cms_page/edit/
+    title: New Page / Manage Content / Pages / CMS / Magento Admin
     uimap:
         form: *createPage
         buttons: *pageButtons

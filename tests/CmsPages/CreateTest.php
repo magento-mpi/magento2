@@ -141,6 +141,7 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
      */
     public function createPageWithRequiredFields($category)
     {
+        $this->loginAdminUser();
         $this->navigate('manage_cms_pages');
         $temp = array();
         $temp['filter_sku'] = self::$products['sku']['simple'];
@@ -163,6 +164,7 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
      */
     public function createPageWithAllFields($category)
     {
+        $this->loginAdminUser();
         $this->navigate('manage_cms_pages');
         $temp = array();
         $temp['filter_sku'] = self::$products['sku']['simple'];
@@ -186,6 +188,7 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
      */
     public function createPageWithAllFieldsEmpty($emptyFieldName, $emptyFielsType, $category)
     {
+        $this->loginAdminUser();
         $this->navigate('manage_cms_pages');
         $temp = array();
         $temp['filter_sku'] = self::$products['sku']['simple'];
@@ -204,8 +207,9 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
             }
         }
         $pageData = $this->loadData('new_page_req', $temp, array('page_title', 'url_key'));
-        print_r($pageData);
         $this->cmsPagesHelper()->createPage($pageData);
+        $this->addFieldIdToMessage($emptyFielsType, $emptyFieldName);
+        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
     }
 
     public function dataEmptyAllFields()
@@ -214,8 +218,90 @@ class CmsPages_CreateTest extends Mage_Selenium_TestCase
             array('page_title', 'field'),
             array('url_key', 'field'),
             array('editor_disabled', 'field'),
-            array('widget_type', 'dropdown'),
-            array('chosen_option', 'pageelement')
+            array('widget_type', 'dropdown')
+        );
+    }
+
+    /**
+     * <p>Creates Pages with same URL Key</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to Manage Pages page</p>
+     * <p>2. Create page with required fields</p>
+     * <p>3. Create page with the same URL Key</p>
+     * <p>Expected result</p>
+     * <p>Page with the same URL Key is not created</p>
+     *
+     * @depends createCategory
+     * @test
+     */
+    public function createPageWithSameUrl($category)
+    {
+        $this->navigate('manage_cms_pages');
+        $temp = array();
+        $temp['filter_sku'] = self::$products['sku']['simple'];
+        $temp['category_path'] = $category;
+        $pageData = $this->loadData('new_page_req', $temp, array('page_title', 'url_key'));
+        $this->cmsPagesHelper()->createPage($pageData);
+        $this->cmsPagesHelper()->createPage($pageData);
+        $this->assertTrue($this->checkMessage('existing_url_key'), $this->messages);
+    }
+
+    /**
+     * <p>Creates Pages with numbers in URL Key</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to Manage Pages page</p>
+     * <p>2. Create page with required fields</p>
+     * <p>Expected result</p>
+     * <p>Page with the numbers in URL Key is not created</p>
+     *
+     * @depends createCategory
+     * @test
+     */
+    public function createPageWithNumInUrl($category)
+    {
+        $this->navigate('manage_cms_pages');
+        $temp = array();
+        $temp['filter_sku'] = self::$products['sku']['simple'];
+        $temp['category_path'] = $category;
+        $temp['url_key'] = $this->generate('string', 10, ':digit:');
+        $pageData = $this->loadData('new_page_req', $temp, array('page_title'));
+        $this->cmsPagesHelper()->createPage($pageData);
+        $this->assertTrue($this->checkMessage('invalid_url_key_with_numbers_only'), $this->messages);
+    }
+
+   /**
+     * <p>Creates Pages with special characters in URL Key</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to Manage Pages page</p>
+     * <p>2. Create page with required fields</p>
+     * <p>Expected result</p>
+     * <p>Page with the special characters in URL Key is not created</p>
+     *
+     * @dataProvider dataSpecSymFields
+     * @depends createCategory
+     * @test
+     */
+    public function createPageWithSpecSymInUrl($specSymField, $category)
+    {
+        $this->navigate('manage_cms_pages');
+        $temp = array();
+        $temp['filter_sku'] = self::$products['sku']['simple'];
+        $temp['category_path'] = $category;
+        $temp[$specSymField] = $this->generate('string', 10, ':punct:');
+        $pageData = $this->loadData('new_page_req', $temp, array('page_title', 'url_key'));
+        $this->cmsPagesHelper()->createPage($pageData);
+        if ($specSymField == 'url_key') {
+            $this->addFieldIdToMessage('field', $specSymField);
+            $this->assertTrue($this->validationMessage('invalid_urk_key_spec_sym'), $this->messages);
+        }
+    }
+
+    public function dataSpecSymFields()
+    {
+        return array(
+            array('page_title'),
+            array('url_key'),
+            array('content_heading'),
         );
     }
 }
