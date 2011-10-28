@@ -57,6 +57,23 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Enables simple editor
+     *
+     * @return type
+     */
+    public function enableSimpleEditor()
+    {
+        if ($this->controlIsPresent('field', 'rich_editor')) {
+            $this->clickButton('show_hide_editor', FALSE);
+        } elseif ($this->controlIsPresent('field', 'simple_editor_content')
+                && !$this->controlIsPresent('field', 'rich_editor')) {
+            return;
+        } else {
+            $this->fail('Cannot turn on simple editor');
+        }
+    }
+
+    /**
      * Fills General Information
      *
      * @param array $generalInfo
@@ -102,9 +119,7 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
      */
     public function addWidgets($widgets)
     {
-        if (!$this->buttonIsPresent('editor_insert_variable') && $this->buttonIsPresent('show_hide_editor')) {
-            $this->clickButton('show_hide_editor', false);
-        }
+        $this->enableSimpleEditor();
         foreach ($widgets as $key => $value) {
             $options = (isset($value['chosen_option'])) ? $value['chosen_option'] : null;
             $this->clickButton('editor_insert_widget', FALSE);
@@ -140,6 +155,7 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
      */
     public function addVariables(array $variables)
     {
+        $this->enableSimpleEditor();
         foreach ($variables as $variableName) {
             $this->addParameter('variableName', $variableName);
             if (!$this->buttonIsPresent('editor_insert_variable') && $this->buttonIsPresent('show_hide_editor')) {

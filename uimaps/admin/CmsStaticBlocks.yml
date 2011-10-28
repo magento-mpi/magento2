@@ -93,6 +93,8 @@ edit_cms_static_block:
                             editor_insert_variable: "//button[@class='scalable add-variable plugin' and not(@style='display: none;')]"
                         fields:
                             simple_editor_content: "//textarea[@name='content' and not(contains(@style,'display: none;'))]"
+                            simple_editor_disabled: "//textarea[@name='content' and contains(@style,'display: none;')]"
+                            rich_editor: //span[@id='block_content_parent']
                 -
 #                   TODO: add elements if needed
                     wysiwyg_editor_buttons:
