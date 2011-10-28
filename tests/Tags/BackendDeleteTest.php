@@ -27,16 +27,14 @@
  */
 
 /**
- * Attribute Set creation tests
+ * Backend Delete Tags tests
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Tags_BackendCreateTest extends Mage_Selenium_TestCase
+class Tags_BackendDeleteTest extends Mage_Selenium_TestCase
 {
-
-    private static $tagToBeDeleted = array();
 
     /**
      * <p>Log in to Backend.</p>
@@ -58,38 +56,26 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating a new tag</p>
+     * <p>Deleting a new tag</p>
      * <p>Steps:</p>
-     * <p>1. Click button "Add New Tag"</p>
-     * <p>2. Fill in the fields in General Information</p>
-     * <p>3. Click button "Save and Continue Edit"</p>
-     * <p>4. Fill in Products Tagged by Administrators</p>
-     * <p>5. Click button "Save Tag"</p>
+     * <p>1. Create a new tag</p>
+     * <p>2. Open the tag</p>
+     * <p>3. Click button "Delete Tag"</p>
      * <p>Expected result:</p>
-     * <p>Received the message that the tag has been saved.</p>
+     * <p>Received the message that the tag has been deleted.</p>
      *
      * @test
      */
-    public function createNew()
+    public function deleteNew()
     {
         //Setup
         $setData = $this->loadData('backend_new_tag', null, 'tag_name');
         //Steps
         $this->tagsHelper()->addTag($setData);
+        $this->navigate('all_tags');
+        $this->tagsHelper()->deleteTag(array('tag_name' => $setData['tag_name']));
         //Verify
         $this->assertTrue($this->checkCurrentPage('all_tags'), $this->messages);
-        $this->assertTrue($this->successMessage('success_saved_tag'), $this->messages);
-        //Cleanup
-        self::$tagToBeDeleted = array('tag_name' => $setData['tag_name']);
+        $this->assertTrue($this->successMessage('success_deleted_tag'), $this->messages);
     }
-
-
-    protected function tearDown()
-    {
-        if (!empty(self::$tagToBeDeleted)) {
-            $this->tagsHelper()->deleteTag(self::$tagToBeDeleted);
-            self::$tagToBeDeleted = array();
-        }
-    }
-
 }

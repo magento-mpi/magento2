@@ -590,6 +590,22 @@ edit_product:
                 -
                     cross_sells: *crossSellsProductsTab
                 -
+                    product_tags:
+                        xpath: //a[@title='Product Tags']/span
+                        fieldsets:
+                            -
+                                product_tags:
+                                    xpath: //div[@id='tag_grid']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    dropdowns:
+                                        tag_search_status: //select[@name='status']
+                                    fields:
+                                        tag_search_name: //input[@name='name']
+                                        tag_search_num_of_use_from: //input[@name='popularity[from]']
+                                        tag_search_num_of_use_to: //input[@name='popularity[to]']
+                -
                     custom_options: *customOptionsTab
                 -
                     bundle_items: *bundleItemsTab

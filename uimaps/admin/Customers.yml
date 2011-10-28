@@ -232,38 +232,43 @@ edit_customer:
                                         telephone: //input[@id='_item%address_number%telephone']
                                         fax: //input[@id='_item%address_number%fax']
                                     required: [first_name, last_name, street_address_line_1, city, country, zip_code, telephone]
-                            -
-                                orders:
-                                    xpath: //a[@id='customer_info_tabs_orders']/span
-                                    # need to edit
-                            -
-                                billing_agremnts:
-                                    xpath: //a[@id='customer_info_tabs_customer_edit_tab_agreements']/span
-                                    # need to edit
-                            -
-                                recuring_profiles:
-                                    xpath: //a[@id='customer_info_tabs_customer_edit_tab_recurring_profile']/span
-                                    # need to edit
-                            -
-                                shopping_cart:
-                                    xpath: //a[@id='customer_info_tabs_cart']/span
-                                    # need to edit
-                            -
-                                wishlist:
-                                    xpath: //a[@id='customer_info_tabs_wishlist']/span
-                                    # need to edit
-                            -
-                                newsletters:
-                                    xpath: //a[@id='customer_info_tabs_newsletter']/span
-                                    # need to edit
-                            -
-                                product_review:
-                                    xpath: //a[@id='customer_info_tabs_reviews']/span
-                                    # need to edit
+                -
+                    orders:
+                        xpath: //a[@id='customer_info_tabs_orders']/span
+                        # need to edit
+                -
+                    billing_agremnts:
+                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_agreements']/span
+                        # need to edit
+                -
+                    recuring_profiles:
+                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_recurring_profile']/span
+                        # need to edit
+                -
+                    shopping_cart:
+                        xpath: //a[@id='customer_info_tabs_cart']/span
+                        # need to edit
+                -
+                    wishlist:
+                        xpath: //a[@id='customer_info_tabs_wishlist']/span
+                        # need to edit
+                -
+                    newsletters:
+                        xpath: //a[@id='customer_info_tabs_newsletter']/span
+                        # need to edit
+                -
+                    product_review:
+                        xpath: //a[@id='customer_info_tabs_reviews']/span
+                        # need to edit
+                -
+                    product_tags:
+                        xpath: //a[@id='customer_info_tabs_tags']/span
+                        fieldsets:
                             -
                                 product_tags:
-                                    xpath: //a[@id='customer_info_tabs_tags']/span
-                                    # need to edit
+                                    xpath: //div[@id='tag_grid']
+                                    links:
+                                      next_page: //a[@title="Next page"]
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']

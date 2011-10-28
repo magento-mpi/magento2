@@ -336,4 +336,44 @@ class Tags_Helper extends Mage_Selenium_TestCase
         $this->clickButtonAndConfirm('delete_tag', 'confirmation_for_delete');
     }
 
+     /**
+     * Verify a tag from backend for product
+     *
+     * @param array $searchData Data used in Search Grid for tags. Same as data used for openTag
+     * @param string $productName Product Name to verify tag
+     */
+    public function verifyTagProduct($searchData,$productName)
+    {
+        $this->productHelper()->openProduct(array('product_name' => $productName));
+        $this->clickControl('tab', 'product_tags', false);
+        $this->pleaseWait();
+        $xpathTR = $this->search($searchData, 'product_tags');
+        return $xpathTR ? true : false ;
+    }
+
+     /**
+     * Verify a tag from backend for customer
+     *
+     * @param array $searchData Data used in Search Grid for tags. Same as data used for openTag
+     * @param array $searchCustomer
+     */
+    public function verifyTagCustomer($searchTag,$searchCustomer)
+    {
+        $searchTag = $this->arrayEmptyClear($searchTag);
+        $this->customerHelper()->openCustomer($searchCustomer);
+        $this->clickControl('tab', 'product_tags', false);
+        $this->pleaseWait();
+        $xpathTR = $this->formSearchXpath($searchTag);
+        do{
+            if ($this->isElementPresent($xpathTR))
+                return true;
+            if ($this->controlIsPresent('link', 'next_page')){
+                $this->clickControl('link', 'next_page',false);
+                $this->pleaseWait();
+            }else
+                break;
+        } while (true);
+
+        return false;
+    }
 }
