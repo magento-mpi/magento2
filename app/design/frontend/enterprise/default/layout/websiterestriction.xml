@@ -49,7 +49,7 @@
                 <block type="Mage_Page_Block_Html_Wrapper" name="cms.wrapper" translate="label">
                     <label>CMS Content Wrapper</label>
                     <action method="setElementClass"><value>std</value></action>
-                    <block type="enterprise_websiterestriction/cms_stub" name="cms_page" />
+                    <block type="Enterprise_WebsiteRestriction_Block_Cms_Stub" name="cms_page" />
                 </block>
             </block>
             <block type="Mage_Page_Block_Html_Footer" name="footer" as="footer" template="page/html/footer.phtml"/>

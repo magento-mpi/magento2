@@ -28,7 +28,7 @@
 <layout>
     <adminhtml_customer_edit>
         <reference name="customer_edit">
-            <block name="checkout.buttons" type="enterprise_checkout/adminhtml_customer_edit_buttons">
+            <block name="checkout.buttons" type="Enterprise_Checkout_Block_Adminhtml_Customer_Edit_Buttons">
                 <action method="addButtons"></action>
             </block>
         </reference>
@@ -42,19 +42,19 @@
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Composite_Configure" name="configure.popup"/>
-            <block type="enterprise_checkout/adminhtml_manage" name="ID" template="enterprise/checkout/manage.phtml">
-                <block type="enterprise_checkout/adminhtml_manage_store_switcher" name="checkout.store.switcher"/>
-                <block type="enterprise_checkout/adminhtml_manage_messages" name="checkout.message"/>
-                <block type="enterprise_checkout/adminhtml_manage_items" name="checkout.items" template="enterprise/checkout/manage/items.phtml"/>
-                <block type="enterprise_checkout/adminhtml_manage_accordion" name="checkout.accordion">
-                    <block type="enterprise_checkout/adminhtml_manage_accordion_products" name="products"/>
-                    <block type="enterprise_checkout/adminhtml_manage_accordion_wishlist" name="wishlist"/>
-                    <block type="enterprise_checkout/adminhtml_manage_accordion_compared" name="compared"/>
-                    <block type="enterprise_checkout/adminhtml_manage_accordion_rcompared" name="rcompared"/>
-                    <block type="enterprise_checkout/adminhtml_manage_accordion_rviewed" name="rviewed"/>
-                    <block type="enterprise_checkout/adminhtml_manage_accordion_ordered" name="ordered"/>
+            <block type="Enterprise_Checkout_Block_Adminhtml_Manage" name="ID" template="enterprise/checkout/manage.phtml">
+                <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Store_Switcher" name="checkout.store.switcher"/>
+                <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Messages" name="checkout.message"/>
+                <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Items" name="checkout.items" template="enterprise/checkout/manage/items.phtml"/>
+                <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion" name="checkout.accordion">
+                    <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products" name="products"/>
+                    <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist" name="wishlist"/>
+                    <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared" name="compared"/>
+                    <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared" name="rcompared"/>
+                    <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed" name="rviewed"/>
+                    <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered" name="ordered"/>
                 </block>
-                <block type="enterprise_checkout/adminhtml_manage_form_coupon" template="enterprise/checkout/form/coupon.phtml" name="checkout.form_coupon"/>
+                <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon" template="enterprise/checkout/form/coupon.phtml" name="checkout.form_coupon"/>
             </block>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Composite_Configure" name="configure.popup"/>
         </reference>
@@ -62,52 +62,52 @@
 
     <adminhtml_checkout_cart>
         <remove name="root"/>
-        <block type="enterprise_checkout/adminhtml_manage_items" name="checkout.items" template="enterprise/checkout/manage/items.phtml" output="toHtml"/>
+        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Items" name="checkout.items" template="enterprise/checkout/manage/items.phtml" output="toHtml"/>
     </adminhtml_checkout_cart>
 
     <adminhtml_checkout_applycoupon>
         <remove name="root"/>
-        <block type="enterprise_checkout/adminhtml_manage_form_coupon" template="enterprise/checkout/form/coupon.phtml" name="form_coupon" output="toHtml"/>
+        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon" template="enterprise/checkout/form/coupon.phtml" name="form_coupon" output="toHtml"/>
     </adminhtml_checkout_applycoupon>
 
     <adminhtml_checkout_coupon>
         <remove name="root"/>
-        <block type="enterprise_checkout/adminhtml_manage_form_coupon" template="enterprise/checkout/form/coupon.phtml" name="form_coupon" output="toHtml"/>
+        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon" template="enterprise/checkout/form/coupon.phtml" name="form_coupon" output="toHtml"/>
     </adminhtml_checkout_coupon>
 
     <adminhtml_checkout_products>
         <remove name="root"/>
-        <block type="enterprise_checkout/adminhtml_manage_accordion_products" name="checkout.accordion.products" output="toHtml"/>
+        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products" name="checkout.accordion.products" output="toHtml"/>
     </adminhtml_checkout_products>
 
     <adminhtml_checkout_viewwishlist>
         <remove name="root"/>
-        <block type="enterprise_checkout/adminhtml_manage_accordion_wishlist" name="checkout.accordion.wishlist" output="toHtml"/>
+        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist" name="checkout.accordion.wishlist" output="toHtml"/>
     </adminhtml_checkout_viewwishlist>
 
     <adminhtml_checkout_viewcompared>
         <remove name="root"/>
-        <block type="enterprise_checkout/adminhtml_manage_accordion_compared" name="checkout.accordion.compared" output="toHtml"/>
+        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared" name="checkout.accordion.compared" output="toHtml"/>
     </adminhtml_checkout_viewcompared>
 
     <adminhtml_checkout_viewrecentlycompared>
         <remove name="root"/>
-        <block type="enterprise_checkout/adminhtml_manage_accordion_rcompared" name="checkout.accordion.rcompared" output="toHtml"/>
+        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared" name="checkout.accordion.rcompared" output="toHtml"/>
     </adminhtml_checkout_viewrecentlycompared>
 
     <adminhtml_checkout_viewrecentlyviewed>
         <remove name="root"/>
-        <block type="enterprise_checkout/adminhtml_manage_accordion_rviewed" name="checkout.accordion.rviewed" output="toHtml"/>
+        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed" name="checkout.accordion.rviewed" output="toHtml"/>
     </adminhtml_checkout_viewrecentlyviewed>
 
     <adminhtml_checkout_viewordered>
         <remove name="root"/>
-        <block type="enterprise_checkout/adminhtml_manage_accordion_ordered" name="checkout.accordion.ordered" output="toHtml"/>
+        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered" name="checkout.accordion.ordered" output="toHtml"/>
     </adminhtml_checkout_viewordered>
     
     <adminhtml_checkout_manage_load_block_json>
         <reference name="root">
-            <block type="enterprise_checkout/adminhtml_manage_load" name="content" />
+            <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Load" name="content" />
         </reference>
     </adminhtml_checkout_manage_load_block_json>
 
@@ -119,13 +119,13 @@
     
     <adminhtml_checkout_manage_load_block_message>
         <reference name="content">
-            <block type="enterprise_checkout/adminhtml_manage_messages" name="message" />
+            <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Messages" name="message" />
         </reference>
     </adminhtml_checkout_manage_load_block_message>
     
     <adminhtml_checkout_manage_load_block_items>
         <reference name="content">
-            <block type="enterprise_checkout/adminhtml_manage_items" name="items" template="enterprise/checkout/manage/items.phtml"/>
+            <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Items" name="items" template="enterprise/checkout/manage/items.phtml"/>
         </reference>
     </adminhtml_checkout_manage_load_block_items>
 </layout>

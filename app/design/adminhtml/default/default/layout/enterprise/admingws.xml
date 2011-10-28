@@ -30,7 +30,7 @@
     <!-- add gws multiselect to admin roles edit page -->
     <adminhtml_permissions_role_editrole>
         <reference name="adminhtml.permissions.tab.rolesedit">
-            <block type="enterprise_admingws/adminhtml_permissions_tab_rolesedit_gws" as="gws" template="enterprise/admingws/permissions/rolesedit/gws.phtml"/>
+            <block type="Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws" as="gws" template="enterprise/admingws/permissions/rolesedit/gws.phtml"/>
         </reference>
     </adminhtml_permissions_role_editrole>
 
@@ -38,11 +38,11 @@
     <adminhtml_permissions_role_index>
         <reference name="adminhtml.permission.role.index">
             <action method="unsetChild"><alias>grid</alias></action>
-            <block type="enterprise_admingws/adminhtml_permissions_grid_role" name="adminhtml.permission.role.grid" as="grid"/>
+            <block type="Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role" name="adminhtml.permission.role.grid" as="grid"/>
         </reference>
     </adminhtml_permissions_role_index>
     <adminhtml_permissions_role_rolegrid>
-        <block type="enterprise_admingws/adminhtml_permissions_grid_role" name="adminhtml.permission.role.grid"/>
+        <block type="Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role" name="adminhtml.permission.role.grid"/>
     </adminhtml_permissions_role_rolegrid>
 <!--
     <adminhtml_system_config_edit>

@@ -31,14 +31,14 @@
     <catalogsearch_result_index>
         <reference name="left">
             <remove name="catalogsearch.leftnav"/>
-            <block type="enterprise_search/catalogsearch_layer" name="enterprisesearch.leftnav" before="-" template="catalog/layer/view.phtml"/>
+            <block type="Enterprise_Search_Block_Catalogsearch_Layer" name="enterprisesearch.leftnav" before="-" template="catalog/layer/view.phtml"/>
         </reference>
     </catalogsearch_result_index>
 
     <catalog_category_layered>
         <reference name="left">
             <remove name="catalog.leftnav"/>
-            <block type="enterprise_search/catalog_layer_view" name="enterprisecatalog.leftnav" before="-" template="catalog/layer/view.phtml"/>
+            <block type="Enterprise_Search_Block_Catalog_Layer_View" name="enterprisecatalog.leftnav" before="-" template="catalog/layer/view.phtml"/>
         </reference>
     </catalog_category_layered>
 

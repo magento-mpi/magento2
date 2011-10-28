@@ -230,7 +230,7 @@ Additional block for bundle product type
             <action method="unsetChild"><block>product.info.addtocart</block></action>
             <action method="setHideRequiredNotice"><flag>1</flag></action>
             <action method="unsetChild"><block>product.info.addto</block></action>
-            <block type="cataloginventory/qtyincrements" name="product.info.extrahint" as="extrahint" template="cataloginventory/qtyincrements.phtml"/>
+            <block type="Mage_CatalogInventory_Block_Qtyincrements" name="product.info.extrahint" as="extrahint" template="Mage_CatalogInventory_Block_Qtyincrements.phtml"/>
         </reference>
         <reference name="product.clone_prices">
             <action method="addPriceBlockType"><type>bundle</type><block>bundle/catalog_product_price</block><template>bundle/catalog/product/view/price.phtml</template></action>

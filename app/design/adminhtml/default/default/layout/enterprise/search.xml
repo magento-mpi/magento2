@@ -28,14 +28,14 @@
 <layout>
     <adminhtml_catalog_product_attribute_edit>
         <reference name="js">
-            <block type="enterprise_search/adminhtml_catalog_attribute_edit" template="enterprise/search/js.phtml" />
+            <block type="Enterprise_Search_Block_Adminhtml_Catalog_Attribute_Edit" template="enterprise/search/js.phtml" />
         </reference>
     </adminhtml_catalog_product_attribute_edit>
     <adminhtml_catalog_search_edit>
         <reference name="content">
-            <block type="enterprise_search/adminhtml_search_edit" name="related_grid_edit">
+            <block type="Enterprise_Search_Block_Adminhtml_Search_Edit" name="related_grid_edit">
                 <reference name="related_grid_edit">
-                   <block type="enterprise_search/adminhtml_search_grid" name="search.edit.grid"/>
+                   <block type="Enterprise_Search_Block_Adminhtml_Search_Grid" name="search.edit.grid"/>
                 </reference>
             </block>
             <block type="Mage_Adminhtml_Block_Widget_Grid_Serializer" name="related_grid_serializer">
@@ -53,6 +53,6 @@
     </adminhtml_catalog_search_edit>  
     <adminhtml_catalog_search_relatedgrid>
         <remove name="root" />
-        <block type="enterprise_search/adminhtml_search_grid" name="relatedGrid" output="toHtml" />
+        <block type="Enterprise_Search_Block_Adminhtml_Search_Grid" name="relatedGrid" output="toHtml" />
     </adminhtml_catalog_search_relatedgrid>
 </layout>

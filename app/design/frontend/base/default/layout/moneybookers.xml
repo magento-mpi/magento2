@@ -26,7 +26,7 @@
             <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="moneybookers/payment" name="moneybookers_payment" template="moneybookers/payment.phtml" />
+            <block type="Phoenix_Moneybookers_Block_Payment" name="moneybookers_payment" template="Phoenix_Moneybookers_Block_Payment.phtml" />
         </reference>
     </moneybookers_processing_payment>
 
@@ -35,7 +35,7 @@
             <action method="setTemplate"><template>moneybookers/blank.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="moneybookers/placeform" name="moneybookers_placeform" template="moneybookers/placeform.phtml" />
+            <block type="Phoenix_Moneybookers_Block_Placeform" name="moneybookers_placeform" template="Phoenix_Moneybookers_Block_Placeform.phtml" />
         </reference>
     </moneybookers_processing_placeform>
 </layout>

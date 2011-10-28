@@ -119,7 +119,7 @@
     <PRODUCT_TYPE_giftcard>
         <reference name="product.composite.fieldset">
             <remove name="product.composite.fieldset.qty"/>
-            <block type="enterprise_giftcard/adminhtml_catalog_product_composite_fieldset_giftcard" name="product.composite.fieldset.giftcard" before="product.composite.fieldset.options" template="enterprise/giftcard/catalog/product/composite/fieldset/giftcard.phtml">
+            <block type="Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Giftcard" name="product.composite.fieldset.giftcard" before="product.composite.fieldset.options" template="enterprise/giftcard/catalog/product/composite/fieldset/giftcard.phtml">
                 <block type="Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Qty" name="product.composite.giftcard.qty" template="enterprise/giftcard/catalog/product/composite/fieldset/qty.phtml"/>
             </block>
         </reference>

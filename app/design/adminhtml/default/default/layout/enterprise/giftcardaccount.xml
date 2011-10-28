@@ -29,7 +29,7 @@
 <layout>
     <adminhtml_giftcardaccount_index>
         <reference name="content">
-            <block type="enterprise_giftcardaccount/adminhtml_giftcardaccount" name="giftcardaccount_list">
+            <block type="Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount" name="giftcardaccount_list">
                 <block type="Mage_Adminhtml_Block_Store_Switcher" name="store_switcher" as="store_switcher">
                     <action method="setUseConfirm"><params>0</params></action>
                 </block>
@@ -71,13 +71,13 @@
 
     <adminhtml_sales_order_create_load_block_items>
         <reference name="items_grid">
-            <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="enterprise/giftcardaccount/sales/order/create/items.phtml" name="giftcardaccount" after="-" />
+            <block type="Enterprise_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment" template="enterprise/giftcardaccount/sales/order/create/items.phtml" name="giftcardaccount" after="-" />
         </reference>
     </adminhtml_sales_order_create_load_block_items>
 
     <adminhtml_sales_order_create_load_block_data>
         <reference name="items_grid">
-            <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="enterprise/giftcardaccount/sales/order/create/items.phtml" name="giftcardaccount" after="-" />
+            <block type="Enterprise_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment" template="enterprise/giftcardaccount/sales/order/create/items.phtml" name="giftcardaccount" after="-" />
         </reference>
     </adminhtml_sales_order_create_load_block_data>
 
@@ -86,7 +86,7 @@
             <block type="Mage_Adminhtml_Block_Template" template="enterprise/giftcardaccount/sales/order/create/js.phtml" name="giftcardaccount_js" />
         </reference>
         <reference name="items_grid">
-            <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="enterprise/giftcardaccount/sales/order/create/items.phtml" name="giftcardaccount" after="-" />
+            <block type="Enterprise_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment" template="enterprise/giftcardaccount/sales/order/create/items.phtml" name="giftcardaccount" after="-" />
         </reference>
     </adminhtml_sales_order_create_index>
 
@@ -116,13 +116,13 @@
 
     <!-- adminhtml_sales_order_creditmemo_new>
         <reference name="submit_before">
-            <block type="enterprise_giftcardaccount/adminhtml_sales_order_creditmemo_controls" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/controls.phtml" />
+            <block type="Enterprise_GiftCardAccount_Block_Adminhtml_Sales_Order_Creditmemo_Controls" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/controls.phtml" />
         </reference>
     </adminhtml_sales_order_creditmemo_new>
 
     <adminhtml_sales_order_creditmemo_updateqty>
         <reference name="submit_before">
-            <block type="enterprise_giftcardaccount/adminhtml_sales_order_creditmemo_controls" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/controls.phtml" />
+            <block type="Enterprise_GiftCardAccount_Block_Adminhtml_Sales_Order_Creditmemo_Controls" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/controls.phtml" />
         </reference>
     </adminhtml_sales_order_creditmemo_updateqty -->
 </layout>

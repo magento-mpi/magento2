@@ -28,13 +28,13 @@
 <layout version="0.1.0">
     <adminhtml_catalog_event_index>
         <reference name="content">
-            <block name="event_grid_container" type="enterprise_catalogevent/adminhtml_event" />
+            <block name="event_grid_container" type="Enterprise_CatalogEvent_Block_Adminhtml_Event" />
         </reference>
     </adminhtml_catalog_event_index>
     
     <adminhtml_catalog_event_edit>
         <reference name="content">
-            <block name="event_edit_page" type="enterprise_catalogevent/adminhtml_event_edit" />
+            <block name="event_edit_page" type="Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit" />
         </reference>
         <reference name="left">
             <block before="-" type="Mage_Adminhtml_Block_Store_Switcher" name="store_switcher" template="store/switcher.phtml"></block>
@@ -43,7 +43,7 @@
     
     <adminhtml_catalog_category_edit>
         <reference name="category.edit">
-            <block name="event.buttons" type="enterprise_catalogevent/adminhtml_catalog_category_edit_buttons">
+            <block name="event.buttons" type="Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons">
                 <action method="addButtons"></action>
             </block>
         </reference>

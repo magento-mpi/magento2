@@ -30,7 +30,7 @@
     <!-- reminder grid page -->
     <adminhtml_reminder_index>
         <reference name="content">
-            <block type="enterprise_reminder/adminhtml_reminder" name="enterprise_reminder"/>
+            <block type="Enterprise_Reminder_Block_Adminhtml_Reminder" name="enterprise_reminder"/>
         </reference>
     </adminhtml_reminder_index>
     <adminhtml_reminder_edit>
@@ -42,7 +42,7 @@
     </adminhtml_reminder_edit>
     <adminhtml_promo_quote_edit>
         <reference name="content">
-            <block type="enterprise_reminder/adminhtml_promo_notice" name="promo_edit_notice"/>
+            <block type="Enterprise_Reminder_Block_Adminhtml_Promo_Notice" name="promo_edit_notice"/>
         </reference>
     </adminhtml_promo_quote_edit>
 </layout>

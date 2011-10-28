@@ -29,7 +29,7 @@
 <layout>
     <adminhtml_giftregistry_index>
         <reference name="content">
-            <block type="enterprise_giftregistry/adminhtml_giftregistry" name="enterprise_giftregistry"/>
+            <block type="Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry" name="enterprise_giftregistry"/>
         </reference>
     </adminhtml_giftregistry_index>
     
@@ -50,13 +50,13 @@
    
    <adminhtml_giftregistry_customer_edit>
         <reference name="content">
-            <block type="enterprise_giftregistry/adminhtml_customer_edit" name="giftregistry_customer_edit"></block>
+            <block type="Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit" name="giftregistry_customer_edit"></block>
         </reference> 
    </adminhtml_giftregistry_customer_edit>
    
    <adminhtml_giftregistry_customer_grid>
         <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
-            <block type="enterprise_giftregistry/adminhtml_customer_grid" name="adminhtml.giftregistry.customer.grid"/>
+            <block type="Enterprise_GiftRegistry_Block_Adminhtml_Customer_Grid" name="adminhtml.giftregistry.customer.grid"/>
         </block>
     </adminhtml_giftregistry_customer_grid>
     

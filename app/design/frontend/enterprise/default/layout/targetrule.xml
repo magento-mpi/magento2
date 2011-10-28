@@ -29,14 +29,14 @@
     <catalog_product_view>
         <reference name="product.info">
             <!-- remove name="catalog.product.related" / -->
-            <block type="enterprise_targetrule/catalog_product_list_related" name="catalog.product.related" as="relatedProducts" template="targetrule/catalog/product/list/related.phtml">
+            <block type="Enterprise_TargetRule_Block_Catalog_Product_List_Related" name="catalog.product.related" as="relatedProducts" template="targetrule/catalog/product/list/related.phtml">
                 <action method="setColumnCount"><columns>3</columns></action>
-                <block type="enterprise_targetrule/catalog_product_item" name="catalog.product.related.item" template="targetrule/catalog/product/list/related/item.phtml" />
+                <block type="Enterprise_TargetRule_Block_Catalog_Product_Item" name="catalog.product.related.item" template="targetrule/catalog/product/list/related/item.phtml" />
             </block>
             <!-- remove name="product.info.upsell" / -->
-            <block type="enterprise_targetrule/catalog_product_list_upsell" name="product.info.upsell" as="upsell_products" template="targetrule/catalog/product/list/upsell.phtml">
+            <block type="Enterprise_TargetRule_Block_Catalog_Product_List_Upsell" name="product.info.upsell" as="upsell_products" template="targetrule/catalog/product/list/upsell.phtml">
                 <action method="setColumnCount"><columns>4</columns></action>
-                <block type="enterprise_targetrule/catalog_product_item" name="catalog.product.upsell.item" template="targetrule/catalog/product/list/upsell/item.phtml" />
+                <block type="Enterprise_TargetRule_Block_Catalog_Product_Item" name="catalog.product.upsell.item" template="targetrule/catalog/product/list/upsell/item.phtml" />
             </block>
         </reference>
     </catalog_product_view>
@@ -44,7 +44,7 @@
     <checkout_cart_index>
         <reference name="checkout.cart">
             <!-- remove name="checkout.cart.crosssell" / -->
-            <block type="enterprise_targetrule/checkout_cart_crosssell" name="checkout.cart.crosssell" as="crosssell" template="targetrule/checkout/cart/crosssell.phtml">
+            <block type="Enterprise_TargetRule_Block_Checkout_Cart_Crosssell" name="checkout.cart.crosssell" as="crosssell" template="targetrule/checkout/cart/crosssell.phtml">
             </block>
         </reference>
     </checkout_cart_index>

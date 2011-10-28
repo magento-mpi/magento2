@@ -225,7 +225,7 @@ Emails
         <reference name="product.info">
             <block type="Mage_Downloadable_Block_Catalog_Product_View_Type" name="product.info.downloadable" as="product_type_data" template="downloadable/catalog/product/type.phtml">
                  <block type="Mage_Downloadable_Block_Catalog_Product_Samples" name="product.info.downloadable.samples" as="samples" template="downloadable/catalog/product/samples.phtml"/>
-                 <block type="cataloginventory/stockqty_default" name="product.info.downloadable.extra" as="product_type_data_extra" template="cataloginventory/stockqty/default.phtml"/>
+                 <block type="Mage_CatalogInventory_Block_Stockqty_Default" name="product.info.downloadable.extra" as="product_type_data_extra" template="cataloginventory/stockqty/default.phtml"/>
             </block>
         </reference>
         <reference name="product.info.options.wrapper">

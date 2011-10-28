@@ -29,14 +29,14 @@
 <layout>
     <adminhtml_cms_page_index>
         <reference name="cms_page">
-            <block type="enterprise_cms/adminhtml_cms_page" name="cms_page_extender" />
+            <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page" name="cms_page_extender" />
         </reference>
     </adminhtml_cms_page_index>
 
     <adminhtml_cms_page_edit>
         <reference name="cms_page_edit_tabs">
-            <block type="enterprise_cms/adminhtml_cms_page_edit" name="cms_page_edit_extender" />
-            <block type="enterprise_cms/adminhtml_cms_page_edit_tab_hierarchy" name="cms_page_edit_tab_hierarchy" template="enterprise/cms/page/tab/hierarchy.phtml"></block>
+            <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit" name="cms_page_edit_extender" />
+            <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy" name="cms_page_edit_tab_hierarchy" template="enterprise/cms/page/tab/hierarchy.phtml"></block>
             <action method="addTab"><name>hierarchy</name><block>cms_page_edit_tab_hierarchy</block></action>
         </reference>
     </adminhtml_cms_page_edit>
@@ -51,7 +51,7 @@
             <action method="removeTab"><name>content_section</name></action>
             <action method="removeTab"><name>design_section</name></action>
             <action method="removeTab"><name>meta_section</name></action>
-            <block type="enterprise_cms/adminhtml_cms_page_edit_tab_versions" name="cms_page_edit_tab_versions" />
+            <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions" name="cms_page_edit_tab_versions" />
             <action method="addTab"><name>versions</name><block>cms_page_edit_tab_versions</block></action>
         </reference>
     </adminhtml_cms_page_edit_changes>
@@ -61,7 +61,7 @@
 -->
     <adminhtml_cms_page_versions>
         <remove name="root" />
-        <block type="enterprise_cms/adminhtml_cms_page_edit_tab_versions"  output="toHtml" name="cms_page_edit_versions" />
+        <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions"  output="toHtml" name="cms_page_edit_versions" />
         <update handle="formkey" />
     </adminhtml_cms_page_versions>
 
@@ -74,12 +74,12 @@
             <action method="addJs"><script>enterprise/adminhtml/cms.js</script></action>
         </reference>
         <reference name="content">
-            <block type="enterprise_cms/adminhtml_cms_page_revision_edit" name="cms_page_revision_edit">
-                <block type="enterprise_cms/adminhtml_cms_page_revision_edit_info" name="revision_info" template="enterprise/cms/page/revision/info.phtml" />
+            <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit" name="cms_page_revision_edit">
+                <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info" name="revision_info" template="enterprise/cms/page/revision/info.phtml" />
             </block>
         </reference>
         <reference name="left">
-            <block type="enterprise_cms/adminhtml_cms_page_revision_edit_tabs" name="cms_page_revision_edit_tabs">
+            <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tabs" name="cms_page_revision_edit_tabs">
                 <action method="addTab"><name>content_section</name><block>enterprise_cms/adminhtml_cms_page_revision_edit_tab_content</block></action>
                 <action method="addTab"><name>design_section</name><block>enterprise_cms/adminhtml_cms_page_revision_edit_tab_design</block></action>
                 <action method="addTab"><name>meta_section</name><block>enterprise_cms/adminhtml_cms_page_revision_edit_tab_meta</block></action>
@@ -93,11 +93,11 @@
     <adminhtml_cms_page_revision_preview>
         <reference name="root">
             <action method="setTemplate"><template>enterprise/cms/page/preview.phtml</template></action>
-            <block type="enterprise_cms/adminhtml_cms_page_preview_form" name="preview_form" />
+            <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Form" name="preview_form" />
             <block type="Mage_Core_Block_Text_List" name="tools" as="tools">
-                <block type="enterprise_cms/adminhtml_cms_page_preview_store" name="store_switcher" template="enterprise/cms/page/preview/store.phtml" />
-                <block type="enterprise_cms/adminhtml_cms_page_preview_revision" name="revision_switcher" template="enterprise/cms/page/preview/revision.phtml" />
-                <block type="enterprise_cms/adminhtml_cms_page_preview_buttons" name="preview_control_buttons" />
+                <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Store" name="store_switcher" template="enterprise/cms/page/preview/store.phtml" />
+                <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Revision" name="revision_switcher" template="enterprise/cms/page/preview/revision.phtml" />
+                <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Buttons" name="preview_control_buttons" />
             </block>
         </reference>
     </adminhtml_cms_page_revision_preview>
@@ -107,8 +107,8 @@
 -->
     <adminhtml_cms_page_version_edit>
         <reference name="content">
-            <block type="enterprise_cms/adminhtml_cms_page_version_edit" name="cms_page_version_edit">
-                <block type="enterprise_cms/adminhtml_cms_page_version_edit_revisions" name="cms_page_version_edit_revisions_grid" />
+            <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit" name="cms_page_version_edit">
+                <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions" name="cms_page_version_edit_revisions_grid" />
             </block>
         </reference>
     </adminhtml_cms_page_version_edit>
@@ -118,7 +118,7 @@
 -->
     <adminhtml_cms_page_version_revisions>
         <remove name="root" />
-        <block type="enterprise_cms/adminhtml_cms_page_version_edit_revisions"  output="toHtml" name="cms_page_edit_version_edit_revisions" />
+        <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions"  output="toHtml" name="cms_page_edit_version_edit_revisions" />
     </adminhtml_cms_page_version_revisions>
 
 <!--
@@ -129,8 +129,8 @@
             <action method="setCanLoadExtJs"><flag>1</flag></action>
         </reference>
         <reference name="content">
-            <block type="enterprise_cms/adminhtml_cms_hierarchy_edit" name="enterprise_cms_hierarchy_edit_tree">
-                <block type="enterprise_cms/adminhtml_cms_hierarchy_edit_form_grid" name="cms_page_grid" />
+            <block type="Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit" name="enterprise_cms_hierarchy_edit_tree">
+                <block type="Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid" name="cms_page_grid" />
             </block>
         </reference>
         <block type="Mage_Adminhtml_Block_Store_Switcher" name="store_switcher" />
@@ -150,7 +150,7 @@
 -->
     <adminhtml_cms_hierarchy_pagegrid>
         <remove name="root" />
-        <block type="enterprise_cms/adminhtml_cms_hierarchy_edit_form_grid" name="cms_page_grid" output="toHtml" />
+        <block type="Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid" name="cms_page_grid" output="toHtml" />
     </adminhtml_cms_hierarchy_pagegrid>
 
 </layout>

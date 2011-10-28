@@ -33,7 +33,7 @@ Product view
 -->
     <catalog_product_view>
         <reference name="product.info.extrahint">
-            <block type="cataloginventory/qtyincrements" name="product.info.extrahint.qtyincrements" template="cataloginventory/qtyincrements.phtml"/>
+            <block type="Mage_CatalogInventory_Block_Qtyincrements" name="product.info.extrahint.qtyincrements" template="Mage_CatalogInventory_Block_Qtyincrements.phtml"/>
         </reference>
     </catalog_product_view>
 
@@ -42,22 +42,22 @@ Additional block dependent on product type
 -->
     <PRODUCT_TYPE_simple>
         <reference name="product.info.simple.extra">
-            <block type="cataloginventory/stockqty_default" template="cataloginventory/stockqty/default.phtml"/>
+            <block type="Mage_CatalogInventory_Block_Stockqty_Default" template="cataloginventory/stockqty/default.phtml"/>
         </reference>
     </PRODUCT_TYPE_simple>
     <PRODUCT_TYPE_virtual>
         <reference name="product.info.virtual.extra">
-            <block type="cataloginventory/stockqty_default" template="cataloginventory/stockqty/default.phtml"/>
+            <block type="Mage_CatalogInventory_Block_Stockqty_Default" template="cataloginventory/stockqty/default.phtml"/>
         </reference>
     </PRODUCT_TYPE_virtual>
     <PRODUCT_TYPE_grouped>
         <reference name="product.info.grouped.extra">
-            <block type="cataloginventory/stockqty_type_grouped" template="cataloginventory/stockqty/composite.phtml"/>
+            <block type="Mage_CatalogInventory_Block_Stockqty_Type_Grouped" template="cataloginventory/stockqty/composite.phtml"/>
         </reference>
     </PRODUCT_TYPE_grouped>
     <PRODUCT_TYPE_configurable>
         <reference name="product.info.configurable.extra">
-            <block type="cataloginventory/stockqty_type_configurable" template="cataloginventory/stockqty/composite.phtml"/>
+            <block type="Mage_CatalogInventory_Block_Stockqty_Type_Configurable" template="cataloginventory/stockqty/composite.phtml"/>
         </reference>
     </PRODUCT_TYPE_configurable>
 

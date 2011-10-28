@@ -29,43 +29,43 @@
 <layout>
     <adminhtml_customer_edit>
         <reference name="customer_edit_tabs">
-            <block type="enterprise_reward/adminhtml_customer_edit_tab_reward" name="customer_edit_tab_reward" template="enterprise/reward/customer/reward.phtml">
-                <block type="enterprise_reward/adminhtml_customer_edit_tab_reward_management" name="reward_management"/>
+            <block type="Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward" name="customer_edit_tab_reward" template="enterprise/reward/customer/reward.phtml">
+                <block type="Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management" name="reward_management"/>
             </block>
             <action method="addTab"><name>customer_edit_tab_reward</name><block>customer_edit_tab_reward</block></action>
         </reference>
         <reference name="customer_edit_tab_view">
-            <block type="enterprise_reward/adminhtml_customer_edit_tab_reward_management_balance" name="reward.points.balance" before="-"/>
+            <block type="Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance" name="reward.points.balance" before="-"/>
         </reference>
     </adminhtml_customer_edit>
 
     <adminhtml_reward_rate_index>
         <reference name="content">
-            <block type="enterprise_reward/adminhtml_reward_rate" name="reward.rate.container"/>
+            <block type="Enterprise_Reward_Block_Adminhtml_Reward_Rate" name="reward.rate.container"/>
         </reference>
     </adminhtml_reward_rate_index>
 
     <adminhtml_reward_rate_edit>
         <reference name="content">
-            <block type="enterprise_reward/adminhtml_reward_rate_edit" name="reward.rate.edit.container"/>
+            <block type="Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit" name="reward.rate.edit.container"/>
         </reference>
     </adminhtml_reward_rate_edit>
 
     <adminhtml_sales_order_create_index>
         <reference name="billing_method">
-            <block type="enterprise_reward/adminhtml_sales_order_create_payment" template="enterprise/reward/sales/order/create/payment.phtml" name="reward_points" before="-" />
+            <block type="Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment" template="enterprise/reward/sales/order/create/payment.phtml" name="reward_points" before="-" />
         </reference>
     </adminhtml_sales_order_create_index>
     
     <adminhtml_sales_order_create_load_block_billing_method>
         <reference name="billing_method">
-            <block type="enterprise_reward/adminhtml_sales_order_create_payment" template="enterprise/reward/sales/order/create/payment.phtml" name="reward_points" before="-" />
+            <block type="Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment" template="enterprise/reward/sales/order/create/payment.phtml" name="reward_points" before="-" />
         </reference>
     </adminhtml_sales_order_create_load_block_billing_method>
 
     <adminhtml_sales_order_create_load_block_data>
         <reference name="billing_method">
-            <block type="enterprise_reward/adminhtml_sales_order_create_payment" template="enterprise/reward/sales/order/create/payment.phtml" name="reward_points" before="-" />
+            <block type="Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment" template="enterprise/reward/sales/order/create/payment.phtml" name="reward_points" before="-" />
         </reference>
     </adminhtml_sales_order_create_load_block_data>
 
@@ -112,7 +112,7 @@
             </block>
         </reference>
         <reference name="submit_before">
-            <block type="enterprise_reward/adminhtml_sales_order_creditmemo_reward" name="reward_points" template="enterprise/reward/sales/order/creditmemo/reward.phtml" />
+            <block type="Enterprise_Reward_Block_Adminhtml_Sales_Order_Creditmemo_Reward" name="reward_points" template="enterprise/reward/sales/order/creditmemo/reward.phtml" />
         </reference>
     </adminhtml_sales_order_creditmemo_new>
 
@@ -123,7 +123,7 @@
             </block>
         </reference>
         <reference name="submit_before">
-            <block type="enterprise_reward/adminhtml_sales_order_creditmemo_reward" name="reward_points" template="enterprise/reward/sales/order/creditmemo/reward.phtml" />
+            <block type="Enterprise_Reward_Block_Adminhtml_Sales_Order_Creditmemo_Reward" name="reward_points" template="enterprise/reward/sales/order/creditmemo/reward.phtml" />
         </reference>
     </adminhtml_sales_order_creditmemo_updateqty>
 

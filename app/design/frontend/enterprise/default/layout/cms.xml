@@ -47,7 +47,7 @@ Default layout, loads most of the pages
         <label>CMS Pages (All)</label>
         <reference name="content">
             <block type="Mage_Core_Block_Template" name="page_content_heading" template="cms/content_heading.phtml"/>
-            <block type="enterprise_cms/hierarchy_pagination" name="hierarchy_pagination" template="cms/hierarchy/pagination.phtml"/>
+            <block type="Enterprise_Cms_Block_Hierarchy_Pagination" name="hierarchy_pagination" template="cms/hierarchy/pagination.phtml"/>
             <block type="Mage_Page_Block_Html_Wrapper" name="cms.wrapper" translate="label">
                 <label>CMS Content Wrapper</label>
                 <action method="setElementClass"><value>std</value></action>
@@ -55,7 +55,7 @@ Default layout, loads most of the pages
             </block>
         </reference>
         <reference name="head">
-            <block type="enterprise_cms/hierarchy_head" name="enterprise_cms_hierarchy_head"></block>
+            <block type="Enterprise_Cms_Block_Hierarchy_Head" name="enterprise_cms_hierarchy_head"></block>
         </reference>
     </cms_page>
 
@@ -93,19 +93,19 @@ Default layout, loads most of the pages
 
     <enterprise_cms_hierarchy_menu_content>
         <reference name="content">
-            <block type="enterprise_cms/hierarchy_menu" name="hierarchy_menu" template="cms/hierarchy/menu.phtml" before="-"/>
+            <block type="Enterprise_Cms_Block_Hierarchy_Menu" name="hierarchy_menu" template="cms/hierarchy/menu.phtml" before="-"/>
         </reference>
     </enterprise_cms_hierarchy_menu_content>
 
     <enterprise_cms_hierarchy_menu_left_column>
         <reference name="left">
-            <block type="enterprise_cms/hierarchy_menu" name="hierarchy_menu" template="cms/hierarchy/menu.phtml" before="-"/>
+            <block type="Enterprise_Cms_Block_Hierarchy_Menu" name="hierarchy_menu" template="cms/hierarchy/menu.phtml" before="-"/>
         </reference>
     </enterprise_cms_hierarchy_menu_left_column>
 
     <enterprise_cms_hierarchy_menu_right_column>
         <reference name="right">
-            <block type="enterprise_cms/hierarchy_menu" name="hierarchy_menu" template="cms/hierarchy/menu.phtml" before="-"/>
+            <block type="Enterprise_Cms_Block_Hierarchy_Menu" name="hierarchy_menu" template="cms/hierarchy/menu.phtml" before="-"/>
         </reference>
     </enterprise_cms_hierarchy_menu_right_column>
 

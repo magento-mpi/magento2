@@ -30,7 +30,7 @@
     <!-- segments grid page -->
     <adminhtml_customersegment_index>
         <reference name="content">
-            <block type="enterprise_customersegment/adminhtml_customersegment" name="customersegment.list">
+            <block type="Enterprise_CustomerSegment_Block_Adminhtml_Customersegment" name="customersegment.list">
                 <block type="Mage_Adminhtml_Block_Store_Switcher" name="store_switcher" as="store_switcher">
                     <action method="setUseConfirm"><params>0</params></action>
                 </block>
@@ -40,17 +40,17 @@
 
     <!-- segment ajax grid -->
     <adminhtml_customersegment_grid>
-        <block type="enterprise_customersegment/adminhtml_customersegment_grid" name="root"/>
+        <block type="Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid" name="root"/>
     </adminhtml_customersegment_grid>
 
     <!-- segment chooser ajax grid -->
     <adminhtml_customersegment_choosergrid>
-        <block type="enterprise_customersegment/adminhtml_customersegment_grid_chooser" name="root"/>
+        <block type="Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid_Chooser" name="root"/>
     </adminhtml_customersegment_choosergrid>
 
     <adminhtml_report_customer_customersegment_detail>
         <reference name="content">
-            <block type="enterprise_customersegment/adminhtml_report_customer_segment_detail" name="report.customersegment.detail.grid.container" template="enterprise/customersegment/report/detail/grid/container.phtml" />
+            <block type="Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail" name="report.customersegment.detail.grid.container" template="enterprise/customersegment/report/detail/grid/container.phtml" />
         </reference>
     </adminhtml_report_customer_customersegment_detail>
 </layout>

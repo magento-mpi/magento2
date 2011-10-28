@@ -34,27 +34,27 @@ Layout handle for products
 
     <adminhtml_catalog_product_edit>
         <reference name="product_tabs">
-            <block type="googleoptimizer/adminhtml_catalog_product_edit_tab_googleoptimizer" name="tab_googleoptimizer" />
+            <block type="Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimizer" name="tab_googleoptimizer" />
             <action method="addTab"><name>googleoptimizer</name><block>tab_googleoptimizer</block></action>
         </reference>
         <reference name="js">
-            <block type="googleoptimizer/js" template="googleoptimizer/js.phtml" name="googleoptimizer_js"></block>
+            <block type="Mage_GoogleOptimizer_Block_Js" template="Mage_GoogleOptimizer_Block_Js.phtml" name="googleoptimizer_js"></block>
         </reference>
     </adminhtml_catalog_product_edit>
 
     <adminhtml_catalog_product_new>
         <reference name="product_tabs">
-            <block type="googleoptimizer/adminhtml_catalog_product_edit_tab_googleoptimizer" name="tab_googleoptimizer" />
+            <block type="Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimizer" name="tab_googleoptimizer" />
             <action method="addTab"><name>googleoptimizer</name><block>tab_googleoptimizer</block></action>
         </reference>
         <reference name="js">
-            <block type="googleoptimizer/js" template="googleoptimizer/js.phtml" name="googleoptimizer_js"></block>
+            <block type="Mage_GoogleOptimizer_Block_Js" template="Mage_GoogleOptimizer_Block_Js.phtml" name="googleoptimizer_js"></block>
         </reference>
     </adminhtml_catalog_product_new>
 
     <adminhtml_catalog_category_edit>
         <reference name="js">
-            <block type="googleoptimizer/js" template="googleoptimizer/js.phtml" name="googleoptimizer_js"></block>
+            <block type="Mage_GoogleOptimizer_Block_Js" template="Mage_GoogleOptimizer_Block_Js.phtml" name="googleoptimizer_js"></block>
         </reference>
     </adminhtml_catalog_category_edit>
 
@@ -64,7 +64,7 @@ Layout handle for cms page
 
     <adminhtml_cms_page_edit>
         <reference name="content">
-            <block type="googleoptimizer/adminhtml_cms_page_edit_enable" name="googleoptimizer_enable">
+            <block type="Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Enable" name="googleoptimizer_enable">
                 <action method="ifGoogleOptimizerEnabled">
                     <name>cms_page_edit_tabs</name>
                     <method>addTab</method>

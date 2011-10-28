@@ -29,17 +29,17 @@
 <layout>
     <adminhtml_banner_index>
         <reference name="content">
-            <block type="enterprise_banner/adminhtml_banner" name="banner_list"/>
+            <block type="Enterprise_Banner_Block_Adminhtml_Banner" name="banner_list"/>
         </reference>
     </adminhtml_banner_index>
     <adminhtml_banner_edit>
         <update handle="editor"/>
         <reference name="left">
-            <block type="enterprise_banner/adminhtml_banner_edit_tabs" name="banner_edit_tabs">
-                <block type="enterprise_banner/adminhtml_banner_edit_tab_properties" name="banner_edit_tab_properties"/>
-                <block type="enterprise_banner/adminhtml_banner_edit_tab_content" name="banner_edit_tab_content"/>
-                <block type="enterprise_banner/adminhtml_banner_edit_tab_promotions" name="banner_edit_tab_promotions" template="enterprise/banner/edit/tab/promotions.phtml">
-                    <block type="enterprise_banner/adminhtml_banner_edit_tab_promotions_salesrule" name="banner_salesrule_grid"/>
+            <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tabs" name="banner_edit_tabs">
+                <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties" name="banner_edit_tab_properties"/>
+                <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content" name="banner_edit_tab_content"/>
+                <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions" name="banner_edit_tab_promotions" template="enterprise/banner/edit/tab/promotions.phtml">
+                    <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule" name="banner_salesrule_grid"/>
                     <block type="Mage_Adminhtml_Block_Widget_Grid_Serializer" name="salesrule_grid_serializer">
                         <reference name="salesrule_grid_serializer">
                             <action method="initSerializerBlock">
@@ -50,7 +50,7 @@
                             </action>
                         </reference>
                     </block>
-                    <block type="enterprise_banner/adminhtml_banner_edit_tab_promotions_catalogrule" name="banner_catalogrule_grid"/>
+                    <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule" name="banner_catalogrule_grid"/>
                     <block type="Mage_Adminhtml_Block_Widget_Grid_Serializer" name="catalogrule_grid_serializer">
                         <reference name="catalogrule_grid_serializer">
                             <action method="initSerializerBlock">
@@ -68,28 +68,28 @@
             </block>
         </reference>
         <reference name="content">
-            <block type="enterprise_banner/adminhtml_banner_edit" name="banner_edit_content"/>
+            <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit" name="banner_edit_content"/>
         </reference>
     </adminhtml_banner_edit>
 
     <adminhtml_banner_grid>
         <remove name="root"/>
-        <block type="enterprise_banner/adminhtml_banner_grid" name="banner_grid" output="toHtml"/>
+        <block type="Enterprise_Banner_Block_Adminhtml_Banner_Grid" name="banner_grid" output="toHtml"/>
     </adminhtml_banner_grid>
     <adminhtml_banner_salesrulegrid>
         <remove name="root"/>
-        <block type="enterprise_banner/adminhtml_banner_edit_tab_promotions_salesrule" name="banner_salesrule_grid" output="toHtml"/>
+        <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule" name="banner_salesrule_grid" output="toHtml"/>
     </adminhtml_banner_salesrulegrid>
     <adminhtml_banner_catalogrulegrid>
         <remove name="root"/>
-        <block type="enterprise_banner/adminhtml_banner_edit_tab_promotions_catalogrule" name="banner_catalogrule_grid" output="toHtml"/>
+        <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule" name="banner_catalogrule_grid" output="toHtml"/>
     </adminhtml_banner_catalogrulegrid>
 
      <!-- Binding Banners Tab for Catalog Price Rule -->
     <adminhtml_promo_catalog_edit>
         <reference name="promo_catalog_edit_tabs">
-            <block type="enterprise_banner/adminhtml_promo_catalogrule_edit_tab_banners" name="catalogrule.related.banners">
-                <block type="enterprise_banner/adminhtml_promo_catalogrule_edit_tab_banners_grid" name="related_catalogrule_banners_grid"/>
+            <block type="Enterprise_Banner_Block_Adminhtml_Promo_Catalogrule_Edit_Tab_Banners" name="catalogrule.related.banners">
+                <block type="Enterprise_Banner_Block_Adminhtml_Promo_Catalogrule_Edit_Tab_Banners_Grid" name="related_catalogrule_banners_grid"/>
                 <block type="Mage_Adminhtml_Block_Widget_Grid_Serializer" name="banners_grid_serializer">
                     <reference name="banners_grid_serializer">
                         <action method="initSerializerBlock">
@@ -102,22 +102,22 @@
                 </block>
             </block>
             <action method="addTab"><name>banners_section</name><block>catalogrule.related.banners</block></action>
-            <block type="enterprise_banner/adminhtml_permission_monitor" name="bannner.permission.monitor"/>
+            <block type="Enterprise_Banner_Block_Adminhtml_Permission_Monitor" name="bannner.permission.monitor"/>
         </reference>
     </adminhtml_promo_catalog_edit>
 
     <!-- Binding Banners Grid for Shopping Cart Price Rule -->
     <adminhtml_banner_catalogrulebannersgrid>
         <remove name="root"/>
-        <block type="enterprise_banner/adminhtml_promo_catalogrule_edit_tab_banners_grid" name="related_catalogrule_banners_grid" output="toHtml"/>
+        <block type="Enterprise_Banner_Block_Adminhtml_Promo_Catalogrule_Edit_Tab_Banners_Grid" name="related_catalogrule_banners_grid" output="toHtml"/>
     </adminhtml_banner_catalogrulebannersgrid>
 
 
     <!-- Binding Banners Tab for Shopping Cart Price Rule -->
     <adminhtml_promo_quote_edit>
         <reference name="promo_quote_edit_tabs">
-            <block type="enterprise_banner/adminhtml_promo_salesrule_edit_tab_banners" name="salesrule.related.banners">
-                <block type="enterprise_banner/adminhtml_promo_salesrule_edit_tab_banners_grid" name="related_salesrule_banners_grid"/>
+            <block type="Enterprise_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners" name="salesrule.related.banners">
+                <block type="Enterprise_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid" name="related_salesrule_banners_grid"/>
                 <block type="Mage_Adminhtml_Block_Widget_Grid_Serializer" name="banners_grid_serializer">
                     <reference name="banners_grid_serializer">
                         <action method="initSerializerBlock">
@@ -130,13 +130,13 @@
                 </block>
             </block>
             <action method="addTab"><name>banners_section</name><block>salesrule.related.banners</block></action>
-            <block type="enterprise_banner/adminhtml_permission_monitor" name="bannner.permission.monitor"/>
+            <block type="Enterprise_Banner_Block_Adminhtml_Permission_Monitor" name="bannner.permission.monitor"/>
         </reference>
     </adminhtml_promo_quote_edit>
 
     <!-- Binding Banners Grid for Shopping Cart Price Rule -->
     <adminhtml_banner_salesrulebannersgrid>
         <remove name="root"/>
-        <block type="enterprise_banner/adminhtml_promo_salesrule_edit_tab_banners_grid" name="related_salesrule_banners_grid" output="toHtml"/>
+        <block type="Enterprise_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid" name="related_salesrule_banners_grid" output="toHtml"/>
     </adminhtml_banner_salesrulebannersgrid>
 </layout>

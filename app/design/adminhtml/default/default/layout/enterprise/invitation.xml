@@ -28,18 +28,18 @@
 <layout version="0.1.0">
     <adminhtml_invitation_index>
         <reference name="content">
-            <block name="invitation_grid_container" type="enterprise_invitation/adminhtml_invitation" />
+            <block name="invitation_grid_container" type="Enterprise_Invitation_Block_Adminhtml_Invitation" />
         </reference>
     </adminhtml_invitation_index>
 
     <adminhtml_invitation_view>
         <reference name="content">
-            <block name="invitation_view_page" type="enterprise_invitation/adminhtml_invitation_view" template="enterprise/invitation/view.phtml">
+            <block name="invitation_view_page" type="Enterprise_Invitation_Block_Adminhtml_Invitation_View" template="enterprise/invitation/view.phtml">
                 
             </block>
         </reference>
         <reference name="left">
-            <block name="invitation_view_tabs" as="tabs" type="enterprise_invitation/adminhtml_invitation_view_tabs">
+            <block name="invitation_view_tabs" as="tabs" type="Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tabs">
                 <action method="addTab"><tab>general</tab><content>enterprise_invitation/adminhtml_invitation_view_tab_general</content></action>
                 <action method="addTab"><tab>history</tab><content>enterprise_invitation/adminhtml_invitation_view_tab_history</content></action>
                 <action method="setDestElementId"><id>invitation_elements</id></action>
@@ -49,7 +49,7 @@
 
     <adminhtml_invitation_new>
         <reference name="content">
-            <block name="invitation_add_page" type="enterprise_invitation/adminhtml_invitation_add" />
+            <block name="invitation_add_page" type="Enterprise_Invitation_Block_Adminhtml_Invitation_Add" />
         </reference>
     </adminhtml_invitation_new>
 </layout>

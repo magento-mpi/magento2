@@ -30,11 +30,11 @@
 
     <checkout_cart_index>
         <reference name="checkout.cart.top_methods">
-            <block type="googlecheckout/link" name="checkout.cart.methods.googlecheckout.top" template="googlecheckout/link.phtml" before="-"/>
+            <block type="Mage_GoogleCheckout_Block_Link" name="checkout.cart.methods.googlecheckout.top" template="Mage_GoogleCheckout_Block_Link.phtml" before="-"/>
         </reference>
 
         <reference name="checkout.cart.methods">
-            <block type="googlecheckout/link" name="checkout.cart.methods.googlecheckout.bottom" template="googlecheckout/link.phtml"/>
+            <block type="Mage_GoogleCheckout_Block_Link" name="checkout.cart.methods.googlecheckout.bottom" template="Mage_GoogleCheckout_Block_Link.phtml"/>
         </reference>
     </checkout_cart_index>
 
@@ -43,7 +43,7 @@
             <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="googlecheckout/redirect" name="googlecheckout_redirect" template="page/redirect.phtml"></block>
+            <block type="Mage_GoogleCheckout_Block_Redirect" name="googlecheckout_redirect" template="page/redirect.phtml"></block>
         </reference>
     </googlecheckout_redirect_redirect>
 </layout>

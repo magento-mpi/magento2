@@ -32,7 +32,7 @@
             <action method="setMassactionBlockName"><name>enterprise_salesarchive/adminhtml_sales_order_grid_massaction</name></action>
         </reference>
         <reference name="sales_order.grid.container">
-            <block type="enterprise_salesarchive/adminhtml_sales_order_grid_button" name="sales_order.grid.archive.button"></block>
+            <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Button" name="sales_order.grid.archive.button"></block>
         </reference>
     </adminhtml_sales_order_index>
     
@@ -45,59 +45,59 @@
     
     <adminhtml_sales_archive_orders>
         <reference name="content">
-            <block type="enterprise_salesarchive/adminhtml_sales_archive_order" name="archive">
-                <block type="enterprise_salesarchive/adminhtml_sales_archive_order_grid" name="archive.grid" as="grid" />
+            <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order" name="archive">
+                <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Grid" name="archive.grid" as="grid" />
             </block>
         </reference>
     </adminhtml_sales_archive_orders>
 
     <adminhtml_sales_archive_ordersgrid>
         <update handle="formkey"/>
-        <block type="enterprise_salesarchive/adminhtml_sales_archive_order_grid" name="archive.grid" as="grid" output="toHtml"/>
+        <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Grid" name="archive.grid" as="grid" output="toHtml"/>
     </adminhtml_sales_archive_ordersgrid>
 
     <adminhtml_sales_archive_invoices>
         <reference name="content">
-            <block type="enterprise_salesarchive/adminhtml_sales_archive_order_invoice" name="archive">
-                <block type="enterprise_salesarchive/adminhtml_sales_archive_order_invoice_grid" name="archive.grid" as="grid" />
+            <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Invoice" name="archive">
+                <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Invoice_Grid" name="archive.grid" as="grid" />
             </block>
         </reference>
     </adminhtml_sales_archive_invoices>
 
     <adminhtml_sales_archive_invoicesgrid>
         <update handle="formkey"/>
-        <block type="enterprise_salesarchive/adminhtml_sales_archive_order_invoice_grid" name="archive.grid" as="grid" output="toHtml"/>
+        <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Invoice_Grid" name="archive.grid" as="grid" output="toHtml"/>
     </adminhtml_sales_archive_invoicesgrid>
 
     <adminhtml_sales_archive_shipments>
         <reference name="content">
-            <block type="enterprise_salesarchive/adminhtml_sales_archive_order_shipment" name="archive">
-                <block type="enterprise_salesarchive/adminhtml_sales_archive_order_shipment_grid" name="archive.grid" as="grid" />
+            <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment" name="archive">
+                <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid" name="archive.grid" as="grid" />
             </block>
         </reference>
     </adminhtml_sales_archive_shipments>
 
     <adminhtml_sales_archive_shipmentsgrid>
         <update handle="formkey"/>
-        <block type="enterprise_salesarchive/adminhtml_sales_archive_order_shipment_grid" name="archive.grid" as="grid" output="toHtml"/>
+        <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid" name="archive.grid" as="grid" output="toHtml"/>
     </adminhtml_sales_archive_shipmentsgrid>
 
     <adminhtml_sales_archive_creditmemos>
         <reference name="content">
-            <block type="enterprise_salesarchive/adminhtml_sales_archive_order_creditmemo" name="archive">
-                <block type="enterprise_salesarchive/adminhtml_sales_archive_order_creditmemo_grid" name="archive.grid" as="grid" />
+            <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo" name="archive">
+                <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Grid" name="archive.grid" as="grid" />
             </block>
         </reference>
     </adminhtml_sales_archive_creditmemos>
 
     <adminhtml_sales_archive_creditmemosgrid>
         <update handle="formkey"/>
-        <block type="enterprise_salesarchive/adminhtml_sales_archive_order_creditmemo_grid" name="archive.grid" as="grid" output="toHtml"/>
+        <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Grid" name="archive.grid" as="grid" output="toHtml"/>
     </adminhtml_sales_archive_creditmemosgrid>
     
     <adminhtml_sales_order_view>
         <reference name="left">
-            <block type="enterprise_salesarchive/adminhtml_sales_order_view_replacer" name="archive.replacer" />
+            <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer" name="archive.replacer" />
         </reference>
     </adminhtml_sales_order_view>
 

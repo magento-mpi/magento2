@@ -28,13 +28,13 @@
 <layout>
     <adminhtml_customer_formtype_index>
         <reference name="content">
-            <block type="enterprise_customer/adminhtml_customer_formtype" name="enterprise_customer_formtype" />
+            <block type="Enterprise_Customer_Block_Adminhtml_Customer_Formtype" name="enterprise_customer_formtype" />
         </reference>
     </adminhtml_customer_formtype_index>
 
     <adminhtml_customer_formtype_new>
         <reference name="content">
-            <block type="enterprise_customer/adminhtml_customer_formtype_edit" name="enterprise_customer_formtype_new" />
+            <block type="Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit" name="enterprise_customer_formtype_new" />
         </reference>
     </adminhtml_customer_formtype_new>
 
@@ -43,16 +43,16 @@
             <action method="setCanLoadExtJs"><flag>1</flag></action>
         </reference>
         <reference name="content">
-            <block type="enterprise_customer/adminhtml_customer_formtype_edit" name="enterprise_customer_formtype_edit" />
+            <block type="Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit" name="enterprise_customer_formtype_edit" />
         </reference>
         <reference name="left">
-            <block type="enterprise_customer/adminhtml_customer_formtype_edit_tabs" name="enterprise_customer_formtype_edit_tabs">
-                <block type="enterprise_customer/adminhtml_customer_formtype_edit_tab_general" name="enterprise_customer_formtype_edit_tab_general"></block>
+            <block type="Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tabs" name="enterprise_customer_formtype_edit_tabs">
+                <block type="Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General" name="enterprise_customer_formtype_edit_tab_general"></block>
                 <action method="addTab">
                     <name>enterprise_customer_formtype_edit_tab_general</name>
                     <block>enterprise_customer_formtype_edit_tab_general</block>
                 </action>
-                <block type="enterprise_customer/adminhtml_customer_formtype_edit_tab_tree" name="enterprise_customer_formtype_edit_tab_tree" template="enterprise/customer/formtype/edit/tab/tree.phtml"></block>
+                <block type="Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree" name="enterprise_customer_formtype_edit_tab_tree" template="enterprise/customer/formtype/edit/tab/tree.phtml"></block>
                 <action method="addTab">
                     <name>enterprise_customer_formtype_edit_tab_tree</name>
                     <block>enterprise_customer_formtype_edit_tab_tree</block>
@@ -63,7 +63,7 @@
 
     <!-- shared scope (website) switcher -->
     <scope_switcher>
-        <block type="enterprise_customer/adminhtml_form_renderer_fieldset_element" name="fieldset_element_renderer" template="enterprise/customer/form/renderer/fieldset/element.phtml" />
+        <block type="Enterprise_Customer_Block_Adminhtml_Form_Renderer_Fieldset_Element" name="fieldset_element_renderer" template="enterprise/customer/form/renderer/fieldset/element.phtml" />
         <reference name="left">
             <block type="Mage_Adminhtml_Block_Store_Switcher" name="website_switcher" before="-" template="enterprise/customer/website/switcher.phtml">
                 <action method="setStoreVarName"><value>website</value></action>
@@ -75,25 +75,25 @@
     <!-- customer attributes -->
     <adminhtml_customer_attribute_index>
         <reference name="content">
-            <block type="enterprise_customer/adminhtml_customer_attribute" name="enterprise_customer_attribute" />
+            <block type="Enterprise_Customer_Block_Adminhtml_Customer_Attribute" name="enterprise_customer_attribute" />
         </reference>
     </adminhtml_customer_attribute_index>
 
     <adminhtml_customer_attribute_edit>
         <update handle="scope_switcher"/>
         <reference name="content">
-            <block type="enterprise_customer/adminhtml_customer_attribute_edit" name="enterprise_customer_attribute_edit" />
+            <block type="Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit" name="enterprise_customer_attribute_edit" />
         </reference>
         <reference name="left">
-            <block type="enterprise_customer/adminhtml_customer_attribute_edit_tabs" name="enterprise_customer_attribute_edit_tabs">
-                <block type="enterprise_customer/adminhtml_customer_attribute_edit_tab_main" name="enterprise_customer_attribute_edit_tab_general" />
+            <block type="Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tabs" name="enterprise_customer_attribute_edit_tabs">
+                <block type="Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main" name="enterprise_customer_attribute_edit_tab_general" />
                 <action method="addTab"><name>general</name><block>enterprise_customer_attribute_edit_tab_general</block></action>
-                <block type="enterprise_customer/adminhtml_customer_attribute_edit_tab_options" name="enterprise_customer_attribute_edit_tab_options" />
+                <block type="Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Options" name="enterprise_customer_attribute_edit_tab_options" />
                 <action method="addTab"><name>options</name><block>enterprise_customer_attribute_edit_tab_options</block></action>
             </block>
         </reference>
         <reference name="js">
-            <block type="enterprise_customer/adminhtml_customer_attribute_edit_js" template="enterprise/customer/attribute/js.phtml" />
+            <block type="Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Js" template="enterprise/customer/attribute/js.phtml" />
         </reference>
     </adminhtml_customer_attribute_edit>
 
@@ -104,25 +104,25 @@
     <!-- customer address attributes -->
     <adminhtml_customer_address_attribute_index>
         <reference name="content">
-            <block type="enterprise_customer/adminhtml_customer_address_attribute" name="enterprise_customer_address_attribute" />
+            <block type="Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute" name="enterprise_customer_address_attribute" />
         </reference>
     </adminhtml_customer_address_attribute_index>
 
     <adminhtml_customer_address_attribute_edit>
         <update handle="scope_switcher"/>
         <reference name="content">
-            <block type="enterprise_customer/adminhtml_customer_address_attribute_edit" name="enterprise_customer_address_attribute_edit" />
+            <block type="Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit" name="enterprise_customer_address_attribute_edit" />
         </reference>
         <reference name="left">
-            <block type="enterprise_customer/adminhtml_customer_address_attribute_edit_tabs" name="enterprise_customer_address_attribute_edit_tabs">
-                <block type="enterprise_customer/adminhtml_customer_address_attribute_edit_tab_general" name="enterprise_customer_address_attribute_edit_tab_general" />
+            <block type="Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tabs" name="enterprise_customer_address_attribute_edit_tabs">
+                <block type="Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General" name="enterprise_customer_address_attribute_edit_tab_general" />
                 <action method="addTab"><name>general</name><block>enterprise_customer_address_attribute_edit_tab_general</block></action>
-                <block type="enterprise_customer/adminhtml_customer_address_attribute_edit_tab_options" name="enterprise_customer_address_attribute_edit_tab_options" />
+                <block type="Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Options" name="enterprise_customer_address_attribute_edit_tab_options" />
                 <action method="addTab"><name>options</name><block>enterprise_customer_address_attribute_edit_tab_options</block></action>
             </block>
         </reference>
         <reference name="js">
-            <block type="enterprise_customer/adminhtml_customer_attribute_edit_js" template="enterprise/customer/attribute/js.phtml" />
+            <block type="Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Js" template="enterprise/customer/attribute/js.phtml" />
         </reference>
     </adminhtml_customer_address_attribute_edit>
 

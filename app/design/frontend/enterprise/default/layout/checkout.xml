@@ -202,7 +202,7 @@ Multi address shipping checkout selection of address per item page
         <label>Multishipping Checkout Customer Address Edit Form</label>
         <reference name="content">
             <block type="Mage_Customer_Block_Address_Edit" name="customer_address_edit" template="customer/address/edit.phtml">
-                <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_user_attributes">
+                <block type="Enterprise_Customer_Block_Form" template="customer/form/userattributes.phtml" name="customer_form_user_attributes">
                     <action method="setFormCode"><code>customer_address_edit</code></action>
                 </block>
             </block>
@@ -353,15 +353,15 @@ One page checkout main layout
                     </block>
                 </block>
                 <block type="Mage_Checkout_Block_Onepage_Billing" name="checkout.onepage.billing" as="billing" template="checkout/onepage/billing.phtml">
-                    <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_customer_user_defined_attributes">
+                    <block type="Enterprise_Customer_Block_Form" template="customer/form/userattributes.phtml" name="customer_form_customer_user_defined_attributes">
                         <action method="setFormCode"><code>checkout_register</code></action>
                     </block>
-                    <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_billing_address_user_defined_attributes">
+                    <block type="Enterprise_Customer_Block_Form" template="customer/form/userattributes.phtml" name="customer_form_billing_address_user_defined_attributes">
                         <action method="setFormCode"><code>customer_register_address</code></action>
                     </block>
                 </block>
                 <block type="Mage_Checkout_Block_Onepage_Shipping" name="checkout.onepage.shipping" as="shipping" template="checkout/onepage/shipping.phtml">
-                    <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_shipping_address_user_defined_attributes">
+                    <block type="Enterprise_Customer_Block_Form" template="customer/form/userattributes.phtml" name="customer_form_shipping_address_user_defined_attributes">
                         <action method="setFormCode"><code>customer_register_address</code></action>
                     </block>
                 </block>
