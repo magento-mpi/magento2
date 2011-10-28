@@ -97,4 +97,18 @@ class Inspection_CodeSniffer_CommandTest extends PHPUnit_Framework_TestCase
         ;
         $this->_cmd->run();
     }
+
+    /**
+     * @depends testRun
+     */
+    public function testRunWithExtensions()
+    {
+        $this->assertSame($this->_cmd, $this->_cmd->setExtensions(array('txt', 'xml')));
+        $this->_cmd
+            ->expects($this->once())
+            ->method('_execShellCmd')
+            ->with($this->stringContains(' --extensions=txt,xml '))
+        ;
+        $this->_cmd->run();
+    }
 }

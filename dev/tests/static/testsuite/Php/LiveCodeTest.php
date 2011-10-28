@@ -51,6 +51,7 @@ class Php_LiveCodeTest extends PHPUnit_Framework_TestCase
         if (!$cmd->canRun()) {
             $this->markTestSkipped('PHP Code Sniffer command line is not available.');
         }
+        $cmd->setExtensions(array('php', 'phtml'));
         $this->assertTrue($cmd->run(), "See detailed report in '{$reportFile}'.");
     }
 
