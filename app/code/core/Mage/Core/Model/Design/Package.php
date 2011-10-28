@@ -59,6 +59,11 @@ class Mage_Core_Model_Design_Package
 
     const XML_PATH_THEME = 'design/theme/full_name';
 
+    /**
+     * PCRE that matches non-absolute URLs in CSS content
+     */
+    const REGEX_CSS_RELATIVE_URLS = '#url\((?(?=\'|").)(?!http://|https://|/|data:)(.+?)(?:[\#\?].*?|[\'"])?\)#';
+
     private static $_regexMatchCache      = array();
     private static $_customThemeTypeCache = array();
 
@@ -755,7 +760,7 @@ class Mage_Core_Model_Design_Package
      */
     protected function _extractCssRelativeUrls($cssContent)
     {
-        preg_match_all('#url\([\'"]?(?!http://|https://|/|data:)(.+?)(?:[\#\?].*?|[\'"])?\)#', $cssContent, $matches);
+        preg_match_all(self::REGEX_CSS_RELATIVE_URLS, $cssContent, $matches);
         if (!empty($matches[0]) && !empty($matches[1])) {
             return array_combine($matches[0], $matches[1]);
         }

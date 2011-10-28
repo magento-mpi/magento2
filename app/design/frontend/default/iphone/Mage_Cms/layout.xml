@@ -58,7 +58,7 @@ Default layout, loads most of the pages
     <cms_index_index translate="label">
         <label>CMS Home Page</label>
         <reference name="content">
-            <block type="catalog/navigation" name="hp_nav" template="catalog/navigation/top.phtml" />
+            <block type="catalog/navigation" name="hp_nav" template="navigation/top.phtml" />
         </reference>
         <remove name="cms.wrapper"/>
     </cms_index_index>

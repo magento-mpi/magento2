@@ -40,7 +40,7 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
         if (pathinfo($file, PATHINFO_EXTENSION) == 'css') {
             $errors = array();
             $content = file_get_contents($skinFile);
-            preg_match_all('#url\([\'"]?(?!http://|https://|/|data\:)(.+?)[\'"]?\)#', $content, $matches);
+            preg_match_all(Mage_Core_Model_Design_Package::REGEX_CSS_RELATIVE_URLS, $content, $matches);
             foreach ($matches[1] as $relativePath) {
                 $path = $this->_getNotRelativePath($relativePath, $file);
                 $pathFile = Mage::getDesign()->getSkinFile($path, $params);

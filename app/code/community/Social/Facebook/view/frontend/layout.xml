@@ -31,29 +31,29 @@ Product view
 -->
     <catalog_product_view translate="label">
         <reference name="head">
-            <action method="addCss"><stylesheet>css/facebook.css</stylesheet></action>
+            <action method="addCss"><stylesheet>Social_Facebook::css/facebook.css</stylesheet></action>
         </reference>
         <reference name="product.info.extrahint">
             <block type="social_facebook/start" name="social_facebook_start" >
-                <block type="social_facebook/action" name="social_facebook_action" as="social_facebook_action" template="social/facebook/action.phtml" />
-                <block type="social_facebook/box" name="social_facebook_box" as="social_facebook_box" template="social/facebook/box.phtml" />
+                <block type="social_facebook/action" name="social_facebook_action" as="social_facebook_action" template="action.phtml" />
+                <block type="social_facebook/box" name="social_facebook_box" as="social_facebook_box" template="box.phtml" />
             </block>
         </reference>
     </catalog_product_view>
 
     <review_product_list translate="label">
         <reference name="head">
-            <action method="addCss"><stylesheet>css/facebook.css</stylesheet></action>
+            <action method="addCss"><stylesheet>Social_Facebook::css/facebook.css</stylesheet></action>
         </reference>
         <reference name="product.info.extrahint">
             <block type="social_facebook/start" name="social_facebook_start" >
-                <block type="social_facebook/action" name="social_facebook_action" as="social_facebook_action" template="social/facebook/action.phtml" />
-                <block type="social_facebook/box" name="social_facebook_box" as="social_facebook_box" template="social/facebook/box.phtml" />
+                <block type="social_facebook/action" name="social_facebook_action" as="social_facebook_action" template="action.phtml" />
+                <block type="social_facebook/box" name="social_facebook_box" as="social_facebook_box" template="box.phtml" />
             </block>
         </reference>
     </review_product_list>
 
     <facebook_index_page translate="label">
-        <block type="social_facebook/head" name="social_facebook_head" template="social/facebook/page.phtml" />
+        <block type="social_facebook/head" name="social_facebook_head" template="page.phtml" />
     </facebook_index_page>
 </layout>
