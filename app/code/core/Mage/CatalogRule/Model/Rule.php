@@ -109,7 +109,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('catalogrule/rule');
+        $this->_init('Mage_CatalogRule_Model_Resource_Rule');
         $this->setIdFieldName('rule_id');
     }
 
@@ -158,12 +158,12 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
 
     public function toString($format='')
     {
-        $str = Mage::helper('catalogrule')->__("Name: %s", $this->getName()) ."\n"
-             . Mage::helper('catalogrule')->__("Start at: %s", $this->getStartAt()) ."\n"
-             . Mage::helper('catalogrule')->__("Expire at: %s", $this->getExpireAt()) ."\n"
-             . Mage::helper('catalogrule')->__("Customer Registered: %s", $this->getCustomerRegistered()) ."\n"
-             . Mage::helper('catalogrule')->__("Customer is a New Buyer: %s", $this->getCustomerNewBuyer()) ."\n"
-             . Mage::helper('catalogrule')->__("Description: %s", $this->getDescription()) ."\n\n"
+        $str = Mage::helper('Mage_CatalogRule_Helper_Data')->__("Name: %s", $this->getName()) ."\n"
+             . Mage::helper('Mage_CatalogRule_Helper_Data')->__("Start at: %s", $this->getStartAt()) ."\n"
+             . Mage::helper('Mage_CatalogRule_Helper_Data')->__("Expire at: %s", $this->getExpireAt()) ."\n"
+             . Mage::helper('Mage_CatalogRule_Helper_Data')->__("Customer Registered: %s", $this->getCustomerRegistered()) ."\n"
+             . Mage::helper('Mage_CatalogRule_Helper_Data')->__("Customer is a New Buyer: %s", $this->getCustomerNewBuyer()) ."\n"
+             . Mage::helper('Mage_CatalogRule_Helper_Data')->__("Description: %s", $this->getDescription()) ."\n\n"
              . $this->getConditions()->toStringRecursive() ."\n\n"
              . $this->getActions()->toStringRecursive() ."\n\n";
         return $str;
@@ -343,7 +343,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
         }
 
         if ($productId) {
-            Mage::getResourceSingleton('catalog/product_indexer_price')->reindexProductIds(array($productId));
+            Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Indexer_Price')->reindexProductIds(array($productId));
         }
     }
 
@@ -374,7 +374,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
                 foreach ($rulesData as $ruleData) {
                     if ($product->getParentId()) {
                         if ($ruleData['sub_is_enable']) {
-                            $priceRules = Mage::helper('catalogrule')->calcPriceRule(
+                            $priceRules = Mage::helper('Mage_CatalogRule_Helper_Data')->calcPriceRule(
                                 $ruleData['sub_simple_action'],
                                 $ruleData['sub_discount_amount'],
                                 $priceRules ? $priceRules : $price
@@ -386,7 +386,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
                             break;
                         }
                     } else {
-                        $priceRules = Mage::helper('catalogrule')->calcPriceRule(
+                        $priceRules = Mage::helper('Mage_CatalogRule_Helper_Data')->calcPriceRule(
                             $ruleData['simple_action'],
                             $ruleData['discount_amount'],
                             $priceRules ? $priceRules :$price

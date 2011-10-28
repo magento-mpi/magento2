@@ -41,10 +41,10 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype extends Mage_Adminht
     {
         $this->_blockGroup = 'enterprise_customer';
         $this->_controller = 'adminhtml_customer_formtype';
-        $this->_headerText = Mage::helper('enterprise_customer')->__('Manage Form Types');
+        $this->_headerText = Mage::helper('Enterprise_Customer_Helper_Data')->__('Manage Form Types');
 
         parent::__construct();
 
-        $this->_updateButton('add', 'label', Mage::helper('enterprise_customer')->__('New Form Type'));
+        $this->_updateButton('add', 'label', Mage::helper('Enterprise_Customer_Helper_Data')->__('New Form Type'));
     }
 }

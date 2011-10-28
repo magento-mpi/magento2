@@ -197,7 +197,7 @@ Available logo types can be assigned with action="setLogoType":
             <block type="Mage_Paypal_Block_Iframe" name="paypal.iframe" />
         </reference>
         <reference name="checkout.onepage.review.button">
-            <action method="setTemplate"><template helper="paypal/hss/getReviewButtonTemplate"><name>paypal/hss/review/button.phtml</name><block>checkout.onepage.review.button</block></template></action>
+            <action method="setTemplate"><template helper="Mage_Paypal_Helper_Hss::getReviewButtonTemplate"><name>paypal/hss/review/button.phtml</name><block>checkout.onepage.review.button</block></template></action>
         </reference>
     </checkout_onepage_review>
 

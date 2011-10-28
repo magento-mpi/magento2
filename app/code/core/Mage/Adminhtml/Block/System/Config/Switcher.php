@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_System_Config_Switcher extends Mage_Adminhtml_Block_T
 
         $options = array();
         $options['default'] = array(
-            'label'    => Mage::helper('adminhtml')->__('Default Config'),
+            'label'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Default Config'),
             'url'      => $url->getUrl('*/*/*', array('section'=>$section)),
             'selected' => !$curWebsite && !$curStore,
             'style'    => 'background:#ccc; font-weight:bold;',

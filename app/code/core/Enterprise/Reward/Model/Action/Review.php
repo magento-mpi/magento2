@@ -41,7 +41,7 @@ class Enterprise_Reward_Model_Action_Review extends Enterprise_Reward_Model_Acti
      */
     public function getPoints($websiteId)
     {
-        return (int)Mage::helper('enterprise_reward')->getPointsConfig('review', $websiteId);
+        return (int)Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig('review', $websiteId);
     }
 
     /**
@@ -51,7 +51,7 @@ class Enterprise_Reward_Model_Action_Review extends Enterprise_Reward_Model_Acti
      */
     public function getRewardLimit()
     {
-        return Mage::helper('enterprise_reward')->getPointsConfig('review_limit', $this->getReward()->getWebsiteId());
+        return Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig('review_limit', $this->getReward()->getWebsiteId());
     }
 
     /**
@@ -62,6 +62,6 @@ class Enterprise_Reward_Model_Action_Review extends Enterprise_Reward_Model_Acti
      */
     public function getHistoryMessage($args = array())
     {
-        return Mage::helper('enterprise_reward')->__('For submitting a product review.');
+        return Mage::helper('Enterprise_Reward_Helper_Data')->__('For submitting a product review.');
     }
 }

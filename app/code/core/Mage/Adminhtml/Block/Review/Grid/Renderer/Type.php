@@ -39,13 +39,13 @@ class Mage_Adminhtml_Block_Review_Grid_Renderer_Type extends Mage_Adminhtml_Bloc
 
         if (is_null($row->getCustomerId())) {
             if ($row->getStoreId() == Mage_Core_Model_App::ADMIN_STORE_ID) {
-                return Mage::helper('review')->__('Administrator');
+                return Mage::helper('Mage_Review_Helper_Data')->__('Administrator');
             } else {
-                return Mage::helper('review')->__('Guest');
+                return Mage::helper('Mage_Review_Helper_Data')->__('Guest');
             }
         } elseif ($row->getCustomerId() > 0) {
-            return Mage::helper('review')->__('Customer');
+            return Mage::helper('Mage_Review_Helper_Data')->__('Customer');
         }
-//		return ($row->getCustomerId() ? Mage::helper('review')->__('Customer') : Mage::helper('review')->__('Guest'));
+//		return ($row->getCustomerId() ? Mage::helper('Mage_Review_Helper_Data')->__('Customer') : Mage::helper('Mage_Review_Helper_Data')->__('Guest'));
     }
 }// Class Mage_Adminhtml_Block_Review_Grid_Renderer_Type END

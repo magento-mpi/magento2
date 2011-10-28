@@ -44,11 +44,11 @@ class Mage_Bundle_Model_Product_Attribute_Source_Price_View extends Mage_Eav_Mod
         if (is_null($this->_options)) {
             $this->_options = array(
                 array(
-                    'label' => Mage::helper('bundle')->__('As Low as'),
+                    'label' => Mage::helper('Mage_Bundle_Helper_Data')->__('As Low as'),
                     'value' =>  1
                 ),
                 array(
-                    'label' => Mage::helper('bundle')->__('Price Range'),
+                    'label' => Mage::helper('Mage_Bundle_Helper_Data')->__('Price Range'),
                     'value' =>  0
                 ),
             );
@@ -87,7 +87,7 @@ class Mage_Bundle_Model_Product_Attribute_Source_Price_View extends Mage_Eav_Mod
             'extra'     => null
         );
 
-        if (Mage::helper('core')->useDbCompatibleMode()) {
+        if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
             $column['type']     = 'int';
             $column['is_null']  = true;
         } else {

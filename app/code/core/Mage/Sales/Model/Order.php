@@ -410,7 +410,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('sales/order');
+        $this->_init('Mage_Sales_Model_Resource_Order');
     }
 
     /**
@@ -957,7 +957,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         if ($shouldProtectState) {
             if ($this->isStateProtected($state)) {
                 Mage::throwException(
-                    Mage::helper('sales')->__('The Order State "%s" must not be set manually.', $state)
+                    Mage::helper('Mage_Sales_Helper_Data')->__('The Order State "%s" must not be set manually.', $state)
                 );
             }
         }
@@ -1067,7 +1067,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function hold()
     {
         if (!$this->canHold()) {
-            Mage::throwException(Mage::helper('sales')->__('Hold action is not available.'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Hold action is not available.'));
         }
         $this->setHoldBeforeState($this->getState());
         $this->setHoldBeforeStatus($this->getStatus());
@@ -1084,7 +1084,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function unhold()
     {
         if (!$this->canUnhold()) {
-            Mage::throwException(Mage::helper('sales')->__('Unhold action is not available.'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Unhold action is not available.'));
         }
         $this->setState($this->getHoldBeforeState(), $this->getHoldBeforeStatus());
         $this->setHoldBeforeState(null);
@@ -1148,7 +1148,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
 
             $this->_setState($cancelState, true, $comment);
         } elseif (!$graceful) {
-            Mage::throwException(Mage::helper('sales')->__('Order does not allow to be canceled.'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Order does not allow to be canceled.'));
         }
         return $this;
     }
@@ -1220,7 +1220,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     {
         $storeId = $this->getStore()->getId();
 
-        if (!Mage::helper('sales')->canSendNewOrderEmail($storeId)) {
+        if (!Mage::helper('Mage_Sales_Helper_Data')->canSendNewOrderEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
@@ -1233,7 +1233,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
 
         try {
             // Retrieve specified view block from appropriate design package (depends on emulated store)
-            $paymentBlock = Mage::helper('payment')->getInfoBlock($this->getPayment())
+            $paymentBlock = Mage::helper('Mage_Payment_Helper_Data')->getInfoBlock($this->getPayment())
                 ->setIsSecureMode(true);
             $paymentBlock->getMethod()->setStore($storeId);
             $paymentBlockHtml = $paymentBlock->toHtml();
@@ -1304,7 +1304,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     {
         $storeId = $this->getStore()->getId();
 
-        if (!Mage::helper('sales')->canSendOrderCommentEmail($storeId)) {
+        if (!Mage::helper('Mage_Sales_Helper_Data')->canSendOrderCommentEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
@@ -1951,7 +1951,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $customerName = $this->getCustomerFirstname() . ' ' . $this->getCustomerLastname();
         }
         else {
-            $customerName = Mage::helper('sales')->__('Guest');
+            $customerName = Mage::helper('Mage_Sales_Helper_Data')->__('Guest');
         }
         return $customerName;
     }
@@ -1976,7 +1976,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function getCreatedAtFormated($format)
     {
-        return Mage::helper('core')->formatDate($this->getCreatedAtStoreDate(), $format, true);
+        return Mage::helper('Mage_Core_Helper_Data')->formatDate($this->getCreatedAtStoreDate(), $format, true);
     }
 
     public function getEmailCustomerNote()

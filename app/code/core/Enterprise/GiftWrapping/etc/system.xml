@@ -31,7 +31,7 @@
             <groups>
                 <gift_options>
                     <fields>
-                        <wrapping_allow_order translate="label" module="enterprise_giftwrapping">
+                        <wrapping_allow_order translate="label" module="Enterprise_GiftWrapping">
                             <label>Allow Gift Wrapping on Order Level</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -40,7 +40,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </wrapping_allow_order>
-                        <wrapping_allow_items translate="label" module="enterprise_giftwrapping">
+                        <wrapping_allow_items translate="label" module="Enterprise_GiftWrapping">
                             <label>Allow Gift Wrapping for Order Items</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -49,7 +49,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </wrapping_allow_items>
-                        <allow_gift_receipt translate="label" module="enterprise_giftwrapping">
+                        <allow_gift_receipt translate="label" module="Enterprise_GiftWrapping">
                             <label>Allow Gift Receipt</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -58,7 +58,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </allow_gift_receipt>
-                        <allow_printed_card translate="label" module="enterprise_giftwrapping">
+                        <allow_printed_card translate="label" module="Enterprise_GiftWrapping">
                             <label>Allow Printed Card</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -67,7 +67,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </allow_printed_card>
-                        <printed_card_price translate="label" module="enterprise_giftwrapping">
+                        <printed_card_price translate="label" module="Enterprise_GiftWrapping">
                             <label>Default Price for Printed Card</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>30</sort_order>
@@ -83,7 +83,7 @@
             <groups>
                 <classes>
                     <fields>
-                        <wrapping_tax_class translate="label" module="enterprise_giftwrapping">
+                        <wrapping_tax_class translate="label" module="Enterprise_GiftWrapping">
                             <label>Tax Class for Gift Options</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_shipping_taxclass</source_model>
@@ -96,7 +96,7 @@
                 </classes>
                 <cart_display>
                     <fields>
-                        <gift_wrapping translate="label" module="enterprise_giftwrapping">
+                        <gift_wrapping translate="label" module="Enterprise_GiftWrapping">
                             <label>Display Gift Wrapping Prices</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tax/system_config_source_tax_display_type</source_model>
@@ -105,7 +105,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </gift_wrapping>
-                        <printed_card translate="label" module="enterprise_giftwrapping">
+                        <printed_card translate="label" module="Enterprise_GiftWrapping">
                             <label>Display Printed Card Prices</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tax/system_config_source_tax_display_type</source_model>
@@ -118,7 +118,7 @@
                 </cart_display>
                 <sales_display>
                     <fields>
-                        <gift_wrapping translate="label" module="enterprise_giftwrapping">
+                        <gift_wrapping translate="label" module="Enterprise_GiftWrapping">
                             <label>Display Gift Wrapping Prices</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tax/system_config_source_tax_display_type</source_model>
@@ -127,7 +127,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </gift_wrapping>
-                        <printed_card translate="label" module="enterprise_giftwrapping">
+                        <printed_card translate="label" module="Enterprise_GiftWrapping">
                             <label>Display Printed Card Prices</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tax/system_config_source_tax_display_type</source_model>

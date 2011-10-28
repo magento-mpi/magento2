@@ -380,12 +380,12 @@ $useLayout=0;
         $startTime = microtime(true);
 
         $cacheTypes = array(
-            'config'     => Mage::helper('adminhtml')->__('Configuration'),
-            'layout'     => Mage::helper('adminhtml')->__('Layouts'),
-            'block_html' => Mage::helper('adminhtml')->__('Blocks HTML output'),
-            'eav'        => Mage::helper('adminhtml')->__('EAV types and attributes'),
-            'translate'  => Mage::helper('adminhtml')->__('Translations'),
-            'pear'       => Mage::helper('adminhtml')->__('PEAR Channels and Packages'),
+            'config'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Configuration'),
+            'layout'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Layouts'),
+            'block_html' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Blocks HTML output'),
+            'eav'        => Mage::helper('Mage_Adminhtml_Helper_Data')->__('EAV types and attributes'),
+            'translate'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Translations'),
+            'pear'       => Mage::helper('Mage_Adminhtml_Helper_Data')->__('PEAR Channels and Packages'),
         );
 
         $this->setCacheTypes($cacheTypes);

@@ -92,8 +92,8 @@ class Mage_Adminhtml_Block_Report_Customer_Totals_Grid extends Mage_Adminhtml_Bl
             'rate'      => $rate,
         ));
 
-        $this->addExportType('*/*/exportTotalsCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportTotalsExcel', Mage::helper('reports')->__('Excel XML'));
+        $this->addExportType('*/*/exportTotalsCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportTotalsExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

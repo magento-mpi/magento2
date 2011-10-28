@@ -39,7 +39,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
 
         $form->setHtmlIdPrefix('segment_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('enterprise_customersegment')->__('General Properties')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('General Properties')));
 
         if ($model->getId()) {
             $fieldset->addField('segment_id', 'hidden', array(
@@ -49,13 +49,13 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
 
         $fieldset->addField('name', 'text', array(
             'name' => 'name',
-            'label' => Mage::helper('enterprise_customersegment')->__('Segment Name'),
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segment Name'),
             'required' => true,
         ));
 
         $fieldset->addField('description', 'textarea', array(
             'name' => 'description',
-            'label' => Mage::helper('enterprise_customersegment')->__('Description'),
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Description'),
             'style' => 'width: 98%; height: 100px;',
         ));
 
@@ -69,19 +69,19 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
         } else {
             $fieldset->addField('website_ids', 'multiselect', array(
                 'name'      => 'website_ids',
-                'label'     => Mage::helper('enterprise_customersegment')->__('Assigned to Website'),
+                'label'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Assigned to Website'),
                 'required'  => true,
                 'values'    => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(),
             ));
         }
 
         $fieldset->addField('is_active', 'select', array(
-            'label'     => Mage::helper('enterprise_customersegment')->__('Status'),
+            'label'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Status'),
             'name'      => 'is_active',
             'required' => true,
             'options'    => array(
-                '1' => Mage::helper('enterprise_customersegment')->__('Active'),
-                '0' => Mage::helper('enterprise_customersegment')->__('Inactive'),
+                '1' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Active'),
+                '0' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Inactive'),
             ),
         ));
         if (!$model->getId()) {

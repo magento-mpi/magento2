@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-        <google translate="label" module="googleanalytics">
+        <google translate="label" module="Mage_GoogleAnalytics">
             <label>Google API</label>
             <tab>sales</tab>
             <frontend_type>text</frontend_type>

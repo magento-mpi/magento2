@@ -25,7 +25,7 @@
  */
 ?>
 <div class="order-items order-details">
-<?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order', $this->getOrder())): ?>
+<?php if($this->helper('Mage_GiftMessage_Helper_Message')->getIsMessagesAvailable('order', $this->getOrder())): ?>
     <script type="text/javascript">
     //<![CDATA[
     function giftMessageToogle(giftMessageIdentifier)

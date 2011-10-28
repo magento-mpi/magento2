@@ -44,7 +44,7 @@ class Mage_Widget_Block_Adminhtml_Widget extends Mage_Adminhtml_Block_Widget_For
 
         $this->removeButton('reset');
         $this->removeButton('back');
-        $this->_updateButton('save', 'label', $this->helper('widget')->__('Insert Widget'));
+        $this->_updateButton('save', 'label', $this->helper('Mage_Widget_Helper_Data')->__('Insert Widget'));
         $this->_updateButton('save', 'class', 'add-widget');
         $this->_updateButton('save', 'id', 'insert_button');
         $this->_updateButton('save', 'onclick', 'wWidget.insertWidget()');

@@ -46,7 +46,7 @@ class Mage_Checkout_Block_Multishipping_Shipping extends Mage_Sales_Block_Items_
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
-            $headBlock->setTitle(Mage::helper('checkout')->__('Shipping Methods') . ' - ' . $headBlock->getDefaultTitle());
+            $headBlock->setTitle(Mage::helper('Mage_Checkout_Helper_Data')->__('Shipping Methods') . ' - ' . $headBlock->getDefaultTitle());
         }
         return parent::_prepareLayout();
     }
@@ -122,6 +122,6 @@ class Mage_Checkout_Block_Multishipping_Shipping extends Mage_Sales_Block_Items_
 
     public function getShippingPrice($address, $price, $flag)
     {
-        return $address->getQuote()->getStore()->convertPrice($this->helper('tax')->getShippingPrice($price, $flag, $address), true);
+        return $address->getQuote()->getStore()->convertPrice($this->helper('Mage_Tax_Helper_Data')->getShippingPrice($price, $flag, $address), true);
     }
 }

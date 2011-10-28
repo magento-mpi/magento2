@@ -39,7 +39,7 @@ class Mage_Paypal_Model_Cert extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('paypal/cert');
+        $this->_init('Mage_Paypal_Model_Resource_Cert');
     }
 
     /**
@@ -64,7 +64,7 @@ class Mage_Paypal_Model_Cert extends Mage_Core_Model_Abstract
     public function getCertPath()
     {
         if (!$this->getContent()) {
-            Mage::throwException(Mage::helper('paypal')->__('PayPal certificate does not exist.'));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('PayPal certificate does not exist.'));
         }
 
         $certFileName = sprintf('cert_%s_%s.pem', $this->getWebsiteId(), strtotime($this->getUpdatedAt()));
@@ -91,7 +91,7 @@ class Mage_Paypal_Model_Cert extends Mage_Core_Model_Abstract
             $this->_removeOutdatedCertFile();
         }
 
-        file_put_contents($file, Mage::helper('core')->decrypt($this->getContent()));
+        file_put_contents($file, Mage::helper('Mage_Core_Helper_Data')->decrypt($this->getContent()));
     }
 
     /**

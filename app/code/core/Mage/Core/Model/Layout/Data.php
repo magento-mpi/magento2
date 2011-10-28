@@ -45,6 +45,6 @@ class Mage_Core_Model_Layout_Data extends Mage_Core_Model_Abstract
 {
     protected function _construct()
     {
-        $this->_init('core/layout');
+        $this->_init('Mage_Core_Model_Resource_Layout');
     }
 }

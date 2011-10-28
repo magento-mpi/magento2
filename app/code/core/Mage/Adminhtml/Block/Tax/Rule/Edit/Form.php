@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
         parent::__construct();
 
         $this->setId('taxRuleForm');
-        $this->setTitle(Mage::helper('tax')->__('Tax Rule Information'));
+        $this->setTitle(Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rule Information'));
     }
 
     /**
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
         ));
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
-            'legend'    => Mage::helper('tax')->__('Tax Rule Information')
+            'legend'    => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rule Information')
         ));
 
         $productClasses = Mage::getModel('tax/class')
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
         $fieldset->addField('code', 'text',
             array(
                 'name'      => 'code',
-                'label'     => Mage::helper('tax')->__('Name'),
+                'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Name'),
                 'class'     => 'required-entry',
                 'required'  => true,
             )
@@ -89,7 +89,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
         $fieldset->addField('tax_customer_class', 'multiselect',
             array(
                 'name'      => 'tax_customer_class',
-                'label'     => Mage::helper('tax')->__('Customer Tax Class'),
+                'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Customer Tax Class'),
                 'class'     => 'required-entry',
                 'values'    => $customerClasses,
                 'value'     => $model->getCustomerTaxClasses(),
@@ -100,7 +100,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
         $fieldset->addField('tax_product_class', 'multiselect',
             array(
                 'name'      => 'tax_product_class',
-                'label'     => Mage::helper('tax')->__('Product Tax Class'),
+                'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Product Tax Class'),
                 'class'     => 'required-entry',
                 'values'    => $productClasses,
                 'value'     => $model->getProductTaxClasses(),
@@ -111,7 +111,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
         $fieldset->addField('tax_rate', 'multiselect',
             array(
                 'name'      => 'tax_rate',
-                'label'     => Mage::helper('tax')->__('Tax Rate'),
+                'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rate'),
                 'class'     => 'required-entry',
                 'values'    => $rates,
                 'value'     => $model->getRates(),
@@ -121,17 +121,17 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
         $fieldset->addField('priority', 'text',
             array(
                 'name'      => 'priority',
-                'label'     => Mage::helper('tax')->__('Priority'),
+                'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Priority'),
                 'class'     => 'validate-not-negative-number',
                 'value'     => (int) $model->getPriority(),
                 'required'  => true,
-                'note'      => Mage::helper('tax')->__('Tax rates at the same priority are added, others are compounded.'),
+                'note'      => Mage::helper('Mage_Tax_Helper_Data')->__('Tax rates at the same priority are added, others are compounded.'),
             )
         );
         $fieldset->addField('position', 'text',
             array(
                 'name'      => 'position',
-                'label'     => Mage::helper('tax')->__('Sort Order'),
+                'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Sort Order'),
                 'class'     => 'validate-not-negative-number',
                 'value'     => (int) $model->getPosition(),
                 'required'  => true,

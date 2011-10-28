@@ -122,7 +122,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
                 break;
             default:
                 Mage::throwException(
-                    Mage::helper('xmlconnect')->__('Device doesn\'t recognized: "%s". Unable to load preview model.', $deviceType)
+                    Mage::helper('Mage_XmlConnect_Helper_Data')->__('Device doesn\'t recognized: "%s". Unable to load preview model.', $deviceType)
                 );
                 break;
         }
@@ -144,11 +144,11 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
             case self::DEVICE_TYPE_IPHONE:
             case self::DEVICE_TYPE_IPAD:
             case self::DEVICE_TYPE_ANDROID:
-                $helper =  Mage::helper('xmlconnect/' . $deviceType);
+                $helper =  Mage::helper('Mage_Xmlconnect_Helper_' . ucfirst($deviceType));
                 break;
             default:
                 Mage::throwException(
-                    Mage::helper('xmlconnect')->__('Device doesn\'t recognized: "%s". Unable to load a helper.', $deviceType)
+                    Mage::helper('Mage_XmlConnect_Helper_Data')->__('Device doesn\'t recognized: "%s". Unable to load a helper.', $deviceType)
                 );
                 break;
         }
@@ -185,7 +185,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $model = Mage::registry('current_app');
         if (!($model instanceof Mage_XmlConnect_Model_Application)) {
-            Mage::throwException(Mage::helper('xmlconnect')->__('App model not loaded.'));
+            Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('App model not loaded.'));
         }
 
         return $model;
@@ -259,7 +259,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
                 break;
             default:
                 Mage::throwException(
-                    Mage::helper('xmlconnect')->__('Country options don\'t recognized for "%s".', $deviceType)
+                    Mage::helper('Mage_XmlConnect_Helper_Data')->__('Country options don\'t recognized for "%s".', $deviceType)
                 );
                 break;
         }
@@ -293,9 +293,9 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     static public function getSupportedDevices()
     {
         $devices = array (
-            self::DEVICE_TYPE_IPAD      => Mage::helper('xmlconnect')->__('iPad'),
-            self::DEVICE_TYPE_IPHONE    => Mage::helper('xmlconnect')->__('iPhone'),
-            self::DEVICE_TYPE_ANDROID   => Mage::helper('xmlconnect')->__('Android')
+            self::DEVICE_TYPE_IPAD      => Mage::helper('Mage_XmlConnect_Helper_Data')->__('iPad'),
+            self::DEVICE_TYPE_IPHONE    => Mage::helper('Mage_XmlConnect_Helper_Data')->__('iPhone'),
+            self::DEVICE_TYPE_ANDROID   => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Android')
         );
 
         return $devices;
@@ -309,8 +309,8 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     public function getStatusOptions()
     {
         $options = array (
-            Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS => Mage::helper('xmlconnect')->__('Submitted'),
-            Mage_XmlConnect_Model_Application::APP_STATUS_INACTIVE => Mage::helper('xmlconnect')->__('Not Submitted'),
+            Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Submitted'),
+            Mage_XmlConnect_Model_Application::APP_STATUS_INACTIVE => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Not Submitted'),
         );
         return $options;
     }
@@ -324,7 +324,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $devices = self::getSupportedDevices();
         $options = array();
-        $options[] = array('value' => '', 'label' => Mage::helper('xmlconnect')->__('Please Select Device Type'));
+        $options[] = array('value' => '', 'label' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please Select Device Type'));
         foreach ($devices as $type => $label) {
             $options[] = array('value' => $type, 'label' => $label);
         }
@@ -520,8 +520,8 @@ EOT;
     static public function getSupportedMessageTypes()
     {
         $messages = array (
-            Mage_XmlConnect_Model_Queue::MESSAGE_TYPE_PUSH      => Mage::helper('xmlconnect')->__('Push message'),
-            Mage_XmlConnect_Model_Queue::MESSAGE_TYPE_AIRMAIL   => Mage::helper('xmlconnect')->__('AirMail message'),
+            Mage_XmlConnect_Model_Queue::MESSAGE_TYPE_PUSH      => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Push message'),
+            Mage_XmlConnect_Model_Queue::MESSAGE_TYPE_AIRMAIL   => Mage::helper('Mage_XmlConnect_Helper_Data')->__('AirMail message'),
         );
 
         return $messages;
@@ -576,7 +576,7 @@ EOT;
         }
         if (count($options) > 1) {
             array_unshift($options, array(
-                'value' => '', 'label' => Mage::helper('xmlconnect')->__('Please Select Application')
+                'value' => '', 'label' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please Select Application')
             ));
         }
         return $options;
@@ -631,7 +631,7 @@ EOT;
 
             if (!$app->getId()) {
                 Mage::throwException(
-                    Mage::helper('xmlconnect')->__('Can\'t load application with code "%s"', $appCode)
+                    Mage::helper('Mage_XmlConnect_Helper_Data')->__('Can\'t load application with code "%s"', $appCode)
                 );
             }
 

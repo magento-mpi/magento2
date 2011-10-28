@@ -38,7 +38,7 @@
                 </hint>
             </groups>
         </payment>
-        <paypal translate="label" module="paypal">
+        <paypal translate="label" module="Mage_Paypal">
             <label>PayPal</label>
             <class>paypal-section</class>
             <header_css>paypal-header</header_css>

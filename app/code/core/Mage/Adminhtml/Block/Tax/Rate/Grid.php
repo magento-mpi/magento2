@@ -47,15 +47,15 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
     protected function _prepareColumns()
     {
         $this->addColumn('code', array(
-            'header'        => Mage::helper('tax')->__('Tax Identifier'),
-            'header_export' => Mage::helper('tax')->__('Code'),
+            'header'        => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Identifier'),
+            'header_export' => Mage::helper('Mage_Tax_Helper_Data')->__('Code'),
             'align'         =>'left',
             'index'         => 'code',
             'filter_index'  => 'main_table.code',
         ));
 
         $this->addColumn('tax_country_id', array(
-            'header'        => Mage::helper('tax')->__('Country'),
+            'header'        => Mage::helper('Mage_Tax_Helper_Data')->__('Country'),
             'type'          => 'country',
             'align'         => 'left',
             'index'         => 'tax_country_id',
@@ -65,8 +65,8 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
         ));
 
         $this->addColumn('region_name', array(
-            'header'        => Mage::helper('tax')->__('State/Region'),
-            'header_export' => Mage::helper('tax')->__('State'),
+            'header'        => Mage::helper('Mage_Tax_Helper_Data')->__('State/Region'),
+            'header_export' => Mage::helper('Mage_Tax_Helper_Data')->__('State'),
             'align'         =>'left',
             'index'         => 'region_name',
             'filter_index'  => 'region_table.code',
@@ -74,14 +74,14 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
         ));
 
         $this->addColumn('tax_postcode', array(
-            'header'        => Mage::helper('tax')->__('Zip/Post Code'),
+            'header'        => Mage::helper('Mage_Tax_Helper_Data')->__('Zip/Post Code'),
             'align'         =>'left',
             'index'         => 'tax_postcode',
             'default'       => '*',
         ));
 
         $this->addColumn('rate', array(
-            'header'        => Mage::helper('tax')->__('Rate'),
+            'header'        => Mage::helper('Mage_Tax_Helper_Data')->__('Rate'),
             'align'         =>'right',
             'index'         => 'rate',
             'type'          => 'number',
@@ -89,8 +89,8 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'renderer'      => 'Mage_Adminhtml_Block_Tax_Rate_Grid_Renderer_Data',
         ));
 
-        $this->addExportType('*/*/exportCsv', Mage::helper('tax')->__('CSV'));
-        $this->addExportType('*/*/exportXml', Mage::helper('tax')->__('Excel XML'));
+        $this->addExportType('*/*/exportCsv', Mage::helper('Mage_Tax_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportXml', Mage::helper('Mage_Tax_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

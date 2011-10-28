@@ -36,15 +36,15 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Regexceptions extends Mage_A
     public function __construct()
     {
         $this->addColumn('regexp', array(
-            'label' => Mage::helper('adminhtml')->__('Matched Expression'),
+            'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Matched Expression'),
             'style' => 'width:120px',
         ));
         $this->addColumn('value', array(
-            'label' => Mage::helper('adminhtml')->__('Value'),
+            'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Value'),
             'style' => 'width:120px',
         ));
         $this->_addAfter = false;
-        $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add Exception');
+        $this->_addButtonLabel = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add Exception');
         parent::__construct();
     }
 }

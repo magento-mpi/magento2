@@ -32,7 +32,7 @@
                 <children>
                     <customer>
                         <children>
-<!--                            <form_type translate="title" module="enterprise_customer">-->
+<!--                            <form_type translate="title" module="Enterprise_Customer">-->
 <!--                                <title>Manage Form Types</title>-->
 <!--                                <sort_order>10</sort_order>-->
 <!--                            </form_type>-->
@@ -56,20 +56,20 @@
     <menu>
         <customer>
             <children>
-                <attributes translate="title" module="enterprise_customer">
+                <attributes translate="title" module="Enterprise_Customer">
                     <title>Attributes</title>
                     <children>
-                        <customer_attributes translate="title" module="enterprise_customer">
+                        <customer_attributes translate="title" module="Enterprise_Customer">
                             <title>Manage Customer Attributes</title>
                             <action>adminhtml/customer_attribute</action>
                         </customer_attributes>
-                        <customer_address_attributes translate="title" module="enterprise_customer">
+                        <customer_address_attributes translate="title" module="Enterprise_Customer">
                             <title>Manage Customer Address Attributes</title>
                             <action>adminhtml/customer_address_attribute</action>
                         </customer_address_attributes>
                     </children>
                 </attributes>
-<!--                <formtype translate="title" module="enterprise_customer">-->
+<!--                <formtype translate="title" module="Enterprise_Customer">-->
 <!--                    <title>Manage Form Types</title>-->
 <!--                    <sort_order>60</sort_order>-->
 <!--                    <action>adminhtml/customer_formtype</action>-->

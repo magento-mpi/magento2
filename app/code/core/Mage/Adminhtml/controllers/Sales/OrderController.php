@@ -291,7 +291,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 );
             }
             if (is_array($response)) {
-                $response = Mage::helper('core')->jsonEncode($response);
+                $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
                 $this->getResponse()->setBody($response);
             }
         }
@@ -743,7 +743,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             try {
                 $address->implodeStreetAddress()
                     ->save();
-                $this->_getSession()->addSuccess(Mage::helper('sales')->__('The order address has been updated.'));
+                $this->_getSession()->addSuccess(Mage::helper('Mage_Sales_Helper_Data')->__('The order address has been updated.'));
                 $this->_redirect('*/*/view', array('order_id'=>$address->getParentId()));
                 return;
             } catch (Mage_Core_Exception $e) {
@@ -751,7 +751,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             } catch (Exception $e) {
                 $this->_getSession()->addException(
                     $e,
-                    Mage::helper('sales')->__('An error occurred while updating the order address. The address has not been changed.')
+                    Mage::helper('Mage_Sales_Helper_Data')->__('An error occurred while updating the order address. The address has not been changed.')
                 );
             }
             $this->_redirect('*/*/address', array('address_id'=>$address->getId()));

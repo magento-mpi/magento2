@@ -61,7 +61,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
      */
     public function getCarrier()
     {
-        return Mage::helper('enterprise_rma')->getCarrier(
+        return Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier(
             $this->getRequest()->getParam('method'),
             $this->getRma()->getStoreId()
         );
@@ -95,7 +95,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
         $address    = $order->getShippingAddress();
         $carrier    = $this->getCarrier();
 
-        $countryRecipient = Mage::helper('enterprise_rma')->getReturnAddressModel($storeId)->getCountryId();
+        $countryRecipient = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddressModel($storeId)->getCountryId();
         if ($carrier) {
             $params = new Varien_Object(array(
                 'method' => $this->getCarrierMethod(),
@@ -118,7 +118,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
         $order      = $this->getRma()->getOrder();
         $address                        = $order->getShippingAddress();
         $shipperAddressCountryCode      = $address->getCountryId();
-        $recipientAddressCountryCode    = Mage::helper('enterprise_rma')
+        $recipientAddressCountryCode    = Mage::helper('Enterprise_Rma_Helper_Data')
             ->getReturnAddressModel($storeId)->getCountryId();
 
         if ($shipperAddressCountryCode != $recipientAddressCountryCode) {
@@ -139,8 +139,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
         $code       = $this->getRequest()->getParam('method');
         if (!empty($code)) {
             list($carrierCode, $methodCode) = explode('_', $code, 2);
-            $carrier    = Mage::helper('enterprise_rma')->getCarrier($carrierCode, $storeId);
-            $countryId  = Mage::helper('enterprise_rma')->getReturnAddressModel($storeId)->getCountryId();
+            $carrier    = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($carrierCode, $storeId);
+            $countryId  = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddressModel($storeId)->getCountryId();
             $params = new Varien_Object(array('country_recipient' => $countryId));
 
             if ($carrier && is_array($carrier->getDeliveryConfirmationTypes($params))) {
@@ -162,8 +162,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
         $girth      = false;
         if (!empty($code)) {
             list($carrierCode, $methodCode) = explode('_', $code, 2);
-            $carrier    = Mage::helper('enterprise_rma')->getCarrier($carrierCode, $storeId);
-            $countryId  = Mage::helper('enterprise_rma')->getReturnAddressModel($storeId)->getCountryId();
+            $carrier    = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($carrierCode, $storeId);
+            $countryId  = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddressModel($storeId)->getCountryId();
 
             $girth = $carrier->isGirthAllowed($countryId);
         }
@@ -180,7 +180,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
         $code       = $this->getRequest()->getParam('method');
         $girth      = false;
         if (!empty($code)) {
-            $girth = (Mage::helper('usa')->displayGirthValue($code) && $this->isGirthAllowed()) ? 1 : 0;
+            $girth = (Mage::helper('Mage_Usa_Helper_Data')->displayGirthValue($code) && $this->isGirthAllowed()) ? 1 : 0;
         }
 
         return $girth;
@@ -197,8 +197,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
         $code       = $this->getRequest()->getParam('method');
         if (!empty($code)) {
             list($carrierCode, $methodCode) = explode('_', $code, 2);
-            $carrier    = Mage::helper('enterprise_rma')->getCarrier($carrierCode, $storeId);
-            $countryId  = Mage::helper('enterprise_rma')->getReturnAddressModel($storeId)->getCountryId();
+            $carrier    = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($carrierCode, $storeId);
+            $countryId  = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddressModel($storeId)->getCountryId();
 
             $order              = Mage::getModel('sales/order')->load($this->getRma()->getOrderId());
             $shipperAddress     = $order->getShippingAddress();
@@ -224,7 +224,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
     {
         $storeId = $this->getRma()->getStoreId();
         $code    = $this->getRequest()->getParam('method');
-        $carrier = Mage::helper('enterprise_rma')->getCarrier($code, $storeId);
+        $carrier = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($code, $storeId);
         if ($carrier) {
             $getCustomizableContainers =  $carrier->getCustomizableContainerTypes();
 
@@ -254,7 +254,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
     {
         $storeId = $this->getRma()->getStoreId();
         $code    = $this->getRequest()->getParam('method');
-        $carrier = Mage::helper('enterprise_rma')->getCarrier($code, $storeId);
+        $carrier = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($code, $storeId);
 
         $girthEnabled   = false;
         $sizeEnabled    = false;

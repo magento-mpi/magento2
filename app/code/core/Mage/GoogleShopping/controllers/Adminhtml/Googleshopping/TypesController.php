@@ -74,8 +74,8 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
     {
         $this->loadLayout()
             ->_setActiveMenu('catalog/googleshopping/types')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Catalog'), Mage::helper('adminhtml')->__('Catalog'))
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Google Content'), Mage::helper('adminhtml')->__('Google Content'));
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Catalog'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Catalog'))
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Google Content'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Google Content'));
         return $this;
     }
 
@@ -89,7 +89,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
              ->_title($this->__('Manage Attributes'));
 
         $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('googleshopping')->__('Attribute Maps'), Mage::helper('googleshopping')->__('Attribute Maps'))
+            ->_addBreadcrumb(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Attribute Maps'), Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Attribute Maps'))
             ->_addContent($this->getLayout()->createBlock('googleshopping/adminhtml_types'))
             ->renderLayout();
     }
@@ -115,12 +115,12 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
             $this->_title($this->__('New Attribute Mapping'));
 
             $this->_initAction()
-                ->_addBreadcrumb(Mage::helper('googleshopping')->__('New attribute set mapping'), Mage::helper('adminhtml')->__('New attribute set mapping'))
+                ->_addBreadcrumb(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('New attribute set mapping'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('New attribute set mapping'))
                 ->_addContent($this->getLayout()->createBlock('googleshopping/adminhtml_types_edit'))
                 ->renderLayout();
         } catch (Exception $e) {
             Mage::logException($e);
-            $this->_getSession()->addError(Mage::helper('googleshopping')->__("Can't create Attribute Set Mapping."));
+            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("Can't create Attribute Set Mapping."));
             $this->_redirect('*/*/index', array('store' => $this->_getStore()->getId()));
         }
     }
@@ -147,14 +147,14 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
             $this->_title($this->__('Edit Attribute Mapping'));
             Mage::register('attributes', $result);
 
-            $breadcrumbLabel = $typeId ? Mage::helper('googleshopping')->__('Edit attribute set mapping') : Mage::helper('googleshopping')->__('New attribute set mapping');
+            $breadcrumbLabel = $typeId ? Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Edit attribute set mapping') : Mage::helper('Mage_GoogleShopping_Helper_Data')->__('New attribute set mapping');
             $this->_initAction()
                 ->_addBreadcrumb($breadcrumbLabel, $breadcrumbLabel)
                 ->_addContent($this->getLayout()->createBlock('googleshopping/adminhtml_types_edit'))
                 ->renderLayout();
         } catch (Exception $e) {
             Mage::logException($e);
-            $this->_getSession()->addError(Mage::helper('googleshopping')->__("Can't edit Attribute Set Mapping."));
+            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("Can't edit Attribute Set Mapping."));
             $this->_redirect('*/*/index');
         }
     }
@@ -203,14 +203,14 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
                 }
             }
 
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('googleshopping')->__('The attribute mapping has been saved.'));
+            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('The attribute mapping has been saved.'));
             if (!empty($requiredAttributes)) {
                 Mage::getSingleton('adminhtml/session')
-                    ->addSuccess(Mage::helper('googleshopping/category')->getMessage());
+                    ->addSuccess(Mage::helper('Mage_GoogleShopping_Helper_Category')->getMessage());
             }
         } catch (Exception $e) {
             Mage::logException($e);
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('googleshopping')->__("Can't save Attribute Set Mapping."));
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("Can't save Attribute Set Mapping."));
         }
         $this->_redirect('*/*/index', array('store' => $this->_getStore()->getId()));
     }
@@ -230,7 +230,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
             $this->_getSession()->addSuccess($this->__('Attribute set mapping was deleted'));
         } catch (Exception $e) {
             Mage::logException($e);
-            $this->_getSession()->addError(Mage::helper('googleshopping')->__("Can't delete Attribute Set Mapping."));
+            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("Can't delete Attribute Set Mapping."));
         }
         $this->_redirect('*/*/index', array('store' => $this->_getStore()->getId()));
     }
@@ -251,7 +251,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
         } catch (Exception $e) {
             Mage::logException($e);
             // just need to output text with error
-            $this->_getSession()->addError(Mage::helper('googleshopping')->__("Can't load attributes."));
+            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("Can't load attributes."));
         }
     }
 
@@ -269,7 +269,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
         } catch (Exception $e) {
             Mage::logException($e);
             // just need to output text with error
-            $this->_getSession()->addError(Mage::helper('googleshopping')->__("Can't load attribute sets."));
+            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("Can't load attribute sets."));
         }
     }
 

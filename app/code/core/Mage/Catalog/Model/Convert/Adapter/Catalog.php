@@ -31,7 +31,7 @@ class Mage_Catalog_Model_Convert_Adapter_Catalog
     public function getResource()
     {
         if (!$this->_resource) {
-            $this->_resource = Mage::getResourceSingleton('catalog_entity/convert');
+            $this->_resource = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Convert');
         }
         return $this->_resource;
     }

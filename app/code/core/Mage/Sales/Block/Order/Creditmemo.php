@@ -46,7 +46,7 @@ class Mage_Sales_Block_Order_Creditmemo extends Mage_Sales_Block_Order_Creditmem
         }
         $this->setChild(
             'payment_info',
-            $this->helper('payment')->getInfoBlock($this->getOrder()->getPayment())
+            $this->helper('Mage_Payment_Helper_Data')->getInfoBlock($this->getOrder()->getPayment())
         );
     }
 
@@ -86,9 +86,9 @@ class Mage_Sales_Block_Order_Creditmemo extends Mage_Sales_Block_Order_Creditmem
     public function getBackTitle()
     {
         if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            return Mage::helper('sales')->__('Back to My Orders');
+            return Mage::helper('Mage_Sales_Helper_Data')->__('Back to My Orders');
         }
-        return Mage::helper('sales')->__('View Another Order');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('View Another Order');
     }
 
     public function getInvoiceUrl($order)

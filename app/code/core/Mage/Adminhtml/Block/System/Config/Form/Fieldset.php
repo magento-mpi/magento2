@@ -182,7 +182,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
                        }
                    };";
         }
-        return Mage::helper('adminhtml/js')->getScript($js);
+        return Mage::helper('Mage_Adminhtml_Helper_Js')->getScript($js);
     }
 
     /**

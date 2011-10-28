@@ -73,11 +73,11 @@ class Mage_Sales_DownloadController extends Mage_Core_Controller_Front_Action
      */
     protected function _processDatabaseFile($filePath)
     {
-        if (!Mage::helper('core/file_storage_database')->checkDbUsage()) {
+        if (!Mage::helper('Mage_Core_Helper_File_Storage_Database')->checkDbUsage()) {
             return false;
         }
 
-        $relativePath = Mage::helper('core/file_storage_database')->getMediaRelativePath($filePath);
+        $relativePath = Mage::helper('Mage_Core_Helper_File_Storage_Database')->getMediaRelativePath($filePath);
         $file = Mage::getModel('core/file_storage_database')->loadByFilename($relativePath);
 
         if (!$file->getId()) {

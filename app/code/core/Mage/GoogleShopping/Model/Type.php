@@ -42,7 +42,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('googleshopping/type');
+        $this->_init('Mage_GoogleShopping_Model_Resource_Type');
     }
 
     /**
@@ -90,7 +90,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
         $result = array();
         $group = Mage::getSingleton('googleshopping/config')->getAttributeGroupsFlat();
         foreach ($this->_getAttributesCollection() as $attribute) {
-            $productAttribute = Mage::helper('googleshopping/product')
+            $productAttribute = Mage::helper('Mage_GoogleShopping_Helper_Product')
                 ->getProductAttribute($product, $attribute->getAttributeId());
 
             if (!is_null($productAttribute)) {
@@ -98,11 +98,11 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
                 if ($attribute->getGcontentAttribute()) {
                     $name = $attribute->getGcontentAttribute();
                 } else {
-                    $name = Mage::helper('googleshopping/product')->getAttributeLabel($productAttribute, $product->getStoreId());
+                    $name = Mage::helper('Mage_GoogleShopping_Helper_Product')->getAttributeLabel($productAttribute, $product->getStoreId());
                 }
 
                 if (!is_null($name)) {
-                    $name = Mage::helper('googleshopping')->normalizeName($name);
+                    $name = Mage::helper('Mage_GoogleShopping_Helper_Data')->normalizeName($name);
                     if (isset($group[$name])) {
                         // if attribute is in the group
                         if (!isset($result[$group[$name]])) {
@@ -171,7 +171,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
      */
     protected function _prepareModelName($string)
     {
-        $string = Mage::helper('googleshopping')->normalizeName($string);
+        $string = Mage::helper('Mage_GoogleShopping_Helper_Data')->normalizeName($string);
         return str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
     }
 
@@ -235,7 +235,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
 
         $contentAttributes = $entry->getContentAttributes();
         foreach ($contentAttributes as $contentAttribute) {
-            $name = Mage::helper('googleshopping')->normalizeName($contentAttribute->getName());
+            $name = Mage::helper('Mage_GoogleShopping_Helper_Data')->normalizeName($contentAttribute->getName());
             if (!in_array($name, $ignoredAttributes) &&
                 !in_array($existAttributes, $existAttributes)) {
                     $entry->removeContentAttribute($name);

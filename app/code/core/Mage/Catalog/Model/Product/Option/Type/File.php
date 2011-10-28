@@ -194,14 +194,14 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
                 $this->setIsValid(false);
                 $value = $this->_bytesToMbytes($this->_getUploadMaxFilesize());
                 Mage::throwException(
-                    Mage::helper('catalog')->__("The file you uploaded is larger than %s Megabytes allowed by server", $value)
+                    Mage::helper('Mage_Catalog_Helper_Data')->__("The file you uploaded is larger than %s Megabytes allowed by server", $value)
                 );
             } else {
                 switch($this->getProcessMode())
                 {
                     case Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL:
                         Mage::throwException(
-                            Mage::helper('catalog')->__('Please specify the product\'s required option(s).')
+                            Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the product\'s required option(s).')
                         );
                         break;
                     default:
@@ -304,7 +304,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             }
         } else {
             $this->setIsValid(false);
-            Mage::throwException(Mage::helper('catalog')->__('Please specify the product required option(s)'));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the product required option(s)'));
         }
         return $this;
     }
@@ -336,7 +336,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         $fileFullPath = null;
         foreach ($checkPaths as $path) {
             if (!is_file($path)) {
-                if (!Mage::helper('core/file_storage_database')->saveFileToFilesystem($fileFullPath)) {
+                if (!Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($fileFullPath)) {
                     continue;
                 }
             }
@@ -399,7 +399,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             }
         } else {
             $this->setIsValid(false);
-            Mage::throwException(Mage::helper('catalog')->__('Please specify the product required option(s)'));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the product required option(s)'));
         }
     }
 
@@ -415,18 +415,18 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         $result = array();
         foreach ($errors as $errorCode) {
             if ($errorCode == Zend_Validate_File_ExcludeExtension::FALSE_EXTENSION) {
-                $result[] = Mage::helper('catalog')->__("The file '%s' for '%s' has an invalid extension",
+                $result[] = Mage::helper('Mage_Catalog_Helper_Data')->__("The file '%s' for '%s' has an invalid extension",
                     $fileInfo['title'], $option->getTitle());
             } elseif ($errorCode == Zend_Validate_File_Extension::FALSE_EXTENSION) {
-                $result[] = Mage::helper('catalog')->__("The file '%s' for '%s' has an invalid extension",
+                $result[] = Mage::helper('Mage_Catalog_Helper_Data')->__("The file '%s' for '%s' has an invalid extension",
                     $fileInfo['title'], $option->getTitle());
             } elseif ($errorCode == Zend_Validate_File_ImageSize::WIDTH_TOO_BIG
                 || $errorCode == Zend_Validate_File_ImageSize::HEIGHT_TOO_BIG)
             {
-                $result[] = Mage::helper('catalog')->__("Maximum allowed image size for '%s' is %sx%s px.",
+                $result[] = Mage::helper('Mage_Catalog_Helper_Data')->__("Maximum allowed image size for '%s' is %sx%s px.",
                     $option->getTitle(), $option->getImageSizeX(), $option->getImageSizeY());
             } elseif ($errorCode == Zend_Validate_File_FilesSize::TOO_BIG) {
-                $result[] = Mage::helper('catalog')->__("The file '%s' you uploaded is larger than %s Megabytes allowed by server",
+                $result[] = Mage::helper('Mage_Catalog_Helper_Data')->__("The file '%s' you uploaded is larger than %s Megabytes allowed by server",
                     $fileInfo['title'], $this->_bytesToMbytes($this->_getUploadMaxFilesize()));
             }
         }
@@ -514,7 +514,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         $value = $this->_unserializeValue($optionValue);
         try {
             if (isset($value) && isset($value['width']) && isset($value['height']) && $value['width'] > 0 && $value['height'] > 0) {
-                $sizes = $value['width'] . ' x ' . $value['height'] . ' ' . Mage::helper('catalog')->__('px.');
+                $sizes = $value['width'] . ' x ' . $value['height'] . ' ' . Mage::helper('Mage_Catalog_Helper_Data')->__('px.');
             } else {
                 $sizes = '';
             }
@@ -525,11 +525,11 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
 
             return sprintf('<a href="%s" target="_blank">%s</a> %s',
                 $this->_getOptionDownloadUrl($urlRoute, $urlParams),
-                Mage::helper('core')->htmlEscape($title),
+                Mage::helper('Mage_Core_Helper_Data')->htmlEscape($title),
                 $sizes
             );
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('catalog')->__("File options format is not valid."));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__("File options format is not valid."));
         }
     }
 
@@ -572,7 +572,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         try {
             $value = unserialize($optionValue);
             return sprintf('%s [%d]',
-                Mage::helper('core')->htmlEscape($value['title']),
+                Mage::helper('Mage_Core_Helper_Data')->htmlEscape($value['title']),
                 $this->getConfigurationItemOption()->getId()
             );
 
@@ -641,7 +641,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             $orderFileFullPath = Mage::getBaseDir() . $value['order_path'];
             $dir = pathinfo($orderFileFullPath, PATHINFO_DIRNAME);
             $this->_createWriteableDir($dir);
-            Mage::helper('core/file_storage_database')->copyFile($quoteFileFullPath, $orderFileFullPath);
+            Mage::helper('Mage_Core_Helper_File_Storage_Database')->copyFile($quoteFileFullPath, $orderFileFullPath);
             @copy($quoteFileFullPath, $orderFileFullPath);
         } catch (Exception $e) {
             return $this;
@@ -726,7 +726,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
     {
         $io = new Varien_Io_File();
         if (!$io->isWriteable($path) && !$io->mkdir($path, 0777, true)) {
-            Mage::throwException(Mage::helper('catalog')->__("Cannot create writeable directory '%s'.", $path));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__("Cannot create writeable directory '%s'.", $path));
         }
     }
 

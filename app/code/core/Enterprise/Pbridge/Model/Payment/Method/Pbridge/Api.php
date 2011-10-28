@@ -70,7 +70,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Varien_Object
         if ($response) {
 
             $response = preg_split('/^\r?$/m', $response, 2);
-            $response = Mage::helper('core')->jsonDecode(trim($response[1]));
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonDecode(trim($response[1]));
 
             $debugData['result'] = $response;
             $this->_debug($debugData);
@@ -80,7 +80,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Varien_Object
                     sprintf('Payment Bridge CURL connection error #%s: %s', $http->getErrno(), $http->getError())
                 ));
                 Mage::throwException(
-                    Mage::helper('enterprise_pbridge')->__('Unable to communicate with Payment Bridge service.')
+                    Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Unable to communicate with Payment Bridge service.')
                 );
             }
             if (isset($response['status']) && $response['status'] == 'Success') {
@@ -103,9 +103,9 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Varien_Object
     protected function _handleError($response)
     {
         if (isset($response['status']) && $response['status'] == 'Fail' && isset($response['error'])) {
-            Mage::throwException(Mage::helper('enterprise_pbridge')->__('Payment Bridge service error: %s', $response['error']));
+            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payment Bridge service error: %s', $response['error']));
         }
-        Mage::throwException(Mage::helper('enterprise_pbridge')->__('Payment Bridge service error.'));
+        Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payment Bridge service error.'));
     }
 
     /**
@@ -119,8 +119,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Varien_Object
     {
         $request['action'] = 'Payments';
         $request['token'] = $this->getMethodInstance()->getPbridgeResponse('token');
-        $request = Mage::helper('enterprise_pbridge')->getRequestParams($request);
-        $request = array('data' => Mage::helper('enterprise_pbridge')->encrypt(serialize($request)));
+        $request = Mage::helper('Enterprise_Pbridge_Helper_Data')->getRequestParams($request);
+        $request = array('data' => Mage::helper('Enterprise_Pbridge_Helper_Data')->encrypt(serialize($request)));
         return http_build_query($request, '', '&');
     }
 
@@ -131,7 +131,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Varien_Object
      */
     public function getPbridgeEndpoint()
     {
-        return Mage::helper('enterprise_pbridge')->getRequestUrl();
+        return Mage::helper('Enterprise_Pbridge_Helper_Data')->getRequestUrl();
     }
 
     /**

@@ -405,7 +405,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_Abstract
      */
     public function getErrorMessages()
     {
-        $translator = Mage::helper('importexport');
+        $translator = Mage::helper('Mage_ImportExport_Helper_Data');
         $messages = array();
 
         foreach ($this->_errors as $errorCode => $errorRows) {
@@ -468,7 +468,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_Abstract
     public function getWriter()
     {
         if (!$this->_writer) {
-            Mage::throwException(Mage::helper('importexport')->__('No writer specified'));
+            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('No writer specified'));
         }
         return $this->_writer;
     }

@@ -44,7 +44,7 @@ class Mage_Payment_Block_Form_Container extends Mage_Core_Block_Template
         foreach ($this->getMethods() as $method) {
             $this->setChild(
                'payment.method.'.$method->getCode(),
-               $this->helper('payment')->getMethodFormBlock($method)
+               $this->helper('Mage_Payment_Helper_Data')->getMethodFormBlock($method)
             );
         }
 
@@ -115,7 +115,7 @@ class Mage_Payment_Block_Form_Container extends Mage_Core_Block_Template
         if (is_null($methods)) {
             $quote = $this->getQuote();
             $store = $quote ? $quote->getStoreId() : null;
-            $methods = $this->helper('payment')->getStoreMethods($store, $quote);
+            $methods = $this->helper('Mage_Payment_Helper_Data')->getStoreMethods($store, $quote);
             $total = $quote->getBaseSubtotal();
             foreach ($methods as $key => $method) {
                 if ($this->_canUseMethod($method)

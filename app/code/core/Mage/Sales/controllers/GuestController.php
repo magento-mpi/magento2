@@ -42,7 +42,7 @@ class Mage_Sales_GuestController extends Mage_Sales_Controller_Abstract
      */
     protected function _loadValidOrder($orderId = null)
     {
-        return Mage::helper('sales/guest')->loadValidOrder();
+        return Mage::helper('Mage_Sales_Helper_Guest')->loadValidOrder();
     }
 
     /**
@@ -67,7 +67,7 @@ class Mage_Sales_GuestController extends Mage_Sales_Controller_Abstract
         }
 
         $this->loadLayout();
-        Mage::helper('sales/guest')->getBreadcrumbs($this);
+        Mage::helper('Mage_Sales_Helper_Guest')->getBreadcrumbs($this);
         $this->renderLayout();
     }
 
@@ -81,7 +81,7 @@ class Mage_Sales_GuestController extends Mage_Sales_Controller_Abstract
             return;
         }
         $this->loadLayout();
-        Mage::helper('sales/guest')->getBreadcrumbs($this);
+        Mage::helper('Mage_Sales_Helper_Guest')->getBreadcrumbs($this);
         $this->renderLayout();
     }
 

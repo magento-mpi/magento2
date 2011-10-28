@@ -75,7 +75,7 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
      */
     public function indexAction()
     {
-        $maxUploadSize = Mage::helper('importexport')->getMaxUploadSize();
+        $maxUploadSize = Mage::helper('Mage_ImportExport_Helper_Data')->getMaxUploadSize();
         $this->_getSession()->addNotice(
             $this->__('Total size of uploadable files must not exceed %s', $maxUploadSize)
         );

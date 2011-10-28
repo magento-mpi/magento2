@@ -44,11 +44,11 @@ class Mage_Adminhtml_Block_Customer_Form_Element_Boolean extends Varien_Data_For
         parent::__construct($attributes);
         $this->setValues(array(
             array(
-                'label' => Mage::helper('adminhtml')->__('No'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('No'),
                 'value' => '0',
             ),
             array(
-                'label' => Mage::helper('adminhtml')->__('Yes'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Yes'),
                 'value' => 1,
             )
         ));

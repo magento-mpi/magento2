@@ -29,7 +29,7 @@
     <menu>
         <catalog>
             <children>
-                <sitemap translate="title" module="sitemap">
+                <sitemap translate="title" module="Mage_Sitemap">
                     <title>Google Sitemap</title>
                     <sort_order>180</sort_order>
                     <action>adminhtml/sitemap/</action>
@@ -43,7 +43,7 @@
                 <children>
                     <catalog>
                         <children>
-                            <sitemap translate="title" module="sitemap">
+                            <sitemap translate="title" module="Mage_Sitemap">
                                 <title>Google Sitemap</title>
                             </sitemap>
                         </children>
@@ -52,7 +52,7 @@
                         <children>
                             <config>
                                 <children>
-                                    <sitemap translate="title" module="shipping">
+                                    <sitemap translate="title" module="Mage_Shipping">
                                         <title>Google Sitemap Section</title>
                                     </sitemap>
                                 </children>

@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Created extends Mage_Adminhtml_Block_
             'close_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'   => Mage::helper('catalog')->__('Close Window'),
+                    'label'   => Mage::helper('Mage_Catalog_Helper_Data')->__('Close Window'),
                     'onclick' => 'addProduct(true)'
                 ))
         );
@@ -94,7 +94,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Created extends Mage_Adminhtml_Block_
             );
         }
 
-        return Mage::helper('core')->jsonEncode($result);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
     }
 
     public function getAttributes()

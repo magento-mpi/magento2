@@ -140,7 +140,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
     public function getShippingPrice($price, $flag)
     {
         return $this->getQuote()->getStore()->convertPrice(
-            Mage::helper('tax')->getShippingPrice(
+            Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice(
                 $price,
                 $flag,
                 $this->getAddress(),

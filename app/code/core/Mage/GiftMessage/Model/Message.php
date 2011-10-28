@@ -62,7 +62,7 @@ class Mage_GiftMessage_Model_Message extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('giftmessage/message');
+        $this->_init('Mage_GiftMessage_Model_Resource_Message');
     }
 
     /**
@@ -75,7 +75,7 @@ class Mage_GiftMessage_Model_Message extends Mage_Core_Model_Abstract
     {
         $types = self::getAllowedEntityTypes();
         if(!isset($types[$type])) {
-            Mage::throwException(Mage::helper('giftmessage')->__('Unknown entity type'));
+            Mage::throwException(Mage::helper('Mage_GiftMessage_Helper_Data')->__('Unknown entity type'));
         }
 
         return Mage::getModel($types[$type]);

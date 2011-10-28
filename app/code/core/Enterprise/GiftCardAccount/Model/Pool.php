@@ -59,7 +59,7 @@ class Enterprise_GiftCardAccount_Model_Pool extends Enterprise_GiftCardAccount_M
 
     protected function _construct()
     {
-        $this->_init('enterprise_giftcardaccount/pool');
+        $this->_init('Enterprise_GiftCardAccount_Model_Resource_Pool');
     }
 
     public function generatePool()
@@ -73,7 +73,7 @@ class Enterprise_GiftCardAccount_Model_Pool extends Enterprise_GiftCardAccount_M
             $attempt = 0;
             do {
                 if ($attempt>=self::CODE_GENERATION_ATTEMPTS) {
-                    Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Unable to create full code pool size. Please check settings and try again.'));
+                    Mage::throwException(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Unable to create full code pool size. Please check settings and try again.'));
                 }
                 $code = $this->_generateCode();
                 $attempt++;

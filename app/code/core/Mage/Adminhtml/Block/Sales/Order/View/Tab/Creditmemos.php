@@ -75,31 +75,31 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header' => Mage::helper('sales')->__('Credit Memo #'),
+            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Credit Memo #'),
             'width' => '120px',
             'index' => 'increment_id',
         ));
 
         $this->addColumn('billing_name', array(
-            'header' => Mage::helper('sales')->__('Bill to Name'),
+            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Bill to Name'),
             'index' => 'billing_name',
         ));
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('sales')->__('Created At'),
+            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Created At'),
             'index' => 'created_at',
             'type' => 'datetime',
         ));
 
         $this->addColumn('state', array(
-            'header'    => Mage::helper('sales')->__('Status'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Status'),
             'index'     => 'state',
             'type'      => 'options',
             'options'   => Mage::getModel('sales/order_creditmemo')->getStates(),
         ));
 
         $this->addColumn('base_grand_total', array(
-            'header'    => Mage::helper('customer')->__('Refunded'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Refunded'),
             'index'     => 'base_grand_total',
             'type'      => 'currency',
             'currency'  => 'base_currency_code',
@@ -138,12 +138,12 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
      */
     public function getTabLabel()
     {
-        return Mage::helper('sales')->__('Credit Memos');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Credit Memos');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('sales')->__('Order Credit Memos');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Order Credit Memos');
     }
 
     public function canShowTab()

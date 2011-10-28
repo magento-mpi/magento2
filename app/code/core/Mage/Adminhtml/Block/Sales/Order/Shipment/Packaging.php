@@ -90,9 +90,9 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
         $data = array(
             'createLabelUrl'            => $createLabelUrl,
             'itemsGridUrl'              => $itemsGridUrl,
-            'errorQtyOverLimit'         => Mage::helper('sales')->__('The quantity you want to add exceeds the total shipped quantity for some of selected Product(s)'),
-            'titleDisabledSaveBtn'      => Mage::helper('sales')->__('Products should be added to package(s)'),
-            'validationErrorMsg'        => Mage::helper('sales')->__('The value that you entered is not valid.'),
+            'errorQtyOverLimit'         => Mage::helper('Mage_Sales_Helper_Data')->__('The quantity you want to add exceeds the total shipped quantity for some of selected Product(s)'),
+            'titleDisabledSaveBtn'      => Mage::helper('Mage_Sales_Helper_Data')->__('Products should be added to package(s)'),
+            'validationErrorMsg'        => Mage::helper('Mage_Sales_Helper_Data')->__('The value that you entered is not valid.'),
             'shipmentItemsQty'          => $itemsQty,
             'shipmentItemsPrice'        => $itemsPrice,
             'shipmentItemsName'         => $itemsName,
@@ -101,7 +101,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
             'shipmentItemsOrderItemId'  => $itemsOrderItemId,
             'customizable'              => $this->_getCustomizableContainers(),
         );
-        return Mage::helper('core')->jsonEncode($data);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
     }
 
     /**
@@ -277,7 +277,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
         return $this->getLayout()
             ->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('sales')->__('Print'),
+                'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Print'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
             ))
             ->toHtml();

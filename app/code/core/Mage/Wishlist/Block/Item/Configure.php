@@ -64,7 +64,7 @@ class Mage_Wishlist_Block_Item_Configure extends Mage_Core_Block_Template
         // Set custom add to cart url
         $block = $this->getLayout()->getBlock('product.info');
         if ($block) {
-            $url = Mage::helper('wishlist')->getAddToCartUrl($this->getWishlistItem());
+            $url = Mage::helper('Mage_Wishlist_Helper_Data')->getAddToCartUrl($this->getWishlistItem());
             $block->setCustomAddToCartUrl($url);
         }
 

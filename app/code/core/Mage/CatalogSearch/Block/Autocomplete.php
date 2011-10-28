@@ -68,8 +68,8 @@ class Mage_CatalogSearch_Block_Autocomplete extends Mage_Core_Block_Abstract
     public function getSuggestData()
     {
         if (!$this->_suggestData) {
-            $collection = $this->helper('catalogsearch')->getSuggestCollection();
-            $query = $this->helper('catalogsearch')->getQueryText();
+            $collection = $this->helper('Mage_CatalogSearch_Helper_Data')->getSuggestCollection();
+            $query = $this->helper('Mage_CatalogSearch_Helper_Data')->getQueryText();
             $counter = 0;
             $data = array();
             foreach ($collection as $item) {

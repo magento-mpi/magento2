@@ -120,7 +120,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     protected function _getAllStoreGroups()
     {
         if (null === $this->_storeGroupCollection) {
-            $this->_storeGroupCollection = Mage::getResourceSingleton('core/store_group_collection');
+            $this->_storeGroupCollection = Mage::getResourceSingleton('Mage_Core_Model_Resource_Store_Group_Collection');
         }
         return $this->_storeGroupCollection;
     }
@@ -140,13 +140,13 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         // validate specified data
         if ($object->getGwsIsAll() == 0 && empty($websiteIds) && empty($storeGroupIds)) {
             Mage::throwException(
-                Mage::helper('enterprise_admingws')->__('Please specify at least one website or one store group.')
+                Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Please specify at least one website or one store group.')
             );
         }
         if (!$this->_role->getIsAll()) {
             if ($object->getGwsIsAll()) {
                 Mage::throwException(
-                    Mage::helper('enterprise_admingws')->__('Not enough permissions to set All Scopes to a Role.')
+                    Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Not enough permissions to set All Scopes to a Role.')
                 );
             }
         }
@@ -161,12 +161,12 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
             $allWebsiteIds = array_keys(Mage::app()->getWebsites());
             foreach ($websiteIds as $websiteId) {
                 if (!in_array($websiteId, $allWebsiteIds)) {
-                    Mage::throwException(Mage::helper('enterprise_admingws')->__('Wrong website ID: %d', $websiteId));
+                    Mage::throwException(Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Wrong website ID: %d', $websiteId));
                 }
                 // prevent granting disallowed websites
                 if (!$this->_role->getIsAll()) {
                     if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
-                        Mage::throwException(Mage::helper('enterprise_admingws')->__(
+                        Mage::throwException(Mage::helper('Enterprise_AdminGws_Helper_Data')->__(
                              'Website "%s" is not allowed in your current permission scope.',
                              Mage::app()->getWebsite($websiteId)->getName())
                         );
@@ -187,12 +187,12 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
             }
             foreach ($storeGroupIds as $storeGroupId) {
                 if (!array($storeGroupId, $allStoreGroups)) {
-                    Mage::throwException(Mage::helper('enterprise_admingws')->__('Wrong store ID: %d', $storeGroupId));
+                    Mage::throwException(Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Wrong store ID: %d', $storeGroupId));
                 }
                 // prevent granting disallowed store group
                 if (count(array_diff($storeGroupIds, $this->_role->getStoreGroupIds()))) {
                     Mage::throwException(
-                        Mage::helper('enterprise_admingws')
+                        Mage::helper('Enterprise_AdminGws_Helper_Data')
                             ->__('Not enough permissions to save specified Combination of Store Scopes.')
                     );
                 }
@@ -236,7 +236,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     {
         $oldWebsiteId = (string)$observer->getEvent()->getOldWebsiteId();
         $newWebsiteId = (string)$observer->getEvent()->getNewWebsiteId();
-        $roles = Mage::getResourceSingleton('admin/roles_collection');
+        $roles = Mage::getResourceSingleton('Mage_Admin_Model_Resource_Roles_Collection');
         foreach ($roles as $role) {
             $shouldRoleBeUpdated = false;
             $roleWebsites = explode(',', $role->getGwsWebsites());

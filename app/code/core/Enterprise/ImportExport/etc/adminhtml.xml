@@ -31,7 +31,7 @@
             <children>
                 <convert>
                     <children>
-                        <enterprise_scheduled_operation translate="title" module="enterprise_importexport">
+                        <enterprise_scheduled_operation translate="title" module="Enterprise_ImportExport">
                             <title>Scheduled Import/Export</title>
                             <action>adminhtml/scheduled_operation</action>
                             <sort_order>30</sort_order>
@@ -49,7 +49,7 @@
                         <children>
                             <convert>
                                 <children>
-                                    <enterprise_scheduled_operation module="enterprise_importexport">
+                                    <enterprise_scheduled_operation module="Enterprise_ImportExport">
                                         <title>Scheduled Imports/Export</title>
                                         <sort_order>30</sort_order>
                                     </enterprise_scheduled_operation>

@@ -109,11 +109,11 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element
             return $html;
         }
         if ($element->getScope() == 'global' || $element->getScope() === null) {
-            $html .= Mage::helper('adminhtml')->__('[GLOBAL]');
+            $html .= Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]');
         } elseif ($element->getScope() == 'website') {
-            $html .= Mage::helper('adminhtml')->__('[WEBSITE]');
+            $html .= Mage::helper('Mage_Adminhtml_Helper_Data')->__('[WEBSITE]');
         } elseif ($element->getScope() == 'store') {
-            $html .= Mage::helper('adminhtml')->__('[STORE VIEW]');
+            $html .= Mage::helper('Mage_Adminhtml_Helper_Data')->__('[STORE VIEW]');
         }
 
         return $html;

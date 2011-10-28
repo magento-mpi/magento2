@@ -39,7 +39,7 @@ class Mage_Adminhtml_Catalog_Product_GalleryController extends Mage_Adminhtml_Co
             $uploader = new Mage_Core_Model_File_Uploader('image');
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->addValidateCallback('catalog_product_image',
-                Mage::helper('catalog/image'), 'validateUploadFile');
+                Mage::helper('Mage_Catalog_Helper_Image'), 'validateUploadFile');
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
             $result = $uploader->save(
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Catalog_Product_GalleryController extends Mage_Adminhtml_Co
                 'errorcode' => $e->getCode());
         }
 
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 
     protected function _isAllowed()

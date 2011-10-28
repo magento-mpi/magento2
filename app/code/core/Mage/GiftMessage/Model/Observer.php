@@ -46,7 +46,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
         $orderItem = $observer->getEvent()->getOrderItem();
         $quoteItem = $observer->getEvent()->getItem();
 
-        $isAvailable = Mage::helper('giftmessage/message')->getIsMessagesAvailable(
+        $isAvailable = Mage::helper('Mage_GiftMessage_Helper_Message')->getIsMessagesAvailable(
             'item',
             $quoteItem,
             $quoteItem->getStoreId()
@@ -193,7 +193,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
             return $this;
         }
 
-        if (!Mage::helper('giftmessage/message')->isMessagesAvailable('order', $order, $order->getStore())){
+        if (!Mage::helper('Mage_GiftMessage_Helper_Message')->isMessagesAvailable('order', $order, $order->getStore())){
             return $this;
         }
         $giftMessageId = $order->getGiftMessageId();
@@ -223,7 +223,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
             return $this;
         }
 
-        $isAvailable = Mage::helper('giftmessage/message')->isMessagesAvailable(
+        $isAvailable = Mage::helper('Mage_GiftMessage_Helper_Message')->isMessagesAvailable(
             'order_item',
             $orderItem,
             $orderItem->getStoreId()

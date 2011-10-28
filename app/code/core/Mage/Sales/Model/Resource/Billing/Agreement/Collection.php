@@ -69,7 +69,7 @@ class Mage_Sales_Model_Resource_Billing_Agreement_Collection extends Mage_Core_M
             array('customer_email' => 'email')
         );
 
-        $customer = Mage::getResourceSingleton('customer/customer');
+        $customer = Mage::getResourceSingleton('Mage_Customer_Model_Resource_Customer');
         $adapter  = $this->getConnection();
         $attr     = $customer->getAttribute('firstname');
         $joinExpr = 'firstname.entity_id = main_table.customer_id AND '

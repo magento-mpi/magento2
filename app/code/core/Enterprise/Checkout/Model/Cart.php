@@ -224,7 +224,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
                 ->load($product);
             if (!$product->getId()) {
                 Mage::throwException(
-                    Mage::helper('adminhtml')->__('Failed to add a product to cart by id "%s".', $productId)
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Failed to add a product to cart by id "%s".', $productId)
                 );
             }
         }
@@ -266,7 +266,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
     public function reorderItem(Mage_Sales_Model_Order_Item $orderItem, $qty = 1)
     {
         if (!$orderItem->getId()) {
-            Mage::throwException(Mage::helper('enterprise_checkout')->__('Failed to reorder item'));
+            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Failed to reorder item'));
         }
 
         $product = Mage::getModel('catalog/product')
@@ -302,7 +302,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
             return $item;
 
         } else {
-            Mage::throwException(Mage::helper('enterprise_checkout')->__('Failed to add a product of order item'));
+            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Failed to add a product of order item'));
         }
     }
 

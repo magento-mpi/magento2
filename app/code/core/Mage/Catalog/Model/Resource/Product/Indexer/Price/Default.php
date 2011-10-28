@@ -80,7 +80,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
     public function getTypeId()
     {
         if (is_null($this->_typeId)) {
-            Mage::throwException(Mage::helper('catalog')->__('A product type is not defined for the indexer.'));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('A product type is not defined for the indexer.'));
         }
         return $this->_typeId;
     }
@@ -218,7 +218,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
         // add enable products limitation
         $statusCond = $write->quoteInto('=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id', $statusCond, true);
-        if (Mage::helper('core')->isModuleEnabled('Mage_Tax')) {
+        if (Mage::helper('Mage_Core_Helper_Data')->isModuleEnabled('Mage_Tax')) {
             $taxClassId = $this->_addAttributeToSelect($select, 'tax_class_id', 'e.entity_id', 'cs.store_id');
         } else {
             $taxClassId = new Zend_Db_Expr('0');

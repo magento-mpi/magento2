@@ -29,7 +29,7 @@
     <sections>
         <payment>
             <groups>
-                <ogone translate="label,comment" module="ogone">
+                <ogone translate="label,comment" module="Mage_Ogone">
                     <label>Ogone</label>
                     <comment><![CDATA[<br />
 <div class="custom-options">

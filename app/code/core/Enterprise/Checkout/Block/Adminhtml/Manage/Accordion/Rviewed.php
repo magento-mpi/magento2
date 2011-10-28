@@ -47,7 +47,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
         parent::__construct();
         $this->setId('source_rviewed');
         $this->setHeaderText(
-            Mage::helper('enterprise_checkout')->__('Recently Viewed Products (%s)', $this->getItemsCount())
+            Mage::helper('Enterprise_Checkout_Helper_Data')->__('Recently Viewed Products (%s)', $this->getItemsCount())
         );
     }
 
@@ -77,7 +77,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
                     ->addAttributeToSelect($attributes)
                     ->addIdFilter($productIds)
                     ->load();
-                $productCollection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($productCollection);
+                $productCollection = Mage::helper('Mage_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($productCollection);
                 $productCollection->addOptionsToResult();
             }
             $this->setData('items_collection', $productCollection);

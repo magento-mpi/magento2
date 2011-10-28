@@ -272,7 +272,7 @@
     <frontend>
         <layout>
             <updates>
-                <enterprise_customer module="Enterprise_Customer">
+                <enterprise_customer module="Mage_Enterprise_Customer">
                     <file>enterprise_customer.xml</file>
                 </enterprise_customer>
             </updates>

@@ -39,8 +39,8 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
         $this->loadLayout()
             ->_setActiveMenu('promo/reminder')
             ->_addBreadcrumb(
-                Mage::helper('enterprise_reminder')->__('Reminder Rules'),
-                Mage::helper('enterprise_reminder')->__('Reminder Rules')
+                Mage::helper('Enterprise_Reminder_Helper_Data')->__('Reminder Rules'),
+                Mage::helper('Enterprise_Reminder_Helper_Data')->__('Reminder Rules')
             );
         return $this;
     }
@@ -261,6 +261,6 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
     protected function _isAllowed()
     {
         return Mage::getSingleton('admin/session')->isAllowed('promo/enterprise_reminder') &&
-            Mage::helper('enterprise_reminder')->isEnabled();
+            Mage::helper('Enterprise_Reminder_Helper_Data')->isEnabled();
     }
 }

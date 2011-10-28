@@ -63,7 +63,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('googlebase/item');
+        $this->_init('Mage_GoogleBase_Model_Resource_Item');
     }
 
     /**
@@ -190,7 +190,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     public function setProduct($product)
     {
         if (!($product instanceof Mage_Catalog_Model_Product)) {
-            Mage::throwException(Mage::helper('googlebase')->__('Invalid Product Model for Google Base Item'));
+            Mage::throwException(Mage::helper('Mage_GoogleBase_Helper_Data')->__('Invalid Product Model for Google Base Item'));
         }
         $this->setData('product', $product);
         $this->setProductId($product->getId());
@@ -206,7 +206,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     protected function _checkProduct()
     {
         if (!($this->getProduct() instanceof Mage_Catalog_Model_Product)) {
-            Mage::throwException(Mage::helper('googlebase')->__('Invalid Product Model for Google Base Item'));
+            Mage::throwException(Mage::helper('Mage_GoogleBase_Helper_Data')->__('Invalid Product Model for Google Base Item'));
         }
         return $this;
     }
@@ -232,7 +232,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
         }
         $product->setUrl($url)
             ->setQuantity( $this->getProduct()->getStockItem()->getQty() )
-            ->setImageUrl( Mage::helper('catalog/product')->getImageUrl($product) );
+            ->setImageUrl( Mage::helper('Mage_Catalog_Helper_Product')->getImageUrl($product) );
         $this->setProduct($product);
         return $this;
     }

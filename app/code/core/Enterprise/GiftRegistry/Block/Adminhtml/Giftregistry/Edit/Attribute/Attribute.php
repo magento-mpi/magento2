@@ -51,7 +51,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
         $this->setChild('add_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('enterprise_giftregistry')->__('Add Attribute'),
+                    'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Add Attribute'),
                     'class' => 'add',
                     'id'    => $this->getFieldPrefix() . '_add_new_attribute'
                 ))
@@ -60,7 +60,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('enterprise_giftregistry')->__('Delete Attribute'),
+                    'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Delete Attribute'),
                     'class' => 'delete delete-attribute-option'
                 ))
         );
@@ -323,7 +323,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
         $selectNameHtml = '';
         $selectIdHtml = '';
         $checkedHtml = ($checked) ? ' checked="checked"' : '';
-        $elementLabel = Mage::helper('enterprise_giftregistry')->__('Use Default Value');
+        $elementLabel = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Use Default Value');
 
         if (!is_null($selectId)) {
             $selectNameHtml = '[options]['.$selectId.']';

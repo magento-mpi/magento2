@@ -38,7 +38,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Product_Options_Type
     public function toOptionArray()
     {
         $groups = array(
-            array('value' => '', 'label' => Mage::helper('adminhtml')->__('-- Please select --'))
+            array('value' => '', 'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('-- Please select --'))
         );
 
         foreach (Mage::getConfig()->getNode(self::PRODUCT_OPTIONS_GROUPS_PATH)->children() as $group) {

@@ -382,7 +382,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
                 /**
                  * No reason use crypt key for session
                  */
-//                if ($tryId = Mage::helper('core')->decrypt($_GET[self::SESSION_ID_QUERY_PARAM])) {
+//                if ($tryId = Mage::helper('Mage_Core_Helper_Data')->decrypt($_GET[self::SESSION_ID_QUERY_PARAM])) {
 //                    $id = $tryId;
 //                }
             }
@@ -402,7 +402,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     public function getEncryptedSessionId()
     {
         if (!self::$_encryptedSessionId) {
-//            $helper = Mage::helper('core');
+//            $helper = Mage::helper('Mage_Core_Helper_Data');
 //            if (!$helper) {
 //                return $this;
 //            }

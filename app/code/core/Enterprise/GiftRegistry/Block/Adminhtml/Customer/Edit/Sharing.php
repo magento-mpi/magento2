@@ -37,12 +37,12 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
         ));
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => $this->helper('enterprise_giftregistry')->__('Sharing Information'),
+            'legend' => $this->helper('Enterprise_GiftRegistry_Helper_Data')->__('Sharing Information'),
             'class'  => 'fieldset-wide'
         ));
 
         $fieldset->addField('emails', 'text', array(
-            'label'    => $this->helper('enterprise_giftregistry')->__('Emails'),
+            'label'    => $this->helper('Enterprise_GiftRegistry_Helper_Data')->__('Emails'),
             'required' => true,
             'class'    => 'validate-emails',
             'name'     => 'emails',
@@ -51,7 +51,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
 
         if (!Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('store_id', 'select', array(
-                'label'    => $this->helper('enterprise_giftregistry')->__('Send From'),
+                'label'    => $this->helper('Enterprise_GiftRegistry_Helper_Data')->__('Send From'),
                 'required' => true,
                 'name'     => 'store_id',
                 'values'   => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
@@ -59,7 +59,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
         }
 
         $fieldset->addField('message', 'textarea', array(
-            'label' => $this->helper('enterprise_giftregistry')->__('Message'),
+            'label' => $this->helper('Enterprise_GiftRegistry_Helper_Data')->__('Message'),
             'name'  => 'message',
             'style' => 'height: 50px;',
             'after_element_html' => $this->getShareButton()
@@ -92,7 +92,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
         return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->addData(array(
                 'id'      => '',
-                'label'   => Mage::helper('enterprise_giftregistry')->__('Share Gift Registry'),
+                'label'   => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Share Gift Registry'),
                 'type'    => 'submit'
             ))->toHtml();
     }

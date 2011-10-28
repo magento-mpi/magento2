@@ -194,7 +194,7 @@ class Enterprise_Customer_Model_Observer
             ));
             if (!$validate) {
                 throw Mage::exception('Mage_Eav',
-                    Mage::helper('eav')->__('Maximum length of attribute code must be less then %s symbols',
+                    Mage::helper('Mage_Eav_Helper_Data')->__('Maximum length of attribute code must be less then %s symbols',
                         $attributeCodeMaxLength));
             }
         }
@@ -446,10 +446,10 @@ class Enterprise_Customer_Model_Observer
 
         if ($source instanceof Mage_Core_Model_Abstract && $target instanceof Mage_Core_Model_Abstract) {
             if ($convertType == self::CONVERT_TYPE_CUSTOMER) {
-                $attributes = Mage::helper('enterprise_customer')->getCustomerUserDefinedAttributeCodes();
+                $attributes = Mage::helper('Enterprise_Customer_Helper_Data')->getCustomerUserDefinedAttributeCodes();
                 $prefix     = 'customer_';
             } else if ($convertType == self::CONVERT_TYPE_CUSTOMER_ADDRESS) {
-                $attributes = Mage::helper('enterprise_customer')->getCustomerAddressUserDefinedAttributeCodes();
+                $attributes = Mage::helper('Enterprise_Customer_Helper_Data')->getCustomerAddressUserDefinedAttributeCodes();
                 $prefix     = '';
             } else {
                 return $this;

@@ -58,7 +58,7 @@ class Mage_Eav_Model_Form_Element extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('eav/form_element');
+        $this->_init('Mage_Eav_Model_Resource_Form_Element');
     }
 
     /**
@@ -90,10 +90,10 @@ class Mage_Eav_Model_Form_Element extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         if (!$this->getTypeId()) {
-            Mage::throwException(Mage::helper('eav')->__('Invalid form type.'));
+            Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('Invalid form type.'));
         }
         if (!$this->getAttributeId()) {
-            Mage::throwException(Mage::helper('eav')->__('Invalid EAV attribute.'));
+            Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('Invalid EAV attribute.'));
         }
 
         return parent::_beforeSave();

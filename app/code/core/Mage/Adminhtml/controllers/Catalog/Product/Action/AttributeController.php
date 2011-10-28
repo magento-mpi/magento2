@@ -64,7 +64,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
         $websiteAddData     = $this->getRequest()->getParam('add_website_ids', array());
 
         /* Prepare inventory data item options (use config settings) */
-        foreach (Mage::helper('cataloginventory')->getConfigItemOptions() as $option) {
+        foreach (Mage::helper('Mage_CatalogInventory_Helper_Data')->getConfigItemOptions() as $option) {
             if (isset($inventoryData[$option]) && !isset($inventoryData['use_config_' . $option])) {
                 $inventoryData['use_config_' . $option] = 0;
             }
@@ -196,7 +196,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
      */
     protected function _getHelper()
     {
-        return Mage::helper('adminhtml/catalog_product_edit_action_attribute');
+        return Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute');
     }
 
     protected function _isAllowed()

@@ -97,7 +97,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
      */
     public function getChildrenIds($parentId, $required = true)
     {
-        return Mage::getResourceSingleton('catalog/product_link')
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Link')
             ->getChildrenIds($parentId,
                 Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
     }
@@ -110,7 +110,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
      */
     public function getParentIdsByChild($childId)
     {
-        return Mage::getResourceSingleton('catalog/product_link')
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Link')
             ->getParentIdsByChild($childId,
                 Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
     }
@@ -297,7 +297,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
                             }
 
                             if (!isset($_result[0])) {
-                                return Mage::helper('checkout')->__('Cannot process the item.');
+                                return Mage::helper('Mage_Checkout_Helper_Data')->__('Cannot process the item.');
                             }
 
                             if ($isStrictProcessMode) {
@@ -333,7 +333,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
             }
         }
 
-        return Mage::helper('catalog')->__('Please specify the quantity of product(s).');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the quantity of product(s).');
     }
 
     /**

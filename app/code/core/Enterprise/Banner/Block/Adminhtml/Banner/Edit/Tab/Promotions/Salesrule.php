@@ -99,20 +99,20 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
             'index'     => 'rule_id'
         ));
         $this->addColumn('salesrule_rule_id', array(
-            'header'    => Mage::helper('salesrule')->__('ID'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('ID'),
             'align'     =>'right',
             'width'     => '50px',
             'index'     => 'rule_id',
         ));
 
         $this->addColumn('salesrule_name', array(
-            'header'    => Mage::helper('salesrule')->__('Rule Name'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Rule Name'),
             'align'     =>'left',
             'index'     => 'name',
         ));
 
         $this->addColumn('salesrule_from_date', array(
-            'header'    => Mage::helper('salesrule')->__('Date Start'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Date Start'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -120,7 +120,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
         ));
 
         $this->addColumn('salesrule_to_date', array(
-            'header'    => Mage::helper('salesrule')->__('Date Expire'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Date Expire'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -129,7 +129,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
         ));
 
         $this->addColumn('salesrule_is_active', array(
-            'header'    => Mage::helper('salesrule')->__('Status'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'is_active',

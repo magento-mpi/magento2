@@ -57,7 +57,7 @@
         <catalog>
             <product>
                 <type>
-                    <bundle translate="label" module="bundle">
+                    <bundle translate="label" module="Mage_Bundle">
                         <label>Bundle Product</label>
                         <model>bundle/product_type</model>
                         <composite>1</composite>
@@ -74,16 +74,16 @@
                 <options>
                     <bundle>
                         <types>
-                            <select translate="label" module="bundle">
+                            <select translate="label" module="Mage_Bundle">
                                 <label>Drop-down</label>
                             </select>
-                            <radio translate="label" module="bundle">
+                            <radio translate="label" module="Mage_Bundle">
                                 <label>Radio Buttons</label>
                             </radio>
-                            <checkbox translate="label" module="bundle">
+                            <checkbox translate="label" module="Mage_Bundle">
                                 <label>Checkbox</label>
                             </checkbox>
-                            <multi translate="label" module="bundle">
+                            <multi translate="label" module="Mage_Bundle">
                                 <label>Multiple Select</label>
                             </multi>
                         </types>

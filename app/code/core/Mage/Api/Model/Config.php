@@ -230,7 +230,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
         }
         /* @var $faultsNode Varien_Simplexml_Element */
 
-        $translateModule = 'api';
+        $translateModule = 'Mage_Api';
         if (isset($faultsNode['module'])) {
            $translateModule = (string) $faultsNode['module'];
         }

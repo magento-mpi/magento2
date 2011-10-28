@@ -58,7 +58,7 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
         $this->_setFontBold($style, 10);
 
         if (!(is_array($rmaArray) && (count($rmaArray) == 1))){
-            Mage::throwException(Mage::helper('enterprise_rma')->__('Only one RMA is available for printing'));
+            Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Only one RMA is available for printing'));
         }
         $rma = $rmaArray[0];
 
@@ -93,30 +93,30 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
         $this->_setFontRegular($page);
 
         $page->drawText(
-            Mage::helper('enterprise_rma')->__('Return # ') . $rma->getIncrementId() . ' - ' . $rma->getStatusLabel(),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('Return # ') . $rma->getIncrementId() . ' - ' . $rma->getStatusLabel(),
             35,
             $this->y - 40,
             'UTF-8'
         );
 
         $page->drawText(
-            Mage::helper('enterprise_rma')->__('Return Date: ') .
-                Mage::helper('core')->formatDate($rma->getDateRequested(), 'medium', false),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('Return Date: ') .
+                Mage::helper('Mage_Core_Helper_Data')->formatDate($rma->getDateRequested(), 'medium', false),
             35,
             $this->y - 50,
             'UTF-8'
         );
 
         $page->drawText(
-            Mage::helper('enterprise_rma')->__('Order # ') . $rma->getOrder()->getIncrementId(),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('Order # ') . $rma->getOrder()->getIncrementId(),
             35,
             $this->y - 60,
             'UTF-8'
         );
 
         $page->drawText(
-            Mage::helper('enterprise_rma')->__('Order Date: ') .
-                Mage::helper('core')->formatDate($rma->getOrder()->getCreatedAtStoreDate(), 'medium', false),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('Order Date: ') .
+                Mage::helper('Mage_Core_Helper_Data')->formatDate($rma->getOrder()->getCreatedAtStoreDate(), 'medium', false),
             35,
             $this->y - 70,
             'UTF-8'
@@ -128,7 +128,7 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
         /* add address blocks */
         $shippingAddress = $this->_formatAddress($rma->getOrder()->getShippingAddress()->format('pdf'));
         $returnAddress = $this
-            ->_formatAddress(Mage::helper('enterprise_rma')
+            ->_formatAddress(Mage::helper('Enterprise_Rma_Helper_Data')
             ->getReturnAddress('pdf', array(), $this->getStoreId()));
 
         $page->setFillColor(new Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
@@ -139,9 +139,9 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
 
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
         $this->_setFontRegular($page);
-        $page->drawText(Mage::helper('enterprise_rma')->__('Shipping Address:'), 35, $this->y - 10, 'UTF-8');
+        $page->drawText(Mage::helper('Enterprise_Rma_Helper_Data')->__('Shipping Address:'), 35, $this->y - 10, 'UTF-8');
 
-        $page->drawText(Mage::helper('enterprise_rma')->__('Return Address:'), 315, $this->y - 10, 'UTF-8');
+        $page->drawText(Mage::helper('Enterprise_Rma_Helper_Data')->__('Return Address:'), 315, $this->y - 10, 'UTF-8');
 
         $y = $this->y - 15 - (max(count($shippingAddress), count($returnAddress)) * 10 + 5);
 
@@ -228,43 +228,43 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
 
         $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
         $page->drawText(
-            Mage::helper('enterprise_rma')->__('Product Name'),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('Product Name'),
             $this->getProductNameX(),
             $this->y,
             'UTF-8'
         );
         $page->drawText(
-            Mage::helper('enterprise_rma')->__('SKU'),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('SKU'),
             $this->getProductSkuX(),
             $this->y,
             'UTF-8'
         );
         $page->drawText(
-            Mage::helper('enterprise_rma')->__('Condition'),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('Condition'),
             $this->getConditionX(),
             $this->y,
             'UTF-8'
         );
         $page->drawText(
-            Mage::helper('enterprise_rma')->__('Resolution'),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('Resolution'),
             $this->getResolutionX(),
             $this->y,
             'UTF-8'
         );
         $page->drawText(
-            Mage::helper('enterprise_rma')->__('Requested Qty'),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('Requested Qty'),
             $this->getQtyRequestedX(),
             $this->y,
             'UTF-8'
         );
         $page->drawText(
-            Mage::helper('enterprise_rma')->__('Qty'),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('Qty'),
             $this->getQtyX(),
             $this->y,
             'UTF-8'
         );
         $page->drawText(
-            Mage::helper('enterprise_rma')->__('Status'),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('Status'),
             $this->getStatusX(),
             $this->y,
             'UTF-8'
@@ -283,41 +283,41 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
      */
     protected function _drawRmaItem($item, $page)
     {
-        $productName = Mage::helper('core/string')->str_split($item->getProductName(), 60, true, true);
+        $productName = Mage::helper('Mage_Core_Helper_String')->str_split($item->getProductName(), 60, true, true);
         $productName = isset($productName[0]) ? $productName[0] : '';
 
         $page->drawText($productName, $this->getProductNameX(), $this->y, 'UTF-8');
 
-        $productSku = Mage::helper('core/string')->str_split($item->getProductSku(), 25);
+        $productSku = Mage::helper('Mage_Core_Helper_String')->str_split($item->getProductSku(), 25);
         $productSku = isset($productSku[0]) ? $productSku[0] : '';
         $page->drawText($productSku, $this->getProductSkuX(),$this->y, 'UTF-8');
 
-        $condition = Mage::helper('core/string')->str_split(
+        $condition = Mage::helper('Mage_Core_Helper_String')->str_split(
             $this->_getOptionAttributeStringValue($item->getCondition()),
             25
         );
         $page->drawText($condition[0], $this->getConditionX(),$this->y, 'UTF-8');
 
-        $resolution = Mage::helper('core/string')->str_split(
+        $resolution = Mage::helper('Mage_Core_Helper_String')->str_split(
             $this->_getOptionAttributeStringValue($item->getResolution()),
             25
         );
         $page->drawText($resolution[0], $this->getResolutionX(),$this->y, 'UTF-8');
         $page->drawText(
-            Mage::helper('enterprise_rma')->parseQuantity($item->getQtyRequested(), $item),
+            Mage::helper('Enterprise_Rma_Helper_Data')->parseQuantity($item->getQtyRequested(), $item),
             $this->getQtyRequestedX(),
             $this->y,
             'UTF-8'
         );
 
         $page->drawText(
-            Mage::helper('enterprise_rma')->getQty($item),
+            Mage::helper('Enterprise_Rma_Helper_Data')->getQty($item),
             $this->getQtyX(),
             $this->y,
             'UTF-8'
         );
 
-        $status = Mage::helper('core/string')->str_split($item->getStatusLabel(), 25);
+        $status = Mage::helper('Mage_Core_Helper_String')->str_split($item->getStatusLabel(), 25);
         $page->drawText($status[0], $this->getStatusX(),$this->y, 'UTF-8');
 
         $productOptions = $item->getOptions();
@@ -341,7 +341,7 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
             $this->y -= 8;
             $optionRowString = $value['label'] . ': ' .
                 (isset($value['print_value']) ? $value['print_value'] : $value['value']);
-            $productOptions = Mage::helper('core/string')->str_split($optionRowString, 60, true, true);
+            $productOptions = Mage::helper('Mage_Core_Helper_String')->str_split($optionRowString, 60, true, true);
             $productOptions = isset($productOptions[0]) ? $productOptions[0] : '';
             $page->drawText($productOptions, $this->getProductNameX(), $this->y, 'UTF-8');
         }
@@ -357,7 +357,7 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
     protected function _getOptionAttributeStringValue($attributeValue)
     {
         if (is_null($this->_attributeOptionValues)) {
-            $this->_attributeOptionValues = Mage::helper('enterprise_rma/eav')->getAttributeOptionStringValues();
+            $this->_attributeOptionValues = Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeOptionStringValues();
         }
         if (isset($this->_attributeOptionValues[$attributeValue])) {
             return $this->_attributeOptionValues[$attributeValue];

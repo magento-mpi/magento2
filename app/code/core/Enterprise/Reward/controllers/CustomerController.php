@@ -45,7 +45,7 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
         if (!Mage::getSingleton('customer/session')->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
-        if (!Mage::helper('enterprise_reward')->isEnabledOnFront()) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
@@ -61,7 +61,7 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
         $this->_initLayoutMessages('customer/session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('enterprise_reward')->__('Reward Points'));
+            $headBlock->setTitle(Mage::helper('Enterprise_Reward_Helper_Data')->__('Reward Points'));
         }
         $this->renderLayout();
     }

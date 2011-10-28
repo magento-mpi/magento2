@@ -41,12 +41,12 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
         $defaultStore = Mage::app()->getStore(0);
 
         $fieldset = $form->addFieldset('rating_form', array(
-            'legend'=>Mage::helper('rating')->__('Rating Title')
+            'legend'=>Mage::helper('Mage_Rating_Helper_Data')->__('Rating Title')
         ));
 
         $fieldset->addField('rating_code', 'text', array(
             'name'      => 'rating_code',
-            'label'     => Mage::helper('rating')->__('Default Value'),
+            'label'     => Mage::helper('Mage_Rating_Helper_Data')->__('Default Value'),
             'class'     => 'required-entry',
             'required'  => true,
 
@@ -105,10 +105,10 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
 
 //        if (!Mage::app()->isSingleStoreMode()) {
             $fieldset = $form->addFieldset('visibility_form', array(
-                'legend'    => Mage::helper('rating')->__('Rating Visibility'))
+                'legend'    => Mage::helper('Mage_Rating_Helper_Data')->__('Rating Visibility'))
             );
             $fieldset->addField('stores', 'multiselect', array(
-                'label'     => Mage::helper('rating')->__('Visible In'),
+                'label'     => Mage::helper('Mage_Rating_Helper_Data')->__('Visible In'),
 //                'required'  => true,
                 'name'      => 'stores[]',
                 'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
@@ -147,7 +147,7 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
 <ul class="messages">
     <li class="notice-msg">
         <ul>
-            <li>'.Mage::helper('rating')->__('If you do not specify a rating title for a store, the default value will be used.').'</li>
+            <li>'.Mage::helper('Mage_Rating_Helper_Data')->__('If you do not specify a rating title for a store, the default value will be used.').'</li>
         </ul>
     </li>
 </ul>

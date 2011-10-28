@@ -75,7 +75,7 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract exte
     public function __construct()
     {
         if (!$this->_addButtonLabel) {
-            $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add');
+            $this->_addButtonLabel = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add');
         }
         parent::__construct();
         if (!$this->getTemplate()) {

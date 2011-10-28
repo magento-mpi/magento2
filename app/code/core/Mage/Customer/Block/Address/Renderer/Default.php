@@ -94,7 +94,7 @@ class Mage_Customer_Block_Address_Renderer_Default extends Mage_Core_Block_Abstr
         }
 
         $formater   = new Varien_Filter_Template();
-        $attributes = Mage::helper('customer/address')->getAttributes();
+        $attributes = Mage::helper('Mage_Customer_Helper_Address')->getAttributes();
 
         $data = array();
         foreach ($attributes as $attribute) {

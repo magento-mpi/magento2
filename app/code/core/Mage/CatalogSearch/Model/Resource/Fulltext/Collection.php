@@ -41,7 +41,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Collection extends Mage_Catalog
      */
     protected function _getQuery()
     {
-        return Mage::helper('catalogsearch')->getQuery();
+        return Mage::helper('Mage_CatalogSearch_Helper_Data')->getQuery();
     }
 
     /**

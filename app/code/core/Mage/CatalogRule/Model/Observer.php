@@ -70,7 +70,7 @@ class Mage_CatalogRule_Model_Observer
      */
     public function applyAllRules($observer)
     {
-        $resource = Mage::getResourceSingleton('catalogrule/rule');
+        $resource = Mage::getResourceSingleton('Mage_CatalogRule_Model_Resource_Rule');
         $resource->applyAllRulesForDateRange($resource->formatDate(mktime(0,0,0)));
         Mage::app()->removeCache('catalog_rules_dirty');
         return $this;
@@ -192,7 +192,7 @@ class Mage_CatalogRule_Model_Observer
      */
     public function dailyCatalogUpdate($observer)
     {
-        Mage::getResourceSingleton('catalogrule/rule')->applyAllRulesForDateRange();
+        Mage::getResourceSingleton('Mage_CatalogRule_Model_Resource_Rule')->applyAllRulesForDateRange();
         return $this;
     }
 
@@ -253,7 +253,7 @@ class Mage_CatalogRule_Model_Observer
         if ($disabledRulesCount) {
             Mage::getModel('catalogrule/rule')->applyAll();
             Mage::getSingleton('adminhtml/session')->addWarning(
-                Mage::helper('catalogrule')->__('%d Catalog Price Rules based on "%s" attribute have been disabled.', $disabledRulesCount, $attributeCode));
+                Mage::helper('Mage_CatalogRule_Helper_Data')->__('%d Catalog Price Rules based on "%s" attribute have been disabled.', $disabledRulesCount, $attributeCode));
         }
 
         return $this;
@@ -376,7 +376,7 @@ class Mage_CatalogRule_Model_Observer
 
         foreach ($rules as $rule) {
             $rule->setProductsFilter($affectedEntityIds);
-            Mage::getResourceSingleton('catalogrule/rule')->updateRuleProductData($rule);
+            Mage::getResourceSingleton('Mage_CatalogRule_Model_Resource_Rule')->updateRuleProductData($rule);
         }
     }
 }

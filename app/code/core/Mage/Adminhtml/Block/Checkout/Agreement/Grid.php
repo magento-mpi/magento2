@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Grid extends Mage_Adminhtml_Block_
     {
         $this->addColumn('agreement_id',
             array(
-                'header'=>Mage::helper('checkout')->__('ID'),
+                'header'=>Mage::helper('Mage_Checkout_Helper_Data')->__('ID'),
                 'align' =>'right',
                 'width' => '50px',
                 'index' => 'agreement_id'
@@ -56,14 +56,14 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Grid extends Mage_Adminhtml_Block_
 
         $this->addColumn('name',
             array(
-                'header'=>Mage::helper('checkout')->__('Condition Name'),
+                'header'=>Mage::helper('Mage_Checkout_Helper_Data')->__('Condition Name'),
                 'index' => 'name'
             )
         );
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'        => Mage::helper('adminhtml')->__('Store View'),
+                'header'        => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Store View'),
                 'index'         => 'store_id',
                 'type'          => 'store',
                 'store_all'     => true,
@@ -75,12 +75,12 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Grid extends Mage_Adminhtml_Block_
         }
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('adminhtml')->__('Status'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(
-                0 => Mage::helper('adminhtml')->__('Disabled'),
-                1 => Mage::helper('adminhtml')->__('Enabled')
+                0 => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Disabled'),
+                1 => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Enabled')
             ),
         ));
 

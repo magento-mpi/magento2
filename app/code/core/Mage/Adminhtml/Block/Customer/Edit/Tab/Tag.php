@@ -69,32 +69,32 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tag extends Mage_Adminhtml_Block_Wi
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    => Mage::helper('customer')->__('Tag Name'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Tag Name'),
             'index'     => 'name',
         ));
 
         $this->addColumn('status', array(
-            'header'    => Mage::helper('customer')->__('Status'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Status'),
             'width'     => '90px',
             'index'     => 'status',
             'type'      => 'options',
             'options'    => array(
-                Mage_Tag_Model_Tag::STATUS_DISABLED => Mage::helper('customer')->__('Disabled'),
-                Mage_Tag_Model_Tag::STATUS_PENDING  => Mage::helper('customer')->__('Pending'),
-                Mage_Tag_Model_Tag::STATUS_APPROVED => Mage::helper('customer')->__('Approved'),
+                Mage_Tag_Model_Tag::STATUS_DISABLED => Mage::helper('Mage_Customer_Helper_Data')->__('Disabled'),
+                Mage_Tag_Model_Tag::STATUS_PENDING  => Mage::helper('Mage_Customer_Helper_Data')->__('Pending'),
+                Mage_Tag_Model_Tag::STATUS_APPROVED => Mage::helper('Mage_Customer_Helper_Data')->__('Approved'),
             ),
             'filter'    => false,
         ));
 
         $this->addColumn('product', array(
-            'header'    => Mage::helper('customer')->__('Product Name'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Product Name'),
             'index'     => 'product',
             'filter'    => false,
             'sortable'  => false,
         ));
 
         $this->addColumn('product_sku', array(
-            'header'    => Mage::helper('customer')->__('SKU'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('SKU'),
             'index'     => 'product_sku',
             'filter'    => false,
             'sortable'  => false,

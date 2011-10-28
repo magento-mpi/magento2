@@ -113,7 +113,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      */
     public function getStoreCategories()
     {
-        $helper = Mage::helper('catalog/category');
+        $helper = Mage::helper('Mage_Catalog_Helper_Category');
         return $helper->getStoreCategories();
     }
 
@@ -224,7 +224,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $html = array();
 
         // get all children
-        if (Mage::helper('catalog/category_flat')->isEnabled()) {
+        if (Mage::helper('Mage_Catalog_Helper_Category_Flat')->isEnabled()) {
             $children = (array)$category->getChildrenNodes();
             $childrenCount = count($children);
         } else {

@@ -79,7 +79,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Varien_Object
         if ($this->_option instanceof Mage_Catalog_Model_Product_Option) {
             return $this->_option;
         }
-        Mage::throwException(Mage::helper('catalog')->__('Wrong option instance type in options group.'));
+        Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Wrong option instance type in options group.'));
     }
 
     /**
@@ -105,7 +105,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Varien_Object
         if ($this->_product instanceof Mage_Catalog_Model_Product) {
             return $this->_product;
         }
-        Mage::throwException(Mage::helper('catalog')->__('Wrong product instance type in options group.'));
+        Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Wrong product instance type in options group.'));
     }
 
     /**
@@ -124,7 +124,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Varien_Object
             return $this->_getData('quote_item_option');
         }
 
-        Mage::throwException(Mage::helper('catalog')->__('Wrong configuration item option instance in options group.'));
+        Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Wrong configuration item option instance in options group.'));
     }
 
     /**
@@ -156,7 +156,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Varien_Object
             return $this->_getData('quote_item');
         }
 
-        Mage::throwException(Mage::helper('catalog')->__('Wrong configuration item instance in options group.'));
+        Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Wrong configuration item instance in options group.'));
     }
 
     /**
@@ -181,7 +181,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Varien_Object
         if ($this->_getData('request') instanceof Varien_Object) {
             return $this->_getData('request');
         }
-        Mage::throwException(Mage::helper('catalog')->__('Wrong BuyRequest instance in options group.'));
+        Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Wrong BuyRequest instance in options group.'));
     }
 
     /**
@@ -210,7 +210,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Varien_Object
 
         $option = $this->getOption();
         if (!isset($values[$option->getId()]) && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
-            Mage::throwException(Mage::helper('catalog')->__('Please specify the product required option(s).'));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the product required option(s).'));
         } elseif (isset($values[$option->getId()])) {
             $this->setUserValue($values[$option->getId()]);
             $this->setIsValid(true);
@@ -240,7 +240,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Varien_Object
         if ($this->getIsValid()) {
             return $this->getUserValue();
         }
-        Mage::throwException(Mage::helper('catalog')->__('Option validation failed to add product to cart.'));
+        Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Option validation failed to add product to cart.'));
     }
 
     /**

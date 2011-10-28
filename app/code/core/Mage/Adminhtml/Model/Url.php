@@ -122,7 +122,7 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
         }
 
         $secret = $controller . $action . $salt;
-        return Mage::helper('core')->getHash($secret);
+        return Mage::helper('Mage_Core_Helper_Data')->getHash($secret);
     }
 
     /**

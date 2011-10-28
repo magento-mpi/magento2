@@ -112,6 +112,6 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Items
     public function getDisplayGiftWrappingForItem($item)
     {
         $allowed = $item->getProduct()->getGiftWrappingAvailable();
-        return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForProduct($allowed, $this->getStoreId());
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->isGiftWrappingAvailableForProduct($allowed, $this->getStoreId());
     }
 }

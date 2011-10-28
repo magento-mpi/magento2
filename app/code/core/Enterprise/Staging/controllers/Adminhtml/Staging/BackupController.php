@@ -212,7 +212,7 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController
             $staging->releaseCoreFlag();
             $redirectBack = true;
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('enterprise_staging')->__('An error occurred while performing rollback. Please review the log and try again.'));
+            $this->_getSession()->addException($e, Mage::helper('Enterprise_Staging_Helper_Data')->__('An error occurred while performing rollback. Please review the log and try again.'));
             $staging->releaseCoreFlag();
             $redirectBack = true;
         }

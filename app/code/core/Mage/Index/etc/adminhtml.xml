@@ -29,7 +29,7 @@
     <menu>
         <system>
             <children>
-                <index translate="title" module="index">
+                <index translate="title" module="Mage_Index">
                     <title>Index Management</title>
                     <action>adminhtml/process/list</action>
                     <sort_order>92</sort_order>

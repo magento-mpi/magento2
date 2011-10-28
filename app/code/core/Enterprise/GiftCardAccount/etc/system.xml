@@ -35,7 +35,7 @@
             <show_in_store>1</show_in_store>
             <sort_order>500</sort_order>
             <groups>
-                <giftcardaccount_email translate="label" module="enterprise_giftcardaccount">
+                <giftcardaccount_email translate="label" module="Enterprise_GiftCardAccount">
                     <label>Email Sent from Gift Card Account Management</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>300</sort_order>
@@ -63,7 +63,7 @@
                         </template>
                     </fields>
                 </giftcardaccount_email>
-                <giftcardaccount_general translate="label" module="enterprise_giftcardaccount">
+                <giftcardaccount_general translate="label" module="Enterprise_GiftCardAccount">
                     <label>Gift Card Account General Settings</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>400</sort_order>
@@ -152,7 +152,7 @@
             <groups>
                 <totals_sort>
                     <fields>
-                        <giftcardaccount module="enterprise_giftcardaccount" translate="label">
+                        <giftcardaccount module="Enterprise_GiftCardAccount" translate="label">
                             <label>Gift Cards</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>5</sort_order>

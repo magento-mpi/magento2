@@ -141,6 +141,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Ma
     public function getCurrencyPrice($price)
     {
         $store = $this->getProduct()->getStore();
-        return $this->helper('core')->currencyByStore($price, $store, false);
+        return $this->helper('Mage_Core_Helper_Data')->currencyByStore($price, $store, false);
     }
 }

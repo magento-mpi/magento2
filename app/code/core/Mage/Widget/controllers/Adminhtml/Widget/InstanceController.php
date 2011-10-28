@@ -52,10 +52,10 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
     {
         $this->loadLayout()
             ->_setActiveMenu('cms/widgets')
-            ->_addBreadcrumb(Mage::helper('widget')->__('CMS'),
-                Mage::helper('widget')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('widget')->__('Manage Widget Instances'),
-                Mage::helper('widget')->__('Manage Widget Instances'));
+            ->_addBreadcrumb(Mage::helper('Mage_Widget_Helper_Data')->__('CMS'),
+                Mage::helper('Mage_Widget_Helper_Data')->__('CMS'))
+            ->_addBreadcrumb(Mage::helper('Mage_Widget_Helper_Data')->__('Manage Widget Instances'),
+                Mage::helper('Mage_Widget_Helper_Data')->__('Manage Widget Instances'));
         return $this;
     }
 
@@ -79,7 +79,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
         if ($instanceId) {
             $widgetInstance->load($instanceId);
             if (!$widgetInstance->getId()) {
-                $this->_getSession()->addError(Mage::helper('widget')->__('Wrong widget instance specified.'));
+                $this->_getSession()->addError(Mage::helper('Mage_Widget_Helper_Data')->__('Wrong widget instance specified.'));
                 return false;
             }
         } else {
@@ -168,7 +168,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
         try {
             $widgetInstance->save();
             $this->_getSession()->addSuccess(
-                Mage::helper('widget')->__('The widget instance has been saved.')
+                Mage::helper('Mage_Widget_Helper_Data')->__('The widget instance has been saved.')
             );
             if ($this->getRequest()->getParam('back', false)) {
                     $this->_redirect('*/*/edit', array(
@@ -199,7 +199,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
             try {
                 $widgetInstance->delete();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('widget')->__('The widget instance has been deleted.')
+                    Mage::helper('Mage_Widget_Helper_Data')->__('The widget instance has been deleted.')
                 );
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -220,7 +220,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
         $chooser = $this->getLayout()
             ->createBlock('Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser')
             ->setUseMassaction(true)
-            ->setId(Mage::helper('core')->uniqHash('categories'))
+            ->setId(Mage::helper('Mage_Core_Helper_Data')->uniqHash('categories'))
             ->setIsAnchorOnly($isAnchorOnly)
             ->setSelectedCategories(explode(',', $selected));
         $this->getResponse()->setBody($chooser->toHtml());
@@ -236,7 +236,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
         $productTypeId = $this->getRequest()->getParam('product_type_id', '');
         $chooser = $this->getLayout()
             ->createBlock('Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser')
-            ->setName(Mage::helper('core')->uniqHash('products_grid_'))
+            ->setName(Mage::helper('Mage_Core_Helper_Data')->uniqHash('products_grid_'))
             ->setUseMassaction(true)
             ->setProductTypeId($productTypeId)
             ->setSelectedProducts(explode(',', $selected));

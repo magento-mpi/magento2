@@ -35,7 +35,7 @@ class Enterprise_GiftRegistry_Block_Customer_Items extends Mage_Catalog_Block_Pr
      */
     public function getFormHeader()
     {
-        return Mage::helper('enterprise_giftregistry')->__('View Gift Registry %s',
+        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('View Gift Registry %s',
             $this->getEntity()->getTitle()
         );
     }
@@ -130,6 +130,6 @@ class Enterprise_GiftRegistry_Block_Customer_Items extends Mage_Catalog_Block_Pr
     {
         $product = $item->getProduct();
         $product->setCustomOptions($item->getOptionsByCode());
-        return Mage::helper('core')->currency($product->getFinalPrice(),true,true);
+        return Mage::helper('Mage_Core_Helper_Data')->currency($product->getFinalPrice(),true,true);
     }
 }

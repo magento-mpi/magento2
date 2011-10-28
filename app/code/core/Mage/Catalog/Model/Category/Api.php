@@ -39,11 +39,10 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
     }
 
     /**
-     * Retrieve level of categories for category/store view/website
+     * Retrive level of categories for category/store view/website
      *
-     * @param string|int|null $website
-     * @param string|int|null $store
-     * @param int|null $categoryId
+     * @param string|int $website
+     * @param string|int $store
      * @return array
      */
     public function level($website = null, $store = null, $categoryId = null)
@@ -140,13 +139,13 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
         }
 
         /* @var $tree Mage_Catalog_Model_Resource_Category_Tree */
-        $tree = Mage::getResourceSingleton('catalog/category_tree')
+        $tree = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category_Tree')
             ->load();
 
         $root = $tree->getNodeById($parentId);
 
         if($root && $root->getId() == 1) {
-            $root->setName(Mage::helper('catalog')->__('Root'));
+            $root->setName(Mage::helper('Mage_Catalog_Helper_Data')->__('Root'));
         }
 
         $collection = Mage::getModel('catalog/category')->getCollection()
@@ -241,57 +240,39 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
      *
      * @param int $parentId
      * @param array $categoryData
-     * @param int|null|string $store
      * @return int
      */
     public function create($parentId, $categoryData, $store = null)
     {
         $parent_category = $this->_initCategory($parentId, $store);
-
-        /** @var $category Mage_Catalog_Model_Category */
         $category = Mage::getModel('catalog/category')
             ->setStoreId($this->_getStoreId($store));
 
-        $category->addData(array('path'=>implode('/', $parent_category->getPathIds())));
-        $category->setAttributeSetId($category->getDefaultAttributeSetId());
+        $category->addData(array('path'=>implode('/',$parent_category->getPathIds())));
 
-        $useConfig = array();
+        $category ->setAttributeSetId($category->getDefaultAttributeSetId());
+        /* @var $category Mage_Catalog_Model_Category */
+
         foreach ($category->getAttributes() as $attribute) {
             if ($this->_isAllowedAttribute($attribute)
-                && isset($categoryData[$attribute->getAttributeCode()])
-            ) {
-                // check whether value is 'use_config'
-                $attrCode = $attribute->getAttributeCode();
-                $categoryDataValue = $categoryData[$attrCode];
-                if ('use_config' === $categoryDataValue ||
-                    (is_array($categoryDataValue) &&
-                    count($categoryDataValue) == 1 &&
-                    'use_config' === $categoryDataValue[0])
-                ) {
-                    $useConfig[] = $attrCode;
-                    $category->setData($attrCode, null);
-                } else {
-                    $category->setData($attrCode, $categoryDataValue);
-                }
+                && isset($categoryData[$attribute->getAttributeCode()])) {
+                $category->setData(
+                    $attribute->getAttributeCode(),
+                    $categoryData[$attribute->getAttributeCode()]
+                );
             }
         }
 
         $category->setParentId($parent_category->getId());
-
-        /**
-         * Proceed with $useConfig set into category model for processing through validation
-         */
-        if (count($useConfig) > 0) {
-            $category->setData("use_post_data_config", $useConfig);
-        }
 
         try {
             $validate = $category->validate();
             if ($validate !== true) {
                 foreach ($validate as $code => $error) {
                     if ($error === true) {
-                        Mage::throwException(Mage::helper('catalog')->__('Attribute "%s" is required.', $code));
-                    } else {
+                        Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute "%s" is required.', $code));
+                    }
+                    else {
                         Mage::throwException($error);
                     }
                 }
@@ -300,9 +281,6 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
             $category->save();
         }
         catch (Mage_Core_Exception $e) {
-            $this->_fault('data_invalid', $e->getMessage());
-        }
-        catch (Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -336,7 +314,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
             if ($validate !== true) {
                 foreach ($validate as $code => $error) {
                     if ($error === true) {
-                        Mage::throwException(Mage::helper('catalog')->__('Attribute "%s" is required.', $code));
+                        Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute "%s" is required.', $code));
                     }
                     else {
                         Mage::throwException($error);
@@ -413,7 +391,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
      */
     protected function _getProductId($productId, $identifierType = null)
     {
-        $product = Mage::helper('catalog/product')->getProduct($productId, null, $identifierType);
+        $product = Mage::helper('Mage_Catalog_Helper_Product')->getProduct($productId, null, $identifierType);
         if (!$product->getId()) {
             $this->_fault('not_exists','Product not exists.');
         }

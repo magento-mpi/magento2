@@ -28,28 +28,28 @@
 <config>
     <api>
         <resources>
-            <giftmessage translate="title" module="giftmessage">
+            <giftmessage translate="title" module="Mage_GiftMessage">
                 <model>giftmessage/api</model>
                 <title>Gift Message API</title>
                 <acl>giftmessage/set</acl>
                 <methods>
-                    <setForQuote translate="title" module="giftmessage">
+                    <setForQuote translate="title" module="Mage_GiftMessage">
                         <title>Add gift message for shopping cart</title>
                         <method>setForQuote</method>
                         <acl>giftmessage/set</acl>
                     </setForQuote>
-                    <setForQuoteItem translate="title" module="giftmessage">
+                    <setForQuoteItem translate="title" module="Mage_GiftMessage">
                         <title>Add gift messages for quote item of shopping cart</title>
                         <method>setForQuoteItem</method>
                         <acl>giftmessage/set</acl>
                     </setForQuoteItem>
-                    <setForQuoteProduct translate="title" module="giftmessage">
+                    <setForQuoteProduct translate="title" module="Mage_GiftMessage">
                         <title>Add gift messages to products of shopping cart</title>
                         <method>setForQuoteProduct</method>
                         <acl>giftmessage/set</acl>
                     </setForQuoteProduct>
                 </methods>
-                <faults module="giftmessage">
+                <faults module="Mage_GiftMessage">
                     <store_not_exists>
                         <code>1001</code>
                         <message>Can not make operation because store is not exists</message>
@@ -75,9 +75,9 @@
         </resources>
         <acl>
             <resources>
-                <giftmessage translate="title" module="checkout">
+                <giftmessage translate="title" module="Mage_Checkout">
                     <title>Gift Message</title>
-                    <set translate="title" module="checkout">
+                    <set translate="title" module="Mage_Checkout">
                         <title>Add gift messages to shopping cart</title>
                     </set>
                 </giftmessage>

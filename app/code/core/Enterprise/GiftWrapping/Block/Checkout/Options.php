@@ -93,13 +93,13 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
     public function calculatePrice($item, $basePrice, $shippingAddress, $includeTax = false)
     {
         $billingAddress = $this->_getQuote()->getBillingAddress();
-        $taxClass = Mage::helper('enterprise_giftwrapping')->getWrappingTaxClass();
+        $taxClass = Mage::helper('Enterprise_GiftWrapping_Helper_Data')->getWrappingTaxClass();
         $item->setTaxClassId($taxClass);
 
-        $price = Mage::helper('enterprise_giftwrapping')->getPrice($item, $basePrice, $includeTax, $shippingAddress,
+        $price = Mage::helper('Enterprise_GiftWrapping_Helper_Data')->getPrice($item, $basePrice, $includeTax, $shippingAddress,
             $billingAddress
         );
-        return Mage::helper('core')->currency($price, true, false);
+        return Mage::helper('Mage_Core_Helper_Data')->currency($price, true, false);
     }
 
     /**
@@ -174,7 +174,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
                 continue;
             }
             $allowed = $item->getProduct()->getGiftWrappingAvailable();
-            if (Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForProduct($allowed)
+            if (Mage::helper('Enterprise_GiftWrapping_Helper_Data')->isGiftWrappingAvailableForProduct($allowed)
                 && !$item->getIsVirtual()) {
                 $temp = array();
                 if ($price = $item->getProduct()->getGiftWrappingPrice()) {
@@ -214,7 +214,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
     {
         $data = array();
         if ($this->getAllowPrintedCard()) {
-            $price = Mage::helper('enterprise_giftwrapping')->getPrintedCardPrice();
+            $price = Mage::helper('Enterprise_GiftWrapping_Helper_Data')->getPrintedCardPrice();
             foreach ($this->_getQuote()->getAllShippingAddresses() as $address) {
                 $entityId = $this->_getQuote()->getIsMultiShipping()
                     ? $address->getId()
@@ -252,7 +252,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
      */
     public function getDisplayWrappingBothPrices()
     {
-        return Mage::helper('enterprise_giftwrapping')->displayCartWrappingBothPrices();
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->displayCartWrappingBothPrices();
     }
 
     /**
@@ -262,7 +262,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
      */
     public function getDisplayCardBothPrices()
     {
-        return Mage::helper('enterprise_giftwrapping')->displayCartCardBothPrices();
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->displayCartCardBothPrices();
     }
 
     /**
@@ -272,7 +272,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
      */
     public function getDisplayWrappingIncludeTaxPrice()
     {
-        return Mage::helper('enterprise_giftwrapping')->displayCartWrappingIncludeTaxPrice();
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->displayCartWrappingIncludeTaxPrice();
     }
 
     /**
@@ -282,7 +282,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
      */
     public function getDisplayCardIncludeTaxPrice()
     {
-        return Mage::helper('enterprise_giftwrapping')->displayCartCardIncludeTaxPrice();
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->displayCartCardIncludeTaxPrice();
     }
 
     /**
@@ -292,7 +292,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
      */
     public function getAllowPrintedCard()
     {
-        return Mage::helper('enterprise_giftwrapping')->allowPrintedCard();
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->allowPrintedCard();
     }
 
     /**
@@ -302,7 +302,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
      */
     public function getAllowGiftReceipt()
     {
-        return Mage::helper('enterprise_giftwrapping')->allowGiftReceipt();
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->allowGiftReceipt();
     }
 
     /**
@@ -312,7 +312,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
      */
     public function getAllowForOrder()
     {
-        return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForOrder();
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->isGiftWrappingAvailableForOrder();
     }
 
     /**
@@ -322,7 +322,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
      */
     public function getAllowForItems()
     {
-        return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForItems();
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->isGiftWrappingAvailableForItems();
     }
 
     /**

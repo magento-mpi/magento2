@@ -95,7 +95,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Ogone extends Mage_Payment_Model_M
     public function isAvailable($quote = null)
     {
         $storeId = $quote ? $quote->getStoreId() : null;
-        return Mage::helper('enterprise_pbridge')->isEnabled($storeId) && parent::isAvailable();
+        return Mage::helper('Enterprise_Pbridge_Helper_Data')->isEnabled($storeId) && parent::isAvailable();
     }
 
     /**
@@ -126,7 +126,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Ogone extends Mage_Payment_Model_M
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('payment')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
         }
         return $this->_pbridgeMethodInstance;
@@ -246,7 +246,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Ogone extends Mage_Payment_Model_M
     public function setStore($store)
     {
         $this->setData('store', $store);
-        Mage::helper('enterprise_pbridge')->setStoreId(is_object($store) ? $store->getId() : $store);
+        Mage::helper('Enterprise_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
     }
 }

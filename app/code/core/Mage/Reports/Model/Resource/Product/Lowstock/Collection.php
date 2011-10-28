@@ -63,7 +63,7 @@ class Mage_Reports_Model_Resource_Product_Lowstock_Collection extends Mage_Repor
     protected function _getInventoryItemResource()
     {
         if ($this->_inventoryItemResource === null) {
-            $this->_inventoryItemResource = Mage::getResourceSingleton('cataloginventory/stock_item');
+            $this->_inventoryItemResource = Mage::getResourceSingleton('Mage_CatalogInventory_Model_Resource_Stock_Item');
         }
         return $this->_inventoryItemResource;
     }
@@ -183,7 +183,7 @@ class Mage_Reports_Model_Resource_Product_Lowstock_Collection extends Mage_Repor
     {
         if (!is_string($typeFilter) && !is_array($typeFilter)) {
             Mage::throwException(
-                Mage::helper('catalog')->__('Wrong product type filter specified')
+                Mage::helper('Mage_Catalog_Helper_Data')->__('Wrong product type filter specified')
             );
         }
         $this->addAttributeToFilter('type_id', $typeFilter);
@@ -199,7 +199,7 @@ class Mage_Reports_Model_Resource_Product_Lowstock_Collection extends Mage_Repor
     public function filterByIsQtyProductTypes()
     {
         $this->filterByProductType(
-            array_keys(array_filter(Mage::helper('cataloginventory')->getIsQtyTypeIds()))
+            array_keys(array_filter(Mage::helper('Mage_CatalogInventory_Helper_Data')->getIsQtyTypeIds()))
         );
         return $this;
     }

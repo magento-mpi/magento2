@@ -386,7 +386,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
             $ratingIds = array((int)$ratingIds);
         }
         if ($ratingIds && $entityPkValue
-            && ($resource = Mage::getResourceSingleton('rating/rating_option'))
+            && ($resource = Mage::getResourceSingleton('Mage_Rating_Model_Resource_Rating_Option'))
             ) {
             foreach ($ratingIds as $ratingId) {
                 $resource->aggregateEntityByRatingId(

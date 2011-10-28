@@ -48,7 +48,7 @@ class Enterprise_Rma_Model_Shipping_Info extends Varien_Object
      */
     public function loadByHash($hash)
     {
-        $data = Mage::helper('enterprise_rma')->decodeTrackingHash($hash);
+        $data = Mage::helper('Enterprise_Rma_Helper_Data')->decodeTrackingHash($hash);
 
         if (!empty($data)) {
             $this->setData($data['key'], $data['id']);
@@ -71,7 +71,7 @@ class Enterprise_Rma_Model_Shipping_Info extends Varien_Object
      */
     public function loadPackage($hash)
     {
-        $data = Mage::helper('enterprise_rma')->decodeTrackingHash($hash);
+        $data = Mage::helper('Enterprise_Rma_Helper_Data')->decodeTrackingHash($hash);
         $package = array();
         if (!empty($data)) {
             $this->setData($data['key'], $data['id']);

@@ -130,7 +130,7 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
 
     protected function _toHtml()
     {
-        if (Mage::helper('sales/reorder')->isAllow()
+        if (Mage::helper('Mage_Sales_Helper_Reorder')->isAllow()
             && (Mage::getSingleton('customer/session')->isLoggedIn() || $this->getCustomerId())
         ) {
             return parent::_toHtml();

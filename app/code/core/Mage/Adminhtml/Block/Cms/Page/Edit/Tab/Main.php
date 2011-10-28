@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
 
         $form->setHtmlIdPrefix('page_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('cms')->__('Page Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_Cms_Helper_Data')->__('Page Information')));
 
         if ($model->getPageId()) {
             $fieldset->addField('page_id', 'hidden', array(
@@ -65,19 +65,19 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
 
         $fieldset->addField('title', 'text', array(
             'name'      => 'title',
-            'label'     => Mage::helper('cms')->__('Page Title'),
-            'title'     => Mage::helper('cms')->__('Page Title'),
+            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Page Title'),
+            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Page Title'),
             'required'  => true,
             'disabled'  => $isElementDisabled
         ));
 
         $fieldset->addField('identifier', 'text', array(
             'name'      => 'identifier',
-            'label'     => Mage::helper('cms')->__('URL Key'),
-            'title'     => Mage::helper('cms')->__('URL Key'),
+            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('URL Key'),
+            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('URL Key'),
             'required'  => true,
             'class'     => 'validate-identifier',
-            'note'      => Mage::helper('cms')->__('Relative to Website Base URL'),
+            'note'      => Mage::helper('Mage_Cms_Helper_Data')->__('Relative to Website Base URL'),
             'disabled'  => $isElementDisabled
         ));
 
@@ -87,8 +87,8 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
         if (!Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('store_id', 'multiselect', array(
                 'name'      => 'stores[]',
-                'label'     => Mage::helper('cms')->__('Store View'),
-                'title'     => Mage::helper('cms')->__('Store View'),
+                'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Store View'),
+                'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Store View'),
                 'required'  => true,
                 'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
                 'disabled'  => $isElementDisabled
@@ -103,8 +103,8 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
         }
 
         $fieldset->addField('is_active', 'select', array(
-            'label'     => Mage::helper('cms')->__('Status'),
-            'title'     => Mage::helper('cms')->__('Page Status'),
+            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
+            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Page Status'),
             'name'      => 'is_active',
             'required'  => true,
             'options'   => $model->getAvailableStatuses(),
@@ -129,7 +129,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
      */
     public function getTabLabel()
     {
-        return Mage::helper('cms')->__('Page Information');
+        return Mage::helper('Mage_Cms_Helper_Data')->__('Page Information');
     }
 
     /**
@@ -139,7 +139,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
      */
     public function getTabTitle()
     {
-        return Mage::helper('cms')->__('Page Information');
+        return Mage::helper('Mage_Cms_Helper_Data')->__('Page Information');
     }
 
     /**

@@ -84,12 +84,12 @@ class Mage_XmlConnect_Block_Catalog_Category extends Mage_XmlConnect_Block_Catal
                 if (!is_null($categoryId)) {
                     $itemXmlObj->addChild('parent_id', $item->getParentId());
                 }
-                $icon = Mage::helper('xmlconnect/catalog_category_image')->initialize($item, 'thumbnail')
-                    ->resize(Mage::helper('xmlconnect/image')->getImageSizeForContent('category'));
+                $icon = Mage::helper('Mage_XmlConnect_Helper_Catalog_Category_Image')->initialize($item, 'thumbnail')
+                    ->resize(Mage::helper('Mage_XmlConnect_Helper_Image')->getImageSizeForContent('category'));
 
                 $iconXml = $itemXmlObj->addChild('icon', $icon);
 
-                $file = Mage::helper('xmlconnect')->urlToPath($icon);
+                $file = Mage::helper('Mage_XmlConnect_Helper_Data')->urlToPath($icon);
                 $iconXml->addAttribute('modification_time', filemtime($file));
             }
         }

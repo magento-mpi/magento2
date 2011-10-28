@@ -50,7 +50,7 @@ class Enterprise_Reminder_Model_Condition_Abstract extends Mage_Rule_Model_Condi
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('enterprise_reminder/rule');
+        return Mage::getResourceSingleton('Enterprise_Reminder_Model_Resource_Rule');
     }
 
     /**

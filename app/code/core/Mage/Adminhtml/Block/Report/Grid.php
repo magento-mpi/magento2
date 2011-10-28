@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->setChild('refresh_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Refresh'),
+                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Refresh'),
                     'onclick'   => $this->getRefreshButtonCallback(),
                     'class'   => 'task'
                 ))
@@ -147,7 +147,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 $collection->setInterval($from, $to);
             }
             catch (Exception $e) {
-                $this->_errors[] = Mage::helper('reports')->__('Invalid date specified.');
+                $this->_errors[] = Mage::helper('Mage_Reports_Helper_Data')->__('Invalid date specified.');
             }
         }
 

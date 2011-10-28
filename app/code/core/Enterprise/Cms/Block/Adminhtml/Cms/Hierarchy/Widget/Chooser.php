@@ -41,7 +41,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
      */
     public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        $uniqId = Mage::helper('core')->uniqHash($element->getId());
+        $uniqId = Mage::helper('Mage_Core_Helper_Data')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/cms_hierarchy_widget/chooser', array('uniq_id' => $uniqId));
 
         $chooser = $this->getLayout()->createBlock('Mage_Widget_Block_Adminhtml_Widget_Chooser')
@@ -145,7 +145,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
      */
     public function getNodesJson()
     {
-        return Mage::helper('core')->jsonEncode($this->getNodes());
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getNodes());
     }
 
     /**

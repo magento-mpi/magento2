@@ -216,7 +216,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
                 } else {
                     $wishlistMessage = $this->__('Specified item does not exist in wishlist.');
                 }
-                Mage::helper('wishlist')->calculate();
+                Mage::helper('Mage_Wishlist_Helper_Data')->calculate();
             }
 
             /**
@@ -230,7 +230,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
                 if (isset($wishlistMessage)) {
                     $this->_message($wishlistMessage, self::MESSAGE_STATUS_ERROR);
                 } else {
-                    $productName = Mage::helper('core')->escapeHtml($product->getName());
+                    $productName = Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName());
                     $message = $this->__('%s has been added to your cart.', $productName);
                     if ($cart->getQuote()->getHasError()) {
                         $message .= $this->__(' But cart has some errors.');
@@ -347,7 +347,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
             try {
                 Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->loadByCode($code)->addToCart();
                 $this->_message(
-                    $this->__('Gift Card "%s" was added.', Mage::helper('core')->escapeHtml($code)),
+                    $this->__('Gift Card "%s" was added.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($code)),
                     self::MESSAGE_STATUS_SUCCESS
                 );
                 return;
@@ -376,7 +376,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
             try {
                 Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->loadByCode($code)->removeFromCart();
                 $this->_message(
-                    $this->__('Gift Card "%s" was removed.', Mage::helper('core')->escapeHtml($code)),
+                    $this->__('Gift Card "%s" was removed.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($code)),
                     self::MESSAGE_STATUS_SUCCESS
                 );
             } catch (Mage_Core_Exception $e) {
@@ -398,7 +398,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
      */
     public function removeStoreCreditAction()
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             $this->_message($this->__('Customer balance is disabled for current store'), self::MESSAGE_STATUS_ERROR);
             return;
         }

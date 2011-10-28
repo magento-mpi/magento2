@@ -102,7 +102,7 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abs
         $adapter = $this->_getWriteAdapter();
 
         foreach ($labels as $storeId => $label) {
-            if (Mage::helper('core/string')->strlen($label)) {
+            if (Mage::helper('Mage_Core_Helper_String')->strlen($label)) {
                 $data = array('rule_id' => $ruleId, 'store_id' => $storeId, 'label' => $label);
                 $adapter->insertOnDuplicate($table, $data, array('label'));
             } else {

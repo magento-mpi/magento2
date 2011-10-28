@@ -103,9 +103,9 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
     {
         parent::__construct();
         $this->_scopeLabels = array(
-            self::SCOPE_DEFAULT  => Mage::helper('adminhtml')->__('[GLOBAL]'),
-            self::SCOPE_WEBSITES => Mage::helper('adminhtml')->__('[WEBSITE]'),
-            self::SCOPE_STORES   => Mage::helper('adminhtml')->__('[STORE VIEW]'),
+            self::SCOPE_DEFAULT  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]'),
+            self::SCOPE_WEBSITES => Mage::helper('Mage_Adminhtml_Helper_Data')->__('[WEBSITE]'),
+            self::SCOPE_STORES   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('[STORE VIEW]'),
         );
     }
 

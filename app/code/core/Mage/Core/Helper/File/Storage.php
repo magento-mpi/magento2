@@ -112,7 +112,7 @@ class Mage_Core_Helper_File_Storage extends Mage_Core_Helper_Abstract
             return false;
         }
 
-        $dbHelper = Mage::helper('core/file_storage_database');
+        $dbHelper = Mage::helper('Mage_Core_Helper_File_Storage_Database');
 
         $relativePath = $dbHelper->getMediaRelativePath($filename);
         $file = $this->getStorageModel()->loadByFilename($relativePath);

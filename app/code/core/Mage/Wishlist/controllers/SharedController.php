@@ -66,7 +66,7 @@ class Mage_Wishlist_SharedController extends Mage_Wishlist_Controller_Abstract
         $customerId = Mage::getSingleton('customer/session')->getCustomerId();
 
         if ($wishlist && $wishlist->getCustomerId() && $wishlist->getCustomerId() == $customerId) {
-            $this->_redirectUrl(Mage::helper('wishlist')->getListUrl());
+            $this->_redirectUrl(Mage::helper('Mage_Wishlist_Helper_Data')->getListUrl());
             return;
         }
 
@@ -107,18 +107,18 @@ class Mage_Wishlist_SharedController extends Mage_Wishlist_Controller_Abstract
             $item->addToCart($cart);
             $cart->save()->getQuote()->collectTotals();
 
-            if (Mage::helper('checkout/cart')->getShouldRedirectToCart()) {
-                $redirectUrl = Mage::helper('checkout/cart')->getCartUrl();
+            if (Mage::helper('Mage_Checkout_Helper_Cart')->getShouldRedirectToCart()) {
+                $redirectUrl = Mage::helper('Mage_Checkout_Helper_Cart')->getCartUrl();
             }
         } catch (Mage_Core_Exception $e) {
             if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
-                $session->addError(Mage::helper('wishlist')->__('This product(s) is currently out of stock'));
+                $session->addError(Mage::helper('Mage_Wishlist_Helper_Data')->__('This product(s) is currently out of stock'));
             } else {
                 Mage::getSingleton('catalog/session')->addNotice($e->getMessage());
                 $redirectUrl = $item->getProductUrl();
             }
         } catch (Exception $e) {
-            $session->addException($e, Mage::helper('wishlist')->__('Cannot add item to shopping cart'));
+            $session->addException($e, Mage::helper('Mage_Wishlist_Helper_Data')->__('Cannot add item to shopping cart'));
         }
 
         return $this->_redirectUrl($redirectUrl);

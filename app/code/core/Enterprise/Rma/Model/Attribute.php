@@ -90,7 +90,7 @@ class Enterprise_Rma_Model_Attribute extends Mage_Eav_Model_Entity_Attribute
      */
     protected function _construct()
     {
-        $this->_init('enterprise_rma/item_attribute');
+        $this->_init('Enterprise_Rma_Model_Resource_Item_Attribute');
     }
 
     /**

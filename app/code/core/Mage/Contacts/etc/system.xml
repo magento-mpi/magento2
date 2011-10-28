@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-        <contacts translate="label" module="contacts">
+        <contacts translate="label" module="Mage_Contacts">
             <label>Contacts</label>
             <tab>general</tab>
             <frontend_type>text</frontend_type>

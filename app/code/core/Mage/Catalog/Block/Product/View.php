@@ -68,9 +68,9 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             if ($description) {
                 $headBlock->setDescription( ($description) );
             } else {
-                $headBlock->setDescription(Mage::helper('core/string')->substr($product->getDescription(), 0, 255));
+                $headBlock->setDescription(Mage::helper('Mage_Core_Helper_String')->substr($product->getDescription(), 0, 255));
             }
-            if ($this->helper('catalog/product')->canUseCanonicalTag()) {
+            if ($this->helper('Mage_Catalog_Helper_Product')->canUseCanonicalTag()) {
                 $params = array('_ignore_category'=>true);
                 $headBlock->addLinkRel('canonical', $product->getUrlModel()->getUrl($product, $params));
             }
@@ -123,9 +123,9 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
 
         $addUrlKey = Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
         $addUrlValue = Mage::getUrl('*/*/*', array('_use_rewrite' => true, '_current' => false));
-        $additional[$addUrlKey] = Mage::helper('core')->urlEncode($addUrlValue);
+        $additional[$addUrlKey] = Mage::helper('Mage_Core_Helper_Data')->urlEncode($addUrlValue);
 
-        return $this->helper('checkout/cart')->getAddUrl($product, $additional);
+        return $this->helper('Mage_Checkout_Helper_Cart')->getAddUrl($product, $additional);
     }
 
     /**
@@ -138,7 +138,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
     {
         $config = array();
         if (!$this->hasOptions()) {
-            return Mage::helper('core')->jsonEncode($config);
+            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
         }
 
         $_request = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false);
@@ -153,26 +153,26 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
 
         $_regularPrice = $product->getPrice();
         $_finalPrice = $product->getFinalPrice();
-        $_priceInclTax = Mage::helper('tax')->getPrice($product, $_finalPrice, true);
-        $_priceExclTax = Mage::helper('tax')->getPrice($product, $_finalPrice);
+        $_priceInclTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $_finalPrice, true);
+        $_priceExclTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $_finalPrice);
         $_tierPrices = array();
         $_tierPricesInclTax = array();
         foreach ($product->getTierPrice() as $tierPrice) {
-            $_tierPrices[] = Mage::helper('core')->currency($tierPrice['website_price'], false, false);
-            $_tierPricesInclTax[] = Mage::helper('core')->currency(
-                Mage::helper('tax')->getPrice($product, (int)$tierPrice['website_price'], true),
+            $_tierPrices[] = Mage::helper('Mage_Core_Helper_Data')->currency($tierPrice['website_price'], false, false);
+            $_tierPricesInclTax[] = Mage::helper('Mage_Core_Helper_Data')->currency(
+                Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, (int)$tierPrice['website_price'], true),
                 false, false);
         }
         $config = array(
             'productId'           => $product->getId(),
             'priceFormat'         => Mage::app()->getLocale()->getJsPriceFormat(),
-            'includeTax'          => Mage::helper('tax')->priceIncludesTax() ? 'true' : 'false',
-            'showIncludeTax'      => Mage::helper('tax')->displayPriceIncludingTax(),
-            'showBothPrices'      => Mage::helper('tax')->displayBothPrices(),
-            'productPrice'        => Mage::helper('core')->currency($_finalPrice, false, false),
-            'productOldPrice'     => Mage::helper('core')->currency($_regularPrice, false, false),
-            'priceInclTax'        => Mage::helper('core')->currency($_priceInclTax, false, false),
-            'priceExclTax'        => Mage::helper('core')->currency($_priceExclTax, false, false),
+            'includeTax'          => Mage::helper('Mage_Tax_Helper_Data')->priceIncludesTax() ? 'true' : 'false',
+            'showIncludeTax'      => Mage::helper('Mage_Tax_Helper_Data')->displayPriceIncludingTax(),
+            'showBothPrices'      => Mage::helper('Mage_Tax_Helper_Data')->displayBothPrices(),
+            'productPrice'        => Mage::helper('Mage_Core_Helper_Data')->currency($_finalPrice, false, false),
+            'productOldPrice'     => Mage::helper('Mage_Core_Helper_Data')->currency($_regularPrice, false, false),
+            'priceInclTax'        => Mage::helper('Mage_Core_Helper_Data')->currency($_priceInclTax, false, false),
+            'priceExclTax'        => Mage::helper('Mage_Core_Helper_Data')->currency($_priceExclTax, false, false),
             /**
              * @var skipCalculate
              * @deprecated after 1.5.1.0
@@ -198,7 +198,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             }
         }
 
-        return Mage::helper('core')->jsonEncode($config);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
     }
 
     /**

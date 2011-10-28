@@ -29,14 +29,14 @@
     <menu>
         <catalog>
             <children>
-<!--            <googlebase translate="title" module="googlebase">-->
+<!--            <googlebase translate="title" module="Mage_GoogleBase">-->
 <!--                <title>Google Base</title>-->
 <!--                <children>-->
-<!--                    <types translate="title" module="googlebase">-->
+<!--                    <types translate="title" module="Mage_GoogleBase">-->
 <!--                        <title>Manage Attributes</title>-->
 <!--                        <action>adminhtml/googlebase_types</action>-->
 <!--                    </types>-->
-<!--                    <items translate="title" module="googlebase">-->
+<!--                    <items translate="title" module="Mage_GoogleBase">-->
 <!--                        <title>Manage Items</title>-->
 <!--                        <action>adminhtml/googlebase_items</action>-->
 <!--                    </items>-->
@@ -52,7 +52,7 @@
                 <children>
                     <catalog>
                         <children>
-<!--                            <googlebase translate="title" module="googlebase">-->
+<!--                            <googlebase translate="title" module="Mage_GoogleBase">-->
 <!--                                <title>Google Base</title>-->
 <!--                                <sort_order>500</sort_order>-->
 <!--                                <children>-->

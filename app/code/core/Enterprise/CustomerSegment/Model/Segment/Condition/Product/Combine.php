@@ -48,7 +48,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
             array(
                 array( // self
                     'value' => $this->getType(),
-                    'label' => Mage::helper('rule')->__('Conditions Combination')
+                    'label' => Mage::helper('Mage_Rule_Helper_Data')->__('Conditions Combination')
                 )
             )
         );
@@ -62,7 +62,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
                             Mage::getModel('enterprise_customersegment/segment_condition_uptodate')->getNewChildSelectOptions(),
                             Mage::getModel('enterprise_customersegment/segment_condition_daterange')->getNewChildSelectOptions(),
                         ),
-                        'label' => Mage::helper('enterprise_customersegment')->__('Date Ranges')
+                        'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Date Ranges')
                     )
                 )
             );

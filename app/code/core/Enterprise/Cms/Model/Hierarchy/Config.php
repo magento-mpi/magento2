@@ -63,7 +63,7 @@ class Enterprise_Cms_Model_Hierarchy_Config
         }
         foreach ($config->children() as $layoutCode => $layoutConfig) {
             $this->_contextMenuLayouts[$layoutCode] = new Varien_Object(array(
-                'label'                 => Mage::helper('enterprise_cms')->__((string)$layoutConfig->label),
+                'label'                 => Mage::helper('Enterprise_Cms_Helper_Data')->__((string)$layoutConfig->label),
                 'code'                  => $layoutCode,
                 'layout_handle'         => (string)$layoutConfig->layout_handle,
                 'is_default'            => (int)$layoutConfig->is_default,

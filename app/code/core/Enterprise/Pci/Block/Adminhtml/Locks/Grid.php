@@ -63,29 +63,29 @@ class Enterprise_Pci_Block_Adminhtml_Locks_Grid extends Mage_Adminhtml_Block_Wid
     protected function _prepareColumns()
     {
         $this->addColumn('user_id', array(
-            'header' => Mage::helper('enterprise_pci')->__('ID'),
+            'header' => Mage::helper('Enterprise_Pci_Helper_Data')->__('ID'),
             'index'  => 'user_id',
             'width'  => 50,
             'filter' => false,
             'type'   => 'number'
         ));
         $this->addColumn('username', array(
-            'header' => Mage::helper('enterprise_pci')->__('Username'),
+            'header' => Mage::helper('Enterprise_Pci_Helper_Data')->__('Username'),
             'index'  => 'username',
         ));
         $this->addColumn('last_login', array(
-            'header' => Mage::helper('enterprise_pci')->__('Last login'),
+            'header' => Mage::helper('Enterprise_Pci_Helper_Data')->__('Last login'),
             'index'  => 'logdate',
             'filter' => false,
             'type'   => 'datetime',
         ));
         $this->addColumn('failures_num', array(
-            'header' => Mage::helper('enterprise_pci')->__('Failures'),
+            'header' => Mage::helper('Enterprise_Pci_Helper_Data')->__('Failures'),
             'index'  => 'failures_num',
             'filter' => false,
         ));
         $this->addColumn('lock_expires', array(
-            'header'  => Mage::helper('enterprise_pci')->__('Locked until'),
+            'header'  => Mage::helper('Enterprise_Pci_Helper_Data')->__('Locked until'),
             'index'   => 'lock_expires',
             'filter'  => false,
             'type'    => 'datetime',
@@ -107,7 +107,7 @@ class Enterprise_Pci_Block_Adminhtml_Locks_Grid extends Mage_Adminhtml_Block_Wid
         $this->getMassactionBlock()->setFormFieldName('unlock');
 
         $this->getMassactionBlock()->addItem('unlock', array(
-             'label'    => Mage::helper('enterprise_pci')->__('Unlock'),
+             'label'    => Mage::helper('Enterprise_Pci_Helper_Data')->__('Unlock'),
              'url'      => $this->getUrl('*/*/massUnlock'),
              'selected' => true,
         ));

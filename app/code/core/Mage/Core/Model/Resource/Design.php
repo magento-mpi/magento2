@@ -66,7 +66,7 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
 
         if (!is_null($object->getDateFrom()) && !is_null($object->getDateTo())
                 && Varien_Date::toTimestamp($object->getDateFrom()) > Varien_Date::toTimestamp($object->getDateTo())) {
-            Mage::throwException(Mage::helper('core')->__('Start date cannot be greater than end date.'));
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Start date cannot be greater than end date.'));
         }
 
         $check = $this->_checkIntersection(
@@ -78,7 +78,7 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
 
         if ($check) {
             Mage::throwException(
-                Mage::helper('core')->__('Your design change for the specified store intersects with another one, please specify another date range.')
+                Mage::helper('Mage_Core_Helper_Data')->__('Your design change for the specified store intersects with another one, please specify another date range.')
             );
         }
 

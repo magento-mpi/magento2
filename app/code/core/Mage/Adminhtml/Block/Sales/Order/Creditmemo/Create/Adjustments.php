@@ -76,11 +76,11 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Adjustments extends Mag
         $config = Mage::getSingleton('tax/config');
         $source = $this->getSource();
         if ($config->displaySalesShippingInclTax($source->getOrder()->getStoreId())) {
-            $label = $this->helper('sales')->__('Refund Shipping (Incl. Tax)');
+            $label = $this->helper('Mage_Sales_Helper_Data')->__('Refund Shipping (Incl. Tax)');
         } elseif ($config->displaySalesShippingBoth($source->getOrder()->getStoreId())) {
-            $label = $this->helper('sales')->__('Refund Shipping (Excl. Tax)');
+            $label = $this->helper('Mage_Sales_Helper_Data')->__('Refund Shipping (Excl. Tax)');
         } else {
-            $label = $this->helper('sales')->__('Refund Shipping');
+            $label = $this->helper('Mage_Sales_Helper_Data')->__('Refund Shipping');
         }
         return $label;
     }

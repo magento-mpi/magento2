@@ -53,7 +53,7 @@ class Mage_Checkout_Model_Resource_Agreement extends Mage_Core_Model_Resource_Db
     {
         // format height
         $height = $object->getContentHeight();
-        $height = Mage::helper('checkout')->stripTags($height);
+        $height = Mage::helper('Mage_Checkout_Helper_Data')->stripTags($height);
         if (!$height) {
             $height = '';
         }

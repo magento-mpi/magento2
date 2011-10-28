@@ -62,7 +62,7 @@
         </resources>
         <template>
             <email>
-                <system_log_error_email_template translate="label" module="log">
+                <system_log_error_email_template translate="label" module="Mage_Log">
                     <label>Log cleanup Warnings</label>
                     <file>log_clean_warning.html</file>
                     <type>text</type>

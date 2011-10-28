@@ -30,7 +30,7 @@
         <?php echo $label; ?>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        <?php echo $this->helper('checkout')->formatPrice($value) ?>
+        <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($value) ?>
     </td>
 </tr>
 <?php endforeach; ?>

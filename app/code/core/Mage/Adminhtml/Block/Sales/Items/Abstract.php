@@ -258,7 +258,7 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
             return $this->getItem()->getOrder();
         }
 
-        Mage::throwException(Mage::helper('sales')->__('Cannot get order instance'));
+        Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Cannot get order instance'));
     }
 
     /**

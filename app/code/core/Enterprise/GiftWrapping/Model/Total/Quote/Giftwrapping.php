@@ -177,7 +177,7 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping extends Mage_Sales_
         $printedCardBasePrice = false;
         $printedCardPrice = false;
         if ($this->_quoteEntity->getGwAddCard()) {
-            $printedCardBasePrice = Mage::helper('enterprise_giftwrapping')->getPrintedCardPrice($this->_store);
+            $printedCardBasePrice = Mage::helper('Enterprise_GiftWrapping_Helper_Data')->getPrintedCardPrice($this->_store);
             $printedCardPrice = $this->_store->convertPrice($printedCardBasePrice);
         }
         $address->setGwCardBasePrice($printedCardBasePrice);

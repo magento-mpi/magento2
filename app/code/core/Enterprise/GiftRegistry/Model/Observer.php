@@ -40,7 +40,7 @@ class Enterprise_GiftRegistry_Model_Observer
      */
     public function __construct()
     {
-        $this->_isEnabled = Mage::helper('enterprise_giftregistry')->isEnabled();
+        $this->_isEnabled = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->isEnabled();
     }
 
     /**
@@ -74,7 +74,7 @@ class Enterprise_GiftRegistry_Model_Observer
         $addressId = $observer->getEvent()->getValue();
 
         if (!is_numeric($addressId)) {
-            $prefix = Mage::helper('enterprise_giftregistry')->getAddressIdPrefix();
+            $prefix = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->getAddressIdPrefix();
             $registryItemId = str_replace($prefix, '', $addressId);
             $object = $observer->getEvent()->getDataObject();
             $object->setGiftregistryItemId($registryItemId);
@@ -98,7 +98,7 @@ class Enterprise_GiftRegistry_Model_Observer
             $model = Mage::getModel('enterprise_giftregistry/entity')
                 ->loadByEntityItem($registryItemId);
             if ($model->getId()) {
-                $object->setId(Mage::helper('enterprise_giftregistry')->getAddressIdPrefix() . $model->getId());
+                $object->setId(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->getAddressIdPrefix() . $model->getId());
                 $object->setCustomerId($this->_getSession()->getCustomer()->getId());
                 $object->addData($model->exportAddress()->getData());
             }
@@ -147,7 +147,7 @@ class Enterprise_GiftRegistry_Model_Observer
             if (!$type->getPrevFormat()) {
                 $type->setPrevFormat($type->getDefaultFormat());
             }
-            $type->setDefaultFormat(Mage::helper('enterprise_giftregistry')->__("Ship to recipient's address."));
+            $type->setDefaultFormat(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__("Ship to recipient's address."));
         } elseif ($type->getPrevFormat()) {
             $type->setDefaultFormat($type->getPrevFormat());
         }

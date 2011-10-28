@@ -28,22 +28,22 @@
 <config>
     <api>
         <resources>
-            <cataloginventory_stock_item translate="title" module="cataloginventory">
+            <cataloginventory_stock_item translate="title" module="Mage_CatalogInventory">
                 <model>cataloginventory/stock_item_api</model>
                 <title>Inventory API</title>
                 <acl>cataloginventory</acl>
                 <methods>
-                    <list translate="title" module="cataloginventory">
+                    <list translate="title" module="Mage_CatalogInventory">
                         <title>Retrieve stock data by product ids</title>
                         <method>items</method>
                         <acl>cataloginventory/info</acl>
                     </list>
-                    <update translate="title" module="cataloginventory">
+                    <update translate="title" module="Mage_CatalogInventory">
                         <title>Update product stock data</title>
                         <acl>cataloginventory/update</acl>
                     </update>
                 </methods>
-                <faults module="cataloginventory">
+                <faults module="Mage_CatalogInventory">
                     <not_exists>
                         <code>101</code>
                         <message>Product not exists.</message>
@@ -65,13 +65,13 @@
         </v2>
         <acl>
             <resources>
-                <cataloginventory translate="title" module="cataloginventory">
+                <cataloginventory translate="title" module="Mage_CatalogInventory">
                     <title>Catalog Inventory</title>
                     <sort_order>4</sort_order>
-                    <update translate="title" module="cataloginventory">
+                    <update translate="title" module="Mage_CatalogInventory">
                         <title>Update</title>
                     </update>
-                    <info translate="title" module="cataloginventory">
+                    <info translate="title" module="Mage_CatalogInventory">
                         <title>Retrieve stock data</title>
                     </info>
                 </cataloginventory>

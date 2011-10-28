@@ -49,7 +49,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_invitation')->__('General');
+        return Mage::helper('Enterprise_Invitation_Helper_Data')->__('General');
     }
 
     /**
@@ -206,9 +206,9 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
             return $group->getCustomerGroupCode();
         } else {
             if ($configUsed) {
-                return $this->helper('enterprise_invitation')->__('Default from System Configuration');
+                return $this->helper('Enterprise_Invitation_Helper_Data')->__('Default from System Configuration');
             } else {
-                return $this->helper('enterprise_invitation')->__('N/A');
+                return $this->helper('Enterprise_Invitation_Helper_Data')->__('N/A');
             }
         }
     }
@@ -246,7 +246,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
             Mage::app()->getStore($this->getInvitation()->getStoreId())->getWebsiteId())) {
             return false;
         }
-        return Mage::helper('enterprise_invitation')->getInvitationUrl($this->getInvitation());
+        return Mage::helper('Enterprise_Invitation_Helper_Data')->getInvitationUrl($this->getInvitation());
     }
 
     /**

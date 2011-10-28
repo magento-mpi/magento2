@@ -53,26 +53,26 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_History extends Mage_
     protected function _prepareColumns()
     {
         $this->addColumn('action_code', array(
-            'header'    => Mage::helper('adminhtml')->__('Profile Action'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Profile Action'),
             'index'     => 'action_code',
             'filter'    => 'Mage_Adminhtml_Block_System_Convert_Profile_Edit_Filter_Action',
             'renderer'  => 'Mage_Adminhtml_Block_System_Convert_Profile_Edit_Renderer_Action',
         ));
 
         $this->addColumn('performed_at', array(
-            'header'    => Mage::helper('adminhtml')->__('Performed At'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Performed At'),
             'type'      => 'datetime',
             'index'     => 'performed_at',
             'width'     => '150px',
         ));
 
         $this->addColumn('firstname', array(
-            'header'    => Mage::helper('adminhtml')->__('First Name'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('First Name'),
             'index'     => 'firstname',
         ));
 
         $this->addColumn('lastname', array(
-            'header'    => Mage::helper('adminhtml')->__('Last Name'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Last Name'),
             'index'     => 'lastname',
         ));
 

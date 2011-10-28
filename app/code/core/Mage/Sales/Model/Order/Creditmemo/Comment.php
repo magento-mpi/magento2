@@ -59,7 +59,7 @@ class Mage_Sales_Model_Order_Creditmemo_Comment extends Mage_Sales_Model_Abstrac
      */
     protected function _construct()
     {
-        $this->_init('sales/order_creditmemo_comment');
+        $this->_init('Mage_Sales_Model_Resource_Order_Creditmemo_Comment');
     }
 
     /**

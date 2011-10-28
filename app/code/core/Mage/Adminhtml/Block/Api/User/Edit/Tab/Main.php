@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Api_User_Edit_Tab_Main extends Mage_Adminhtml_Block_W
 
         $form->setHtmlIdPrefix('user_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('adminhtml')->__('Account Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Account Information')));
 
         if ($model->getUserId()) {
             $fieldset->addField('user_id', 'hidden', array(
@@ -57,33 +57,33 @@ class Mage_Adminhtml_Block_Api_User_Edit_Tab_Main extends Mage_Adminhtml_Block_W
 
         $fieldset->addField('username', 'text', array(
             'name'  => 'username',
-            'label' => Mage::helper('adminhtml')->__('User Name'),
+            'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Name'),
             'id'    => 'username',
-            'title' => Mage::helper('adminhtml')->__('User Name'),
+            'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Name'),
             'required' => true,
         ));
 
         $fieldset->addField('firstname', 'text', array(
             'name'  => 'firstname',
-            'label' => Mage::helper('adminhtml')->__('First Name'),
+            'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('First Name'),
             'id'    => 'firstname',
-            'title' => Mage::helper('adminhtml')->__('First Name'),
+            'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('First Name'),
             'required' => true,
         ));
 
         $fieldset->addField('lastname', 'text', array(
             'name'  => 'lastname',
-            'label' => Mage::helper('adminhtml')->__('Last Name'),
+            'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Last Name'),
             'id'    => 'lastname',
-            'title' => Mage::helper('adminhtml')->__('Last Name'),
+            'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Last Name'),
             'required' => true,
         ));
 
         $fieldset->addField('email', 'text', array(
             'name'  => 'email',
-            'label' => Mage::helper('adminhtml')->__('Email'),
+            'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Email'),
             'id'    => 'customer_email',
-            'title' => Mage::helper('adminhtml')->__('User Email'),
+            'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Email'),
             'class' => 'required-entry validate-email',
             'required' => true,
         ));
@@ -91,15 +91,15 @@ class Mage_Adminhtml_Block_Api_User_Edit_Tab_Main extends Mage_Adminhtml_Block_W
         if ($model->getUserId()) {
             $fieldset->addField('password', 'password', array(
                 'name'  => 'new_api_key',
-                'label' => Mage::helper('adminhtml')->__('New API Key'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('New API Key'),
                 'id'    => 'new_pass',
-                'title' => Mage::helper('adminhtml')->__('New API Key'),
+                'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('New API Key'),
                 'class' => 'input-text validate-password',
             ));
 
             $fieldset->addField('confirmation', 'password', array(
                 'name'  => 'api_key_confirmation',
-                'label' => Mage::helper('adminhtml')->__('API Key Confirmation'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('API Key Confirmation'),
                 'id'    => 'confirmation',
                 'class' => 'input-text validate-cpassword',
             ));
@@ -107,17 +107,17 @@ class Mage_Adminhtml_Block_Api_User_Edit_Tab_Main extends Mage_Adminhtml_Block_W
         else {
            $fieldset->addField('password', 'password', array(
                 'name'  => 'api_key',
-                'label' => Mage::helper('adminhtml')->__('API Key'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('API Key'),
                 'id'    => 'customer_pass',
-                'title' => Mage::helper('adminhtml')->__('API Key'),
+                'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('API Key'),
                 'class' => 'input-text required-entry validate-password',
                 'required' => true,
             ));
            $fieldset->addField('confirmation', 'password', array(
                 'name'  => 'api_key_confirmation',
-                'label' => Mage::helper('adminhtml')->__('API Key Confirmation'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('API Key Confirmation'),
                 'id'    => 'confirmation',
-                'title' => Mage::helper('adminhtml')->__('API Key Confirmation'),
+                'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('API Key Confirmation'),
                 'class' => 'input-text required-entry validate-cpassword',
                 'required' => true,
             ));
@@ -126,12 +126,12 @@ class Mage_Adminhtml_Block_Api_User_Edit_Tab_Main extends Mage_Adminhtml_Block_W
         if (Mage::getSingleton('admin/session')->getUser()->getId() != $model->getUserId()) {
             $fieldset->addField('is_active', 'select', array(
                 'name'  	=> 'is_active',
-                'label' 	=> Mage::helper('adminhtml')->__('This account is'),
+                'label' 	=> Mage::helper('Mage_Adminhtml_Helper_Data')->__('This account is'),
                 'id'    	=> 'is_active',
-                'title' 	=> Mage::helper('adminhtml')->__('Account status'),
+                'title' 	=> Mage::helper('Mage_Adminhtml_Helper_Data')->__('Account status'),
                 'class' 	=> 'input-select',
                 'style'		=> 'width: 80px',
-                'options'	=> array('1' => Mage::helper('adminhtml')->__('Active'), '0' => Mage::helper('adminhtml')->__('Inactive')),
+                'options'	=> array('1' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Active'), '0' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Inactive')),
             ));
         }
 

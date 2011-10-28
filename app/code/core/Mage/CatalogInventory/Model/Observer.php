@@ -329,7 +329,7 @@ class Mage_CatalogInventory_Model_Observer
                 /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
                 if (!$stockItem instanceof Mage_CatalogInventory_Model_Stock_Item) {
                     Mage::throwException(
-                        Mage::helper('cataloginventory')->__('The stock item for Product in option is not valid.')
+                        Mage::helper('Mage_CatalogInventory_Helper_Data')->__('The stock item for Product in option is not valid.')
                     );
                 }
 
@@ -396,7 +396,7 @@ class Mage_CatalogInventory_Model_Observer
             $stockItem = $quoteItem->getProduct()->getStockItem();
             /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
             if (!$stockItem instanceof Mage_CatalogInventory_Model_Stock_Item) {
-                Mage::throwException(Mage::helper('cataloginventory')->__('The stock item for Product is not valid.'));
+                Mage::throwException(Mage::helper('Mage_CatalogInventory_Helper_Data')->__('The stock item for Product is not valid.'));
             }
 
             /**
@@ -677,7 +677,7 @@ class Mage_CatalogInventory_Model_Observer
         }
 
         if( count($productIds)) {
-            Mage::getResourceSingleton('cataloginventory/indexer_stock')->reindexProducts($productIds);
+            Mage::getResourceSingleton('Mage_CatalogInventory_Model_Resource_Indexer_Stock')->reindexProducts($productIds);
         }
 
         // Reindex previously remembered items
@@ -686,7 +686,7 @@ class Mage_CatalogInventory_Model_Observer
             $item->save();
             $productIds[] = $item->getProductId();
         }
-        Mage::getResourceSingleton('catalog/product_indexer_price')->reindexProductIds($productIds);
+        Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Indexer_Price')->reindexProductIds($productIds);
 
         $this->_itemsForReindex = array(); // Clear list of remembered items - we don't need it anymore
 
@@ -710,7 +710,7 @@ class Mage_CatalogInventory_Model_Observer
                 if ($item->getBackToStock() && $item->getQty()) {
                     $return = true;
                 }
-            } elseif (Mage::helper('cataloginventory')->isAutoReturnEnabled()) {
+            } elseif (Mage::helper('Mage_CatalogInventory_Helper_Data')->isAutoReturnEnabled()) {
                 $return = true;
             }
             if ($return) {
@@ -759,9 +759,9 @@ class Mage_CatalogInventory_Model_Observer
      */
     public function updateItemsStockUponConfigChange($observer)
     {
-        Mage::getResourceSingleton('cataloginventory/stock')->updateSetOutOfStock();
-        Mage::getResourceSingleton('cataloginventory/stock')->updateSetInStock();
-        Mage::getResourceSingleton('cataloginventory/stock')->updateLowStockDate();
+        Mage::getResourceSingleton('Mage_CatalogInventory_Model_Resource_Stock')->updateSetOutOfStock();
+        Mage::getResourceSingleton('Mage_CatalogInventory_Model_Resource_Stock')->updateSetInStock();
+        Mage::getResourceSingleton('Mage_CatalogInventory_Model_Resource_Stock')->updateLowStockDate();
         return $this;
     }
 

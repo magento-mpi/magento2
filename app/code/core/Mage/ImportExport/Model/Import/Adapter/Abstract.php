@@ -78,10 +78,10 @@ abstract class Mage_ImportExport_Model_Import_Adapter_Abstract implements Seekab
     final public function __construct($source)
     {
         if (!is_string($source)) {
-            Mage::throwException(Mage::helper('importexport')->__('Source file path must be a string'));
+            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Source file path must be a string'));
         }
         if (!is_readable($source)) {
-            Mage::throwException(Mage::helper('importexport')->__("%s file does not exists or is not readable", $source));
+            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__("%s file does not exists or is not readable", $source));
         }
         $this->_source = $source;
 
@@ -92,10 +92,10 @@ abstract class Mage_ImportExport_Model_Import_Adapter_Abstract implements Seekab
             $this->_colQuantity = count($this->_colNames);
 
             if (count(array_unique($this->_colNames)) != $this->_colQuantity) {
-                Mage::throwException(Mage::helper('importexport')->__('Column names have duplicates'));
+                Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Column names have duplicates'));
             }
         } else {
-            Mage::throwException(Mage::helper('importexport')->__('Column names is empty or is not an array'));
+            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Column names is empty or is not an array'));
         }
     }
 
@@ -152,7 +152,7 @@ abstract class Mage_ImportExport_Model_Import_Adapter_Abstract implements Seekab
      */
     public function seek($position)
     {
-        Mage::throwException(Mage::helper('importexport')->__('Not implemented yet'));
+        Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Not implemented yet'));
     }
 
     /**

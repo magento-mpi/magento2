@@ -48,7 +48,7 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
      */
     protected function _getQuery()
     {
-        return $this->helper('catalogsearch')->getQuery();
+        return $this->helper('Mage_CatalogSearch_Helper_Data')->getQuery();
     }
 
     /**
@@ -61,7 +61,7 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
         // add Home breadcrumb
         $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
         if ($breadcrumbs) {
-            $title = $this->__("Search results for: '%s'", $this->helper('catalogsearch')->getQueryText());
+            $title = $this->__("Search results for: '%s'", $this->helper('Mage_CatalogSearch_Helper_Data')->getQueryText());
 
             $breadcrumbs->addCrumb('home', array(
                 'label' => $this->__('Home'),
@@ -74,7 +74,7 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
         }
 
         // modify page title
-        $title = $this->__("Search results for: '%s'", $this->helper('catalogsearch')->getEscapedQueryText());
+        $title = $this->__("Search results for: '%s'", $this->helper('Mage_CatalogSearch_Helper_Data')->getEscapedQueryText());
         $this->getLayout()->getBlock('head')->setTitle($title);
 
         return parent::_prepareLayout();
@@ -197,8 +197,8 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
      */
     public function getNoResultText()
     {
-        if (Mage::helper('catalogsearch')->isMinQueryLength()) {
-            return Mage::helper('catalogsearch')->__('Minimum Search query length is %s', $this->_getQuery()->getMinQueryLength());
+        if (Mage::helper('Mage_CatalogSearch_Helper_Data')->isMinQueryLength()) {
+            return Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Minimum Search query length is %s', $this->_getQuery()->getMinQueryLength());
         }
         return $this->_getData('no_result_text');
     }
@@ -210,6 +210,6 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
      */
     public function getNoteMessages()
     {
-        return Mage::helper('catalogsearch')->getNoteMessages();
+        return Mage::helper('Mage_CatalogSearch_Helper_Data')->getNoteMessages();
     }
 }

@@ -53,7 +53,7 @@ class Enterprise_GiftCardAccount_Block_Sales_Order_Giftcards extends Mage_Core_B
         if (!($source instanceof Mage_Sales_Model_Order)) {
             return $result;
         }
-        $cards = Mage::helper('enterprise_giftcardaccount')->getCards($this->getOrder());
+        $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($this->getOrder());
         foreach ($cards as $card) {
             $obj = new Varien_Object();
             $obj->setBaseAmount($card['ba'])

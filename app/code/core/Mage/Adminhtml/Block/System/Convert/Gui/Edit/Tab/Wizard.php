@@ -192,7 +192,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
     {
         $options = Mage::getResourceModel('Mage_Directory_Model_Resource_Country_Collection')
             ->load()->toOptionArray(false);
-        array_unshift($options, array('value'=>'', 'label'=>Mage::helper('adminhtml')->__('All countries')));
+        array_unshift($options, array('value'=>'', 'label'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('All countries')));
         return $options;
     }
 

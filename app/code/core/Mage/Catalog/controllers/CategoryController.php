@@ -50,7 +50,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($categoryId);
 
-        if (!Mage::helper('catalog/category')->canShow($category)) {
+        if (!Mage::helper('Mage_Catalog_Helper_Category')->canShow($category)) {
             return false;
         }
         Mage::getSingleton('catalog/session')->setLastVisitedCategoryId($category->getId());
@@ -97,7 +97,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             Mage::app()->getLocale()->isStoreDateInInterval(null, $validityDate['from'], $validityDate['to'])
         ) {
             if ($category->getPageLayout()) {
-                $this->getLayout()->helper('page/layout')
+                $this->getLayout()->helper('Mage_Page_Helper_Layout')
                     ->applyHandle($category->getPageLayout());
             }
             $update->addUpdate($category->getCustomLayoutUpdate());
@@ -146,7 +146,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             $this->generateLayoutXml()->generateLayoutBlocks();
             // apply custom layout (page) template once the blocks are generated
             if ($settings->getPageLayout()) {
-                $this->getLayout()->helper('page/layout')->applyTemplate($settings->getPageLayout());
+                $this->getLayout()->helper('Mage_Page_Helper_Layout')->applyTemplate($settings->getPageLayout());
             }
 
             if ($root = $this->getLayout()->getBlock('root')) {

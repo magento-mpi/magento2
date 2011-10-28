@@ -27,7 +27,7 @@
 -->
 
 <theme>
-    <manifest translate="label" module="xmlconnect">
+    <manifest translate="label" module="Mage_XmlConnect">
         <name>sky_blue</name>
         <label>Sky Blue</label>
         <version>1.0</version>

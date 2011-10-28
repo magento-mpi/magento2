@@ -48,7 +48,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('enterprise_targetrule/index');
+        $this->_init('Enterprise_TargetRule_Model_Resource_Index');
     }
 
     /**
@@ -83,7 +83,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Core_Model_Abstract
         $type = $this->getData('type');
         if (is_null($type)) {
             Mage::throwException(
-                Mage::helper('enterprise_targetrule')->__('Undefined Catalog Product List Type')
+                Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Undefined Catalog Product List Type')
             );
         }
         return $type;
@@ -159,7 +159,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Core_Model_Abstract
     {
         $limit = $this->getData('limit');
         if (is_null($limit)) {
-            $limit = Mage::helper('enterprise_targetrule')->getMaximumNumberOfProduct($this->getType());
+            $limit = Mage::helper('Enterprise_TargetRule_Helper_Data')->getMaximumNumberOfProduct($this->getType());
         }
         return $limit;
     }
@@ -185,7 +185,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Core_Model_Abstract
     {
         $product = $this->getData('product');
         if (!$product instanceof Varien_Object) {
-            Mage::throwException(Mage::helper('enterprise_targetrule')->__('Please define product data object'));
+            Mage::throwException(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Please define product data object'));
         }
         return $product;
     }

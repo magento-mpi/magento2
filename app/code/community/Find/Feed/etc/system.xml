@@ -27,13 +27,13 @@
 -->
 <config>
     <tabs>
-        <find translate="label" module="find_feed">
+        <find translate="label" module="Find_Feed">
             <label>The Find</label>
             <sort_order>300</sort_order>
         </find>
     </tabs>
     <sections>
-         <feed translate="label" module="find_feed">
+         <feed translate="label" module="Find_Feed">
             <label>Feed</label>
             <tab>find</tab>
             <sort_order>100</sort_order>

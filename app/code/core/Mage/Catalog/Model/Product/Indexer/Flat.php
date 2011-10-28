@@ -58,7 +58,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
      */
     public function getName()
     {
-        return Mage::helper('catalog')->__('Product Flat Data');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Product Flat Data');
     }
 
     /**
@@ -68,7 +68,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
      */
     public function getDescription()
     {
-        return Mage::helper('catalog')->__('Reorganize EAV product structure to flat structure');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Reorganize EAV product structure to flat structure');
     }
 
     /**
@@ -91,7 +91,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
      */
     public function matchEvent(Mage_Index_Model_Event $event)
     {
-        if (!Mage::helper('catalog/product_flat')->isBuilt()) {
+        if (!Mage::helper('Mage_Catalog_Helper_Product_Flat')->isBuilt()) {
             return false;
         }
 
@@ -106,7 +106,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
         if ($entity == Mage_Catalog_Model_Resource_Eav_Attribute::ENTITY) {
             /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
             $attribute      = $event->getDataObject();
-            $addFilterable  = Mage::helper('catalog/product_flat')->isAddFilterableAttributes();
+            $addFilterable  = Mage::helper('Mage_Catalog_Helper_Product_Flat')->isAddFilterableAttributes();
 
             $enableBefore   = ($attribute->getOrigData('backend_type') == 'static')
                 || ($addFilterable && $attribute->getOrigData('is_filterable') > 0)

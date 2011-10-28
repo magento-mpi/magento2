@@ -136,7 +136,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
 
 
             /** @var Mage_Catalog_Model_Resource_Product $product */
-            $product  = Mage::getResourceSingleton('catalog/product');
+            $product  = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product');
 
             $productTypes = array(
                 Mage_Catalog_Model_Product_Type::TYPE_GROUPED,

@@ -154,7 +154,7 @@ abstract class Mage_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping_Mo
         $maxAllowedWeight = (float) $this->getConfigData('max_package_weight');
         $errorMsg = '';
         $configErrorMsg = $this->getConfigData('specificerrmsg');
-        $defaultErrorMsg = Mage::helper('shipping')->__('The shipping module is not available.');
+        $defaultErrorMsg = Mage::helper('Mage_Shipping_Helper_Data')->__('The shipping module is not available.');
         $showMethod = $this->getConfigData('showmethod');
 
         foreach ($this->getAllItems($request) as $item) {
@@ -167,7 +167,7 @@ abstract class Mage_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping_Mo
         }
 
         if (!$errorMsg && !$request->getDestPostcode() && $this->isZipCodeRequired()) {
-            $errorMsg = Mage::helper('shipping')->__('This shipping method is not available, please specify ZIP-code');
+            $errorMsg = Mage::helper('Mage_Shipping_Helper_Data')->__('This shipping method is not available, please specify ZIP-code');
         }
 
         if ($errorMsg && $showMethod) {
@@ -270,7 +270,7 @@ abstract class Mage_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping_Mo
     {
         $packages = $request->getPackages();
         if (!is_array($packages) || !$packages) {
-            Mage::throwException(Mage::helper('usa')->__('No packages for request'));
+            Mage::throwException(Mage::helper('Mage_Usa_Helper_Data')->__('No packages for request'));
         }
         if ($request->getStoreId() != null) {
             $this->setStore($request->getStoreId());
@@ -319,7 +319,7 @@ abstract class Mage_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping_Mo
         $request->setIsReturn(true);
         $packages = $request->getPackages();
         if (!is_array($packages) || !$packages) {
-            Mage::throwException(Mage::helper('usa')->__('No packages for request'));
+            Mage::throwException(Mage::helper('Mage_Usa_Helper_Data')->__('No packages for request'));
         }
         if ($request->getStoreId() != null) {
             $this->setStore($request->getStoreId());

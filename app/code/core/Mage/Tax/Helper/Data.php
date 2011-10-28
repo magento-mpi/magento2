@@ -346,7 +346,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         if ($store) {
             $priceFormat['pattern'] = Mage::app()->getStore($store)->getCurrentCurrency()->getOutputFormat();
         }
-        return Mage::helper('core')->jsonEncode($priceFormat);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($priceFormat);
     }
 
     /**
@@ -395,7 +395,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
             $result["value_{$class}"] = $rate;
         }
 
-        return Mage::helper('core')->jsonEncode($result);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
     }
 
     /**

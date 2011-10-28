@@ -59,7 +59,7 @@ class Mage_Review_Model_Observer
     {
         $eventProduct = $observer->getEvent()->getProduct();
         if ($eventProduct && $eventProduct->getId()) {
-            Mage::getResourceSingleton('review/review')->deleteReviewsByProductId($eventProduct->getId());
+            Mage::getResourceSingleton('Mage_Review_Model_Resource_Review')->deleteReviewsByProductId($eventProduct->getId());
         }
 
         return $this;

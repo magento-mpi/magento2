@@ -36,8 +36,8 @@ class Enterprise_Banner_Block_Adminhtml_Banner extends Mage_Adminhtml_Block_Widg
     {
         $this->_controller = 'adminhtml_banner';
         $this->_blockGroup = 'enterprise_banner';
-        $this->_headerText = Mage::helper('enterprise_banner')->__('Manage Banners');
-        $this->_addButtonLabel = Mage::helper('enterprise_banner')->__('Add Banner');
+        $this->_headerText = Mage::helper('Enterprise_Banner_Helper_Data')->__('Manage Banners');
+        $this->_addButtonLabel = Mage::helper('Enterprise_Banner_Helper_Data')->__('Add Banner');
         parent::__construct();
     }
 }

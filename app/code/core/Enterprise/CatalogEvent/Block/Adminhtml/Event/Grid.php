@@ -66,27 +66,27 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
     {
 
         $this->addColumn('event_id', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('ID'),
+            'header' => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('ID'),
             'width'  => '80px',
             'type'   => 'text',
             'index'  => 'event_id'
         ));
 
         $this->addColumn('category_id', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Category ID'),
+            'header' => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Category ID'),
             'index' => 'category_id',
             'type'  => 'text',
             'width' => 70
         ));
 
         $this->addColumn('category', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Category'),
+            'header' => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Category'),
             'index' => 'category_name',
             'type'  => 'text'
         ));
 
         $this->addColumn('date_start', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Starts On'),
+            'header' => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Starts On'),
             'index' => 'date_start',
             'type' => 'datetime',
             'filter_time' => true,
@@ -94,7 +94,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
         ));
 
         $this->addColumn('date_end', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Ends On'),
+            'header' => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Ends On'),
             'index' => 'date_end',
             'type' => 'datetime',
             'filter_time' => true,
@@ -102,38 +102,38 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
         ));
 
         $this->addColumn('status', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Status'),
+            'header' => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Status'),
             'index' => 'status',
             'type' => 'options',
             'options' => array(
-                Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING => Mage::helper('enterprise_catalogevent')->__('Upcoming'),
-                Enterprise_CatalogEvent_Model_Event::STATUS_OPEN 	  => Mage::helper('enterprise_catalogevent')->__('Open'),
-                Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED   => Mage::helper('enterprise_catalogevent')->__('Closed')
+                Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Upcoming'),
+                Enterprise_CatalogEvent_Model_Event::STATUS_OPEN 	  => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Open'),
+                Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED   => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Closed')
             ),
             'width' => 140
         ));
 
         $this->addColumn('display_state', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Display Countdown Ticker On'),
+            'header' => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Display Countdown Ticker On'),
             'index' => 'display_state',
             'type' => 'options',
             'renderer' => 'Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid_Column_Renderer_Bitmask',
             'options' => array(
-                0 => Mage::helper('enterprise_catalogevent')->__('Lister Block'),
-                Enterprise_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE => Mage::helper('enterprise_catalogevent')->__('Category Page'),
-                Enterprise_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE  => Mage::helper('enterprise_catalogevent')->__('Product Page')
+                0 => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Lister Block'),
+                Enterprise_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Category Page'),
+                Enterprise_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE  => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Product Page')
             )
         ));
 
         $this->addColumn('sort_order', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Sort Order'),
+            'header' => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Sort Order'),
             'index' => 'sort_order',
             'type'  => 'text',
             'width' => 70
         ));
 
         $this->addColumn('actions', array(
-            'header'    => $this->helper('enterprise_catalogevent')->__('Action'),
+            'header'    => $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Action'),
             'width'     => 15,
             'sortable'  => false,
             'filter'    => false,
@@ -141,7 +141,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
             'actions'   => array(
                 array(
                     'url'       => $this->getUrl('*/*/edit') . 'id/$event_id',
-                    'caption'   => $this->helper('enterprise_catalogevent')->__('Edit'),
+                    'caption'   => $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Edit'),
                 ),
             )
         ));

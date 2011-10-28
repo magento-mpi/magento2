@@ -115,7 +115,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      */
     public function getChildrenIds($parentId, $required = true)
     {
-        return Mage::getResourceSingleton('bundle/selection')
+        return Mage::getResourceSingleton('Mage_Bundle_Model_Resource_Selection')
             ->getChildrenIds($parentId, $required);
     }
 
@@ -127,7 +127,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      */
     public function getParentIdsByChild($childId)
     {
-        return Mage::getResourceSingleton('bundle/selection')
+        return Mage::getResourceSingleton('Mage_Bundle_Model_Resource_Selection')
             ->getParentIdsByChild($childId);
     }
 
@@ -411,7 +411,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 ->addFilterByRequiredOptions()
                 ->setOptionIdsFilter($optionIds);
 
-            if (!Mage::helper('catalog')->isPriceGlobal() && $storeId) {
+            if (!Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal() && $storeId) {
                 $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
                 $selectionsCollection->joinPrices($websiteId);
             }
@@ -549,7 +549,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             $optionIds = array_keys($options);
 
             if (empty($optionIds) && $isStrictProcessMode) {
-                return Mage::helper('bundle')->__('Please select options for product.');
+                return Mage::helper('Mage_Bundle_Helper_Data')->__('Please select options for product.');
             }
 
             $product->getTypeInstance(true)->setStoreFilter($product->getStoreId(), $product);
@@ -557,7 +557,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             if (!$this->getProduct($product)->getSkipCheckRequiredOption() && $isStrictProcessMode) {
                 foreach ($optionsCollection->getItems() as $option) {
                     if ($option->getRequired() && !isset($options[$option->getId()])) {
-                        return Mage::helper('bundle')->__('Required options are not selected.');
+                        return Mage::helper('Mage_Bundle_Helper_Data')->__('Required options are not selected.');
                     }
                 }
             }
@@ -592,7 +592,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                         if ($_option->getRequired()
                             && (!$_option->isMultiSelection() || ($_option->isMultiSelection() && !$moreSelections))
                         ) {
-                            return Mage::helper('bundle')->__('Selected required options are not available.');
+                            return Mage::helper('Mage_Bundle_Helper_Data')->__('Selected required options are not available.');
                         }
                     }
                 }
@@ -672,7 +672,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 }
 
                 if (!isset($_result[0])) {
-                    return Mage::helper('checkout')->__('Cannot add item to the shopping cart.');
+                    return Mage::helper('Mage_Checkout_Helper_Data')->__('Cannot add item to the shopping cart.');
                 }
 
                 $result[] = $_result[0]->setParentProductId($product->getId())
@@ -709,7 +709,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      */
     public function getSpecifyOptionMessage()
     {
-        return Mage::helper('bundle')->__('Please specify product option(s).');
+        return Mage::helper('Mage_Bundle_Helper_Data')->__('Please specify product option(s).');
     }
 
     /**
@@ -737,7 +737,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 ->addFilterByRequiredOptions()
                 ->setSelectionIdsFilter($selectionIds);
 
-                if (!Mage::helper('catalog')->isPriceGlobal() && $storeId) {
+                if (!Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal() && $storeId) {
                     $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
                     $usedSelections->joinPrices($websiteId);
                 }
@@ -950,7 +950,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             $selection = $productSelections->getItemById($selectionId);
             if (!$selection || !$selection->isSalable()) {
                 Mage::throwException(
-                    Mage::helper('bundle')->__('Selected required options are not available.')
+                    Mage::helper('Mage_Bundle_Helper_Data')->__('Selected required options are not available.')
                 );
             }
         }
@@ -960,7 +960,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         foreach ($optionsCollection->getItems() as $option) {
             if ($option->getRequired() && empty($bundleOption[$option->getId()])) {
                 Mage::throwException(
-                    Mage::helper('bundle')->__('Required options are not selected.')
+                    Mage::helper('Mage_Bundle_Helper_Data')->__('Required options are not selected.')
                 );
             }
         }
@@ -1049,7 +1049,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
          */
         /*
         $collection = $this->getUsedProductCollection($product);
-        $helper = Mage::helper('catalog');
+        $helper = Mage::helper('Mage_Catalog_Helper_Data');
 
         $result = null;
         $parentVisibility = $product->getMsrpDisplayActualPriceType();

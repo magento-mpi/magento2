@@ -99,7 +99,7 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Edit_Form
             'label'     => $this->__('Application'),
             'title'     => $this->__('Application'),
             'disabled'  => $model->getId() || !$this->_fieldsEnabled ? true : false,
-            'values'    => Mage::helper('xmlconnect')->getApplicationOptions(),
+            'values'    => Mage::helper('Mage_XmlConnect_Helper_Data')->getApplicationOptions(),
             'note'      => $this->__('Creating a Template is allowed only for applications which have device type iPhone.'),
             'required'  => true,
         ));

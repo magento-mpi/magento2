@@ -54,33 +54,33 @@ class Mage_Adminhtml_Block_Tag_Grid_Products extends Mage_Adminhtml_Block_Widget
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header'    => Mage::helper('tag')->__('ID'),
+            'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('ID'),
             'align'     => 'center',
             'width'     => '60px',
             'sortable'  => false,
             'index'     => 'product_id'
         ));
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('tag')->__('SKU'),
+            'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('SKU'),
             'align'     => 'center',
             'index'     => 'sku'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('tag')->__('Name'),
+            'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('Name'),
             'index'     => 'name'
         ));
         $this->addColumn('tags', array(
-            'header'    => Mage::helper('tag')->__('Tags'),
+            'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('Tags'),
             'index'     => 'tags',
             'sortable'  => false,
             'filter'    => false,
             'renderer'  => 'adminhtml/tag_grid_column_renderer_tags'
         ));
         $this->addColumn('action', array(
-            'header'    => Mage::helper('tag')->__('Action'),
+            'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('Action'),
             'align'     => 'center',
             'width'     => '120px',
-            'format'    => '<a href="'.$this->getUrl('*/*/customers/product_id/$product_id').'">'.Mage::helper('tag')->__('View Customers').'</a>',
+            'format'    => '<a href="'.$this->getUrl('*/*/customers/product_id/$product_id').'">'.Mage::helper('Mage_Tag_Helper_Data')->__('View Customers').'</a>',
             'filter'    => false,
             'sortable'  => false,
             'is_system' => true

@@ -434,7 +434,7 @@ class Mage_Core_Model_Cache
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('core/cache');
+        return Mage::getResourceSingleton('Mage_Core_Model_Resource_Cache');
     }
 
     /**
@@ -545,8 +545,8 @@ class Mage_Core_Model_Cache
             foreach ($config->children() as $type=>$node) {
                 $types[$type] = new Varien_Object(array(
                     'id'            => $type,
-                    'cache_type'    => Mage::helper('core')->__((string)$node->label),
-                    'description'   => Mage::helper('core')->__((string)$node->description),
+                    'cache_type'    => Mage::helper('Mage_Core_Helper_Data')->__((string)$node->label),
+                    'description'   => Mage::helper('Mage_Core_Helper_Data')->__((string)$node->description),
                     'tags'          => strtoupper((string) $node->tags),
                     'status'        => (int)$this->canUse($type),
                 ));

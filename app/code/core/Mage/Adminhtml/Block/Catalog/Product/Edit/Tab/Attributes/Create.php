@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create extends Ma
             ->setOnClick($this->getJsObjectName() . '.create();')
             ->setType('button')
             ->setClass('add')
-            ->setLabel(Mage::helper('adminhtml')->__('Create New Attribute'));
+            ->setLabel(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Create New Attribute'));
 
         $this->getConfig()
             ->setUrl($this->getUrl(
@@ -88,9 +88,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create extends Ma
         }
 
         $html = parent::_toHtml();
-        $html .= Mage::helper('adminhtml/js')->getScript(
+        $html .= Mage::helper('Mage_Adminhtml_Helper_Js')->getScript(
             "var {$this->getJsObjectName()} = new Product.Attributes('{$this->getId()}');\n"
-            . "{$this->getJsObjectName()}.setConfig(" . Mage::helper('core')->jsonEncode($this->getConfig()->getData()) . ");\n"
+            . "{$this->getJsObjectName()}.setConfig(" . Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getConfig()->getData()) . ");\n"
         );
 
         return $html;

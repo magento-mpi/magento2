@@ -54,7 +54,7 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
 
         $id  = $this->getRequest()->getParam('id');
         $agreementModel  = Mage::getModel('checkout/agreement');
-        $hlp = Mage::helper('checkout');
+        $hlp = Mage::helper('Mage_Checkout_Helper_Data');
         if ($id) {
             $agreementModel->load($id);
             if (!$agreementModel->getId()) {
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
             try {
                 $model->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('checkout')->__('The condition has been saved.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Checkout_Helper_Data')->__('The condition has been saved.'));
                 $this->_redirect('*/*/');
 
                 return;
@@ -97,7 +97,7 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
             catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('checkout')->__('An error occurred while saving this condition.'));
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Checkout_Helper_Data')->__('An error occurred while saving this condition.'));
             }
 
             Mage::getSingleton('adminhtml/session')->setAgreementData($postData);
@@ -111,7 +111,7 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
         $model = Mage::getSingleton('checkout/agreement')
             ->load($id);
         if (!$model->getId()) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('checkout')->__('This condition no longer exists.'));
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Checkout_Helper_Data')->__('This condition no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
         try {
             $model->delete();
 
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('checkout')->__('The condition has been deleted'));
+            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Checkout_Helper_Data')->__('The condition has been deleted'));
             $this->_redirect('*/*/');
 
             return;
@@ -128,7 +128,7 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         }
         catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('checkout')->__('An error occurred while deleting this condition.'));
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Checkout_Helper_Data')->__('An error occurred while deleting this condition.'));
         }
 
         $this->_redirectReferer();
@@ -143,8 +143,8 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
     {
         $this->loadLayout()
             ->_setActiveMenu('sales/checkoutagreement')
-            ->_addBreadcrumb(Mage::helper('checkout')->__('Sales'), Mage::helper('checkout')->__('Sales'))
-            ->_addBreadcrumb(Mage::helper('checkout')->__('Checkout Conditions'), Mage::helper('checkout')->__('Checkout Terms and Conditions'))
+            ->_addBreadcrumb(Mage::helper('Mage_Checkout_Helper_Data')->__('Sales'), Mage::helper('Mage_Checkout_Helper_Data')->__('Sales'))
+            ->_addBreadcrumb(Mage::helper('Mage_Checkout_Helper_Data')->__('Checkout Conditions'), Mage::helper('Mage_Checkout_Helper_Data')->__('Checkout Terms and Conditions'))
         ;
         return $this;
     }

@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-        <promo translate="label" module="enterprise_reminder">
+        <promo translate="label" module="Enterprise_Reminder">
             <class>separator-top</class>
             <label>Promotions</label>
             <tab>customer</tab>
@@ -37,14 +37,14 @@
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
             <groups>
-                <enterprise_reminder translate="label" module="enterprise_reminder">
+                <enterprise_reminder translate="label" module="Enterprise_Reminder">
                     <label>Automated Email Reminder Rules</label>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <sort_order>1</sort_order>
                     <fields>
-                        <enabled translate="label" module="enterprise_reminder">
+                        <enabled translate="label" module="Enterprise_Reminder">
                             <label>Enable Reminder Emails</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -53,7 +53,7 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </enabled>
-                        <frequency translate="label" module="enterprise_reminder">
+                        <frequency translate="label" module="Enterprise_Reminder">
                             <label>Frequency</label>
                             <frontend_type>select</frontend_type>
                             <source_model>enterprise_reminder/observer::getCronFrequencyTypes</source_model>
@@ -63,7 +63,7 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </frequency>
-                        <interval translate="label comment" module="enterprise_reminder">
+                        <interval translate="label comment" module="Enterprise_Reminder">
                             <label>Interval</label>
                             <frontend_type>select</frontend_type>
                             <source_model>enterprise_reminder/observer::getCronMinutes</source_model>
@@ -74,7 +74,7 @@
                             <comment>Set this value not less than your cron.php launch period.</comment>
                             <depends><frequency>I</frequency></depends> 
                         </interval>
-                        <minutes translate="label comment" module="enterprise_reminder">
+                        <minutes translate="label comment" module="Enterprise_Reminder">
                             <label>Minute of the Hour</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>3</sort_order>
@@ -84,7 +84,7 @@
                             <comment>Valid range: 0-59 (default 0).</comment>
                             <depends><frequency>H</frequency></depends> 
                         </minutes>
-                        <time translate="label" module="enterprise_reminder">
+                        <time translate="label" module="Enterprise_Reminder">
                             <label>Start Time</label>
                             <frontend_type>time</frontend_type>
                             <sort_order>4</sort_order>
@@ -92,7 +92,7 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </time>
-                        <limit translate="label" module="enterprise_reminder">
+                        <limit translate="label" module="Enterprise_Reminder">
                             <label>Maximum Emails per One Run</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>5</sort_order>
@@ -100,7 +100,7 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </limit>
-                        <threshold translate="label comment" module="enterprise_reminder">
+                        <threshold translate="label comment" module="Enterprise_Reminder">
                             <label>Email Send Failure Threshold</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>6</sort_order>
@@ -109,7 +109,7 @@
                             <show_in_store>0</show_in_store>
                             <comment>Empty value disables this limitation. If not limited, the reminder emails may stuck sending over and over.</comment>
                         </threshold>
-                        <identity translate="label" module="enterprise_reminder">
+                        <identity translate="label" module="Enterprise_Reminder">
                             <label>Reminder Email Sender</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_email_identity</source_model>

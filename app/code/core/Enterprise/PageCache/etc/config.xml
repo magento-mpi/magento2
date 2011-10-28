@@ -60,7 +60,7 @@
         </resources>
         <cache>
             <types>
-                <full_page translate="label,description" module="enterprise_pagecache">
+                <full_page translate="label,description" module="Enterprise_PageCache">
                     <label>Page Cache</label>
                     <description>Full page caching.</description>
                     <tags>FPC</tags>

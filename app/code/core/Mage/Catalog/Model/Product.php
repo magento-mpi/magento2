@@ -114,7 +114,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('catalog/product');
+        $this->_init('Mage_Catalog_Model_Resource_Product');
     }
 
     /**
@@ -138,7 +138,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getResourceCollection()
     {
         if (empty($this->_resourceCollectionName)) {
-            Mage::throwException(Mage::helper('catalog')->__('The model collection resource name is not defined.'));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('The model collection resource name is not defined.'));
         }
         $collection = Mage::getResourceModel($this->_resourceCollectionName);
         $collection->setStoreId($this->getStoreId());
@@ -341,7 +341,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (is_string($ids)) {
             $ids = explode(',', $ids);
         } elseif (!is_array($ids)) {
-            Mage::throwException(Mage::helper('catalog')->__('Invalid category IDs.'));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid category IDs.'));
         }
         foreach ($ids as $i => $v) {
             if (empty($v)) {
@@ -1480,7 +1480,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function fromArray($data)
     {
         if (isset($data['stock_item'])) {
-            if (Mage::helper('catalog')->isModuleEnabled('Mage_CatalogInventory')) {
+            if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
                 $stockItem = Mage::getModel('cataloginventory/stock_item')
                     ->setData($data['stock_item'])
                     ->setProduct($this);
@@ -1766,7 +1766,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     protected function _getImageHelper()
     {
-        return Mage::helper('catalog/image');
+        return Mage::helper('Mage_Catalog_Helper_Image');
     }
 
     /**

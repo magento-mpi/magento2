@@ -51,18 +51,18 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'        => Mage::helper('sales')->__('Period'),
+            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Period'),
             'index'         => 'period',
             'width'         => 100,
             'sortable'      => false,
             'period_type'   => $this->getPeriodType(),
             'renderer'      => 'Mage_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
-            'totals_label'  => Mage::helper('sales')->__('Total'),
+            'totals_label'  => Mage::helper('Mage_Sales_Helper_Data')->__('Total'),
             'html_decorators' => array('nobr'),
         ));
 
         $this->addColumn('orders_count', array(
-            'header'    => Mage::helper('sales')->__('Orders'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Orders'),
             'index'     => 'orders_count',
             'type'      => 'number',
             'total'     => 'sum',
@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('total_qty_ordered', array(
-            'header'    => Mage::helper('sales')->__('Sales Items'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Sales Items'),
             'index'     => 'total_qty_ordered',
             'type'      => 'number',
             'total'     => 'sum',
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('total_qty_invoiced', array(
-            'header'    => Mage::helper('sales')->__('Items'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Items'),
             'index'     => 'total_qty_invoiced',
             'type'      => 'number',
             'total'     => 'sum',
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         $rate = $this->getRate($currencyCode);
 
         $this->addColumn('total_income_amount', array(
-            'header'        => Mage::helper('sales')->__('Sales Total'),
+            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Sales Total'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'total_income_amount',
@@ -103,7 +103,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('total_revenue_amount', array(
-            'header'            => Mage::helper('sales')->__('Revenue'),
+            'header'            => Mage::helper('Mage_Sales_Helper_Data')->__('Revenue'),
             'type'              => 'currency',
             'currency_code'     => $currencyCode,
             'index'             => 'total_revenue_amount',
@@ -114,7 +114,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('total_profit_amount', array(
-            'header'            => Mage::helper('sales')->__('Profit'),
+            'header'            => Mage::helper('Mage_Sales_Helper_Data')->__('Profit'),
             'type'              => 'currency',
             'currency_code'     => $currencyCode,
             'index'             => 'total_profit_amount',
@@ -125,7 +125,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('total_invoiced_amount', array(
-            'header'        => Mage::helper('sales')->__('Invoiced'),
+            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Invoiced'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'total_invoiced_amount',
@@ -135,7 +135,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('total_paid_amount', array(
-            'header'            => Mage::helper('sales')->__('Paid'),
+            'header'            => Mage::helper('Mage_Sales_Helper_Data')->__('Paid'),
             'type'              => 'currency',
             'currency_code'     => $currencyCode,
             'index'             => 'total_paid_amount',
@@ -146,7 +146,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('total_refunded_amount', array(
-            'header'        => Mage::helper('sales')->__('Refunded'),
+            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Refunded'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'total_refunded_amount',
@@ -156,7 +156,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('total_tax_amount', array(
-            'header'        => Mage::helper('sales')->__('Sales Tax'),
+            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Sales Tax'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'total_tax_amount',
@@ -166,7 +166,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('total_tax_amount_actual', array(
-            'header'            => Mage::helper('sales')->__('Tax'),
+            'header'            => Mage::helper('Mage_Sales_Helper_Data')->__('Tax'),
             'type'              => 'currency',
             'currency_code'     => $currencyCode,
             'index'             => 'total_tax_amount_actual',
@@ -177,7 +177,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('total_shipping_amount', array(
-            'header'        => Mage::helper('sales')->__('Sales Shipping'),
+            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Sales Shipping'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'total_shipping_amount',
@@ -187,7 +187,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('total_shipping_amount_actual', array(
-            'header'            => Mage::helper('sales')->__('Shipping'),
+            'header'            => Mage::helper('Mage_Sales_Helper_Data')->__('Shipping'),
             'type'              => 'currency',
             'currency_code'     => $currencyCode,
             'index'             => 'total_shipping_amount_actual',
@@ -198,7 +198,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('total_discount_amount', array(
-            'header'        => Mage::helper('sales')->__('Sales Discount'),
+            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Sales Discount'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'total_discount_amount',
@@ -208,7 +208,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('total_discount_amount_actual', array(
-            'header'            => Mage::helper('sales')->__('Discount'),
+            'header'            => Mage::helper('Mage_Sales_Helper_Data')->__('Discount'),
             'type'              => 'currency',
             'currency_code'     => $currencyCode,
             'index'             => 'total_discount_amount_actual',
@@ -219,7 +219,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('total_canceled_amount', array(
-            'header'        => Mage::helper('sales')->__('Canceled'),
+            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Canceled'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'total_canceled_amount',
@@ -229,8 +229,8 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
 
-        $this->addExportType('*/*/exportSalesCsv', Mage::helper('adminhtml')->__('CSV'));
-        $this->addExportType('*/*/exportSalesExcel', Mage::helper('adminhtml')->__('Excel XML'));
+        $this->addExportType('*/*/exportSalesCsv', Mage::helper('Mage_Adminhtml_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportSalesExcel', Mage::helper('Mage_Adminhtml_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

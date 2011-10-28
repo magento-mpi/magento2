@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Mage_Admin
 
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Last Ordered Items');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Last Ordered Items');
     }
 
     /**

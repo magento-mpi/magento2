@@ -24,8 +24,8 @@
 ?>
 <div class="box-account account-balance">
     <div class="box-head">
-        <h2><?php echo Mage::helper('enterprise_customerbalance')->__('Balance'); ?></h2>
+        <h2><?php echo Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Balance'); ?></h2>
     </div>
-    <?php echo Mage::helper('enterprise_customerbalance')->__('Your current balance is:'); ?>
-    <?php echo Mage::helper('core')->currency($this->getBalance()); ?>
+    <?php echo Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Your current balance is:'); ?>
+    <?php echo Mage::helper('Mage_Core_Helper_Data')->currency($this->getBalance()); ?>
 </div>

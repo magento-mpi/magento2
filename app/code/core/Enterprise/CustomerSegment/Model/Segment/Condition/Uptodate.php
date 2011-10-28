@@ -68,10 +68,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate extends Enterp
     {
         if (null === $this->_defaultOperatorOptions) {
             $this->_defaultOperatorOptions = array(
-                '<='  => Mage::helper('rule')->__('equals or greater than'),
-                '>='  => Mage::helper('rule')->__('equals or less than'),
-                '<'   => Mage::helper('rule')->__('greater than'),
-                '>'   => Mage::helper('rule')->__('less than')
+                '<='  => Mage::helper('Mage_Rule_Helper_Data')->__('equals or greater than'),
+                '>='  => Mage::helper('Mage_Rule_Helper_Data')->__('equals or less than'),
+                '<'   => Mage::helper('Mage_Rule_Helper_Data')->__('greater than'),
+                '>'   => Mage::helper('Mage_Rule_Helper_Data')->__('less than')
             );
         }
         return $this->_defaultOperatorOptions;
@@ -86,7 +86,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate extends Enterp
     {
         return array(
             'value' => $this->getType(),
-            'label' => Mage::helper('enterprise_customersegment')->__('Up To Date'),
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Up To Date'),
         );
     }
 
@@ -108,7 +108,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate extends Enterp
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('Period %s %s Days Up To Date',
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Period %s %s Days Up To Date',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }

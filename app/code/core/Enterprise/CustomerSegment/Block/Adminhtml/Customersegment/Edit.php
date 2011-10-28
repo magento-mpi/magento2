@@ -44,7 +44,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Ma
         if ($segment) {
             if ($segment->getId()) {
                 $this->_addButton('match_customers', array(
-                    'label'     => Mage::helper('enterprise_customersegment')->__('Refresh Segment Data'),
+                    'label'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Refresh Segment Data'),
                     'onclick'   => 'setLocation(\'' . $this->getMatchUrl() . '\')',
                 ), -1);
             }
@@ -53,11 +53,11 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Ma
                 $this->_removeButton('save');
                 $this->_removeButton('delete');
             } else {
-                $this->_updateButton('save', 'label', Mage::helper('enterprise_customersegment')->__('Save'));
-                $this->_updateButton('delete', 'label', Mage::helper('enterprise_customersegment')->__('Delete'));
+                $this->_updateButton('save', 'label', Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Save'));
+                $this->_updateButton('delete', 'label', Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Delete'));
                 $this->_addButton('save_and_continue_edit', array(
                     'class' => 'save',
-                    'label' => Mage::helper('enterprise_customersegment')->__('Save and Continue Edit'),
+                    'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Save and Continue Edit'),
                     'onclick'   => 'saveAndContinueEdit()',
                 ), 3);
 
@@ -89,10 +89,10 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Ma
     {
         $segment = Mage::registry('current_customer_segment');
         if ($segment->getSegmentId()) {
-            return Mage::helper('enterprise_customersegment')->__("Edit Segment '%s'", $this->htmlEscape($segment->getName()));
+            return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__("Edit Segment '%s'", $this->htmlEscape($segment->getName()));
         }
         else {
-            return Mage::helper('enterprise_customersegment')->__('New Segment');
+            return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('New Segment');
         }
     }
 }

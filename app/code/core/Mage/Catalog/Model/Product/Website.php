@@ -45,7 +45,7 @@ class Mage_Catalog_Model_Product_Website extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_website');
+        $this->_init('Mage_Catalog_Model_Resource_Product_Website');
     }
 
     /**
@@ -72,7 +72,7 @@ class Mage_Catalog_Model_Product_Website extends Mage_Core_Model_Abstract
         }
         catch (Exception $e) {
             Mage::throwException(
-                Mage::helper('catalog')->__('An error occurred while removing products from websites.')
+                Mage::helper('Mage_Catalog_Helper_Data')->__('An error occurred while removing products from websites.')
             );
         }
         return $this;
@@ -92,7 +92,7 @@ class Mage_Catalog_Model_Product_Website extends Mage_Core_Model_Abstract
         }
         catch (Exception $e) {
             Mage::throwException(
-                Mage::helper('catalog')->__('An error occurred while adding products to websites.')
+                Mage::helper('Mage_Catalog_Helper_Data')->__('An error occurred while adding products to websites.')
             );
         }
         return $this;

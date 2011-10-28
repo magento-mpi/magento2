@@ -50,7 +50,7 @@ class Mage_Catalog_Model_Resource_Product_Website extends Mage_Core_Model_Resour
      */
     protected function _getProductResource()
     {
-        return Mage::getResourceSingleton('catalog/product');
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product');
     }
 
     /**

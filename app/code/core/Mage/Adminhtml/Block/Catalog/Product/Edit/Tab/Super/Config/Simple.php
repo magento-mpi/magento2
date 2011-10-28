@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends 
         $form->setDataObject($this->_getProduct());
 
         $fieldset = $form->addFieldset('simple_product', array(
-            'legend' => Mage::helper('catalog')->__('Quick simple product creation')
+            'legend' => Mage::helper('Mage_Catalog_Helper_Data')->__('Quick simple product creation')
         ));
         $this->_addElementTypes($fieldset);
         $attributesConfig = array(
@@ -98,7 +98,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends 
                          . 'name="simple_product[' . $attributeCode . '_autogenerate]" value="1" '
                          . 'onclick="toggleValueElements(this, this.parentNode)" checked="checked" /> '
                          . '<label for="simple_product_' . $attributeCode . '_autogenerate" >'
-                         . Mage::helper('catalog')->__('Autogenerate')
+                         . Mage::helper('Mage_Catalog_Helper_Data')->__('Autogenerate')
                          . '</label>'
                     );
                 }
@@ -134,7 +134,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends 
 
         /* Inventory Data */
         $fieldset->addField('simple_product_inventory_qty', 'text', array(
-            'label' => Mage::helper('catalog')->__('Qty'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Qty'),
             'name'  => 'stock_data[qty]',
             'class' => 'validate-number',
             'required' => true,
@@ -142,11 +142,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends 
         ));
 
         $fieldset->addField('simple_product_inventory_is_in_stock', 'select', array(
-            'label' => Mage::helper('catalog')->__('Stock Availability'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Stock Availability'),
             'name'  => 'stock_data[is_in_stock]',
             'values' => array(
-                array('value'=>1, 'label'=> Mage::helper('catalog')->__('In Stock')),
-                array('value'=>0, 'label'=> Mage::helper('catalog')->__('Out of Stock'))
+                array('value'=>1, 'label'=> Mage::helper('Mage_Catalog_Helper_Data')->__('In Stock')),
+                array('value'=>0, 'label'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Out of Stock'))
             ),
             'value' => 1
         ));
@@ -170,7 +170,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends 
 
         $fieldset->addField('create_button', 'note', array(
             'text' => $this->getButtonHtml(
-                Mage::helper('catalog')->__('Quick Create'),
+                Mage::helper('Mage_Catalog_Helper_Data')->__('Quick Create'),
                 'superProduct.quickCreateNewProduct()',
                 'save'
             )

@@ -57,7 +57,7 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
      */
     public function reEncryptDatabaseValues($safe = true)
     {
-        $this->_encryptor = clone Mage::helper('core')->getEncryptor();
+        $this->_encryptor = clone Mage::helper('Mage_Core_Helper_Data')->getEncryptor();
 
         // update database only
         if ($safe) {
@@ -90,13 +90,13 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
         // prepare new key, encryptor and new file contents
         $file = Mage::getBaseDir('etc') . DS . 'local.xml';
         if (!is_writeable($file)) {
-            throw new Exception(Mage::helper('enterprise_pci')->__('File %s is not writeable.', realpath($file)));
+            throw new Exception(Mage::helper('Enterprise_Pci_Helper_Data')->__('File %s is not writeable.', realpath($file)));
         }
         $contents = file_get_contents($file);
         if (null === $key) {
             $key = md5(time());
         }
-        $this->_encryptor = clone Mage::helper('core')->getEncryptor();
+        $this->_encryptor = clone Mage::helper('Mage_Core_Helper_Data')->getEncryptor();
         $this->_encryptor->setNewKey($key);
         $contents = preg_replace('/<key><\!\[CDATA\[(.+?)\]\]><\/key>/s', 
             '<key><![CDATA[' . $this->_encryptor->exportKeys() . ']]></key>', $contents

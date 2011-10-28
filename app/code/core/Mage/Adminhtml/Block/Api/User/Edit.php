@@ -41,17 +41,17 @@ class Mage_Adminhtml_Block_Api_User_Edit extends Mage_Adminhtml_Block_Widget_For
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('adminhtml')->__('Save User'));
-        $this->_updateButton('delete', 'label', Mage::helper('adminhtml')->__('Delete User'));
+        $this->_updateButton('save', 'label', Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save User'));
+        $this->_updateButton('delete', 'label', Mage::helper('Mage_Adminhtml_Helper_Data')->__('Delete User'));
     }
 
     public function getHeaderText()
     {
         if (Mage::registry('api_user')->getId()) {
-            return Mage::helper('adminhtml')->__("Edit User '%s'", $this->htmlEscape(Mage::registry('api_user')->getUsername()));
+            return Mage::helper('Mage_Adminhtml_Helper_Data')->__("Edit User '%s'", $this->htmlEscape(Mage::registry('api_user')->getUsername()));
         }
         else {
-            return Mage::helper('adminhtml')->__('New User');
+            return Mage::helper('Mage_Adminhtml_Helper_Data')->__('New User');
         }
     }
 

@@ -145,7 +145,7 @@ EOT;
             $ccMonthes
         </values>
     </field>
-    <field name="payment[cc_exp_year]" type="select" label="{$this->helper('xmlconnect')->__('Expiration Date - Year')}" required="true">
+    <field name="payment[cc_exp_year]" type="select" label="{$this->helper('Mage_XmlConnect_Helper_Data')->__('Expiration Date - Year')}" required="true">
         <values>
             $ccYears
         </values>

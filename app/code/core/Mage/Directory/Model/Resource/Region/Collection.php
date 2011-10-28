@@ -163,7 +163,7 @@ class Mage_Directory_Model_Resource_Region_Collection extends Mage_Core_Model_Re
             array_unshift($options, array(
                 'title '=> null,
                 'value' => '0',
-                'label' => Mage::helper('directory')->__('-- Please select --')
+                'label' => Mage::helper('Mage_Directory_Helper_Data')->__('-- Please select --')
             ));
         }
         return $options;

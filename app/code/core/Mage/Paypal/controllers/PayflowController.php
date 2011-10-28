@@ -155,7 +155,7 @@ class Mage_Paypal_PayflowController extends Mage_Paypal_Controller_Express_Abstr
         $payment = $quote->getPayment();
 
         try {
-            $method = Mage::helper('payment')->getMethodInstance(Mage_Paypal_Model_Config::METHOD_PAYFLOWLINK);
+            $method = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance(Mage_Paypal_Model_Config::METHOD_PAYFLOWLINK);
             $method->setData('info_instance', $payment);
             $method->initialize($method->getConfigData('payment_action'), new Varien_Object());
 

@@ -41,33 +41,33 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
         $model = Mage::registry('current_giftcardaccount');
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>Mage::helper('enterprise_giftcardaccount')->__('Information'))
+            array('legend'=>Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Information'))
         );
 
         if ($model->getId()){
             $fieldset->addField('code', 'label', array(
                 'name'      => 'code',
-                'label'     => Mage::helper('enterprise_giftcardaccount')->__('Gift Card Code'),
-                'title'     => Mage::helper('enterprise_giftcardaccount')->__('Gift Card Code')
+                'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card Code'),
+                'title'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card Code')
             ));
 
             $fieldset->addField('state_text', 'label', array(
                 'name'      => 'state_text',
-                'label'     => Mage::helper('enterprise_giftcardaccount')->__('Status'),
-                'title'     => Mage::helper('enterprise_giftcardaccount')->__('Status')
+                'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Status'),
+                'title'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Status')
             ));
         }
 
         $fieldset->addField('status', 'select', array(
-            'label'     => Mage::helper('enterprise_giftcardaccount')->__('Active'),
-            'title'     => Mage::helper('enterprise_giftcardaccount')->__('Active'),
+            'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Active'),
+            'title'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Active'),
             'name'      => 'status',
             'required'  => true,
             'options'   => array(
                 Enterprise_GiftCardAccount_Model_Giftcardaccount::STATUS_ENABLED =>
-                    Mage::helper('enterprise_giftcardaccount')->__('Yes'),
+                    Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Yes'),
                 Enterprise_GiftCardAccount_Model_Giftcardaccount::STATUS_DISABLED =>
-                    Mage::helper('enterprise_giftcardaccount')->__('No'),
+                    Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('No'),
             ),
         ));
         if (!$model->getId()) {
@@ -75,15 +75,15 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
         }
 
         $fieldset->addField('is_redeemable', 'select', array(
-            'label'     => Mage::helper('enterprise_giftcardaccount')->__('Redeemable'),
-            'title'     => Mage::helper('enterprise_giftcardaccount')->__('Redeemable'),
+            'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Redeemable'),
+            'title'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Redeemable'),
             'name'      => 'is_redeemable',
             'required'  => true,
             'options'   => array(
                 Enterprise_GiftCardAccount_Model_Giftcardaccount::REDEEMABLE =>
-                    Mage::helper('enterprise_giftcardaccount')->__('Yes'),
+                    Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Yes'),
                 Enterprise_GiftCardAccount_Model_Giftcardaccount::NOT_REDEEMABLE =>
-                    Mage::helper('enterprise_giftcardaccount')->__('No'),
+                    Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('No'),
             ),
         ));
         if (!$model->getId()) {
@@ -92,8 +92,8 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
 
         $fieldset->addField('website_id', 'select', array(
             'name'      => 'website_id',
-            'label'     => Mage::helper('enterprise_giftcardaccount')->__('Website'),
-            'title'     => Mage::helper('enterprise_giftcardaccount')->__('Website'),
+            'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Website'),
+            'title'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Website'),
             'required'  => true,
             'values'    => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(true),
         ));
@@ -101,8 +101,8 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
         $fieldset->addType('price', 'Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Form_Price');
 
         $fieldset->addField('balance', 'price', array(
-            'label'     => Mage::helper('enterprise_giftcardaccount')->__('Balance'),
-            'title'     => Mage::helper('enterprise_giftcardaccount')->__('Balance'),
+            'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Balance'),
+            'title'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Balance'),
             'name'      => 'balance',
             'class'     => 'validate-number',
             'required'  => true,
@@ -111,8 +111,8 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
 
         $fieldset->addField('date_expires', 'date', array(
             'name'   => 'date_expires',
-            'label'  => Mage::helper('enterprise_giftcardaccount')->__('Expiration Date'),
-            'title'  => Mage::helper('enterprise_giftcardaccount')->__('Expiration Date'),
+            'label'  => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Expiration Date'),
+            'title'  => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Expiration Date'),
             'image'  => $this->getSkinUrl('images/grid-cal.gif'),
             'format' => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
         ));
@@ -131,6 +131,6 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
             $result[$id] = $website->getBaseCurrencyCode();
         }
 
-        return Mage::helper('core')->jsonEncode($result);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
     }
 }

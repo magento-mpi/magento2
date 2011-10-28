@@ -331,7 +331,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     public function validate()
     {
         $errors = array();
-        $helper = Mage::helper('customer');
+        $helper = Mage::helper('Mage_Customer_Helper_Data');
         $this->implodeStreetAddress();
         if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
             $errors[] = $helper->__('Please enter the first name.');
@@ -353,7 +353,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
             $errors[] = $helper->__('Please enter the telephone number.');
         }
 
-        $_havingOptionalZip = Mage::helper('directory')->getCountriesWithOptionalZip();
+        $_havingOptionalZip = Mage::helper('Mage_Directory_Helper_Data')->getCountriesWithOptionalZip();
         if (!in_array($this->getCountryId(), $_havingOptionalZip) && !Zend_Validate::is($this->getPostcode(), 'NotEmpty')) {
             $errors[] = $helper->__('Please enter the zip/postal code.');
         }

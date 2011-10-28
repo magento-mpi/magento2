@@ -134,7 +134,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Engine extends Mage_Core_Model_
      */
     public function prepareEntityIndex($index, $separator = ' ')
     {
-        return Mage::helper('catalogsearch')->prepareIndexdata($index, $separator);
+        return Mage::helper('Mage_CatalogSearch_Helper_Data')->prepareIndexdata($index, $separator);
     }
 
     /**

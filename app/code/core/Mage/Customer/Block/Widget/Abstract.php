@@ -28,7 +28,7 @@ class Mage_Customer_Block_Widget_Abstract extends Mage_Core_Block_Template
 {
     public function getConfig($key)
     {
-        return $this->helper('customer/address')->getConfig($key);
+        return $this->helper('Mage_Customer_Helper_Address')->getConfig($key);
     }
 
     public function getFieldIdFormat()

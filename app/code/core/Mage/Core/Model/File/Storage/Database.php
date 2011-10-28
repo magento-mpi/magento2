@@ -62,7 +62,7 @@ class Mage_Core_Model_File_Storage_Database extends Mage_Core_Model_File_Storage
      */
     public function __construct($connectionName = null)
     {
-        $this->_init('core/file_storage_database');
+        $this->_init('Mage_Core_Model_Resource_File_Storage_Database');
 
         parent::__construct($connectionName);
     }
@@ -103,7 +103,7 @@ class Mage_Core_Model_File_Storage_Database extends Mage_Core_Model_File_Storage
      */
     public function getStorageName()
     {
-        return Mage::helper('core')->__('database "%s"', $this->getConnectionName());
+        return Mage::helper('Mage_Core_Helper_Data')->__('database "%s"', $this->getConnectionName());
     }
 
     /**
@@ -300,7 +300,7 @@ class Mage_Core_Model_File_Storage_Database extends Mage_Core_Model_File_Storage
      */
     public function getDirectoryFiles($directory)
     {
-        $directory = Mage::helper('core/file_storage_database')->getMediaRelativePath($directory);
+        $directory = Mage::helper('Mage_Core_Helper_File_Storage_Database')->getMediaRelativePath($directory);
         return $this->_getResource()->getDirectoryFiles($directory);
     }
 

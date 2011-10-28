@@ -103,7 +103,7 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
         $mergeWsdl = new Mage_Api_Model_Wsdl_Config_Base();
         $mergeWsdl->setHandler($this->getHandler());
 
-        if(Mage::helper('api/data')->isComplianceWSI()){
+        if(Mage::helper('Mage_Api_Helper_Data')->isComplianceWSI()){
         /**
          * Exclude Mage_Api wsdl xml file because it used for previous version
          * of API wsdl declaration

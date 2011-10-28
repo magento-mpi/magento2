@@ -75,7 +75,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer_Configurable extends Mage_Checkout_
             || (Mage::getStoreConfig(self::CONFIGURABLE_PRODUCT_IMAGE) == self::USE_PARENT_IMAGE)) {
             $product = $this->getProduct();
         }
-        return $this->helper('catalog/image')->init($product, 'thumbnail');
+        return $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail');
     }
 
     /**
@@ -108,7 +108,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer_Configurable extends Mage_Checkout_
     public function getOptionList()
     {
         /* @var $helper Mage_Catalog_Helper_Product_Configuration */
-        $helper = Mage::helper('catalog/product_configuration');
+        $helper = Mage::helper('Mage_Catalog_Helper_Product_Configuration');
         $options = $helper->getConfigurableOptions($this->getItem());
         return $options;
     }

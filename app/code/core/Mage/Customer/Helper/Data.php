@@ -143,7 +143,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
         if (!$referer && !Mage::getStoreConfigFlag(self::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD)) {
             if (!Mage::getSingleton('customer/session')->getNoReferer()) {
                 $referer = Mage::getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
-                $referer = Mage::helper('core')->urlEncode($referer);
+                $referer = Mage::helper('Mage_Core_Helper_Data')->urlEncode($referer);
             }
         }
         if ($referer) {
@@ -290,7 +290,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     public function getNamePrefixOptions($store = null)
     {
         return $this->_prepareNamePrefixSuffixOptions(
-            Mage::helper('customer/address')->getConfig('prefix_options', $store)
+            Mage::helper('Mage_Customer_Helper_Address')->getConfig('prefix_options', $store)
         );
     }
 
@@ -302,7 +302,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     public function getNameSuffixOptions($store = null)
     {
         return $this->_prepareNamePrefixSuffixOptions(
-            Mage::helper('customer/address')->getConfig('suffix_options', $store)
+            Mage::helper('Mage_Customer_Helper_Address')->getConfig('suffix_options', $store)
         );
     }
 
@@ -334,7 +334,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function generateResetPasswordLinkToken()
     {
-        return Mage::helper('core')->uniqHash();
+        return Mage::helper('Mage_Core_Helper_Data')->uniqHash();
     }
 
     /**

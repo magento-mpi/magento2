@@ -237,7 +237,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             if ($isNeedCreateLabel) {
                 $responseAjax->setError(true);
                 $responseAjax->setMessage(
-                    Mage::helper('sales')->__('An error occurred while creating shipping label.'));
+                    Mage::helper('Mage_Sales_Helper_Data')->__('An error occurred while creating shipping label.'));
             } else {
                 $this->_getSession()->addError($this->__('Cannot save shipment.'));
                 $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
@@ -324,7 +324,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -363,7 +363,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -404,7 +404,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             $this->getResponse()->setBody($block->toHtml());
         } else {
             if (is_array($response)) {
-                $response = Mage::helper('core')->jsonEncode($response);
+                $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
             }
 
             $this->getResponse()->setBody($response);
@@ -441,13 +441,13 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         } catch (Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $this->__('Cannot add new comment.')
             );
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -547,7 +547,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             $shipment = $this->_initShipment();
             if ($this->_createShippingLabel($shipment)) {
                 $shipment->save();
-                $this->_getSession()->addSuccess(Mage::helper('sales')->__('The shipping label has been created.'));
+                $this->_getSession()->addSuccess(Mage::helper('Mage_Sales_Helper_Data')->__('The shipping label has been created.'));
                 $response->setOk(true);
             }
         } catch (Mage_Core_Exception $e) {
@@ -556,7 +556,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         } catch (Exception $e) {
             Mage::logException($e);
             $response->setError(true);
-            $response->setMessage(Mage::helper('sales')->__('An error occurred while creating shipping label.'));
+            $response->setMessage(Mage::helper('Mage_Sales_Helper_Data')->__('An error occurred while creating shipping label.'));
         }
 
         $this->getResponse()->setBody($response->toJson());
@@ -579,7 +579,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                     $pdf = new Zend_Pdf();
                     $page = $this->_createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->_getSession()->addError(Mage::helper('sales')->__('File extension not known or unsupported type in the following shipment: %s', $shipment->getIncrementId()));
+                        $this->_getSession()->addError(Mage::helper('Mage_Sales_Helper_Data')->__('File extension not known or unsupported type in the following shipment: %s', $shipment->getIncrementId()));
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();
@@ -596,7 +596,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()
-                ->addError(Mage::helper('sales')->__('An error occurred while creating shipping label.'));
+                ->addError(Mage::helper('Mage_Sales_Helper_Data')->__('An error occurred while creating shipping label.'));
        }
        $this->_redirect('*/sales_order_shipment/view', array(
            'shipment_id' => $this->getRequest()->getParam('shipment_id')
@@ -671,7 +671,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         } else {
             $createdFromPartErrorMsg = $createdFromOrders ? 'orders' : 'shipments';
             $this->_getSession()
-                ->addError(Mage::helper('sales')->__('There are no shipping labels related to selected %s.', $createdFromPartErrorMsg));
+                ->addError(Mage::helper('Mage_Sales_Helper_Data')->__('There are no shipping labels related to selected %s.', $createdFromPartErrorMsg));
         }
         if ($createdFromOrders) {
             $this->_redirect('*/sales_order/index');

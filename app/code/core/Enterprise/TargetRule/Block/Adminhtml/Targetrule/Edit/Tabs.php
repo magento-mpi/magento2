@@ -36,24 +36,24 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tabs extends Mage_Ad
         parent::__construct();
         $this->setId('targetrule_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('enterprise_targetrule')->__('Product Rule Information'));
+        $this->setTitle(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Product Rule Information'));
     }
 
     protected function _beforeToHtml()
     {
         $this->addTab('main_section', array(
-            'label'     => Mage::helper('enterprise_targetrule')->__('Rule Information'),
+            'label'     => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Rule Information'),
             'content'   => $this->getLayout()->createBlock('Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main')->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('conditions_section', array(
-            'label'     => Mage::helper('enterprise_targetrule')->__('Products to Match'),
+            'label'     => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Products to Match'),
             'content'   => $this->getLayout()->createBlock('Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions')->toHtml(),
         ));
 
         $this->addTab('targeted_products', array(
-            'label'     => Mage::helper('enterprise_targetrule')->__('Products to Display'),
+            'label'     => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Products to Display'),
             'content'   => $this->getLayout()->createBlock('Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions')->toHtml(),
         ));
 

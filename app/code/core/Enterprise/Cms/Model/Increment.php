@@ -75,7 +75,7 @@ class Enterprise_Cms_Model_Increment extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('enterprise_cms/increment');
+        $this->_init('Enterprise_Cms_Model_Resource_Increment');
     }
 
     /**

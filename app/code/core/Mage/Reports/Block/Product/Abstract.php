@@ -87,7 +87,7 @@ abstract class Mage_Reports_Block_Product_Abstract extends Mage_Catalog_Block_Pr
     {
         if (is_null($this->_indexModel)) {
             if (is_null($this->_indexName)) {
-                Mage::throwException(Mage::helper('reports')->__('Index model name must be defined'));
+                Mage::throwException(Mage::helper('Mage_Reports_Helper_Data')->__('Index model name must be defined'));
             }
 
             $this->_indexModel = Mage::getModel($this->_indexName);

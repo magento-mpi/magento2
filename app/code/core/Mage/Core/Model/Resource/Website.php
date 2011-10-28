@@ -52,7 +52,7 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
     {
         $this->_uniqueFields = array(array(
             'field' => 'code',
-            'title' => Mage::helper('core')->__('Website with the same code')
+            'title' => Mage::helper('Mage_Core_Helper_Data')->__('Website with the same code')
         ));
         return $this;
     }
@@ -66,7 +66,7 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $object->getCode())) {
-            Mage::throwException(Mage::helper('core')->__('Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'));
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'));
         }
 
         return parent::_beforeSave($object);

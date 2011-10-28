@@ -37,11 +37,11 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit extends Mage_Adminht
     public function __construct()
     {
         parent::__construct();
-        $this->_updateButton('save', 'label', Mage::helper('enterprise_targetrule')->__('Save Rule'));
-        $this->_updateButton('delete', 'label', Mage::helper('enterprise_targetrule')->__('Delete Rule'));
+        $this->_updateButton('save', 'label', Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Save Rule'));
+        $this->_updateButton('delete', 'label', Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Delete Rule'));
         $this->_addButton('save_and_continue_edit', array(
             'class' => 'save',
-            'label' => Mage::helper('enterprise_targetrule')->__('Save and Continue Edit'),
+            'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Save and Continue Edit'),
             'onclick'   => 'saveAndContinueEdit()',
         ), 3);
 
@@ -55,10 +55,10 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit extends Mage_Adminht
     {
         $rule = Mage::registry('current_target_rule');
         if ($rule && $rule->getRuleId()) {
-            return Mage::helper('enterprise_targetrule')->__("Edit Rule '%s'", $this->htmlEscape($rule->getName()));
+            return Mage::helper('Enterprise_TargetRule_Helper_Data')->__("Edit Rule '%s'", $this->htmlEscape($rule->getName()));
         }
         else {
-            return Mage::helper('enterprise_targetrule')->__('New Rule');
+            return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('New Rule');
         }
     }
 

@@ -254,11 +254,11 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     public function placeOrderAction()
     {
         try {
-            $requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds();
+            $requiredAgreements = Mage::helper('Mage_Checkout_Helper_Data')->getRequiredAgreementIds();
             if ($requiredAgreements) {
                 $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
                 if (array_diff($requiredAgreements, $postedAgreements)) {
-                    Mage::throwException(Mage::helper('paypal')->__('Please agree to all the terms and conditions before placing the order.'));
+                    Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Please agree to all the terms and conditions before placing the order.'));
                 }
             }
 
@@ -324,7 +324,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
         $quote = $this->_getQuote();
         if (!$quote->hasItems() || $quote->getHasError()) {
             $this->getResponse()->setHeader('HTTP/1.1','403 Forbidden');
-            Mage::throwException(Mage::helper('paypal')->__('Unable to initialize Express Checkout.'));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Unable to initialize Express Checkout.'));
         }
         $this->_checkout = Mage::getSingleton($this->_checkoutType, array(
             'config' => $this->_config,

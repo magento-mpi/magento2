@@ -52,7 +52,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
     {
         $this->_uniqueFields = array(array(
             'field' => 'rating_code',
-            'title' => /* Mage::helper('rating')->__('Rating with the same title')*/ ''
+            'title' => /* Mage::helper('Mage_Rating_Helper_Data')->__('Rating with the same title')*/ ''
         ));
         return $this;
     }
@@ -228,7 +228,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
     protected function _afterDelete(Mage_Core_Model_Abstract $object)
     {
         parent::_afterDelete($object);
-        if (!Mage::helper('rating')->isModuleEnabled('Mage_Review')) {
+        if (!Mage::helper('Mage_Rating_Helper_Data')->isModuleEnabled('Mage_Review')) {
             return $this;
         }
         $data = $this->_getEntitySummaryData($object);

@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset extends Mage_Core_
         foreach ($children as $name) {
             $block = $this->getLayout()->getBlock($name);
             if (!$block) {
-                Mage::throwException(Mage::helper('core')->__('Invalid block: %s', $name));
+                Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block: %s', $name));
             }
 
             $i++;

@@ -64,7 +64,7 @@ class Mage_Cms_Block_Widget_Block extends Mage_Core_Block_Template implements Ma
                 ->load($blockId);
             if ($block->getIsActive()) {
                 /* @var $helper Mage_Cms_Helper_Data */
-                $helper = Mage::helper('cms');
+                $helper = Mage::helper('Mage_Cms_Helper_Data');
                 $processor = $helper->getBlockTemplateProcessor();
                 $this->setText($processor->filter($block->getContent()));
             }

@@ -48,9 +48,9 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Bundle extends Mage_Bun
         $_prevOptionId  = '';
 
         /** @var $weeeHelper Mage_Weee_Helper_Data */
-        $weeeHelper = $this->helper('weee');
+        $weeeHelper = $this->helper('Mage_Weee_Helper_Data');
         /** @var $taxHelper Mage_Tax_Helper_Data */
-        $taxHelper  = $this->helper('tax');
+        $taxHelper  = $this->helper('Mage_Tax_Helper_Data');
 
         /** @var $itemXml Mage_XmlConnect_Model_Simplexml_Element */
         $itemXml    = $orderItemXmlObj->addChild('item');
@@ -98,7 +98,7 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Bundle extends Mage_Bun
                 }
             }
 
-            $objectXml->addCustomChild('sku', Mage::helper('core/string')->splitInjection($item->getSku()));
+            $objectXml->addCustomChild('sku', Mage::helper('Mage_Core_Helper_String')->splitInjection($item->getSku()));
 
             if ($isOption) {
                 $name = $this->getValueHtml($item);
@@ -116,7 +116,7 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Bundle extends Mage_Bun
 
                 // Price excluding tax
                 if ($taxHelper->displaySalesBothPrices() || $taxHelper->displaySalesPriceExclTax()) {
-                    Mage::helper('xmlconnect/customer_order')->addPriceAndSubtotalToXml(
+                    Mage::helper('Mage_XmlConnect_Helper_Customer_Order')->addPriceAndSubtotalToXml(
                         $this,
                         $parentItem,
                         $priceXml,
@@ -126,7 +126,7 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Bundle extends Mage_Bun
 
                 // Price including tax
                 if ($taxHelper->displaySalesBothPrices() || $taxHelper->displaySalesPriceInclTax()) {
-                    Mage::helper('xmlconnect/customer_order')->addPriceAndSubtotalToXml(
+                    Mage::helper('Mage_XmlConnect_Helper_Customer_Order')->addPriceAndSubtotalToXml(
                         $this, $parentItem, $priceXml, $subtotalXml, true
                     );
                 }
@@ -140,28 +140,28 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Bundle extends Mage_Bun
                 $qtyXml = $objectXml->addChild('qty');
                 if ($item->getQtyOrdered() > 0) {
                     $qtyXml->addCustomChild('value', $item->getQtyOrdered() * 1, array(
-                        'label' => Mage::helper('sales')->__('Ordered')
+                        'label' => Mage::helper('Mage_Sales_Helper_Data')->__('Ordered')
                     ));
                 }
                 if ($item->getQtyShipped() > 0 && !$this->isShipmentSeparately()) {
                     $qtyXml->addCustomChild('value', $item->getQtyShipped() * 1, array(
-                        'label' => Mage::helper('sales')->__('Shipped')
+                        'label' => Mage::helper('Mage_Sales_Helper_Data')->__('Shipped')
                     ));
                 }
                 if ($item->getQtyCanceled() > 0) {
                     $qtyXml->addCustomChild('value', $item->getQtyCanceled() * 1, array(
-                        'label' => Mage::helper('sales')->__('Canceled')
+                        'label' => Mage::helper('Mage_Sales_Helper_Data')->__('Canceled')
                     ));
                 }
                 if ($item->getQtyRefunded() > 0) {
                     $qtyXml->addCustomChild('value', $item->getQtyRefunded() * 1, array(
-                        'label' => Mage::helper('sales')->__('Refunded')
+                        'label' => Mage::helper('Mage_Sales_Helper_Data')->__('Refunded')
                     ));
                 }
             } elseif ($item->getQtyShipped() > 0 && $isOption && $this->isShipmentSeparately()) {
                 $qtyXml = $objectXml->addChild('qty');
                 $qtyXml->addCustomChild('value', $item->getQtyShipped() * 1, array(
-                    'label' => Mage::helper('sales')->__('Shipped')
+                    'label' => Mage::helper('Mage_Sales_Helper_Data')->__('Shipped')
                 ));
             }
         }
@@ -170,7 +170,7 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Bundle extends Mage_Bun
             $itemXml->addCustomChild('description', $parentItem->getDescription());
         }
 
-        Mage::helper('xmlconnect/customer_order')->addItemOptionsToXml($this, $itemXml);
+        Mage::helper('Mage_XmlConnect_Helper_Customer_Order')->addItemOptionsToXml($this, $itemXml);
     }
 
     /**
@@ -198,6 +198,6 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Bundle extends Mage_Bun
      */
     protected function _formatPrice($price)
     {
-        return Mage::helper('xmlconnect/customer_order')->formatPrice($this, $price);
+        return Mage::helper('Mage_XmlConnect_Helper_Customer_Order')->formatPrice($this, $price);
     }
 }

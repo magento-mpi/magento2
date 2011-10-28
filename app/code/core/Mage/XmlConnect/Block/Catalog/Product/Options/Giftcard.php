@@ -153,7 +153,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard extends Mage_XmlCon
         $priceModel = $product->getPriceModel();
 
         /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = Mage::helper('core');
+        $coreHelper = Mage::helper('Mage_Core_Helper_Data');
 
         $configValue = $this->getDefaultValue('giftcard_amount');
 
@@ -224,7 +224,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard extends Mage_XmlCon
         ));
 
         $senderFieldset->addField('giftcard_sender_name', 'text', array(
-            'label'     => Mage::helper('enterprise_giftcard')->__('Sender Name'),
+            'label'     => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Sender Name'),
             'required'  => 'true',
             'value'     => $this->getSenderName()
         ));
@@ -234,20 +234,20 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard extends Mage_XmlCon
         ));
 
         $recipientFieldset->addField('giftcard_recipient_name', 'text', array(
-            'label'     => Mage::helper('enterprise_giftcard')->__('Recipient Name'),
+            'label'     => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Recipient Name'),
             'required'  => 'true',
             'value'     => $this->getDefaultValue('giftcard_recipient_name')
         ));
 
         if ($this->isEmailAvailable($product)) {
             $senderFieldset->addField('giftcard_sender_email', 'email', array(
-                'label'     => Mage::helper('enterprise_giftcard')->__('Sender Email'),
+                'label'     => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Sender Email'),
                 'required'  => 'true',
                 'value'     => $this->getSenderEmail()
             ));
 
             $recipientFieldset->addField('giftcard_recipient_email', 'email', array(
-                'label'     => Mage::helper('enterprise_giftcard')->__('Recipient Email'),
+                'label'     => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Recipient Email'),
                 'required'  => 'true',
                 'value'     => $this->getDefaultValue('giftcard_recipient_email')
             ));
@@ -258,7 +258,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard extends Mage_XmlCon
                 Enterprise_GiftCard_Model_Giftcard::XML_PATH_MESSAGE_MAX_LENGTH
             );
             $recipientFieldset->addField('giftcard_message', 'textarea', array(
-                'label'     => Mage::helper('enterprise_giftcard')->__('Message'),
+                'label'     => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Message'),
                 'required'  => 'false',
                 'max_length'=> $messageMaxLength,
                 'value'     => $this->getDefaultValue('giftcard_message')

@@ -48,9 +48,9 @@ class Mage_Install_Block_State extends Mage_Core_Block_Template
     {
         if ($this->isDownloaderInstall()) {
             $steps = array(
-                Mage::helper('install')->__('Welcome'),
-                Mage::helper('install')->__('Validation'),
-                Mage::helper('install')->__('Magento Connect Manager Deployment'),
+                Mage::helper('Mage_Install_Helper_Data')->__('Welcome'),
+                Mage::helper('Mage_Install_Helper_Data')->__('Validation'),
+                Mage::helper('Mage_Install_Helper_Data')->__('Magento Connect Manager Deployment'),
             );
             return $steps; 
         } else {

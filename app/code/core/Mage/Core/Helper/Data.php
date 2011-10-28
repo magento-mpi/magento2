@@ -334,11 +334,11 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         $allow = true;
 
         $allowedIps = Mage::getStoreConfig(self::XML_PATH_DEV_ALLOW_IPS, $storeId);
-        $remoteAddr = Mage::helper('core/http')->getRemoteAddr();
+        $remoteAddr = Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr();
         if (!empty($allowedIps) && !empty($remoteAddr)) {
             $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
             if (array_search($remoteAddr, $allowedIps) === false
-                && array_search(Mage::helper('core/http')->getHttpHost(), $allowedIps) === false) {
+                && array_search(Mage::helper('Mage_Core_Helper_Http')->getHttpHost(), $allowedIps) === false) {
                 $allow = false;
             }
         }

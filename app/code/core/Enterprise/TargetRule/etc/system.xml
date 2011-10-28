@@ -29,7 +29,7 @@
     <sections>
         <catalog>
             <groups>
-                <enterprise_targetrule translate="label" module="enterprise_targetrule">
+                <enterprise_targetrule translate="label" module="Enterprise_TargetRule">
                     <label>Rule-Based Product Relations</label>
                     <show_in_default>1</show_in_default>
                     <show_in_website>0</show_in_website>

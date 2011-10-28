@@ -93,7 +93,7 @@ abstract class Enterprise_Pbridge_Block_Payment_Form_Abstract extends Mage_Payme
      */
     public function getSourceUrl()
     {
-        $sourceUrl = Mage::helper('enterprise_pbridge')->getGatewayFormUrl(array(
+        $sourceUrl = Mage::helper('Enterprise_Pbridge_Helper_Data')->getGatewayFormUrl(array(
             'redirect_url' => $this->getRedirectUrl(),
             'request_gateway_code' => $this->getOriginalCode()
         ), $this->getQuote());

@@ -43,6 +43,6 @@ class Enterprise_Customer_Model_Sales_Quote extends Enterprise_Customer_Model_Sa
      */
     protected function _construct()
     {
-        $this->_init('enterprise_customer/sales_quote');
+        $this->_init('Enterprise_Customer_Model_Resource_Sales_Quote');
     }
 }

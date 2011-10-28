@@ -40,7 +40,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml_
      */
     protected function _prepareForm()
     {
-        $helper = Mage::helper('importexport');
+        $helper = Mage::helper('Mage_ImportExport_Helper_Data');
         $form = new Varien_Data_Form(array(
             'id'      => 'edit_form',
             'action'  => $this->getUrl('*/*/validate'),

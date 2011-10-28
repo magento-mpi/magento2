@@ -40,7 +40,7 @@ class Enterprise_Search_Model_Search_Layer extends Mage_CatalogSearch_Model_Laye
         if (isset($this->_productCollections[$this->getCurrentCategory()->getId()])) {
             $collection = $this->_productCollections[$this->getCurrentCategory()->getId()];
         } else {
-            $collection = Mage::helper('catalogsearch')->getEngine()->getResultCollection();
+            $collection = Mage::helper('Mage_CatalogSearch_Helper_Data')->getEngine()->getResultCollection();
             $collection->setStoreId($this->getCurrentCategory()->getStoreId());
             $this->prepareProductCollection($collection);
             $this->_productCollections[$this->getCurrentCategory()->getId()] = $collection;
@@ -79,7 +79,7 @@ class Enterprise_Search_Model_Search_Layer extends Mage_CatalogSearch_Model_Laye
         $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
             ->setItemObjectClass('catalog/resource_eav_attribute');
 
-        if (Mage::helper('enterprise_search')->getTaxInfluence()) {
+        if (Mage::helper('Enterprise_Search_Helper_Data')->getTaxInfluence()) {
             $collection->removePriceFilter();
         }
 

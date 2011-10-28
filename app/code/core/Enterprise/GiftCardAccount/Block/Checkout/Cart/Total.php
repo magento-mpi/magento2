@@ -36,6 +36,6 @@ class Enterprise_GiftCardAccount_Block_Checkout_Cart_Total extends Mage_Checkout
 
     public function getQuoteGiftCards()
     {
-        return Mage::helper('enterprise_giftcardaccount')->getCards($this->_getQuote());
+        return Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($this->_getQuote());
     }
 }

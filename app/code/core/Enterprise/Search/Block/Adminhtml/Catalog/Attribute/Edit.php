@@ -40,6 +40,6 @@ class Enterprise_Search_Block_Adminhtml_Catalog_Attribute_Edit extends Mage_Admi
      */
     public function isThirdPartSearchEngine()
     {
-        return Mage::helper('enterprise_search')->isThirdPartSearchEngine();
+        return Mage::helper('Enterprise_Search_Helper_Data')->isThirdPartSearchEngine();
     }
 }

@@ -32,8 +32,8 @@ class Enterprise_Invitation_Model_Adminhtml_System_Config_Source_Boolean_Group
     public function toOptionArray()
     {
         return array(
-            1 => Mage::helper('enterprise_invitation')->__('Same as Inviter'),
-            0 => Mage::helper('enterprise_invitation')->__('Default Customer Group from System Configuration')
+            1 => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Same as Inviter'),
+            0 => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Default Customer Group from System Configuration')
         );
     }
 }

@@ -71,7 +71,7 @@ class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('review/review');
+        $this->_init('Mage_Review_Model_Resource_Review');
     }
 
     public function getProductCollection()
@@ -119,7 +119,7 @@ class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
     {
         $errors = array();
 
-        $helper = Mage::helper('customer');
+        $helper = Mage::helper('Mage_Customer_Helper_Data');
 
         if (!Zend_Validate::is($this->getTitle(), 'NotEmpty')) {
             $errors[] = $helper->__('Review summary can\'t be empty');

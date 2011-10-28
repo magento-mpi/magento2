@@ -152,7 +152,7 @@ class Enterprise_Logging_Model_Observer
         if (class_exists('Enterprise_Pci_Model_Observer', false) && $eventModel) {
             $exception = $observer->getException();
             if ($exception->getCode() == Enterprise_Pci_Model_Observer::ADMIN_USER_LOCKED) {
-                $eventModel->setInfo(Mage::helper('enterprise_logging')->__('User is locked'))->save();
+                $eventModel->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('User is locked'))->save();
             }
         }
     }
@@ -176,7 +176,7 @@ class Enterprise_Logging_Model_Observer
         }
         $request = Mage::app()->getRequest();
         return Mage::getSingleton('enterprise_logging/event')->setData(array(
-            'ip'         => Mage::helper('core/http')->getRemoteAddr(),
+            'ip'         => Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(),
             'user'       => $username,
             'user_id'    => $userId,
             'is_success' => $success,

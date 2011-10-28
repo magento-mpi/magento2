@@ -36,7 +36,7 @@ class Mage_Adminhtml_Media_UploaderController extends Mage_Adminhtml_Controller_
 
     public function uploadAction()
     {
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($_REQUEST));
+        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($_REQUEST));
     }
 
     public function indexAction()

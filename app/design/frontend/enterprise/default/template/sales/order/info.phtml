@@ -63,7 +63,7 @@
         <?php if ($_order->getShippingDescription()): ?>
             <?php echo $_order->getShippingDescription() ?>
         <?php else: ?>
-            <?php echo $this->helper('sales')->__('No shipping information available'); ?>
+            <?php echo $this->helper('Mage_Sales_Helper_Data')->__('No shipping information available'); ?>
         <?php endif; ?>
             </div>
         </div>

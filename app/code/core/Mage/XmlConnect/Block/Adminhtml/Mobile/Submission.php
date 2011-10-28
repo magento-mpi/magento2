@@ -49,7 +49,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission
         $this->removeButton('save');
         $this->removeButton('reset');
 
-        $app = Mage::helper('xmlconnect')->getApplication();
+        $app = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
         if ($app && $app->getIsResubmitAction()) {
             $label = $this->__('Resubmit App');
         } else {
@@ -82,7 +82,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission
         $this->getLayout()->getBlock('head')->addJs('scriptaculous/scriptaculous.js');
 
 
-        $deviceType = Mage::helper('xmlconnect')->getDeviceType();
+        $deviceType = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceType();
         switch ($deviceType) {
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE:
                 $this->getLayout()->getBlock('head')->addItem('skin_css', 'xmlconnect/mobile-home.css');
@@ -112,7 +112,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission
      */
     public function getHeaderText()
     {
-        $app = Mage::helper('xmlconnect')->getApplication();
+        $app = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
         if ($app && $app->getId()) {
             return $this->__('Submit App "%s"', $this->escapeHtml($app->getName()));
         }

@@ -34,14 +34,14 @@
         <td colspan="2"><div id="shipping_amount_adv"></div></td>
     </tr>
     <tr>
-        <td class="label"><?php echo $this->helper('sales')->__('Adjustment Refund') ?></td>
+        <td class="label"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Adjustment Refund') ?></td>
         <td><input type="text" name="creditmemo[adjustment_positive]" value="<?php echo $_source->getBaseAdjustmentFeePositive()*1 ?>" class="input-text not-negative-amount" style="width:60px;text-align:right" id="adjustment_positive" /></td>
     </tr>
     <tr>
         <td colspan="2"><div id="adjustment_positive_adv"></div></td>
     </tr>
     <tr>
-        <td class="label"><?php echo $this->helper('sales')->__('Adjustment Fee') ?></td>
+        <td class="label"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Adjustment Fee') ?></td>
         <td><input type="text" name="creditmemo[adjustment_negative]" value="<?php echo $_source->getBaseAdjustmentFeeNegative()*1 ?>" class="input-text not-negative-amount" style="width:60px;text-align:right" id="adjustment_negative"/></td>
     </tr>
     <tr>
@@ -50,7 +50,7 @@
     <script type="text/javascript">
     //<![CDATA[
     Validation.addAllThese([
-        ['not-negative-amount', '<?php echo $this->helper('sales')->__('Please enter positive number in this field.') ?>', function(v) {
+        ['not-negative-amount', '<?php echo $this->helper('Mage_Sales_Helper_Data')->__('Please enter positive number in this field.') ?>', function(v) {
             if(v.length)
                 return /^\s*\d+([,.]\d+)*\s*%?\s*$/.test(v);
             else

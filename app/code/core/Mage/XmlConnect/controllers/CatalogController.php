@@ -173,7 +173,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
     public function searchAction()
     {
         /** @var $_helper Mage_CatalogSearch_Helper_Data */
-        $_helper = Mage::helper('catalogsearch');
+        $_helper = Mage::helper('Mage_CatalogSearch_Helper_Data');
         $queryParam = str_replace('%20', ' ', $this->getRequest()->getParam('query'));
         $this->getRequest()->setParam($_helper->getQueryParamName(), $queryParam);
         /** @var $query Mage_CatalogSearch_Model_Query */
@@ -251,7 +251,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
     public function sendEmailAction()
     {
         /* @var $helper Mage_Sendfriend_Helper_Data */
-        $helper = Mage::helper('sendfriend');
+        $helper = Mage::helper('Mage_Sendfriend_Helper_Data');
         /* @var $session Mage_Customer_Model_Session */
         $session = Mage::getSingleton('customer/session');
 
@@ -290,7 +290,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
          * Initialize send friend model
          */
         $model  = Mage::getModel('sendfriend/sendfriend');
-        $model->setRemoteAddr(Mage::helper('core/http')->getRemoteAddr(true));
+        $model->setRemoteAddr(Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(true));
         $model->setCookie(Mage::app()->getCookie());
         $model->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 

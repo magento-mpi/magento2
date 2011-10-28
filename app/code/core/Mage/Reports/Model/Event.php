@@ -61,7 +61,7 @@ class Mage_Reports_Model_Event extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('reports/event');
+        $this->_init('Mage_Reports_Model_Resource_Event');
     }
 
     /**

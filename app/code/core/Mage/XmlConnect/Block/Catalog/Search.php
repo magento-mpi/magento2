@@ -45,9 +45,9 @@ class Mage_XmlConnect_Block_Catalog_Search extends Mage_XmlConnect_Block_Catalog
         $searchXmlObject  = Mage::getModel('xmlconnect/simplexml_element', '<search></search>');
         $filtersXmlObject = Mage::getModel('xmlconnect/simplexml_element', '<filters></filters>');
 
-        $helper = Mage::helper('catalogsearch');
+        $helper = Mage::helper('Mage_CatalogSearch_Helper_Data');
         if (method_exists($helper, 'getEngine')) {
-            $engine = Mage::helper('catalogsearch')->getEngine();
+            $engine = Mage::helper('Mage_CatalogSearch_Helper_Data')->getEngine();
             if ($engine instanceof Varien_Object) {
                 $isLayeredNavigationAllowed = $engine->isLeyeredNavigationAllowed();
             } else {

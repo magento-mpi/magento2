@@ -85,7 +85,7 @@ class Mage_Dataflow_Model_Batch extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('dataflow/batch');
+        $this->_init('Mage_Dataflow_Model_Resource_Batch');
     }
 
     /**

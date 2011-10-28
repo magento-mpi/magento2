@@ -115,7 +115,7 @@
     </admin>
     <default>
         <payment>
-            <pbridge translate="title" module="enterprise_pbridge">
+            <pbridge translate="title" module="Enterprise_Pbridge">
                 <model>enterprise_pbridge/payment_method_pbridge</model>
                 <title>Payment Bridge</title>
                 <debug>0</debug>

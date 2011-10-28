@@ -38,8 +38,8 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout()
             ->_setActiveMenu('catalog/tag')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Catalog'), Mage::helper('adminhtml')->__('Catalog'))
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Tags'), Mage::helper('adminhtml')->__('Tags'));
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Catalog'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Catalog'))
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Tags'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Tags'));
 
         return $this;
     }
@@ -80,7 +80,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
              ->_title($this->__('All Tags'));
 
         $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('All Tags'), Mage::helper('adminhtml')->__('All Tags'))
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Tags'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Tags'))
             ->_setActiveMenu('catalog/tag/all')
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Tag'))
             ->renderLayout();
@@ -129,7 +129,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         }
 
         if (! ($model = $this->_initTag())) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Wrong tag was specified.'));
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong tag was specified.'));
             return $this->_redirect('*/*/index', array('store' => $this->getRequest()->getParam('store')));
         }
 
@@ -163,14 +163,14 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             $data['store']              = $postData['store_id'];
 
             if (!$model = $this->_initTag()) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Wrong tag was specified.'));
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong tag was specified.'));
                 return $this->_redirect('*/*/index', array('store' => $data['store']));
             }
 
             $model->addData($data);
 
             if (isset($postData['tag_assigned_products'])) {
-                $productIds = Mage::helper('adminhtml/js')->decodeGridSerializedInput($postData['tag_assigned_products']);
+                $productIds = Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($postData['tag_assigned_products']);
                 $tagRelationModel = Mage::getModel('tag/tag_relation');
                 $tagRelationModel->addRelations($model, $productIds);
             }
@@ -178,7 +178,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             try {
                 $model->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('The tag has been saved.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The tag has been saved.'));
                 Mage::getSingleton('adminhtml/session')->setTagData(false);
 
                 if (($continue = $this->getRequest()->getParam('continue'))) {
@@ -210,12 +210,12 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         if ($model && $model->getId()) {
             try {
                 $model->delete();
-                $session->addSuccess(Mage::helper('adminhtml')->__('The tag has been deleted.'));
+                $session->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The tag has been deleted.'));
             } catch (Exception $e) {
                 $session->addError($e->getMessage());
             }
         } else {
-            $session->addError(Mage::helper('adminhtml')->__('Unable to find a tag to delete.'));
+            $session->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Unable to find a tag to delete.'));
         }
 
         $this->getResponse()->setRedirect($this->getUrl('*/tag/' . $this->getRequest()->getParam('ret', 'index')));
@@ -232,7 +232,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
              ->_title($this->__('Pending Tags'));
 
         $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Pending Tags'), Mage::helper('adminhtml')->__('Pending Tags'))
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Pending Tags'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Pending Tags'))
             ->_setActiveMenu('catalog/tag/pending')
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Pending'))
             ->renderLayout();

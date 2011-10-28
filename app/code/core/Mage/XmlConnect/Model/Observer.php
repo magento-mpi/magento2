@@ -90,7 +90,7 @@ class Mage_XmlConnect_Model_Observer
             || !$message->getExecTime())
         ) {
             $message->setExecTime(Mage::getSingleton('core/date')->gmtDate());
-            Mage::helper('xmlconnect')->sendBroadcastMessage($message);
+            Mage::helper('Mage_XmlConnect_Helper_Data')->sendBroadcastMessage($message);
             return true;
         }
 
@@ -111,7 +111,7 @@ class Mage_XmlConnect_Model_Observer
 
         foreach ($collection as $message) {
             if ($message->getId()) {
-                Mage::helper('xmlconnect')->sendBroadcastMessage($message);
+                Mage::helper('Mage_XmlConnect_Helper_Data')->sendBroadcastMessage($message);
                 $message->save();
             }
         }

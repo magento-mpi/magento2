@@ -31,7 +31,7 @@ class Enterprise_Rma_Block_Return_Create extends Enterprise_Rma_Block_Form
         $order = Mage::registry('current_order');
         $this->setOrder($order);
 
-        $items = Mage::helper('enterprise_rma')->getOrderItems($order);
+        $items = Mage::helper('Enterprise_Rma_Helper_Data')->getOrderItems($order);
         $this->setItems($items);
 
         $session = Mage::getSingleton('core/session');

@@ -60,13 +60,13 @@ class Mage_XmlConnect_Block_Checkout_Shipping_Method_Available
                     if ($_rate->getErrorMessage()) {
                         $rateXmlObj->addChild('error_message', $methodsXmlObj->xmlentities($_rate->getErrorMessage()));
                     } else {
-                        $price = Mage::helper('tax')->getShippingPrice(
+                        $price = Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice(
                             $_rate->getPrice(),
-                            Mage::helper('tax')->displayShippingPriceIncludingTax(),
+                            Mage::helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax(),
                             $this->getAddress()
                         );
                         $formattedPrice = $store->convertPrice($price, true, false);
-                        $rateXmlObj->addAttribute('price', Mage::helper('xmlconnect')->formatPriceForXml(
+                        $rateXmlObj->addAttribute('price', Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml(
                             $store->convertPrice($price, false, false)
                         ));
                         $rateXmlObj->addAttribute('formated_price', $formattedPrice);

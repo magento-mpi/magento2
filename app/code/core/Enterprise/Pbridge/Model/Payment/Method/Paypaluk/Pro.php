@@ -63,7 +63,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('payment')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance('pbridge');
             if ($this->_pbridgeMethodInstance) {
                 $this->_pbridgeMethodInstance->setOriginalMethodInstance($this->_pbridgePaymentMethod);
             }
@@ -156,7 +156,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk
     protected function _importCaptureResultToPayment($api, $payment)
     {
         $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(false);
-        $payment->setPreparedMessage(Mage::helper('enterprise_pbridge')->__(
+        $payment->setPreparedMessage(Mage::helper('Enterprise_Pbridge_Helper_Data')->__(
             'Payflow PNREF: #%s.',
             $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID)
         ));
@@ -177,7 +177,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk
                 ->setShouldCloseParentTransaction(!$canRefundMore)
                 ->setTransactionAdditionalInfo(self::TRANSPORT_PAYFLOW_TXN_ID, $api->getPayflowTrxid());
 
-        $payment->setPreparedMessage(Mage::helper('enterprise_pbridge')->__(
+        $payment->setPreparedMessage(Mage::helper('Enterprise_Pbridge_Helper_Data')->__(
             'Payflow PNREF: #%s.',
             $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID)
         ));

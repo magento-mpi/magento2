@@ -229,7 +229,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                             $sender = "$sender <$senderEmail>";
                         }
 
-                        $codeList = Mage::helper('enterprise_giftcard')->getEmailGeneratedItemsBlock()
+                        $codeList = Mage::helper('Enterprise_GiftCard_Helper_Data')->getEmailGeneratedItemsBlock()
                             ->setCodes($codes)
                             ->setIsRedeemable($isRedeemable)
                             ->setStore(Mage::app()->getStore($order->getStoreId()));
@@ -273,7 +273,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                 }
                 if ($hasFailedCodes) {
                     $url = Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/giftcardaccount');
-                    $message = Mage::helper('enterprise_giftcard')->__('Some of Gift Card Accounts were not generated properly. You can create Gift Card Accounts manually <a href="%s">here</a>.', $url);
+                    $message = Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Some of Gift Card Accounts were not generated properly. You can create Gift Card Accounts manually <a href="%s">here</a>.', $url);
 
                     Mage::getSingleton('adminhtml/session')->addError($message);
                 }

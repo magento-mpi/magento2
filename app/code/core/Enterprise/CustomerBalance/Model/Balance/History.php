@@ -62,7 +62,7 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
      */
     protected function _construct()
     {
-        $this->_init('enterprise_customerbalance/balance_history');
+        $this->_init('Enterprise_CustomerBalance_Model_Resource_Balance_History');
     }
 
     /**
@@ -73,11 +73,11 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
     public function getActionNamesArray()
     {
         return array(
-            self::ACTION_CREATED  => Mage::helper('enterprise_customerbalance')->__('Created'),
-            self::ACTION_UPDATED  => Mage::helper('enterprise_customerbalance')->__('Updated'),
-            self::ACTION_USED     => Mage::helper('enterprise_customerbalance')->__('Used'),
-            self::ACTION_REFUNDED => Mage::helper('enterprise_customerbalance')->__('Refunded'),
-            self::ACTION_REVERTED => Mage::helper('enterprise_customerbalance')->__('Reverted'),
+            self::ACTION_CREATED  => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Created'),
+            self::ACTION_UPDATED  => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Updated'),
+            self::ACTION_USED     => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Used'),
+            self::ACTION_REFUNDED => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Refunded'),
+            self::ACTION_REVERTED => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Reverted'),
         );
     }
 
@@ -90,7 +90,7 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
     {
         $balance = $this->getBalanceModel();
         if ((!$balance) || !$balance->getId()) {
-            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Balance history cannot be saved without existing balance.'));
+            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Balance history cannot be saved without existing balance.'));
         }
 
         $this->addData(array(
@@ -109,9 +109,9 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
                     if ($user = Mage::getSingleton('admin/session')->getUser()) {
                         if ($user->getUsername()) {
                             if (!trim($balance->getComment())){
-                                $this->setAdditionalInfo(Mage::helper('enterprise_customerbalance')->__('By admin: %s.', $user->getUsername()));
+                                $this->setAdditionalInfo(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('By admin: %s.', $user->getUsername()));
                             }else{
-                                $this->setAdditionalInfo(Mage::helper('enterprise_customerbalance')->__('By admin: %1$s. (%2$s)', $user->getUsername(), $balance->getComment()));
+                                $this->setAdditionalInfo(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('By admin: %1$s. (%2$s)', $user->getUsername(), $balance->getComment()));
                             }
                         }
                     }
@@ -121,23 +121,23 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
                 break;
             case self::ACTION_USED:
                 $this->_checkBalanceModelOrder($balance);
-                $this->setAdditionalInfo(Mage::helper('enterprise_customerbalance')->__('Order #%s', $balance->getOrder()->getIncrementId()));
+                $this->setAdditionalInfo(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Order #%s', $balance->getOrder()->getIncrementId()));
                 break;
             case self::ACTION_REFUNDED:
                 $this->_checkBalanceModelOrder($balance);
                 if ((!$balance->getCreditMemo()) || !$balance->getCreditMemo()->getIncrementId()) {
-                    Mage::throwException(Mage::helper('enterprise_customerbalance')->__('There is no creditmemo set to balance model.'));
+                    Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('There is no creditmemo set to balance model.'));
                 }
-                $this->setAdditionalInfo(Mage::helper('enterprise_customerbalance')->__('Order #%s, creditmemo #%s',
+                $this->setAdditionalInfo(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Order #%s, creditmemo #%s',
                     $balance->getOrder()->getIncrementId(), $balance->getCreditMemo()->getIncrementId()
                 ));
                 break;
             case self::ACTION_REVERTED:
                 $this->_checkBalanceModelOrder($balance);
-                $this->setAdditionalInfo(Mage::helper('enterprise_customerbalance')->__('Order #%s', $balance->getOrder()->getIncrementId()));
+                $this->setAdditionalInfo(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Order #%s', $balance->getOrder()->getIncrementId()));
                 break;
             default:
-                Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Unknown balance history action code'));
+                Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Unknown balance history action code'));
                 // break intentionally omitted
         }
         $this->setAction((int)$balance->getHistoryAction());
@@ -186,7 +186,7 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
     protected function _checkBalanceModelOrder($model)
     {
         if ((!$model->getOrder()) || !$model->getOrder()->getIncrementId()) {
-            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('There is no order set to balance model.'));
+            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('There is no order set to balance model.'));
         }
     }
 

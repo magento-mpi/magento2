@@ -135,7 +135,7 @@ class Mage_Adminhtml_Helper_Catalog_Product_Composite extends Mage_Core_Helper_A
             // Prepare buy request values
             $buyRequest = $configureResult->getBuyRequest();
             if ($buyRequest) {
-                Mage::helper('catalog/product')->prepareProductOptions($product, $buyRequest);
+                Mage::helper('Mage_Catalog_Helper_Product')->prepareProductOptions($product, $buyRequest);
             }
 
             $isOk = true;

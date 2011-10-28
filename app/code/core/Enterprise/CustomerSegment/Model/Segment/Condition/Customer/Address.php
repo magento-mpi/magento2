@@ -50,7 +50,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
         $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
             array(
                 'value' => $this->getType(),
-                'label' => Mage::helper('enterprise_customersegment')->__('Conditions Combination')
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions Combination')
             ),
             Mage::getModel($prefix.'default')->getNewChildSelectOptions(),
             Mage::getModel($prefix.'attributes')->getNewChildSelectOptions(),
@@ -66,7 +66,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('If Customer Addresses match %s of these Conditions:',
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Customer Addresses match %s of these Conditions:',
                 $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }

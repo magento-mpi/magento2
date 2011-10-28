@@ -59,7 +59,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     {
         $this->_uniqueFields = array(array(
             'field' => array('attribute_code', 'entity_type_id'),
-            'title' => Mage::helper('eav')->__('Attribute with the same code')
+            'title' => Mage::helper('Mage_Eav_Helper_Data')->__('Attribute with the same code')
         ));
         return $this;
     }
@@ -166,7 +166,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
         $frontendLabel = $object->getFrontendLabel();
         if (is_array($frontendLabel)) {
             if (!isset($frontendLabel[0]) || is_null($frontendLabel[0]) || $frontendLabel[0] == '') {
-                Mage::throwException(Mage::helper('eav')->__('Frontend label is not defined'));
+                Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('Frontend label is not defined'));
             }
             $object->setFrontendLabel($frontendLabel[0])
                    ->setStoreLabels($frontendLabel);
@@ -350,7 +350,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
 
                     // Default value
                     if (!isset($values[0])) {
-                        Mage::throwException(Mage::helper('eav')->__('Default option value is not defined'));
+                        Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('Default option value is not defined'));
                     }
 
                     $adapter->delete($optionValueTable, array('option_id =?' => $intOptionId));
@@ -480,7 +480,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
      */
     public function getAdditionalAttributeTable($entityTypeId)
     {
-        return Mage::getResourceSingleton('eav/entity_type')->getAdditionalAttributeTable($entityTypeId);
+        return Mage::getResourceSingleton('Mage_Eav_Model_Resource_Entity_Type')->getAdditionalAttributeTable($entityTypeId);
     }
 
     /**

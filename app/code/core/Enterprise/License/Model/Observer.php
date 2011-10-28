@@ -45,7 +45,7 @@ class Enterprise_License_Model_Observer
      */
     public function adminUserAuthenticateAfter()
     {
-        $enterprise_license=Mage::helper('enterprise_license');
+        $enterprise_license=Mage::helper('Enterprise_License_Helper_Data');
         if($enterprise_license->isIoncubeLoaded() && $enterprise_license->isIoncubeEncoded()) {
             $this->_calculateDaysLeftToExpired();
         }
@@ -60,7 +60,7 @@ class Enterprise_License_Model_Observer
      */
     public function preDispatch()
     {
-        $enterprise_license=Mage::helper('enterprise_license');
+        $enterprise_license=Mage::helper('Enterprise_License_Helper_Data');
         if($enterprise_license->isIoncubeLoaded() && $enterprise_license->isIoncubeEncoded()) {
             $lastCalculation = Mage::getSingleton('admin/session')->getDaysLeftBeforeExpired();
 
@@ -84,9 +84,9 @@ class Enterprise_License_Model_Observer
      */
     protected function _calculateDaysLeftToExpired()
     {
-        $enterprise_license=Mage::helper('enterprise_license');
+        $enterprise_license=Mage::helper('Enterprise_License_Helper_Data');
         if($enterprise_license->isIoncubeLoaded() && $enterprise_license->isIoncubeEncoded()) {
-            $licenseProperties = Mage::helper('enterprise_license')->getIoncubeLicenseProperties();
+            $licenseProperties = Mage::helper('Enterprise_License_Helper_Data')->getIoncubeLicenseProperties();
             $expiredDate = (string)$licenseProperties[self::EXPIRED_DATE_KEY]['value'];
 
             $expiredYear = (int)(substr($expiredDate, 0, 4));

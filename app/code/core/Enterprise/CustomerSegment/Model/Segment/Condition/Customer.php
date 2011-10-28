@@ -54,7 +54,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer
         $conditions = array_merge($conditions, Mage::getModel($prefix.'storecredit')->getNewChildSelectOptions());
         return array(
             'value' => $conditions,
-            'label'=>Mage::helper('enterprise_customersegment')->__('Customer')
+            'label'=>Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer')
         );
     }
 }

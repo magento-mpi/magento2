@@ -93,7 +93,7 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_Acc
         if (!Mage::registry('current_invitation')) {
             $invitation = Mage::getModel('enterprise_invitation/invitation');
             $invitation
-                ->loadByInvitationCode(Mage::helper('core')->urlDecode($this->getRequest()->getParam('invitation', false)))
+                ->loadByInvitationCode(Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('invitation', false)))
                 ->makeSureCanBeAccepted();
             Mage::register('current_invitation', $invitation);
         }
@@ -155,15 +155,15 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_Acc
                 $this->_getSession()->addError($e->getMessage())
                     ->setCustomerFormData($this->getRequest()->getPost());
             } else {
-                if (Mage::helper('customer')->isRegistrationAllowed()) {
+                if (Mage::helper('Mage_Customer_Helper_Data')->isRegistrationAllowed()) {
                     $this->_getSession()->addError(
-                        Mage::helper('enterprise_invitation')->__('Your invitation is not valid. Please create an account.')
+                        Mage::helper('Enterprise_Invitation_Helper_Data')->__('Your invitation is not valid. Please create an account.')
                     );
                     $this->_redirect('customer/account/create');
                     return;
                 } else {
                     $this->_getSession()->addError(
-                        Mage::helper('enterprise_invitation')->__('Your invitation is not valid. Please contact us at %s.', Mage::getStoreConfig('trans_email/ident_support/email'))
+                        Mage::helper('Enterprise_Invitation_Helper_Data')->__('Your invitation is not valid. Please contact us at %s.', Mage::getStoreConfig('trans_email/ident_support/email'))
                     );
                     $this->_redirect('customer/account/login');
                     return;
@@ -172,7 +172,7 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_Acc
         }
         catch (Exception $e) {
             $this->_getSession()->setCustomerFormData($this->getRequest()->getPost())
-                ->addException($e, Mage::helper('customer')->__('Unable to save the customer.'));
+                ->addException($e, Mage::helper('Mage_Customer_Helper_Data')->__('Unable to save the customer.'));
         }
 
         $this->_redirectError('');

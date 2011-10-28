@@ -55,7 +55,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquant
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('enterprise_customersegment')->__('Number of Cart Line Items'));
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Number of Cart Line Items'));
     }
 
     /**
@@ -66,7 +66,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquant
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('Number of Shopping Cart Line Items %s %s:',
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Number of Shopping Cart Line Items %s %s:',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }

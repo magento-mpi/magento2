@@ -45,7 +45,7 @@ class Mage_XmlConnect_Block_Customer_Order_Totals_Customerbalance
         $balance = $this->getSource()->getCustomerBalanceAmount();
         if ($balance) {
             $totalsXml->addCustomChild($this->getTotal()->getCode(), '-' . $this->_formatPrice($balance),
-                array('label' => Mage::helper('enterprise_giftcardaccount')->__('Store Credit'))
+                array('label' => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Store Credit'))
             );
         }
     }
@@ -58,6 +58,6 @@ class Mage_XmlConnect_Block_Customer_Order_Totals_Customerbalance
      */
     protected function _formatPrice($amount)
     {
-        return Mage::helper('xmlconnect/customer_order')->formatPrice($this, $amount);
+        return Mage::helper('Mage_XmlConnect_Helper_Customer_Order')->formatPrice($this, $amount);
     }
 }

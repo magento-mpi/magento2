@@ -53,11 +53,11 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
         $this->_uniqueFields = array(
             array(
                 'field' => 'email',
-                'title' => Mage::helper('adminhtml')->__('Email')
+                'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Email')
             ),
             array(
                 'field' => 'username',
-                'title' => Mage::helper('adminhtml')->__('User Name')
+                'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Name')
             ),
         );
         return $this;
@@ -151,7 +151,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
      */
     private function _encryptPassword($pwStr)
     {
-        return Mage::helper('core')->getHash($pwStr, 2);
+        return Mage::helper('Mage_Core_Helper_Data')->getHash($pwStr, 2);
     }
 
     /**

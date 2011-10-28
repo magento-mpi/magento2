@@ -34,15 +34,15 @@ class Enterprise_Logging_Model_Source_Frequency
         return array(
             array(
                 'value' => 1,
-                'label' => Mage::helper('enterprise_logging')->__('Daily')
+                'label' => Mage::helper('Enterprise_Logging_Helper_Data')->__('Daily')
             ),
             array(
                 'value' => 7,
-                'label' => Mage::helper('enterprise_logging')->__('Weekly')
+                'label' => Mage::helper('Enterprise_Logging_Helper_Data')->__('Weekly')
             ),
             array(
                 'value' => 30,
-                'label' => Mage::helper('enterprise_logging')->__('Monthly')
+                'label' => Mage::helper('Enterprise_Logging_Helper_Data')->__('Monthly')
             ),
         );
     }

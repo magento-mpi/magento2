@@ -37,7 +37,7 @@ class Mage_LoadTest_Model_Backend_Key extends Mage_Core_Model_Config_Data {
     {
         $key = $configData->getValue();
         if (empty($key)) {
-            Mage::throwException(Mage::helper('loadtest')->__('Authorization key cannot be empty.'));
+            Mage::throwException(Mage::helper('Mage_LoadTest_Helper_Data')->__('Authorization key cannot be empty.'));
         }
     }
 }

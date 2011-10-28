@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store
             return '';
         }
         elseif (in_array(0, $origStores) && count($origStores) == 1 && !$skipAllStoresLabel) {
-            return Mage::helper('adminhtml')->__('All Store Views');
+            return Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Store Views');
         }
 
         $data = $this->_getStoreModel()->getStoresStructure(false, $origStores);
@@ -149,7 +149,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store
         }
 
         if (in_array(0, $origStores) && !$skipAllStoresLabel) {
-            return Mage::helper('adminhtml')->__('All Store Views');
+            return Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Store Views');
         }
 
         $data = $this->_getStoreModel()->getStoresStructure(false, $origStores);

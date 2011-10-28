@@ -59,7 +59,7 @@ class Mage_Persistent_IndexController extends Mage_Core_Controller_Front_Action
      */
     protected function _getHelper()
     {
-        return Mage::helper('persistent/session');
+        return Mage::helper('Mage_Persistent_Helper_Session');
     }
 
     /**

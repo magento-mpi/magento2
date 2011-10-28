@@ -41,7 +41,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('catalogsearch/indexer_fulltext');
+        return Mage::getResourceSingleton('Mage_CatalogSearch_Model_Resource_Indexer_Fulltext');
     }
 
     /**
@@ -103,7 +103,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
      */
     public function getName()
     {
-        return Mage::helper('catalogsearch')->__('Catalog Search Index');
+        return Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Catalog Search Index');
     }
 
     /**
@@ -113,7 +113,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
      */
     public function getDescription()
     {
-        return Mage::helper('catalogsearch')->__('Rebuild Catalog product fulltext search index');
+        return Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Rebuild Catalog product fulltext search index');
     }
 
     /**

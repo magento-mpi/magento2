@@ -42,8 +42,8 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment extends Mage_Ad
     {
         $this->_controller = 'adminhtml_customersegment';
         $this->_blockGroup = 'enterprise_customersegment';
-        $this->_headerText = Mage::helper('enterprise_customersegment')->__('Manage Segments');
-        $this->_addButtonLabel = Mage::helper('enterprise_customersegment')->__('Add Segment');
+        $this->_headerText = Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Manage Segments');
+        $this->_addButtonLabel = Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Add Segment');
         parent::__construct();    
     }
 

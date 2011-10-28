@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-        <tax translate="label" module="tax">
+        <tax translate="label" module="Mage_Tax">
             <class>separator-top</class>
             <label>Tax</label>
             <tab>sales</tab>

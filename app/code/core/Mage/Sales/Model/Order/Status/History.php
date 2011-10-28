@@ -71,7 +71,7 @@ class Mage_Sales_Model_Order_Status_History extends Mage_Sales_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('sales/order_status_history');
+        $this->_init('Mage_Sales_Model_Resource_Order_Status_History');
     }
 
     /**

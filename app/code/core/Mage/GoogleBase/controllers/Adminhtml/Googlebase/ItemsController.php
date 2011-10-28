@@ -38,8 +38,8 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
     {
         $this->loadLayout()
             ->_setActiveMenu('catalog/googlebase/items')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Catalog'), Mage::helper('adminhtml')->__('Catalog'))
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Google Base'), Mage::helper('adminhtml')->__('Google Base'));
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Catalog'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Catalog'))
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Google Base'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Google Base'));
         return $this;
     }
 
@@ -57,10 +57,10 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
 
         if ($this->getRequest()->getParam('captcha_token') && $this->getRequest()->getParam('captcha_url')) {
             $contentBlock->setGbaseCaptchaToken(
-                Mage::helper('core')->urlDecode($this->getRequest()->getParam('captcha_token'))
+                Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('captcha_token'))
             );
             $contentBlock->setGbaseCaptchaUrl(
-                Mage::helper('core')->urlDecode($this->getRequest()->getParam('captcha_url'))
+                Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('captcha_url'))
             );
         }
 
@@ -72,7 +72,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
         }
 
         $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('googlebase')->__('Items'), Mage::helper('googlebase')->__('Items'))
+            ->_addBreadcrumb(Mage::helper('Mage_GoogleBase_Helper_Data')->__('Items'), Mage::helper('Mage_GoogleBase_Helper_Data')->__('Items'))
             ->_addContent($contentBlock)
             ->renderLayout();
     }
@@ -307,7 +307,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
         try {
             Mage::getModel('googlebase/service')->getClient(
                 $storeId,
-                Mage::helper('core')->urlDecode($this->getRequest()->getParam('captcha_token')),
+                Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('captcha_token')),
                 $this->getRequest()->getParam('user_confirm')
             );
             $this->_getSession()->addSuccess($this->__('Captcha has been confirmed.'));
@@ -334,8 +334,8 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
     {
         $this->_redirect('*/*/index',
             array('store' => $this->_getStore()->getId(),
-                'captcha_token' => Mage::helper('core')->urlEncode($e->getCaptchaToken()),
-                'captcha_url' => Mage::helper('core')->urlEncode($e->getCaptchaUrl())
+                'captcha_token' => Mage::helper('Mage_Core_Helper_Data')->urlEncode($e->getCaptchaToken()),
+                'captcha_url' => Mage::helper('Mage_Core_Helper_Data')->urlEncode($e->getCaptchaUrl())
             )
         );
     }

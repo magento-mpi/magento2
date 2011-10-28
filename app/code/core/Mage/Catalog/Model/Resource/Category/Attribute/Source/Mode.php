@@ -45,15 +45,15 @@ class Mage_Catalog_Model_Resource_Category_Attribute_Source_Mode extends Mage_Ea
             $this->_options = array(
                 array(
                     'value' => Mage_Catalog_Model_Category::DM_PRODUCT,
-                    'label' => Mage::helper('catalog')->__('Products only'),
+                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Products only'),
                 ),
                 array(
                     'value' => Mage_Catalog_Model_Category::DM_PAGE,
-                    'label' => Mage::helper('catalog')->__('Static block only'),
+                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Static block only'),
                 ),
                 array(
                     'value' => Mage_Catalog_Model_Category::DM_MIXED,
-                    'label' => Mage::helper('catalog')->__('Static block and products'),
+                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Static block and products'),
                 )
             );
         }

@@ -31,7 +31,7 @@
  * @see Mage_Review_Block_Product_View
  */
 ?>
-<?php $_helper = $this->helper('catalog/output'); ?>
+<?php $_helper = $this->helper('Mage_Catalog_Helper_Output'); ?>
 <?php $_product = $this->getProduct(); ?>
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
@@ -51,7 +51,7 @@
             </div>
 
             <?php if ($this->canEmailToFriend()): ?>
-                <p class="email-friend"><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
+                <p class="email-friend"><a href="<?php echo $this->helper('Mage_Catalog_Helper_Product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
             <?php endif; ?>
 
             <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
@@ -64,7 +64,7 @@
                 <div class="add-to-box">
                     <?php if($_product->isSaleable()): ?>
                         <?php echo $this->getChildHtml('addtocart') ?>
-                        <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+                        <?php if( $this->helper('Mage_Wishlist_Helper_Data')->isAllow() || $_compareUrl=$this->helper('Mage_Catalog_Helper_Product_Compare')->getAddUrl($_product)): ?>
                             <span class="or"><?php echo $this->__('OR') ?></span>
                         <?php endif; ?>
                     <?php endif; ?>

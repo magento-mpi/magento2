@@ -73,7 +73,7 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Rule
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('enterprise_reminder/rule');
+        $this->_init('Enterprise_Reminder_Model_Resource_Rule');
     }
 
     /**
@@ -163,10 +163,10 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Rule
         $translate = Mage::getSingleton('core/translate');
         $translate->setTranslateInline(false);
 
-        $identity = Mage::helper('enterprise_reminder')->getEmailIdentity();
+        $identity = Mage::helper('Enterprise_Reminder_Helper_Data')->getEmailIdentity();
 
         $this->_matchCustomers();
-        $limit = Mage::helper('enterprise_reminder')->getOneRunLimit();
+        $limit = Mage::helper('Enterprise_Reminder_Helper_Data')->getOneRunLimit();
 
         $recipients = $this->_getResource()->getCustomersForNotification($limit, $this->getRuleId());
 
@@ -223,7 +223,7 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Rule
      */
     protected function _matchCustomers()
     {
-        $threshold = Mage::helper('enterprise_reminder')->getSendFailureThreshold();
+        $threshold = Mage::helper('Enterprise_Reminder_Helper_Data')->getSendFailureThreshold();
 
         $currentDate = Mage::getModel('core/date')->date('Y-m-d');
         $rules = $this->getCollection()->addDateFilter($currentDate)

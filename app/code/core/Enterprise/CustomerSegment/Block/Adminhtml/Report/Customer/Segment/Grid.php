@@ -85,20 +85,20 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
         parent::_prepareColumns();
 
         $this->addColumn('segment_id', array(
-            'header'    => Mage::helper('enterprise_customersegment')->__('ID'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('ID'),
             'align'     =>'right',
             'width'     => 50,
             'index'     => 'segment_id',
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('enterprise_customersegment')->__('Segment Name'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segment Name'),
             'align'     =>'left',
             'index'     => 'name',
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('enterprise_customersegment')->__('Status'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Status'),
             'align'     => 'left',
             'width'     => 80,
             'index'     => 'is_active',
@@ -110,7 +110,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
         ));
 
         $this->addColumn('website', array(
-            'header'    => Mage::helper('enterprise_customersegment')->__('Website'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Website'),
             'align'     =>'left',
             'width'     => 200,
             'index'     => 'website_ids',
@@ -119,7 +119,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
         ));
 
         $this->addColumn('customer_count', array(
-            'header'    => Mage::helper('enterprise_customersegment')->__('Number of Customers'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Number of Customers'),
             'index'     =>'customer_count',
             'width'     => 200
         ));
@@ -136,15 +136,15 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
     {
         $this->setMassactionIdField('segment_id');
         $this->getMassactionBlock()->addItem('view', array(
-            'label'=> Mage::helper('enterprise_customersegment')->__('View Combined Report'),
+            'label'=> Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('View Combined Report'),
             'url'  => $this->getUrl('*/*/detail', array('_current'=>true)),
             'additional' => array(
                 'visibility' => array(
                          'name'     => 'view_mode',
                          'type'     => 'select',
                          'class'    => 'required-entry',
-                         'label'    => Mage::helper('enterprise_customersegment')->__('Set'),
-                         'values'   => Mage::helper('enterprise_customersegment')->getOptionsArray()
+                         'label'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Set'),
+                         'values'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->getOptionsArray()
                      )
              )
         ));

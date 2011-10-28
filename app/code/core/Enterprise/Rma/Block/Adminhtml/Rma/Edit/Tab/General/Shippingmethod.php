@@ -81,7 +81,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
      */
     protected function _getShippingAvailability()
     {
-        $carriers = Mage::helper('enterprise_rma')->getAllowedShippingCarriers($this->getRma()->getStoreId());
+        $carriers = Mage::helper('Enterprise_Rma_Helper_Data')->getAllowedShippingCarriers($this->getRma()->getStoreId());
         return !empty($carriers);
     }
 
@@ -107,7 +107,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         return Mage::app()
             ->getStore($this->getRma()->getStoreId())
             ->convertPrice(
-                Mage::helper('tax')->getShippingPrice(
+                Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice(
                     $price
                 ),
                 true,
@@ -147,7 +147,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         }
         $address    = $order->getShippingAddress();
         $shipperAddressCountryCode  = $address->getCountryId();
-        $recipientAddressCountryCode= Mage::helper('enterprise_rma')->getReturnAddressModel($storeId)->getCountryId();
+        $recipientAddressCountryCode= Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddressModel($storeId)->getCountryId();
 
         if (($carrierCode == 'fedex' || $carrierCode == 'dhl')
             && $shipperAddressCountryCode != $recipientAddressCountryCode) {
@@ -169,7 +169,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         return $this->getLayout()
             ->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('enterprise_rma')->__('Print Shipping Label'),
+                'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Print Shipping Label'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
             ))
             ->toHtml();
@@ -185,7 +185,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         return $this->getLayout()
             ->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('enterprise_rma')->__('Show Packages'),
+                'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Show Packages'),
                 'onclick' => 'showPackedWindow();'
             ))
             ->toHtml();
@@ -204,7 +204,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         return $this->getLayout()
             ->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('enterprise_rma')->__('Print'),
+                'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Print'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
             ))
             ->toHtml();
@@ -219,7 +219,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     public function getContainerTypeByCode($code)
     {
         $carrierCode= $this->getShipment()->getCarrierCode();
-        $carrier    = Mage::helper('enterprise_rma')->getCarrier($carrierCode, $this->getRma()->getStoreId());
+        $carrier    = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($carrierCode, $this->getRma()->getStoreId());
         if ($carrier) {
             $containerTypes = $carrier->getContainerTypes();
             $containerType = !empty($containerTypes[$code]) ? $containerTypes[$code] : '';
@@ -237,9 +237,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     public function getDeliveryConfirmationTypeByCode($code)
     {
         $storeId    = $this->getRma()->getStoreId();
-        $countryId  = Mage::helper('enterprise_rma')->getReturnAddressModel($storeId)->getCountryId();
+        $countryId  = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddressModel($storeId)->getCountryId();
         $carrierCode= $this->getShipment()->getCarrierCode();
-        $carrier    = Mage::helper('enterprise_rma')->getCarrier($carrierCode, $this->getRma()->getStoreId());
+        $carrier    = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($carrierCode, $this->getRma()->getStoreId());
         if ($carrier) {
             $params = new Varien_Object(array('country_recipient' => $countryId));
             $confirmationTypes = $carrier->getDeliveryConfirmationTypes($params);
@@ -287,7 +287,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         $address    = $order->getShippingAddress();
 
         $carrierCode= $this->getShipment()->getCarrierCode();
-        $carrier    = Mage::helper('enterprise_rma')->getCarrier($carrierCode, $storeId);
+        $carrier    = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($carrierCode, $storeId);
 
         $countryShipper = Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {

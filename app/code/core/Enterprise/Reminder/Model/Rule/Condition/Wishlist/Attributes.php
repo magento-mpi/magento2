@@ -91,7 +91,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes
 
         return array(
             'value' => $conditions,
-            'label' => Mage::helper('enterprise_reminder')->__('Product Attributes')
+            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Product Attributes')
         );
     }
 
@@ -102,7 +102,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes
      */
     public function asHtml()
     {
-        return Mage::helper('enterprise_reminder')->__('Product %s', strtolower(parent::asHtml()));
+        return Mage::helper('Enterprise_Reminder_Helper_Data')->__('Product %s', strtolower(parent::asHtml()));
     }
 
     /**
@@ -122,7 +122,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('enterprise_reminder/rule');
+        return Mage::getResourceSingleton('Enterprise_Reminder_Model_Resource_Rule');
     }
 
     /**

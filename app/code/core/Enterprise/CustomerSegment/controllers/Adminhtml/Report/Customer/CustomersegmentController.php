@@ -51,12 +51,12 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
         $this->loadLayout()
             ->_setActiveMenu('report/customers')
             ->_addBreadcrumb(
-                Mage::helper('enterprise_customersegment')->__('Reports'),
-                Mage::helper('enterprise_customersegment')->__('Reports')
+                Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Reports'),
+                Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Reports')
             )
             ->_addBreadcrumb(
-                Mage::helper('enterprise_customersegment')->__('Customers'),
-                Mage::helper('enterprise_customersegment')->__('Customers')
+                Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customers'),
+                Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customers')
             );
         return $this;
     }
@@ -160,7 +160,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
                 }
                 /* @translation $this->__('Viewing combined "%s" report from segments: %s') */
                 if ($segments) {
-                    $viewModeLabel = Mage::helper('enterprise_customersegment')->getViewModeLabel(
+                    $viewModeLabel = Mage::helper('Enterprise_CustomerSegment_Helper_Data')->getViewModeLabel(
                         $this->_getAdminSession()->getViewMode()
                     );
                     Mage::getSingleton('adminhtml/session')->addNotice(
@@ -270,6 +270,6 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
     protected function _isAllowed()
     {
         return  Mage::getSingleton('admin/session')->isAllowed('customer/customersegment')
-                && Mage::helper('enterprise_customersegment')->isEnabled();
+                && Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled();
     }
 }

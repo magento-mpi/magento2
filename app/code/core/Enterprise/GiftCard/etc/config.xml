@@ -62,7 +62,7 @@
         <catalog>
             <product>
                 <type>
-                    <giftcard translate="label" module="enterprise_giftcard">
+                    <giftcard translate="label" module="Enterprise_GiftCard">
                         <label>Gift Card</label>
                         <model>enterprise_giftcard/catalog_product_type_giftcard</model>
                         <price_model>enterprise_giftcard/catalog_product_price_giftcard</price_model>
@@ -76,7 +76,7 @@
         </catalog>
         <template>
             <email>
-                <giftcard_email_template translate="label" module="enterprise_giftcard">
+                <giftcard_email_template translate="label" module="Enterprise_GiftCard">
                     <label>Gift Card Accounts Generated From Gift Card</label>
                     <file>enterprise/giftcard_generated.html</file>
                     <type>html</type>
@@ -132,7 +132,7 @@
     <frontend>
         <layout>
             <updates>
-                <enterprise_giftcard module="Enterprise_GiftCard">
+                <enterprise_giftcard module="Mage_Enterprise_GiftCard">
                     <file>giftcard.xml</file>
                 </enterprise_giftcard>
             </updates>

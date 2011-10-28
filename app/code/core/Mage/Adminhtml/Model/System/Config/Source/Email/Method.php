@@ -39,11 +39,11 @@ class Mage_Adminhtml_Model_System_Config_Source_Email_Method
         $options    = array(
             array(
                 'value' => 'bcc',
-                'label' => Mage::helper('adminhtml')->__('Bcc')
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Bcc')
             ),
             array(
                 'value' => 'copy',
-                'label' => Mage::helper('adminhtml')->__('Separate Email')
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Separate Email')
             ),
         );
         return $options;

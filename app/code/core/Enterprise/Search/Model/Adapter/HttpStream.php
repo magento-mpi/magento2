@@ -63,7 +63,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
      */
     protected function _connect($options = array())
     {
-        $helper = Mage::helper('enterprise_search');
+        $helper = Mage::helper('Enterprise_Search_Helper_Data');
         $def_options = array(
             'hostname' => $helper->getSolrConfigData('server_hostname'),
             'login'    => $helper->getSolrConfigData('server_username'),
@@ -202,7 +202,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         if ($_params['store_id'] > 0) {
             $searchParams['fq'][] = 'store_id:' . $_params['store_id'];
         }
-        if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
+        if (!Mage::helper('Mage_CatalogInventory_Helper_Data')->isShowOutOfStock()) {
             $searchParams['fq'][] = 'in_stock:true';
         }
 

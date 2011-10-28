@@ -47,7 +47,7 @@ class Mage_ProductAlert_Block_Product_View extends Mage_Core_Block_Template
             $this->setTemplate('');
             return;
         }
-        $this->setSignupUrl(Mage::helper('productalert')->getSaveUrl('stock'));
+        $this->setSignupUrl(Mage::helper('Mage_ProductAlert_Helper_Data')->getSaveUrl('stock'));
     }
 
     /**
@@ -61,7 +61,7 @@ class Mage_ProductAlert_Block_Product_View extends Mage_Core_Block_Template
             $this->setTemplate('');
             return;
         }
-        $this->setSignupUrl(Mage::helper('productalert')->getSaveUrl('price'));
+        $this->setSignupUrl(Mage::helper('Mage_ProductAlert_Helper_Data')->getSaveUrl('price'));
     }
 
     /**

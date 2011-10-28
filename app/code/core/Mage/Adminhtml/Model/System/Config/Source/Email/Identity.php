@@ -39,7 +39,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Email_Identity
                 $sortOrder  = (int) $node->sort_order;
                 $this->_options[$sortOrder] = array(
                     'value' => preg_replace('#^ident_(.*)$#', '$1', $nodeName),
-                    'label' => Mage::helper('adminhtml')->__($label)
+                    'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__($label)
                 );
             }
             ksort($this->_options);

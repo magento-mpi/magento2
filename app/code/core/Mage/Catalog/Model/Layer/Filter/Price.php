@@ -160,7 +160,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
         $fromPrice  = $store->formatPrice(($value-1)*$range);
         $toPrice    = $store->formatPrice($value*$range);
 
-        return Mage::helper('catalog')->__('%s - %s', $fromPrice, $toPrice);
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('%s - %s', $fromPrice, $toPrice);
     }
 
     /**

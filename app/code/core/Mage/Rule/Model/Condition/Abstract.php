@@ -104,16 +104,16 @@ abstract class Mage_Rule_Model_Condition_Abstract
     {
         if (null === $this->_defaultOperatorOptions) {
             $this->_defaultOperatorOptions = array(
-                '=='  => Mage::helper('rule')->__('is'),
-                '!='  => Mage::helper('rule')->__('is not'),
-                '>='  => Mage::helper('rule')->__('equals or greater than'),
-                '<='  => Mage::helper('rule')->__('equals or less than'),
-                '>'   => Mage::helper('rule')->__('greater than'),
-                '<'   => Mage::helper('rule')->__('less than'),
-                '{}'  => Mage::helper('rule')->__('contains'),
-                '!{}' => Mage::helper('rule')->__('does not contain'),
-                '()'  => Mage::helper('rule')->__('is one of'),
-                '!()' => Mage::helper('rule')->__('is not one of')
+                '=='  => Mage::helper('Mage_Rule_Helper_Data')->__('is'),
+                '!='  => Mage::helper('Mage_Rule_Helper_Data')->__('is not'),
+                '>='  => Mage::helper('Mage_Rule_Helper_Data')->__('equals or greater than'),
+                '<='  => Mage::helper('Mage_Rule_Helper_Data')->__('equals or less than'),
+                '>'   => Mage::helper('Mage_Rule_Helper_Data')->__('greater than'),
+                '<'   => Mage::helper('Mage_Rule_Helper_Data')->__('less than'),
+                '{}'  => Mage::helper('Mage_Rule_Helper_Data')->__('contains'),
+                '!{}' => Mage::helper('Mage_Rule_Helper_Data')->__('does not contain'),
+                '()'  => Mage::helper('Mage_Rule_Helper_Data')->__('is one of'),
+                '!()' => Mage::helper('Mage_Rule_Helper_Data')->__('is not one of')
             );
         }
         return $this->_defaultOperatorOptions;
@@ -236,8 +236,8 @@ abstract class Mage_Rule_Model_Condition_Abstract
     public function loadValueOptions()
     {
 //        $this->setValueOption(array(
-//            true  => Mage::helper('rule')->__('TRUE'),
-//            false => Mage::helper('rule')->__('FALSE'),
+//            true  => Mage::helper('Mage_Rule_Helper_Data')->__('TRUE'),
+//            false => Mage::helper('Mage_Rule_Helper_Data')->__('FALSE'),
 //        ));
         $this->setValueOption(array());
         return $this;
@@ -336,7 +336,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
     public function getNewChildSelectOptions()
     {
         return array(
-            array('value'=>'', 'label'=>Mage::helper('rule')->__('Please choose a condition to add...')),
+            array('value'=>'', 'label'=>Mage::helper('Mage_Rule_Helper_Data')->__('Please choose a condition to add...')),
         );
     }
 
@@ -480,14 +480,14 @@ abstract class Mage_Rule_Model_Condition_Abstract
     public function getAddLinkHtml()
     {
         $src = Mage::getDesign()->getSkinUrl('images/rule_component_add.gif');
-        $html = '<img src="' . $src . '" class="rule-param-add v-middle" alt="" title="' . Mage::helper('rule')->__('Add') . '"/>';
+        $html = '<img src="' . $src . '" class="rule-param-add v-middle" alt="" title="' . Mage::helper('Mage_Rule_Helper_Data')->__('Add') . '"/>';
         return $html;
     }
 
     public function getRemoveLinkHtml()
     {
         $src = Mage::getDesign()->getSkinUrl('images/rule_component_remove.gif');
-        $html = ' <span class="rule-param"><a href="javascript:void(0)" class="rule-param-remove" title="' . Mage::helper('rule')->__('Remove') . '"><img src="' . $src . '"  alt="" class="v-middle" /></a></span>';
+        $html = ' <span class="rule-param"><a href="javascript:void(0)" class="rule-param-remove" title="' . Mage::helper('Mage_Rule_Helper_Data')->__('Remove') . '"><img src="' . $src . '"  alt="" class="v-middle" /></a></span>';
         return $html;
     }
 

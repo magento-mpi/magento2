@@ -98,7 +98,7 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Grid extends Mage_Adminhtml_Block
             'index'     => 'app.code',
             'type'      => 'options',
             'align'     => 'left',
-            'options'   => Mage::helper('xmlconnect')->getApplications(),
+            'options'   => Mage::helper('Mage_XmlConnect_Helper_Data')->getApplications(),
             'renderer'  => 'Mage_XmlConnect_Block_Adminhtml_Template_Grid_Renderer_Application',
             'escape'    => true
         ));

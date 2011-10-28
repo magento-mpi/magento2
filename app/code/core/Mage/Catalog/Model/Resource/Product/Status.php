@@ -92,7 +92,7 @@ class Mage_Catalog_Model_Resource_Product_Status extends Mage_Core_Model_Resourc
             return $this;
         }
 
-        Mage::getResourceSingleton('catalog/product')->refreshEnabledIndex($storeId, $productId);
+        Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product')->refreshEnabledIndex($storeId, $productId);
 
         return $this;
     }

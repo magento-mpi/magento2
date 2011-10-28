@@ -41,7 +41,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('enterprise_catalogevent')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CatalogEvent_Helper_Data')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
@@ -57,8 +57,8 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
     public function _initAction()
     {
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('catalog')->__('Catalog'), Mage::helper('catalog')->__('Catalog'))
-            ->_addBreadcrumb(Mage::helper('enterprise_catalogevent')->__('Events'), Mage::helper('enterprise_catalogevent')->__('Events'))
+            ->_addBreadcrumb(Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'), Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'))
+            ->_addBreadcrumb(Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Events'), Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Events'))
             ->_setActiveMenu('catalog/enterprise_catelogevent');
         return $this;
     }
@@ -120,7 +120,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
             if (!$event->getId() || Mage::app()->isSingleStoreMode()) {
                 $switchBlock->getParentBlock()->unsetChild('store_switcher');
             } else {
-                $switchBlock->setDefaultStoreName(Mage::helper('enterprise_catalogevent')->__('Default Values'))
+                $switchBlock->setDefaultStoreName(Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Default Values'))
                     ->setSwitchUrl($this->getUrl('*/*/*', array('_current' => true, 'store' => null)));
             }
         }
@@ -148,7 +148,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
 
         if (!isset($postData['catalogevent'])) {
             $this->_getSession()->addError(
-                Mage::helper('enterprise_catalogevent')->__('An error occurred while saving this event.')
+                Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('An error occurred while saving this event.')
             );
             $this->_redirect('*/*/edit', array('_current' => true));
             return;
@@ -192,14 +192,14 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
                     $event->setImage($uploader);
                 } catch (Exception $e) {
                     Mage::throwException(
-                        Mage::helper('enterprise_catalogevent')->__('Image was not uploaded.')
+                        Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Image was not uploaded.')
                     );
                 }
             }
             $event->save();
 
             $this->_getSession()->addSuccess(
-                Mage::helper('enterprise_catalogevent')->__('Event has been saved.')
+                Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Event has been saved.')
             );
             if ($this->getRequest()->getParam('_continue')) {
                 $this->_redirect('*/*/edit', array('_current' => true, 'id' => $event->getId()));
@@ -228,7 +228,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
             try {
                 $event->delete();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('enterprise_catalogevent')->__('Event has been deleted.')
+                    Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Event has been deleted.')
                 );
                 if ($this->getRequest()->getParam('category')) {
                     $this->_redirect('*/catalog_category/edit', array('id' => $event->getCategoryId(), 'clear' => 1));

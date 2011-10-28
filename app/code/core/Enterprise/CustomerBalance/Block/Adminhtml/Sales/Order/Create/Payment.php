@@ -64,7 +64,7 @@ extends Mage_Core_Block_Template
      */
     public function getBalance()
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled() || !$this->_getBalanceInstance()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled() || !$this->_getBalanceInstance()) {
             return 0.0;
         }
         return $this->_getBalanceInstance()->getAmount();

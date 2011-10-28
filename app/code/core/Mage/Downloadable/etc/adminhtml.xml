@@ -34,7 +34,7 @@
                         <children>
                             <config>
                                 <children>
-                                    <downloadable translate="title" module="downloadable">
+                                    <downloadable translate="title" module="Mage_Downloadable">
                                         <title>Downloadable product Section</title>
                                     </downloadable>
                                 </children>

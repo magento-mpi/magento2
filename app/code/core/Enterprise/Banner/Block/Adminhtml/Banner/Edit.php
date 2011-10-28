@@ -38,11 +38,11 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit extends Mage_Adminhtml_Block
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('enterprise_banner')->__('Save Banner'));
-        $this->_updateButton('delete', 'label', Mage::helper('enterprise_banner')->__('Delete Banner'));
+        $this->_updateButton('save', 'label', Mage::helper('Enterprise_Banner_Helper_Data')->__('Save Banner'));
+        $this->_updateButton('delete', 'label', Mage::helper('Enterprise_Banner_Helper_Data')->__('Delete Banner'));
 
         $this->_addButton('save_and_edit_button', array(
-                'label'   => Mage::helper('enterprise_banner')->__('Save and Continue Edit'),
+                'label'   => Mage::helper('Enterprise_Banner_Helper_Data')->__('Save and Continue Edit'),
                 'onclick' => 'saveAndContinueEdit()',
                 'class'   => 'save'
             ), 100
@@ -69,7 +69,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit extends Mage_Adminhtml_Block
         if (Mage::registry('current_banner')->getId()) {
             return $this->htmlEscape(Mage::registry('current_banner')->getName());
         } else {
-            return Mage::helper('enterprise_banner')->__('New Banner');
+            return Mage::helper('Enterprise_Banner_Helper_Data')->__('New Banner');
         }
     }
 

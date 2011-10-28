@@ -37,11 +37,11 @@ class Mage_Eav_Model_Entity_Attribute_Source_Boolean extends Mage_Eav_Model_Enti
         if (is_null($this->_options)) {
             $this->_options = array(
                 array(
-                    'label' => Mage::helper('eav')->__('Yes'),
+                    'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Yes'),
                     'value' =>  1
                 ),
                 array(
-                    'label' => Mage::helper('eav')->__('No'),
+                    'label' => Mage::helper('Mage_Eav_Helper_Data')->__('No'),
                     'value' =>  0
                 ),
             );
@@ -94,7 +94,7 @@ class Mage_Eav_Model_Entity_Attribute_Source_Boolean extends Mage_Eav_Model_Enti
             'extra'     => null
         );
 
-        if (Mage::helper('core')->useDbCompatibleMode()) {
+        if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
             $column['type']     = 'tinyint(1)';
             $column['is_null']  = true;
         } else {

@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_System_Design_Grid extends Mage_Adminhtml_Block_Widge
     {
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'        => Mage::helper('catalog')->__('Store'),
+                'header'        => Mage::helper('Mage_Catalog_Helper_Data')->__('Store'),
                 'width'         => '100px',
                 'type'          => 'store',
                 'store_view'    => true,
@@ -80,12 +80,12 @@ class Mage_Adminhtml_Block_System_Design_Grid extends Mage_Adminhtml_Block_Widge
         }
 
         $this->addColumn('package', array(
-                'header'    => Mage::helper('catalog')->__('Design'),
+                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Design'),
                 'width'     => '150px',
                 'index'     => 'design',
         ));
         $this->addColumn('date_from', array(
-            'header'    => Mage::helper('catalogrule')->__('Date From'),
+            'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Date From'),
             'align'     => 'left',
             'width'     => '100px',
             'type'      => 'date',
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_System_Design_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('date_to', array(
-            'header'    => Mage::helper('catalogrule')->__('Date To'),
+            'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Date To'),
             'align'     => 'left',
             'width'     => '100px',
             'type'      => 'date',

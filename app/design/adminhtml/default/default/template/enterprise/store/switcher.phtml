@@ -28,7 +28,7 @@
 <?php if ($_websiteCollection->getSize()): ?>
 <p class="switcher"><label for="store_switcher"><?php echo $this->__('Choose Store View') ?>:</label>
 <select name="store_switcher" id="store_switcher" class="left-col-block" onchange="return switchStore(this);">
-    <?php if( $this->helper('permissions')->isSuperAdmin() ):?>
+    <?php if( $this->helper('Mage_Permissions_Helper_Data')->isSuperAdmin() ):?>
         <option value=""><?php echo $this->getDefaultStoreName() ?></option>
     <?php endif;?>
     <?php foreach ($_websiteCollection as $_website): ?>
@@ -36,8 +36,8 @@
         <?php foreach ($this->getGroupCollection($_website) as $_group): ?>
             <?php $showGroup=false; ?>
             <?php foreach ($this->getStoreCollection($_group) as $_store): ?>
-                <?php if( !$this->helper('permissions')->isSuperAdmin()
-                      && !in_array($_store->getId(), $this->helper('permissions')->getAllowedStoreViews()) ):
+                <?php if( !$this->helper('Mage_Permissions_Helper_Data')->isSuperAdmin()
+                      && !in_array($_store->getId(), $this->helper('Mage_Permissions_Helper_Data')->getAllowedStoreViews()) ):
                       continue;
                 endif;?>
                 <?php if ($showWebsite == false): ?>

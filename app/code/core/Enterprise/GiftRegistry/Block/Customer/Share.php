@@ -40,7 +40,7 @@ class Enterprise_GiftRegistry_Block_Customer_Share
     public function getFormHeader()
     {
         $formHeader  = $this->escapeHtml($this->getEntity()->getTitle());
-        return Mage::helper('enterprise_giftregistry')->__("Share '%s' Gift Registry", $formHeader);
+        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__("Share '%s' Gift Registry", $formHeader);
     }
 
     /**
@@ -70,7 +70,7 @@ class Enterprise_GiftRegistry_Block_Customer_Share
      */
     public function getRecipientsLimit()
     {
-        return (int)Mage::helper('enterprise_giftregistry')->getRecipientsLimit();
+        return (int)Mage::helper('Enterprise_GiftRegistry_Helper_Data')->getRecipientsLimit();
     }
 
     /**

@@ -103,7 +103,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isMinQueryLength()
     {
-        if (Mage::helper('core/string')->strlen($this->getQueryText()) < $this->getMinQueryLength()) {
+        if (Mage::helper('Mage_Core_Helper_String')->strlen($this->getQueryText()) < $this->getMinQueryLength()) {
             return true;
         }
         return false;
@@ -125,10 +125,10 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
                     $this->_queryText = null;
                 }
                 $this->_queryText = trim($this->_queryText);
-                $this->_queryText = Mage::helper('core/string')->cleanString($this->_queryText);
+                $this->_queryText = Mage::helper('Mage_Core_Helper_String')->cleanString($this->_queryText);
 
-                if (Mage::helper('core/string')->strlen($this->_queryText) > $this->getMaxQueryLength()) {
-                    $this->_queryText = Mage::helper('core/string')->substr(
+                if (Mage::helper('Mage_Core_Helper_String')->strlen($this->_queryText) > $this->getMaxQueryLength()) {
+                    $this->_queryText = Mage::helper('Mage_Core_Helper_String')->substr(
                         $this->_queryText,
                         0,
                         $this->getMaxQueryLength()
@@ -286,7 +286,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
             $this->addNoteMessage($this->__('Maximum Search query  length is %s. Your query was cut.', $this->getMaxQueryLength()));
         }
 
-        $stringHelper = Mage::helper('core/string');
+        $stringHelper = Mage::helper('Mage_Core_Helper_String');
         /* @var $stringHelper Mage_Core_Helper_String */
 
         $searchType = Mage::getStoreConfig(Mage_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
@@ -354,7 +354,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
                 }
             }
             if (!$this->_engine) {
-                $this->_engine = Mage::getResourceSingleton('catalogsearch/fulltext_engine');
+                $this->_engine = Mage::getResourceSingleton('Mage_CatalogSearch_Model_Resource_Fulltext_Engine');
             }
         }
 

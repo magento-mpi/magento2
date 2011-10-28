@@ -337,7 +337,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
         try {
             $this->_getWriteAdapter()->createTable($newTable);
         } catch (Exception $e) {
-            $message = Mage::helper('enterprise_staging')->__('An exception occurred while performing an SQL query: %s. ', $e->getMessage());
+            $message = Mage::helper('Enterprise_Staging_Helper_Data')->__('An exception occurred while performing an SQL query: %s. ', $e->getMessage());
             throw new Enterprise_Staging_Exception($message);
         }
         return $this;
@@ -358,7 +358,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
 
         $diff = array_diff_key($sourceDesc['fields'], $targetDesc['fields']);
         if ($diff) {
-            $message = Mage::helper('enterprise_staging')->__('Staging Table "%s" and Master Tables "%s" has different fields', $targetTableName, $sourceTableName);
+            $message = Mage::helper('Enterprise_Staging_Helper_Data')->__('Staging Table "%s" and Master Tables "%s" has different fields', $targetTableName, $sourceTableName);
             throw new Enterprise_Staging_Exception($message);
         }
 
@@ -372,7 +372,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
             $this->_getWriteAdapter()->query($sql);
         }
         catch (Zend_Db_Exception $e) {
-            $message = Mage::helper('enterprise_staging')->__('An exception occurred while performing an SQL query: %s. Query: %s', $e->getMessage(), $sql);
+            $message = Mage::helper('Enterprise_Staging_Helper_Data')->__('An exception occurred while performing an SQL query: %s. Query: %s', $e->getMessage(), $sql);
             throw new Enterprise_Staging_Exception($message);
         }
 
@@ -624,7 +624,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
 
         if (!$this->tableExists($table)) {
             if ($strongRestrict) {
-                throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Staging Table %s does not exist', $table));
+                throw new Enterprise_Staging_Exception(Mage::helper('Enterprise_Staging_Helper_Data')->__('Staging Table %s does not exist', $table));
             }
             return false;
         }

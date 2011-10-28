@@ -186,7 +186,7 @@ class Mage_LoadTest_Model_Renderer_Tag extends Mage_LoadTest_Model_Renderer_Abst
             unset($collection);
 
             if (count($this->_products) == 0) {
-                Mage::throwException(Mage::helper('loadtest')->__('Products not found, please create product(s) first.'));
+                Mage::throwException(Mage::helper('Mage_LoadTest_Helper_Data')->__('Products not found, please create product(s) first.'));
             }
         }
         if (is_null($this->_customers)) {
@@ -198,7 +198,7 @@ class Mage_LoadTest_Model_Renderer_Tag extends Mage_LoadTest_Model_Renderer_Abst
                 $this->_customers[$customer->getId()] = $customer;
             }
             if (count($this->_customers) == 0) {
-                Mage::throwException(Mage::helper('loadtest')->__('Customers not found, please create customer(s) first.'));
+                Mage::throwException(Mage::helper('Mage_LoadTest_Helper_Data')->__('Customers not found, please create customer(s) first.'));
             }
             unset($collection);
         }

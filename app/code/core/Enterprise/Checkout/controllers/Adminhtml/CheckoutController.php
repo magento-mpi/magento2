@@ -67,13 +67,13 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         $customerId = $this->getRequest()->getParam('customer');
         $customer = Mage::getModel('customer/customer')->load($customerId);
         if (!$customer->getId()) {
-            throw new Enterprise_Checkout_Exception(Mage::helper('enterprise_checkout')->__('Customer not found'));
+            throw new Enterprise_Checkout_Exception(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Customer not found'));
         }
 
         if (Mage::app()->getStore()->getWebsiteId() == $customer->getWebsiteId()) {
             if ($useRedirects) {
                 $this->_getSession()->addError(
-                    Mage::helper('enterprise_checkout')->__('Shopping cart management disabled for this customer.')
+                    Mage::helper('Enterprise_Checkout_Helper_Data')->__('Shopping cart management disabled for this customer.')
                 );
                 $this->_redirect('*/customer/edit', array('id' => $customer->getId()));
                 $this->_redirectFlag = true;
@@ -93,7 +93,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             if ($storeId && $useRedirects) {
                 // Redirect to preferred store view
                 if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {
-                    $this->getResponse()->setBody(Mage::helper('core')->jsonEncode(array(
+                    $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                         'url' => $this->getUrl('*/*/index', array('store' => $storeId, 'customer' => $customerId))
                     )));
                 } else {
@@ -193,7 +193,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()->addError(
-                Mage::helper('enterprise_checkout')->__('An error has occurred. See error log for details.')
+                Mage::helper('Enterprise_Checkout_Helper_Data')->__('An error has occurred. See error log for details.')
             );
         }
         $this->_redirect('*/*/error');
@@ -234,7 +234,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             $customer = Mage::registry('checkout_current_customer');
             $store = Mage::registry('checkout_current_store');
 
-            $source = Mage::helper('core')->jsonDecode($this->getRequest()->getPost('source'));
+            $source = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('source'));
 
             // Reorder products
             if (isset($source['source_ordered']) && is_array($source['source_ordered'])) {
@@ -367,7 +367,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     public function createOrderAction()
     {
         if (!Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/create')) {
-            Mage::throwException(Mage::helper('enterprise_checkout')->__('Access denied.'));
+            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Access denied.'));
         }
         try {
             $this->_initData();
@@ -393,7 +393,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()->addError(
-                Mage::helper('enterprise_checkout')->__('An error has occurred. See error log for details.')
+                Mage::helper('Enterprise_Checkout_Helper_Data')->__('An error has occurred. See error log for details.')
             );
         }
         $this->_redirect('*/*/error');
@@ -472,7 +472,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
 
         // Render page
         /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('adminhtml/catalog_product_composite');
+        $helper = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -518,7 +518,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
 
         // Render page
         /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('adminhtml/catalog_product_composite');
+        $helper = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
         return $this;
     }
@@ -563,7 +563,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
 
         // Render page
         /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('adminhtml/catalog_product_composite');
+        $helper = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
         return $this;
     }
@@ -580,10 +580,10 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         } elseif ($e instanceof Exception) {
             Mage::logException($e);
             $result = array(
-                'error' => Mage::helper('enterprise_checkout')->__('An error has occurred. See error log for details.')
+                'error' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('An error has occurred. See error log for details.')
             );
         }
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**
@@ -594,7 +594,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     protected function _isModificationAllowed()
     {
         if (!Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/update')) {
-            Mage::throwException(Mage::helper('enterprise_checkout')->__('Access denied.'));
+            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Access denied.'));
         }
     }
 
@@ -649,7 +649,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
 
         // Render page
         /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('adminhtml/catalog_product_composite');
+        $helper = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -786,7 +786,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         $listTypes = $this->getRequest()->getPost('configure_complex_list_types');
         if ($listTypes) {
             /* @var $productHelper Mage_Catalog_Helper_Product */
-            $productHelper = Mage::helper('catalog/product');
+            $productHelper = Mage::helper('Mage_Catalog_Helper_Product');
             $listTypes = array_filter(explode(',', $listTypes));
             $listItems = $this->getRequest()->getPost('list');
             foreach ($listTypes as $listType) {
@@ -868,7 +868,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     protected function _processFiles($items)
     {
         /* @var $productHelper Mage_Catalog_Helper_Product */
-        $productHelper = Mage::helper('catalog/product');
+        $productHelper = Mage::helper('Mage_Catalog_Helper_Product');
         foreach ($items as $id => $item) {
             $buyRequest = new Varien_Object($item);
             $params = array('files_prefix' => 'item_' . $id . '_');

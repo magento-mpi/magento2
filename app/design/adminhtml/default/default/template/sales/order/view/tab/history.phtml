@@ -31,23 +31,20 @@
             <li>
                 <strong><?php echo $this->getItemCreatedAt($_item) ?></strong>
                 <?php echo $this->getItemCreatedAt($_item, 'time') ?><span class="separator">|</span>
-                <?php if ($this->getItemTitle($_item)): ?>
                 <strong><?php echo $this->getItemTitle($_item) ?></strong>
-                <span class="separator">|</span>
-                <?php endif; ?>
-                <small>
-                    <?php echo $this->helper('sales')->__('Customer') ?>
+                <?php if ($this->isItemNotified($_item, false)): ?>
+                    <span class="separator">|</span><small><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Customer') ?>
                     <strong class="subdue">
                     <?php if ($this->isCustomerNotificationNotApplicable($_item)): ?>
-                        <?php echo $this->helper('sales')->__('Notification Not Applicable') ?>
+                        <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Notification Not Applicable') ?>
                     <?php elseif ($this->isItemNotified($_item)): ?>
-                        <?php echo $this->helper('sales')->__('Notified') ?>
+                        <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Notified') ?>
                         <img src="<?php echo $this->getSkinUrl('images/ico_success.gif') ?>" width="16px" height="16px" alt="" />
                     <?php else: ?>
-                        <?php echo $this->helper('sales')->__('Not Notified') ?>
+                        <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Not Notified') ?>
                     <?php endif; ?>
-                    </strong>
-                </small>
+                    </strong></small>
+                <?php endif; ?>
                 <?php if ($_comment = $this->getItemComment($_item)): ?>
                     <br/><?php echo $_comment ?>
                 <?php endif; ?>

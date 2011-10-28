@@ -73,7 +73,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selecti
         $this->setChild('selection_delete_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('catalog')->__('Delete'),
+                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete'),
                     'class' => 'delete icon-btn',
                     'on_click' => 'bSelection.remove(event)'
                 ))
@@ -146,7 +146,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selecti
      */
     public function isUsedWebsitePrice()
     {
-        return !Mage::helper('catalog')->isPriceGlobal() && Mage::registry('product')->getStoreId();
+        return !Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal() && Mage::registry('product')->getStoreId();
     }
 
     /**
@@ -161,7 +161,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selecti
             $id = $this->getFieldId() . '_{{index}}_price_scope';
             $name = $this->getFieldName() . '[{{parentIndex}}][{{index}}][default_price_scope]';
             $class = 'bundle-option-price-scope-checkbox';
-            $label = Mage::helper('bundle')->__('Use Default Value');
+            $label = Mage::helper('Mage_Bundle_Helper_Data')->__('Use Default Value');
             $disabled = ($this->getCanEditPrice() === false) ? ' disabled="disabled"' : '';
             $checkboxHtml = '<input type="checkbox" id="' . $id . '" class="' . $class . '" name="' . $name
                 . '"' . $disabled . ' value="1" />';

@@ -53,7 +53,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Queue', 'queue')
         );
 
-        $this->_addBreadcrumb(Mage::helper('newsletter')->__('Newsletter Queue'), Mage::helper('newsletter')->__('Newsletter Queue'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Queue'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Queue'));
 
         $this->renderLayout();
     }
@@ -204,11 +204,11 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
         $this->_setActiveMenu('newsletter/queue');
 
         $this->_addBreadcrumb(
-            Mage::helper('newsletter')->__('Newsletter Queue'), 
-            Mage::helper('newsletter')->__('Newsletter Queue'), 
+            Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Queue'), 
+            Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Queue'), 
             $this->getUrl('*/newsletter_queue')
         );
-        $this->_addBreadcrumb(Mage::helper('newsletter')->__('Edit Queue'), Mage::helper('newsletter')->__('Edit Queue'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Edit Queue'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Edit Queue'));
 
         $this->renderLayout();
     }

@@ -41,7 +41,7 @@ class Mage_Downloadable_CustomerController extends Mage_Core_Controller_Front_Ac
     {
         parent::preDispatch();
         $action = $this->getRequest()->getActionName();
-        $loginUrl = Mage::helper('customer')->getLoginUrl();
+        $loginUrl = Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl();
 
         if (!Mage::getSingleton('customer/session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
@@ -61,7 +61,7 @@ class Mage_Downloadable_CustomerController extends Mage_Core_Controller_Front_Ac
         }
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('downloadable')->__('My Downloadable Products'));
+            $headBlock->setTitle(Mage::helper('Mage_Downloadable_Helper_Data')->__('My Downloadable Products'));
         }
         $this->renderLayout();
     }

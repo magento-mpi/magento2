@@ -41,7 +41,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Tabs
      */
     public function getTitle()
     {
-        if (Mage::helper('xmlconnect')->getDeviceType() == Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPAD) {
+        if (Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceType() == Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPAD) {
             $title = $this->__('Extensions');
         } else {
             $title = $this->__('Tabs');
@@ -72,7 +72,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Tabs
         $this->_addElementTypes($fieldset);
         $fieldset->addField('conf[extra][tabs]', 'tabs', array('name' => 'conf[extra][tabs]'));
 
-        $form->setValues(Mage::helper('xmlconnect')->getApplication()->getFormData());
+        $form->setValues(Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getFormData());
         $this->setForm($form);
         return parent::_prepareForm();
     }

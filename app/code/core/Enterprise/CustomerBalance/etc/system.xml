@@ -90,7 +90,7 @@
             <groups>
                 <totals_sort>
                     <fields>
-                        <customerbalance module="enterprise_customerbalance" translate="label">
+                        <customerbalance module="Enterprise_CustomerBalance" translate="label">
                             <label>Store Credit</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>6</sort_order>

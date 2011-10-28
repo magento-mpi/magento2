@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
         $storeId    = $this->_getSession()->getStoreId();
 
 
-        $this->_updateButton('save', 'label', Mage::helper('sales')->__('Submit Order'));
+        $this->_updateButton('save', 'label', Mage::helper('Mage_Sales_Helper_Data')->__('Submit Order'));
         $this->_updateButton('save', 'onclick', "order.submit()");
         $this->_updateButton('save', 'id', 'submit_order_top_button');
         if (is_null($customerId) || !$storeId) {
@@ -64,8 +64,8 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
             $this->_updateButton('back', 'style', 'display:none');
         }
 
-        $confirm = Mage::helper('sales')->__('Are you sure you want to cancel this order?');
-        $this->_updateButton('reset', 'label', Mage::helper('sales')->__('Cancel'));
+        $confirm = Mage::helper('Mage_Sales_Helper_Data')->__('Are you sure you want to cancel this order?');
+        $this->_updateButton('reset', 'label', Mage::helper('Mage_Sales_Helper_Data')->__('Cancel'));
         $this->_updateButton('reset', 'class', 'cancel');
         $this->_updateButton('reset', 'onclick', 'deleteConfirm(\''.$confirm.'\', \'' . $this->getCancelUrl() . '\')');
     }

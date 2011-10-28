@@ -37,7 +37,7 @@ class Enterprise_Rma_Model_Grid extends Mage_Core_Model_Abstract
      * Init resource model
      */
     protected function _construct() {
-        $this->_init('enterprise_rma/grid');
+        $this->_init('Enterprise_Rma_Model_Resource_Grid');
         parent::_construct();
     }
 

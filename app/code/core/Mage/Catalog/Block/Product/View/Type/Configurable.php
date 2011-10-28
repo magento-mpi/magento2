@@ -103,7 +103,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
         $attributes = array();
         $options    = array();
         $store      = $this->getCurrentStore();
-        $taxHelper  = Mage::helper('tax');
+        $taxHelper  = Mage::helper('Mage_Tax_Helper_Data');
         $currentProduct = $this->getProduct();
 
         $preconfiguredFlag = $currentProduct->hasPreconfiguredValues();
@@ -218,7 +218,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
             'showBothPrices'    => $taxHelper->displayBothPrices(),
             'defaultTax'        => $defaultTax,
             'currentTax'        => $currentTax,
-            'inclTaxTitle'      => Mage::helper('catalog')->__('Incl. Tax')
+            'inclTaxTitle'      => Mage::helper('Mage_Catalog_Helper_Data')->__('Incl. Tax')
         );
 
         $config = array(
@@ -228,7 +228,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
             'basePrice'         => $this->_registerJsPrice($this->_convertPrice($currentProduct->getFinalPrice())),
             'oldPrice'          => $this->_registerJsPrice($this->_convertPrice($currentProduct->getPrice())),
             'productId'         => $currentProduct->getId(),
-            'chooseText'        => Mage::helper('catalog')->__('Choose an Option...'),
+            'chooseText'        => Mage::helper('Mage_Catalog_Helper_Data')->__('Choose an Option...'),
             'taxConfig'         => $taxConfig
         );
 
@@ -238,7 +238,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
 
         $config = array_merge($config, $this->_getAdditionalConfig());
 
-        return Mage::helper('core')->jsonEncode($config);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
     }
 
     /**

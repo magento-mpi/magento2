@@ -56,11 +56,11 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
         $this->loadLayout()
             ->_setActiveMenu('sales/rma')
             ->_addBreadcrumb(
-                Mage::helper('enterprise_rma')->__('RMA'),
-                Mage::helper('enterprise_rma')->__('RMA'))
+                Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA'),
+                Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA'))
             ->_addBreadcrumb(
-                Mage::helper('enterprise_rma')->__('Manage RMA Item Attributes'),
-                Mage::helper('enterprise_rma')->__('Manage RMA Item Attributes'));
+                Mage::helper('Enterprise_Rma_Helper_Data')->__('Manage RMA Item Attributes'),
+                Mage::helper('Enterprise_Rma_Helper_Data')->__('Manage RMA Item Attributes'));
         return $this;
     }
 
@@ -117,12 +117,12 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
             $attributeObject->load($attributeId);
             if (!$attributeObject->getId()) {
                 $this->_getSession()
-                    ->addError(Mage::helper('enterprise_rma')->__('Attribute is no longer exists.'));
+                    ->addError(Mage::helper('Enterprise_Rma_Helper_Data')->__('Attribute is no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
             if ($attributeObject->getEntityTypeId() != $this->_getEntityType()->getId()) {
-                $this->_getSession()->addError(Mage::helper('enterprise_rma')->__('You cannot edit this attribute.'));
+                $this->_getSession()->addError(Mage::helper('Enterprise_Rma_Helper_Data')->__('You cannot edit this attribute.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -139,8 +139,8 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
         Mage::register('entity_attribute', $attributeObject);
 
         $label = $attributeObject->getId()
-            ? Mage::helper('enterprise_rma')->__('Edit RMA Item Attribute')
-            : Mage::helper('enterprise_rma')->__('New RMA Item Attribute');
+            ? Mage::helper('Enterprise_Rma_Helper_Data')->__('Edit RMA Item Attribute')
+            : Mage::helper('Enterprise_Rma_Helper_Data')->__('New RMA Item Attribute');
 
         $this->_initAction()
             ->_addBreadcrumb($label, $label)
@@ -162,7 +162,7 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
                 ->loadByCode($this->_getEntityType()->getId(), $attributeCode);
             if ($attributeObject->getId()) {
                 $this->_getSession()->addError(
-                    Mage::helper('enterprise_rma')->__('Attribute with the same code already exists')
+                    Mage::helper('Enterprise_Rma_Helper_Data')->__('Attribute with the same code already exists')
                 );
 
                 $this->_initLayoutMessages('adminhtml/session');
@@ -184,10 +184,10 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
             /* @var $attributeObject Mage_Rma_Model_Item_Attribute */
             $attributeObject = $this->_initAttribute();
             /* @var $helper Enterprise_Rma_Helper_Eav */
-            $helper = Mage::helper('enterprise_rma/eav');
+            $helper = Mage::helper('Enterprise_Rma_Helper_Eav');
 
             try {
-                $data = Mage::helper('enterprise_rma/eav')->filterPostData($data);
+                $data = Mage::helper('Enterprise_Rma_Helper_Eav')->filterPostData($data);
             } catch (Mage_Core_Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                     if (isset($data['attribute_id'])) {
@@ -203,7 +203,7 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
                 $attributeObject->load($attributeId);
                 if ($attributeObject->getEntityTypeId() != $this->_getEntityType()->getId()) {
                     $this->_getSession()->addError(
-                        Mage::helper('enterprise_rma')->__('You cannot edit this attribute.')
+                        Mage::helper('Enterprise_Rma_Helper_Data')->__('You cannot edit this attribute.')
                     );
                     $this->_getSession()->addAttributeData($data);
                     $this->_redirect('*/*/');
@@ -266,7 +266,7 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
 //                ));
 
                 $this->_getSession()->addSuccess(
-                    Mage::helper('enterprise_rma')->__('The RMA item attribute has been saved.')
+                    Mage::helper('Enterprise_Rma_Helper_Data')->__('The RMA item attribute has been saved.')
                 );
                 $this->_getSession()->setAttributeData(false);
                 if ($this->getRequest()->getParam('back', false)) {
@@ -285,7 +285,7 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
                 return;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_rma')->__('An error occurred while saving the RMA item attribute.')
+                    Mage::helper('Enterprise_Rma_Helper_Data')->__('An error occurred while saving the RMA item attribute.')
                 );
                 $this->_getSession()->setAttributeData($data);
                 $this->_redirect('*/*/edit', array('_current' => true));
@@ -309,7 +309,7 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
                 || !$attributeObject->getIsUserDefined())
             {
                 $this->_getSession()->addError(
-                    Mage::helper('enterprise_rma')->__('You cannot delete this attribute.')
+                    Mage::helper('Enterprise_Rma_Helper_Data')->__('You cannot delete this attribute.')
                 );
                 $this->_redirect('*/*/');
                 return;
@@ -321,7 +321,7 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
 //                ));
 
                 $this->_getSession()->addSuccess(
-                    Mage::helper('enterprise_rma')->__('The RMA item attribute has been deleted.')
+                    Mage::helper('Enterprise_Rma_Helper_Data')->__('The RMA item attribute has been deleted.')
                 );
                 $this->_redirect('*/*/');
                 return;
@@ -331,7 +331,7 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
                 return;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_rma')->__('An error occurred while deleting the RMA item attribute.')
+                    Mage::helper('Enterprise_Rma_Helper_Data')->__('An error occurred while deleting the RMA item attribute.')
                 );
                 $this->_redirect('*/*/edit', array('attribute_id' => $attributeId, '_current' => true));
                 return;

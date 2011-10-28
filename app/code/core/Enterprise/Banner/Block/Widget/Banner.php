@@ -111,7 +111,7 @@ class Enterprise_Banner_Block_Widget_Banner
     protected function _construct()
     {
         parent::_construct();
-        $this->_bannerResource  = Mage::getResourceSingleton('enterprise_banner/banner');
+        $this->_bannerResource  = Mage::getResourceSingleton('Enterprise_Banner_Model_Resource_Banner');
         $this->_currentStoreId  = Mage::app()->getStore()->getId();
         $this->_sessionInstance = Mage::getSingleton('core/session');
     }
@@ -231,7 +231,7 @@ class Enterprise_Banner_Block_Widget_Banner
 
         // filtering directives
         /* @var $helper Mage_Cms_Helper_Data */
-        $helper = Mage::helper('cms');
+        $helper = Mage::helper('Mage_Cms_Helper_Data');
         $processor = $helper->getPageTemplateProcessor();
         foreach ($bannersContent as $bannerId => $content) {
             $bannersContent[$bannerId] = $processor->filter($content);

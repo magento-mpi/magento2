@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Permissions_Editroles extends Mage_Adminhtml_Block_Wi
         parent::__construct();
         $this->setId('role_info_tabs');
         $this->setDestElementId('role_edit_form');
-        $this->setTitle(Mage::helper('adminhtml')->__('Role Information'));
+        $this->setTitle(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Information'));
     }
 
     protected function _prepareLayout()
@@ -43,8 +43,8 @@ class Mage_Adminhtml_Block_Permissions_Editroles extends Mage_Adminhtml_Block_Wi
 
         if ($role->getId()) {
             $this->addTab('roles', array(
-                'label'     => Mage::helper('adminhtml')->__('Role Users'),
-                'title'     => Mage::helper('adminhtml')->__('Role Users'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Users'),
+                'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Users'),
                 'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Permissions_Tab_Rolesusers', 'role.users.grid')->toHtml(),
             ));
         }

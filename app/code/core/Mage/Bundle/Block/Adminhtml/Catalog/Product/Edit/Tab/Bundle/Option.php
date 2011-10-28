@@ -102,7 +102,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'id'    => $this->getFieldId().'_{{index}}_add_button',
-                    'label'     => Mage::helper('bundle')->__('Add Selection'),
+                    'label'     => Mage::helper('Mage_Bundle_Helper_Data')->__('Add Selection'),
                     'on_click'   => 'bSelection.showSearch(event)',
                     'class' => 'add'
                 )));
@@ -111,7 +111,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'id'    => $this->getFieldId().'_{{index}}_close_button',
-                    'label'     => Mage::helper('bundle')->__('Close'),
+                    'label'     => Mage::helper('Mage_Bundle_Helper_Data')->__('Close'),
                     'on_click'   => 'bSelection.closeSearch(event)',
                     'class' => 'back no-display'
                 )));
@@ -119,7 +119,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
         $this->setChild('option_delete_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('catalog')->__('Delete Option'),
+                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Option'),
                     'class' => 'delete delete-product-option',
                     'on_click' => 'bOption.remove(event)'
                 ))

@@ -57,7 +57,7 @@ class Mage_Downloadable_Adminhtml_Downloadable_FileController extends Mage_Admin
 
             if (isset($result['file'])) {
                 $fullPath = rtrim($tmpPath, DS) . DS . ltrim($result['file'], DS);
-                Mage::helper('core/file_storage_database')->saveFile($fullPath);
+                Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFile($fullPath);
             }
 
             $result['cookie'] = array(
@@ -71,7 +71,7 @@ class Mage_Downloadable_Adminhtml_Downloadable_FileController extends Mage_Admin
             $result = array('error'=>$e->getMessage(), 'errorcode'=>$e->getCode());
         }
 
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**

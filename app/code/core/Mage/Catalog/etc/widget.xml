@@ -26,7 +26,7 @@
  */
 -->
 <widgets>
-    <new_products type="Mage_Catalog_Block_Product_Widget_New" translate="name description" module="catalog">
+    <new_products type="Mage_Catalog_Block_Product_Widget_New" translate="name description" module="Mage_Catalog">
         <name>Catalog New Products List</name>
         <description>List of Products that are set as New</description>
         <is_email_compatible>1</is_email_compatible>
@@ -64,7 +64,7 @@
         </parameters>
     </new_products>
 
-    <catalog_product_link type="Mage_Catalog_Block_Product_Widget_Link" translate="name description" module="catalog">
+    <catalog_product_link type="Mage_Catalog_Block_Product_Widget_Link" translate="name description" module="Mage_Catalog">
         <name>Catalog Product Link</name>
         <description>Link to a Specified Product</description>
         <is_email_compatible>1</is_email_compatible>
@@ -114,7 +114,7 @@
         </parameters>
     </catalog_product_link>
 
-    <catalog_category_link type="Mage_Catalog_Block_Category_Widget_Link" translate="name description" module="catalog">
+    <catalog_category_link type="Mage_Catalog_Block_Category_Widget_Link" translate="name description" module="Mage_Catalog">
         <name>Catalog Category Link</name>
         <description>Link to a Specified Category</description>
         <is_email_compatible>1</is_email_compatible>

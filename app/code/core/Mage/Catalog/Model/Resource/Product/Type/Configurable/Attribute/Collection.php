@@ -74,7 +74,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
      */
     public function getHelper()
     {
-        return Mage::helper('catalog');
+        return Mage::helper('Mage_Catalog_Helper_Data');
     }
 
     /**

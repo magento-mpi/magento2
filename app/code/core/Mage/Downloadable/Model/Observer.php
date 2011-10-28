@@ -82,13 +82,13 @@ class Mage_Downloadable_Model_Observer
             $links = $product->getTypeInstance(true)->getLinks($product);
             if ($linkIds = $orderItem->getProductOptionByCode('links')) {
                 $linkPurchased = Mage::getModel('downloadable/link_purchased');
-                Mage::helper('core')->copyFieldset(
+                Mage::helper('Mage_Core_Helper_Data')->copyFieldset(
                     'downloadable_sales_copy_order',
                     'to_downloadable',
                     $orderItem->getOrder(),
                     $linkPurchased
                 );
-                Mage::helper('core')->copyFieldset(
+                Mage::helper('Mage_Core_Helper_Data')->copyFieldset(
                     'downloadable_sales_copy_order_item',
                     'to_downloadable',
                     $orderItem,
@@ -106,7 +106,7 @@ class Mage_Downloadable_Model_Observer
                             ->setPurchasedId($linkPurchased->getId())
                             ->setOrderItemId($orderItem->getId());
 
-                        Mage::helper('core')->copyFieldset(
+                        Mage::helper('Mage_Core_Helper_Data')->copyFieldset(
                             'downloadable_sales_copy_link',
                             'to_purchased',
                             $links[$linkId],

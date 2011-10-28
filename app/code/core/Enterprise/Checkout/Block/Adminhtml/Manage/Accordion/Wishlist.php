@@ -61,7 +61,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
         $this->setDefaultSort('added_at');
         $this->setData('open', true);
         $this->setHeaderText(
-            Mage::helper('enterprise_checkout')->__('Wishlist (%s)', $this->getItemsCount())
+            Mage::helper('Enterprise_Checkout_Helper_Data')->__('Wishlist (%s)', $this->getItemsCount())
         );
     }
 
@@ -126,7 +126,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
 
         $this->addColumn('qty', array(
             'sortable'  => false,
-            'header'    => Mage::helper('enterprise_checkout')->__('Qty To Add'),
+            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Qty To Add'),
             'renderer'  => 'Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Wishlist_Qty',
             'name'      => 'qty',
             'inline_css'=> 'qty',

@@ -53,11 +53,11 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Downloadable
         $itemXml->addCustomChild('name', $item->getName());
 
         /** @var $weeeHelper Mage_Weee_Helper_Data */
-        $weeeHelper = $this->helper('weee');
+        $weeeHelper = $this->helper('Mage_Weee_Helper_Data');
         /** @var $taxHelper Mage_Tax_Helper_Data */
-        $taxHelper  = $this->helper('tax');
+        $taxHelper  = $this->helper('Mage_Tax_Helper_Data');
 
-        Mage::helper('xmlconnect/customer_order')->addItemOptionsToXml($this, $itemXml);
+        Mage::helper('Mage_XmlConnect_Helper_Customer_Order')->addItemOptionsToXml($this, $itemXml);
 
         $addtInfoBlock = $this->getProductAdditionalInformationBlock();
         if ($addtInfoBlock) {
@@ -75,13 +75,13 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Downloadable
 
         $itemXml->addCustomChild('entity_type', $item->getProductType());
         $itemXml->addCustomChild('description', $item->getDescription());
-        $itemXml->addCustomChild('sku', Mage::helper('core/string')->splitInjection($this->getSku()));
+        $itemXml->addCustomChild('sku', Mage::helper('Mage_Core_Helper_String')->splitInjection($this->getSku()));
 
         /** @var $priceXml Mage_XmlConnect_Model_Simplexml_Element */
         $priceXml = $itemXml->addChild('price');
 
         // Quantity: Ordered, Shipped, Cancelled, Refunded
-        Mage::helper('xmlconnect/customer_order')->addQuantityToXml($this, $itemXml->addChild('qty'), $item);
+        Mage::helper('Mage_XmlConnect_Helper_Customer_Order')->addQuantityToXml($this, $itemXml->addChild('qty'), $item);
 
         /** @var $subtotalXml Mage_XmlConnect_Model_Simplexml_Element */
         $subtotalXml = $itemXml->addChild('subtotal');
@@ -108,7 +108,7 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Downloadable
 
         // Price & subtotal - excluding tax
         if ($taxHelper->displaySalesBothPrices() || $taxHelper->displaySalesPriceExclTax()) {
-            Mage::helper('xmlconnect/customer_order')->addPriceAndSubtotalToXml(
+            Mage::helper('Mage_XmlConnect_Helper_Customer_Order')->addPriceAndSubtotalToXml(
                 $this,
                 $item,
                 $priceXml,
@@ -118,7 +118,7 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Downloadable
 
         // Price & subtotal - including tax
         if ($taxHelper->displaySalesBothPrices() || $taxHelper->displaySalesPriceInclTax()) {
-            Mage::helper('xmlconnect/customer_order')->addPriceAndSubtotalToXml(
+            Mage::helper('Mage_XmlConnect_Helper_Customer_Order')->addPriceAndSubtotalToXml(
                 $this, $item, $priceXml, $subtotalXml, true
             );
         }

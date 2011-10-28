@@ -106,7 +106,7 @@ class Mage_Checkout_Model_Cart_Payment_Api extends Mage_Checkout_Model_Api_Resou
         $total = $quote->getBaseSubtotal();
 
         $methodsResult = array();
-        $methods = Mage::helper('payment')->getStoreMethods($store, $quote);
+        $methods = Mage::helper('Mage_Payment_Helper_Data')->getStoreMethods($store, $quote);
         foreach ($methods as $key=>$method) {
             /** @var $method Mage_Payment_Model_Method_Abstract */
             if ($this->_canUsePaymentMethod($method, $quote)
@@ -161,7 +161,7 @@ class Mage_Checkout_Model_Cart_Payment_Api extends Mage_Checkout_Model_Api_Resou
         }
 
         $total = $quote->getBaseSubtotal();
-        $methods = Mage::helper('payment')->getStoreMethods($store, $quote);
+        $methods = Mage::helper('Mage_Payment_Helper_Data')->getStoreMethods($store, $quote);
         foreach ($methods as $key=>$method) {
             if ($method->getCode() == $paymentData['method']) {
                 /** @var $method Mage_Payment_Model_Method_Abstract */

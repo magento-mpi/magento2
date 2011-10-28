@@ -204,6 +204,6 @@ class Mage_ImportExport_Block_Adminhtml_Import_Frame_Result extends Mage_Adminht
         if (!isset($this->_actions['import_validation_messages'])) {
             $this->addAction('innerHTML', 'import_validation_messages', $this->getMessagesHtml());
         }
-        return Mage::helper('core')->jsonEncode($this->_actions);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->_actions);
     }
 }

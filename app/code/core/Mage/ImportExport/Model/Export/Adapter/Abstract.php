@@ -60,15 +60,15 @@ abstract class Mage_ImportExport_Model_Export_Adapter_Abstract
             $destination = tempnam(sys_get_temp_dir(), 'importexport_');
         }
         if (!is_string($destination)) {
-            Mage::throwException(Mage::helper('importexport')->__('Destination file path must be a string'));
+            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Destination file path must be a string'));
         }
         $pathinfo = pathinfo($destination);
 
         if (empty($pathinfo['dirname']) || !is_writable($pathinfo['dirname'])) {
-            Mage::throwException(Mage::helper('importexport')->__('Destination directory is not writable'));
+            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Destination directory is not writable'));
         }
         if (is_file($destination) && !is_writable($destination)) {
-            Mage::throwException(Mage::helper('importexport')->__('Destination file is not writable'));
+            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Destination file is not writable'));
         }
         $this->_destination = $destination;
 
@@ -125,7 +125,7 @@ abstract class Mage_ImportExport_Model_Export_Adapter_Abstract
     public function setHeaderCols(array $headerCols)
     {
         if (null !== $this->_headerCols) {
-            Mage::throwException(Mage::helper('importexport')->__('Header column names already set'));
+            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Header column names already set'));
         }
         if ($headerCols) {
             foreach ($headerCols as $colName) {

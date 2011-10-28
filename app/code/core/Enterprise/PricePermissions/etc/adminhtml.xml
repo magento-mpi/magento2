@@ -34,15 +34,15 @@
                         <children>
                             <products>
                                 <children>
-                                    <read_product_price translate="title" module="enterprise_pricepermissions">
+                                    <read_product_price translate="title" module="Enterprise_PricePermissions">
                                         <title>Read Product Price</title>
                                         <children>
-                                            <edit_product_price translate="title" module="enterprise_pricepermissions">
+                                            <edit_product_price translate="title" module="Enterprise_PricePermissions">
                                                 <title>Edit Product Price</title>
                                             </edit_product_price>
                                         </children>
                                     </read_product_price>
-                                    <edit_product_status translate="title" module="enterprise_pricepermissions">
+                                    <edit_product_status translate="title" module="Enterprise_PricePermissions">
                                         <title>Edit Product Status</title>
                                     </edit_product_status>
                                 </children>

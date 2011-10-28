@@ -57,7 +57,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
      */
     public function getNodesJson()
     {
-        return Mage::helper('core')->jsonEncode($this->getNodes());
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getNodes());
     }
 
     /**
@@ -69,7 +69,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
         if (is_null($this->_nodes)) {
             $this->_nodes = array();
             try{
-                $data = Mage::helper('core')->jsonDecode($this->getPage()->getNodesData());
+                $data = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($this->getPage()->getNodesData());
             }catch (Zend_Json_Exception $e){
                 $data = null;
             }
@@ -181,7 +181,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
             'id' => $this->getPage()->getId()
         );
 
-        return Mage::helper('core')->jsonEncode($data);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
     }
 
     /**
@@ -191,7 +191,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_cms')->__('Hierarchy');
+        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Hierarchy');
     }
 
     /**
@@ -201,7 +201,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_cms')->__('Hierarchy');
+        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Hierarchy');
     }
 
     /**
@@ -212,7 +212,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
     public function canShowTab()
     {
         if (!$this->getPage()->getId()
-            || !Mage::helper('enterprise_cms/hierarchy')->isEnabled()
+            || !Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isEnabled()
             || !Mage::getSingleton('admin/session')->isAllowed('cms/hierarchy'))
         {
             return false;

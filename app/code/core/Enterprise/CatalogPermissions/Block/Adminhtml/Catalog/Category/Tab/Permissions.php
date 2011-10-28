@@ -53,7 +53,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
 
         $this->setChild('add_button', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->addData(array(
-                'label' => $this->helper('enterprise_catalogpermissions')->__('New Permission'),
+                'label' => $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('New Permission'),
                 'class' => 'add' . ($this->isReadonly() ? ' disabled' : ''),
                 'type'  => 'button',
                 'disabled' => $this->isReadonly()
@@ -72,7 +72,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     {
         $config = array(
             'row' => $this->getChildHtml('row'),
-            'duplicate_message' => $this->helper('enterprise_catalogpermissions')->__('A permission with the same scope already exists.'),
+            'duplicate_message' => $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('A permission with the same scope already exists.'),
             'permissions'  => array()
         );
 
@@ -86,9 +86,9 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
         $config['website_id']   = Mage::app()->getStore(true)->getWebsiteId();
         $config['parent_vals']  = $this->getParentPermissions();
 
-        $config['use_parent_allow'] = Mage::helper('enterprise_catalogpermissions')->__('(Allow)');
-        $config['use_parent_deny'] = Mage::helper('enterprise_catalogpermissions')->__('(Deny)');
-        //$config['use_parent_config'] = Mage::helper('enterprise_catalogpermissions')->__('(Config)');
+        $config['use_parent_allow'] = Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('(Allow)');
+        $config['use_parent_deny'] = Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('(Deny)');
+        //$config['use_parent_config'] = Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('(Config)');
         $config['use_parent_config'] = '';
 
         $additionalConfig = $this->getAdditionConfigData();
@@ -96,7 +96,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
             $config = array_merge($additionalConfig, $config);
         }
 
-        return Mage::helper('core')->jsonEncode($config);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
     }
 
     /**
@@ -151,7 +151,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
         $groups   = Mage::getModel('customer/group')->getCollection()->getAllIds();
 
         /* @var $helper Enterprise_CatalogPermissions_Helper_Data */
-        $helper   = Mage::helper('enterprise_catalogpermissions');
+        $helper   = Mage::helper('Enterprise_CatalogPermissions_Helper_Data');
 
         $parent = (string)Enterprise_CatalogPermissions_Model_Permission::PERMISSION_PARENT;
         $allow  = (string)Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW;
@@ -196,7 +196,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
      */
     public function getTabLabel()
     {
-        return $this->helper('enterprise_catalogpermissions')->__('Category Permissions');
+        return $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('Category Permissions');
     }
 
     /**
@@ -206,7 +206,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
      */
     public function getTabTitle()
     {
-        return $this->helper('enterprise_catalogpermissions')->__('Category Permissions');
+        return $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('Category Permissions');
     }
 
     /**

@@ -53,27 +53,27 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid exten
     protected function _prepareColumns()
     {
         $this->addColumn('sent', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('Sent'),
+            'header'    =>Mage::helper('Enterprise_Invitation_Helper_Data')->__('Sent'),
             'type'      =>'number',
             'index'     => 'sent'
         ));
 
         $this->addColumn('accepted', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('Accepted'),
+            'header'    =>Mage::helper('Enterprise_Invitation_Helper_Data')->__('Accepted'),
             'type'      =>'number',
             'index'     => 'accepted',
             'width'     => ''
         ));
 
         $this->addColumn('canceled', array(
-            'header'    => Mage::helper('enterprise_invitation')->__('Discarded'),
+            'header'    => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Discarded'),
             'type'      =>'number',
             'index'     => 'canceled',
             'width'     => ''
         ));
 
         $this->addColumn('accepted_rate', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('Acceptance Rate'),
+            'header'    =>Mage::helper('Enterprise_Invitation_Helper_Data')->__('Acceptance Rate'),
             'index'     =>'accepted_rate',
             'renderer'  => 'Enterprise_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent',
             'type'      =>'string',
@@ -82,15 +82,15 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid exten
         ));
 
         $this->addColumn('canceled_rate', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('Discard Rate'),
+            'header'    =>Mage::helper('Enterprise_Invitation_Helper_Data')->__('Discard Rate'),
             'index'     =>'canceled_rate',
             'type'      =>'number',
             'renderer'  => 'Enterprise_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent',
             'width'     => '170'
         ));
 
-        $this->addExportType('*/*/exportCsv', Mage::helper('enterprise_invitation')->__('CSV'));
-        $this->addExportType('*/*/exportExcel', Mage::helper('enterprise_invitation')->__('Excel XML'));
+        $this->addExportType('*/*/exportCsv', Mage::helper('Enterprise_Invitation_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportExcel', Mage::helper('Enterprise_Invitation_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

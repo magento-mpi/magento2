@@ -80,7 +80,7 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('enterprise_reward/reward_history');
+        $this->_init('Enterprise_Reward_Model_Resource_Reward_History');
     }
 
     /**
@@ -108,7 +108,7 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
             'notification_sent' => 0
         ));
 
-        $lifetime = (int)Mage::helper('enterprise_reward')->getGeneralConfig('expiration_days', $this->getWebsiteId());
+        $lifetime = (int)Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig('expiration_days', $this->getWebsiteId());
         if ($lifetime > 0) {
             $expires = $now + $lifetime * 86400;
             $expires = $this->getResource()->formatDate($expires);
@@ -303,7 +303,7 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
         if ($this->getPointsDelta() <= 0) {
             return null;
         }
-        return Mage::helper('enterprise_reward')->getGeneralConfig('expiry_calculation') == 'static'
+        return Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig('expiry_calculation') == 'static'
             ? $this->getExpiredAtStatic() : $this->getExpiredAtDynamic()
         ;
     }

@@ -77,12 +77,12 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Giftcard extends Mage_Bundle_B
             $priceXmlObj = $item->addChild('price');
 
             if (($_min = $this->getMinAmount()) && ($_max = $this->getMaxAmount()) && ($_min == $_max)) {
-                $priceXmlObj->addAttribute('regular', Mage::helper('core')->currency($_min, true, false));
+                $priceXmlObj->addAttribute('regular', Mage::helper('Mage_Core_Helper_Data')->currency($_min, true, false));
             } elseif (($_min = $this->getMinAmount()) && $_min != 0) {
                 $priceXmlObj->addAttribute(
                     'regular',
-                    Mage::helper('enterprise_giftcard')->__('From') . ': '
-                        . Mage::helper('core')->currency($_min, true, false)
+                    Mage::helper('Enterprise_GiftCard_Helper_Data')->__('From') . ': '
+                        . Mage::helper('Mage_Core_Helper_Data')->currency($_min, true, false)
                 );
             }
         }

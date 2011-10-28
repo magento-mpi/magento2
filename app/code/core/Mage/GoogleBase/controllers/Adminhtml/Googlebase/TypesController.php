@@ -63,8 +63,8 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
     {
         $this->loadLayout()
             ->_setActiveMenu('catalog/googlebase/types')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Catalog'), Mage::helper('adminhtml')->__('Catalog'))
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Google Base'), Mage::helper('adminhtml')->__('Google Base'));
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Catalog'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Catalog'))
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Google Base'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Google Base'));
         return $this;
     }
 
@@ -75,7 +75,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
              ->_title($this->__('Manage Attributes'));
 
         $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('googlebase')->__('Item Types'), Mage::helper('googlebase')->__('Item Types'))
+            ->_addBreadcrumb(Mage::helper('Mage_GoogleBase_Helper_Data')->__('Item Types'), Mage::helper('Mage_GoogleBase_Helper_Data')->__('Item Types'))
             ->_addContent($this->getLayout()->createBlock('googlebase/adminhtml_types'))
             ->renderLayout();
     }
@@ -98,7 +98,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
             $this->_title($this->__('New ItemType'));
 
             $this->_initAction()
-                ->_addBreadcrumb(Mage::helper('googlebase')->__('New Item Type'), Mage::helper('adminhtml')->__('New Item Type'))
+                ->_addBreadcrumb(Mage::helper('Mage_GoogleBase_Helper_Data')->__('New Item Type'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Item Type'))
                 ->_addContent($this->getLayout()->createBlock('googlebase/adminhtml_types_edit'))
                 ->renderLayout();
         } catch (Exception $e) {
@@ -134,7 +134,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
             Mage::register('attributes', $result);
 
             $this->_initAction()
-                ->_addBreadcrumb($id ? Mage::helper('googlebase')->__('Edit Item Type') : Mage::helper('googlebase')->__('New Item Type'), $id ? Mage::helper('googlebase')->__('Edit Item Type') : Mage::helper('googlebase')->__('New Item Type'))
+                ->_addBreadcrumb($id ? Mage::helper('Mage_GoogleBase_Helper_Data')->__('Edit Item Type') : Mage::helper('Mage_GoogleBase_Helper_Data')->__('New Item Type'), $id ? Mage::helper('Mage_GoogleBase_Helper_Data')->__('Edit Item Type') : Mage::helper('Mage_GoogleBase_Helper_Data')->__('New Item Type'))
                 ->_addContent($this->getLayout()->createBlock('googlebase/adminhtml_types_edit'))
                 ->renderLayout();
         } catch (Exception $e) {
@@ -181,7 +181,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
                 }
             }
 
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('googlebase')->__('The item type has been saved.'));
+            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_GoogleBase_Helper_Data')->__('The item type has been saved.'));
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         }

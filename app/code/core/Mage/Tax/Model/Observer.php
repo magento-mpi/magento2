@@ -160,7 +160,7 @@ class Mage_Tax_Model_Observer
      */
     public function addTaxPercentToProductCollection($observer)
     {
-        $helper = Mage::helper('tax');
+        $helper = Mage::helper('Mage_Tax_Helper_Data');
         $collection = $observer->getEvent()->getCollection();
         $store = $collection->getStoreId();
         if (!$helper->needPriceConversion($store)) {

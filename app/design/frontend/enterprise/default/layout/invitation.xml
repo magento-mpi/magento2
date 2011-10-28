@@ -29,7 +29,7 @@
 <layout version="0.1.0">
     <customer_logged_in>
         <block type="Enterprise_Invitation_Block_Link" name="invitation_link_top">
-            <action method="addAccountLink" translate="label title" module="enterprise_invitation"><block>account.links</block><label>Send Invitations</label><url helper="enterprise_invitation/data/getCustomerInvitationFormUrl" /><title>Send Invitations</title><prepare /><urlParams /><position>1</position><li>id="invitation-send-link"</li></action>
+            <action method="addAccountLink" translate="label title" module="Enterprise_Invitation"><block>account.links</block><label>Send Invitations</label><url helper="Enterprise_Invitation_Helper_Data::getCustomerInvitationFormUrl" /><title>Send Invitations</title><prepare /><urlParams /><position>1</position><li>id="invitation-send-link"</li></action>
         </block>
     </customer_logged_in>
 
@@ -66,7 +66,7 @@
 
     <customer_account>
         <block type="Enterprise_Invitation_Block_Link" name="invitation_link_dashboard">
-            <action method="addDashboardLink" translate="label" module="enterprise_invitation"><block>customer_account_navigation</block><name>invitations</name><path>enterprise_invitation/</path><label>My Invitations</label></action>
+            <action method="addDashboardLink" translate="label" module="Enterprise_Invitation"><block>customer_account_navigation</block><name>invitations</name><path>enterprise_invitation/</path><label>My Invitations</label></action>
         </block>
     </customer_account>
 

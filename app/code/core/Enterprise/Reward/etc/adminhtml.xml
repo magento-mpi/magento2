@@ -32,9 +32,9 @@
                 <children>
                     <customer>
                         <children>
-                            <manage translate="title" module="enterprise_reward">
+                            <manage translate="title" module="Enterprise_Reward">
                                 <children>
-                                    <reward_balance translate="title" module="enterprise_reward">
+                                    <reward_balance translate="title" module="Enterprise_Reward">
                                         <title>Manage Reward Points Balances</title>
                                         <sort_order>10</sort_order>
                                     </reward_balance>
@@ -50,7 +50,7 @@
                                         <children>
                                             <create>
                                                 <children>
-                                                    <reward_spend translate="title" module="enterprise_reward">
+                                                    <reward_spend translate="title" module="Enterprise_Reward">
                                                         <title>Can Spend Reward Points</title>
                                                         <sort_order>30</sort_order>
                                                     </reward_spend>
@@ -74,7 +74,7 @@
                         <children>
                             <config>
                                 <children>
-                                    <enterprise_reward translate="title" module="enterprise_reward">
+                                    <enterprise_reward translate="title" module="Enterprise_Reward">
                                         <title>Reward Points</title>
                                         <sort_order>10</sort_order>
                                     </enterprise_reward>
@@ -89,7 +89,7 @@
     <menu>
         <customer>
             <children>
-                <reward translate="title" module="enterprise_reward">
+                <reward translate="title" module="Enterprise_Reward">
                     <title>Reward Exchange Rates</title>
                     <action>adminhtml/reward_rate</action>
                     <sort_order>100</sort_order>

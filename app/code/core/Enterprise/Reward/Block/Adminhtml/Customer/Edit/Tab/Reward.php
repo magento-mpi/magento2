@@ -43,7 +43,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_reward')->__('Reward Points');
+        return Mage::helper('Enterprise_Reward_Helper_Data')->__('Reward Points');
     }
 
     /**
@@ -53,7 +53,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_reward')->__('Reward Points');
+        return Mage::helper('Enterprise_Reward_Helper_Data')->__('Reward Points');
     }
 
     /**
@@ -65,7 +65,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
     {
         $customer = Mage::registry('current_customer');
         return $customer->getId()
-            && Mage::helper('enterprise_reward')->isEnabled()
+            && Mage::helper('Enterprise_Reward_Helper_Data')->isEnabled()
             && Mage::getSingleton('admin/session')
                 ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_BALANCE);
     }
@@ -90,7 +90,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
     {
         $accordion = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Accordion');
         $accordion->addItem('reward_points_history', array(
-            'title'       => Mage::helper('enterprise_reward')->__('Reward Points History'),
+            'title'       => Mage::helper('Enterprise_Reward_Helper_Data')->__('Reward Points History'),
             'open'        => false,
             'class'       => '',
             'ajax'        => true,

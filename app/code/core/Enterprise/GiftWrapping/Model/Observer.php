@@ -198,10 +198,10 @@ class Enterprise_GiftWrapping_Model_Observer
                 }
             }
             if ($totalWrapping) {
-                $paypalCart->addItem(Mage::helper('enterprise_giftwrapping')->__('Gift Wrapping'),1,$totalWrapping);
+                $paypalCart->addItem(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Gift Wrapping'),1,$totalWrapping);
             }
             if ($totalCard) {
-                $paypalCart->addItem(Mage::helper('enterprise_giftwrapping')->__('Printed Card'),1,$totalCard);
+                $paypalCart->addItem(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Printed Card'),1,$totalCard);
             }
         }
     }
@@ -217,7 +217,7 @@ class Enterprise_GiftWrapping_Model_Observer
        $items = $observer->getEvent()->getItems();
        foreach ($items as $item) {
            $allowed = $item->getProduct()->getGiftWrappingAvailable();
-           if (Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForProduct($allowed)
+           if (Mage::helper('Enterprise_GiftWrapping_Helper_Data')->isGiftWrappingAvailableForProduct($allowed)
                && !$item->getIsVirtual()) {
                $item->setIsGiftOptionsAvailable(true);
            }
@@ -251,7 +251,7 @@ class Enterprise_GiftWrapping_Model_Observer
         $order = $observer->getEvent()->getOrder();
         $storeId = $order->getStore()->getId();
         // Do not import giftwrapping data if order is reordered or GW is not available for order
-        $giftWrappingHelper = Mage::helper('enterprise_giftwrapping');
+        $giftWrappingHelper = Mage::helper('Enterprise_GiftWrapping_Helper_Data');
         if ($order->getReordered() || !$giftWrappingHelper->isGiftWrappingAvailableForOrder($storeId)) {
             return $this;
         }
@@ -274,7 +274,7 @@ class Enterprise_GiftWrapping_Model_Observer
         $orderItem = $observer->getEvent()->getOrderItem();
         // Do not import giftwrapping data if order is reordered or GW is not available for items
         $order = $orderItem->getOrder();
-        $giftWrappingHelper = Mage::helper('enterprise_giftwrapping');
+        $giftWrappingHelper = Mage::helper('Enterprise_GiftWrapping_Helper_Data');
         if ($order && ($order->getReordered()
             || !$giftWrappingHelper->isGiftWrappingAvailableForItems($order->getStore()->getId()))
         ) {

@@ -147,7 +147,7 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
                 $customerName = $customer->getFirstname() . ' ' . $customer->getLastname();
             }
             else {
-                $customerName = Mage::helper('loadtest')->__('Guest');
+                $customerName = Mage::helper('Mage_LoadTest_Helper_Data')->__('Guest');
             }
             $this->_review = array(
                 'id'            => $review->getId(),
@@ -268,7 +268,7 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
             unset($collection);
 
             if (count($this->_customers) == 0) {
-                Mage::throwException(Mage::helper('loadtest')->__('Customers not found, please create customer(s) first.'));
+                Mage::throwException(Mage::helper('Mage_LoadTest_Helper_Data')->__('Customers not found, please create customer(s) first.'));
             }
         }
         if (is_null($this->_products)) {
@@ -283,7 +283,7 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
             unset($collection);
 
             if (count($this->_products) == 0) {
-                Mage::throwException(Mage::helper('loadtest')->__('Products not found, please create product(s) first.'));
+                Mage::throwException(Mage::helper('Mage_LoadTest_Helper_Data')->__('Products not found, please create product(s) first.'));
             }
         }
         if (is_null($this->_stores)) {

@@ -29,7 +29,7 @@
     <sections>
         <carriers>
             <groups>
-                <dhl translate="label" module="usa">
+                <dhl translate="label" module="Mage_Usa">
                     <label>DHL</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>130</sort_order>
@@ -376,7 +376,7 @@
                         </debug>
                     </fields>
                 </dhl>
-                <fedex translate="label" module="usa">
+                <fedex translate="label" module="Mage_Usa">
                     <label>FedEx</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>120</sort_order>
@@ -602,7 +602,7 @@
                         0</sort_order>
                     </fields>
                 </fedex>
-                <ups translate="label" module="usa">
+                <ups translate="label" module="Mage_Usa">
                     <label>UPS</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>100</sort_order>
@@ -896,7 +896,7 @@
                         </debug>
                     </fields>
                 </ups>
-                <usps translate="label" module="usa">
+                <usps translate="label" module="Mage_Usa">
                     <label>USPS</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>110</sort_order>

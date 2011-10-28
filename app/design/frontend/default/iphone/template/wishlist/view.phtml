@@ -25,15 +25,13 @@
  */
 /* @var $this Mage_Wishlist_Block_Customer_Wishlist */
 ?>
-<?php if ($this->helper('wishlist')->isAllow()) : ?>
+<?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
 <div class="my-wishlist">
     <h1><?php echo $this->__('My Wishlist') ?></h1>
 
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <?php if ($this->hasWishlistItems()): ?>
-    <div class="wishlist-wrap">
         <form id="wishlist-view-form" action="<?php echo $this->getUrl('*/*/update') ?>" method="post">
-            <span id="remove-all" class="remove-all item-remove"><img src="<?php echo $this->getSkinUrl('images/btn_trash.png') ?>" width="10" height="10" alt="<?php echo $this->__('Remove All')?>" /></span>
             <?php echo $this->getBlockHtml('formkey')?>
                 <ul id="wishlist-list">
                     <?php foreach ($this->getWishlistItems() as $item): ?>
@@ -42,14 +40,13 @@
                             $isVisibleProduct = $product->isVisibleInSiteVisibility();
                         ?>
                         <li>
-                            <a href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(90, 90); ?>" width="45" height="45" alt="<?php echo $this->escapeHtml($product->getName()) ?>" /></a>
+                            <a href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><img src="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($product, 'small_image')->resize(45, 45); ?>" width="45" height="45" alt="<?php echo $this->escapeHtml($product->getName()) ?>" /></a>
                              <div class="wishlist-item">
-                                <h2>
-                                    <a href="<?php echo $this->getItemRemoveUrl($item) ?>" title="<?php echo $this->__('Remove') ?>" onclick="return confirmRemoveWishlistItem();" class="btn-remove"><img src="<?php echo $this->getSkinUrl('images/btn_trash.png') ?>" width="10" height="10" alt="<?php echo $this->__('Remove item')?>" /></a>
+                                <h2><a href="<?php echo $this->getProductUrl($item) ?>"><?php echo $this->escapeHtml($product->getName()) ?></a>
                                     <?php if ($isVisibleProduct): ?>
                                         <a class="btn-edit" href="<?php echo $this->getItemConfigureUrl($item) ?>"><?php echo $this->__('E') ?></a>
                                     <?php endif ?>
-                                    <a href="<?php echo $this->getProductUrl($item) ?>"><?php echo $this->escapeHtml($product->getName()) ?></a>
+                                    <a href="<?php echo $this->getItemRemoveUrl($item) ?>" title="<?php echo $this->__('Remove') ?>" onclick="return confirmRemoveWishlistItem();" class="btn-remove"><img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="10" height="10" alt="<?php echo $this->__('Remove item')?>" /></a>
                                 </h2>
                                 <?php echo $this->getPriceHtml($product) ?>
                                 <?php echo $this->getDetailsHtml($item) ?>
@@ -75,7 +72,6 @@
                 <?php endif;?>
             </ul>
         </form>
-    </div>
     <?php else: ?>
         <p><?php echo $this->__('You have no items in your wishlist.') ?></p>
     <?php endif ?>
@@ -86,10 +82,10 @@
     }
 
     function focusComment(obj) {
-        if( obj.value == '<?php echo $this->helper('wishlist')->defaultCommentString() ?>' ) {
+        if( obj.value == '<?php echo $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString() ?>' ) {
             obj.value = '';
         } else if( obj.value == '' ) {
-            obj.value = '<?php echo $this->helper('wishlist')->defaultCommentString() ?>';
+            obj.value = '<?php echo $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString() ?>';
         }
     }
 

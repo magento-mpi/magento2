@@ -82,12 +82,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventory
      */
     public function getTabLabel()
     {
-        return Mage::helper('catalog')->__('Inventory');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Inventory');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('catalog')->__('Inventory');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Inventory');
     }
 
     public function canShowTab()

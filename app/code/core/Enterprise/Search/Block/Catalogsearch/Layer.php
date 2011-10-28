@@ -40,7 +40,7 @@ class Enterprise_Search_Block_Catalogsearch_Layer extends Mage_CatalogSearch_Blo
     {
         parent::_initBlocks();
 
-        if (Mage::helper('enterprise_search')->getIsEngineAvailableForNavigation(false)) {
+        if (Mage::helper('Enterprise_Search_Helper_Data')->getIsEngineAvailableForNavigation(false)) {
             $this->_categoryBlockName        = 'Enterprise_Search_Block_Catalog_Layer_Filter_Category';
             $this->_attributeFilterBlockName = 'Enterprise_Search_Block_Catalogsearch_Layer_Filter_Attribute';
             $this->_priceFilterBlockName     = 'Enterprise_Search_Block_Catalog_Layer_Filter_Price';
@@ -55,7 +55,7 @@ class Enterprise_Search_Block_Catalogsearch_Layer extends Mage_CatalogSearch_Blo
      */
     protected function _prepareLayout()
     {
-        $helper = Mage::helper('enterprise_search');
+        $helper = Mage::helper('Enterprise_Search_Helper_Data');
         if ($helper->isThirdPartSearchEngine() && $helper->getIsEngineAvailableForNavigation(false)) {
             $stateBlock = $this->getLayout()->createBlock($this->_stateBlockName)
                 ->setLayer($this->getLayer());
@@ -113,7 +113,7 @@ class Enterprise_Search_Block_Catalogsearch_Layer extends Mage_CatalogSearch_Blo
      */
     public function getLayer()
     {
-        $helper = Mage::helper('enterprise_search');
+        $helper = Mage::helper('Enterprise_Search_Helper_Data');
         if ($helper->isThirdPartSearchEngine() && $helper->isActiveEngine()) {
             return Mage::getSingleton('enterprise_search/search_layer');
         }

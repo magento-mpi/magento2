@@ -29,7 +29,7 @@
     <sections>
         <catalog>
             <groups>
-                <recently_products translate="label" module="reports">
+                <recently_products translate="label" module="Mage_Reports">
                     <label>Recently Viewed/Compared Products</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>350</sort_order>
@@ -66,7 +66,7 @@
                 </recently_products>
             </groups>
         </catalog>
-        <reports translate="label" module="reports">
+        <reports translate="label" module="Mage_Reports">
             <label>Reports</label>
             <tab>general</tab>
             <frontend_type>text</frontend_type>

@@ -49,18 +49,18 @@ class Mage_Adminhtml_Block_Report_Sales_Bestsellers_Grid extends Mage_Adminhtml_
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'        => Mage::helper('sales')->__('Period'),
+            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Period'),
             'index'         => 'period',
             'width'         => 100,
             'sortable'      => false,
             'period_type'   => $this->getPeriodType(),
             'renderer'      => 'Mage_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
-            'totals_label'  => Mage::helper('adminhtml')->__('Total'),
+            'totals_label'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total'),
             'html_decorators' => array('nobr'),
         ));
 
         $this->addColumn('product_name', array(
-            'header'    => Mage::helper('sales')->__('Product Name'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Product Name'),
             'index'     => 'product_name',
             'type'      => 'string',
             'sortable'  => false
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Report_Sales_Bestsellers_Grid extends Mage_Adminhtml_
         $currencyCode = $this->getCurrentCurrencyCode();
 
         $this->addColumn('product_price', array(
-            'header'        => Mage::helper('sales')->__('Price'),
+            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Price'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'product_price',
@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Report_Sales_Bestsellers_Grid extends Mage_Adminhtml_
         ));
 
         $this->addColumn('qty_ordered', array(
-            'header'    => Mage::helper('sales')->__('Quantity Ordered'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Quantity Ordered'),
             'index'     => 'qty_ordered',
             'type'      => 'number',
             'total'     => 'sum',
@@ -89,8 +89,8 @@ class Mage_Adminhtml_Block_Report_Sales_Bestsellers_Grid extends Mage_Adminhtml_
         ));
 
 
-        $this->addExportType('*/*/exportBestsellersCsv', Mage::helper('adminhtml')->__('CSV'));
-        $this->addExportType('*/*/exportBestsellersExcel', Mage::helper('adminhtml')->__('Excel XML'));
+        $this->addExportType('*/*/exportBestsellersCsv', Mage::helper('Mage_Adminhtml_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportBestsellersExcel', Mage::helper('Mage_Adminhtml_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

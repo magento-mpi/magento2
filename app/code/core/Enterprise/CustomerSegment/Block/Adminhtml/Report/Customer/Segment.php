@@ -40,7 +40,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment extends
     {
         $this->_blockGroup = 'enterprise_customersegment';
         $this->_controller = 'adminhtml_report_customer_segment';
-        $this->_headerText = Mage::helper('enterprise_customersegment')->__('Customer Segment Report');
+        $this->_headerText = Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Segment Report');
         parent::__construct();
         $this->_removeButton('add');
     }

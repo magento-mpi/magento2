@@ -94,7 +94,7 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('enterprise_customersegment/segment');
+        return Mage::getResourceSingleton('Enterprise_CustomerSegment_Model_Resource_Segment');
     }
 
     /**

@@ -65,7 +65,7 @@ class Mage_Media_Model_Image extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('media/image');
+        $this->_init('Mage_Media_Model_File_Image');
     }
 
     /**

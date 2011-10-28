@@ -40,7 +40,7 @@ class Enterprise_Search_Block_Suggestions extends Mage_Core_Block_Template
      */
     public function getSuggestions()
     {
-        $helper = Mage::helper('enterprise_search');
+        $helper = Mage::helper('Enterprise_Search_Helper_Data');
 
         $searchSuggestionsEnabled = (bool)$helper->getSolrConfigData('server_suggestion_enabled');
         if (!($helper->isThirdPartSearchEngine() && $helper->isActiveEngine()) || !$searchSuggestionsEnabled) {
@@ -64,6 +64,6 @@ class Enterprise_Search_Block_Suggestions extends Mage_Core_Block_Template
      */
     public function isCountResultsEnabled()
     {
-        return (bool)Mage::helper('enterprise_search')->getSolrConfigData('server_suggestion_count_results_enabled');
+        return (bool)Mage::helper('Enterprise_Search_Helper_Data')->getSolrConfigData('server_suggestion_count_results_enabled');
     }
 }

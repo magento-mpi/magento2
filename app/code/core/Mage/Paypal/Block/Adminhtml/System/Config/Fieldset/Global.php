@@ -209,7 +209,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Global
         return sprintf('<label for="%s" class="inherit" title="%s">%s</label>',
             $element->getHtmlId() . '_inherit',
             $element->getDefaultValue(),
-            Mage::helper('adminhtml')->__('Use Default')
+            Mage::helper('Mage_Adminhtml_Helper_Data')->__('Use Default')
         );
     }
 
@@ -235,6 +235,6 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Global
      */
     public function getElementBackendConfig(Varien_Data_Form_Element_Abstract $element)
     {
-        return Mage::helper('paypal')->getElementBackendConfig($element);
+        return Mage::helper('Mage_Paypal_Helper_Data')->getElementBackendConfig($element);
     }
 }

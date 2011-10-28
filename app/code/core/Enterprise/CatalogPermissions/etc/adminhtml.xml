@@ -34,7 +34,7 @@
                         <children>
                             <config>
                                 <children>
-                                       <enterprise_catalogpermissions translate="title" module="enterprise_catalogpermissions">
+                                       <enterprise_catalogpermissions translate="title" module="Enterprise_CatalogPermissions">
                                             <title>Category Permissions Section</title>
                                        </enterprise_catalogpermissions>
                                 </children>
@@ -43,7 +43,7 @@
                     </system>
                     <catalog>
                         <children>
-                             <enterprise_catalogpermissions translate="title" module="enterprise_catalogpermissions">
+                             <enterprise_catalogpermissions translate="title" module="Enterprise_CatalogPermissions">
                                 <title>Category Permissions</title>
                              </enterprise_catalogpermissions>
                         </children>

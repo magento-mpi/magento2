@@ -93,7 +93,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container
      */
     public function getActionUrl()
     {
-        $param = array('key' => Mage::helper('xmlconnect')->getApplication()->getId());
+        $param = array('key' => Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getId());
         return $this->getUrl('*/*/submissionPost', $param);
     }
 }

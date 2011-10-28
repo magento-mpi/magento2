@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View_Items extends Mage_Adminh
     public function getOrderTotalData()
     {
         return array(
-            'grand_total_title' => Mage::helper('sales')->__('Total Refund'),
+            'grand_total_title' => Mage::helper('Mage_Sales_Helper_Data')->__('Total Refund'),
         );
     }
 

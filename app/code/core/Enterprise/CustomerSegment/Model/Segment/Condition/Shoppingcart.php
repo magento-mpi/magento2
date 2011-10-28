@@ -53,7 +53,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart
                 Mage::getModel($prefix.'itemsquantity')->getNewChildSelectOptions(),
                 Mage::getModel($prefix.'productsquantity')->getNewChildSelectOptions(),
             ),
-            'label' => Mage::helper('enterprise_customersegment')->__('Shopping Cart')
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shopping Cart')
         );
     }
 }

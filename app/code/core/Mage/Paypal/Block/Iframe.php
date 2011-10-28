@@ -73,7 +73,7 @@ class Mage_Paypal_Block_Iframe extends Mage_Payment_Block_Form
             ->getQuote()
             ->getPayment()
             ->getMethod();
-        if (in_array($paymentCode, $this->helper('paypal/hss')->getHssMethods())) {
+        if (in_array($paymentCode, $this->helper('Mage_Paypal_Helper_Hss')->getHssMethods())) {
             $this->_paymentMethodCode = $paymentCode;
         }
         $this->setTemplate('paypal/hss/iframe.phtml');

@@ -40,9 +40,9 @@
         <col width="1" />
         <thead>
             <tr class="headings">
-                <th <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>><?php echo Mage::helper('sales')->__('Website') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Amount') ?> <span class="required">*</span></th>
-                <th class="last"><?php echo Mage::helper('catalog')->__('Action') ?></th>
+                <th <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Website') ?></th>
+                <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Amount') ?> <span class="required">*</span></th>
+                <th class="last"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Action') ?></th>
             </tr>
             <tr id="<?php echo $_htmlId ?>_add_template" class="template no-display">
                 <td <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>>
@@ -57,7 +57,7 @@
                 </td>
                 <td class="last">
                     <input type="hidden" name="<?php echo $_htmlName ?>[__index__][delete]" class="delete" disabled="no-template" value=""  id="#{prefix}_giftcard_amounts_row___index___delete" />
-                    <button title="<?php echo Mage::helper('enterprise_giftcard')->__('Delete Amount'); ?>" class="scalable delete icon-btn delete-product-option" onclick="giftcardAmountsControl.deleteItem('<?php echo $_htmlId ?>', event); return false;"><span><?php echo Mage::helper('enterprise_giftcard')->__('Delete'); ?></span></button>
+                    <button title="<?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Delete Amount'); ?>" class="scalable delete icon-btn delete-product-option" onclick="giftcardAmountsControl.deleteItem('<?php echo $_htmlId ?>', event); return false;"><span><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Delete'); ?></span></button>
                 </td>
             </tr>
         </thead>

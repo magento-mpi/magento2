@@ -45,7 +45,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Gallery extends Mage_XmlConnect_Bloc
         $collection = $product->getMediaGalleryImages();
 
         $imagesNode = Mage::getModel('xmlconnect/simplexml_element', '<images></images>');
-        $helper = $this->helper('catalog/image');
+        $helper = $this->helper('Mage_Catalog_Helper_Image');
 
         foreach ($collection as $item) {
             $imageNode = $imagesNode->addChild('image');
@@ -54,13 +54,13 @@ class Mage_XmlConnect_Block_Catalog_Product_Gallery extends Mage_XmlConnect_Bloc
              * Big image
              */
             $bigImage = $helper->init($product, 'image', $item->getFile())->constrainOnly(true)->keepFrame(false)
-                ->resize(Mage::helper('xmlconnect/image')->getImageSizeForContent('product_gallery_big'));
+                ->resize(Mage::helper('Mage_XmlConnect_Helper_Image')->getImageSizeForContent('product_gallery_big'));
 
             $fileNode = $imageNode->addChild('file');
             $fileNode->addAttribute('type', 'big');
             $fileNode->addAttribute('url', $bigImage);
 
-            $file = Mage::helper('xmlconnect')->urlToPath($bigImage);
+            $file = Mage::helper('Mage_XmlConnect_Helper_Data')->urlToPath($bigImage);
 
             $fileNode->addAttribute('id', ($id = $item->getId()) ? (int) $id : 0);
             $fileNode->addAttribute('modification_time', filemtime($file));
@@ -69,13 +69,13 @@ class Mage_XmlConnect_Block_Catalog_Product_Gallery extends Mage_XmlConnect_Bloc
              * Small image
              */
             $smallImage = $helper->init($product, 'thumbnail', $item->getFile())->constrainOnly(true)->keepFrame(false)
-                ->resize(Mage::helper('xmlconnect/image')->getImageSizeForContent('product_gallery_small'));
+                ->resize(Mage::helper('Mage_XmlConnect_Helper_Image')->getImageSizeForContent('product_gallery_small'));
 
             $fileNode = $imageNode->addChild('file');
             $fileNode->addAttribute('type', 'small');
             $fileNode->addAttribute('url', $smallImage);
 
-            $file = Mage::helper('xmlconnect')->urlToPath($smallImage);
+            $file = Mage::helper('Mage_XmlConnect_Helper_Data')->urlToPath($smallImage);
             $fileNode->addAttribute('modification_time', filemtime($file));
         }
         return $imagesNode->asNiceXml();

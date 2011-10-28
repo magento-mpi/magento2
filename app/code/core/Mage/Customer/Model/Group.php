@@ -71,7 +71,7 @@ class Mage_Customer_Model_Group extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('customer/group');
+        $this->_init('Mage_Customer_Model_Resource_Group');
     }
 
     /**

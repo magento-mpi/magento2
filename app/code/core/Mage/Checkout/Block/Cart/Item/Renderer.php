@@ -87,7 +87,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
         if (!is_null($this->_productThumbnail)) {
             return $this->_productThumbnail;
         }
-        return $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail');
+        return $this->helper('Mage_Catalog_Helper_Image')->init($this->getProduct(), 'thumbnail');
     }
 
     public function overrideProductUrl($productUrl)
@@ -169,7 +169,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     public function getProductOptions()
     {
         /* @var $helper Mage_Catalog_Helper_Product_Configuration */
-        $helper = Mage::helper('catalog/product_configuration');
+        $helper = Mage::helper('Mage_Catalog_Helper_Product_Configuration');
         return $helper->getCustomOptions($this->getItem());
     }
 
@@ -207,7 +207,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
             'checkout/cart/delete',
             array(
                 'id'=>$this->getItem()->getId(),
-                Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->helper('core/url')->getEncodedUrl()
+                Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->helper('Mage_Core_Helper_Url')->getEncodedUrl()
             )
         );
     }
@@ -319,7 +319,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     public function getFormatedOptionValue($optionValue)
     {
         /* @var $helper Mage_Catalog_Helper_Product_Configuration */
-        $helper = Mage::helper('catalog/product_configuration');
+        $helper = Mage::helper('Mage_Catalog_Helper_Product_Configuration');
         $params = array(
             'max_length' => 55,
             'cut_replacer' => ' <a href="#" class="dots" onclick="return false">...</a>'

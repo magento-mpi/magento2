@@ -146,7 +146,7 @@ class Mage_Sendfriend_Block_Send extends Mage_Core_Block_Template
      */
     public function getMaxRecipients()
     {
-        return Mage::helper('sendfriend')->getMaxRecipients();
+        return Mage::helper('Mage_Sendfriend_Helper_Data')->getMaxRecipients();
     }
 
     /**

@@ -78,7 +78,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('enterprise_staging/staging');
+        $this->_init('Enterprise_Staging_Model_Resource_Staging');
     }
 
     public function getTablePrefix()
@@ -328,7 +328,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 
         // rebuild flat tables after rollback
         if ($process == 'rollback') {
-            if (Mage::helper('catalog/category_flat')->isBuilt()) {
+            if (Mage::helper('Mage_Catalog_Helper_Category_Flat')->isBuilt()) {
                 Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Flat')->rebuild();
             }
 
@@ -336,7 +336,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
             if (!empty($stores)) {
                 foreach ($stores as $storeIds) {
                     if (isset($storeIds[0]) && $storeIds[0]) {
-                        if (Mage::helper('catalog/product_flat')->isBuilt()) {
+                        if (Mage::helper('Mage_Catalog_Helper_Product_Flat')->isBuilt()) {
                             Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Flat_Indexer')->rebuild($storeIds[0]);
                         }
                     }
@@ -357,10 +357,10 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 //                break;
 //        }
 //        if ($needToRebuiltFlat) {
-//            if (Mage::helper('catalog/category_flat')->isRebuilt()) {
+//            if (Mage::helper('Mage_Catalog_Helper_Category_Flat')->isRebuilt()) {
 //                Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Flat')->rebuild();
 //            }
-//            if (Mage::helper('catalog/product_flat')->isBuilt()) {
+//            if (Mage::helper('Mage_Catalog_Helper_Product_Flat')->isBuilt()) {
 //                Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Flat_Indexer')->rebuild();
 //            }
 //        }

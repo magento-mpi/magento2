@@ -79,8 +79,8 @@ class Mage_Widget_Block_Adminhtml_Widget_Chooser extends Mage_Adminhtml_Block_Te
 
         // chooser control buttons
         $buttons = array(
-            'open'  => Mage::helper('widget')->__('Choose...'),
-            'close' => Mage::helper('widget')->__('Close')
+            'open'  => Mage::helper('Mage_Widget_Helper_Data')->__('Choose...'),
+            'close' => Mage::helper('Mage_Widget_Helper_Data')->__('Close')
         );
         if (isset($configArray['button']) && is_array($configArray['button'])) {
             foreach ($configArray['button'] as $id => $label) {
@@ -102,7 +102,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Chooser extends Mage_Adminhtml_Block_Te
         if ($this->_getData('translation_helper') instanceof Mage_Core_Helper_Abstract) {
             return $this->_getData('translation_helper');
         }
-        return $this->helper('widget');
+        return $this->helper('Mage_Widget_Helper_Data');
     }
 
     /**
@@ -175,10 +175,10 @@ class Mage_Widget_Block_Adminhtml_Widget_Chooser extends Mage_Adminhtml_Block_Te
         $chooser->setData('after_element_html', $hiddenHtml . $chooseButton->toHtml());
 
         // render label and chooser scripts
-        $configJson = Mage::helper('core')->jsonEncode($config->getData());
+        $configJson = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config->getData());
         return '
             <label class="widget-option-label" id="' . $chooserId . 'label">'
-            . ($this->getLabel() ? $this->getLabel() : Mage::helper('widget')->__('Not Selected')) . '</label>
+            . ($this->getLabel() ? $this->getLabel() : Mage::helper('Mage_Widget_Helper_Data')->__('Not Selected')) . '</label>
             <div id="' . $chooserId . 'advice-container" class="hidden"></div>
             <script type="text/javascript">
                 ' . $chooserId . ' = new WysiwygWidget.chooser("' . $chooserId . '", "' . $this->getSourceUrl() . '", '

@@ -51,7 +51,7 @@ class Enterprise_Checkout_Block_Adminhtml_Customer_Edit_Buttons extends Mage_Adm
             $url = Mage::getSingleton('adminhtml/url')
                ->getUrl('*/checkout/index', array('customer' => $container->getCustomerId()));
             $container->addButton('manage_quote', array(
-                'label' => Mage::helper('enterprise_checkout')->__('Manage Shopping Cart'),
+                'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Manage Shopping Cart'),
                 'onclick' => "setLocation('" . $url . "')",
             ), 0);
         }

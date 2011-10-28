@@ -27,13 +27,13 @@
 -->
 <config>
     <tabs>
-        <catalog translate="label" module="catalog">
+        <catalog translate="label" module="Mage_Catalog">
             <label>Catalog</label>
             <sort_order>200</sort_order>
         </catalog>
     </tabs>
     <sections>
-        <catalog translate="label" module="catalog">
+        <catalog translate="label" module="Mage_Catalog">
             <class>separator-top</class>
             <label>Catalog</label>
             <tab>catalog</tab>

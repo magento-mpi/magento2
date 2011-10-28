@@ -193,8 +193,8 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
                 } else {
                     $quoteAddress = $this->_getQuote()->getShippingAddress();
                 }
-                $taxAmount = Mage::helper('core')->currency($quoteAddress->getBaseTaxAmount(), false, false);
-                $message->addChild('tax_amount', Mage::helper('xmlconnect')->formatPriceForXml($taxAmount));
+                $taxAmount = Mage::helper('Mage_Core_Helper_Data')->currency($quoteAddress->getBaseTaxAmount(), false, false);
+                $message->addChild('tax_amount', Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml($taxAmount));
                 $this->_getQuote()->collectTotals()->save();
                 $this->getResponse()->setBody($message->asNiceXml());
             } else {

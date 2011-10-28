@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         $this->setUseAjax(true);
         $this->_parentTemplate = $this->getTemplate();
         $this->setTemplate('customer/tab/wishlist.phtml');
-        $this->setEmptyText(Mage::helper('customer')->__('No Items Found'));
+        $this->setEmptyText(Mage::helper('Mage_Customer_Helper_Data')->__('No Items Found'));
         $this->addProductConfigurationHelper('default', 'catalog/product_configuration');
     }
 
@@ -106,19 +106,19 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('product_name', array(
-            'header'    => Mage::helper('catalog')->__('Product name'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Product name'),
             'index'     => 'product_name',
             'renderer'  => 'Mage_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item'
         ));
 
         $this->addColumn('description', array(
-            'header'    => Mage::helper('wishlist')->__('User description'),
+            'header'    => Mage::helper('Mage_Wishlist_Helper_Data')->__('User description'),
             'index'     => 'description',
             'renderer'  => 'Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Description'
         ));
 
         $this->addColumn('qty', array(
-            'header'    => Mage::helper('catalog')->__('Qty'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Qty'),
             'index'     => 'qty',
             'type'      => 'number',
             'width'     => '60px'
@@ -126,7 +126,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store', array(
-                'header'    => Mage::helper('wishlist')->__('Added From'),
+                'header'    => Mage::helper('Mage_Wishlist_Helper_Data')->__('Added From'),
                 'index'     => 'store_id',
                 'type'      => 'store',
                 'width'     => '160px'
@@ -134,33 +134,33 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         }
 
         $this->addColumn('added_at', array(
-            'header'    => Mage::helper('wishlist')->__('Date Added'),
+            'header'    => Mage::helper('Mage_Wishlist_Helper_Data')->__('Date Added'),
             'index'     => 'added_at',
             'gmtoffset' => true,
             'type'      => 'date'
         ));
 
         $this->addColumn('days', array(
-            'header'    => Mage::helper('wishlist')->__('Days in Wishlist'),
+            'header'    => Mage::helper('Mage_Wishlist_Helper_Data')->__('Days in Wishlist'),
             'index'     => 'days_in_wishlist',
             'type'      => 'number'
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('customer')->__('Action'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Action'),
             'index'     => 'wishlist_item_id',
             'renderer'  => 'Mage_Adminhtml_Block_Customer_Grid_Renderer_Multiaction',
             'filter'    => false,
             'sortable'  => false,
             'actions'   => array(
                 array(
-                    'caption'   => Mage::helper('customer')->__('Configure'),
+                    'caption'   => Mage::helper('Mage_Customer_Helper_Data')->__('Configure'),
                     'url'       => 'javascript:void(0)',
                     'process'   => 'configurable',
                     'control_object' => 'wishlistControl'
                 ),
                 array(
-                    'caption'   => Mage::helper('customer')->__('Delete'),
+                    'caption'   => Mage::helper('Mage_Customer_Helper_Data')->__('Delete'),
                     'url'       => '#',
                     'onclick'   => 'return wishlistControl.removeItem($wishlist_item_id);'
                 )

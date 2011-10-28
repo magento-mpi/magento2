@@ -51,7 +51,7 @@ class Mage_GoogleOptimizer_Adminhtml_Googleoptimizer_IndexController extends Mag
                     $result[$id] = $code;
                 }
             }
-            $this->getResponse()->setBody( Mage::helper('core')->jsonEncode($result) );
+            $this->getResponse()->setBody( Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result) );
         }
     }
 }

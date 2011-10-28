@@ -27,7 +27,7 @@
 -->
 <config>
    <sections>
-        <api translate="label" module="api">
+        <api translate="label" module="Mage_Api">
             <label>Magento Core API</label>
             <tab>service</tab>
             <frontend_type>text</frontend_type>

@@ -56,7 +56,7 @@
         </blocks>
         <template>
             <email>
-                <sendfriend_email_template translate="label" module="sendfriend">
+                <sendfriend_email_template translate="label" module="Mage_Sendfriend">
                     <label>Send product to a friend</label>
                     <file>product_share.html</file>
                     <type>html</type>

@@ -70,12 +70,12 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'        => Mage::helper('tag')->__('Tag'),
+            'header'        => Mage::helper('Mage_Tag_Helper_Data')->__('Tag'),
             'index'         => 'name',
         ));
 
         $this->addColumn('products', array(
-            'header'        => Mage::helper('tag')->__('Products'),
+            'header'        => Mage::helper('Mage_Tag_Helper_Data')->__('Products'),
             'width'         => 140,
             'align'         => 'right',
             'index'         => 'products',
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('customers', array(
-            'header'        => Mage::helper('tag')->__('Customers'),
+            'header'        => Mage::helper('Mage_Tag_Helper_Data')->__('Customers'),
             'width'         => 140,
             'align'         => 'right',
             'index'         => 'customers',
@@ -91,16 +91,16 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('status', array(
-            'header'        => Mage::helper('tag')->__('Status'),
+            'header'        => Mage::helper('Mage_Tag_Helper_Data')->__('Status'),
             'width'         => 90,
             'index'         => 'status',
             'type'          => 'options',
-            'options'       => $this->helper('tag/data')->getStatusesArray(),
+            'options'       => $this->helper('Mage_Tag_Helper_Data')->getStatusesArray(),
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
-                'header'                => Mage::helper('tag')->__('Store View'),
+                'header'                => Mage::helper('Mage_Tag_Helper_Data')->__('Store View'),
                 'type'                  => 'store',
                 'skipAllStoresLabel'    => true,
                 'index'                 => 'stores',
@@ -118,24 +118,24 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->getMassactionBlock()->setFormFieldName('tag');
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'    => Mage::helper('tag')->__('Delete'),
+             'label'    => Mage::helper('Mage_Tag_Helper_Data')->__('Delete'),
              'url'      => $this->getUrl('*/*/massDelete'),
-             'confirm'  => Mage::helper('tag')->__('Are you sure?')
+             'confirm'  => Mage::helper('Mage_Tag_Helper_Data')->__('Are you sure?')
         ));
 
-        $statuses = $this->helper('tag/data')->getStatusesOptionsArray();
+        $statuses = $this->helper('Mage_Tag_Helper_Data')->getStatusesOptionsArray();
 
         array_unshift($statuses, array('label'=>'', 'value'=>''));
 
         $this->getMassactionBlock()->addItem('status', array(
-            'label'=> Mage::helper('tag')->__('Change status'),
+            'label'=> Mage::helper('Mage_Tag_Helper_Data')->__('Change status'),
             'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true)),
             'additional' => array(
                 'visibility' => array(
                     'name'     => 'status',
                     'type'     => 'select',
                     'class'    => 'required-entry',
-                    'label'    => Mage::helper('tag')->__('Status'),
+                    'label'    => Mage::helper('Mage_Tag_Helper_Data')->__('Status'),
                     'values'   => $statuses
                 )
              )

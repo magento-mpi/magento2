@@ -69,6 +69,6 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Link extends Ma
         $product = $this->getItem()->getProduct();
         $allowed = !$product->getTypeInstance(true)->isVirtual($product) && $product->getGiftWrappingAvailable();
         $storeId = $this->getItem()->getStoreId();
-        return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForProduct($allowed, $storeId);
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->isGiftWrappingAvailableForProduct($allowed, $storeId);
     }
 }

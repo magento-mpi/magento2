@@ -64,7 +64,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
         $form       = $this->getForm();
         $fieldset   = $form->getElement('base_fieldset');
         /* @var $helper Enterprise_Customer_Helper_Data */
-        $helper     = Mage::helper('enterprise_customer');
+        $helper     = Mage::helper('Enterprise_Customer_Helper_Data');
 
         $fieldset->removeField('frontend_class');
         $fieldset->removeField('is_unique');
@@ -73,86 +73,86 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
         $values     = $helper->getFrontendInputOptions();
         $element    = $form->getElement('frontend_input');
         $element->setValues($values);
-        $element->setLabel(Mage::helper('enterprise_customer')->__('Input Type'));
+        $element->setLabel(Mage::helper('Enterprise_Customer_Helper_Data')->__('Input Type'));
         $element->setRequired(true);
 
         $fieldset->addField('multiline_count', 'text', array(
             'name'      => 'multiline_count',
-            'label'     => Mage::helper('enterprise_customer')->__('Lines Count'),
-            'title'     => Mage::helper('enterprise_customer')->__('Lines Count'),
+            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Lines Count'),
+            'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Lines Count'),
             'required'  => true,
             'class'     => 'validate-digits-range digits-range-2-20',
-            'note'      => Mage::helper('enterprise_customer')->__('Valid range 2-20')
+            'note'      => Mage::helper('Enterprise_Customer_Helper_Data')->__('Valid range 2-20')
         ), 'frontend_input');
 
         $fieldset->addField('input_validation', 'select', array(
             'name'      => 'input_validation',
-            'label'     => Mage::helper('enterprise_customer')->__('Input Validation'),
-            'title'     => Mage::helper('enterprise_customer')->__('Input Validation'),
-            'values'    => array('' => Mage::helper('enterprise_customer')->__('None'))
+            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Input Validation'),
+            'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Input Validation'),
+            'values'    => array('' => Mage::helper('Enterprise_Customer_Helper_Data')->__('None'))
         ), 'default_value_textarea');
 
         $fieldset->addField('min_text_length', 'text', array(
             'name'      => 'min_text_length',
-            'label'     => Mage::helper('enterprise_customer')->__('Minimum Text Length'),
-            'title'     => Mage::helper('enterprise_customer')->__('Minimum Text Length'),
+            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Minimum Text Length'),
+            'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Minimum Text Length'),
             'class'     => 'validate-digits',
         ), 'input_validation');
 
         $fieldset->addField('max_text_length', 'text', array(
             'name'      => 'max_text_length',
-            'label'     => Mage::helper('enterprise_customer')->__('Maximum Text Length'),
-            'title'     => Mage::helper('enterprise_customer')->__('Maximum Text Length'),
+            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Maximum Text Length'),
+            'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Maximum Text Length'),
             'class'     => 'validate-digits',
         ), 'min_text_length');
 
         $fieldset->addField('max_file_size', 'text', array(
             'name'      => 'max_file_size',
-            'label'     => Mage::helper('enterprise_customer')->__('Maximum File Size (bytes)'),
-            'title'     => Mage::helper('enterprise_customer')->__('Maximum File Size (bytes)'),
+            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Maximum File Size (bytes)'),
+            'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Maximum File Size (bytes)'),
             'class'     => 'validate-digits',
         ), 'max_text_length');
 
         $fieldset->addField('file_extensions', 'text', array(
             'name'      => 'file_extensions',
-            'label'     => Mage::helper('enterprise_customer')->__('File Extensions'),
-            'title'     => Mage::helper('enterprise_customer')->__('File Extensions'),
-            'note'      => Mage::helper('enterprise_customer')->__('Comma separated'),
+            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('File Extensions'),
+            'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('File Extensions'),
+            'note'      => Mage::helper('Enterprise_Customer_Helper_Data')->__('Comma separated'),
         ), 'max_file_size');
 
         $fieldset->addField('max_image_width', 'text', array(
             'name'      => 'max_image_width',
-            'label'     => Mage::helper('enterprise_customer')->__('Maximum Image Width (px)'),
-            'title'     => Mage::helper('enterprise_customer')->__('Maximum Image Width (px)'),
+            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Maximum Image Width (px)'),
+            'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Maximum Image Width (px)'),
             'class'     => 'validate-digits',
         ), 'max_file_size');
 
         $fieldset->addField('max_image_heght', 'text', array(
             'name'      => 'max_image_heght',
-            'label'     => Mage::helper('enterprise_customer')->__('Maximum Image Height (px)'),
-            'title'     => Mage::helper('enterprise_customer')->__('Maximum Image Height (px)'),
+            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Maximum Image Height (px)'),
+            'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Maximum Image Height (px)'),
             'class'     => 'validate-digits',
         ), 'max_image_width');
 
         $fieldset->addField('input_filter', 'select', array(
             'name'      => 'input_filter',
-            'label'     => Mage::helper('enterprise_customer')->__('Input/Output Filter'),
-            'title'     => Mage::helper('enterprise_customer')->__('Input/Output Filter'),
-            'values'    => array('' => Mage::helper('enterprise_customer')->__('None')),
+            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Input/Output Filter'),
+            'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Input/Output Filter'),
+            'values'    => array('' => Mage::helper('Enterprise_Customer_Helper_Data')->__('None')),
         ));
 
         $fieldset->addField('date_range_min', 'date', array(
             'name'      => 'date_range_min',
-            'label'     => Mage::helper('enterprise_customer')->__('Minimal value'),
-            'title'     => Mage::helper('enterprise_customer')->__('Minimal value'),
+            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Minimal value'),
+            'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Minimal value'),
             'image'     => $this->getSkinUrl('images/grid-cal.gif'),
             'format'    => $helper->getDateFormat()
         ), 'default_value_date');
 
         $fieldset->addField('date_range_max', 'date', array(
             'name'      => 'date_range_max',
-            'label'     => Mage::helper('enterprise_customer')->__('Maximum value'),
-            'title'     => Mage::helper('enterprise_customer')->__('Maximum value'),
+            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Maximum value'),
+            'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Maximum value'),
             'image'     => $this->getSkinUrl('images/grid-cal.gif'),
             'format'    => $helper->getDateFormat()
         ), 'date_range_min');
@@ -160,28 +160,28 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
         $yesnoSource = Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray();
 
         $fieldset = $form->addFieldset('front_fieldset', array(
-            'legend'    => Mage::helper('enterprise_customer')->__('Frontend Properties')
+            'legend'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('Frontend Properties')
         ));
 
         $fieldset->addField('is_visible', 'select', array(
             'name'      => 'is_visible',
-            'label'     => Mage::helper('enterprise_customer')->__('Show on Frontend'),
-            'title'     => Mage::helper('enterprise_customer')->__('Show on Frontend'),
+            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Show on Frontend'),
+            'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Show on Frontend'),
             'values'    => $yesnoSource,
         ));
 
         $fieldset->addField('sort_order', 'text', array(
             'name'      => 'sort_order',
-            'label'     => Mage::helper('enterprise_customer')->__('Sort Order'),
-            'title'     => Mage::helper('enterprise_customer')->__('Sort Order'),
+            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Sort Order'),
+            'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Sort Order'),
             'required'  => true,
             'class'     => 'validate-digits'
         ));
 
         $fieldset->addField('used_in_forms', 'multiselect', array(
             'name'         => 'used_in_forms',
-            'label'        => Mage::helper('enterprise_customer')->__('Forms to Use In'),
-            'title'        => Mage::helper('enterprise_customer')->__('Forms to Use In'),
+            'label'        => Mage::helper('Enterprise_Customer_Helper_Data')->__('Forms to Use In'),
+            'title'        => Mage::helper('Enterprise_Customer_Helper_Data')->__('Forms to Use In'),
             'values'       => $helper->getCustomerAddressAttributeFormOptions(),
             'value'        => $attribute->getUsedInForms(),
             'can_be_empty' => true,
@@ -274,7 +274,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_customer')->__('Properties');
+        return Mage::helper('Enterprise_Customer_Helper_Data')->__('Properties');
     }
 
     /**
@@ -284,7 +284,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_customer')->__('Properties');
+        return Mage::helper('Enterprise_Customer_Helper_Data')->__('Properties');
     }
 
     /**

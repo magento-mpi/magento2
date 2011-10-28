@@ -46,7 +46,7 @@ class Mage_Dataflow_Model_Profile_History extends Mage_Core_Model_Abstract
 {
     protected function _construct()
     {
-        $this->_init('dataflow/profile_history');
+        $this->_init('Mage_Dataflow_Model_Resource_Profile_History');
     }
 
     protected function _beforeSave()

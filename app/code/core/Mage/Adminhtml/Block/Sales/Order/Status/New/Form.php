@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_New_Form extends Mage_Adminhtml_Bl
         ));
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
-            'legend'    => Mage::helper('sales')->__('Order Status Information')
+            'legend'    => Mage::helper('Mage_Sales_Helper_Data')->__('Order Status Information')
         ));
 
         $fieldset->addField('is_new', 'hidden', array('name' => 'is_new', 'value' => 1));
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_New_Form extends Mage_Adminhtml_Bl
         $fieldset->addField('status', 'text',
             array(
                 'name'      => 'status',
-                'label'     => Mage::helper('sales')->__('Status Code'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Status Code'),
                 'class'     => 'required-entry validate-code',
                 'required'  => true,
             )
@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_New_Form extends Mage_Adminhtml_Bl
         $fieldset->addField('label', 'text',
             array(
                 'name'      => 'label',
-                'label'     => Mage::helper('sales')->__('Status Label'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Status Label'),
                 'class'     => 'required-entry',
                 'required'  => true,
             )
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_New_Form extends Mage_Adminhtml_Bl
 
 
         $fieldset = $form->addFieldset('store_labels_fieldset', array(
-            'legend'       => Mage::helper('sales')->__('Store View Specific Labels'),
+            'legend'       => Mage::helper('Mage_Sales_Helper_Data')->__('Store View Specific Labels'),
             'table_class'  => 'form-list stores-tree',
         ));
 

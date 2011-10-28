@@ -124,7 +124,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Checkbox
         $html .= 'name="' . $this->getColumn()->getFieldName() . '" ';
         $html .= 'onclick="' . $this->getColumn()->getGrid()->getJsObjectName() . '.checkCheckboxes(this)" ';
         $html .= 'class="checkbox"' . $checked . $disabled . ' ';
-        $html .= 'title="'.Mage::helper('adminhtml')->__('Select All') . '"/>';
+        $html .= 'title="'.Mage::helper('Mage_Adminhtml_Helper_Data')->__('Select All') . '"/>';
         return $html;
     }
 }

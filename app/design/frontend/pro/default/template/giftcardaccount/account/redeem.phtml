@@ -28,7 +28,7 @@
  */
 ?>
 <div class="page-title">
-    <h1><?php echo Mage::helper('enterprise_giftcardaccount')->__('Gift Card'); ?></h1>
+    <h1><?php echo Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card'); ?></h1>
 </div>
 <div class="giftcardaccount">
     <span id="gc-please-wait" class="please-wait" style="display:none;">
@@ -38,7 +38,7 @@
     <form id="giftcard-form" action="<?php echo $this->getUrl('*/*/*') ?>" method="post"<?php if (!$this->canRedeem()): ?> onsubmit="giftCardAccountLookupBalance(); return false;"<?php endif; ?>>
         <div id="giftcard_balance_lookup"></div>
         <div class="fieldset">
-            <h2 class="legend"><?php echo Mage::helper('enterprise_giftcardaccount')->__('Gift Card Code'); ?></h2>
+            <h2 class="legend"><?php echo Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card Code'); ?></h2>
             <ul class="form-list">
                 <li>
                     <label for="giftcard_code"><?php echo $this->__('Enter gift card code') ?></label>

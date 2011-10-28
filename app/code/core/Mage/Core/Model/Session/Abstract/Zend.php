@@ -66,7 +66,7 @@ abstract class Mage_Core_Model_Session_Abstract_Zend extends Varien_Object
         Magento_Profiler::stop(__METHOD__.'/setOptions');
 /*
         Magento_Profiler::start(__METHOD__.'/setHandler');
-        $sessionResource = Mage::getResourceSingleton('core/session');
+        $sessionResource = Mage::getResourceSingleton('Mage_Core_Model_Resource_Session');
         if ($sessionResource->hasConnection()) {
             Zend_Session::setSaveHandler($sessionResource);
         }

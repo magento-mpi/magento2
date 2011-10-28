@@ -41,7 +41,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('checkout/cart');
+        return Mage::getResourceSingleton('Mage_Checkout_Model_Resource_Cart');
     }
 
     /**
@@ -182,7 +182,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
             || !is_array($product->getWebsiteIds())
             || !in_array($currentWebsiteId, $product->getWebsiteIds())
         ) {
-            Mage::throwException(Mage::helper('checkout')->__('The product could not be found.'));
+            Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('The product could not be found.'));
         }
         return $product;
     }
@@ -258,7 +258,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                 Mage::throwException($result);
             }
         } else {
-            Mage::throwException(Mage::helper('checkout')->__('The product does not exist.'));
+            Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('The product does not exist.'));
         }
 
         Mage::dispatchEvent('checkout_cart_product_add_after', array('quote_item' => $result, 'product' => $product));
@@ -297,12 +297,12 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 
             if (!$allAvailable) {
                 $this->getCheckoutSession()->addError(
-                    Mage::helper('checkout')->__('Some of the requested products are unavailable.')
+                    Mage::helper('Mage_Checkout_Helper_Data')->__('Some of the requested products are unavailable.')
                 );
             }
             if (!$allAdded) {
                 $this->getCheckoutSession()->addError(
-                    Mage::helper('checkout')->__('Some of the requested products are not available in the desired quantity.')
+                    Mage::helper('Mage_Checkout_Helper_Data')->__('Some of the requested products are not available in the desired quantity.')
                 );
             }
         }
@@ -387,7 +387,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 
                 if (isset($itemInfo['before_suggest_qty']) && ($itemInfo['before_suggest_qty'] != $qty)) {
                     $qtyRecalculatedFlag = true;
-                    $message = $messageFactory->notice(Mage::helper('checkout')->__('Quantity was recalculated from %d to %d', $itemInfo['before_suggest_qty'], $qty));
+                    $message = $messageFactory->notice(Mage::helper('Mage_Checkout_Helper_Data')->__('Quantity was recalculated from %d to %d', $itemInfo['before_suggest_qty'], $qty));
                     $session->addQuoteItemMessage($item->getId(), $message);
                 }
             }
@@ -395,7 +395,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 
         if ($qtyRecalculatedFlag) {
             $session->addNotice(
-                Mage::helper('checkout')->__('Some products quantities were recalculated because of quantity increment mismatch')
+                Mage::helper('Mage_Checkout_Helper_Data')->__('Some products quantities were recalculated because of quantity increment mismatch')
             );
         }
 
@@ -522,7 +522,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         try {
             $item = $this->getQuote()->getItemById($itemId);
             if (!$item) {
-                Mage::throwException(Mage::helper('checkout')->__('Quote item does not exist.'));
+                Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('Quote item does not exist.'));
             }
             $productId = $item->getProduct()->getId();
             $product = $this->_getProduct($productId);

@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Adminhtml_Block_Widget_C
     protected function _prepareLayout()
     {
         $this->_addButton('add_new', array(
-            'label'   => Mage::helper('catalog')->__('Add Product'),
+            'label'   => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Product'),
             'onclick' => "setLocation('{$this->getUrl('*/*/new')}')",
             'class'   => 'add'
         ));

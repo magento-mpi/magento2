@@ -57,7 +57,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('enterprise_customerbalance/balance');
+        $this->_init('Enterprise_CustomerBalance_Model_Resource_Balance');
     }
 
     /**
@@ -95,7 +95,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
         }
         else {
             if (Mage::app()->getStore()->isAdmin()) {
-                Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Website ID must be set.'));
+                Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Website ID must be set.'));
             }
             $websiteId = Mage::app()->getStore()->getWebsiteId();
         }
@@ -116,7 +116,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
         $this->setData('notify_by_email', $shouldNotify);
         if ($shouldNotify) {
             if (null === $storeId) {
-                Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Please set store ID as well.'));
+                Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Please set store ID as well.'));
             }
             $this->setStoreId($storeId);
         }
@@ -138,7 +138,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
             $this->setWebsiteId($this->getCustomer()->getWebsiteId());
         }
         if (0 == $this->getWebsiteId()) {
-            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Website ID must be set.'));
+            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Website ID must be set.'));
         }
 
         // check history action
@@ -158,7 +158,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
             $this->setNotifyByEmail(false);
         }
         if ($this->getNotifyByEmail() && !$this->hasStoreId()) {
-            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('In order to send email notification, the Store ID must be set.'));
+            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('In order to send email notification, the Store ID must be set.'));
         }
 
         return parent::_beforeSave();
@@ -194,13 +194,13 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
             $this->setCustomerId($this->getCustomer()->getId());
         }
         if (!$this->getCustomerId()) {
-            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Customer ID must be specified.'));
+            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Customer ID must be specified.'));
         }
         if (!$this->getCustomer()) {
             $this->setCustomer(Mage::getModel('customer/customer')->load($this->getCustomerId()));
         }
         if (!$this->getCustomer()->getId()) {
-            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Customer is not set or does not exist.'));
+            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Customer is not set or does not exist.'));
         }
     }
 

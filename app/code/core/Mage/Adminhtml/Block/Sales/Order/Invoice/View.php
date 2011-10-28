@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
 
         if ($this->_isAllowedAction('cancel') && $this->getInvoice()->canCancel()) {
             $this->_addButton('cancel', array(
-                'label'     => Mage::helper('sales')->__('Cancel'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Cancel'),
                 'class'     => 'delete',
                 'onclick'   => 'setLocation(\''.$this->getCancelUrl().'\')'
                 )
@@ -64,9 +64,9 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
 
         if ($this->_isAllowedAction('emails')) {
             $this->addButton('send_notification', array(
-                'label'     => Mage::helper('sales')->__('Send Email'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Send Email'),
                 'onclick'   => 'confirmSetLocation(\''
-                . Mage::helper('sales')->__('Are you sure you want to send Invoice email to customer?')
+                . Mage::helper('Mage_Sales_Helper_Data')->__('Are you sure you want to send Invoice email to customer?')
                 . '\', \'' . $this->getEmailUrl() . '\')'
             ));
         }
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
                 && $orderPayment->getAmountPaid() > $orderPayment->getAmountRefunded())
                 || ($orderPayment->canRefund() && !$this->getInvoice()->getIsUsedForRefund())) {
                 $this->_addButton('capture', array( // capture?
-                    'label'     => Mage::helper('sales')->__('Credit Memo'),
+                    'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Credit Memo'),
                     'class'     => 'go',
                     'onclick'   => 'setLocation(\''.$this->getCreditMemoUrl().'\')'
                     )
@@ -89,7 +89,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
 
         if ($this->_isAllowedAction('capture') && $this->getInvoice()->canCapture()) {
             $this->_addButton('capture', array(
-                'label'     => Mage::helper('sales')->__('Capture'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Capture'),
                 'class'     => 'save',
                 'onclick'   => 'setLocation(\''.$this->getCaptureUrl().'\')'
                 )
@@ -98,7 +98,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
 
         if ($this->getInvoice()->canVoid()) {
             $this->_addButton('void', array(
-                'label'     => Mage::helper('sales')->__('Void'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Void'),
                 'class'     => 'save',
                 'onclick'   => 'setLocation(\''.$this->getVoidUrl().'\')'
                 )
@@ -107,7 +107,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
 
         if ($this->getInvoice()->getId()) {
             $this->_addButton('print', array(
-                'label'     => Mage::helper('sales')->__('Print'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Print'),
                 'class'     => 'save',
                 'onclick'   => 'setLocation(\''.$this->getPrintUrl().'\')'
                 )
@@ -128,12 +128,12 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
     public function getHeaderText()
     {
         if ($this->getInvoice()->getEmailSent()) {
-            $emailSent = Mage::helper('sales')->__('the invoice email was sent');
+            $emailSent = Mage::helper('Mage_Sales_Helper_Data')->__('the invoice email was sent');
         }
         else {
-            $emailSent = Mage::helper('sales')->__('the invoice email is not sent');
+            $emailSent = Mage::helper('Mage_Sales_Helper_Data')->__('the invoice email is not sent');
         }
-        return Mage::helper('sales')->__('Invoice #%1$s | %2$s | %4$s (%3$s)', $this->getInvoice()->getIncrementId(), $this->getInvoice()->getStateName(), $emailSent, $this->formatDate($this->getInvoice()->getCreatedAtDate(), 'medium', true));
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Invoice #%1$s | %2$s | %4$s (%3$s)', $this->getInvoice()->getIncrementId(), $this->getInvoice()->getStateName(), $emailSent, $this->formatDate($this->getInvoice()->getCreatedAtDate(), 'medium', true));
     }
 
     public function getBackUrl()

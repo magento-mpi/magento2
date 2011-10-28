@@ -124,14 +124,14 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     protected function _prepareColumns()
     {
         $this->addColumn('product_name', array(
-            'header'    => Mage::helper('enterprise_checkout')->__('Product name'),
+            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Product name'),
             'renderer'  => 'Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Product',
             'index'     => 'name',
             'sortable'  => false
         ));
 
         $this->addColumn('price', array(
-            'header'    => Mage::helper('enterprise_checkout')->__('Price'),
+            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Price'),
             'renderer'  => $this->_getPriceRenderer(),
             'align'     => 'right',
             'type'      => 'currency',
@@ -166,7 +166,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
 
         $this->addColumn('qty', array(
             'sortable'  => false,
-            'header'    => Mage::helper('enterprise_checkout')->__('Qty To Add'),
+            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Qty To Add'),
             'renderer'  => 'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty',
             'name'      => 'qty',
             'inline_css'=> 'qty',

@@ -38,7 +38,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New extends Mage_Adminhtml_Block_Widget
 
         parent::__construct();
 
-        $this->_updateButton('reset', 'label', Mage::helper('enterprise_rma')->__('Cancel'));
+        $this->_updateButton('reset', 'label', Mage::helper('Enterprise_Rma_Helper_Data')->__('Cancel'));
         $this->_updateButton('reset', 'class', 'cancel');
 
         $orderId    = false;
@@ -60,9 +60,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New extends Mage_Adminhtml_Block_Widget
             }
         }
 
-        if (Mage::helper('enterprise_rma')->canCreateRma($orderId, true)) {
+        if (Mage::helper('Enterprise_Rma_Helper_Data')->canCreateRma($orderId, true)) {
             $this->_updateButton('reset', 'onclick', "setLocation('" . $link . "')");
-            $this->_updateButton('save', 'label', Mage::helper('enterprise_rma')->__('Submit RMA'));
+            $this->_updateButton('save', 'label', Mage::helper('Enterprise_Rma_Helper_Data')->__('Submit RMA'));
         } else {
             $this->_updateButton('reset', 'onclick', "setLocation('" . $link . "')");
             $this->_removeButton('save');

@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Serializer extends Mage_Core_Block_Templa
     public function getColumnInputNames($asJSON = false)
     {
         if ($asJSON) {
-            return Mage::helper('core')->jsonEncode($this->_inputsToSerialize);
+            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->_inputsToSerialize);
         }
         return $this->_inputsToSerialize;
     }
@@ -99,7 +99,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Serializer extends Mage_Core_Block_Templa
         elseif (!empty($this->_inputsToSerialize)) {
             return '{}';
         }
-        return Mage::helper('core')->jsonEncode($result);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
     }
 
 

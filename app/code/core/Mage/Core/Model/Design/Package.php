@@ -237,7 +237,7 @@ class Mage_Core_Model_Design_Package
                 break;
 
             default:
-                throw Mage::exception(Mage::helper('core')->__('Wrong number of arguments for %s', __METHOD__));
+                throw Mage::exception(Mage::helper('Mage_Core_Helper_Data')->__('Wrong number of arguments for %s', __METHOD__));
         }
         return $this;
     }
@@ -666,23 +666,23 @@ class Mage_Core_Model_Design_Package
      */
     protected function _mergeFiles(array $srcFiles, $targetFile = false, $mustMerge = false, $beforeMergeCallback = null, $extensionsFilter = array())
     {
-        if (Mage::helper('core/file_storage_database')->checkDbUsage()) {
+        if (Mage::helper('Mage_Core_Helper_File_Storage_Database')->checkDbUsage()) {
             if (!file_exists($targetFile)) {
-                Mage::helper('core/file_storage_database')->saveFileToFilesystem($targetFile);
+                Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($targetFile);
             }
             if (file_exists($targetFile)) {
                 $filemtime = filemtime($targetFile);
             } else {
                 $filemtime = null;
             }
-            $result = Mage::helper('core')->mergeFiles($srcFiles, $targetFile, $mustMerge, $beforeMergeCallback, $extensionsFilter);
+            $result = Mage::helper('Mage_Core_Helper_Data')->mergeFiles($srcFiles, $targetFile, $mustMerge, $beforeMergeCallback, $extensionsFilter);
             if ($result && (filemtime($targetFile) > $filemtime)) {
-                Mage::helper('core/file_storage_database')->saveFile($targetFile);
+                Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFile($targetFile);
             }
             return $result;
 
         } else {
-            return Mage::helper('core')->mergeFiles($srcFiles, $targetFile, $mustMerge, $beforeMergeCallback, $extensionsFilter);
+            return Mage::helper('Mage_Core_Helper_Data')->mergeFiles($srcFiles, $targetFile, $mustMerge, $beforeMergeCallback, $extensionsFilter);
         }
     }
 
@@ -712,7 +712,7 @@ class Mage_Core_Model_Design_Package
             $dir = Mage::getBaseDir('media') . DS . $dirRelativeName;
             if ($cleanup) {
                 Varien_Io_File::rmdirRecursive($dir);
-                Mage::helper('core/file_storage_database')->deleteFolder($dir);
+                Mage::helper('Mage_Core_Helper_File_Storage_Database')->deleteFolder($dir);
             }
             if (!is_dir($dir)) {
                 mkdir($dir);

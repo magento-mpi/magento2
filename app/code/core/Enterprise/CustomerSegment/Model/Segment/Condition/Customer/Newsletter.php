@@ -79,7 +79,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
     public function getNewChildSelectOptions()
     {
         return array(array('value' => $this->getType(),
-            'label'=>Mage::helper('enterprise_customersegment')->__('Newsletter Subscription')));
+            'label'=>Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Newsletter Subscription')));
     }
 
     /**
@@ -92,7 +92,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
         $operator = $this->getOperatorElementHtml();
         $element = $this->getValueElementHtml();
         return $this->getTypeElementHtml()
-            .Mage::helper('enterprise_customersegment')->__('Customer is %s to newsletter.', $element)
+            .Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer is %s to newsletter.', $element)
             .$this->getRemoveLinkHtml();
     }
 
@@ -114,8 +114,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            '1'  => Mage::helper('enterprise_customersegment')->__('subscribed'),
-            '0' => Mage::helper('enterprise_customersegment')->__('not subscribed'),
+            '1'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('subscribed'),
+            '0' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('not subscribed'),
         ));
         return $this;
     }

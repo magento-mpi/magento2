@@ -40,7 +40,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
     {
         parent::__construct();
 
-        $model = Mage::helper('xmlconnect')->getApplication();
+        $model = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
         $this->setTemplate('xmlconnect/form/element/themes.phtml');
 
         $data = $model->getFormData();
@@ -154,7 +154,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
      */
     public function getDefaultThemeLoaded()
     {
-        return Mage::helper('xmlconnect')->getApplication()->getDefaultThemeLoaded();
+        return Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getDefaultThemeLoaded();
     }
 
     /**
@@ -164,7 +164,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
      */
     public function isNewApplication()
     {
-        return Mage::helper('xmlconnect')->getApplication()->getId() ? false : true;
+        return Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getId() ? false : true;
     }
 
     /**

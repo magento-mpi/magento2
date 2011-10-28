@@ -507,7 +507,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
             }
         }
 
-        $productPrice = Mage::helper('catalogrule')->calcPriceRule(
+        $productPrice = Mage::helper('Mage_CatalogRule_Helper_Data')->calcPriceRule(
             $ruleData['action_operator'],
             $ruleData['action_amount'],
             $productPrice);

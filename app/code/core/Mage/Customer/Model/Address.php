@@ -37,7 +37,7 @@ class Mage_Customer_Model_Address extends Mage_Customer_Model_Address_Abstract
 
     protected function _construct()
     {
-        $this->_init('customer/address');
+        $this->_init('Mage_Customer_Model_Resource_Address');
     }
 
     /**

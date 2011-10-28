@@ -59,7 +59,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
         parent::__construct();
         $this->setId('source_ordered');
         $this->setHeaderText(
-            Mage::helper('enterprise_checkout')->__('Last ordered items (%s)', $this->getItemsCount())
+            Mage::helper('Enterprise_Checkout_Helper_Data')->__('Last ordered items (%s)', $this->getItemsCount())
         );
     }
 

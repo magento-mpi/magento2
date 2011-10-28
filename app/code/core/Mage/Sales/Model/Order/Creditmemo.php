@@ -166,7 +166,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('sales/order_creditmemo');
+        $this->_init('Mage_Sales_Model_Resource_Order_Creditmemo');
     }
 
     /**
@@ -377,7 +377,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
             $baseAvailableRefund = $this->getOrder()->getBaseTotalPaid()- $this->getOrder()->getBaseTotalRefunded();
 
             Mage::throwException(
-                Mage::helper('sales')->__('Maximum amount available to refund is %s',
+                Mage::helper('Mage_Sales_Helper_Data')->__('Maximum amount available to refund is %s',
                     $this->getOrder()->formatBasePrice($baseAvailableRefund)
                 )
             );
@@ -483,7 +483,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
     {
         if ($this->getId()) {
             Mage::throwException(
-                Mage::helper('sales')->__('Cannot register an existing credit memo.')
+                Mage::helper('Mage_Sales_Helper_Data')->__('Cannot register an existing credit memo.')
             );
         }
 
@@ -539,9 +539,9 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
     {
         if (is_null(self::$_states)) {
             self::$_states = array(
-                self::STATE_OPEN       => Mage::helper('sales')->__('Pending'),
-                self::STATE_REFUNDED   => Mage::helper('sales')->__('Refunded'),
-                self::STATE_CANCELED   => Mage::helper('sales')->__('Canceled'),
+                self::STATE_OPEN       => Mage::helper('Mage_Sales_Helper_Data')->__('Pending'),
+                self::STATE_REFUNDED   => Mage::helper('Mage_Sales_Helper_Data')->__('Refunded'),
+                self::STATE_CANCELED   => Mage::helper('Mage_Sales_Helper_Data')->__('Canceled'),
             );
         }
         return self::$_states;
@@ -565,7 +565,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
         if (isset(self::$_states[$stateId])) {
             return self::$_states[$stateId];
         }
-        return Mage::helper('sales')->__('Unknown State');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Unknown State');
     }
 
     public function setShippingAmount($amount)
@@ -679,7 +679,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!Mage::helper('sales')->canSendNewCreditmemoEmail($storeId)) {
+        if (!Mage::helper('Mage_Sales_Helper_Data')->canSendNewCreditmemoEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
@@ -696,7 +696,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
 
         try {
             // Retrieve specified view block from appropriate design package (depends on emulated store)
-            $paymentBlock = Mage::helper('payment')->getInfoBlock($order->getPayment())
+            $paymentBlock = Mage::helper('Mage_Payment_Helper_Data')->getInfoBlock($order->getPayment())
                 ->setIsSecureMode(true);
             $paymentBlock->getMethod()->setStore($storeId);
             $paymentBlockHtml = $paymentBlock->toHtml();
@@ -771,7 +771,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!Mage::helper('sales')->canSendCreditmemoCommentEmail($storeId)) {
+        if (!Mage::helper('Mage_Sales_Helper_Data')->canSendCreditmemoCommentEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to

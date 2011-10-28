@@ -92,12 +92,12 @@ class Mage_GiftMessage_Block_Message_Helper extends Mage_Core_Block_Template
 
     public function getEditUrl()
     {
-        return $this->helper('giftmessage/url')->getEditUrl($this->getEntity(), $this->getType());
+        return $this->helper('Mage_GiftMessage_Helper_Url')->getEditUrl($this->getEntity(), $this->getType());
     }
 
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->helper('giftmessage/message')->getGiftMessage(
+        $this->_giftMessage = $this->helper('Mage_GiftMessage_Helper_Message')->getGiftMessage(
                                             $this->getEntity()->getGiftMessageId()
                               );
         return $this;

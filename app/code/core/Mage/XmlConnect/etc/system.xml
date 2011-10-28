@@ -31,7 +31,7 @@
             <groups>
                 <secure>
                     <fields>
-                        <base_url module="xmlconnect">
+                        <base_url module="Mage_XmlConnect">
                             <backend_model>xmlconnect/adminhtml_system_config_backend_baseurl</backend_model>
                         </base_url>
                     </fields>
@@ -42,7 +42,7 @@
             <groups>
                 <options>
                     <fields>
-                        <default module="xmlconnect">
+                        <default module="Mage_XmlConnect">
                             <backend_model>xmlconnect/adminhtml_system_config_backend_currency_default</backend_model>
                         </default>
                     </fields>

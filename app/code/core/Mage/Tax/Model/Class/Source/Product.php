@@ -42,9 +42,9 @@ class Mage_Tax_Model_Class_Source_Product extends Mage_Eav_Model_Entity_Attribut
         }
 
         $options = $this->_options;
-        array_unshift($options, array('value'=>'0', 'label'=>Mage::helper('tax')->__('None')));
+        array_unshift($options, array('value'=>'0', 'label'=>Mage::helper('Mage_Tax_Helper_Data')->__('None')));
         if ($withEmpty) {
-            array_unshift($options, array('value'=>'', 'label'=>Mage::helper('tax')->__('-- Please Select --')));
+            array_unshift($options, array('value'=>'', 'label'=>Mage::helper('Mage_Tax_Helper_Data')->__('-- Please Select --')));
         }
         return $options;
     }
@@ -91,7 +91,7 @@ class Mage_Tax_Model_Class_Source_Product extends Mage_Eav_Model_Entity_Attribut
             'extra'     => null
         );
 
-        if (Mage::helper('core')->useDbCompatibleMode()) {
+        if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
             $column['type']     = 'int';
             $column['is_null']  = true;
         } else {

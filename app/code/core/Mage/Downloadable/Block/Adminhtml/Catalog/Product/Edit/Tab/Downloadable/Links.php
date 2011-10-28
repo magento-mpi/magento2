@@ -105,7 +105,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     {
         $addButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label' => Mage::helper('downloadable')->__('Add New Row'),
+                'label' => Mage::helper('Mage_Downloadable_Helper_Data')->__('Add New Row'),
                 'id'    => 'add_link_item',
                 'class' => 'add'
             ));
@@ -170,12 +170,12 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
                 'sample_type' => $item->getSampleType(),
                 'sort_order' => $item->getSortOrder(),
             );
-            $file = Mage::helper('downloadable/file')->getFilePath(
+            $file = Mage::helper('Mage_Downloadable_Helper_File')->getFilePath(
                 Mage_Downloadable_Model_Link::getBasePath(), $item->getLinkFile()
             );
 
             if ($item->getLinkFile() && !is_file($file)) {
-                Mage::helper('core/file_storage_database')->saveFileToFilesystem($file);
+                Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($file);
             }
 
             if ($item->getLinkFile() && is_file($file)) {
@@ -183,7 +183,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
                     . $this->getUrl('*/downloadable_product_edit/link', array(
                         'id' => $item->getId(),
                         '_secure' => true
-                    )) . '">' . Mage::helper('downloadable/file')->getFileFromPathFile($item->getLinkFile()) . '</a>';
+                    )) . '">' . Mage::helper('Mage_Downloadable_Helper_File')->getFileFromPathFile($item->getLinkFile()) . '</a>';
                 $tmpLinkItem['file_save'] = array(
                     array(
                         'file' => $item->getLinkFile(),
@@ -192,14 +192,14 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
                         'status' => 'old'
                     ));
             }
-            $sampleFile = Mage::helper('downloadable/file')->getFilePath(
+            $sampleFile = Mage::helper('Mage_Downloadable_Helper_File')->getFilePath(
                 Mage_Downloadable_Model_Link::getBaseSamplePath(), $item->getSampleFile()
             );
             if ($item->getSampleFile() && is_file($sampleFile)) {
                 $tmpLinkItem['sample_file_save'] = array(
                     array(
                         'file' => $item->getSampleFile(),
-                        'name' => Mage::helper('downloadable/file')->getFileFromPathFile($item->getSampleFile()),
+                        'name' => Mage::helper('Mage_Downloadable_Helper_File')->getFileFromPathFile($item->getSampleFile()),
                         'size' => filesize($sampleFile),
                         'status' => 'old'
                     ));
@@ -249,7 +249,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
             'upload_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->addData(array(
                 'id'      => '',
-                'label'   => Mage::helper('adminhtml')->__('Upload Files'),
+                'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Upload Files'),
                 'type'    => 'button',
                 'onclick' => 'Downloadable.massUploadByType(\'links\');Downloadable.massUploadByType(\'linkssample\')'
             ))
@@ -279,14 +279,14 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
         $this->getConfig()->setFileField($type);
         $this->getConfig()->setFilters(array(
             'all'    => array(
-                'label' => Mage::helper('adminhtml')->__('All Files'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Files'),
                 'files' => array('*.*')
             )
         ));
         $this->getConfig()->setReplaceBrowseWithRemove(true);
         $this->getConfig()->setWidth('32');
         $this->getConfig()->setHideUploadButton(true);
-        return Mage::helper('core')->jsonEncode($this->getConfig()->getData());
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getConfig()->getData());
     }
 
     /**

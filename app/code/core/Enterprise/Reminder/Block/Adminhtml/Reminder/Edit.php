@@ -44,23 +44,23 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit extends Mage_Adminhtml_B
         parent::__construct();
         $rule = Mage::registry('current_reminder_rule');
         if ($rule) {
-            $this->_updateButton('save', 'label', Mage::helper('enterprise_reminder')->__('Save'));
-            $this->_updateButton('delete', 'label', Mage::helper('enterprise_reminder')->__('Delete'));
+            $this->_updateButton('save', 'label', Mage::helper('Enterprise_Reminder_Helper_Data')->__('Save'));
+            $this->_updateButton('delete', 'label', Mage::helper('Enterprise_Reminder_Helper_Data')->__('Delete'));
 
             if ($rule->getId()) {
-                $confirm = Mage::helper('enterprise_reminder')->__('Are you sure you want to match this rule now?');
-                if ($limit = Mage::helper('enterprise_reminder')->getOneRunLimit()) {
-                    $confirm .= ' ' . Mage::helper('enterprise_reminder')->__('Up to %s customers may receive reminder email after this action.', $limit);
+                $confirm = Mage::helper('Enterprise_Reminder_Helper_Data')->__('Are you sure you want to match this rule now?');
+                if ($limit = Mage::helper('Enterprise_Reminder_Helper_Data')->getOneRunLimit()) {
+                    $confirm .= ' ' . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Up to %s customers may receive reminder email after this action.', $limit);
                 }
                 $this->_addButton('run_now', array(
-                    'label'   => Mage::helper('enterprise_reminder')->__('Run Now'),
+                    'label'   => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Run Now'),
                     'onclick' => "confirmSetLocation('{$confirm}', '{$this->getRunUrl()}')"
                 ), -1);
             }
 
             $this->_addButton('save_and_continue_edit', array(
                 'class'   => 'save',
-                'label'   => Mage::helper('enterprise_reminder')->__('Save and Continue Edit'),
+                'label'   => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Save and Continue Edit'),
                 'onclick' => 'editForm.submit($(\'edit_form\').action + \'back/edit/\')'
             ), 3);
         }
@@ -75,10 +75,10 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit extends Mage_Adminhtml_B
     {
         $rule = Mage::registry('current_reminder_rule');
         if ($rule->getRuleId()) {
-            return Mage::helper('enterprise_reminder')->__("Edit Rule '%s'", $this->htmlEscape($rule->getName()));
+            return Mage::helper('Enterprise_Reminder_Helper_Data')->__("Edit Rule '%s'", $this->htmlEscape($rule->getName()));
         }
         else {
-            return Mage::helper('enterprise_reminder')->__('New Rule');
+            return Mage::helper('Enterprise_Reminder_Helper_Data')->__('New Rule');
         }
     }
 

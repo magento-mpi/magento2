@@ -42,7 +42,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties
      */
     public function getTabLabel()
     {
-        return Mage::helper('widget')->__('Widget Options');
+        return Mage::helper('Mage_Widget_Helper_Data')->__('Widget Options');
     }
 
     /**
@@ -52,7 +52,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties
      */
     public function getTabTitle()
     {
-        return Mage::helper('widget')->__('Widget Options');
+        return Mage::helper('Mage_Widget_Helper_Data')->__('Widget Options');
     }
 
     /**

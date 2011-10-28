@@ -271,7 +271,7 @@ class Mage_Catalog_Model_Resource_Product_Link extends Mage_Core_Model_Resource_
         $this->saveProductLinks($product, $data, $typeId);
 
         // Grouped product relations should be added to relation table
-        Mage::getResourceSingleton('catalog/product_relation')
+        Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Relation')
             ->processRelations($product->getId(), $new);
 
         return $this;

@@ -58,44 +58,44 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
         $data = array(
             array(
                 'id'            => 'sales',
-                'report'        => Mage::helper('sales')->__('Orders'),
-                'comment'       => Mage::helper('sales')->__('Total Ordered Report'),
+                'report'        => Mage::helper('Mage_Sales_Helper_Data')->__('Orders'),
+                'comment'       => Mage::helper('Mage_Sales_Helper_Data')->__('Total Ordered Report'),
                 'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE)
             ),
             array(
                 'id'            => 'tax',
-                'report'        => Mage::helper('sales')->__('Tax'),
-                'comment'       => Mage::helper('sales')->__('Order Taxes Report Grouped by Tax Rates'),
+                'report'        => Mage::helper('Mage_Sales_Helper_Data')->__('Tax'),
+                'comment'       => Mage::helper('Mage_Sales_Helper_Data')->__('Order Taxes Report Grouped by Tax Rates'),
                 'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE)
             ),
             array(
                 'id'            => 'shipping',
-                'report'        => Mage::helper('sales')->__('Shipping'),
-                'comment'       => Mage::helper('sales')->__('Total Shipped Report'),
+                'report'        => Mage::helper('Mage_Sales_Helper_Data')->__('Shipping'),
+                'comment'       => Mage::helper('Mage_Sales_Helper_Data')->__('Total Shipped Report'),
                 'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_SHIPPING_FLAG_CODE)
             ),
             array(
                 'id'            => 'invoiced',
-                'report'        => Mage::helper('sales')->__('Total Invoiced'),
-                'comment'       => Mage::helper('sales')->__('Total Invoiced VS Paid Report'),
+                'report'        => Mage::helper('Mage_Sales_Helper_Data')->__('Total Invoiced'),
+                'comment'       => Mage::helper('Mage_Sales_Helper_Data')->__('Total Invoiced VS Paid Report'),
                 'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_INVOICE_FLAG_CODE)
             ),
             array(
                 'id'            => 'refunded',
-                'report'        => Mage::helper('sales')->__('Total Refunded'),
-                'comment'       => Mage::helper('sales')->__('Total Refunded Report'),
+                'report'        => Mage::helper('Mage_Sales_Helper_Data')->__('Total Refunded'),
+                'comment'       => Mage::helper('Mage_Sales_Helper_Data')->__('Total Refunded Report'),
                 'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_REFUNDED_FLAG_CODE)
             ),
             array(
                 'id'            => 'coupons',
-                'report'        => Mage::helper('sales')->__('Coupons'),
-                'comment'       => Mage::helper('sales')->__('Promotion Coupons Usage Report'),
+                'report'        => Mage::helper('Mage_Sales_Helper_Data')->__('Coupons'),
+                'comment'       => Mage::helper('Mage_Sales_Helper_Data')->__('Promotion Coupons Usage Report'),
                 'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_COUPONS_FLAG_CODE)
             ),
             array(
                 'id'            => 'bestsellers',
-                'report'        => Mage::helper('sales')->__('Bestsellers'),
-                'comment'       => Mage::helper('sales')->__('Products Bestsellers Report'),
+                'report'        => Mage::helper('Mage_Sales_Helper_Data')->__('Bestsellers'),
+                'comment'       => Mage::helper('Mage_Sales_Helper_Data')->__('Products Bestsellers Report'),
                 'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_BESTSELLERS_FLAG_CODE)
             )
         );
@@ -114,7 +114,7 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
     protected function _prepareColumns()
     {
         $this->addColumn('report', array(
-            'header'    => Mage::helper('reports')->__('Report'),
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Report'),
             'index'     => 'report',
             'type'      => 'string',
             'width'     => 150,
@@ -122,18 +122,18 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('comment', array(
-            'header'    => Mage::helper('reports')->__('Description'),
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Description'),
             'index'     => 'comment',
             'type'      => 'string',
             'sortable'  => false
         ));
 
         $this->addColumn('updated_at', array(
-            'header'    => Mage::helper('reports')->__('Updated At'),
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Updated At'),
             'index'     => 'updated_at',
             'type'      => 'datetime',
             'width'     => 200,
-            'default'   => Mage::helper('reports')->__('undefined'),
+            'default'   => Mage::helper('Mage_Reports_Helper_Data')->__('undefined'),
             'sortable'  => false
         ));
 
@@ -146,15 +146,15 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
         $this->getMassactionBlock()->setFormFieldName('code');
 
         $this->getMassactionBlock()->addItem('refresh_lifetime', array(
-            'label'    => Mage::helper('reports')->__('Refresh Lifetime Statistics'),
+            'label'    => Mage::helper('Mage_Reports_Helper_Data')->__('Refresh Lifetime Statistics'),
             'url'      => $this->getUrl('*/*/refreshLifetime'),
-            'confirm'  => Mage::helper('reports')->__('Are you sure you want to refresh lifetime statistics? There can be performance impact during this operation.')
+            'confirm'  => Mage::helper('Mage_Reports_Helper_Data')->__('Are you sure you want to refresh lifetime statistics? There can be performance impact during this operation.')
         ));
 
         $this->getMassactionBlock()->addItem('refresh_recent', array(
-            'label'    => Mage::helper('reports')->__('Refresh Statistics for the Last Day'),
+            'label'    => Mage::helper('Mage_Reports_Helper_Data')->__('Refresh Statistics for the Last Day'),
             'url'      => $this->getUrl('*/*/refreshRecent'),
-            'confirm'  => Mage::helper('reports')->__('Are you sure?'),
+            'confirm'  => Mage::helper('Mage_Reports_Helper_Data')->__('Are you sure?'),
             'selected' => true
         ));
 

@@ -54,29 +54,29 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Grid extends Mage_Adminhtml_Bl
     protected function _prepareColumns()
     {
         $this->addColumn('profile_id', array(
-            'header'    => Mage::helper('adminhtml')->__('ID'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('ID'),
             'width'     => '50px',
             'index'     => 'profile_id',
         ));
         $this->addColumn( 'name', array(
-            'header'    => Mage::helper('adminhtml')->__('Profile Name'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Profile Name'),
             'index'     => 'name',
         ));
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('adminhtml')->__('Created At'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Created At'),
             'type'      => 'date',
             'align'     => 'center',
             'index'     => 'created_at',
         ));
         $this->addColumn('updated_at', array(
-            'header'    => Mage::helper('adminhtml')->__('Updated At'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Updated At'),
             'type'      => 'date',
             'align'     => 'center',
             'index'     => 'updated_at',
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('adminhtml')->__('Action'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Action'),
             'width'     => '60px',
             'align'     => 'center',
             'sortable'  => false,
@@ -85,7 +85,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Grid extends Mage_Adminhtml_Bl
             'actions'   => array(
                 array(
                     'url'       => $this->getUrl('*/*/edit') . 'id/$profile_id',
-                    'caption'   => Mage::helper('adminhtml')->__('Edit')
+                    'caption'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Edit')
                 )
             )
         ));

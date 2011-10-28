@@ -63,52 +63,52 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Grid extends Mage_Adminht
     protected function _prepareColumns()
     {
         $this->addColumn('title', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Event'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Event'),
             'index'  => 'title'
         ));
 
         $this->addColumn('registrants', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Recipients'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Recipients'),
             'index'  => 'registrants'
         ));
 
         $this->addColumn('event_date', array(
-            'header'  => Mage::helper('enterprise_giftregistry')->__('Event Date'),
+            'header'  => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Event Date'),
             'index'   => 'event_date',
             'type'    => 'date',
             'default' => '--'
         ));
 
         $this->addColumn('qty', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Total Items'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Total Items'),
             'index'  => 'qty',
             'type'   => 'number'
         ));
 
         $this->addColumn('qty_fulfilled', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Items Fulfilled'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Items Fulfilled'),
             'index'  => 'qty_fulfilled',
             'type'   => 'number',
         ));
 
         $this->addColumn('qty_remaining', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Items Remaining'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Items Remaining'),
             'index'  => 'qty_remaining',
             'type'   => 'number'
         ));
 
         $this->addColumn('is_public', array(
-            'header'  => Mage::helper('enterprise_giftregistry')->__('Is Public'),
+            'header'  => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Is Public'),
             'index'   => 'is_public',
             'type'    => 'options',
             'options' => array(
-                '0' => Mage::helper('enterprise_giftregistry')->__('No'),
-                '1' => Mage::helper('enterprise_giftregistry')->__('Yes'),
+                '0' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('No'),
+                '1' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Yes'),
             )
         ));
 
         $this->addColumn('website_id', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Website'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Website'),
             'index'  => 'website_id',
             'type'   => 'options',
             'options' => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash()

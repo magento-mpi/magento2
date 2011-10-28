@@ -158,7 +158,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
 
         $this->addColumn('entity_id',
             array(
-                'header'=> Mage::helper('catalog')->__('ID'),
+                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('ID'),
                 'width' => 50,
                 'sortable'  => true,
                 'type'  => 'number',
@@ -166,7 +166,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
         ));
         $this->addColumn('name',
             array(
-                'header'=> Mage::helper('catalog')->__('Name'),
+                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Name'),
                 'index' => 'name',
         ));
 
@@ -174,14 +174,14 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
         if ($store->getId()) {
             $this->addColumn('custom_name',
                 array(
-                    'header'=> Mage::helper('catalog')->__('Name in %s', $store->getName()),
+                    'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Name in %s', $store->getName()),
                     'index' => 'custom_name',
             ));
         }
 
         $this->addColumn('type',
             array(
-                'header'    => Mage::helper('catalog')->__('Type'),
+                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Type'),
                 'width'     => 100,
                 'index'     => 'type_id',
                 'type'      => 'options',
@@ -195,7 +195,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
 
         $this->addColumn('set_name',
             array(
-                'header'    => Mage::helper('catalog')->__('Attrib. Set Name'),
+                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Attrib. Set Name'),
                 'width'     => 100,
                 'index'     => 'attribute_set_id',
                 'type'      => 'options',
@@ -204,7 +204,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
 
         $this->addColumn('sku',
             array(
-                'header'=> Mage::helper('catalog')->__('SKU'),
+                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
                 'width' => 80,
                 'index' => 'sku',
         ));
@@ -212,7 +212,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
         $store = $this->_getStore();
         $this->addColumn('price',
             array(
-                'header'        => Mage::helper('catalog')->__('Price'),
+                'header'        => Mage::helper('Mage_Catalog_Helper_Data')->__('Price'),
                 'type'          => 'price',
                 'currency_code' => $store->getBaseCurrency()->getCode(),
                 'index'         => 'price',
@@ -220,7 +220,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
 
         $this->addColumn('visibility',
             array(
-                'header'    => Mage::helper('catalog')->__('Visibility'),
+                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Visibility'),
                 'width'     => 100,
                 'index'     => 'visibility',
                 'type'      => 'options',
@@ -229,7 +229,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
 
         $this->addColumn('status',
             array(
-                'header'    => Mage::helper('catalog')->__('Status'),
+                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Status'),
                 'width'     => 70,
                 'index'     => 'status',
                 'type'      => 'options',

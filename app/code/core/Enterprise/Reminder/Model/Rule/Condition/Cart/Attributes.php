@@ -50,7 +50,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('enterprise_reminder')->__('Numeric Attribute'));
+            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Numeric Attribute'));
     }
 
     /**
@@ -61,11 +61,11 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'weight' => Mage::helper('enterprise_reminder')->__('weight'),
-            'row_weight' => Mage::helper('enterprise_reminder')->__('row weight'),
-            'qty' => Mage::helper('enterprise_reminder')->__('quantity'),
-            'price' => Mage::helper('enterprise_reminder')->__('base price'),
-            'base_cost' => Mage::helper('enterprise_reminder')->__('base cost')
+            'weight' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('weight'),
+            'row_weight' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('row weight'),
+            'qty' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('quantity'),
+            'price' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('base price'),
+            'base_cost' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('base cost')
         ));
         return $this;
     }
@@ -78,7 +78,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Item %s %s %s:',
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Item %s %s %s:',
                 $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
@@ -122,7 +122,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
                 $field = 'item.base_cost';
                 break;
             default:
-                Mage::throwException(Mage::helper('enterprise_reminder')->__('Unknown attribute specified'));
+                Mage::throwException(Mage::helper('Enterprise_Reminder_Helper_Data')->__('Unknown attribute specified'));
         }
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');

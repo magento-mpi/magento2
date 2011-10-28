@@ -120,11 +120,11 @@ class Mage_Rss_CatalogController extends Mage_Core_Controller_Front_Action
     {
         if ($this->getRequest()->getActionName() == 'notifystock') {
             $this->_currentArea = 'adminhtml';
-            Mage::helper('rss')->authAdmin('catalog/products');
+            Mage::helper('Mage_Rss_Helper_Data')->authAdmin('catalog/products');
         }
         if ($this->getRequest()->getActionName() == 'review') {
             $this->_currentArea = 'adminhtml';
-            Mage::helper('rss')->authAdmin('catalog/reviews_ratings');
+            Mage::helper('Mage_Rss_Helper_Data')->authAdmin('catalog/reviews_ratings');
         }
         return parent::preDispatch();
     }

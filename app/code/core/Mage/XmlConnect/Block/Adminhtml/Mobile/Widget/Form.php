@@ -85,8 +85,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_Adminhtml_
 
         $element->initFields(array(
             'name'      => $fieldPrefix,
-            'fontNames' => Mage::helper('xmlconnect')->getDeviceHelper()->getFontList(),
-            'fontSizes' => Mage::helper('xmlconnect')->getDeviceHelper()->getFontSizes(),
+            'fontNames' => Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceHelper()->getFontList(),
+            'fontSizes' => Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceHelper()->getFontSizes(),
         ));
     }
 

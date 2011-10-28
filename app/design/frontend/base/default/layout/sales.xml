@@ -50,7 +50,7 @@ Customer account pages, rendered for all tabs in dashboard
     <customer_account>
         <!-- Mage_Sales -->
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="sales"><name>orders</name><path>sales/order/history/</path><label>My Orders</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>orders</name><path>sales/order/history/</path><label>My Orders</label></action>
         </reference>
         <reference name="left">
             <block type="Mage_Sales_Block_Reorder_Sidebar" name="sale.reorder.sidebar" as="reorder" template="sales/reorder/sidebar.phtml"/>
@@ -105,10 +105,10 @@ Customer account home dashboard layout
             </block>
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path></path><label>Order Information</label></action>
-            <action method="addLink" translate="label" module="sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
-            <action method="addLink" translate="label" module="sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
-            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>view</name><path></path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
         </reference>
         <block type="Mage_Core_Block_Text_List" name="additional.product.info" translate="label">
             <label>Additional Product Info</label>
@@ -136,10 +136,10 @@ Customer account home dashboard layout
             </block>
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path>*/*/view</path><label>Order Information</label></action>
-            <action method="addLink" translate="label" module="sales"><name>invoice</name><path></path><label>Invoices</label></action>
-            <action method="addLink" translate="label" module="sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
-            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>view</name><path>*/*/view</path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>invoice</name><path></path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
         </reference>
         <block type="Mage_Core_Block_Text_List" name="additional.product.info" />
     </sales_order_invoice>
@@ -159,10 +159,10 @@ Customer account home dashboard layout
             </block>
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path>*/*/view</path><label>Order Information</label></action>
-            <action method="addLink" translate="label" module="sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
-            <action method="addLink" translate="label" module="sales"><name>shipment</name><path></path><label>Shipments</label></action>
-            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>view</name><path>*/*/view</path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>shipment</name><path></path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
         </reference>
         <block type="Mage_Core_Block_Text_List" name="additional.product.info" />
     </sales_order_shipment>
@@ -188,10 +188,10 @@ Customer account home dashboard layout
             </block>
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path>*/*/view</path><label>Order Information</label></action>
-            <action method="addLink" translate="label" module="sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
-            <action method="addLink" translate="label" module="sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
-            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path></path><label>Refunds</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>view</name><path>*/*/view</path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>creditmemo</name><path></path><label>Refunds</label></action>
         </reference>
         <block type="Mage_Core_Block_Text_List" name="additional.product.info" />
     </sales_order_creditmemo>
@@ -350,10 +350,10 @@ Guest
             </block>
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path></path><label>Order Information</label></action>
-            <action method="addLink" translate="label" module="sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
-            <action method="addLink" translate="label" module="sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
-            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>view</name><path></path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
         </reference>
     </sales_guest_view>
 
@@ -380,10 +380,10 @@ Guest
             </block>
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path>*/*/view</path><label>Order Information</label></action>
-            <action method="addLink" translate="label" module="sales"><name>invoice</name><path></path><label>Invoices</label></action>
-            <action method="addLink" translate="label" module="sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
-            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>view</name><path>*/*/view</path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>invoice</name><path></path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
         </reference>
     </sales_guest_invoice>
 
@@ -404,10 +404,10 @@ Guest
             </block>
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path>*/*/view</path><label>Order Information</label></action>
-            <action method="addLink" translate="label" module="sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
-            <action method="addLink" translate="label" module="sales"><name>shipment</name><path></path><label>Shipments</label></action>
-            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>view</name><path>*/*/view</path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>shipment</name><path></path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
         </reference>
     </sales_guest_shipment>
 
@@ -434,10 +434,10 @@ Guest
             </block>
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path>*/*/view</path><label>Order Information</label></action>
-            <action method="addLink" translate="label" module="sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
-            <action method="addLink" translate="label" module="sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
-            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path></path><label>Refunds</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>view</name><path>*/*/view</path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>creditmemo</name><path></path><label>Refunds</label></action>
         </reference>
     </sales_guest_creditmemo>
 

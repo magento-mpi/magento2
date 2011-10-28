@@ -44,21 +44,21 @@ class Mage_Persistent_Model_Observer_Session
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = $observer->getEvent()->getCustomer();
         // Check if customer is valid (remove persistent cookie for invalid customer)
-        if (!$customer || !$customer->getId() || !Mage::helper('persistent/session')->isRememberMeChecked()) {
+        if (!$customer || !$customer->getId() || !Mage::helper('Mage_Persistent_Helper_Session')->isRememberMeChecked()) {
             Mage::getModel('persistent/session')->removePersistentCookie();
             return;
         }
 
-        $persistentLifeTime = Mage::helper('persistent')->getLifeTime();
+        $persistentLifeTime = Mage::helper('Mage_Persistent_Helper_Data')->getLifeTime();
         // Delete persistent session, if persistent could not be applied
-        if (Mage::helper('persistent')->isEnabled() && ($persistentLifeTime <= 0)) {
+        if (Mage::helper('Mage_Persistent_Helper_Data')->isEnabled() && ($persistentLifeTime <= 0)) {
             // Remove current customer persistent session
             Mage::getModel('persistent/session')->deleteByCustomerId($customer->getId());
             return;
         }
 
         /** @var $sessionModel Mage_Persistent_Model_Session */
-        $sessionModel = Mage::helper('persistent/session')->getSession();
+        $sessionModel = Mage::helper('Mage_Persistent_Helper_Session')->getSession();
 
         // Check if session is wrong or not exists, so create new session
         if (!$sessionModel->getId() || ($sessionModel->getCustomerId() != $customer->getId())) {
@@ -71,7 +71,7 @@ class Mage_Persistent_Model_Observer_Session
                     ->save();
             }
 
-            Mage::helper('persistent/session')->setSession($sessionModel);
+            Mage::helper('Mage_Persistent_Helper_Session')->setSession($sessionModel);
         }
 
         // Set new cookie
@@ -91,7 +91,7 @@ class Mage_Persistent_Model_Observer_Session
      */
     public function synchronizePersistentOnLogout(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('persistent')->isEnabled() || !Mage::helper('persistent')->getClearOnLogout()) {
+        if (!Mage::helper('Mage_Persistent_Helper_Data')->isEnabled() || !Mage::helper('Mage_Persistent_Helper_Data')->getClearOnLogout()) {
             return;
         }
 
@@ -105,7 +105,7 @@ class Mage_Persistent_Model_Observer_Session
         Mage::getModel('persistent/session')->removePersistentCookie();
 
         // Unset persistent session
-        Mage::helper('persistent/session')->setSession(null);
+        Mage::helper('Mage_Persistent_Helper_Session')->setSession(null);
     }
 
     /**
@@ -115,12 +115,12 @@ class Mage_Persistent_Model_Observer_Session
      */
     public function synchronizePersistentInfo(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('persistent')->isEnabled() || !Mage::helper('persistent/session')->isPersistent()) {
+        if (!Mage::helper('Mage_Persistent_Helper_Data')->isEnabled() || !Mage::helper('Mage_Persistent_Helper_Session')->isPersistent()) {
             return;
         }
 
         /** @var $sessionModel Mage_Persistent_Model_Session */
-        $sessionModel = Mage::helper('persistent/session')->getSession();
+        $sessionModel = Mage::helper('Mage_Persistent_Helper_Session')->getSession();
 
         /** @var $request Mage_Core_Controller_Request_Http */
         $request = $observer->getEvent()->getFront()->getRequest();
@@ -140,8 +140,8 @@ class Mage_Persistent_Model_Observer_Session
      */
     public function setRememberMeCheckedStatus(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('persistent')->canProcess($observer)
-            || !Mage::helper('persistent')->isEnabled() || !Mage::helper('persistent')->isRememberMeEnabled()
+        if (!Mage::helper('Mage_Persistent_Helper_Data')->canProcess($observer)
+            || !Mage::helper('Mage_Persistent_Helper_Data')->isEnabled() || !Mage::helper('Mage_Persistent_Helper_Data')->isRememberMeEnabled()
         ) {
             return;
         }
@@ -150,7 +150,7 @@ class Mage_Persistent_Model_Observer_Session
         $controllerAction = $observer->getEvent()->getControllerAction();
         if ($controllerAction) {
             $rememberMeCheckbox = $controllerAction->getRequest()->getPost('persistent_remember_me');
-            Mage::helper('persistent/session')->setRememberMeChecked((bool)$rememberMeCheckbox);
+            Mage::helper('Mage_Persistent_Helper_Session')->setRememberMeChecked((bool)$rememberMeCheckbox);
             if (
                 $controllerAction->getFullActionName() == 'checkout_onepage_saveBilling'
                     || $controllerAction->getFullActionName() == 'customer_account_createpost'
@@ -167,8 +167,8 @@ class Mage_Persistent_Model_Observer_Session
      */
     public function renewCookie(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('persistent')->canProcess($observer)
-            || !Mage::helper('persistent')->isEnabled() || !Mage::helper('persistent/session')->isPersistent()
+        if (!Mage::helper('Mage_Persistent_Helper_Data')->canProcess($observer)
+            || !Mage::helper('Mage_Persistent_Helper_Data')->isEnabled() || !Mage::helper('Mage_Persistent_Helper_Session')->isPersistent()
         ) {
             return;
         }
@@ -181,7 +181,7 @@ class Mage_Persistent_Model_Observer_Session
         ) {
             Mage::getSingleton('core/cookie')->renew(
                 Mage_Persistent_Model_Session::COOKIE_NAME,
-                Mage::helper('persistent')->getLifeTime()
+                Mage::helper('Mage_Persistent_Helper_Data')->getLifeTime()
             );
         }
     }

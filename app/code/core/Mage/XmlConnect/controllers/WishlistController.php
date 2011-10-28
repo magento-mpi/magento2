@@ -142,7 +142,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
                 'item'      => $result
             ));
 
-            Mage::helper('wishlist')->calculate();
+            Mage::helper('Mage_Wishlist_Helper_Data')->calculate();
 
             $this->_message(
                 $this->__('%1$s has been added to your wishlist.', $product->getName()),
@@ -183,7 +183,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
             $this->_message($this->__('Specified item does not exist in wishlist.'), self::MESSAGE_STATUS_ERROR);
         }
 
-        Mage::helper('wishlist')->calculate();
+        Mage::helper('Mage_Wishlist_Helper_Data')->calculate();
     }
 
     /**
@@ -210,7 +210,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
             );
         }
 
-        Mage::helper('wishlist')->calculate();
+        Mage::helper('Mage_Wishlist_Helper_Data')->calculate();
     }
 
     /**
@@ -298,7 +298,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
             $item->addToCart($cart, true);
             $cart->save()->getQuote()->collectTotals();
             $wishlist->save();
-            Mage::helper('wishlist')->calculate();
+            Mage::helper('Mage_Wishlist_Helper_Data')->calculate();
             $this->_message($this->__('Item has been added to cart.'), self::MESSAGE_STATUS_SUCCESS);
 
         } catch (Mage_Core_Exception $e) {
@@ -321,6 +321,6 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
             $this->_message($this->__('Can\'t add item to shopping cart.'), self::MESSAGE_STATUS_ERROR);
         }
 
-        Mage::helper('wishlist')->calculate();
+        Mage::helper('Mage_Wishlist_Helper_Data')->calculate();
     }
 }

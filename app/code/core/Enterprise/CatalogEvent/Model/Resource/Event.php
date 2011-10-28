@@ -61,7 +61,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
         $this->addUniqueField(
             array(
                 'field' => 'category_id' , 
-                'title' => Mage::helper('enterprise_catalogevent')->__('Event for selected category'))
+                'title' => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Event for selected category'))
         );
     }
 

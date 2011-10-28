@@ -41,8 +41,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Preview
     {
         parent::__construct();
 
-        $device = Mage::helper('xmlconnect')->getDeviceType();
-        if (array_key_exists($device, Mage::helper('xmlconnect')->getSupportedDevices())) {
+        $device = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceType();
+        if (array_key_exists($device, Mage::helper('Mage_XmlConnect_Helper_Data')->getSupportedDevices())) {
             $template = 'xmlconnect/edit/tab/design/preview_' . strtolower($device) . '.phtml';
         } else {
             Mage::throwException(
@@ -62,7 +62,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Preview
     public function getPreviewActionUrl($page = 'home')
     {
         $params = array();
-        $model  = Mage::helper('xmlconnect')->getApplication();
+        $model  = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
         if ($model !== null) {
             if ($model->getId() !== null) {
                 $params = array('application_id' => $model->getId());

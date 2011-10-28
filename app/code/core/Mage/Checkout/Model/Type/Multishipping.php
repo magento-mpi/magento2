@@ -222,7 +222,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
 
             $maxQty = (int)Mage::getStoreConfig('shipping/option/checkout_multiple_maximum_qty');
             if ($allQty > $maxQty) {
-                Mage::throwException(Mage::helper('checkout')->__('Maximum qty allowed for Shipping to multiple addresses is %s', $maxQty));
+                Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('Maximum qty allowed for Shipping to multiple addresses is %s', $maxQty));
             }
             $quote = $this->getQuote();
             $addresses  = $quote->getAllShippingAddresses();
@@ -373,7 +373,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
             if (isset($methods[$address->getId()])) {
                 $address->setShippingMethod($methods[$address->getId()]);
             } elseif (!$address->getShippingMethod()) {
-                Mage::throwException(Mage::helper('checkout')->__('Please select shipping methods for all addresses'));
+                Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('Please select shipping methods for all addresses'));
             }
         }
         $this->save();
@@ -389,7 +389,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
     public function setPaymentMethod($payment)
     {
         if (!isset($payment['method'])) {
-            Mage::throwException(Mage::helper('checkout')->__('Payment method is not defined'));
+            Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('Payment method is not defined'));
         }
         $quote = $this->getQuote();
         $quote->getPayment()->importData($payment);
@@ -437,7 +437,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         foreach ($address->getAllItems() as $item) {
             $_quoteItem = $item->getQuoteItem();
             if (!$_quoteItem) {
-                throw new Mage_Checkout_Exception(Mage::helper('checkout')->__('Item not found or already ordered'));
+                throw new Mage_Checkout_Exception(Mage::helper('Mage_Checkout_Helper_Data')->__('Item not found or already ordered'));
             }
             $item->setProductType($_quoteItem->getProductType())
                 ->setProductOptions(
@@ -460,7 +460,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
      */
     protected function _validate()
     {
-        $helper = Mage::helper('checkout');
+        $helper = Mage::helper('Mage_Checkout_Helper_Data');
         $quote = $this->getQuote();
         if (!$quote->getIsMultiShipping()) {
             Mage::throwException($helper->__('Invalid checkout type.'));
@@ -611,7 +611,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
      */
     public function isCheckoutAvailable()
     {
-        return Mage::helper('checkout')->isMultishippingCheckoutAvailable();
+        return Mage::helper('Mage_Checkout_Helper_Data')->isMultishippingCheckoutAvailable();
     }
 
     /**

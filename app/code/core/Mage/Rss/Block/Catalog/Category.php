@@ -124,7 +124,7 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Catalog_Abstract
 
         $description = '<table><tr>'
                      . '<td><a href="'.$product->getProductUrl().'"><img src="'
-                     . $this->helper('catalog/image')->init($product, 'thumbnail')->resize(75, 75)
+                     . $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75)
                      . '" border="0" align="left" height="75" width="75"></a></td>'
                      . '<td  style="text-decoration:none;">' . $product->getDescription();
 

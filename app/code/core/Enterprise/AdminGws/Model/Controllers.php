@@ -237,7 +237,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
                 if (!$model->getId()) {
                     return;
                 }
-                if (!$this->_role->hasWebsiteAccess(Mage::helper('enterprise_admingws')->explodeIds(
+                if (!$this->_role->hasWebsiteAccess(Mage::helper('Enterprise_AdminGws_Helper_Data')->explodeIds(
                     $model->getOrigData('website_ids')))) {
                     return $this->_forward();
                 }
@@ -937,7 +937,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
         if (!empty($productNotExclusiveIds)) {
             $productNotExclusiveIds = implode(', ', $productNotExclusiveIds);
-            $helper = Mage::helper('enterprise_admingws');
+            $helper = Mage::helper('Enterprise_AdminGws_Helper_Data');
             $message = $helper->__('Not enough permissions to delete this item(s): %s.', $productNotExclusiveIds);
             Mage::getSingleton('adminhtml/session')->addError($message);
         }

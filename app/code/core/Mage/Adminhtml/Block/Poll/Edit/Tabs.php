@@ -39,21 +39,21 @@ class Mage_Adminhtml_Block_Poll_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Ta
         parent::__construct();
         $this->setId('poll_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('poll')->__('Poll Information'));
+        $this->setTitle(Mage::helper('Mage_Poll_Helper_Data')->__('Poll Information'));
     }
 
     protected function _beforeToHtml()
     {
         $this->addTab('form_section', array(
-            'label'     => Mage::helper('poll')->__('Poll Information'),
-            'title'     => Mage::helper('poll')->__('Poll Information'),
+            'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Poll Information'),
+            'title'     => Mage::helper('Mage_Poll_Helper_Data')->__('Poll Information'),
             'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Poll_Edit_Tab_Form')->toHtml(),
         ))
         ;
 
         $this->addTab('answers_section', array(
-                'label'     => Mage::helper('poll')->__('Poll Answers'),
-                'title'     => Mage::helper('poll')->__('Poll Answers'),
+                'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Poll Answers'),
+                'title'     => Mage::helper('Mage_Poll_Helper_Data')->__('Poll Answers'),
                 'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Poll_Edit_Tab_Answers')
                                 ->append($this->getLayout()->createBlock('Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List'))
                                 ->toHtml(),

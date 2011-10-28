@@ -51,7 +51,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Order_Status
         $options = array();
         $options[] = array(
                'value' => '',
-               'label' => Mage::helper('adminhtml')->__('-- Please Select --')
+               'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('-- Please Select --')
             );
         foreach ($statuses as $code=>$label) {
             $options[] = array(

@@ -39,7 +39,7 @@
         </ignoredModules>
         <cache>
             <types>
-                <config_api translate="label,description" module="api">
+                <config_api translate="label,description" module="Mage_Api">
                     <label>Web Services Configuration</label>
                     <description>Web Services definition files (api.xml).</description>
                     <tags>CONFIG_API</tags>

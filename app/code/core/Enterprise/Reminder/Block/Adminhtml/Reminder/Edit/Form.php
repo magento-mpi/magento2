@@ -40,7 +40,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Form
     {
         parent::__construct();
         $this->setId('enterprise_reminder_rule_form');
-        $this->setTitle(Mage::helper('enterprise_reminder')->__('Email Reminder Rule'));
+        $this->setTitle(Mage::helper('Enterprise_Reminder_Helper_Data')->__('Email Reminder Rule'));
     }
 
     /**

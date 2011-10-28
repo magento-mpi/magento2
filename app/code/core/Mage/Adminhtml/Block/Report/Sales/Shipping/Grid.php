@@ -52,25 +52,25 @@ class Mage_Adminhtml_Block_Report_Sales_Shipping_Grid extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'            => Mage::helper('sales')->__('Period'),
+            'header'            => Mage::helper('Mage_Sales_Helper_Data')->__('Period'),
             'index'             => 'period',
             'width'             => 100,
             'sortable'          => false,
             'period_type'       => $this->getPeriodType(),
             'renderer'          => 'Mage_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
-            'totals_label'      => Mage::helper('sales')->__('Total'),
-            'subtotals_label'   => Mage::helper('sales')->__('Subtotal'),
+            'totals_label'      => Mage::helper('Mage_Sales_Helper_Data')->__('Total'),
+            'subtotals_label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Subtotal'),
             'html_decorators' => array('nobr'),
         ));
 
         $this->addColumn('shipping_description', array(
-            'header'    => Mage::helper('sales')->__('Carrier/Method'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Carrier/Method'),
             'index'     => 'shipping_description',
             'sortable'  => false
         ));
 
         $this->addColumn('orders_count', array(
-            'header'    => Mage::helper('sales')->__('Number of Orders'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Number of Orders'),
             'index'     => 'orders_count',
             'total'     => 'sum',
             'type'      => 'number',
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Report_Sales_Shipping_Grid extends Mage_Adminhtml_Blo
         $rate = $this->getRate($currencyCode);
 
         $this->addColumn('total_shipping', array(
-            'header'        => Mage::helper('sales')->__('Total Sales Shipping'),
+            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Total Sales Shipping'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'total_shipping',
@@ -96,7 +96,7 @@ class Mage_Adminhtml_Block_Report_Sales_Shipping_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('total_shipping_actual', array(
-            'header'        => Mage::helper('sales')->__('Total Shipping'),
+            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Total Shipping'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'total_shipping_actual',
@@ -105,8 +105,8 @@ class Mage_Adminhtml_Block_Report_Sales_Shipping_Grid extends Mage_Adminhtml_Blo
             'rate'          => $rate,
         ));
 
-        $this->addExportType('*/*/exportShippingCsv', Mage::helper('adminhtml')->__('CSV'));
-        $this->addExportType('*/*/exportShippingExcel', Mage::helper('adminhtml')->__('Excel XML'));
+        $this->addExportType('*/*/exportShippingCsv', Mage::helper('Mage_Adminhtml_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportShippingExcel', Mage::helper('Mage_Adminhtml_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

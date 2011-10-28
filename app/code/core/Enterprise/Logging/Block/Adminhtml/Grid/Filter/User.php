@@ -36,7 +36,7 @@ class Enterprise_Logging_Block_Adminhtml_Grid_Filter_User extends Mage_Adminhtml
      */
     public function _getOptions()
     {
-        $options = array(array('value' => '', 'label' => Mage::helper('enterprise_logging')->__('All Users')));
+        $options = array(array('value' => '', 'label' => Mage::helper('Enterprise_Logging_Helper_Data')->__('All Users')));
         foreach (Mage::getResourceModel('Enterprise_Logging_Model_Resource_Event')->getUserNames() as $username) {
             $options[] = array('value' => $username, 'label' => $username);
         }

@@ -493,7 +493,7 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
             $e = new Exception(sprintf('PayPal gateway errors: %s.', $message));
             Mage::logException($e);
             Mage::throwException(
-                Mage::helper('paypal')->__('PayPal gateway rejected the request. %s', $message)
+                Mage::helper('Mage_Paypal_Helper_Data')->__('PayPal gateway rejected the request. %s', $message)
             );
         }
     }
@@ -520,7 +520,7 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
      */
     protected function getRequestId()
     {
-        return Mage::helper('core')->uniqHash();
+        return Mage::helper('Mage_Core_Helper_Data')->uniqHash();
     }
 
     /**

@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Sales_Totals extends Mage_Sales_Block_Order_Totals
     public function formatValue($total)
     {
         if (!$total->getIsFormated()) {
-            return $this->helper('adminhtml/sales')->displayPrices(
+            return $this->helper('Mage_Adminhtml_Helper_Sales')->displayPrices(
                 $this->getOrder(),
                 $total->getBaseValue(),
                 $total->getValue()
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Sales_Totals extends Mage_Sales_Block_Order_Totals
             'code'      => 'subtotal',
             'value'     => $this->getSource()->getSubtotal(),
             'base_value'=> $this->getSource()->getBaseSubtotal(),
-            'label'     => $this->helper('sales')->__('Subtotal')
+            'label'     => $this->helper('Mage_Sales_Helper_Data')->__('Subtotal')
         ));
 
         /**
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Sales_Totals extends Mage_Sales_Block_Order_Totals
                 'code'      => 'shipping',
                 'value'     => $this->getSource()->getShippingAmount(),
                 'base_value'=> $this->getSource()->getBaseShippingAmount(),
-                'label' => $this->helper('sales')->__('Shipping & Handling')
+                'label' => $this->helper('Mage_Sales_Helper_Data')->__('Shipping & Handling')
             ));
         }
 
@@ -77,9 +77,9 @@ class Mage_Adminhtml_Block_Sales_Totals extends Mage_Sales_Block_Order_Totals
          */
         if (((float)$this->getSource()->getDiscountAmount()) != 0) {
             if ($this->getSource()->getDiscountDescription()) {
-                $discountLabel = $this->helper('sales')->__('Discount (%s)', $this->getSource()->getDiscountDescription());
+                $discountLabel = $this->helper('Mage_Sales_Helper_Data')->__('Discount (%s)', $this->getSource()->getDiscountDescription());
             } else {
-                $discountLabel = $this->helper('sales')->__('Discount');
+                $discountLabel = $this->helper('Mage_Sales_Helper_Data')->__('Discount');
             }
             $this->_totals['discount'] = new Varien_Object(array(
                 'code'      => 'discount',
@@ -94,7 +94,7 @@ class Mage_Adminhtml_Block_Sales_Totals extends Mage_Sales_Block_Order_Totals
             'strong'    => true,
             'value'     => $this->getSource()->getGrandTotal(),
             'base_value'=> $this->getSource()->getBaseGrandTotal(),
-            'label'     => $this->helper('sales')->__('Grand Total'),
+            'label'     => $this->helper('Mage_Sales_Helper_Data')->__('Grand Total'),
             'area'      => 'footer'
         ));
 

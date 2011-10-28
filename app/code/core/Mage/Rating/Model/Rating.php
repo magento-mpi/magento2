@@ -57,7 +57,7 @@ class Mage_Rating_Model_Rating extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('rating/rating');
+        $this->_init('Mage_Rating_Model_Resource_Rating');
     }
 
     public function addOptionVote($optionId, $entityPkValue)

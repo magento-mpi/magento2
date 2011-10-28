@@ -87,7 +87,7 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
         $baseFile = $baseDir . $file;
 
         if ((!$file) || (!file_exists($baseFile))) {
-            Mage::throwException(Mage::helper('xmlconnect')->__('Image file was not found.'));
+            Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('Image file was not found.'));
         }
 
         $this->_baseFile = $baseFile;

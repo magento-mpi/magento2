@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Account extends Mage_Adminhtm
      */
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Account Information');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Account Information');
     }
 
     /**

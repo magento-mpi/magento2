@@ -65,8 +65,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Subselection
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '==' => Mage::helper('enterprise_reminder')->__('found'),
-            '!=' => Mage::helper('enterprise_reminder')->__('not found')
+            '==' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('found'),
+            '!=' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('not found')
         ));
         return $this;
     }
@@ -79,7 +79,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Subselection
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('If an item is %s in the wishlist with %s of these conditions match:',
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('If an item is %s in the wishlist with %s of these conditions match:',
                 $this->getOperatorElementHtml(),
                 $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();

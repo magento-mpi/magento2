@@ -48,5 +48,5 @@ function setCustomerBalanceAvailable(balance, formattedBalance) {
     }
 }
 
-setCustomerBalanceAvailable('<?php echo $this->getBalance(); ?>', '<?php echo Mage::helper('core')->currency($this->getBalance()); ?>');
+setCustomerBalanceAvailable('<?php echo $this->getBalance(); ?>', '<?php echo Mage::helper('Mage_Core_Helper_Data')->currency($this->getBalance()); ?>');
 <?php endif;?>

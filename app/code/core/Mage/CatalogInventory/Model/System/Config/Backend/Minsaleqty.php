@@ -36,7 +36,7 @@ class Mage_CatalogInventory_Model_System_Config_Backend_Minsaleqty extends Mage_
     protected function _afterLoad()
     {
         $value = $this->getValue();
-        $value = Mage::helper('cataloginventory/minsaleqty')->makeArrayFieldValue($value);
+        $value = Mage::helper('Mage_CatalogInventory_Helper_Minsaleqty')->makeArrayFieldValue($value);
         $this->setValue($value);
     }
 
@@ -46,7 +46,7 @@ class Mage_CatalogInventory_Model_System_Config_Backend_Minsaleqty extends Mage_
     protected function _beforeSave()
     {
         $value = $this->getValue();
-        $value = Mage::helper('cataloginventory/minsaleqty')->makeStorableArrayFieldValue($value);
+        $value = Mage::helper('Mage_CatalogInventory_Helper_Minsaleqty')->makeStorableArrayFieldValue($value);
         $this->setValue($value);
     }
 }

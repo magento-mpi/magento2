@@ -68,19 +68,19 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
     protected function _prepareColumns()
     {
         /*$this->addColumn('query_id', array(
-            'header'    => Mage::helper('catalog')->__('ID'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('ID'),
             'width'     => '50px',
             'index'     => 'query_id',
         ));*/
 
         $this->addColumn('search_query', array(
-            'header'    => Mage::helper('catalog')->__('Search Query'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Search Query'),
             'index'     => 'query_text',
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'        => Mage::helper('catalog')->__('Store'),
+                'header'        => Mage::helper('Mage_Catalog_Helper_Data')->__('Store'),
                 'index'         => 'store_id',
                 'type'          => 'store',
                 'store_view'    => true,
@@ -89,51 +89,51 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
         }
 
         $this->addColumn('num_results', array(
-            'header'    => Mage::helper('catalog')->__('Results'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Results'),
             'index'     => 'num_results',
             'type'      => 'number'
         ));
 
         $this->addColumn('popularity', array(
-            'header'    => Mage::helper('catalog')->__('Number of Uses'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Number of Uses'),
             'index'     => 'popularity',
             'type'      => 'number'
         ));
 
         $this->addColumn('synonym_for', array(
-            'header'    => Mage::helper('catalog')->__('Synonym For'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Synonym For'),
             'align'     => 'left',
             'index'     => 'synonym_for',
             'width'     => '160px'
         ));
 
         $this->addColumn('redirect', array(
-            'header'    => Mage::helper('catalog')->__('Redirect'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Redirect'),
             'align'     => 'left',
             'index'     => 'redirect',
             'width'     => '200px'
         ));
 
         $this->addColumn('display_in_terms', array(
-            'header'=>Mage::helper('catalog')->__('Display in Suggested Terms'),
+            'header'=>Mage::helper('Mage_Catalog_Helper_Data')->__('Display in Suggested Terms'),
             'sortable'=>true,
             'index'=>'display_in_terms',
             'type' => 'options',
             'width' => '100px',
             'options' => array(
-                '1' => Mage::helper('catalog')->__('Yes'),
-                '0' => Mage::helper('catalog')->__('No'),
+                '1' => Mage::helper('Mage_Catalog_Helper_Data')->__('Yes'),
+                '0' => Mage::helper('Mage_Catalog_Helper_Data')->__('No'),
             ),
             'align' => 'left',
         ));
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('catalog')->__('Action'),
+                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Action'),
                 'width'     => '100px',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(array(
-                    'caption'   => Mage::helper('catalog')->__('Edit'),
+                    'caption'   => Mage::helper('Mage_Catalog_Helper_Data')->__('Edit'),
                     'url'       => array(
                         'base'=>'*/*/edit'
                     ),
@@ -157,9 +157,9 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
         $this->getMassactionBlock()->setFormFieldName('search');
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'    => Mage::helper('catalog')->__('Delete'),
+             'label'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete'),
              'url'      => $this->getUrl('*/*/massDelete'),
-             'confirm'  => Mage::helper('catalog')->__('Are you sure?')
+             'confirm'  => Mage::helper('Mage_Catalog_Helper_Data')->__('Are you sure?')
         ));
 
         return parent::_prepareMassaction();

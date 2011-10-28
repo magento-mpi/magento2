@@ -46,7 +46,7 @@ Default layout, loads most of the pages
                 <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/sidebar/default.phtml</template></action>
                 <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/sidebar/default.phtml</template></action>
                 <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/sidebar/default.phtml</template></action>
-                <block type="Mage_Core_Block_Text_List" name="topCart.extra_actions" as="extra_actions" translate="label" module="checkout">
+                <block type="Mage_Core_Block_Text_List" name="topCart.extra_actions" as="extra_actions" translate="label" module="Mage_Checkout">
                     <label>My Cart Extra Actions</label>
                 </block>
             </block>

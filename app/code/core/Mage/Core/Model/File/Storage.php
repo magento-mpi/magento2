@@ -99,7 +99,7 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
     public function getStorageModel($storage = null, $params = array())
     {
         if (is_null($storage)) {
-            $storage = Mage::helper('core/file_storage')->getCurrentStorageCode();
+            $storage = Mage::helper('Mage_Core_Helper_File_Storage')->getCurrentStorageCode();
         }
 
         switch ($storage) {
@@ -136,7 +136,7 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
         if (is_array($storage) && isset($storage['type'])) {
             $storageDest    = (int) $storage['type'];
             $connection     = (isset($storage['connection'])) ? $storage['connection'] : null;
-            $helper         = Mage::helper('core/file_storage');
+            $helper         = Mage::helper('Mage_Core_Helper_File_Storage');
 
             // if unable to sync to internal storage from itself
             if ($storageDest == $helper->getCurrentStorageCode() && $helper->isInternalStorage()) {

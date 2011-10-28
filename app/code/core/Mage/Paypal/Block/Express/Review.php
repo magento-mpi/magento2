@@ -140,10 +140,10 @@ class Mage_Paypal_Block_Express_Review extends Mage_Core_Block_Template
         if ($rate->getErrorMessage()) {
             $price = $rate->getErrorMessage();
         } else {
-            $price = $this->_getShippingPrice($rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax());
+            $price = $this->_getShippingPrice($rate->getPrice(), $this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax());
             $incl = $this->_getShippingPrice($rate->getPrice(), true);
-            if (($incl != $price) && $this->helper('tax')->displayShippingBothPrices()) {
-                $renderedInclTax = sprintf($inclTaxFormat, Mage::helper('tax')->__('Incl. Tax'), $incl);
+            if (($incl != $price) && $this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices()) {
+                $renderedInclTax = sprintf($inclTaxFormat, Mage::helper('Mage_Tax_Helper_Data')->__('Incl. Tax'), $incl);
             }
         }
         return sprintf($format, $rate->getMethodTitle(), $price, $renderedInclTax);
@@ -177,7 +177,7 @@ class Mage_Paypal_Block_Express_Review extends Mage_Core_Block_Template
      */
     protected function _getShippingPrice($price, $isInclTax)
     {
-        return $this->_formatPrice($this->helper('tax')->getShippingPrice($price, $isInclTax, $this->_address));
+        return $this->_formatPrice($this->helper('Mage_Tax_Helper_Data')->getShippingPrice($price, $isInclTax, $this->_address));
     }
 
     /**

@@ -41,7 +41,7 @@ class Enterprise_Reward_Model_Action_InvitationCustomer extends Enterprise_Rewar
      */
     public function getPoints($websiteId)
     {
-        return (int)Mage::helper('enterprise_reward')->getPointsConfig('invitation_customer', $websiteId);
+        return (int)Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig('invitation_customer', $websiteId);
     }
 
     /**
@@ -65,7 +65,7 @@ class Enterprise_Reward_Model_Action_InvitationCustomer extends Enterprise_Rewar
      */
     public function getRewardLimit()
     {
-        return Mage::helper('enterprise_reward')->getPointsConfig('invitation_customer_limit', $this->getReward()->getWebsiteId());
+        return Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig('invitation_customer_limit', $this->getReward()->getWebsiteId());
     }
 
     /**
@@ -77,7 +77,7 @@ class Enterprise_Reward_Model_Action_InvitationCustomer extends Enterprise_Rewar
     public function getHistoryMessage($args = array())
     {
         $email = isset($args['email']) ? $args['email'] : '';
-        return Mage::helper('enterprise_reward')->__('Invitation to %s converted into a customer.', $email);
+        return Mage::helper('Enterprise_Reward_Helper_Data')->__('Invitation to %s converted into a customer.', $email);
     }
 
     /**

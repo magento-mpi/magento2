@@ -50,7 +50,7 @@ class Enterprise_CustomerBalance_CartController extends Mage_Core_Controller_Fro
      */
     public function removeAction()
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             $this->_redirect('customer/account/');
             return;
         }

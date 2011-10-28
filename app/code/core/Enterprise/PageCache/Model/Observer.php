@@ -311,7 +311,7 @@ class Enterprise_PageCache_Model_Observer
             return $this;
         }
 
-        $listItems = Mage::helper('catalog/product_compare')->getItemCollection();
+        $listItems = Mage::helper('Mage_Catalog_Helper_Product_Compare')->getItemCollection();
         $previouseList = $this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST);
         $previouseList = (empty($previouseList)) ? array() : explode(',', $previouseList);
 
@@ -431,7 +431,7 @@ class Enterprise_PageCache_Model_Observer
         }
 
         $cookieValue = '';
-        foreach (Mage::helper('wishlist')->getWishlistItemCollection() as $item) {
+        foreach (Mage::helper('Mage_Wishlist_Helper_Data')->getWishlistItemCollection() as $item) {
             $cookieValue .= ($cookieValue ? '_' : '') . $item->getId();
         }
 
@@ -440,7 +440,7 @@ class Enterprise_PageCache_Model_Observer
 
         // Wishlist items count hash for top link
         $this->_getCookie()->setObscure(Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST_ITEMS,
-            'wishlist_item_count_' . Mage::helper('wishlist')->getItemCount());
+            'wishlist_item_count_' . Mage::helper('Mage_Wishlist_Helper_Data')->getItemCount());
 
         return $this;
     }
@@ -572,7 +572,7 @@ class Enterprise_PageCache_Model_Observer
         $httpHost = Mage::app()->getFrontController()->getRequest()->getHttpHost();
         $urlHost = parse_url($url, PHP_URL_HOST);
         if ($httpHost != $urlHost && Mage::getSingleton('core/session')->getMessages()->count() > 0) {
-            $transport->setUrl(Mage::helper('core/url')->addRequestParam(
+            $transport->setUrl(Mage::helper('Mage_Core_Helper_Url')->addRequestParam(
                 $url,
                 array(Enterprise_PageCache_Model_Cache::REQUEST_MESSAGE_GET_PARAM => null)
             ));

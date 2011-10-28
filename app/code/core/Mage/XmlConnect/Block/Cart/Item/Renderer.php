@@ -81,8 +81,8 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_
         $_item = $this->getItem();
         $subtotalXmlObj = $productXmlObj->addCustomChild('subtotal');
 
-        if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()) {
-            if (Mage::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales')
+        if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()) {
+            if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales')
                 && $_item->getWeeeTaxAppliedAmount()
             ) {
                 $exclPrice = $_item->getRowTotal() + $_item->getWeeeTaxAppliedRowAmount()
@@ -94,10 +94,10 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_
             $subtotalXmlObj->addAttribute('excluding_tax', $subtotalXmlObj->xmlentities($exclPrice));
         }
 
-        if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()) {
-            $_incl = $this->helper('checkout')->getSubtotalInclTax($_item);
+        if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()) {
+            $_incl = $this->helper('Mage_Checkout_Helper_Data')->getSubtotalInclTax($_item);
 
-            if (Mage::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales')
+            if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales')
                 && $_item->getWeeeTaxAppliedAmount()
             ) {
                 $inclPrice = $_incl + $_item->getWeeeTaxAppliedRowAmount();
@@ -109,7 +109,7 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_
             $subtotalXmlObj->addAttribute('including_tax', $subtotalXmlObj->xmlentities($inclPrice));
         }
 
-        if (Mage::helper('weee')->getApplied($_item)) {
+        if (Mage::helper('Mage_Weee_Helper_Data')->getApplied($_item)) {
             $this->_addWeeeToXmlObj($subtotalXmlObj, true);
         }
 
@@ -138,10 +138,10 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_
         $_item = $this->getItem();
         $priceXmlObj = $productXmlObj->addCustomChild('price');
 
-        if ($this->helper('tax')->displayCartPriceExclTax()
-            || $this->helper('tax')->displayCartBothPrices()
+        if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax()
+            || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()
         ) {
-            if (Mage::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales')
+            if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales')
                 && $_item->getWeeeTaxAppliedAmount()
             ) {
                 $exclPrice = $_item->getCalculationPrice() + $_item->getWeeeTaxAppliedAmount()
@@ -154,12 +154,12 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_
             $priceXmlObj->addAttribute('excluding_tax', $priceXmlObj->xmlentities($exclPrice));
         }
 
-        if ($this->helper('tax')->displayCartPriceInclTax()
-            || $this->helper('tax')->displayCartBothPrices()
+        if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax()
+            || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()
         ) {
-            $_incl = $this->helper('checkout')->getPriceInclTax($_item);
+            $_incl = $this->helper('Mage_Checkout_Helper_Data')->getPriceInclTax($_item);
 
-            if (Mage::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales')
+            if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales')
                 && $_item->getWeeeTaxAppliedAmount()
             ) {
                 $inclPrice = $_incl + $_item->getWeeeTaxAppliedAmount();
@@ -171,7 +171,7 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_
             $priceXmlObj->addAttribute('including_tax', $priceXmlObj->xmlentities($inclPrice));
         }
 
-        if (Mage::helper('weee')->getApplied($_item)) {
+        if (Mage::helper('Mage_Weee_Helper_Data')->getApplied($_item)) {
             $this->_addWeeeToXmlObj($priceXmlObj);
         }
 
@@ -191,15 +191,15 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_
         $weeeXmlObj = $priceXmlObj->addCustomChild('weee');
 
         if ($subtotalFlag) {
-            $_incl = $this->helper('checkout')->getSubtotalInclTax($_item);
+            $_incl = $this->helper('Mage_Checkout_Helper_Data')->getSubtotalInclTax($_item);
         } else {
-            $_incl = $this->helper('checkout')->getPriceInclTax($_item);
+            $_incl = $this->helper('Mage_Checkout_Helper_Data')->getPriceInclTax($_item);
         }
 
-        $typeOfDisplay2 = Mage::helper('weee')->typeOfDisplay($_item, 2, 'sales');
+        $typeOfDisplay2 = Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales');
 
-        if (Mage::helper('weee')->typeOfDisplay($_item, 1, 'sales') && $_item->getWeeeTaxAppliedAmount()) {
-            foreach (Mage::helper('weee')->getApplied($_item) as $tax) {
+        if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 1, 'sales') && $_item->getWeeeTaxAppliedAmount()) {
+            foreach (Mage::helper('Mage_Weee_Helper_Data')->getApplied($_item) as $tax) {
 
                 if ($subtotalFlag) {
                     $amount = $tax['row_amount'];
@@ -213,9 +213,9 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_
                 ));
             }
         } elseif ($_item->getWeeeTaxAppliedAmount()
-            && ($typeOfDisplay2 || Mage::helper('weee')->typeOfDisplay($_item, 4, 'sales'))
+            && ($typeOfDisplay2 || Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 4, 'sales'))
         ) {
-            foreach (Mage::helper('weee')->getApplied($_item) as $tax) {
+            foreach (Mage::helper('Mage_Weee_Helper_Data')->getApplied($_item) as $tax) {
                 if ($subtotalFlag) {
                     $amount = $tax['row_amount_incl_tax'];
                 } else {

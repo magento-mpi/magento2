@@ -57,7 +57,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Settings extends Mage
         $this->setChild('continue_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('enterprise_staging')->__('Continue'),
+                    'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Continue'),
                     'onclick'   => "setSettings('".$this->getContinueUrl()."', 'master_website_id', 'type')",
                     'class'     => 'save'
             ))
@@ -74,22 +74,22 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Settings extends Mage
     {
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('settings', array('legend'=>Mage::helper('enterprise_staging')->__('Staging Website Settings')));
+        $fieldset = $form->addFieldset('settings', array('legend'=>Mage::helper('Enterprise_Staging_Helper_Data')->__('Staging Website Settings')));
 
         $websiteCollection = Mage::getModel('core/website')->getCollection()
             ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Website::CACHE_TAG));
 
         $fieldset->addField('master_website_id', 'select', array(
-            'label' => Mage::helper('enterprise_staging')->__('Source Website'),
-            'title' => Mage::helper('enterprise_staging')->__('Source Website'),
+            'label' => Mage::helper('Enterprise_Staging_Helper_Data')->__('Source Website'),
+            'title' => Mage::helper('Enterprise_Staging_Helper_Data')->__('Source Website'),
             'name'  => 'master_website_id',
             'value' => '',
             'values'=> $websiteCollection->toOptionArray()
         ));
 
         $fieldset->addField('type', 'hidden', array(
-            'label' => Mage::helper('enterprise_staging')->__('Staging Type'),
-            'title' => Mage::helper('enterprise_staging')->__('Staging Type'),
+            'label' => Mage::helper('Enterprise_Staging_Helper_Data')->__('Staging Type'),
+            'title' => Mage::helper('Enterprise_Staging_Helper_Data')->__('Staging Type'),
             'name'  => 'type',
             'value' => 'website'
         ));

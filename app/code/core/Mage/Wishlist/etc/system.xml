@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-        <wishlist translate="label" module="wishlist">
+        <wishlist translate="label" module="Mage_Wishlist">
             <label>Wishlist</label>
             <tab>customer</tab>
             <frontend_type>text</frontend_type>

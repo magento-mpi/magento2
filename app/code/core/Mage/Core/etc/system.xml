@@ -27,21 +27,21 @@
 -->
 <config>
     <tabs>
-        <general translate="label" module="core">
+        <general translate="label" module="Mage_Core">
             <label>General</label>
             <sort_order>100</sort_order>
         </general>
-        <service translate="label" module="core">
+        <service translate="label" module="Mage_Core">
             <label>Services</label>
             <sort_order>99999</sort_order>
         </service>
-        <advanced translate="label" module="core">
+        <advanced translate="label" module="Mage_Core">
             <label>Advanced</label>
             <sort_order>999999</sort_order>
         </advanced>
     </tabs>
     <sections>
-        <!--<web_track translate="label" module="core">
+        <!--<web_track translate="label" module="Mage_Core">
             <label>Web Tracking</label>
             <frontend_type>text</frontend_type>
             <sort_order>180</sort_order>
@@ -49,7 +49,7 @@
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
         </web_track>-->
-        <advanced translate="label" module="core">
+        <advanced translate="label" module="Mage_Core">
             <label>Advanced</label>
             <tab>advanced</tab>
             <frontend_type>text</frontend_type>
@@ -99,7 +99,7 @@
                 </modules_disable_output>
             </groups>
         </advanced>
-        <trans_email translate="label" module="core">
+        <trans_email translate="label" module="Mage_Core">
             <class>separator-top</class>
             <label>Store Email Addresses</label>
             <tab>general</tab>
@@ -262,7 +262,7 @@
             </groups>
         </trans_email>
 
-        <design translate="label" module="core">
+        <design translate="label" module="Mage_Core">
             <label>Design</label>
             <tab>general</tab>
             <frontend_type>text</frontend_type>
@@ -435,7 +435,7 @@
                 </pagination>
             </groups>
         </design>
-        <dev translate="label" module="core">
+        <dev translate="label" module="Mage_Core">
             <label>Developer</label>
             <tab>advanced</tab>
             <frontend_type>text</frontend_type>
@@ -621,7 +621,7 @@
                 </css>
             </groups>
         </dev>
-        <general translate="label" module="core">
+        <general translate="label" module="Mage_Core">
             <label>General</label>
             <tab>general</tab>
             <frontend_type>text</frontend_type>
@@ -743,7 +743,7 @@
                 </store_information>
             </groups>
         </general>
-        <system translate="label" module="core">
+        <system translate="label" module="Mage_Core">
             <class>separator-top</class>
             <label>System</label>
             <tab>advanced</tab>
@@ -837,7 +837,7 @@
                         </return_path_email>
                     </fields>
                 </smtp>
-                <media_storage_configuration translate="label" module="core">
+                <media_storage_configuration translate="label" module="Mage_Core">
                     <label>Storage Configuration for Media</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>900</sort_order>
@@ -888,7 +888,7 @@
                 </media_storage_configuration>
             </groups>
         </system>
-        <admin translate="label" module="core">
+        <admin translate="label" module="Mage_Core">
             <label>Admin</label>
             <tab>advanced</tab>
             <frontend_type>text</frontend_type>
@@ -1065,7 +1065,7 @@
                 </dashboard>
             </groups>
         </admin>
-        <web translate="label" module="core">
+        <web translate="label" module="Mage_Core">
             <label>Web</label>
             <tab>general</tab>
             <frontend_type>text</frontend_type>
@@ -1406,7 +1406,7 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <cookies translate="label" module="cms">
+                        <cookies translate="label" module="Mage_Cms">
                             <label>Redirect to CMS-page if Cookies are Disabled</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -1415,7 +1415,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </cookies>
-                        <javascript translate="label" module="cms">
+                        <javascript translate="label" module="Mage_Cms">
                             <label>Show Notice if JavaScript is Disabled</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>

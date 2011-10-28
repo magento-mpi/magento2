@@ -58,7 +58,7 @@ class Mage_Api_Model_User extends Mage_Core_Model_Abstract
 {
     protected function _construct()
     {
-        $this->_init('api/user');
+        $this->_init('Mage_Api_Model_Resource_User');
     }
 
     public function save()
@@ -177,7 +177,7 @@ class Mage_Api_Model_User extends Mage_Core_Model_Abstract
         if (!$this->getId()) {
             return false;
         }
-        $auth = Mage::helper('core')->validateHash($apiKey, $this->getApiKey());
+        $auth = Mage::helper('Mage_Core_Helper_Data')->validateHash($apiKey, $this->getApiKey());
         if ($auth) {
             return true;
         } else {
@@ -241,7 +241,7 @@ class Mage_Api_Model_User extends Mage_Core_Model_Abstract
 
     protected function _getEncodedApiKey($apiKey)
     {
-        return Mage::helper('core')->getHash($apiKey, 2);
+        return Mage::helper('Mage_Core_Helper_Data')->getHash($apiKey, 2);
     }
 
 }

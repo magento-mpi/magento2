@@ -49,7 +49,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
     protected function _prepareColumns()
     {
         $this->addColumn('amount', array(
-            'header'   => Mage::helper('enterprise_customerbalance')->__('Balance'),
+            'header'   => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Balance'),
             'width'    => 50,
             'index'    => 'amount',
             'sortable' => false,
@@ -57,7 +57,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         ));
 
         $this->addColumn('website_id', array(
-            'header'   => Mage::helper('enterprise_customerbalance')->__('Website'),
+            'header'   => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Website'),
             'index'    => 'website_id',
             'sortable' => false,
             'type'     => 'options',

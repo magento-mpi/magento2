@@ -26,7 +26,7 @@
  */
 -->
 <layout version="0.1.0">
-    <PRODUCT_TYPE_giftcard translate="label" module="enterprise_giftcard">
+    <PRODUCT_TYPE_giftcard translate="label" module="Enterprise_GiftCard">
         <label>Catalog Product View (Gift Card)</label>
         <reference name="product.info">
             <block type="Enterprise_GiftCard_Block_Catalog_Product_View_Type_Giftcard" name="product.info.giftcard" as="product_type_data" template="giftcard/catalog/product/view/type/giftcard.phtml">

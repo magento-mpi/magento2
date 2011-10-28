@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item extends Mag
         } else if (isset($productHelpers['default'])) {
             $helperName = $productHelpers['default'];
         } else {
-            $helperName = 'catalog/product_configuration';
+            $helperName = 'Mage_Catalog_Helper_Product_Configuration';
         }
 
         $helper = Mage::helper($helperName);
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item extends Mag
         $params = array(
             'max_length' => 55
         );
-        return Mage::helper('catalog/product_configuration')->getFormattedOptionValue($option, $params);
+        return Mage::helper('Mage_Catalog_Helper_Product_Configuration')->getFormattedOptionValue($option, $params);
     }
 
     /*

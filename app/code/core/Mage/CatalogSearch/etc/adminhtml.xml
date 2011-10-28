@@ -29,7 +29,7 @@
     <menu>
         <catalog>
             <children>
-                <search translate="title" module="catalogsearch">
+                <search translate="title" module="Mage_CatalogSearch">
                     <title>Search Terms</title>
                     <action>adminhtml/catalog_search/</action>
                     <sort_order>40</sort_order>
@@ -43,7 +43,7 @@
                 <children>
                     <catalog>
                         <children>
-                            <search translate="title" module="catalogsearch">
+                            <search translate="title" module="Mage_CatalogSearch">
                                 <title>Search Terms</title>
                             </search>
                         </children>

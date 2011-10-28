@@ -60,7 +60,7 @@
         </resources>
         <template>
             <email>
-                <enterprise_invitation_email_template translate="label" module="enterprise_invitation">
+                <enterprise_invitation_email_template translate="label" module="Enterprise_Invitation">
                     <label>Customer Invitation</label>
                     <file>enterprise/invitation.html</file>
                     <type>html</type>
@@ -82,7 +82,7 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_invitation module="Enterprise_Invitation">
+                <enterprise_invitation module="Mage_Enterprise_Invitation">
                     <file>enterprise/invitation.xml</file>
                 </enterprise_invitation>
             </updates>

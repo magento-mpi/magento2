@@ -88,7 +88,7 @@ class Mage_Persistent_Helper_Session extends Mage_Core_Helper_Data
      */
     public function isPersistent()
     {
-        return (bool)$this->getSession()->getId() && Mage::helper('persistent')->isEnabled();
+        return (bool)$this->getSession()->getId() && Mage::helper('Mage_Persistent_Helper_Data')->isEnabled();
     }
 
     /**
@@ -108,7 +108,7 @@ class Mage_Persistent_Helper_Session extends Mage_Core_Helper_Data
             }
 
             /** @var $helper Mage_Persistent_Helper_Data */
-            $helper = Mage::helper('persistent');
+            $helper = Mage::helper('Mage_Persistent_Helper_Data');
             return $helper->isEnabled() && $helper->isRememberMeEnabled() && $helper->isRememberMeCheckedDefault();
         }
 

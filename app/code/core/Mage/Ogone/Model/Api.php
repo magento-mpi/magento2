@@ -419,12 +419,12 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
                 continue;
             }
             //COM filed can only handle max 100
-            if (Mage::helper('core/string')->strlen($invoiceDesc.$item->getName()) > 100) {
+            if (Mage::helper('Mage_Core_Helper_String')->strlen($invoiceDesc.$item->getName()) > 100) {
                 break;
             }
             $invoiceDesc .= $item->getName() . ', ';
         }
-        return Mage::helper('core/string')->substr($invoiceDesc, 0, -2);
+        return Mage::helper('Mage_Core_Helper_String')->substr($invoiceDesc, 0, -2);
     }
 
     /**

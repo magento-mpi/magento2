@@ -130,7 +130,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
             return;
         } catch (Exception $e) {
             $this->_getSession()->addException($e,
-                Mage::helper('enterprise_customersegment')->__('Segment Customers matching error.')
+                Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segment Customers matching error.')
             );
             $this->_redirect('*/*/');
             return;
@@ -147,7 +147,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
     {
         $this->loadLayout()
             ->_setActiveMenu('customer/customersegment')
-            ->_addBreadcrumb(Mage::helper('enterprise_customersegment')->__('Segments'), Mage::helper('enterprise_customersegment')->__('Segments'))
+            ->_addBreadcrumb(Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segments'), Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segments'))
         ;
         return $this;
     }
@@ -250,7 +250,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
     protected function _isAllowed()
     {
         return Mage::getSingleton('admin/session')->isAllowed('customer/customersegment') &&
-            Mage::helper('enterprise_customersegment')->isEnabled();
+            Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled();
     }
 
     /**

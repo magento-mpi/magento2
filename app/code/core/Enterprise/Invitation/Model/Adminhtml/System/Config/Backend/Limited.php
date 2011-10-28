@@ -46,7 +46,7 @@ class Enterprise_Invitation_Model_Adminhtml_System_Config_Backend_Limited
         parent::_beforeSave();
 
         if ((int)$this->getValue() <= 0) {
-            $parameter = Mage::helper('enterprise_invitation')->__('Max Invitations Allowed to be Sent at One Time');
+            $parameter = Mage::helper('Enterprise_Invitation_Helper_Data')->__('Max Invitations Allowed to be Sent at One Time');
 
             //if even old value is not valid we will have to you '1'
             $value = (int)$this->getOldValue();
@@ -56,7 +56,7 @@ class Enterprise_Invitation_Model_Adminhtml_System_Config_Backend_Limited
             }
             $this->setValue($value);
             Mage::getSingleton('adminhtml/session')->addNotice(
-                Mage::helper('enterprise_invitation')->__('Invalid value used for "%s" parameter. Previous value saved.', $parameter)
+                Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invalid value used for "%s" parameter. Previous value saved.', $parameter)
             );
         }
         return $this;

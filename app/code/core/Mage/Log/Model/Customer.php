@@ -53,7 +53,7 @@ class Mage_Log_Model_Customer extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('log/customer');
+        $this->_init('Mage_Log_Model_Resource_Customer');
     }
 
     /**

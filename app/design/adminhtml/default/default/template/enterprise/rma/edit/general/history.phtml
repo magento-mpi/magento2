@@ -27,20 +27,20 @@
 ?>
 <div class="entry-edit" id="rma-history-block">
     <div class="entry-edit-head">
-        <h4 class="icon-head head-shipping-method"><?php echo Mage::helper('enterprise_rma')->__('RMA History') ?></h4>
+        <h4 class="icon-head head-shipping-method"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA History') ?></h4>
     </div>
     <div class="fieldset">
         <div id="history_form" class="rma-history-form">
             <span class="field-row">
-                <label class="normal" for="history_comment"><?php echo Mage::helper('enterprise_rma')->__('Comment Text') ?></label>
+                <label class="normal" for="history_comment"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Comment Text') ?></label>
                 <textarea name="comment[comment]" rows="3" cols="5" style="height:6em; width:99%;" id="history_comment"></textarea>
             </span>
             <div class="f-left">
                 <?php if ($this->canSendCommentEmail()): ?>
                     <input name="comment[is_customer_notified]" type="checkbox" id="history_notify" value="1" />
-                    <label class="normal" for="history_notify"><?php echo Mage::helper('enterprise_rma')->__('Notify Customer by Email') ?></label><br />
+                    <label class="normal" for="history_notify"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Notify Customer by Email') ?></label><br />
                 <?php endif; ?>
-                <input name="comment[is_visible_on_front]" type="checkbox" id="history_visible" value="1" /><label class="normal" for="history_visible"> <?php echo Mage::helper('enterprise_rma')->__('Visible on Frontend') ?></label>
+                <input name="comment[is_visible_on_front]" type="checkbox" id="history_visible" value="1" /><label class="normal" for="history_visible"> <?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Visible on Frontend') ?></label>
             </div>
             <div class="f-right">
                 <?php echo $this->getChildHtml('submit_button') ?>
@@ -50,8 +50,8 @@
                 <ul class="note-list">
                 <?php foreach ($this->getComments() as $_item): ?>
                     <li>
-                        <strong><?php echo $this->helper('core')->formatDate($_item->getCreatedAt(), 'medium') ?></strong>
-                        <strong><?php echo $this->helper('core')->formatTime($_item->getCreatedAt(), 'medium') ?></strong>
+                        <strong><?php echo $this->helper('Mage_Core_Helper_Data')->formatDate($_item->getCreatedAt(), 'medium') ?></strong>
+                        <strong><?php echo $this->helper('Mage_Core_Helper_Data')->formatTime($_item->getCreatedAt(), 'medium') ?></strong>
                         <span class="separator">|</span>
                         <strong>
                             <?php if ($_item->getIsAdmin()): ?>
@@ -60,13 +60,13 @@
                                 <?php echo $this->escapeHtml($this->getCustomerName())?>
                             <?php endif; ?>
                         </strong><br/>
-                        <small><?php echo $this->helper('enterprise_rma')->__('Customer') ?>
+                        <small><?php echo $this->helper('Enterprise_Rma_Helper_Data')->__('Customer') ?>
                         <strong class="subdue">
                             <?php if ($_item->getIsCustomerNotified()): ?>
-                            <?php echo $this->helper('enterprise_rma')->__('Notified') ?>
+                            <?php echo $this->helper('Enterprise_Rma_Helper_Data')->__('Notified') ?>
                             <img src="<?php echo $this->getSkinUrl('images/ico_success.gif') ?>" width="16" height="16" alt="" />
                             <?php else: ?>
-                            <?php echo $this->helper('enterprise_rma')->__('Not Notified') ?>
+                            <?php echo $this->helper('Enterprise_Rma_Helper_Data')->__('Not Notified') ?>
                             <?php endif; ?>
                         </strong></small>
                         <?php if ($_item->getComment()): ?>

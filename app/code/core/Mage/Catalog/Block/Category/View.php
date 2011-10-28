@@ -50,14 +50,14 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
             if ($keywords = $category->getMetaKeywords()) {
                 $headBlock->setKeywords($keywords);
             }
-            if ($this->helper('catalog/category')->canUseCanonicalTag()) {
+            if ($this->helper('Mage_Catalog_Helper_Category')->canUseCanonicalTag()) {
                 $headBlock->addLinkRel('canonical', $category->getUrl());
             }
             /*
             want to show rss feed in the url
             */
             if ($this->IsRssCatalogEnable() && $this->IsTopCategory()) {
-                $title = $this->helper('rss')->__('%s RSS Feed',$this->getCurrentCategory()->getName());
+                $title = $this->helper('Mage_Rss_Helper_Data')->__('%s RSS Feed',$this->getCurrentCategory()->getName());
                 $headBlock->addItem('rss', $this->getRssLink(), 'title="'.$title.'"');
             }
         }

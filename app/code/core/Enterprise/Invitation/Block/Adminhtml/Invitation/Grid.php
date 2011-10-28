@@ -66,7 +66,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
     protected function _prepareColumns()
     {
         $this->addColumn('enterprise_invitation_id', array(
-            'header'=> Mage::helper('enterprise_invitation')->__('ID'),
+            'header'=> Mage::helper('Enterprise_Invitation_Helper_Data')->__('ID'),
             'width' => 80,
             'align' => 'right',
             'type'  => 'text',
@@ -74,7 +74,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         ));
 
         $this->addColumn('email', array(
-            'header' => Mage::helper('enterprise_invitation')->__('Email'),
+            'header' => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Email'),
             'index' => 'invitation_email',
             'type'  => 'text'
         ));
@@ -83,14 +83,14 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             ? 'Enterprise_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee' : false;
 
         $this->addColumn('invitee', array(
-            'header' => Mage::helper('enterprise_invitation')->__('Invitee'),
+            'header' => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitee'),
             'index'  => 'invitee_email',
             'type'   => 'text',
             'renderer' => $renderer,
         ));
 
         $this->addColumn('invitation_date', array(
-            'header' => Mage::helper('enterprise_invitation')->__('Sent'),
+            'header' => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Sent'),
             'index' => 'invitation_date',
             'type' => 'datetime',
             'gmtoffset' => true,
@@ -98,7 +98,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         ));
 
         $this->addColumn('signup_date', array(
-            'header' => Mage::helper('enterprise_invitation')->__('Registered'),
+            'header' => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Registered'),
             'index' => 'signup_date',
             'type' => 'datetime',
             'gmtoffset' => true,
@@ -106,7 +106,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         ));
 
         $this->addColumn('status', array(
-            'header' => Mage::helper('enterprise_invitation')->__('Status'),
+            'header' => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Status'),
             'index' => 'status',
             'type' => 'options',
             'options' => Mage::getSingleton('enterprise_invitation/source_invitation_status')->getOptions(),
@@ -114,7 +114,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         ));
 
         $this->addColumn('website_id', array(
-            'header'  => Mage::helper('enterprise_invitation')->__('Valid on Website'),
+            'header'  => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Valid on Website'),
             'index'   => 'website_id',
             'type'    => 'options',
             'options' => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(),
@@ -127,7 +127,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             ->toOptionHash();
 
         $this->addColumn('group_id', array(
-            'header' => Mage::helper('enterprise_invitation')->__('Invitee Group'),
+            'header' => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitee Group'),
             'index' => 'group_id',
             'filter_index' => 'invitee_group_id',
             'type'  => 'options',
@@ -148,13 +148,13 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         $this->setMassactionIdField('invitation_id');
         $this->getMassactionBlock()->setFormFieldName('invitations');
         $this->getMassactionBlock()->addItem('cancel', array(
-                'label' => $this->helper('enterprise_invitation')->__('Discard Selected'),
+                'label' => $this->helper('Enterprise_Invitation_Helper_Data')->__('Discard Selected'),
                 'url' => $this->getUrl('*/*/massCancel'),
-                'confirm' => Mage::helper('enterprise_invitation')->__('Are you sure you want to do this?')
+                'confirm' => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Are you sure you want to do this?')
         ));
 
         $this->getMassactionBlock()->addItem('resend', array(
-                'label' => $this->helper('enterprise_invitation')->__('Send Selected'),
+                'label' => $this->helper('Enterprise_Invitation_Helper_Data')->__('Send Selected'),
                 'url' => $this->getUrl('*/*/massResend')
         ));
 

@@ -76,7 +76,7 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Edit_Form
         /** @var $sovereignField Varien_Data_Form_Element_Abstract */
         $sovereignField = $fieldset->addField('type', 'select', array(
             'name'      => 'type',
-            'values'    => Mage::helper('xmlconnect')->getMessageTypeOptions(),
+            'values'    => Mage::helper('Mage_XmlConnect_Helper_Data')->getMessageTypeOptions(),
             'label'     => $this->__('Message Type'),
             'title'     => $this->__('Message Type'),
             'disabled'  => !$this->_fieldsEnabled,

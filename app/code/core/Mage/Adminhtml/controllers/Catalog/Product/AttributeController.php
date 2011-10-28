@@ -54,10 +54,10 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
         } else {
             $this->loadLayout()
                 ->_setActiveMenu('catalog/attributes')
-                ->_addBreadcrumb(Mage::helper('catalog')->__('Catalog'), Mage::helper('catalog')->__('Catalog'))
+                ->_addBreadcrumb(Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'), Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'))
                 ->_addBreadcrumb(
-                    Mage::helper('catalog')->__('Manage Product Attributes'),
-                    Mage::helper('catalog')->__('Manage Product Attributes'))
+                    Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Product Attributes'),
+                    Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Product Attributes'))
             ;
         }
         return $this;
@@ -85,7 +85,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
             if (! $model->getId()) {
                 Mage::getSingleton('adminhtml/session')->addError(
-                    Mage::helper('catalog')->__('This attribute no longer exists'));
+                    Mage::helper('Mage_Catalog_Helper_Data')->__('This attribute no longer exists'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             // entity type check
             if ($model->getEntityTypeId() != $this->_entityTypeId) {
                 Mage::getSingleton('adminhtml/session')->addError(
-                    Mage::helper('catalog')->__('This attribute cannot be edited.'));
+                    Mage::helper('Mage_Catalog_Helper_Data')->__('This attribute cannot be edited.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -111,8 +111,8 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
         $this->_title($id ? $model->getName() : $this->__('New Attribute'));
 
-        $item = $id ? Mage::helper('catalog')->__('Edit Product Attribute')
-                    : Mage::helper('catalog')->__('New Product Attribute');
+        $item = $id ? Mage::helper('Mage_Catalog_Helper_Data')->__('Edit Product Attribute')
+                    : Mage::helper('Mage_Catalog_Helper_Data')->__('New Product Attribute');
 
         $this->_addBreadcrumb($item, $item);
 
@@ -135,7 +135,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
         if ($attribute->getId() && !$attributeId) {
             Mage::getSingleton('adminhtml/session')->addError(
-                Mage::helper('catalog')->__('Attribute with the same code already exists'));
+                Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute with the same code already exists'));
             $this->_initLayoutMessages('adminhtml/session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
@@ -154,7 +154,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     {
         if ($data) {
             /** @var $helperCatalog Mage_Catalog_Helper_Data */
-            $helperCatalog = Mage::helper('catalog');
+            $helperCatalog = Mage::helper('Mage_Catalog_Helper_Data');
             //labels
             foreach ($data['frontend_label'] as & $value) {
                 if ($value) {
@@ -176,7 +176,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             /* @var $model Mage_Catalog_Model_Entity_Attribute */
             $model = Mage::getModel('catalog/resource_eav_attribute');
             /* @var $helper Mage_Catalog_Helper_Product */
-            $helper = Mage::helper('catalog/product');
+            $helper = Mage::helper('Mage_Catalog_Helper_Product');
 
             $id = $this->getRequest()->getParam('attribute_id');
 
@@ -210,7 +210,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
                 if (!$model->getId()) {
                     $session->addError(
-                        Mage::helper('catalog')->__('This Attribute no longer exists'));
+                        Mage::helper('Mage_Catalog_Helper_Data')->__('This Attribute no longer exists'));
                     $this->_redirect('*/*/');
                     return;
                 }
@@ -218,7 +218,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 // entity type check
                 if ($model->getEntityTypeId() != $this->_entityTypeId) {
                     $session->addError(
-                        Mage::helper('catalog')->__('This attribute cannot be updated.'));
+                        Mage::helper('Mage_Catalog_Helper_Data')->__('This attribute cannot be updated.'));
                     $session->setAttributeData($data);
                     $this->_redirect('*/*/');
                     return;
@@ -277,7 +277,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             try {
                 $model->save();
                 $session->addSuccess(
-                    Mage::helper('catalog')->__('The product attribute has been saved.'));
+                    Mage::helper('Mage_Catalog_Helper_Data')->__('The product attribute has been saved.'));
 
                 /**
                  * Clear translation cache because attribute labels are stored in translation
@@ -315,7 +315,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             $model->load($id);
             if ($model->getEntityTypeId() != $this->_entityTypeId) {
                 Mage::getSingleton('adminhtml/session')->addError(
-                    Mage::helper('catalog')->__('This attribute cannot be deleted.'));
+                    Mage::helper('Mage_Catalog_Helper_Data')->__('This attribute cannot be deleted.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -323,7 +323,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             try {
                 $model->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('catalog')->__('The product attribute has been deleted.'));
+                    Mage::helper('Mage_Catalog_Helper_Data')->__('The product attribute has been deleted.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -334,7 +334,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             }
         }
         Mage::getSingleton('adminhtml/session')->addError(
-            Mage::helper('catalog')->__('Unable to find an attribute to delete.'));
+            Mage::helper('Mage_Catalog_Helper_Data')->__('Unable to find an attribute to delete.'));
         $this->_redirect('*/*/');
     }
 

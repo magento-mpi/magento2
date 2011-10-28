@@ -114,7 +114,7 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
 
     public function asString($format='')
     {
-        $str = Mage::helper('rule')->__("Perform following actions");
+        $str = Mage::helper('Mage_Rule_Helper_Data')->__("Perform following actions");
         return $str;
     }
 

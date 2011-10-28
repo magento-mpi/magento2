@@ -445,7 +445,7 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
             return self::API_URL . '?' . implode('&', $p);
         } else {
             $gaData = urlencode(base64_encode(serialize($params)));
-            $gaHash = Mage::helper('adminhtml/dashboard_data')->getChartDataHash($gaData);
+            $gaHash = Mage::helper('Mage_Adminhtml_Helper_Dashboard_Data')->getChartDataHash($gaData);
             $params = array('ga' => $gaData, 'h' => $gaHash);
             return $this->getUrl('*/*/tunnel', array('_query' => $params));
         }
@@ -550,7 +550,7 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
      */
     protected function _prepareData()
     {
-        $availablePeriods = array_keys($this->helper('adminhtml/dashboard_data')->getDatePeriods());
+        $availablePeriods = array_keys($this->helper('Mage_Adminhtml_Helper_Dashboard_Data')->getDatePeriods());
         $period = $this->getRequest()->getParam('period');
 
         $this->getDataHelper()->setParam('period',

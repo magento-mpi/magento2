@@ -169,7 +169,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
      */
     public function getTargetRuleHelper()
     {
-        return Mage::helper('enterprise_targetrule');
+        return Mage::helper('Enterprise_TargetRule_Helper_Data');
     }
 
     /**

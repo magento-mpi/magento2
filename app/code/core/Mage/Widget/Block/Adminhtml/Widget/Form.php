@@ -42,12 +42,12 @@ class Mage_Widget_Block_Adminhtml_Widget_Form extends Mage_Adminhtml_Block_Widge
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend'    => $this->helper('widget')->__('Widget')
+            'legend'    => $this->helper('Mage_Widget_Helper_Data')->__('Widget')
         ));
 
         $select = $fieldset->addField('select_widget_type', 'select', array(
-            'label'                 => $this->helper('widget')->__('Widget Type'),
-            'title'                 => $this->helper('widget')->__('Widget Type'),
+            'label'                 => $this->helper('Mage_Widget_Helper_Data')->__('Widget Type'),
+            'title'                 => $this->helper('Mage_Widget_Helper_Data')->__('Widget Type'),
             'name'                  => 'widget_type',
             'required'              => true,
             'options'               => $this->_getWidgetSelectOptions(),
@@ -110,7 +110,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Form extends Mage_Adminhtml_Block_Widge
             if ($withEmptyElement) {
                 array_unshift($result, array(
                     'type'        => '',
-                    'name'        => $this->helper('adminhtml')->__('-- Please Select --'),
+                    'name'        => $this->helper('Mage_Adminhtml_Helper_Data')->__('-- Please Select --'),
                     'description' => '',
                 ));
             }

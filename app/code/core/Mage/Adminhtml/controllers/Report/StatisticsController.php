@@ -48,8 +48,8 @@ class Mage_Adminhtml_Report_StatisticsController extends Mage_Adminhtml_Controll
         }
 
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))
-            ->_addBreadcrumb(Mage::helper('reports')->__('Statistics'), Mage::helper('reports')->__('Statistics'));
+            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Reports'), Mage::helper('Mage_Reports_Helper_Data')->__('Reports'))
+            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Statistics'), Mage::helper('Mage_Reports_Helper_Data')->__('Statistics'));
         return $this;
     }
 
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Report_StatisticsController extends Mage_Adminhtml_Controll
             $blocks = array($blocks);
         }
 
-        $requestData = Mage::helper('adminhtml')->prepareFilterString($this->getRequest()->getParam('filter'));
+        $requestData = Mage::helper('Mage_Adminhtml_Helper_Data')->prepareFilterString($this->getRequest()->getParam('filter'));
         $requestData = $this->_filterDates($requestData, array('from', 'to'));
         $requestData['store_ids'] = $this->getRequest()->getParam('store_ids');
         $params = new Varien_Object();
@@ -90,7 +90,7 @@ class Mage_Adminhtml_Report_StatisticsController extends Mage_Adminhtml_Controll
     {
         $codes = $this->getRequest()->getParam('code');
         if (!$codes) {
-            throw new Exception(Mage::helper('adminhtml')->__('No report code specified.'));
+            throw new Exception(Mage::helper('Mage_Adminhtml_Helper_Data')->__('No report code specified.'));
         }
 
         if(!is_array($codes) && strpos($codes, ',') === false) {
@@ -129,11 +129,11 @@ class Mage_Adminhtml_Report_StatisticsController extends Mage_Adminhtml_Controll
             foreach ($collectionsNames as $collectionName) {
                 Mage::getResourceModel($collectionName)->aggregate($date);
             }
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Recent statistics have been updated.'));
+            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Recent statistics have been updated.'));
         } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Unable to refresh recent statistics.'));
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Unable to refresh recent statistics.'));
             Mage::logException($e);
         }
 
@@ -157,11 +157,11 @@ class Mage_Adminhtml_Report_StatisticsController extends Mage_Adminhtml_Controll
             foreach ($collectionsNames as $collectionName) {
                 Mage::getResourceModel($collectionName)->aggregate();
             }
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Lifetime statistics have been updated.'));
+            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Lifetime statistics have been updated.'));
         } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Unable to refresh lifetime statistics.'));
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Unable to refresh lifetime statistics.'));
             Mage::logException($e);
         }
 
@@ -180,7 +180,7 @@ class Mage_Adminhtml_Report_StatisticsController extends Mage_Adminhtml_Controll
 
         $this->_initAction()
             ->_setActiveMenu('report/statistics/refreshstatistics')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Refresh Statistics'), Mage::helper('adminhtml')->__('Refresh Statistics'))
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Refresh Statistics'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Refresh Statistics'))
             ->renderLayout();
     }
 

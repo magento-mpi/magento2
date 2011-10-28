@@ -120,7 +120,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
      */
     public function getBatchConfigJson()
     {
-        return Mage::helper('core')->jsonEncode(
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
             $this->getBatchConfig()
         );
     }
@@ -131,7 +131,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
      */
     public function jsonEncode($source)
     {
-        return Mage::helper('core')->jsonEncode($source);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($source);
     }
     /**
      * Get a profile

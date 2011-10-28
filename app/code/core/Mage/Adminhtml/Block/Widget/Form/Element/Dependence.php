@@ -112,7 +112,7 @@ class Mage_Adminhtml_Block_Widget_Form_Element_Dependence extends Mage_Adminhtml
         }
         return '<script type="text/javascript"> new FormElementDependenceController('
             . $this->_getDependsJson()
-            . ($this->_configOptions ? ', ' . Mage::helper('core')->jsonEncode($this->_configOptions) : '')
+            . ($this->_configOptions ? ', ' . Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->_configOptions) : '')
             . '); </script>';
     }
 
@@ -128,6 +128,6 @@ class Mage_Adminhtml_Block_Widget_Form_Element_Dependence extends Mage_Adminhtml
                 $result[$this->_fields[$to]][$this->_fields[$from]] = $value;
             }
         }
-        return Mage::helper('core')->jsonEncode($result);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
     }
 }

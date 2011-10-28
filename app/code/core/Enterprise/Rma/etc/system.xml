@@ -29,14 +29,14 @@
     <sections>
         <sales>
             <groups>
-                <enterprise_rma translate="label" module="enterprise_rma">
+                <enterprise_rma translate="label" module="Enterprise_Rma">
                     <label>RMA Settings</label>
                     <sort_order>300</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <enabled translate="label" module="enterprise_rma">
+                        <enabled translate="label" module="Enterprise_Rma">
                             <label>Enable RMA on Frontend</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -45,7 +45,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </enabled>
-                        <enabled_on_product translate="label" module="enterprise_rma">
+                        <enabled_on_product translate="label" module="Enterprise_Rma">
                             <label>Enable RMA on Product Level</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -54,7 +54,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </enabled_on_product>
-                        <use_store_address translate="label" module="enterprise_rma">
+                        <use_store_address translate="label" module="Enterprise_Rma">
                             <label>Use Store Address</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -63,7 +63,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </use_store_address>
-                        <store_name translate="label" module="enterprise_rma">
+                        <store_name translate="label" module="Enterprise_Rma">
                             <label>Contact Name</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>30</sort_order>
@@ -72,7 +72,7 @@
                             <show_in_store>0</show_in_store>
                             <depends><use_store_address>0</use_store_address></depends>
                         </store_name>
-                        <address translate="label" module="enterprise_rma">
+                        <address translate="label" module="Enterprise_Rma">
                             <label>Street Address</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>40</sort_order>
@@ -81,7 +81,7 @@
                             <show_in_store>0</show_in_store>
                             <depends><use_store_address>0</use_store_address></depends>
                         </address>
-                        <address1 module="enterprise_rma">
+                        <address1 module="Enterprise_Rma">
                             <label/>
                             <frontend_type>text</frontend_type>
                             <sort_order>45</sort_order>
@@ -90,7 +90,7 @@
                             <show_in_store>0</show_in_store>
                             <depends><use_store_address>0</use_store_address></depends>
                         </address1>
-                        <city translate="label" module="enterprise_rma">
+                        <city translate="label" module="Enterprise_Rma">
                             <label>City</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>50</sort_order>
@@ -99,7 +99,7 @@
                             <show_in_store>0</show_in_store>
                             <depends><use_store_address>0</use_store_address></depends>
                         </city>
-                        <region_id translate="label" module="enterprise_rma">
+                        <region_id translate="label" module="Enterprise_Rma">
                             <label>State/Province</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>60</sort_order>
@@ -108,7 +108,7 @@
                             <show_in_store>0</show_in_store>
                             <depends><use_store_address>0</use_store_address></depends>
                         </region_id>
-                        <zip translate="label" module="enterprise_rma">
+                        <zip translate="label" module="Enterprise_Rma">
                             <label>ZIP/Postal Code</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>70</sort_order>
@@ -117,7 +117,7 @@
                             <show_in_store>0</show_in_store>
                             <depends><use_store_address>0</use_store_address></depends>
                         </zip>
-                        <country_id translate="label" module="enterprise_rma">
+                        <country_id translate="label" module="Enterprise_Rma">
                             <label>Country</label>
                             <frontend_type>select</frontend_type>
                             <frontend_class>countries</frontend_class>
@@ -134,7 +134,7 @@
         </sales>
         <sales_email>
             <groups>
-                <enterprise_rma translate="label" module="enterprise_rma">
+                <enterprise_rma translate="label" module="Enterprise_Rma">
                     <label>RMA</label>
                     <sort_order>90</sort_order>
                     <show_in_default>1</show_in_default>
@@ -197,7 +197,7 @@
                         </copy_method>
                     </fields>
                 </enterprise_rma>
-                <enterprise_rma_auth translate="label" module="enterprise_rma">
+                <enterprise_rma_auth translate="label" module="Enterprise_Rma">
                     <label>RMA Authorization</label>
                     <sort_order>100</sort_order>
                     <show_in_default>1</show_in_default>
@@ -260,7 +260,7 @@
                         </copy_method>
                     </fields>
                 </enterprise_rma_auth>
-                <enterprise_rma_comment translate="label" module="enterprise_rma">
+                <enterprise_rma_comment translate="label" module="Enterprise_Rma">
                     <label>RMA Admin Comments</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>110</sort_order>
@@ -324,7 +324,7 @@
                         </copy_method>
                     </fields>
                 </enterprise_rma_comment>
-                <enterprise_rma_customer_comment translate="label" module="enterprise_rma">
+                <enterprise_rma_customer_comment translate="label" module="Enterprise_Rma">
                     <label>RMA Customer Comments</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>120</sort_order>

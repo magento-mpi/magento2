@@ -147,7 +147,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission_History
      */
     protected function _getApplication()
     {
-        return Mage::helper('xmlconnect')->getApplication();
+        return Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
     }
 
     /**

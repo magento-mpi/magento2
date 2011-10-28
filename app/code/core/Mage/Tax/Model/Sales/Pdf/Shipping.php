@@ -53,25 +53,25 @@ class Mage_Tax_Model_Sales_Pdf_Shipping extends Mage_Sales_Model_Order_Pdf_Total
             $totals = array(
                 array(
                     'amount'    => $this->getAmountPrefix().$amount,
-                    'label'     => Mage::helper('tax')->__('Shipping (Excl. Tax)') . ':',
+                    'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Shipping (Excl. Tax)') . ':',
                     'font_size' => $fontSize
                 ),
                 array(
                     'amount'    => $this->getAmountPrefix().$amountInclTax,
-                    'label'     => Mage::helper('tax')->__('Shipping (Incl. Tax)') . ':',
+                    'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Shipping (Incl. Tax)') . ':',
                     'font_size' => $fontSize
                 ),
             );
         } elseif ($config->displaySalesShippingInclTax($store)) {
             $totals = array(array(
                 'amount'    => $this->getAmountPrefix().$amountInclTax,
-                'label'     => Mage::helper('sales')->__($this->getTitle()) . ':',
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__($this->getTitle()) . ':',
                 'font_size' => $fontSize
             ));
         } else {
             $totals = array(array(
                 'amount'    => $this->getAmountPrefix().$amount,
-                'label'     => Mage::helper('sales')->__($this->getTitle()) . ':',
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__($this->getTitle()) . ':',
                 'font_size' => $fontSize
             ));
         }

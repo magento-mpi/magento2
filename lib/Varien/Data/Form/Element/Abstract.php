@@ -282,14 +282,14 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
             return $this;
         }
         if (!is_array($values)) {
-            $values = Mage::helper('core')->escapeHtml(trim($values));
+            $values = Mage::helper('Mage_Core_Helper_Data')->escapeHtml(trim($values));
             $values = array($values => $values);
         }
         $elementValues = $this->getValues();
         if (!empty($elementValues)) {
             foreach ($values as $key => $value) {
                 if ((isset($elementValues[$key]) && $overwrite) || !isset($elementValues[$key])) {
-                    $elementValues[$key] = Mage::helper('core')->escapeHtml($value);
+                    $elementValues[$key] = Mage::helper('Mage_Core_Helper_Data')->escapeHtml($value);
                 }
             }
             $values = $elementValues;

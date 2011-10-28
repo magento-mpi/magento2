@@ -64,7 +64,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon extends Mage_Adminh
             ->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'id'        => 'apply_coupon',
-                    'label'     => Mage::helper('enterprise_checkout')->__('Apply'),
+                    'label'     => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Apply'),
                     'onclick'   => "checkoutObj.applyCoupon($('coupon_code').value)",
                 ))
             ->toHtml();

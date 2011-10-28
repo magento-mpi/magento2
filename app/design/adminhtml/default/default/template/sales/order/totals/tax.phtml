@@ -93,10 +93,10 @@ $_fullInfo  = $this->getFullTaxInfo();
 <?php endif; ?>
     <td class="label">
         <div class="summary-collapse">
-        <?php if ($this->helper('tax')->displayFullSummary()): ?>
-            <?php echo Mage::helper('sales')->__('Total Tax') ?>
+        <?php if ($this->helper('Mage_Tax_Helper_Data')->displayFullSummary()): ?>
+            <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Total Tax') ?>
         <?php else: ?>
-            <?php echo Mage::helper('sales')->__('Tax') ?>
+            <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Tax') ?>
         <?php endif;?>
         </div>
     </td>

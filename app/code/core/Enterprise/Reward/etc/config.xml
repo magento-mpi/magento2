@@ -61,12 +61,12 @@
         </helpers>
         <template>
             <email>
-                <enterprise_reward_notification_balance_update_template translate="label" module="enterprise_reward">
+                <enterprise_reward_notification_balance_update_template translate="label" module="Enterprise_Reward">
                     <label>Reward Points Balance Update</label>
                     <file>enterprise/reward_balance_update.html</file>
                     <type>html</type>
                 </enterprise_reward_notification_balance_update_template>
-                <enterprise_reward_notification_expiry_warning_template translate="label" module="enterprise_reward">
+                <enterprise_reward_notification_expiry_warning_template translate="label" module="Enterprise_Reward">
                     <label>Reward Points Expiry Warning</label>
                     <file>enterprise/reward_expiry_warning.html</file>
                     <type>html</type>

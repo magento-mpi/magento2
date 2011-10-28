@@ -50,7 +50,7 @@ class Mage_XmlConnect_Block_Cart_Paypal_Mecl_Review extends Mage_Paypal_Block_Ex
         if ($this->getShippingAddress()) {
             $reviewXmlObj->addCustomChild(
                 'shipping_address',
-                Mage::helper('xmlconnect')->trimLineBreaks($this->getShippingAddress()->format('text')),
+                Mage::helper('Mage_XmlConnect_Helper_Data')->trimLineBreaks($this->getShippingAddress()->format('text')),
                 array('label' => $this->__('Shipping Address'))
             );
         }
@@ -81,7 +81,7 @@ class Mage_XmlConnect_Block_Cart_Paypal_Mecl_Review extends Mage_Paypal_Block_Ex
 
         $reviewXmlObj->addCustomChild(
             'billing_address',
-            Mage::helper('xmlconnect')->trimLineBreaks($this->getBillingAddress()->format('text')),
+            Mage::helper('Mage_XmlConnect_Helper_Data')->trimLineBreaks($this->getBillingAddress()->format('text')),
             array(
                 'label'         => $this->__('Billing Address'),
                 'payer_email'   => $this->__('Payer Email: %s', $this->getBillingAddress()->getEmail())

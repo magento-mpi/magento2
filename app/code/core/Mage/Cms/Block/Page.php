@@ -68,7 +68,7 @@ class Mage_Cms_Block_Page extends Mage_Core_Block_Abstract
             && ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs'))
             && ($page->getIdentifier()!==Mage::getStoreConfig('web/default/cms_home_page'))
             && ($page->getIdentifier()!==Mage::getStoreConfig('web/default/cms_no_route'))) {
-                $breadcrumbs->addCrumb('home', array('label'=>Mage::helper('cms')->__('Home'), 'title'=>Mage::helper('cms')->__('Go to Home Page'), 'link'=>Mage::getBaseUrl()));
+                $breadcrumbs->addCrumb('home', array('label'=>Mage::helper('Mage_Cms_Helper_Data')->__('Home'), 'title'=>Mage::helper('Mage_Cms_Helper_Data')->__('Go to Home Page'), 'link'=>Mage::getBaseUrl()));
                 $breadcrumbs->addCrumb('cms_page', array('label'=>$page->getTitle(), 'title'=>$page->getTitle()));
         }
 
@@ -95,7 +95,7 @@ class Mage_Cms_Block_Page extends Mage_Core_Block_Abstract
     protected function _toHtml()
     {
         /* @var $helper Mage_Cms_Helper_Data */
-        $helper = Mage::helper('cms');
+        $helper = Mage::helper('Mage_Cms_Helper_Data');
         $processor = $helper->getPageTemplateProcessor();
         $html = $processor->filter($this->getPage()->getContent());
         $html = $this->getMessagesBlock()->getGroupedHtml() . $html;

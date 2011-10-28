@@ -30,6 +30,6 @@
  */
 ?>
 <div class="paypal-payment-notice">
-    <h4><?php echo Mage::helper('paypal')->__('Looking for PayPal? We have our own tab to the left under Sales.')?></h4>
-    <p><a href="<?php echo $this->escapeHtml($this->getUrl('adminhtml/system_config/edit', array('section' => 'paypal'))) ?>"><?php echo Mage::helper('paypal')->__('View PayPal solutions.')?></a></p>
+    <h4><?php echo Mage::helper('Mage_Paypal_Helper_Data')->__('Looking for PayPal? We have our own tab to the left under Sales.')?></h4>
+    <p><a href="<?php echo $this->escapeHtml($this->getUrl('adminhtml/system_config/edit', array('section' => 'paypal'))) ?>"><?php echo Mage::helper('Mage_Paypal_Helper_Data')->__('View PayPal solutions.')?></a></p>
 </div>

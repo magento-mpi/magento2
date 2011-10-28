@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
                 $item->setHasError($check->getHasError());
                 */
                 if ($item->getProduct()->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_DISABLED) {
-                    $item->setMessage(Mage::helper('adminhtml')->__('This product is currently disabled.'));
+                    $item->setMessage(Mage::helper('Mage_Adminhtml_Helper_Data')->__('This product is currently disabled.'));
                     $item->setHasError(true);
                 }
             }
@@ -89,7 +89,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
         } elseif ($item->hasCustomPrice()) {
             $result = $item->getCustomPrice()*1;
         } else {
-            if (Mage::helper('tax')->priceIncludesTax($this->getStore())) {
+            if (Mage::helper('Mage_Tax_Helper_Data')->priceIncludesTax($this->getStore())) {
                 $result = $item->getPriceInclTax()*1;
             } else {
                 $result = $item->getOriginalPrice()*1;
@@ -107,12 +107,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
     public function isGiftMessagesAvailable($item=null)
     {
         if(is_null($item)) {
-            return $this->helper('giftmessage/message')->getIsMessagesAvailable(
+            return $this->helper('Mage_GiftMessage_Helper_Message')->getIsMessagesAvailable(
                 'items', $this->getQuote(), $this->getStore()
             );
         }
 
-        return $this->helper('giftmessage/message')->getIsMessagesAvailable(
+        return $this->helper('Mage_GiftMessage_Helper_Message')->getIsMessagesAvailable(
             'item', $item, $this->getStore()
         );
     }
@@ -208,12 +208,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
             foreach ($prices as $data) {
                 $qty    = $data['price_qty']*1;
                 $price  = $this->convertPrice($data['price']);
-                $info[] = $this->helper('sales')->__('Buy %s for price %s', $qty, $price);
+                $info[] = $this->helper('Mage_Sales_Helper_Data')->__('Buy %s for price %s', $qty, $price);
             }
             return implode(', ', $info);
         }
         else {
-            return $this->helper('sales')->__('Item ordered qty');
+            return $this->helper('Mage_Sales_Helper_Data')->__('Item ordered qty');
         }
     }
 
@@ -225,7 +225,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
             foreach ($prices as $data) {
                 $qty    = $data['price_qty']*1;
                 $price  = $this->convertPrice($data['price']);
-                $info[] = $this->helper('sales')->__('%s for %s', $qty, $price);
+                $info[] = $this->helper('Mage_Sales_Helper_Data')->__('%s for %s', $qty, $price);
             }
             $html = implode('<br/>', $info);
         }
@@ -299,10 +299,10 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
 
     public function getInclExclTaxMessage()
     {
-        if (Mage::helper('tax')->priceIncludesTax($this->getStore())) {
-            return Mage::helper('sales')->__('* - Enter custom price including tax');
+        if (Mage::helper('Mage_Tax_Helper_Data')->priceIncludesTax($this->getStore())) {
+            return Mage::helper('Mage_Sales_Helper_Data')->__('* - Enter custom price including tax');
         } else {
-            return Mage::helper('sales')->__('* - Enter custom price excluding tax');
+            return Mage::helper('Mage_Sales_Helper_Data')->__('* - Enter custom price excluding tax');
         }
     }
 
@@ -321,12 +321,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
     {
         $product = $item->getProduct();
 
-        $options = array('label' => Mage::helper('sales')->__('Configure'));
+        $options = array('label' => Mage::helper('Mage_Sales_Helper_Data')->__('Configure'));
         if ($product->canConfigure()) {
             $options['onclick'] = sprintf('order.showQuoteItemConfiguration(%s)', $item->getId());
         } else {
             $options['class'] = ' disabled';
-            $options['title'] = Mage::helper('sales')->__('This product does not have any configurable options');
+            $options['title'] = Mage::helper('Mage_Sales_Helper_Data')->__('This product does not have any configurable options');
         }
 
         return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')

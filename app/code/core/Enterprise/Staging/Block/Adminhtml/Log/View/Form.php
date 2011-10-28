@@ -50,21 +50,21 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Form extends Mage_Adminhtml_Bl
         $log        = $this->getLog();
         $staging    = $log->getStaging();
         $fieldset   = $form->addFieldset('general_fieldset',
-            array('legend' => Mage::helper('enterprise_staging')->__('General Information')));
+            array('legend' => Mage::helper('Enterprise_Staging_Helper_Data')->__('General Information')));
 
         $fieldset->addField('created_at', 'label', array(
-            'label'     => Mage::helper('enterprise_staging')->__('Logged At'),
+            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Logged At'),
             'value'     => $this->formatDate($log->getCreatedAt(), 'medium', true)
         ));
 
         $fieldset->addField('action', 'label', array(
-            'label'     => Mage::helper('enterprise_staging')->__('Action'),
-            'value'     => Mage::helper('enterprise_staging')->__($config->getActionLabel($log->getAction()))
+            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Action'),
+            'value'     => Mage::helper('Enterprise_Staging_Helper_Data')->__($config->getActionLabel($log->getAction()))
         ));
 
         $fieldset->addField('status', 'label', array(
-            'label'     => Mage::helper('enterprise_staging')->__('Status'),
-            'value'     => Mage::helper('enterprise_staging')->__($config->getStatusLabel($log->getStatus()))
+            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Status'),
+            'value'     => Mage::helper('Enterprise_Staging_Helper_Data')->__($config->getStatusLabel($log->getStatus()))
         ));
 
         $additionalData = $log->getAdditionalData();
@@ -73,15 +73,15 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Form extends Mage_Adminhtml_Bl
             if (is_array($additionalData)) {
                 if (isset($additionalData['schedule_date'])) {
                     $fieldset->addField('schedule_date', 'label', array(
-                        'label'     => Mage::helper('enterprise_staging')->__('Schedule Date'),
-                        'value'     => Mage::helper('core')->formatDate(
-                            $additionalData['schedule_date'], Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true)
+                        'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Schedule Date'),
+                        'value'     => Mage::helper('Mage_Core_Helper_Data')->formatDateRespectTimezone(
+                            $additionalData['schedule_date'], 'medium', true)
                     ));
                 }
                 if(isset($additionalData['action_before_reset'])) {
                    $fieldset->addField('action_before_reset', 'label', array(
-                        'label'     => Mage::helper('enterprise_staging')->__('Action Before Resetting'),
-                        'value'     => Mage::helper('enterprise_staging')->__($config->getActionLabel($additionalData['action_before_reset']))
+                        'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Action Before Resetting'),
+                        'value'     => Mage::helper('Enterprise_Staging_Helper_Data')->__($config->getActionLabel($additionalData['action_before_reset']))
                     ));
                 }
             }
@@ -90,7 +90,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Form extends Mage_Adminhtml_Bl
             $mergerUrl = $this->getUrl('*/staging_manage/merge', array('id' => $staging->getId()));
             $fieldset->addField('link_to_staging_merge', 'link', array(
                 'href'      => $mergerUrl,
-                'label'     => Mage::helper('enterprise_staging')->__('Scheduled Merger'),
+                'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Scheduled Merger'),
                 'value'     => $mergerUrl
             ));
         }

@@ -208,7 +208,7 @@ class Mage_Core_Model_Resource_Setup
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('core/resource');
+        return Mage::getResourceSingleton('Mage_Core_Model_Resource_Resource');
     }
 
     /**
@@ -305,7 +305,7 @@ class Mage_Core_Model_Resource_Setup
          * Hook queries in adapter, so that in MySQL compatibility mode extensions and custom modules will avoid
          * errors due to changes in database structure
          */
-        if (((string)$this->_moduleConfig->codePool != 'core') && Mage::helper('core')->useDbCompatibleMode()) {
+        if (((string)$this->_moduleConfig->codePool != 'core') && Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
             $this->_hookQueries();
         }
 
@@ -642,7 +642,7 @@ class Mage_Core_Model_Resource_Setup
                 }
             } catch (Exception $e) {
                 printf('<pre>%s</pre>', print_r($e, true));
-                throw Mage::exception('Mage_Core', Mage::helper('core')->__('Error in file: "%s" - %s', $fileName, $e->getMessage()));
+                throw Mage::exception('Mage_Core', Mage::helper('Mage_Core_Helper_Data')->__('Error in file: "%s" - %s', $fileName, $e->getMessage()));
             }
             $version = $file['toVersion'];
             $this->getConnection()->allowDdlCache();

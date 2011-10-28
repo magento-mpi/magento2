@@ -427,13 +427,13 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     protected function _checkTransaction($transaction, $amount)
     {
         if (!$transaction->getId()) {
-            Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
         }
 
         $authorizedAmt = $transaction->getAdditionalInformation('amt');
 
         if (!$authorizedAmt || $amount > $authorizedAmt) {
-            Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
         }
         return $this;
     }
@@ -612,7 +612,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
       */
     protected function _generateSecureTokenId()
     {
-        return Mage::helper('core')->uniqHash();
+        return Mage::helper('Mage_Core_Helper_Data')->uniqHash();
     }
 
     /**
@@ -638,7 +638,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     protected function _processTokenErrors($response, $payment)
     {
         if ($response->getResult() == self::RESPONSE_CODE_INVALID_AMOUNT) {
-            throw new Mage_Paypal_Exception(Mage::helper('paypal')->__('Invalid Amount'));
+            throw new Mage_Paypal_Exception(Mage::helper('Mage_Paypal_Helper_Data')->__('Invalid Amount'));
         } elseif (!$response->getSecuretoken() &&
             $response->getResult() != self::RESPONSE_CODE_APPROVED
             && $response->getResult() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER) {
@@ -668,7 +668,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
      */
     protected function _generateSecureSilentPostHash($payment)
     {
-        $secureHash = md5(Mage::helper('core')->getRandomString(10));
+        $secureHash = md5(Mage::helper('Mage_Core_Helper_Data')->getRandomString(10));
         $payment->setAdditionalInformation($this->_secureSilentPostHashKey, $secureHash);
         return $secureHash;
     }

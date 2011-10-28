@@ -101,8 +101,8 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function ruleSaveBefore($model)
     {
-        $originalWebsiteIds = Mage::helper('enterprise_admingws')->explodeIds($model->getOrigData('website_ids'));
-        $websiteIds         = Mage::helper('enterprise_admingws')->explodeIds($model->getData('website_ids'));
+        $originalWebsiteIds = Mage::helper('Enterprise_AdminGws_Helper_Data')->explodeIds($model->getOrigData('website_ids'));
+        $websiteIds         = Mage::helper('Enterprise_AdminGws_Helper_Data')->explodeIds($model->getData('website_ids'));
 
         if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
             $this->_throwSave();
@@ -143,7 +143,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         // force to assign to SV
         $storeIds = $model->getStores();
         if (!$storeIds || !$this->_role->hasStoreAccess($storeIds)) {
-            Mage::throwException(Mage::helper('enterprise_admingws')->__('Please assign this entity to a store view.'));
+            Mage::throwException(Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Please assign this entity to a store view.'));
         }
 
         // make sure disallowed store ids won't be modified
@@ -255,7 +255,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $this->_throwSave();
         }
 
-        $websiteIds     = Mage::helper('enterprise_admingws')->explodeIds($model->getWebsiteIds());
+        $websiteIds     = Mage::helper('Enterprise_AdminGws_Helper_Data')->explodeIds($model->getWebsiteIds());
         $origWebsiteIds = $model->getResource()->getWebsiteIds($model);
 
         if ($this->_role->getIsWebsiteLevel()) {
@@ -518,7 +518,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         if (!$this->_role->hasWebsiteAccess($model->getStore()->getWebsiteId(), true)) {
             Mage::throwException(
-                Mage::helper('enterprise_admingws')->__('An order cannot be created in disallowed store.')
+                Mage::helper('Enterprise_AdminGws_Helper_Data')->__('An order cannot be created in disallowed store.')
             );
         }
     }
@@ -1025,7 +1025,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         if (count(array_intersect($websiteIds, $this->_role->getWebsiteIds())) === 0 &&
             count($this->_role->getWebsiteIds())) {
-            Mage::throwException(Mage::helper('enterprise_admingws')->__('This item must be assigned to a website.'));
+            Mage::throwException(Mage::helper('Enterprise_AdminGws_Helper_Data')->__('This item must be assigned to a website.'));
         }
         return $websiteIds;
     }
@@ -1041,7 +1041,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         if (count(array_intersect($storeIds, $this->_role->getStoreIds())) === 0 &&
             count($this->_role->getStoreIds())) {
-            Mage::throwException(Mage::helper('enterprise_admingws')->__('This item must be assigned to a store view.'));
+            Mage::throwException(Mage::helper('Enterprise_AdminGws_Helper_Data')->__('This item must be assigned to a store view.'));
         }
         return $storeIds;
     }
@@ -1051,7 +1051,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     private function _throwSave()
     {
-        Mage::throwException(Mage::helper('enterprise_admingws')->__('Not enough permissions to save this item.'));
+        Mage::throwException(Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Not enough permissions to save this item.'));
     }
 
     /**
@@ -1059,7 +1059,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     private function _throwDelete()
     {
-        Mage::throwException(Mage::helper('enterprise_admingws')->__('Not enough permissions to delete this item.'));
+        Mage::throwException(Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Not enough permissions to delete this item.'));
     }
 
     /**
@@ -1069,7 +1069,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         throw Mage::exception(
             'Enterprise_AdminGws_Controller',
-            Mage::helper('enterprise_admingws')->__('Not enough permissions to view this item.')
+            Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Not enough permissions to view this item.')
         );
     }
 

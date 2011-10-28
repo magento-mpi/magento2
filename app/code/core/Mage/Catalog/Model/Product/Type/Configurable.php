@@ -119,7 +119,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function getChildrenIds($parentId, $required = true)
     {
-        return Mage::getResourceSingleton('catalog/product_type_configurable')
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Type_Configurable')
             ->getChildrenIds($parentId, $required);
     }
 
@@ -131,7 +131,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function getParentIdsByChild($childId)
     {
-        return Mage::getResourceSingleton('catalog/product_type_configurable')
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Type_Configurable')
             ->getParentIdsByChild($childId);
     }
 
@@ -611,7 +611,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
                     }
 
                     if (!isset($_result[0])) {
-                        return Mage::helper('checkout')->__('Cannot add the item to shopping cart');
+                        return Mage::helper('Mage_Checkout_Helper_Data')->__('Cannot add the item to shopping cart');
                     }
 
                     /**
@@ -681,7 +681,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function getSpecifyOptionMessage()
     {
-        return Mage::helper('catalog')->__('Please specify the product\'s option(s).');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the product\'s option(s).');
     }
 
     /**
@@ -783,7 +783,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
             $option->setProduct($optionProduct);
         } else {
             $option->getItem()->setHasError('error');
-            $option->getItem()->addMessage(Mage::helper('catalog')->__('Selected configuration is not available.', $this->getProduct($product)->getName()));
+            $option->getItem()->addMessage(Mage::helper('Mage_Catalog_Helper_Data')->__('Selected configuration is not available.', $this->getProduct($product)->getName()));
         }
 
         return $this;
@@ -863,7 +863,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function getConfigurableOptions($product)
     {
-        return Mage::getResourceSingleton('catalog/product_type_configurable')
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Type_Configurable')
             ->getConfigurableOptions($product, $this->getUsedProductAttributes($product));
     }
 }

@@ -49,7 +49,7 @@ class Mage_Adminhtml_AjaxController extends Mage_Adminhtml_Controller_Action
             $item['custom'] = $filter->filter($item['custom']);
         }
 
-        echo Mage::helper('core/translate')->apply($translation, $area);
+        echo Mage::helper('Mage_Core_Helper_Translate')->apply($translation, $area);
         exit();
     }
 }

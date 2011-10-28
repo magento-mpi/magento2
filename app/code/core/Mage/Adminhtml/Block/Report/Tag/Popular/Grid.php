@@ -64,13 +64,13 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('reports')->__('Tag Name'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Tag Name'),
             'sortable'  =>false,
             'index'     =>'name'
         ));
 
         $this->addColumn('taged', array(
-            'header'    =>Mage::helper('reports')->__('Popularity'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Popularity'),
             'width'     =>'50px',
             'align'     =>'right',
             'sortable'  =>false,
@@ -79,13 +79,13 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
 
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('catalog')->__('Action'),
+                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Action'),
                 'width'     => '100%',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('catalog')->__('Show Details'),
+                        'caption' => Mage::helper('Mage_Catalog_Helper_Data')->__('Show Details'),
                         'url'     => array(
                             'base'=>'*/*/tagDetail'
                         ),
@@ -99,8 +99,8 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
         ));
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportPopularCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportPopularExcel', Mage::helper('reports')->__('Excel XML'));
+        $this->addExportType('*/*/exportPopularCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportPopularExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

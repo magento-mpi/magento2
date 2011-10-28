@@ -41,8 +41,8 @@ class Mage_GoogleShopping_Model_Source_Authtype
     public function toOptionArray()
     {
         return array(
-            array('value' => 'authsub', 'label' => Mage::helper('googleshopping')->__('AuthSub')),
-            array('value' => 'clientlogin', 'label' => Mage::helper('googleshopping')->__('ClientLogin'))
+            array('value' => 'authsub', 'label' => Mage::helper('Mage_GoogleShopping_Helper_Data')->__('AuthSub')),
+            array('value' => 'clientlogin', 'label' => Mage::helper('Mage_GoogleShopping_Helper_Data')->__('ClientLogin'))
         );
     }
 }

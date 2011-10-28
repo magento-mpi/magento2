@@ -637,7 +637,7 @@ abstract class Mage_Core_Controller_Varien_Action
             }
             else {
                 Mage::throwException(
-                     Mage::helper('core')->__('Invalid messages storage "%s" for layout messages initialization', (string) $storageName)
+                     Mage::helper('Mage_Core_Helper_Data')->__('Invalid messages storage "%s" for layout messages initialization', (string) $storageName)
                 );
             }
         }
@@ -745,10 +745,10 @@ abstract class Mage_Core_Controller_Varien_Action
             $refererUrl = $url;
         }
         if ($url = $this->getRequest()->getParam(self::PARAM_NAME_BASE64_URL)) {
-            $refererUrl = Mage::helper('core')->urlDecode($url);
+            $refererUrl = Mage::helper('Mage_Core_Helper_Data')->urlDecode($url);
         }
         if ($url = $this->getRequest()->getParam(self::PARAM_NAME_URL_ENCODED)) {
-            $refererUrl = Mage::helper('core')->urlDecode($url);
+            $refererUrl = Mage::helper('Mage_Core_Helper_Data')->urlDecode($url);
         }
 
         if (!$this->_isUrlInternal($refererUrl)) {

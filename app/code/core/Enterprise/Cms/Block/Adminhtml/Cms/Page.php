@@ -48,11 +48,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page extends Mage_Adminhtml_Block_Templ
             if($pageGrid) {
                 $pageGrid->addColumnAfter('versioned', array(
                     'index'     => 'under_version_control',
-                    'header'    => Mage::helper('enterprise_cms')->__('Version Control'),
+                    'header'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Version Control'),
                     'width'     => 10,
                     'type'      => 'options',
-                    'options'   => array(Mage::helper('enterprise_cms')->__('No'),
-                        Mage::helper('enterprise_cms')->__('Yes')
+                    'options'   => array(Mage::helper('Enterprise_Cms_Helper_Data')->__('No'),
+                        Mage::helper('Enterprise_Cms_Helper_Data')->__('Yes')
                     )
                 ), 'page_actions');
             }

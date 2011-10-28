@@ -193,7 +193,7 @@ class Mage_Widget_Model_Widget extends Varien_Object
         if (!$this->_getData('widgets_array')) {
             $result = array();
             foreach ($this->getWidgetsXml($filters) as $widget) {
-                $helper = $widget->getAttribute('module') ? $widget->getAttribute('module') : 'widget';
+                $helper = $widget->getAttribute('module') ? $widget->getAttribute('module') : 'Mage_Widget_Helper_Data';
                 $helper = Mage::helper($helper);
                 $result[$widget->getName()] = array(
                     'name'          => $helper->__((string)$widget->name),
@@ -251,7 +251,7 @@ class Mage_Widget_Model_Widget extends Varien_Object
         $html = sprintf('<img id="%s" src="%s" title="%s">',
             $this->_idEncode($directive),
             $image,
-            Mage::helper('core')->urlEscape($directive)
+            Mage::helper('Mage_Core_Helper_Data')->urlEscape($directive)
         );
         return $html;
     }

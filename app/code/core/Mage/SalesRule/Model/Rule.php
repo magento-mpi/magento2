@@ -155,7 +155,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('salesrule/rule');
+        $this->_init('Mage_SalesRule_Model_Resource_Rule');
         $this->setIdFieldName('rule_id');
     }
 
@@ -221,12 +221,12 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
 
     public function toString($format='')
     {
-        $str = Mage::helper('salesrule')->__("Name: %s", $this->getName()) ."\n"
-             . Mage::helper('salesrule')->__("Start at: %s", $this->getStartAt()) ."\n"
-             . Mage::helper('salesrule')->__("Expire at: %s", $this->getExpireAt()) ."\n"
-             . Mage::helper('salesrule')->__("Customer registered: %s", $this->getCustomerRegistered()) ."\n"
-             . Mage::helper('salesrule')->__("Customer is new buyer: %s", $this->getCustomerNewBuyer()) ."\n"
-             . Mage::helper('salesrule')->__("Description: %s", $this->getDescription()) ."\n\n"
+        $str = Mage::helper('Mage_SalesRule_Helper_Data')->__("Name: %s", $this->getName()) ."\n"
+             . Mage::helper('Mage_SalesRule_Helper_Data')->__("Start at: %s", $this->getStartAt()) ."\n"
+             . Mage::helper('Mage_SalesRule_Helper_Data')->__("Expire at: %s", $this->getExpireAt()) ."\n"
+             . Mage::helper('Mage_SalesRule_Helper_Data')->__("Customer registered: %s", $this->getCustomerRegistered()) ."\n"
+             . Mage::helper('Mage_SalesRule_Helper_Data')->__("Customer is new buyer: %s", $this->getCustomerNewBuyer()) ."\n"
+             . Mage::helper('Mage_SalesRule_Helper_Data')->__("Description: %s", $this->getDescription()) ."\n\n"
              . $this->getConditions()->toStringRecursive() ."\n\n"
              . $this->getActions()->toStringRecursive() ."\n\n";
         return $str;
@@ -374,8 +374,8 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
     {
         if ($this->_couponTypes === null) {
             $this->_couponTypes = array(
-                Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON => Mage::helper('salesrule')->__('No Coupon'),
-                Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC  => Mage::helper('salesrule')->__('Specific Coupon'),
+                Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON => Mage::helper('Mage_SalesRule_Helper_Data')->__('No Coupon'),
+                Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC  => Mage::helper('Mage_SalesRule_Helper_Data')->__('Specific Coupon'),
             );
             $transport = new Varien_Object(array(
                     'coupon_types' => $this->_couponTypes,
@@ -384,7 +384,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
             Mage::dispatchEvent('salesrule_rule_get_coupon_types', array('transport' => $transport));
             $this->_couponTypes = $transport->getCouponTypes();
             if ($transport->getIsCouponTypeAutoVisible()) {
-                $this->_couponTypes[Mage_SalesRule_Model_Rule::COUPON_TYPE_AUTO] = Mage::helper('salesrule')->__('Auto');
+                $this->_couponTypes[Mage_SalesRule_Model_Rule::COUPON_TYPE_AUTO] = Mage::helper('Mage_SalesRule_Helper_Data')->__('Auto');
             }
         }
         return $this->_couponTypes;
@@ -437,7 +437,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
             }
         }
         if (!$ok) {
-            Mage::throwException(Mage::helper('salesrule')->__('Can\'t acquire coupon.'));
+            Mage::throwException(Mage::helper('Mage_SalesRule_Helper_Data')->__('Can\'t acquire coupon.'));
         }
 
         return $coupon;

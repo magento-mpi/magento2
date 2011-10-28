@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Info extends Mage_Adminhtml_Block_Sa
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(Mage::helper('adminhtml')->__('Invalid parent block for this block.'));
+            Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Invalid parent block for this block.'));
         }
         $this->setOrder($this->getParentBlock()->getOrder());
 
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Info extends Mage_Adminhtml_Block_Sa
         if ($this->getOrder()) {
             $storeId = $this->getOrder()->getStoreId();
             if (is_null($storeId)) {
-                $deleted = Mage::helper('adminhtml')->__(' [deleted]');
+                $deleted = Mage::helper('Mage_Adminhtml_Helper_Data')->__(' [deleted]');
                 return nl2br($this->getOrder()->getStoreName()) . $deleted;
             }
             $store = Mage::app()->getStore($storeId);

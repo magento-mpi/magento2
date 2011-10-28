@@ -97,7 +97,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options extends Mage_XmlConnect_Bloc
              */
             $price = $option->getPrice();
             if ($price) {
-                $optionNode->addAttribute('price', Mage::helper('xmlconnect')->formatPriceForXml($price));
+                $optionNode->addAttribute('price', Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml($price));
                 $formattedPrice = Mage::app()->getStore($product->getStoreId())->formatPrice($price, false);
                 $optionNode->addAttribute('formated_price', $formattedPrice);
             }
@@ -108,7 +108,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options extends Mage_XmlConnect_Bloc
                     $valueNode->addAttribute('label', $xmlModel->xmlentities($value->getTitle()));
 
                     if ($value->getPrice() != 0) {
-                        $price = Mage::helper('xmlconnect')->formatPriceForXml($value->getPrice());
+                        $price = Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml($value->getPrice());
                         $valueNode->addAttribute('price', $price);
                         $formattedPrice = $this->_formatPriceString($price, $product);
                         $valueNode->addAttribute('formated_price', $formattedPrice);
@@ -128,15 +128,15 @@ class Mage_XmlConnect_Block_Catalog_Product_Options extends Mage_XmlConnect_Bloc
      */
     protected function _formatPriceString($price, $product)
     {
-        $priceTax       = Mage::helper('tax')->getPrice($product, $price);
-        $priceIncTax    = Mage::helper('tax')->getPrice($product, $price, true);
+        $priceTax       = Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $price);
+        $priceIncTax    = Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $price, true);
 
-        if (Mage::helper('tax')->displayBothPrices() && $priceTax != $priceIncTax) {
-            $formatted = Mage::helper('core')->currency($priceTax, true, false) . ' (+'
-                . Mage::helper('core')->currency($priceIncTax, true, false) . ' '
-                . Mage::helper('tax')->__('Incl. Tax') . ')';
+        if (Mage::helper('Mage_Tax_Helper_Data')->displayBothPrices() && $priceTax != $priceIncTax) {
+            $formatted = Mage::helper('Mage_Core_Helper_Data')->currency($priceTax, true, false) . ' (+'
+                . Mage::helper('Mage_Core_Helper_Data')->currency($priceIncTax, true, false) . ' '
+                . Mage::helper('Mage_Tax_Helper_Data')->__('Incl. Tax') . ')';
         } else {
-            $formatted = $this->helper('core')->currency($priceTax, true, false);
+            $formatted = $this->helper('Mage_Core_Helper_Data')->currency($priceTax, true, false);
         }
 
         return $formatted;

@@ -94,7 +94,7 @@ class Enterprise_WebsiteRestriction_IndexController extends Mage_Core_Controller
             $this->addActionLayoutHandles();
 
             if ($page->getRootTemplate()) {
-                $this->getLayout()->helper('page/layout')
+                $this->getLayout()->helper('Mage_Page_Helper_Layout')
                     ->applyHandle($page->getRootTemplate());
             }
 
@@ -104,7 +104,7 @@ class Enterprise_WebsiteRestriction_IndexController extends Mage_Core_Controller
             $this->generateLayoutXml()->generateLayoutBlocks();
 
             if ($page->getRootTemplate()) {
-                $this->getLayout()->helper('page/layout')
+                $this->getLayout()->helper('Mage_Page_Helper_Layout')
                     ->applyTemplate($page->getRootTemplate());
             }
 

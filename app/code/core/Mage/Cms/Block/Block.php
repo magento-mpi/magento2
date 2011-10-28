@@ -49,7 +49,7 @@ class Mage_Cms_Block_Block extends Mage_Core_Block_Abstract
                 ->load($blockId);
             if ($block->getIsActive()) {
                 /* @var $helper Mage_Cms_Helper_Data */
-                $helper = Mage::helper('cms');
+                $helper = Mage::helper('Mage_Cms_Helper_Data');
                 $processor = $helper->getBlockTemplateProcessor();
                 $html = $processor->filter($block->getContent());
             }

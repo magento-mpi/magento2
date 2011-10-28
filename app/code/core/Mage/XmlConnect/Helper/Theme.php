@@ -103,7 +103,7 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
     public function getThemeImageUrl($themeId)
     {
         $themeImage = array_key_exists($themeId, $this->getDefaultThemes()) ? $themeId : 'user_custom';
-        return Mage::helper('xmlconnect/image')->getSkinImagesUrl('swatch_' . $themeImage . '.gif');
+        return Mage::helper('Mage_XmlConnect_Helper_Image')->getSkinImagesUrl('swatch_' . $themeImage . '.gif');
     }
 
     /**
@@ -130,7 +130,7 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
 
         if (!($currentTheme instanceof Mage_XmlConnect_Model_Theme)) {
             Mage::throwException(
-                Mage::helper('xmlconnect')->__('Can\'t load selected theme. Please check your media folder permissions.')
+                Mage::helper('Mage_XmlConnect_Helper_Data')->__('Can\'t load selected theme. Please check your media folder permissions.')
             );
         }
 
@@ -226,7 +226,7 @@ EOT;
             Mage::logException($e);
         }
         if (!count($defaultThemeArray)) {
-            Mage::throwException(Mage::helper('xmlconnect')->__('Can\'t load default themes.'));
+            Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('Can\'t load default themes.'));
         }
         return $defaultThemeArray;
     }
@@ -291,7 +291,7 @@ EOT;
             }
 
             if (!$ioFile->cp($src, $dst)) {
-                Mage::throwException(Mage::helper('xmlconnect')->__('Can\'t copy file "%s" to "%s".', $src, $dst));
+                Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('Can\'t copy file "%s" to "%s".', $src, $dst));
             } else {
                 $ioFile->chmod($dst, 0755);
             }
@@ -338,7 +338,7 @@ EOT;
      */
     public function getThemeId()
     {
-        $themeId = Mage::helper('xmlconnect')->getApplication()->getData('conf/extra/theme');
+        $themeId = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getData('conf/extra/theme');
 
         if ($this->getThemeByName($themeId) === null) {
             $themeId = null;

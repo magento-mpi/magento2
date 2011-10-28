@@ -71,19 +71,19 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
         parent::_prepareColumns();
 
         $this->addColumn('is_visible', array(
-            'header'    => Mage::helper('enterprise_rma')->__('Visible on Frontend'),
+            'header'    => Mage::helper('Enterprise_Rma_Helper_Data')->__('Visible on Frontend'),
             'sortable'  => true,
             'index'     => 'is_visible',
             'type'      => 'options',
             'options'   => array(
-                '0' => Mage::helper('enterprise_rma')->__('No'),
-                '1' => Mage::helper('enterprise_rma')->__('Yes'),
+                '0' => Mage::helper('Enterprise_Rma_Helper_Data')->__('No'),
+                '1' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Yes'),
             ),
             'align'     => 'center',
         ));
 
         $this->addColumn('sort_order', array(
-            'header'    => Mage::helper('enterprise_rma')->__('Sort Order'),
+            'header'    => Mage::helper('Enterprise_Rma_Helper_Data')->__('Sort Order'),
             'sortable'  => true,
             'align'     => 'center',
             'index'     => 'sort_order'

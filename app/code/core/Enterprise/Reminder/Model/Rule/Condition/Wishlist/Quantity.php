@@ -47,7 +47,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Quantity
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('enterprise_reminder')->__('Number of Items'));
+            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Number of Items'));
     }
 
     /**
@@ -58,7 +58,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Quantity
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Number of wishlist items %s %s ',
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Number of wishlist items %s %s ',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }

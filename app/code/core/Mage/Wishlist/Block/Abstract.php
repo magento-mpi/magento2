@@ -83,7 +83,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
      */
     protected function _getHelper()
     {
-        return Mage::helper('wishlist');
+        return Mage::helper('Mage_Wishlist_Helper_Data');
     }
 
     /**
@@ -349,7 +349,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     public function getPriceHtml($product, $displayMinimalPrice = false, $idSuffix = '')
     {
         $type_id = $product->getTypeId();
-        if (Mage::helper('catalog')->canApplyMsrp($product)) {
+        if (Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($product)) {
             $realPriceHtml = $this->_preparePriceRenderer($type_id)
                 ->setProduct($product)
                 ->setDisplayMinimalPrice($displayMinimalPrice)

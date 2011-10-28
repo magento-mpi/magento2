@@ -28,8 +28,8 @@
 <layout version="0.1.0">
     <customer_logged_out_psc_handle>
         <reference name="account.links">
-            <action method="addLink" translate="label title" module="persistent"><label helper="persistent/getPersistentName"/><url helper="persistent/getUnsetCookieUrl"/><title helper="persistent/getPersistentName"/><prepare/><urlParams/><position>9</position></action>
-            <action method="removeLinkByUrl"><url helper="customer/getLoginUrl"/></action>
+            <action method="addLink" translate="label title" module="Mage_Persistent"><label helper="Mage_Persistent_Helper_Data::getPersistentName"/><url helper="Mage_Persistent_Helper_Data::getUnsetCookieUrl"/><title helper="Mage_Persistent_Helper_Data::getPersistentName"/><prepare/><urlParams/><position>9</position></action>
+            <action method="removeLinkByUrl"><url helper="Mage_Customer_Helper_Data::getLoginUrl"/></action>
         </reference>
     </customer_logged_out_psc_handle>
 

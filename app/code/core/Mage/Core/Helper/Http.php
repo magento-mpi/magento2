@@ -175,7 +175,7 @@ class Mage_Core_Helper_Http extends Mage_Core_Helper_Abstract
     {
         $value = $this->_getRequest()->getServer($var, '');
         if ($clean) {
-            $value = Mage::helper('core/string')->cleanString($value);
+            $value = Mage::helper('Mage_Core_Helper_String')->cleanString($value);
         }
 
         return $value;
@@ -247,7 +247,7 @@ class Mage_Core_Helper_Http extends Mage_Core_Helper_Abstract
     {
         $uri = $this->_getRequest()->getRequestUri();
         if ($clean) {
-            $uri = Mage::helper('core/string')->cleanString($uri);
+            $uri = Mage::helper('Mage_Core_Helper_String')->cleanString($uri);
         }
         return $uri;
     }

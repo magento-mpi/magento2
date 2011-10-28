@@ -50,7 +50,7 @@ abstract class Mage_Core_Model_File_Storage_Abstract extends Mage_Core_Model_Abs
     {
         if (null === $this->_mediaBaseDirectory) {
             /** @var $helper Mage_Core_Helper_File_Storage_Database */
-            $helper = Mage::helper('core/file_storage_database');
+            $helper = Mage::helper('Mage_Core_Helper_File_Storage_Database');
             $this->_mediaBaseDirectory = $helper->getMediaBaseDir();
         }
 
@@ -76,10 +76,10 @@ abstract class Mage_Core_Model_File_Storage_Abstract extends Mage_Core_Model_Abs
         $fullPath = $this->getMediaBaseDirectory() . DS . $path;
 
         if (!file_exists($fullPath) || !is_file($fullPath)) {
-            Mage::throwException(Mage::helper('core')->__('File %s does not exist', $fullPath));
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('File %s does not exist', $fullPath));
         }
         if (!is_readable($fullPath)) {
-            Mage::throwException(Mage::helper('core')->__('File %s is not readable', $fullPath));
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('File %s is not readable', $fullPath));
         }
 
         $path = str_replace(array('/', '\\'), '/', $path);

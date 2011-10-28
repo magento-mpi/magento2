@@ -89,11 +89,11 @@ class Enterprise_Reward_Block_Checkout_Payment_Additional extends Mage_Core_Bloc
      */
     public function getCanUseRewardPoints()
     {
-        if (!Mage::helper('enterprise_reward')->getHasRates()
-            || !Mage::helper('enterprise_reward')->isEnabledOnFront()) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->getHasRates()
+            || !Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()) {
             return false;
         }
-        $minPointsToUse = Mage::helper('enterprise_reward')
+        $minPointsToUse = Mage::helper('Enterprise_Reward_Helper_Data')
             ->getGeneralConfig('min_points_balance', (int)Mage::app()->getWebsite()->getId());
         $canUseRewadPoints = ($this->getPointsBalance() >= $minPointsToUse) ? true : false;
         return (boolean)(((float)$this->getCurrencyAmount() > 0) && $canUseRewadPoints);

@@ -128,7 +128,7 @@ class Mage_Catalog_Model_Layer_Filter_Decimal extends Mage_Catalog_Model_Layer_F
     {
         $from   = Mage::app()->getStore()->formatPrice(($value - 1) * $range, false);
         $to     = Mage::app()->getStore()->formatPrice($value * $range, false);
-        return Mage::helper('catalog')->__('%s - %s', $from, $to);
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('%s - %s', $from, $to);
     }
 
     /**

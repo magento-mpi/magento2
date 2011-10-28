@@ -115,7 +115,7 @@ class Mage_Bundle_Helper_Catalog_Product_Configuration extends Mage_Core_Helper_
                         $qty = $this->getSelectionQty($product, $bundleSelection->getSelectionId()) * 1;
                         if ($qty) {
                             $option['value'][] = $qty . ' x ' . $this->escapeHtml($bundleSelection->getName())
-                                . ' ' . Mage::helper('core')->currency($this->getSelectionFinalPrice($item, $bundleSelection));
+                                . ' ' . Mage::helper('Mage_Core_Helper_Data')->currency($this->getSelectionFinalPrice($item, $bundleSelection));
                         }
                     }
 
@@ -139,7 +139,7 @@ class Mage_Bundle_Helper_Catalog_Product_Configuration extends Mage_Core_Helper_
     {
         return array_merge(
             $this->getBundleOptions($item),
-            Mage::helper('catalog/product_configuration')->getCustomOptions($item)
+            Mage::helper('Mage_Catalog_Helper_Product_Configuration')->getCustomOptions($item)
         );
     }
 }

@@ -51,7 +51,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('rule/rule');
+        $this->_init('Mage_Rule_Model_Resource_Rule');
         parent::_construct();
     }
 
@@ -137,10 +137,10 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
 
     public function asString($format='')
     {
-        $str = Mage::helper('rule')->__("Name: %s", $this->getName()) ."\n"
-             . Mage::helper('rule')->__("Start at: %s", $this->getStartAt()) ."\n"
-             . Mage::helper('rule')->__("Expire at: %s", $this->getExpireAt()) ."\n"
-             . Mage::helper('rule')->__("Description: %s", $this->getDescription()) ."\n\n"
+        $str = Mage::helper('Mage_Rule_Helper_Data')->__("Name: %s", $this->getName()) ."\n"
+             . Mage::helper('Mage_Rule_Helper_Data')->__("Start at: %s", $this->getStartAt()) ."\n"
+             . Mage::helper('Mage_Rule_Helper_Data')->__("Expire at: %s", $this->getExpireAt()) ."\n"
+             . Mage::helper('Mage_Rule_Helper_Data')->__("Description: %s", $this->getDescription()) ."\n\n"
              . $this->getConditions()->asStringRecursive() ."\n\n"
              . $this->getActions()->asStringRecursive() ."\n\n";
         return $str;
@@ -148,10 +148,10 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
 
     public function asHtml()
     {
-        $str = Mage::helper('rule')->__("Name: %s", $this->getName()) ."<br/>"
-             . Mage::helper('rule')->__("Start at: %s", $this->getStartAt()) ."<br/>"
-             . Mage::helper('rule')->__("Expire at: %s", $this->getExpireAt()) ."<br/>"
-             . Mage::helper('rule')->__("Description: %s", $this->getDescription()) .'<br/>'
+        $str = Mage::helper('Mage_Rule_Helper_Data')->__("Name: %s", $this->getName()) ."<br/>"
+             . Mage::helper('Mage_Rule_Helper_Data')->__("Start at: %s", $this->getStartAt()) ."<br/>"
+             . Mage::helper('Mage_Rule_Helper_Data')->__("Expire at: %s", $this->getExpireAt()) ."<br/>"
+             . Mage::helper('Mage_Rule_Helper_Data')->__("Description: %s", $this->getDescription()) .'<br/>'
              . '<ul class="rule-conditions">'.$this->getConditions()->asHtmlRecursive().'</ul>'
              . '<ul class="rule-actions">'.$this->getActions()->asHtmlRecursive()."</ul>";
         return $str;
@@ -274,7 +274,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
     {
         // check if discount amount > 0
         if ((int)$this->getDiscountAmount() < 0) {
-            Mage::throwException(Mage::helper('rule')->__('Invalid discount amount.'));
+            Mage::throwException(Mage::helper('Mage_Rule_Helper_Data')->__('Invalid discount amount.'));
         }
 
 
@@ -366,7 +366,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
             $dateEnd = new Zend_Date($object->getData('to_date'), Varien_Date::DATE_INTERNAL_FORMAT);
 
             if ($dateStart->compare($dateEnd)===1) {
-                return array(Mage::helper('rule')->__("End Date should be greater than Start Date"));
+                return array(Mage::helper('Mage_Rule_Helper_Data')->__("End Date should be greater than Start Date"));
             }
         }
         return true;

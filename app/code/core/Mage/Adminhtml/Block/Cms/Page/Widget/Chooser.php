@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
      */
     public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        $uniqId = Mage::helper('core')->uniqHash($element->getId());
+        $uniqId = Mage::helper('Mage_Core_Helper_Data')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/cms_page_widget/chooser', array('uniq_id' => $uniqId));
 
         $chooser = $this->getLayout()->createBlock('Mage_Widget_Block_Adminhtml_Widget_Chooser')
@@ -121,26 +121,26 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
     protected function _prepareColumns()
     {
         $this->addColumn('chooser_id', array(
-            'header'    => Mage::helper('cms')->__('ID'),
+            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('ID'),
             'align'     => 'right',
             'index'     => 'page_id',
             'width'     => 50
         ));
 
         $this->addColumn('chooser_title', array(
-            'header'    => Mage::helper('cms')->__('Title'),
+            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Title'),
             'align'     => 'left',
             'index'     => 'title',
         ));
 
         $this->addColumn('chooser_identifier', array(
-            'header'    => Mage::helper('cms')->__('URL Key'),
+            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('URL Key'),
             'align'     => 'left',
             'index'     => 'identifier'
         ));
 
         $this->addColumn('chooser_root_template', array(
-            'header'    => Mage::helper('cms')->__('Layout'),
+            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Layout'),
             'index'     => 'root_template',
             'type'      => 'options',
             'options'   => Mage::getSingleton('page/source_layout')->getOptions(),
@@ -148,7 +148,7 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('chooser_is_active', array(
-            'header'    => Mage::helper('cms')->__('Status'),
+            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => Mage::getModel('cms/page')->getAvailableStatuses(),

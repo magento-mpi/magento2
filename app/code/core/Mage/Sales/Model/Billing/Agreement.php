@@ -68,7 +68,7 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
      */
     protected function _construct()
     {
-        $this->_init('sales/billing_agreement');
+        $this->_init('Mage_Sales_Model_Resource_Billing_Agreement');
     }
 
     /**
@@ -109,9 +109,9 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
     {
         switch ($this->getStatus()) {
             case self::STATUS_ACTIVE:
-                return Mage::helper('sales')->__('Active');
+                return Mage::helper('Mage_Sales_Helper_Data')->__('Active');
             case self::STATUS_CANCELED:
-                return Mage::helper('sales')->__('Canceled');
+                return Mage::helper('Mage_Sales_Helper_Data')->__('Canceled');
         }
     }
 
@@ -191,8 +191,8 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
     public function getStatusesArray()
     {
         return array(
-            self::STATUS_ACTIVE     => Mage::helper('sales')->__('Active'),
-            self::STATUS_CANCELED   => Mage::helper('sales')->__('Canceled')
+            self::STATUS_ACTIVE     => Mage::helper('Mage_Sales_Helper_Data')->__('Active'),
+            self::STATUS_CANCELED   => Mage::helper('Mage_Sales_Helper_Data')->__('Canceled')
         );
     }
 
@@ -205,10 +205,10 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
     {
         $result = parent::isValid();
         if (!$this->getCustomerId()) {
-            $this->_errors[] = Mage::helper('payment')->__('Customer ID is not set.');
+            $this->_errors[] = Mage::helper('Mage_Payment_Helper_Data')->__('Customer ID is not set.');
         }
         if (!$this->getStatus()) {
-            $this->_errors[] = Mage::helper('payment')->__('Billing Agreement status is not set.');
+            $this->_errors[] = Mage::helper('Mage_Payment_Helper_Data')->__('Billing Agreement status is not set.');
         }
         return $result && empty($this->_errors);
     }
@@ -228,7 +228,7 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
         $baData = $payment->getBillingAgreementData();
 
         $this->_paymentMethodInstance = (isset($baData['method_code']))
-            ? Mage::helper('payment')->getMethodInstance($baData['method_code'])
+            ? Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance($baData['method_code'])
             : $payment->getMethodInstance();
         if ($this->_paymentMethodInstance) {
             $this->_paymentMethodInstance->setStore($payment->getMethodInstance()->getStore());

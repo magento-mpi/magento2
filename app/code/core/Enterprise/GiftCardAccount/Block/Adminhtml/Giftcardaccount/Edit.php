@@ -40,9 +40,9 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit extends Ma
         $clickSave .= "\$('_sendrecipient_name').removeClassName('required-entry');";
         $clickSave .= "editForm.submit();";
 
-        $this->_updateButton('save', 'label', Mage::helper('enterprise_giftcardaccount')->__('Save'));
+        $this->_updateButton('save', 'label', Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Save'));
         $this->_updateButton('save', 'onclick', $clickSave);
-        $this->_updateButton('delete', 'label', Mage::helper('enterprise_giftcardaccount')->__('Delete'));
+        $this->_updateButton('delete', 'label', Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Delete'));
 
         $clickSend = "\$('_sendrecipient_email').addClassName('required-entry');";
         $clickSend .= "\$('_sendrecipient_name').addClassName('required-entry');";
@@ -50,7 +50,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit extends Ma
         $clickSend .= "editForm.submit();";
 
         $this->_addButton('send', array(
-            'label'     => Mage::helper('enterprise_giftcardaccount')->__('Save & Send Email'),
+            'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Save & Send Email'),
             'onclick'   => $clickSend,
             'class'     => 'save',
         ));
@@ -64,10 +64,10 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit extends Ma
     public function getHeaderText()
     {
         if (Mage::registry('current_giftcardaccount')->getId()) {
-            return Mage::helper('enterprise_giftcardaccount')->__('Edit Gift Card Account: %s', $this->htmlEscape(Mage::registry('current_giftcardaccount')->getCode()));
+            return Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Edit Gift Card Account: %s', $this->htmlEscape(Mage::registry('current_giftcardaccount')->getCode()));
         }
         else {
-            return Mage::helper('enterprise_giftcardaccount')->__('New Gift Card Account');
+            return Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('New Gift Card Account');
         }
     }
 

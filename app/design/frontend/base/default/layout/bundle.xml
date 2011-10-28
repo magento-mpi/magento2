@@ -202,7 +202,7 @@ Onepage Checkout Review Page
 Additional block for bundle product type
 -->
 
-    <PRODUCT_TYPE_bundle translate="label" module="bundle">
+    <PRODUCT_TYPE_bundle translate="label" module="Mage_Bundle">
         <label>Catalog Product View (Bundle)</label>
         <reference name="head">
             <action method="addItem"><type>skin_js</type><name>js/bundle.js</name></action>

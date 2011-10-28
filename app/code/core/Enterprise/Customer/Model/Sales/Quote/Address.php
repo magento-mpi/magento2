@@ -43,6 +43,6 @@ class Enterprise_Customer_Model_Sales_Quote_Address extends Enterprise_Customer_
      */
     protected function _construct()
     {
-        $this->_init('enterprise_customer/sales_quote_address');
+        $this->_init('Enterprise_Customer_Model_Resource_Sales_Quote_Address');
     }
 }

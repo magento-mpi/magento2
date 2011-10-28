@@ -56,7 +56,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Price extends Mage_Eav_Model_
      */
     public function setScope($attribute)
     {
-        if (Mage::helper('catalog')->isPriceGlobal()) {
+        if (Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal()) {
             $attribute->setIsGlobal(Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL);
         }
         else {

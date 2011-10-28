@@ -38,7 +38,7 @@ class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mag
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
@@ -91,7 +91,7 @@ class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mag
     {
         $customer = Mage::getModel('customer/customer')->load((int)$this->getRequest()->getParam($idFieldName));
         if (!$customer->getId()) {
-            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Failed to initialize customer'));
+            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Failed to initialize customer'));
         }
         Mage::register('current_customer', $customer);
     }

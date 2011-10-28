@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_System_Currency extends Mage_Adminhtml_Block_Template
         $this->setChild('save_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Save Currency Rates'),
+                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save Currency Rates'),
                     'onclick'   => 'currencyForm.submit();',
                     'class'     => 'save'
         )));
@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_System_Currency extends Mage_Adminhtml_Block_Template
         $this->setChild('reset_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Reset'),
+                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Reset'),
                     'onclick'   => 'document.location.reload()',
                     'class'     => 'reset'
         )));
@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_System_Currency extends Mage_Adminhtml_Block_Template
         $this->setChild('import_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Import'),
+                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Import'),
                     'class'     => 'add',
                     'type'      => 'submit',
         )));
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_System_Currency extends Mage_Adminhtml_Block_Template
 
     protected function getHeader()
     {
-        return Mage::helper('adminhtml')->__('Manage Currency Rates');
+        return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Manage Currency Rates');
     }
 
     protected function getSaveButtonHtml()

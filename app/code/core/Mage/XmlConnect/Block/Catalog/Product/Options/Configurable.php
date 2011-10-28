@@ -101,7 +101,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_Xm
                     if (!isset($options[$attributeId][$value['value_index']])) {
                         continue;
                     }
-                    $price = Mage::helper('xmlconnect')->formatPriceForXml(
+                    $price = Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml(
                         $this->_preparePrice($product, $value['pricing_value'], $value['is_percent'])
                     );
                     $optionProducts = array();

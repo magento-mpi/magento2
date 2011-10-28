@@ -56,7 +56,7 @@ class Mage_XmlConnect_Block_Customer_Form_Renderer_Multiselect
             'options' => $this->getOptions()
         );
 
-        $attributes += Mage::helper('xmlconnect/customer_form_renderer')
+        $attributes += Mage::helper('Mage_XmlConnect_Helper_Customer_Form_Renderer')
             ->addTitleAndRequiredAttr($fieldsetXmlObj, $this);
 
         $fieldsetXmlObj->addField($this->getHtmlId(), $this->_filedType, $attributes);

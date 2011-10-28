@@ -35,11 +35,11 @@
     <!--Billing Address-->
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-payment-method"><?php echo $this->helper('sales')->__('Payment Information') ?></h4>
+            <h4 class="icon-head head-payment-method"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Payment Information') ?></h4>
         </div>
         <fieldset>
             <div><?php echo $this->getChildHtml('order_payment') ?></div>
-            <div><?php echo Mage::helper('sales')->__('Order was placed using %s', $_order->getOrderCurrencyCode()) ?></div>
+            <div><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Order was placed using %s', $_order->getOrderCurrencyCode()) ?></div>
         </fieldset>
     </div>
 </div>
@@ -48,13 +48,13 @@
     <!--Shipping Address-->
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-shipping-method"><?php echo $this->helper('sales')->__('Shipping Information') ?></h4>
+            <h4 class="icon-head head-shipping-method"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Shipping Information') ?></h4>
         </div>
         <fieldset>
             <strong><?php echo $_order->getShippingDescription() ?></strong>
-            <?php echo $this->helper('sales')->__('Total Shipping Charges'); ?>:
+            <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Total Shipping Charges'); ?>:
 
-            <?php if ($this->helper('tax')->displayShippingPriceIncludingTax()): ?>
+            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
                 <?php $_excl = $this->displayShippingPriceInclTax($_order); ?>
             <?php else: ?>
                 <?php $_excl = $this->displayPriceAttribute('shipping_amount', false, ' '); ?>
@@ -62,7 +62,7 @@
             <?php $_incl = $this->displayShippingPriceInclTax($_order); ?>
 
             <?php echo $_excl; ?>
-            <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
                 (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
             <?php endif; ?>
             <div><?php echo $this->getChildHtml('shipment_tracking') ?></div>
@@ -74,7 +74,7 @@
 
 <div class="entry-edit">
     <div class="entry-edit-head">
-        <h4 class="icon-head head-products"><?php echo $this->helper('sales')->__('Items Invoiced') ?></h4>
+        <h4 class="icon-head head-products"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Items Invoiced') ?></h4>
     </div>
     <div id="invoice_item_container">
         <?php echo $this->getChildHtml('invoice_items') ?>

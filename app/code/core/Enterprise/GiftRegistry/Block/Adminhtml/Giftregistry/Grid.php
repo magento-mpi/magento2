@@ -59,36 +59,36 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Grid extends Mage_Adm
     protected function _prepareColumns()
     {
         $this->addColumn('type_id', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('ID'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('ID'),
             'align'  => 'right',
             'width'  => 50,
             'index'  => 'type_id'
         ));
 
         $this->addColumn('code', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Code'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Code'),
             'index'  => 'code'
         ));
 
 
         $this->addColumn('label', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Label'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Label'),
             'index'  => 'label'
         ));
 
         $this->addColumn('sort_order', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Sort Order'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Sort Order'),
             'index'  => 'sort_order',
             'default' => '-'
         ));
 
         $this->addColumn('is_listed', array(
-            'header'  => Mage::helper('enterprise_giftregistry')->__('Is Listed'),
+            'header'  => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Is Listed'),
             'index'   => 'is_listed',
             'type'    => 'options',
             'options' => array(
-                '0' => Mage::helper('enterprise_giftregistry')->__('No'),
-                '1' => Mage::helper('enterprise_giftregistry')->__('Yes')
+                '0' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('No'),
+                '1' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Yes')
             )
         ));
         return parent::_prepareColumns();

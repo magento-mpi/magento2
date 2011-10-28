@@ -68,7 +68,7 @@
         </resources>
         <template>
             <email>
-                <contacts_email_email_template translate="label" module="contacts">
+                <contacts_email_email_template translate="label" module="Mage_Contacts">
                     <label>Contact Form</label>
                     <file>contact_form.html</file>
                     <type>text</type>

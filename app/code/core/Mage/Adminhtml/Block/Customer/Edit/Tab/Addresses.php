@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'  => Mage::helper('customer')->__('Delete Address'),
+                    'label'  => Mage::helper('Mage_Customer_Helper_Data')->__('Delete Address'),
                     'name'   => 'delete_address',
                     'element_name' => 'delete_address',
                     'disabled' => $this->isReadonly(),
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         $this->setChild('add_address_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'  => Mage::helper('customer')->__('Add New Address'),
+                    'label'  => Mage::helper('Mage_Customer_Helper_Data')->__('Add New Address'),
                     'id'     => 'add_address_button',
                     'name'   => 'add_address_button',
                     'element_name' => 'add_address_button',
@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         $this->setChild('cancel_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'  => Mage::helper('customer')->__('Cancel'),
+                    'label'  => Mage::helper('Mage_Customer_Helper_Data')->__('Cancel'),
                     'id'     => 'cancel_add_address'.$this->getTemplatePrefix(),
                     'name'   => 'cancel_address',
                     'element_name' => 'cancel_address',
@@ -111,11 +111,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
 
         $form = new Varien_Data_Form();
         $fieldset = $form->addFieldset('address_fieldset', array(
-            'legend'    => Mage::helper('customer')->__("Edit Customer's Address"))
+            'legend'    => Mage::helper('Mage_Customer_Helper_Data')->__("Edit Customer's Address"))
         );
 
         $addressModel = Mage::getModel('customer/address');
-        $addressModel->setCountryId(Mage::helper('core')->getDefaultCountry($customer->getStore()));
+        $addressModel->setCountryId(Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry($customer->getStore()));
         /** @var $addressForm Mage_Customer_Model_Form */
         $addressForm = Mage::getModel('customer/form');
         $addressForm->setFormCode('adminhtml_customer_address')
@@ -124,7 +124,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
 
         $attributes = $addressForm->getAttributes();
         if(isset($attributes['street'])) {
-            Mage::helper('adminhtml/addresses')
+            Mage::helper('Mage_Adminhtml_Helper_Addresses')
                 ->processStreetAttribute($attributes['street']);
         }
         foreach ($attributes as $attribute) {
@@ -163,7 +163,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
 
         $prefixElement = $form->getElement('prefix');
         if ($prefixElement) {
-            $prefixOptions = $this->helper('customer')->getNamePrefixOptions($customerStoreId);
+            $prefixOptions = $this->helper('Mage_Customer_Helper_Data')->getNamePrefixOptions($customerStoreId);
             if (!empty($prefixOptions)) {
                 $fieldset->removeField($prefixElement->getId());
                 $prefixField = $fieldset->addField($prefixElement->getId(),
@@ -177,7 +177,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
 
         $suffixElement = $form->getElement('suffix');
         if ($suffixElement) {
-            $suffixOptions = $this->helper('customer')->getNameSuffixOptions($customerStoreId);
+            $suffixOptions = $this->helper('Mage_Customer_Helper_Data')->getNameSuffixOptions($customerStoreId);
             if (!empty($suffixOptions)) {
                 $fieldset->removeField($suffixElement->getId());
                 $suffixField = $fieldset->addField($suffixElement->getId(),
@@ -241,7 +241,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
             );
         }
 
-        return Mage::helper('core')->jsonEncode($result);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
     }
 
     /**

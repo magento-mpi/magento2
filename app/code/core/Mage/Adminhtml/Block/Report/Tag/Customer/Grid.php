@@ -57,24 +57,24 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block
     {
 
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('reports')->__('ID'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('ID'),
             'width'     => '50px',
             'align'     =>'right',
             'index'     =>'entity_id'
         ));
 
         $this->addColumn('firstname', array(
-            'header'    =>Mage::helper('reports')->__('First Name'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('First Name'),
             'index'     =>'firstname'
         ));
 
         $this->addColumn('lastname', array(
-            'header'    =>Mage::helper('reports')->__('Last Name'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Last Name'),
             'index'     =>'lastname'
         ));
 
         $this->addColumn('taged', array(
-            'header'    =>Mage::helper('reports')->__('Total Tags'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Total Tags'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'taged'
@@ -82,13 +82,13 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block
 
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('catalog')->__('Action'),
+                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Action'),
                 'width'     => '100%',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('catalog')->__('Show Tags'),
+                        'caption' => Mage::helper('Mage_Catalog_Helper_Data')->__('Show Tags'),
                         'url'     => array(
                             'base'=>'*/*/customerDetail'
                         ),
@@ -103,8 +103,8 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportCustomerCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportCustomerExcel', Mage::helper('reports')->__('Excel XML'));
+        $this->addExportType('*/*/exportCustomerCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportCustomerExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

@@ -68,7 +68,7 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Mage_Sa
     {
         $this->setCode('tax_giftwrapping');
         $this->_taxCalculationModel = Mage::getSingleton('tax/calculation');
-        $this->_helper = Mage::helper('enterprise_giftwrapping');
+        $this->_helper = Mage::helper('Enterprise_GiftWrapping_Helper_Data');
     }
 
     /**

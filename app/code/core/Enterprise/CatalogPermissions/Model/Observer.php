@@ -73,7 +73,7 @@ class Enterprise_CatalogPermissions_Model_Observer
 
     public function __construct()
     {
-        $this->_helper = Mage::helper('enterprise_catalogpermissions');
+        $this->_helper = Mage::helper('Enterprise_CatalogPermissions_Helper_Data');
     }
 
     /**

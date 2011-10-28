@@ -29,7 +29,7 @@
     <sections>
         <sales>
             <groups>
-                <gift_options translate="label" module="giftmessage">
+                <gift_options translate="label" module="Mage_GiftMessage">
                     <label>Gift Options</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>100</sort_order>

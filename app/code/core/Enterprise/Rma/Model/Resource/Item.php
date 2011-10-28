@@ -266,7 +266,7 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
             $product->setStoreId($item->getStoreId());
             $product->load($item->getProductId());
 
-            if (!Mage::helper('enterprise_rma')->canReturnProduct($product, $item->getStoreId())) {
+            if (!Mage::helper('Enterprise_Rma_Helper_Data')->canReturnProduct($product, $item->getStoreId())) {
                 $allowed = false;
             }
 
@@ -317,7 +317,7 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
                 $productOptions     = $item->getProductOptions();
                 $product->reset();
                 $product->load($product->getIdBySku($productOptions['simple_sku']));
-                if (!Mage::helper('enterprise_rma')->canReturnProduct($product, $item->getStoreId())) {
+                if (!Mage::helper('Enterprise_Rma_Helper_Data')->canReturnProduct($product, $item->getStoreId())) {
                     $orderItemsCollection->removeItemByKey($item->getId());
                     continue;
                 }

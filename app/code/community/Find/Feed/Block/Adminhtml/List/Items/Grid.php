@@ -84,34 +84,34 @@ class Find_Feed_Block_Adminhtml_List_Items_Grid  extends Mage_Adminhtml_Block_Wi
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'            => Mage::helper('find_feed')->__('ID'),
+            'header'            => Mage::helper('Find_Feed_Helper_Data')->__('ID'),
             'sortable'          => true,
             'width'             => '60px',
             'index'             => 'entity_id'
         ));
 
         $this->addColumn('name', array(
-            'header'            => Mage::helper('find_feed')->__('Product Name'),
+            'header'            => Mage::helper('Find_Feed_Helper_Data')->__('Product Name'),
             'index'             => 'name',
             'column_css_class'  => 'name'
         ));
 
         $this->addColumn('type', array(
-            'header'            => Mage::helper('find_feed')->__('Type'),
+            'header'            => Mage::helper('Find_Feed_Helper_Data')->__('Type'),
             'width'             => '60px',
             'index'             => 'type_id',
             'type'              => 'options',
             'options'           => Mage::getSingleton('catalog/product_type')->getOptionArray(),
         ));
 
-        $entityTypeId =  Mage::helper('find_feed')->getProductEntityType();
+        $entityTypeId =  Mage::helper('Find_Feed_Helper_Data')->getProductEntityType();
         $sets           = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter($entityTypeId)
             ->load()
             ->toOptionHash();
 
         $this->addColumn('set_name', array(
-            'header'            => Mage::helper('find_feed')->__('Attrib. Set Name'),
+            'header'            => Mage::helper('Find_Feed_Helper_Data')->__('Attrib. Set Name'),
             'width'             => '100px',
             'index'             => 'attribute_set_id',
             'type'              => 'options',
@@ -119,14 +119,14 @@ class Find_Feed_Block_Adminhtml_List_Items_Grid  extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addColumn('sku', array(
-            'header'            => Mage::helper('find_feed')->__('SKU'),
+            'header'            => Mage::helper('Find_Feed_Helper_Data')->__('SKU'),
             'width'             => '80px',
             'index'             => 'sku',
             'column_css_class'  => 'sku'
         ));
 
         $this->addColumn('price', array(
-            'header'            => Mage::helper('find_feed')->__('Price'),
+            'header'            => Mage::helper('Find_Feed_Helper_Data')->__('Price'),
             'align'             => 'center',
             'type'              => 'currency',
             'currency_code'     => $this->_getStore()->getCurrentCurrencyCode(),
@@ -140,7 +140,7 @@ class Find_Feed_Block_Adminhtml_List_Items_Grid  extends Mage_Adminhtml_Block_Wi
         $isImportedOptions = $source->getOptionArray();
 
         $this->addColumn('is_imported', array(
-            'header'    => Mage::helper('find_feed')->__('In Feed'),
+            'header'    => Mage::helper('Find_Feed_Helper_Data')->__('In Feed'),
             'width'     => '100px',
             'index'     => 'is_imported',
             'type'      => 'options',
@@ -161,12 +161,12 @@ class Find_Feed_Block_Adminhtml_List_Items_Grid  extends Mage_Adminhtml_Block_Wi
         $this->getMassactionBlock()->setFormFieldName('item_id');
 
         $this->getMassactionBlock()->addItem('enable', array(
-            'label'         => Mage::helper('find_feed')->__('Publish'),
+            'label'         => Mage::helper('Find_Feed_Helper_Data')->__('Publish'),
             'url'           => $this->getUrl('*/items_grid/massEnable'),
             'selected'      => true,
         ));
         $this->getMassactionBlock()->addItem('disable', array(
-            'label'         => Mage::helper('find_feed')->__('Not publish'),
+            'label'         => Mage::helper('Find_Feed_Helper_Data')->__('Not publish'),
             'url'           => $this->getUrl('*/items_grid/massDisable'),
         ));
 

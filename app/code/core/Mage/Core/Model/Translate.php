@@ -357,7 +357,7 @@ class Mage_Core_Model_Translate
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('core/translate');
+        return Mage::getResourceSingleton('Mage_Core_Model_Resource_Translate');
     }
 
     /**

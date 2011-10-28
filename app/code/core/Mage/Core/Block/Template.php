@@ -193,9 +193,9 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     {
         if (is_null(self::$_showTemplateHints)) {
             self::$_showTemplateHints = Mage::getStoreConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS)
-                && Mage::helper('core')->isDevAllowed();
+                && Mage::helper('Mage_Core_Helper_Data')->isDevAllowed();
             self::$_showTemplateHintsBlocks = Mage::getStoreConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS)
-                && Mage::helper('core')->isDevAllowed();
+                && Mage::helper('Mage_Core_Helper_Data')->isDevAllowed();
         }
         return self::$_showTemplateHints;
     }

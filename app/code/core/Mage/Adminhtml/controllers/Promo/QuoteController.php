@@ -42,7 +42,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
     {
         $this->loadLayout()
             ->_setActiveMenu('promo/quote')
-            ->_addBreadcrumb(Mage::helper('salesrule')->__('Promotions'), Mage::helper('salesrule')->__('Promotions'))
+            ->_addBreadcrumb(Mage::helper('Mage_SalesRule_Helper_Data')->__('Promotions'), Mage::helper('Mage_SalesRule_Helper_Data')->__('Promotions'))
         ;
         return $this;
     }
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
         $this->_title($this->__('Promotions'))->_title($this->__('Shopping Cart Price Rules'));
 
         $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('salesrule')->__('Catalog'), Mage::helper('salesrule')->__('Catalog'))
+            ->_addBreadcrumb(Mage::helper('Mage_SalesRule_Helper_Data')->__('Catalog'), Mage::helper('Mage_SalesRule_Helper_Data')->__('Catalog'))
             ->renderLayout();
     }
 
@@ -70,7 +70,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
             $model->load($id);
             if (! $model->getRuleId()) {
                 Mage::getSingleton('adminhtml/session')->addError(
-                    Mage::helper('salesrule')->__('This rule no longer exists.'));
+                    Mage::helper('Mage_SalesRule_Helper_Data')->__('This rule no longer exists.'));
                 $this->_redirect('*/*');
                 return;
             }
@@ -94,10 +94,10 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
 
         $this
             ->_addBreadcrumb(
-                $id ? Mage::helper('salesrule')->__('Edit Rule')
-                    : Mage::helper('salesrule')->__('New Rule'),
-                $id ? Mage::helper('salesrule')->__('Edit Rule')
-                    : Mage::helper('salesrule')->__('New Rule'))
+                $id ? Mage::helper('Mage_SalesRule_Helper_Data')->__('Edit Rule')
+                    : Mage::helper('Mage_SalesRule_Helper_Data')->__('New Rule'),
+                $id ? Mage::helper('Mage_SalesRule_Helper_Data')->__('Edit Rule')
+                    : Mage::helper('Mage_SalesRule_Helper_Data')->__('New Rule'))
             ->renderLayout();
 
     }
@@ -118,7 +118,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
 
                 //filter HTML tags
                 /** @var $helper Mage_Adminhtml_Helper_Data */
-                $helper = Mage::helper('adminhtml');
+                $helper = Mage::helper('Mage_Adminhtml_Helper_Data');
                 $data['name'] = $helper->stripTags($data['name']);
                 $data['description'] = $helper->stripTags($data['description']);
                 foreach ($data['store_labels'] as &$label) {
@@ -130,7 +130,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
                 if ($id) {
                     $model->load($id);
                     if ($id != $model->getId()) {
-                        Mage::throwException(Mage::helper('salesrule')->__('Wrong rule specified.'));
+                        Mage::throwException(Mage::helper('Mage_SalesRule_Helper_Data')->__('Wrong rule specified.'));
                     }
                 }
 
@@ -162,7 +162,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
                 $session->setPageData($model->getData());
 
                 $model->save();
-                $session->addSuccess(Mage::helper('salesrule')->__('The rule has been saved.'));
+                $session->addSuccess(Mage::helper('Mage_SalesRule_Helper_Data')->__('The rule has been saved.'));
                 $session->setPageData(false);
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/edit', array('id' => $model->getId()));
@@ -174,7 +174,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addError(
-                    Mage::helper('catalogrule')->__('An error occurred while saving the rule data. Please review the log and try again.'));
+                    Mage::helper('Mage_CatalogRule_Helper_Data')->__('An error occurred while saving the rule data. Please review the log and try again.'));
                 Mage::logException($e);
                 Mage::getSingleton('adminhtml/session')->setPageData($data);
                  $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
@@ -192,21 +192,21 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
                 $model->load($id);
                 $model->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('salesrule')->__('The rule has been deleted.'));
+                    Mage::helper('Mage_SalesRule_Helper_Data')->__('The rule has been deleted.'));
                 $this->_redirect('*/*/');
                 return;
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addError(
-                    Mage::helper('catalogrule')->__('An error occurred while deleting the rule. Please review the log and try again.'));
+                    Mage::helper('Mage_CatalogRule_Helper_Data')->__('An error occurred while deleting the rule. Please review the log and try again.'));
                 Mage::logException($e);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
         Mage::getSingleton('adminhtml/session')->addError(
-            Mage::helper('salesrule')->__('Unable to find a rule to delete.'));
+            Mage::helper('Mage_SalesRule_Helper_Data')->__('Unable to find a rule to delete.'));
         $this->_redirect('*/*/');
     }
 

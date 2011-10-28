@@ -50,7 +50,7 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Core_Mod
 {
     protected function _construct()
     {
-        $this->_init('enterprise_catalogpermissions/permission_index');
+        $this->_init('Enterprise_CatalogPermissions_Model_Resource_Permission_Index');
     }
 
     /**

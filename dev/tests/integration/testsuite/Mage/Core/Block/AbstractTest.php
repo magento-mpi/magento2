@@ -355,9 +355,9 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
             $withRoute = "{$base}catalog/product/view/id/10/";
 
             $encoded = $this->_block->$method();
-            $this->assertEquals(Mage::helper('core')->urlDecode($encoded), $base);
+            $this->assertEquals(Mage::helper('Mage_Core_Helper_Data')->urlDecode($encoded), $base);
             $encoded = $this->_block->$method('catalog/product/view', array('id' => 10));
-            $this->assertEquals(Mage::helper('core')->urlDecode($encoded), $withRoute);
+            $this->assertEquals(Mage::helper('Mage_Core_Helper_Data')->urlDecode($encoded), $withRoute);
         }
     }
 
@@ -389,11 +389,11 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     public function testHelper()
     {
         // without layout
-        $this->assertInstanceOf('Mage_Core_Helper_Data', $this->_block->helper('core'));
+        $this->assertInstanceOf('Mage_Core_Helper_Data', $this->_block->helper('Mage_Core_Helper_Data'));
 
         // with layout
         $this->_block->setLayout(new Mage_Core_Model_Layout);
-        $helper = $this->_block->helper('core');
+        $helper = $this->_block->helper('Mage_Core_Helper_Data');
 
         try {
             $this->assertInstanceOf('Mage_Core_Helper_Data', $helper);
@@ -408,13 +408,13 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testFormatDate()
     {
-        $helper = Mage::helper('core');
+        $helper = Mage::helper('Mage_Core_Helper_Data');
         $this->assertEquals($helper->formatDate(), $this->_block->formatDate());
     }
 
     public function testFormatTime()
     {
-        $helper = Mage::helper('core');
+        $helper = Mage::helper('Mage_Core_Helper_Data');
         $this->assertEquals($helper->formatTime(), $this->_block->formatTime());
     }
 

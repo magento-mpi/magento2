@@ -42,7 +42,7 @@ class Mage_PageCache_Model_Observer
      */
     public function isCacheEnabled()
     {
-        return Mage::helper('pagecache')->isEnabled();
+        return Mage::helper('Mage_PageCache_Helper_Data')->isEnabled();
     }
 
     /**
@@ -88,7 +88,7 @@ class Mage_PageCache_Model_Observer
         }
 
         if (!$needCaching) {
-            Mage::helper('pagecache')->setNoCacheCookie();
+            Mage::helper('Mage_PageCache_Helper_Data')->setNoCacheCookie();
         }
 
         return $this;

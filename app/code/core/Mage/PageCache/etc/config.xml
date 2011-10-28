@@ -49,7 +49,7 @@
         </blocks>
         <external_cache>
             <controls>
-                <zend_page_cache translate="label" module="pagecache">
+                <zend_page_cache translate="label" module="Mage_PageCache">
                     <label>Zend Full Page Cache</label>
                     <class>pagecache/control_zend</class>
                 </zend_page_cache>

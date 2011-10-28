@@ -59,7 +59,7 @@
                 </setup>
             </importexport_setup>
         </resources>
-        <importexport module="importexport">
+        <importexport module="Mage_ImportExport">
             <import_entities>
                 <catalog_product translate="label">
                     <model_token>importexport/import_entity_product</model_token>

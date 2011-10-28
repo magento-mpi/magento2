@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag_Customer extends Mage_Ad
 
     protected function _prepareCollection()
     {
-        if (Mage::helper('catalog')->isModuleEnabled('Mage_Tag')) {
+        if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_Tag')) {
             $collection = Mage::getModel('tag/tag')
                 ->getCustomerCollection()
                 ->addProductFilter($this->getProductId())
@@ -65,22 +65,22 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag_Customer extends Mage_Ad
     protected function _prepareColumns()
     {
         $this->addColumn('firstname', array(
-            'header'    => Mage::helper('catalog')->__('First Name'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('First Name'),
             'index'     => 'firstname',
         ));
 
         $this->addColumn('lastname', array(
-            'header'        => Mage::helper('catalog')->__('Last Name'),
+            'header'        => Mage::helper('Mage_Catalog_Helper_Data')->__('Last Name'),
             'index'         => 'lastname',
         ));
 
         $this->addColumn('email', array(
-            'header'        => Mage::helper('catalog')->__('Email'),
+            'header'        => Mage::helper('Mage_Catalog_Helper_Data')->__('Email'),
             'index'         => 'email',
         ));
 
         $this->addColumn('name', array(
-            'header'        => Mage::helper('catalog')->__('Tag Name'),
+            'header'        => Mage::helper('Mage_Catalog_Helper_Data')->__('Tag Name'),
             'index'         => 'name',
         ));
 

@@ -80,7 +80,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
         $options      = array();
         $selected     = array();
         $currentProduct = $this->getProduct();
-        $coreHelper   = Mage::helper('core');
+        $coreHelper   = Mage::helper('Mage_Core_Helper_Data');
         $bundlePriceModel = Mage::getModel('bundle/product_price');
 
         if ($preconfiguredFlag = $currentProduct->hasPreconfiguredValues()) {
@@ -127,7 +127,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
                 $canApplyMAP = false;
 
                 /* @var $taxHelper Mage_Tax_Helper_Data */
-                $taxHelper = Mage::helper('tax');
+                $taxHelper = Mage::helper('Mage_Tax_Helper_Data');
 
                 $_priceInclTax = $taxHelper->getPrice($_selection, $itemPrice, true);
                 $_priceExclTax = $taxHelper->getPrice($_selection, $itemPrice);
@@ -187,9 +187,9 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
             'basePrice'     => $coreHelper->currency($currentProduct->getPrice(), false, false),
             'priceType'     => $currentProduct->getPriceType(),
             'specialPrice'  => $currentProduct->getSpecialPrice(),
-            'includeTax'    => Mage::helper('tax')->priceIncludesTax() ? 'true' : 'false',
+            'includeTax'    => Mage::helper('Mage_Tax_Helper_Data')->priceIncludesTax() ? 'true' : 'false',
             'isFixedPrice'  => $this->getProduct()->getPriceType() == Mage_Bundle_Model_Product_Price::PRICE_TYPE_FIXED,
-            'isMAPAppliedDirectly' => Mage::helper('catalog')->canApplyMsrp($this->getProduct(), null, false)
+            'isMAPAppliedDirectly' => Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($this->getProduct(), null, false)
         );
 
         if ($preconfiguredFlag && !empty($defaultValues)) {

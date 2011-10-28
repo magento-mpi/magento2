@@ -341,7 +341,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
             $allowedTags = preg_split('/\s*\,\s*/', $params['allowed_tags'], 0, PREG_SPLIT_NO_EMPTY);
         }
 
-        return Mage::helper('core')->htmlEscape($params['var'], $allowedTags);
+        return Mage::helper('Mage_Core_Helper_Data')->htmlEscape($params['var'], $allowedTags);
     }
 
     /**

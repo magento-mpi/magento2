@@ -100,11 +100,11 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
              * Hard coded exception catch
              */
             if (!strlen($_FILES[$field]['tmp_name'])) {
-                Mage::throwException(Mage::helper('xmlconnect')->__('File can\'t be uploaded.'));
+                Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('File can\'t be uploaded.'));
             } elseif ($e->getMessage() == 'Disallowed file type.') {
                 $filename = $_FILES[$field]['name'];
                 Mage::throwException(
-                    Mage::helper('xmlconnect')->__('Error while uploading file "%s". Disallowed file type. Only "jpg", "jpeg", "gif", "png" are allowed.', $filename)
+                    Mage::helper('Mage_XmlConnect_Helper_Data')->__('Error while uploading file "%s". Disallowed file type. Only "jpg", "jpeg", "gif", "png" are allowed.', $filename)
                 );
             } else {
                 Mage::logException($e);
@@ -120,7 +120,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
      */
     protected function _getScreenSize()
     {
-        return Mage::helper('xmlconnect')->getApplication()->getScreenSize();
+        return Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getScreenSize();
     }
 
     /**
@@ -153,11 +153,11 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
                     && (is_readable($customSizeFileName) || chmod($customSizeFileName, 0644))
                 )) {
                     Mage::throwException(
-                        Mage::helper('xmlconnect')->__('Error while processing file "%s".', $fileName)
+                        Mage::helper('Mage_XmlConnect_Helper_Data')->__('Error while processing file "%s".', $fileName)
                     );
                 }
             } else {
-                Mage::throwException(Mage::helper('xmlconnect')->__('No such file "%s".', $fileName));
+                Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('No such file "%s".', $fileName));
             }
         }
 
@@ -170,7 +170,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
             if (isset($_FILES[$fieldPath]) && is_array($_FILES[$fieldPath]) && isset($_FILES[$fieldPath]['name'])) {
                 $fileName = $_FILES[$fieldPath]['name'];
             }
-            Mage::throwException(Mage::helper('xmlconnect')->__('Error while uploading file "%s".', $fileName));
+            Mage::throwException(Mage::helper('Mage_XmlConnect_Helper_Data')->__('Error while uploading file "%s".', $fileName));
         }
         return $customSizeFileName;
     }
@@ -361,7 +361,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
     {
         if (!isset($this->_interfacePath[$imagePath])) {
             /** @var $app Mage_XmlConnect_Model_Application */
-            $app = Mage::helper('xmlconnect')->getApplication();
+            $app = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
             if (!$app) {
                 return 0;
             } else {

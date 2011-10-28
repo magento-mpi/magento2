@@ -133,7 +133,7 @@ class Mage_Widget_Model_Widget_Config extends Varien_Object
     {
         $widgets = is_array($widgets) ? $widgets : array($widgets);
         $param = implode(',', $widgets);
-        return Mage::helper('core')->urlEncode($param);
+        return Mage::helper('Mage_Core_Helper_Data')->urlEncode($param);
     }
 
     /**
@@ -144,7 +144,7 @@ class Mage_Widget_Model_Widget_Config extends Varien_Object
      */
     public function decodeWidgetsFromQuery($queryParam)
     {
-        $param = Mage::helper('core')->urlDecode($queryParam);
+        $param = Mage::helper('Mage_Core_Helper_Data')->urlDecode($queryParam);
         return preg_split('/\s*\,\s*/', $param, 0, PREG_SPLIT_NO_EMPTY);
     }
 

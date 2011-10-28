@@ -54,7 +54,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             $this->_connect($options);
         } catch (Exception $e) {
             Mage::logException($e);
-            Mage::throwException(Mage::helper('enterprise_search')->__('Unable to perform search because of search engine missed configuration.'));
+            Mage::throwException(Mage::helper('Enterprise_Search_Helper_Data')->__('Unable to perform search because of search engine missed configuration.'));
         }
     }
 
@@ -66,7 +66,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
      */
     protected function _connect($options = array())
     {
-        $helper = Mage::helper('enterprise_search');
+        $helper = Mage::helper('Enterprise_Search_Helper_Data');
         $def_options = array(
             'hostname' => $helper->getSolrConfigData('server_hostname'),
             'login'    => $helper->getSolrConfigData('server_username'),
@@ -239,7 +239,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         if ($_params['store_id'] > 0) {
             $solrQuery->addFilterQuery('store_id:' . $_params['store_id']);
         }
-        if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
+        if (!Mage::helper('Mage_CatalogInventory_Helper_Data')->isShowOutOfStock()) {
             $solrQuery->addFilterQuery('in_stock:true');
         }
 
@@ -365,7 +365,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         if (!empty($params['store_id'])) {
             $solrQuery->addFilterQuery('store_id:' . $params['store_id']);
         }
-        if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
+        if (!Mage::helper('Mage_CatalogInventory_Helper_Data')->isShowOutOfStock()) {
             $solrQuery->addFilterQuery('in_stock:true');
         }
 
@@ -408,7 +408,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
      */
     public function ping()
     {
-        Mage::helper('enterprise_search')->getSolrSupportedLanguages();
+        Mage::helper('Enterprise_Search_Helper_Data')->getSolrSupportedLanguages();
         return parent::ping();
     }
 }

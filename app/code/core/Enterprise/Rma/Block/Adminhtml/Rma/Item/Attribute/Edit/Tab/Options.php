@@ -43,7 +43,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Options
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_rma')->__('Manage Label / Options');
+        return Mage::helper('Enterprise_Rma_Helper_Data')->__('Manage Label / Options');
     }
 
     /**
@@ -53,7 +53,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Options
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_rma')->__('Properties');
+        return Mage::helper('Enterprise_Rma_Helper_Data')->__('Properties');
     }
 
     /**

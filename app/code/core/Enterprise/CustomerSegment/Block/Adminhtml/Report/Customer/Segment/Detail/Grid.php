@@ -86,17 +86,17 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
     protected function _prepareColumns()
     {
         $this->addColumn('grid_entity_id', array(
-            'header'    => Mage::helper('enterprise_customersegment')->__('ID'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('ID'),
             'width'     => 50,
             'index'     => 'entity_id',
             'type'      => 'number',
         ));
         $this->addColumn('grid_name', array(
-            'header'    => Mage::helper('enterprise_customersegment')->__('Name'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Name'),
             'index'     => 'name'
         ));
         $this->addColumn('grid_email', array(
-            'header'    => Mage::helper('enterprise_customersegment')->__('Email'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Email'),
             'width'     => 150,
             'index'     => 'email'
         ));
@@ -107,7 +107,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
             ->toOptionHash();
 
         $this->addColumn('grid_group', array(
-            'header'    =>  Mage::helper('enterprise_customersegment')->__('Group'),
+            'header'    =>  Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Group'),
             'width'     =>  100,
             'index'     =>  'group_id',
             'type'      =>  'options',
@@ -115,32 +115,32 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
         ));
 
         $this->addColumn('grid_telephone', array(
-            'header'    => Mage::helper('enterprise_customersegment')->__('Telephone'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Telephone'),
             'width'     => 100,
             'index'     => 'billing_telephone'
         ));
 
         $this->addColumn('grid_billing_postcode', array(
-            'header'    => Mage::helper('enterprise_customersegment')->__('ZIP'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('ZIP'),
             'width'     => 90,
             'index'     => 'billing_postcode',
         ));
 
         $this->addColumn('grid_billing_country_id', array(
-            'header'    => Mage::helper('enterprise_customersegment')->__('Country'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Country'),
             'width'     => 100,
             'type'      => 'country',
             'index'     => 'billing_country_id',
         ));
 
         $this->addColumn('grid_billing_region', array(
-            'header'    => Mage::helper('enterprise_customersegment')->__('State/Province'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('State/Province'),
             'width'     => 100,
             'index'     => 'billing_region',
         ));
 
         $this->addColumn('grid_customer_since', array(
-            'header'    => Mage::helper('enterprise_customersegment')->__('Customer Since'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Since'),
             'width'     => 200,
             'type'      => 'datetime',
             'align'     => 'center',
@@ -148,8 +148,8 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
             'gmtoffset' => true
         ));
 
-        $this->addExportType('*/*/exportCsv', Mage::helper('enterprise_customersegment')->__('CSV'));
-        $this->addExportType('*/*/exportExcel', Mage::helper('enterprise_customersegment')->__('Excel XML'));
+        $this->addExportType('*/*/exportCsv', Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportExcel', Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

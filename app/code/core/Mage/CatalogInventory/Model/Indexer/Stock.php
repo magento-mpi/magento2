@@ -89,7 +89,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
      */
     protected function _construct()
     {
-        $this->_init('cataloginventory/indexer_stock');
+        $this->_init('Mage_CatalogInventory_Model_Resource_Indexer_Stock');
     }
 
     /**
@@ -109,7 +109,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
      */
     public function getName()
     {
-        return Mage::helper('cataloginventory')->__('Stock Status');
+        return Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Stock Status');
     }
 
     /**
@@ -119,7 +119,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
      */
     public function getDescription()
     {
-        return Mage::helper('cataloginventory')->__('Index Product Stock Status');
+        return Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Index Product Stock Status');
     }
 
     /**
@@ -266,7 +266,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
 
         // Saving stock item without product object
         // Register re-index price process if products out of stock hidden on Front-end
-        if (!Mage::helper('cataloginventory')->isShowOutOfStock() && !$object->getProduct()) {
+        if (!Mage::helper('Mage_CatalogInventory_Helper_Data')->isShowOutOfStock() && !$object->getProduct()) {
             $event->addNewData('force_reindex_required', 1);
         }
 

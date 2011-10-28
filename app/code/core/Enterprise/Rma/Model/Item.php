@@ -76,7 +76,7 @@ class Enterprise_Rma_Model_Item extends Mage_Core_Model_Abstract
      * Init resource model
      */
     protected function _construct() {
-        $this->_init('enterprise_rma/item');
+        $this->_init('Enterprise_Rma_Model_Resource_Item');
     }
 
     /**

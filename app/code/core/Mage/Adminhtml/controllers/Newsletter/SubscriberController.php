@@ -47,8 +47,8 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
 
         $this->_setActiveMenu('newsletter/subscriber');
 
-        $this->_addBreadcrumb(Mage::helper('newsletter')->__('Newsletter'), Mage::helper('newsletter')->__('Newsletter'));
-        $this->_addBreadcrumb(Mage::helper('newsletter')->__('Subscribers'), Mage::helper('newsletter')->__('Subscribers'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers'));
 
         $this->_addContent(
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Subscriber','subscriber')
@@ -108,7 +108,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
     {
         $subscribersIds = $this->getRequest()->getParam('subscriber');
         if (!is_array($subscribersIds)) {
-             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('newsletter')->__('Please select subscriber(s)'));
+             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Newsletter_Helper_Data')->__('Please select subscriber(s)'));
         }
         else {
             try {
@@ -117,7 +117,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
                     $subscriber->unsubscribe();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('adminhtml')->__(
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__(
                         'Total of %d record(s) were updated', count($subscribersIds)
                     )
                 );
@@ -133,7 +133,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
     {
         $subscribersIds = $this->getRequest()->getParam('subscriber');
         if (!is_array($subscribersIds)) {
-             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('newsletter')->__('Please select subscriber(s)'));
+             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Newsletter_Helper_Data')->__('Please select subscriber(s)'));
         }
         else {
             try {
@@ -142,7 +142,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
                     $subscriber->delete();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('adminhtml')->__(
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__(
                         'Total of %d record(s) were deleted', count($subscribersIds)
                     )
                 );

@@ -59,7 +59,7 @@ class Mage_ProductAlert_Helper_Data extends Mage_Core_Helper_Url
 
     public function createBlock($block)
     {
-        $error = Mage::helper('core')->__('Invalid block type: %s', $block);
+        $error = Mage::helper('Mage_Core_Helper_Data')->__('Invalid block type: %s', $block);
         if (is_string($block)) {
             if (strpos($block, '/') !== false) {
                 if (!$block = Mage::getConfig()->getBlockClassName($block)) {

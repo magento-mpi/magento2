@@ -50,7 +50,7 @@
         </resources>
         <template>
             <email>
-                <sitemap_generate_error_email_template translate="label" module="sitemap">
+                <sitemap_generate_error_email_template translate="label" module="Mage_Sitemap">
                     <label>Sitemap generate Warnings</label>
                     <file>sitemap_generate_warning.html</file>
                     <type>text</type>

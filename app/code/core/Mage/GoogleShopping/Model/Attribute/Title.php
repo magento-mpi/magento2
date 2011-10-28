@@ -55,7 +55,7 @@ class Mage_GoogleShopping_Model_Attribute_Title extends Mage_GoogleShopping_Mode
         } else {
             $titleText = 'no title';
         }
-        $titleText = Mage::helper('googleshopping')->cleanAtomAttribute($titleText);
+        $titleText = Mage::helper('Mage_GoogleShopping_Helper_Data')->cleanAtomAttribute($titleText);
         $entry->setTitle($entry->getService()->newTitle()->setText($titleText));
 
         return $entry;

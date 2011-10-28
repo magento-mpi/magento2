@@ -21,7 +21,7 @@
 -->
 <config>
     <sections>
-        <moneybookers translate="label" module="moneybookers">
+        <moneybookers translate="label" module="Phoenix_Moneybookers">
             <label>Moneybookers</label>
             <tab>sales</tab>
             <frontend_type>text</frontend_type>
@@ -74,7 +74,7 @@
                         </activationstatus>
                     </fields>
                 </settings>
-                <moneybookers_acc translate="label" module="moneybookers">
+                <moneybookers_acc translate="label" module="Phoenix_Moneybookers">
                     <label>All Credit Cards / Visa, Mastercard, AMEX, JCB, Diners (powered by Moneybookers) - International</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>201</sort_order>
@@ -133,7 +133,7 @@
                         </specificcountry>
                     </fields>
                 </moneybookers_acc>
-                <moneybookers_csi translate="label" module="moneybookers">
+                <moneybookers_csi translate="label" module="Phoenix_Moneybookers">
                     <label>CartaSi (powered by Moneybookers) - Italy</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>252</sort_order>
@@ -192,7 +192,7 @@
                         </specificcountry>
                     </fields>
                 </moneybookers_csi>
-                <moneybookers_did translate="label" module="moneybookers">
+                <moneybookers_did translate="label" module="Phoenix_Moneybookers">
                     <label>Lastschrift (ELV) (powered by Moneybookers) - Germany</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>211</sort_order>
@@ -251,7 +251,7 @@
                         </specificcountry>
                     </fields>
                 </moneybookers_did>
-                <moneybookers_dnk translate="label" module="moneybookers">
+                <moneybookers_dnk translate="label" module="Phoenix_Moneybookers">
                     <label>Dankort (powered by Moneybookers) - Denmark</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>241</sort_order>
@@ -310,7 +310,7 @@
                         </specificcountry>
                     </fields>
                 </moneybookers_dnk>
-                <moneybookers_ebt translate="label" module="moneybookers">
+                <moneybookers_ebt translate="label" module="Phoenix_Moneybookers">
                     <label>Nordea Solo (powered by Moneybookers) - Sweden</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>271</sort_order>
@@ -369,7 +369,7 @@
                         </specificcountry>
                     </fields>
                 </moneybookers_ebt>
-                <moneybookers_ent translate="label" module="moneybookers">
+                <moneybookers_ent translate="label" module="Phoenix_Moneybookers">
                     <label>eNETS (powered by Moneybookers) - Singapore</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>261</sort_order>
@@ -428,7 +428,7 @@
                         </specificcountry>
                     </fields>
                 </moneybookers_ent>
-                <moneybookers_gcb translate="label" module="moneybookers">
+                <moneybookers_gcb translate="label" module="Phoenix_Moneybookers">
                     <label>Carte Bleue (powered by Moneybookers) - France</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>231</sort_order>
@@ -487,7 +487,7 @@
                         </specificcountry>
                     </fields>
                 </moneybookers_gcb>
-                <moneybookers_gir translate="label" module="moneybookers">
+                <moneybookers_gir translate="label" module="Phoenix_Moneybookers">
                     <label>Giropay (powered by Moneybookers) - Germany</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>212</sort_order>
@@ -546,7 +546,7 @@
                         </specificcountry>
                     </fields>
                 </moneybookers_gir>
-                <moneybookers_idl translate="label" module="moneybookers">
+                <moneybookers_idl translate="label" module="Phoenix_Moneybookers">
                     <label>iDeal (powered by Moneybookers) - Netherlands</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>291</sort_order>
@@ -605,7 +605,7 @@
                         </specificcountry>
                     </fields>
                 </moneybookers_idl>
-                <moneybookers_lsr translate="label" module="moneybookers">
+                <moneybookers_lsr translate="label" module="Phoenix_Moneybookers">
                     <label>Laser (powered by Moneybookers) - Ireland</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>221</sort_order>
@@ -664,7 +664,7 @@
                         </specificcountry>
                     </fields>
                 </moneybookers_lsr>
-                <moneybookers_mae translate="label" module="moneybookers">
+                <moneybookers_mae translate="label" module="Phoenix_Moneybookers">
                     <label>Maestro (powered by Moneybookers) - United Kingdom, Austria, Spain</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>231</sort_order>
@@ -723,7 +723,7 @@
                         </specificcountry>
                     </fields>
                 </moneybookers_mae>
-                <moneybookers_npy translate="label" module="moneybookers">
+                <moneybookers_npy translate="label" module="Phoenix_Moneybookers">
                     <label>EPS Online-Überweisung (powered by Moneybookers) - Austria</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>301</sort_order>
@@ -782,7 +782,7 @@
                         </specificcountry>
                     </fields>
                 </moneybookers_npy>
-                <moneybookers_pli translate="label" module="moneybookers">
+                <moneybookers_pli translate="label" module="Phoenix_Moneybookers">
                     <label>POLi (powered by Moneybookers) - Australia</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>311</sort_order>
@@ -841,7 +841,7 @@
                         </specificcountry>
                     </fields>
                 </moneybookers_pli>
-                <moneybookers_psp translate="label" module="moneybookers">
+                <moneybookers_psp translate="label" module="Phoenix_Moneybookers">
                     <label>Postepay (powered by Moneybookers) - Italy</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>251</sort_order>
@@ -900,7 +900,7 @@
                         </specificcountry>
                     </fields>
                 </moneybookers_psp>
-                <moneybookers_pwy translate="label" module="moneybookers">
+                <moneybookers_pwy translate="label" module="Phoenix_Moneybookers">
                     <label>Przelewy24 (powered by Moneybookers) - Poland</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>321</sort_order>
@@ -959,7 +959,7 @@
                         </specificcountry>
                     </fields>
                 </moneybookers_pwy>
-                <moneybookers_sft translate="label" module="moneybookers">
+                <moneybookers_sft translate="label" module="Phoenix_Moneybookers">
                     <label>Sofortüberweisung (powered by Moneybookers) - Germany</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>213</sort_order>
@@ -1018,7 +1018,7 @@
                         </specificcountry>
                     </fields>
                 </moneybookers_sft>
-                <moneybookers_so2 translate="label" module="moneybookers">
+                <moneybookers_so2 translate="label" module="Phoenix_Moneybookers">
                     <label>Nordea Solo (powered by Moneybookers) - Finland</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>281</sort_order>
@@ -1077,7 +1077,7 @@
                         </specificcountry>
                     </fields>
                 </moneybookers_so2>
-                <moneybookers_wlt translate="label" module="moneybookers">
+                <moneybookers_wlt translate="label" module="Phoenix_Moneybookers">
                     <label>Moneybookers eWallet</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>331</sort_order>
@@ -1136,7 +1136,7 @@
                         </specificcountry>
                     </fields>
                 </moneybookers_wlt>
-                <moneybookers_obt translate="label" module="moneybookers">
+                <moneybookers_obt translate="label" module="Phoenix_Moneybookers">
                     <label>Online Bank Transfer (powered by Moneybookers)</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>381</sort_order>

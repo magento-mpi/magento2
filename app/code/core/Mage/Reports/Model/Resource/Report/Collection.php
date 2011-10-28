@@ -198,9 +198,9 @@ class Mage_Reports_Model_Resource_Report_Collection
     public function getPeriods()
     {
         return array(
-            'day'   => Mage::helper('reports')->__('Day'),
-            'month' => Mage::helper('reports')->__('Month'),
-            'year'  => Mage::helper('reports')->__('Year')
+            'day'   => Mage::helper('Mage_Reports_Helper_Data')->__('Day'),
+            'month' => Mage::helper('Mage_Reports_Helper_Data')->__('Month'),
+            'year'  => Mage::helper('Mage_Reports_Helper_Data')->__('Year')
         );
     }
 

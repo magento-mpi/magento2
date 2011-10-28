@@ -45,9 +45,9 @@ abstract class Enterprise_CatalogEvent_Block_Event_Abstract extends Mage_Core_Bl
     {
         parent::_construct();
         $this->_statuses = array(
-            Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING => $this->helper('enterprise_catalogevent')->__('Coming Soon'),
-            Enterprise_CatalogEvent_Model_Event::STATUS_OPEN     => $this->helper('enterprise_catalogevent')->__('Sale Ends In'),
-            Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED   => $this->helper('enterprise_catalogevent')->__('Closed'),
+            Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING => $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Coming Soon'),
+            Enterprise_CatalogEvent_Model_Event::STATUS_OPEN     => $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Sale Ends In'),
+            Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED   => $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Closed'),
         );
     }
 

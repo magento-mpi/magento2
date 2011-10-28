@@ -96,8 +96,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            self::VIEWED  => Mage::helper('enterprise_customersegment')->__('viewed'),
-            self::ORDERED => Mage::helper('enterprise_customersegment')->__('ordered'),
+            self::VIEWED  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('viewed'),
+            self::ORDERED => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('ordered'),
         ));
         return $this;
     }
@@ -121,8 +121,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '=='  => Mage::helper('rule')->__('was'),
-            '!='  => Mage::helper('rule')->__('was not')
+            '=='  => Mage::helper('Mage_Rule_Helper_Data')->__('was'),
+            '!='  => Mage::helper('Mage_Rule_Helper_Data')->__('was not')
         ));
         return $this;
     }
@@ -135,7 +135,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('If Product %s %s and matches %s of these Conditions:',
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Product %s %s and matches %s of these Conditions:',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }

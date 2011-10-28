@@ -41,7 +41,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tabs extends Mage_Admin
         parent::__construct();
         $this->setId('connect_extension_edit_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('connect')->__('Create Extension Package'));
+        $this->setTitle(Mage::helper('Mage_Connect_Helper_Data')->__('Create Extension Package'));
     }
 
     /**
@@ -52,33 +52,33 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tabs extends Mage_Admin
     protected function _beforeToHtml()
     {
 //        $this->addTab('package', array(
-//            'label'     => Mage::helper('connect')->__('Package Info'),
+//            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Package Info'),
 //            'content'   => $this->_getTabHtml('package'),
 //            'active'    => true,
 //        ));
 //
 //        $this->addTab('release', array(
-//            'label'     => Mage::helper('connect')->__('Release Info'),
+//            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Release Info'),
 //            'content'   => $this->_getTabHtml('release'),
 //        ));
 //
 //        $this->addTab('maintainers', array(
-//            'label'     => Mage::helper('connect')->__('Authors'),
+//            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Authors'),
 //            'content'   => $this->_getTabHtml('authors'),
 //        ));
 //
 //        $this->addTab('depends', array(
-//            'label'     => Mage::helper('connect')->__('Dependencies'),
+//            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Dependencies'),
 //            'content'   => $this->_getTabHtml('depends'),
 //        ));
 //
 //        $this->addTab('contents', array(
-//            'label'     => Mage::helper('connect')->__('Contents'),
+//            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Contents'),
 //            'content'   => $this->_getTabHtml('contents'),
 //        ));
 //
 //        $this->addTab('load', array(
-//            'label'     => Mage::helper('connect')->__('Load local Package'),
+//            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Load local Package'),
 //            'class'     => 'ajax',
 //            'url'       => $this->getUrl('*/*/loadtab', array('_current' => true)),
 //        ));

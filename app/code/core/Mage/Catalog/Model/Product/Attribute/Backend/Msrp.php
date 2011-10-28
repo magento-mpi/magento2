@@ -52,7 +52,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Msrp extends Mage_Catalog_Mod
         $attributeCode = $this->getAttribute()->getName();
         $value = $product->getData($attributeCode);
         if (empty($value)) {
-            $value = Mage::helper('catalog')->isMsrpApplyToAll();
+            $value = Mage::helper('Mage_Catalog_Helper_Data')->isMsrpApplyToAll();
         }
         if ($value) {
             $product->setData($attributeCode, 0);

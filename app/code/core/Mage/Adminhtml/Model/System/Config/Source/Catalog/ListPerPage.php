@@ -43,7 +43,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Catalog_ListPerPage
         foreach ($perPageValues as $option) {
             $result[] = array('value' => $option, 'label' => $option);
         }
-        //$result[] = array('value' => 'all', 'label' => Mage::helper('catalog')->__('All'));
+        //$result[] = array('value' => 'all', 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('All'));
         return $result;
     }
 

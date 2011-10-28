@@ -37,8 +37,8 @@ class Mage_GoogleBase_Model_Source_Statuses
     public function getStatuses()
     {
         return array(
-            '0' => Mage::helper('googlebase')->__('Yes'),
-            '1' => Mage::helper('googlebase')->__('No')
+            '0' => Mage::helper('Mage_GoogleBase_Helper_Data')->__('Yes'),
+            '1' => Mage::helper('Mage_GoogleBase_Helper_Data')->__('No')
         );
     }
 }

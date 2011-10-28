@@ -61,7 +61,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
     {
         return array(
             'value' => $this->getType(),
-            'label' => Mage::helper('enterprise_customersegment')->__('Default Address')
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Default Address')
         );
     }
 
@@ -73,8 +73,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            'default_billing'  => Mage::helper('enterprise_customersegment')->__('Billing'),
-            'default_shipping' => Mage::helper('enterprise_customersegment')->__('Shipping'),
+            'default_billing'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Billing'),
+            'default_shipping' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shipping'),
         ));
         return $this;
     }
@@ -97,7 +97,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('Customer Address %s Default %s Address',
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Address %s Default %s Address',
                 $this->getOperatorElementHtml(), $this->getValueElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }

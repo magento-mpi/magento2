@@ -69,7 +69,7 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('cataloginventory/stock_status');
+        $this->_init('Mage_CatalogInventory_Model_Resource_Stock_Status');
     }
 
     /**
@@ -514,7 +514,7 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
      */
     public function prepareCatalogProductIndexSelect(Varien_Db_Select $select, $entityField, $websiteField)
     {
-        if (Mage::helper('cataloginventory')->isShowOutOfStock()) {
+        if (Mage::helper('Mage_CatalogInventory_Helper_Data')->isShowOutOfStock()) {
             return $this;
         }
 

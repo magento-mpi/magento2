@@ -29,8 +29,8 @@
     <CATALOGPERMISSIONS_DISABLED_CATALOG_SEARCH>
         <remove name="top.search"/>
         <reference name="footer_links">
-            <action method="removeLinkByUrl"><url helper="catalogsearch/getSearchTermUrl" /></action>
-            <action method="removeLinkByUrl"><url helper="catalogsearch/getAdvancedSearchUrl" /></action>
+            <action method="removeLinkByUrl"><url helper="Mage_CatalogSearch_Helper_Data::getSearchTermUrl" /></action>
+            <action method="removeLinkByUrl"><url helper="Mage_CatalogSearch_Helper_Data::getAdvancedSearchUrl" /></action>
         </reference>
     </CATALOGPERMISSIONS_DISABLED_CATALOG_SEARCH>
 </layout>

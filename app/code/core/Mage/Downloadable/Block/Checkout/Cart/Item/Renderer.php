@@ -41,7 +41,7 @@ class Mage_Downloadable_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_
      */
     public function getLinks()
     {
-        return Mage::helper('downloadable/catalog_product_configuration')->getLinks($this->getItem());
+        return Mage::helper('Mage_Downloadable_Helper_Catalog_Product_Configuration')->getLinks($this->getItem());
     }
 
     /**
@@ -51,6 +51,6 @@ class Mage_Downloadable_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_
      */
     public function getLinksTitle()
     {
-        return Mage::helper('downloadable/catalog_product_configuration')->getLinksTitle($this->getProduct());
+        return Mage::helper('Mage_Downloadable_Helper_Catalog_Product_Configuration')->getLinksTitle($this->getProduct());
     }
 }

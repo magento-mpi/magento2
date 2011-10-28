@@ -98,7 +98,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('admin/user');
+        $this->_init('Mage_Admin_Model_Resource_User');
     }
 
     /**
@@ -331,12 +331,12 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
             $this->loadByUsername($username);
             $sensitive = ($config) ? $username == $this->getUsername() : true;
 
-            if ($sensitive && $this->getId() && Mage::helper('core')->validateHash($password, $this->getPassword())) {
+            if ($sensitive && $this->getId() && Mage::helper('Mage_Core_Helper_Data')->validateHash($password, $this->getPassword())) {
                 if ($this->getIsActive() != '1') {
-                    Mage::throwException(Mage::helper('adminhtml')->__('This account is inactive.'));
+                    Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('This account is inactive.'));
                 }
                 if (!$this->hasAssigned2Role($this->getId())) {
-                    Mage::throwException(Mage::helper('adminhtml')->__('Access denied.'));
+                    Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Access denied.'));
                 }
                 $result = true;
             }
@@ -418,7 +418,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
      */
     protected function _getEncodedPassword($password)
     {
-        return Mage::helper('core')->getHash($password, 2);
+        return Mage::helper('Mage_Core_Helper_Data')->getHash($password, 2);
     }
 
     /**
@@ -501,39 +501,39 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
         $errors = array();
 
         if (!Zend_Validate::is($this->getUsername(), 'NotEmpty')) {
-            $errors[] = Mage::helper('adminhtml')->__('User Name is required field.');
+            $errors[] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Name is required field.');
         }
 
         if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
-            $errors[] = Mage::helper('adminhtml')->__('First Name is required field.');
+            $errors[] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('First Name is required field.');
         }
 
         if (!Zend_Validate::is($this->getLastname(), 'NotEmpty')) {
-            $errors[] = Mage::helper('adminhtml')->__('Last Name is required field.');
+            $errors[] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Last Name is required field.');
         }
 
         if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
-            $errors[] = Mage::helper('adminhtml')->__('Please enter a valid email.');
+            $errors[] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please enter a valid email.');
         }
 
         if ($this->hasNewPassword()) {
-            if (Mage::helper('core/string')->strlen($this->getNewPassword()) < self::MIN_PASSWORD_LENGTH) {
-                $errors[] = Mage::helper('adminhtml')->__('Password must be at least of %d characters.', self::MIN_PASSWORD_LENGTH);
+            if (Mage::helper('Mage_Core_Helper_String')->strlen($this->getNewPassword()) < self::MIN_PASSWORD_LENGTH) {
+                $errors[] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Password must be at least of %d characters.', self::MIN_PASSWORD_LENGTH);
             }
 
             if (!preg_match('/[a-z]/iu', $this->getNewPassword())
                 || !preg_match('/[0-9]/u', $this->getNewPassword())
             ) {
-                $errors[] = Mage::helper('adminhtml')->__('Password must include both numeric and alphabetic characters.');
+                $errors[] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Password must include both numeric and alphabetic characters.');
             }
 
             if ($this->hasPasswordConfirmation() && $this->getNewPassword() != $this->getPasswordConfirmation()) {
-                $errors[] = Mage::helper('adminhtml')->__('Password confirmation must be same as password.');
+                $errors[] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Password confirmation must be same as password.');
             }
         }
 
         if ($this->userExists()) {
-            $errors[] = Mage::helper('adminhtml')->__('A user with the same user name or email aleady exists.');
+            $errors[] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('A user with the same user name or email aleady exists.');
         }
 
         if (empty($errors)) {
@@ -553,7 +553,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
      */
     public function changeResetPasswordLinkToken($newResetPasswordLinkToken) {
         if (!is_string($newResetPasswordLinkToken) || empty($newResetPasswordLinkToken)) {
-            throw Mage::exception('Mage_Core', Mage::helper('adminhtml')->__('Invalid password reset token.'));
+            throw Mage::exception('Mage_Core', Mage::helper('Mage_Adminhtml_Helper_Data')->__('Invalid password reset token.'));
         }
         $this->setRpToken($newResetPasswordLinkToken);
         $currentDate = Varien_Date::now(true);
@@ -576,7 +576,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
             return true;
         }
 
-        $tokenExpirationPeriod = Mage::helper('admin')->getResetPasswordLinkExpirationPeriod();
+        $tokenExpirationPeriod = Mage::helper('Mage_Admin_Helper_Data')->getResetPasswordLinkExpirationPeriod();
 
         $currentDate = Varien_Date::now(true);
         $currentTimestamp = Varien_Date::toTimestamp($currentDate);

@@ -43,7 +43,7 @@ class Mage_Shipping_Model_Info extends Varien_Object
     public function loadByHash($hash)
     {
         /* @var $helper Mage_Shipping_Helper_Data */
-        $helper = Mage::helper('shipping');
+        $helper = Mage::helper('Mage_Shipping_Helper_Data');
         $data = $helper->decodeTrackingHash($hash);
         if (!empty($data)) {
             $this->setData($data['key'], $data['id']);

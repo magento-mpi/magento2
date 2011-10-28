@@ -66,7 +66,7 @@ class Mage_Downloadable_Adminhtml_Downloadable_Product_EditController extends Ma
      */
     protected function _processDownload($resource, $resourceType)
     {
-        $helper = Mage::helper('downloadable/download');
+        $helper = Mage::helper('Mage_Downloadable_Helper_Download');
         /* @var $helper Mage_Downloadable_Helper_Download */
 
         $helper->setResource($resource, $resourceType);
@@ -113,7 +113,7 @@ class Mage_Downloadable_Adminhtml_Downloadable_Product_EditController extends Ma
                 $resource = $link->getLinkUrl();
                 $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_URL;
             } elseif ($link->getLinkType() == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE) {
-                $resource = Mage::helper('downloadable/file')->getFilePath(
+                $resource = Mage::helper('Mage_Downloadable_Helper_File')->getFilePath(
                     Mage_Downloadable_Model_Link::getBasePath(), $link->getLinkFile()
                 );
                 $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_FILE;
@@ -121,7 +121,7 @@ class Mage_Downloadable_Adminhtml_Downloadable_Product_EditController extends Ma
             try {
                 $this->_processDownload($resource, $resourceType);
             } catch (Mage_Core_Exception $e) {
-                $this->_getCustomerSession()->addError(Mage::helper('downloadable')->__('An error occurred while getting the requested content.'));
+                $this->_getCustomerSession()->addError(Mage::helper('Mage_Downloadable_Helper_Data')->__('An error occurred while getting the requested content.'));
             }
         }
         exit(0);

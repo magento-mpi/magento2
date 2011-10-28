@@ -27,7 +27,7 @@
 
 <?php if ($_item = $this->getItem()): ?>
     <h5 class="title"><?php echo $_item->getName() ?></h5>
-    <div><strong><?php echo $this->helper('sales')->__('SKU') ?>:</strong> <?php echo implode('<br />', Mage::helper('catalog')->splitSku($this->htmlEscape($this->getSku()))); ?></div>
+    <div><strong><?php echo $this->helper('Mage_Sales_Helper_Data')->__('SKU') ?>:</strong> <?php echo implode('<br />', Mage::helper('Mage_Catalog_Helper_Data')->splitSku($this->htmlEscape($this->getSku()))); ?></div>
     <?php if ($this->getOrderOptions()): ?>
         <dl class="item-options">
         <?php foreach ($this->getOrderOptions() as $_option): ?>
@@ -36,7 +36,7 @@
             <?php if (isset($_option['custom_view']) && $_option['custom_view']): ?>
                 <?php echo $_option['value'];?>
             <?php else: ?>
-                <?php echo Mage::helper('core/string')->truncate($_option['value'], 55, '', $_remainder);?>
+                <?php echo Mage::helper('Mage_Core_Helper_String')->truncate($_option['value'], 55, '', $_remainder);?>
                 <?php if ($_remainder):?>
                     ... <span id="<?php echo $_id = 'id' . uniqid()?>"><?php echo $_remainder ?></span>
                     <script type="text/javascript">

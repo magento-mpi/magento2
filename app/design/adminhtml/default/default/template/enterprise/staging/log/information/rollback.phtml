@@ -31,14 +31,14 @@
     <div class="box-left">
         <div class="entry-edit">
             <div class="entry-edit-head">
-                <h4><?php echo Mage::helper('enterprise_staging')->__('Target') ?></h4>
+                <h4><?php echo Mage::helper('Enterprise_Staging_Helper_Data')->__('Target') ?></h4>
             </div>
             <div class="fieldset">
                 <div class="hor-scroll">
                     <table cellspacing="0" class="form-list">
                     <?php foreach ($this->getTargetWebsites() as $website): ?>
                     <tr>
-                        <td class="label"><label><?php echo Mage::helper('enterprise_staging')->__('Website') ?></label></td>
+                        <td class="label"><label><?php echo Mage::helper('Enterprise_Staging_Helper_Data')->__('Website') ?></label></td>
                         <td>
                             <?php echo $website->getName() ?>
                         </td>
@@ -52,7 +52,7 @@
     <div class="box-right">
         <div class="entry-edit">
             <div class="entry-edit-head">
-                <h4><?php echo Mage::helper('enterprise_staging')->__('Items') ?></h4>
+                <h4><?php echo Mage::helper('Enterprise_Staging_Helper_Data')->__('Items') ?></h4>
             </div>
             <div class="fieldset">
                 <div class="hor-scroll">

@@ -134,7 +134,7 @@ class Mage_Persistent_Helper_Data extends Mage_Core_Helper_Data
      */
     public function getPersistentName()
     {
-        return $this->__('(Not %s?)', $this->escapeHtml(Mage::helper('persistent/session')->getCustomer()->getName()));
+        return $this->__('(Not %s?)', $this->escapeHtml(Mage::helper('Mage_Persistent_Helper_Session')->getCustomer()->getName()));
     }
 
     /**
@@ -175,8 +175,8 @@ class Mage_Persistent_Helper_Data extends Mage_Core_Helper_Data
      */
     public function getCreateAccountUrl($url)
     {
-        if (Mage::helper('checkout')->isContextCheckout()) {
-            $url = Mage::helper('core/url')->addRequestParam($url, array('context' => 'checkout'));
+        if (Mage::helper('Mage_Checkout_Helper_Data')->isContextCheckout()) {
+            $url = Mage::helper('Mage_Core_Helper_Url')->addRequestParam($url, array('context' => 'checkout'));
         }
         return $url;
     }

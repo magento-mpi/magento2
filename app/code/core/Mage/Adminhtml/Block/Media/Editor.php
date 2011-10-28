@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->addData(array(
                     'id'      => $this->_getButtonId('rotatecw'),
-                    'label'   => Mage::helper('adminhtml')->__('Rotate CW'),
+                    'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Rotate CW'),
                     'onclick' => $this->getJsObjectName() . '.rotateCw()'
                 ))
         );
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->addData(array(
                     'id'      => $this->_getButtonId('rotateccw'),
-                    'label'   => Mage::helper('adminhtml')->__('Rotate CCW'),
+                    'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Rotate CCW'),
                     'onclick' => $this->getJsObjectName() . '.rotateCCw()'
                 ))
         );
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->addData(array(
                     'id'      => $this->_getButtonId('upload'),
-                    'label'   => Mage::helper('adminhtml')->__('Resize'),
+                    'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Resize'),
                     'onclick' => $this->getJsObjectName() . '.resize()'
                 ))
         );
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->addData(array(
                     'id'      => $this->_getButtonId('image'),
-                    'label'   => Mage::helper('adminhtml')->__('Get Image Base64'),
+                    'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Get Image Base64'),
                     'onclick' => $this->getJsObjectName() . '.getImage()'
                 ))
         );
@@ -132,7 +132,7 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
      */
     public function getConfigJson()
     {
-        return Mage::helper('core')->jsonEncode($this->getConfig()->getData());
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getConfig()->getData());
     }
 
     /**

@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
             $this->_addButton(
                 'close',
                 array(
-                    'label'     => Mage::helper('catalog')->__('Close Window'),
+                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Close Window'),
                     'class'     => 'cancel',
                     'onclick'   => 'window.close()',
                     'level'     => -1
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
             $this->_addButton(
                 'save_and_edit_button',
                 array(
-                    'label'     => Mage::helper('catalog')->__('Save and Continue Edit'),
+                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save and Continue Edit'),
                     'onclick'   => 'saveAndContinueEdit()',
                     'class'     => 'save'
                 ),
@@ -65,13 +65,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
             );
         }
 
-        $this->_updateButton('save', 'label', Mage::helper('catalog')->__('Save Attribute'));
+        $this->_updateButton('save', 'label', Mage::helper('Mage_Catalog_Helper_Data')->__('Save Attribute'));
         $this->_updateButton('save', 'onclick', 'saveAttribute()');
 
         if (! Mage::registry('entity_attribute')->getIsUserDefined()) {
             $this->_removeButton('delete');
         } else {
-            $this->_updateButton('delete', 'label', Mage::helper('catalog')->__('Delete Attribute'));
+            $this->_updateButton('delete', 'label', Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Attribute'));
         }
     }
 
@@ -82,10 +82,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
             if (is_array($frontendLabel)) {
                 $frontendLabel = $frontendLabel[0];
             }
-            return Mage::helper('catalog')->__('Edit Product Attribute "%s"', $this->htmlEscape($frontendLabel));
+            return Mage::helper('Mage_Catalog_Helper_Data')->__('Edit Product Attribute "%s"', $this->htmlEscape($frontendLabel));
         }
         else {
-            return Mage::helper('catalog')->__('New Product Attribute');
+            return Mage::helper('Mage_Catalog_Helper_Data')->__('New Product Attribute');
         }
     }
 

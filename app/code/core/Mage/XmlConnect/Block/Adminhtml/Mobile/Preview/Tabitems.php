@@ -40,7 +40,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems extends Mage_Admin
     {
         parent::__construct();
 
-        $deviceType = Mage::helper('xmlconnect')->getDeviceType();
+        $deviceType = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceType();
         $this->setTemplate('xmlconnect/edit/tab/design/preview/tab_items_' . $deviceType . '.phtml');
     }
 
@@ -52,7 +52,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems extends Mage_Admin
      */
     public function setActiveTab($tab)
     {
-        Mage::helper('xmlconnect')->getPreviewModel()->setActiveTab($tab);
+        Mage::helper('Mage_XmlConnect_Helper_Data')->getPreviewModel()->setActiveTab($tab);
         return $this;
     }
 }

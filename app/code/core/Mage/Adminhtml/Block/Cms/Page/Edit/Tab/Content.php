@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
 
         $form->setHtmlIdPrefix('page_');
 
-        $fieldset = $form->addFieldset('content_fieldset', array('legend'=>Mage::helper('cms')->__('Content'),'class'=>'fieldset-wide'));
+        $fieldset = $form->addFieldset('content_fieldset', array('legend'=>Mage::helper('Mage_Cms_Helper_Data')->__('Content'),'class'=>'fieldset-wide'));
 
         $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(
             array('tab_id' => $this->getTabId())
@@ -74,8 +74,8 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
 
         $fieldset->addField('content_heading', 'text', array(
             'name'      => 'content_heading',
-            'label'     => Mage::helper('cms')->__('Content Heading'),
-            'title'     => Mage::helper('cms')->__('Content Heading'),
+            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Content Heading'),
+            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Content Heading'),
             'disabled'  => $isElementDisabled
         ));
 
@@ -107,7 +107,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
      */
     public function getTabLabel()
     {
-        return Mage::helper('cms')->__('Content');
+        return Mage::helper('Mage_Cms_Helper_Data')->__('Content');
     }
 
     /**
@@ -117,7 +117,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
      */
     public function getTabTitle()
     {
-        return Mage::helper('cms')->__('Content');
+        return Mage::helper('Mage_Cms_Helper_Data')->__('Content');
     }
 
     /**

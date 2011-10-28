@@ -92,7 +92,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $this->_setActiveMenu('system/config');
         $this->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));
 
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('System'), Mage::helper('adminhtml')->__('System'),
+        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'),
             $this->getUrl('*/system'));
 
         $this->getLayout()->getBlock('left')
@@ -144,7 +144,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
         try {
             if (!$this->_isSectionAllowed($this->getRequest()->getParam('section'))) {
-                throw new Exception(Mage::helper('adminhtml')->__('This section is not allowed.'));
+                throw new Exception(Mage::helper('Mage_Adminhtml_Helper_Data')->__('This section is not allowed.'));
             }
 
             // custom save logic
@@ -167,7 +167,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             Mage::dispatchEvent("admin_system_config_changed_section_{$section}",
                 array('website' => $website, 'store' => $store)
             );
-            $session->addSuccess(Mage::helper('adminhtml')->__('The configuration has been saved.'));
+            $session->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The configuration has been saved.'));
         }
         catch (Mage_Core_Exception $e) {
             foreach(explode("\n", $e->getMessage()) as $message) {
@@ -176,7 +176,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         }
         catch (Exception $e) {
             $session->addException($e,
-                Mage::helper('adminhtml')->__('An error occurred while saving this configuration:') . ' '
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while saving this configuration:') . ' '
                 . $e->getMessage());
         }
 

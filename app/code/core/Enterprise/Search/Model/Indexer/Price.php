@@ -42,9 +42,9 @@ class Enterprise_Search_Model_Indexer_Price
      */
     public function updatePriceIndexData()
     {
-        $helper = Mage::helper('enterprise_search');
+        $helper = Mage::helper('Enterprise_Search_Helper_Data');
         if ($helper->isThirdPartSearchEngine() && $helper->isActiveEngine()) {
-            Mage::getResourceSingleton('enterprise_search/index')
+            Mage::getResourceSingleton('Enterprise_Search_Model_Resource_Index')
                 ->updatePriceIndexData();
         }
 

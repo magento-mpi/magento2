@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if (Mage::helper('catalog')->isModuleEnabled('Mage_Cms')) {
+        if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_Cms')) {
             if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
                 $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
             }
@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
 
             $fieldset = $form->addFieldset('group_fields'.$group->getId(),
                 array(
-                    'legend'=>Mage::helper('catalog')->__($group->getAttributeGroupName()),
+                    'legend'=>Mage::helper('Mage_Catalog_Helper_Data')->__($group->getAttributeGroupName()),
                     'class'=>'fieldset-wide',
             ));
 

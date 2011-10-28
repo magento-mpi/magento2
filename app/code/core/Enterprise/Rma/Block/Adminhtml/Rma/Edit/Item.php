@@ -59,20 +59,20 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
             ->initDefaultValues();
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>Mage::helper('enterprise_rma')->__('RMA Item Details'))
+            array('legend'=>Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA Item Details'))
         );
 
         $fieldset->setProductName($item->getProductAdminName());
         $okButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('enterprise_rma')->__('OK'),
+                'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('OK'),
                 'class'   => 'ok_button',
             ));
         $fieldset->setOkButton($okButton->toHtml());
 
         $cancelButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('enterprise_rma')->__('Cancel'),
+                'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Cancel'),
                 'class'   => 'cancel_button',
             ));
         $fieldset->setCancelButton($cancelButton->toHtml());
@@ -134,7 +134,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
         if ($this->getProductId()) {
             $orderItem = Mage::getModel('sales/order_item')->load($this->getProductId());
             if ($orderItem && $orderItem->getId()) {
-                $item->setProductAdminName(Mage::helper('enterprise_rma')->getAdminProductName($orderItem));
+                $item->setProductAdminName(Mage::helper('Enterprise_Rma_Helper_Data')->getAdminProductName($orderItem));
             }
         }
     }

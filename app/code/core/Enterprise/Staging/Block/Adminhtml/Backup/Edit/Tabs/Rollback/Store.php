@@ -114,7 +114,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback_Store extends
         if (!$stores) {
             return '{}';
         } else {
-            return Mage::helper('core')->jsonEncode($stores);
+            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($stores);
         }
     }
 }

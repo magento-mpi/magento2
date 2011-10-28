@@ -31,10 +31,10 @@
             <groups>
                 <options>
                     <fields>
-                        <shopping_cart translate="label" module="persistent">
+                        <shopping_cart translate="label" module="Mage_Persistent">
                             <backend_model>enterprise_persistent/adminhtml_system_config_cart</backend_model>
                         </shopping_cart>
-                        <wishlist translate="label" module="enterprise_persistent">
+                        <wishlist translate="label" module="Enterprise_Persistent">
                             <label>Persist Wishlist</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -45,7 +45,7 @@
                             <show_in_store>0</show_in_store>
                         </wishlist>
 
-                        <recently_ordered translate="label" module="enterprise_persistent">
+                        <recently_ordered translate="label" module="Enterprise_Persistent">
                             <label>Persist Recently Ordered Items</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -56,7 +56,7 @@
                             <show_in_store>0</show_in_store>
                         </recently_ordered>
 
-                        <compare_current translate="label" module="enterprise_persistent">
+                        <compare_current translate="label" module="Enterprise_Persistent">
                             <label>Persist Currently Compared Products</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -67,7 +67,7 @@
                             <show_in_store>0</show_in_store>
                         </compare_current>
 
-                        <compare_history translate="label" module="enterprise_persistent">
+                        <compare_history translate="label" module="Enterprise_Persistent">
                             <label>Persist Comparison History</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -78,7 +78,7 @@
                             <show_in_store>0</show_in_store>
                         </compare_history>
 
-                        <recently_viewed translate="label" module="enterprise_persistent">
+                        <recently_viewed translate="label" module="Enterprise_Persistent">
                             <label>Persist Recently Viewed Products</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -89,7 +89,7 @@
                             <show_in_store>0</show_in_store>
                         </recently_viewed>
 
-                        <customer translate="label" module="enterprise_persistent">
+                        <customer translate="label" module="Enterprise_Persistent">
                             <label>Persist Customer Group Membership and Segmentation</label>
                             <frontend_type>select</frontend_type>
                             <frontend_model>enterprise_persistent/adminhtml_system_config_customer</frontend_model>

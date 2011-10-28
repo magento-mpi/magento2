@@ -53,7 +53,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
                     Mage::getModel('enterprise_customersegment/segment_condition_uptodate')->getNewChildSelectOptions(),
                     Mage::getModel('enterprise_customersegment/segment_condition_daterange')->getNewChildSelectOptions(),
                 ),
-                'label' => Mage::helper('enterprise_customersegment')->__('Date Ranges')
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Date Ranges')
             ),
         ));
     }
@@ -66,8 +66,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'total'   => Mage::helper('enterprise_customersegment')->__('Total'),
-            'average' => Mage::helper('enterprise_customersegment')->__('Average'),
+            'total'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Total'),
+            'average' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Average'),
         ));
         return $this;
     }

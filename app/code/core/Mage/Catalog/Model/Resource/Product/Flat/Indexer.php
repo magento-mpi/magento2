@@ -140,7 +140,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
      */
     public function getFlatHelper()
     {
-        return Mage::helper('catalog/product_flat');
+        return Mage::helper('Mage_Catalog_Helper_Product_Flat');
     }
 
     /**
@@ -271,7 +271,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             $attribute = Mage::getModel('catalog/resource_eav_attribute')
                 ->loadByCode($this->getEntityTypeId(), $attributeCode);
             if (!$attribute->getId()) {
-                Mage::throwException(Mage::helper('catalog')->__('Invalid attribute %s', $attributeCode));
+                Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid attribute %s', $attributeCode));
             }
             $entity = Mage::getSingleton('eav/config')
                 ->getEntityType($this->getEntityType())
@@ -408,7 +408,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
     public function getFlatColumns()
     {
         if ($this->_columns === null) {
-            if (Mage::helper('core')->useDbCompatibleMode()) {
+            if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
                 $this->_columns = $this->_getFlatColumnsOldDefinition();
             } else {
                 $this->_columns = $this->_getFlatColumnsDdlDefinition();
@@ -613,7 +613,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
 
         // Extract columns we need to have in flat table
         $columns = $this->getFlatColumns();
-        if (Mage::helper('core')->useDbCompatibleMode()) {
+        if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
              /* Convert old format of flat columns to new MMDB format that uses DDL types and definitions */
             foreach ($columns as $key => $column) {
                 $columns[$key] = Mage::getResourceHelper('core')->convertOldColumnDefinition($column);
@@ -625,7 +625,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
 
         $maxIndex = Mage::getConfig()->getNode(self::XML_NODE_MAX_INDEX_COUNT);
         if (count($indexesNeed) > $maxIndex) {
-            Mage::throwException(Mage::helper('catalog')->__("The Flat Catalog module has a limit of %2\$d filterable and/or sortable attributes. Currently there are %1\$d of them. Please reduce the number of filterable/sortable attributes in order to use this module", count($indexesNeed), $maxIndex));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__("The Flat Catalog module has a limit of %2\$d filterable and/or sortable attributes. Currently there are %1\$d of them. Please reduce the number of filterable/sortable attributes in order to use this module", count($indexesNeed), $maxIndex));
         }
 
         // Process indexes to create names for them in MMDB-style and reformat to common index definition

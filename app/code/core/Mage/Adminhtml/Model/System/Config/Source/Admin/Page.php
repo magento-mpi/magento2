@@ -154,7 +154,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Admin_Page
 
     protected function _getHelperValue(Varien_Simplexml_Element $child)
     {
-        $helperName         = 'adminhtml';
+        $helperName         = 'Mage_Adminhtml_Helper_Data';
         $titleNodeName      = 'title';
         $childAttributes    = $child->attributes();
         if (isset($childAttributes['module'])) {

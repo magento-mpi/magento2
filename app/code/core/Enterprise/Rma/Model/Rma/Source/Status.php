@@ -59,18 +59,18 @@ class Enterprise_Rma_Model_Rma_Source_Status extends Enterprise_Rma_Model_Rma_So
     public function getItemLabel($state)
     {
         switch ($state) {
-            case self::STATE_PENDING:            return Mage::helper('enterprise_rma')->__('Pending');
-            case self::STATE_AUTHORIZED:         return Mage::helper('enterprise_rma')->__('Authorized');
-            case self::STATE_PARTIAL_AUTHORIZED: return Mage::helper('enterprise_rma')->__('Partially Authorized');
-            case self::STATE_RECEIVED:           return Mage::helper('enterprise_rma')->__('Return Received');
-            case self::STATE_RECEIVED_ON_ITEM:   return Mage::helper('enterprise_rma')->__('Return Partially Received');
-            case self::STATE_APPROVED:           return Mage::helper('enterprise_rma')->__('Approved');
-            case self::STATE_APPROVED_ON_ITEM:   return Mage::helper('enterprise_rma')->__('Partially Approved');
-            case self::STATE_REJECTED:           return Mage::helper('enterprise_rma')->__('Rejected');
-            case self::STATE_REJECTED_ON_ITEM:   return Mage::helper('enterprise_rma')->__('Partially Rejected');
-            case self::STATE_DENIED:             return Mage::helper('enterprise_rma')->__('Denied');
-            case self::STATE_CLOSED:             return Mage::helper('enterprise_rma')->__('Closed');
-            case self::STATE_PROCESSED_CLOSED:   return Mage::helper('enterprise_rma')->__('Processed and Closed');
+            case self::STATE_PENDING:            return Mage::helper('Enterprise_Rma_Helper_Data')->__('Pending');
+            case self::STATE_AUTHORIZED:         return Mage::helper('Enterprise_Rma_Helper_Data')->__('Authorized');
+            case self::STATE_PARTIAL_AUTHORIZED: return Mage::helper('Enterprise_Rma_Helper_Data')->__('Partially Authorized');
+            case self::STATE_RECEIVED:           return Mage::helper('Enterprise_Rma_Helper_Data')->__('Return Received');
+            case self::STATE_RECEIVED_ON_ITEM:   return Mage::helper('Enterprise_Rma_Helper_Data')->__('Return Partially Received');
+            case self::STATE_APPROVED:           return Mage::helper('Enterprise_Rma_Helper_Data')->__('Approved');
+            case self::STATE_APPROVED_ON_ITEM:   return Mage::helper('Enterprise_Rma_Helper_Data')->__('Partially Approved');
+            case self::STATE_REJECTED:           return Mage::helper('Enterprise_Rma_Helper_Data')->__('Rejected');
+            case self::STATE_REJECTED_ON_ITEM:   return Mage::helper('Enterprise_Rma_Helper_Data')->__('Partially Rejected');
+            case self::STATE_DENIED:             return Mage::helper('Enterprise_Rma_Helper_Data')->__('Denied');
+            case self::STATE_CLOSED:             return Mage::helper('Enterprise_Rma_Helper_Data')->__('Closed');
+            case self::STATE_PROCESSED_CLOSED:   return Mage::helper('Enterprise_Rma_Helper_Data')->__('Processed and Closed');
             default: return $state;
         }
     }
@@ -94,7 +94,7 @@ class Enterprise_Rma_Model_Rma_Source_Status extends Enterprise_Rma_Model_Rma_So
     public function getStatusByItems($itemStatusArray)
     {
         if (!is_array($itemStatusArray) || empty($itemStatusArray)) {
-            Mage::throwException(Mage::helper('enterprise_rma')->__('Wrong RMA item status.'));
+            Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Wrong RMA item status.'));
         }
 
         $itemStatusArray = array_unique($itemStatusArray);
@@ -103,7 +103,7 @@ class Enterprise_Rma_Model_Rma_Source_Status extends Enterprise_Rma_Model_Rma_So
 
         foreach ($itemStatusArray as $status) {
             if (!$itemStatusModel->checkStatus($status)) {
-                Mage::throwException(Mage::helper('enterprise_rma')->__('Wrong RMA item status.'));
+                Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Wrong RMA item status.'));
             }
         }
 

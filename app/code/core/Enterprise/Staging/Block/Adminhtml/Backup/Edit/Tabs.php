@@ -36,7 +36,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs extends Mage_Adminhtml
         parent::__construct();
         $this->setId('enterprise_staging_backup_tabs');
         $this->setDestElementId('enterprise_staging_backup_form');
-        $this->setTitle(Mage::helper('enterprise_staging')->__('Websites Backup Information'));
+        $this->setTitle(Mage::helper('Enterprise_Staging_Helper_Data')->__('Websites Backup Information'));
     }
 
     /**
@@ -47,14 +47,14 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs extends Mage_Adminhtml
     protected function _prepareLayout()
     {
         $this->addTab('backup_general_info', array(
-            'label'     => Mage::helper('enterprise_staging')->__('Backup General Info'),
+            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Backup General Info'),
             'content'   => $this->getLayout()
                 ->createBlock('enterprise_staging/adminhtml_backup_edit_tabs_general')
                 ->toHtml()
         ));
 
         $this->addTab('rollback', array(
-            'label'     => Mage::helper('enterprise_staging')->__('Rollback'),
+            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Rollback'),
             'content'   => $this->getLayout()
                 ->createBlock('enterprise_staging/adminhtml_backup_edit_tabs_rollback')
                 ->toHtml()

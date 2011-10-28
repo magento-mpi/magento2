@@ -47,9 +47,9 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
         $this->loadLayout();
         $this->_setActiveMenu('system');
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('System'), Mage::helper('adminhtml')->__('System'));
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Tools'), Mage::helper('adminhtml')->__('Tools'));
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Backups'), Mage::helper('adminhtml')->__('Backup'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Tools'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Tools'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Backups'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Backup'));
 
         $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Backup', 'backup'));
 
@@ -79,10 +79,10 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
             Mage::register('backup_model', $backup);
 
             $backupDb->createBackup($backup);
-            $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__('The backup has been created.'));
+            $this->_getSession()->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The backup has been created.'));
         }
         catch (Exception  $e) {
-            $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('An error occurred while creating the backup.'));
+            $this->_getSession()->addException($e, Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while creating the backup.'));
         }
         $this->_redirect('*/*');
     }
@@ -126,7 +126,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
             Mage::register('backup_model', $backup);
 
-            $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__('Backup record was deleted.'));
+            $this->_getSession()->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Backup record was deleted.'));
         }
         catch (Exception $e) {
                 // Nothing

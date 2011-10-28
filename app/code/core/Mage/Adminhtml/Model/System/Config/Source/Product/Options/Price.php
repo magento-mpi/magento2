@@ -36,8 +36,8 @@ class Mage_Adminhtml_Model_System_Config_Source_Product_Options_Price
     public function toOptionArray()
     {
         return array(
-            array('value' => 'fixed', 'label' => Mage::helper('adminhtml')->__('Fixed')),
-            array('value' => 'percent', 'label' => Mage::helper('adminhtml')->__('Percent'))
+            array('value' => 'fixed', 'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Fixed')),
+            array('value' => 'percent', 'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Percent'))
         );
     }
 }

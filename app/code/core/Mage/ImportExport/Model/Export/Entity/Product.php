@@ -184,7 +184,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             }
             if (! $model instanceof Mage_ImportExport_Model_Export_Entity_Product_Type_Abstract) {
                 Mage::throwException(
-                    Mage::helper('importexport')->__('Entity type model must be an instance of Mage_ImportExport_Model_Export_Entity_Product_Type_Abstract')
+                    Mage::helper('Mage_ImportExport_Helper_Data')->__('Entity type model must be an instance of Mage_ImportExport_Model_Export_Entity_Product_Type_Abstract')
                 );
             }
             if ($model->isSuitable()) {
@@ -196,7 +196,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             }
         }
         if (!$this->_productTypeModels) {
-            Mage::throwException(Mage::helper('importexport')->__('There are no product types available for export'));
+            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('There are no product types available for export'));
         }
         $this->_disabledAttrs = array_unique($this->_disabledAttrs);
 

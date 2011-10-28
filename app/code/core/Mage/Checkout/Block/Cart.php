@@ -66,7 +66,7 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
         }
 
         if ($products) {
-            $products = Mage::getResourceSingleton('catalog/url')
+            $products = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Url')
                 ->getRewriteByProductStore($products);
             foreach ($this->getItems() as $item) {
                 $product    = $item->getProduct();
@@ -134,7 +134,7 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
 
     public function getIsVirtual()
     {
-        return $this->helper('checkout/cart')->getIsVirtualQuote();
+        return $this->helper('Mage_Checkout_Helper_Cart')->getIsVirtualQuote();
     }
 
     /**
@@ -161,7 +161,7 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
     {
         $block = $this->getLayout()->getBlock($name);
         if (!$block) {
-            Mage::throwException(Mage::helper('checkout')->__('Invalid method: %s', $name));
+            Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('Invalid method: %s', $name));
         }
         return $block->toHtml();
     }

@@ -43,8 +43,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Update_Result extends Mage_
     public function _toHtml()
     {
         $updateResult = Mage::registry('composite_update_result');
-        $resultJson = Mage::helper('core')->jsonEncode($updateResult);
+        $resultJson = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($updateResult);
         $jsVarname = $updateResult->getJsVarName();
-        return Mage::helper('adminhtml/js')->getScript(sprintf('var %s = %s', $jsVarname, $resultJson));
+        return Mage::helper('Mage_Adminhtml_Helper_Js')->getScript(sprintf('var %s = %s', $jsVarname, $resultJson));
     }
 }

@@ -51,7 +51,7 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
      */
     public function getAddUrl($product, $additional = array())
     {
-        $continueUrl    = Mage::helper('core')->urlEncode($this->getCurrentUrl());
+        $continueUrl    = Mage::helper('Mage_Core_Helper_Data')->urlEncode($this->getCurrentUrl());
         $urlParamName   = Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
 
         $routeParams = array(

@@ -263,7 +263,7 @@ class Mage_Paypal_Model_Express_Checkout
         $this->_quote->collectTotals();
 
         if (!$this->_quote->getGrandTotal() && !$this->_quote->hasNominalItems()) {
-            Mage::throwException(Mage::helper('paypal')->__('PayPal does not support processing orders with zero amount. To complete your purchase, proceed to the standard checkout process.'));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('PayPal does not support processing orders with zero amount. To complete your purchase, proceed to the standard checkout process.'));
         }
 
         $this->_quote->reserveOrderId()->save();
@@ -424,7 +424,7 @@ class Mage_Paypal_Model_Express_Checkout
     {
         $payment = $this->_quote->getPayment();
         if (!$payment || !$payment->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_PAYER_ID)) {
-            Mage::throwException(Mage::helper('paypal')->__('Payer is not identified.'));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Payer is not identified.'));
         }
         $this->_quote->setMayEditShippingAddress(
             1 != $this->_quote->getPayment()->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN)
@@ -674,8 +674,8 @@ class Mage_Paypal_Model_Express_Checkout
                     continue;
                 }
                 $isDefault = $address->getShippingMethod() === $rate->getCode();
-                $amountExclTax = Mage::helper('tax')->getShippingPrice($amount, false, $address);
-                $amountInclTax = Mage::helper('tax')->getShippingPrice($amount, true, $address);
+                $amountExclTax = Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice($amount, false, $address);
+                $amountInclTax = Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice($amount, true, $address);
 
                 $options[$i] = new Varien_Object(array(
                     'is_default' => $isDefault,
@@ -703,7 +703,7 @@ class Mage_Paypal_Model_Express_Checkout
         if ($mayReturnEmpty && is_null($userSelectedOption)) {
             $options[] = new Varien_Object(array(
                 'is_default' => true,
-                'name'       => Mage::helper('paypal')->__('N/A'),
+                'name'       => Mage::helper('Mage_Paypal_Helper_Data')->__('N/A'),
                 'code'       => 'no_rate',
                 'amount'     => 0.00,
             ));
@@ -826,7 +826,7 @@ class Mage_Paypal_Model_Express_Checkout
             $billing->setCustomerGender($quote->getCustomerGender());
         }
 
-        Mage::helper('core')->copyFieldset('checkout_onepage_billing', 'to_customer', $billing, $customer);
+        Mage::helper('Mage_Core_Helper_Data')->copyFieldset('checkout_onepage_billing', 'to_customer', $billing, $customer);
         $customer->setEmail($quote->getCustomerEmail());
         $customer->setPrefix($quote->getCustomerPrefix());
         $customer->setFirstname($quote->getCustomerFirstname());
@@ -888,9 +888,9 @@ class Mage_Paypal_Model_Express_Checkout
         $customer = $this->_quote->getCustomer();
         if ($customer->isConfirmationRequired()) {
             $customer->sendNewAccountEmail('confirmation');
-            $url = Mage::helper('customer')->getEmailConfirmationUrl($customer->getEmail());
+            $url = Mage::helper('Mage_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail());
             $this->getCustomerSession()->addSuccess(
-                Mage::helper('customer')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.', $url)
+                Mage::helper('Mage_Customer_Helper_Data')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.', $url)
             );
         } else {
             $customer->sendNewAccountEmail();

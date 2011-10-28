@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Adminhtml_B
                 $groupId    = 0;
                 $storeId    = 0;
 
-                $sale->setStoreName(Mage::helper('customer')->__('Deleted Stores'));
+                $sale->setStoreName(Mage::helper('Mage_Customer_Helper_Data')->__('Deleted Stores'));
             }
 
             $this->_groupedCollection[$websiteId][$groupId][$storeId] = $sale;

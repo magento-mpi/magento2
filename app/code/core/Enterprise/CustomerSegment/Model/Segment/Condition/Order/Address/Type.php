@@ -72,7 +72,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Type
     {
         return array(
             'value' => $this->getType(),
-            'label' => Mage::helper('enterprise_customersegment')->__('Address Type')
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Address Type')
         );
     }
 
@@ -84,8 +84,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Type
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            'shipping' => Mage::helper('enterprise_customersegment')->__('Shipping'),
-            'billing'  => Mage::helper('enterprise_customersegment')->__('Billing'),
+            'shipping' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shipping'),
+            'billing'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Billing'),
         ));
         return $this;
     }
@@ -108,7 +108,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Type
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('Order Address %s a %s Address',
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Order Address %s a %s Address',
                 $this->getOperatorElementHtml(), $this->getValueElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }

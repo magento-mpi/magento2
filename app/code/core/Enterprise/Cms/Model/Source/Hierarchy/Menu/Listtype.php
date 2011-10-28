@@ -41,8 +41,8 @@ class Enterprise_Cms_Model_Source_Hierarchy_Menu_Listtype
     public function toOptionArray()
     {
         return array(
-            '0'  => Mage::helper('enterprise_cms')->__('Unordered'),
-            '1' => Mage::helper('enterprise_cms')->__('Ordered'),
+            '0'  => Mage::helper('Enterprise_Cms_Helper_Data')->__('Unordered'),
+            '1' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Ordered'),
         );
     }
 }

@@ -41,7 +41,7 @@ abstract class Mage_Catalog_Block_Product_Compare_Abstract extends Mage_Catalog_
      */
     protected function _getHelper()
     {
-        return Mage::helper('catalog/product_compare');
+        return Mage::helper('Mage_Catalog_Helper_Product_Compare');
     }
 
     /**

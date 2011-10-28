@@ -149,7 +149,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                 } elseif ($orderItem->getParentItem() && isset($backToStock[$parentId]) && $backToStock[$parentId]) {
                     $creditmemoItem->setBackToStock(true);
                 } elseif (empty($savedData)) {
-                    $creditmemoItem->setBackToStock(Mage::helper('cataloginventory')->isAutoReturnEnabled());
+                    $creditmemoItem->setBackToStock(Mage::helper('Mage_CatalogInventory_Helper_Data')->isAutoReturnEnabled());
                 } else {
                     $creditmemoItem->setBackToStock(false);
                 }
@@ -252,13 +252,13 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         } catch (Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $this->__('Cannot update the item\'s quantity.')
             );
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -402,13 +402,13 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         } catch (Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $this->__('Cannot add new comment.')
             );
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }

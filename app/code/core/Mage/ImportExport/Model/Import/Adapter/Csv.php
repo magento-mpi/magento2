@@ -128,7 +128,7 @@ class Mage_ImportExport_Model_Import_Adapter_Csv extends Mage_ImportExport_Model
                     }
                 }
             }
-            throw new OutOfBoundsException(Mage::helper('importexport')->__('Invalid seek position'));
+            throw new OutOfBoundsException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Invalid seek position'));
         }
     }
 }

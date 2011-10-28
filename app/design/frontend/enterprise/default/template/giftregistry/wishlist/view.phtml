@@ -27,8 +27,8 @@
 <?php $entityValues = $this->getEntityValues() ?>
 <div class="my-wishlist">
     <div class="page-title title-buttons">
-        <?php if ($this->helper('wishlist')->isRssAllow() && $this->hasWishlistItems()): ?>
-            <a href="<?php echo $this->helper('wishlist')->getRssUrl(); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
+        <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isRssAllow() && $this->hasWishlistItems()): ?>
+            <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getRssUrl(); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
         <?php endif; ?>
         <h1><?php echo $this->__('My Wishlist') ?></h1>
     </div>
@@ -67,7 +67,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <a class="product-image" href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->htmlEscape($product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(113, 113); ?>" width="113" height="113" alt="<?php echo $this->htmlEscape($product->getName()) ?>" /></a>
+                                <a class="product-image" href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->htmlEscape($product->getName()) ?>"><img src="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($product, 'small_image')->resize(113, 113); ?>" width="113" height="113" alt="<?php echo $this->htmlEscape($product->getName()) ?>" /></a>
                                 <h2 class="product-name"><a href="<?php echo $this->getProductUrl($item) ?>"><?php echo $this->htmlEscape($product->getName()) ?></a></h2>
                             </td>
                             <td>
@@ -83,7 +83,7 @@
                                     <div class="input-box">
                                         <select id="giftregistry_entity_<?php echo $item->getId() ?>" name="entity" title="<?php echo $this->__('Gift Registry') ?>" >
                                             <?php foreach ($entityValues as $_entity):?>
-                                                <option value="<?php echo $_entity->getValue()?>" title="<?php echo $this->escapeHtml($_entity->getTitle())?>"><?php echo $this->escapeHtml($this->helper('core/string')->truncate($_entity->getTitle(), 40))?></option>
+                                                <option value="<?php echo $_entity->getValue()?>" title="<?php echo $this->escapeHtml($_entity->getTitle())?>"><?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_String')->truncate($_entity->getTitle(), 40))?></option>
                                             <?php endforeach;?>
                                         </select>
                                     </div>
@@ -159,10 +159,10 @@
     }
 
     function focusComment(obj) {
-        if( obj.value == '<?php echo $this->helper('wishlist')->defaultCommentString() ?>' ) {
+        if( obj.value == '<?php echo $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString() ?>' ) {
             obj.value = '';
         } else if( obj.value == '' ) {
-            obj.value = '<?php echo $this->helper('wishlist')->defaultCommentString() ?>';
+            obj.value = '<?php echo $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString() ?>';
         }
     }
 

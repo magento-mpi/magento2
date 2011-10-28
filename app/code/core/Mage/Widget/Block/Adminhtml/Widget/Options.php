@@ -87,7 +87,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Wi
         $mainFieldsetHtmlId = 'options_fieldset' . md5($this->getWidgetType());
         $this->setMainFieldsetHtmlId($mainFieldsetHtmlId);
         $fieldset = $this->getForm()->addFieldset($mainFieldsetHtmlId, array(
-            'legend'    => $this->helper('widget')->__('Widget Options'),
+            'legend'    => $this->helper('Mage_Widget_Helper_Data')->__('Widget Options'),
             'class'     => 'fieldset-wide',
         ));
         $this->setData('main_fieldset', $fieldset);
@@ -115,7 +115,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Wi
             return $this;
         }
         $module = $config->getModule();
-        $this->_translationHelper = Mage::helper($module ? $module : 'widget');
+        $this->_translationHelper = Mage::helper($module ? $module : 'Mage_Widget_Helper_Data');
         foreach ($config->getParameters() as $parameter) {
             $this->_addField($parameter);
         }

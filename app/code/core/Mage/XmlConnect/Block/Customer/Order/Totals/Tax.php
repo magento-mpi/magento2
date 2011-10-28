@@ -79,6 +79,6 @@ class Mage_XmlConnect_Block_Customer_Order_Totals_Tax extends Mage_Tax_Block_Sal
      */
     protected function _formatPrice($amount)
     {
-        return Mage::helper('xmlconnect/customer_order')->formatPrice($this, $amount);
+        return Mage::helper('Mage_XmlConnect_Helper_Customer_Order')->formatPrice($this, $amount);
     }
 }

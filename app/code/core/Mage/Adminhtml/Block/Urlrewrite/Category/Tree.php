@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
         }
 
         if ($asJson) {
-            return Mage::helper('core')->jsonEncode($result);
+            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
         }
 
         $this->_allowedCategoryIds = null;
@@ -147,6 +147,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
      */
     public function getLoadTreeUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/categoriesJson');
+        return Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('*/*/categoriesJson');
     }
 }

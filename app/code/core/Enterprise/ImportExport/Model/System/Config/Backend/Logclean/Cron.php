@@ -69,7 +69,7 @@ class Enterprise_ImportExport_Model_System_Config_Backend_Logclean_Cron extends 
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
         } catch (Exception $e) {
-            throw new Exception(Mage::helper('cron')->__('Unable to save the cron expression.'));
+            throw new Exception(Mage::helper('Mage_Cron_Helper_Data')->__('Unable to save the cron expression.'));
         }
     }
 

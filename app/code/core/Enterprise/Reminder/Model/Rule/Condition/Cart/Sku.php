@@ -45,7 +45,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('enterprise_reminder')->__('SKU'));
+            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('SKU'));
     }
 
     /**
@@ -56,7 +56,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Item SKU %s %s ',
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Item SKU %s %s ',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }

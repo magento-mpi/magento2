@@ -84,7 +84,7 @@ class Enterprise_SalesArchive_Model_Observer
 
         if ($object->getIsArchived()) {
             $object->setBackUrl(
-                Mage::helper('adminhtml')->getUrl('adminhtml/sales_archive/' . $archiveEntity . 's')
+                Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('adminhtml/sales_archive/' . $archiveEntity . 's')
             );
         } elseif ($object->getIsMoveable() !== false) {
             $object->setIsMoveable(

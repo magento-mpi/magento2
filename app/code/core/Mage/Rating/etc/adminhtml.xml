@@ -34,7 +34,7 @@
                         <children>
                             <reviews_ratings>
                                 <children>
-                                    <ratings translate="title" module="rating">
+                                    <ratings translate="title" module="Mage_Rating">
                                         <title>Manage Ratings</title>
                                     </ratings>
                                  </children>

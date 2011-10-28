@@ -60,17 +60,17 @@
         </resources>
         <template>
             <email>
-                <enterprise_importexport_import_failed translate="label" module="enterprise_importexport">
+                <enterprise_importexport_import_failed translate="label" module="Enterprise_ImportExport">
                     <label>Import Failed</label>
                     <file>enterprise/scheduled_import_failed.html</file>
                     <type>html</type>
                 </enterprise_importexport_import_failed>
-                <enterprise_importexport_export_failed translate="label" module="enterprise_importexport">
+                <enterprise_importexport_export_failed translate="label" module="Enterprise_ImportExport">
                     <label>Export Failed</label>
                     <file>enterprise/scheduled_export_failed.html</file>
                     <type>html</type>
                 </enterprise_importexport_export_failed>
-                <system_enterprise_import_export_log_error_email_template translate="label" module="enterprise_importexport">
+                <system_enterprise_import_export_log_error_email_template translate="label" module="Enterprise_ImportExport">
                     <label>File History Clean Failed</label>
                     <file>enterprise/scheduled_importexport_file_history_clean_failed.html</file>
                     <type>html</type>

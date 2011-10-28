@@ -77,8 +77,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         /**
          * Add breadcrumb item
          */
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Customers'), Mage::helper('adminhtml')->__('Customers'));
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Manage Customers'), Mage::helper('adminhtml')->__('Manage Customers'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Customers'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Customers'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Manage Customers'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Manage Customers'));
 
         $this->renderLayout();
     }
@@ -170,7 +170,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             try {
                 $customer->load($customer->getId());
                 $customer->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('The customer has been deleted.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The customer has been deleted.'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -325,7 +325,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 }
 
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('adminhtml')->__('The customer has been saved.')
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('The customer has been saved.')
                 );
                 Mage::dispatchEvent('adminhtml_customer_save_after', array(
                     'customer'  => $customer,
@@ -345,7 +345,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 $this->getResponse()->setRedirect($this->getUrl('*/customer/edit', array('id' => $customer->getId())));
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('adminhtml')->__('An error occurred while saving the customer.'));
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while saving the customer.'));
                 $this->_getSession()->setCustomerData($data);
                 $this->getResponse()->setRedirect($this->getUrl('*/customer/edit', array('id'=>$customer->getId())));
                 return;
@@ -599,7 +599,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             if ($checkCustomer->getId() && ($checkCustomer->getId() != $customer->getId())) {
                 $response->setError(1);
                 $this->_getSession()->addError(
-                    Mage::helper('adminhtml')->__('Customer with the same email already exists.')
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Customer with the same email already exists.')
                 );
             }
         }
@@ -644,7 +644,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $customersIds = $this->getRequest()->getParam('customer');
         if(!is_array($customersIds)) {
-             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select customer(s).'));
+             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please select customer(s).'));
 
         } else {
             try {
@@ -654,7 +654,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer->save();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('adminhtml')->__(
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__(
                         'Total of %d record(s) were updated.', count($customersIds)
                     )
                 );
@@ -669,7 +669,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $customersIds = $this->getRequest()->getParam('customer');
         if(!is_array($customersIds)) {
-             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select customer(s).'));
+             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please select customer(s).'));
         } else {
             try {
                 foreach ($customersIds as $customerId) {
@@ -678,7 +678,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer->save();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('adminhtml')->__(
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__(
                         'Total of %d record(s) were updated.', count($customersIds)
                     )
                 );
@@ -694,7 +694,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $customersIds = $this->getRequest()->getParam('customer');
         if(!is_array($customersIds)) {
-             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select customer(s).'));
+             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please select customer(s).'));
         } else {
             try {
                 $customer = Mage::getModel('customer/customer');
@@ -704,7 +704,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                         ->delete();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('adminhtml')->__(
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__(
                         'Total of %d record(s) were deleted.', count($customersIds)
                     )
                 );
@@ -720,7 +720,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $customersIds = $this->getRequest()->getParam('customer');
         if(!is_array($customersIds)) {
-             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select customer(s).'));
+             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please select customer(s).'));
         } else {
             try {
                 foreach ($customersIds as $customerId) {
@@ -729,7 +729,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer->save();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('adminhtml')->__(
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__(
                         'Total of %d record(s) were updated.', count($customersIds)
                     )
                 );
@@ -747,10 +747,10 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $plain  = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $file   = Mage::helper('core')->urlDecode($this->getRequest()->getParam('file'));
+            $file   = Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('file'));
         } else if ($this->getRequest()->getParam('image')) {
             // show plain image
-            $file   = Mage::helper('core')->urlDecode($this->getRequest()->getParam('image'));
+            $file   = Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
             return $this->norouteAction();
@@ -764,7 +764,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $path       = $ioFile->getCleanPath($path);
 
         if ((!$ioFile->fileExists($fileName) || strpos($fileName, $path) !== 0)
-            && !Mage::helper('core/file_storage')->processStorageFile(str_replace('/', DS, $fileName))
+            && !Mage::helper('Mage_Core_Helper_File_Storage')->processStorageFile(str_replace('/', DS, $fileName))
         ) {
             return $this->norouteAction();
         }

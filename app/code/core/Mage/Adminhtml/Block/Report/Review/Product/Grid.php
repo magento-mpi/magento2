@@ -56,46 +56,46 @@ class Mage_Adminhtml_Block_Report_Review_Product_Grid extends Mage_Adminhtml_Blo
     {
 
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('reports')->__('ID'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('ID'),
             'width'     =>'50px',
             'index'     =>'entity_id'
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('reports')->__('Product Name'),
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Product Name'),
             'index'     => 'name'
         ));
 
         $this->addColumn('review_cnt', array(
-            'header'    =>Mage::helper('reports')->__('Number of Reviews'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Number of Reviews'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'review_cnt'
         ));
 
         $this->addColumn('avg_rating', array(
-            'header'    =>Mage::helper('reports')->__('Avg. Rating'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Avg. Rating'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'avg_rating'
         ));
 
         $this->addColumn('avg_rating_approved', array(
-            'header'    =>Mage::helper('reports')->__('Avg. Approved Rating'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Avg. Approved Rating'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'avg_rating_approved'
         ));
 
         $this->addColumn('last_created', array(
-            'header'    =>Mage::helper('reports')->__('Last Review'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Last Review'),
             'width'     =>'150px',
             'index'     =>'last_created',
             'type'      =>'datetime'
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('reports')->__('Action'),
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Action'),
             'width'     => '100px',
             'align'     => 'center',
             'filter'    => false,
@@ -106,8 +106,8 @@ class Mage_Adminhtml_Block_Report_Review_Product_Grid extends Mage_Adminhtml_Blo
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportProductCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportProductExcel', Mage::helper('reports')->__('Excel XML'));
+        $this->addExportType('*/*/exportProductCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportProductExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

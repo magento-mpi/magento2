@@ -66,7 +66,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
          * Define general properties for each node
          */
         $fieldset   = $form->addFieldset('node_properties_fieldset', array(
-            'legend'    => Mage::helper('enterprise_cms')->__('Page Properties')
+            'legend'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Page Properties')
         ));
 
         $fieldset->addField('nodes_data', 'hidden', array(
@@ -87,7 +87,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
 
         $fieldset->addField('node_label', 'text', array(
             'name'      => 'label',
-            'label'     => Mage::helper('enterprise_cms')->__('Title'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Title'),
             'required'  => true,
             'onchange'   => 'hierarchyNodes.nodeChanged()',
             'tabindex'   => '10'
@@ -95,7 +95,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
 
         $fieldset->addField('node_identifier', 'text', array(
             'name'      => 'identifier',
-            'label'     => Mage::helper('enterprise_cms')->__('URL Key'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('URL Key'),
             'required'  => true,
             'class'     => 'validate-identifier',
             'onchange'   => 'hierarchyNodes.nodeChanged()',
@@ -103,17 +103,17 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         ));
 
         $fieldset->addField('node_label_text', 'note', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Title')
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Title')
         ));
 
         $fieldset->addField('node_identifier_text', 'note', array(
-            'label'     => Mage::helper('enterprise_cms')->__('URL Key')
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('URL Key')
         ));
 
         $fieldset->addField('node_preview', 'link', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Preview'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Preview'),
             'href'      => '#',
-            'value'     => Mage::helper('enterprise_cms')->__('No preview available'),
+            'value'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('No preview available'),
         ));
 
         $yesNoOptions = Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray();
@@ -121,15 +121,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         /**
          * Define field set with elements for root nodes
          */
-        if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) {
+        if (Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled()) {
             $fieldset   = $form->addFieldset('metadata_fieldset', array(
-                'legend'    => Mage::helper('enterprise_cms')->__('Render Metadata in HTML Head')
+                'legend'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Render Metadata in HTML Head')
             ));
 
 
             $fieldset->addField('meta_first_last', 'select', array(
-                'label'     => Mage::helper('enterprise_cms')->__('First'),
-                'title'     => Mage::helper('enterprise_cms')->__('First'),
+                'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('First'),
+                'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('First'),
                 'name'      => 'meta_first_last',
                 'values'   => $yesNoOptions,
                 'onchange'   => 'hierarchyNodes.nodeChanged()',
@@ -138,8 +138,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             ));
 
             $fieldset->addField('meta_next_previous', 'select', array(
-                'label'     => Mage::helper('enterprise_cms')->__('Next/Previous'),
-                'title'     => Mage::helper('enterprise_cms')->__('Next/Previous'),
+                'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Next/Previous'),
+                'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Next/Previous'),
                 'name'      => 'meta_next_previous',
                 'values'   => $yesNoOptions,
                 'onchange'   => 'hierarchyNodes.nodeChanged()',
@@ -148,8 +148,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             ));
 
             $fieldset->addField('meta_cs_enabled', 'select', array(
-                'label'     => Mage::helper('enterprise_cms')->__('Enable Chapter/Section'),
-                'title'     => Mage::helper('enterprise_cms')->__('Enable Chapter/Section'),
+                'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Enable Chapter/Section'),
+                'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Enable Chapter/Section'),
                 'name'      => 'meta_cs_enabled',
                 'values'    => $yesNoOptions,
                 'onchange'   => 'hierarchyNodes.nodeChanged()',
@@ -158,8 +158,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             ));
 
             $fieldset->addField('meta_chapter_section', 'select', array(
-                'label'     => Mage::helper('enterprise_cms')->__('Chapter/Section'),
-                'title'     => Mage::helper('enterprise_cms')->__('Chapter/Section'),
+                'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Chapter/Section'),
+                'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Chapter/Section'),
                 'name'      => 'meta_chapter_section',
                 'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_menu_chapter')->toOptionArray(),
                 'onchange'   => 'hierarchyNodes.nodeChanged()',
@@ -172,11 +172,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
          * Pagination options
          */
         $pagerFieldset   = $form->addFieldset('pager_fieldset', array(
-            'legend'    => Mage::helper('enterprise_cms')->__('Pagination Options for Nested Pages')
+            'legend'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Pagination Options for Nested Pages')
         ));
 
         $pagerFieldset->addField('pager_visibility', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Enable Pagination'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Enable Pagination'),
             'name'      => 'pager_visibility',
             'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_visibility')->toOptionArray(),
             'value'     => Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT,
@@ -185,18 +185,18 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         ));
         $pagerFieldset->addField('pager_frame', 'text', array(
             'name'      => 'pager_frame',
-            'label'     => Mage::helper('enterprise_cms')->__('Frame'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Frame'),
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_pager_frame',
-            'note'      => Mage::helper('enterprise_cms')->__('How many Links to display at once'),
+            'note'      => Mage::helper('Enterprise_Cms_Helper_Data')->__('How many Links to display at once'),
             'tabindex'  => '80'
         ));
         $pagerFieldset->addField('pager_jump', 'text', array(
             'name'      => 'pager_jump',
-            'label'     => Mage::helper('enterprise_cms')->__('Frame Skip'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Frame Skip'),
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_pager_jump',
-            'note'      => Mage::helper('enterprise_cms')->__('If the Current Frame Position does not cover Utmost Pages, will render Link to Current Position plus/minus this Value'),
+            'note'      => Mage::helper('Enterprise_Cms_Helper_Data')->__('If the Current Frame Position does not cover Utmost Pages, will render Link to Current Position plus/minus this Value'),
             'tabindex'  => '90'
         ));
 
@@ -204,11 +204,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
          * Context menu options
          */
         $menuFieldset   = $form->addFieldset('menu_fieldset', array(
-            'legend'    => Mage::helper('enterprise_cms')->__('Navigation Menu Options')
+            'legend'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Navigation Menu Options')
         ));
 
         $menuFieldset->addField('menu_excluded', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Exclude from Navigation Menu'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Exclude from Navigation Menu'),
             'name'      => 'menu_excluded',
             'values'    => $yesNoOptions,
             'onchange'   => "hierarchyNodes.nodeChanged()",
@@ -217,7 +217,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         ));
 
         $menuFieldset->addField('menu_visibility', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Enable Navigation Menu'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Enable Navigation Menu'),
             'name'      => 'menu_visibility',
             'values'    => $yesNoOptions,
             'onchange'   => "hierarchyNodes.metadataChanged('menu_visibility', 'menu_fieldset')",
@@ -226,7 +226,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         ));
 
         $menuFieldset->addField('menu_layout', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Menu Layout'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Menu Layout'),
             'name'      => 'menu_layout',
             'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_menu_layout')->toOptionArray(true),
             'onchange'   => "hierarchyNodes.nodeChanged()",
@@ -235,11 +235,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         ));
 
         $menuBriefOptions = array(
-            array('value' => 1, 'label' => Mage::helper('enterprise_cms')->__('Only Children')),
-            array('value' => 0, 'label' => Mage::helper('enterprise_cms')->__('Neighbours and Children')),
+            array('value' => 1, 'label' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Only Children')),
+            array('value' => 0, 'label' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Neighbours and Children')),
         );
         $menuFieldset->addField('menu_brief', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Menu Detalization'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Menu Detalization'),
             'name'      => 'menu_brief',
             'values'    => $menuBriefOptions,
             'onchange'   => "hierarchyNodes.nodeChanged()",
@@ -248,15 +248,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         ));
         $menuFieldset->addField('menu_levels_down', 'text', array(
             'name'      => 'menu_levels_down',
-            'label'     => Mage::helper('enterprise_cms')->__('Maximal Depth'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Maximal Depth'),
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_menu_levels_down',
-            'note'      => Mage::helper('enterprise_cms')->__('Node Levels to Include'),
+            'note'      => Mage::helper('Enterprise_Cms_Helper_Data')->__('Node Levels to Include'),
             'tabindex'  => '130'
         ));
         $menuFieldset->addField('menu_ordered', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('List Type'),
-            'title'     => Mage::helper('enterprise_cms')->__('List Type'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('List Type'),
+            'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('List Type'),
             'name'      => 'menu_ordered',
             'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_menu_listtype')->toOptionArray(),
             'onchange'  => 'hierarchyNodes.menuListTypeChanged()',
@@ -264,8 +264,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'tabindex'  => '140'
         ));
         $menuFieldset->addField('menu_list_type', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('List Style'),
-            'title'     => Mage::helper('enterprise_cms')->__('List Style'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('List Style'),
+            'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('List Style'),
             'name'      => 'menu_list_type',
             'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_menu_listmode')->toOptionArray(),
             'onchange'  => 'hierarchyNodes.nodeChanged()',
@@ -298,7 +298,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     {
         $addButtonData = array(
             'id'        => 'add_cms_pages',
-            'label'     => Mage::helper('enterprise_cms')->__('Add Selected Page(s) to Tree'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Add Selected Page(s) to Tree'),
             'onclick'   => 'hierarchyNodes.pageGridAddSelected()',
             'class'     => 'add' . (($this->isLockedByOther()) ? ' disabled' : ''),
             'disabled'  => $this->isLockedByOther()
@@ -317,21 +317,21 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         $buttons = array();
         $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'delete_node_button',
-            'label'     => Mage::helper('enterprise_cms')->__('Remove From Tree'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Remove From Tree'),
             'onclick'   => 'hierarchyNodes.deleteNodePage()',
             'class'     => 'delete' . (($this->isLockedByOther()) ? ' disabled' : ''),
             'disabled'  => $this->isLockedByOther()
         ))->toHtml();
         $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'cancel_node_button',
-            'label'     => Mage::helper('enterprise_cms')->__('Cancel'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Cancel'),
             'onclick'   => 'hierarchyNodes.cancelNodePage()',
             'class'     => 'delete' . (($this->isLockedByOther()) ? ' disabled' : ''),
             'disabled'  => $this->isLockedByOther()
         ))->toHtml();
         $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'save_node_button',
-            'label'     => Mage::helper('enterprise_cms')->__('Save'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save'),
             'onclick'   => 'hierarchyNodes.saveNodePage()',
             'class'     => 'save' . (($this->isLockedByOther()) ? ' disabled' : ''),
             'disabled'  => $this->isLockedByOther()
@@ -349,7 +349,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     {
         return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'new_node_button',
-            'label'     => Mage::helper('enterprise_cms')->__('Add Node...'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Add Node...'),
             'onclick'   => 'hierarchyNodes.newNodePage()',
             'class'     => 'add' . (($this->isLockedByOther()) ? ' disabled' : ''),
             'disabled'  => $this->isLockedByOther()
@@ -369,7 +369,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         $nodeModel = Mage::registry('current_hierarchy_node');
         // restore data is exists
         try{
-            $data = Mage::helper('core')->jsonDecode($nodeModel->getNodesData());
+            $data = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($nodeModel->getNodesData());
         }catch (Zend_Json_Exception $e){
             $data = null;
         }
@@ -382,7 +382,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                     'identifier'            => $v['identifier'],
                     'page_id'               => empty($v['page_id']) ? null : $v['page_id']
                 );
-                $nodes[] = Mage::helper('enterprise_cms/hierarchy')->copyMetaData($v, $node);
+                $nodes[] = Mage::helper('Enterprise_Cms_Helper_Hierarchy')->copyMetaData($v, $node);
             }
         } else {
             $collection = $nodeModel->getCollection()
@@ -401,7 +401,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                     'page_id'               => $item->getPageId(),
                     'assigned_to_store'     => $this->isNodeAvailableForStore($item, $this->_currentStore)
                 );
-                $nodes[] = Mage::helper('enterprise_cms/hierarchy')->copyMetaData($item->getData(), $node);
+                $nodes[] = Mage::helper('Enterprise_Cms_Helper_Hierarchy')->copyMetaData($item->getData(), $node);
             }
         }
 
@@ -421,7 +421,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             }
         }
 
-        return Mage::helper('core')->jsonEncode($nodes);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($nodes);
     }
 
     /**
@@ -471,7 +471,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function getButtonSaveLabel()
     {
-        return Mage::helper('enterprise_cms')->__('Add To Tree');
+        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Add To Tree');
     }
 
     /**
@@ -481,7 +481,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function getButtonUpdateLabel()
     {
-        return Mage::helper('enterprise_cms')->__('Update');
+        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Update');
     }
 
     /**
@@ -491,7 +491,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function getNodeFieldsetLegend()
     {
-        return Mage::helper('enterprise_cms')->__('Node Properties');
+        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Node Properties');
     }
 
     /**
@@ -501,7 +501,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function getPageFieldsetLegend()
     {
-        return Mage::helper('enterprise_cms')->__('Page Properties');
+        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Page Properties');
     }
 
     /**
@@ -567,7 +567,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             $result[$listType][$type] = $label;
         }
 
-        return Mage::helper('core')->jsonEncode($result);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
     }
 
     /**
@@ -623,7 +623,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function getLockAlertMessage()
     {
-        return Mage::helper('enterprise_cms')->__('Page lock expires in 60 seconds. Save changes to avoid possible data loss.');
+        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Page lock expires in 60 seconds. Save changes to avoid possible data loss.');
     }
 
     /**

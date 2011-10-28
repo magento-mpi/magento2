@@ -89,7 +89,7 @@
         </translate>
         <layout>
             <updates>
-                <tag module="Mage_Tag">
+                <tag module="Mage_Mage_Tag">
                     <file>tag.xml</file>
                 </tag>
             </updates>

@@ -103,7 +103,7 @@ class Mage_Sales_Model_Observer
     public function substractQtyFromQuotes($observer)
     {
         $product = $observer->getEvent()->getProduct();
-        Mage::getResourceSingleton('sales/quote')->substractProductFromQuotes($product);
+        Mage::getResourceSingleton('Mage_Sales_Model_Resource_Quote')->substractProductFromQuotes($product);
         return $this;
     }
 
@@ -115,7 +115,7 @@ class Mage_Sales_Model_Observer
      */
     public function markQuotesRecollectOnCatalogRules($observer)
     {
-        Mage::getResourceSingleton('sales/quote')->markQuotesRecollectOnCatalogRules();
+        Mage::getResourceSingleton('Mage_Sales_Model_Resource_Quote')->markQuotesRecollectOnCatalogRules();
         return $this;
     }
 
@@ -132,7 +132,7 @@ class Mage_Sales_Model_Observer
             return $this;
         }
 
-        Mage::getResourceSingleton('sales/quote')->markQuotesRecollect($product->getId());
+        Mage::getResourceSingleton('Mage_Sales_Model_Resource_Quote')->markQuotesRecollect($product->getId());
 
         return $this;
     }
@@ -150,7 +150,7 @@ class Mage_Sales_Model_Observer
             return $this;
         }
         $productId  = $observer->getEvent()->getProductId();
-        Mage::getResourceSingleton('sales/quote')->markQuotesRecollect($productId);
+        Mage::getResourceSingleton('Mage_Sales_Model_Resource_Quote')->markQuotesRecollect($productId);
 
         return $this;
     }
@@ -323,7 +323,7 @@ class Mage_Sales_Model_Observer
         $quote = $observer->getEvent()->getQuote();
 
         $canApplyMsrp = false;
-        if (Mage::helper('catalog')->isMsrpEnabled()) {
+        if (Mage::helper('Mage_Catalog_Helper_Data')->isMsrpEnabled()) {
             foreach ($quote->getAllAddresses() as $adddress) {
                 if ($adddress->getCanApplyMsrp()) {
                     $canApplyMsrp = true;

@@ -753,14 +753,14 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
 
             $code = $this->getRequest()->getParam('giftcard_code', '');
             if ($code) {
-                if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+                if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
                     Mage::throwException($this->__('Redemption functionality is disabled.'));
                 }
                 Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->loadByCode($code)
                     ->setIsRedeemed(true)->redeem();
 
                 $this->_message(
-                    $this->__('Gift Card "%s" was redeemed.', Mage::helper('core')->escapeHtml($code)),
+                    $this->__('Gift Card "%s" was redeemed.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($code)),
                     self::MESSAGE_STATUS_SUCCESS
                 );
             }

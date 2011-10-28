@@ -29,7 +29,7 @@
    <sections>
         <payment>
             <groups>
-                <pbridge translate="label" module="enterprise_pbridge">
+                <pbridge translate="label" module="Enterprise_Pbridge">
                     <label>Payment Bridge</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>1</sort_order>
@@ -37,7 +37,7 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <active translate="label" module="enterprise_pbridge">
+                        <active translate="label" module="Enterprise_Pbridge">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -46,7 +46,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </active>
-                        <merchantcode translate="label" module="enterprise_pbridge">
+                        <merchantcode translate="label" module="Enterprise_Pbridge">
                             <label>Merchant Code</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>
@@ -54,7 +54,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </merchantcode>
-                        <merchantkey translate="label" module="enterprise_pbridge">
+                        <merchantkey translate="label" module="Enterprise_Pbridge">
                             <label>Merchant Key</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>30</sort_order>
@@ -62,7 +62,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </merchantkey>
-                        <gatewayurl translate="label" module="enterprise_pbridge">
+                        <gatewayurl translate="label" module="Enterprise_Pbridge">
                             <label>Gateway Basic URL</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>40</sort_order>
@@ -70,7 +70,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </gatewayurl>
-                        <transferkey translate="label" module="enterprise_pbridge">
+                        <transferkey translate="label" module="Enterprise_Pbridge">
                             <label>Data Transfer Key</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>60</sort_order>
@@ -78,7 +78,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </transferkey>
-                        <debug translate="label" module="enterprise_pbridge">
+                        <debug translate="label" module="Enterprise_Pbridge">
                             <label>Debug</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -92,7 +92,7 @@
 
                 <authorizenet>
                     <fields>
-                        <using_pbridge translate="label comment" module="enterprise_pbridge">
+                        <using_pbridge translate="label comment" module="Enterprise_Pbridge">
                             <label>Use via Payment Bridge</label>
                             <comment>Gives effect only when payment bridge is active.</comment>
                             <config_path>payment/authorizenet/using_pbridge</config_path>
@@ -129,7 +129,7 @@
                         </cgi_url>
                     </fields>
                 </authorizenet>
-                <pbridge_ogone_direct translate="label" module="enterprise_pbridge">
+                <pbridge_ogone_direct translate="label" module="Enterprise_Pbridge">
                     <label>Ogone Direct Link</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>2</sort_order>
@@ -137,7 +137,7 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <active translate="label" module="enterprise_pbridge">
+                        <active translate="label" module="Enterprise_Pbridge">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -197,7 +197,7 @@
             <groups>
                 <wpp>
                     <fields>
-                        <using_pbridge translate="label comment" module="enterprise_pbridge">
+                        <using_pbridge translate="label comment" module="Enterprise_Pbridge">
                             <label>Use via Payment Bridge</label>
                             <comment>Gives effect only when payment bridge is active.</comment>
                             <frontend_type>select</frontend_type>
@@ -236,7 +236,7 @@
                 </wpp>
                 <wpp_pe>
                     <fields>
-                        <using_pbridge translate="label comment" module="enterprise_pbridge">
+                        <using_pbridge translate="label comment" module="Enterprise_Pbridge">
                             <label>Use via Payment Bridge</label>
                             <comment>Gives effect only when payment bridge is active.</comment>
                             <frontend_type>select</frontend_type>
@@ -296,7 +296,7 @@
                 </wpp_pe>
                 <verisign>
                     <fields>
-                        <using_pbridge translate="label comment" module="enterprise_pbridge">
+                        <using_pbridge translate="label comment" module="Enterprise_Pbridge">
                             <label>Use via Payment Bridge</label>
                             <comment>Gives effect only when payment bridge is active.</comment>
                             <frontend_type>select</frontend_type>

@@ -115,7 +115,7 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
             return '';
         }
 
-        $taxHelper = Mage::helper('tax');
+        $taxHelper = Mage::helper('Mage_Tax_Helper_Data');
         $store = $this->getProduct()->getStore();
 
         $sign = '+';
@@ -128,13 +128,13 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
         $_priceInclTax = $this->getPrice($value['pricing_value'], true);
         $_priceExclTax = $this->getPrice($value['pricing_value']);
         if ($taxHelper->displayPriceIncludingTax()) {
-            $priceStr .= $this->helper('core')->currencyByStore($_priceInclTax, $store, true, $flag);
+            $priceStr .= $this->helper('Mage_Core_Helper_Data')->currencyByStore($_priceInclTax, $store, true, $flag);
         } elseif ($taxHelper->displayPriceExcludingTax()) {
-            $priceStr .= $this->helper('core')->currencyByStore($_priceExclTax, $store, true, $flag);
+            $priceStr .= $this->helper('Mage_Core_Helper_Data')->currencyByStore($_priceExclTax, $store, true, $flag);
         } elseif ($taxHelper->displayBothPrices()) {
-            $priceStr .= $this->helper('core')->currencyByStore($_priceExclTax, $store, true, $flag);
+            $priceStr .= $this->helper('Mage_Core_Helper_Data')->currencyByStore($_priceExclTax, $store, true, $flag);
             if ($_priceInclTax != $_priceExclTax) {
-                $priceStr .= ' ('.$sign.$this->helper('core')
+                $priceStr .= ' ('.$sign.$this->helper('Mage_Core_Helper_Data')
                     ->currencyByStore($_priceInclTax, $store, true, $flag).' '.$this->__('Incl. Tax').')';
             }
         }
@@ -156,9 +156,9 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
     public function getPrice($price, $includingTax = null)
     {
         if (!is_null($includingTax)) {
-            $price = Mage::helper('tax')->getPrice($this->getProduct(), $price, true);
+            $price = Mage::helper('Mage_Tax_Helper_Data')->getPrice($this->getProduct(), $price, true);
         } else {
-            $price = Mage::helper('tax')->getPrice($this->getProduct(), $price);
+            $price = Mage::helper('Mage_Tax_Helper_Data')->getPrice($this->getProduct(), $price);
         }
         return $price;
     }
@@ -172,6 +172,6 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
     public function getCurrencyPrice($price)
     {
         $store = $this->getProduct()->getStore();
-        return $this->helper('core')->currencyByStore($price, $store, false);
+        return $this->helper('Mage_Core_Helper_Data')->currencyByStore($price, $store, false);
     }
 }

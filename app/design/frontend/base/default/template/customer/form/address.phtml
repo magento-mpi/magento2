@@ -24,7 +24,7 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<script type="text/javascript">countryRegions = <?php echo $this->helper('directory')->getRegionJson() ?></script>
+<script type="text/javascript">countryRegions = <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?></script>
 
 <div class="page-title">
     <h1><?php if($data->getAddressId()): ?><?php echo $this->__('Edit Address Entry') ?><?php else: ?><?php echo $this->__('New Address Entry') ?><?php endif ?></h1>
@@ -56,7 +56,7 @@
                     <input type="text" name="street[]" value="<?php echo $this->htmlEscape($data->getStreet(1)) ?>" title="<?php echo $this->__('Street Address') ?>" id="street_1" class="input-text required-entry" />
                 </div>
             </li>
-        <?php for ($_i=2, $_n=$this->helper('customer/address')->getStreetLines(); $_i<=$_n; $_i++): ?>
+        <?php for ($_i=2, $_n=$this->helper('Mage_Customer_Helper_Address')->getStreetLines(); $_i<=$_n; $_i++): ?>
             <li class="wide">
                 <div class="input-box">
                     <input type="text" name="street[]" value="<?php echo $this->htmlEscape($data->getStreet($_i)) ?>" title="<?php echo $this->__('Street Address '.$_i) ?>" id="street_<?php echo $_i?>" class="input-text" />

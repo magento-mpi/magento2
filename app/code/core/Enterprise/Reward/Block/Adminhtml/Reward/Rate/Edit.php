@@ -54,9 +54,9 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit extends Mage_Adminhtml_
     public function getHeaderText()
     {
         if (Mage::registry('current_reward_rate')->getId()) {
-            return Mage::helper('enterprise_reward')->__('Edit Reward Exchange Rate');
+            return Mage::helper('Enterprise_Reward_Helper_Data')->__('Edit Reward Exchange Rate');
         } else {
-            return Mage::helper('enterprise_reward')->__('New Reward Exchange Rate');
+            return Mage::helper('Enterprise_Reward_Helper_Data')->__('New Reward Exchange Rate');
         }
     }
 

@@ -40,7 +40,7 @@ class Mage_XmlConnect_Model_Template extends Mage_Core_Model_Template
      */
     protected function _construct()
     {
-        $this->_init('xmlconnect/template');
+        $this->_init('Mage_XmlConnect_Model_Resource_Template');
     }
 
     /**
@@ -94,11 +94,11 @@ class Mage_XmlConnect_Model_Template extends Mage_Core_Model_Template
         $htmlDescription = <<<EOT
 <div style="font-size: 0.8em; text-decoration: underline; margin-top: 1.5em; line-height: 2em;">%s:</div>
 EOT;
-        $html  = sprintf($htmlDescription, Mage::helper('xmlconnect')->__('Push title'))
+        $html  = sprintf($htmlDescription, Mage::helper('Mage_XmlConnect_Helper_Data')->__('Push title'))
                     . $this->getPushTitle();
-        $html .= sprintf($htmlDescription, Mage::helper('xmlconnect')->__('Message title'))
+        $html .= sprintf($htmlDescription, Mage::helper('Mage_XmlConnect_Helper_Data')->__('Message title'))
                     . $this->getMessageTitle();
-        $html .= sprintf($htmlDescription, Mage::helper('xmlconnect')->__('Message content'))
+        $html .= sprintf($htmlDescription, Mage::helper('Mage_XmlConnect_Helper_Data')->__('Message content'))
                     . $processor->filter($this->getContent());
 
         return $html;

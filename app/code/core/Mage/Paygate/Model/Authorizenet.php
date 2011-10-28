@@ -320,7 +320,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     public function authorize(Varien_Object $payment, $amount)
     {
         if ($amount <= 0) {
-            Mage::throwException(Mage::helper('paygate')->__('Invalid amount for authorization.'));
+            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Invalid amount for authorization.'));
         }
 
         $this->_initCardsStorage($payment);
@@ -346,7 +346,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     public function capture(Varien_Object $payment, $amount)
     {
         if ($amount <= 0) {
-            Mage::throwException(Mage::helper('paygate')->__('Invalid amount for capture.'));
+            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Invalid amount for capture.'));
         }
         $this->_initCardsStorage($payment);
         if ($this->_isPreauthorizeCapture($payment)) {
@@ -421,7 +421,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 $cardsStorage->getCapturedAmount() - $cardsStorage->getRefundedAmount()
             ) < $requestedAmount
         ) {
-            Mage::throwException(Mage::helper('paygate')->__('Invalid amount for refund.'));
+            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Invalid amount for refund.'));
         }
 
         $messages = array();
@@ -469,7 +469,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      */
     public function cancelPartialAuthorization(Mage_Payment_Model_Info $payment) {
         if (!$payment->getAdditionalInformation($this->_splitTenderIdKey)) {
-            Mage::throwException(Mage::helper('paygate')->__('Invalid split tenderId ID.'));
+            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Invalid split tenderId ID.'));
         }
 
         $request = $this->_getRequest();
@@ -488,7 +488,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 $this->setPartialAuthorizationLastActionState(self::PARTIAL_AUTH_ALL_CANCELED);
                 return;
             default:
-                Mage::throwException(Mage::helper('paygate')->__('Payment canceling error.'));
+                Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Payment canceling error.'));
         }
 
     }
@@ -512,11 +512,11 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         switch ($requestType) {
             case self::REQUEST_TYPE_AUTH_ONLY:
                 $newTransactionType = Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH;
-                $defaultExceptionMessage = Mage::helper('paygate')->__('Payment authorization error.');
+                $defaultExceptionMessage = Mage::helper('Mage_Paygate_Helper_Data')->__('Payment authorization error.');
                 break;
             case self::REQUEST_TYPE_AUTH_CAPTURE:
                 $newTransactionType = Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE;
-                $defaultExceptionMessage = Mage::helper('paygate')->__('Payment capturing error.');
+                $defaultExceptionMessage = Mage::helper('Mage_Paygate_Helper_Data')->__('Payment capturing error.');
                 break;
         }
 
@@ -530,7 +530,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                     $newTransactionType,
                     array('is_transaction_closed' => 0),
                     array($this->_realTransactionIdKey => $card->getLastTransId()),
-                    Mage::helper('paygate')->getTransactionMessage(
+                    Mage::helper('Mage_Paygate_Helper_Data')->getTransactionMessage(
                         $payment, $requestType, $card->getLastTransId(), $card, $amount
                     )
                 );
@@ -553,7 +553,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                             $this->_realTransactionIdKey => $card->getLastTransId(),
                             $this->_isTransactionFraud => true
                         ),
-                        Mage::helper('paygate')->getTransactionMessage(
+                        Mage::helper('Mage_Paygate_Helper_Data')->getTransactionMessage(
                             $payment, $requestType, $card->getLastTransId(), $card, $amount
                         )
                     );
@@ -610,14 +610,14 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 $this->setPartialAuthorizationLastActionState(self::PARTIAL_AUTH_DATA_CHANGED);
                 $quotePayment->setAdditionalInformation($payment->getAdditionalInformation());
                 throw new Mage_Payment_Model_Info_Exception(
-                    Mage::helper('paygate')->__('Shopping cart contents and/or address has been changed.')
+                    Mage::helper('Mage_Paygate_Helper_Data')->__('Shopping cart contents and/or address has been changed.')
                 );
             }
         }
 
         $amount = $amount - $this->getCardsStorage()->getProcessedAmount();
         if ($amount <= 0) {
-            Mage::throwException(Mage::helper('paygate')->__('Invalid amount for partial authorization.'));
+            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Invalid amount for partial authorization.'));
         }
         $payment->setAmount($amount);
         $request = $this->_buildRequest($payment);
@@ -640,7 +640,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 $newTransactionType,
                 array('is_transaction_closed' => 0),
                 array($this->_realTransactionIdKey => $card->getLastTransId()),
-                Mage::helper('paygate')->getTransactionMessage(
+                Mage::helper('Mage_Paygate_Helper_Data')->getTransactionMessage(
                     $payment, $requestType, $card->getLastTransId(), $card, $card->getProcessedAmount()
                 )
             );
@@ -690,7 +690,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 $cardsStorage->getProcessedAmount() - $cardsStorage->getCapturedAmount()
             ) < $requestedAmount
         ) {
-            Mage::throwException(Mage::helper('paygate')->__('Invalid amount for capture.'));
+            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Invalid amount for capture.'));
         }
 
         $messages = array();
@@ -765,7 +765,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                             'parent_transaction_id' => $authTransactionId
                         ),
                         array($this->_realTransactionIdKey => $result->getTransactionId()),
-                        Mage::helper('paygate')->getTransactionMessage(
+                        Mage::helper('Mage_Paygate_Helper_Data')->getTransactionMessage(
                             $payment, self::REQUEST_TYPE_PRIOR_AUTH_CAPTURE, $result->getTransactionId(), $card, $amount
                         )
                     );
@@ -778,11 +778,11 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 $exceptionMessage = $this->_wrapGatewayError($result->getResponseReasonText());
                 break;
             default:
-                $exceptionMessage = Mage::helper('paygate')->__('Payment capturing error.');
+                $exceptionMessage = Mage::helper('Mage_Paygate_Helper_Data')->__('Payment capturing error.');
                 break;
         }
 
-        $exceptionMessage = Mage::helper('paygate')->getTransactionMessage(
+        $exceptionMessage = Mage::helper('Mage_Paygate_Helper_Data')->getTransactionMessage(
             $payment, self::REQUEST_TYPE_PRIOR_AUTH_CAPTURE, $realAuthTransactionId, $card, $amount, $exceptionMessage
         );
         Mage::throwException($exceptionMessage);
@@ -822,7 +822,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                             'parent_transaction_id' => $authTransactionId
                         ),
                         array($this->_realTransactionIdKey => $result->getTransactionId()),
-                        Mage::helper('paygate')->getTransactionMessage(
+                        Mage::helper('Mage_Paygate_Helper_Data')->getTransactionMessage(
                             $payment, self::REQUEST_TYPE_VOID, $result->getTransactionId(), $card
                         )
                     );
@@ -844,14 +844,14 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                         'parent_transaction_id' => $authTransactionId
                     ),
                     array(),
-                    Mage::helper('paygate')->getExtendedTransactionMessage(
+                    Mage::helper('Mage_Paygate_Helper_Data')->getExtendedTransactionMessage(
                         $payment,
                         self::REQUEST_TYPE_VOID,
                         null,
                         $card,
                         false,
                         false,
-                        Mage::helper('paygate')->__(
+                        Mage::helper('Mage_Paygate_Helper_Data')->__(
                             'Parent Authorize.Net transaction (ID %s) expired',
                             $realAuthTransactionId
                         )
@@ -861,11 +861,11 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 $exceptionMessage = $this->_wrapGatewayError($result->getResponseReasonText());
                 break;
             default:
-                $exceptionMessage = Mage::helper('paygate')->__('Payment voiding error.');
+                $exceptionMessage = Mage::helper('Mage_Paygate_Helper_Data')->__('Payment voiding error.');
                 break;
         }
 
-        $exceptionMessage = Mage::helper('paygate')->getTransactionMessage(
+        $exceptionMessage = Mage::helper('Mage_Paygate_Helper_Data')->getTransactionMessage(
             $payment, self::REQUEST_TYPE_VOID, $realAuthTransactionId, $card, false, $exceptionMessage
         );
         Mage::throwException($exceptionMessage);
@@ -931,7 +931,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                             'parent_transaction_id' => $captureTransactionId
                         ),
                         array($this->_realTransactionIdKey => $result->getTransactionId()),
-                        Mage::helper('paygate')->getTransactionMessage(
+                        Mage::helper('Mage_Paygate_Helper_Data')->getTransactionMessage(
                             $payment, self::REQUEST_TYPE_CREDIT, $result->getTransactionId(), $card, $amount
                         )
                     );
@@ -943,11 +943,11 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 $exceptionMessage = $this->_wrapGatewayError($result->getResponseReasonText());
                 break;
             default:
-                $exceptionMessage = Mage::helper('paygate')->__('Payment refunding error.');
+                $exceptionMessage = Mage::helper('Mage_Paygate_Helper_Data')->__('Payment refunding error.');
                 break;
         }
 
-        $exceptionMessage = Mage::helper('paygate')->getTransactionMessage(
+        $exceptionMessage = Mage::helper('Mage_Paygate_Helper_Data')->getTransactionMessage(
             $payment, self::REQUEST_TYPE_CREDIT, $realCaptureTransactionId, $card, $amount, $exceptionMessage
         );
         Mage::throwException($exceptionMessage);
@@ -1085,7 +1085,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                         $this->_clearAssignedData($quotePayment);
                         $this->setPartialAuthorizationLastActionState(self::PARTIAL_AUTH_CARDS_LIMIT_EXCEEDED);
                         $quotePayment->setAdditionalInformation($orderPayment->getAdditionalInformation());
-                        $exceptionMessage = Mage::helper('paygate')->__('You have reached the maximum number of credit card allowed to be used for the payment.');
+                        $exceptionMessage = Mage::helper('Mage_Paygate_Helper_Data')->__('You have reached the maximum number of credit card allowed to be used for the payment.');
                         break;
                     }
                     $orderPayment->setAdditionalInformation($this->_splitTenderIdKey, $response->getSplitTenderId());
@@ -1105,7 +1105,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                     $this->setPartialAuthorizationLastActionState(self::PARTIAL_AUTH_LAST_DECLINED);
                     $quotePayment->setAdditionalInformation($orderPayment->getAdditionalInformation());
                     $exceptionMessage = $this->_wrapGatewayError(
-                            Mage::helper('paygate')->__('Payment partial authorization error.')
+                            Mage::helper('Mage_Paygate_Helper_Data')->__('Payment partial authorization error.')
                         );
             }
         } catch (Exception $e) {
@@ -1314,7 +1314,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         }
         else {
              Mage::throwException(
-                Mage::helper('paygate')->__('Error in payment gateway.')
+                Mage::helper('Mage_Paygate_Helper_Data')->__('Error in payment gateway.')
             );
         }
 
@@ -1332,7 +1332,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      */
     protected function _wrapGatewayError($text)
     {
-        return Mage::helper('paygate')->__('Gateway error: %s', $text);
+        return Mage::helper('Mage_Paygate_Helper_Data')->__('Gateway error: %s', $text);
     }
 
     /**
@@ -1470,7 +1470,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     protected function _processFailureMultitransactionAction($payment, $messages, $isSuccessfulTransactions)
     {
         if ($isSuccessfulTransactions) {
-            $messages[] = Mage::helper('paygate')->__('Gateway actions are locked because the gateway cannot complete one or more of the transactions. Please log in to your Authorize.Net account to manually resolve the issue(s).');
+            $messages[] = Mage::helper('Mage_Paygate_Helper_Data')->__('Gateway actions are locked because the gateway cannot complete one or more of the transactions. Please log in to your Authorize.Net account to manually resolve the issue(s).');
             /**
              * If there is successful transactions we can not to cancel order but
              * have to save information about processed transactions in order`s comments and disable
@@ -1485,7 +1485,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             }
             $copyOrder->save();
         }
-        Mage::throwException(Mage::helper('paygate')->convertMessagesToMessage($messages));
+        Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->convertMessagesToMessage($messages));
     }
 
     /**
@@ -1544,7 +1544,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             $responseXmlDocument = new Varien_Simplexml_Element($responseBody);
             libxml_use_internal_errors(false);
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('paygate')->__('Payment updating error.'));
+            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Payment updating error.'));
         }
 
         $response = new Varien_Object;

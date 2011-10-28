@@ -110,19 +110,19 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Adminhtml_Block
         ));
 
         $this->addColumn('query_id', array(
-            'header'    => Mage::helper('enterprise_search')->__('ID'),
+            'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('ID'),
             'width'     => '50px',
             'index'     => 'query_id',
         ));
 
         $this->addColumn('search_query', array(
-            'header'    => Mage::helper('enterprise_search')->__('Search Query'),
+            'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('Search Query'),
             'index'     => 'query_text',
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'        => Mage::helper('enterprise_search')->__('Store'),
+                'header'        => Mage::helper('Enterprise_Search_Helper_Data')->__('Store'),
                 'index'         => 'store_id',
                 'type'          => 'store',
                 'store_view'    => true,
@@ -131,52 +131,52 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Adminhtml_Block
         }
 
         $this->addColumn('num_results', array(
-            'header'    => Mage::helper('enterprise_search')->__('Results'),
+            'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('Results'),
             'index'     => 'num_results',
             'type'      => 'number'
         ));
 
         $this->addColumn('popularity', array(
-            'header'    => Mage::helper('enterprise_search')->__('Number of Uses'),
+            'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('Number of Uses'),
             'index'     => 'popularity',
             'type'      => 'number'
         ));
 
         $this->addColumn('synonym_for', array(
-            'header'    => Mage::helper('enterprise_search')->__('Synonym For'),
+            'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('Synonym For'),
             'align'     => 'left',
             'index'     => 'synonym_for',
             'width'     => '160px'
         ));
 
         $this->addColumn('redirect', array(
-            'header'    => Mage::helper('enterprise_search')->__('Redirect'),
+            'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('Redirect'),
             'align'     => 'left',
             'index'     => 'redirect',
             'width'     => '200px'
         ));
 
         $this->addColumn('display_in_terms', array(
-            'header'=>Mage::helper('enterprise_search')->__('Display in Suggested Terms'),
+            'header'=>Mage::helper('Enterprise_Search_Helper_Data')->__('Display in Suggested Terms'),
             'sortable'=>true,
             'index'=>'display_in_terms',
             'type' => 'options',
             'width' => '100px',
             'options' => array(
-                '1' => Mage::helper('enterprise_search')->__('Yes'),
-                '0' => Mage::helper('enterprise_search')->__('No'),
+                '1' => Mage::helper('Enterprise_Search_Helper_Data')->__('Yes'),
+                '0' => Mage::helper('Enterprise_Search_Helper_Data')->__('No'),
             ),
             'align' => 'left',
         ));
 
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('enterprise_search')->__('Action'),
+                'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('Action'),
                 'width'     => '100px',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(array(
-                    'caption'   => Mage::helper('enterprise_search')->__('Edit'),
+                    'caption'   => Mage::helper('Enterprise_Search_Helper_Data')->__('Edit'),
                     'url'       => array(
                         'base'=>'*/*/edit'
                     ),
@@ -228,7 +228,7 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Adminhtml_Block
     {
         $queries = array_flip($this->_getSelectedQueries());
         if (!empty($queries)) {
-            return Mage::helper('core')->jsonEncode($queries);
+            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($queries);
         }
         return '{}';
     }

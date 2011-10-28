@@ -83,7 +83,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = Mage::getResourceSingleton('customer/customer')
+        $productAttributes = Mage::getResourceSingleton('Mage_Customer_Model_Resource_Customer')
             ->loadAllAttributes()
             ->getAttributesByCode();
 
@@ -266,11 +266,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         return array(
             array(
                 'value' => 'is_exists',
-                'label' => Mage::helper('enterprise_customersegment')->__('exists')
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('exists')
             ),
             array(
                 'value' => 'is_not_exists',
-                'label' => Mage::helper('enterprise_customersegment')->__('does not exist')
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('does not exist')
             ),
         );
     }
@@ -282,7 +282,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      */
     public function asHtml()
     {
-        return Mage::helper('enterprise_customersegment')->__('Customer %s', parent::asHtml());
+        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer %s', parent::asHtml());
     }
 
     /**

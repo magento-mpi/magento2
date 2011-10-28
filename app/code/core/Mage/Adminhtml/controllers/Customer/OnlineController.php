@@ -41,8 +41,8 @@ class Mage_Adminhtml_Customer_OnlineController extends Mage_Adminhtml_Controller
 
         $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Online', 'customers'));
 
-        $this->_addBreadcrumb(Mage::helper('customer')->__('Customers'), Mage::helper('customer')->__('Customers'));
-        $this->_addBreadcrumb(Mage::helper('customer')->__('Online Customers'), Mage::helper('customer')->__('Online Customers'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Customer_Helper_Data')->__('Customers'), Mage::helper('Mage_Customer_Helper_Data')->__('Customers'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Customer_Helper_Data')->__('Online Customers'), Mage::helper('Mage_Customer_Helper_Data')->__('Online Customers'));
 
         $this->renderLayout();
     }

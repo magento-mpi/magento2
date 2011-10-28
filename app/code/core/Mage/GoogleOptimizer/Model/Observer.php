@@ -43,7 +43,7 @@ class Mage_GoogleOptimizer_Model_Observer
     {
         $product = $observer->getEvent()->getProduct();
 
-        if (!Mage::helper('googleoptimizer')->isOptimizerActive($product->getStoreId())) {
+        if (!Mage::helper('Mage_GoogleOptimizer_Helper_Data')->isOptimizerActive($product->getStoreId())) {
             return $this;
         }
 
@@ -128,7 +128,7 @@ class Mage_GoogleOptimizer_Model_Observer
         /**
          * Check activity for frontend
          */
-        if (Mage::app()->getStore()->getId() && !Mage::helper('googleoptimizer')->isOptimizerActive()) {
+        if (Mage::app()->getStore()->getId() && !Mage::helper('Mage_GoogleOptimizer_Helper_Data')->isOptimizerActive()) {
             return $this;
         }
 
@@ -197,7 +197,7 @@ class Mage_GoogleOptimizer_Model_Observer
     public function assignHandlers($observer)
     {
         $catalogHalper = $observer->getEvent()->getHelper();
-        $helper = Mage::helper('googleoptimizer');
+        $helper = Mage::helper('Mage_GoogleOptimizer_Helper_Data');
         $catalogHalper->addHandler('productAttribute', $helper)
             ->addHandler('categoryAttribute', $helper);
         return $this;
@@ -213,7 +213,7 @@ class Mage_GoogleOptimizer_Model_Observer
     {
         $category = $observer->getEvent()->getCategory();
 
-        if (!Mage::helper('googleoptimizer')->isOptimizerActive($category->getStoreId())) {
+        if (!Mage::helper('Mage_GoogleOptimizer_Helper_Data')->isOptimizerActive($category->getStoreId())) {
             return $this;
         }
 
@@ -253,7 +253,7 @@ class Mage_GoogleOptimizer_Model_Observer
     {
         $category = $observer->getEvent()->getCategory();
 
-        if (!Mage::helper('googleoptimizer')->isOptimizerActive($category->getStoreId())) {
+        if (!Mage::helper('Mage_GoogleOptimizer_Helper_Data')->isOptimizerActive($category->getStoreId())) {
             return $this;
         }
 
@@ -291,10 +291,10 @@ class Mage_GoogleOptimizer_Model_Observer
     {
         $tabs = $observer->getEvent()->getTabs();
         if (Mage::app()->getConfig()->getModuleConfig('Mage_GoogleOptimizer')->is('active', true) &&
-            Mage::helper('googleoptimizer')->isOptimizerActive($tabs->getCategory()->getStoreId())
+            Mage::helper('Mage_GoogleOptimizer_Helper_Data')->isOptimizerActive($tabs->getCategory()->getStoreId())
         ) {
             $tabs->addTab('googleoptimizer', array(
-                'label'     => Mage::helper('googleoptimizer')->__('Category View Optimization'),
+                'label'     => Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Category View Optimization'),
                 'content'   => $tabs->getLayout()->createBlock(
                     'Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptimizer'
                 )->toHtml(),

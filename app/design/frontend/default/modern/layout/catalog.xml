@@ -51,13 +51,13 @@ Default layout, loads most of the pages
         <reference name="left">
             <!--block type="Mage_Core_Block_Template" name="left.permanent.callout" template="callouts/left_col.phtml">
                 <action method="setImgSrc"><src>images/media/left_col_callout.jpg</src></action>
-                <action method="setImgAlt" translate="alt" module="catalog"><alt>Our customer service is available 24/7. Call us at (555) 555-0123.</alt></action>
+                <action method="setImgAlt" translate="alt" module="Mage_Catalog"><alt>Our customer service is available 24/7. Call us at (555) 555-0123.</alt></action>
                 <action method="setLinkUrl"><url>checkout/cart</url></action>
             </block-->
             <block type="Mage_Catalog_Block_Product_Compare_Sidebar" before="cart_sidebar" name="catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
         </reference>
         <reference name="footer_links">
-            <action method="addLink" translate="label title" module="catalog" ifconfig="catalog/seo/site_map"><label>Site Map</label><url helper="catalog/map/getCategoryUrl" /><title>Site Map</title></action>
+            <action method="addLink" translate="label title" module="Mage_Catalog" ifconfig="catalog/seo/site_map"><label>Site Map</label><url helper="Mage_Catalog_Helper_Map::getCategoryUrl" /><title>Site Map</title></action>
         </reference>
         <block type="Mage_Catalog_Block_Product_Price_Template" name="catalog_product_price_template" />
     </default>
@@ -210,9 +210,9 @@ Product view
                 <action method="setTierPriceTemplate"><template>catalog/product/view/tierprices.phtml</template></action>
 
                 <block type="Mage_Catalog_Block_Product_View_Tabs" name="product.info.tabs" as="info_tabs" template="catalog/product/view/tabs.phtml" >
-                    <action method="addTab" translate="title" module="catalog"><alias>description</alias><title>Product Description</title><block>catalog/product_view_description</block><template>catalog/product/view/description.phtml</template></action>
-                    <action method="addTab" translate="title" module="catalog"><alias>upsell_products</alias><title>We Also Recommend</title><block>catalog/product_list_upsell</block><template>catalog/product/list/upsell.phtml</template></action>
-                    <action method="addTab" translate="title" module="catalog"><alias>additional</alias><title>Additional Information</title><block>catalog/product_view_attributes</block><template>catalog/product/view/attributes.phtml</template></action>
+                    <action method="addTab" translate="title" module="Mage_Catalog"><alias>description</alias><title>Product Description</title><block>catalog/product_view_description</block><template>catalog/product/view/description.phtml</template></action>
+                    <action method="addTab" translate="title" module="Mage_Catalog"><alias>upsell_products</alias><title>We Also Recommend</title><block>catalog/product_list_upsell</block><template>catalog/product/list/upsell.phtml</template></action>
+                    <action method="addTab" translate="title" module="Mage_Catalog"><alias>additional</alias><title>Additional Information</title><block>catalog/product_view_attributes</block><template>catalog/product/view/attributes.phtml</template></action>
                 </block>
 
                 <block type="Mage_Catalog_Block_Product_View_Additional" name="product.info.additional" as="product_additional_data" />
@@ -270,7 +270,7 @@ Product view
 <!--
 Additional block dependant on product type
 -->
-    <PRODUCT_TYPE_simple translate="label" module="catalog">
+    <PRODUCT_TYPE_simple translate="label" module="Mage_Catalog">
         <label>Catalog Product View (Simple)</label>
         <reference name="product.info">
             <block type="Mage_Catalog_Block_Product_View_Type_Simple" name="product.info.simple" as="product_type_data" template="catalog/product/view/type/default.phtml">
@@ -280,7 +280,7 @@ Additional block dependant on product type
             </block>
         </reference>
     </PRODUCT_TYPE_simple>
-    <PRODUCT_TYPE_configurable translate="label" module="catalog">
+    <PRODUCT_TYPE_configurable translate="label" module="Mage_Catalog">
         <label>Catalog Product View (Configurable)</label>
         <reference name="product.info">
             <block type="Mage_Catalog_Block_Product_View_Type_Configurable" name="product.info.configurable" as="product_type_data" template="catalog/product/view/type/default.phtml">
@@ -293,7 +293,7 @@ Additional block dependant on product type
             <block type="Mage_Catalog_Block_Product_View_Type_Configurable" name="product.info.options.configurable" as="options_configurable" before="-" template="catalog/product/view/type/options/configurable.phtml"/>
         </reference>
     </PRODUCT_TYPE_configurable>
-    <PRODUCT_TYPE_grouped translate="label" module="catalog">
+    <PRODUCT_TYPE_grouped translate="label" module="Mage_Catalog">
         <label>Catalog Product View (Grouped)</label>
         <reference name="product.info">
             <block type="Mage_Catalog_Block_Product_View_Type_Grouped" name="product.info.grouped" as="product_type_data" template="catalog/product/view/type/grouped.phtml">
@@ -303,7 +303,7 @@ Additional block dependant on product type
             </block>
         </reference>
     </PRODUCT_TYPE_grouped>
-    <PRODUCT_TYPE_virtual translate="label" module="catalog">
+    <PRODUCT_TYPE_virtual translate="label" module="Mage_Catalog">
         <label>Catalog Product View (Virtual)</label>
         <reference name="product.info">
             <block type="Mage_Catalog_Block_Product_View_Type_Virtual" name="product.info.virtual" as="product_type_data" template="catalog/product/view/type/default.phtml">
@@ -374,19 +374,19 @@ SEO Site Map
     <catalog_seo_sitemap_category translate="label">
         <label>Catalog Seo Sitemap (Category List)</label>
         <reference name="head">
-            <action method="setTitle" translate="title" module="catalog"><title>Site Map</title></action>
+            <action method="setTitle" translate="title" module="Mage_Catalog"><title>Site Map</title></action>
         </reference>
         <update handle="catalog_seo_sitemap" />
         <reference name="seo.sitemap.container">
-            <action method="setTitle" translate="title" module="catalog"><title>Categories</title></action>
+            <action method="setTitle" translate="title" module="Mage_Catalog"><title>Categories</title></action>
             <block type="Mage_Catalog_Block_Seo_Sitemap_Category" name="seo.sitemap.sitemap" as="sitemap" after="pager_top" template="catalog/seo/sitemap.phtml">
                 <action method="bindPager"><pager>seo.sitemap.pager.top</pager></action>
                 <action method="bindPager"><pager>seo.sitemap.pager.bottom</pager></action>
-                <action method="setItemsTitle" translate="title" module="catalog"><title>categories</title></action>
+                <action method="setItemsTitle" translate="title" module="Mage_Catalog"><title>categories</title></action>
             </block>
         </reference>
         <reference name="seo.sitemap.links">
-            <action method="addLink" translate="label title" module="catalog"><label>Products Sitemap</label><url helper="catalog/map/getProductUrl"/><title>Products Sitemap</title></action>
+            <action method="addLink" translate="label title" module="Mage_Catalog"><label>Products Sitemap</label><url helper="Mage_Catalog_Helper_Map::getProductUrl"/><title>Products Sitemap</title></action>
         </reference>
     </catalog_seo_sitemap_category>
 
@@ -408,19 +408,19 @@ SEO Site Map
     <catalog_seo_sitemap_product translate="label">
         <label>Catalog Seo Sitemap (Product List)</label>
         <reference name="head">
-            <action method="setTitle" translate="title" module="catalog"><title>Site Map</title></action>
+            <action method="setTitle" translate="title" module="Mage_Catalog"><title>Site Map</title></action>
         </reference>
         <update handle="catalog_seo_sitemap" />
         <reference name="seo.sitemap.container">
-            <action method="setTitle" translate="title" module="catalog"><title>Products</title></action>
+            <action method="setTitle" translate="title" module="Mage_Catalog"><title>Products</title></action>
             <block type="Mage_Catalog_Block_Seo_Sitemap_Product" name="seo.sitemap.sitemap" as="sitemap" after="pager_top" template="catalog/seo/sitemap.phtml">
                 <action method="bindPager"><pager>seo.sitemap.pager.top</pager></action>
                 <action method="bindPager"><pager>seo.sitemap.pager.bottom</pager></action>
-                <action method="setItemsTitle" translate="title" module="catalog"><title>products</title></action>
+                <action method="setItemsTitle" translate="title" module="Mage_Catalog"><title>products</title></action>
             </block>
         </reference>
         <reference name="seo.sitemap.links">
-            <action method="addLink" translate="label title" module="catalog"><label>Categories Sitemap</label><url helper="catalog/map/getCategoryUrl"/><title>Categories Sitemap</title></action>
+            <action method="addLink" translate="label title" module="Mage_Catalog"><label>Categories Sitemap</label><url helper="Mage_Catalog_Helper_Map::getCategoryUrl"/><title>Categories Sitemap</title></action>
         </reference>
     </catalog_seo_sitemap_product>
 

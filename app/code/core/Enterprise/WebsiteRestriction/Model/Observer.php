@@ -48,7 +48,7 @@ class Enterprise_WebsiteRestriction_Model_Observer
             if (!$dispatchResult->getShouldProceed()) {
                 return;
             }
-            if (!Mage::helper('enterprise_websiterestriction')->getIsRestrictionEnabled()) {
+            if (!Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->getIsRestrictionEnabled()) {
                 return;
             }
             /* @var $request Mage_Core_Controller_Request_Http */
@@ -78,14 +78,14 @@ class Enterprise_WebsiteRestriction_Model_Observer
 
                 // redirect to landing page/login
                 case Enterprise_WebsiteRestriction_Model_Mode::ALLOW_LOGIN:
-                    if (!$dispatchResult->getCustomerLoggedIn() && !Mage::helper('customer')->isLoggedIn()) {
+                    if (!$dispatchResult->getCustomerLoggedIn() && !Mage::helper('Mage_Customer_Helper_Data')->isLoggedIn()) {
                         // see whether redirect is required and where
                         $redirectUrl = false;
                         $allowedActionNames = array_keys(Mage::getConfig()
                             ->getNode(Enterprise_WebsiteRestriction_Helper_Data::XML_NODE_RESTRICTION_ALLOWED_GENERIC)
                             ->asArray()
                         );
-                        if (Mage::helper('customer')->isRegistrationAllowed()) {
+                        if (Mage::helper('Mage_Customer_Helper_Data')->isRegistrationAllowed()) {
                             foreach(array_keys(Mage::getConfig()
                                 ->getNode(
                                     Enterprise_WebsiteRestriction_Helper_Data::XML_NODE_RESTRICTION_ALLOWED_REGISTER
@@ -121,7 +121,7 @@ class Enterprise_WebsiteRestriction_Model_Observer
                         if (Mage::getStoreConfigFlag(
                             Mage_Customer_Helper_Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
                         )) {
-                            $afterLoginUrl = Mage::helper('customer')->getDashboardUrl();
+                            $afterLoginUrl = Mage::helper('Mage_Customer_Helper_Data')->getDashboardUrl();
                         } else {
                             $afterLoginUrl = Mage::getUrl();
                         }
@@ -150,7 +150,7 @@ class Enterprise_WebsiteRestriction_Model_Observer
             $restrictionMode = (int)Mage::getStoreConfig(
                 Enterprise_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_MODE
             );
-            $result->setIsAllowed((!Mage::helper('enterprise_websiterestriction')->getIsRestrictionEnabled())
+            $result->setIsAllowed((!Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->getIsRestrictionEnabled())
                 || (Enterprise_WebsiteRestriction_Model_Mode::ALLOW_REGISTER === $restrictionMode)
             );
         }

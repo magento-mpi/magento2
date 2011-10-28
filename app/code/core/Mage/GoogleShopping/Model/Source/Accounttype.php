@@ -41,9 +41,9 @@ class Mage_GoogleShopping_Model_Source_Accounttype
     public function toOptionArray()
     {
         return array(
-            array('value' => 'HOSTED_OR_GOOGLE', 'label' => Mage::helper('googleshopping')->__('Hosted or Google')),
-            array('value' => 'GOOGLE', 'label' => Mage::helper('googleshopping')->__('Google')),
-            array('value' => 'HOSTED', 'label' => Mage::helper('googleshopping')->__('Hosted'))
+            array('value' => 'HOSTED_OR_GOOGLE', 'label' => Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Hosted or Google')),
+            array('value' => 'GOOGLE', 'label' => Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Google')),
+            array('value' => 'HOSTED', 'label' => Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Hosted'))
         );
     }
 }

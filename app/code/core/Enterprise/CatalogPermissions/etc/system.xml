@@ -29,7 +29,7 @@
     <sections>
         <catalog>
             <groups>
-                <enterprise_catalogpermissions translate="label" module="enterprise_catalogpermissions">
+                <enterprise_catalogpermissions translate="label" module="Enterprise_CatalogPermissions">
                     <label>Category Permissions</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>500</sort_order>

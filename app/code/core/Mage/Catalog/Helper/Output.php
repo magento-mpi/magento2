@@ -51,7 +51,7 @@ class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
     protected function _getTemplateProcessor()
     {
         if (null === $this->_templateProcessor) {
-            $this->_templateProcessor = Mage::helper('catalog')->getPageTemplateProcessor();
+            $this->_templateProcessor = Mage::helper('Mage_Catalog_Helper_Data')->getPageTemplateProcessor();
         }
 
         return $this->_templateProcessor;
@@ -130,7 +130,7 @@ class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
                 }
         }
         if ($attribute->getIsHtmlAllowedOnFront() && $attribute->getIsWysiwygEnabled()) {
-            if (Mage::helper('catalog')->isUrlDirectivesParsingAllowed()) {
+            if (Mage::helper('Mage_Catalog_Helper_Data')->isUrlDirectivesParsingAllowed()) {
                 $attributeHtml = $this->_getTemplateProcessor()->filter($attributeHtml);
             }
         }
@@ -160,7 +160,7 @@ class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
             $attributeHtml = $this->escapeHtml($attributeHtml);
         }
         if ($attribute->getIsHtmlAllowedOnFront() && $attribute->getIsWysiwygEnabled()) {
-            if (Mage::helper('catalog')->isUrlDirectivesParsingAllowed()) {
+            if (Mage::helper('Mage_Catalog_Helper_Data')->isUrlDirectivesParsingAllowed()) {
                 $attributeHtml = $this->_getTemplateProcessor()->filter($attributeHtml);
             }
         }

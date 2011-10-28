@@ -29,7 +29,7 @@
     <sections>
         <system>
             <groups>
-                <adminnotification translate="label" module="adminnotification">
+                <adminnotification translate="label" module="Mage_AdminNotification">
                     <label>Notifications</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>250</sort_order>

@@ -43,7 +43,7 @@ class Enterprise_CustomerBalance_Model_Total_Quote_Customerbalance extends Mage_
      */
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return $this;
         }
         $quote = $address->getQuote();
@@ -107,13 +107,13 @@ class Enterprise_CustomerBalance_Model_Total_Quote_Customerbalance extends Mage_
      */
     public function fetch(Mage_Sales_Model_Quote_Address $address)
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return $this;
         }
         if ($address->getCustomerBalanceAmount()) {
             $address->addTotal(array(
                 'code'=>$this->getCode(),
-                'title'=>Mage::helper('enterprise_customerbalance')->__('Store Credit'),
+                'title'=>Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Store Credit'),
                 'value'=>-$address->getCustomerBalanceAmount(),
             ));
         }

@@ -97,7 +97,7 @@ class Mage_Adminhtml_Block_System_Config_System_Storage_Media_Synchronize
         $button = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'id'        => 'synchronize_button',
-                'label'     => $this->helper('adminhtml')->__('Synchronize'),
+                'label'     => $this->helper('Mage_Adminhtml_Helper_Data')->__('Synchronize'),
                 'onclick'   => 'javascript:synchronize(); return false;'
             ));
 

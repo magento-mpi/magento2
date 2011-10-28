@@ -315,9 +315,14 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             foreach ($args as $key => $arg) {
                 if (($arg instanceof Mage_Core_Model_Layout_Element)) {
                     if (isset($arg['helper'])) {
-                        $helperName = explode('/', (string)$arg['helper']);
-                        $helperMethod = array_pop($helperName);
-                        $helperName = implode('/', $helperName);
+                        $helper = (string)$arg['helper'];
+                        if (strpos($helper, '::') === false) {
+                            $helperName = explode('/', $helper);
+                            $helperMethod = array_pop($helperName);
+                            $helperName = implode('/', $helperName);
+                        } else {
+                            list($helperName, $helperMethod) = explode('::', $helper);
+                        }
                         $arg = $arg->asArray();
                         unset($arg['@']);
                         $args[$key] = call_user_func_array(array(Mage::helper($helperName), $helperMethod), $arg);
@@ -339,7 +344,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             if (isset($node['json'])) {
                 $json = explode(' ', (string)$node['json']);
                 foreach ($json as $arg) {
-                    $args[$arg] = Mage::helper('core')->jsonDecode($args[$arg]);
+                    $args[$arg] = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($args[$arg]);
                 }
             }
 
@@ -364,10 +369,10 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             $items = explode(' ', (string)$node['translate']);
             foreach ($items as $arg) {
                 if (isset($node['module'])) {
-                    $args[$arg] = Mage::helper((string)$node['module'])->__($args[$arg]);
+                    $args[$arg] = Mage::helper($node['module'])->__($args[$arg]);
                 }
                 else {
-                    $args[$arg] = Mage::helper('core')->__($args[$arg]);
+                    $args[$arg] = Mage::helper('Mage_Core_Helper_Data')->__($args[$arg]);
                 }
             }
         }
@@ -421,7 +426,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             }
             $name = 'ANONYMOUS_'.sizeof($this->_blocks);
         } elseif (isset($this->_blocks[$name]) && Mage::getIsDeveloperMode()) {
-            //Mage::throwException(Mage::helper('core')->__('Block with name "%s" already exists', $name));
+            //Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Block with name "%s" already exists', $name));
         }
 
         $block->setType($type);
@@ -458,7 +463,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         if (is_string($block)) {
             if (strpos($block, '/')!==false) {
                 if (!$block = Mage::getConfig()->getBlockClassName($block)) {
-                    Mage::throwException(Mage::helper('core')->__('Invalid block type: %s', $block));
+                    Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block type: %s', $block));
                 }
             }
             if (class_exists($block, false) || mageFindClassFile($block)) {
@@ -466,7 +471,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             }
         }
         if (!$block instanceof Mage_Core_Block_Abstract) {
-            Mage::throwException(Mage::helper('core')->__('Invalid block type: %s', $block));
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block type: %s', $block));
         }
         return $block;
     }
@@ -558,7 +563,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         if (!isset($this->_helpers[$type])) {
             $className = Mage::getConfig()->getBlockClassName($type);
             if (!$className) {
-                Mage::throwException(Mage::helper('core')->__('Invalid block type: %s', $type));
+                Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block type: %s', $type));
             }
 
             $helper = new $className();

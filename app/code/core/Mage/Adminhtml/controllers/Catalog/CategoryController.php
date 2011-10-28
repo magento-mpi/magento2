@@ -178,7 +178,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 ->setLastEditedCategory($category->getId());
 //            $this->_initLayoutMessages('adminhtml/session');
             $this->loadLayout();
-            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode(array(
+            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'messages' => $this->getLayout()->getMessagesBlock()->getGroupedHtml(),
                 'content' =>
                     $this->getLayout()->getBlock('category.edit')->getFormHtml()
@@ -193,8 +193,8 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true)
             ->setContainerCssClass('catalog-categories');
 
-        $this->_addBreadcrumb(Mage::helper('catalog')->__('Manage Catalog Categories'),
-             Mage::helper('catalog')->__('Manage Categories')
+        $this->_addBreadcrumb(Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Catalog Categories'),
+             Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Categories')
         );
 
         $block = $this->getLayout()->getBlock('catalog.wysiwyg.js');
@@ -317,7 +317,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 if ($validate !== true) {
                     foreach ($validate as $code => $error) {
                         if ($error === true) {
-                            Mage::throwException(Mage::helper('catalog')->__('Attribute "%s" is required.', $category->getResource()->getAttribute($code)->getFrontend()->getLabel()));
+                            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute "%s" is required.', $category->getResource()->getAttribute($code)->getFrontend()->getLabel()));
                         }
                         else {
                             Mage::throwException($error);
@@ -340,7 +340,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 $category->unsetData('use_post_data_config');
 
                 $category->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('The category has been saved.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('The category has been saved.'));
                 $refreshTree = 'true';
             }
             catch (Exception $e){
@@ -362,7 +362,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
     {
         $category = $this->_initCategory();
         if (!$category) {
-            $this->getResponse()->setBody(Mage::helper('catalog')->__('Category move error'));
+            $this->getResponse()->setBody(Mage::helper('Mage_Catalog_Helper_Data')->__('Category move error'));
             return;
         }
         /**
@@ -382,7 +382,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             $this->getResponse()->setBody($e->getMessage());
         }
         catch (Exception $e){
-            $this->getResponse()->setBody(Mage::helper('catalog')->__('Category move error'.$e));
+            $this->getResponse()->setBody(Mage::helper('Mage_Catalog_Helper_Data')->__('Category move error'.$e));
             Mage::logException($e);
         }
 
@@ -401,7 +401,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 Mage::getSingleton('admin/session')->setDeletedPath($category->getPath());
 
                 $category->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('The category has been deleted.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('The category has been deleted.'));
             }
             catch (Mage_Core_Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -409,7 +409,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 return;
             }
             catch (Exception $e){
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('An error occurred while trying to delete the category.'));
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('An error occurred while trying to delete the category.'));
                 $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current'=>true)));
                 return;
             }
@@ -457,7 +457,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 
         $block = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Category_Tree');
         $root  = $block->getRoot();
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode(array(
+        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
             'data' => $block->getTree(),
             'parameters' => array(
                 'text'        => $block->buildNodeName($root),
@@ -479,7 +479,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         if ($id = (int) $this->getRequest()->getParam('id')) {
             $category = Mage::getModel('catalog/category')->load($id);
             $this->getResponse()->setBody(
-                Mage::helper('core')->jsonEncode(array(
+                Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                    'id' => $id,
                    'path' => $category->getPath(),
                 ))

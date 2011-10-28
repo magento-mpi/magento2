@@ -69,59 +69,59 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header'    => Mage::helper('catalog')->__('Product ID'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Product ID'),
             'index'     => 'product_id',
             'width'     => '100px',
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('catalog')->__('Product Name'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Name'),
             'index'     => 'name',
             'renderer'  => 'Mage_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item'
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('catalog')->__('SKU'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
             'index'     => 'sku',
             'width'     => '100px',
         ));
 
         $this->addColumn('qty', array(
-            'header'    => Mage::helper('catalog')->__('Qty'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Qty'),
             'index'     => 'qty',
             'type'      => 'number',
             'width'     => '60px',
         ));
 
         $this->addColumn('price', array(
-            'header'        => Mage::helper('catalog')->__('Price'),
+            'header'        => Mage::helper('Mage_Catalog_Helper_Data')->__('Price'),
             'index'         => 'price',
             'type'          => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('total', array(
-            'header'        => Mage::helper('sales')->__('Total'),
+            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Total'),
             'index'         => 'row_total',
             'type'          => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('customer')->__('Action'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Action'),
             'index'     => 'quote_item_id',
             'renderer'  => 'Mage_Adminhtml_Block_Customer_Grid_Renderer_Multiaction',
             'filter'    => false,
             'sortable'  => false,
             'actions'   => array(
                 array(
-                    'caption'           => Mage::helper('customer')->__('Configure'),
+                    'caption'           => Mage::helper('Mage_Customer_Helper_Data')->__('Configure'),
                     'url'               => 'javascript:void(0)',
                     'process'           => 'configurable',
                     'control_object'    => $this->getJsObjectName() . 'cartControl'
                 ),
                 array(
-                    'caption'   => Mage::helper('customer')->__('Delete'),
+                    'caption'   => Mage::helper('Mage_Customer_Helper_Data')->__('Delete'),
                     'url'       => '#',
                     'onclick'   => 'return ' . $this->getJsObjectName() . 'cartControl.removeItem($item_id);'
                 )

@@ -74,7 +74,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Grid extends Mage_Adminhtml_Block_Wi
 
         $this->addColumn('items_total',
             array(
-                'header'    => Mage::helper('catalog')->__('Total Qty Base Items'),
+                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Total Qty Base Items'),
                 'width'     => '150px',
                 'index'     => 'items_total',
                 'filter'    => false

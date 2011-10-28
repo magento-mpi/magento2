@@ -103,7 +103,7 @@ class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_
                     $historyItem->setIsCustomerNotified(1);
                     $historyItem->save();
                 }
-                $this->_getSession()->addSuccess(Mage::helper('sales')->__('The message has been sent.'));
+                $this->_getSession()->addSuccess(Mage::helper('Mage_Sales_Helper_Data')->__('The message has been sent.'));
                 $this->_redirect('*/sales_invoice/view', array(
                     'order_id'  => $invoice->getOrder()->getId(),
                     'invoice_id'=> $invoiceId,

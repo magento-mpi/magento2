@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Roles extends Mage_Adminhtm
         $this->setDefaultSort('sort_order');
         $this->setDefaultDir('asc');
         //$this->setDefaultFilter(array('assigned_user_role'=>1));
-        $this->setTitle(Mage::helper('adminhtml')->__('User Roles Information'));
+        $this->setTitle(Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Roles Information'));
         $this->setUseAjax(true);
     }
 
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Roles extends Mage_Adminhtm
 
         $this->addColumn('assigned_user_role', array(
             'header_css_class' => 'a-center',
-            'header'    => Mage::helper('adminhtml')->__('Assigned'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Assigned'),
             'type'      => 'radio',
             'html_name' => 'roles[]',
             'values'    => $this->_getSelectedRoles(),
@@ -82,14 +82,14 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Roles extends Mage_Adminhtm
         ));
 
         /*$this->addColumn('role_id', array(
-            'header'    =>Mage::helper('adminhtml')->__('Role ID'),
+            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role ID'),
             'index'     =>'role_id',
             'align'     => 'right',
             'width'    => '50px'
         ));*/
 
         $this->addColumn('role_name', array(
-            'header'    =>Mage::helper('adminhtml')->__('Role Name'),
+            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Name'),
             'index'     =>'role_name'
         ));
 
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Roles extends Mage_Adminhtm
         if ($json) {
             $jsonRoles = Array();
             foreach($uRoles as $urid) $jsonRoles[$urid] = 0;
-            return Mage::helper('core')->jsonEncode((object)$jsonRoles);
+            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode((object)$jsonRoles);
         } else {
             return $uRoles;
         }

@@ -76,7 +76,7 @@ class Enterprise_Staging_Model_Staging_Log extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('enterprise_staging/staging_log');
+        $this->_init('Enterprise_Staging_Model_Resource_Staging_Log');
     }
 
     /**

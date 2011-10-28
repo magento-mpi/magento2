@@ -137,7 +137,7 @@ class Find_Feed_Adminhtml_Codes_GridController extends Mage_Adminhtml_Controller
             $updatedCodes++;
         }
         if ($updatedCodes > 0) {
-            $this->_getSession()->addSuccess(Mage::helper('find_feed')->__("%s codes imported", $updatedCodes));
+            $this->_getSession()->addSuccess(Mage::helper('Find_Feed_Helper_Data')->__("%s codes imported", $updatedCodes));
         }
         $this->_redirect('*/*/index');
     }
@@ -154,7 +154,7 @@ class Find_Feed_Adminhtml_Codes_GridController extends Mage_Adminhtml_Controller
             $updatedCodes++;
         }
         if ($updatedCodes > 0) {
-            $this->_getSession()->addSuccess(Mage::helper('find_feed')->__("%s codes not imported", $updatedCodes));
+            $this->_getSession()->addSuccess(Mage::helper('Find_Feed_Helper_Data')->__("%s codes not imported", $updatedCodes));
         }
         $this->_redirect('*/*/index');
     }
@@ -170,7 +170,7 @@ class Find_Feed_Adminhtml_Codes_GridController extends Mage_Adminhtml_Controller
             $updatedCodes++;
         }
         if ($updatedCodes > 0) {
-            $this->_getSession()->addSuccess(Mage::helper('find_feed')->__("%s codes deleted", $updatedCodes));
+            $this->_getSession()->addSuccess(Mage::helper('Find_Feed_Helper_Data')->__("%s codes deleted", $updatedCodes));
         }
         $this->_redirect('*/*/index');
     }

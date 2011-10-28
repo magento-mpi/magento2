@@ -67,7 +67,7 @@
         <catalog>
             <product>
                 <type>
-                    <downloadable translate="label" module="downloadable">
+                    <downloadable translate="label" module="Mage_Downloadable">
                         <label>Downloadable Product</label>
                         <model>downloadable/product_type</model>
                         <is_qty>1</is_qty>
@@ -180,7 +180,7 @@
         </translate>
         <layout>
             <updates>
-                <downloadable module="Mage_Downloadable">
+                <downloadable module="Mage_Mage_Downloadable">
                     <file>downloadable.xml</file>
                 </downloadable>
             </updates>

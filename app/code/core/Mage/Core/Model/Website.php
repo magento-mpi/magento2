@@ -147,7 +147,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('core/website');
+        $this->_init('Mage_Core_Model_Resource_Website');
     }
 
     /**
@@ -207,7 +207,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
             $config = Mage::getConfig()->getNode('websites/'.$this->getCode().'/'.$path);
             if (!$config) {
                 return false;
-                #throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid website\'s configuration path: %s', $path));
+                #throw Mage::exception('Mage_Core', Mage::helper('Mage_Core_Helper_Data')->__('Invalid website\'s configuration path: %s', $path));
             }
             if ($config->hasChildren()) {
                 $value = array();

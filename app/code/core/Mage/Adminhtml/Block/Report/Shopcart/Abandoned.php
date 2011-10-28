@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned extends Mage_Adminhtml_Bloc
     public function __construct()
     {
         $this->_controller = 'report_shopcart_abandoned';
-        $this->_headerText = Mage::helper('reports')->__('Abandoned carts');
+        $this->_headerText = Mage::helper('Mage_Reports_Helper_Data')->__('Abandoned carts');
         parent::__construct();
         $this->_removeButton('add');
     }

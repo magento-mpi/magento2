@@ -191,7 +191,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
             $addAttributes = 'disabled="disabled"';
         }
         return sprintf('<button type="button" class="scalable %s" %s><span>%s</span></button>',
-            $class, $addAttributes, Mage::helper('sales')->__('Configure'));
+            $class, $addAttributes, Mage::helper('Mage_Sales_Helper_Data')->__('Configure'));
     }
 
     /**

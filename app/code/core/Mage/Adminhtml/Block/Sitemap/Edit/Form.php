@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Sitemap_Edit_Form extends Mage_Adminhtml_Block_Widget
     {
         parent::__construct();
         $this->setId('sitemap_form');
-        $this->setTitle(Mage::helper('adminhtml')->__('Sitemap Information'));
+        $this->setTitle(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Sitemap Information'));
     }
 
 
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Sitemap_Edit_Form extends Mage_Adminhtml_Block_Widget
             'method'    => 'post'
         ));
 
-        $fieldset = $form->addFieldset('add_sitemap_form', array('legend' => Mage::helper('sitemap')->__('Sitemap')));
+        $fieldset = $form->addFieldset('add_sitemap_form', array('legend' => Mage::helper('Mage_Sitemap_Helper_Data')->__('Sitemap')));
 
         if ($model->getId()) {
             $fieldset->addField('sitemap_id', 'hidden', array(
@@ -65,25 +65,25 @@ class Mage_Adminhtml_Block_Sitemap_Edit_Form extends Mage_Adminhtml_Block_Widget
         }
 
         $fieldset->addField('sitemap_filename', 'text', array(
-            'label' => Mage::helper('sitemap')->__('Filename'),
+            'label' => Mage::helper('Mage_Sitemap_Helper_Data')->__('Filename'),
             'name'  => 'sitemap_filename',
             'required' => true,
-            'note'  => Mage::helper('adminhtml')->__('example: sitemap.xml'),
+            'note'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('example: sitemap.xml'),
             'value' => $model->getSitemapFilename()
         ));
 
         $fieldset->addField('sitemap_path', 'text', array(
-            'label' => Mage::helper('sitemap')->__('Path'),
+            'label' => Mage::helper('Mage_Sitemap_Helper_Data')->__('Path'),
             'name'  => 'sitemap_path',
             'required' => true,
-            'note'  => Mage::helper('adminhtml')->__('example: "sitemap/" or "/" for base path (path must be writeable)'),
+            'note'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('example: "sitemap/" or "/" for base path (path must be writeable)'),
             'value' => $model->getSitemapPath()
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('store_id', 'select', array(
-                'label'    => Mage::helper('sitemap')->__('Store View'),
-                'title'    => Mage::helper('sitemap')->__('Store View'),
+                'label'    => Mage::helper('Mage_Sitemap_Helper_Data')->__('Store View'),
+                'title'    => Mage::helper('Mage_Sitemap_Helper_Data')->__('Store View'),
                 'name'     => 'store_id',
                 'required' => true,
                 'value'    => $model->getStoreId(),

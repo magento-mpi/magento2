@@ -58,7 +58,7 @@ class Mage_Cron_Model_Schedule extends Mage_Core_Model_Abstract
 
     public function _construct()
     {
-        $this->_init('cron/schedule');
+        $this->_init('Mage_Cron_Model_Resource_Schedule');
     }
 
     public function setCronExpr($expr)

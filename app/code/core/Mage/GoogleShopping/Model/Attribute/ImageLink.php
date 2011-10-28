@@ -42,7 +42,7 @@ class Mage_GoogleShopping_Model_Attribute_ImageLink extends Mage_GoogleShopping_
      */
     public function convertAttribute($product, $entry)
     {
-        $url = Mage::helper('catalog/product')->getImageUrl($product);
+        $url = Mage::helper('Mage_Catalog_Helper_Product')->getImageUrl($product);
         if ($product->getImage() && $product->getImage() != 'no_selection' && $url) {
             $this->_setAttribute($entry, 'image_link', self::ATTRIBUTE_TYPE_URL, $url);
         }

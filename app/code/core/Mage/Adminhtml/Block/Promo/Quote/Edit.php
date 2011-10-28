@@ -43,8 +43,8 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit extends Mage_Adminhtml_Block_Widget_
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('salesrule')->__('Save Rule'));
-        $this->_updateButton('delete', 'label', Mage::helper('salesrule')->__('Delete Rule'));
+        $this->_updateButton('save', 'label', Mage::helper('Mage_SalesRule_Helper_Data')->__('Save Rule'));
+        $this->_updateButton('delete', 'label', Mage::helper('Mage_SalesRule_Helper_Data')->__('Delete Rule'));
 
         $rule = Mage::registry('current_promo_quote_rule');
 
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit extends Mage_Adminhtml_Block_Widget_
             $this->_removeButton('reset');
         } else {
             $this->_addButton('save_and_continue', array(
-                'label'     => Mage::helper('salesrule')->__('Save and Continue Edit'),
+                'label'     => Mage::helper('Mage_SalesRule_Helper_Data')->__('Save and Continue Edit'),
                 'onclick'   => 'saveAndContinueEdit()',
                 'class' => 'save'
             ), 10);
@@ -71,10 +71,10 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit extends Mage_Adminhtml_Block_Widget_
     {
         $rule = Mage::registry('current_promo_quote_rule');
         if ($rule->getRuleId()) {
-            return Mage::helper('salesrule')->__("Edit Rule '%s'", $this->htmlEscape($rule->getName()));
+            return Mage::helper('Mage_SalesRule_Helper_Data')->__("Edit Rule '%s'", $this->htmlEscape($rule->getName()));
         }
         else {
-            return Mage::helper('salesrule')->__('New Rule');
+            return Mage::helper('Mage_SalesRule_Helper_Data')->__('New Rule');
         }
     }
 

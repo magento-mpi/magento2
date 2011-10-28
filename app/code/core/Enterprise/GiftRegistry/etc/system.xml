@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-        <enterprise_giftregistry translate="label" module="enterprise_giftregistry">
+        <enterprise_giftregistry translate="label" module="Enterprise_GiftRegistry">
             <label>Gift Registry</label>
             <tab>customer</tab>
             <frontend_type>text</frontend_type>
@@ -36,14 +36,14 @@
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
             <groups>
-                <general translate="label" module="enterprise_giftregistry">
+                <general translate="label" module="Enterprise_GiftRegistry">
                     <label>General Options</label>
                     <sort_order>1</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <enabled translate="label" module="enterprise_giftregistry">
+                        <enabled translate="label" module="Enterprise_GiftRegistry">
                             <label>Enable Gift Registry</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -52,7 +52,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </enabled>
-                        <max_registrant translate="label" module="enterprise_giftregistry">
+                        <max_registrant translate="label" module="Enterprise_GiftRegistry">
                             <label>Max Recipients Limit</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>2</sort_order>
@@ -62,7 +62,7 @@
                         </max_registrant>
                     </fields>
                 </general>
-                <owner_email translate="label" module="enterprise_giftregistry">
+                <owner_email translate="label" module="Enterprise_GiftRegistry">
                     <label>Owner Notification</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>1</sort_order>
@@ -70,7 +70,7 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <template translate="label" module="enterprise_giftregistry">
+                        <template translate="label" module="Enterprise_GiftRegistry">
                             <label>Email Template</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_email_template</source_model>
@@ -79,7 +79,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </template>
-                        <identity translate="label" module="enterprise_giftregistry"> 
+                        <identity translate="label" module="Enterprise_GiftRegistry"> 
                             <label>Email Sender</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_email_identity</source_model>
@@ -90,7 +90,7 @@
                         </identity>
                     </fields>
                 </owner_email>
-                <sharing_email translate="label" module="enterprise_giftregistry">
+                <sharing_email translate="label" module="Enterprise_GiftRegistry">
                     <label>Gift Registry Sharing</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>2</sort_order>
@@ -98,7 +98,7 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <template translate="label" module="enterprise_giftregistry">
+                        <template translate="label" module="Enterprise_GiftRegistry">
                             <label>Email Template</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_email_template</source_model>
@@ -107,7 +107,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </template>
-                        <identity translate="label" module="enterprise_giftregistry"> 
+                        <identity translate="label" module="Enterprise_GiftRegistry"> 
                             <label>Email Sender</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_email_identity</source_model>
@@ -116,7 +116,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </identity>
-                        <send_limit translate="label" module="enterprise_giftregistry">
+                        <send_limit translate="label" module="Enterprise_GiftRegistry">
                             <label>Max Emails Allowed to be Sent at One Time</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>5</sort_order>
@@ -126,7 +126,7 @@
                         </send_limit>
                     </fields>
                 </sharing_email>
-                <update_email translate="label" module="enterprise_giftregistry">
+                <update_email translate="label" module="Enterprise_GiftRegistry">
                     <label>Gift Registry Update</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>3</sort_order>
@@ -134,7 +134,7 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <template translate="label" module="enterprise_giftregistry">
+                        <template translate="label" module="Enterprise_GiftRegistry">
                             <label>Email Template</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_email_template</source_model>
@@ -143,7 +143,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </template>
-                        <identity translate="label" module="enterprise_giftregistry"> 
+                        <identity translate="label" module="Enterprise_GiftRegistry"> 
                             <label>Email Sender</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_email_identity</source_model>

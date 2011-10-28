@@ -119,11 +119,11 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
             }
 
             if (!($this->_tabs[$tabId] instanceof Mage_Adminhtml_Block_Widget_Tab_Interface)) {
-                throw new Exception(Mage::helper('adminhtml')->__('Wrong tab configuration.'));
+                throw new Exception(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong tab configuration.'));
             }
         }
         else {
-            throw new Exception(Mage::helper('adminhtml')->__('Wrong tab configuration.'));
+            throw new Exception(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong tab configuration.'));
         }
 
         if (is_null($this->_tabs[$tabId]->getUrl())) {
@@ -358,7 +358,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
             }
         }
         if ($asJson) {
-            return Mage::helper('core')->jsonEncode($result);
+            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
         }
         return $result;
     }

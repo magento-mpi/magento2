@@ -48,7 +48,7 @@
 class Enterprise_GiftRegistry_Model_Person extends Mage_Core_Model_Abstract
 {
     function _construct() {
-        $this->_init('enterprise_giftregistry/person');
+        $this->_init('Enterprise_GiftRegistry_Model_Resource_Person');
     }
 
     /**
@@ -60,7 +60,7 @@ class Enterprise_GiftRegistry_Model_Person extends Mage_Core_Model_Abstract
     {
         // not Checking entityId !!!
         $errors = array();
-        $helper = Mage::helper('enterprise_giftregistry');
+        $helper = Mage::helper('Enterprise_GiftRegistry_Helper_Data');
 
         if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
             $errors[] = $helper->__('Please enter the first name.');

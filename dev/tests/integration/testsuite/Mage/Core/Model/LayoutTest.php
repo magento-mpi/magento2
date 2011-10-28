@@ -209,7 +209,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testHelper()
     {
-        $helper = $this->_model->helper('core');
+        $helper = $this->_model->helper('Mage_Core_Helper_Data');
         $this->assertInstanceOf('Mage_Core_Helper_Data', $helper);
         $this->assertSame($this->_model, $helper->getLayout());
     }

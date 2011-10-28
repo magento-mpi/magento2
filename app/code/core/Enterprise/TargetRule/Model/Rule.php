@@ -99,7 +99,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
      */
     protected function _construct()
     {
-        $this->_init('enterprise_targetrule/rule');
+        $this->_init('Enterprise_TargetRule_Model_Resource_Rule');
     }
 
     /**
@@ -167,14 +167,14 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
     {
         $result = array();
         if ($withEmpty) {
-            $result[''] = Mage::helper('adminhtml')->__('-- Please Select --');
+            $result[''] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('-- Please Select --');
         }
         $result[Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS]
-            = Mage::helper('enterprise_targetrule')->__('Related Products');
+            = Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Related Products');
         $result[Enterprise_TargetRule_Model_Rule::UP_SELLS]
-            = Mage::helper('enterprise_targetrule')->__('Up-sells');
+            = Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Up-sells');
         $result[Enterprise_TargetRule_Model_Rule::CROSS_SELLS]
-            = Mage::helper('enterprise_targetrule')->__('Cross-sells');
+            = Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Cross-sells');
         return $result;
     }
 
@@ -365,7 +365,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
                     continue;
                 }
                 if (!$validator->isValid($actionArgs['type']) || !$validator->isValid($actionArgs['attribute'])) {
-                    $errorsArray[] = Mage::helper('catalog/product')->__('Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.');
+                    $errorsArray[] = Mage::helper('Mage_Catalog_Helper_Product')->__('Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.');
                 }
             }
         }
@@ -374,7 +374,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
             $dateEndUnixTime   = strtotime($object->getData('to_date'));
 
             if ($dateEndUnixTime < $dateStartUnixTime) {
-                $errorsArray[] = (Mage::helper('enterprise_targetrule')->__("End Date should be greater than Start Date"));
+                $errorsArray[] = (Mage::helper('Enterprise_TargetRule_Helper_Data')->__("End Date should be greater than Start Date"));
             }
         }
         return empty($errorsArray) ? true : $errorsArray;

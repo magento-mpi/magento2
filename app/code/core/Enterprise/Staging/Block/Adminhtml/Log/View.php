@@ -41,7 +41,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_View extends Mage_Adminhtml_Block_W
         $this->_controller = 'adminhtml_log';
         $this->_mode = 'view';
 
-        $this->_headerText = Mage::helper('enterprise_staging')->__('Details');
+        $this->_headerText = Mage::helper('Enterprise_Staging_Helper_Data')->__('Details');
         $this->_removeButton('save');
         $this->_removeButton('delete');
         $this->_removeButton('reset');

@@ -90,7 +90,7 @@ class Mage_XmlConnect_Block_Customer_Address_List extends Mage_Core_Block_Templa
             return array();
         }
 
-        $attributes = Mage::helper('customer/address')->getAttributes();
+        $attributes = Mage::helper('Mage_Customer_Helper_Address')->getAttributes();
 
         $data = array('entity_id' => $address->getId());
 

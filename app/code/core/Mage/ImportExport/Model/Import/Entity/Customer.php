@@ -578,7 +578,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
                 }
                 // check password
                 if (isset($rowData['password']) && strlen($rowData['password'])
-                    && Mage::helper('core/string')->strlen($rowData['password']) < self::MAX_PASSWD_LENGTH
+                    && Mage::helper('Mage_Core_Helper_String')->strlen($rowData['password']) < self::MAX_PASSWD_LENGTH
                 ) {
                     $this->addRowError(self::ERROR_PASSWORD_LENGTH, $rowNum);
                 }

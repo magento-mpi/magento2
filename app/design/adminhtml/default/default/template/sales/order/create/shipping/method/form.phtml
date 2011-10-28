@@ -45,11 +45,11 @@
                         <label class="normal" for="s_method_<?php echo $_code ?>">
                             <?php echo $_rate->getMethodTitle() ? $_rate->getMethodTitle() : $_rate->getMethodDescription()?> -
                             <strong>
-                                <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+                                <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()); ?>
                                 <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
 
                                 <?php echo $_excl; ?>
-                                <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                                <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
                                     (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
                                 <?php endif; ?>
                             </strong>
@@ -67,29 +67,29 @@
             <strong><?php echo $this->getCarrierName($_rate->getCarrier()) ?></strong><br/>
             <?php echo $_rate->getMethodTitle() ? $_rate->getMethodTitle() : $_rate->getMethodDescription() ?> -
             <strong>
-                <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+                <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()); ?>
                 <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
 
                 <?php echo $_excl; ?>
-                <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
                     (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
                 <?php endif; ?>
             </strong>
             <!--input type="text" class="input-text" style="width:70px"/-->
             <br/>
             <a href="#" onclick="$('order-shipping-method-info').hide();$('order-shipping-method-choose').show();return false">
-                <?php echo Mage::helper('sales')->__('Click to change shipping method') ?>
+                <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Click to change shipping method') ?>
             </a>
         </div>
     <?php else: ?>
         <script type="text/javascript">$('order-shipping-method-choose').show();</script>
     <?php endif; ?>
 <?php elseif($this->getIsRateRequest()): ?>
-    <strong><?php echo Mage::helper('sales')->__('Sorry, no quotes are available for this order at this time.') ?></strong>
+    <strong><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Sorry, no quotes are available for this order at this time.') ?></strong>
 <?php else: ?>
     <div id="order-shipping-method-summary">
         <a href="#" onclick="order.loadShippingRates();return false">
-            <?php echo Mage::helper('sales')->__('Get shipping methods and rates') ?>
+            <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Get shipping methods and rates') ?>
         </a>
         <input type="hidden" name="order[has_shipping]" value="" class="required-entry">
     </div>

@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
      */
     public function getTabLabel()
     {
-        return Mage::helper('catalogrule')->__('Rule Information');
+        return Mage::helper('Mage_CatalogRule_Helper_Data')->__('Rule Information');
     }
 
     /**
@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
      */
     public function getTabTitle()
     {
-        return Mage::helper('catalogrule')->__('Rule Information');
+        return Mage::helper('Mage_CatalogRule_Helper_Data')->__('Rule Information');
     }
 
     /**
@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
 
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('catalogrule')->__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_CatalogRule_Helper_Data')->__('General Information')));
 
         $fieldset->addField('auto_apply', 'hidden', array(
             'name' => 'auto_apply',
@@ -98,34 +98,34 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
 
         $fieldset->addField('name', 'text', array(
             'name' => 'name',
-            'label' => Mage::helper('catalogrule')->__('Rule Name'),
-            'title' => Mage::helper('catalogrule')->__('Rule Name'),
+            'label' => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Rule Name'),
+            'title' => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Rule Name'),
             'required' => true,
         ));
 
         $fieldset->addField('description', 'textarea', array(
             'name' => 'description',
-            'label' => Mage::helper('catalogrule')->__('Description'),
-            'title' => Mage::helper('catalogrule')->__('Description'),
+            'label' => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Description'),
+            'title' => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Description'),
             'style' => 'width: 98%; height: 100px;',
         ));
 
         $fieldset->addField('is_active', 'select', array(
-            'label'     => Mage::helper('catalogrule')->__('Status'),
-            'title'     => Mage::helper('catalogrule')->__('Status'),
+            'label'     => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Status'),
+            'title'     => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Status'),
             'name'      => 'is_active',
             'required' => true,
             'options'    => array(
-                '1' => Mage::helper('catalogrule')->__('Active'),
-                '0' => Mage::helper('catalogrule')->__('Inactive'),
+                '1' => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Active'),
+                '0' => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Inactive'),
             ),
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('website_ids', 'multiselect', array(
                 'name'      => 'website_ids[]',
-                'label'     => Mage::helper('catalogrule')->__('Websites'),
-                'title'     => Mage::helper('catalogrule')->__('Websites'),
+                'label'     => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Websites'),
+                'title'     => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Websites'),
                 'required'  => true,
                 'values'    => Mage::getSingleton('adminhtml/system_config_source_website')->toOptionArray(),
             ));
@@ -148,13 +148,13 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
             }
         }
         if (!$found) {
-            array_unshift($customerGroups, array('value'=>0, 'label'=>Mage::helper('catalogrule')->__('NOT LOGGED IN')));
+            array_unshift($customerGroups, array('value'=>0, 'label'=>Mage::helper('Mage_CatalogRule_Helper_Data')->__('NOT LOGGED IN')));
         }
 
         $fieldset->addField('customer_group_ids', 'multiselect', array(
             'name'      => 'customer_group_ids[]',
-            'label'     => Mage::helper('catalogrule')->__('Customer Groups'),
-            'title'     => Mage::helper('catalogrule')->__('Customer Groups'),
+            'label'     => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Customer Groups'),
+            'title'     => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Customer Groups'),
             'required'  => true,
             'values'    => $customerGroups,
         ));
@@ -162,16 +162,16 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
         $dateFormatIso = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',
-            'label'  => Mage::helper('catalogrule')->__('From Date'),
-            'title'  => Mage::helper('catalogrule')->__('From Date'),
+            'label'  => Mage::helper('Mage_CatalogRule_Helper_Data')->__('From Date'),
+            'title'  => Mage::helper('Mage_CatalogRule_Helper_Data')->__('From Date'),
             'image'  => $this->getSkinUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
             'format'       => $dateFormatIso
         ));
         $fieldset->addField('to_date', 'date', array(
             'name'   => 'to_date',
-            'label'  => Mage::helper('catalogrule')->__('To Date'),
-            'title'  => Mage::helper('catalogrule')->__('To Date'),
+            'label'  => Mage::helper('Mage_CatalogRule_Helper_Data')->__('To Date'),
+            'title'  => Mage::helper('Mage_CatalogRule_Helper_Data')->__('To Date'),
             'image'  => $this->getSkinUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
             'format'       => $dateFormatIso
@@ -179,7 +179,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
 
         $fieldset->addField('sort_order', 'text', array(
             'name' => 'sort_order',
-            'label' => Mage::helper('catalogrule')->__('Priority'),
+            'label' => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Priority'),
         ));
 
         $form->setValues($model->getData());

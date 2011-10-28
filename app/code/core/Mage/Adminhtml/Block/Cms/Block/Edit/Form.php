@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
     {
         parent::__construct();
         $this->setId('block_form');
-        $this->setTitle(Mage::helper('cms')->__('Block Information'));
+        $this->setTitle(Mage::helper('Mage_Cms_Helper_Data')->__('Block Information'));
     }
 
     /**
@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
 
         $form->setHtmlIdPrefix('block_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('cms')->__('General Information'), 'class' => 'fieldset-wide'));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_Cms_Helper_Data')->__('General Information'), 'class' => 'fieldset-wide'));
 
         if ($model->getBlockId()) {
             $fieldset->addField('block_id', 'hidden', array(
@@ -74,15 +74,15 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
 
         $fieldset->addField('title', 'text', array(
             'name'      => 'title',
-            'label'     => Mage::helper('cms')->__('Block Title'),
-            'title'     => Mage::helper('cms')->__('Block Title'),
+            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Block Title'),
+            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Block Title'),
             'required'  => true,
         ));
 
         $fieldset->addField('identifier', 'text', array(
             'name'      => 'identifier',
-            'label'     => Mage::helper('cms')->__('Identifier'),
-            'title'     => Mage::helper('cms')->__('Identifier'),
+            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Identifier'),
+            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Identifier'),
             'required'  => true,
             'class'     => 'validate-xml-identifier',
         ));
@@ -93,8 +93,8 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
         if (!Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('store_id', 'multiselect', array(
                 'name'      => 'stores[]',
-                'label'     => Mage::helper('cms')->__('Store View'),
-                'title'     => Mage::helper('cms')->__('Store View'),
+                'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Store View'),
+                'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Store View'),
                 'required'  => true,
                 'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
             ));
@@ -108,13 +108,13 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
         }
 
         $fieldset->addField('is_active', 'select', array(
-            'label'     => Mage::helper('cms')->__('Status'),
-            'title'     => Mage::helper('cms')->__('Status'),
+            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
+            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
             'name'      => 'is_active',
             'required'  => true,
             'options'   => array(
-                '1' => Mage::helper('cms')->__('Enabled'),
-                '0' => Mage::helper('cms')->__('Disabled'),
+                '1' => Mage::helper('Mage_Cms_Helper_Data')->__('Enabled'),
+                '0' => Mage::helper('Mage_Cms_Helper_Data')->__('Disabled'),
             ),
         ));
         if (!$model->getId()) {
@@ -123,8 +123,8 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
 
         $fieldset->addField('content', 'editor', array(
             'name'      => 'content',
-            'label'     => Mage::helper('cms')->__('Content'),
-            'title'     => Mage::helper('cms')->__('Content'),
+            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Content'),
+            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Content'),
             'style'     => 'height:36em',
             'required'  => true,
             'config'    => Mage::getSingleton('cms/wysiwyg_config')->getConfig()

@@ -187,7 +187,7 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
                 $strErrors = array();
                 foreach($errors as $code => $error) {
                     if ($error === true) {
-                        $error = Mage::helper('catalog')->__('Attribute "%s" is invalid.', $code);
+                        $error = Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute "%s" is invalid.', $code);
                     }
                     $strErrors[] = $error;
                 }
@@ -225,9 +225,9 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
                 $strErrors = array();
                 foreach($errors as $code => $error) {
                     if ($error === true) {
-                        $error = Mage::helper('catalog')->__('Value for "%s" is invalid.', $code);
+                        $error = Mage::helper('Mage_Catalog_Helper_Data')->__('Value for "%s" is invalid.', $code);
                     } else {
-                        $error = Mage::helper('catalog')->__('Value for "%s" is invalid: %s', $code, $error);
+                        $error = Mage::helper('Mage_Catalog_Helper_Data')->__('Value for "%s" is invalid: %s', $code, $error);
                     }
                     $strErrors[] = $error;
                 }

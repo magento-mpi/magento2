@@ -72,7 +72,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('enterprise_cms/hierarchy_node');
+        $this->_init('Enterprise_Cms_Model_Resource_Hierarchy_Node');
     }
 
     /**
@@ -107,7 +107,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
             foreach ($required as $field) {
                 if (!array_key_exists($field, $v)) {
                     Mage::throwException(
-                        Mage::helper('enterprise_cms')->__('Invalid node data.')
+                        Mage::helper('Enterprise_Cms_Helper_Data')->__('Invalid node data.')
                     );
                 }
             }
@@ -125,7 +125,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
                 'request_url'        => $v['identifier']
             );
 
-            $nodes[$parentNodeId][$v['node_id']] = Mage::helper('enterprise_cms/hierarchy')
+            $nodes[$parentNodeId][$v['node_id']] = Mage::helper('Enterprise_Cms_Helper_Hierarchy')
                 ->copyMetaData($v, $_node);
         }
 
@@ -575,7 +575,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     {
         parent::_afterSave();
         // we save to metadata table not only metadata :(
-        //if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) {
+        //if (Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled()) {
             $this->_getResource()->saveMetaData($this);
         //}
 

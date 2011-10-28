@@ -73,7 +73,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Invoice extends Mage_Bundle_Model_
                 if ($_prevOptionId != $attributes['option_id']) {
                     $line[0] = array(
                         'font'  => 'italic',
-                        'text'  => Mage::helper('core/string')->str_split($attributes['option_label'], 70, true, true),
+                        'text'  => Mage::helper('Mage_Core_Helper_String')->str_split($attributes['option_label'], 70, true, true),
                         'feed'  => 35
                     );
 
@@ -97,14 +97,14 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Invoice extends Mage_Bundle_Model_
                 $name = $_item->getName();
             }
             $line[] = array(
-                'text'  => Mage::helper('core/string')->str_split($name, 55, true, true),
+                'text'  => Mage::helper('Mage_Core_Helper_String')->str_split($name, 55, true, true),
                 'feed'  => $feed
             );
 
             // draw SKUs
             if (!$_item->getOrderItem()->getParentItem()) {
                 $text = array();
-                foreach (Mage::helper('core/string')->str_split($item->getSku(), 30) as $part) {
+                foreach (Mage::helper('Mage_Core_Helper_String')->str_split($item->getSku(), 30) as $part) {
                     $text[] = $part;
                 }
                 $line[] = array(
@@ -155,7 +155,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Invoice extends Mage_Bundle_Model_
                 foreach ($options['options'] as $option) {
                     $lines = array();
                     $lines[][] = array(
-                        'text'  => Mage::helper('core/string')->str_split(strip_tags($option['label']), 70, true, true),
+                        'text'  => Mage::helper('Mage_Core_Helper_String')->str_split(strip_tags($option['label']), 70, true, true),
                         'font'  => 'italic',
                         'feed'  => 35
                     );
@@ -165,7 +165,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Invoice extends Mage_Bundle_Model_
                         $_printValue = isset($option['print_value']) ? $option['print_value'] : strip_tags($option['value']);
                         $values = explode(', ', $_printValue);
                         foreach ($values as $value) {
-                            foreach (Mage::helper('core/string')->str_split($value, 50, true, true) as $_value) {
+                            foreach (Mage::helper('Mage_Core_Helper_String')->str_split($value, 50, true, true) as $_value) {
                                 $text[] = $_value;
                             }
                         }

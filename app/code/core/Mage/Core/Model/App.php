@@ -865,7 +865,7 @@ class Mage_Core_Model_App
                 return new Varien_Object();
             }
             else {
-                Mage::throwException(Mage::helper('core')->__('Requested invalid store "%s"', $id));
+                Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Requested invalid store "%s"', $id));
             }
         }
     }

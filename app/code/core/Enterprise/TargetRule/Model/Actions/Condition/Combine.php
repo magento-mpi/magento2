@@ -46,7 +46,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Combine extends Mage_Rule_Mo
     {
         $conditions = array(
             array('value'=>$this->getType(),
-                'label'=>Mage::helper('enterprise_targetrule')->__('Conditions Combination')),
+                'label'=>Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Conditions Combination')),
             Mage::getModel('enterprise_targetrule/actions_condition_product_attributes')->getNewChildSelectOptions(),
             Mage::getModel('enterprise_targetrule/actions_condition_product_special')->getNewChildSelectOptions(),
         );

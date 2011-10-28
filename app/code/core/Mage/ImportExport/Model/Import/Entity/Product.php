@@ -445,7 +445,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
             }
             if (! $model instanceof Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract) {
                 Mage::throwException(
-                    Mage::helper('importexport')->__('Entity type model must be an instance of Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract')
+                    Mage::helper('Mage_ImportExport_Helper_Data')->__('Entity type model must be an instance of Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract')
                 );
             }
             if ($model->isSuitable()) {
@@ -589,7 +589,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         $typeValueTable = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_type_value');
         $nextOptionId   = Mage::getResourceHelper('importexport')->getNextAutoincrement($optionTable);
         $nextValueId    = Mage::getResourceHelper('importexport')->getNextAutoincrement($typeValueTable);
-        $priceIsGlobal  = Mage::helper('catalog')->isPriceGlobal();
+        $priceIsGlobal  = Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal();
         $type           = null;
         $typeSpecific   = array(
             'date'      => array('price', 'sku'),
@@ -1040,7 +1040,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     {
         /** @var $resource Mage_ImportExport_Model_Import_Proxy_Product_Resource */
         $resource       = Mage::getModel('importexport/import_proxy_product_resource');
-        $priceIsGlobal  = Mage::helper('catalog')->isPriceGlobal();
+        $priceIsGlobal  = Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal();
         $strftimeFormat = Varien_Date::convertZendToStrftime(Varien_Date::DATETIME_INTERNAL_FORMAT, true, true);
         $productLimit   = null;
         $productsQty    = null;

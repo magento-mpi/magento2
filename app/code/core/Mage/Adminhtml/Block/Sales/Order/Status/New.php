@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_New extends Mage_Adminhtml_Block_W
         $this->_mode = 'new';
 
         parent::__construct();
-        $this->_updateButton('save', 'label', Mage::helper('sales')->__('Save Status'));
+        $this->_updateButton('save', 'label', Mage::helper('Mage_Sales_Helper_Data')->__('Save Status'));
         $this->_removeButton('delete');
     }
 
@@ -45,6 +45,6 @@ class Mage_Adminhtml_Block_Sales_Order_Status_New extends Mage_Adminhtml_Block_W
      */
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('New Order Status');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('New Order Status');
     }
 }

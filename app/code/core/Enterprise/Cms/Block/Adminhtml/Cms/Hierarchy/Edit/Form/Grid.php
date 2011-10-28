@@ -80,7 +80,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends Mage_A
             'filter'            => false
         ));
         $this->addColumn('page_id', array(
-            'header'            => Mage::helper('enterprise_cms')->__('Page ID'),
+            'header'            => Mage::helper('Enterprise_Cms_Helper_Data')->__('Page ID'),
             'sortable'          => true,
             'width'             => '60px',
             'type'              => 'range',
@@ -88,13 +88,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends Mage_A
         ));
 
         $this->addColumn('title', array(
-            'header'            => Mage::helper('enterprise_cms')->__('Title'),
+            'header'            => Mage::helper('Enterprise_Cms_Helper_Data')->__('Title'),
             'index'             => 'title',
             'column_css_class'  => 'label'
         ));
 
         $this->addColumn('identifier', array(
-            'header'            => Mage::helper('enterprise_cms')->__('URL Key'),
+            'header'            => Mage::helper('Enterprise_Cms_Helper_Data')->__('URL Key'),
             'index'             => 'identifier',
             'column_css_class'  => 'identifier'
         ));

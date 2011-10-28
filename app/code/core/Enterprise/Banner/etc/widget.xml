@@ -26,7 +26,7 @@
  */
 -->
 <widgets>
-    <enterprise_banner type="Enterprise_Banner_Block_Widget_Banner" translate="name description" module="enterprise_banner">
+    <enterprise_banner type="Enterprise_Banner_Block_Widget_Banner" translate="name description" module="Enterprise_Banner">
         <name>Banner Rotator</name>
         <description>Displays Specified or Promotion Banners</description>
         <parameters>

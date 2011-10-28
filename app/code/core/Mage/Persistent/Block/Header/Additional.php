@@ -41,7 +41,7 @@ class Mage_Persistent_Block_Header_Additional extends Mage_Core_Block_Html_Link
      */
     protected function _toHtml()
     {
-        $text = $this->__('(Not %s?)', $this->escapeHtml(Mage::helper('persistent/session')->getCustomer()->getName()));
+        $text = $this->__('(Not %s?)', $this->escapeHtml(Mage::helper('Mage_Persistent_Helper_Session')->getCustomer()->getName()));
 
         $this->setAnchorText($text);
         $this->setHref($this->getUrl('persistent/index/unsetCookie'));

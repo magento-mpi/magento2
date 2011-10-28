@@ -27,11 +27,11 @@
 -->
 <config>
     <menu>
-         <promo translate="title" module="catalogrule">
+         <promo translate="title" module="Mage_CatalogRule">
             <title>Promotions</title>
             <sort_order>50</sort_order>
             <children>
-                <catalog translate="title" module="catalogrule">
+                <catalog translate="title" module="Mage_CatalogRule">
                     <title>Catalog Price Rules</title>
                     <action>adminhtml/promo_catalog/</action>
                     <depends><module>Mage_Catalog</module></depends>
@@ -43,7 +43,7 @@
         <resources>
             <admin>
                 <children>
-                    <promo translate="title" module="catalogrule">
+                    <promo translate="title" module="Mage_CatalogRule">
                         <title>Promotions</title>
                         <sort_order>50</sort_order>
                         <children>

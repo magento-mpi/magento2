@@ -84,7 +84,7 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function authValidate($headers=null)
     {
-        $userPass = Mage::helper('core/http')->authValidate($headers);
+        $userPass = Mage::helper('Mage_Core_Helper_Http')->authValidate($headers);
         return $userPass;
     }
 
@@ -94,7 +94,7 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function authFailed()
     {
-        Mage::helper('core/http')->authFailed();
+        Mage::helper('Mage_Core_Helper_Http')->authFailed();
     }
 
     /**
@@ -106,7 +106,7 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
     public function disableFlat()
     {
         /* @var $flatHelper Mage_Catalog_Helper_Product_Flat */
-        $flatHelper = Mage::helper('catalog/product_flat');
+        $flatHelper = Mage::helper('Mage_Catalog_Helper_Product_Flat');
         if ($flatHelper->isEnabled()) {
             /* @var $emulationModel Mage_Core_Model_App_Emulation */
             $emulationModel = Mage::getModel('core/app_emulation');

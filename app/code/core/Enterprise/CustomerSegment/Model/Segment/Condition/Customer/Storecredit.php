@@ -60,7 +60,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
     public function getNewChildSelectOptions()
     {
         return array(array('value' => $this->getType(),
-            'label'=>Mage::helper('enterprise_customersegment')->__('Store Credit')));
+            'label'=>Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Store Credit')));
     }
 
     /**
@@ -73,7 +73,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
         $operator = $this->getOperatorElementHtml();
         $element = $this->getValueElementHtml();
         return $this->getTypeElementHtml()
-            .Mage::helper('enterprise_customersegment')->__('Customer Store Credit Amount %s %s:', $operator, $element)
+            .Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Store Credit Amount %s %s:', $operator, $element)
             .$this->getRemoveLinkHtml();
     }
 

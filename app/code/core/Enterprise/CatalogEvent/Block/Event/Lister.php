@@ -61,7 +61,7 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
      */
     public function canDisplay()
     {
-        return Mage::helper('enterprise_catalogevent')->isEnabled()
+        return Mage::helper('Enterprise_CatalogEvent_Helper_Data')->isEnabled()
             && Mage::getStoreConfigFlag('catalog/enterprise_catalogevent/lister_output')
             && (count($this->getEvents()) > 0);
     }
@@ -75,7 +75,7 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
     {
         if ($this->_events === null) {
             $this->_events = array();
-            $categories = $this->helper('catalog/category')->getStoreCategories('position', true, false);
+            $categories = $this->helper('Mage_Catalog_Helper_Category')->getStoreCategories('position', true, false);
             if (($categories instanceof Mage_Eav_Model_Entity_Collection_Abstract) ||
                 ($categories instanceof Mage_Core_Model_Resource_Db_Collection_Abstract)) {
                 $allIds = $categories->getAllIds();
@@ -124,7 +124,7 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
      */
     public function getCategoryUrl($category)
     {
-        return $this->helper('catalog/category')->getCategoryUrl($category);
+        return $this->helper('Mage_Catalog_Helper_Category')->getCategoryUrl($category);
     }
 
     /**
@@ -135,7 +135,7 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
      */
     public function getEventImageUrl($event)
     {
-        return $this->helper('enterprise_catalogevent')->getEventImageUrl($event);
+        return $this->helper('Enterprise_CatalogEvent_Helper_Data')->getEventImageUrl($event);
     }
 
     /**

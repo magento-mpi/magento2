@@ -80,7 +80,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('enterprise_cms/page_version');
+        $this->_init('Enterprise_Cms_Model_Resource_Page_Version');
     }
 
     /**
@@ -100,7 +100,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
         }
 
         if (!$this->getLabel()) {
-            Mage::throwException(Mage::helper('enterprise_cms')->__('Label for version is a required field.'));
+            Mage::throwException(Mage::helper('Enterprise_Cms_Helper_Data')->__('Label for version is a required field.'));
         }
 
         // We cannot allow changing access level for some versions
@@ -111,13 +111,13 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
 
                 if ($resource->isVersionLastPublic($this)) {
                     Mage::throwException(
-                        Mage::helper('enterprise_cms')->__('Cannot change version access level because it is the last public version for its page.')
+                        Mage::helper('Enterprise_Cms_Helper_Data')->__('Cannot change version access level because it is the last public version for its page.')
                     );
                 }
 
 //                if ($resource->isVersionHasPublishedRevision($this)) {
 //                    Mage::throwException(
-//                        Mage::helper('enterprise_cms')->__('Cannot change version access level because its revision is published.')
+//                        Mage::helper('Enterprise_Cms_Helper_Data')->__('Cannot change version access level because its revision is published.')
 //                    );
 //                }
             }
@@ -169,14 +169,14 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
         if ($this->isPublic()) {
             if ($resource->isVersionLastPublic($this)) {
                 Mage::throwException(
-                    Mage::helper('enterprise_cms')->__('Version "%s" could not be removed because it is the last public version for its page.', $this->getLabel())
+                    Mage::helper('Enterprise_Cms_Helper_Data')->__('Version "%s" could not be removed because it is the last public version for its page.', $this->getLabel())
                 );
             }
         }
 
         if ($resource->isVersionHasPublishedRevision($this)) {
             Mage::throwException(
-                Mage::helper('enterprise_cms')->__('Version "%s" could not be removed because its revision has been published.', $this->getLabel())
+                Mage::helper('Enterprise_Cms_Helper_Data')->__('Version "%s" could not be removed because its revision has been published.', $this->getLabel())
             );
         }
 
@@ -191,7 +191,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
      */
     protected function _afterDelete()
     {
-        Mage::getResourceSingleton('enterprise_cms/increment')
+        Mage::getResourceSingleton('Enterprise_Cms_Model_Resource_Increment')
             ->cleanIncrementRecord(Enterprise_Cms_Model_Increment::TYPE_PAGE,
                 $this->getId(),
                 Enterprise_Cms_Model_Increment::LEVEL_REVISION);

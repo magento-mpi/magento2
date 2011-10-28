@@ -43,7 +43,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
         $this->setChild('add_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('googlebase')->__('Add New Attribute'),
+                    'label' => Mage::helper('Mage_GoogleBase_Helper_Data')->__('Add New Attribute'),
                     'class' => 'add',
                     'id'    => 'add_new_attribute',
                     'on_click' => 'gBaseAttribute.add()'
@@ -52,7 +52,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('googlebase')->__('Remove'),
+                    'label' => Mage::helper('Mage_GoogleBase_Helper_Data')->__('Remove'),
                     'class' => 'delete delete-product-option',
                     'on_click' => 'gBaseAttribute.remove(event)'
                 ))
@@ -135,6 +135,6 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
 
     protected function _toJson($data)
     {
-        return Mage::helper('core')->jsonEncode($data);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
     }
 }

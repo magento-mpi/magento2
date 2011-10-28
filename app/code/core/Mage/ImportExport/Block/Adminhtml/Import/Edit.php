@@ -70,6 +70,6 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit extends Mage_Adminhtml_Block
      */
     public function getHeaderText()
     {
-        return Mage::helper('importexport')->__('Import');
+        return Mage::helper('Mage_ImportExport_Helper_Data')->__('Import');
     }
 }

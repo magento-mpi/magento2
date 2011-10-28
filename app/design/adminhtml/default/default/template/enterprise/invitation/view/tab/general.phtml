@@ -33,7 +33,7 @@
 ?>
     <div class="entry-edit">
          <div class="entry-edit-head">
-            <h4 class="icon-head head-invitation"><?php echo $this->helper('enterprise_invitation')->__('Invitation Information') ?></h4>
+            <h4 class="icon-head head-invitation"><?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Invitation Information') ?></h4>
         </div>
         <div class="fieldset">
             <table cellspacing="0" class="form-list">
@@ -43,10 +43,10 @@
             <col />
             <col />
             <tr>
-                <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Send At'); ?></label></td>
+                <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Send At'); ?></label></td>
                 <td><strong><?php echo $this->formatDate($this->getInvitation()->getInvitationDate(), 'medium', true) ?></strong></td>
                 <td rowspan="5"></td>
-                <td class="label" rowspan="5"><label><?php  echo $this->helper('enterprise_invitation')->__('Invitation Message'); ?></label></td>
+                <td class="label" rowspan="5"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Invitation Message'); ?></label></td>
                 <td class="value" rowspan="5">
                     <?php if ($this->canEditMessage()): ?>
                     <textarea name="message" rows="5"><?php echo $this->htmlEscape($this->getInvitation()->getMessage());?></textarea>
@@ -56,14 +56,14 @@
                         <strong><?php if ($this->getInvitation()->getMessage()): ?>
                         <?php echo $this->htmlEscape($this->getInvitation()->getMessage());?>
                         <?php else: ?>
-                        <?php echo $this->helper('enterprise_invitation')->__('N/A'); ?>
+                        <?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('N/A'); ?>
                         <?php endif; ?></strong>
                         <textarea style="height:1px; visibility: hidden"><?php echo $this->htmlEscape($this->getInvitation()->getMessage());?></textarea>
                     <?php endif; ?>
                 </td>
             </tr>
             <tr>
-                <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Email'); ?><?php if ($this->canEditMessage()): ?><span class="required">*</span><?php endif; ?></label></td>
+                <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Email'); ?><?php if ($this->canEditMessage()): ?><span class="required">*</span><?php endif; ?></label></td>
                 <td>
                 <?php if ($this->canEditMessage()): ?>
                     <input type="text" class="required-entry input-text validate-email" name="email" value="<?php echo $this->getInvitation()->getEmail() ?>" />
@@ -73,38 +73,38 @@
                 </td>
             </tr>
             <tr>
-                <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Status'); ?></label></td>
-                <td><strong><?php echo $this->helper('enterprise_invitation')->getInvitationStatusText($this->getInvitation()) ?></strong></td>
+                <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Status'); ?></label></td>
+                <td><strong><?php echo $this->helper('Enterprise_Invitation_Helper_Data')->getInvitationStatusText($this->getInvitation()) ?></strong></td>
             </tr>
             <tr>
-                <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Website'); ?></label></td>
+                <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Website'); ?></label></td>
                 <td><strong><?php echo $this->getWebsiteName() ?></strong></td>
             </tr>
             <tr>
-                <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Store View'); ?></label></td>
+                <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Store View'); ?></label></td>
                 <td><strong><?php echo $this->getStoreName() ?></strong></td>
             </tr>
             <tr>
-                <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Invitee Group'); ?></label></td>
+                <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Invitee Group'); ?></label></td>
                 <td><strong><?php echo $this->getCustomerGroupCode($this->getInvitation()->getGroupId(), true) ?></strong></td>
             </tr>
             <tr>
-                <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Signed Up At'); ?></label></td>
+                <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Signed Up At'); ?></label></td>
                 <td><strong>
                 <?php if($this->getInvitation()->getSignupDate()): ?>
                     <?php echo $this->formatDate($this->getInvitation()->getSignupDate(), 'medium', true) ?>
                 <?php else: ?>
-                    <?php  echo $this->helper('enterprise_invitation')->__('N/A'); ?>
+                    <?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('N/A'); ?>
                 <?php endif; ?>
                 </strong></td>
             </tr>
             <tr>
-                <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Invitation Url'); ?></label></td>
+                <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Invitation Url'); ?></label></td>
                 <td>
                     <strong>
                     <?php if ($url = $this->getInvitationUrl()): ?>
-                        <a href="<?php echo $url ?>" target="_blank"><?php  echo $this->helper('enterprise_invitation')->__('Link'); ?></a>
-                    <?php else: echo $this->helper('enterprise_invitation')->__('N/A'); endif; ?>
+                        <a href="<?php echo $url ?>" target="_blank"><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Link'); ?></a>
+                    <?php else: echo $this->helper('Enterprise_Invitation_Helper_Data')->__('N/A'); endif; ?>
                     </strong>
                 </td>
             </tr>
@@ -114,12 +114,12 @@
 <div class="box-left">
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-invitation"><?php echo $this->helper('enterprise_invitation')->__('Invitee Information') ?></h4>
+            <h4 class="icon-head head-invitation"><?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Invitee Information') ?></h4>
         </div>
         <div class="fieldset">
             <table cellspacing="0" class="form-list">
             <tr>
-                <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Customer ID'); ?></label></td>
+                <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Customer ID'); ?></label></td>
                 <td><strong>
                 <?php if ($this->getInvitation()->getReferralId()): ?>
                     <?php if ($this->canShowReferralLink()) :?>
@@ -128,52 +128,52 @@
                         <?php echo $this->getInvitation()->getReferralId()?>
                     <?php endif; ?>
                 <?php else:  ?>
-                    <?php echo $this->helper('enterprise_invitation')->__('N/A'); ?>
+                    <?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('N/A'); ?>
                 <?php endif; ?></strong></td>
             </tr>
             <tr>
-                <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Customer Group'); ?></label></td>
+                <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Customer Group'); ?></label></td>
                 <td><strong>
                 <?php if ($this->getReferral()): ?>
                     <?php echo $this->getCustomerGroupCode($this->getReferral()->getGroupId())?>
                 <?php else:  ?>
-                    <?php echo $this->helper('enterprise_invitation')->__('N/A'); ?>
+                    <?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('N/A'); ?>
                 <?php endif; ?></strong></td>
             </tr>
             <tr>
-                <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('First Name'); ?></label></td>
+                <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('First Name'); ?></label></td>
                 <td><strong>
                 <?php if ($this->getReferral()): ?>
                     <?php echo $this->htmlEscape($this->getReferral()->getFirstname())?>
                 <?php else:  ?>
-                    <?php echo $this->helper('enterprise_invitation')->__('N/A'); ?>
+                    <?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('N/A'); ?>
                 <?php endif; ?></strong></td>
             </tr>
             <tr>
-            <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Last Name'); ?></label></td>
+            <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Last Name'); ?></label></td>
                 <td><strong>
                 <?php if ($this->getReferral()): ?>
                     <?php echo $this->htmlEscape($this->getReferral()->getLastname())?>
                 <?php else:  ?>
-                    <?php echo $this->helper('enterprise_invitation')->__('N/A'); ?>
+                    <?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('N/A'); ?>
                 <?php endif; ?></strong></td>
             </tr>
             <tr>
-            <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Email'); ?></label></td>
+            <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Email'); ?></label></td>
                 <td><strong>
                 <?php if ($this->getReferral()): ?>
                     <?php echo $this->htmlEscape($this->getReferral()->getEmail())?>
                 <?php else:  ?>
-                    <?php echo $this->helper('enterprise_invitation')->__('N/A'); ?>
+                    <?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('N/A'); ?>
                 <?php endif; ?></strong></td>
             </tr>
             <tr>
-                <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Sign Up At'); ?></label></td>
+                <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Sign Up At'); ?></label></td>
                 <td><strong>
                 <?php if ($this->getReferral()): ?>
                     <?php echo $this->formatDate($this->getReferral()->getCreatedAt(), 'medium', true)?>
                 <?php else:  ?>
-                    <?php echo $this->helper('enterprise_invitation')->__('N/A'); ?>
+                    <?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('N/A'); ?>
                 <?php endif; ?></strong></td>
             </tr>
             </table>
@@ -183,67 +183,67 @@
 <div class="box-right">
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-invitation"><?php echo $this->helper('enterprise_invitation')->__('Inviter Information') ?></h4>
+            <h4 class="icon-head head-invitation"><?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Inviter Information') ?></h4>
         </div>
         <?php if ($this->isInvitedByAdmin()): ?>
         <div class="fieldset">
-            <?php echo $this->helper('enterprise_invitation')->__('Admin'); ?>
+            <?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Admin'); ?>
         </div>
         <?php else: ?>
         <div class="fieldset">
             <table cellspacing="0" class="form-list">
             <tr>
-                <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Customer ID'); ?></label></td>
+                <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Customer ID'); ?></label></td>
                 <td><strong>
                 <?php if ($this->getInvitation()->getCustomerId()): ?>
                     <a target="_blank" href="<?php echo $this->getUrl('adminhtml/customer/edit', array('id'=>$this->getInvitation()->getCustomerId()));?>"><?php echo $this->getInvitation()->getCustomerId()?></a>
                 <?php else:  ?>
-                    <?php echo $this->helper('enterprise_invitation')->__('N/A'); ?>
+                    <?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('N/A'); ?>
                 <?php endif; ?></strong></td>
             </tr>
             <tr>
-                <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Customer Group'); ?></label></td>
+                <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Customer Group'); ?></label></td>
                 <td><strong>
                 <?php if ($this->getCustomer()): ?>
                     <?php echo $this->getCustomerGroupCode($this->getCustomer()->getGroupId())?>
                 <?php else:  ?>
-                    <?php echo $this->helper('enterprise_invitation')->__('N/A'); ?>
+                    <?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('N/A'); ?>
                 <?php endif; ?></strong></td>
             </tr>
             <tr>
-                <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('First Name'); ?></label></td>
+                <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('First Name'); ?></label></td>
                 <td><strong>
                 <?php if ($this->getCustomer()): ?>
                     <?php echo $this->htmlEscape($this->getCustomer()->getFirstname())?>
                 <?php else:  ?>
-                    <?php echo $this->helper('enterprise_invitation')->__('N/A'); ?>
+                    <?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('N/A'); ?>
                 <?php endif; ?></strong></td>
             </tr>
             <tr>
-            <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Last Name'); ?></label></td>
+            <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Last Name'); ?></label></td>
                 <td><strong>
                 <?php if ($this->getCustomer()): ?>
                     <?php echo $this->htmlEscape($this->getCustomer()->getLastname())?>
                 <?php else:  ?>
-                    <?php echo $this->helper('enterprise_invitation')->__('N/A'); ?>
+                    <?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('N/A'); ?>
                 <?php endif; ?></strong></td>
             </tr>
             <tr>
-            <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Email'); ?></label></td>
+            <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Email'); ?></label></td>
                 <td><strong>
                 <?php if ($this->getCustomer()): ?>
                     <?php echo $this->htmlEscape($this->getCustomer()->getEmail())?>
                 <?php else:  ?>
-                    <?php echo $this->helper('enterprise_invitation')->__('N/A'); ?>
+                    <?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('N/A'); ?>
                 <?php endif; ?></strong></td>
             </tr>
             <tr>
-                <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Sign Up At'); ?></label></td>
+                <td class="label"><label><?php  echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Sign Up At'); ?></label></td>
                 <td><strong>
                 <?php if ($this->getCustomer()): ?>
                     <?php echo $this->formatDate($this->getCustomer()->getCreatedAt(), 'medium', true)?>
                 <?php else:  ?>
-                    <?php echo $this->helper('enterprise_invitation')->__('N/A'); ?>
+                    <?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('N/A'); ?>
                 <?php endif; ?></strong></td>
             </tr>
             </table>

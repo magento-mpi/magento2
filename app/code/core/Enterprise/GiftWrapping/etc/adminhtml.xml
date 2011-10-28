@@ -32,7 +32,7 @@
                 <children>
                     <sales>
                         <children>
-                            <enterprise_giftwrapping translate="title" module="enterprise_giftwrapping">
+                            <enterprise_giftwrapping translate="title" module="Enterprise_GiftWrapping">
                                 <title>Gift Wrapping</title>
                                 <sort_order>130</sort_order>
                             </enterprise_giftwrapping>
@@ -45,7 +45,7 @@
     <menu>
         <sales>
             <children>
-                <enterprise_giftwrapping translate="title" module="enterprise_giftwrapping">
+                <enterprise_giftwrapping translate="title" module="Enterprise_GiftWrapping">
                     <title>Gift Wrapping</title>
                     <action>adminhtml/giftwrapping</action>
                     <depends>
