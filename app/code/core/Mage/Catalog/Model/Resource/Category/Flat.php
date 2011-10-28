@@ -32,7 +32,7 @@
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Index_Model_Resource_Abstract
 {
     /**
      * Store id
@@ -1388,5 +1388,37 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
         }
 
         return $this->_storesRootCategories;
+    }
+
+    /**
+     * Creating table and adding attributes as fields to table for all stores
+     *
+     * @return Mage_Catalog_Model_Resource_Category_Flat
+     */
+    protected function _createTables()
+    {
+        foreach (Mage::app()->getStores() as $store) {
+            $this->_createTable($store->getId());
+        }
+        return $this;
+    }
+
+    /**
+     * Transactional rebuild flat data from eav
+     *
+     * @return Mage_Catalog_Model_Resource_Category_Flat
+     */
+    public function reindexAll()
+    {
+        $this->_createTables();
+        $this->beginTransaction();
+        try {
+            $this->rebuild();
+            $this->commit();
+        } catch (Exception $e) {
+            $this->rollBack();
+            throw $e;
+        }
+        return $this;
     }
 }

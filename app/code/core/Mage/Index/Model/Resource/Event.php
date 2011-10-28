@@ -85,15 +85,47 @@ class Mage_Index_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abstra
                 $this->_getWriteAdapter()->delete($processTable);
             } else {
                 foreach ($processIds as $processId => $processStatus) {
+                    if (is_null($processStatus)) {
+                        $this->_getWriteAdapter()->delete($processTable, array(
+                            'process_id = ?' => $processId,
+                            'event_id = ?'   => $object->getId(),
+                        ));
+                        continue;
+                    }
                     $data = array(
-                        'process_id'=> $processId,
-                        'event_id'  => $object->getId(),
-                        'status'    => $processStatus
+                        'process_id' => $processId,
+                        'event_id'   => $object->getId(),
+                        'status'     => $processStatus
                     );
                     $this->_getWriteAdapter()->insertOnDuplicate($processTable, $data, array('status'));
                 }
             }
         }
         return parent::_afterSave($object);
+    }
+
+    /**
+     * Update status for events of process
+     *
+     * @param int|array|Mage_Index_Model_Process $process
+     * @param string $status
+     * @return Mage_Index_Model_Resource_Event
+     */
+    public function updateProcessEvents($process, $status = Mage_Index_Model_Process::EVENT_STATUS_DONE)
+    {
+        $whereCondition = '';
+        if ($process instanceof Mage_Index_Model_Process) {
+            $whereCondition = array('process_id = ?' => $process->getId());
+        } elseif (is_array($process) && !empty($process)) {
+            $whereCondition = array('process_id IN (?)' => $process);
+        } elseif (!is_array($whereCondition)) {
+            $whereCondition = array('process_id = ?' => $process);
+        }
+        $this->_getWriteAdapter()->update(
+            $this->getTable('index_process_event'),
+            array('status' => $status),
+            $whereCondition
+        );
+        return $this;
     }
 }

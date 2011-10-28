@@ -449,7 +449,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         $response = $this->getResponse();
 
         $salesDocument = Mage::getModel('sales/quote')->load($response->getPonum());
-        $salesDocument->getPayment()->setMethod(Mage_Paypal_Model_Config::METHOD_PAYFLOWLINK);
+        $salesDocument->getPayment()->setMethod($this->_code);
 
         if ($this->_getSecureSilentPostHash($salesDocument->getPayment()) != $response->getUser2()
             || $this->_code != $salesDocument->getPayment()->getMethodInstance()->getCode()) {

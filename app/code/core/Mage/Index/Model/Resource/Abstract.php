@@ -90,12 +90,17 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
     public function syncData()
     {
         $this->beginTransaction();
-        /**
-         * Can't use truncate because of transaction
-         */
-        $this->_getWriteAdapter()->delete($this->getMainTable());
-        $this->insertFromTable($this->getIdxTable(), $this->getMainTable(), false);
-        $this->commit();
+        try {
+            /**
+             * Can't use truncate because of transaction
+             */
+            $this->_getWriteAdapter()->delete($this->getMainTable());
+            $this->insertFromTable($this->getIdxTable(), $this->getMainTable(), false);
+            $this->commit();
+        } catch (Exception $e) {
+            $this->rollBack();
+            throw $e;
+        }
         return $this;
     }
 
@@ -174,6 +179,7 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
                 $to->insertArray($destTable, $columns, $data);
             }
         }
+
         return $this;
     }
 
