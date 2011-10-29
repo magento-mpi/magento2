@@ -312,22 +312,27 @@ class Mage_Core_Model_Design_Package
     public function getFilename($file, array $params)
     {
         Magento_Profiler::start(__METHOD__);
-        $file = $this->_extractScope($file, $params);
-        $this->_updateParamDefaults($params);
+        try {
+            $file = $this->_extractScope($file, $params);
+            $this->_updateParamDefaults($params);
 
-        $dir = Mage::getBaseDir('design');
-        $dirs = array();
-        $area = $params['_area'];
-        $theme = $params['_theme'];
-        $module = $params['_module'];
+            $dir = Mage::getBaseDir('design');
+            $dirs = array();
+            $area = $params['_area'];
+            $theme = $params['_theme'];
+            $module = $params['_module'];
 
-        do {
-            $dirs[] = "{$dir}/{$area}/{$params['_package']}/{$theme}";
-            $theme = $this->_getInheritedTheme($theme);
-        } while ($theme);
+            do {
+                $dirs[] = "{$dir}/{$area}/{$params['_package']}/{$theme}";
+                $theme = $this->_getInheritedTheme($theme);
+            } while ($theme);
 
-        $moduleDir = $module ? array(Mage::getConfig()->getModuleDir('view', $module) . "/{$area}") : array();
-        Magento_Profiler::stop(__METHOD__);
+            $moduleDir = $module ? array(Mage::getConfig()->getModuleDir('view', $module) . "/{$area}") : array();
+            Magento_Profiler::stop(__METHOD__);
+        } catch (Exception $e) {
+            Magento_Profiler::stop(__METHOD__);
+            throw $e;
+        }
         return $this->_fallback($file, $dirs, $module, $moduleDir);
     }
 
