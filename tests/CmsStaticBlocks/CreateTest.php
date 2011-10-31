@@ -68,7 +68,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function createNew()
+    public function createNewWithVariables()
     {
         //Data
         $setData = $this->loadData('new_static_block', null, array('block_title', 'block_identifier'));
@@ -119,7 +119,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      * <p>All fields has the same values.</p>
      *
      * @dataProvider dataSpecialValues
-     * @depends createNew
+     * @depends createNewWithVariables
      * @test
      *
      * @param array $specialValue
@@ -228,7 +228,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
 //     * <p>Expected result:</p>
 //     * <p>Received an error message about already existing identifier.</p>
 //     *
-//     * @depends createNew
+//     * @depends createNewWithVariables
 //     * @test
 //     */
 //    public function withExistingIdentifier()
