@@ -47,10 +47,10 @@ all_tags:
                             store_view: //select[@name='visible_in']
                         fields:
                             tag_name: //input[@name='name']
-                            product_products_from: //input[@name='products[from]']
-                            product_products_to: //input[@name='products[to]']
-                            product_customers_from: //input[@name='customers[from]']
-                            product_customers_to: //input[@name='customers[to]']
+                            products_from: //input[@name='products[from]']
+                            products_to: //input[@name='products[to]']
+                            customers_from: //input[@name='customers[from]']
+                            customers_to: //input[@name='customers[to]']
                         pageelements:
                             tags_grid_head: //table[@id='tag_tag_grid_table']//thead/tr[@class='headings']
         buttons:
@@ -188,11 +188,12 @@ pending_tags:
                             search: //button[span='Search']
                             submit: //button[span='Submit']
                         dropdowns:
-                            pending_actions: //select[@id='pending_grid_massaction-select']
-                            pending_select_massaction: //select[@id='pending_grid_filter_massaction']
+                            tags_massaction: //select[@id='pending_grid_massaction-select']
+                            filter_massaction: //select[@name='massaction']
+                            tags_status: //select[@name='status']
                         fields:
-                            pending_tag_name: //input[@id='pending_grid_filter_name']
-                            pending_products_from: //input[@id='pending_grid_filter_products_from']
-                            pending_products_to: //input[@id='pending_grid_filter_products_to']
-                            pending_customers_from: //input[@id='pending_grid_filter_customers_from']
-                            pending_customers_to: //input[@id='pending_grid_filter_customers_to']
+                            tag_name: //input[@id='pending_grid_filter_name']
+                            products_from: //input[@id='pending_grid_filter_products_from']
+                            products_to: //input[@id='pending_grid_filter_products_to']
+                            customers_from: //input[@id='pending_grid_filter_customers_from']
+                            customers_to: //input[@id='pending_grid_filter_customers_to']

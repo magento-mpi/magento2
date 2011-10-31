@@ -49,10 +49,10 @@ new_tag_complex:
 
 backend_search_tag:
     tag_name: %noValue%
-    product_products_from: %noValue%
-    product_products_to: %noValue%
-    product_customers_from: %noValue%
-    product_customers_to: %noValue%
+    products_from: %noValue%
+    products_to: %noValue%
+    customers_from: %noValue%
+    customers_to: %noValue%
     tags_status: %noValue%
     store_view: %noValue%
 

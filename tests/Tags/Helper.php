@@ -83,7 +83,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
                 $this->clickControl('link', 'product_info');
                 $this->assertTrue($this->controlIsPresent('link', 'product_name'), "Cannot find tag with name: $value");
                 $this->assertTrue($this->controlIsPresent('pageelement', 'tag_name_box'),
-                        "Cannot find tag with name: $value");
+                                                          "Cannot find tag with name: $value");
                 $this->navigate('customer_account');
             }
             //Verification in "My Account -> My Tags"
@@ -94,7 +94,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
                 $this->clickControl('link', 'tag_name');
                 $this->assertTrue($this->controlIsPresent('link', 'product_name'), "Cannot find tag with name: $value");
                 $this->assertTrue($this->controlIsPresent('pageelement', 'tag_name_box'),
-                        "Cannot find tag with name: $value");
+                                                          "Cannot find tag with name: $value");
                 $this->clickControl('link', 'back_to_tags_list');
             }
         } else {
@@ -191,8 +191,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
         // Select store view if available
         if (array_key_exists('switch_store', $tagData)) {
             if ($this->controlIsPresent('dropdown', 'switch_store')) {
-                $store_view = (isset($tagData['switch_store'])) ? $tagData['switch_store'] : NULL;
-                $this->selectStoreView($store_view);
+                $this->selectStoreView($tagData['switch_store']);
             } else {
                 unset($tagData['switch_store']);
             }
@@ -239,10 +238,8 @@ class Tags_Helper extends Mage_Selenium_TestCase
         $searchData = $this->arrayEmptyClear($searchData);
         // Check if store views are available
         $key = 'filter_store_view';
-        if (array_key_exists($key, $searchData)) {
-            if (!$this->controlIsPresent('dropdown', 'store_view')) {
-                unset($searchData[$key]);
-            }
+        if (array_key_exists($key, $searchData) || !$this->controlIsPresent('dropdown', 'store_view')) {
+            unset($searchData[$key]);
         }
         // Search and open
         $this->navigate('all_tags');
@@ -259,19 +256,6 @@ class Tags_Helper extends Mage_Selenium_TestCase
         $this->validatePage();
     }
 
-//    /**
-//     * Approves one tag in backend
-//     *
-//     * @param string|array $searchData Data used in Search Grid for tags. Same as data used for openTag
-//     * @param string $newStatus New status
-//     */
-//    public function changeTagStatus($searchData, $newStatus)
-//    {
-//        $this->openTag($searchData);
-//        $this->fillTagSettings(array('tag_status' => $newStatus));
-//        $this->clickButton('save_tag');
-//    }
-
     /**
      * Mass action: approves a set of tags in backend
      *
@@ -282,7 +266,6 @@ class Tags_Helper extends Mage_Selenium_TestCase
      */
     public function changeTagsStatus(array $tagsSearchData, $newStatus)
     {
-        $this->navigate('all_tags');
         foreach ($tagsSearchData as $searchData) {
             $this->searchAndChoose($searchData);
         }
@@ -311,7 +294,6 @@ class Tags_Helper extends Mage_Selenium_TestCase
      */
     public function verifyTagProduct(array $tagSearchData, array $productSearchData)
     {
-        $this->navigate('manage_products');
         $this->productHelper()->openProduct($productSearchData);
         $this->clickControl('tab', 'product_tags', false);
         $this->pleaseWait();
@@ -329,7 +311,6 @@ class Tags_Helper extends Mage_Selenium_TestCase
     public function verifyTagCustomer(array $tagSearchData, array $customerSearchData)
     {
         $tagSearchData = $this->arrayEmptyClear($tagSearchData);
-        $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer($customerSearchData);
         $this->clickControl('tab', 'product_tags', false);
         $this->pleaseWait();
@@ -340,7 +321,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
             if ($this->controlIsPresent('link', 'next_page')) {
                 $this->clickControl('link', 'next_page', false);
                 $this->pleaseWait();
-            }else
+            } else
                 break;
         } while (true);
 

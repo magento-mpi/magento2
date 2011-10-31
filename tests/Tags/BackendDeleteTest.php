@@ -72,7 +72,7 @@ class Tags_BackendDeleteTest extends Mage_Selenium_TestCase
         $setData = $this->loadData('backend_new_tag', null, 'tag_name');
         //Steps
         $this->tagsHelper()->addTag($setData);
-        $this->navigate('all_tags');
+        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->messages);
         $this->tagsHelper()->deleteTag(array('tag_name' => $setData['tag_name']));
         //Verify
         $this->assertTrue($this->checkCurrentPage('all_tags'), $this->messages);

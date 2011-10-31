@@ -129,6 +129,7 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_tag'), $this->messages);
         $tagSearchData = array('tag_name' => $setData['tag_name']);
         $productSearchData = array('general_name' => $productName);
+        $this->navigate('manage_products');
         $this->assertTrue($this->tagsHelper()->verifyTagProduct($tagSearchData, $productSearchData), $this->messages);
         //Cleanup
         self::$tagToBeDeleted = array('tag_name' => $setData['tag_name']);
