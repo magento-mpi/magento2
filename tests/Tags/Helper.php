@@ -39,7 +39,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
     /**
      * <p>Create Tag</p>
      *
-     * @param string $tagName
+     * @param string|array $tagName
      */
     public function frontendAddTag($tagName, $loggedIn = TRUE)
     {
@@ -51,11 +51,10 @@ class Tags_Helper extends Mage_Selenium_TestCase
         $tagNameArray = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
         $tagQty = count($tagNameArray);
         $this->addParameter('tagQty', $tagQty);
-        $tagXpath = $this->_getControlXpath('field', 'input_new_tags');
-        if (!$this->isElementPresent($tagXpath)) {
+        if (!$this->controlIsPresent('field', 'input_new_tags')) {
             $this->fail('Element is absent on the page');
         }
-        $this->type($tagXpath, $tagName);
+        $this->fillForm(array('input_new_tags' => $tagName));
         $this->clickButton('add_tags');
         if ($loggedIn) {
             $this->assertFalse($this->checkCurrentPage('customer_login'), 'Got on Login Page');
@@ -69,45 +68,37 @@ class Tags_Helper extends Mage_Selenium_TestCase
      *
      * @param array $verificationData
      */
-    public function frontendTagVerification($verificationData)
+    public function frontendTagVerification(array $verificationData)
     {
-        if (is_array($verificationData) && array_key_exists('new_tag_names', $verificationData)) {
-            $tagName = $verificationData['new_tag_names'];
-        } else {
-            $this->fail('Array key is absent in array');
-        }
-        if (array_key_exists('product_name', $verificationData)) {
-            $productName = $verificationData['product_name'];
-        } else {
-            $this->fail('Array key is absent in array');
-        }
-        //Verification in "My Recent tags" area
-        $this->navigate('customer_account');
-        $this->addParameter('productName', $productName);
-        $tagNameArray = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
-        foreach ($tagNameArray as $value) {
-            $this->addParameter('tagName', trim($value));
-            $tagXpath = $this->_getControlXpath('link', 'product_info');
-            $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
-            $this->clickControl('link', 'product_info');
-            $tagXpath = $this->_getControlXpath('link', 'product_name');
-            $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
-            $tagXpath = $this->_getControlXpath('pageelement', 'tag_name_box');
-            $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
+        $tagName = (isset($verificationData['new_tag_names'])) ? $verificationData['new_tag_names'] : NULL;
+        $productName = (isset($verificationData['product_name'])) ? $verificationData['product_name'] : NULL;
+        if ($tagName && $productName) {
+            //Verification in "My Recent tags" area
             $this->navigate('customer_account');
-        }
-        //Verification in "My Account -> My Tags"
-        $this->navigate('my_account_my_tags');
-        foreach ($tagNameArray as $value) {
-            $this->addParameter('tagName', trim($value));
-            $tagXpath = $this->_getControlXpath('link', 'tag_name');
-            $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
-            $this->clickControl('link', 'tag_name');
-            $tagXpath = $this->_getControlXpath('link', 'product_name');
-            $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
-            $tagXpath = $this->_getControlXpath('pageelement', 'tag_name_box');
-            $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
-            $this->clickControl('link', 'back_to_tags_list');
+            $this->addParameter('productName', $productName);
+            $tagNameArray = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
+            foreach ($tagNameArray as $value) {
+                $this->addParameter('tagName', trim($value));
+                $this->assertTrue($this->controlIsPresent('link', 'product_info'), "Cannot find tag with name: $value");
+                $this->clickControl('link', 'product_info');
+                $this->assertTrue($this->controlIsPresent('link', 'product_name'), "Cannot find tag with name: $value");
+                $this->assertTrue($this->controlIsPresent('pageelement', 'tag_name_box'),
+                        "Cannot find tag with name: $value");
+                $this->navigate('customer_account');
+            }
+            //Verification in "My Account -> My Tags"
+            $this->navigate('my_account_my_tags');
+            foreach ($tagNameArray as $value) {
+                $this->addParameter('tagName', trim($value));
+                $this->assertTrue($this->controlIsPresent('link', 'tag_name'), "Cannot find tag with name: $value");
+                $this->clickControl('link', 'tag_name');
+                $this->assertTrue($this->controlIsPresent('link', 'product_name'), "Cannot find tag with name: $value");
+                $this->assertTrue($this->controlIsPresent('pageelement', 'tag_name_box'),
+                        "Cannot find tag with name: $value");
+                $this->clickControl('link', 'back_to_tags_list');
+            }
+        } else {
+            $this->fail('Verification Data is not correct');
         }
     }
 
@@ -116,47 +107,28 @@ class Tags_Helper extends Mage_Selenium_TestCase
      *
      * @param array $verificationData
      */
-    public function frontendTagVerificationInCategory($verificationData)
+    public function frontendTagVerificationInCategory(array $verificationData)
     {
-        if (is_array($verificationData) && array_key_exists('new_tag_names', $verificationData)) {
-            $tagName = $verificationData['new_tag_names'];
+        $category = (isset($verificationData['category'])) ? $verificationData['category'] : NULL;
+        $productName = (isset($verificationData['product_name'])) ? $verificationData['product_name'] : NULL;
+        $tagName = (isset($verificationData['new_tag_names'])) ? $verificationData['new_tag_names'] : NULL;
+        if ($category && $productName && $tagName) {
+            $this->addParameter('productName', $verificationData['product_name']);
+            $tagNameArray = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
+            $category = substr($category, strpos($category, '/') + 1);
+            $url = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $category)), '-');
+            $this->addParameter('categoryTitle', $category);
+            $this->addParameter('categoryUrl', $url);
+            foreach ($tagNameArray as $value) {
+                $this->frontend('category_page');
+                $this->addParameter('tagName', $value);
+                $this->assertTrue($this->controlIsPresent('link', 'tag_name'), "Cannot find tag with name: $value");
+                $this->clickControl('link', 'tag_name');
+                $this->addParameter('id', $this->defineIdFromUrl());
+                $this->assertTrue($this->controlIsPresent('link', 'product_name'));
+            }
         } else {
-            $this->fail('Array keys are absent in array');
-        }
-        $category = $verificationData['category'];
-        $category = substr($category, strpos($category, '/') + 1);
-        $url = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $category)), '-');
-        $this->addParameter('categoryTitle', $category);
-        $this->addParameter('categoryUrl', $url);
-        $this->frontend('category_page');
-        $tagNameArray = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
-        foreach ($tagNameArray as $value) {
-            $this->addParameter('tagName', $value);
-            $tagXpath = $this->_getControlXpath('link', 'tag_name');
-            $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
-            $this->clickControl('link', 'tag_name');
-        }
-    }
-
-    /**
-     * Approve Tags
-     *
-     * @param array $verificationData
-     */
-    public function backendApproveTags($verificationData)
-    {
-        if (is_array($verificationData) && array_key_exists('new_tag_names', $verificationData)) {
-            $tagName = $verificationData['new_tag_names'];
-        } else {
-            $this->fail('Array keys are absent in array');
-        }
-        $tagNameArray = array();
-        preg_match_all('/[^\']+/', $tagName, $tagNameArray);
-        foreach ($tagNameArray[0] as $value) {
-            $this->addParameter('tagName', $value);
-            $tagXpath = $this->_getControlXpath('link', 'tag_name');
-            $this->assertTrue($this->isElementPresent($tagXpath), "Cannot find tag with name: $value");
-            $this->clickControl('link', 'tag_name');
+            $this->fail('Verification Data is not correct');
         }
     }
 
@@ -166,21 +138,20 @@ class Tags_Helper extends Mage_Selenium_TestCase
      *
      * @param array $verificationData
      */
-    public function frontendDeleteTag($verificationData)
+    public function frontendDeleteTag(array $verificationData)
     {
-        if (is_array($verificationData) && array_key_exists('new_tag_names', $verificationData)) {
-            $tagName = $verificationData['new_tag_names'];
+        $tagName = (isset($verificationData['new_tag_names'])) ? $verificationData['new_tag_names'] : NULL;
+        if ($tagName) {
+            $tagNameArray = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
+            foreach ($tagNameArray as $value) {
+                $this->addParameter('tagName', $value);
+                $this->assertTrue($this->controlIsPresent('link', 'tag_name'), "Cannot find tag with name: $value");
+                $this->clickControl('link', 'tag_name');
+                $this->clickButtonAndConfirm('delete_tag', 'confirmation_for_delete');
+                $this->assertTrue($this->successMessage('success_deleted_tag'), $this->messages);
+            }
         } else {
-            $this->fail('Array key is absent in array');
-        }
-        $tagNameArray = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
-        foreach ($tagNameArray as $value) {
-            $this->addParameter('tagName', $value);
-            $xpath = $this->_getControlXpath('link', 'tag_name');
-            $this->assertTrue($this->isElementPresent($xpath), "Cannot find tag with name: $value");
-            $this->clickControl('link', 'tag_name');
-            $this->clickButtonAndConfirm('delete_tag', 'confirmation_for_delete');
-            $this->assertTrue($this->successMessage('success_deleted_tag'), $this->messages);
+            $this->fail('Verification Data is not correct');
         }
     }
 

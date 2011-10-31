@@ -37,3 +37,21 @@ all_tags:
                         xpath: //ul[@class='tags-list']
                         links:
                             tag_name: //li/a[text()='%tagName%']
+
+tags_products:
+    mca: tag/product/list/tagId/%id%/
+    title: Products tagged with '%tagName%'
+    uimap:
+        form:
+            fieldsets:
+                -
+                    popular_tags:
+                        xpath: //div[@class[contains(.,'block block-tags')]]
+                        links:
+                            tag_name: //ul[@class='tags-list']/li/a[text()='%tagName%']
+                            view_all_tags: //a[text()='View All Tags']
+                -
+                    product_grid:
+                        xpath: //div[@class='category-products']
+                        links:
+                            product_name: //a[@title='%productName%']
