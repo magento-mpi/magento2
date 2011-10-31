@@ -46,4 +46,26 @@ class Integrity_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->assertSame(array(), Mage::getConfig()->getNode()->xpath('/config/global/models/*/entities/*/table'));
     }
+
+    /**
+     * @dataProvider classPrefixRemovalDataProvider
+     */
+    public function testClassPrefixRemoval($classType)
+    {
+        $this->assertSame(array(), Mage::getConfig()->getNode()->xpath("/config/global/{$classType}s/*/class"));
+    }
+
+    public function classPrefixRemovalDataProvider()
+    {
+        return array(
+            array('model'),
+            array('helper'),
+            array('block'),
+        );
+    }
+
+    public function testResourceModelMappingRemoval()
+    {
+        $this->assertSame(array(), Mage::getConfig()->getNode()->xpath('/config/global/models/*/resourceModel'));
+    }
 }
