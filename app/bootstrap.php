@@ -24,19 +24,23 @@
  */
 
 /* PHP version validation */
-if (version_compare(phpversion(), '5.3.0', '<') === true) {
-    echo <<<HTML
+if (version_compare(phpversion(), '5.4.0', '<') === true) {
+    if (PHP_SAPI == 'cli') {
+        echo 'Magento supports PHP 5.3.0 or newer. Please read http://www.magento.com/install.';
+    } else {
+        echo <<<HTML
 <div style="font:12px/1.35em arial, helvetica, sans-serif;">
     <div style="margin:0 0 25px 0; border-bottom:1px solid #ccc;">
         <h3 style="margin:0;font-size:1.7em;font-weight:normal;text-transform:none;text-align:left;color:#2f2f2f;">
         Whoops, it looks like you have an invalid PHP version.</h3>
     </div>
     <p>Magento supports PHP 5.3.0 or newer.
-    <a href="http://www.magentocommerce.com/install" target="">Find out</a>
+    <a href="http://www.magento.com/install" target="">Find out</a>
     how to install Magento using PHP-CGI as a work-around.
     </p>
 </div>
 HTML;
+    }
     exit;
 }
 
@@ -60,7 +64,6 @@ require_once BP . '/lib/Magento/Autoload.php';
 require_once BP . '/app/code/core/Mage/Core/functions.php';
 require_once BP . '/app/Mage.php';
 
-/* Init Mage */
 if (isset($_SERVER['MAGE_IS_DEVELOPER_MODE'])) {
     Mage::setIsDeveloperMode(true);
 }
@@ -72,5 +75,5 @@ $paths[] = BP . DS . 'app' . DS . 'code' . DS . 'core';
 $paths[] = BP . DS . 'lib';
 
 Magento_Autoload::getInstance()->addIncludePath($paths)
-    ->addFilesMap(BP . '/.classmap.php');
+    ->addFilesMap(BP . '/_classmap.php');
 
