@@ -56,6 +56,8 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
 
     /**
      * When a customer cancel payment from payflow gateway.
+     *
+     * @return void
      */
     public function cancelPaymentAction()
     {
@@ -68,6 +70,8 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
 
     /**
      * When a customer return to website from payflow gateway.
+     *
+     * @return void
      */
     public function returnUrlAction()
     {
@@ -101,6 +105,8 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
 
     /**
      * When a customer return to website from payflow gateway.
+     *
+     * @return void
      */
     public function placeOrderAction()
     {
@@ -114,7 +120,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
      * Cancel order, return quote to customer
      *
      * @param string $errorMsg
-     * @return mixed
+     * @return bool|string
      */
     protected function _cancelPayment($errorMsg = '')
     {
@@ -148,6 +154,8 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
 
     /**
      * Submit transaction to Payflow getaway into iframe
+     *
+     * @return void
      */
     public function formAction()
     {
@@ -179,12 +187,14 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
 
     /**
      * Get response from PayPal by silent post method
+     *
+     * @return void
      */
     public function silentPostAction()
     {
         $data = $this->getRequest()->getPost();
         if (isset($data['INVNUM'])) {
-            /** @var $paymentModel Mage_Paypal_Model_Payflowlink */
+            /** @var $paymentModel Mage_Paypal_Model_Payflowadvanced */
             $paymentModel = Mage::getModel('paypal/payflowadvanced');
             try {
                 $paymentModel->process($data);
