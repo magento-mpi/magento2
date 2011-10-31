@@ -45,7 +45,7 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Wishlist_Block_Abstract
     public function _construct()
     {
         parent::_construct();
-        $this->addOptionsRenderCfg('default', 'catalog/product_configuration', 'wishlist/options_list.phtml');
+        $this->addOptionsRenderCfg('default', 'Mage_Catalog_Helper_Product_Configuration', 'wishlist/options_list.phtml');
     }
 
     /**

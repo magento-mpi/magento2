@@ -161,7 +161,7 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
             $select->where('entity.attribute_set_id = :attribute_set_id');
         }
 
-        $helper = Mage::getResourceHelper('core');
+        $helper = Mage::getResourceHelper('Mage_Core');
         $query  = $helper->getQueryUsingAnalyticFunction($select);
         return $adapter->fetchOne($query, $bind);
     }

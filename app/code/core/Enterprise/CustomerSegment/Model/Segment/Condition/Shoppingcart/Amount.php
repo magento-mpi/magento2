@@ -111,7 +111,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
         $select->from(array('quote'=>$table), array(new Zend_Db_Expr(1)))
             ->where('quote.is_active=1');
 
-        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
         $joinAddress = false;

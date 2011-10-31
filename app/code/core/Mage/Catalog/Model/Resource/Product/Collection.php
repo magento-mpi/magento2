@@ -1471,7 +1471,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             );
         }
         // Avoid column duplication problems
-        Mage::getResourceHelper('core')->prepareColumnsList($this->getSelect());
+        Mage::getResourceHelper('Mage_Core')->prepareColumnsList($this->getSelect());
 
         $whereCond = join(' OR ', array(
             $this->getConnection()->quoteInto('cat_index.visibility IN(?)', $filters['visibility']),
@@ -1505,7 +1505,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             return $this;
         }
 
-        $helper     = Mage::getResourceHelper('core');
+        $helper     = Mage::getResourceHelper('Mage_Core');
         $connection = $this->getConnection();
         $select     = $this->getSelect();
         $joinCond   = join(' AND ', array(

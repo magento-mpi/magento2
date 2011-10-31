@@ -271,7 +271,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
         $bunchRows       = array();
         $startNewBunch   = false;
         $nextRowBackup   = array();
-        $maxDataSize = Mage::getResourceHelper('importexport')->getMaxDataSize();
+        $maxDataSize = Mage::getResourceHelper('Mage_ImportExport')->getMaxDataSize();
 
         $source->rewind();
         $this->_dataSourceModel->cleanBunches();

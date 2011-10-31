@@ -105,7 +105,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount
         );
         $this->_limitByStoreWebsite($select, $website, 'sales_order.store_id');
         $select->where($this->_createCustomerFilter($customer, 'sales_order.customer_id'));
-        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
         return $select;
     }
 

@@ -1335,10 +1335,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
-     * Retreive resource helper instance
+     * Retrieve resource helper instance
      *
      * Example:
-     * $config->getResourceHelper('cms')
+     * $config->getResourceHelper('Mage_Cms')
      * will instantiate Mage_Cms_Model_Resource_Helper_<db_adapter_name>
      *
      * @param string $moduleName
@@ -1346,11 +1346,21 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getResourceHelper($moduleName)
     {
-        $connectionModel = $this->_getResourceConnectionModel($moduleName);
-        $helperClass     = sprintf('%s/helper_%s', $moduleName, $connectionModel);
-        $helperClassName = $this->_getResourceModelFactoryClassName($helperClass);
+        $connectionModel = $this->_getResourceConnectionModel('core');
+
+        if (preg_match('/[A-Z]/', $moduleName)) {
+            $helperClassName = $moduleName . '_Model_Resource_Helper_' . ucfirst($connectionModel);
+            $connection = strtolower($moduleName);
+            if (substr($moduleName, 0, 5) == 'Mage_') {
+                $connection = substr($connection, 5);
+            }
+        } else {
+            $helperClass     = sprintf('%s/helper_%s', $moduleName, $connectionModel);
+            $helperClassName = $this->_getResourceModelFactoryClassName($helperClass);
+            $connection = $moduleName;
+        }
         if ($helperClassName) {
-            return $this->getModelInstance($helperClassName, $moduleName);
+            return $this->getModelInstance($helperClassName, $connection);
         }
 
         return false;

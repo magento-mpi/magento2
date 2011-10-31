@@ -587,8 +587,8 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         $typePriceTable = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_type_price');
         $typeTitleTable = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_type_title');
         $typeValueTable = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_type_value');
-        $nextOptionId   = Mage::getResourceHelper('importexport')->getNextAutoincrement($optionTable);
-        $nextValueId    = Mage::getResourceHelper('importexport')->getNextAutoincrement($typeValueTable);
+        $nextOptionId   = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($optionTable);
+        $nextValueId    = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($typeValueTable);
         $priceIsGlobal  = Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal();
         $type           = null;
         $typeSpecific   = array(
@@ -839,7 +839,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         $resource       = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Link');
         $mainTable      = $resource->getMainTable();
         $positionAttrId = array();
-        $nextLinkId     = Mage::getResourceHelper('importexport')->getNextAutoincrement($mainTable);
+        $nextLinkId     = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($mainTable);
         $adapter = $this->_connection;
 
         // pre-load 'position' attributes ID for each link type once

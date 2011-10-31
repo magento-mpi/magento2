@@ -124,7 +124,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
         $selects = array();
 
         /* @var $resHelper Mage_Core_Model_Resource_Helper_Abstract */
-        $resHelper = Mage::getResourceHelper('core');
+        $resHelper = Mage::getResourceHelper('Mage_Core');
         $likeOptions = array('position' => 'any');
 
         /**
@@ -207,7 +207,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
         /**
          * Select option Ids
          */
-        $resHelper = Mage::getResourceHelper('core');
+        $resHelper = Mage::getResourceHelper('Mage_Core');
         $ifStoreId = $this->getConnection()->getIfNullSql('s.store_id', 'd.store_id');
         $ifValue   = $this->getConnection()->getCheckSql('s.value_id > 0', 's.value', 'd.value');
         $select = $this->getConnection()->select()

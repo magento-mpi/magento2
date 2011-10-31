@@ -81,7 +81,7 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
                 $archive = Mage::getModel('enterprise_logging/archive');
                 $archive->createNew();
 
-                $expr = Mage::getResourceHelper('enterprise_logging')->getInetNtoaExpr('ip');
+                $expr = Mage::getResourceHelper('Enterprise_Logging')->getInetNtoaExpr('ip');
                 $select = $readAdapter->select()
                     ->from($this->getMainTable())
                     ->where('log_id <= ?', $latestLogEntry)

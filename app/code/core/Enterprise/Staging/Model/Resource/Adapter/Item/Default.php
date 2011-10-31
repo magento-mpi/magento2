@@ -487,7 +487,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
     protected function _backupItemData($srcTable, $targetTable)
     {
         $adapter = $this->_getWriteAdapter();
-        $resourceHelper = Mage::getResourceHelper('enterprise_staging');
+        $resourceHelper = Mage::getResourceHelper('Enterprise_Staging');
         $targetTableDesc = $this->getTableProperties($targetTable);
         $adapter->disableTableKeys($targetTableDesc['table_name']);
 
@@ -609,7 +609,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                 $srcSelectSql = $this->_getSimpleSelect($srcTable, $selectFields, $_websiteFieldNameSql);
 
 
-                $sql = Mage::getResourceHelper('enterprise_staging')->getInsertFromSelect(
+                $sql = Mage::getResourceHelper('Enterprise_Staging')->getInsertFromSelect(
                     $srcSelectSql,
                     $targetTable,
                     $fields
@@ -721,7 +721,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                     }
                     $srcSelectSql = $this->_getSimpleSelect($srcTable, $selectFields, $_storeFieldNameSql);
 
-                    $sql = Mage::getResourceHelper('enterprise_staging')->getInsertFromSelect(
+                    $sql = Mage::getResourceHelper('Enterprise_Staging')->getInsertFromSelect(
                         $srcSelectSql,
                         $targetTable,
                         $fields
@@ -779,7 +779,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
             return $this;
         }
 
-        $resourceHelper = Mage::getResourceHelper('enterprise_staging');
+        $resourceHelper = Mage::getResourceHelper('Enterprise_Staging');
         $fields     = $targetTableDesc['fields'];
         $fields     = array_keys($fields);
 
@@ -864,7 +864,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
 
                     $writeAdapter->delete($targetTable, $_websiteCondition);
                     $srcSelectSql = $this->_getSimpleSelect($srcTable, $fields, $_websiteCondition);
-                    $sql = Mage::getResourceHelper('enterprise_staging')->getInsertFromSelect(
+                    $sql = Mage::getResourceHelper('Enterprise_Staging')->getInsertFromSelect(
                         $srcSelectSql,
                         $targetTable,
                         $fields
@@ -891,7 +891,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
         $staging        = $this->getStaging();
         $mergedStores   = $staging->getMapperInstance()->getStores();
         $connection     = $this->_getWriteAdapter();
-        $resourceHelper = Mage::getResourceHelper('enterprise_staging');
+        $resourceHelper = Mage::getResourceHelper('Enterprise_Staging');
 
 
         if (!empty($mergedStores)) {

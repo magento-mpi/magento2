@@ -102,7 +102,7 @@ class Enterprise_Staging_Model_Resource_Staging_Collection extends Mage_Core_Mod
      */
     public function addLastLogComment()
     {
-        $helper     = Mage::getResourceHelper('enterprise_staging');
+        $helper     = Mage::getResourceHelper('Enterprise_Staging');
 
         $subSelect = clone $this->getSelect();
         $subSelect->reset();

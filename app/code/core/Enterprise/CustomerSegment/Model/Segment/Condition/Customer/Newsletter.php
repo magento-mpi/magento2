@@ -137,7 +137,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
             ->where($this->_createCustomerFilter($customer, 'main.customer_id'))
             ->where('main.subscriber_status = ?', Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
 
-        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
 
         $this->_limitByStoreWebsite($select, $website, 'main.store_id');
         if (!$value) {

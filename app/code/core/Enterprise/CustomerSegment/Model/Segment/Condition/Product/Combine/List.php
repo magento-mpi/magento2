@@ -173,7 +173,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
         }
 
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
-        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
 
         return $select;
     }

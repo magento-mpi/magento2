@@ -58,7 +58,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Collection
         foreach ($columns as $labelColumn => $columnData) {
             $retColumns[$labelColumn] = $labelColumn;
             if ($columnData['DATA_TYPE'] == Varien_Db_Ddl_Table::TYPE_TEXT) {
-                $retColumns[$labelColumn] = Mage::getResourceHelper('core')->castField('main_table.'.$labelColumn);
+                $retColumns[$labelColumn] = Mage::getResourceHelper('Mage_Core')->castField('main_table.'.$labelColumn);
             }
         }
         $this->getSelect()

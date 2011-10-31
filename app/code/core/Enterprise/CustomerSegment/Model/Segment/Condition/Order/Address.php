@@ -109,7 +109,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
                 array())
             ->where($this->_createCustomerFilter($customer, 'order_address_order.customer_id'));
 
-        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
 
         $this->_limitByStoreWebsite($select, $website, 'order_address_order.store_id');
 

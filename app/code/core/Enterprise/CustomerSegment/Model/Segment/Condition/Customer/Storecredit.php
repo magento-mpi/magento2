@@ -96,7 +96,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
         $select->where('website_id=?', $website);
         $select->where("amount {$operator} ?", $this->getValue());
 
-        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
 
         return $select;
     }
