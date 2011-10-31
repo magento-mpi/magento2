@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -35,6 +36,7 @@
  */
 class Mage_Selenium_Helper_Params
 {
+
     /**
      * Parameters array
      *
@@ -47,10 +49,10 @@ class Mage_Selenium_Helper_Params
      *
      * @param array $params Parameters array
      */
-    public function  __construct(array $params = null)
+    public function __construct(array $params = null)
     {
-        if(!empty($params)) {
-            foreach($params as $paramName => $paramValue) {
+        if (!empty($params)) {
+            foreach ($params as $paramName => $paramValue) {
                 $this->setParameter($paramName, $paramValue);
             }
         }
@@ -92,14 +94,14 @@ class Mage_Selenium_Helper_Params
      *
      * @return string
      */
-     public function replaceParameters($source)
-     {
+    public function replaceParameters($source)
+    {
         if (empty($this->_paramsArray) || !is_string($source) || empty($source)) {
             return $source;
         } else {
             return str_replace(array_keys($this->_paramsArray), array_values($this->_paramsArray), $source);
         }
-     }
+    }
 
     /**
      * Populate string with Regexp for next matching
@@ -109,13 +111,15 @@ class Mage_Selenium_Helper_Params
      *
      * @return string
      */
-     public function replaceParametersWithRegexp($source, $regexp = '(.*?)')
-     {
-        if(empty($this->_paramsArray)) {
-            return $source;
-        } else {
-            return str_replace(array_keys($this->_paramsArray), $regexp, $source);
-        }
-     }
+    public function replaceParametersWithRegexp($source, $regexp = '([^\/]+?)'/* '(.*?)' */)
+    {
+//        if(empty($this->_paramsArray)) {
+//            return $source;
+//        } else {
+//            return str_replace(array_keys($this->_paramsArray), $regexp, $source);
+//        }
+        return preg_replace('/%([^\/]+?)%/', $regexp, $source);
+        ;
+    }
 
 }
