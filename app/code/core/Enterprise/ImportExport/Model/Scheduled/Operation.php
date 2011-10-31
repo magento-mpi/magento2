@@ -410,7 +410,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
      */
     public function getInstance()
     {
-        $operation = Mage::getModel('enterprise_importexport/' . $this->getOperationType());
+        $operation = Mage::getModel('Enterprise_ImportExport_Model' . uc_words($this->getOperationType()));
         if (!$operation || !($operation instanceof Enterprise_ImportExport_Model_Scheduled_Operation_Interface)) {
             Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Invalid scheduled operation'));
         }

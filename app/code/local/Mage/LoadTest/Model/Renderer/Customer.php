@@ -279,17 +279,6 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
         if (is_null($this->_postCodes)) {
             $this->_regions   = array();
             $this->_postCodes = array();
-//            $collection = Mage::getModel('usa/postcode')
-//                ->getCollection();
-//            foreach ($collection as $item) {
-//                $this->_postCodes[] = array(
-//                    'country_id'    => $item->getCountryId(),
-//                    'postcode'      => $item->getPostcode(),
-//                    'region_id'     => $item->getRegionId(),
-//                    'city'          => ucwords(strtolower($item->getCity()))
-//                );
-//            }
-//            unset($collection);
             $collection = Mage::getModel('Mage_Directory_Model_Region')
                 ->getCollection();
             foreach ($collection as $region) {

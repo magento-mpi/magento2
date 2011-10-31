@@ -101,28 +101,28 @@
     <default>
         <payment>
             <pbridge translate="title" module="Enterprise_Pbridge">
-                <model>enterprise_pbridge/payment_method_pbridge</model>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Pbridge</model>
                 <title>Payment Bridge</title>
                 <debug>0</debug>
             </pbridge>
             <pbridge_paypal_direct>
-                <model>enterprise_pbridge/payment_method_paypal</model>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Paypal</model>
                 <active>1</active>
             </pbridge_paypal_direct>
             <pbridge_paypaluk_direct>
-                <model>enterprise_pbridge/payment_method_paypaluk</model>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Paypaluk</model>
                 <active>1</active>
             </pbridge_paypaluk_direct>
             <pbridge_authorizenet>
-                <model>enterprise_pbridge/payment_method_authorizenet</model>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Authorizenet</model>
                 <enabled>1</enabled>
             </pbridge_authorizenet>
             <pbridge_verisign>
-                <model>enterprise_pbridge/payment_method_payflow_pro</model>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro</model>
                 <enabled>1</enabled>
             </pbridge_verisign>
             <pbridge_ogone_direct>
-                <model>enterprise_pbridge/payment_method_ogone</model>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Ogone</model>
                 <title>Ogone Direct Link</title>
                 <userid backend_model="adminhtml/system_config_backend_encrypted"/>
                 <password backend_model="adminhtml/system_config_backend_encrypted"/>

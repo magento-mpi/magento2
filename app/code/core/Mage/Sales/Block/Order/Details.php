@@ -48,9 +48,11 @@ class Mage_Sales_Block_Order_Details extends Mage_Core_Block_Template
         return Mage::getUrl('*/*/history');
     }
 
+
     public function getInvoices()
     {
-        $invoices = Mage::getModel('sales_entity/invoice_collection')->setOrderFilter($this->getOrder()->getId())->load();
+        // className not existed
+        $invoices = Mage::getModel('Mage_Sales_Model_Entity_Invoice_Collection')->setOrderFilter($this->getOrder()->getId())->load();
         return $invoices;
     }
 

@@ -123,8 +123,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
         $connectDefault = Mage::getConfig()
                 ->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
 
-        $data = new Varien_Object;
-        $data
+        $data = Mage::getModel('Varien_Object')
             ->setDbHost($connectDefault->host)
             ->setDbName($connectDefault->dbname)
             ->setDbUser($connectDefault->username)

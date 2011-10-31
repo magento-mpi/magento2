@@ -44,21 +44,13 @@ class Enterprise_Staging_Helper_Website extends Mage_Core_Helper_Url
     /**
      * Check if a website can be shown
      *
+     * @TODO remove method usage
      * @param  Enterprise_Staging_Model_Staging_Website|int $website
      * @return boolean
      */
     public function canShow($website, $where = 'frontend')
     {
-        if (is_int($website)) {
-            $website = Mage::getModel('enterprise_staging/staging_website')->load($website);
-        }
-        /* @var $website Enterprise_Staging_Model_Staging_Website */
-
-        if (!$website->getId()) {
-            return false;
-        }
-
-        return $website->isVisibleOnFrontend();
+        return false;
     }
 
     /**

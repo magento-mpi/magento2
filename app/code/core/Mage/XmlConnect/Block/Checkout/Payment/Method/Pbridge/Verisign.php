@@ -39,5 +39,5 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Pbridge_Verisign
      *
      * @var string
      */
-    protected $_model = 'payflow_pro';
+    protected $_model = 'Payflow_Pro';
 }

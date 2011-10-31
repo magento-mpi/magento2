@@ -229,7 +229,6 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         if (!Mage::registry('Object_Cache_Customer')) {
             $this->setCustomer(Mage::getModel('Mage_Customer_Model_Customer'));
         }
-        //$this->setAddress(Mage::getModel('catalog/'))
 
         foreach (Mage::getConfig()->getFieldset('customer_dataflow', 'admin') as $code=>$node) {
             if ($node->is('ignore')) {

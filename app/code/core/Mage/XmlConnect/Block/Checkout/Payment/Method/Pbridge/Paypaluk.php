@@ -39,5 +39,5 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Pbridge_Paypaluk
      *
      * @var string
      */
-    protected $_model = 'paypaluk';
+    protected $_model = 'Paypaluk';
 }

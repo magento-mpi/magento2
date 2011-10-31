@@ -44,21 +44,13 @@ class Enterprise_Staging_Helper_Store extends Mage_Core_Helper_Url
     /**
      * Check if a store can be shown
      *
+     * @TODO remove method usage
      * @param  Enterprise_Staging_Model_Staging_Store|int $store
      * @return boolean
      */
     public function canShow($store, $where = 'frontend')
     {
-        if (is_int($store)) {
-            $store = Mage::getModel('enterprise_staging/staging_store')->load($store);
-        }
-        /* @var $store Enterprise_Staging_Model_Staging_Store */
-
-        if (!$store->getId()) {
-            return false;
-        }
-
-        return $store->isVisibleOnFrontend();
+        return false;
     }
 
     /**

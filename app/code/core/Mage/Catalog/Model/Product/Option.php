@@ -232,7 +232,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
     {
         $group = $this->getGroupByType($type);
         if (!empty($group)) {
-            return Mage::getModel('catalog/product_option_type_' . $group);
+            return Mage::getModel('Mage_Catalog_Model_Product_Option_Type_' . uc_words($group));
         }
         Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Wrong option type to get group instance.'));
     }

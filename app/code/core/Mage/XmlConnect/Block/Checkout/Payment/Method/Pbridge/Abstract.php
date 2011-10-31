@@ -43,7 +43,7 @@ abstract class Mage_XmlConnect_Block_Checkout_Payment_Method_Pbridge_Abstract
     {
         $method = $this->getData('method');
         if (!$method) {
-            $method = Mage::getModel('enterprise_pbridge/payment_method_' . $this->_model);
+            $method = Mage::getModel('Enterprise_Pbridge_Model_Payment_Method_' . $this->_model);
             $this->setData('method', $method);
         }
         return $method;

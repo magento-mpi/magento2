@@ -60,7 +60,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
      *
      * @var $_proType string
      */
-    protected $_proType = 'enterprise_pbridge/payment_method_paypaluk_pro';
+    protected $_proType = 'Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro';
 
     /**
      * Constructor

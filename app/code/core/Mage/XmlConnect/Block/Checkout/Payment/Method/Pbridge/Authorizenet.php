@@ -39,5 +39,5 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Pbridge_Authorizenet
      *
      * @var string
      */
-    protected $_model = 'authorizenet';
+    protected $_model = 'Authorizenet';
 }

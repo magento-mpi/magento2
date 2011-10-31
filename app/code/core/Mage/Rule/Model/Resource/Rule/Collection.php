@@ -70,7 +70,7 @@ class Mage_Rule_Model_Resource_Rule_Collection extends Mage_Core_Model_Resource_
     public function getEnv()
     {
         if (!$this->_env) {
-            $this->_env = Mage::getModel('core/rule_environment');
+            $this->_env = Mage::getModel('Mage_Rule_Model_Environment');
             $this->_env->collect();
         }
         return $this->_env;

@@ -60,7 +60,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Mage_Paypal_Model_D
      *
      * @var $_proType string
      */
-    protected $_proType = 'enterprise_pbridge/payment_method_paypal_pro';
+    protected $_proType = 'Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro';
 
     public function __construct($params = array())
     {

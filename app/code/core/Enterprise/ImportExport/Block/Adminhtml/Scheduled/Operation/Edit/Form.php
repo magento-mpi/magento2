@@ -106,7 +106,7 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'required'  => false
         ));
 
-        $entities = Mage::getModel('importexport/source_' . $operation->getOperationType() . '_entity')
+        $entities = Mage::getModel('Mage_ImportExport_Model_Source_' . uc_words($operation->getOperationType()) . '_Entity')
             ->toOptionArray();
 
         $fieldset->addField('entity', 'select', array(
