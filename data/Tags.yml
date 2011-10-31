@@ -25,7 +25,11 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-#Test data for Tags creating(Frontend)
+#Test data for Tags creating
+
+#*********************************************
+#*         Frontend                          *
+#*********************************************
 
 new_tag_single:
     product_name: %noValue%
@@ -39,12 +43,30 @@ new_tag_complex:
     product_name: %noValue%
     new_tag_names: ddddd 'dddddddd sdfd ' 2
 
+#*********************************************
+#*         Backend                           *
+#*********************************************
+
+backend_search_tag:
+    tag_name: %noValue%
+    product_products_from: %noValue%
+    product_products_to: %noValue%
+    product_customers_from: %noValue%
+    product_customers_to: %noValue%
+    tags_status: %noValue%
+    store_view: %noValue%
+
 backend_base_tag:
     tag_name: tag_name
     tag_status: Approved
-    base_popularity: %noValue%
 
 backend_new_tag:
+    tag_name: tag_name
+    tag_status: Approved
+    base_popularity: %noValue%
+    switch_store: %noValue%
+
+backend_new_tag_with_product:
     tag_name: tag_name
     tag_status: Approved
     base_popularity: %noValue%
@@ -62,12 +84,3 @@ backend_new_tag:
         prod_tag_admin_price_in: %noValue%
         prod_tag_admin_visibility: %noValue%
         prod_tag_admin_status: %noValue%
-
-backend_search_tag:
-    tag_name: %noValue%
-    product_products_from: %noValue%
-    product_products_to: %noValue%
-    product_customers_from: %noValue%
-    product_customers_to: %noValue%
-    tags_status: %noValue%
-    store_view: %noValue%

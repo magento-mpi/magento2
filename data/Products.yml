@@ -426,6 +426,22 @@ simple_product_required:
     prices_tax_class: None
     inventory_qty: %noValue%
 
+# Simple product that has all needed fields set to be visible in other places.
+simple_product_visible:
+    product_attribute_set: Default
+    general_name: Simple Product Required
+    general_description: Description for Simple Product Required
+    general_short_description: Short Description for Simple Product Required
+    general_sku: simple_sku.req
+    general_weight: 1.13
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 9.99
+    prices_tax_class: None
+    inventory_qty: %noValue%
+    websites: Main Website
+    categories: Default Category
+
 simple_product:
     product_attribute_set: Default
     general_name: Simple Product
@@ -546,7 +562,7 @@ duplicate_simple:
     categories: Default Category
     related_data: *relatedProductsData
     up_sells_data: *upSellsProductsData
-    cross_sells_data: *crossSellsProductsData    
+    cross_sells_data: *crossSellsProductsData
     custom_options_data: *customOptionsData
 
 #*********************************************
@@ -681,7 +697,7 @@ duplicate_virtual:
     categories: Default Category
     related_data: *relatedProductsData
     up_sells_data: *upSellsProductsData
-    cross_sells_data: *crossSellsProductsData    
+    cross_sells_data: *crossSellsProductsData
     custom_options_data: *customOptionsData
 
 #*********************************************
@@ -1248,7 +1264,7 @@ duplicate_downloadable:
     categories: Default Category
     related_data: *relatedProductsData
     up_sells_data: *upSellsProductsData
-    cross_sells_data: *crossSellsProductsData    
+    cross_sells_data: *crossSellsProductsData
     custom_options_data: *customOptionsData
     downloadable_information_data:
         downloadable_samples_title: Samples Title

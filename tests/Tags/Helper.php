@@ -202,11 +202,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
         // Add tag name to parameters
         $xpathTagName = $this->_getControlXpath('field', 'tag_name');
         $tagName = $this->getElementByXpath($xpathTagName, 'value');
-        if (empty($tagName)) {
-            print_r('Tag name is empty!');
-        } else {
-            $this->addParameter('tagName', $tagName);
-        }
+        $this->addParameter('tagName', $tagName);
         //Fill additional options
         $this->clickButton('save_and_continue_edit');
         if (!$this->controlIsPresent('field', 'prod_tag_admin_name')) {
@@ -280,7 +276,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
      * Mass action: approves a set of tags in backend
      *
      * @param array $tagsSearchData Array of tags to change status
-     * @param string $newStatus New status
+     * @param string $newStatus New status, e.g. 'Approved'
      *
      * Example of $tagsSearchData for one tag with 'my tag name' name: array(array('tag_name' => 'my tag name'))
      */
@@ -315,6 +311,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
      */
     public function verifyTagProduct(array $tagSearchData, array $productSearchData)
     {
+        $this->navigate('manage_products');
         $this->productHelper()->openProduct($productSearchData);
         $this->clickControl('tab', 'product_tags', false);
         $this->pleaseWait();
@@ -332,6 +329,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
     public function verifyTagCustomer(array $tagSearchData, array $customerSearchData)
     {
         $tagSearchData = $this->arrayEmptyClear($tagSearchData);
+        $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer($customerSearchData);
         $this->clickControl('tab', 'product_tags', false);
         $this->pleaseWait();
