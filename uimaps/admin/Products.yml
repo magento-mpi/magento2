@@ -103,7 +103,7 @@ new_product:
 #    mca: catalog_product/new/%productParameters%
     mca: catalog_product/new/set/%setId%/type/%productType%/
     title: New Product / Manage Products / Catalog / Magento Admin
-    uimap:
+    uimap: &newProduct
         form: &newProductCreationForm
             tabs:
                 -
@@ -554,6 +554,11 @@ new_product:
             save: //button[span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages: *productMesssages
+
+new_configurable_product:
+    mca: catalog_product/new/attributes/%attributesUrl%/set/%setId%/type/%productType%/
+    title: New Product / Manage Products / Catalog / Magento Admin
+    uimap: *newProduct
 
 # Edit Product page
 edit_product:
