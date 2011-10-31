@@ -138,6 +138,7 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
     protected function tearDown()
     {
         if (!empty(self::$tagToBeDeleted)) {
+            $this->navigate('all_tags');
             $this->tagsHelper()->deleteTag(self::$tagToBeDeleted);
             self::$tagToBeDeleted = array();
         }
