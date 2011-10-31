@@ -24,7 +24,7 @@
  */
 
 /* PHP version validation */
-if (version_compare(phpversion(), '5.4.0', '<') === true) {
+if (version_compare(phpversion(), '5.3.0', '<') === true) {
     if (PHP_SAPI == 'cli') {
         echo 'Magento supports PHP 5.3.0 or newer. Please read http://www.magento.com/install.';
     } else {
