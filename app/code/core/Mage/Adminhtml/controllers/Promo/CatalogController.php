@@ -237,14 +237,8 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
 
     public function chooserAction()
     {
-        switch ($this->getRequest()->getParam('attribute')) {
-            case 'sku':
-                $type = 'Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku';
-                break;
-
-            case 'categories':
-                $type = 'adminhtml/promo_widget_chooser_categories';
-                break;
+        if ($this->getRequest()->getParam('attribute') == 'sku') {
+            $type = 'Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku';
         }
         if (!empty($type)) {
             $block = $this->getLayout()->createBlock($type);

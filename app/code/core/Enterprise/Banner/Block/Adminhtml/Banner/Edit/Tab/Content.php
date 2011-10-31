@@ -86,7 +86,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
         $form->setHtmlIdPrefix('banner_content_');
         $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(array(
             'tab_id' => $this->getTabId(),
-            'skip_widgets' => array('enterprise_banner/widget_banner'),
+            'skip_widgets' => array('Enterprise_Banner_Block_Widget_Banner'),
         ));
         $fieldsetHtmlClass = 'fieldset-wide';
 

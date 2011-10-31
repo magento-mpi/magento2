@@ -66,8 +66,8 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit
     protected function _prepareLayout()
     {
         $operation = Mage::registry('current_operation');
-        $blockName = 'enterprise_importexport/adminhtml_scheduled_operation_edit_form_'
-            . $operation->getOperationType();
+        $blockName = 'Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_'
+            . ucfirst($operation->getOperationType());
         $formBlock = $this->getLayout()
             ->createBlock($blockName);
         if ($formBlock) {

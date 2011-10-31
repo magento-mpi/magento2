@@ -603,8 +603,7 @@ class Mage_XmlConnect_Helper_Android extends Mage_Core_Helper_Abstract
     public function getCountryRenderer()
     {
         if (empty($this->_countryRenderer)) {
-            $renderer = 'xmlconnect/adminhtml_mobile_submission_renderer_country_'
-                . self::SUBMISSION_COUNTRY_RENDERER;
+            $renderer = 'Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Renderer_Country_Androidmarket';
             $this->_countryRenderer = Mage::app()->getLayout()->createBlock($renderer);
         }
         return $this->_countryRenderer;

@@ -122,7 +122,11 @@ class Mage_XmlConnect_Block_Customer_Order_Details extends Mage_Payment_Block_In
         $paymentNode = $orderXmlObj->addChild('payment_method');
 
         if (in_array($methodCode, $this->_methodArray, true)) {
-            $currentBlockRenderer = 'xmlconnect/checkout_payment_method_info_' . $methodCode;
+            $methodCodeParts = explode('_', $methodCode);
+            foreach ($methodCodeParts as $key => $part) {
+                $methodCodeParts[$key] = ucfirst($part);
+            }
+            $currentBlockRenderer = 'Mage_XmlConnect_Block_Checkout_Payment_Method_Info_' . implode('_', $methodCodeParts);
             $currentBlockName = 'xmlconnect.checkout.payment.method.info.' . $methodCode;
             $this->getLayout()->addBlock($currentBlockRenderer, $currentBlockName);
             $this->setChild($methodCode, $currentBlockName);

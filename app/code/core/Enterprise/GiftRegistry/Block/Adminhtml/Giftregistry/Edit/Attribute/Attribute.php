@@ -236,10 +236,10 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
     public function getTemplatesHtml()
     {
         $templates = array();
-        $types = array('select', 'date', 'country');
+        $types = array('Select', 'Date', 'Country');
 
         foreach ($types as $type) {
-            $renderer = 'enterprise_giftregistry/adminhtml_giftregistry_edit_attribute_type_' . $type;
+            $renderer = 'Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_' . $type;
             $block = $this->getLayout()->createBlock($renderer)->setFieldPrefix($this->getFieldPrefix());
             $templates[] = $block->toHtml();
         }

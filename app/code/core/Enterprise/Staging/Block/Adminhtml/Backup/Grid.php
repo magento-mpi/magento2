@@ -48,7 +48,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Grid extends Mage_Adminhtml_Bloc
 
         $this->setColumnRenderers(
             array(
-                'action' => 'enterprise_staging/adminhtml_widget_grid_column_renderer_action'
+                'action' => 'Enterprise_Staging_Block_Adminhtml_Widget_Grid_Column_Renderer_Action'
         ));
     }
 

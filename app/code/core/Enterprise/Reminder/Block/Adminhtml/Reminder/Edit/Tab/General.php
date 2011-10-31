@@ -150,8 +150,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
     public function getChooserConfig()
     {
         return array(
-            'button' => array('open'=>'Select Rule...'),
-            'type' => 'adminhtml/promo_widget_chooser_rule'
+            'button' => array('open'=>'Select Rule...')
         );
     }
 }

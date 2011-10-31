@@ -157,11 +157,15 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
          */
         if (is_object(Mage::getConfig()->getNode('modules/Enterprise_Pbridge'))) {
 
-            $pbBlockRenderer = 'xmlconnect/checkout_payment_method_';
+            $pbBlockRenderer = 'Mage_XmlConnect_Block_Checkout_Payment_Method_';
             $pbBlockName = 'xmlconnect.checkout.payment.method.';
 
             foreach ($this->_pbridgeMethodArray as $block) {
-                $currentBlockRenderer = $pbBlockRenderer . $block;
+                $blockParts = explode('_', $block);
+                foreach ($blockParts as $key => $part) {
+                    $blockParts[$key] = ucfirst($part);
+                }
+                $currentBlockRenderer = $pbBlockRenderer . implode('_', $blockParts);
                 $currentBlockName = $pbBlockName . $block;
                 $this->getLayout()->addBlock($currentBlockRenderer, $currentBlockName);
                 $this->setChild($block, $currentBlockName);
