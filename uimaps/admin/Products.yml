@@ -100,7 +100,8 @@ new_product_settings:
                                         product_type: //select[@id='product_type']
 # Add New Product page
 new_product:
-    mca: catalog_product/new/%productParameters%
+#    mca: catalog_product/new/%productParameters%
+    mca: catalog_product/new/set/%setId%/type/%productType%/
     title: New Product / Manage Products / Catalog / Magento Admin
     uimap:
         form: &newProductCreationForm
@@ -653,7 +654,8 @@ edit_product:
         messages: *productMesssages
 
 created_simple_from_configurable:
-    mca: catalog_product/created/id/%id%/edit/0/%productParameters%
+#    mca: catalog_product/created/id/%id%/edit/0/%productParameters%
+    mca: catalog_product/created/id/%id%/edit/0/attributes/%attributesUrl%/set/%setId%/type/%productType%/
     title: Magento Admin
     uimap:
         form: *newProductCreationForm

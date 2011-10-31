@@ -60,8 +60,10 @@ class Product_Helper extends Mage_Selenium_TestCase
         }
         $this->select($productTypeXpath, 'value=' . $productType);
 
-        $productParameters = 'set/' . $attributeSetID . '/type/' . $productType . '/';
-        $this->addParameter('productParameters', $productParameters);
+        $this->addParameter('setId', $attributeSetID);
+        $this->addParameter('productType', $productType);
+//        $productParameters = 'set/' . $attributeSetID . '/type/' . $productType . '/';
+//        $this->addParameter('productParameters', $productParameters);
 
         $this->clickButton('continue');
     }
@@ -73,7 +75,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      */
     public function fillConfigurableSettings(array $productData)
     {
-        $productParameters = $this->_paramsHelper->getParameter('productParameters');
+//        $productParameters = $this->_paramsHelper->getParameter('productParameters');
 
         $attributes = (isset($productData['configurable_attribute_title']))
                         ? explode(',', $productData['configurable_attribute_title'])
@@ -95,8 +97,9 @@ class Product_Helper extends Mage_Selenium_TestCase
             }
 
             $attributesUrl = urlencode(base64_encode(implode(',', $attributesId)));
-            $productParameters = 'attributes/' . $attributesUrl . '/' . $productParameters;
-            $this->addParameter('productParameters', $productParameters);
+//            $productParameters = 'attributes/' . $attributesUrl . '/' . $productParameters;
+//            $this->addParameter('productParameters', $productParameters);
+            $this->addParameter('attributesUrl', $attributesUrl);
 
             $this->clickButton('continue');
         } else {
