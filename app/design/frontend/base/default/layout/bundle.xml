@@ -94,7 +94,7 @@ Adding custom product price block
 
     <wishlist_index_index>
         <reference name="customer.wishlist">
-            <action method="addOptionsRenderCfg"><type>bundle</type><helper>bundle/catalog_product_configuration</helper></action>
+            <action method="addOptionsRenderCfg"><type>bundle</type><helper>Mage_Bundle_Helper_Catalog_Product_Configuration</helper></action>
         </reference>
     </wishlist_index_index>
 
