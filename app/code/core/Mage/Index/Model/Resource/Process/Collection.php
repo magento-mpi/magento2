@@ -42,4 +42,24 @@ class Mage_Index_Model_Resource_Process_Collection extends Mage_Core_Model_Resou
     {
         $this->_init('index/process');
     }
+
+    /**
+     * Add count of unprocessed events to process collection
+     *
+     * @return Mage_Index_Model_Resource_Process_Collection
+     */
+    public function addEventsStats()
+    {
+        $this->getSelect()
+            ->joinLeft(
+                array('e' => $this->getTable('index/process_event')),
+                'e.process_id=main_table.process_id AND e.status='
+                    . $this->getConnection()->quote(Mage_Index_Model_Process::EVENT_STATUS_NEW),
+                array('events' => $this->getConnection()->getCheckSql(
+                    $this->getConnection()->getIfNullSql('e.status', 1), 0, 'COUNT(*)'
+                ))
+            )
+            ->group('main_table.process_id');
+        return $this;
+    }
 }
