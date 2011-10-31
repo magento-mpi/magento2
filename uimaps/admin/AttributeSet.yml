@@ -97,9 +97,17 @@ edit_attribute_set:
                         xpath:  //div[@id='tree-div2']
                         links:
                             unassigned_attribute: //div[@id='tree-div2']//span[text()='%attributeName%']
-        buttons:
+        buttons: &editAttributeButtons
             save_attribute_set: //button[span='Save Attribute Set']
             delete_attribute_set: //button[span='Delete Attribute Set']
             reset: //button[span='Reset']
             back: //button[span='Back']
+        messages: *messages
+
+edit_attribute_set_with_sharp:
+    mca: catalog_product_set/edit/id/%id%/#
+    title: %attributeName% / Manage Attribute Sets / Attributes / Catalog / Magento Admin
+    uimap:
+        form: *editAttributeSet
+        buttons: *editAttributeButtons
         messages: *messages
