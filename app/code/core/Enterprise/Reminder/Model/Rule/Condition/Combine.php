@@ -38,7 +38,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_reminder/rule_condition_combine');
+        $this->setType('Enterprise_Reminder_Model_Rule_Condition_Combine');
     }
 
     /**

@@ -34,7 +34,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Combine extends Mage_Rule_Mo
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_targetrule/actions_condition_combine');
+        $this->setType('Enterprise_TargetRule_Model_Actions_Condition_Combine');
     }
 
     /**

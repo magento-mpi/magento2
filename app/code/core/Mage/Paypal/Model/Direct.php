@@ -64,7 +64,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      *
      * @var $_proType string
      */
-    protected $_proType = 'paypal/pro';
+    protected $_proType = 'Mage_Paypal_Model_Pro';
 
     public function __construct($params = array())
     {

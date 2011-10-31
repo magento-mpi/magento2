@@ -171,8 +171,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
      */
     protected function _prepareModelName($string)
     {
-        $string = Mage::helper('Mage_GoogleShopping_Helper_Data')->normalizeName($string);
-        return str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
+        return uc_words(Mage::helper('Mage_GoogleShopping_Helper_Data')->normalizeName($string));
     }
 
     /**
@@ -183,7 +182,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
      */
     protected function _createAttribute($name)
     {
-        $modelName = 'googleshopping/attribute_' . $this->_prepareModelName($name);
+        $modelName = 'Mage_GoogleShopping_Model_Attribute_' . $this->_prepareModelName($name);
         $useDefault = false;
         try {
             $attributeModel = Mage::getModel($modelName);

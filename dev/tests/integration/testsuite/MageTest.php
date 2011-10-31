@@ -53,7 +53,6 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function getModelDataProvider()
     {
         return array(
-            array('core/config', 'Mage_Core_Model_Config'),
             array('Mage_Core_Model_Config', 'Mage_Core_Model_Config')
         );
     }

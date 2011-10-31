@@ -111,7 +111,7 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
                     $backendClass = $sections->descend($section.'/groups/'.$group.'/fields/'.$mappedFields[$field].'/backend_model');
                 }
                 if (!$backendClass) {
-                    $backendClass = 'core/config_data';
+                    $backendClass = 'Mage_Core_Model_Config_Data';
                 }
 
                 $dataObject = Mage::getModel($backendClass);

@@ -35,7 +35,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_product_attributes');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes');
         $this->setValue(null);
     }
 

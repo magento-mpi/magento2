@@ -41,7 +41,7 @@ class Mage_Catalog_Block_Layer_Filter_Decimal extends Mage_Catalog_Block_Layer_F
     public function __construct()
     {
         parent::__construct();
-        $this->_filterModelName = 'catalog/layer_filter_decimal';
+        $this->_filterModelName = 'Mage_Catalog_Model_Layer_Filter_Decimal';
     }
 
     /**

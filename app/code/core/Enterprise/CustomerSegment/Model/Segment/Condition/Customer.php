@@ -36,7 +36,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_customer');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Customer');
         $this->setValue(null);
     }
 
@@ -48,10 +48,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer
     public function getNewChildSelectOptions()
     {
         $conditions = array();
-        $prefix = 'enterprise_customersegment/segment_condition_customer_';
-        $conditions = Mage::getModel($prefix.'attributes')->getNewChildSelectOptions();
-        $conditions = array_merge($conditions, Mage::getModel($prefix.'newsletter')->getNewChildSelectOptions());
-        $conditions = array_merge($conditions, Mage::getModel($prefix.'storecredit')->getNewChildSelectOptions());
+        $prefix = 'Enterprise_CustomerSegment_Model_Segment_Condition_Customer_';
+        $conditions = Mage::getModel($prefix.'Attributes')->getNewChildSelectOptions();
+        $conditions = array_merge($conditions, Mage::getModel($prefix.'Newsletter')->getNewChildSelectOptions());
+        $conditions = array_merge($conditions, Mage::getModel($prefix.'Storecredit')->getNewChildSelectOptions());
         return array(
             'value' => $conditions,
             'label'=>Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer')

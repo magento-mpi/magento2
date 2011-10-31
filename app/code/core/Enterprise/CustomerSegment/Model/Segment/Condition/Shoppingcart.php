@@ -36,7 +36,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_shoppingcart');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart');
         $this->setValue(null);
     }
 
@@ -47,11 +47,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'enterprise_customersegment/segment_condition_shoppingcart_';
+        $prefix = 'Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_';
         return array('value' => array(
-                Mage::getModel($prefix.'amount')->getNewChildSelectOptions(),
-                Mage::getModel($prefix.'itemsquantity')->getNewChildSelectOptions(),
-                Mage::getModel($prefix.'productsquantity')->getNewChildSelectOptions(),
+                Mage::getModel($prefix.'Amount')->getNewChildSelectOptions(),
+                Mage::getModel($prefix.'Itemsquantity')->getNewChildSelectOptions(),
+                Mage::getModel($prefix.'Productsquantity')->getNewChildSelectOptions(),
             ),
             'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shopping Cart')
         );

@@ -39,7 +39,7 @@ class Enterprise_Search_Block_Catalogsearch_Layer_Filter_Attribute extends Mage_
     protected function _construct()
     {
         parent::_construct();
-        $this->_filterModelName = 'enterprise_search/search_layer_filter_attribute';
+        $this->_filterModelName = 'Enterprise_Search_Model_Search_Layer_Filter_Attribute';
     }
 
     /**

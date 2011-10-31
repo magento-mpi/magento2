@@ -30,7 +30,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Combine extends Mage_Rule_Model_Cond
     public function __construct()
     {
         parent::__construct();
-        $this->setType('catalogrule/rule_condition_combine');
+        $this->setType('Mage_CatalogRule_Model_Rule_Condition_Combine');
     }
 
     public function getNewChildSelectOptions()

@@ -649,11 +649,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     public function validateSalesOrderCreditmemoCreateAction($controller)
     {
         if ($id = $this->_request->getParam('order_id')) {
-            $className = 'sales/order';
+            $className = 'Mage_Sales_Model_Order';
         } else if ($id = $this->_request->getParam('invoice_id')) {
-            $className = 'sales/order_invoice';
+            $className = 'Mage_Sales_Model_Order_Invoice';
         } else if ($id = $this->_request->getParam('creditmemo_id')) {
-            $className = 'sales/order_creditmemo';
+            $className = 'Mage_Sales_Model_Order_Creditmemo';
         } else {
             return true;
         }
@@ -679,9 +679,9 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     public function validateSalesOrderInvoiceCreateAction($controller)
     {
         if ($id = $this->_request->getParam('order_id')) {
-            $className = 'sales/order';
+            $className = 'Mage_Sales_Model_Order';
         } else if ($id = $this->_request->getParam('invoice_id')) {
-            $className = 'sales/order_invoice';
+            $className = 'Mage_Sales_Model_Order_Invoice';
         } else {
             return true;
         }
@@ -707,9 +707,9 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     public function validateSalesOrderShipmentCreateAction($controller)
     {
         if ($id = $this->_request->getParam('order_id')) {
-            $className = 'sales/order';
+            $className = 'Mage_Sales_Model_Order';
         } else if ($id = $this->_request->getParam('shipment_id')) {
-            $className = 'sales/order_shipment';
+            $className = 'Mage_Sales_Model_Order_Shipment';
         } else {
             return true;
         }

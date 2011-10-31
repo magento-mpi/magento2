@@ -38,7 +38,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_customer_address_default');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Default');
         $this->setValue('default_billing');
     }
 

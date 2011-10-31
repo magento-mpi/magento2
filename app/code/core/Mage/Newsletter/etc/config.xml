@@ -59,7 +59,7 @@
             </email>
         </template>
         <newsletter>
-            <tempate_filter>newsletter/template_filter</tempate_filter>
+            <tempate_filter>Mage_Newsletter_Model_Template_Filter</tempate_filter>
         </newsletter>
     </global>
     <adminhtml>

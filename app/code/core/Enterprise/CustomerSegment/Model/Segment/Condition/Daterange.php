@@ -52,7 +52,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_daterange');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Daterange');
         $this->setValue(null);
     }
 

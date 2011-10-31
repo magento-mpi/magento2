@@ -35,7 +35,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Itemsquantity
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_reminder/rule_condition_cart_itemsquantity');
+        $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart_Itemsquantity');
         $this->setValue(null);
     }
 

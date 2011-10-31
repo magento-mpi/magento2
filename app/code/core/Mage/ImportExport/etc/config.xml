@@ -68,16 +68,16 @@
                 </csv>
             </export_file_formats>
             <import_product_types>
-                <simple>importexport/import_entity_product_type_simple</simple>
-                <configurable>importexport/import_entity_product_type_configurable</configurable>
-                <virtual>importexport/import_entity_product_type_simple</virtual>
-                <grouped>importexport/import_entity_product_type_grouped</grouped>
+                <simple>Mage_ImportExport_Model_Import_Entity_Product_Type_Simple</simple>
+                <configurable>Mage_ImportExport_Model_Import_Entity_Product_Type_Configurable</configurable>
+                <virtual>Mage_ImportExport_Model_Import_Entity_Product_Type_Simple</virtual>
+                <grouped>Mage_ImportExport_Model_Import_Entity_Product_Type_Grouped</grouped>
             </import_product_types>
             <export_product_types>
-                <simple>importexport/export_entity_product_type_simple</simple>
-                <configurable>importexport/export_entity_product_type_configurable</configurable>
-                <virtual>importexport/export_entity_product_type_simple</virtual>
-                <grouped>importexport/export_entity_product_type_grouped</grouped>
+                <simple>Mage_ImportExport_Model_Export_Entity_Product_Type_Simple</simple>
+                <configurable>Mage_ImportExport_Model_Export_Entity_Product_Type_Configurable</configurable>
+                <virtual>Mage_ImportExport_Model_Export_Entity_Product_Type_Simple</virtual>
+                <grouped>Mage_ImportExport_Model_Export_Entity_Product_Type_Grouped</grouped>
             </export_product_types>
         </importexport>
     </global>

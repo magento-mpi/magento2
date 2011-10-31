@@ -139,28 +139,28 @@
                     <VI>
                         <validator>
                             <centinel>
-                                <state>centinel/state_visa</state>
+                                <state>Mage_Centinel_Model_State_Visa</state>
                             </centinel>
                         </validator>
                     </VI>
                     <MC>
                         <validator>
                             <centinel>
-                                <state>centinel/state_mastercard</state>
+                                <state>Mage_Centinel_Model_State_Mastercard</state>
                             </centinel>
                         </validator>
                     </MC>
                     <JCB>
                         <validator>
                             <centinel>
-                                <state>centinel/state_jcb</state>
+                                <state>Mage_Centinel_Model_State_Jcb</state>
                             </centinel>
                         </validator>
                     </JCB>
                     <SM>
                         <validator>
                             <centinel>
-                                <state>centinel/state_mastercard</state>
+                                <state>Mage_Centinel_Model_State_Mastercard</state>
                             </centinel>
                         </validator>
                     </SM>

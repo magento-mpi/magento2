@@ -64,14 +64,14 @@ class Mage_Paypal_Model_Pro
      *
      * @var string
      */
-    protected $_apiType = 'paypal/api_nvp';
+    protected $_apiType = 'Mage_Paypal_Model_Api_Nvp';
 
     /**
      * Config model type
      *
      * @var string
      */
-    protected $_configType = 'paypal/config';
+    protected $_configType = 'Mage_Paypal_Model_Config';
 
     /**
      * Payment method code setter. Also instantiates/updates config

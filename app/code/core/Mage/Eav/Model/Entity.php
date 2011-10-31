@@ -33,11 +33,11 @@
  */
 class Mage_Eav_Model_Entity extends Mage_Eav_Model_Entity_Abstract
 {
-    const DEFAULT_ENTITY_MODEL      = 'eav/entity';
-    const DEFAULT_ATTRIBUTE_MODEL   = 'eav/entity_attribute';
-    const DEFAULT_BACKEND_MODEL     = 'eav/entity_attribute_backend_default';
-    const DEFAULT_FRONTEND_MODEL    = 'eav/entity_attribute_frontend_default';
-    const DEFAULT_SOURCE_MODEL      = 'eav/entity_attribute_source_config';
+    const DEFAULT_ENTITY_MODEL      = 'Mage_Eav_Model_Entity';
+    const DEFAULT_ATTRIBUTE_MODEL   = 'Mage_Eav_Model_Entity_Attribute';
+    const DEFAULT_BACKEND_MODEL     = 'Mage_Eav_Model_Entity_Attribute_Backend_Default';
+    const DEFAULT_FRONTEND_MODEL    = 'Mage_Eav_Model_Entity_Attribute_Frontend_Default';
+    const DEFAULT_SOURCE_MODEL      = 'Mage_Eav_Model_Entity_Attribute_Source_Config';
 
     const DEFAULT_ENTITY_TABLE      = 'eav_entity';
     const DEFAULT_ENTITY_ID_FIELD   = 'entity_id';

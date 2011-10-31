@@ -38,7 +38,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_shoppingcart_amount');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount');
         $this->setValue(null);
     }
 

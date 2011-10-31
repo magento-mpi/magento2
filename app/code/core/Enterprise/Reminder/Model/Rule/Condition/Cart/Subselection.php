@@ -33,7 +33,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_reminder/rule_condition_cart_subselection');
+        $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection');
     }
 
     /**

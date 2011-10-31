@@ -43,8 +43,8 @@ class Mage_Catalog_Model_Product_Type
     const TYPE_VIRTUAL      = 'virtual';
 
     const DEFAULT_TYPE      = 'simple';
-    const DEFAULT_TYPE_MODEL    = 'catalog/product_type_simple';
-    const DEFAULT_PRICE_MODEL   = 'catalog/product_type_price';
+    const DEFAULT_TYPE_MODEL    = 'Mage_Catalog_Model_Product_Type_Simple';
+    const DEFAULT_PRICE_MODEL   = 'Mage_Catalog_Model_Product_Type_Price';
 
     static protected $_types;
     static protected $_compositeTypes;

@@ -38,7 +38,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
      *
      * @var string
      */
-    protected $_configType = 'xmlconnect/payment_method_paypal_config';
+    protected $_configType = 'Mage_XmlConnect_Model_Payment_Method_Paypal_Config';
 
     /**
      * Config method type
@@ -52,7 +52,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
      *
      * @var string
      */
-    protected $_checkoutType = 'xmlconnect/paypal_mecl_checkout';
+    protected $_checkoutType = 'Mage_XmlConnect_Model_Paypal_Mecl_Checkout';
 
     /**
      * Paypal Mobile Express Checkout Library

@@ -40,7 +40,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      *
      * @var $_proType string
      */
-    protected $_proType = 'paypal/pro';
+    protected $_proType = 'Mage_Paypal_Model_Pro';
 
     /**
      * Availability options

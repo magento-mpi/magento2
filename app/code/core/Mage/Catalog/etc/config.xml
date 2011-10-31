@@ -194,7 +194,7 @@
                 </flat>
             </product>
             <content>
-                <tempate_filter>catalog/template_filter</tempate_filter>
+                <tempate_filter>Mage_Catalog_Model_Template_Filter</tempate_filter>
             </content>
         </catalog>
         <eav_attributes>

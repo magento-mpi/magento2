@@ -36,7 +36,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_sales');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Sales');
         $this->setValue(null);
     }
 

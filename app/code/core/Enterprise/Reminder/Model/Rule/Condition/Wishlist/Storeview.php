@@ -32,7 +32,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_reminder/rule_condition_wishlist_storeview');
+        $this->setType('Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview');
         $this->setValue(null);
     }
 

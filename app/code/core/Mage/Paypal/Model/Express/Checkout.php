@@ -70,7 +70,7 @@ class Mage_Paypal_Model_Express_Checkout
      *
      * @var string
      */
-    protected $_apiType = 'paypal/api_nvp';
+    protected $_apiType = 'Mage_Paypal_Model_Api_Nvp';
 
     /**
      * Payment method type

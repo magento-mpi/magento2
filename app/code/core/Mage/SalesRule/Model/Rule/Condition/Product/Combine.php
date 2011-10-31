@@ -30,7 +30,7 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Combine extends Mage_Rule_Mode
     public function __construct()
     {
         parent::__construct();
-        $this->setType('salesrule/rule_condition_product_combine');
+        $this->setType('Mage_SalesRule_Model_Rule_Condition_Product_Combine');
     }
 
     public function getNewChildSelectOptions()

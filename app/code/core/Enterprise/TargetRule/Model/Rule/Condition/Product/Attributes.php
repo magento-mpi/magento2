@@ -51,7 +51,7 @@ class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_targetrule/rule_condition_product_attributes');
+        $this->setType('Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes');
         $this->setValue(null);
     }
 

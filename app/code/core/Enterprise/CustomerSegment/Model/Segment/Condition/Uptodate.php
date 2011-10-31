@@ -39,7 +39,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate extends Enterp
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_uptodate');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate');
         $this->setValue(null);
     }
 

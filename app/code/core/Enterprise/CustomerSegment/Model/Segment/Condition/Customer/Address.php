@@ -36,7 +36,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_customer_address');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address');
     }
 
     /**
@@ -46,14 +46,14 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'enterprise_customersegment/segment_condition_customer_address_';
+        $prefix = 'Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_';
         $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
             array(
                 'value' => $this->getType(),
                 'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions Combination')
             ),
-            Mage::getModel($prefix.'default')->getNewChildSelectOptions(),
-            Mage::getModel($prefix.'attributes')->getNewChildSelectOptions(),
+            Mage::getModel($prefix.'Default')->getNewChildSelectOptions(),
+            Mage::getModel($prefix.'Attributes')->getNewChildSelectOptions(),
         ));
         return $result;
     }

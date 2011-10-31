@@ -153,7 +153,7 @@
                 <?php endif; ?>
                 <?php $customerAttributes = $this->getChild('customer_form_customer_user_defined_attributes');?>
                 <?php if ($customerAttributes): ?>
-                    <?php $customerAttributes->setEntityModelClass('customer/customer')->setFieldIdFormat('billing:%1$s');?>
+                    <?php $customerAttributes->setEntityModelClass('Mage_Customer_Model_Customer')->setFieldIdFormat('billing:%1$s');?>
                     <?php $customerAttributes->setFieldNameFormat('billing[%1$s]')->setShowContainer(false);?>
                     <?php echo $customerAttributes->setExcludeFileAttributes(true)->toHtml()?>
                 <?php endif;?>

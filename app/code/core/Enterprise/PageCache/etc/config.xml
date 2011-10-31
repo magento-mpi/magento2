@@ -343,15 +343,15 @@
         </events>
         <cache>
             <requests>
-                <cms>enterprise_pagecache/processor_default</cms>
+                <cms>Enterprise_PageCache_Model_Processor_Default</cms>
                 <catalog>
                     <category>
-                        <view>enterprise_pagecache/processor_category</view>
+                        <view>Enterprise_PageCache_Model_Processor_Category</view>
                     </category>
                 </catalog>
                 <catalog>
                     <product>
-                        <view>enterprise_pagecache/processor_product</view>
+                        <view>Enterprise_PageCache_Model_Processor_Product</view>
                     </product>
                 </catalog>
             </requests>

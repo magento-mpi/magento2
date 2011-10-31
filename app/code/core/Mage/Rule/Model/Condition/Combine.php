@@ -30,7 +30,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     public function __construct()
     {
         parent::__construct();
-        $this->setType('rule/condition_combine')
+        $this->setType('Mage_Rule_Model_Condition_Combine')
             ->setAggregator('all')
             ->setValue(true)
             ->setConditions(array())
