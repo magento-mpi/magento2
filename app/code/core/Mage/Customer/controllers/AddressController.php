@@ -106,7 +106,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         if ($this->getRequest()->isPost()) {
             $customer = $this->_getSession()->getCustomer();
             /* @var $address Mage_Customer_Model_Address */
-            $address  = Mage::getModel('customer/address');
+            $address  = Mage::getModel('Mage_Customer_Model_Address');
             $addressId = $this->getRequest()->getParam('id');
             if ($addressId) {
                 $existsAddress = $customer->getAddressById($addressId);
@@ -118,7 +118,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $errors = array();
 
             /* @var $addressForm Mage_Customer_Model_Form */
-            $addressForm = Mage::getModel('customer/form');
+            $addressForm = Mage::getModel('Mage_Customer_Model_Form');
             $addressForm->setFormCode('customer_address_edit')
                 ->setEntity($address);
             $addressData    = $addressForm->extractData($this->getRequest());
@@ -166,7 +166,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         $addressId = $this->getRequest()->getParam('id', false);
 
         if ($addressId) {
-            $address = Mage::getModel('customer/address')->load($addressId);
+            $address = Mage::getModel('Mage_Customer_Model_Address')->load($addressId);
 
             // Validate address_id <=> customer_id
             if ($address->getCustomerId() != $this->_getSession()->getCustomerId()) {

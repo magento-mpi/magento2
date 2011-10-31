@@ -593,7 +593,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         // search quote item option Id in option value
         if (preg_match('/\[([0-9]+)\]/', $optionValue, $matches)) {
             $confItemOptionId = $matches[1];
-            $option = Mage::getModel('sales/quote_item_option')->load($confItemOptionId);
+            $option = Mage::getModel('Mage_Sales_Model_Quote_Item_Option')->load($confItemOptionId);
             try {
                 unserialize($option->getValue());
                 return $option->getValue();

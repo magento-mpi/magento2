@@ -221,7 +221,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     public function getProductModel()
     {
         if (is_null($this->_productModel)) {
-            $productModel = Mage::getModel('catalog/product');
+            $productModel = Mage::getModel('Mage_Catalog_Model_Product');
             $this->_productModel = Mage::objects()->save($productModel);
         }
         return Mage::objects()->load($this->_productModel);
@@ -256,7 +256,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     {
         if (is_null($this->_productTypes)) {
             $this->_productTypes = array();
-            $options = Mage::getModel('catalog/product_type')
+            $options = Mage::getModel('Mage_Catalog_Model_Product_Type')
                 ->getOptionArray();
             foreach ($options as $k => $v) {
                 $this->_productTypes[$k] = $k;
@@ -292,7 +292,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         if (is_null($this->_productAttributeSets)) {
             $this->_productAttributeSets = array();
 
-            $entityTypeId = Mage::getModel('eav/entity')
+            $entityTypeId = Mage::getModel('Mage_Eav_Model_Entity')
                 ->setType('catalog_product')
                 ->getTypeId();
             $collection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
@@ -418,11 +418,11 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
         $this->setVar('entity_type', 'catalog/product');
         if (!Mage::registry('Object_Cache_Product')) {
-            $this->setProduct(Mage::getModel('catalog/product'));
+            $this->setProduct(Mage::getModel('Mage_Catalog_Model_Product'));
         }
 
         if (!Mage::registry('Object_Cache_StockItem')) {
-            $this->setStockItem(Mage::getModel('cataloginventory/stock_item'));
+            $this->setStockItem(Mage::getModel('Mage_CatalogInventory_Model_Stock_Item'));
         }
     }
 
@@ -503,7 +503,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
                         // we duplicate product as default product with store_id -
                         if (0 !== $storeId ) {
                             $data = $model->getData();
-                            $default = Mage::getModel('catalog/product');
+                            $default = Mage::getModel('Mage_Catalog_Model_Product');
                             $default->setData($data);
                             $default->setStoreId(0);
                             $default->save();
@@ -522,7 +522,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
                     }
 
                     if (isset($stockItems[$model->getSku()]) && $stock = $stockItems[$model->getSku()]) {
-                        $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($model->getId());
+                        $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item')->loadByProduct($model->getId());
                         $stockItemId = $stockItem->getId();
 
                         if (!$stockItemId) {

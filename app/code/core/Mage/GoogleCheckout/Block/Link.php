@@ -86,7 +86,7 @@ class Mage_GoogleCheckout_Block_Link extends Mage_Core_Block_Template
     public function _toHtml()
     {
         $quote = Mage::getSingleton('checkout/session')->getQuote();
-        if (Mage::getModel('googlecheckout/payment')->isAvailable($quote) && $quote->validateMinimumAmount()) {
+        if (Mage::getModel('Mage_GoogleCheckout_Model_Payment')->isAvailable($quote) && $quote->validateMinimumAmount()) {
             Mage::dispatchEvent('googlecheckout_block_link_html_before', array('block' => $this));
             return parent::_toHtml();
         }

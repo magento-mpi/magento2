@@ -44,7 +44,7 @@ class Mage_GoogleShopping_Model_Attribute_GoogleProductCategory extends Mage_Goo
     {
         $targetCountry = Mage::getSingleton('googleshopping/config')
             ->getTargetCountry($product->getStoreId());
-        $value = Mage::getModel('googleshopping/type')
+        $value = Mage::getModel('Mage_GoogleShopping_Model_Type')
             ->loadByAttributeSetId($product->getAttributeSetId(), $targetCountry);
 
         $val = ($value->getCategory() == Mage_GoogleShopping_Helper_Category::CATEGORY_OTHER)

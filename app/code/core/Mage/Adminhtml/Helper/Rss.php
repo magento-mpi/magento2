@@ -38,9 +38,9 @@ class Mage_Adminhtml_Helper_Rss extends Mage_Core_Helper_Abstract
             return;
         }
         list($username, $password) = Mage::helper('Mage_Core_Helper_Http')->authValidate();
-        $adminSession = Mage::getModel('admin/session');
+        $adminSession = Mage::getModel('Mage_Admin_Model_Session');
         $user = $adminSession->login($username, $password);
-        //$user = Mage::getModel('admin/user')->login($username, $password);
+        //$user = Mage::getModel('Mage_Admin_Model_User')->login($username, $password);
         if($user && $user->getId() && $user->getIsActive() == '1' && $adminSession->isAllowed($path)){
             $session->setAdmin($user);
         } else {

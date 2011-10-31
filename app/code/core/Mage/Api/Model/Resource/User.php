@@ -351,7 +351,7 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
         }
 
         if ($user->getId() > 0) {
-            $role = Mage::getModel('api/role')->load($user->getRoleId());
+            $role = Mage::getModel('Mage_Api_Model_Role')->load($user->getRoleId());
         } else {
             $role = new Varien_Object(array('tree_level' => 0));
         }

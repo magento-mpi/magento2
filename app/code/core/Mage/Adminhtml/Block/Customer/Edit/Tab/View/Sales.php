@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Adminhtml_B
 
     public function _beforeToHtml()
     {
-        $this->_currency = Mage::getModel('directory/currency')
+        $this->_currency = Mage::getModel('Mage_Directory_Model_Currency')
             ->load(Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE))
         ;
 

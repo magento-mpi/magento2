@@ -48,7 +48,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 
         $categoryId = (int) $this->getRequest()->getParam('id',false);
         $storeId    = (int) $this->getRequest()->getParam('store');
-        $category = Mage::getModel('catalog/category');
+        $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->setStoreId($storeId);
 
         if ($categoryId) {
@@ -270,7 +270,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                         $parentId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
                     }
                 }
-                $parentCategory = Mage::getModel('catalog/category')->load($parentId);
+                $parentCategory = Mage::getModel('Mage_Catalog_Model_Category')->load($parentId);
                 $category->setPath($parentCategory->getPath());
             }
 
@@ -395,7 +395,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
     {
         if ($id = (int) $this->getRequest()->getParam('id')) {
             try {
-                $category = Mage::getModel('catalog/category')->load($id);
+                $category = Mage::getModel('Mage_Catalog_Model_Category')->load($id);
                 Mage::dispatchEvent('catalog_controller_category_delete', array('category'=>$category));
 
                 Mage::getSingleton('admin/session')->setDeletedPath($category->getPath());
@@ -477,7 +477,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
     public function refreshPathAction()
     {
         if ($id = (int) $this->getRequest()->getParam('id')) {
-            $category = Mage::getModel('catalog/category')->load($id);
+            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($id);
             $this->getResponse()->setBody(
                 Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                    'id' => $id,

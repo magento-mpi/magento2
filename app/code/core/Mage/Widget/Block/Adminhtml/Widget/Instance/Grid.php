@@ -53,7 +53,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Grid extends Mage_Adminhtml_Bl
     protected function _prepareCollection()
     {
         /* @var $collection Mage_Widget_Model_Resource_Widget_Instance_Collection */
-        $collection = Mage::getModel('widget/widget_instance')->getCollection();
+        $collection = Mage::getModel('Mage_Widget_Model_Widget_Instance')->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -111,7 +111,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Grid extends Mage_Adminhtml_Bl
     public function getTypesOptionsArray()
     {
         $widgets = array();
-        $widgetsOptionsArr = Mage::getModel('widget/widget_instance')->getWidgetsOptionArray();
+        $widgetsOptionsArr = Mage::getModel('Mage_Widget_Model_Widget_Instance')->getWidgetsOptionArray();
         foreach ($widgetsOptionsArr as $widget) {
             $widgets[$widget['value']] = $widget['label'];
         }
@@ -126,7 +126,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Grid extends Mage_Adminhtml_Bl
     public function getPackageThemeOptionsArray()
     {
         $packageThemeArray = array();
-        $packageThemeOptions = Mage::getModel('core/design_source_design')
+        $packageThemeOptions = Mage::getModel('Mage_Core_Model_Design_Source_Design')
             ->setIsFullLabel(true)->getAllOptions(false);
         foreach ($packageThemeOptions as $item) {
             if (is_array($item['value'])) {

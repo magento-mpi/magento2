@@ -77,7 +77,7 @@ class Mage_Shipping_Model_Info extends Varien_Object
      */
     protected function _initOrder()
     {
-        $order = Mage::getModel('sales/order')->load($this->getOrderId());
+        $order = Mage::getModel('Mage_Sales_Model_Order')->load($this->getOrderId());
 
         if (!$order->getId() || $this->getProtectCode() != $order->getProtectCode()) {
             return false;
@@ -94,7 +94,7 @@ class Mage_Shipping_Model_Info extends Varien_Object
     protected function _initShipment()
     {
         /* @var $model Mage_Sales_Model_Order_Shipment */
-        $model = Mage::getModel('sales/order_shipment');
+        $model = Mage::getModel('Mage_Sales_Model_Order_Shipment');
         $ship = $model->load($this->getShipId());
         if (!$ship->getEntityId() || $this->getProtectCode() != $ship->getProtectCode()) {
             return false;
@@ -160,7 +160,7 @@ class Mage_Shipping_Model_Info extends Varien_Object
      */
     public function getTrackingInfoByTrackId()
     {
-        $track = Mage::getModel('sales/order_shipment_track')->load($this->getTrackId());
+        $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')->load($this->getTrackId());
         if ($track->getId() && $this->getProtectCode() == $track->getProtectCode()) {
             $this->_trackingInfo = array(array($track->getNumberDetail()));
         }

@@ -176,7 +176,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         } else {
             $eventProduct = $observer->getEvent()->getProduct();
         }
-        Mage::getModel('weee/tax')->updateProductsDiscountPercent($eventProduct);
+        Mage::getModel('Mage_Weee_Model_Tax')->updateProductsDiscountPercent($eventProduct);
 
         return $this;
     }

@@ -95,7 +95,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
             $ids = (null === $categoryId)? Mage_Catalog_Model_Category::TREE_ROOT_ID : $categoryId;
         }
 
-        $collection = Mage::getModel('catalog/category')->getCollection()
+        $collection = Mage::getModel('Mage_Catalog_Model_Category')->getCollection()
             ->setStoreId($storeId)
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('is_active');
@@ -148,7 +148,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
             $root->setName(Mage::helper('Mage_Catalog_Helper_Data')->__('Root'));
         }
 
-        $collection = Mage::getModel('catalog/category')->getCollection()
+        $collection = Mage::getModel('Mage_Catalog_Model_Category')->getCollection()
             ->setStoreId($this->_getStoreId($store))
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('is_active');
@@ -192,7 +192,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
      */
     protected function _initCategory($categoryId, $store = null)
     {
-        $category = Mage::getModel('catalog/category')
+        $category = Mage::getModel('Mage_Catalog_Model_Category')
             ->setStoreId($this->_getStoreId($store))
             ->load($categoryId);
 
@@ -245,7 +245,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
     public function create($parentId, $categoryData, $store = null)
     {
         $parent_category = $this->_initCategory($parentId, $store);
-        $category = Mage::getModel('catalog/category')
+        $category = Mage::getModel('Mage_Catalog_Model_Category')
             ->setStoreId($this->_getStoreId($store));
 
         $category->addData(array('path'=>implode('/',$parent_category->getPathIds())));

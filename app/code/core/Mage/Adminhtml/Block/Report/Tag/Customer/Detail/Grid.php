@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid extends Mage_Adminhtm
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('tag/tag')
+        $collection = Mage::getModel('Mage_Tag_Model_Tag')
             ->getEntityCollection()
             ->joinAttribute('original_name', 'catalog_product/name', 'entity_id')
             ->addCustomerFilter($this->getRequest()->getParam('id'))

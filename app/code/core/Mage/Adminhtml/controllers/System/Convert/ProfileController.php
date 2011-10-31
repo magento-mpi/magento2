@@ -40,7 +40,7 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
              ->_title($this->__('Profiles'));
 
         $profileId = (int) $this->getRequest()->getParam($idFieldName);
-        $profile = Mage::getModel('dataflow/profile');
+        $profile = Mage::getModel('Mage_Dataflow_Model_Profile');
 
         if ($profileId) {
             $profile->load($profileId);
@@ -218,7 +218,7 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
             $rowIds  = $this->getRequest()->getPost('rows');
 
             /* @var $batchModel Mage_Dataflow_Model_Batch */
-            $batchModel = Mage::getModel('dataflow/batch')->load($batchId);
+            $batchModel = Mage::getModel('Mage_Dataflow_Model_Batch')->load($batchId);
 
             if (!$batchModel->getId()) {
                 return;
@@ -281,7 +281,7 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
     {
         $batchId = $this->getRequest()->getParam('id');
         if ($batchId) {
-            $batchModel = Mage::getModel('dataflow/batch')->load($batchId);
+            $batchModel = Mage::getModel('Mage_Dataflow_Model_Batch')->load($batchId);
             /* @var $batchModel Mage_Dataflow_Model_Batch */
 
             if ($batchModel->getId()) {

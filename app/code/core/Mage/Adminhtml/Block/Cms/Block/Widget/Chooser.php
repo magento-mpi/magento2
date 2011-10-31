@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Cms_Block_Widget_Chooser extends Mage_Adminhtml_Block
 
 
         if ($element->getValue()) {
-            $block = Mage::getModel('cms/block')->load($element->getValue());
+            $block = Mage::getModel('Mage_Cms_Model_Block')->load($element->getValue());
             if ($block->getId()) {
                 $chooser->setLabel($block->getTitle());
             }
@@ -106,7 +106,7 @@ class Mage_Adminhtml_Block_Cms_Block_Widget_Chooser extends Mage_Adminhtml_Block
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('cms/block')->getCollection();
+        $collection = Mage::getModel('Mage_Cms_Model_Block')->getCollection();
         /* @var $collection Mage_Cms_Model_Resource_Block_Collection */
         $this->setCollection($collection);
         return parent::_prepareCollection();

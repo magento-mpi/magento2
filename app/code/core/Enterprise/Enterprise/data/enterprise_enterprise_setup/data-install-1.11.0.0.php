@@ -46,7 +46,7 @@ if ($page) {
     $createdBlocks = array();
     foreach ($blocks as $key => $blockData) {
         list($title, $identifier, $content) = $blockData;
-        $block = Mage::getModel('cms/block')
+        $block = Mage::getModel('Mage_Cms_Model_Block')
             ->setTitle($title)
             ->setIdentifier($identifier)
             ->setContent($content)

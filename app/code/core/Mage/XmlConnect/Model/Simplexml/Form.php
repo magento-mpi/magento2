@@ -68,7 +68,7 @@ class Mage_XmlConnect_Model_Simplexml_Form extends Mage_XmlConnect_Model_Simplex
     {
         parent::__construct($attributes);
         $this->setType('form');
-        $this->_allElements = Mage::getModel('xmlconnect/simplexml_form_element_collection', $this);
+        $this->_allElements = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Form_Element_Collection', $this);
     }
 
     /**

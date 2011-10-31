@@ -134,7 +134,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
                 'align'     => 'center',
                 'index'     => 'state',
                 'type'      => 'options',
-                'options'   => Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->getStatesAsOptionList(),
+                'options'   => Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')->getStatesAsOptionList(),
         ));
 
         $this->addColumn('balance',

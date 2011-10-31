@@ -82,7 +82,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
                 'name'  => 'conversion_page',
                 'label' => Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Conversion Page'),
                 'values'=>
-                    Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')
+                    Mage::getModel('Mage_GoogleOptimizer_Model_Adminhtml_System_Config_Source_Googleoptimizer_Conversionpages')
                         ->toOptionArray(),
                 'class' => 'select googleoptimizer validate-googleoptimizer',
                 'required' => false,
@@ -170,7 +170,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
             $form->getElement('export_controls')->setDisabled($disabledScriptsFields);
         }
 
-        $fakeEntityAttribute = Mage::getModel('catalog/resource_eav_attribute');
+        $fakeEntityAttribute = Mage::getModel('Mage_Catalog_Model_Resource_Eav_Attribute');
 
         foreach ($fieldset->getElements() as $element) {
             if ($element->getId() != 'store_flag') {

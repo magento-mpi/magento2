@@ -116,7 +116,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
         ));
 
         $reasonOtherAttribute =
-            Mage::getModel('enterprise_rma/item_form')->setFormCode('default')->getAttribute('reason_other');
+            Mage::getModel('Enterprise_Rma_Model_Item_Form')->setFormCode('default')->getAttribute('reason_other');
 
         $fieldset->addField('reason_other', 'text', array(
             'label'=> $reasonOtherAttribute->getStoreLabel(),

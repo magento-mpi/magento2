@@ -47,7 +47,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit
         $this->_controller = 'adminhtml_scheduled_operation';
 
         $operationId = (int)$this->getRequest()->getParam($this->_objectId);
-        $operation = Mage::getModel('enterprise_importexport/scheduled_operation');
+        $operation = Mage::getModel('Enterprise_ImportExport_Model_Scheduled_Operation');
         if ($operationId) {
             $operation->load($operationId);
         } else {

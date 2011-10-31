@@ -72,7 +72,7 @@ abstract class Enterprise_Staging_Model_Staging_Mapper_Abstract extends Varien_O
                 $this->_staging = $_staging;
             } else {
                 if (is_int($this->_staging)) {
-                    $this->_staging = Mage::getModel('enterprise_staging/staging')
+                    $this->_staging = Mage::getModel('Enterprise_Staging_Model_Staging')
                         ->load($this->_staging);
                 } else {
                     $this->_staging = false;

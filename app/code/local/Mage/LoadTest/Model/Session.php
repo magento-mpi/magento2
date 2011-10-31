@@ -319,27 +319,27 @@ $useLayout=0;
         $loadTime  = $this->getCountLoadTime();
         $startTime = microtime(true);
 
-        $categoriesCount = Mage::getModel('catalog/category')
+        $categoriesCount = Mage::getModel('Mage_Catalog_Model_Category')
             ->getCollection()
             ->getSize();
 
-        $productsCount = Mage::getModel('catalog/product')
+        $productsCount = Mage::getModel('Mage_Catalog_Model_Product')
             ->getCollection()
             ->getSize();
 
-        $customersCount = Mage::getModel('customer/customer')
+        $customersCount = Mage::getModel('Mage_Customer_Model_Customer')
             ->getCollection()
             ->getSize();
 
-        $ordersCount = Mage::getModel('sales/order')
+        $ordersCount = Mage::getModel('Mage_Sales_Model_Order')
             ->getCollection()
             ->getSize();
 
-        $tagsCount = Mage::getModel('tag/tag')
+        $tagsCount = Mage::getModel('Mage_Tag_Model_Tag')
             ->getCollection()
             ->getSize();
 
-        $reviewsCount = Mage::getModel('review/review')
+        $reviewsCount = Mage::getModel('Mage_Review_Model_Review')
             ->getCollection()
             ->getSize();
 

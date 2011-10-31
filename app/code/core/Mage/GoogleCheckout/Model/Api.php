@@ -210,7 +210,7 @@ class Mage_GoogleCheckout_Model_Api extends Varien_Object
     public function debugData($debugData)
     {
         if ($this->getDebugFlag()) {
-            Mage::getModel('core/log_adapter', 'payment_googlecheckout.log')
+            Mage::getModel('Mage_Core_Model_Log_Adapter', 'payment_googlecheckout.log')
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);
         }

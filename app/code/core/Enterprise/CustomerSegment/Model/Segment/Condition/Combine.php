@@ -58,10 +58,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
                 'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Address')),
 
             // customer attribute group
-            Mage::getModel('enterprise_customersegment/segment_condition_customer')->getNewChildSelectOptions(),
+            Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Customer')->getNewChildSelectOptions(),
 
             // shopping cart group
-            Mage::getModel('enterprise_customersegment/segment_condition_shoppingcart')->getNewChildSelectOptions(),
+            Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart')->getNewChildSelectOptions(),
 
             array('value' => array(
                     array( // product list combo
@@ -75,7 +75,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
             ),
 
             // sales group
-            Mage::getModel('enterprise_customersegment/segment_condition_sales')->getNewChildSelectOptions(),
+            Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Sales')->getNewChildSelectOptions(),
         );
 
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);

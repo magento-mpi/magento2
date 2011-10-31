@@ -70,7 +70,7 @@ class Mage_Catalog_Model_Product_Option_Api extends Mage_Catalog_Model_Api_Resou
     public function update($optionId, $data, $store = null)
     {
         /** @var $option Mage_Catalog_Model_Product_Option */
-        $option = Mage::getModel('catalog/product_option')->load($optionId);
+        $option = Mage::getModel('Mage_Catalog_Model_Product_Option')->load($optionId);
         if (!$option->getId()) {
             $this->_fault('option_not_exists');
         }
@@ -206,7 +206,7 @@ class Mage_Catalog_Model_Product_Option_Api extends Mage_Catalog_Model_Api_Resou
     public function info($optionId, $store = null)
     {
         /** @var $option Mage_Catalog_Model_Product_Option */
-        $option = Mage::getModel('catalog/product_option')->load($optionId);
+        $option = Mage::getModel('Mage_Catalog_Model_Product_Option')->load($optionId);
         if (!$option->getId()) {
             $this->_fault('option_not_exists');
         }
@@ -290,7 +290,7 @@ class Mage_Catalog_Model_Product_Option_Api extends Mage_Catalog_Model_Api_Resou
     public function remove($optionId)
     {
         /** @var $option Mage_Catalog_Model_Product_Option */
-        $option = Mage::getModel('catalog/product_option')->load($optionId);
+        $option = Mage::getModel('Mage_Catalog_Model_Product_Option')->load($optionId);
         if (!$option->getId()) {
             $this->_fault('option_not_exists');
         }

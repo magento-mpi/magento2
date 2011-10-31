@@ -42,7 +42,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Rea
      */
     protected function _getEditableView(Varien_object $row)
     {
-        $rmaItemAttribute = Mage::getModel('enterprise_rma/item_form')
+        $rmaItemAttribute = Mage::getModel('Enterprise_Rma_Model_Item_Form')
             ->setFormCode('default')
             ->getAttribute('reason_other');
 
@@ -77,7 +77,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Rea
     protected function _getNonEditableView(Varien_object $row)
     {
         /** @var $rmaItemAttribute Enterprise_Rma_Model_Item_Attribute */
-        $rmaItemAttribute = Mage::getModel('enterprise_rma/item_form')
+        $rmaItemAttribute = Mage::getModel('Enterprise_Rma_Model_Item_Form')
             ->setFormCode('default')
             ->getAttribute('reason_other');
         $value = $row->getData($this->getColumn()->getIndex());

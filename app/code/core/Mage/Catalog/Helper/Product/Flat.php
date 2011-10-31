@@ -141,7 +141,7 @@ class Mage_Catalog_Helper_Product_Flat extends Mage_Core_Helper_Abstract
     public function getProcess()
     {
         if (is_null($this->_process)) {
-            $this->_process = Mage::getModel('index/process')
+            $this->_process = Mage::getModel('Mage_Index_Model_Process')
                 ->load(self::CATALOG_FLAT_PROCESS_CODE, 'indexer_code');
         }
         return $this->_process;

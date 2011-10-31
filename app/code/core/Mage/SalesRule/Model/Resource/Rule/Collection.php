@@ -56,7 +56,7 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Mage_Core_Model_Reso
     public function setValidationFilter($websiteId, $customerGroupId, $couponCode = '', $now = null)
     {
         if (is_null($now)) {
-            $now = Mage::getModel('core/date')->date('Y-m-d');
+            $now = Mage::getModel('Mage_Core_Model_Date')->date('Y-m-d');
         }
         /* We need to overwrite joinLeft if coupon is applied */
         $this->getSelect()->reset();

@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
         }
 
         if (Mage::registry('rating_data')) {
-            $collection = Mage::getModel('rating/rating_option')
+            $collection = Mage::getModel('Mage_Rating_Model_Rating_Option')
                 ->getResourceCollection()
                 ->addRatingFilter(Mage::registry('rating_data')->getId())
                 ->load();

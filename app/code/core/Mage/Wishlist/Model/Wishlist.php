@@ -171,7 +171,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
 
         if ($item === null) {
             $storeId = $product->hasWishlistStoreId() ? $product->getWishlistStoreId() : $this->getStore()->getId();
-            $item = Mage::getModel('wishlist/item');
+            $item = Mage::getModel('Mage_Wishlist_Model_Item');
             $item->setProductId($product->getId())
                 ->setWishlistId($this->getId())
                 ->setAddedAt(now())
@@ -288,7 +288,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
         }
 
         /* @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product')
+        $product = Mage::getModel('Mage_Catalog_Model_Product')
             ->setStoreId($storeId)
             ->load($productId);
 

@@ -82,7 +82,7 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
 
     protected function _initSectionsAndTabs()
     {
-        $mergeConfig = Mage::getModel('core/config_base');
+        $mergeConfig = Mage::getModel('Mage_Core_Model_Config_Base');
 
         $config = Mage::getConfig()->loadModulesConfiguration('system.xml');
 

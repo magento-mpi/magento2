@@ -47,13 +47,13 @@ class Mage_Tag_Model_Api extends Mage_Catalog_Model_Api_Resource
         $fieldsForResult = array('tag_id', 'name');
 
         /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product')->load($productId);
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
         if (!$product->getId()) {
             $this->_fault('product_not_exists');
         }
 
         /** @var $tags Mage_Tag_Model_Resource_Tag_Collection */
-        $tags = Mage::getModel('tag/tag')->getCollection()->joinRel()->addProductFilter($productId);
+        $tags = Mage::getModel('Mage_Tag_Model_Tag')->getCollection()->joinRel()->addProductFilter($productId);
         if ($store) {
             $tags->addStoreFilter($this->_getStoreId($store));
         }
@@ -79,7 +79,7 @@ class Mage_Tag_Model_Api extends Mage_Catalog_Model_Api_Resource
         $result = array();
         $storeId = $this->_getStoreId($store);
         /** @var $tag Mage_Tag_Model_Tag */
-        $tag = Mage::getModel('tag/tag')->setStoreId($storeId)->setAddBasePopularity()->load($tagId);
+        $tag = Mage::getModel('Mage_Tag_Model_Tag')->setStoreId($storeId)->setAddBasePopularity()->load($tagId);
         if (!$tag->getId()) {
             $this->_fault('tag_not_exists');
         }
@@ -108,12 +108,12 @@ class Mage_Tag_Model_Api extends Mage_Catalog_Model_Api_Resource
     {
         $data = $this->_prepareDataForAdd($data);
         /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product')->load($data['product_id']);
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($data['product_id']);
         if (!$product->getId()) {
             $this->_fault('product_not_exists');
         }
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('customer/customer')->load($data['customer_id']);
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($data['customer_id']);
         if (!$customer->getId()) {
             $this->_fault('customer_not_exists');
         }
@@ -121,7 +121,7 @@ class Mage_Tag_Model_Api extends Mage_Catalog_Model_Api_Resource
 
         try {
             /** @var $tag Mage_Tag_Model_Tag */
-            $tag = Mage::getModel('tag/tag');
+            $tag = Mage::getModel('Mage_Tag_Model_Tag');
             $tagNamesArr = Mage::helper('Mage_Tag_Helper_Data')->cleanTags(Mage::helper('Mage_Tag_Helper_Data')->extractTags($data['tag']));
             foreach ($tagNamesArr as $tagName) {
                 // unset previously added tag data
@@ -157,7 +157,7 @@ class Mage_Tag_Model_Api extends Mage_Catalog_Model_Api_Resource
         $data = $this->_prepareDataForUpdate($data);
         $storeId = $this->_getStoreId($store);
         /** @var $tag Mage_Tag_Model_Tag */
-        $tag = Mage::getModel('tag/tag')->setStoreId($storeId)->setAddBasePopularity()->load($tagId);
+        $tag = Mage::getModel('Mage_Tag_Model_Tag')->setStoreId($storeId)->setAddBasePopularity()->load($tagId);
         if (!$tag->getId()) {
             $this->_fault('tag_not_exists');
         }
@@ -197,7 +197,7 @@ class Mage_Tag_Model_Api extends Mage_Catalog_Model_Api_Resource
     public function remove($tagId)
     {
         /** @var $tag Mage_Tag_Model_Tag */
-        $tag = Mage::getModel('tag/tag')->load($tagId);
+        $tag = Mage::getModel('Mage_Tag_Model_Tag')->load($tagId);
         if (!$tag->getId()) {
             $this->_fault('tag_not_exists');
         }

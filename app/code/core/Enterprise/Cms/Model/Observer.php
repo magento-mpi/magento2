@@ -88,7 +88,7 @@ class Enterprise_Cms_Model_Observer
                 $userId = Mage::getSingleton('admin/session')->getUser()->getId();
                 $accessLevel = Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel();
 
-                $revision = Mage::getModel('enterprise_cms/page_revision')
+                $revision = Mage::getModel('Enterprise_Cms_Model_Page_Revision')
                     ->loadWithRestrictions($accessLevel, $userId, $page->getPublishedRevisionId());
 
                 if ($revision->getId()) {
@@ -101,7 +101,7 @@ class Enterprise_Cms_Model_Observer
 
                     $baseFieldset->addField('published_revision_link', 'link', array(
                             'label' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Currently Published Revision'),
-                            'href' => Mage::getModel('adminhtml/url')->getUrl('*/cms_page_revision/edit', array(
+                            'href' => Mage::getModel('Mage_Adminhtml_Model_Url')->getUrl('*/cms_page_revision/edit', array(
                                 'page_id' => $page->getId(),
                                 'revision_id' => $page->getPublishedRevisionId()
                                 )),
@@ -149,7 +149,7 @@ class Enterprise_Cms_Model_Observer
          * Validate Request and modify router match condition
          */
         /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
-        $node = Mage::getModel('enterprise_cms/hierarchy_node');
+        $node = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
         $requestUrl = $condition->getIdentifier();
         $node->loadByRequestUrl($requestUrl);
 
@@ -162,7 +162,7 @@ class Enterprise_Cms_Model_Observer
 
         if (!$node->getPageId()) {
             /* @var $child Enterprise_Cms_Model_Hierarchy_Node */
-            $child = Mage::getModel('enterprise_cms/hierarchy_node');
+            $child = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
             $child->loadFirstChildByParent($node->getId());
             if (!$child->getId()) {
                 return $this;
@@ -198,7 +198,7 @@ class Enterprise_Cms_Model_Observer
         // Create new initial version & revision if it
         // is a new page or version control was turned on for this page.
         if ($page->getIsNewPage() || ($page->getUnderVersionControl() && $page->dataHasChangedFor('under_version_control'))) {
-            $version = Mage::getModel('enterprise_cms/page_version');
+            $version = Mage::getModel('Enterprise_Cms_Model_Page_Version');
 
             $revisionInitialData = $page->getData();
             $revisionInitialData['copied_from_original'] = true;
@@ -313,7 +313,7 @@ class Enterprise_Cms_Model_Observer
      */
     public function adminUserDeleteAfter(Varien_Event_Observer $observer)
     {
-        $version = Mage::getModel('enterprise_cms/page_version');
+        $version = Mage::getModel('Enterprise_Cms_Model_Page_Version');
         $collection = $version->getCollection()
             ->addAccessLevelFilter(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PRIVATE)
             ->addUserIdFilter();

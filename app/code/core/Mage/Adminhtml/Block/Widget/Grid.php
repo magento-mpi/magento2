@@ -837,7 +837,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      */
     protected function _getRssUrl($url)
     {
-        $urlModel = Mage::getModel('core/url');
+        $urlModel = Mage::getModel('Mage_Core_Model_Url');
         if (Mage::app()->getStore()->getStoreInUrl()) {
             // Url in 'admin' store view won't be accessible, so form it in default store view frontend
             $urlModel->setStore(Mage::app()->getDefaultStoreView());

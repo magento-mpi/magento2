@@ -69,7 +69,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
     {
         $data = $this->getRequest()->getPost();
         /* @var $paymentMethod Mage_Authorizenet_Model_DirectPost */
-        $paymentMethod = Mage::getModel('authorizenet/directpost');
+        $paymentMethod = Mage::getModel('Mage_Authorizenet_Model_Directpost');
 
         $result = array();
         if (!empty($data['x_invoice_num'])) {
@@ -179,9 +179,9 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
                 ->isCheckoutOrderIncrementIdExist($incrementId)
         ) {
             /* @var $order Mage_Sales_Model_Order */
-            $order = Mage::getModel('sales/order')->loadByIncrementId($incrementId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($incrementId);
             if ($order->getId()) {
-                $quote = Mage::getModel('sales/quote')
+                $quote = Mage::getModel('Mage_Sales_Model_Quote')
                     ->load($order->getQuoteId());
                 if ($quote->getId()) {
                     $quote->setIsActive(1)

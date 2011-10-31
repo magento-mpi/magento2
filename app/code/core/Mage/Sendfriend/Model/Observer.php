@@ -42,7 +42,7 @@ class Mage_Sendfriend_Model_Observer
      */
     public function register(Varien_Event_Observer $observer)
     {
-        Mage::getModel('sendfriend/sendfriend')->register();
+        Mage::getModel('Mage_Sendfriend_Model_Sendfriend')->register();
         return $this;
     }
 }

@@ -225,7 +225,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     public function getAttributeSetName()
     {
         if ($setId = $this->getProduct()->getAttributeSetId()) {
-            $set = Mage::getModel('eav/entity_attribute_set')
+            $set = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
                 ->load($setId);
             return $set->getAttributeSetName();
         }

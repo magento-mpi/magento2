@@ -155,7 +155,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
         if (empty($this->_order)) {
             // get proper order
             $id = $this->getIpnFormData('invoice');
-            $order = Mage::getModel('sales/order');
+            $order = Mage::getModel('Mage_Sales_Model_Order');
             $order->loadByIncrementId($id);
             if (!$order->getId()) {
                 // throws Exception intentionally, because cannot be logged to order comments
@@ -163,7 +163,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
             }
             $this->_order = $order;
             //TODO: check it. Seems like it's deprecated in PBridge.
-            //$this->_config = Mage::getModel('paypal/config', array($order->getPayment()->getMethod()));
+            //$this->_config = Mage::getModel('Mage_Paypal_Model_Config', array($order->getPayment()->getMethod()));
             //$this->_verifyOrder($order);
         }
         return $this->_order;

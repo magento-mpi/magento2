@@ -92,7 +92,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
             'value'     => $model->getLabel()
         ));
 
-        $options = Mage::getModel('core/design_source_design')->getAllOptions(false, true);
+        $options = Mage::getModel('Mage_Core_Model_Design_Source_Design')->getAllOptions(false, true);
         array_unshift($options, array(
             'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('All Themes'),
             'value' => ''

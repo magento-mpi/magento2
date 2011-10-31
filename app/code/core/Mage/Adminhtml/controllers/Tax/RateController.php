@@ -111,7 +111,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 }
             }
 
-            $rateModel = Mage::getModel('tax/calculation_rate')->setData($ratePost);
+            $rateModel = Mage::getModel('Mage_Tax_Model_Calculation_Rate')->setData($ratePost);
 
             try {
                 $rateModel->save();
@@ -172,7 +172,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     public function deleteAction()
     {
         if ($rateId = $this->getRequest()->getParam('rate')) {
-            $rateModel = Mage::getModel('tax/calculation_rate')->load($rateId);
+            $rateModel = Mage::getModel('Mage_Tax_Model_Calculation_Rate')->load($rateId);
             if ($rateModel->getId()) {
                 try {
                     $rateModel->delete();
@@ -301,7 +301,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
         $stores = array();
         $unset = array();
-        $storeCollection = Mage::getModel('core/store')->getCollection()->setLoadDefault(false);
+        $storeCollection = Mage::getModel('Mage_Core_Model_Store')->getCollection()->setLoadDefault(false);
         for ($i = count($csvFields); $i < count($csvData[0]); $i++) {
             $header = $csvData[0][$i];
             $found = false;
@@ -348,7 +348,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                     Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('Invalid file upload attempt'));
                 }
 
-                $country = Mage::getModel('directory/country')->loadByCode($v[1], 'iso2_code');
+                $country = Mage::getModel('Mage_Directory_Model_Country')->loadByCode($v[1], 'iso2_code');
                 if (!$country->getId()) {
                     Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('One of the country has invalid code.'));
                     continue;
@@ -356,7 +356,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
                 if (!isset($regions[$v[1]])) {
                     $regions[$v[1]]['*'] = '*';
-                    $regionCollection = Mage::getModel('directory/region')->getCollection()
+                    $regionCollection = Mage::getModel('Mage_Directory_Model_Region')->getCollection()
                         ->addCountryFilter($v[1]);
                     if ($regionCollection->getSize()) {
                         foreach ($regionCollection as $region) {
@@ -377,7 +377,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                         'zip_to'         => $v[7]
                     );
 
-                    $rateModel = Mage::getModel('tax/calculation_rate')->loadByCode($rateData['code']);
+                    $rateModel = Mage::getModel('Mage_Tax_Model_Calculation_Rate')->loadByCode($rateData['code']);
                     foreach($rateData as $dataName => $dataValue) {
                         $rateModel->setData($dataName, $dataValue);
                     }
@@ -425,7 +425,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         $storeTaxTitleTemplate       = array();
         $taxCalculationRateTitleDict = array();
 
-        foreach (Mage::getModel('core/store')->getCollection()->setLoadDefault(false) as $store) {
+        foreach (Mage::getModel('Mage_Core_Model_Store')->getCollection()->setLoadDefault(false) as $store) {
             $storeTitle = 'title_' . $store->getId();
             $content   .= ',"' . $store->getCode() . '"';
             $template  .= ',"{{' . $storeTitle . '}}"';
@@ -435,7 +435,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
         $content .= "\n";
 
-        foreach (Mage::getModel('tax/calculation_rate_title')->getCollection() as $title) {
+        foreach (Mage::getModel('Mage_Tax_Model_Calculation_Rate_Title')->getCollection() as $title) {
             $rateId = $title->getTaxCalculationRateId();
 
             if (! array_key_exists($rateId, $taxCalculationRateTitleDict)) {

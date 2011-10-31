@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Grid extends Mage_Adminhtml_Block_Widget_
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('salesrule/rule')
+        $collection = Mage::getModel('Mage_SalesRule_Model_Rule')
             ->getResourceCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();

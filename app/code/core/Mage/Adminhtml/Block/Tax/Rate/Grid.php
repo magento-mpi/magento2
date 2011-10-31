@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     protected function _prepareCollection()
     {
-        $rateCollection = Mage::getModel('tax/calculation_rate')->getCollection()
+        $rateCollection = Mage::getModel('Mage_Tax_Model_Calculation_Rate')->getCollection()
             ->joinRegionTable();
 
         $this->setCollection($rateCollection);

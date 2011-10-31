@@ -139,7 +139,7 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
      */
     public function setCustomerId($customerId)
     {
-        $this->_customer = Mage::getModel('customer/customer')->load($customerId);
+        $this->_customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
         return $this;
     }
 
@@ -278,7 +278,7 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
 
         $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
 
-        Mage::getModel('core/email_template')
+        Mage::getModel('Mage_Core_Model_Email_Template')
             ->setDesignConfig(array(
                 'area'  => 'frontend',
                 'store' => $storeId

@@ -72,7 +72,7 @@ class Mage_AdminNotification_Helper_Data extends Mage_Core_Helper_Abstract
     public function getLatestNotice()
     {
         if (is_null($this->_latestNotice)) {
-            $this->_latestNotice = Mage::getModel('adminnotification/inbox')->loadLatestNotice();
+            $this->_latestNotice = Mage::getModel('Mage_AdminNotification_Model_Inbox')->loadLatestNotice();
         }
         return $this->_latestNotice;
     }
@@ -86,7 +86,7 @@ class Mage_AdminNotification_Helper_Data extends Mage_Core_Helper_Abstract
     public function getUnreadNoticeCount($severity)
     {
         if (is_null($this->_unreadNoticeCounts)) {
-            $this->_unreadNoticeCounts = Mage::getModel('adminnotification/inbox')->getNoticeStatus();
+            $this->_unreadNoticeCounts = Mage::getModel('Mage_AdminNotification_Model_Inbox')->getNoticeStatus();
         }
         return isset($this->_unreadNoticeCounts[$severity]) ? $this->_unreadNoticeCounts[$severity] : 0;
     }

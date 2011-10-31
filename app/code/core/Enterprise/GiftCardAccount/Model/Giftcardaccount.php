@@ -278,7 +278,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
             return false;
         }
 
-        $currentDate = strtotime(Mage::getModel('core/date')->date('Y-m-d'));
+        $currentDate = strtotime(Mage::getModel('Mage_Core_Model_Date')->date('Y-m-d'));
 
         if (strtotime($this->getDateExpires()) < $currentDate) {
             return true;
@@ -479,7 +479,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
             $additionalInfo = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')
                 ->__('Gift Card Redeemed: %s. For customer #%s.', $this->getCode(), $customerId);
 
-            $balance = Mage::getModel('enterprise_customerbalance/balance')
+            $balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                 ->setCustomerId($customerId)
                 ->setWebsiteId(Mage::app()->getWebsite()->getId())
                 ->setAmountDelta($this->getBalance())
@@ -515,7 +515,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
 
         $balance = Mage::app()->getLocale()->currency($recipientStore->getBaseCurrencyCode())->toCurrency($balance);
 
-        $email = Mage::getModel('core/email_template')->setDesignConfig(array('store' => $storeId));
+        $email = Mage::getModel('Mage_Core_Model_Email_Template')->setDesignConfig(array('store' => $storeId));
         $email->sendTransactional(
             Mage::getStoreConfig('giftcard/giftcardaccount_email/template', $storeId),
             Mage::getStoreConfig('giftcard/giftcardaccount_email/identity', $storeId),

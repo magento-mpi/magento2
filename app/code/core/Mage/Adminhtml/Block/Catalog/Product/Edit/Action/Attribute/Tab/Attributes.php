@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes
          * Initialize product object as form property
          * for using it in elements generation
          */
-        $form->setDataObject(Mage::getModel('catalog/product'));
+        $form->setDataObject(Mage::getModel('Mage_Catalog_Model_Product'));
         $this->_setFieldset($attributes, $fieldset, $this->getFormExcludedFieldList());
         $form->setFieldNameSuffix('attributes');
         $this->setForm($form);

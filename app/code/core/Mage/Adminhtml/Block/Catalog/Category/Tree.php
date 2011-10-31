@@ -94,7 +94,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
         $storeId = $this->getRequest()->getParam('store', $this->_getDefaultStoreId());
         $collection = $this->getData('category_collection');
         if (is_null($collection)) {
-            $collection = Mage::getModel('catalog/category')->getCollection();
+            $collection = Mage::getModel('Mage_Catalog_Model_Category')->getCollection();
 
             /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
             $collection->addAttributeToSelect('name')
@@ -223,7 +223,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
         $item = array();
         $item['text'] = $this->buildNodeName($node);
 
-        //$rootForStores = Mage::getModel('core/store')->getCollection()->loadByCategoryIds(array($node->getEntityId()));
+        //$rootForStores = Mage::getModel('Mage_Core_Model_Store')->getCollection()->loadByCategoryIds(array($node->getEntityId()));
         $rootForStores = in_array($node->getEntityId(), $this->getRootIds());
 
         $item['id']  = $node->getId();

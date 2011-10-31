@@ -87,7 +87,7 @@ class Mage_Persistent_Model_Resource_Session extends Mage_Core_Model_Resource_Db
      */
     public function isKeyAllowed($key)
     {
-        $sameSession = Mage::getModel('persistent/session')->setLoadExpired();
+        $sameSession = Mage::getModel('Mage_Persistent_Model_Session')->setLoadExpired();
         $sameSession->loadByCookieKey($key);
         return !$sameSession->getId();
     }

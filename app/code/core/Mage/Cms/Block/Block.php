@@ -44,7 +44,7 @@ class Mage_Cms_Block_Block extends Mage_Core_Block_Abstract
         $blockId = $this->getBlockId();
         $html = '';
         if ($blockId) {
-            $block = Mage::getModel('cms/block')
+            $block = Mage::getModel('Mage_Cms_Model_Block')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($blockId);
             if ($block->getIsActive()) {

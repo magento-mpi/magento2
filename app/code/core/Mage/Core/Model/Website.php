@@ -267,7 +267,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
      */
     public function getGroupCollection()
     {
-        return Mage::getModel('core/store_group')
+        return Mage::getModel('Mage_Core_Model_Store_Group')
             ->getCollection()
             ->addWebsiteFilter($this->getId());
     }
@@ -373,7 +373,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
      */
     public function getStoreCollection()
     {
-        return Mage::getModel('core/store')
+        return Mage::getModel('Mage_Core_Model_Store')
             ->getCollection()
             ->addWebsiteFilter($this->getId());
     }
@@ -441,7 +441,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
             return false;
         }
         if (is_null($this->_isCanDelete)) {
-            $this->_isCanDelete = (Mage::getModel('core/website')->getCollection()->getSize() > 2)
+            $this->_isCanDelete = (Mage::getModel('Mage_Core_Model_Website')->getCollection()->getSize() > 2)
                 && !$this->getIsDefault();
         }
         return $this->_isCanDelete;
@@ -512,7 +512,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     {
         $currency = $this->getData('base_currency');
         if (is_null($currency)) {
-            $currency = Mage::getModel('directory/currency')->load($this->getBaseCurrencyCode());
+            $currency = Mage::getModel('Mage_Directory_Model_Currency')->load($this->getBaseCurrencyCode());
             $this->setData('base_currency', $currency);
         }
         return $currency;

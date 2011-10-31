@@ -66,7 +66,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
             $revisionId = (int) $this->getRequest()->getParam('revision_id');
         }
 
-        $revision = Mage::getModel('enterprise_cms/page_revision');
+        $revision = Mage::getModel('Enterprise_Cms_Model_Page_Revision');
         $userId = Mage::getSingleton('admin/session')->getUser()->getId();
         $accessLevel = Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel();
 

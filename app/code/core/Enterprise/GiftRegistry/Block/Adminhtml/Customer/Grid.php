@@ -47,7 +47,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Grid extends Mage_Adminht
     protected function _prepareCollection()
     {
         /** @var $collection Enterprise_GiftRegistry_Model_Resource_Entity_Collection */
-        $collection = Mage::getModel('enterprise_giftregistry/entity')->getCollection();
+        $collection = Mage::getModel('Enterprise_GiftRegistry_Model_Entity')->getCollection();
         $collection->filterByCustomerId($this->getRequest()->getParam('id'));
         $collection->addRegistryInfo();
 

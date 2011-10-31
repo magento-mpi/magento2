@@ -48,7 +48,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Review extends Mage_XmlConnect_Block
     public function reviewToXmlObject(Mage_Review_Model_Review $review, $itemNodeName = 'item')
     {
         $rating = 0;
-        $item = Mage::getModel('xmlconnect/simplexml_element', '<' . $itemNodeName . '></' . $itemNodeName . '>');
+        $item = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<' . $itemNodeName . '></' . $itemNodeName . '>');
         if ($review->getId()) {
             $item->addChild('review_id', $review->getId());
             $item->addChild('created_at', $this->formatDate($review->getCreatedAt()));
@@ -65,7 +65,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Review extends Mage_XmlConnect_Block
             }
             $item->addChild('detail', $detail);
 
-            $summary = Mage::getModel('rating/rating')->getReviewSummary($review->getId());
+            $summary = Mage::getModel('Mage_Rating_Model_Rating')->getReviewSummary($review->getId());
             if ($summary->getCount() > 0) {
                 $rating = round($summary->getSum() / $summary->getCount() / 10);
             }
@@ -83,7 +83,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Review extends Mage_XmlConnect_Block
      */
     protected function _toHtml()
     {
-        $review = Mage::getModel('review/review')->load((int)$this->getRequest()->getParam('id', 0));
+        $review = Mage::getModel('Mage_Review_Model_Review')->load((int)$this->getRequest()->getParam('id', 0));
         return $this->reviewToXmlObject($review, 'review')->asNiceXml();
     }
 }

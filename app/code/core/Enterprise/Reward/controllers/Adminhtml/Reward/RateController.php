@@ -74,7 +74,7 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
         $this->_title($this->__('Customers'))->_title($this->__('Reward Exchange Rates'));
 
         $rateId = $this->getRequest()->getParam('rate_id', 0);
-        $rate = Mage::getModel('enterprise_reward/reward_rate');
+        $rate = Mage::getModel('Enterprise_Reward_Model_Reward_Rate');
         if ($rateId) {
             $rate->load($rateId);
         }

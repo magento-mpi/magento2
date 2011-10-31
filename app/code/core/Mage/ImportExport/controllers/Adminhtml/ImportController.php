@@ -100,7 +100,7 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
             /** @var $resultBlock Mage_ImportExport_Block_Adminhtml_Import_Frame_Result */
             $resultBlock = $this->getLayout()->getBlock('import.frame.result');
 
-            $importModel = Mage::getModel('importexport/import');
+            $importModel = Mage::getModel('Mage_ImportExport_Model_Import');
 
             try {
                 $importModel->importSource();
@@ -141,7 +141,7 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
 
             try {
                 /** @var $import Mage_ImportExport_Model_Import */
-                $import = Mage::getModel('importexport/import');
+                $import = Mage::getModel('Mage_ImportExport_Model_Import');
                 $validationResult = $import->validateSource($import->setData($data)->uploadSource());
 
                 if (!$import->getProcessedRowsCount()) {

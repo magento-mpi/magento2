@@ -39,7 +39,7 @@ class Phoenix_Moneybookers_Block_Placeform extends Mage_Core_Block_Template
         if ($this->getOrder()) {
             return $this->getOrder();
         } elseif ($orderIncrementId = $this->_getCheckout()->getLastRealOrderId()) {
-            return Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
+            return Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($orderIncrementId);
         } else {
             return null;
         }

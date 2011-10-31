@@ -122,7 +122,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
         $translate->setTranslateInline(false);
 
         /* @var $mailTemplate Mage_Core_Model_Email_Template */
-        $mailTemplate = Mage::getModel('core/email_template');
+        $mailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
 
         $message = nl2br(htmlspecialchars($this->getSender()->getMessage()));
         $sender  = array(

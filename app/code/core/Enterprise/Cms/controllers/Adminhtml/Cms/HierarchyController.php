@@ -89,7 +89,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
             );
         }
 
-        $node = Mage::getModel('enterprise_cms/hierarchy_node');
+        $node = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
 
         $data = $this->_getSession()->getFormData(true);
         if (!empty($data)) {
@@ -118,7 +118,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
     public function saveAction()
     {
         if ($this->getRequest()->isPost()) {
-            if (Mage::getModel('enterprise_cms/hierarchy_lock')->isLockedByOther()) {
+            if (Mage::getModel('Enterprise_Cms_Model_Hierarchy_Lock')->isLockedByOther()) {
                 $this->_getSession()->addError(
                     Mage::helper('Enterprise_Cms_Helper_Data')->__('This page is currently locked.')
                 );
@@ -127,7 +127,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
             }
 
             /** @var $node Enterprise_Cms_Model_Hierarchy_Node */
-            $node       = Mage::getModel('enterprise_cms/hierarchy_node');
+            $node       = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
             $data       = $this->getRequest()->getPost();
             $hasError   = true;
 

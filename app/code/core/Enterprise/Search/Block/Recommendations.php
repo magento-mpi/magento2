@@ -47,7 +47,7 @@ class Enterprise_Search_Block_Recommendations extends Mage_Core_Block_Template
             return array();
         }
 
-        $recommendationsModel = Mage::getModel('enterprise_search/recommendations');
+        $recommendationsModel = Mage::getModel('Enterprise_Search_Model_Recommendations');
         $recommendations = $recommendationsModel->getSearchRecommendations();
 
         if (!count($recommendations)) {

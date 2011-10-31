@@ -355,7 +355,7 @@ final class Mage
      */
     public static function getUrl($route = '', $params = array())
     {
-        return self::getModel('core/url')->getUrl($route, $params);
+        return self::getModel('Mage_Core_Model_Url')->getUrl($route, $params);
     }
 
     /**

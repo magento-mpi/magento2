@@ -49,7 +49,7 @@ class Enterprise_GiftRegistry_Block_Customer_Items extends Mage_Catalog_Block_Pr
     {
          if (!$this->hasItemCollection()) {
              $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
-             $collection = Mage::getModel('enterprise_giftregistry/item')->getCollection()
+             $collection = Mage::getModel('Enterprise_GiftRegistry_Model_Item')->getCollection()
                 ->addRegistryFilter($this->getEntity()->getId());
             $this->setData('item_collection', $collection);
         }

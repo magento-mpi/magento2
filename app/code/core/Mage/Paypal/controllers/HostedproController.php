@@ -69,13 +69,13 @@ class Mage_Paypal_HostedproController extends Mage_Core_Controller_Front_Action
         $gotoSection = false;
         $session = $this->_getCheckout();
         if ($session->getLastRealOrderId()) {
-            $order = Mage::getModel('sales/order')->loadByIncrementId($session->getLastRealOrderId());
+            $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
             if ($order->getId()) {
                 //Cancel order
                 if ($order->getState() != Mage_Sales_Model_Order::STATE_CANCELED) {
                     $order->registerCancellation($errorMsg)->save();
                 }
-                $quote = Mage::getModel('sales/quote')
+                $quote = Mage::getModel('Mage_Sales_Model_Quote')
                     ->load($order->getQuoteId());
                 //Return quote
                 if ($quote->getId()) {

@@ -99,7 +99,7 @@ class Enterprise_Staging_Model_Staging_Log extends Mage_Core_Model_Abstract
     public function getStaging()
     {
         if (!$this->_staging instanceof Enterprise_Staging_Model_Staging) {
-            $this->_staging = Mage::getModel('enterprise_staging/staging')->load($this->getStagingId());
+            $this->_staging = Mage::getModel('Enterprise_Staging_Model_Staging')->load($this->getStagingId());
         }
         return $this->_staging;
     }

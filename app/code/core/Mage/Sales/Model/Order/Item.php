@@ -386,7 +386,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     public function getOrder()
     {
         if (is_null($this->_order) && ($orderId = $this->getOrderId())) {
-            $order = Mage::getModel('sales/order');
+            $order = Mage::getModel('Mage_Sales_Model_Order');
             $order->load($orderId);
             $this->setOrder($order);
         }

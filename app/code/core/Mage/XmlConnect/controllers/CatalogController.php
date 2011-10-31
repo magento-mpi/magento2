@@ -277,7 +277,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
             $this->_message($this->__('No product selected.'), self::MESSAGE_STATUS_ERROR);
             return $this;
         }
-        $product = Mage::getModel('catalog/product')
+        $product = Mage::getModel('Mage_Catalog_Model_Product')
             ->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             $this->_message($this->__('Selected product is unavailable.'), self::MESSAGE_STATUS_ERROR);
@@ -289,7 +289,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
         /**
          * Initialize send friend model
          */
-        $model  = Mage::getModel('sendfriend/sendfriend');
+        $model  = Mage::getModel('Mage_Sendfriend_Model_Sendfriend');
         $model->setRemoteAddr(Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(true));
         $model->setCookie(Mage::app()->getCookie());
         $model->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
@@ -321,7 +321,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
          */
         $categoryId = $this->getRequest()->getParam('category_id', null);
         if ($categoryId) {
-            $category = Mage::getModel('catalog/category')->load($categoryId);
+            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
             $product->setCategory($category);
             Mage::register('current_category', $category);
         }

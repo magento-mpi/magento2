@@ -58,7 +58,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Info
             } else {
                 $data['price'] = $this->_preparePrices($order->getGwBasePrice(), $order->getGwPrice());
             }
-            $wrapping = Mage::getModel('enterprise_giftwrapping/wrapping')->load($order->getGwId());
+            $wrapping = Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping')->load($order->getGwId());
             $data['path'] = $wrapping->getImageUrl();
             $data['design'] = $wrapping->getDesign();
         }

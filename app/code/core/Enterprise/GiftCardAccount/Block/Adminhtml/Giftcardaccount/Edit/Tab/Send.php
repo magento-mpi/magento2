@@ -39,7 +39,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
 
 /*
         $emailTemplates = array();
-        foreach (Mage::getModel('adminhtml/system_config_source_email_template')->toOptionArray() as $option) {
+        foreach (Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Email_Template')->toOptionArray() as $option) {
             $emailTemplates[$option['value']] = $option['label'];
         }
 

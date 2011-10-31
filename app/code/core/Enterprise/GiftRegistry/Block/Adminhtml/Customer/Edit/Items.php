@@ -42,7 +42,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('enterprise_giftregistry/item')->getCollection()
+        $collection = Mage::getModel('Enterprise_GiftRegistry_Model_Item')->getCollection()
             ->addRegistryFilter($this->getEntity()->getId());
 
         $collection->updateItemAttributes();

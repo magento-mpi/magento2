@@ -48,7 +48,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
      */
     protected function _initModel($requestParam = 'id')
     {
-        $model = Mage::getModel('enterprise_rma/rma');
+        $model = Mage::getModel('Enterprise_Rma_Model_Rma');
         $model->setStoreId($this->getRequest()->getParam('store', 0));
 
         $orderId = 0;
@@ -64,7 +64,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             $orderId = $this->getRequest()->getParam('order_id');
         }
         if ($orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             if (!$order->getId()) {
                 Mage::throwException($this->__('Wrong RMA order id.'));
             }
@@ -81,11 +81,11 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
      */
     protected function _initCreateModel()
     {
-        $model = Mage::getModel('enterprise_rma/rma_create');
+        $model = Mage::getModel('Enterprise_Rma_Model_Rma_Create');
         $orderId = $this->getRequest()->getParam('order_id');
         $model->setOrderId($orderId);
         if ($orderId) {
-            $order =  Mage::getModel('sales/order')->load($orderId);
+            $order =  Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             $model->setCustomerId($order->getCustomerId());
             $model->setStoreId($order->getStoreId());
         }
@@ -208,7 +208,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                     ) {
                         $visible = isset($data['comment']['is_visible_on_front']) ? true : false;
 
-                        Mage::getModel('enterprise_rma/rma_status_history')
+                        Mage::getModel('Enterprise_Rma_Model_Rma_Status_History')
                             ->setRmaEntityId($result->getId())
                             ->setComment($data['comment']['comment'])
                             ->setIsVisibleOnFront($visible)
@@ -274,7 +274,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                     }
                 }
                 /* Merge RMA Items status with POST data*/
-                $rmaItems = Mage::getModel('enterprise_rma/item')
+                $rmaItems = Mage::getModel('Enterprise_Rma_Model_Item')
                     ->getCollection()
                     ->addAttributeToFilter('rma_entity_id', $rmaId);
                 foreach ($rmaItems as $rmaItem) {
@@ -285,7 +285,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
 
                 $this->getRequest()->setPost($data);
                 $model->setStatus(
-                    Mage::getModel('enterprise_rma/rma_source_status')
+                    Mage::getModel('Enterprise_Rma_Model_Rma_Source_Status')
                         ->getStatusByItems($statuses)
                 );
                 $model->setIsUpdate(1);
@@ -343,7 +343,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $countCloseRma = 0;
         $countNonCloseRma = 0;
         foreach ($entityIds as $entityId) {
-            $rma = Mage::getModel('enterprise_rma/rma')->load($entityId);
+            $rma = Mage::getModel('Enterprise_Rma_Model_Rma')->load($entityId);
             if ($rma->canClose()) {
                 $rma->close()
                     ->save();
@@ -393,7 +393,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
 
             if (!empty($comment)) {
                 /** @var $history Enterprise_Rma_Model_Rma_Status_History */
-                $history = Mage::getModel('enterprise_rma/rma_status_history');
+                $history = Mage::getModel('Enterprise_Rma_Model_Rma_Status_History');
                 $history->setRmaEntityId((int)$rma->getId())
                     ->setComment($comment)
                     ->setIsVisibleOnFront($visible)
@@ -506,8 +506,8 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
     {
         $rmaId = (int)$this->getRequest()->getParam('rma_id');
         if ($rmaId) {
-            if ($rma = Mage::getModel('enterprise_rma/rma')->load($rmaId)) {
-                $pdf = Mage::getModel('enterprise_rma/pdf_rma')->getPdf(array($rma));
+            if ($rma = Mage::getModel('Enterprise_Rma_Model_Rma')->load($rmaId)) {
+                $pdf = Mage::getModel('Enterprise_Rma_Model_Pdf_Rma')->getPdf(array($rma));
                 $this->_prepareDownloadResponse(
                     'rma'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf',
                     $pdf->render(),
@@ -534,7 +534,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             if (!$model->getId()) {
                 Mage::throwException($this->__('Wrong RMA requested.'));
             }
-            $rma_item = Mage::getModel('enterprise_rma/item');
+            $rma_item = Mage::getModel('Enterprise_Rma_Model_Item');
 
             if ($itemId) {
                 $rma_item->load($itemId);
@@ -582,7 +582,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $orderId = $this->getRequest()->getParam('order_id');
         $productId = $this->getRequest()->getParam('product_id');
 
-        $rma_item = Mage::getModel('enterprise_rma/item');
+        $rma_item = Mage::getModel('Enterprise_Rma_Model_Item');
         Mage::register('current_rma_item', $rma_item);
 
         $this->loadLayout();
@@ -618,7 +618,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             if (!$model->getId()) {
                 Mage::throwException($this->__('Wrong RMA requested.'));
             }
-            $rma_item = Mage::getModel('enterprise_rma/item');
+            $rma_item = Mage::getModel('Enterprise_Rma_Model_Item');
 
             if ($itemId) {
                 $rma_item->load($itemId);
@@ -1033,7 +1033,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $data = $this->getRequest()->getPost();
         if ($model && isset($data['packages']) && !empty($data['packages'])) {
             /** @var $shipment Enterprise_Rma_Model_Shipping */
-            $shipment =  Mage::getModel('enterprise_rma/shipping')
+            $shipment =  Mage::getModel('Enterprise_Rma_Model_Shipping')
                 ->getShippingLabelByRma($model);
 
             $carrier = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($data['code'], $model->getStoreId());
@@ -1083,7 +1083,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                 if ($trackingNumbers) {
                     Mage::getResourceModel('Enterprise_Rma_Model_Resource_Shipping')->deleteTrackingNumbers($model);
                     foreach ($trackingNumbers as $trackingNumber) {
-                        Mage::getModel('enterprise_rma/shipping')
+                        Mage::getModel('Enterprise_Rma_Model_Shipping')
                             ->setTrackNumber($trackingNumber)
                             ->setCarrierCode($carrierCode)
                             ->setCarrierTitle($carrierTitle)
@@ -1110,7 +1110,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
     {
         try {
             $model = $this->_initModel();
-            $labelContent = Mage::getModel('enterprise_rma/shipping')
+            $labelContent = Mage::getModel('Enterprise_Rma_Model_Shipping')
                 ->getShippingLabelByRma($model)
                 ->getShippingLabel();
             if ($labelContent) {
@@ -1151,11 +1151,11 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
     public function printPackageAction()
     {
         $model = $this->_initModel();
-        $shipment = Mage::getModel('enterprise_rma/shipping')
+        $shipment = Mage::getModel('Enterprise_Rma_Model_Shipping')
             ->getShippingLabelByRma($model);
 
         if ($shipment) {
-            $pdf = Mage::getModel('sales/order_pdf_shipment_packaging')
+            $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment_Packaging')
                     ->setPackageShippingBlock(
                         Mage::getBlockSingleton('Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod')
                     )
@@ -1242,7 +1242,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
 
             $model = $this->_initModel();
             if ($model->getId()) {
-                Mage::getModel('enterprise_rma/shipping')
+                Mage::getModel('Enterprise_Rma_Model_Shipping')
                     ->setTrackNumber($number)
                     ->setCarrierCode($carrier)
                     ->setCarrierTitle($title)
@@ -1282,7 +1282,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
     public function removeTrackAction()
     {
         $trackId    = $this->getRequest()->getParam('track_id');
-        $track      = Mage::getModel('enterprise_rma/shipping')->load($trackId);
+        $track      = Mage::getModel('Enterprise_Rma_Model_Shipping')->load($trackId);
         if ($track->getId()) {
             try {
                 $model = $this->_initModel();

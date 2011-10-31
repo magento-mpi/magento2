@@ -35,7 +35,7 @@ class Mage_SalesRule_Model_Rule_Condition_Combine extends Mage_Rule_Model_Condit
 
     public function getNewChildSelectOptions()
     {
-        $addressCondition = Mage::getModel('salesrule/rule_condition_address');
+        $addressCondition = Mage::getModel('Mage_SalesRule_Model_Rule_Condition_Address');
         $addressAttributes = $addressCondition->loadAttributeOptions()->getAttributeOption();
         $attributes = array();
         foreach ($addressAttributes as $code=>$label) {

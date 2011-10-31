@@ -41,7 +41,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
         $this->_title($this->__('Customers'))->_title($this->__('Gift Card Accounts'));
 
         if ($this->_showCodePoolStatusMessage) {
-            $usage = Mage::getModel('enterprise_giftcardaccount/pool')->getPoolUsageInfo();
+            $usage = Mage::getModel('Enterprise_GiftCardAccount_Model_Pool')->getPoolUsageInfo();
 
             $function = 'addNotice';
             if ($usage->getPercent() == 100) {
@@ -192,7 +192,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
         if ($id = $this->getRequest()->getParam('id')) {
             try {
                 // init model and delete
-                $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount');
+                $model = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount');
                 $model->load($id);
                 $model->delete();
                 // display success message
@@ -232,7 +232,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
     public function generateAction()
     {
         try {
-            Mage::getModel('enterprise_giftcardaccount/pool')->generatePool();
+            Mage::getModel('Enterprise_GiftCardAccount_Model_Pool')->generatePool();
             Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('New code pool was generated.'));
         } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -279,7 +279,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
         $this->_title($this->__('Customers'))->_title($this->__('Gift Card Accounts'));
 
         $id = (int)$this->getRequest()->getParam($idFieldName);
-        $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount');
+        $model = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount');
         if ($id) {
             $model->load($id);
         }

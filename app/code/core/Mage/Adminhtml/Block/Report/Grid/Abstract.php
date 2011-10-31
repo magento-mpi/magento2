@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
     public function getCollection()
     {
         if (is_null($this->_collection)) {
-            $this->setCollection(Mage::getModel('reports/grouped_collection'));
+            $this->setCollection(Mage::getModel('Mage_Reports_Model_Grouped_Collection'));
         }
         return $this->_collection;
     }

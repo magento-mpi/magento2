@@ -54,7 +54,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
     public function getDeleteOrphanBalancesButton()
     {
         $customer = Mage::registry('current_customer');
-        $balance = Mage::getModel('enterprise_customerbalance/balance');
+        $balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
         if ($balance->getOrphanBalancesCount($customer->getId()) > 0) {
             return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
                 'label'     => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Delete Orphan Balances'),

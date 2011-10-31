@@ -88,7 +88,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     public function getGroups()
     {
         if (empty($this->_groups)) {
-            $this->_groups = Mage::getModel('customer/group')->getResourceCollection()
+            $this->_groups = Mage::getModel('Mage_Customer_Model_Group')->getResourceCollection()
                 ->setRealGroupsFilter()
                 ->load();
         }

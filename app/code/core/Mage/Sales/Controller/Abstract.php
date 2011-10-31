@@ -89,7 +89,7 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
             return false;
         }
 
-        $order = Mage::getModel('sales/order')->load($orderId);
+        $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
 
         if ($this->_canViewOrder($order)) {
             Mage::register('current_order', $order);
@@ -189,11 +189,11 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
     {
         $invoiceId = (int) $this->getRequest()->getParam('invoice_id');
         if ($invoiceId) {
-            $invoice = Mage::getModel('sales/order_invoice')->load($invoiceId);
+            $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')->load($invoiceId);
             $order = $invoice->getOrder();
         } else {
             $orderId = (int) $this->getRequest()->getParam('order_id');
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
         }
 
         if ($this->_canViewOrder($order)) {
@@ -219,11 +219,11 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
     {
         $shipmentId = (int) $this->getRequest()->getParam('shipment_id');
         if ($shipmentId) {
-            $shipment = Mage::getModel('sales/order_shipment')->load($shipmentId);
+            $shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment')->load($shipmentId);
             $order = $shipment->getOrder();
         } else {
             $orderId = (int) $this->getRequest()->getParam('order_id');
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
         }
         if ($this->_canViewOrder($order)) {
             Mage::register('current_order', $order);
@@ -248,11 +248,11 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
     {
         $creditmemoId = (int) $this->getRequest()->getParam('creditmemo_id');
         if ($creditmemoId) {
-            $creditmemo = Mage::getModel('sales/order_creditmemo')->load($creditmemoId);
+            $creditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->load($creditmemoId);
             $order = $creditmemo->getOrder();
         } else {
             $orderId = (int) $this->getRequest()->getParam('order_id');
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
         }
 
         if ($this->_canViewOrder($order)) {

@@ -266,7 +266,7 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
      */
     public function getRelatedProductIds()
     {
-        return Mage::getModel('tag/tag_relation')
+        return Mage::getModel('Mage_Tag_Model_Tag_Relation')
             ->setTagId($this->getTagId())
             ->setStoreId($this->getStoreId())
             ->setStatusFilter($this->getStatusFilter())
@@ -303,7 +303,7 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
     public function saveRelation($productId, $customerId, $storeId)
     {
         /** @var $relationModel Mage_Tag_Model_Tag_Relation */
-        $relationModel = Mage::getModel('tag/tag_relation');
+        $relationModel = Mage::getModel('Mage_Tag_Model_Tag_Relation');
         $relationModel->setTagId($this->getId())
             ->setStoreId($storeId)
             ->setProductId($productId)
@@ -394,7 +394,7 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
      */
     protected function _getLinkBetweenTagCustomerProduct($relationModel)
     {
-        return Mage::getModel('tag/tag_relation')->loadByTagCustomer(
+        return Mage::getModel('Mage_Tag_Model_Tag_Relation')->loadByTagCustomer(
             $relationModel->getProductId(),
             $this->getId(),
             $relationModel->getCustomerId(),

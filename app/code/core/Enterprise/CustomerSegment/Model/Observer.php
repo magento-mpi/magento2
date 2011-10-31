@@ -126,7 +126,7 @@ class Enterprise_CustomerSegment_Model_Observer
             'name'      => 'is_used_for_customer_segment',
             'label'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Use in Customer Segment'),
             'title'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Use in Customer Segment'),
-            'values'    => Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray(),
+            'values'    => Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray(),
         ));
     }
 }

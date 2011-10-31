@@ -93,7 +93,7 @@ class Enterprise_GiftRegistry_Block_Customer_Edit extends Mage_Directory_Block_D
     public function getTypeList()
     {
         $storeId = Mage::app()->getStore()->getId();
-        $collection = Mage::getModel('enterprise_giftregistry/type')
+        $collection = Mage::getModel('Enterprise_GiftRegistry_Model_Type')
             ->getCollection()
             ->addStoreData($storeId)
             ->applyListedFilter()

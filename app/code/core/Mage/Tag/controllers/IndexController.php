@@ -48,7 +48,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
 
         if(strlen($tagName) && $productId) {
             $session = Mage::getSingleton('catalog/session');
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->load($productId);
             if(!$product->getId()){
                 $session->addError($this->__('Unable to save tag(s).'));
@@ -57,7 +57,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                     $customerId = $customerSession->getCustomerId();
                     $storeId = Mage::app()->getStore()->getId();
 
-                    $tagModel = Mage::getModel('tag/tag');
+                    $tagModel = Mage::getModel('Mage_Tag_Model_Tag');
 
                     // added tag relation statuses
                     $counter = array(

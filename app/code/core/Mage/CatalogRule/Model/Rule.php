@@ -135,12 +135,12 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
 
     public function getConditionsInstance()
     {
-        return Mage::getModel('catalogrule/rule_condition_combine');
+        return Mage::getModel('Mage_CatalogRule_Model_Rule_Condition_Combine');
     }
 
     public function getActionsInstance()
     {
-        return Mage::getModel('catalogrule/rule_action_collection');
+        return Mage::getModel('Mage_CatalogRule_Model_Rule_Action_Collection');
     }
 
     public function getNow()
@@ -245,7 +245,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
                     array(array($this, 'callbackValidateProduct')),
                     array(
                         'attributes' => $this->getCollectedAttributes(),
-                        'product'    => Mage::getModel('catalog/product'),
+                        'product'    => Mage::getModel('Mage_Catalog_Model_Product'),
                     )
                 );
             }
@@ -280,7 +280,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     public function applyToProduct($product, $websiteIds=null)
     {
         if (is_numeric($product)) {
-            $product = Mage::getModel('catalog/product')->load($product);
+            $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product);
         }
         if (is_null($websiteIds)) {
             $websiteIds = explode(',', $this->getWebsiteIds());
@@ -301,7 +301,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
                 $ids = explode(',', $ids);
             }
 
-            $groupIds = Mage::getModel('customer/group')->getCollection()->getAllIds();
+            $groupIds = Mage::getModel('Mage_Customer_Model_Group')->getCollection()->getAllIds();
             $ids = array_intersect($ids, $groupIds);
             $this->setData('customer_group_ids', $ids);
             $this->setCustomerGroupChecked(true);

@@ -55,7 +55,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
     {
         $this->_title($this->__('Customers'))->_title($this->__('Invitations'));
 
-        $invitation = Mage::getModel('enterprise_invitation/invitation')->load($this->getRequest()->getParam('id'));
+        $invitation = Mage::getModel('Enterprise_Invitation_Model_Invitation')->load($this->getRequest()->getParam('id'));
         if (!$invitation->getId()) {
             Mage::throwException(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation not found.'));
         }
@@ -127,7 +127,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
             $customerExistsCount = 0;
             foreach ($emails as $key => $email) {
                 try {
-                    $invitation = Mage::getModel('enterprise_invitation/invitation')->setData(array(
+                    $invitation = Mage::getModel('Enterprise_Invitation_Model_Invitation')->setData(array(
                         'email'    => $email,
                         'store_id' => $storeId,
                         'message'  => $this->getRequest()->getParam('message'),
@@ -217,7 +217,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
             if (empty($invitationsPost) || !is_array($invitationsPost)) {
                 Mage::throwException(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Please select invitations.'));
             }
-            $collection = Mage::getModel('enterprise_invitation/invitation')->getCollection()
+            $collection = Mage::getModel('Enterprise_Invitation_Model_Invitation')->getCollection()
                 ->addFieldToFilter('invitation_id', array('in' => $invitationsPost))
                 ->addCanBeSentFilter();
             $found = 0;
@@ -274,7 +274,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
             if (empty($invitationsPost) || !is_array($invitationsPost)) {
                 Mage::throwException(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Please select invitations.'));
             }
-            $collection = Mage::getModel('enterprise_invitation/invitation')->getCollection()
+            $collection = Mage::getModel('Enterprise_Invitation_Model_Invitation')->getCollection()
                 ->addFieldToFilter('invitation_id', array('in' => $invitationsPost))
                 ->addCanBeCanceledFilter();
             $found     = 0;

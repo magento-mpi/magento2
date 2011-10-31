@@ -72,7 +72,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('enterprise_reward/reward')
+        $collection = Mage::getModel('Enterprise_Reward_Model_Reward')
             ->getCollection()
             ->addFieldToFilter('customer_id', $this->getCustomer()->getId());
         $this->setCollection($collection);
@@ -121,7 +121,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
             'index'    => 'website_id',
             'sortable' => false,
             'type'     => 'options',
-            'options'  => Mage::getModel('enterprise_reward/source_website')->toOptionArray(false)
+            'options'  => Mage::getModel('Enterprise_Reward_Model_Source_Website')->toOptionArray(false)
         ));
 
         $this->addColumn('points_balance', array(

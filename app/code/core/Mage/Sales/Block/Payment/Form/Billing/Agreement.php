@@ -54,7 +54,7 @@ class Mage_Sales_Block_Payment_Form_Billing_Agreement extends Mage_Payment_Block
         if (!$quote || !$quote->getCustomer()) {
             return $data;
         }
-        $collection = Mage::getModel('sales/billing_agreement')->getAvailableCustomerBillingAgreements(
+        $collection = Mage::getModel('Mage_Sales_Model_Billing_Agreement')->getAvailableCustomerBillingAgreements(
             $quote->getCustomer()->getId()
         );
 

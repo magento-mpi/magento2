@@ -104,11 +104,11 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
 
         switch ($storage) {
             case self::STORAGE_MEDIA_FILE_SYSTEM:
-                $model = Mage::getModel('core/file_storage_file');
+                $model = Mage::getModel('Mage_Core_Model_File_Storage_File');
                 break;
             case self::STORAGE_MEDIA_DATABASE:
                 $connection = (isset($params['connection'])) ? $params['connection'] : null;
-                $model = Mage::getModel('core/file_storage_database', array('connection' => $connection));
+                $model = Mage::getModel('Mage_Core_Model_File_Storage_Database', array('connection' => $connection));
                 break;
             default:
                 return false;

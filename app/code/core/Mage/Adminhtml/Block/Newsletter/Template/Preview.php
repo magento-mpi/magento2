@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Preview extends Mage_Adminhtml_Bl
     protected function _toHtml()
     {
         /* @var $template Mage_Newsletter_Model_Template */
-        $template = Mage::getModel('newsletter/template');
+        $template = Mage::getModel('Mage_Newsletter_Model_Template');
 
         if($id = (int)$this->getRequest()->getParam('id')) {
             $template->load($id);
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Preview extends Mage_Adminhtml_Bl
         Magento_Profiler::start("newsletter_template_proccessing");
         $vars = array();
 
-        $vars['subscriber'] = Mage::getModel('newsletter/subscriber');
+        $vars['subscriber'] = Mage::getModel('Mage_Newsletter_Model_Subscriber');
         if($this->getRequest()->getParam('subscriber')) {
             $vars['subscriber']->load($this->getRequest()->getParam('subscriber'));
         }

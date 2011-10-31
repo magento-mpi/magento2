@@ -220,8 +220,8 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
             ->_initAttributes()
             ->_initCustomers();
 
-        $this->_entityTable   = Mage::getModel('customer/customer')->getResource()->getEntityTable();
-        $this->_addressEntity = Mage::getModel('importexport/import_entity_customer_address', $this);
+        $this->_entityTable   = Mage::getModel('Mage_Customer_Model_Customer')->getResource()->getEntityTable();
+        $this->_addressEntity = Mage::getModel('Mage_ImportExport_Model_Import_Entity_Customer_Address', $this);
     }
 
     /**
@@ -317,7 +317,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
             }
             $this->_oldCustomers[$email][$this->_websiteIdToCode[$customer->getWebsiteId()]] = $customer->getId();
         }
-        $this->_customerGlobal = Mage::getModel('customer/customer')->getSharingConfig()->isGlobalScope();
+        $this->_customerGlobal = Mage::getModel('Mage_Customer_Model_Customer')->getSharingConfig()->isGlobalScope();
 
         return $this;
     }
@@ -358,7 +358,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
     protected function _saveCustomers()
     {
         /** @var $resource Mage_Customer_Model_Customer */
-        $resource       = Mage::getModel('customer/customer');
+        $resource       = Mage::getModel('Mage_Customer_Model_Customer');
         $strftimeFormat = Varien_Date::convertZendToStrftime(Varien_Date::DATETIME_INTERNAL_FORMAT, true, true);
         $table = $resource->getResource()->getEntityTable();
         $nextEntityId   = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($table);

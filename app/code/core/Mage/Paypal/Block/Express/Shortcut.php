@@ -66,7 +66,7 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
     protected function _beforeToHtml()
     {
         $result = parent::_beforeToHtml();
-        $config = Mage::getModel('paypal/config', array($this->_paymentMethodCode));
+        $config = Mage::getModel('Mage_Paypal_Model_Config', array($this->_paymentMethodCode));
         $isInCatalog = $this->getIsInCatalogProduct();
         $quote = ($isInCatalog || '' == $this->getIsQuoteAllowed())
             ? null : Mage::getSingleton('checkout/session')->getQuote();

@@ -167,14 +167,14 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     public function getLastViewedUrl()
     {
         if ($productId = Mage::getSingleton('catalog/session')->getLastViewedProductId()) {
-            $product = Mage::getModel('catalog/product')->load($productId);
+            $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
             /* @var $product Mage_Catalog_Model_Product */
             if (Mage::helper('Mage_Catalog_Helper_Product')->canShow($product, 'catalog')) {
                 return $product->getProductUrl();
             }
         }
         if ($categoryId = Mage::getSingleton('catalog/session')->getLastViewedCategoryId()) {
-            $category = Mage::getModel('catalog/category')->load($categoryId);
+            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
             /* @var $category Mage_Catalog_Model_Category */
             if (!Mage::helper('Mage_Catalog_Helper_Category')->canShow($category)) {
                 return '';
@@ -359,7 +359,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         if (is_numeric($product)) {
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($product);
         }
@@ -408,7 +408,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if($this->_mapApplyToProductType === null) {
             /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-            $attribute = Mage::getModel('catalog/resource_eav_attribute')
+            $attribute = Mage::getModel('Mage_Catalog_Model_Resource_Eav_Attribute')
                 ->loadByCode(Mage_Catalog_Model_Product::ENTITY, 'msrp_enabled');
             $this->_mapApplyToProductType = $attribute->getApplyTo();
         }

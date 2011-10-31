@@ -42,7 +42,7 @@ class Enterprise_CustomerBalance_Block_Account_Balance extends Mage_Core_Block_T
             return 0;
         }
 
-        $model = Mage::getModel('enterprise_customerbalance/balance')
+        $model = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
             ->setCustomerId($customerId)
             ->loadByCustomer();
 

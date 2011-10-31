@@ -58,7 +58,7 @@ class Mage_Directory_Block_Currency extends Mage_Core_Block_Template
             $currencies = array();
             $codes = Mage::app()->getStore()->getAvailableCurrencyCodes(true);
             if (is_array($codes) && count($codes) > 1) {
-                $rates = Mage::getModel('directory/currency')->getCurrencyRates(
+                $rates = Mage::getModel('Mage_Directory_Model_Currency')->getCurrencyRates(
                     Mage::app()->getStore()->getBaseCurrency(),
                     $codes
                 );

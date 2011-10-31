@@ -168,7 +168,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
             'name'       => 'coupon_type',
             'label'      => Mage::helper('Mage_SalesRule_Helper_Data')->__('Coupon'),
             'required'   => true,
-            'options'    => Mage::getModel('salesrule/rule')->getCouponTypes(),
+            'options'    => Mage::getModel('Mage_SalesRule_Model_Rule')->getCouponTypes(),
         ));
 
         $couponCodeFiled = $fieldset->addField('coupon_code', 'text', array(

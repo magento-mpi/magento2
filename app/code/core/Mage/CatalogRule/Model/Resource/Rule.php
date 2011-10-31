@@ -460,7 +460,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
 
             $write->delete($this->getTable('catalogrule_group_website'), array());
 
-            $timestamp = Mage::getModel('core/date')->gmtTimestamp();
+            $timestamp = Mage::getModel('Mage_Core_Model_Date')->gmtTimestamp();
 
             $select = $write->select()
                 ->distinct(true)
@@ -475,7 +475,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
             throw $e;
         }
 
-        $productCondition = Mage::getModel('catalog/product_condition')
+        $productCondition = Mage::getModel('Mage_Catalog_Model_Product_Condition')
             ->setTable($this->getTable('catalogrule_affected_product'))
             ->setPkFieldName('product_id');
         Mage::dispatchEvent('catalogrule_after_apply', array(

@@ -371,7 +371,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
     protected function _getDefaultCollection($sorted = false)
     {
         $this->_joinUrlRewriteIntoCollection = true;
-        $collection = Mage::getModel('catalog/category')->getCollection();
+        $collection = Mage::getModel('Mage_Catalog_Model_Category')->getCollection();
         /** @var $collection Mage_Catalog_Model_Resource_Category_Collection */
 
         $attributes = Mage::getConfig()->getNode('frontend/category/collection/attributes');

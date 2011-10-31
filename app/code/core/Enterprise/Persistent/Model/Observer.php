@@ -49,7 +49,7 @@ class Enterprise_Persistent_Model_Observer
 
         if ($this->_isLoggedOut()) {
             /** @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('customer/customer')->load(
+            $customer = Mage::getModel('Mage_Customer_Model_Customer')->load(
                 $this->_getPersistentHelper()->getSession()->getCustomerId()
             );
             Mage::getSingleton('customer/session')
@@ -89,7 +89,7 @@ class Enterprise_Persistent_Model_Observer
         ) {
             return;
         }
-        Mage::getModel('persistent/persistent_config')
+        Mage::getModel('Mage_Persistent_Model_Persistent_Config')
             ->setConfigFilePath(Mage::helper('Enterprise_Persistent_Helper_Data')->getPersistentConfigFilePath())
             ->fire();
     }
@@ -320,7 +320,7 @@ class Enterprise_Persistent_Model_Observer
         $eventDataObject = $observer->getEvent()->getDataObject();
 
         if ($eventDataObject->getValue()) {
-            $optionCustomerSegm = Mage::getModel('core/config_data')
+            $optionCustomerSegm = Mage::getModel('Mage_Core_Model_Config_Data')
                 ->setScope($eventDataObject->getScope())
                 ->setScopeId($eventDataObject->getScopeId())
                 ->setPath(Enterprise_Persistent_Helper_Data::XML_PATH_PERSIST_CUSTOMER_AND_SEGM)
@@ -362,7 +362,7 @@ class Enterprise_Persistent_Model_Observer
         if (!$this->_isComparedProductsPersist()) {
             return;
         }
-        Mage::getModel('reports/product_index_compared')
+        Mage::getModel('Mage_Reports_Model_Product_Index_Compared')
             ->purgeVisitorByCustomer()
             ->calculate();
     }
@@ -376,7 +376,7 @@ class Enterprise_Persistent_Model_Observer
         if (!$this->_isComparedProductsPersist()) {
             return;
         }
-        Mage::getModel('reports/product_index_viewed')
+        Mage::getModel('Mage_Reports_Model_Product_Index_Viewed')
             ->purgeVisitorByCustomer()
             ->calculate();
     }
@@ -408,7 +408,7 @@ class Enterprise_Persistent_Model_Observer
      */
     protected function _initWishlist()
     {
-        return Mage::getModel('wishlist/wishlist')->loadByCustomer($this->_getCustomerId() ,true);
+        return Mage::getModel('Mage_Wishlist_Model_Wishlist')->loadByCustomer($this->_getCustomerId() ,true);
     }
 
     /**

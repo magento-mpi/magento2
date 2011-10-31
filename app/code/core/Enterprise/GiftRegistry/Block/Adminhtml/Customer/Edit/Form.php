@@ -75,7 +75,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
      */
     public function getOwnerName()
     {
-        $customer = Mage::getModel('customer/customer')
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')
             ->load($this->getEntity()->getCustomerId());
 
         return $this->escapeHtml($customer->getName());
@@ -98,7 +98,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
      */
     public function getTypeName()
     {
-        $type = Mage::getModel('enterprise_giftregistry/type')
+        $type = Mage::getModel('Enterprise_GiftRegistry_Model_Type')
             ->load($this->getEntity()->getTypeId());
 
         return $this->escapeHtml($type->getLabel());

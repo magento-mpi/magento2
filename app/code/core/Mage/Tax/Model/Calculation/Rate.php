@@ -92,7 +92,7 @@ class Mage_Tax_Model_Calculation_Rate extends Mage_Core_Model_Abstract
         parent::_beforeSave();
         $country = $this->getTaxCountryId();
         $region = $this->getTaxRegionId();
-        $regionModel = Mage::getModel('directory/region');
+        $regionModel = Mage::getModel('Mage_Directory_Model_Region');
         $regionModel->load($region);
         if ($regionModel->getCountryId() != $country) {
             $this->setTaxRegionId('*');
@@ -162,7 +162,7 @@ class Mage_Tax_Model_Calculation_Rate extends Mage_Core_Model_Abstract
     public function getTitleModel()
     {
         if (is_null($this->_titleModel)) {
-            $this->_titleModel = Mage::getModel('tax/calculation_rate_title');
+            $this->_titleModel = Mage::getModel('Mage_Tax_Model_Calculation_Rate_Title');
         }
         return $this->_titleModel;
     }

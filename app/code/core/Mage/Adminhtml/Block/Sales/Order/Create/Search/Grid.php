@@ -96,7 +96,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
     {
         $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
         /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getModel('catalog/product')->getCollection();
+        $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection();
         $collection
             ->setStore($this->getStore())
             ->addAttributeToSelect($attributes)

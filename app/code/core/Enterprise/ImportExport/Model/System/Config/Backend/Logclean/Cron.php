@@ -63,7 +63,7 @@ class Enterprise_ImportExport_Model_System_Config_Backend_Logclean_Cron extends 
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            Mage::getModel('core/config_data')
+            Mage::getModel('Mage_Core_Model_Config_Data')
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)

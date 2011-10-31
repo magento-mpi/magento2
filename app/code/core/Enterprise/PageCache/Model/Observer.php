@@ -201,7 +201,7 @@ class Enterprise_PageCache_Model_Observer
             return $this;
         }
         $object = $observer->getEvent()->getObject();
-        $object = Mage::getModel('enterprise_pagecache/validator')->checkDataChange($object);
+        $object = Mage::getModel('Enterprise_PageCache_Model_Validator')->checkDataChange($object);
     }
 
     /**
@@ -215,7 +215,7 @@ class Enterprise_PageCache_Model_Observer
             return $this;
         }
         $object = $observer->getEvent()->getObject();
-        $object = Mage::getModel('enterprise_pagecache/validator')->checkDataDelete($object);
+        $object = Mage::getModel('Enterprise_PageCache_Model_Validator')->checkDataDelete($object);
     }
 
     /**
@@ -376,7 +376,7 @@ class Enterprise_PageCache_Model_Observer
             $productIds = $this->_getCookie()->get(Enterprise_PageCache_Model_Container_Viewedproducts::COOKIE_NAME);
             if ($productIds) {
                 $productIds = explode(',', $productIds);
-                Mage::getModel('reports/product_index_viewed')->registerIds($productIds);
+                Mage::getModel('Mage_Reports_Model_Product_Index_Viewed')->registerIds($productIds);
             }
         } catch (Exception $e) {
             Mage::logException($e);
@@ -526,9 +526,9 @@ class Enterprise_PageCache_Model_Observer
         $varName = Enterprise_PageCache_Model_Processor::LAST_PRODUCT_COOKIE;
         $productId = (int) Mage::getSingleton('core/cookie')->get($varName);
         if ($productId) {
-            $model = Mage::getModel('reports/product_index_viewed');
+            $model = Mage::getModel('Mage_Reports_Model_Product_Index_Viewed');
             if (!$model->getCount()) {
-                $product = Mage::getModel('catalog/product')->load($productId);
+                $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
                 if ($product->getId()) {
                     $model->setProductId($productId)
                         ->save()

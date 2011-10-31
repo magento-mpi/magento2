@@ -260,7 +260,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function stagingProcessRun($process)
     {
-        $logBefore = Mage::getModel('enterprise_staging/staging_log')
+        $logBefore = Mage::getModel('Enterprise_Staging_Model_Staging_Log')
             ->saveOnProcessRun($this, $process, 'before');
 
         $method = $process.'Run';
@@ -271,7 +271,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 
             $this->_getResource()->{$method}($this, $logBefore);
 
-            $logAfter = Mage::getModel('enterprise_staging/staging_log');
+            $logAfter = Mage::getModel('Enterprise_Staging_Model_Staging_Log');
 
             $this->_afterStagingProcessRun($process, $logAfter);
 

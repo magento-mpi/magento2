@@ -91,7 +91,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
         $rootCategoryId = Mage::app()->getStore($storeId)->getRootCategoryId();
 
         /* @var $select Varien_Db_Select */
-        $select = Mage::getModel('catalog/category')->getCollection()
+        $select = Mage::getModel('Mage_Catalog_Model_Category')->getCollection()
             ->setStoreId(Mage::app()->getStore($storeId)->getId())
             ->addIsActiveFilter()
             ->addPathsFilter(Mage_Catalog_Model_Category::TREE_ROOT_ID . '/' . $rootCategoryId)

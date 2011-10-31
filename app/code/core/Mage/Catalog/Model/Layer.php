@@ -155,7 +155,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
                 $this->setData('current_category', $category);
             }
             else {
-                $category = Mage::getModel('catalog/category')->load($this->getCurrentStore()->getRootCategoryId());
+                $category = Mage::getModel('Mage_Catalog_Model_Category')->load($this->getCurrentStore()->getRootCategoryId());
                 $this->setData('current_category', $category);
             }
         }
@@ -172,7 +172,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
     public function setCurrentCategory($category)
     {
         if (is_numeric($category)) {
-            $category = Mage::getModel('catalog/category')->load($category);
+            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($category);
         }
         if (!$category instanceof Mage_Catalog_Model_Category) {
             Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Category must be an instance of Mage_Catalog_Model_Category.'));
@@ -259,7 +259,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         $state = $this->getData('state');
         if (is_null($state)) {
             Magento_Profiler::start(__METHOD__);
-            $state = Mage::getModel('catalog/layer_state');
+            $state = Mage::getModel('Mage_Catalog_Model_Layer_State');
             $this->setData('state', $state);
             Magento_Profiler::stop(__METHOD__);
         }

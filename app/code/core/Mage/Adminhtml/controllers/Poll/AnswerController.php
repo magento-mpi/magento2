@@ -54,7 +54,7 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
         //print '@@';
         if ( $post = $this->getRequest()->getPost() ) {
             try {
-                $model = Mage::getModel('poll/poll_answer');
+                $model = Mage::getModel('Mage_Poll_Model_Poll_Answer');
                 $model->setData($post)
                     ->setId($this->getRequest()->getParam('id'))
                     ->save();
@@ -91,7 +91,7 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
                 if( trim($data['answer_title']) == '' ) {
                     throw new Exception(Mage::helper('Mage_Poll_Helper_Data')->__('Invalid Answer.'));
                 }
-                $model = Mage::getModel('poll/poll_answer');
+                $model = Mage::getModel('Mage_Poll_Model_Poll_Answer');
                 $model->setData($data)
                     ->save();
             } catch (Exception $e) {
@@ -109,7 +109,7 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
 
         if ( $id = $this->getRequest()->getParam('id') ) {
             try {
-                $model = Mage::getModel('poll/poll_answer');
+                $model = Mage::getModel('Mage_Poll_Model_Poll_Answer');
                 $model->setId(Zend_Json::decode($id))
                     ->delete();
             } catch (Exception $e) {

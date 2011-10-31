@@ -181,7 +181,7 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/category';
         if((bool)Mage::getStoreConfig($path)){
-            $category = Mage::getModel('catalog/category');
+            $category = Mage::getModel('Mage_Catalog_Model_Category');
 
             /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
             $treeModel = $category->getTreeModel()->loadNode(Mage::app()->getStore()->getRootCategoryId());

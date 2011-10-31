@@ -39,7 +39,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
         $tagId = (int) $this->getRequest()->getParam('tagId');
         if ($tagId) {
             $customerId = Mage::getSingleton('customer/session')->getCustomerId();
-            $model = Mage::getModel('tag/tag_relation');
+            $model = Mage::getModel('Mage_Tag_Model_Tag_Relation');
             $model->loadByTagCustomer(null, $tagId, $customerId);
             Mage::register('tagModel', $model);
             return $model->getTagId();
@@ -121,7 +121,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
             try {
                 $model = Mage::registry('tagModel');
                 $model->deactivate();
-                $tag = Mage::getModel('tag/tag')->load($tagId)->aggregate();
+                $tag = Mage::getModel('Mage_Tag_Model_Tag')->load($tagId)->aggregate();
                 Mage::getSingleton('tag/session')->addSuccess(Mage::helper('Mage_Tag_Helper_Data')->__('The tag has been deleted.'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/', array(
                     self::PARAM_NAME_URL_ENCODED => Mage::helper('Mage_Core_Helper_Data')->urlEncode(Mage::getUrl('customer/account/'))

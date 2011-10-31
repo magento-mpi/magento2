@@ -45,7 +45,7 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
             return;
         }
         list($username, $password) = $this->authValidate();
-        $customer = Mage::getModel('customer/customer')->authenticate($username, $password);
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->authenticate($username, $password);
         if ($customer && $customer->getId()) {
             Mage::getSingleton('rss/session')->settCustomer($customer);
         } else {
@@ -68,7 +68,7 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
         Mage::getSingleton('adminhtml/url')->setNoSecret(true);
         $adminSession = Mage::getSingleton('admin/session');
         $user = $adminSession->login($username, $password);
-        //$user = Mage::getModel('admin/user')->login($username, $password);
+        //$user = Mage::getModel('Mage_Admin_Model_User')->login($username, $password);
         if($user && $user->getId() && $user->getIsActive() == '1' && $adminSession->isAllowed($path)){
             $session->setAdmin($user);
         } else {
@@ -109,7 +109,7 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
         $flatHelper = Mage::helper('Mage_Catalog_Helper_Product_Flat');
         if ($flatHelper->isEnabled()) {
             /* @var $emulationModel Mage_Core_Model_App_Emulation */
-            $emulationModel = Mage::getModel('core/app_emulation');
+            $emulationModel = Mage::getModel('Mage_Core_Model_App_Emulation');
             // Emulate admin environment to disable using flat model - otherwise we won't get global stats
             // for all stores
             $emulationModel->startEnvironmentEmulation(0, Mage_Core_Model_App_Area::AREA_ADMINHTML);

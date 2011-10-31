@@ -110,7 +110,7 @@ class Mage_Adminhtml_Helper_Catalog_Product_Composite extends Mage_Core_Helper_A
                 $currentStoreId = Mage::app()->getStore()->getId();
             }
 
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStoreId($currentStoreId)
                 ->load($configureResult->getProductId());
             if (!$product->getId()) {
@@ -124,7 +124,7 @@ class Mage_Adminhtml_Helper_Catalog_Product_Composite extends Mage_Core_Helper_A
             if (!$currentCustomer) {
                 $currentCustomerId = (int) $configureResult->getCurrentCustomerId();
                 if ($currentCustomerId) {
-                    $currentCustomer = Mage::getModel('customer/customer')
+                    $currentCustomer = Mage::getModel('Mage_Customer_Model_Customer')
                         ->load($currentCustomerId);
                 }
             }

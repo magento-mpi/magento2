@@ -134,7 +134,7 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCurrentCustomerEntityOptions()
     {
         $result = array();
-        $entityCollection = Mage::getModel('enterprise_giftregistry/entity')->getCollection()
+        $entityCollection = Mage::getModel('Enterprise_GiftRegistry_Model_Entity')->getCollection()
             ->filterByCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
             ->filterByIsActive(1);
 
@@ -215,7 +215,7 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getRegistryLink($entity)
     {
-        return Mage::getModel('core/url')->setStore($entity->getStoreId())
+        return Mage::getModel('Mage_Core_Model_Url')->setStore($entity->getStoreId())
             ->getUrl('giftregistry/view/index', array('id' => $entity->getUrlKey()));
     }
 
@@ -239,7 +239,7 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
 
         if ($productType == Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD) {
             if ($item instanceof Mage_Sales_Model_Quote_Item) {
-                $product = Mage::getModel('catalog/product')->load($item->getProductId());
+                $product = Mage::getModel('Mage_Catalog_Model_Product')->load($item->getProductId());
             } else {
                 $product = $item;
             }

@@ -291,7 +291,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAmountForDisplay($product)
     {
         if ($this->isEnabled()) {
-            return Mage::getModel('weee/tax')
+            return Mage::getModel('Mage_Weee_Model_Tax')
                     ->getWeeeAmount($product, null, null, null, $this->typeOfDisplay($product, 1));
         }
         return 0;
@@ -306,7 +306,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
     public function getOriginalAmount($product)
     {
         if ($this->isEnabled()) {
-            return Mage::getModel('weee/tax')->getWeeeAmount($product, null, null, null, false, true);
+            return Mage::getModel('Mage_Weee_Model_Tax')->getWeeeAmount($product, null, null, null, false, true);
         }
         return 0;
     }

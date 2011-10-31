@@ -100,7 +100,7 @@ class Enterprise_GiftCardAccount_Model_Api extends Mage_Api_Model_Resource_Abstr
         $result['history']       = array();
 
         /** @var $historyCollection Enterprise_GiftCardAccount_Model_Resource_History_Collection */
-        $historyCollection = Mage::getModel('enterprise_giftcardaccount/history')
+        $historyCollection = Mage::getModel('Enterprise_GiftCardAccount_Model_History')
             ->getCollection()
             ->addFieldToFilter('giftcardaccount_id', $model->getId());
 
@@ -131,7 +131,7 @@ class Enterprise_GiftCardAccount_Model_Api extends Mage_Api_Model_Resource_Abstr
         $giftcardAccountData = $this->_prepareCreateGiftcardAccountData($giftcardAccountData);
         $notificationData = $this->_prepareCreateNotificationData($notificationData);
         /** @var $giftcardAccount Enterprise_GiftCardAccount_Model_Giftcardaccount */
-        $giftcardAccount = Mage::getModel('enterprise_giftcardaccount/giftcardaccount');
+        $giftcardAccount = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount');
         try {
             $giftcardAccount->setData($giftcardAccountData);
             $giftcardAccount->save();
@@ -191,7 +191,7 @@ class Enterprise_GiftCardAccount_Model_Api extends Mage_Api_Model_Resource_Abstr
     public function remove($giftcardAccountId)
     {
         /** @var $giftcardAccount Enterprise_GiftCardAccount_Model_Giftcardaccount */
-        $giftcardAccount = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->load($giftcardAccountId);
+        $giftcardAccount = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')->load($giftcardAccountId);
         if (!$giftcardAccount->getId()) {
             $this->_fault('giftcard_account_not_found_by_id');
         }
@@ -211,7 +211,7 @@ class Enterprise_GiftCardAccount_Model_Api extends Mage_Api_Model_Resource_Abstr
      */
     protected function _init($giftcardId)
     {
-        $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
+        $model = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
             ->load($giftcardId);
 
         if (!$model->getId()) {

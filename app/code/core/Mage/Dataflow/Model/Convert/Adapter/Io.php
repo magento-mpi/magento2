@@ -55,7 +55,7 @@ class Mage_Dataflow_Model_Convert_Adapter_Io extends Mage_Dataflow_Model_Convert
                     $path = rtrim($ioConfig['path'], '\\/')
                           . DS . $ioConfig['filename'];
                     /** @var $validator Mage_Core_Model_File_Validator_AvailablePath */
-                    $validator = Mage::getModel('core/file_validator_availablePath');
+                    $validator = Mage::getModel('Mage_Core_Model_File_Validator_AvailablePath');
                     $validator->setPaths( Mage::getStoreConfig(self::XML_PATH_EXPORT_LOCAL_VALID_PATH) );
                     if (!$validator->isValid($path)) {
                         foreach ($validator->getMessages() as $message) {

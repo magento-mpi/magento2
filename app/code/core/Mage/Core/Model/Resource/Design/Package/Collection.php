@@ -43,7 +43,7 @@ class Mage_Core_Model_Resource_Design_Package_Collection extends Varien_Object
     {
         $packages = $this->getData('packages');
         if (is_null($packages)) {
-            $packages = Mage::getModel('core/design_package')->getPackageList();
+            $packages = Mage::getModel('Mage_Core_Model_Design_Package')->getPackageList();
             $this->setData('packages', $packages);
         }
 

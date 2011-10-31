@@ -51,7 +51,7 @@ class Mage_Xmlconnect_Block_Adminhtml_Mobile_Grid extends Mage_Adminhtml_Block_W
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('xmlconnect/application')->getCollection();
+        $collection = Mage::getModel('Mage_XmlConnect_Model_Application')->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

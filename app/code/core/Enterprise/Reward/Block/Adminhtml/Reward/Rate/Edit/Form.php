@@ -65,14 +65,14 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Mage_Admin
             'name'   => 'website_id',
             'title'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
             'label'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
-            'values' => Mage::getModel('enterprise_reward/source_website')->toOptionArray()
+            'values' => Mage::getModel('Enterprise_Reward_Model_Source_Website')->toOptionArray()
         ));
 
         $fieldset->addField('customer_group_id', 'select', array(
             'name'   => 'customer_group_id',
             'title'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Customer Group'),
             'label'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Customer Group'),
-            'values' => Mage::getModel('enterprise_reward/source_customer_groups')->toOptionArray()
+            'values' => Mage::getModel('Enterprise_Reward_Model_Source_Customer_Groups')->toOptionArray()
         ));
 
         $fieldset->addField('direction', 'select', array(

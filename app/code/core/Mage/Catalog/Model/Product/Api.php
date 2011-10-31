@@ -89,7 +89,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
      */
     public function items($filters = null, $store = null)
     {
-        $collection = Mage::getModel('catalog/product')->getCollection()
+        $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
             ->addStoreFilter($this->_getStoreId($store))
             ->addAttributeToSelect('name');
 
@@ -176,7 +176,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
         $this->_checkProductAttributeSet($set);
 
         /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setStoreId($this->_getStoreId($store))
             ->setAttributeSetId($set)
             ->setTypeId($type)
@@ -308,7 +308,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
         }
 
         if (isset($productData['tier_price']) && is_array($productData['tier_price'])) {
-             $tierPrices = Mage::getModel('catalog/product_attribute_tierprice_api')
+             $tierPrices = Mage::getModel('Mage_Catalog_Model_Product_Attribute_Tierprice_Api')
                  ->prepareTierPrices($product, $productData['tier_price']);
              $product->setData(Mage_Catalog_Model_Product_Attribute_Tierprice_Api::ATTRIBUTE_CODE, $tierPrices);
         }
@@ -377,7 +377,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
         $this->_checkProductAttributeSet($attributeSetId);
 
         /** @var $product Mage_Catalog_Model_Product */
-        $productAttributes = Mage::getModel('catalog/product')
+        $productAttributes = Mage::getModel('Mage_Catalog_Model_Product')
             ->setAttributeSetId($attributeSetId)
             ->setTypeId($productType)
             ->getTypeInstance(false)
@@ -419,7 +419,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
      */
     protected function _checkProductTypeExists($productType)
     {
-        if (!in_array($productType, array_keys(Mage::getModel('catalog/product_type')->getOptionArray()))) {
+        if (!in_array($productType, array_keys(Mage::getModel('Mage_Catalog_Model_Product_Type')->getOptionArray()))) {
             $this->_fault('product_type_not_exists');
         }
     }
@@ -433,11 +433,11 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
      */
     protected function _checkProductAttributeSet($attributeSetId)
     {
-        $attributeSet = Mage::getModel('eav/entity_attribute_set')->load($attributeSetId);
+        $attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')->load($attributeSetId);
         if (is_null($attributeSet->getId())) {
             $this->_fault('product_attribute_set_not_exists');
         }
-        if (Mage::getModel('catalog/product')->getResource()->getTypeId() != $attributeSet->getEntityTypeId()) {
+        if (Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getTypeId() != $attributeSet->getEntityTypeId()) {
             $this->_fault('product_attribute_set_not_valid');
         }
     }

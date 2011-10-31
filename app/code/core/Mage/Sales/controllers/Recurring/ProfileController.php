@@ -190,7 +190,7 @@ class Mage_Sales_Recurring_ProfileController extends Mage_Core_Controller_Front_
      */
     protected function _initProfile()
     {
-        $profile = Mage::getModel('sales/recurring_profile')->load($this->getRequest()->getParam('profile'));
+        $profile = Mage::getModel('Mage_Sales_Model_Recurring_Profile')->load($this->getRequest()->getParam('profile'));
         if (!$profile->getId()) {
             Mage::throwException($this->__('Specified profile does not exist.'));
         }

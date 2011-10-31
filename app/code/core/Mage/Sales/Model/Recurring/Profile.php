@@ -309,18 +309,18 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
         }
         $grandTotal = $billingAmount + $shippingAmount + $taxAmount;
 
-        $order = Mage::getModel('sales/order');
+        $order = Mage::getModel('Mage_Sales_Model_Order');
 
-        $billingAddress = Mage::getModel('sales/order_address')
+        $billingAddress = Mage::getModel('Mage_Sales_Model_Order_Address')
             ->setData($this->getBillingAddressInfo())
             ->setId(null);
 
         $shippingInfo = $this->getShippingAddressInfo();
-        $shippingAddress = Mage::getModel('sales/order_address')
+        $shippingAddress = Mage::getModel('Mage_Sales_Model_Order_Address')
             ->setData($shippingInfo)
             ->setId(null);
 
-        $payment = Mage::getModel('sales/order_payment')
+        $payment = Mage::getModel('Mage_Sales_Model_Order_Payment')
             ->setMethod($this->getMethodCode());
 
         $transferDataKays = array(
@@ -695,7 +695,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
         $shippingAmount = $itemInfo->getShippingAmount() ? $itemInfo->getShippingAmount() : $this->getShippingAmount();
         $taxAmount = $itemInfo->getTaxAmount() ? $itemInfo->getTaxAmount() : $this->getTaxAmount();
 
-        $item = Mage::getModel('sales/order_item')
+        $item = Mage::getModel('Mage_Sales_Model_Order_Item')
             ->setData($this->getOrderItemInfo())
             ->setQtyOrdered($this->getInfoValue('order_item_info', 'qty'))
             ->setBaseOriginalPrice($this->getInfoValue('order_item_info', 'price'))
@@ -746,7 +746,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
         $price = $itemInfo->getPrice() ? $itemInfo->getPrice() : $this->getInitAmount();
         $shippingAmount = $itemInfo->getShippingAmount() ? $itemInfo->getShippingAmount() : 0;
         $taxAmount = $itemInfo->getTaxAmount() ? $itemInfo->getTaxAmount() : 0;
-        $item = Mage::getModel('sales/order_item')
+        $item = Mage::getModel('Mage_Sales_Model_Order_Item')
             ->setStoreId($this->getStoreId())
             ->setProductType(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL)
             ->setIsVirtual(1)

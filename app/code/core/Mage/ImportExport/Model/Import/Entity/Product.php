@@ -300,7 +300,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _deleteProducts()
     {
-        $productEntityTable = Mage::getModel('importexport/import_proxy_product_resource')->getEntityTable();
+        $productEntityTable = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')->getEntityTable();
 
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             $idToDelete = array();
@@ -403,7 +403,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     protected function _initSkus()
     {
         $columns = array('entity_id', 'type_id', 'attribute_set_id', 'sku');
-        foreach (Mage::getModel('catalog/product')->getProductEntitiesInfo($columns) as $info) {
+        foreach (Mage::getModel('Mage_Catalog_Model_Product')->getProductEntitiesInfo($columns) as $info) {
             $typeId = $info['type_id'];
             $sku = $info['sku'];
             $this->_oldSku[$sku] = array(
@@ -969,7 +969,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         static $tableName = null;
 
         if (!$tableName) {
-            $tableName = Mage::getModel('importexport/import_proxy_product_resource')->getProductCategoryTable();
+            $tableName = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')->getProductCategoryTable();
         }
         if ($categoriesData) {
             $categoriesIn = array();
@@ -1008,7 +1008,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         static $entityTable = null;
 
         if (!$entityTable) {
-            $entityTable = Mage::getModel('importexport/import_proxy_product_resource')->getEntityTable();
+            $entityTable = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')->getEntityTable();
         }
         if ($entityRowsUp) {
             $this->_connection->insertOnDuplicate(
@@ -1039,7 +1039,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     protected function _saveProducts()
     {
         /** @var $resource Mage_ImportExport_Model_Import_Proxy_Product_Resource */
-        $resource       = Mage::getModel('importexport/import_proxy_product_resource');
+        $resource       = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource');
         $priceIsGlobal  = Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal();
         $strftimeFormat = Varien_Date::convertZendToStrftime(Varien_Date::DATETIME_INTERNAL_FORMAT, true, true);
         $productLimit   = null;
@@ -1153,7 +1153,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                     }
                 }
                 $rowData      = $this->_productTypeModels[$productType]->prepareAttributesForSave($rowData);
-                $product      = Mage::getModel('importexport/import_proxy_product', $rowData);
+                $product      = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product', $rowData);
 
                 foreach ($rowData as $attrCode => $attrValue) {
                     $attribute = $resource->getAttribute($attrCode);
@@ -1218,7 +1218,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         static $tableName = null;
 
         if (!$tableName) {
-            $tableName = Mage::getModel('importexport/import_proxy_product_resource')
+            $tableName = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')
                     ->getTable('catalog_product_entity_tier_price');
         }
         if ($tierPriceData) {
@@ -1306,12 +1306,12 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         static $productId = null;
 
         if (!$mediaGalleryTableName) {
-            $mediaGalleryTableName = Mage::getModel('importexport/import_proxy_product_resource')
+            $mediaGalleryTableName = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')
                     ->getTable('catalog_product_entity_media_gallery');
         }
 
         if (!$mediaValueTableName) {
-            $mediaValueTableName = Mage::getModel('importexport/import_proxy_product_resource')
+            $mediaValueTableName = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')
                     ->getTable('catalog_product_entity_media_gallery_value');
         }
 
@@ -1383,7 +1383,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         static $tableName = null;
 
         if (!$tableName) {
-            $tableName = Mage::getModel('importexport/import_proxy_product_resource')->getProductWebsiteTable();
+            $tableName = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')->getProductWebsiteTable();
         }
         if ($websiteData) {
             $websitesData = array();
@@ -1467,7 +1467,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                 $row['product_id'] = $this->_newSku[$rowData[self::COL_SKU]]['entity_id'];
                 $row['stock_id'] = 1;
                 /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-                $stockItem = Mage::getModel('cataloginventory/stock_item', $row);
+                $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item', $row);
 
                 if ($helper->isQty($this->_newSku[$rowData[self::COL_SKU]]['type_id'])) {
                     if ($stockItem->verifyNotification()) {

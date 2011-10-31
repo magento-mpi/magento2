@@ -42,8 +42,8 @@ class Mage_XmlConnect_Block_Catalog_Search extends Mage_XmlConnect_Block_Catalog
      */
     protected function _toHtml()
     {
-        $searchXmlObject  = Mage::getModel('xmlconnect/simplexml_element', '<search></search>');
-        $filtersXmlObject = Mage::getModel('xmlconnect/simplexml_element', '<filters></filters>');
+        $searchXmlObject  = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<search></search>');
+        $filtersXmlObject = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<filters></filters>');
 
         $helper = Mage::helper('Mage_CatalogSearch_Helper_Data');
         if (method_exists($helper, 'getEngine')) {

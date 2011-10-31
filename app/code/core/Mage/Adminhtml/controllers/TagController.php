@@ -51,7 +51,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     protected function _initTag()
     {
-        $model = Mage::getModel('tag/tag');
+        $model = Mage::getModel('Mage_Tag_Model_Tag');
         $storeId = $this->getRequest()->getParam('store');
         $model->setStoreId($storeId);
 
@@ -171,7 +171,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 
             if (isset($postData['tag_assigned_products'])) {
                 $productIds = Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($postData['tag_assigned_products']);
-                $tagRelationModel = Mage::getModel('tag/tag_relation');
+                $tagRelationModel = Mage::getModel('Mage_Tag_Model_Tag_Relation');
                 $tagRelationModel->addRelations($model, $productIds);
             }
 
@@ -294,7 +294,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         } else {
             try {
                 foreach ($tagIds as $tagId) {
-                    $tag = Mage::getModel('tag/tag')->load($tagId);
+                    $tag = Mage::getModel('Mage_Tag_Model_Tag')->load($tagId);
                     $tag->delete();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
@@ -322,7 +322,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         } else {
             try {
                 foreach ($tagIds as $tagId) {
-                    $tag = Mage::getModel('tag/tag')
+                    $tag = Mage::getModel('Mage_Tag_Model_Tag')
                         ->load($tagId)
                         ->setStatus($this->getRequest()->getParam('status'));
                      $tag->save();

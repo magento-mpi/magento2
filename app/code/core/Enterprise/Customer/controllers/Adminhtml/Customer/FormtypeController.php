@@ -66,7 +66,7 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
      */
     protected function _initFormType()
     {
-        $model  = Mage::getModel('eav/form_type');
+        $model  = Mage::getModel('Mage_Eav_Model_Form_Type');
         $typeId = $this->getRequest()->getParam('type_id');
         if (is_numeric($typeId)) {
             $model->load($typeId);
@@ -102,7 +102,7 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
         if ($skeleton->getId()) {
             try {
                 $hasError = false;
-                $formType = Mage::getModel('eav/form_type');
+                $formType = Mage::getModel('Mage_Eav_Model_Form_Type');
                 $formType->addData(array(
                     'code'          => $skeleton->getCode(),
                     'label'         => $this->getRequest()->getPost('label'),
@@ -154,10 +154,10 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
      */
     protected function _saveTreeData($formType, array $data)
     {
-        $fieldsetCollection = Mage::getModel('eav/form_fieldset')->getCollection()
+        $fieldsetCollection = Mage::getModel('Mage_Eav_Model_Form_Fieldset')->getCollection()
             ->addTypeFilter($formType)
             ->setSortOrder();
-        $elementCollection = Mage::getModel('eav/form_element')->getCollection()
+        $elementCollection = Mage::getModel('Mage_Eav_Model_Form_Element')->getCollection()
             ->addTypeFilter($formType)
             ->setSortOrder();
 
@@ -196,7 +196,7 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
         // insert new fieldsets
         $fsMap = array();
         foreach ($fsInsert as $fsData) {
-            $fieldset = Mage::getModel('eav/form_fieldset');
+            $fieldset = Mage::getModel('Mage_Eav_Model_Form_Fieldset');
             $fieldset->setTypeId($formType->getId())
                 ->setCode($fsData['code'])
                 ->setLabels($fsData['labels'])

@@ -200,7 +200,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         if ($entity instanceof Mage_Eav_Model_Entity_Abstract) {
             $this->_entity = $entity;
         } elseif (is_string($entity) || $entity instanceof Mage_Core_Model_Config_Element) {
-            $this->_entity = Mage::getModel('eav/entity')->setType($entity);
+            $this->_entity = Mage::getModel('Mage_Eav_Model_Entity')->setType($entity);
         } else {
             throw Mage::exception('Mage_Eav', Mage::helper('Mage_Eav_Helper_Data')->__('Invalid entity supplied: %s', print_r($entity, 1)));
         }
@@ -628,7 +628,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
             if (isset($this->_joinEntities[$entity])) {
                 $entity = $this->_joinEntities[$entity];
             } else {
-                $entity = Mage::getModel('eav/entity')->setType($attrArr[0]);
+                $entity = Mage::getModel('Mage_Eav_Model_Entity')->setType($attrArr[0]);
             }
         }
         if (!$entity || !$entity->getTypeId()) {

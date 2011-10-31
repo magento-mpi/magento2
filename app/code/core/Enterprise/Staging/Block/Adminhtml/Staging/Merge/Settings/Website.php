@@ -93,7 +93,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Merge_Settings_Website extends 
      */
     public function getWebsiteCollection()
     {
-        $collection = Mage::getModel('core/website')
+        $collection = Mage::getModel('Mage_Core_Model_Website')
             ->getResourceCollection()
             ->addFieldToFilter('website_id',array('nin'=>array(0, $this->getStaging()->getStagingWebsiteId())));
 

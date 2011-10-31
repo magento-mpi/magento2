@@ -48,7 +48,7 @@ class Mage_Sales_Block_Recurring_Profiles extends Mage_Core_Block_Template
         $this->setChild('pager', $pager);
 
         /* @var $profile Mage_Sales_Model_Recurring_Profile */
-        $profile = Mage::getModel('sales/recurring_profile');
+        $profile = Mage::getModel('Mage_Sales_Model_Recurring_Profile');
 
         $this->setGridColumns(array(
             new Varien_Object(array(
@@ -109,7 +109,7 @@ class Mage_Sales_Block_Recurring_Profiles extends Mage_Core_Block_Template
      */
     protected function _prepareProfiles($fields = '*')
     {
-        $this->_profiles = Mage::getModel('sales/recurring_profile')->getCollection()
+        $this->_profiles = Mage::getModel('Mage_Sales_Model_Recurring_Profile')->getCollection()
             ->addFieldToFilter('customer_id', Mage::registry('current_customer')->getId())
             ->addFieldToSelect($fields)
             ->setOrder('profile_id', 'desc')

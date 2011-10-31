@@ -80,7 +80,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     protected function _getApi()
     {
         if ($this->_api === null) {
-            $this->_api = Mage::getModel('enterprise_pbridge/payment_method_pbridge_api');
+            $this->_api = Mage::getModel('Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api');
             $this->_api->setMethodInstance($this);
         }
         return $this->_api;
@@ -405,7 +405,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             $result['street2'] = $street2;
         }
         //Region code lookup
-        $region = Mage::getModel('directory/region')->load($address->getData('region_id'));
+        $region = Mage::getModel('Mage_Directory_Model_Region')->load($address->getData('region_id'));
         if ($region && $region->getId()) {
             $result['region'] = $region->getCode();
         }

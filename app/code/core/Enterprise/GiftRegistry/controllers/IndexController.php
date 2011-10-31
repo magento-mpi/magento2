@@ -146,7 +146,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
         if ($itemId) {
             try {
                 $entity = $this->_initEntity('entity');
-                $wishlistItem = Mage::getModel('wishlist/item')
+                $wishlistItem = Mage::getModel('Mage_Wishlist_Model_Item')
                     ->loadWithOptions($itemId, 'info_buyRequest');
                 $entity->addItem($wishlistItem->getProductId(), $wishlistItem->getBuyRequest());
                 $this->_getSession()->addSuccess(
@@ -154,7 +154,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                 );
             } catch (Mage_Core_Exception $e) {
                 if ($e->getCode() == Enterprise_GiftRegistry_Model_Entity::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
-                    $product = Mage::getModel('catalog/product')->load((int)$wishlistItem->getProductId());
+                    $product = Mage::getModel('Mage_Catalog_Model_Product')->load((int)$wishlistItem->getProductId());
                     $query['options'] = Enterprise_GiftRegistry_Block_Product_View::FLAG;
                     $query['entity'] = $this->getRequest()->getParam('entity');
                     $this->_redirectUrl($product->getUrlModel()->getUrl($product, array('_query' => $query)));
@@ -262,7 +262,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
             if ($entity->getId()) {
                 $items = $this->getRequest()->getParam('items');
                 foreach ($items as $id => $item) {
-                    $model = Mage::getModel('enterprise_giftregistry/item')->load($id);
+                    $model = Mage::getModel('Enterprise_GiftRegistry_Model_Item')->load($id);
 
                     if ($model->getId() && $model->getEntityId() == $entity->getId()) {
                         if (isset($item['delete'])) {
@@ -380,7 +380,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
      */
     protected function _getActiveEntity()
     {
-        return Mage::getModel('enterprise_giftregistry/entity')
+        return Mage::getModel('Enterprise_GiftRegistry_Model_Entity')
             ->getActiveEntity($this->_getSession()->getCustomerId());
     }
 
@@ -519,7 +519,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                 }
                 if ($isAddAction) {
                     $entityId = null;
-                    $model = Mage::getModel('enterprise_giftregistry/entity');
+                    $model = Mage::getModel('Enterprise_GiftRegistry_Model_Entity');
                     if ($model->setTypeById($typeId) === false) {
                         Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Incorrect Type.'));
                     }
@@ -539,7 +539,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                     foreach  ($registrantsPost as $index => $registrant) {
                         if (is_array($registrant)) {
                             /* @var $person Enterprise_GiftRegistry_Model_Person */
-                            $person = Mage::getModel('enterprise_giftregistry/person');
+                            $person = Mage::getModel('Enterprise_GiftRegistry_Model_Person');
                             $idField = $person->getIdFieldName();
                             if (!empty($registrant[$idField])) {
                                 $person->load($registrant[$idField]);
@@ -567,7 +567,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                     // creating new address
                     if (!empty($data['address'])) {
                         /* @var $address Mage_Customer_Model_Address */
-                        $address = Mage::getModel('customer/address');
+                        $address = Mage::getModel('Mage_Customer_Model_Address');
                         $address->setData($data['address']);
                         $errors = $address->validate();
                         $model->importAddress($address);
@@ -613,7 +613,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                         $personLeft[] = $person->getId();
                     }
                     if (!$isAddAction) {
-                        Mage::getModel('enterprise_giftregistry/person')
+                        Mage::getModel('Enterprise_GiftRegistry_Model_Person')
                             ->getResource()
                             ->deleteOrphan($entityId, $personLeft);
                     }
@@ -652,7 +652,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
      */
     protected function _initEntity($requestParam = 'id')
     {
-        $entity = Mage::getModel('enterprise_giftregistry/entity');
+        $entity = Mage::getModel('Enterprise_GiftRegistry_Model_Entity');
         $customerId = $this->_getSession()->getCustomerId();
 
         if ($entityId = $this->getRequest()->getParam($requestParam)) {

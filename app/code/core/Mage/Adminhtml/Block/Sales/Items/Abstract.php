@@ -539,7 +539,7 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
         $canReturnToStock = Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT);
         if (!is_null($item)) {
             if (!$item->hasCanReturnToStock()) {
-                $product = Mage::getModel('catalog/product')->load($item->getOrderItem()->getProductId());
+                $product = Mage::getModel('Mage_Catalog_Model_Product')->load($item->getOrderItem()->getProductId());
                 if ( $product->getId() && $product->getStockItem()->getManageStock() ) {
                     $item->setCanReturnToStock(true);
                 }

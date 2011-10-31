@@ -209,7 +209,7 @@ class Phoenix_Moneybookers_Model_Event
             Mage::throwException('Missing or invalid order ID.');
         }
         // load order for further validation
-        $this->_order = Mage::getModel('sales/order')->loadByIncrementId($params['transaction_id']);
+        $this->_order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($params['transaction_id']);
         if (!$this->_order->getId()) {
             Mage::throwException('Order not found.');
         }

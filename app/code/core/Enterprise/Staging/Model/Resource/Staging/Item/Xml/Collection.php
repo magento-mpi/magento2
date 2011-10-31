@@ -89,7 +89,7 @@ class Enterprise_Staging_Model_Resource_Staging_Item_Xml_Collection extends Vari
 
         $_code = (string) $stagingItem->getName();
 
-        $item = Mage::getModel('enterprise_staging/staging_item')
+        $item = Mage::getModel('Enterprise_Staging_Model_Staging_Item')
             ->loadFromXmlStagingItem($stagingItem);
 
         $disabled = false;

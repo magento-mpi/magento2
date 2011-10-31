@@ -153,7 +153,7 @@ class Mage_Rating_Model_Resource_Rating_Option_Vote_Collection extends Mage_Core
             return $this;
         }
         foreach ($this->getItems() as $item) {
-            $options = Mage::getModel('rating/rating_option')
+            $options = Mage::getModel('Mage_Rating_Model_Rating_Option')
                     ->getResourceCollection()
                     ->addRatingFilter($item->getRatingId())
                     ->load();

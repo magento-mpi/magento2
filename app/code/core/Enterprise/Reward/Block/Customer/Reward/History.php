@@ -143,7 +143,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
     {
         if (!$this->_collection) {
             $websiteId = Mage::app()->getWebsite()->getId();
-            $this->_collection = Mage::getModel('enterprise_reward/reward_history')->getCollection()
+            $this->_collection = Mage::getModel('Enterprise_Reward_Model_Reward_History')->getCollection()
                 ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
                 ->addWebsiteFilter($websiteId)
                 ->setExpiryConfig(Mage::helper('Enterprise_Reward_Helper_Data')->getExpiryConfig())

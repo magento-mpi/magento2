@@ -52,7 +52,7 @@ class Mage_Paypal_Block_Payment_Info extends Mage_Payment_Block_Info_Cc
     {
         $transport = parent::_prepareSpecificInformation($transport);
         $payment = $this->getInfo();
-        $paypalInfo = Mage::getModel('paypal/info');
+        $paypalInfo = Mage::getModel('Mage_Paypal_Model_Info');
         if (!$this->getIsSecureMode()) {
             $info = $paypalInfo->getPaymentInfo($payment, true);
         } else {

@@ -60,7 +60,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
              ->_title($this->__('Permissions'))
              ->_title($this->__('Roles'));
 
-        $role = Mage::getModel('admin/roles')->load($this->getRequest()->getParam($requestVariable));
+        $role = Mage::getModel('Mage_Admin_Model_Roles')->load($this->getRequest()->getParam($requestVariable));
         // preventing edit of relation role
         if ($role->getId() && $role->getRoleType() != 'G') {
             $role->unsetData($role->getIdFieldName());
@@ -136,7 +136,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
     {
         $rid = $this->getRequest()->getParam('rid', false);
 
-        $currentUser = Mage::getModel('admin/user')->setId(Mage::getSingleton('admin/session')->getUser()->getId());
+        $currentUser = Mage::getModel('Mage_Admin_Model_User')->setId(Mage::getSingleton('admin/session')->getUser()->getId());
 
         if (in_array($rid, $currentUser->getRoles()) ) {
             Mage::getSingleton('adminhtml/session')->addError($this->__('Self-assigned roles cannot be deleted.'));
@@ -189,7 +189,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
             Mage::dispatchEvent('admin_permissions_role_prepare_save', array('object' => $role, 'request' => $this->getRequest()));
             $role->save();
 
-            Mage::getModel("admin/rules")
+            Mage::getModel('Mage_Admin_Model_Rules')
                 ->setRoleId($role->getId())
                 ->setResources($resource)
                 ->saveRel();
@@ -234,7 +234,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
     protected function _deleteUserFromRole($userId, $roleId)
     {
         try {
-            Mage::getModel("admin/user")
+            Mage::getModel('Mage_Admin_Model_User')
                 ->setRoleId($roleId)
                 ->setUserId($userId)
                 ->deleteFromRole();
@@ -254,7 +254,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
      */
     protected function _addUserToRole($userId, $roleId)
     {
-        $user = Mage::getModel("admin/user")->load($userId);
+        $user = Mage::getModel('Mage_Admin_Model_User')->load($userId);
         $user->setRoleId($roleId)->setUserId($userId);
 
         if( $user->roleUserExists() === true ) {

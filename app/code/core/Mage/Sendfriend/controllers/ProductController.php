@@ -78,7 +78,7 @@ class Mage_Sendfriend_ProductController extends Mage_Core_Controller_Front_Actio
         if (!$productId) {
             return false;
         }
-        $product = Mage::getModel('catalog/product')
+        $product = Mage::getModel('Mage_Catalog_Model_Product')
             ->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             return false;
@@ -95,7 +95,7 @@ class Mage_Sendfriend_ProductController extends Mage_Core_Controller_Front_Actio
      */
     protected function _initSendToFriendModel()
     {
-        $model  = Mage::getModel('sendfriend/sendfriend');
+        $model  = Mage::getModel('Mage_Sendfriend_Model_Sendfriend');
         $model->setRemoteAddr(Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(true));
         $model->setCookie(Mage::app()->getCookie());
         $model->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
@@ -162,7 +162,7 @@ class Mage_Sendfriend_ProductController extends Mage_Core_Controller_Front_Actio
 
         $categoryId = $this->getRequest()->getParam('cat_id', null);
         if ($categoryId) {
-            $category = Mage::getModel('catalog/category')
+            $category = Mage::getModel('Mage_Catalog_Model_Category')
                 ->load($categoryId);
             $product->setCategory($category);
             Mage::register('current_category', $category);

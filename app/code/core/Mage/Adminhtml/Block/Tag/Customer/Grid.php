@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Tag_Customer_Grid extends Mage_Adminhtml_Block_Widget
     {
         $tagId = Mage::registry('current_tag')->getId();
         $storeId = Mage::registry('current_tag')->getStoreId();
-        $collection = Mage::getModel('tag/tag')
+        $collection = Mage::getModel('Mage_Tag_Model_Tag')
             ->getCustomerCollection()
             ->addTagFilter($tagId)
             ->setCountAttribute('tr.tag_relation_id')

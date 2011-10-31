@@ -306,7 +306,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
             $address = $this->getCustomer()->getAddressById($addressId);
             if ($address->getId()) {
                 if (!$quoteAddress = $this->getQuote()->getShippingAddressByCustomerAddressId($address->getId())) {
-                    $quoteAddress = Mage::getModel('sales/quote_address')->importCustomerAddress($address);
+                    $quoteAddress = Mage::getModel('Mage_Sales_Model_Quote_Address')->importCustomerAddress($address);
                     $this->getQuote()->addShippingAddress($quoteAddress);
                 }
 

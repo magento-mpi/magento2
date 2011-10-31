@@ -145,7 +145,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer_Address extends Mage_Import
 
         $this->_initAttributes()->_initCountryRegions();
 
-        $this->_entityTable = Mage::getModel('customer/address')->getResource()->getEntityTable();
+        $this->_entityTable = Mage::getModel('Mage_Customer_Model_Address')->getResource()->getEntityTable();
         $this->_customer    = $customer;
 
         foreach ($this->_messageTemplates as $errorCode => $message) {
@@ -161,9 +161,9 @@ class Mage_ImportExport_Model_Import_Entity_Customer_Address extends Mage_Import
     protected function _importData()
     {
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer       = Mage::getModel('customer/customer');
+        $customer       = Mage::getModel('Mage_Customer_Model_Customer');
         /** @var $resource Mage_Customer_Model_Address */
-        $resource       = Mage::getModel('customer/address');
+        $resource       = Mage::getModel('Mage_Customer_Model_Address');
         $strftimeFormat = Varien_Date::convertZendToStrftime(Varien_Date::DATETIME_INTERNAL_FORMAT, true, true);
         $table = $resource->getResource()->getEntityTable();
         $nextEntityId   = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($table);

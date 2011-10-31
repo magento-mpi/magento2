@@ -73,7 +73,7 @@ $installer->endSetup();
  * Cms Page  with 'home' identifier page modification for report pages
  */
 /** @var $cms Mage_Cms_Model_Page */
-$cms = Mage::getModel('cms/page')->load('home', 'identifier');
+$cms = Mage::getModel('Mage_Cms_Model_Page')->load('home', 'identifier');
 
 $reportLayoutUpdate    = '<!--<reference name="content">
         <block type="Mage_Catalog_Block_Product_New" name="home.catalog.product.new" alias="product_new" template="catalog/product/new.phtml" after="cms_page">

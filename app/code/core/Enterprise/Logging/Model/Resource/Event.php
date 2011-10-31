@@ -78,7 +78,7 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
             $latestLogEntry = $readAdapter->fetchOne($select);
             if ($latestLogEntry) {
                 // make sure folder for dump file will exist
-                $archive = Mage::getModel('enterprise_logging/archive');
+                $archive = Mage::getModel('Enterprise_Logging_Model_Archive');
                 $archive->createNew();
 
                 $expr = Mage::getResourceHelper('Enterprise_Logging')->getInetNtoaExpr('ip');

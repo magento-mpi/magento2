@@ -93,7 +93,7 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
 
         Mage::register('current_category_filter', $this->getCategory(), true);
 
-        $this->_appliedCategory = Mage::getModel('catalog/category')
+        $this->_appliedCategory = Mage::getModel('Mage_Catalog_Model_Category')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($filter);
 
@@ -138,7 +138,7 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
     public function getCategory()
     {
         if (!is_null($this->_categoryId)) {
-            $category = Mage::getModel('catalog/category')
+            $category = Mage::getModel('Mage_Catalog_Model_Category')
                 ->load($this->_categoryId);
             if ($category->getId()) {
                 return $category;

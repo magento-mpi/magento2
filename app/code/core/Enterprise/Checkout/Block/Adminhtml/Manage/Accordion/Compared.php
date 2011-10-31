@@ -58,7 +58,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared
     {
         if (!$this->hasData('items_collection')) {
             $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
-            $collection = Mage::getModel('catalog/product_compare_list')
+            $collection = Mage::getModel('Mage_Catalog_Model_Product_Compare_List')
                 ->getItemCollection()
                 ->useProductItem(true)
                 ->setStoreId($this->_getStore()->getId())

@@ -54,7 +54,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Import Behavior'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Import Behavior'),
             'required'  => true,
-            'values'    => Mage::getModel('importexport/source_import_behavior')->toOptionArray()
+            'values'    => Mage::getModel('Mage_ImportExport_Model_Source_Import_Behavior')->toOptionArray()
         ), 'entity');
 
         $fieldset->addField('force_import', 'select', array(
@@ -67,7 +67,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
         ), 'freq');
 
         $form->getElement('email_template')
-            ->setValues(Mage::getModel('adminhtml/system_config_source_email_template')
+            ->setValues(Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Email_Template')
                 ->setPath('enterprise_importexport_import_failed')
                 ->toOptionArray()
             );

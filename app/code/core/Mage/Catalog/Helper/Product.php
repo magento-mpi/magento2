@@ -58,7 +58,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
             return $product->getProductUrl();
         }
         elseif (is_numeric($product)) {
-            return Mage::getModel('catalog/product')->load($product)->getProductUrl();
+            return Mage::getModel('Mage_Catalog_Model_Product')->load($product)->getProductUrl();
         }
         return false;
     }
@@ -144,7 +144,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     public function getStatuses()
     {
         if(is_null($this->_statuses)) {
-            $this->_statuses = array();//Mage::getModel('catalog/product_status')->getResourceCollection()->load();
+            $this->_statuses = array();//Mage::getModel('Mage_Catalog_Model_Product_Status')->getResourceCollection()->load();
         }
 
         return $this->_statuses;
@@ -159,7 +159,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     public function canShow($product, $where = 'catalog')
     {
         if (is_int($product)) {
-            $product = Mage::getModel('catalog/product')->load($product);
+            $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product);
         }
 
         /* @var $product Mage_Catalog_Model_Product */
@@ -289,7 +289,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
             return false;
         }
 
-        $product = Mage::getModel('catalog/product')
+        $product = Mage::getModel('Mage_Catalog_Model_Product')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($productId);
 
@@ -310,7 +310,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         }
 
         if ($categoryId) {
-            $category = Mage::getModel('catalog/category')->load($categoryId);
+            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
             $product->setCategory($category);
             Mage::register('current_category', $category);
         }
@@ -419,7 +419,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         }
 
         /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         if ($store !== null) {
             $product->setStoreId($store);
         }

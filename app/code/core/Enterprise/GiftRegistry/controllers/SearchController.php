@@ -60,7 +60,7 @@ class Enterprise_GiftRegistry_SearchController extends Mage_Core_Controller_Fron
      */
     protected function _initType($typeId)
     {
-        $type = Mage::getModel('enterprise_giftregistry/type')
+        $type = Mage::getModel('Enterprise_GiftRegistry_Model_Type')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($typeId);
 
@@ -222,7 +222,7 @@ class Enterprise_GiftRegistry_SearchController extends Mage_Core_Controller_Fron
         }
 
         if ($this->_validateSearchParams($params)) {
-            $results = Mage::getModel('enterprise_giftregistry/entity')->getCollection()
+            $results = Mage::getModel('Enterprise_GiftRegistry_Model_Entity')->getCollection()
                 ->applySearchFilters($this->_filterInputParams($params));
 
             $this->getLayout()->getBlock('giftregistry.search.results')

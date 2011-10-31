@@ -206,7 +206,7 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
      */
     public function getOrderItemsCollection($orderId)
     {
-        return Mage::getModel('sales/order_item')
+        return Mage::getModel('Mage_Sales_Model_Order_Item')
             ->getCollection()
             ->addExpressionFieldToSelect(
                 'available_qty',
@@ -245,7 +245,7 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
         $parent = array();
 
         /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
 
         foreach ($orderItemsCollection as $item) {
             /* retrieves only bundle and children by $parentId */

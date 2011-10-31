@@ -289,7 +289,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
      */
     public function types($setId)
     {
-        $attributes = Mage::getModel('catalog/product')->getResource()
+        $attributes = Mage::getModel('Mage_Catalog_Model_Product')->getResource()
                 ->loadAllAttributes()
                 ->getSortedAttributes($setId);
 

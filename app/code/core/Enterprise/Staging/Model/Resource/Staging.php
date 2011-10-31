@@ -212,7 +212,7 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
     {
         $this->_processStagingItemsCallback('backupRun', $staging, $event);
 
-        Mage::getModel('enterprise_staging/staging_action')->saveOnBackupRun($staging, $event);
+        Mage::getModel('Enterprise_Staging_Model_Staging_Action')->saveOnBackupRun($staging, $event);
 
         return $this;
     }

@@ -142,7 +142,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
             if (!$this->isCached('address_item_' . $entity->getProductId())) {
                 $this->setCached(
                     'address_item_' . $entity->getProductId(),
-                    Mage::getModel('catalog/product')
+                    Mage::getModel('Mage_Catalog_Model_Product')
                         ->setStoreId($storeId)
                         ->load($entity->getProductId())
                         ->getGiftMessageAvailable()
@@ -303,7 +303,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
      */
     public function getGiftMessage($messageId=null)
     {
-        $message = Mage::getModel('giftmessage/message');
+        $message = Mage::getModel('Mage_GiftMessage_Model_Message');
         if(!is_null($messageId)) {
             $message->load($messageId);
         }

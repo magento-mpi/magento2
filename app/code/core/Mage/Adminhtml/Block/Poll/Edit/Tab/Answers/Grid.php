@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_Grid extends Mage_Adminhtml_Blo
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('poll/poll_answer')
+        $collection = Mage::getModel('Mage_Poll_Model_Poll_Answer')
             ->getResourceCollection()
             ->addPollFilter($this->getRequest()->getParam('id'));
         $this->setCollection($collection);

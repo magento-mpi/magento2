@@ -53,14 +53,14 @@ class Mage_ImportExport_Block_Adminhtml_Export_Edit_Form extends Mage_Adminhtml_
             'label'    => $helper->__('Entity Type'),
             'required' => false,
             'onchange' => 'editForm.getFilter();',
-            'values'   => Mage::getModel('importexport/source_export_entity')->toOptionArray()
+            'values'   => Mage::getModel('Mage_ImportExport_Model_Source_Export_Entity')->toOptionArray()
         ));
         $fieldset->addField('file_format', 'select', array(
             'name'     => 'file_format',
             'title'    => $helper->__('Export File Format'),
             'label'    => $helper->__('Export File Format'),
             'required' => false,
-            'values'   => Mage::getModel('importexport/source_export_format')->toOptionArray()
+            'values'   => Mage::getModel('Mage_ImportExport_Model_Source_Export_Format')->toOptionArray()
         ));
 
         $form->setUseContainer(true);

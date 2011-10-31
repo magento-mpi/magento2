@@ -73,7 +73,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
              ->_title($this->__('Customer Tax Classes'));
 
         $classId    = $this->getRequest()->getParam('id');
-        $model      = Mage::getModel('tax/class');
+        $model      = Mage::getModel('Mage_Tax_Model_Class');
         if ($classId) {
             $model->load($classId);
             if (!$model->getId() || $model->getClassType() != Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER) {
@@ -114,7 +114,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
     {
         $classId    = $this->getRequest()->getParam('id');
         $session    = Mage::getSingleton('adminhtml/session');
-        $classModel = Mage::getModel('tax/class')
+        $classModel = Mage::getModel('Mage_Tax_Model_Class')
             ->load($classId);
 
         if (!$classModel->getId() || $classModel->getClassType() != Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER) {
@@ -123,7 +123,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
             return;
         }
 
-        $ruleCollection = Mage::getModel('tax/calculation_rule')
+        $ruleCollection = Mage::getModel('Mage_Tax_Model_Calculation_Rule')
             ->getCollection()
             ->setClassTypeFilter(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER, $classId);
 
@@ -133,7 +133,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
             return;
         }
 
-        $customerGroupCollection = Mage::getModel('customer/group')
+        $customerGroupCollection = Mage::getModel('Mage_Customer_Model_Group')
             ->getCollection()
             ->addFieldToFilter('tax_class_id', $classId);
         $groupCount = $customerGroupCollection->getSize();

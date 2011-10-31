@@ -49,7 +49,7 @@ class Mage_Install_Block_Download extends Mage_Install_Block_Abstract
 
     public function getNextUrl()
     {
-        return Mage::getModel('install/wizard')
+        return Mage::getModel('Mage_Install_Model_Wizard')
             ->getStepByName('download')
                 ->getNextUrl();
     }

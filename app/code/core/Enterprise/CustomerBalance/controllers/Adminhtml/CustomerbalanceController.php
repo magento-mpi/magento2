@@ -89,7 +89,7 @@ class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mag
      */
     protected function _initCustomer($idFieldName = 'id')
     {
-        $customer = Mage::getModel('customer/customer')->load((int)$this->getRequest()->getParam($idFieldName));
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load((int)$this->getRequest()->getParam($idFieldName));
         if (!$customer->getId()) {
             Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Failed to initialize customer'));
         }

@@ -84,7 +84,7 @@ class Mage_Core_Helper_File_Storage_Database extends Mage_Core_Helper_Abstract
     public function getStorageDatabaseModel()
     {
         if (is_null($this->_databaseModel)) {
-            $this->_databaseModel = Mage::getModel('core/file_storage_database');
+            $this->_databaseModel = Mage::getModel('Mage_Core_Model_File_Storage_Database');
         }
 
         return $this->_databaseModel;
@@ -200,7 +200,7 @@ class Mage_Core_Helper_File_Storage_Database extends Mage_Core_Helper_Abstract
     public function saveFileToFilesystem($filename) {
         if ($this->checkDbUsage()) {
             /** @var $file Mage_Core_Model_File_Storage_Database */
-            $file = Mage::getModel('core/file_storage_database')
+            $file = Mage::getModel('Mage_Core_Model_File_Storage_Database')
                 ->loadByFilename($this->_removeAbsPathFromFileName($filename));
             if (!$file->getId()) {
                 return false;

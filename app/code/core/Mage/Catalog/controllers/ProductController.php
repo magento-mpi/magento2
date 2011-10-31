@@ -184,7 +184,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         }
 
         try {
-            $imageModel = Mage::getModel('catalog/product_image');
+            $imageModel = Mage::getModel('Mage_Catalog_Model_Product_Image');
             $imageModel->setSize($size)
                 ->setBaseFile($imageFile)
                 /**

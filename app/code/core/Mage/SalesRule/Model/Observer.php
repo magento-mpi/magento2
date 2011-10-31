@@ -39,7 +39,7 @@ class Mage_SalesRule_Model_Observer
     public function getValidator($event)
     {
         if (!$this->_validator) {
-            $this->_validator = Mage::getModel('salesrule/validator')
+            $this->_validator = Mage::getModel('Mage_SalesRule_Model_Validator')
                 ->init($event->getWebsiteId(), $event->getCustomerGroupId(), $event->getCouponCode());
         }
         return $this->_validator;
@@ -77,14 +77,14 @@ class Mage_SalesRule_Model_Observer
             if (!$ruleId) {
                 continue;
             }
-            $rule = Mage::getModel('salesrule/rule');
+            $rule = Mage::getModel('Mage_SalesRule_Model_Rule');
             $rule->load($ruleId);
             if ($rule->getId()) {
                 $rule->setTimesUsed($rule->getTimesUsed() + 1);
                 $rule->save();
 
                 if ($customerId) {
-                    $ruleCustomer = Mage::getModel('salesrule/rule_customer');
+                    $ruleCustomer = Mage::getModel('Mage_SalesRule_Model_Rule_Customer');
                     $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
 
                     if ($ruleCustomer->getId()) {
@@ -101,7 +101,7 @@ class Mage_SalesRule_Model_Observer
             }
         }
 
-        $coupon = Mage::getModel('salesrule/coupon');
+        $coupon = Mage::getModel('Mage_SalesRule_Model_Coupon');
         /** @var Mage_SalesRule_Model_Coupon */
         $coupon->load($order->getCouponCode(), 'code');
         if ($coupon->getId()) {

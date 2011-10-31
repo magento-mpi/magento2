@@ -165,7 +165,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
             if (!Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_Customer')) {
                 return array();
             }
-            $collection = Mage::getModel('customer/group')->getCollection();
+            $collection = Mage::getModel('Mage_Customer_Model_Group')->getCollection();
             $this->_customerGroups = array(
                 Mage_Customer_Model_Group::CUST_GROUP_ALL => Mage::helper('Mage_Catalog_Helper_Data')->__('ALL GROUPS')
             );

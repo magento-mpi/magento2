@@ -60,7 +60,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
         $userId = Mage::getSingleton('admin/session')->getUser()->getId();
 
         /* var $collection Enterprise_Cms_Model_Resource_Version_Collection */
-        $collection = Mage::getModel('enterprise_cms/page_version')->getCollection()
+        $collection = Mage::getModel('Enterprise_Cms_Model_Page_Version')->getCollection()
             ->addPageFilter($this->getPage())
             ->addVisibilityFilter($userId,
                 Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel())

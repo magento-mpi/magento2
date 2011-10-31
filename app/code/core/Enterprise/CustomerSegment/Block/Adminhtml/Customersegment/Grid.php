@@ -52,7 +52,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('enterprise_customersegment/segment')->getCollection();
+        $collection = Mage::getModel('Enterprise_CustomerSegment_Model_Segment')->getCollection();
         $collection->addWebsitesToResult();
         $this->setCollection($collection);
         return parent::_prepareCollection();

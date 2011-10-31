@@ -84,7 +84,7 @@ class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_
     {
         if (!$this->_getData('reward')) {
             /* @var $reward Enterprise_Reward_Model_Reward */
-            $reward = Mage::getModel('enterprise_reward/reward')
+            $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
                 ->setCustomer($this->getQuote()->getCustomer())
                 ->setStore($this->getQuote()->getStore())
                 ->loadByCustomer();

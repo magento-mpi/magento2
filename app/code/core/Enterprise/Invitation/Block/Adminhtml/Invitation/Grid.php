@@ -51,7 +51,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('enterprise_invitation/invitation')->getCollection()
+        $collection = Mage::getModel('Enterprise_Invitation_Model_Invitation')->getCollection()
             ->addWebsiteInformation()->addInviteeInformation();
 
         $this->setCollection($collection);
@@ -121,7 +121,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             'width'   => 150,
         ));
 
-        $groups = Mage::getModel('customer/group')->getCollection()
+        $groups = Mage::getModel('Mage_Customer_Model_Group')->getCollection()
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();

@@ -184,7 +184,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
     protected function _toHtml()
     {
         /** @var $methodsXmlObj Mage_XmlConnect_Model_Simplexml_Element */
-        $methodsXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<payment_methods></payment_methods>');
+        $methodsXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<payment_methods></payment_methods>');
 
         if (is_object(Mage::getConfig()->getNode('modules/Enterprise_GiftCardAccount'))) {
             $this->addGiftcardToXmlObj($methodsXmlObj);

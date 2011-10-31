@@ -98,7 +98,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     public function isAvailable($quote = null)
     {
         $storeId = Mage::app()->getStore($this->getStore())->getId();
-        $config = Mage::getModel('paypal/config')->setStoreId($storeId);
+        $config = Mage::getModel('Mage_Paypal_Model_Config')->setStoreId($storeId);
         if (Mage_Payment_Model_Method_Abstract::isAvailable($quote) && $config->isMethodAvailable($this->getCode())) {
             return true;
         }
@@ -196,7 +196,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     {
         $txnId = $payment->getAdditionalInformation('authorization_id');
         /** @var $transaction Mage_Paypal_Model_Payment_Transaction */
-        $transaction =  Mage::getModel('paypal/payment_transaction');
+        $transaction =  Mage::getModel('Mage_Paypal_Model_Payment_Transaction');
         $transaction->loadByTxnId($txnId);
 
         $payment->setTransactionId($txnId)->setIsTransactionClosed(0);
@@ -258,7 +258,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     {
         $removePaypalTransaction = false;
         /** @var $transaction Mage_Paypal_Model_Payment_Transaction */
-        $transaction =  Mage::getModel('paypal/payment_transaction');
+        $transaction =  Mage::getModel('Mage_Paypal_Model_Payment_Transaction');
         $txnId = $payment->getAdditionalInformation('authorization_id');
         $transaction->loadByTxnId($txnId);
         if ($transaction->getId()) {
@@ -321,7 +321,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     public function getResponse()
     {
         if (!$this->_response) {
-            $this->_response = Mage::getModel('paypal/payflow_request');
+            $this->_response = Mage::getModel('Mage_Paypal_Model_Payflow_Request');
         }
 
         return $this->_response;
@@ -390,7 +390,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         $payment->setAdditionalInformation('authorization_id', $response->getPnref());
 
         /** @var $transaction Mage_Paypal_Model_Payment_Transaction */
-        $transaction =  Mage::getModel('paypal/payment_transaction');
+        $transaction =  Mage::getModel('Mage_Paypal_Model_Payment_Transaction');
         $transaction->setTxnId($response->getPnref());
 
         $transaction->setAdditionalInformation('amt', $response->getAmt());
@@ -448,7 +448,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     {
         $response = $this->getResponse();
 
-        $salesDocument = Mage::getModel('sales/quote')->load($response->getPonum());
+        $salesDocument = Mage::getModel('Mage_Sales_Model_Quote')->load($response->getPonum());
         $salesDocument->getPayment()->setMethod(Mage_Paypal_Model_Config::METHOD_PAYFLOWLINK);
 
         if ($this->_getSecureSilentPostHash($salesDocument->getPayment()) != $response->getUser2()
@@ -565,7 +565,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
       */
     protected function _buildBasicRequest(Varien_Object $payment)
     {
-        $request = Mage::getModel('paypal/payflow_request');
+        $request = Mage::getModel('Mage_Paypal_Model_Payflow_Request');
         $request
             ->setUser($this->getConfigData('user', $this->_getStoreId()))
             ->setVendor($this->getConfigData('vendor', $this->_getStoreId()))

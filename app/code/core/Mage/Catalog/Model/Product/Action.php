@@ -103,9 +103,9 @@ class Mage_Catalog_Model_Product_Action extends Mage_Core_Model_Abstract
         ));
 
         if ($type == 'add') {
-            Mage::getModel('catalog/product_website')->addProducts($websiteIds, $productIds);
+            Mage::getModel('Mage_Catalog_Model_Product_Website')->addProducts($websiteIds, $productIds);
         } else if ($type == 'remove') {
-            Mage::getModel('catalog/product_website')->removeProducts($websiteIds, $productIds);
+            Mage::getModel('Mage_Catalog_Model_Product_Website')->removeProducts($websiteIds, $productIds);
         }
 
         $this->setData(array(

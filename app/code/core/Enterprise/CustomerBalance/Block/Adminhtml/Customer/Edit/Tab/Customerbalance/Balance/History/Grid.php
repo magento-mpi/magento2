@@ -54,7 +54,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('enterprise_customerbalance/balance_history')
+        $collection = Mage::getModel('Enterprise_CustomerBalance_Model_Balance_History')
             ->getCollection()
             ->addFieldToFilter('customer_id', $this->getRequest()->getParam('id'));
         $this->setCollection($collection);

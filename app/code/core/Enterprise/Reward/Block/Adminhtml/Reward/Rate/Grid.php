@@ -51,7 +51,7 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid extends Mage_Adminhtml_
     protected function _prepareCollection()
     {
         /* @var $collection Enterprise_Reward_Model_Resource_Reward_Rate_Collection */
-        $collection = Mage::getModel('enterprise_reward/reward_rate')->getCollection();
+        $collection = Mage::getModel('Enterprise_Reward_Model_Reward_Rate')->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -74,14 +74,14 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid extends Mage_Adminhtml_
             'header'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
             'index'   => 'website_id',
             'type'    => 'options',
-            'options' => Mage::getModel('enterprise_reward/source_website')->toOptionArray()
+            'options' => Mage::getModel('Enterprise_Reward_Model_Source_Website')->toOptionArray()
         ));
 
         $this->addColumn('customer_group_id', array(
             'header'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Customer Group'),
             'index'   => 'customer_group_id',
             'type'    => 'options',
-            'options' => Mage::getModel('enterprise_reward/source_customer_groups')->toOptionArray()
+            'options' => Mage::getModel('Enterprise_Reward_Model_Source_Customer_Groups')->toOptionArray()
         ));
 
         $this->addColumn('rate', array(

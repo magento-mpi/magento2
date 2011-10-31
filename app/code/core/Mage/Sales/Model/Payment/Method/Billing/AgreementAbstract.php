@@ -58,7 +58,7 @@ abstract class Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract extends
     {
         if (is_null($this->_isAvailable)) {
             if (is_object($quote) && $quote->getCustomer()) {
-                $availableBA = Mage::getModel('sales/billing_agreement')->getAvailableCustomerBillingAgreements(
+                $availableBA = Mage::getModel('Mage_Sales_Model_Billing_Agreement')->getAvailableCustomerBillingAgreements(
                     $quote->getCustomer()->getId()
                 );
                 $isAvailableBA = count($availableBA) > 0;
@@ -90,7 +90,7 @@ abstract class Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract extends
         }
         if ($id) {
             $info = $this->getInfoInstance();
-            $ba = Mage::getModel('sales/billing_agreement')->load($id);
+            $ba = Mage::getModel('Mage_Sales_Model_Billing_Agreement')->load($id);
             if ($ba->getId() && $ba->getCustomerId() == $info->getQuote()->getCustomer()->getId()) {
                 $info->setAdditionalInformation($key, $id)
                     ->setAdditionalInformation(self::PAYMENT_INFO_REFERENCE_ID, $ba->getReferenceId());

@@ -35,7 +35,7 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Combine extends Mage_Rule_Mode
 
     public function getNewChildSelectOptions()
     {
-        $productCondition = Mage::getModel('salesrule/rule_condition_product');
+        $productCondition = Mage::getModel('Mage_SalesRule_Model_Rule_Condition_Product');
         $productAttributes = $productCondition->loadAttributeOptions()->getAttributeOption();
         $pAttributes = array();
         $iAttributes = array();

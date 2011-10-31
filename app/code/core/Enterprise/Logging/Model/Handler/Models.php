@@ -39,7 +39,7 @@ class Enterprise_Logging_Model_Handler_Models
     public function modelSaveAfter($model, $processor)
     {
         $processor->collectId($model);
-        $changes = Mage::getModel('enterprise_logging/event_changes')
+        $changes = Mage::getModel('Enterprise_Logging_Model_Event_Changes')
             ->setOriginalData($model->getOrigData())
             ->setResultData($model->getData());
         return $changes;
@@ -54,7 +54,7 @@ class Enterprise_Logging_Model_Handler_Models
     public function modelDeleteAfter($model, $processor)
     {
         $processor->collectId($model);
-        $changes = Mage::getModel('enterprise_logging/event_changes')
+        $changes = Mage::getModel('Enterprise_Logging_Model_Event_Changes')
             ->setOriginalData($model->getOrigData())
             ->setResultData(null);
         return $changes;

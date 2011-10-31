@@ -175,7 +175,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
 
         // save history action
         if (abs($this->getAmountDelta())) {
-            $history = Mage::getModel('enterprise_customerbalance/balance_history')
+            $history = Mage::getModel('Enterprise_CustomerBalance_Model_Balance_History')
                 ->setBalanceModel($this)
                 ->save();
         }
@@ -197,7 +197,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
             Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Customer ID must be specified.'));
         }
         if (!$this->getCustomer()) {
-            $this->setCustomer(Mage::getModel('customer/customer')->load($this->getCustomerId()));
+            $this->setCustomer(Mage::getModel('Mage_Customer_Model_Customer')->load($this->getCustomerId()));
         }
         if (!$this->getCustomer()->getId()) {
             Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Customer is not set or does not exist.'));

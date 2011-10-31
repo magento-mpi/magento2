@@ -65,7 +65,7 @@ class Mage_Customer_Model_Customer_Api extends Mage_Customer_Model_Api_Resource
     {
         $customerData = $this->_prepareData($customerData);
         try {
-            $customer = Mage::getModel('customer/customer')
+            $customer = Mage::getModel('Mage_Customer_Model_Customer')
                 ->setData($customerData)
                 ->save();
         } catch (Mage_Core_Exception $e) {
@@ -83,7 +83,7 @@ class Mage_Customer_Model_Customer_Api extends Mage_Customer_Model_Api_Resource
      */
     public function info($customerId, $attributes = null)
     {
-        $customer = Mage::getModel('customer/customer')->load($customerId);
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
 
         if (!$customer->getId()) {
             $this->_fault('not_exists');
@@ -114,7 +114,7 @@ class Mage_Customer_Model_Customer_Api extends Mage_Customer_Model_Api_Resource
      */
     public function items($filters)
     {
-        $collection = Mage::getModel('customer/customer')->getCollection()
+        $collection = Mage::getModel('Mage_Customer_Model_Customer')->getCollection()
             ->addAttributeToSelect('*');
 
         if (is_array($filters)) {
@@ -163,7 +163,7 @@ class Mage_Customer_Model_Customer_Api extends Mage_Customer_Model_Api_Resource
     {
         $customerData = $this->_prepareData($customerData);
         
-        $customer = Mage::getModel('customer/customer')->load($customerId);
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
 
         if (!$customer->getId()) {
             $this->_fault('not_exists');
@@ -187,7 +187,7 @@ class Mage_Customer_Model_Customer_Api extends Mage_Customer_Model_Api_Resource
      */
     public function delete($customerId)
     {
-        $customer = Mage::getModel('customer/customer')->load($customerId);
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
 
         if (!$customer->getId()) {
             $this->_fault('not_exists');

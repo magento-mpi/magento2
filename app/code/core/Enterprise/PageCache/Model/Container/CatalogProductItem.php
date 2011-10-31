@@ -193,7 +193,7 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
                 if ($parentBlock) {
                     $productId = $this->_getProductId();
                     if ($productId && !Mage::registry('product')) {
-                        $product = Mage::getModel('catalog/product')
+                        $product = Mage::getModel('Mage_Catalog_Model_Product')
                             ->setStoreId(Mage::app()->getStore()->getId())
                             ->load($productId);
                         if ($product) {
@@ -316,7 +316,7 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
             return '';
         }
 
-        $item = Mage::getModel('catalog/product')
+        $item = Mage::getModel('Mage_Catalog_Model_Product')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($itemId);
 

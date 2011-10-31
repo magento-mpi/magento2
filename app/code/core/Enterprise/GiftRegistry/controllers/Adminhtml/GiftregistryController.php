@@ -52,7 +52,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
      */
     protected function _initType($requestParam = 'id')
     {
-        $type = Mage::getModel('enterprise_giftregistry/type');
+        $type = Mage::getModel('Enterprise_GiftRegistry_Model_Type');
         $type->setStoreId($this->getRequest()->getParam('store', 0));
 
         if ($typeId = $this->getRequest()->getParam($requestParam)) {

@@ -124,7 +124,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
         $orderIds = $this->getRequest()->getPost('order_ids', array());
         $countCancelOrder = 0;
         foreach ($orderIds as $orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             if ($order->canCancel()) {
                 $order->cancel()
                     ->save();
@@ -148,7 +148,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
         $orderIds = $this->getRequest()->getPost('order_ids', array());
         $countHoldOrder = 0;
         foreach ($orderIds as $orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             if ($order->canHold()) {
                 $order->hold()
                     ->save();
@@ -172,7 +172,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
         $orderIds = $this->getRequest()->getPost('order_ids', array());
         $countUnholdOrder = 0;
         foreach ($orderIds as $orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             if ($order->canUnhold()) {
                 $order->unhold()
                     ->save();

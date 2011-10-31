@@ -96,7 +96,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
     protected function _prepareCollection()
     {
         /* @var $collection Mage_Catalog_Model_Resource_Product_Link_Product_Collection */
-        $collection = Mage::getModel('catalog/product_link')->useCrossSellLinks()
+        $collection = Mage::getModel('Mage_Catalog_Model_Product_Link')->useCrossSellLinks()
             ->getProductCollection()
             ->setProduct($this->_getProduct())
             ->addAttributeToSelect('*');
@@ -164,7 +164,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
         ));
 
         $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-            ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getTypeId())
+            ->setEntityTypeFilter(Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 

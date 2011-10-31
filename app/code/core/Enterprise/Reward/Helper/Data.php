@@ -306,7 +306,7 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
     protected function _loadRatesArray()
     {
         $ratesArray = array();
-        $collection = Mage::getModel('enterprise_reward/reward_rate')->getCollection()
+        $collection = Mage::getModel('Enterprise_Reward_Model_Reward_Rate')->getCollection()
             ->addFieldToFilter('direction', Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY);
         foreach ($collection as $rate) {
             $ratesArray[$rate->getCustomerGroupId()][$rate->getWebsiteId()] = $rate;

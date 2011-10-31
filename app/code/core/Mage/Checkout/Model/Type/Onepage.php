@@ -212,7 +212,7 @@ class Mage_Checkout_Model_Type_Onepage
      */
     public function getAddress($addressId)
     {
-        $address = Mage::getModel('customer/address')->load((int)$addressId);
+        $address = Mage::getModel('Mage_Customer_Model_Address')->load((int)$addressId);
         $address->explodeStreetAddress();
         if ($address->getRegionId()) {
             $address->setRegion($address->getRegionId());
@@ -236,13 +236,13 @@ class Mage_Checkout_Model_Type_Onepage
 
         $address = $this->getQuote()->getBillingAddress();
         /* @var $addressForm Mage_Customer_Model_Form */
-        $addressForm = Mage::getModel('customer/form');
+        $addressForm = Mage::getModel('Mage_Customer_Model_Form');
         $addressForm->setFormCode('customer_address_edit')
             ->setEntityType('customer_address')
             ->setIsAjaxRequest(Mage::app()->getRequest()->isAjax());
 
         if (!empty($customerAddressId)) {
-            $customerAddress = Mage::getModel('customer/address')->load($customerAddressId);
+            $customerAddress = Mage::getModel('Mage_Customer_Model_Address')->load($customerAddressId);
             if ($customerAddress->getId()) {
                 if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
                     return array('error' => 1,
@@ -355,7 +355,7 @@ class Mage_Checkout_Model_Type_Onepage
     protected function _validateCustomerData(array $data)
     {
         /* @var $customerForm Mage_Customer_Model_Form */
-        $customerForm    = Mage::getModel('customer/form');
+        $customerForm    = Mage::getModel('Mage_Customer_Model_Form');
         $customerForm->setFormCode('checkout_register')
             ->setIsAjaxRequest(Mage::app()->getRequest()->isAjax());
 
@@ -366,7 +366,7 @@ class Mage_Checkout_Model_Type_Onepage
             $customerData = $quote->getCustomer()->getData();
         } else {
             /* @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('customer/customer');
+            $customer = Mage::getModel('Mage_Customer_Model_Customer');
             $customerForm->setEntity($customer);
             $customerRequest = $customerForm->prepareRequest($data);
             $customerData = $customerForm->extractData($customerRequest);
@@ -449,7 +449,7 @@ class Mage_Checkout_Model_Type_Onepage
         // invoke customer model, if it is registering
         if (self::METHOD_REGISTER == $this->getQuote()->getCheckoutMethod()) {
             // set customer password hash for further usage
-            $customer = Mage::getModel('customer/customer');
+            $customer = Mage::getModel('Mage_Customer_Model_Customer');
             $this->getQuote()->setPasswordHash($customer->encryptPassword($address->getCustomerPassword()));
 
             // validate customer
@@ -502,13 +502,13 @@ class Mage_Checkout_Model_Type_Onepage
         $address = $this->getQuote()->getShippingAddress();
 
         /* @var $addressForm Mage_Customer_Model_Form */
-        $addressForm    = Mage::getModel('customer/form');
+        $addressForm    = Mage::getModel('Mage_Customer_Model_Form');
         $addressForm->setFormCode('customer_address_edit')
             ->setEntityType('customer_address')
             ->setIsAjaxRequest(Mage::app()->getRequest()->isAjax());
 
         if (!empty($customerAddressId)) {
-            $customerAddress = Mage::getModel('customer/address')->load($customerAddressId);
+            $customerAddress = Mage::getModel('Mage_Customer_Model_Address')->load($customerAddressId);
             if ($customerAddress->getId()) {
                 if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
                     return array('error' => 1,
@@ -662,7 +662,7 @@ class Mage_Checkout_Model_Type_Onepage
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        //$customer = Mage::getModel('customer/customer');
+        //$customer = Mage::getModel('Mage_Customer_Model_Customer');
         $customer = $quote->getCustomer();
         /* @var $customer Mage_Customer_Model_Customer */
         $customerBilling = $billing->exportCustomerAddress();
@@ -763,7 +763,7 @@ class Mage_Checkout_Model_Type_Onepage
                 break;
         }
 
-        $service = Mage::getModel('sales/service_quote', $this->getQuote());
+        $service = Mage::getModel('Mage_Sales_Model_Service_Quote', $this->getQuote());
         $service->submitAll();
 
         if ($isNewCustomer) {
@@ -875,7 +875,7 @@ class Mage_Checkout_Model_Type_Onepage
      */
     protected function _customerEmailExists($email, $websiteId = null)
     {
-        $customer = Mage::getModel('customer/customer');
+        $customer = Mage::getModel('Mage_Customer_Model_Customer');
         if ($websiteId) {
             $customer->setWebsiteId($websiteId);
         }
@@ -896,7 +896,7 @@ class Mage_Checkout_Model_Type_Onepage
         $lastId  = $this->getCheckout()->getLastOrderId();
         $orderId = false;
         if ($lastId) {
-            $order = Mage::getModel('sales/order');
+            $order = Mage::getModel('Mage_Sales_Model_Order');
             $order->load($lastId);
             $orderId = $order->getIncrementId();
         }
@@ -941,7 +941,7 @@ class Mage_Checkout_Model_Type_Onepage
 //            break;
 //
 //        case Mage_Sales_Model_Quote::CHECKOUT_METHOD_REGISTER:
-//            $customer = Mage::getModel('customer/customer');
+//            $customer = Mage::getModel('Mage_Customer_Model_Customer');
 //            /* @var $customer Mage_Customer_Model_Customer */
 //
 //            $customerBilling = $billing->exportCustomerAddress();
@@ -1010,9 +1010,9 @@ class Mage_Checkout_Model_Type_Onepage
 //        }
 //
 //        $this->getQuote()->reserveOrderId();
-//        $convertQuote = Mage::getModel('sales/convert_quote');
+//        $convertQuote = Mage::getModel('Mage_Sales_Model_Convert_Quote');
 //        /* @var $convertQuote Mage_Sales_Model_Convert_Quote */
-//        //$order = Mage::getModel('sales/order');
+//        //$order = Mage::getModel('Mage_Sales_Model_Order');
 //        if ($this->getQuote()->isVirtual()) {
 //            $order = $convertQuote->addressToOrder($billing);
 //        }

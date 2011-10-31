@@ -303,7 +303,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
      */
     protected function _isProductComposite($productId)
     {
-        $product = Mage::getModel('catalog/product')->load($productId);
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
         return $product->isComposite();
     }
 

@@ -81,7 +81,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
     public function getCustomerModel()
     {
         if (is_null($this->_customerModel)) {
-            $object = Mage::getModel('customer/customer');
+            $object = Mage::getModel('Mage_Customer_Model_Customer');
             $this->_customerModel = Mage::objects()->save($object);
         }
         return Mage::objects()->load($this->_customerModel);
@@ -95,7 +95,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
     public function getBillingAddressModel()
     {
         if (is_null($this->_billingAddressModel)) {
-            $object = Mage::getModel('customer/address');
+            $object = Mage::getModel('Mage_Customer_Model_Address');
             $this->_billingAddressModel = Mage::objects()->save($object);
         }
         return Mage::objects()->load($this->_billingAddressModel);
@@ -109,7 +109,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
     public function getShippingAddressModel()
     {
         if (is_null($this->_shippingAddressModel)) {
-            $object = Mage::getModel('customer/address');
+            $object = Mage::getModel('Mage_Customer_Model_Address');
             $this->_shippingAddressModel = Mage::objects()->save($object);
         }
         return Mage::objects()->load($this->_shippingAddressModel);
@@ -175,7 +175,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         if (is_null($this->_regions)) {
             $this->_regions = array();
 
-            $collection = Mage::getModel('directory/region')
+            $collection = Mage::getModel('Mage_Directory_Model_Region')
                 ->getCollection();
             foreach ($collection as $region) {
                 if (!isset($this->_regions[$region->getCountryId()])) {
@@ -202,7 +202,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
     {
         if (is_null($this->_customerGroups)) {
             $this->_customerGroups = array();
-            $collection = Mage::getModel('customer/group')
+            $collection = Mage::getModel('Mage_Customer_Model_Group')
                 ->getCollection()
                 ->addFieldToFilter('customer_group_id', array('gt'=> 0));
             foreach ($collection as $group) {
@@ -227,7 +227,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         $this->setVar('entity_type', 'customer/customer');
 
         if (!Mage::registry('Object_Cache_Customer')) {
-            $this->setCustomer(Mage::getModel('customer/customer'));
+            $this->setCustomer(Mage::getModel('Mage_Customer_Model_Customer'));
         }
         //$this->setAddress(Mage::getModel('catalog/'))
 

@@ -229,7 +229,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
     protected function _getProduct()
     {
         if (!$this->_getData('product')) {
-            $product = Mage::getModel('catalog/product')->load($this->getProductId());
+            $product = Mage::getModel('Mage_Catalog_Model_Product')->load($this->getProductId());
             if (!$product->getId()) {
                 Mage::throwException(
                     Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Invalid product for adding item to quote.'));
@@ -371,18 +371,18 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
     public function addOption($option)
     {
         if (is_array($option)) {
-            $option = Mage::getModel('enterprise_giftregistry/item_option')->setData($option)
+            $option = Mage::getModel('Enterprise_GiftRegistry_Model_Item_Option')->setData($option)
                 ->setItem($this);
         } elseif ($option instanceof Mage_Sales_Model_Quote_Item_Option) {
             // import data from existing quote item option
-            $option = Mage::getModel('enterprise_giftregistry/item_option')->setProduct($option->getProduct())
+            $option = Mage::getModel('Enterprise_GiftRegistry_Model_Item_Option')->setProduct($option->getProduct())
                ->setCode($option->getCode())
                ->setValue($option->getValue())
                ->setItem($this);
         } elseif (($option instanceof Varien_Object)
             && !($option instanceof Enterprise_GiftRegistry_Model_Item_Option)
         ) {
-            $option = Mage::getModel('enterprise_giftregistry/item_option')->setData($option->getData())
+            $option = Mage::getModel('Enterprise_GiftRegistry_Model_Item_Option')->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
         } elseif($option instanceof Enterprise_GiftRegistry_Model_Item_Option) {

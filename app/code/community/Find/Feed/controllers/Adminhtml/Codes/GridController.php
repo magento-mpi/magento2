@@ -87,7 +87,7 @@ class Find_Feed_Adminhtml_Codes_GridController extends Mage_Adminhtml_Controller
         $codeId = $this->getRequest()->getParam('code_id');
         $response = new Varien_Object();
         try {
-            $model  = Mage::getModel('find_feed/codes');
+            $model  = Mage::getModel('Find_Feed_Model_Codes');
             if ($codeId) {
                 $model->load($codeId);
             }
@@ -114,7 +114,7 @@ class Find_Feed_Adminhtml_Codes_GridController extends Mage_Adminhtml_Controller
         if (!empty($idList)) {
             $codes = array();
             foreach ($idList as $id) {
-                $model = Mage::getModel('find_feed/codes');
+                $model = Mage::getModel('Find_Feed_Model_Codes');
                 if ($model->load($id)) {
                     array_push($codes, $model);
                 }

@@ -170,7 +170,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
     public function getProductModel()
     {
         if (is_null($this->_productModel)) {
-            $productModel = Mage::getModel('catalog/product');
+            $productModel = Mage::getModel('Mage_Catalog_Model_Product');
             $this->_productModel = Mage::objects()->save($productModel);
         }
         return Mage::objects()->load($this->_productModel);
@@ -325,7 +325,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
                     $collection = $this->getCollection($storeId);
                     $entity = $collection->getEntity();
 
-                    $model = Mage::getModel('catalog/product');
+                    $model = Mage::getModel('Mage_Catalog_Model_Product');
                     $model->setStoreId($storeId);
                     if (!empty($row['entity_id'])) {
                         $model->load($row['entity_id']);

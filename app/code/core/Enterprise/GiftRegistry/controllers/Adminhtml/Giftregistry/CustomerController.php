@@ -35,7 +35,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
 {
     protected function _initEntity($requestParam = 'id')
     {
-        $entity = Mage::getModel('enterprise_giftregistry/entity');
+        $entity = Mage::getModel('Enterprise_GiftRegistry_Model_Entity');
         if ($entityId = $this->getRequest()->getParam($requestParam)) {
             $entity->load($entityId);
             if (!$entity->getId()) {
@@ -62,7 +62,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
     {
         try {
             $model = $this->_initEntity();
-            $customer = Mage::getModel('customer/customer')->load($model->getCustomerId());
+            $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($model->getCustomerId());
 
             $this->_title($this->__('Customers'))
                 ->_title($this->__('Manage Customers'))
@@ -130,7 +130,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
 
         if (is_array($items)) {
             try {
-                $model = Mage::getModel('enterprise_giftregistry/item');
+                $model = Mage::getModel('Enterprise_GiftRegistry_Model_Item');
                 foreach ($items as $itemId => $data) {
                     if (!empty($data['action'])) {
                         $model->load($itemId);

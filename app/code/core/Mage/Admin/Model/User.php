@@ -185,7 +185,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
     public function getRole()
     {
         if (null === $this->_role) {
-            $this->_role = Mage::getModel('admin/roles');
+            $this->_role = Mage::getModel('Mage_Admin_Model_Roles');
             $roles = $this->getRoles();
             if ($roles && isset($roles[0]) && $roles[0]) {
                 $this->_role->load($roles[0]);
@@ -266,8 +266,8 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
     public function sendPasswordResetConfirmationEmail()
     {
         /** @var $mailer Mage_Core_Model_Email_Template_Mailer */
-        $mailer = Mage::getModel('core/email_template_mailer');
-        $emailInfo = Mage::getModel('core/email_info');
+        $mailer = Mage::getModel('Mage_Core_Model_Email_Template_Mailer');
+        $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
         $emailInfo->addTo($this->getEmail(), $this->getName());
         $mailer->addEmailInfo($emailInfo);
 

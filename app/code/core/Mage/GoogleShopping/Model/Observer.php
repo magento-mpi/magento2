@@ -45,7 +45,7 @@ class Mage_GoogleShopping_Model_Observer
         $items = $this->_getItemsCollection($product);
 
         try {
-            Mage::getModel('googleshopping/massOperations')
+            Mage::getModel('Mage_GoogleShopping_Model_MassOperations')
                 ->synchronizeItems($items);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
             Mage::getSingleton('adminhtml/session')
@@ -67,7 +67,7 @@ class Mage_GoogleShopping_Model_Observer
         $items = $this->_getItemsCollection($product);
 
         try {
-            Mage::getModel('googleshopping/massOperations')
+            Mage::getModel('Mage_GoogleShopping_Model_MassOperations')
                 ->deleteItems($items);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
             Mage::getSingleton('adminhtml/session')

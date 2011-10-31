@@ -66,13 +66,13 @@ class Mage_Adminhtml_Customer_Cart_Product_Composite_CartController extends Mage
             Mage::throwException($this->__('No customer id defined.'));
         }
 
-        $this->_customer = Mage::getModel('customer/customer')
+        $this->_customer = Mage::getModel('Mage_Customer_Model_Customer')
             ->load($customerId);
 
         $quoteItemId = (int) $this->getRequest()->getParam('id');
         $websiteId = (int) $this->getRequest()->getParam('website_id');
 
-        $this->_quote = Mage::getModel('sales/quote')
+        $this->_quote = Mage::getModel('Mage_Sales_Model_Quote')
             ->setWebsite(Mage::app()->getWebsite($websiteId))
             ->loadByCustomer($this->_customer);
 
@@ -97,7 +97,7 @@ class Mage_Adminhtml_Customer_Cart_Product_Composite_CartController extends Mage
 
             $quoteItem = $this->_quoteItem;
 
-            $optionCollection = Mage::getModel('sales/quote_item_option')
+            $optionCollection = Mage::getModel('Mage_Sales_Model_Quote_Item_Option')
                 ->getCollection()
                 ->addItemFilter($quoteItem);
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));

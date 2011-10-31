@@ -53,14 +53,14 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml_
             'title'    => $helper->__('Entity Type'),
             'label'    => $helper->__('Entity Type'),
             'required' => true,
-            'values'   => Mage::getModel('importexport/source_import_entity')->toOptionArray()
+            'values'   => Mage::getModel('Mage_ImportExport_Model_Source_Import_Entity')->toOptionArray()
         ));
         $fieldset->addField('behavior', 'select', array(
             'name'     => 'behavior',
             'title'    => $helper->__('Import Behavior'),
             'label'    => $helper->__('Import Behavior'),
             'required' => true,
-            'values'   => Mage::getModel('importexport/source_import_behavior')->toOptionArray()
+            'values'   => Mage::getModel('Mage_ImportExport_Model_Source_Import_Behavior')->toOptionArray()
         ));
         $fieldset->addField(Mage_ImportExport_Model_Import::FIELD_NAME_SOURCE_FILE, 'file', array(
             'name'     => Mage_ImportExport_Model_Import::FIELD_NAME_SOURCE_FILE,

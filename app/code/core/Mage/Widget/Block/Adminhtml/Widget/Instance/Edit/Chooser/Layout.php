@@ -149,7 +149,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout
     {
         if (empty($this->_layoutHandles)) {
             /* @var $update Mage_Core_Model_Layout_Update */
-            $update = Mage::getModel('core/layout')->getUpdate();
+            $update = Mage::getModel('Mage_Core_Model_Layout')->getUpdate();
             $this->_layoutHandles[''] = Mage::helper('Mage_Widget_Helper_Data')->__('-- Please Select --');
             $this->_collectLayoutHandles($update->getFileLayoutUpdatesXml($area, $package, $theme));
         }

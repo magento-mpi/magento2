@@ -62,7 +62,7 @@ class Mage_Tax_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setup
                     continue;
                 }
 
-                $region     = Mage::getModel('directory/region')->load($rate['tax_region_id']);
+                $region     = Mage::getModel('Mage_Directory_Model_Region')->load($rate['tax_region_id']);
                 $regionName = $region->getCode() ? $region->getCode() : '*';
                 $code       = "{$rate['tax_country_id']}-{$regionName}-{$rate['tax_postcode']}-{$type['type_name']}";
 
@@ -75,7 +75,7 @@ class Mage_Tax_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setup
                         'rate'              => $rateValue,
                     );
 
-                    $newRateModel = Mage::getModel('tax/calculation_rate');
+                    $newRateModel = Mage::getModel('Mage_Tax_Model_Calculation_Rate');
 
                     $newRateModel->setData($insertData)->save();
                     $oldToNewRateIds[$rate['tax_rate_id']] = $newRateModel->getId();
@@ -92,8 +92,8 @@ class Mage_Tax_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setup
             $customerTaxClasses = array($rule['tax_customer_class_id']);
             $productTaxClasses = array($rule['tax_product_class_id']);
 
-            $ctc    = Mage::getModel('tax/class')->load($rule['tax_customer_class_id']);
-            $ptc    = Mage::getModel('tax/class')->load($rule['tax_product_class_id']);
+            $ctc    = Mage::getModel('Mage_Tax_Model_Class')->load($rule['tax_customer_class_id']);
+            $ptc    = Mage::getModel('Mage_Tax_Model_Class')->load($rule['tax_product_class_id']);
             $type   = $rateById[$rule['tax_rate_type_id']];
 
             $rates  = $ratesByType[$rule['tax_rate_type_id']];
@@ -107,7 +107,7 @@ class Mage_Tax_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setup
                 'priority'              => 1,
                 'position'              => 1
             );
-            Mage::getModel('tax/calculation_rule')->setData($ruleData)->save();
+            Mage::getModel('Mage_Tax_Model_Calculation_Rule')->setData($ruleData)->save();
         }
 
         return $this;

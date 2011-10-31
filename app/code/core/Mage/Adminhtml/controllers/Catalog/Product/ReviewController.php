@@ -121,7 +121,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
     public function saveAction()
     {
         if (($data = $this->getRequest()->getPost()) && ($reviewId = $this->getRequest()->getParam('id'))) {
-            $review = Mage::getModel('review/review')->load($reviewId);
+            $review = Mage::getModel('Mage_Review_Model_Review')->load($reviewId);
             $session = Mage::getSingleton('adminhtml/session');
             if (! $review->getId()) {
                 $session->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('The review was removed by another user or does not exist.'));
@@ -130,7 +130,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                     $review->addData($data)->save();
 
                     $arrRatingId = $this->getRequest()->getParam('ratings', array());
-                    $votes = Mage::getModel('rating/rating_option_vote')
+                    $votes = Mage::getModel('Mage_Rating_Model_Rating_Option_Vote')
                         ->getResourceCollection()
                         ->setReviewFilter($reviewId)
                         ->addOptionInfo()
@@ -138,12 +138,12 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                         ->addRatingOptions();
                     foreach ($arrRatingId as $ratingId=>$optionId) {
                         if($vote = $votes->getItemByColumnValue('rating_id', $ratingId)) {
-                            Mage::getModel('rating/rating')
+                            Mage::getModel('Mage_Rating_Model_Rating')
                                 ->setVoteId($vote->getId())
                                 ->setReviewId($review->getId())
                                 ->updateOptionVote($optionId);
                         } else {
-                            Mage::getModel('rating/rating')
+                            Mage::getModel('Mage_Rating_Model_Rating')
                                 ->setRatingId($ratingId)
                                 ->setReviewId($review->getId())
                                 ->addOptionVote($optionId, $review->getEntityPkValue());
@@ -171,7 +171,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
         $session    = Mage::getSingleton('adminhtml/session');
 
         try {
-            Mage::getModel('review/review')->setId($reviewId)
+            Mage::getModel('Mage_Review_Model_Review')->setId($reviewId)
                 ->aggregate()
                 ->delete();
 
@@ -201,7 +201,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
         } else {
             try {
                 foreach ($reviewsIds as $reviewId) {
-                    $model = Mage::getModel('review/review')->load($reviewId);
+                    $model = Mage::getModel('Mage_Review_Model_Review')->load($reviewId);
                     $model->delete();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
@@ -229,7 +229,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
             try {
                 $status = $this->getRequest()->getParam('status');
                 foreach ($reviewsIds as $reviewId) {
-                    $model = Mage::getModel('review/review')->load($reviewId);
+                    $model = Mage::getModel('Mage_Review_Model_Review')->load($reviewId);
                     $model->setStatusId($status)
                         ->save()
                         ->aggregate();
@@ -260,7 +260,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
             try {
                 $stores = $this->getRequest()->getParam('stores');
                 foreach ($reviewsIds as $reviewId) {
-                    $model = Mage::getModel('review/review')->load($reviewId);
+                    $model = Mage::getModel('Mage_Review_Model_Review')->load($reviewId);
                     $model->setSelectStores($stores);
                     $model->save();
                 }
@@ -292,7 +292,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
         $response = new Varien_Object();
         $id = $this->getRequest()->getParam('id');
         if( intval($id) > 0 ) {
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->load($id);
 
             $response->setId($id);
@@ -315,9 +315,9 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                 $data['stores'] = $data['select_stores'];
             }
 
-            $review = Mage::getModel('review/review')->setData($data);
+            $review = Mage::getModel('Mage_Review_Model_Review')->setData($data);
 
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->load($productId);
 
             try {
@@ -330,7 +330,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
                 $arrRatingId = $this->getRequest()->getParam('ratings', array());
                 foreach ($arrRatingId as $ratingId=>$optionId) {
-                    Mage::getModel('rating/rating')
+                    Mage::getModel('Mage_Rating_Model_Rating')
                        ->setRatingId($ratingId)
                        ->setReviewId($review->getId())
                        ->addOptionVote($optionId, $productId);

@@ -131,7 +131,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
     {
         $itemIds = array_keys($this->_items);
         /* @var $optionCollection Mage_Wishlist_Model_Resource_Item_Option_Collection */
-        $optionCollection = Mage::getModel('wishlist/item_option')->getCollection();
+        $optionCollection = Mage::getModel('Mage_Wishlist_Model_Item_Option')->getCollection();
         $optionCollection->addItemFilter($itemIds);
 
         /* @var $item Mage_Wishlist_Model_Item */
@@ -169,7 +169,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
 
         $this->_productIds = array_merge($this->_productIds, array_keys($productIds));
         $attributes = Mage::getSingleton('wishlist/config')->getProductAttributes();
-        $productCollection = Mage::getModel('catalog/product')->getCollection();
+        $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection();
         foreach ($storeIds as $id) {
             $productCollection->addStoreFilter($id);
         }
@@ -404,7 +404,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
         if (!$this->_isProductNameJoined) {
             $entityTypeId = Mage::getResourceModel('Mage_Catalog_Model_Resource_Config')
                     ->getEntityTypeId();
-            $attribute = Mage::getModel('catalog/entity_attribute')
+            $attribute = Mage::getModel('Mage_Catalog_Model_Entity_Attribute')
                 ->loadByCode($entityTypeId, 'name');
 
             $storeId = Mage::app()->getStore()->getId();

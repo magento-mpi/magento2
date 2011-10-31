@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Info extends Mage_Adminhtml_Block_Sa
     public function getCustomerGroupName()
     {
         if ($this->getOrder()) {
-            return Mage::getModel('customer/group')->load((int)$this->getOrder()->getCustomerGroupId())->getCode();
+            return Mage::getModel('Mage_Customer_Model_Group')->load((int)$this->getOrder()->getCustomerGroupId())->getCode();
         }
         return null;
     }
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Info extends Mage_Adminhtml_Block_Sa
         /* @var $config Mage_Eav_Model_Config */
         $config     = Mage::getSingleton('eav/config');
         $entityType = 'customer';
-        $customer   = Mage::getModel('customer/customer');
+        $customer   = Mage::getModel('Mage_Customer_Model_Customer');
         foreach ($config->getEntityAttributeCodes($entityType) as $attributeCode) {
             /* @var $attribute Mage_Customer_Model_Attribute */
             $attribute = $config->getAttribute($entityType, $attributeCode);

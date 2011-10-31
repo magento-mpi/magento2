@@ -97,7 +97,7 @@ class Enterprise_Invitation_Model_Observer
     public function logInvitationSave($model, $processor)
     {
         $processor->collectId($model);
-        return Mage::getModel('enterprise_logging/event_changes')
+        return Mage::getModel('Enterprise_Logging_Model_Event_Changes')
             ->setOrigibalData(array())
             ->setResultData($model->getData());
     }

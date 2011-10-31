@@ -201,14 +201,14 @@ class Enterprise_PromotionPermissions_Model_Observer
             case 'related_catalogrule_banners_grid' :
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditCatalogRules) {
                     $block->getColumn('in_banners')
-                        ->setDisabledValues(Mage::getModel('enterprise_banner/banner')->getCollection()->getAllIds());
+                        ->setDisabledValues(Mage::getModel('Enterprise_Banner_Model_Banner')->getCollection()->getAllIds());
                     $block->getColumn('in_banners')->setDisabled(true);
                 }
                 break;
             case 'related_salesrule_banners_grid' :
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditSalesRules) {
                     $block->getColumn('in_banners')
-                        ->setDisabledValues(Mage::getModel('enterprise_banner/banner')->getCollection()->getAllIds());
+                        ->setDisabledValues(Mage::getModel('Enterprise_Banner_Model_Banner')->getCollection()->getAllIds());
                     $block->getColumn('in_banners')->setDisabled(true);
                 }
                 break;

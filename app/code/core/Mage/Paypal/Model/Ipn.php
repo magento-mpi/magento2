@@ -168,13 +168,13 @@ class Mage_Paypal_Model_Ipn
         if (empty($this->_order)) {
             // get proper order
             $id = $this->_request['invoice'];
-            $this->_order = Mage::getModel('sales/order')->loadByIncrementId($id);
+            $this->_order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($id);
             if (!$this->_order->getId()) {
                 throw new Exception(sprintf('Wrong order ID: "%s".', $id));
             }
             // re-initialize config with the method code and store id
             $methodCode = $this->_order->getPayment()->getMethod();
-            $this->_config = Mage::getModel('paypal/config', array($methodCode, $this->_order->getStoreId()));
+            $this->_config = Mage::getModel('Mage_Paypal_Model_Config', array($methodCode, $this->_order->getStoreId()));
             if (!$this->_config->isMethodActive($methodCode) || !$this->_config->isMethodAvailable()) {
                 throw new Exception(sprintf('Method "%s" is not available.', $methodCode));
             }
@@ -195,7 +195,7 @@ class Mage_Paypal_Model_Ipn
         if (empty($this->_recurringProfile)) {
             // get proper recurring profile
             $internalReferenceId = $this->_request['rp_invoice_id'];
-            $this->_recurringProfile = Mage::getModel('sales/recurring_profile')
+            $this->_recurringProfile = Mage::getModel('Mage_Sales_Model_Recurring_Profile')
                 ->loadByInternalReferenceId($internalReferenceId);
             if (!$this->_recurringProfile->getId()) {
                 throw new Exception(
@@ -683,7 +683,7 @@ class Mage_Paypal_Model_Ipn
         if ($this->_config && $this->_config->debug) {
             $file = $this->_config->getMethodCode() ? "payment_{$this->_config->getMethodCode()}.log"
                 : self::DEFAULT_LOG_FILE;
-            Mage::getModel('core/log_adapter', $file)->log($this->_debugData);
+            Mage::getModel('Mage_Core_Model_Log_Adapter', $file)->log($this->_debugData);
         }
     }
 }

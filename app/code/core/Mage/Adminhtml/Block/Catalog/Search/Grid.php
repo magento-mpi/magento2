@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('catalogsearch/query')
+        $collection = Mage::getModel('Mage_CatalogSearch_Model_Query')
             ->getResourceCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();

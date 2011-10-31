@@ -62,7 +62,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Mage_Adminhtml_B
      */
     protected function _prepareColumns()
     {
-        $profile = Mage::getModel('sales/recurring_profile');
+        $profile = Mage::getModel('Mage_Sales_Model_Recurring_Profile');
 
         $this->addColumn('reference_id', array(
             'header' => $profile->getFieldLabel('reference_id'),

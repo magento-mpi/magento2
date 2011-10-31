@@ -78,7 +78,7 @@ class Mage_Api_Model_Wsdl_Config_Base extends Varien_Simplexml_Config
      */
     public function processFileData($text)
     {
-        $template = Mage::getModel('core/email_template_filter');
+        $template = Mage::getModel('Mage_Core_Model_Email_Template_Filter');
 
         if (null === $this->_wsdlVariables) {
             $this->_wsdlVariables = new Varien_Object();

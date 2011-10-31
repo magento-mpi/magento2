@@ -55,7 +55,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
 
         try {
             /*@var $quote Mage_Sales_Model_Quote*/
-            $quote = Mage::getModel('sales/quote');
+            $quote = Mage::getModel('Mage_Sales_Model_Quote');
             $quote->setStoreId($storeId)
                     ->setIsActive(false)
                     ->setIsMultiShipping(false)
@@ -152,13 +152,13 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
         }
 
         /** @var $customerResource Mage_Checkout_Model_Api_Resource_Customer */
-        $customerResource = Mage::getModel("checkout/api_resource_customer");
+        $customerResource = Mage::getModel('Mage_Checkout_Model_Api_Resource_Customer');
         $isNewCustomer = $customerResource->prepareCustomerForQuote($quote);
 
         try {
             $quote->collectTotals();
             /** @var $service Mage_Sales_Model_Service_Quote */
-            $service = Mage::getModel('sales/service_quote', $quote);
+            $service = Mage::getModel('Mage_Sales_Model_Service_Quote', $quote);
             $service->submitAll();
 
             if ($isNewCustomer) {
@@ -204,7 +204,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
 
         $agreements = array();
         if (Mage::getStoreConfigFlag('checkout/options/enable_agreements')) {
-            $agreementsCollection = Mage::getModel('checkout/agreement')->getCollection()
+            $agreementsCollection = Mage::getModel('Mage_Checkout_Model_Agreement')->getCollection()
                     ->addStoreFilter($storeId)
                     ->addFieldToFilter('is_active', 1);
 

@@ -44,7 +44,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
     public function getDesignCollection()
     {
         if (is_null($this->_designCollection)) {
-            $this->_designCollection = Mage::getModel('enterprise_giftwrapping/wrapping')->getCollection()
+            $this->_designCollection = Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping')->getCollection()
                 ->addStoreAttributesToResult($this->getStore()->getId())
                 ->applyStatusFilter()
                 ->applyWebsiteFilter($this->getStore()->getWebsiteId());

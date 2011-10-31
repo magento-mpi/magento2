@@ -546,7 +546,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     {
         $this->_verifyThisTransactionExists();
         if (null === $this->_paymentObject && $shouldLoad) {
-            $payment = Mage::getModel('sales/order_payment')->load($this->getPaymentId());
+            $payment = Mage::getModel('Mage_Sales_Model_Order_Payment')->load($this->getPaymentId());
             if ($payment->getId()) {
                 $this->setOrderPaymentObject($payment);
             }
@@ -599,7 +599,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
             if (null !== $this->_paymentObject && $this->_paymentObject->getOrder()) {
                 $this->_order = $this->_paymentObject->getOrder();
             } elseif ($this->getOrderId() && $order === null) {
-                $this->_order = Mage::getModel('sales/order')->load($this->getOrderId());
+                $this->_order = Mage::getModel('Mage_Sales_Model_Order')->load($this->getOrderId());
             } else {
                 $this->_order = false;
             }
@@ -645,7 +645,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
                 $this->setOrderId($this->_order->getId());
             }
 
-            $this->setCreatedAt(Mage::getModel('core/date')->gmtDate());
+            $this->setCreatedAt(Mage::getModel('Mage_Core_Model_Date')->gmtDate());
         }
         return parent::_beforeSave();
     }

@@ -81,7 +81,7 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminht
         $customerId = $this->getRequest()->getParam('id', 0);
         if ($customerId) {
             try {
-                Mage::getModel('enterprise_reward/reward')
+                Mage::getModel('Enterprise_Reward_Model_Reward')
                     ->deleteOrphanPointsByCustomer($customerId);
                 $this->_getSession()
                     ->addSuccess(Mage::helper('Enterprise_Reward_Helper_Data')->__('The orphan points have been removed.'));

@@ -97,7 +97,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
 
     public function startAction()
     {
-        $queue = Mage::getModel('newsletter/queue')
+        $queue = Mage::getModel('Mage_Newsletter_Model_Queue')
             ->load($this->getRequest()->getParam('id'));
         if ($queue->getId()) {
             if (!in_array($queue->getQueueStatus(),
@@ -193,7 +193,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
         if ($id) {
             $queue = Mage::registry('current_queue')->load($id);
         } elseif ($templateId) {
-            $template = Mage::getModel('newsletter/template')->load($templateId);
+            $template = Mage::getModel('Mage_Newsletter_Model_Template')->load($templateId);
             $queue = Mage::registry('current_queue')->setTemplateId($template->getId());
         }
 
@@ -217,12 +217,12 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
     {
         try {
             /* @var $queue Mage_Newsletter_Model_Queue */
-            $queue = Mage::getModel('newsletter/queue');
+            $queue = Mage::getModel('Mage_Newsletter_Model_Queue');
 
             $templateId = $this->getRequest()->getParam('template_id');
             if ($templateId) {
                 /* @var $template Mage_Newsletter_Model_Template */
-                $template = Mage::getModel('newsletter/template')->load($templateId);
+                $template = Mage::getModel('Mage_Newsletter_Model_Template')->load($templateId);
 
                 if (!$template->getId() || $template->getIsSystem()) {
                     Mage::throwException($this->__('Wrong newsletter template.'));

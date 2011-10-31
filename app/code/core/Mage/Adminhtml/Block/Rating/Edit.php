@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Rating_Edit extends Mage_Adminhtml_Block_Widget_Form_
 
         if( $this->getRequest()->getParam($this->_objectId) ) {
 
-            $ratingData = Mage::getModel('rating/rating')
+            $ratingData = Mage::getModel('Mage_Rating_Model_Rating')
                 ->load($this->getRequest()->getParam($this->_objectId));
 
             Mage::register('rating_data', $ratingData);

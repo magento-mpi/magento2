@@ -305,7 +305,7 @@ class Mage_Paypal_Model_Express_Checkout
         }
 
         // add line items
-        $paypalCart = Mage::getModel('paypal/cart', array($this->_quote));
+        $paypalCart = Mage::getModel('Mage_Paypal_Model_Cart', array($this->_quote));
         $this->_api->setPaypalCart($paypalCart)
             ->setIsLineItemsEnabled($this->_config->lineItemsEnabled)
         ;
@@ -445,7 +445,7 @@ class Mage_Paypal_Model_Express_Checkout
     public function getShippingOptionsCallbackResponse(array $request)
     {
         // prepare debug data
-        $logger = Mage::getModel('core/log_adapter', 'payment_' . $this->_methodType . '.log');
+        $logger = Mage::getModel('Mage_Core_Model_Log_Adapter', 'payment_' . $this->_methodType . '.log');
         $debugData = array('request' => $request, 'response' => array());
 
         try {
@@ -519,7 +519,7 @@ class Mage_Paypal_Model_Express_Checkout
 
         $this->_ignoreAddressValidation();
         $this->_quote->collectTotals();
-        $service = Mage::getModel('sales/service_quote', $this->_quote);
+        $service = Mage::getModel('Mage_Sales_Model_Service_Quote', $this->_quote);
         $service->submitAll();
         $this->_quote->save();
 
@@ -633,7 +633,7 @@ class Mage_Paypal_Model_Express_Checkout
             return $this;
         }
 
-        if (!Mage::getModel('sales/billing_agreement')->needToCreateForCustomer($this->_customerId)) {
+        if (!Mage::getModel('Mage_Sales_Model_Billing_Agreement')->needToCreateForCustomer($this->_customerId)) {
             return $this;
         }
         $this->_api->setBillingType($this->_api->getBillingAgreementType());

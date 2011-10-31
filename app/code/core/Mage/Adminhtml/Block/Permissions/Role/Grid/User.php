@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
     {
         $roleId = $this->getRequest()->getParam('rid');
         Mage::register('RID', $roleId);
-        $collection = Mage::getModel('admin/roles')->getUsersCollection();
+        $collection = Mage::getModel('Mage_Admin_Model_Roles')->getUsersCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -160,7 +160,7 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
             return $this->getRequest()->getParam('in_role_user');
         }
         $roleId = ( $this->getRequest()->getParam('rid') > 0 ) ? $this->getRequest()->getParam('rid') : Mage::registry('RID');
-        $users  = Mage::getModel('admin/roles')->setId($roleId)->getRoleUsers();
+        $users  = Mage::getModel('Mage_Admin_Model_Roles')->setId($roleId)->getRoleUsers();
         if (sizeof($users) > 0) {
             if ( $json ) {
                 $jsonUsers = Array();

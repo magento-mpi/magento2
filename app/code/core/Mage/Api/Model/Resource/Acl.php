@@ -50,7 +50,7 @@ class Mage_Api_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
      */
     public function loadAcl()
     {
-        $acl = Mage::getModel('api/acl');
+        $acl = Mage::getModel('Mage_Api_Model_Acl');
         $adapter = $this->_getReadAdapter();
 
         Mage::getSingleton('api/config')->loadAclResources($acl);
@@ -88,13 +88,13 @@ class Mage_Api_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
             switch ($role['role_type']) {
                 case Mage_Api_Model_Acl::ROLE_TYPE_GROUP:
                     $roleId = $role['role_type'].$role['role_id'];
-                    $acl->addRole(Mage::getModel('api/acl_role_group', $roleId), $parent);
+                    $acl->addRole(Mage::getModel('Mage_Api_Model_Acl_Role_Group', $roleId), $parent);
                     break;
 
                 case Mage_Api_Model_Acl::ROLE_TYPE_USER:
                     $roleId = $role['role_type'].$role['user_id'];
                     if (!$acl->hasRole($roleId)) {
-                        $acl->addRole(Mage::getModel('api/acl_role_user', $roleId), $parent);
+                        $acl->addRole(Mage::getModel('Mage_Api_Model_Acl_Role_User', $roleId), $parent);
                     } else {
                         $acl->addRoleParent($roleId, $parent);
                     }

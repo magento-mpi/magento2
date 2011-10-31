@@ -207,7 +207,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     public function getMessages($clear=false)
     {
         if (!$this->getData('messages')) {
-            $this->setMessages(Mage::getModel('core/message_collection'));
+            $this->setMessages(Mage::getModel('Mage_Core_Model_Message_Collection'));
         }
 
         if ($clear) {

@@ -77,7 +77,7 @@ class Mage_Review_Model_Observer
         $productCollection = $observer->getEvent()->getCollection();
         if ($productCollection instanceof Varien_Data_Collection) {
             $productCollection->load();
-            Mage::getModel('review/review')->appendSummary($productCollection);
+            Mage::getModel('Mage_Review_Model_Review')->appendSummary($productCollection);
         }
 
         return $this;

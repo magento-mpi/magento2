@@ -71,7 +71,7 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
      */
     protected function _initAttribute()
     {
-        $attribute = Mage::getModel('enterprise_rma/item_attribute');
+        $attribute = Mage::getModel('Enterprise_Rma_Model_Item_Attribute');
         $websiteId = $this->getRequest()->getParam('website');
         if ($websiteId) {
             $attribute->setWebsite($websiteId);
@@ -224,7 +224,7 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
 
                 // add set and group info
                 $data['attribute_set_id']   = $this->_getEntityType()->getDefaultAttributeSetId();
-                $data['attribute_group_id'] = Mage::getModel('eav/entity_attribute_set')
+                $data['attribute_group_id'] = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
                     ->getDefaultGroupId($data['attribute_set_id']);
             }
 

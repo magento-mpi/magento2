@@ -37,7 +37,7 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
     {
         $this->_title($this->__('Customers'))->_title($this->__('Customer Groups'));
 
-        Mage::register('current_group', Mage::getModel('customer/group'));
+        Mage::register('current_group', Mage::getModel('Mage_Customer_Model_Group'));
         $groupId = $this->getRequest()->getParam('id');
         if (!is_null($groupId)) {
             Mage::registry('current_group')->load($groupId);
@@ -99,7 +99,7 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
      */
     public function saveAction()
     {
-        $customerGroup = Mage::getModel('customer/group');
+        $customerGroup = Mage::getModel('Mage_Customer_Model_Group');
         $id = $this->getRequest()->getParam('id');
         if (!is_null($id)) {
             $customerGroup->load($id);
@@ -130,7 +130,7 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
      */
     public function deleteAction()
     {
-        $customerGroup = Mage::getModel('customer/group');
+        $customerGroup = Mage::getModel('Mage_Customer_Model_Group');
         if ($id = (int)$this->getRequest()->getParam('id')) {
             try {
                 $customerGroup->load($id);

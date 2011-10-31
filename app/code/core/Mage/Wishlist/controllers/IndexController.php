@@ -89,7 +89,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
         }
 
         try {
-            $wishlist = Mage::getModel('wishlist/wishlist')
+            $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')
                 ->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer(), true);
             Mage::register('wishlist', $wishlist);
         } catch (Mage_Core_Exception $e) {
@@ -149,7 +149,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
             return;
         }
 
-        $product = Mage::getModel('catalog/product')->load($productId);
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             $session->addError($this->__('Cannot specify product.'));
             $this->_redirect('*/');
@@ -268,7 +268,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
             return;
         }
 
-        $product = Mage::getModel('catalog/product')->load($productId);
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             $session->addError($this->__('Cannot specify product.'));
             $this->_redirect('*/');
@@ -314,7 +314,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
             $updatedItems = 0;
 
             foreach ($post['description'] as $itemId => $description) {
-                $item = Mage::getModel('wishlist/item')->load($itemId);
+                $item = Mage::getModel('Mage_Wishlist_Model_Item')->load($itemId);
                 if ($item->getWishlistId() != $wishlist->getId()) {
                     continue;
                 }
@@ -387,7 +387,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
     {
         $wishlist = $this->_getWishlist();
         $id = (int) $this->getRequest()->getParam('item');
-        $item = Mage::getModel('wishlist/item')->load($id);
+        $item = Mage::getModel('Mage_Wishlist_Model_Item')->load($id);
 
         if($item->getWishlistId() == $wishlist->getId()) {
             try {
@@ -428,7 +428,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
         $itemId = (int) $this->getRequest()->getParam('item');
 
         /* @var $item Mage_Wishlist_Model_Item */
-        $item = Mage::getModel('wishlist/item')->load($itemId);
+        $item = Mage::getModel('Mage_Wishlist_Model_Item')->load($itemId);
 
         if (!$item->getId() || $item->getWishlistId() != $wishlist->getId()) {
             return $this->_redirect('*/*');
@@ -455,7 +455,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
         $redirectUrl = Mage::getUrl('*/*');
 
         try {
-            $options = Mage::getModel('wishlist/item_option')->getCollection()
+            $options = Mage::getModel('Mage_Wishlist_Model_Item_Option')->getCollection()
                     ->addItemFilter(array($itemId));
             $item->setOptions($options->getOptionsByItem($itemId));
 
@@ -550,7 +550,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
 
             $emails = array_unique($emails);
             /* @var $emailModel Mage_Core_Model_Email_Template */
-            $emailModel = Mage::getModel('core/email_template');
+            $emailModel = Mage::getModel('Mage_Core_Model_Email_Template');
 
             foreach($emails as $email) {
                 $emailModel->sendTransactional(
@@ -598,7 +598,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
     {
         try {
             $optionId = $this->getRequest()->getParam('id');
-            $option   = Mage::getModel('wishlist/item_option')->load($optionId);
+            $option   = Mage::getModel('Mage_Wishlist_Model_Item_Option')->load($optionId);
             $hasError = false;
 
             if ($option->getId() && $option->getCode() !== 'info_buyRequest') {

@@ -131,7 +131,7 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
     public function delete()
     {
         $this->_profilerBegin();
-        $collection = Mage::getModel('customer/customer')
+        $collection = Mage::getModel('Mage_Customer_Model_Customer')
             ->getCollection()
             ->addAttributeToSelect('firstname')
             ->addAttributeToSelect('lastname')
@@ -165,8 +165,8 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
 
         $this->_profilerOperationStart();
 
-        $customer = Mage::getModel('customer/customer');
-        $address = Mage::getModel('customer/address');
+        $customer = Mage::getModel('Mage_Customer_Model_Customer');
+        $address = Mage::getModel('Mage_Customer_Model_Address');
 
         $customerInfo = $this->_getInfo();
         $customerAddress = $this->_getAddress();
@@ -290,7 +290,7 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
 //                );
 //            }
 //            unset($collection);
-            $collection = Mage::getModel('directory/region')
+            $collection = Mage::getModel('Mage_Directory_Model_Region')
                 ->getCollection();
             foreach ($collection as $region) {
                 $this->_regions[$region->getId()] = array(
@@ -301,7 +301,7 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
         }
         if (is_null($this->_stores)) {
             $this->_stores = array();
-            $collection = Mage::getModel('core/store')
+            $collection = Mage::getModel('Mage_Core_Model_Store')
                 ->getCollection();
             foreach ($collection as $item) {
                 $this->_stores[$item->getId()] = $item;

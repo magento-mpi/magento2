@@ -74,7 +74,7 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
                     continue;
                 }
                 try {
-                    $invitation = Mage::getModel('enterprise_invitation/invitation')->setData(array(
+                    $invitation = Mage::getModel('Enterprise_Invitation_Model_Invitation')->setData(array(
                         'email'    => $email,
                         'customer' => $customer,
                         'message'  => (isset($data['message']) ? $data['message'] : ''),

@@ -62,7 +62,7 @@ class Enterprise_Reward_Block_Checkout_Payment_Additional extends Mage_Core_Bloc
     public function getReward()
     {
         if (!$this->getData('reward')) {
-            $reward = Mage::getModel('enterprise_reward/reward')
+            $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
                 ->setCustomer($this->getCustomer())
                 ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
                 ->loadByCustomer();

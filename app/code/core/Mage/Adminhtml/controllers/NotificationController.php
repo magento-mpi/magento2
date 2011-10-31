@@ -49,7 +49,7 @@ class Mage_Adminhtml_NotificationController extends Mage_Adminhtml_Controller_Ac
     {
         if ($id = $this->getRequest()->getParam('id')) {
             $session = Mage::getSingleton('adminhtml/session');
-            $model = Mage::getModel('adminnotification/inbox')
+            $model = Mage::getModel('Mage_AdminNotification_Model_Inbox')
                 ->load($id);
 
             if (!$model->getId()) {
@@ -83,7 +83,7 @@ class Mage_Adminhtml_NotificationController extends Mage_Adminhtml_Controller_Ac
         } else {
             try {
                 foreach ($ids as $id) {
-                    $model = Mage::getModel('adminnotification/inbox')
+                    $model = Mage::getModel('Mage_AdminNotification_Model_Inbox')
                         ->load($id);
                     if ($model->getId()) {
                         $model->setIsRead(1)
@@ -106,7 +106,7 @@ class Mage_Adminhtml_NotificationController extends Mage_Adminhtml_Controller_Ac
     {
         if ($id = $this->getRequest()->getParam('id')) {
             $session = Mage::getSingleton('adminhtml/session');
-            $model = Mage::getModel('adminnotification/inbox')
+            $model = Mage::getModel('Mage_AdminNotification_Model_Inbox')
                 ->load($id);
 
             if (!$model->getId()) {
@@ -139,7 +139,7 @@ class Mage_Adminhtml_NotificationController extends Mage_Adminhtml_Controller_Ac
         } else {
             try {
                 foreach ($ids as $id) {
-                    $model = Mage::getModel('adminnotification/inbox')
+                    $model = Mage::getModel('Mage_AdminNotification_Model_Inbox')
                         ->load($id);
                     if ($model->getId()) {
                         $model->setIsRemove(1)

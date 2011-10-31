@@ -93,7 +93,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
     {
         $stores = $this->getData('stores');
         if (is_null($stores)) {
-            $stores = Mage::getModel('core/store')
+            $stores = Mage::getModel('Mage_Core_Model_Store')
                 ->getResourceCollection()
                 ->setLoadDefault(true)
                 ->load();

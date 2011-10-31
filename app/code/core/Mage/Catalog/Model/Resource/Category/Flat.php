@@ -277,7 +277,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
         $nodes = array();
         foreach ($arrNodes as $node) {
             $node['id'] = $node['entity_id'];
-            $nodes[$node['id']] = Mage::getModel('catalog/category')->setData($node);
+            $nodes[$node['id']] = Mage::getModel('Mage_Catalog_Model_Category')->setData($node);
         }
 
         return $nodes;
@@ -334,7 +334,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                 ->where('entity_id = ?', $parentId);
             if ($parentNode = $this->_getReadAdapter()->fetchRow($selectParent)) {
                 $parentNode['id'] = $parentNode['entity_id'];
-                $parentNode = Mage::getModel('catalog/category')->setData($parentNode);
+                $parentNode = Mage::getModel('Mage_Catalog_Model_Category')->setData($parentNode);
                 $this->_nodes[$parentNode->getId()] = $parentNode;
                 $nodes = $this->_loadNodes($parentNode, $recursionLevel, $storeId);
                 $childrenItems = array();
@@ -376,7 +376,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                 ->where('mt.entity_id = ?', $parent);
             $parentPath = $this->_getReadAdapter()->fetchOne($select);
 
-            $collection = Mage::getModel('catalog/category')->getCollection()
+            $collection = Mage::getModel('Mage_Catalog_Model_Category')->getCollection()
                 ->addNameToResult()
                 ->addUrlRewriteToResult()
                 ->addParentPathFilter($parentPath)
@@ -1031,8 +1031,8 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
             'children_count',
             'updated_at'
         );
-        $prevParent = Mage::getModel('catalog/category')->load($prevParentId);
-        $parent = Mage::getModel('catalog/category')->load($parentId);
+        $prevParent = Mage::getModel('Mage_Catalog_Model_Category')->load($prevParentId);
+        $parent = Mage::getModel('Mage_Catalog_Model_Category')->load($parentId);
         if ($prevParent->getStore()->getWebsiteId() != $parent->getStore()->getWebsiteId()) {
             foreach ($prevParent->getStoreIds() as $storeId) {
                 $this->_getWriteAdapter()->delete(
@@ -1053,7 +1053,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
             $_categories = $this->_getWriteAdapter()->fetchAll($select);
             foreach ($_categories as $_category) {
                 foreach ($parent->getStoreIds() as $storeId) {
-                    $_tmpCategory = Mage::getModel('catalog/category')
+                    $_tmpCategory = Mage::getModel('Mage_Catalog_Model_Category')
                         ->setStoreId($storeId)
                         ->load($_category['entity_id']);
                     $this->_synchronize($_tmpCategory);
@@ -1192,7 +1192,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
         $result = $this->_getReadAdapter()->fetchAll($select);
         foreach ($result as $row) {
             $row['id'] = $row['entity_id'];
-            $categories[$row['entity_id']] = Mage::getModel('catalog/category')->setData($row);
+            $categories[$row['entity_id']] = Mage::getModel('Mage_Catalog_Model_Category')->setData($row);
         }
         return $categories;
     }
@@ -1215,7 +1215,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
             ->where($levelField . ' != ?', 0)
             ->order('level ' . Varien_Db_Select::SQL_DESC);
         $result = $adapter->fetchRow($select);
-        return Mage::getModel('catalog/category')->setData($result);
+        return Mage::getModel('Mage_Catalog_Model_Category')->setData($result);
     }
 
     /**
@@ -1332,7 +1332,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
         $result = $this->_getReadAdapter()->fetchAll($select);
         foreach ($result as $row) {
             $row['id'] = $row['entity_id'];
-            $categories[$row['entity_id']] = Mage::getModel('catalog/category')->setData($row);
+            $categories[$row['entity_id']] = Mage::getModel('Mage_Catalog_Model_Category')->setData($row);
         }
         return $categories;
     }

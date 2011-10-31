@@ -55,7 +55,7 @@ class Mage_Rss_Block_Catalog_Salesrule extends Mage_Rss_Block_Abstract
         $title = Mage::helper('Mage_Rss_Helper_Data')->__('%s - Discounts and Coupons',Mage::app()->getStore($storeId)->getName());
         $lang = Mage::getStoreConfig('general/locale/code');
 
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = Mage::getModel('Mage_Rss_Model_Rss');
         $data = array('title' => $title,
                 'description' => $title,
                 'link'        => $newurl,
@@ -65,7 +65,7 @@ class Mage_Rss_Block_Catalog_Salesrule extends Mage_Rss_Block_Abstract
         $rssObj->_addHeader($data);
 
         $now = date('Y-m-d');
-        $_saleRule = Mage::getModel('salesrule/rule');
+        $_saleRule = Mage::getModel('Mage_SalesRule_Model_Rule');
 
         $collection = $_saleRule->getResourceCollection()
                     ->addFieldToFilter('from_date', array('date'=>true, 'to' => $now))

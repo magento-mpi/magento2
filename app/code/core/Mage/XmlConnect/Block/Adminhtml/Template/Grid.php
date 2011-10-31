@@ -52,7 +52,7 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Grid extends Mage_Adminhtml_Block
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('xmlconnect/template')->getCollection();
+        $collection = Mage::getModel('Mage_XmlConnect_Model_Template')->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

@@ -56,7 +56,7 @@ class Mage_Sales_Model_Observer
             $lifetime *= 86400;
 
             /** @var $quotes Mage_Sales_Model_Resource_Quote_Collection */
-            $quotes = Mage::getModel('sales/quote')->getCollection();
+            $quotes = Mage::getModel('Mage_Sales_Model_Quote')->getCollection();
 
             $quotes->addFieldToFilter('store_id', $storeId);
             $quotes->addFieldToFilter('updated_at', array('to'=>date("Y-m-d", time()-$lifetime)));

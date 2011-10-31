@@ -71,7 +71,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
             if ($encryptionModel) {
                 $this->_encryptor = new $encryptionModel;
             } else {
-                $this->_encryptor = Mage::getModel('core/encryption');
+                $this->_encryptor = Mage::getModel('Mage_Core_Model_Encryption');
             }
 
             $this->_encryptor->setHelper($this);

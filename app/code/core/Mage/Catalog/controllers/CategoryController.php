@@ -46,7 +46,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             return false;
         }
 
-        $category = Mage::getModel('catalog/category')
+        $category = Mage::getModel('Mage_Catalog_Model_Category')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($categoryId);
 

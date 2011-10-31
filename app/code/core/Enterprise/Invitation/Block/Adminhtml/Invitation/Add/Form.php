@@ -83,7 +83,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adm
             ));
         }
 
-        $groups = Mage::getModel('customer/group')->getCollection()
+        $groups = Mage::getModel('Mage_Customer_Model_Group')->getCollection()
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();

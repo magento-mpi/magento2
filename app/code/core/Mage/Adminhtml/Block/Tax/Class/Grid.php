@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Tax_Class_Grid extends Mage_Adminhtml_Block_Widget_Gr
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('tax/class')
+        $collection = Mage::getModel('Mage_Tax_Model_Class')
             ->getCollection()
             ->setClassTypeFilter($this->getClassType());
         $this->setCollection($collection);

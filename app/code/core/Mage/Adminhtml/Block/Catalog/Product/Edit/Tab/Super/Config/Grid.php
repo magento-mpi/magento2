@@ -127,7 +127,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             ->joinAttribute('name', 'catalog_product/name', 'entity_id', null, 'inner');
 
         if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
-            Mage::getModel('cataloginventory/stock_item')->addCatalogInventoryToProductCollection($collection);
+            Mage::getModel('Mage_CatalogInventory_Model_Stock_Item')->addCatalogInventoryToProductCollection($collection);
         }
 
         foreach ($product->getTypeInstance(true)->getUsedProductAttributes($product) as $attribute) {
@@ -197,7 +197,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         ));
 
 
-        $sets = Mage::getModel('eav/entity_attribute_set')->getCollection()
+        $sets = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')->getCollection()
             ->setEntityTypeFilter($this->_getProduct()->getResource()->getTypeId())
             ->load()
             ->toOptionHash();

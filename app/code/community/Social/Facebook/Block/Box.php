@@ -50,7 +50,7 @@ class Social_Facebook_Block_Box extends Mage_Core_Block_Template
      */
     public function getFriendBox($action)
     {
-        return Mage::getModel('social_facebook/facebook')->getLinkedFriends($this->getFacebookId(),
+        return Mage::getModel('Social_Facebook_Model_Facebook')->getLinkedFriends($this->getFacebookId(),
             $this->getProductId(), $action);
     }
 
@@ -62,7 +62,7 @@ class Social_Facebook_Block_Box extends Mage_Core_Block_Template
      */
     public function getCountOfUsers($action)
     {
-        return Mage::getModel('social_facebook/facebook')->getCountByActionProduct(
+        return Mage::getModel('Social_Facebook_Model_Facebook')->getCountByActionProduct(
             $this->escapeHtml($action),
             $this->getProductId()
         );

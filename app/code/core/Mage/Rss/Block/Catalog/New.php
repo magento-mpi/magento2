@@ -50,7 +50,7 @@ class Mage_Rss_Block_Catalog_New extends Mage_Rss_Block_Catalog_Abstract
         $title = Mage::helper('Mage_Rss_Helper_Data')->__('New Products from %s',Mage::app()->getStore()->getGroup()->getName());
         $lang = Mage::getStoreConfig('general/locale/code');
 
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = Mage::getModel('Mage_Rss_Model_Rss');
         $data = array('title' => $title,
                 'description' => $title,
                 'link'        => $newurl,
@@ -64,7 +64,7 @@ special price - getSpecialPrice()
 getFinalPrice() - used in shopping cart calculations
 */
 
-        $product = Mage::getModel('catalog/product');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $todayDate = $product->getResource()->formatDate(time());
 
         $products = $product->getCollection()

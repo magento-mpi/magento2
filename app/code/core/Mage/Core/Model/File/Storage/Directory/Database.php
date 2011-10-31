@@ -123,7 +123,7 @@ class Mage_Core_Model_File_Storage_Directory_Database extends Mage_Core_Model_Fi
      */
     public function createRecursive($path)
     {
-        $directory = Mage::getModel('core/file_storage_directory_database')->loadByPath($path);
+        $directory = Mage::getModel('Mage_Core_Model_File_Storage_Directory_Database')->loadByPath($path);
 
         if (!$directory->getId()) {
             $dirName = basename($path);

@@ -49,7 +49,7 @@ class Mage_XmlConnect_Block_Review_Form extends Mage_Core_Block_Template
     {
         $customer = Mage::getSingleton('customer/session')->getCustomer();
         /** @var $xmlReview Mage_XmlConnect_Model_Simplexml_Element */
-        $xmlReview = Mage::getModel('xmlconnect/simplexml_element', '<form></form>');
+        $xmlReview = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<form></form>');
         $xmlReview->addAttribute('name', 'review_form');
         $xmlReview->addAttribute('method', 'post');
 
@@ -100,7 +100,7 @@ class Mage_XmlConnect_Block_Review_Form extends Mage_Core_Block_Template
     public function getRatings()
     {
         if (is_null($this->_ratings)) {
-            $this->_ratings = Mage::getModel('rating/rating')->getResourceCollection()->addEntityFilter('product')
+            $this->_ratings = Mage::getModel('Mage_Rating_Model_Rating')->getResourceCollection()->addEntityFilter('product')
                 ->setPositionOrder()->addRatingPerStoreName(Mage::app()->getStore()->getId())
                 ->setStoreFilter(Mage::app()->getStore()->getId())->load()->addOptionToItems();
 

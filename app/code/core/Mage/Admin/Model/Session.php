@@ -87,7 +87,7 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
 
         try {
             /** @var $user Mage_Admin_Model_User */
-            $user = Mage::getModel('admin/user');
+            $user = Mage::getModel('Mage_Admin_Model_User');
             $user->login($username, $password);
             if ($user->getId()) {
                 $this->renewSession();

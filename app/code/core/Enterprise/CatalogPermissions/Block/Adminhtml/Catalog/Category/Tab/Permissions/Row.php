@@ -113,7 +113,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     public function getWebsiteCollection()
     {
         if (!$this->hasData('website_collection')) {
-            $collection = Mage::getModel('core/website')->getCollection();
+            $collection = Mage::getModel('Mage_Core_Model_Website')->getCollection();
             $this->setData('website_collection', $collection);
         }
 
@@ -128,7 +128,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     public function getCustomerGroupCollection()
     {
         if (!$this->hasData('customer_group_collection')) {
-            $collection = Mage::getModel('customer/group')->getCollection();
+            $collection = Mage::getModel('Mage_Customer_Model_Group')->getCollection();
             $this->setData('customer_group_collection', $collection);
         }
 

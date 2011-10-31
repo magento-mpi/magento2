@@ -324,7 +324,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         $category = $this->getData('category');
         if (is_null($category) && $this->getCategoryId()) {
-            $category = Mage::getModel('catalog/category')->load($this->getCategoryId());
+            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($this->getCategoryId());
             $this->setCategory($category);
         }
         return $category;
@@ -1045,7 +1045,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $this->getWebsiteIds();
         $this->getCategoryIds();
 
-        $newProduct = Mage::getModel('catalog/product')->setData($this->getData())
+        $newProduct = Mage::getModel('Mage_Catalog_Model_Product')->setData($this->getData())
             ->setIsDuplicate(true)
             ->setOriginalId($this->getId())
             ->setSku(null)
@@ -1481,7 +1481,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         if (isset($data['stock_item'])) {
             if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
-                $stockItem = Mage::getModel('cataloginventory/stock_item')
+                $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item')
                     ->setData($data['stock_item'])
                     ->setProduct($this);
                 $this->setStockItem($stockItem);
@@ -1668,7 +1668,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function addCustomOption($code, $value, $product=null)
     {
         $product = $product ? $product : $this;
-        $option = Mage::getModel('catalog/product_configuration_item_option')
+        $option = Mage::getModel('Mage_Catalog_Model_Product_Configuration_Item_Option')
             ->addData(array(
                 'product_id'=> $product->getId(),
                 'product'   => $product,

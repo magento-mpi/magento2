@@ -163,7 +163,7 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
             $locale = Mage::app()->getLocale();
             $format = $locale->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
             $time = $locale->date($startAt, $format)->getTimestamp();
-            $this->setQueueStartAt(Mage::getModel('core/date')->gmtDate(null, $time));
+            $this->setQueueStartAt(Mage::getModel('Mage_Core_Model_Date')->gmtDate(null, $time));
         }
         return $this;
      }
@@ -196,7 +196,7 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
             ->load();
 
         /* @var $sender Mage_Core_Model_Email_Template */
-        $sender = Mage::getModel('core/email_template');
+        $sender = Mage::getModel('Mage_Core_Model_Email_Template');
         $sender->setSenderName($this->getNewsletterSenderName())
             ->setSenderEmail($this->getNewsletterSenderEmail())
             ->setTemplateType(self::TYPE_HTML)
@@ -216,7 +216,7 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
             if($successSend) {
                 $item->received($this);
             } else {
-                $problem = Mage::getModel('newsletter/problem');
+                $problem = Mage::getModel('Mage_Newsletter_Model_Problem');
                 $notification = Mage::helper('Mage_Newsletter_Helper_Data')->__('Please refer to exeption.log');
                 $problem->addSubscriberData($item)
                     ->addQueueData($this)
@@ -356,7 +356,7 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
     public function getTemplate()
     {
         if (is_null($this->_template)) {
-            $this->_template = Mage::getModel('newsletter/template')
+            $this->_template = Mage::getModel('Mage_Newsletter_Model_Template')
                 ->load($this->getTemplateId());
         }
         return $this->_template;

@@ -40,7 +40,7 @@ class Enterprise_Invitation_Block_Customer_List extends Mage_Customer_Block_Acco
     public function getInvitationCollection()
     {
         if (!$this->hasInvitationCollection()) {
-            $this->setData('invitation_collection', Mage::getModel('enterprise_invitation/invitation')->getCollection()
+            $this->setData('invitation_collection', Mage::getModel('Enterprise_Invitation_Model_Invitation')->getCollection()
                 ->addOrder('invitation_id', Varien_Data_Collection::SORT_ORDER_DESC)
                 ->loadByCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
             );

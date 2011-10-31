@@ -34,9 +34,9 @@ class Enterprise_GiftCardAccount_Model_Cron
     public function updateStates()
     {
         // update to expired
-        $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount');
+        $model = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount');
 
-        $now = Mage::getModel('core/date')->date('Y-m-d');
+        $now = Mage::getModel('Mage_Core_Model_Date')->date('Y-m-d');
 
         $collection = $model->getCollection()
             ->addFieldToFilter('state', Enterprise_GiftCardAccount_Model_Giftcardaccount::STATE_AVAILABLE)

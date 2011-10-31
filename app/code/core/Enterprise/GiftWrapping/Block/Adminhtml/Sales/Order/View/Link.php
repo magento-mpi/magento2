@@ -51,7 +51,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_View_Link extends Mage
     public function getDesign()
     {
         if ($this->getItem()->getGwId()) {
-            $wrappingModel = Mage::getModel('enterprise_giftwrapping/wrapping')->load($this->getItem()->getGwId());
+            $wrappingModel = Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping')->load($this->getItem()->getGwId());
             if ($wrappingModel->getId()) {
                 return $this->htmlEscape($wrappingModel->getDesign());
             }

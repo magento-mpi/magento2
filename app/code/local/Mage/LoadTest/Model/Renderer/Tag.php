@@ -102,7 +102,7 @@ class Mage_LoadTest_Model_Renderer_Tag extends Mage_LoadTest_Model_Renderer_Abst
     public function delete()
     {
         $this->_profilerBegin();
-        $collection = Mage::getModel('tag/tag')
+        $collection = Mage::getModel('Mage_Tag_Model_Tag')
             ->getCollection()
             ->load();
 
@@ -131,7 +131,7 @@ class Mage_LoadTest_Model_Renderer_Tag extends Mage_LoadTest_Model_Renderer_Abst
 
         $this->_profilerOperationStart();
 
-        $tag = Mage::getModel('tag/tag');
+        $tag = Mage::getModel('Mage_Tag_Model_Tag');
         $tag->setName('Default Tag');
         $tag->setStatus(1);
         $tag->save();
@@ -146,7 +146,7 @@ class Mage_LoadTest_Model_Renderer_Tag extends Mage_LoadTest_Model_Renderer_Abst
             $product = $this->_products[array_rand($this->_products)];
             $customer = $this->_customers[array_rand($this->_customers)];
 
-            $tagRelation = Mage::getModel('tag/tag_relation');
+            $tagRelation = Mage::getModel('Mage_Tag_Model_Tag_Relation');
             $tagRelation
                 ->setTagId($tag->getId())
                 ->setCustomerId($customer->getId())
@@ -176,7 +176,7 @@ class Mage_LoadTest_Model_Renderer_Tag extends Mage_LoadTest_Model_Renderer_Abst
     protected function _loadData()
     {
         if (is_null($this->_products)) {
-            $collection = Mage::getModel('catalog/product')
+            $collection = Mage::getModel('Mage_Catalog_Model_Product')
                 ->getCollection()
                 ->load();
             $this->_products = array();
@@ -190,7 +190,7 @@ class Mage_LoadTest_Model_Renderer_Tag extends Mage_LoadTest_Model_Renderer_Abst
             }
         }
         if (is_null($this->_customers)) {
-            $collection = Mage::getModel('customer/customer')
+            $collection = Mage::getModel('Mage_Customer_Model_Customer')
                 ->getCollection()
                 ->load();
             $this->_customers = array();

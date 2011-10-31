@@ -42,7 +42,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Locale extends Mage_Core_Model_
      */
     protected function _afterSave()
     {
-        $collection = Mage::getModel('core/config_data')
+        $collection = Mage::getModel('Mage_Core_Model_Config_Data')
             ->getCollection()
             ->addPathFilter('currency/options');
 
@@ -66,12 +66,12 @@ class Mage_Adminhtml_Model_System_Config_Backend_Locale extends Mage_Core_Model_
                             break;
 
                         case 'website':
-                            $websiteName = Mage::getModel('core/website')->load($data->getScopeId())->getName();
+                            $websiteName = Mage::getModel('Mage_Core_Model_Website')->load($data->getScopeId())->getName();
                             $scopeName = Mage::helper('Mage_Adminhtml_Helper_Data')->__('website(%s) scope', $websiteName);
                             break;
 
                         case 'store':
-                            $storeName = Mage::getModel('core/store')->load($data->getScopeId())->getName();
+                            $storeName = Mage::getModel('Mage_Core_Model_Store')->load($data->getScopeId())->getName();
                             $scopeName = Mage::helper('Mage_Adminhtml_Helper_Data')->__('store(%s) scope', $storeName);
                             break;
                     }

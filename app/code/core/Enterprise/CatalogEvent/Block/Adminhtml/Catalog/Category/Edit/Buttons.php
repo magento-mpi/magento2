@@ -41,7 +41,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons exte
     public function getEvent()
     {
         if (!$this->hasData('event')) {
-            $collection = Mage::getModel('enterprise_catalogevent/event')->getCollection()
+            $collection = Mage::getModel('Enterprise_CatalogEvent_Model_Event')->getCollection()
                 ->addFieldToFilter('category_id', $this->getCategoryId());
 
             $event = $collection->getFirstItem();

@@ -43,7 +43,7 @@ class Mage_XmlConnect_Block_Cart_Info extends Mage_XmlConnect_Block_Cart
         /** @var $quote Mage_Sales_Model_Quote */
         $quote = $this->getQuote();
         /** @var $xmlObject Mage_XmlConnect_Model_Simplexml_Element */
-        $xmlObject  = Mage::getModel('xmlconnect/simplexml_element', '<cart></cart>');
+        $xmlObject  = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<cart></cart>');
 
         $xmlObject->addChild('is_virtual', (int)$this->helper('Mage_Checkout_Helper_Cart')->getIsVirtualQuote());
 
@@ -58,7 +58,7 @@ class Mage_XmlConnect_Block_Cart_Info extends Mage_XmlConnect_Block_Cart
         $totalsXml = $this->getChildHtml('totals');
         if ($totalsXml) {
             /** @var $totalsXmlObj Mage_XmlConnect_Model_Simplexml_Element */
-            $totalsXmlObj = Mage::getModel('xmlconnect/simplexml_element', $totalsXml);
+            $totalsXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', $totalsXml);
             $xmlObject->appendChild($totalsXmlObj);
         }
         return $xmlObject->asNiceXml();

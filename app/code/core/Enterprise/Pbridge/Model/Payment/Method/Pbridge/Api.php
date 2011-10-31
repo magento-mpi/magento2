@@ -144,7 +144,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Varien_Object
     {
         $this->_debugFlag = (bool)Mage::getStoreConfigFlag('payment/pbridge/debug');
         if ($this->_debugFlag) {
-            Mage::getModel('core/log_adapter', 'payment_pbridge.log')
+            Mage::getModel('Mage_Core_Model_Log_Adapter', 'payment_pbridge.log')
 //               ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)//check this
                ->log($debugData);
         }

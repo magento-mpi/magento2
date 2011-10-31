@@ -51,7 +51,7 @@ class Mage_Adminhtml_Catalog_Category_WidgetController extends Mage_Adminhtml_Co
     {
         if ($categoryId = (int) $this->getRequest()->getPost('id')) {
 
-            $category = Mage::getModel('catalog/category')->load($categoryId);
+            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
             if ($category->getId()) {
                 Mage::register('category', $category);
                 Mage::register('current_category', $category);

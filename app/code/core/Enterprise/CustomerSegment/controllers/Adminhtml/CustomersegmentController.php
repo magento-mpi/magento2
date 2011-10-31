@@ -39,7 +39,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
     protected function _initSegment($requestParam = 'id', $requireValidId = false)
     {
         $segmentId = $this->getRequest()->getParam($requestParam, 0);
-        $segment = Mage::getModel('enterprise_customersegment/segment');
+        $segment = Mage::getModel('Enterprise_CustomerSegment_Model_Segment');
         if ($segmentId || $requireValidId) {
             $segment->load($segmentId);
             if (!$segment->getId()) {
@@ -164,7 +164,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
         $model = Mage::getModel($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(Mage::getModel('enterprise_customersegment/segment'))
+            ->setRule(Mage::getModel('Enterprise_CustomerSegment_Model_Segment'))
             ->setPrefix('conditions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);

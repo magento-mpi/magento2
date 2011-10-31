@@ -71,4 +71,4 @@ $cmsPage = array(
 ',
 );
 
-Mage::getModel('cms/page')->setData($cmsPage)->save();
+Mage::getModel('Mage_Cms_Model_Page')->setData($cmsPage)->save();

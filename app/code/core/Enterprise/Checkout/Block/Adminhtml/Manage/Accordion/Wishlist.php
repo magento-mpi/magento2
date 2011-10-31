@@ -83,7 +83,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $wishlist = Mage::getModel('wishlist/wishlist')->loadByCustomer($this->_getCustomer())
+            $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->loadByCustomer($this->_getCustomer())
                 ->setStore($this->_getStore())
                 ->setSharedStoreIds($this->_getStore()->getWebsite()->getStoreIds());
             if ($wishlist->getId()) {

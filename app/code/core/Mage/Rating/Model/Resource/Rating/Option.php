@@ -159,7 +159,7 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
      */
     public function aggregate($option)
     {
-        $vote = Mage::getModel('rating/rating_option_vote')->load($option->getVoteId());
+        $vote = Mage::getModel('Mage_Rating_Model_Rating_Option_Vote')->load($option->getVoteId());
         $this->aggregateEntityByRatingId($vote->getRatingId(), $vote->getEntityPkValue());
     }
 

@@ -41,10 +41,10 @@ class Mage_XmlConnect_Block_Catalog_Product_Gallery extends Mage_XmlConnect_Bloc
     protected function _toHtml()
     {
         $productId = $this->getRequest()->getParam('id', null);
-        $product = Mage::getModel('catalog/product')->setStoreId(Mage::app()->getStore()->getId())->load($productId);
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId(Mage::app()->getStore()->getId())->load($productId);
         $collection = $product->getMediaGalleryImages();
 
-        $imagesNode = Mage::getModel('xmlconnect/simplexml_element', '<images></images>');
+        $imagesNode = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<images></images>');
         $helper = $this->helper('Mage_Catalog_Helper_Image');
 
         foreach ($collection as $item) {

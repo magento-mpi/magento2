@@ -48,7 +48,7 @@ class Mage_Sales_Block_Adminhtml_Report_Filter_Form extends Mage_Adminhtml_Block
 
         if (is_object($fieldset) && $fieldset instanceof Varien_Data_Form_Element_Fieldset) {
 
-            $statuses = Mage::getModel('sales/order_config')->getStatuses();
+            $statuses = Mage::getModel('Mage_Sales_Model_Order_Config')->getStatuses();
             $values = array();
             foreach ($statuses as $code => $label) {
                 if (false === strpos($code, 'pending')) {

@@ -47,7 +47,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_B
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('enterprise_reminder/rule')->getCollection();
+        $collection = Mage::getModel('Enterprise_Reminder_Model_Rule')->getCollection();
         $collection->addWebsitesToResult();
         $this->setCollection($collection);
         return parent::_prepareCollection();

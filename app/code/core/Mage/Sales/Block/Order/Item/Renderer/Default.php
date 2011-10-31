@@ -122,7 +122,7 @@ class Mage_Sales_Block_Order_Item_Renderer_Default extends Mage_Core_Block_Templ
             $_default = array('value' => $optionValue);
             if (isset($optionInfo['option_type'])) {
                 try {
-                    $group = Mage::getModel('catalog/product_option')->groupFactory($optionInfo['option_type']);
+                    $group = Mage::getModel('Mage_Catalog_Model_Product_Option')->groupFactory($optionInfo['option_type']);
                     return array('value' => $group->getCustomizedView($optionInfo));
                 } catch (Exception $e) {
                     return $_default;

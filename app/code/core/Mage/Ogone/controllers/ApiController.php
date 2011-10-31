@@ -63,7 +63,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
     {
         if (empty($this->_order)) {
             $orderId = $this->getRequest()->getParam('orderID');
-            $this->_order = Mage::getModel('sales/order');
+            $this->_order = Mage::getModel('Mage_Sales_Model_Order');
             $this->_order->loadByIncrementId($orderId);
         }
         return $this->_order;
@@ -115,7 +115,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
     {
         $lastIncrementId = $this->_getCheckout()->getLastRealOrderId();
         if ($lastIncrementId) {
-            $order = Mage::getModel('sales/order');
+            $order = Mage::getModel('Mage_Sales_Model_Order');
             $order->loadByIncrementId($lastIncrementId);
             if ($order->getId()) {
                 $order->setState(
@@ -292,7 +292,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
                     $invoice->setState(Mage_Sales_Model_Order_Invoice::STATE_PAID);
                     $invoice->getOrder()->setIsInProcess(true);
 
-                    $transactionSave = Mage::getModel('core/resource_transaction')
+                    $transactionSave = Mage::getModel('Mage_Core_Model_Resource_Transaction')
                         ->addObject($invoice)
                         ->addObject($invoice->getOrder())
                         ->save();

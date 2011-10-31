@@ -43,7 +43,7 @@ class Enterprise_GiftWrapping_Model_Observer
     protected function _saveItemInfo($entity, $data)
     {
         if (is_array($data)) {
-            $wrapping = Mage::getModel('enterprise_giftwrapping/wrapping')->load($data['design']);
+            $wrapping = Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping')->load($data['design']);
             $entity->setGwId($wrapping->getId())
                 ->save();
         }
@@ -62,7 +62,7 @@ class Enterprise_GiftWrapping_Model_Observer
         if (is_array($data)) {
             $wrappingInfo = array();
             if (isset($data['design'])) {
-                $wrapping = Mage::getModel('enterprise_giftwrapping/wrapping')->load($data['design']);
+                $wrapping = Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping')->load($data['design']);
                 $wrappingInfo['gw_id'] = $wrapping->getId();
             }
             $wrappingInfo['gw_allow_gift_receipt'] = isset($data['allow_gift_receipt']);

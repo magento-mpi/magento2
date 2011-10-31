@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Tag_Product_Grid extends Mage_Adminhtml_Block_Widget_
     {
         $tagId = Mage::registry('current_tag')->getId();
         $storeId = Mage::registry('current_tag')->getStoreId();
-        $collection = Mage::getModel('tag/tag')
+        $collection = Mage::getModel('Mage_Tag_Model_Tag')
             ->getEntityCollection()
             ->addTagFilter($tagId)
             ->addCustomerFilter(array('null' => false))

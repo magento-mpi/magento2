@@ -61,7 +61,7 @@ class Mage_Ogone_Block_Placeform extends Mage_Core_Block_Template
         if ($this->getOrder()) {
             $order = $this->getOrder();
         } else if ($this->getCheckout()->getLastRealOrderId()) {
-            $order = Mage::getModel('sales/order')->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
+            $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
         } else {
             return null;
         }

@@ -79,22 +79,22 @@ class Mage_SalesRule_Model_Rule_Condition_Address extends Mage_Rule_Model_Condit
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = Mage::getModel('adminhtml/system_config_source_country')
+                    $options = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Country')
                         ->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = Mage::getModel('adminhtml/system_config_source_allregion')
+                    $options = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Allregion')
                         ->toOptionArray();
                     break;
 
                 case 'shipping_method':
-                    $options = Mage::getModel('adminhtml/system_config_source_shipping_allmethods')
+                    $options = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Shipping_Allmethods')
                         ->toOptionArray();
                     break;
 
                 case 'payment_method':
-                    $options = Mage::getModel('adminhtml/system_config_source_payment_allmethods')
+                    $options = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Payment_Allmethods')
                         ->toOptionArray();
                     break;
 

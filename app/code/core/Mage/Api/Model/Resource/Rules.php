@@ -56,7 +56,7 @@ class Mage_Api_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstract
         try {
             $roleId = $rule->getRoleId();
             $adapter->delete($this->getMainTable(), array('role_id = ?' => $roleId));
-            $masterResources = Mage::getModel('api/roles')->getResourcesList2D();
+            $masterResources = Mage::getModel('Mage_Api_Model_Roles')->getResourcesList2D();
             $masterAdmin = false;
             if ($postedResources = $rule->getResources()) {
                 foreach ($masterResources as $index => $resName) {

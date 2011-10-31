@@ -75,7 +75,7 @@ class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_
     public function addAction()
     {
         if ($productId = (int) $this->getRequest()->getParam('product')) {
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($productId);
 
@@ -99,18 +99,18 @@ class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_
     public function removeAction()
     {
         if ($productId = (int) $this->getRequest()->getParam('product')) {
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($productId);
 
             if($product->getId()) {
                 /** @var $item Mage_Catalog_Model_Product_Compare_Item */
-                $item = Mage::getModel('catalog/product_compare_item');
+                $item = Mage::getModel('Mage_Catalog_Model_Product_Compare_Item');
                 if(Mage::getSingleton('customer/session')->isLoggedIn()) {
                     $item->addCustomerData(Mage::getSingleton('customer/session')->getCustomer());
                 } elseif ($this->_customerId) {
                     $item->addCustomerData(
-                        Mage::getModel('customer/customer')->load($this->_customerId)
+                        Mage::getModel('Mage_Customer_Model_Customer')->load($this->_customerId)
                     );
                 } else {
                     $item->addVisitorId(Mage::getSingleton('log/visitor')->getId());

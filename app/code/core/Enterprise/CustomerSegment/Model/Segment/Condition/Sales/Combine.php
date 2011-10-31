@@ -46,12 +46,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
     public function getNewChildSelectOptions()
     {
         return array_merge_recursive(parent::getNewChildSelectOptions(), array(
-            Mage::getModel('enterprise_customersegment/segment_condition_order_status')->getNewChildSelectOptions(),
+            Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status')->getNewChildSelectOptions(),
             // date ranges
             array(
                 'value' => array(
-                    Mage::getModel('enterprise_customersegment/segment_condition_uptodate')->getNewChildSelectOptions(),
-                    Mage::getModel('enterprise_customersegment/segment_condition_daterange')->getNewChildSelectOptions(),
+                    Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate')->getNewChildSelectOptions(),
+                    Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Daterange')->getNewChildSelectOptions(),
                 ),
                 'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Date Ranges')
             ),

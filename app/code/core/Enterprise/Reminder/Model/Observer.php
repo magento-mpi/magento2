@@ -106,7 +106,7 @@ class Enterprise_Reminder_Model_Observer
     public function scheduledNotification()
     {
         if (Mage::helper('Enterprise_Reminder_Helper_Data')->isEnabled()) {
-            Mage::getModel('enterprise_reminder/rule')->sendReminderEmails();
+            Mage::getModel('Enterprise_Reminder_Model_Rule')->sendReminderEmails();
             return $this;
         }
     }

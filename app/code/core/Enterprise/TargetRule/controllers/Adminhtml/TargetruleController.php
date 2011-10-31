@@ -79,7 +79,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
              ->_title($this->__('Rule-based Product Relations'));
 
         /* @var $model Enterprise_TargetRule_Model_Rule */
-        $model  = Mage::getModel('enterprise_targetrule/rule');
+        $model  = Mage::getModel('Enterprise_TargetRule_Model_Rule');
         $ruleId = $this->getRequest()->getParam('id', null);
 
         if ($ruleId) {
@@ -140,7 +140,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
 
         if ($this->getRequest()->isPost() && $data) {
             /* @var $model Enterprise_TargetRule_Model_Rule */
-            $model          = Mage::getModel('enterprise_targetrule/rule');
+            $model          = Mage::getModel('Enterprise_TargetRule_Model_Rule');
             $redirectBack   = $this->getRequest()->getParam('back', false);
             $hasError       = false;
 
@@ -215,7 +215,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
     {
         if ($id = $this->getRequest()->getParam('id')) {
             try {
-                $model = Mage::getModel('enterprise_targetrule/rule');
+                $model = Mage::getModel('Enterprise_TargetRule_Model_Rule');
                 $model->load($id);
                 $model->delete();
                 Mage::getSingleton('adminhtml/session')
@@ -248,7 +248,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
         $model = Mage::getModel($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(Mage::getModel('enterprise_targetrule/rule'))
+            ->setRule(Mage::getModel('Enterprise_TargetRule_Model_Rule'))
             ->setPrefix($prefix);
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);

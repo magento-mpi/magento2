@@ -31,7 +31,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
     {
         $this->_title($this->__('Promotions'))->_title($this->__('Shopping Cart Price Rules'));
 
-        Mage::register('current_promo_quote_rule', Mage::getModel('salesrule/rule'));
+        Mage::register('current_promo_quote_rule', Mage::getModel('Mage_SalesRule_Model_Rule'));
         if ($id = (int) $this->getRequest()->getParam('id')) {
             Mage::registry('current_promo_quote_rule')
                 ->load($id);
@@ -64,7 +64,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
     public function editAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('salesrule/rule');
+        $model = Mage::getModel('Mage_SalesRule_Model_Rule');
 
         if ($id) {
             $model->load($id);
@@ -110,7 +110,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
     {
         if ($this->getRequest()->getPost()) {
             try {
-                $model = Mage::getModel('salesrule/rule');
+                $model = Mage::getModel('Mage_SalesRule_Model_Rule');
                 Mage::dispatchEvent(
                     'adminhtml_controller_salesrule_prepare_save',
                     array('request' => $this->getRequest()));
@@ -188,7 +188,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
     {
         if ($id = $this->getRequest()->getParam('id')) {
             try {
-                $model = Mage::getModel('salesrule/rule');
+                $model = Mage::getModel('Mage_SalesRule_Model_Rule');
                 $model->load($id);
                 $model->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess(
@@ -219,7 +219,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
         $model = Mage::getModel($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(Mage::getModel('salesrule/rule'))
+            ->setRule(Mage::getModel('Mage_SalesRule_Model_Rule'))
             ->setPrefix('conditions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
@@ -243,7 +243,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
         $model = Mage::getModel($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(Mage::getModel('salesrule/rule'))
+            ->setRule(Mage::getModel('Mage_SalesRule_Model_Rule'))
             ->setPrefix('actions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);

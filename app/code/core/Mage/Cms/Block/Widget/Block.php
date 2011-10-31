@@ -59,7 +59,7 @@ class Mage_Cms_Block_Widget_Block extends Mage_Core_Block_Template implements Ma
         self::$_widgetUsageMap[$blockHash] = true;
 
         if ($blockId) {
-            $block = Mage::getModel('cms/block')
+            $block = Mage::getModel('Mage_Cms_Model_Block')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($blockId);
             if ($block->getIsActive()) {

@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Sitemap_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('sitemap/sitemap')->getCollection();
+        $collection = Mage::getModel('Mage_Sitemap_Model_Sitemap')->getCollection();
         /* @var $collection Mage_Sitemap_Model_Resource_Sitemap_Collection */
         $this->setCollection($collection);
         return parent::_prepareCollection();

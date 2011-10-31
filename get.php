@@ -143,7 +143,7 @@ if (0 !== stripos($pathInfo, $mediaDirectory . '/')) {
 }
 
 try {
-    $databaseFileSotrage = Mage::getModel('core/file_storage_database');
+    $databaseFileSotrage = Mage::getModel('Mage_Core_Model_File_Storage_Database');
     $databaseFileSotrage->loadByFilename($relativeFilename);
 } catch (Exception $e) {
 }

@@ -62,7 +62,7 @@ class Mage_Sales_Model_Order_Creditmemo_Api extends Mage_Sales_Model_Api_Resourc
         try {
             $result = array();
             /** @var $creditmemoModel Mage_Sales_Model_Order_Creditmemo */
-            $creditmemoModel = Mage::getModel('sales/order_creditmemo');
+            $creditmemoModel = Mage::getModel('Mage_Sales_Model_Order_Creditmemo');
             // map field name entity_id to creditmemo_id
             foreach ($creditmemoModel->getFilteredCollectionItems($filter) as $creditmemo) {
                 $result[] = $this->_getAttributes($creditmemo, 'creditmemo');
@@ -134,7 +134,7 @@ class Mage_Sales_Model_Order_Creditmemo_Api extends Mage_Sales_Model_Api_Resourc
         $includeComment = false, $refundToStoreCreditAmount = null)
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = Mage::getModel('sales/order')->load($orderIncrementId, 'increment_id');
+        $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderIncrementId, 'increment_id');
         if (!$order->getId()) {
             $this->_fault('order_not_exists');
         }
@@ -144,7 +144,7 @@ class Mage_Sales_Model_Order_Creditmemo_Api extends Mage_Sales_Model_Api_Resourc
         $data = $this->_prepareCreateData($data);
 
         /** @var $service Mage_Sales_Model_Service_Order */
-        $service = Mage::getModel('sales/service_order', $order);
+        $service = Mage::getModel('Mage_Sales_Model_Service_Order', $order);
         /** @var $creditmemo Mage_Sales_Model_Order_Creditmemo */
         $creditmemo = $service->prepareCreditmemo($data);
 
@@ -176,7 +176,7 @@ class Mage_Sales_Model_Order_Creditmemo_Api extends Mage_Sales_Model_Api_Resourc
             $creditmemo->addComment($comment, $notifyCustomer);
         }
         try {
-            Mage::getModel('core/resource_transaction')
+            Mage::getModel('Mage_Core_Model_Resource_Transaction')
                 ->addObject($creditmemo)
                 ->addObject($order)
                 ->save();
@@ -268,7 +268,7 @@ class Mage_Sales_Model_Order_Creditmemo_Api extends Mage_Sales_Model_Api_Resourc
     protected function _getCreditmemo($incrementId)
     {
         /** @var $creditmemo Mage_Sales_Model_Order_Creditmemo */
-        $creditmemo = Mage::getModel('sales/order_creditmemo')->load($incrementId, 'increment_id');
+        $creditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->load($incrementId, 'increment_id');
         if (!$creditmemo->getId()) {
             $this->_fault('not_exists');
         }

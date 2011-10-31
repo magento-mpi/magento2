@@ -172,9 +172,9 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
     public function getVariables()
     {
         $variables = array();
-        $variables[] = Mage::getModel('core/source_email_variables')
+        $variables[] = Mage::getModel('Mage_Core_Model_Source_Email_Variables')
             ->toOptionArray(true);
-        $customVariables = Mage::getModel('core/variable')
+        $customVariables = Mage::getModel('Mage_Core_Model_Variable')
             ->getVariablesOptionArray(true);
         if ($customVariables) {
             $variables[] = $customVariables;

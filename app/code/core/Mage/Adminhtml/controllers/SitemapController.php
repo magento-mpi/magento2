@@ -83,7 +83,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('sitemap_id');
-        $model = Mage::getModel('sitemap/sitemap');
+        $model = Mage::getModel('Mage_Sitemap_Model_Sitemap');
 
         // 2. Initial checking
         if ($id) {
@@ -124,14 +124,14 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
         // check if data sent
         if ($data = $this->getRequest()->getPost()) {
             // init model and set data
-            $model = Mage::getModel('sitemap/sitemap');
+            $model = Mage::getModel('Mage_Sitemap_Model_Sitemap');
 
             //validate path to generate
             if (!empty($data['sitemap_filename']) && !empty($data['sitemap_path'])) {
                 $path = rtrim($data['sitemap_path'], '\\/')
                       . DS . $data['sitemap_filename'];
                 /** @var $validator Mage_Core_Model_File_Validator_AvailablePath */
-                $validator = Mage::getModel('core/file_validator_availablePath');
+                $validator = Mage::getModel('Mage_Core_Model_File_Validator_AvailablePath');
                 /** @var $helper Mage_Adminhtml_Helper_Catalog */
                 $helper = Mage::helper('Mage_Adminhtml_Helper_Catalog');
                 $validator->setPaths($helper->getSitemapValidPaths());
@@ -206,7 +206,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
         if ($id = $this->getRequest()->getParam('sitemap_id')) {
             try {
                 // init model and delete
-                $model = Mage::getModel('sitemap/sitemap');
+                $model = Mage::getModel('Mage_Sitemap_Model_Sitemap');
                 $model->setId($id);
                 // init and load sitemap model
 
@@ -246,7 +246,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
     {
         // init and load sitemap model
         $id = $this->getRequest()->getParam('sitemap_id');
-        $sitemap = Mage::getModel('sitemap/sitemap');
+        $sitemap = Mage::getModel('Mage_Sitemap_Model_Sitemap');
         /* @var $sitemap Mage_Sitemap_Model_Sitemap */
         $sitemap->load($id);
         // if sitemap record exists

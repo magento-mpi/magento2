@@ -108,7 +108,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
     protected function _prepareCollection()
     {
         $store = $this->_getStore();
-        $collection = Mage::getModel('catalog/product')->getCollection()
+        $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('attribute_set_id')
@@ -189,7 +189,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
         ));
 
         $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-            ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getTypeId())
+            ->setEntityTypeFilter(Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
@@ -224,7 +224,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
                 'width'     => 100,
                 'index'     => 'visibility',
                 'type'      => 'options',
-                'options'   => Mage::getModel('catalog/product_visibility')->getOptionArray(),
+                'options'   => Mage::getModel('Mage_Catalog_Model_Product_Visibility')->getOptionArray(),
         ));
 
         $this->addColumn('status',

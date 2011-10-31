@@ -52,7 +52,7 @@ class Mage_LoadTest_DeleteController extends Mage_Core_Controller_Front_Action
 
     public function categoriesAction()
     {
-        $model = Mage::getModel('loadtest/renderer_catalog');
+        $model = Mage::getModel('Mage_LoadTest_Model_Renderer_Catalog');
         /* @var $model Mage_LoadTest_Model_Renderer_Catalog */
         $model->setType('CATEGORY')
             ->delete();
@@ -61,7 +61,7 @@ class Mage_LoadTest_DeleteController extends Mage_Core_Controller_Front_Action
 
     public function productsAction()
     {
-        $model = Mage::getModel('loadtest/renderer_catalog');
+        $model = Mage::getModel('Mage_LoadTest_Model_Renderer_Catalog');
         /* @var $model Mage_LoadTest_Model_Renderer_Catalog */
         $model->setType('PRODUCT')
             ->delete();
@@ -70,7 +70,7 @@ class Mage_LoadTest_DeleteController extends Mage_Core_Controller_Front_Action
 
     public function customersAction()
     {
-        $model = Mage::getModel('loadtest/renderer_customer');
+        $model = Mage::getModel('Mage_LoadTest_Model_Renderer_Customer');
         /* @var $model Mage_LoadTest_Model_Renderer_Customer */
         $model->delete();
         $this->_session->prepareXmlResponse($model->getResult());
@@ -78,7 +78,7 @@ class Mage_LoadTest_DeleteController extends Mage_Core_Controller_Front_Action
 
     public function reviewsAction()
     {
-        $model = Mage::getModel('loadtest/renderer_review');
+        $model = Mage::getModel('Mage_LoadTest_Model_Renderer_Review');
         /* @var $model Mage_LoadTest_Model_Renderer_Review */
         $model->delete();
         $this->_session->prepareXmlResponse($model->getResult());
@@ -86,7 +86,7 @@ class Mage_LoadTest_DeleteController extends Mage_Core_Controller_Front_Action
 
     public function tagsAction()
     {
-        $model = Mage::getModel('loadtest/renderer_tag');
+        $model = Mage::getModel('Mage_LoadTest_Model_Renderer_Tag');
         /* @var $model Mage_LoadTest_Model_Renderer_Tag */
         $model->delete();
         $this->_session->prepareXmlResponse($model->getResult());
@@ -94,7 +94,7 @@ class Mage_LoadTest_DeleteController extends Mage_Core_Controller_Front_Action
 
     public function quotesAction()
     {
-        $model = Mage::getModel('loadtest/renderer_sales');
+        $model = Mage::getModel('Mage_LoadTest_Model_Renderer_Sales');
         /* @var $model Mage_LoadTest_Model_Renderer_Sales */
         $model->setType('QUOTE')
             ->delete();
@@ -103,7 +103,7 @@ class Mage_LoadTest_DeleteController extends Mage_Core_Controller_Front_Action
 
     public function ordersAction()
     {
-        $model = Mage::getModel('loadtest/renderer_sales');
+        $model = Mage::getModel('Mage_LoadTest_Model_Renderer_Sales');
         /* @var $model Mage_LoadTest_Model_Renderer_Sales */
         $model->setType('ORDER')
             ->delete();

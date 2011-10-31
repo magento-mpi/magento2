@@ -189,7 +189,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             );
         }
 
-        $r->setOrigCountry(Mage::getModel('directory/country')->load($origCountry)->getIso2Code());
+        $r->setOrigCountry(Mage::getModel('Mage_Directory_Model_Country')->load($origCountry)->getIso2Code());
 
         if ($request->getOrigRegionCode()) {
             $origRegionCode = $request->getOrigRegionCode();
@@ -200,7 +200,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             );
         }
         if (is_numeric($origRegionCode)) {
-            $origRegionCode = Mage::getModel('directory/region')->load($origRegionCode)->getCode();
+            $origRegionCode = Mage::getModel('Mage_Directory_Model_Region')->load($origRegionCode)->getCode();
         }
         $r->setOrigRegionCode($origRegionCode);
 
@@ -241,7 +241,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             $destCountry = self::GUAM_COUNTRY_ID;
         }
 
-        $r->setDestCountry(Mage::getModel('directory/country')->load($destCountry)->getIso2Code());
+        $r->setDestCountry(Mage::getModel('Mage_Directory_Model_Country')->load($destCountry)->getIso2Code());
 
         $r->setDestRegionCode($request->getDestRegionCode());
 
@@ -459,17 +459,17 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             asort($priceArr);
         }
 
-        $result = Mage::getModel('shipping/rate_result');
+        $result = Mage::getModel('Mage_Shipping_Model_Rate_Result');
         $defaults = $this->getDefaults();
         if (empty($priceArr)) {
-            $error = Mage::getModel('shipping/rate_result_error');
+            $error = Mage::getModel('Mage_Shipping_Model_Rate_Result_Error');
             $error->setCarrier('ups');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
-                $rate = Mage::getModel('shipping/rate_result_method');
+                $rate = Mage::getModel('Mage_Shipping_Model_Rate_Result_Method');
                 $rate->setCarrier('ups');
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -954,7 +954,7 @@ XMLRequest;
     protected function _getBaseCurrencyRate($code)
     {
         if (!$this->_baseCurrencyRate) {
-            $this->_baseCurrencyRate = Mage::getModel('directory/currency')
+            $this->_baseCurrencyRate = Mage::getModel('Mage_Directory_Model_Currency')
                 ->load($code)
                 ->getAnyRate($this->_request->getBaseCurrency()->getCode());
         }
@@ -987,7 +987,7 @@ XMLRequest;
                     && $this->getConfigData('shipper_number')
                     && !empty($negotiatedArr);
 
-                $allowedCurrencies = Mage::getModel('directory/currency')->getConfigAllowCurrencies();
+                $allowedCurrencies = Mage::getModel('Mage_Directory_Model_Currency')->getConfigAllowCurrencies();
 
                 foreach ($arr as $shipElement){
                     $code = (string)$shipElement->Service->Code;
@@ -1010,7 +1010,7 @@ XMLRequest;
                                     ->__('Can\'t convert rate from "%s-%s".',
                                         $responseCurrencyCode,
                                         $this->_request->getPackageCurrency()->getCode());
-                                $error = Mage::getModel('shipping/rate_result_error');
+                                $error = Mage::getModel('Mage_Shipping_Model_Rate_Result_Error');
                                 $error->setCarrier('ups');
                                 $error->setCarrierTitle($this->getConfigData('title'));
                                 $error->setErrorMessage($errorTitle);
@@ -1027,17 +1027,17 @@ XMLRequest;
             } else {
                 $arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/Error/ErrorDescription/text()");
                 $errorTitle = (string)$arr[0][0];
-                $error = Mage::getModel('shipping/rate_result_error');
+                $error = Mage::getModel('Mage_Shipping_Model_Rate_Result_Error');
                 $error->setCarrier('ups');
                 $error->setCarrierTitle($this->getConfigData('title'));
                 $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             }
         }
 
-        $result = Mage::getModel('shipping/rate_result');
+        $result = Mage::getModel('Mage_Shipping_Model_Rate_Result');
         $defaults = $this->getDefaults();
         if (empty($priceArr)) {
-            $error = Mage::getModel('shipping/rate_result_error');
+            $error = Mage::getModel('Mage_Shipping_Model_Rate_Result_Error');
             $error->setCarrier('ups');
             $error->setCarrierTitle($this->getConfigData('title'));
             if(!isset($errorTitle)){
@@ -1047,7 +1047,7 @@ XMLRequest;
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
-                $rate = Mage::getModel('shipping/rate_result_method');
+                $rate = Mage::getModel('Mage_Shipping_Model_Rate_Result_Method');
                 $rate->setCarrier('ups');
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -1116,10 +1116,10 @@ XMLAuth;
     {
         //ups no longer support tracking for data streaming version
         //so we can only reply the popup window to ups.
-        $result = Mage::getModel('shipping/tracking_result');
+        $result = Mage::getModel('Mage_Shipping_Model_Tracking_Result');
         $defaults = $this->getDefaults();
         foreach($trackings as $tracking){
-            $status = Mage::getModel('shipping/tracking_result_status');
+            $status = Mage::getModel('Mage_Shipping_Model_Tracking_Result_Status');
             $status->setCarrier('ups');
             $status->setCarrierTitle($this->getConfigData('title'));
             $status->setTracking($tracking);
@@ -1278,20 +1278,20 @@ XMLAuth;
         }
 
         if (!$this->_result) {
-            $this->_result = Mage::getModel('shipping/tracking_result');
+            $this->_result = Mage::getModel('Mage_Shipping_Model_Tracking_Result');
         }
 
         $defaults = $this->getDefaults();
 
         if ($resultArr) {
-            $tracking = Mage::getModel('shipping/tracking_result_status');
+            $tracking = Mage::getModel('Mage_Shipping_Model_Tracking_Result_Status');
             $tracking->setCarrier('ups');
             $tracking->setCarrierTitle($this->getConfigData('title'));
             $tracking->setTracking($trackingvalue);
             $tracking->addData($resultArr);
             $this->_result->append($tracking);
         } else {
-            $error = Mage::getModel('shipping/tracking_result_error');
+            $error = Mage::getModel('Mage_Shipping_Model_Tracking_Result_Error');
             $error->setCarrier('ups');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setTracking($trackingvalue);

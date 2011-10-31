@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Review_Rating_Summary extends Mage_Adminhtml_Block_Te
     public function getRating()
     {
         if( !$this->getRatingCollection() ) {
-            $ratingCollection = Mage::getModel('rating/rating_option_vote')
+            $ratingCollection = Mage::getModel('Mage_Rating_Model_Rating_Option_Vote')
                 ->getResourceCollection()
                 ->setReviewFilter($this->getReviewId())
                 ->addRatingInfo()
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Review_Rating_Summary extends Mage_Adminhtml_Block_Te
     public function getRatingSummary()
     {
         if( !$this->getRatingSummaryCache() ) {
-            $this->setRatingSummaryCache(Mage::getModel('rating/rating')->getReviewSummary($this->getReviewId()));
+            $this->setRatingSummaryCache(Mage::getModel('Mage_Rating_Model_Rating')->getReviewSummary($this->getReviewId()));
         }
 
         return $this->getRatingSummaryCache();

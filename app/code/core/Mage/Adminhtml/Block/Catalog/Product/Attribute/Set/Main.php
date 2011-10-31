@@ -170,7 +170,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
         $setId = $this->_getSetId();
 
         /* @var $groups Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection */
-        $groups = Mage::getModel('eav/entity_attribute_group')
+        $groups = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Group')
             ->getResourceCollection()
             ->setAttributeSetFilter($setId)
             ->setSortOrder()
@@ -376,7 +376,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
     {
         $isDefault = $this->getData('is_current_set_default');
         if (is_null($isDefault)) {
-            $defaultSetId = Mage::getModel('eav/entity_type')
+            $defaultSetId = Mage::getModel('Mage_Eav_Model_Entity_Type')
                 ->load(Mage::registry('entityType'))
                 ->getDefaultAttributeSetId();
             $isDefault = $this->_getSetId() == $defaultSetId;

@@ -99,7 +99,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         $request = Mage::app()->getRequest();
         $postData = $request->getPost();
         $groupFieldsData = array();
-        $change = Mage::getModel('enterprise_logging/event_changes');
+        $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
 
         //Collect skip encrypted fields
         $encryptedNodeEntriesPaths = Mage::getSingleton('adminhtml/config')->getEncryptedNodeEntriesPaths(true);
@@ -248,7 +248,7 @@ class Enterprise_Logging_Model_Handler_Controllers
 
         //Add log entry details
         if ($data) {
-            $change = Mage::getModel('enterprise_logging/event_changes');
+            $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
             $processor->addEventChanges($change->setSourceName('params')
                 ->setOriginalData(array())
                 ->setResultData($data));
@@ -348,7 +348,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     public function postDispatchProductUpdateAttributes($config, $eventModel, $processor)
     {
         $request = Mage::app()->getRequest();
-        $change = Mage::getModel('enterprise_logging/event_changes');
+        $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
         $products = $request->getParam('product');
         if (!$products) {
             $products = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')->getProductIds();
@@ -423,7 +423,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     public function postDispatchCustomerSegmentMatch($config, $eventModel)
     {
         $request = Mage::app()->getRequest();
-        $customersQty = Mage::getModel('enterprise_customersegment/segment')->getResource()
+        $customersQty = Mage::getModel('Enterprise_CustomerSegment_Model_Segment')->getResource()
                 ->getSegmentCustomersQty($request->getParam('id'));
         return $eventModel->setInfo(
             $request->getParam('id') ?
@@ -537,7 +537,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     public function postDispatchSystemCurrencySave($config, $eventModel, $processor)
     {
         $request = Mage::app()->getRequest();
-        $change = Mage::getModel('enterprise_logging/event_changes');
+        $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
         $data = $request->getParam('rate');
         $values = array();
         if (!is_array($data)) {

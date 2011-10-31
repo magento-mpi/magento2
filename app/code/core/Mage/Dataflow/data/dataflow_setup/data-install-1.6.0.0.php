@@ -90,5 +90,5 @@ $dataflowData = array(
 );
 
 foreach ($dataflowData as $bind) {
-    Mage::getModel('dataflow/profile')->setData($bind)->save();
+    Mage::getModel('Mage_Dataflow_Model_Profile')->setData($bind)->save();
 }

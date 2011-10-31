@@ -52,7 +52,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Ad
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('eav/form_type')
+        $collection = Mage::getModel('Mage_Eav_Model_Form_Type')
             ->getCollection();
 
         $this->setCollection($collection);
@@ -82,7 +82,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Ad
             'type'      => 'store'
         ));
 
-        $design = Mage::getModel('core/design_source_design')
+        $design = Mage::getModel('Mage_Core_Model_Design_Source_Design')
             ->setIsFullLabel(true)->getAllOptions(false);
         array_unshift($design, array(
             'value' => 'all',

@@ -91,11 +91,11 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
         $this->_addLeft(
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_Editroles')
         );
-        $resources = Mage::getModel('api/roles')->getResourcesList();
+        $resources = Mage::getModel('Mage_Api_Model_Roles')->getResourcesList();
         $this->_addContent(
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_Buttons')
                 ->setRoleId($roleId)
-                ->setRoleInfo(Mage::getModel('api/roles')->load($roleId))
+                ->setRoleInfo(Mage::getModel('Mage_Api_Model_Roles')->load($roleId))
                 ->setTemplate('api/roleinfo.phtml')
         );
         $this->_addJs($this->getLayout()->createBlock('Mage_Adminhtml_Block_Template')->setTemplate('api/role_users_grid_js.phtml'));
@@ -107,7 +107,7 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
         $rid = $this->getRequest()->getParam('rid', false);
 
         try {
-            Mage::getModel("api/roles")->load($rid)->delete();
+            Mage::getModel('Mage_Api_Model_Roles')->load($rid)->delete();
             Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The role has been deleted.'));
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($this->__('An error occurred while deleting this role.'));
@@ -120,7 +120,7 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
     {
 
         $rid        = $this->getRequest()->getParam('role_id', false);
-        $role = Mage::getModel('api/roles')->load($rid);
+        $role = Mage::getModel('Mage_Api_Model_Roles')->load($rid);
         if (!$role->getId() && $rid) {
             Mage::getSingleton('adminhtml/session')->addError($this->__('This Role no longer exists'));
             $this->_redirect('*/*/');
@@ -148,7 +148,7 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
                     ->setRoleType('G')
                     ->save();
 
-            Mage::getModel("api/rules")
+            Mage::getModel('Mage_Api_Model_Rules')
                 ->setRoleId($role->getId())
                 ->setResources($resource)
                 ->saveRel();
@@ -180,7 +180,7 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
     protected function _deleteUserFromRole($userId, $roleId)
     {
         try {
-            Mage::getModel("api/user")
+            Mage::getModel('Mage_Api_Model_User')
                 ->setRoleId($roleId)
                 ->setUserId($userId)
                 ->deleteFromRole();
@@ -193,7 +193,7 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
 
     protected function _addUserToRole($userId, $roleId)
     {
-        $user = Mage::getModel("api/user")->load($userId);
+        $user = Mage::getModel('Mage_Api_Model_User')->load($userId);
         $user->setRoleId($roleId)->setUserId($userId);
 
         if( $user->roleUserExists() === true ) {

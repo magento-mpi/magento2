@@ -77,7 +77,7 @@ class Mage_Rss_CatalogController extends Mage_Core_Controller_Front_Action
     {
         if ($this->checkFeedEnable('tag')) {
             $tagName = urldecode($this->getRequest()->getParam('tagName'));
-            $tagModel = Mage::getModel('tag/tag');
+            $tagModel = Mage::getModel('Mage_Tag_Model_Tag');
             $tagModel->loadByName($tagName);
             if ($tagModel->getId() && $tagModel->getStatus()==$tagModel->getApprovedStatus()) {
                 Mage::register('tag_model', $tagModel);

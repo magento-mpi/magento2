@@ -43,7 +43,7 @@ class Enterprise_SalesArchive_Model_System_Config_Backend_Active
     {
         parent::_afterSave();
         if ($this->isValueChanged() && !$this->getValue()) {
-            Mage::getModel('enterprise_salesarchive/archive')->removeOrdersFromArchive();
+            Mage::getModel('Enterprise_SalesArchive_Model_Archive')->removeOrdersFromArchive();
         }
         return $this;
     }

@@ -55,7 +55,7 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
     protected function _getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            $this->_wishlist = Mage::getModel('wishlist/wishlist');
+            $this->_wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist');
             if ($this->_getCustomer()->getId()) {
                 $this->_wishlist->loadByCustomer($this->_getCustomer());
             }
@@ -71,7 +71,7 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
     protected function _getCustomer()
     {
         if (is_null($this->_customer)) {
-            $this->_customer = Mage::getModel('customer/customer');
+            $this->_customer = Mage::getModel('Mage_Customer_Model_Customer');
 
             $params = Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('data'));
             $data   = explode(',', $params);
@@ -92,7 +92,7 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
     protected function _toHtml()
     {
         /* @var $rssObj Mage_Rss_Model_Rss */
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = Mage::getModel('Mage_Rss_Model_Rss');
 
         if ($this->_getWishlist()->getId()) {
             $newUrl = Mage::getUrl('wishlist/shared/index', array(

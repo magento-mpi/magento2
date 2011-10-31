@@ -286,7 +286,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                     unset($option['option_id']);
                 }
 
-                $optionModel = Mage::getModel('bundle/option')
+                $optionModel = Mage::getModel('Mage_Bundle_Model_Option')
                     ->setData($option)
                     ->setParentId($product->getId())
                     ->setStoreId($product->getStoreId());
@@ -312,7 +312,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                             $selection['is_default'] = 0;
                         }
 
-                        $selectionModel = Mage::getModel('bundle/selection')
+                        $selectionModel = Mage::getModel('Mage_Bundle_Model_Selection')
                             ->setData($selection)
                             ->setOptionId($options[$index]['option_id'])
                             ->setParentProductId($product->getId());
@@ -372,7 +372,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     public function getOptionsCollection($product = null)
     {
         if (!$this->getProduct($product)->hasData($this->_keyOptionsCollection)) {
-            $optionsCollection = Mage::getModel('bundle/option')->getResourceCollection()
+            $optionsCollection = Mage::getModel('Mage_Bundle_Model_Option')->getResourceCollection()
                 ->setProductIdFilter($this->getProduct($product)->getId())
                 ->setPositionOrder();
 
@@ -762,7 +762,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         $usedOptionsIds  = $this->getProduct($product)->getData($this->_keyUsedOptionsIds);
 
         if (!$usedOptions || serialize($usedOptionsIds) != serialize($optionIds)) {
-            $usedOptions = Mage::getModel('bundle/option')->getResourceCollection()
+            $usedOptions = Mage::getModel('Mage_Bundle_Model_Option')->getResourceCollection()
                 ->setProductIdFilter($this->getProduct($product)->getId())
                 ->setPositionOrder()
                 ->joinValues(Mage::app()->getStore()->getId())

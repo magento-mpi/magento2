@@ -97,7 +97,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
              ->_title($this->__('Categories'))
              ->_title($this->__('Catalog Events'));
 
-        $event = Mage::getModel('enterprise_catalogevent/event')
+        $event = Mage::getModel('Enterprise_CatalogEvent_Model_Event')
             ->setStoreId($this->getRequest()->getParam('store', 0));
         if ($eventId = $this->getRequest()->getParam('id', false)) {
             $event->load($eventId);
@@ -135,7 +135,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
      */
     public function saveAction()
     {
-        $event = Mage::getModel('enterprise_catalogevent/event')
+        $event = Mage::getModel('Enterprise_CatalogEvent_Model_Event')
             ->setStoreId($this->getRequest()->getParam('store', 0));
         /* @var $event Enterprise_CatalogEvent_Model_Event */
         if ($eventId = $this->getRequest()->getParam('id', false)) {
@@ -222,7 +222,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
      */
     public function deleteAction()
     {
-        $event = Mage::getModel('enterprise_catalogevent/event');
+        $event = Mage::getModel('Enterprise_CatalogEvent_Model_Event');
         $event->load($this->getRequest()->getParam('id', false));
         if ($event->getId()) {
             try {

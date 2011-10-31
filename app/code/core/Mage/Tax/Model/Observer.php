@@ -129,7 +129,7 @@ class Mage_Tax_Model_Observer
                     'base_real_amount'  => $baseRealAmount,
                 );
 
-                $result = Mage::getModel('tax/sales_order_tax')->setData($data)->save();
+                $result = Mage::getModel('Mage_Tax_Model_Sales_Order_Tax')->setData($data)->save();
 
                 if (isset($ratesIdQuoteItemId[$id])) {
                     foreach ($ratesIdQuoteItemId[$id] as $quoteItemId) {
@@ -141,7 +141,7 @@ class Mage_Tax_Model_Observer
                                     'tax_id'        => $result->getTaxId(),
                                     'tax_percent'   => $quoteItemId['percent']
                                 );
-                                Mage::getModel('tax/sales_order_tax_item')->setData($data)->save();
+                                Mage::getModel('Mage_Tax_Model_Sales_Order_Tax_Item')->setData($data)->save();
                             }
                         }
                     }

@@ -53,7 +53,7 @@ class Mage_Checkout_Model_Api_Resource_Customer extends Mage_Checkout_Model_Api_
     protected function _getCustomer($customerId)
     {
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('customer/customer')
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')
             ->load($customerId);
         if (!$customer->getId()) {
             $this->_fault('customer_not_exists');
@@ -70,7 +70,7 @@ class Mage_Checkout_Model_Api_Resource_Customer extends Mage_Checkout_Model_Api_
      */
     protected function _getCustomerAddress($addressId)
     {
-        $address = Mage::getModel('customer/address')->load((int)$addressId);
+        $address = Mage::getModel('Mage_Customer_Model_Address')->load((int)$addressId);
         if (is_null($address->getId())) {
             $this->_fault('invalid_address_id');
         }
@@ -131,7 +131,7 @@ class Mage_Checkout_Model_Api_Resource_Customer extends Mage_Checkout_Model_Api_
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        //$customer = Mage::getModel('customer/customer');
+        //$customer = Mage::getModel('Mage_Customer_Model_Customer');
         $customer = $quote->getCustomer();
         /* @var $customer Mage_Customer_Model_Customer */
         $customerBilling = $billing->exportCustomerAddress();

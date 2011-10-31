@@ -47,7 +47,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
      */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('enterprise_reminder/rule_condition_wishlist_combine')->getNewChildSelectOptions();
+        return Mage::getModel('Enterprise_Reminder_Model_Rule_Condition_Wishlist_Combine')->getNewChildSelectOptions();
     }
 
     /**
@@ -140,7 +140,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
 
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
 
-        $currentTime = Mage::getModel('core/date')->gmtDate();
+        $currentTime = Mage::getModel('Mage_Core_Model_Date')->gmtDate();
         $daysDiffSql = Mage::getResourceHelper('Enterprise_Reminder')
             ->getDateDiff('list.updated_at', $select->getAdapter()->formatDate($currentTime));
         $select->where($daysDiffSql . " {$operator} ?", $conditionValue);

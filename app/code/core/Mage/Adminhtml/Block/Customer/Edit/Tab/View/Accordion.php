@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Mage_Adminht
             $website = Mage::app()->getWebsite($websiteId);
 
             // count cart items
-            $cartItemsCount = Mage::getModel('sales/quote')
+            $cartItemsCount = Mage::getModel('Mage_Sales_Model_Quote')
                 ->setWebsite($website)->loadByCustomer($customer)
                 ->getItemsCollection(false)
                 ->addFieldToFilter('parent_item_id', array('null' => true))
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Mage_Adminht
         }
 
         // count wishlist items
-        $wishlist = Mage::getModel('wishlist/wishlist');
+        $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist');
         $wishlistCount = $wishlist->loadByCustomer($customer)
             ->setSharedStoreIds($wishlist->getSharedStoreIds(false))
             ->getItemCollection()

@@ -69,7 +69,7 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
 
     public function getProductInfo()
     {
-        $product = Mage::getModel('catalog/product');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         return $product->load($this->getRequest()->getParam('id'));
     }
 
@@ -81,7 +81,7 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
 
     public function getRatings()
     {
-        $ratingCollection = Mage::getModel('rating/rating')
+        $ratingCollection = Mage::getModel('Mage_Rating_Model_Rating')
             ->getResourceCollection()
             ->addEntityFilter('product')
             ->setPositionOrder()

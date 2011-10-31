@@ -43,7 +43,7 @@ class Mage_XmlConnect_Model_Adminhtml_System_Config_Backend_Currency_Default
     {
         parent::_afterSave();
         if ($this->isValueChanged()) {
-            Mage::getModel('xmlconnect/application')->updateAllAppsUpdatedAtParameter();
+            Mage::getModel('Mage_XmlConnect_Model_Application')->updateAllAppsUpdatedAtParameter();
         }
         return $this;
     }

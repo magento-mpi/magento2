@@ -91,7 +91,7 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
                 if ($error) {
                     throw new Exception();
                 }
-                $mailTemplate = Mage::getModel('core/email_template');
+                $mailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
                 /* @var $mailTemplate Mage_Core_Model_Email_Template */
                 $mailTemplate->setDesignConfig(array('area' => 'frontend'))
                     ->setReplyTo($post['email'])

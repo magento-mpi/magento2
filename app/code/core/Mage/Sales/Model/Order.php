@@ -761,7 +761,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
              *
              */
             /*
-            $productsCollection = Mage::getModel('catalog/product')->getCollection()
+            $productsCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
                 ->setStoreId($this->getStoreId())
                 ->addIdFilter($products)
                 ->addAttributeToSelect('status')
@@ -775,7 +775,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             */
 
             foreach ($products as $productId) {
-                $product = Mage::getModel('catalog/product')
+                $product = Mage::getModel('Mage_Catalog_Model_Product')
                     ->setStoreId($this->getStoreId())
                     ->load($productId);
                 if (!$product->getId() || !$product->isSalable()) {
@@ -1031,7 +1031,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         } else {
             $this->setStatus($status);
         }
-        $history = Mage::getModel('sales/order_status_history')
+        $history = Mage::getModel('Mage_Sales_Model_Order_Status_History')
             ->setStatus($status)
             ->setComment($comment)
             ->setEntityName($this->_historyEntityName);
@@ -1255,8 +1255,8 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $customerName = $this->getCustomerName();
         }
 
-        $mailer = Mage::getModel('core/email_template_mailer');
-        $emailInfo = Mage::getModel('core/email_info');
+        $mailer = Mage::getModel('Mage_Core_Model_Email_Template_Mailer');
+        $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
         $emailInfo->addTo($this->getCustomerEmail(), $customerName);
         if ($copyTo && $copyMethod == 'bcc') {
             // Add bcc to customer email
@@ -1269,7 +1269,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         // Email copies are sent as separated emails if their copy method is 'copy'
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
-                $emailInfo = Mage::getModel('core/email_info');
+                $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }
@@ -1324,9 +1324,9 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $customerName = $this->getCustomerName();
         }
 
-        $mailer = Mage::getModel('core/email_template_mailer');
+        $mailer = Mage::getModel('Mage_Core_Model_Email_Template_Mailer');
         if ($notifyCustomer) {
-            $emailInfo = Mage::getModel('core/email_info');
+            $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
             $emailInfo->addTo($this->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
@@ -1341,7 +1341,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         // 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = Mage::getModel('core/email_info');
+                $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }
@@ -1461,7 +1461,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     protected function _getItemsRandomCollection($limit, $nonChildrenOnly = false)
     {
-        $collection = Mage::getModel('sales/order_item')->getCollection()
+        $collection = Mage::getModel('Mage_Sales_Model_Order_Item')->getCollection()
             ->setOrderFilter($this)
             ->setRandomOrder();
 
@@ -1473,7 +1473,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $products[] = $item->getProductId();
         }
 
-        $productsCollection = Mage::getModel('catalog/product')
+        $productsCollection = Mage::getModel('Mage_Catalog_Model_Product')
             ->getCollection()
             ->addIdFilter($products)
             ->setVisibility(Mage::getSingleton('catalog/product_visibility')->getVisibleInSiteIds())
@@ -1719,7 +1719,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getOrderCurrency()
     {
         if (is_null($this->_orderCurrency)) {
-            $this->_orderCurrency = Mage::getModel('directory/currency')->load($this->getOrderCurrencyCode());
+            $this->_orderCurrency = Mage::getModel('Mage_Directory_Model_Currency')->load($this->getOrderCurrencyCode());
         }
         return $this->_orderCurrency;
     }
@@ -1760,7 +1760,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getBaseCurrency()
     {
         if (is_null($this->_baseCurrency)) {
-            $this->_baseCurrency = Mage::getModel('directory/currency')->load($this->getBaseCurrencyCode());
+            $this->_baseCurrency = Mage::getModel('Mage_Directory_Model_Currency')->load($this->getBaseCurrencyCode());
         }
         return $this->_baseCurrency;
     }
@@ -2163,7 +2163,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
 
     public function getFullTaxInfo()
     {
-        $rates = Mage::getModel('tax/sales_order_tax')->getCollection()->loadByOrder($this)->toArray();
+        $rates = Mage::getModel('Mage_Tax_Model_Sales_Order_Tax')->getCollection()->loadByOrder($this)->toArray();
         return Mage::getSingleton('tax/calculation')->reproduceProcess($rates['items']);
     }
 
@@ -2174,7 +2174,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function prepareInvoice($qtys = array())
     {
-        $invoice = Mage::getModel('sales/service_order', $this)->prepareInvoice($qtys);
+        $invoice = Mage::getModel('Mage_Sales_Model_Service_Order', $this)->prepareInvoice($qtys);
         return $invoice;
     }
 
@@ -2185,7 +2185,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function prepareShipment($qtys = array())
     {
-        $shipment = Mage::getModel('sales/service_order', $this)->prepareShipment($qtys);
+        $shipment = Mage::getModel('Mage_Sales_Model_Service_Order', $this)->prepareShipment($qtys);
         return $shipment;
     }
 

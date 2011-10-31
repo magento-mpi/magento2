@@ -120,7 +120,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
             return Mage::getSingleton('admin/session')->getUser()->getUsername();
         }
 
-        $user = Mage::getModel('admin/user')
+        $user = Mage::getModel('Mage_Admin_Model_User')
             ->load($userId);
 
         if ($user->getId()) {

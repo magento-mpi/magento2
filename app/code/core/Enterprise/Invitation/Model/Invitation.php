@@ -165,7 +165,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
      */
     protected function _afterSave()
     {
-        Mage::getModel('enterprise_invitation/invitation_history')
+        Mage::getModel('Enterprise_Invitation_Model_Invitation_History')
             ->setInvitationId($this->getId())->setStatus($this->getStatus())
             ->save();
         $parent = parent::_afterSave();
@@ -184,7 +184,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
     {
         $this->makeSureCanBeSent();
         $store = Mage::app()->getStore($this->getStoreId());
-        $mail  = Mage::getModel('core/email_template');
+        $mail  = Mage::getModel('Mage_Core_Model_Email_Template');
         $mail->setDesignConfig(array('area'=>'frontend', 'store' => $this->getStoreId()))
             ->sendTransactional(
                 $store->getConfig(self::XML_PATH_EMAIL_TEMPLATE), $store->getConfig(self::XML_PATH_EMAIL_IDENTITY),
@@ -276,7 +276,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
 
         // lookup customer by specified email/website id
         if (!isset(self::$_customerExistsLookup[$email]) || !isset(self::$_customerExistsLookup[$email][$websiteId])) {
-            $customer = Mage::getModel('customer/customer')->setWebsiteId($websiteId)->loadByEmail($email);
+            $customer = Mage::getModel('Mage_Customer_Model_Customer')->setWebsiteId($websiteId)->loadByEmail($email);
             self::$_customerExistsLookup[$email][$websiteId] = ($customer->getId() ? $customer->getId() : false);
         }
         if (false === self::$_customerExistsLookup[$email][$websiteId]) {

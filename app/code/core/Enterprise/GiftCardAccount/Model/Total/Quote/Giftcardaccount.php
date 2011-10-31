@@ -126,7 +126,7 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
             $amount = 0;
             $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($quote);
             foreach ($cards as $k=>&$card) {
-                $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->load($card['i']);
+                $model = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')->load($card['i']);
                 if ($model->isExpired() || $model->getBalance() == 0) {
                     unset($cards[$k]);
                 } else if ($model->getBalance() != $card['ba']) {

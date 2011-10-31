@@ -79,7 +79,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
     public function getCustomerModel()
     {
         if (is_null($this->_customerModel)) {
-            $object = Mage::getModel('customer/customer');
+            $object = Mage::getModel('Mage_Customer_Model_Customer');
             $this->_customerModel = Mage::objects()->save($object);
         }
         return Mage::objects()->load($this->_customerModel);
@@ -93,7 +93,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
     public function getCustomerAddressModel()
     {
         if (is_null($this->_customerAddressModel)) {
-            $object = Mage::getModel('customer/address');
+            $object = Mage::getModel('Mage_Customer_Model_Address');
             $this->_customerAddressModel = Mage::objects()->save($object);
         }
         return Mage::objects()->load($this->_customerAddressModel);
@@ -107,7 +107,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
     public function getNewsletterModel()
     {
         if (is_null($this->_newsletterModel)) {
-            $object = Mage::getModel('newsletter/subscriber');
+            $object = Mage::getModel('Mage_Newsletter_Model_Subscriber');
             $this->_newsletterModel = Mage::objects()->save($object);
         }
         return Mage::objects()->load($this->_newsletterModel);
@@ -473,7 +473,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
                 foreach ($model->getData() as $field=>$value) {
                     // set website_id
                     if ($field == 'website_id') {
-                      $row['website_code'] = Mage::getModel('core/website')->load($value)->getCode();
+                      $row['website_code'] = Mage::getModel('Mage_Core_Model_Website')->load($value)->getCode();
                       continue;
                     } // end
 
@@ -532,7 +532,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
                         $row['group']=$group->getFirstItem()->getData('customer_group_code');
                     }
                 }
-                $subscriber = Mage::getModel('newsletter/subscriber')->loadByCustomer($model);
+                $subscriber = Mage::getModel('Mage_Newsletter_Model_Subscriber')->loadByCustomer($model);
                 if ($subscriber->getId()) {
                     if ($subscriber->getSubscriberStatus() == Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED) {
                         $row['is_subscribed'] = Mage_Customer_Model_Customer::SUBSCRIBED_YES;
@@ -629,7 +629,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
                     //print_r($collection);
                     $entity = $collection->getEntity();
 
-                    $model = Mage::getModel('customer/customer');
+                    $model = Mage::getModel('Mage_Customer_Model_Customer');
                     $model->setStoreId($storeId);
                     if (!empty($row['entity_id'])) {
                         $model->load($row['entity_id']);
@@ -658,11 +658,11 @@ class Mage_Customer_Model_Convert_Parser_Customer
 
 
                     $billingAddress = $model->getPrimaryBillingAddress();
-                    $customer = Mage::getModel('customer/customer')->load($model->getId());
+                    $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($model->getId());
 
 
                     if (!$billingAddress  instanceof Mage_Customer_Model_Address) {
-                        $billingAddress = Mage::getModel('customer/address');
+                        $billingAddress = Mage::getModel('Mage_Customer_Model_Address');
                         if ($customer->getId() && $customer->getDefaultBilling()) {
                             $billingAddress->setId($customer->getDefaultBilling());
                         }
@@ -705,7 +705,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
 
                     $shippingAddress = $model->getPrimaryShippingAddress();
                     if (!$shippingAddress instanceof Mage_Customer_Model_Address) {
-                        $shippingAddress = Mage::getModel('customer/address');
+                        $shippingAddress = Mage::getModel('Mage_Customer_Model_Address');
                         if ($customer->getId() && $customer->getDefaultShipping()) {
                             $shippingAddress->setId($customer->getDefaultShipping());
                         }

@@ -72,7 +72,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         $this->_title($this->__('Promotions'))->_title($this->__('Catalog Price Rules'));
 
         $id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('catalogrule/rule');
+        $model = Mage::getModel('Mage_CatalogRule_Model_Rule');
 
         if ($id) {
             $model->load($id);
@@ -110,7 +110,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
     {
         if ($this->getRequest()->getPost()) {
             try {
-                $model = Mage::getModel('catalogrule/rule');
+                $model = Mage::getModel('Mage_CatalogRule_Model_Rule');
                 Mage::dispatchEvent(
                     'adminhtml_controller_catalogrule_prepare_save',
                     array('request' => $this->getRequest())
@@ -185,7 +185,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
     {
         if ($id = $this->getRequest()->getParam('id')) {
             try {
-                $model = Mage::getModel('catalogrule/rule');
+                $model = Mage::getModel('Mage_CatalogRule_Model_Rule');
                 $model->load($id);
                 $model->delete();
                 Mage::app()->saveCache(1, 'catalog_rules_dirty');
@@ -220,7 +220,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         $model = Mage::getModel($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(Mage::getModel('catalogrule/rule'))
+            ->setRule(Mage::getModel('Mage_CatalogRule_Model_Rule'))
             ->setPrefix('conditions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
@@ -257,7 +257,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         $model = Mage::getModel($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(Mage::getModel('catalogrule/rule'))
+            ->setRule(Mage::getModel('Mage_CatalogRule_Model_Rule'))
             ->setPrefix('actions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
@@ -278,7 +278,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
     public function applyRulesAction()
     {
         try {
-            Mage::getModel('catalogrule/rule')->applyAll();
+            Mage::getModel('Mage_CatalogRule_Model_Rule')->applyAll();
             Mage::app()->removeCache('catalog_rules_dirty');
             Mage::getSingleton('adminhtml/session')->addSuccess(
                 Mage::helper('Mage_CatalogRule_Helper_Data')->__('The rules have been applied.')

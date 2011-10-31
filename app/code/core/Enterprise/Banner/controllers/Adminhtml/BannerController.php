@@ -154,7 +154,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
         if ($id = $this->getRequest()->getParam('id')) {
             try {
                 // init model and delete
-                $model = Mage::getModel('enterprise_banner/banner');
+                $model = Mage::getModel('Enterprise_Banner_Model_Banner');
                 $model->load($id);
                 $model->delete();
                 // display success message
@@ -222,7 +222,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
         $this->_title($this->__('CMS'))->_title($this->__('Banners'));
 
         $id = (int)$this->getRequest()->getParam($idFieldName);
-        $model = Mage::getModel('enterprise_banner/banner');
+        $model = Mage::getModel('Enterprise_Banner_Model_Banner');
         if ($id) {
             $model->load($id);
         }
@@ -306,7 +306,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
     public function salesRuleBannersGridAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('salesrule/rule');
+        $model = Mage::getModel('Mage_SalesRule_Model_Rule');
 
         if ($id) {
             $model->load($id);
@@ -333,7 +333,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
     public function catalogRuleBannersGridAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('catalogrule/rule');
+        $model = Mage::getModel('Mage_CatalogRule_Model_Rule');
 
         if ($id) {
             $model->load($id);

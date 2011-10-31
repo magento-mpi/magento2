@@ -118,7 +118,7 @@ class Mage_Adminhtml_Block_Report_Sales_Tax_Grid extends Mage_Adminhtml_Block_Re
     {
         $filterData = $this->getFilterData();
         if(!$filterData->hasData('order_statuses')) {
-            $orderConfig = Mage::getModel('sales/order_config');
+            $orderConfig = Mage::getModel('Mage_Sales_Model_Order_Config');
             $statusValues = array();
             $canceledStatuses = $orderConfig->getStateStatuses(Mage_Sales_Model_Order::STATE_CANCELED);
             foreach ($orderConfig->getStatuses() as $code => $label) {

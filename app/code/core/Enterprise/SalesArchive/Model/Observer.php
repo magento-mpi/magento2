@@ -44,7 +44,7 @@ class Enterprise_SalesArchive_Model_Observer
 
     public function __construct()
     {
-        $this->_archive = Mage::getModel('enterprise_salesarchive/archive');
+        $this->_archive = Mage::getModel('Enterprise_SalesArchive_Model_Archive');
         $this->_config  = Mage::getSingleton('enterprise_salesarchive/config');
     }
 

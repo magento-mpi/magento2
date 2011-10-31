@@ -401,7 +401,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
      */
     public function getOptionValuesByOptionId($optionIds, $store_id)
     {
-        $collection = Mage::getModel('catalog/product_option_value')
+        $collection = Mage::getModel('Mage_Catalog_Model_Product_Option_Value')
             ->getValuesByOption($optionIds, $this->getId(), $store_id);
 
         return $collection;

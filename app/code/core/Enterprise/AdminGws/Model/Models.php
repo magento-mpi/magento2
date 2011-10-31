@@ -605,7 +605,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogEventSaveBefore($model)
     {
-        $category = Mage::getModel('catalog/category')->load($model->getCategoryId());
+        $category = Mage::getModel('Mage_Catalog_Model_Category')->load($model->getCategoryId());
         if (!$category->getId()) {
             $this->_throwSave();
         }
@@ -642,7 +642,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     public function catalogEventDeleteBefore($model)
     {
         // delete only in exclusive mode
-        $category = Mage::getModel('catalog/category')->load($model->getCategoryId());
+        $category = Mage::getModel('Mage_Catalog_Model_Category')->load($model->getCategoryId());
         if (!$category->getId()) {
             $this->_throwDelete();
         }
@@ -658,7 +658,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogEventLoadAfter($model)
     {
-        $category = Mage::getModel('catalog/category')->load($model->getCategoryId());
+        $category = Mage::getModel('Mage_Catalog_Model_Category')->load($model->getCategoryId());
         if (!$this->_role->hasExclusiveCategoryAccess($category->getPath())) {
             $model->setIsReadonly(true);
             $model->setIsDeleteable(false);

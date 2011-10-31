@@ -54,7 +54,7 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
     protected function _initRule($requestParam = 'id')
     {
         $ruleId = $this->getRequest()->getParam($requestParam, 0);
-        $rule = Mage::getModel('enterprise_reminder/rule');
+        $rule = Mage::getModel('Enterprise_Reminder_Model_Rule');
         if ($ruleId) {
             $rule->load($ruleId);
             if (!$rule->getId()) {
@@ -142,7 +142,7 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
         $model = Mage::getModel($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(Mage::getModel('enterprise_reminder/rule'))
+            ->setRule(Mage::getModel('Enterprise_Reminder_Model_Rule'))
             ->setPrefix('conditions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);

@@ -81,7 +81,7 @@ class Mage_XmlConnect_Model_Template extends Mage_Core_Model_Template
     public function getProcessedTemplate(array $variables = array())
     {
         /* @var $processor Mage_Widget_Model_Template_Filter */
-        $processor = Mage::getModel('widget/template_filter');
+        $processor = Mage::getModel('Mage_Widget_Model_Template_Filter');
 
         $variables['this'] = $this;
 

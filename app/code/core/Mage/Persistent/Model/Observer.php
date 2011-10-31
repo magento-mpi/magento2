@@ -53,7 +53,7 @@ class Mage_Persistent_Model_Observer
             || !$this->_getPersistentHelper()->isPersistent() || Mage::getSingleton('customer/session')->isLoggedIn()) {
             return $this;
         }
-        Mage::getModel('persistent/persistent_config')
+        Mage::getModel('Mage_Persistent_Model_Persistent_Config')
             ->setConfigFilePath(Mage::helper('Mage_Persistent_Helper_Data')->getPersistentConfigFilePath())
             ->fire();
         return $this;
@@ -82,7 +82,7 @@ class Mage_Persistent_Model_Observer
         $configFilePath = $observer->getEvent()->getConfigFilePath();
 
         /** @var $persistentConfig Mage_Persistent_Model_Persistent_Config */
-        $persistentConfig = Mage::getModel('persistent/persistent_config')
+        $persistentConfig = Mage::getModel('Mage_Persistent_Model_Persistent_Config')
             ->setConfigFilePath(
                 $configFilePath ? $configFilePath : Mage::helper('Mage_Persistent_Helper_Data')->getPersistentConfigFilePath()
             );
@@ -367,7 +367,7 @@ class Mage_Persistent_Model_Observer
      */
     protected function _getPersistentCustomer()
     {
-        return Mage::getModel('customer/customer')->load(
+        return Mage::getModel('Mage_Customer_Model_Customer')->load(
             $this->_getPersistentHelper()->getSession()->getCustomerId()
         );
     }
@@ -389,7 +389,7 @@ class Mage_Persistent_Model_Observer
      */
     protected function _getQuote()
     {
-        $quote = Mage::getModel('sales/quote');
+        $quote = Mage::getModel('Mage_Sales_Model_Quote');
         $quote->loadByCustomer($this->_getPersistentCustomer());
         return $quote;
     }
@@ -526,7 +526,7 @@ class Mage_Persistent_Model_Observer
         }
 
         foreach ($websiteIds as $websiteId) {
-            Mage::getModel('persistent/session')->deleteExpired($websiteId);
+            Mage::getModel('Mage_Persistent_Model_Session')->deleteExpired($websiteId);
         }
 
         return $this;
@@ -586,7 +586,7 @@ class Mage_Persistent_Model_Observer
 
         if ($this->_isLoggedOut()) {
             /** @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('customer/customer')->load(
+            $customer = Mage::getModel('Mage_Customer_Model_Customer')->load(
                 $this->_getPersistentHelper()->getSession()->getCustomerId()
             );
             Mage::getSingleton('customer/session')

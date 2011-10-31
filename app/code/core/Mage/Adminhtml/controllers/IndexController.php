@@ -246,7 +246,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 
             if ($collection->getSize() > 0) {
                 foreach ($collection as $item) {
-                    $user = Mage::getModel('admin/user')->load($item->getId());
+                    $user = Mage::getModel('Mage_Admin_Model_User')->load($item->getId());
                     if ($user->getId()) {
                         $newResetPasswordLinkToken = Mage::helper('Mage_Admin_Helper_Data')->generateResetPasswordLinkToken();
                         $user->changeResetPasswordLinkToken($newResetPasswordLinkToken);
@@ -317,7 +317,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
             array_push($errorMessages, Mage::helper('Mage_Adminhtml_Helper_Data')->__('New password field cannot be empty.'));
         }
         /** @var $user Mage_Admin_Model_User */
-        $user = Mage::getModel('admin/user')->load($userId);
+        $user = Mage::getModel('Mage_Admin_Model_User')->load($userId);
 
         $user->setNewPassword($password);
         $user->setPasswordConfirmation($passwordConfirmation);
@@ -376,7 +376,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         }
 
         /** @var $user Mage_Admin_Model_User */
-        $user = Mage::getModel('admin/user')->load($userId);
+        $user = Mage::getModel('Mage_Admin_Model_User')->load($userId);
         if (!$user || !$user->getId()) {
             throw Mage::exception('Mage_Core', Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong account specified.'));
         }

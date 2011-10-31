@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Dashboard_Searches_Top extends Mage_Adminhtml_Block_D
         if (!Mage::helper('Mage_Core_Helper_Data')->isModuleEnabled('Mage_CatalogSearch')) {
             return parent::_prepareCollection();
         }
-        $this->_collection = Mage::getModel('catalogsearch/query')
+        $this->_collection = Mage::getModel('Mage_CatalogSearch_Model_Query')
             ->getResourceCollection();
 
         if ($this->getRequest()->getParam('store')) {

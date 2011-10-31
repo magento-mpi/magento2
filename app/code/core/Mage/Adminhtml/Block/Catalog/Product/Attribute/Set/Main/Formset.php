@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends Ma
      */
     protected function _prepareForm()
     {
-        $data = Mage::getModel('eav/entity_attribute_set')
+        $data = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
             ->load($this->getRequest()->getParam('id'));
 
         $form = new Varien_Data_Form();
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends Ma
                 'value' => '1'
             ));
 
-            $sets = Mage::getModel('eav/entity_attribute_set')
+            $sets = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
                 ->getResourceCollection()
                 ->setEntityTypeFilter(Mage::registry('entityType'))
                 ->load()

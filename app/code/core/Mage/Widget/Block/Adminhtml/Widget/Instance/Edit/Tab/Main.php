@@ -198,7 +198,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
      */
     public function getPackegeThemeOptionsArray()
     {
-        return Mage::getModel('core/design_source_design')
+        return Mage::getModel('Mage_Core_Model_Design_Source_Design')
             ->setIsFullLabel(true)->getAllOptions(true);
     }
 

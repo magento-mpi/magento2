@@ -51,7 +51,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
         $this->_title($this->__('CMS'))->_title($this->__('Polls'));
 
         $pollId     = $this->getRequest()->getParam('id');
-        $pollModel  = Mage::getModel('poll/poll')->load($pollId);
+        $pollModel  = Mage::getModel('Mage_Poll_Model_Poll')->load($pollId);
 
         if ($pollModel->getId() || $pollId == 0) {
             $this->_title($pollModel->getId() ? $pollModel->getPollTitle() : $this->__('New Poll'));
@@ -78,7 +78,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
     {
         if ($id = $this->getRequest()->getParam('id')) {
             try {
-                $model = Mage::getModel('poll/poll');
+                $model = Mage::getModel('Mage_Poll_Model_Poll');
                 $model->setId($id);
                 $model->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The poll has been deleted.'));
@@ -115,7 +115,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
 
         if ( $this->getRequest()->getPost() ) {
             try {
-                $pollModel = Mage::getModel('poll/poll');
+                $pollModel = Mage::getModel('Mage_Poll_Model_Poll');
 
                 if( !$this->getRequest()->getParam('id') ) {
                     $pollModel->setDatePosted(now());
@@ -174,7 +174,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                         }
                         $_titles[] = $answer['title'];
 
-                        $answerModel = Mage::getModel('poll/poll_answer');
+                        $answerModel = Mage::getModel('Mage_Poll_Model_Poll_Answer');
                         if( intval($key) > 0 ) {
                             $answerModel->setId($key);
                         }
@@ -192,7 +192,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                 $answersDelete = $this->getRequest()->getParam('deleteAnswer');
                 if( is_array($answersDelete) ) {
                     foreach( $answersDelete as $answer ) {
-                        $answerModel = Mage::getModel('poll/poll_answer');
+                        $answerModel = Mage::getModel('Mage_Poll_Model_Poll_Answer');
                         $answerModel->setId($answer)
                             ->delete();
                     }

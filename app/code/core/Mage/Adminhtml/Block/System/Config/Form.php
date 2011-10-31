@@ -118,7 +118,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
     {
         $this->_configRoot = Mage::getConfig()->getNode(null, $this->getScope(), $this->getScopeCode());
 
-        $this->_configDataObject = Mage::getModel('adminhtml/config_data')
+        $this->_configDataObject = Mage::getModel('Mage_Adminhtml_Model_Config_Data')
             ->setSection($this->getSectionCode())
             ->setWebsite($this->getWebsiteCode())
             ->setStore($this->getStoreCode());

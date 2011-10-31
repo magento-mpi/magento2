@@ -453,7 +453,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
     protected function _getOrder()
     {
         if (is_null($this->_order)) {
-            $this->_order = Mage::getModel('sales/order')->load($this->getOnepage()->getQuote()->getId(), 'quote_id');
+            $this->_order = Mage::getModel('Mage_Sales_Model_Order')->load($this->getOnepage()->getQuote()->getId(), 'quote_id');
             if (!$this->_order->getId()) {
                 throw new Mage_Payment_Model_Info_Exception(Mage::helper('Mage_Core_Helper_Data')->__("Can not create invoice. Order was not found."));
             }
@@ -473,7 +473,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             $items[$item->getId()] = $item->getQtyOrdered();
         }
         /* @var $invoice Mage_Sales_Model_Service_Order */
-        $invoice = Mage::getModel('sales/service_order', $this->_getOrder())->prepareInvoice($items);
+        $invoice = Mage::getModel('Mage_Sales_Model_Service_Order', $this->_getOrder())->prepareInvoice($items);
         $invoice->setEmailSent(true)->register();
 
         Mage::register('current_invoice', $invoice);
@@ -515,7 +515,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
                     && $paymentHelper->getZeroSubTotalOrderStatus($storeId) == 'pending') {
                 $invoice = $this->_initInvoice();
                 $invoice->getOrder()->setIsInProcess(true);
-                $transactionSave = Mage::getModel('core/resource_transaction')
+                $transactionSave = Mage::getModel('Mage_Core_Model_Resource_Transaction')
                     ->addObject($invoice)
                     ->addObject($invoice->getOrder());
                 $transactionSave->save();

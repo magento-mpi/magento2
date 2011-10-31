@@ -84,7 +84,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('page_id');
-        $model = Mage::getModel('cms/page');
+        $model = Mage::getModel('Mage_Cms_Model_Page');
 
         // 2. Initial checking
         if ($id) {
@@ -128,7 +128,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         if ($data = $this->getRequest()->getPost()) {
             $data = $this->_filterPostData($data);
             //init model and set data
-            $model = Mage::getModel('cms/page');
+            $model = Mage::getModel('Mage_Cms_Model_Page');
 
             if ($id = $this->getRequest()->getParam('page_id')) {
                 $model->load($id);
@@ -188,7 +188,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
             $title = "";
             try {
                 // init model and delete
-                $model = Mage::getModel('cms/page');
+                $model = Mage::getModel('Mage_Cms_Model_Page');
                 $model->load($id);
                 $title = $model->getTitle();
                 $model->delete();
@@ -259,7 +259,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         $errorNo = true;
         if (!empty($data['layout_update_xml']) || !empty($data['custom_layout_update_xml'])) {
             /** @var $validatorCustomLayout Mage_Adminhtml_Model_LayoutUpdate_Validator */
-            $validatorCustomLayout = Mage::getModel('adminhtml/layoutUpdate_validator');
+            $validatorCustomLayout = Mage::getModel('Mage_Adminhtml_Model_LayoutUpdate_Validator');
             if (!empty($data['layout_update_xml']) && !$validatorCustomLayout->isValid($data['layout_update_xml'])) {
                 $errorNo = false;
             }

@@ -76,7 +76,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Settings extends Mage
 
         $fieldset = $form->addFieldset('settings', array('legend'=>Mage::helper('Enterprise_Staging_Helper_Data')->__('Staging Website Settings')));
 
-        $websiteCollection = Mage::getModel('core/website')->getCollection()
+        $websiteCollection = Mage::getModel('Mage_Core_Model_Website')->getCollection()
             ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Website::CACHE_TAG));
 
         $fieldset->addField('master_website_id', 'select', array(

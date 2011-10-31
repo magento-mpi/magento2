@@ -61,7 +61,7 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Adminhtml_Block
     {
         $this->setDefaultFilter(array('query_id_selected' => 1));
 
-        $collection = Mage::getModel('catalogsearch/query')
+        $collection = Mage::getModel('Mage_CatalogSearch_Model_Query')
             ->getResourceCollection();
 
         $queryId = $this->getQuery()->getId();

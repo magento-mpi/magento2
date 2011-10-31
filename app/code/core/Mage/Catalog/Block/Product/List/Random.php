@@ -38,7 +38,7 @@ class Mage_Catalog_Block_Product_List_Random extends Mage_Catalog_Block_Product_
     {
         if (is_null($this->_productCollection)) {
             $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
-            Mage::getModel('catalog/layer')->prepareProductCollection($collection);
+            Mage::getModel('Mage_Catalog_Model_Layer')->prepareProductCollection($collection);
             $collection->getSelect()->order('rand()');
             $collection->addStoreFilter();
             $numProducts = $this->getNumProducts() ? $this->getNumProducts() : 0;

@@ -158,7 +158,7 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
      */
     public function getPageUrl($pageId = null)
     {
-        $page = Mage::getModel('cms/page');
+        $page = Mage::getModel('Mage_Cms_Model_Page');
         if (!is_null($pageId) && $pageId !== $page->getId()) {
             $page->setStoreId(Mage::app()->getStore()->getId());
             if (!$page->load($pageId)) {

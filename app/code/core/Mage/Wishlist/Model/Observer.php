@@ -42,7 +42,7 @@ class Mage_Wishlist_Model_Observer extends Mage_Core_Model_Abstract
         if (!$customerId) {
             return false;
         }
-        return Mage::getModel('wishlist/wishlist')->loadByCustomer($customerId, true);
+        return Mage::getModel('Mage_Wishlist_Model_Wishlist')->loadByCustomer($customerId, true);
     }
 
     /**
@@ -106,10 +106,10 @@ class Mage_Wishlist_Model_Observer extends Mage_Core_Model_Abstract
             $wishlistId = array_shift($wishlistIds);
 
             if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-                $wishlist = Mage::getModel('wishlist/wishlist')
+                $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')
                         ->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer(), true);
             } else if ($sharedWishlist) {
-                $wishlist = Mage::getModel('wishlist/wishlist')->loadByCode($sharedWishlist);
+                $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->loadByCode($sharedWishlist);
             } else {
                 return;
             }

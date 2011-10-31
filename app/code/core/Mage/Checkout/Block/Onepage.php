@@ -163,7 +163,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
         if (!$this->isCustomerLoggedIn()) {
             return $this->getQuote()->getBillingAddress();
         } else {
-            return Mage::getModel('sales/quote_address');
+            return Mage::getModel('Mage_Sales_Model_Quote_Address');
         }
     }
 
@@ -174,7 +174,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
         if (!$this->isCustomerLoggedIn()) {
             return $this->getQuote()->getShippingAddress();
         } else {
-            return Mage::getModel('sales/quote_address');
+            return Mage::getModel('Mage_Sales_Model_Quote_Address');
         }
     }
 
@@ -184,7 +184,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
     {
         $payment = $this->getQuote()->getPayment();
         if (empty($payment)) {
-            $payment = Mage::getModel('sales/quote_payment');
+            $payment = Mage::getModel('Mage_Sales_Model_Quote_Payment');
         } else {
             $payment->setCcNumber(null)->setCcCid(null);
         }

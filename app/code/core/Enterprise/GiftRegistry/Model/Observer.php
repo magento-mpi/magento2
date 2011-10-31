@@ -95,7 +95,7 @@ class Enterprise_GiftRegistry_Model_Observer
         $object = $observer->getEvent()->getDataObject();
 
         if ($registryItemId = $object->getGiftregistryItemId()) {
-            $model = Mage::getModel('enterprise_giftregistry/entity')
+            $model = Mage::getModel('Enterprise_GiftRegistry_Model_Entity')
                 ->loadByEntityItem($registryItemId);
             if ($model->getId()) {
                 $object->setId(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->getAddressIdPrefix() . $model->getId());
@@ -186,7 +186,7 @@ class Enterprise_GiftRegistry_Model_Observer
     public function orderPlaced($observer)
     {
         $order = $observer->getEvent()->getOrder();
-        $item = Mage::getModel('enterprise_giftregistry/item');
+        $item = Mage::getModel('Enterprise_GiftRegistry_Model_Item');
         $giftRegistries = array();
         $updatedQty = array();
 
@@ -208,7 +208,7 @@ class Enterprise_GiftRegistry_Model_Observer
 
         $giftRegistries = array_unique($giftRegistries);
         if (count($giftRegistries)) {
-            $entity = Mage::getModel('enterprise_giftregistry/entity');
+            $entity = Mage::getModel('Enterprise_GiftRegistry_Model_Entity');
             foreach ($giftRegistries as $registryId) {
                 $entity->load($registryId);
                 $entity->sendUpdateRegistryEmail($updatedQty);

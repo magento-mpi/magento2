@@ -39,7 +39,7 @@ class Mage_Paypal_Model_System_Config_Backend_Cert extends Mage_Core_Model_Confi
         $value = $this->getValue();
         if (is_array($value) && !empty($value['delete'])) {
             $this->setValue('');
-            Mage::getModel('paypal/cert')->loadByWebsite($this->getScopeId())->delete();
+            Mage::getModel('Mage_Paypal_Model_Cert')->loadByWebsite($this->getScopeId())->delete();
         }
 
         if (!isset($_FILES['groups']['tmp_name'][$this->getGroupId()]['fields'][$this->getField()]['value'])) {
@@ -52,7 +52,7 @@ class Mage_Paypal_Model_System_Config_Backend_Cert extends Mage_Core_Model_Confi
             }
             $this->setValue($_FILES['groups']['name'][$this->getGroupId()]['fields'][$this->getField()]['value']);
             $content = Mage::helper('Mage_Core_Helper_Data')->encrypt(file_get_contents($tmpPath));
-            Mage::getModel('paypal/cert')->loadByWebsite($this->getScopeId())
+            Mage::getModel('Mage_Paypal_Model_Cert')->loadByWebsite($this->getScopeId())
                 ->setContent($content)
                 ->save();
         }
@@ -66,7 +66,7 @@ class Mage_Paypal_Model_System_Config_Backend_Cert extends Mage_Core_Model_Confi
      */
     protected function _afterDelete()
     {
-        Mage::getModel('paypal/cert')->loadByWebsite($this->getScopeId())->delete();
+        Mage::getModel('Mage_Paypal_Model_Cert')->loadByWebsite($this->getScopeId())->delete();
         return $this;
     }
 }

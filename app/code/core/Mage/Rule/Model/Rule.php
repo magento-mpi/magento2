@@ -57,7 +57,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
 
     public function getConditionsInstance()
     {
-        return Mage::getModel('rule/condition_combine');
+        return Mage::getModel('Mage_Rule_Model_Condition_Combine');
     }
 
     public function _resetConditions($conditions=null)
@@ -95,7 +95,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
      */
     public function getActionsInstance()
     {
-        return Mage::getModel('rule/action_collection');
+        return Mage::getModel('Mage_Rule_Model_Action_Collection');
     }
 
     /**

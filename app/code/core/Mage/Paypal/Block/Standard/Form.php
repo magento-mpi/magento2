@@ -47,7 +47,7 @@ class Mage_Paypal_Block_Standard_Form extends Mage_Payment_Block_Form
      */
     protected function _construct()
     {
-        $this->_config = Mage::getModel('paypal/config')->setMethod($this->getMethodCode());
+        $this->_config = Mage::getModel('Mage_Paypal_Model_Config')->setMethod($this->getMethodCode());
         $locale = Mage::app()->getLocale();
         $mark = Mage::getConfig()->getBlockClassName('Mage_Core_Block_Template');
         $mark = new $mark;

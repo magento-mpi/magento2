@@ -59,7 +59,7 @@ class Enterprise_CustomerBalance_Block_Account_History extends Mage_Core_Block_T
             return false;
         }
 
-        $collection = Mage::getModel('enterprise_customerbalance/balance_history')
+        $collection = Mage::getModel('Enterprise_CustomerBalance_Model_Balance_History')
                 ->getCollection()
                 ->addFieldToFilter('customer_id', $customerId)
                 ->addFieldToFilter('website_id', Mage::app()->getStore()->getWebsiteId())

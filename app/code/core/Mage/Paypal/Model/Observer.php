@@ -39,7 +39,7 @@ class Mage_Paypal_Model_Observer
     public function fetchReports()
     {
         try {
-            $reports = Mage::getModel('paypal/report_settlement');
+            $reports = Mage::getModel('Mage_Paypal_Model_Report_Settlement');
             /* @var $reports Mage_Paypal_Model_Report_Settlement */
             $credentials = $reports->getSftpCredentials(true);
             foreach ($credentials as $config) {
@@ -62,11 +62,11 @@ class Mage_Paypal_Model_Observer
     public function cleanTransactions()
     {
         /** @var $date Mage_Core_Model_Date */
-        $date = Mage::getModel('core/date');
+        $date = Mage::getModel('Mage_Core_Model_Date');
         $createdBefore = strtotime('-1 hour', $date->timestamp());
 
         /** @var $collection Mage_Paypal_Model_Resource_Payment_Transaction_Collection */
-        $collection = Mage::getModel('paypal/payment_transaction')->getCollection();
+        $collection = Mage::getModel('Mage_Paypal_Model_Payment_Transaction')->getCollection();
         $collection->addCreatedBeforeFilter($date->gmtDate(null, $createdBefore));
 
         /** @var $method Mage_Paypal_Model_Payflowlink */

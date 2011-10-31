@@ -29,7 +29,7 @@
 
 $installer = $this;
 
-$pollModel = Mage::getModel('poll/poll');
+$pollModel = Mage::getModel('Mage_Poll_Model_Poll');
 
 $pollModel  ->setDatePosted(now())
             ->setPollTitle('What is your favorite color')
@@ -43,7 +43,7 @@ $answers  = array(
                 );
 
 foreach( $answers as $key => $answer ) {
-    $answerModel = Mage::getModel('poll/poll_answer');
+    $answerModel = Mage::getModel('Mage_Poll_Model_Poll_Answer');
     $answerModel->setAnswerTitle($answer[0])
                 ->setVotesCount($answer[1]);
 

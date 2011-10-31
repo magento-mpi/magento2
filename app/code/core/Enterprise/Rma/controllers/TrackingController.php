@@ -34,7 +34,7 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
      */
     public function popupAction()
     {
-        $shippingInfoModel = Mage::getModel('enterprise_rma/shipping_info')
+        $shippingInfoModel = Mage::getModel('Enterprise_Rma_Model_Shipping_Info')
             ->loadByHash($this->getRequest()->getParam('hash'));
 
         Mage::register('rma_current_shipping', $shippingInfoModel);
@@ -54,7 +54,7 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
      */
     public function packageAction()
     {
-        $shippingInfoModel = Mage::getModel('enterprise_rma/shipping_info')
+        $shippingInfoModel = Mage::getModel('Enterprise_Rma_Model_Shipping_Info')
             ->loadPackage($this->getRequest()->getParam('hash'));
 
         Mage::register('rma_package_shipping', $shippingInfoModel);
@@ -106,7 +106,7 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
             return false;
         }
 
-        $rma = Mage::getModel('enterprise_rma/rma')->load($entityId);
+        $rma = Mage::getModel('Enterprise_Rma_Model_Rma')->load($entityId);
 
         if ($this->_canViewRma($rma)) {
             Mage::register('current_rma', $rma);
@@ -132,10 +132,10 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
                     $rmaIncrementId = Mage::registry('current_rma')->getIncrementId();
                 }
             }
-            $model = Mage::getModel('enterprise_rma/shipping_info')
+            $model = Mage::getModel('Enterprise_Rma_Model_Shipping_Info')
                 ->loadPackage($this->getRequest()->getParam('hash'));
 
-            $shipping = Mage::getModel('enterprise_rma/shipping');
+            $shipping = Mage::getModel('Enterprise_Rma_Model_Shipping');
             $labelContent = $model->getShippingLabel();
             if ($labelContent) {
                 $pdfContent = null;
@@ -179,11 +179,11 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
         if ($data['key'] == 'rma_id') {
             $this->_loadValidRma($data['id']);
         }
-        $model = Mage::getModel('enterprise_rma/shipping_info')
+        $model = Mage::getModel('Enterprise_Rma_Model_Shipping_Info')
             ->loadPackage($this->getRequest()->getParam('hash'));
 
         if ($model) {
-            $pdf = Mage::getModel('sales/order_pdf_shipment_packaging')
+            $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment_Packaging')
                     ->setPackageShippingBlock(
                         Mage::getBlockSingleton('Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod')
                     )

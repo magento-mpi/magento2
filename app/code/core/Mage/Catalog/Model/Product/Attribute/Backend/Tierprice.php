@@ -64,7 +64,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice extends Mage_Catalo
             foreach (Mage::app()->getWebsites() as $website) {
                 /* @var $website Mage_Core_Model_Website */
                 if ($website->getBaseCurrencyCode() != $baseCurrency) {
-                    $rate = Mage::getModel('directory/currency')
+                    $rate = Mage::getModel('Mage_Directory_Model_Currency')
                         ->load($baseCurrency)
                         ->getRate($website->getBaseCurrencyCode());
                     if (!$rate) {

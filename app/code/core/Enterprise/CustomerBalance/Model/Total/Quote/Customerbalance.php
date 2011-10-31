@@ -60,7 +60,7 @@ class Enterprise_CustomerBalance_Model_Total_Quote_Customerbalance extends Mage_
         if ($quote->getCustomer()->getId()) {
             if ($quote->getUseCustomerBalance()) {
                 $store = Mage::app()->getStore($quote->getStoreId());
-                $baseBalance = Mage::getModel('enterprise_customerbalance/balance')
+                $baseBalance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                     ->setCustomer($quote->getCustomer())
                     ->setCustomerId($quote->getCustomer()->getId())
                     ->setWebsiteId($store->getWebsiteId())

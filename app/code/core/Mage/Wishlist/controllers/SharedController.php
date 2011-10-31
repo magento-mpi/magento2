@@ -46,7 +46,7 @@ class Mage_Wishlist_SharedController extends Mage_Wishlist_Controller_Abstract
             return false;
         }
 
-        $wishlist = Mage::getModel('wishlist/wishlist')->loadByCode($code);
+        $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->loadByCode($code);
         if (!$wishlist->getId()) {
             return false;
         }
@@ -90,7 +90,7 @@ class Mage_Wishlist_SharedController extends Mage_Wishlist_Controller_Abstract
         $itemId = (int) $this->getRequest()->getParam('item');
 
         /* @var $item Mage_Wishlist_Model_Item */
-        $item = Mage::getModel('wishlist/item')->load($itemId);
+        $item = Mage::getModel('Mage_Wishlist_Model_Item')->load($itemId);
 
 
         /* @var $session Mage_Wishlist_Model_Session */
@@ -100,7 +100,7 @@ class Mage_Wishlist_SharedController extends Mage_Wishlist_Controller_Abstract
         $redirectUrl = $this->_getRefererUrl();
 
         try {
-            $options = Mage::getModel('wishlist/item_option')->getCollection()
+            $options = Mage::getModel('Mage_Wishlist_Model_Item_Option')->getCollection()
                     ->addItemFilter(array($itemId));
             $item->setOptions($options->getOptionsByItem($itemId));
 

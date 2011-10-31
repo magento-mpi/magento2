@@ -49,7 +49,7 @@ class Mage_GoogleShopping_Model_Attribute_ProductType extends Mage_GoogleShoppin
         $value = 'Shop';
 
         if (!empty($productCategories)) {
-            $category = Mage::getModel('catalog/category')->load(
+            $category = Mage::getModel('Mage_Catalog_Model_Category')->load(
                 array_shift($productCategories)
             );
 

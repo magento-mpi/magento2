@@ -76,7 +76,7 @@ class Enterprise_PageCache_Model_Processor_Default
         $placeholders = array_unique($placeholders[1]);
         try {
             foreach ($placeholders as $definition) {
-                $this->_placeholder = Mage::getModel('enterprise_pagecache/container_placeholder', $definition);
+                $this->_placeholder = Mage::getModel('Enterprise_PageCache_Model_Container_Placeholder', $definition);
                 $content = preg_replace_callback($this->_placeholder->getPattern(),
                     array($this, '_getPlaceholderReplacer'), $content);
             }

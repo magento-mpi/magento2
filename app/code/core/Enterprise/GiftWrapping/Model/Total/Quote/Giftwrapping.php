@@ -194,7 +194,7 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping extends Mage_Sales_
      */
     protected function _getWrapping($wrappingId, $store)
     {
-        $wrapping = Mage::getModel('enterprise_giftwrapping/wrapping');
+        $wrapping = Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping');
         $wrapping->setStoreId($store->getId());
         $wrapping->load($wrappingId);
         return $wrapping;

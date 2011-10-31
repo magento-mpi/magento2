@@ -84,7 +84,7 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
     public function addCartInfo()
     {
         foreach ($this->getItems() as $item) {
-            $quote = Mage::getModel('sales/quote')->loadByCustomer($item->getId());
+            $quote = Mage::getModel('Mage_Sales_Model_Quote')->loadByCustomer($item->getId());
 
             if ($quote instanceof Mage_Sales_Model_Quote) {
                 $totals = $quote->getTotals();

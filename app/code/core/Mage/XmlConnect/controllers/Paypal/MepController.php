@@ -119,7 +119,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
             array_walk_recursive($data, create_function('&$val', '$val = trim($val);'));
 
             if (!empty($data['region']) && isset($data['country_id'])) {
-                $region = Mage::getModel('directory/region')->loadByCode($data['region'], $data['country_id']);
+                $region = Mage::getModel('Mage_Directory_Model_Region')->loadByCode($data['region'], $data['country_id']);
                 if ($region && $region->getId()) {
                     $data['region_id'] = $region->getId();
                 }
@@ -185,7 +185,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
 
             if (!isset($result['error'])) {
                 /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
-                $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+                $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
                 $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
                 $message->addChild('text', $this->__('Shipping method has been set.'));
                 if ($this->_getQuote()->isVirtual()) {
@@ -269,7 +269,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
              * Format success report
              */
             /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
-            $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+            $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
             $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
 
             $orderId = $this->_checkout->getLastOrderId();

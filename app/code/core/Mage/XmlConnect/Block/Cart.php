@@ -43,7 +43,7 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
         $cartMessages   = $this->getMessages();
         $quote          = $this->getQuote();
         /** @var $xmlObject Mage_XmlConnect_Model_Simplexml_Element */
-        $xmlObject      = Mage::getModel('xmlconnect/simplexml_element', '<cart></cart>');
+        $xmlObject      = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<cart></cart>');
         $xmlObject->addAttribute('is_virtual', (int)$this->helper('Mage_Checkout_Helper_Cart')->getIsVirtualQuote());
         $xmlObject->addAttribute('summary_qty', (int)$this->helper('Mage_Checkout_Helper_Cart')->getSummaryCount());
         if (strlen($quote->getCouponCode())) {
@@ -127,7 +127,7 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
 
             $isMepActive = $appConfig['paypal']['isActive'];
 
-            $paypalMepIsAvailable = Mage::getModel('xmlconnect/payment_method_paypal_mep')->isAvailable(null);
+            $paypalMepIsAvailable = Mage::getModel('Mage_XmlConnect_Model_Payment_Method_Paypal_Mep')->isAvailable(null);
             if ($paypalMepIsAvailable && $isMepActive) {
                 $paypalPriceXmlObj = $itemXml->addChild('paypal_price');
                 $paypalPriceXmlObj->addAttribute('regular', $paypalPrice);
@@ -238,7 +238,7 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
             $crossellXml = '<crosssell></crosssell>';
         }
 
-        $crossSellXmlObj = Mage::getModel('xmlconnect/simplexml_element', $crossellXml);
+        $crossSellXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', $crossellXml);
         $xmlObject->appendChild($crossSellXmlObj);
 
         return $xmlObject->asNiceXml();

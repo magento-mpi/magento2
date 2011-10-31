@@ -46,7 +46,7 @@ class Mage_XmlConnect_Block_Cart_Crosssell extends Mage_Checkout_Block_Cart_Cros
             $this->setItems($this->getLayout()->getBlock($blockName)->getItemCollection());
         }
 
-        $crossSellXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<crosssell></crosssell>');
+        $crossSellXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<crosssell></crosssell>');
         if (!$this->getItemCount()) {
             return $crossSellXmlObj->asNiceXml();
         }
@@ -87,7 +87,7 @@ class Mage_XmlConnect_Block_Cart_Crosssell extends Mage_Checkout_Block_Cart_Cros
             }
 
             if (!$product->getRatingSummary()) {
-                Mage::getModel('review/review')->getEntitySummary($product, Mage::app()->getStore()->getId());
+                Mage::getModel('Mage_Review_Model_Review')->getEntitySummary($product, Mage::app()->getStore()->getId());
             }
 
             $itemXmlObj->addChild('rating_summary', round((int)$product->getRatingSummary()->getRatingSummary() / 10));

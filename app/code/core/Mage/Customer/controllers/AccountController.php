@@ -267,11 +267,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $errors = array();
 
             if (!$customer = Mage::registry('current_customer')) {
-                $customer = Mage::getModel('customer/customer')->setId(null);
+                $customer = Mage::getModel('Mage_Customer_Model_Customer')->setId(null);
             }
 
             /* @var $customerForm Mage_Customer_Model_Form */
-            $customerForm = Mage::getModel('customer/form');
+            $customerForm = Mage::getModel('Mage_Customer_Model_Form');
             $customerForm->setFormCode('customer_account_create')
                 ->setEntity($customer);
 
@@ -288,9 +288,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
             if ($this->getRequest()->getPost('create_address')) {
                 /* @var $address Mage_Customer_Model_Address */
-                $address = Mage::getModel('customer/address');
+                $address = Mage::getModel('Mage_Customer_Model_Address');
                 /* @var $addressForm Mage_Customer_Model_Form */
-                $addressForm = Mage::getModel('customer/form');
+                $addressForm = Mage::getModel('Mage_Customer_Model_Form');
                 $addressForm->setFormCode('customer_register_address')
                     ->setEntity($address);
 
@@ -425,7 +425,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
             // load customer by id (try/catch in case if it throws exceptions)
             try {
-                $customer = Mage::getModel('customer/customer')->load($id);
+                $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($id);
                 if ((!$customer) || (!$customer->getId())) {
                     throw new Exception('Failed to load customer by id.');
                 }
@@ -473,7 +473,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function confirmationAction()
     {
-        $customer = Mage::getModel('customer/customer');
+        $customer = Mage::getModel('Mage_Customer_Model_Customer');
         if ($this->_getSession()->isLoggedIn()) {
             $this->_redirect('*/*/');
             return;
@@ -543,7 +543,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             }
 
             /** @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('customer/customer')
+            $customer = Mage::getModel('Mage_Customer_Model_Customer')
                 ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
                 ->loadByEmail($email);
 
@@ -619,7 +619,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             array_push($errorMessages, Mage::helper('Mage_Customer_Helper_Data')->__('New password field cannot be empty.'));
         }
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('customer/customer')->load($customerId);
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
 
         $customer->setPassword($password);
         $customer->setConfirmation($passwordConfirmation);
@@ -677,7 +677,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         }
 
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('customer/customer')->load($customerId);
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
         if (!$customer || !$customer->getId()) {
             throw Mage::exception('Mage_Core', Mage::helper('Mage_Customer_Helper_Data')->__('Wrong customer account specified.'));
         }
@@ -729,7 +729,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $customer = $this->_getSession()->getCustomer();
 
             /** @var $customerForm Mage_Customer_Model_Form */
-            $customerForm = Mage::getModel('customer/form');
+            $customerForm = Mage::getModel('Mage_Customer_Model_Form');
             $customerForm->setFormCode('customer_account_edit')
                 ->setEntity($customer);
 

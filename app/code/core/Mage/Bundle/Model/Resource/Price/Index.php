@@ -101,7 +101,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
     {
         if (is_null($this->_customerGroups)) {
             $this->_customerGroups = array();
-            foreach (Mage::getModel('customer/group')->getCollection() as $group) {
+            foreach (Mage::getModel('Mage_Customer_Model_Group')->getCollection() as $group) {
                 $this->_customerGroups[$group->getId()] = $group;
             }
         }

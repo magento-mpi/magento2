@@ -51,7 +51,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Collection
      */
     protected function _initSelect()
     {
-        $entityTypeId = (int)Mage::getModel('eav/entity')->setType(Mage_Catalog_Model_Product::ENTITY)->getTypeId();
+        $entityTypeId = (int)Mage::getModel('Mage_Eav_Model_Entity')->setType(Mage_Catalog_Model_Product::ENTITY)->getTypeId();
         $columns = $this->getConnection()->describeTable($this->getResource()->getMainTable());
         unset($columns['attribute_id']);
         $retColumns = array();

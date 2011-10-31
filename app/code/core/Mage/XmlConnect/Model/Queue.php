@@ -103,7 +103,7 @@ class Mage_XmlConnect_Model_Queue extends Mage_Core_Model_Template
         parent::load($id, $field);
 
         if ($this->getTemplateId()) {
-            $this->setName(Mage::getModel('xmlconnect/template')->load($this->getTemplateId())->getName());
+            $this->setName(Mage::getModel('Mage_XmlConnect_Model_Template')->load($this->getTemplateId())->getName());
         }
         return $this;
     }
@@ -125,7 +125,7 @@ class Mage_XmlConnect_Model_Queue extends Mage_Core_Model_Template
     public function getApplicationType()
     {
         if (empty($this->_appType) && $this->getAppCode()) {
-            $app = Mage::getModel('xmlconnect/application')->loadByCode($this->getAppCode());
+            $app = Mage::getModel('Mage_XmlConnect_Model_Application')->loadByCode($this->getAppCode());
             $this->_appType = $app->getId() ? $app->getType() : null;
         }
 
@@ -169,7 +169,7 @@ class Mage_XmlConnect_Model_Queue extends Mage_Core_Model_Template
     public function getProcessedTemplate(array $variables = array())
     {
         /* @var $processor Mage_Widget_Model_Template_Filter */
-        $processor = Mage::getModel('widget/template_filter');
+        $processor = Mage::getModel('Mage_Widget_Model_Template_Filter');
 
         $variables['this'] = $this;
 

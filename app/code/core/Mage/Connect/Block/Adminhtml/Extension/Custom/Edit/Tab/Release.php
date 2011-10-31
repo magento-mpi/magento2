@@ -50,7 +50,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Release
             'legend'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Release')
         ));
 
-        $stabilityOptions = Mage::getModel('connect/extension')->getStabilityOptions();
+        $stabilityOptions = Mage::getModel('Mage_Connect_Model_Extension')->getStabilityOptions();
         $fieldset->addField('version', 'text', array(
             'name'      => 'version',
             'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Release Version'),

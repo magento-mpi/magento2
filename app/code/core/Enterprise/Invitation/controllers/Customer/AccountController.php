@@ -91,7 +91,7 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_Acc
     protected function _initInvitation()
     {
         if (!Mage::registry('current_invitation')) {
-            $invitation = Mage::getModel('enterprise_invitation/invitation');
+            $invitation = Mage::getModel('Enterprise_Invitation_Model_Invitation');
             $invitation
                 ->loadByInvitationCode(Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('invitation', false)))
                 ->makeSureCanBeAccepted();
@@ -126,7 +126,7 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_Acc
         try {
             $invitation = $this->_initInvitation();
 
-            $customer = Mage::getModel('customer/customer')
+            $customer = Mage::getModel('Mage_Customer_Model_Customer')
                 ->setId(null)->setSkipConfirmationIfEmail($invitation->getEmail());
             Mage::register('current_customer', $customer);
 

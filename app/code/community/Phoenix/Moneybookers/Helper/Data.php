@@ -47,7 +47,7 @@ class Phoenix_Moneybookers_Helper_Data extends Mage_Payment_Helper_Data
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        Mage::getModel('core/email_template')
+        Mage::getModel('Mage_Core_Model_Email_Template')
             ->setDesignConfig(array('area' => 'frontend', 'store' => $storeId))
             ->sendTransactional(
                 'moneybookers_activateemail',
@@ -59,7 +59,7 @@ class Phoenix_Moneybookers_Helper_Data extends Mage_Payment_Helper_Data
                     'email_addr'  => Mage::getStoreConfig(self::XML_PATH_EMAIL),
                     'url'         => Mage::getBaseUrl(),
                     'customer_id' => Mage::getStoreConfig(self::XML_PATH_CUSTOMER_ID),
-                    'language'    => Mage::getModel('core/locale')->getDefaultLocale()
+                    'language'    => Mage::getModel('Mage_Core_Model_Locale')->getDefaultLocale()
                 )
             );
 

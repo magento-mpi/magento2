@@ -71,7 +71,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
         if ($category->hasData('permissions') && is_array($category->getData('permissions'))
             && Mage::getSingleton('admin/session')->isAllowed('catalog/enterprise_catalogpermissions')) {
             foreach ($category->getData('permissions') as $data) {
-                $permission = Mage::getModel('enterprise_catalogpermissions/permission');
+                $permission = Mage::getModel('Enterprise_CatalogPermissions_Model_Permission');
                 if (!empty($data['id'])) {
                     $permission->load($data['id']);
                 }
@@ -115,7 +115,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
      */
     public function reindexCategoryPermissionOnMove(Varien_Event_Observer $observer)
     {
-        $category = Mage::getModel('catalog/category')
+        $category = Mage::getModel('Mage_Catalog_Model_Category')
             ->load($observer->getEvent()->getCategoryId());
         $this->_indexQueue[] = $category->getPath();
         return $this;

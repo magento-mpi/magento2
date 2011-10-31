@@ -56,7 +56,7 @@ class Mage_Customer_Model_Customer_Api_V2 extends Mage_Customer_Model_Customer_A
      */
     public function items($filters)
     {
-        $collection = Mage::getModel('customer/customer')->getCollection()
+        $collection = Mage::getModel('Mage_Customer_Model_Customer')->getCollection()
             ->addAttributeToSelect('*');
 
         $preparedFilters = array();

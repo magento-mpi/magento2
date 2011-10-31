@@ -41,7 +41,7 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Catalog_Abstract
         $this->setCacheKey('rss_catalog_category_'
             . $this->getRequest()->getParam('cid') . '_'
             . $this->getRequest()->getParam('store_id') . '_'
-            . Mage::getModel('customer/session')->getId()
+            . Mage::getModel('Mage_Customer_Model_Session')->getId()
         );
         $this->setCacheLifetime(600);
     }
@@ -50,9 +50,9 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Catalog_Abstract
     {
         $categoryId = $this->getRequest()->getParam('cid');
         $storeId = $this->_getStoreId();
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = Mage::getModel('Mage_Rss_Model_Rss');
         if ($categoryId) {
-            $category = Mage::getModel('catalog/category')->load($categoryId);
+            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
             if ($category && $category->getId()) {
                 $layer = Mage::getSingleton('catalog/layer')->setStore($storeId);
                 //want to load all products no matter anchor or not
@@ -75,7 +75,7 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Catalog_Abstract
                     ->addIdFilter($category->getChildren())
                     ->load()
                 ;
-                $productCollection = Mage::getModel('catalog/product')->getCollection();
+                $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection();
 
                 $currentCategory = $layer->setCurrentCategory($category);
                 $layer->prepareProductCollection($productCollection);

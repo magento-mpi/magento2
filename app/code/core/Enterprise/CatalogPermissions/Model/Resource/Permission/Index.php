@@ -114,11 +114,11 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
             ))
             ->where('permission.category_id IN (?)', $categoryIds);
 
-        $websiteIds = Mage::getModel('core/website')->getCollection()
+        $websiteIds = Mage::getModel('Mage_Core_Model_Website')->getCollection()
             ->addFieldToFilter('website_id', array('neq'=>0))
             ->getAllIds();
 
-        $customerGroupIds = Mage::getModel('customer/group')->getCollection()
+        $customerGroupIds = Mage::getModel('Mage_Customer_Model_Group')->getCollection()
             ->getAllIds();
 
         $notEmptyWhere = array();

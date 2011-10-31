@@ -186,7 +186,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
 
         foreach ($ids as $attributeId) {
             $usedProductAttributes[]  = $this->getAttributeById($attributeId);
-            $configurableAttributes[] = Mage::getModel('catalog/product_type_configurable_attribute')
+            $configurableAttributes[] = Mage::getModel('Mage_Catalog_Model_Product_Type_Configurable_Attribute')
                 ->setProductAttribute($this->getAttributeById($attributeId));
         }
         $this->getProduct($product)->setData($this->_usedProductAttributes, $usedProductAttributes);
@@ -420,7 +420,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         if ($data = $this->getProduct($product)->getConfigurableAttributesData()) {
             foreach ($data as $attributeData) {
                 $id = isset($attributeData['id']) ? $attributeData['id'] : null;
-                Mage::getModel('catalog/product_type_configurable_attribute')
+                Mage::getModel('Mage_Catalog_Model_Product_Type_Configurable_Attribute')
                    ->setData($attributeData)
                    ->setId($id)
                    ->setStoreId($this->getProduct($product)->getStoreId())

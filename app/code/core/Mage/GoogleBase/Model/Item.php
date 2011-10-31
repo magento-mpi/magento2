@@ -73,7 +73,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      */
     public function getServiceItem()
     {
-        return Mage::getModel('googlebase/service_item')->setStoreId($this->getStoreId());
+        return Mage::getModel('Mage_GoogleBase_Model_Service_Item')->setStoreId($this->getStoreId());
     }
 
     /**
@@ -290,7 +290,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
         if (!$this->_translations) {
             $moduleName = Mage_Catalog_Model_Entity_Attribute::MODULE_NAME;
             $separator  = Mage_Core_Model_Translate::SCOPE_SEPARATOR;
-            $this->_translations = Mage::getModel('core/translate_string')
+            $this->_translations = Mage::getModel('Mage_Core_Model_Translate_String')
                ->load($moduleName . $separator . $frontendLabel)
                ->getStoreTranslations();
         }
@@ -313,7 +313,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
         if (is_array($registry) && isset($registry[$attributeSetId])) {
             return $registry[$attributeSetId];
         }
-        $model = Mage::getModel('googlebase/type')->loadByAttributeSetId($attributeSetId, $this->getTargetCountry());
+        $model = Mage::getModel('Mage_GoogleBase_Model_Type')->loadByAttributeSetId($attributeSetId, $this->getTargetCountry());
         $registry[$attributeSetId] = $model;
         Mage::unregister(self::TYPES_REGISTRY_KEY);
         Mage::register(self::TYPES_REGISTRY_KEY, $registry);

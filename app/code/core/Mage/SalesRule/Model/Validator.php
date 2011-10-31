@@ -150,7 +150,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
         if ($rule->getCouponType() != Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON) {
             $couponCode = $address->getQuote()->getCouponCode();
             if (strlen($couponCode)) {
-                $coupon = Mage::getModel('salesrule/coupon');
+                $coupon = Mage::getModel('Mage_SalesRule_Model_Coupon');
                 $coupon->load($couponCode, 'code');
                 if ($coupon->getId()) {
                     // check entire usage limit
@@ -181,7 +181,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
         $ruleId = $rule->getId();
         if ($ruleId && $rule->getUsesPerCustomer()) {
             $customerId     = $address->getQuote()->getCustomerId();
-            $ruleCustomer   = Mage::getModel('salesrule/rule_customer');
+            $ruleCustomer   = Mage::getModel('Mage_SalesRule_Model_Rule_Customer');
             $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
             if ($ruleCustomer->getId()) {
                 if ($ruleCustomer->getTimesUsed() >= $rule->getUsesPerCustomer()) {

@@ -43,7 +43,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
     public function toOrder(Mage_Sales_Model_Quote $quote, $order=null)
     {
         if (!($order instanceof Mage_Sales_Model_Order)) {
-            $order = Mage::getModel('sales/order');
+            $order = Mage::getModel('Mage_Sales_Model_Order');
         }
         /* @var $order Mage_Sales_Model_Order */
 
@@ -84,7 +84,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
      */
     public function addressToOrderAddress(Mage_Sales_Model_Quote_Address $address)
     {
-        $orderAddress = Mage::getModel('sales/order_address')
+        $orderAddress = Mage::getModel('Mage_Sales_Model_Order_Address')
             ->setStoreId($address->getStoreId())
             ->setAddressType($address->getAddressType())
             ->setCustomerId($address->getCustomerId())
@@ -106,7 +106,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
      */
     public function paymentToOrderPayment(Mage_Sales_Model_Quote_Payment $payment)
     {
-        $orderPayment = Mage::getModel('sales/order_payment')
+        $orderPayment = Mage::getModel('Mage_Sales_Model_Order_Payment')
             ->setStoreId($payment->getStoreId())
             ->setCustomerPaymentId($payment->getCustomerPaymentId());
         Mage::helper('Mage_Core_Helper_Data')->copyFieldset('sales_convert_quote_payment', 'to_order_payment', $payment, $orderPayment);
@@ -125,7 +125,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
      */
     public function itemToOrderItem(Mage_Sales_Model_Quote_Item_Abstract $item)
     {
-        $orderItem = Mage::getModel('sales/order_item')
+        $orderItem = Mage::getModel('Mage_Sales_Model_Order_Item')
             ->setStoreId($item->getStoreId())
             ->setQuoteItemId($item->getId())
             ->setQuoteParentItemId($item->getParentItemId())

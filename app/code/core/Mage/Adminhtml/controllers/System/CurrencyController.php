@@ -41,7 +41,7 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
     protected function _initCurrency()
     {
         $code = $this->getRequest()->getParam('currency');
-        $currency = Mage::getModel('directory/currency')
+        $currency = Mage::getModel('Mage_Directory_Model_Currency')
             ->load($code);
 
         Mage::register('currency', $currency);
@@ -108,7 +108,7 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
                     }
                 }
 
-                Mage::getModel('directory/currency')->saveRates($data);
+                Mage::getModel('Mage_Directory_Model_Currency')->saveRates($data);
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('All valid rates have been saved.'));
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());

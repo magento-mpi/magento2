@@ -114,7 +114,7 @@ class Mage_CatalogSearch_Model_Resource_Query extends Mage_Core_Model_Resource_D
      */
     public function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        $object->setUpdatedAt($this->formatDate(Mage::getModel('core/date')->gmtTimestamp()));
+        $object->setUpdatedAt($this->formatDate(Mage::getModel('Mage_Core_Model_Date')->gmtTimestamp()));
         return $this;
     }
 }

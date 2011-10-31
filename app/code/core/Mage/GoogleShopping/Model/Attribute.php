@@ -80,7 +80,7 @@ class Mage_GoogleShopping_Model_Attribute extends Mage_Core_Model_Abstract
      */
     public function getAllowedAttributes($setId)
     {
-        $attributes = Mage::getModel('catalog/product')->getResource()
+        $attributes = Mage::getModel('Mage_Catalog_Model_Product')->getResource()
                 ->loadAllAttributes()
                 ->getSortedAttributes($setId);
 

@@ -85,7 +85,7 @@ class Mage_Sales_Billing_AgreementController extends Mage_Core_Controller_Front_
      */
     public function startWizardAction()
     {
-        $agreement = Mage::getModel('sales/billing_agreement');
+        $agreement = Mage::getModel('Mage_Sales_Model_Billing_Agreement');
         $paymentCode = $this->getRequest()->getParam('payment_method');
         if ($paymentCode) {
             try {
@@ -112,7 +112,7 @@ class Mage_Sales_Billing_AgreementController extends Mage_Core_Controller_Front_
      */
     public function returnWizardAction()
     {
-        $agreement = Mage::getModel('sales/billing_agreement');
+        $agreement = Mage::getModel('Mage_Sales_Model_Billing_Agreement');
         $paymentCode = $this->getRequest()->getParam('payment_method');
         $token = $this->getRequest()->getParam('token');
         if ($token && $paymentCode) {
@@ -177,7 +177,7 @@ class Mage_Sales_Billing_AgreementController extends Mage_Core_Controller_Front_
     {
         $agreementId = $this->getRequest()->getParam('agreement');
         if ($agreementId) {
-            $billingAgreement = Mage::getModel('sales/billing_agreement')->load($agreementId);
+            $billingAgreement = Mage::getModel('Mage_Sales_Model_Billing_Agreement')->load($agreementId);
             if (!$billingAgreement->getAgreementId()) {
                 $this->_getSession()->addError($this->__('Wrong billing agreement ID specified.'));
                 $this->_redirect('*/*/');

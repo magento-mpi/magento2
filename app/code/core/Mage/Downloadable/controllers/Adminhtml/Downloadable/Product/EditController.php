@@ -105,7 +105,7 @@ class Mage_Downloadable_Adminhtml_Downloadable_Product_EditController extends Ma
     public function linkAction()
     {
         $linkId = $this->getRequest()->getParam('id', 0);
-        $link = Mage::getModel('downloadable/link')->load($linkId);
+        $link = Mage::getModel('Mage_Downloadable_Model_Link')->load($linkId);
         if ($link->getId()) {
             $resource = '';
             $resourceType = '';

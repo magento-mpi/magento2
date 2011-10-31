@@ -64,7 +64,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Mage_C
     {
         if (is_null($this->_designCollection)) {
             $store = Mage::app()->getStore($this->getStoreId());
-            $this->_designCollection = Mage::getModel('enterprise_giftwrapping/wrapping')->getCollection()
+            $this->_designCollection = Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping')->getCollection()
                 ->addStoreAttributesToResult($store->getId())
                 ->applyStatusFilter()
                 ->applyWebsiteFilter($store->getWebsiteId());

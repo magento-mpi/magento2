@@ -229,7 +229,7 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'legend' => $this->getEmailSettingsLabel()
         ));
 
-        $emails = Mage::getModel('adminhtml/system_config_source_email_identity')->toOptionArray();
+        $emails = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Email_Identity')->toOptionArray();
         $fieldset->addField('email_receiver', 'select', array(
             'name'      => 'email_receiver',
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Failed Email Receiver'),
@@ -260,7 +260,7 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'name'      => 'email_copy_method',
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Send Failed Email Copy Method'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Send Failed Email Copy Method'),
-            'values'    => Mage::getModel('adminhtml/system_config_source_email_method')->toOptionArray()
+            'values'    => Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Email_Method')->toOptionArray()
         ));
 
         return $this;

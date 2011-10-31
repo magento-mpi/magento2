@@ -158,9 +158,9 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
          * )
          */
         $urls = array();
-        $choices = Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')
+        $choices = Mage::getModel('Mage_GoogleOptimizer_Model_Adminhtml_System_Config_Source_Googleoptimizer_Conversionpages')
             ->toOptionArray();
-        $url = Mage::getModel('core/url');
+        $url = Mage::getModel('Mage_Core_Model_Url');
         $session = Mage::getSingleton('core/session')->setSkipSessionIdFlag(true);
         $store = Mage::app()->getStore($this->getStoreId());
         foreach ($choices as $choice) {

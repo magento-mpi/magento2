@@ -110,7 +110,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
             return $this->_customer;
         }
 
-        $customer = Mage::getModel('customer/customer')
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')
             ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
         if ($this->getId()) {
             $customer->load($this->getId());
@@ -208,7 +208,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     public function login($username, $password)
     {
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('customer/customer')
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')
             ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 
         if ($customer->authenticate($username, $password)) {
@@ -234,7 +234,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function loginById($customerId)
     {
-        $customer = Mage::getModel('customer/customer')->load($customerId);
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
         if ($customer->getId()) {
             $this->setCustomerAsLoggedIn($customer);
             return true;
@@ -287,7 +287,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         $url = Mage::helper('Mage_Core_Helper_Url')
             ->removeRequestParam($url, Mage::getSingleton('core/session')->getSessionIdQueryParam());
         // Add correct session ID to URL if needed
-        $url = Mage::getModel('core/url')->getRebuiltUrl($url);
+        $url = Mage::getModel('Mage_Core_Model_Url')->getRebuiltUrl($url);
         return $this->setData($key, $url);
     }
 

@@ -64,7 +64,7 @@ class Mage_Log_Model_Cron extends Mage_Core_Model_Abstract
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        $emailTemplate = Mage::getModel('core/email_template');
+        $emailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
         /* @var $emailTemplate Mage_Core_Model_Email_Template */
         $emailTemplate->setDesignConfig(array('area' => 'backend'))
             ->sendTransactional(
@@ -94,7 +94,7 @@ class Mage_Log_Model_Cron extends Mage_Core_Model_Abstract
         $this->_errors = array();
 
         try {
-            Mage::getModel('log/log')->clean();
+            Mage::getModel('Mage_Log_Model_Log')->clean();
         }
         catch (Exception $e) {
             $this->_errors[] = $e->getMessage();

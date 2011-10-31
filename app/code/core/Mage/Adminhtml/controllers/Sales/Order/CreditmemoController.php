@@ -84,7 +84,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
     {
         $invoiceId = $this->getRequest()->getParam('invoice_id');
         if ($invoiceId) {
-            $invoice = Mage::getModel('sales/order_invoice')
+            $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')
                 ->load($invoiceId)
                 ->setOrder($order);
             if ($invoice->getId()) {
@@ -107,10 +107,10 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
         $creditmemoId = $this->getRequest()->getParam('creditmemo_id');
         $orderId = $this->getRequest()->getParam('order_id');
         if ($creditmemoId) {
-            $creditmemo = Mage::getModel('sales/order_creditmemo')->load($creditmemoId);
+            $creditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->load($creditmemoId);
         } elseif ($orderId) {
             $data   = $this->getRequest()->getParam('creditmemo');
-            $order  = Mage::getModel('sales/order')->load($orderId);
+            $order  = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             $invoice = $this->_initInvoice($order);
 
             if (!$this->_canCreditmemo($order)) {
@@ -131,7 +131,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             }
             $data['qtys'] = $qtys;
 
-            $service = Mage::getModel('sales/service_order', $order);
+            $service = Mage::getModel('Mage_Sales_Model_Service_Order', $order);
             if ($invoice) {
                 $creditmemo = $service->prepareInvoiceCreditmemo($invoice, $data);
             } else {
@@ -169,7 +169,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
      */
     protected function _saveCreditmemo($creditmemo)
     {
-        $transactionSave = Mage::getModel('core/resource_transaction')
+        $transactionSave = Mage::getModel('Mage_Core_Model_Resource_Transaction')
             ->addObject($creditmemo)
             ->addObject($creditmemo->getOrder());
         if ($creditmemo->getInvoice()) {

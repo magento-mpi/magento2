@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Grid extends Mage_Adminhtml_Block_Widge
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('catalogrule/rule')
+        $collection = Mage::getModel('Mage_CatalogRule_Model_Rule')
             ->getResourceCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();

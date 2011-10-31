@@ -530,16 +530,16 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             }
         }
 
-        $result = Mage::getModel('shipping/rate_result');
+        $result = Mage::getModel('Mage_Shipping_Model_Rate_Result');
         if (empty($priceArr)) {
-            $error = Mage::getModel('shipping/rate_result_error');
+            $error = Mage::getModel('Mage_Shipping_Model_Rate_Result_Error');
             $error->setCarrier('usps');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
-                $rate = Mage::getModel('shipping/rate_result_method');
+                $rate = Mage::getModel('Mage_Shipping_Model_Rate_Result_Method');
                 $rate->setCarrier('usps');
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -900,19 +900,19 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         }
 
         if (!$this->_result) {
-            $this->_result = Mage::getModel('shipping/tracking_result');
+            $this->_result = Mage::getModel('Mage_Shipping_Model_Tracking_Result');
         }
         $defaults = $this->getDefaults();
 
         if ($resultArr) {
-             $tracking = Mage::getModel('shipping/tracking_result_status');
+             $tracking = Mage::getModel('Mage_Shipping_Model_Tracking_Result_Status');
              $tracking->setCarrier('usps');
              $tracking->setCarrierTitle($this->getConfigData('title'));
              $tracking->setTracking($trackingvalue);
              $tracking->setTrackSummary($resultArr['tracksummary']);
              $this->_result->append($tracking);
          } else {
-            $error = Mage::getModel('shipping/tracking_result_error');
+            $error = Mage::getModel('Mage_Shipping_Model_Tracking_Result_Error');
             $error->setCarrier('usps');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setTracking($trackingvalue);

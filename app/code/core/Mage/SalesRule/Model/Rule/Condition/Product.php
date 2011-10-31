@@ -48,7 +48,7 @@ class Mage_SalesRule_Model_Rule_Condition_Product extends Mage_CatalogRule_Model
         if ($object->getProduct() instanceof Mage_Catalog_Model_Product) {
             $product = $object->getProduct();
         } else {
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->load($object->getProductId());
         }
 

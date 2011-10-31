@@ -158,7 +158,7 @@ class Enterprise_ImportExport_Model_Observer
      */
     public function processScheduledOperation($schedule, $forceRun = false)
     {
-        $operation = Mage::getModel('enterprise_importexport/scheduled_operation')
+        $operation = Mage::getModel('Enterprise_ImportExport_Model_Scheduled_Operation')
             ->loadByJobCode($schedule->getJobCode());
 
         $result = false;
@@ -184,7 +184,7 @@ class Enterprise_ImportExport_Model_Observer
         }
 
         $mailer = Mage::getSingleton('core/email_template_mailer');
-        $emailInfo = Mage::getModel('core/email_info');
+        $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
         $emailInfo->addTo($receiverEmail);
 
         $mailer->addEmailInfo($emailInfo);

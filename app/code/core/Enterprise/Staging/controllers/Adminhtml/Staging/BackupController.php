@@ -47,7 +47,7 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController
         }
 
         if ($backupId) {
-            $backup = Mage::getModel('enterprise_staging/staging_action')
+            $backup = Mage::getModel('Enterprise_Staging_Model_Staging_Action')
                 ->load($backupId);
             if ($backup->getId()) {
                 $stagingId = $backup->getStagingId();
@@ -130,7 +130,7 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController
         if (is_array($backupDeleteIds)) {
             foreach ($backupDeleteIds as $backupId) {
                 if (!empty($backupId)) {
-                    $backup = Mage::getModel('enterprise_staging/staging_action')
+                    $backup = Mage::getModel('Enterprise_Staging_Model_Staging_Action')
                         ->load($backupId);
                     if ($backup->getId()) {
                         try{

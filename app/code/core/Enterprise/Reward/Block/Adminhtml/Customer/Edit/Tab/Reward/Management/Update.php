@@ -115,10 +115,10 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Upda
             || Mage::app()->isSingleStoreMode()
             || $customer->getSharingConfig()->isGlobalScope())
         {
-            return Mage::getModel('adminhtml/system_store')->getStoreValuesForForm();
+            return Mage::getModel('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm();
         }
 
-        $stores = Mage::getModel('adminhtml/system_store')
+        $stores = Mage::getModel('Mage_Adminhtml_Model_System_Store')
             ->getStoresStructure(false, array(), array(), array($customer->getWebsiteId()));
         $values = array();
 

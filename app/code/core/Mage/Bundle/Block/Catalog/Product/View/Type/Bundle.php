@@ -81,7 +81,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
         $selected     = array();
         $currentProduct = $this->getProduct();
         $coreHelper   = Mage::helper('Mage_Core_Helper_Data');
-        $bundlePriceModel = Mage::getModel('bundle/product_price');
+        $bundlePriceModel = Mage::getModel('Mage_Bundle_Model_Product_Price');
 
         if ($preconfiguredFlag = $currentProduct->hasPreconfiguredValues()) {
             $preconfiguredValues = $currentProduct->getPreconfiguredValues();

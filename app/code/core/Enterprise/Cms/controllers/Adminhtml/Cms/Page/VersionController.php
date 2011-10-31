@@ -66,7 +66,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
             $versionId = (int) $this->getRequest()->getParam('version_id');
         }
 
-        $version = Mage::getModel('enterprise_cms/page_version');
+        $version = Mage::getModel('Enterprise_Cms_Model_Page_Version');
         /* @var $version Enterprise_Cms_Model_Page_Version */
 
         if ($versionId) {

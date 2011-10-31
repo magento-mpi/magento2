@@ -138,7 +138,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
     {
         if (!$this->hasData('referral')) {
             if ($this->getInvitation()->getReferralId()) {
-                $referral = Mage::getModel('customer/customer')->load(
+                $referral = Mage::getModel('Mage_Customer_Model_Customer')->load(
                     $this->getInvitation()->getReferralId()
                 );
             } else {
@@ -160,7 +160,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
     {
         if (!$this->hasData('customer')) {
             if ($this->getInvitation()->getCustomerId()) {
-                $customer = Mage::getModel('customer/customer')->load(
+                $customer = Mage::getModel('Mage_Customer_Model_Customer')->load(
                     $this->getInvitation()->getCustomerId()
                 );
             } else {
@@ -181,7 +181,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
     public function getCustomerGroupCollection()
     {
         if (!$this->hasData('customer_groups_collection')) {
-            $groups = Mage::getModel('customer/group')->getCollection()
+            $groups = Mage::getModel('Mage_Customer_Model_Group')->getCollection()
                 ->addFieldToFilter('customer_group_id', array('gt'=> 0))
                 ->load();
             $this->setData('customer_groups_collection', $groups);

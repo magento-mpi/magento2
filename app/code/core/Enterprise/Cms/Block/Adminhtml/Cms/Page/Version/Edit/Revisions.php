@@ -52,7 +52,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     protected function _prepareCollection()
     {
         /* var $collection Enterprise_Cms_Model_Resource_Revision_Collection */
-        $collection = Mage::getModel('enterprise_cms/page_revision')->getCollection()
+        $collection = Mage::getModel('Enterprise_Cms_Model_Page_Revision')->getCollection()
             ->addPageFilter($this->getPage())
             ->addVersionFilter($this->getVersion())
             ->addUserColumn()

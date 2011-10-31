@@ -355,7 +355,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         /**
          * Getting event type id for catalog_product_view event
          */
-        foreach (Mage::getModel('reports/event_type')->getCollection() as $eventType) {
+        foreach (Mage::getModel('Mage_Reports_Model_Event_Type')->getCollection() as $eventType) {
             if ($eventType->getEventName() == 'catalog_product_view') {
                 $productViewEvent = (int)$eventType->getId();
                 break;

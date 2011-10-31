@@ -161,7 +161,7 @@ class Mage_Sales_Model_Order_Invoice_Item extends Mage_Core_Model_Abstract
                 $this->_orderItem = $this->getInvoice()->getOrder()->getItemById($this->getOrderItemId());
             }
             else {
-                $this->_orderItem = Mage::getModel('sales/order_item')
+                $this->_orderItem = Mage::getModel('Mage_Sales_Model_Order_Item')
                     ->load($this->getOrderItemId());
             }
         }

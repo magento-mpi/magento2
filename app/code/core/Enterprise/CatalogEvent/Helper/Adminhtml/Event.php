@@ -55,7 +55,7 @@ class Enterprise_CatalogEvent_Helper_Adminhtml_Event extends Mage_Core_Helper_Ab
     public function getCategories()
     {
         if ($this->_categories === null) {
-            $tree = Mage::getModel('catalog/category')->getTreeModel();
+            $tree = Mage::getModel('Mage_Catalog_Model_Category')->getTreeModel();
             /** @var $tree Mage_Catalog_Model_Resource_Category_Tree */
             $tree->load(null, 2); // Load only to second level.
             $tree->addCollectionData(null, 'position');
@@ -138,7 +138,7 @@ class Enterprise_CatalogEvent_Helper_Adminhtml_Event extends Mage_Core_Helper_Ab
     {
 
         if ($this->_inEventCategoryIds === null) {
-            $collection = Mage::getModel('enterprise_catalogevent/event')->getCollection();
+            $collection = Mage::getModel('Enterprise_CatalogEvent_Model_Event')->getCollection();
             $this->_inEventCategoryIds = $collection->getColumnValues('category_id');
         }
         return $this->_inEventCategoryIds;

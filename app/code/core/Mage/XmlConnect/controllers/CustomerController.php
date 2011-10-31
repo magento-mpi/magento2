@@ -145,7 +145,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             $customer = $this->_getSession()->getCustomer();
 
             /* @var $customerForm Mage_Customer_Model_Form */
-            $customerForm = Mage::getModel('customer/form');
+            $customerForm = Mage::getModel('Mage_Customer_Model_Form');
             $customerForm->setFormCode('customer_account_edit')->setEntity($customer);
 
             $customerData = $customerForm->extractData($this->getRequest());
@@ -191,7 +191,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
 
             if (!empty($errors)) {
                 /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
-                $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+                $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
                 $message->addChild('status', self::MESSAGE_STATUS_ERROR);
                 $message->addChild('text', implode(' ', $errors));
                 $this->getResponse()->setBody($message->asNiceXml());
@@ -238,11 +238,11 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             /* @var $customer Mage_Customer_Model_Customer */
             $customer = Mage::registry('current_customer');
             if (is_null($customer)) {
-                $customer = Mage::getModel('customer/customer');
+                $customer = Mage::getModel('Mage_Customer_Model_Customer');
             }
 
             /* @var $customerForm Mage_Customer_Model_Form */
-            $customerForm = Mage::getModel('customer/form');
+            $customerForm = Mage::getModel('Mage_Customer_Model_Form');
             $customerForm->setFormCode('customer_account_create')->setEntity($customer);
 
             $customerData = $customerForm->extractData($this->getRequest());
@@ -282,7 +282,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                         );
                         $message = $this->__('Account confirmation is required. Please check your email for the confirmation link.');
                         /** @var $messageXmlObj Mage_XmlConnect_Model_Simplexml_Element */
-                        $messageXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+                        $messageXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
                         $messageXmlObj->addChild('status', self::MESSAGE_STATUS_SUCCESS);
                         $messageXmlObj->addChild('text', $message);
                         $messageXmlObj->addChild('confirmation', 1);
@@ -330,7 +330,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                 $this->_message($this->__('Invalid email address.'), self::MESSAGE_STATUS_ERROR);
                 return;
             }
-            $customer = Mage::getModel('customer/customer')->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+            $customer = Mage::getModel('Mage_Customer_Model_Customer')->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
                 ->loadByEmail($email);
 
             if ($customer->getId()) {
@@ -386,7 +386,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             }
         } else {
             /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
-            $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+            $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
             $message->addChild('status', self::MESSAGE_STATUS_ERROR);
             $message->addChild('is_empty_address_book', 1);
             $this->getResponse()->setBody($message->asNiceXml());
@@ -408,7 +408,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                 return;
             }
 
-            $address = Mage::getModel('customer/address');
+            $address = Mage::getModel('Mage_Customer_Model_Address');
 
             /**
              * Init address object
@@ -451,7 +451,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
         $addressId = $this->getRequest()->getParam('id', false);
 
         if ($addressId) {
-            $address = Mage::getModel('customer/address')->load($addressId);
+            $address = Mage::getModel('Mage_Customer_Model_Address')->load($addressId);
 
             // Validate address_id <=> customer_id
             if ($address->getCustomerId() != $this->_getSession()->getCustomerId()) {
@@ -487,7 +487,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
         if ($this->getRequest()->isPost()) {
             $customer = $this->_getSession()->getCustomer();
             /* @var $address Mage_Customer_Model_Address */
-            $address    = Mage::getModel('customer/address');
+            $address    = Mage::getModel('Mage_Customer_Model_Address');
             $addressId  = $this->getRequest()->getParam('id');
             if ($addressId) {
                 $existsAddress = $customer->getAddressById($addressId);
@@ -499,7 +499,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             $errors = array();
 
             /* @var $addressForm Mage_Customer_Model_Form */
-            $addressForm = Mage::getModel('customer/form');
+            $addressForm = Mage::getModel('Mage_Customer_Model_Form');
             $addressForm->setFormCode('customer_address_edit')
                 ->setEntity($address);
             $addressData    = $addressForm->extractData($this->getRequest());
@@ -524,7 +524,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                 if (true === $addressValidation) {
                     $address->save();
                     /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
-                    $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+                    $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
                     $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
                     $message->addChild('text', $this->__('Address has been saved.'));
                     $message->addChild('address_id', $address->getId());
@@ -594,7 +594,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                 return;
             }
 
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
 
             if ($this->_canViewOrder($order)) {
                 Mage::register('current_order', $order);
@@ -639,7 +639,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     public function isLogginedAction()
     {
         /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
-        $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+        $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
         $message->addChild('is_loggined', (int)$this->_getSession()->isLoggedIn());
         $this->getResponse()->setBody($message->asNiceXml());
     }
@@ -714,7 +714,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                 return;
             }
             /* @var $card Enterprise_GiftCardAccount_Model_Giftcardaccount */
-            $card = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
+            $card = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
                 ->loadByCode($this->getRequest()->getParam('giftcard_code', ''));
             Mage::register('current_giftcardaccount', $card);
 
@@ -756,7 +756,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                 if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
                     Mage::throwException($this->__('Redemption functionality is disabled.'));
                 }
-                Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->loadByCode($code)
+                Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')->loadByCode($code)
                     ->setIsRedeemed(true)->redeem();
 
                 $this->_message(

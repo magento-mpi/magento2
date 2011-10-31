@@ -105,7 +105,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         Mage::dispatchEvent('custom_quote_process', array('checkout_session' => $this));
 
         if ($this->_quote === null) {
-            $quote = Mage::getModel('sales/quote')
+            $quote = Mage::getModel('Mage_Sales_Model_Quote')
                 ->setStoreId(Mage::app()->getStore()->getId());
 
             /** @var $quote Mage_Sales_Model_Quote */
@@ -128,7 +128,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                          * We mast to create new quote object, because collectTotals()
                          * can to create links with other objects.
                          */
-                        $quote = Mage::getModel('sales/quote')->setStoreId(Mage::app()->getStore()->getId());
+                        $quote = Mage::getModel('Mage_Sales_Model_Quote')->setStoreId(Mage::app()->getStore()->getId());
                         $quote->load($this->getQuoteId());
                     }
                 } else {
@@ -196,7 +196,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
 
         Mage::dispatchEvent('load_customer_quote_before', array('checkout_session' => $this));
 
-        $customerQuote = Mage::getModel('sales/quote')
+        $customerQuote = Mage::getModel('Mage_Sales_Model_Quote')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->loadByCustomer(Mage::getSingleton('customer/session')->getCustomerId());
 
@@ -320,7 +320,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
     {
         $allMessages = $this->getAdditionalMessages();
         if (!isset($allMessages[$itemKey])) {
-            $allMessages[$itemKey] = Mage::getModel('core/message_collection');
+            $allMessages[$itemKey] = Mage::getModel('Mage_Core_Model_Message_Collection');
         }
         $allMessages[$itemKey]->add($message);
         $this->setAdditionalMessages($allMessages);

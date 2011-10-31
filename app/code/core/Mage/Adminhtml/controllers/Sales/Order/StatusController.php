@@ -51,7 +51,7 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
     {
         $statusCode = $this->getRequest()->getParam('status');
         if ($statusCode) {
-            $status = Mage::getModel('sales/order_status')->load($statusCode);
+            $status = Mage::getModel('Mage_Sales_Model_Order_Status')->load($statusCode);
         } else {
             $status = false;
         }
@@ -74,7 +74,7 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
     {
         $data = $this->_getSession()->getFormData(true);
         if ($data) {
-            $status = Mage::getModel('sales/order_status')
+            $status = Mage::getModel('Mage_Sales_Model_Order_Status')
                 ->setData($data);
             Mage::register('current_status', $status);
         }
@@ -124,7 +124,7 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
                 $label = $helper->stripTags($label);
             }
 
-            $status = Mage::getModel('sales/order_status')
+            $status = Mage::getModel('Mage_Sales_Model_Order_Status')
                     ->load($statusCode);
             // check if status exist
             if ($isNew && $status->getStatus()) {

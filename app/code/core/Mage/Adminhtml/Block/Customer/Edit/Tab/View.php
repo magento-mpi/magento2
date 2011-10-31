@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View
     public function getGroupName()
     {
         if ($groupId = $this->getCustomer()->getGroupId()) {
-            return Mage::getModel('customer/group')
+            return Mage::getModel('Mage_Customer_Model_Group')
                 ->load($groupId)
                 ->getCustomerGroupCode();
         }
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View
     public function getCustomerLog()
     {
         if (!$this->_customerLog) {
-            $this->_customerLog = Mage::getModel('log/customer')
+            $this->_customerLog = Mage::getModel('Mage_Log_Model_Customer')
                 ->loadByCustomer($this->getCustomer()->getId());
         }
         return $this->_customerLog;

@@ -152,7 +152,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             $section = $this->getRequest()->getParam('section');
             $website = $this->getRequest()->getParam('website');
             $store   = $this->getRequest()->getParam('store');
-            Mage::getModel('adminhtml/config_data')
+            Mage::getModel('Mage_Adminhtml_Model_Config_Data')
                 ->setSection($section)
                 ->setWebsite($website)
                 ->setStore($store)

@@ -53,7 +53,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
         }
 
         /* @var $customerForm Mage_Customer_Model_Form */
-        $customerForm = Mage::getModel('enterprise_rma/item_form');
+        $customerForm = Mage::getModel('Enterprise_Rma_Model_Item_Form');
         $customerForm->setEntity($item)
             ->setFormCode('default')
             ->initDefaultValues();
@@ -132,7 +132,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
     protected function _populateItemWithProductData($item)
     {
         if ($this->getProductId()) {
-            $orderItem = Mage::getModel('sales/order_item')->load($this->getProductId());
+            $orderItem = Mage::getModel('Mage_Sales_Model_Order_Item')->load($this->getProductId());
             if ($orderItem && $orderItem->getId()) {
                 $item->setProductAdminName(Mage::helper('Enterprise_Rma_Helper_Data')->getAdminProductName($orderItem));
             }

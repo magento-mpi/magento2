@@ -239,7 +239,7 @@ foreach ($entityAttributesCodes as $code => $type) {
 /**
  * Add gift wrapping attributes for catalog product entity
  */
-$types = Mage::getModel('catalog/product_type')->getOptionArray();
+$types = Mage::getModel('Mage_Catalog_Model_Product_Type')->getOptionArray();
 unset($types['virtual'], $types['downloadable'], $types['grouped']);
 $applyTo = join(',', array_keys($types));
 

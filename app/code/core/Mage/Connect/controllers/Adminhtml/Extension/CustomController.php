@@ -118,7 +118,7 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
 
         $session->setCustomExtensionPackageFormData($p);
         try {
-            $ext = Mage::getModel('connect/extension');
+            $ext = Mage::getModel('Mage_Connect_Model_Extension');
             /** @var $ext Mage_Connect_Model_Extension */
             $ext->setData($p);
             if ($ext->savePackage()) {
@@ -151,7 +151,7 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
         try {
             $p = $this->getRequest()->getPost();
             $session->setCustomExtensionPackageFormData($p);
-            $ext = Mage::getModel('connect/extension');
+            $ext = Mage::getModel('Mage_Connect_Model_Extension');
             $ext->setData($p);
             $packageVersion = $this->getRequest()->getPost('version_ids');
             if (is_array($packageVersion)) {

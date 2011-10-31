@@ -46,7 +46,7 @@ class Enterprise_CustomerBalance_Model_Api extends Mage_Api_Model_Resource_Abstr
          * @var Enterprise_CustomerBalance_Model_Balance $balanceModel
          */
         try {
-            $balanceModel = Mage::getModel('enterprise_customerbalance/balance')
+            $balanceModel = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                     ->setCustomerId($customerId)
                     ->setWebsiteId($websiteId)
                     ->loadByCustomer();
@@ -70,7 +70,7 @@ class Enterprise_CustomerBalance_Model_Api extends Mage_Api_Model_Resource_Abstr
     public function history($customerId, $websiteId = null)
     {
         try {
-            $result = Mage::getModel('enterprise_customerbalance/balance_history')
+            $result = Mage::getModel('Enterprise_CustomerBalance_Model_Balance_History')
                     ->getHistoryData($customerId, $websiteId);
         } catch (Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());

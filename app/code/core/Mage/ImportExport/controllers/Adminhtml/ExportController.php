@@ -78,7 +78,7 @@ class Mage_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
         if ($this->getRequest()->getPost(Mage_ImportExport_Model_Export::FILTER_ELEMENT_GROUP)) {
             try {
                 /** @var $model Mage_ImportExport_Model_Export */
-                $model = Mage::getModel('importexport/export');
+                $model = Mage::getModel('Mage_ImportExport_Model_Export');
                 $model->setData($this->getRequest()->getParams());
 
                 return $this->_prepareDownloadResponse(
@@ -127,7 +127,7 @@ class Mage_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
                 /** @var $attrFilterBlock Mage_ImportExport_Block_Adminhtml_Export_Filter */
                 $attrFilterBlock = $this->getLayout()->getBlock('export.filter');
                 /** @var $export Mage_ImportExport_Model_Export */
-                $export = Mage::getModel('importexport/export');
+                $export = Mage::getModel('Mage_ImportExport_Model_Export');
 
                 $export->filterAttributeCollection(
                     $attrFilterBlock->prepareCollection(

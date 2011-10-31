@@ -46,7 +46,7 @@ class Mage_Rating_Block_Entity_Detailed extends Mage_Core_Block_Template
             return '';
         }
 
-        $reviewsCount = Mage::getModel('review/review')
+        $reviewsCount = Mage::getModel('Mage_Review_Model_Review')
             ->getTotalReviews($entityId, true);
         if ($reviewsCount == 0) {
             #return Mage::helper('Mage_Rating_Helper_Data')->__('Be the first to review this product');
@@ -54,7 +54,7 @@ class Mage_Rating_Block_Entity_Detailed extends Mage_Core_Block_Template
             return parent::_toHtml();
         }
 
-        $ratingCollection = Mage::getModel('rating/rating')
+        $ratingCollection = Mage::getModel('Mage_Rating_Model_Rating')
             ->getResourceCollection()
             ->addEntityFilter('product') # TOFIX
             ->setPositionOrder()

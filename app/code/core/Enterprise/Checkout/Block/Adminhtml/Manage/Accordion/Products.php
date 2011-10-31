@@ -66,7 +66,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     {
         if (!$this->hasData('items_collection')) {
             $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
-            $collection = Mage::getModel('catalog/product')->getCollection()
+            $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
                 ->setStore($this->_getStore())
                 ->addAttributeToSelect($attributes)
                 ->addAttributeToSelect('sku')

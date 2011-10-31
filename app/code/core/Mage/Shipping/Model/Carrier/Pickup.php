@@ -45,10 +45,10 @@ class Mage_Shipping_Model_Carrier_Pickup
             return false;
         }
 
-        $result = Mage::getModel('shipping/rate_result');
+        $result = Mage::getModel('Mage_Shipping_Model_Rate_Result');
 
         if (!empty($rate)) {
-            $method = Mage::getModel('shipping/rate_result_method');
+            $method = Mage::getModel('Mage_Shipping_Model_Rate_Result_Method');
 
             $method->setCarrier('pickup');
             $method->setCarrierTitle($this->getConfigData('title'));

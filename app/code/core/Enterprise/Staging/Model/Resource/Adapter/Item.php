@@ -47,7 +47,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item extends Enterprise_Staging_
 
         $stagingItems = $staging->getMapperInstance()->getStagingItems();
         foreach ($stagingItems as $stagingItem) {
-            $item = Mage::getModel('enterprise_staging/staging_item')
+            $item = Mage::getModel('Enterprise_Staging_Model_Staging_Item')
                 ->loadFromXmlStagingItem($stagingItem);
             $staging->addItem($item);
         }

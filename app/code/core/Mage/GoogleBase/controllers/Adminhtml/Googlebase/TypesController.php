@@ -52,7 +52,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
              ->_title($this->__('Google Base'))
              ->_title($this->__('Manage Attributes'));
 
-        Mage::register('current_item_type', Mage::getModel('googlebase/type'));
+        Mage::register('current_item_type', Mage::getModel('Mage_GoogleBase_Model_Type'));
         $typeId = $this->getRequest()->getParam('id');
         if (!is_null($typeId)) {
             Mage::registry('current_item_type')->load($typeId);
@@ -114,7 +114,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
              ->_title($this->__('Manage Attributes'));
 
         $id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('googlebase/type');
+        $model = Mage::getModel('Mage_GoogleBase_Model_Type');
 
         try {
             $result = array();
@@ -145,7 +145,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
 
     public function saveAction()
     {
-        $typeModel = Mage::getModel('googlebase/type');
+        $typeModel = Mage::getModel('Mage_GoogleBase_Model_Type');
         $id = $this->getRequest()->getParam('type_id');
         if (!is_null($id)) {
             $typeModel->load($id);
@@ -173,7 +173,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
                     if (isset($attrInfo['delete']) && $attrInfo['delete'] == 1) {
                         continue;
                     }
-                    Mage::getModel('googlebase/attribute')
+                    Mage::getModel('Mage_GoogleBase_Model_Attribute')
                         ->setAttributeId($attrInfo['attribute_id'])
                         ->setGbaseAttribute($attrInfo['gbase_attribute'])
                         ->setTypeId($typeId)
@@ -192,7 +192,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
     {
         try {
             $id = $this->getRequest()->getParam('id');
-            $model = Mage::getModel('googlebase/type');
+            $model = Mage::getModel('Mage_GoogleBase_Model_Type');
             $model->load($id);
             if ($model->getTypeId()) {
                 $model->delete();

@@ -38,7 +38,7 @@ class Mage_Adminhtml_Sales_TransactionsController extends Mage_Adminhtml_Control
      */
     protected function _initTransaction()
     {
-        $txn = Mage::getModel('sales/order_payment_transaction')->load(
+        $txn = Mage::getModel('Mage_Sales_Model_Order_Payment_Transaction')->load(
             $this->getRequest()->getParam('txn_id')
         );
 

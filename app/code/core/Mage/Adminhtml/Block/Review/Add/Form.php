@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
 {
     protected function _prepareForm()
     {
-        $statuses = Mage::getModel('review/review')
+        $statuses = Mage::getModel('Mage_Review_Model_Review')
             ->getStatusCollection()
             ->load()
             ->toOptionArray();

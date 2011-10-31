@@ -72,7 +72,7 @@ class Mage_Admin_Model_Acl extends Zend_Acl
     protected function _getRoleRegistry()
     {
         if (null === $this->_roleRegistry) {
-            $this->_roleRegistry = Mage::getModel('admin/acl_role_registry');
+            $this->_roleRegistry = Mage::getModel('Mage_Admin_Model_Acl_Role_Registry');
         }
         return $this->_roleRegistry;
     }

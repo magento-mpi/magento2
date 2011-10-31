@@ -43,7 +43,7 @@ class Mage_XmlConnect_Block_Customer_Form extends Mage_Core_Block_Template
         $editFlag = (int)$this->getRequest()->getParam('edit');
         $customer  = $this->getCustomer();
         /** @var $xmlModel Mage_XmlConnect_Model_Simplexml_Element */
-        $xmlModel  = Mage::getModel('xmlconnect/simplexml_element', '<node></node>');
+        $xmlModel  = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<node></node>');
         //Enterprise_Customer
         if ($editFlag == 1 && $customer && $customer->getId()) {
             $firstname = $xmlModel->xmlentities($customer->getFirstname());

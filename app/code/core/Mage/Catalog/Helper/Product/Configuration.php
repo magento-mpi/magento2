@@ -227,7 +227,7 @@ class Mage_Catalog_Helper_Product_Configuration extends Mage_Core_Helper_Abstrac
             $_default = array('value' => $optionValue);
             if (isset($optionInfo['option_type'])) {
                 try {
-                    $group = Mage::getModel('catalog/product_option')->groupFactory($optionInfo['option_type']);
+                    $group = Mage::getModel('Mage_Catalog_Model_Product_Option')->groupFactory($optionInfo['option_type']);
                     return array('value' => $group->getCustomizedView($optionInfo));
                 } catch (Exception $e) {
                     return $_default;

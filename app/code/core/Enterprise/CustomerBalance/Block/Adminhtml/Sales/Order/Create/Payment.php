@@ -117,7 +117,7 @@ extends Mage_Core_Block_Template
             }
 
             $store = Mage::app()->getStore($quote->getStoreId());
-            $this->_balanceInstance = Mage::getModel('enterprise_customerbalance/balance')
+            $this->_balanceInstance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                 ->setCustomerId($quote->getCustomerId())
                 ->setWebsiteId($store->getWebsiteId())
                 ->loadByCustomer();

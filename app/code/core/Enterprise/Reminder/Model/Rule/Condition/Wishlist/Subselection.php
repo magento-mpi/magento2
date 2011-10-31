@@ -43,7 +43,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Subselection
      */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('enterprise_reminder/rule_condition_wishlist_subcombine')->getNewChildSelectOptions();
+        return Mage::getModel('Enterprise_Reminder_Model_Rule_Condition_Wishlist_Subcombine')->getNewChildSelectOptions();
     }
 
     /**

@@ -95,7 +95,7 @@ class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_
     public function emailAction()
     {
         if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
-            if ($invoice = Mage::getModel('sales/order_invoice')->load($invoiceId)) {
+            if ($invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')->load($invoiceId)) {
                 $invoice->sendEmail();
                 $historyItem = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Status_History_Collection')
                     ->getUnnotifiedForInstance($invoice, Mage_Sales_Model_Order_Invoice::HISTORY_ENTITY_NAME);
@@ -115,8 +115,8 @@ class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_
     public function printAction()
     {
         if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
-            if ($invoice = Mage::getModel('sales/order_invoice')->load($invoiceId)) {
-                $pdf = Mage::getModel('sales/order_pdf_invoice')->getPdf(array($invoice));
+            if ($invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')->load($invoiceId)) {
+                $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Invoice')->getPdf(array($invoice));
                 $this->_prepareDownloadResponse('invoice'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').
                     '.pdf', $pdf->render(), 'application/pdf');
             }
@@ -134,9 +134,9 @@ class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_
                 ->addAttributeToFilter('entity_id', array('in' => $invoicesIds))
                 ->load();
             if (!isset($pdf)){
-                $pdf = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Invoice')->getPdf($invoices);
             } else {
-                $pages = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                $pages = Mage::getModel('Mage_Sales_Model_Order_Pdf_Invoice')->getPdf($invoices);
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
 

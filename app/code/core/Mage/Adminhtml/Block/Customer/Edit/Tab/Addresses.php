@@ -114,10 +114,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
             'legend'    => Mage::helper('Mage_Customer_Helper_Data')->__("Edit Customer's Address"))
         );
 
-        $addressModel = Mage::getModel('customer/address');
+        $addressModel = Mage::getModel('Mage_Customer_Model_Address');
         $addressModel->setCountryId(Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry($customer->getStore()));
         /** @var $addressForm Mage_Customer_Model_Form */
-        $addressForm = Mage::getModel('customer/form');
+        $addressForm = Mage::getModel('Mage_Customer_Model_Form');
         $addressForm->setFormCode('adminhtml_customer_address')
             ->setEntity($addressModel)
             ->initDefaultValues();
@@ -134,7 +134,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
 
         $regionElement = $form->getElement('region');
         if ($regionElement) {
-            $regionElement->setRenderer(Mage::getModel('adminhtml/customer_renderer_region'));
+            $regionElement->setRenderer(Mage::getModel('Mage_Adminhtml_Model_Customer_Renderer_Region'));
         }
 
         $regionElement = $form->getElement('region_id');

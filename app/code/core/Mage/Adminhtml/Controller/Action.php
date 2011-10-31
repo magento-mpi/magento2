@@ -211,7 +211,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
             return $this;
         }
 
-        $configData = Mage::getModel('core/config_data');
+        $configData = Mage::getModel('Mage_Core_Model_Config_Data');
 
         $defaultUnsecure= (string) Mage::getConfig()->getNode('default/'.Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL);
         $defaultSecure  = (string) Mage::getConfig()->getNode('default/'.Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL);

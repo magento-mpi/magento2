@@ -57,7 +57,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
              ->_title($this->__('Google Content'))
              ->_title($this->__('Manage Attributes'));
 
-        Mage::register('current_item_type', Mage::getModel('googleshopping/type'));
+        Mage::register('current_item_type', Mage::getModel('Mage_GoogleShopping_Model_Type'));
         $typeId = $this->getRequest()->getParam('id');
         if (!is_null($typeId)) {
             Mage::registry('current_item_type')->load($typeId);
@@ -165,7 +165,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
     public function saveAction()
     {
         /** @var $typeModel Mage_GoogleShopping_Model_Type */
-        $typeModel = Mage::getModel('googleshopping/type');
+        $typeModel = Mage::getModel('Mage_GoogleShopping_Model_Type');
         $id = $this->getRequest()->getParam('type_id');
         if (!is_null($id)) {
             $typeModel->load($id);
@@ -194,7 +194,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
                     if (isset($attrInfo['delete']) && $attrInfo['delete'] == 1) {
                         continue;
                     }
-                    Mage::getModel('googleshopping/attribute')
+                    Mage::getModel('Mage_GoogleShopping_Model_Attribute')
                         ->setAttributeId($attrInfo['attribute_id'])
                         ->setGcontentAttribute($attrInfo['gcontent_attribute'])
                         ->setTypeId($typeId)
@@ -222,7 +222,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
     {
         try {
             $id = $this->getRequest()->getParam('id');
-            $model = Mage::getModel('googleshopping/type');
+            $model = Mage::getModel('Mage_GoogleShopping_Model_Type');
             $model->load($id);
             if ($model->getTypeId()) {
                 $model->delete();

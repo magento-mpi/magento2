@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
     {
         parent::_construct();
         $this->setTemplate('page/menu.phtml');
-        $this->_url = Mage::getModel('adminhtml/url');
+        $this->_url = Mage::getModel('Mage_Adminhtml_Model_Url');
         $this->setCacheTags(array(self::CACHE_TAGS));
     }
 

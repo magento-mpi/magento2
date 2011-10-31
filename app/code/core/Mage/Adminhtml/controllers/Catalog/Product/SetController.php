@@ -63,7 +63,7 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
              ->_title($this->__('Manage Attribute Sets'));
 
         $this->_setTypeId();
-        $attributeSet = Mage::getModel('eav/entity_attribute_set')
+        $attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
             ->load($this->getRequest()->getParam('id'));
 
         if (!$attributeSet->getId()) {
@@ -113,7 +113,7 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
         $isNewSet       = $this->getRequest()->getParam('gotoEdit', false) == '1';
 
         /* @var $model Mage_Eav_Model_Entity_Attribute_Set */
-        $model  = Mage::getModel('eav/entity_attribute_set')
+        $model  = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
             ->setEntityTypeId($entityTypeId);
 
         /** @var $helper Mage_Adminhtml_Helper_Data */
@@ -196,7 +196,7 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
     {
         $setId = $this->getRequest()->getParam('id');
         try {
-            Mage::getModel('eav/entity_attribute_set')
+            Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
                 ->setId($setId)
                 ->delete();
 
@@ -215,7 +215,7 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
     protected function _setTypeId()
     {
         Mage::register('entityType',
-            Mage::getModel('catalog/product')->getResource()->getTypeId());
+            Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getTypeId());
     }
 
     protected function _isAllowed()

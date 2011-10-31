@@ -152,7 +152,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     protected function _showLastExecutionTime($flagCode, $refreshCode)
     {
-        $flag = Mage::getModel('reports/flag')->setReportFlagCode($flagCode)->loadSelf();
+        $flag = Mage::getModel('Mage_Reports_Model_Flag')->setReportFlagCode($flagCode)->loadSelf();
         $updatedAt = ($flag->hasData())
             ? Mage::app()->getLocale()->storeDate(
                 0, new Zend_Date($flag->getLastUpdate(), Varien_Date::DATETIME_INTERNAL_FORMAT), true

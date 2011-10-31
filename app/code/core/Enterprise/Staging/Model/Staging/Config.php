@@ -340,7 +340,7 @@ class Enterprise_Staging_Model_Staging_Config
             return false;
         }
 
-        $staging = Mage::getModel('enterprise_staging/staging');
+        $staging = Mage::getModel('Enterprise_Staging_Model_Staging');
         if (!Mage::getSingleton("core/session")->getData('staging_frontend_website_is_checked')) {
             $staging->checkFrontend();
         }

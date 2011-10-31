@@ -185,7 +185,7 @@ class Mage_Index_Model_Indexer
         if ($this->isLocked()) {
             return $this;
         }
-        $event = Mage::getModel('index/event')
+        $event = Mage::getModel('Mage_Index_Model_Event')
             ->setEntity($entityType)
             ->setType($eventType)
             ->setDataObject($entity)

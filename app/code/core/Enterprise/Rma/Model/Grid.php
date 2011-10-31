@@ -67,7 +67,7 @@ class Enterprise_Rma_Model_Grid extends Mage_Core_Model_Abstract
     public function getStatusLabel()
     {
         if (is_null(parent::getStatusLabel())){
-            $this->setStatusLabel(Mage::getModel('enterprise_rma/rma_source_status')->getItemLabel($this->getStatus()));
+            $this->setStatusLabel(Mage::getModel('Enterprise_Rma_Model_Rma_Source_Status')->getItemLabel($this->getStatus()));
     }
         return parent::getStatusLabel();
     }

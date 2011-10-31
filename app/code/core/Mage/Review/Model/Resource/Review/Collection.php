@@ -220,7 +220,7 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
     public function addRateVotes()
     {
         foreach ($this->getItems() as $item) {
-            $votesCollection = Mage::getModel('rating/rating_option_vote')
+            $votesCollection = Mage::getModel('Mage_Rating_Model_Rating_Option_Vote')
                 ->getResourceCollection()
                 ->setReviewFilter($item->getId())
                 ->setStoreFilter(Mage::app()->getStore()->getId())

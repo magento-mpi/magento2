@@ -45,7 +45,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Grid extends Mage_Adm
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('enterprise_giftregistry/type')->getCollection()
+        $collection = Mage::getModel('Enterprise_GiftRegistry_Model_Type')->getCollection()
             ->addStoreData();
         $this->setCollection($collection);
         return parent::_prepareCollection();

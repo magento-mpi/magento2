@@ -38,12 +38,12 @@ class Enterprise_GiftRegistry_Block_Items extends Mage_Checkout_Block_Cart
     public function getItems()
     {
         if (!$this->hasItemCollection()) {
-            $collection = Mage::getModel('enterprise_giftregistry/item')->getCollection()
+            $collection = Mage::getModel('Enterprise_GiftRegistry_Model_Item')->getCollection()
                 ->addRegistryFilter($this->getEntity()->getId());
 
             $quoteItemsCollection = array();
-            $quote = Mage::getModel('sales/quote')->setItemCount(true);
-            $emptyQuoteItem = Mage::getModel('sales/quote_item');
+            $quote = Mage::getModel('Mage_Sales_Model_Quote')->setItemCount(true);
+            $emptyQuoteItem = Mage::getModel('Mage_Sales_Model_Quote_Item');
             foreach ($collection as $item) {
                 $product = $item->getProduct();
                 $remainingQty = $item->getQty() - $item->getQtyFulfilled();

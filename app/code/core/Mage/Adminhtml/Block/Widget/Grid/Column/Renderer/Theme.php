@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Theme
             $options = $this->getColumn()->getOptions();
         }
         if (empty($options) || !is_array($options)) {
-            $options = Mage::getModel('core/design_source_design')
+            $options = Mage::getModel('Mage_Core_Model_Design_Source_Design')
                 ->setIsFullLabel(true)->getAllOptions(false);
         }
 

@@ -79,7 +79,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
         }
 
         /* @var $segment Enterprise_CustomerSegment_Model_Segment */
-        $segment = Mage::getModel('enterprise_customersegment/segment');
+        $segment = Mage::getModel('Enterprise_CustomerSegment_Model_Segment');
 
         if ($segmentId) {
             $segment->load($segmentId);
@@ -257,7 +257,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
     protected function _getAdminSession()
     {
         if (is_null($this->_adminSession)) {
-            $this->_adminSession = Mage::getModel('admin/session');
+            $this->_adminSession = Mage::getModel('Mage_Admin_Model_Session');
         }
         return $this->_adminSession;
     }

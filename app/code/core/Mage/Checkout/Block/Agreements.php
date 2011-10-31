@@ -31,7 +31,7 @@ class Mage_Checkout_Block_Agreements extends Mage_Core_Block_Template
             if (!Mage::getStoreConfigFlag('checkout/options/enable_agreements')) {
                 $agreements = array();
             } else {
-                $agreements = Mage::getModel('checkout/agreement')->getCollection()
+                $agreements = Mage::getModel('Mage_Checkout_Model_Agreement')->getCollection()
                     ->addStoreFilter(Mage::app()->getStore()->getId())
                     ->addFieldToFilter('is_active', 1);
             }

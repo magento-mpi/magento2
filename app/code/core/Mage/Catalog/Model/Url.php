@@ -134,7 +134,7 @@ class Mage_Catalog_Model_Url
         }
 
         if (self::$_categoryForUrlPath === null) {
-            self::$_categoryForUrlPath = Mage::getModel('catalog/category');
+            self::$_categoryForUrlPath = Mage::getModel('Mage_Catalog_Model_Category');
         }
 
         // Generate url_path

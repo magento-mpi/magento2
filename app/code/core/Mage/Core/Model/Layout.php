@@ -85,7 +85,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         $this->_elementClass = Mage::getConfig()->getModelClassName('core/layout_element');
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
-        $this->_update = Mage::getModel('core/layout_update');
+        $this->_update = Mage::getModel('Mage_Core_Model_Layout_Update');
         parent::__construct($data);
     }
 

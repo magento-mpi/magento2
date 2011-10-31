@@ -107,7 +107,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
                     ->updateAttributes($this->_getHelper()->getProductIds(), $attributesData, $storeId);
             }
             if ($inventoryData) {
-                $stockItem = Mage::getModel('cataloginventory/stock_item');
+                $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
 
                 foreach ($this->_getHelper()->getProductIds() as $productId) {
                     $stockItem->setData(array());
@@ -177,7 +177,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
         $productIds = $this->_getHelper()->getProductIds();
         if (!is_array($productIds)) {
             $error = $this->__('Please select products for attributes update');
-        } else if (!Mage::getModel('catalog/product')->isProductsHasSku($productIds)) {
+        } else if (!Mage::getModel('Mage_Catalog_Model_Product')->isProductsHasSku($productIds)) {
             $error = $this->__('Some of the processed products have no SKU value defined. Please fill it prior to performing operations on these products.');
         }
 

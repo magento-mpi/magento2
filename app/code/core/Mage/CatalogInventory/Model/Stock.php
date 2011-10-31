@@ -111,7 +111,7 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
         $qtys = array();
         foreach ($items as $productId => $item) {
             if (empty($item['item'])) {
-                $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
+                $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item')->loadByProduct($productId);
             } else {
                 $stockItem = $item['item'];
             }
@@ -133,7 +133,7 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
     public function registerProductsSale($items)
     {
         $qtys = $this->_prepareProductQtys($items);
-        $item = Mage::getModel('cataloginventory/stock_item');
+        $item = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
         $this->_getResource()->beginTransaction();
         $stockInfo = $this->_getResource()->getProductsStock($this, array_keys($qtys), true);
         $fullSaveItems = array();
@@ -174,7 +174,7 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
     {
         $productId = $item->getProductId();
         if ($productId) {
-            $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
+            $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item')->loadByProduct($productId);
             if (Mage::helper('Mage_CatalogInventory_Helper_Data')->isQty($stockItem->getTypeId())) {
                 if ($item->getStoreId()) {
                     $stockItem->setStoreId($item->getStoreId());
@@ -200,7 +200,7 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
      */
     public function backItemQty($productId, $qty)
     {
-        $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
+        $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item')->loadByProduct($productId);
         if ($stockItem->getId() && Mage::helper('Mage_CatalogInventory_Helper_Data')->isQty($stockItem->getTypeId())) {
             $stockItem->addQty($qty);
             if ($stockItem->getCanBackInStock() && $stockItem->getQty() > $stockItem->getMinQty()) {

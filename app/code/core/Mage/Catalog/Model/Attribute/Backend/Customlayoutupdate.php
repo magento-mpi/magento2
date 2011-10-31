@@ -52,7 +52,7 @@ class Mage_Catalog_Model_Attribute_Backend_Customlayoutupdate extends Mage_Eav_M
         }
 
         /** @var $validator Mage_Adminhtml_Model_LayoutUpdate_Validator */
-        $validator = Mage::getModel('adminhtml/layoutUpdate_validator');
+        $validator = Mage::getModel('Mage_Adminhtml_Model_LayoutUpdate_Validator');
         if (!$validator->isValid($xml)) {
             $messages = $validator->getMessages();
             //Add first message to exception

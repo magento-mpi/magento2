@@ -102,7 +102,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
                 $path = rtrim($guiData['file']['path'], '\\/')
                       . DS . $guiData['file']['filename'];
                 /** @var $validator Mage_Core_Model_File_Validator_AvailablePath */
-                $validator = Mage::getModel('core/file_validator_availablePath');
+                $validator = Mage::getModel('Mage_Core_Model_File_Validator_AvailablePath');
                 /** @var $helperImportExport Mage_ImportExport_Helper_Data */
                 $helperImportExport = Mage::helper('Mage_ImportExport_Helper_Data');
                 $validator->setPaths($helperImportExport->getLocalValidPaths());
@@ -130,7 +130,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
             $this->setGuiData(unserialize($this->getGuiData()));
         }
 
-        $profileHistory = Mage::getModel('dataflow/profile_history');
+        $profileHistory = Mage::getModel('Mage_Dataflow_Model_Profile_History');
 
         $adminUserId = $this->getAdminUserId();
         if($adminUserId) {
@@ -179,7 +179,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         /**
          * Save history
          */
-        Mage::getModel('dataflow/profile_history')
+        Mage::getModel('Mage_Dataflow_Model_Profile_History')
             ->setProfileId($this->getId())
             ->setActionCode('run')
             ->save();
@@ -189,7 +189,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
          */
         $xml = '<convert version="1.0"><profile name="default">' . $this->getActionsXml()
              . '</profile></convert>';
-        $profile = Mage::getModel('core/convert')
+        $profile = Mage::getModel('Mage_Core_Model_Convert')
             ->importXml($xml)
             ->getProfile('default');
         /* @var $profile Mage_Dataflow_Model_Convert_Profile */

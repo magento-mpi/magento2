@@ -42,10 +42,10 @@ class Enterprise_Rma_Block_Form_Renderer_Select extends Enterprise_Eav_Block_For
     public function getAttribute($code)
     {
         /* @var $itemModel  */
-        $itemModel = Mage::getModel('enterprise_rma/item');
+        $itemModel = Mage::getModel('Enterprise_Rma_Model_Item');
 
         /* @var $itemForm Enterprise_Rma_Model_Item_Form */
-        $itemForm   = Mage::getModel('enterprise_rma/item_form');
+        $itemForm   = Mage::getModel('Enterprise_Rma_Model_Item_Form');
         $itemForm->setFormCode('default')
             ->setStore($this->getStore())
             ->setEntity($itemModel);

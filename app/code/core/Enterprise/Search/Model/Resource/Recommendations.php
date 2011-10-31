@@ -220,7 +220,7 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_R
     protected function _getSearchQueryModel()
     {
         if (!$this->_searchQueryModel) {
-            $this->_searchQueryModel = Mage::getModel('catalogsearch/query');
+            $this->_searchQueryModel = Mage::getModel('Mage_CatalogSearch_Model_Query');
         }
         return $this->_searchQueryModel;
     }

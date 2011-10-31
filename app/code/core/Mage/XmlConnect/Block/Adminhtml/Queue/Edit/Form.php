@@ -55,7 +55,7 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Edit_Form
         if (null !== Mage::registry('current_template')) {
             $templateModel = Mage::registry('current_template');
         } else {
-            $templateModel = Mage::getModel('xmlconnect/template')->load($model->getTemplateId());
+            $templateModel = Mage::getModel('Mage_XmlConnect_Model_Template')->load($model->getTemplateId());
         }
 
         $fieldset = $this->getForm()->addFieldset(

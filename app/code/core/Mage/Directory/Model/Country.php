@@ -120,7 +120,7 @@ T: {{telephone}}";
     public function getFormats()
     {
         if (!isset(self::$_format[$this->getId()]) && $this->getId()) {
-            self::$_format[$this->getId()] = Mage::getModel('directory/country_format')
+            self::$_format[$this->getId()] = Mage::getModel('Mage_Directory_Model_Country_Format')
                                                 ->getCollection()
                                                 ->setCountryFilter($this)
                                                 ->load();

@@ -49,7 +49,7 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
      */
     protected function _initOrder($orderIncrementId)
     {
-        $order = Mage::getModel('sales/order');
+        $order = Mage::getModel('Mage_Sales_Model_Order');
 
         /* @var $order Mage_Sales_Model_Order */
 
@@ -74,7 +74,7 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
         $billingAliasName = 'billing_o_a';
         $shippingAliasName = 'shipping_o_a';
         
-        $collection = Mage::getModel("sales/order")->getCollection()
+        $collection = Mage::getModel('Mage_Sales_Model_Order')->getCollection()
             ->addAttributeToSelect('*')
             ->addAddressFields()
             ->addExpressionFieldToSelect(

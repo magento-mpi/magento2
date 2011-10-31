@@ -73,7 +73,7 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
     public function clear() {
         if ($sessId = $this->getSessionId()) {
             try {
-                Mage::getModel('api/user')->logoutBySessId($sessId);
+                Mage::getModel('Mage_Api_Model_User')->logoutBySessId($sessId);
             } catch (Exception $e) {
                 return false;
             }
@@ -87,13 +87,13 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
             return;
         }
 
-        $user = Mage::getModel('api/user')
+        $user = Mage::getModel('Mage_Api_Model_User')
             ->setSessid($this->getSessionId())
             ->login($username, $apiKey);
 
         if ( $user->getId() && $user->getIsActive() != '1' ) {
             Mage::throwException(Mage::helper('Mage_Api_Helper_Data')->__('Your account has been deactivated.'));
-        } elseif (!Mage::getModel('api/user')->hasAssigned2Role($user->getId())) {
+        } elseif (!Mage::getModel('Mage_Api_Model_User')->hasAssigned2Role($user->getId())) {
             Mage::throwException(Mage::helper('Mage_Api_Helper_Data')->__('Access denied.'));
         } else {
             if ($user->getId()) {
@@ -191,7 +191,7 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     protected function _renewBySessId ($sessId)
     {
-        $user = Mage::getModel('api/user')->loadBySessId($sessId);
+        $user = Mage::getModel('Mage_Api_Model_User')->loadBySessId($sessId);
         if (!$user->getId() || !$user->getSessid()) {
             return false;
         }

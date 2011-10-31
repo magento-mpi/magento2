@@ -44,7 +44,7 @@ class Mage_Core_AjaxController extends Mage_Core_Controller_Front_Action
 
         //filtering
         /** @var $filter Mage_Core_Model_Input_Filter_MaliciousCode */
-        $filter = Mage::getModel('core/input_filter_maliciousCode');
+        $filter = Mage::getModel('Mage_Core_Model_Input_Filter_MaliciousCode');
         foreach ($translation as &$item) {
             $item['custom'] = $filter->filter($item['custom']);
         }

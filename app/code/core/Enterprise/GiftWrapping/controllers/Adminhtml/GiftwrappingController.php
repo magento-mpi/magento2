@@ -59,7 +59,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
         if ($model) {
            return $model;
         }
-        $model = Mage::getModel('enterprise_giftwrapping/wrapping');
+        $model = Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping');
         $model->setStoreId($this->getRequest()->getParam('store', 0));
 
         $wrappingId = $this->getRequest()->getParam($requestParam);
@@ -200,7 +200,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
         $wrappingIds = (array)$this->getRequest()->getParam('wrapping_ids');
         $status = (int)(bool)$this->getRequest()->getParam('status');
         try {
-            $wrappingCollection = Mage::getModel('enterprise_giftwrapping/wrapping')->getCollection();
+            $wrappingCollection = Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping')->getCollection();
             $wrappingCollection->addFieldToFilter('wrapping_id', array('in' => $wrappingIds));
             foreach ($wrappingCollection as $wrapping) {
                 $wrapping->setStatus($status);
@@ -231,7 +231,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
             $this->_getSession()->addError(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Please select items.'));
         } else {
             try {
-                $wrappingCollection = Mage::getModel('enterprise_giftwrapping/wrapping')->getCollection();
+                $wrappingCollection = Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping')->getCollection();
                 $wrappingCollection->addFieldToFilter('wrapping_id', array('in' => $wrappingIds));
                 foreach ($wrappingCollection as $wrapping) {
                     $wrapping->delete();
@@ -255,7 +255,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
      */
     public function deleteAction()
     {
-        $wrapping = Mage::getModel('enterprise_giftwrapping/wrapping');
+        $wrapping = Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping');
         $wrapping->load($this->getRequest()->getParam('id', false));
         if ($wrapping->getId()) {
             try {

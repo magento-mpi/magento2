@@ -88,7 +88,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         $copyMethod = $this->getEmailCopyMethod();
 
         $mailer = Mage::getSingleton('core/email_template_mailer');
-        $emailInfo = Mage::getModel('core/email_info');
+        $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
 
         $receiverEmail = Mage::getStoreConfig(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/email',
@@ -112,7 +112,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         // Email copies are sent as separated emails if their copy method is 'copy'
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
-                $emailInfo = Mage::getModel('core/email_info');
+                $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }
@@ -218,13 +218,13 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         $exprPath  = $this->getExprConfigPath();
         $modelPath = $this->getModelConfigPath();
         try {
-            Mage::getModel('core/config_data')
+            Mage::getModel('Mage_Core_Model_Config_Data')
                 ->load($exprPath, 'path')
                 ->setValue($cronExprString)
                 ->setPath($exprPath)
                 ->save();
 
-            Mage::getModel('core/config_data')
+            Mage::getModel('Mage_Core_Model_Config_Data')
                 ->load($modelPath, 'path')
                 ->setValue(self::CRON_MODEL)
                 ->setPath($modelPath)
@@ -245,10 +245,10 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
     protected function _dropCronTask()
     {
         try {
-            Mage::getModel('core/config_data')
+            Mage::getModel('Mage_Core_Model_Config_Data')
                 ->load($this->getExprConfigPath(), 'path')
                 ->delete();
-            Mage::getModel('core/config_data')
+            Mage::getModel('Mage_Core_Model_Config_Data')
                 ->load($this->getModelConfigPath(), 'path')
                 ->delete();
         } catch (Exception $e) {
@@ -328,7 +328,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
                 'operationName'  => $this->getName(),
                 'trace'          => nl2br($operation->getFormatedLogTrace()),
                 'entity'         => $this->getEntityType(),
-                'dateAndTime'    => Mage::getModel('core/date')->date(),
+                'dateAndTime'    => Mage::getModel('Mage_Core_Model_Date')->date(),
                 'fileName'       => $filePath
             ));
         }
@@ -428,7 +428,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
     public function getServerIoDriver()
     {
         $fileInfo = $this->getFileInfo();
-        $availableTypes = Mage::getModel('enterprise_importexport/scheduled_operation_data')
+        $availableTypes = Mage::getModel('Enterprise_ImportExport_Model_Scheduled_Operation_Data')
             ->getServerTypesOptionArray();
         if (!isset($fileInfo['server_type'])
             || !$fileInfo['server_type']
@@ -509,7 +509,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         }
 
         $fileName = $fileName = join('_', array(
-            Mage::getModel('core/date')->date('H-i-s'),
+            Mage::getModel('Mage_Core_Model_Date')->date('H-i-s'),
             $this->getOperationType(),
             $this->getEntityType()
         ));

@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup extends 
     {
         return ( intval($this->getRequest()->getParam('id')) > 0 )
                     ? intval($this->getRequest()->getParam('id'))
-                    : Mage::getModel('eav/entity_type')
+                    : Mage::getModel('Mage_Eav_Model_Entity_Type')
                         ->load(Mage::registry('entityType'))
                         ->getDefaultAttributeSetId();
     }

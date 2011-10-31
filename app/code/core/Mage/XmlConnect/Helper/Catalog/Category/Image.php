@@ -58,7 +58,7 @@ class Mage_XmlConnect_Helper_Catalog_Category_Image extends Mage_Catalog_Helper_
     public function initialize(Mage_Catalog_Model_Abstract $category, $attributeName, $imageFile = null)
     {
         $this->_reset();
-        $this->_setModel(Mage::getModel('xmlconnect/catalog_category_image'));
+        $this->_setModel(Mage::getModel('Mage_XmlConnect_Model_Catalog_Category_Image'));
         $this->_getModel()->setDestinationSubdir($attributeName);
         $this->setProduct($category);
 

@@ -94,7 +94,7 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
         $session = Mage::getSingleton('checkout/session');
         $session->setQuoteId($session->getPaypalStandardQuoteId(true));
         if ($session->getLastRealOrderId()) {
-            $order = Mage::getModel('sales/order')->loadByIncrementId($session->getLastRealOrderId());
+            $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
             if ($order->getId()) {
                 $order->cancel()->save();
             }

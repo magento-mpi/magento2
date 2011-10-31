@@ -56,7 +56,7 @@ class Mage_Adminhtml_Model_Customer_Renderer_Region implements Varien_Data_Form_
         $regionCollection = false;
         if ($countryId) {
             if (!isset(self::$_regionCollections[$countryId])) {
-                self::$_regionCollections[$countryId] = Mage::getModel('directory/country')
+                self::$_regionCollections[$countryId] = Mage::getModel('Mage_Directory_Model_Country')
                     ->setId($countryId)
                     ->getLoadedRegionCollection()
                     ->toOptionArray();

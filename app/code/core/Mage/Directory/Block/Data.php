@@ -42,7 +42,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
     {
         $collection = $this->getData('country_collection');
         if (is_null($collection)) {
-            $collection = Mage::getModel('directory/country')->getResourceCollection()
+            $collection = Mage::getModel('Mage_Directory_Model_Country')->getResourceCollection()
                 ->loadByStore();
             $this->setData('country_collection', $collection);
         }
@@ -82,7 +82,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
     {
         $collection = $this->getData('region_collection');
         if (is_null($collection)) {
-            $collection = Mage::getModel('directory/region')->getResourceCollection()
+            $collection = Mage::getModel('Mage_Directory_Model_Region')->getResourceCollection()
                 ->addCountryFilter($this->getCountryId())
                 ->load();
 
@@ -134,7 +134,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
             foreach ($this->getCountryCollection() as $country) {
                 $countryIds[] = $country->getCountryId();
             }
-            $collection = Mage::getModel('directory/region')->getResourceCollection()
+            $collection = Mage::getModel('Mage_Directory_Model_Region')->getResourceCollection()
                 ->addCountryFilter($countryIds)
                 ->load();
             $regions = array();

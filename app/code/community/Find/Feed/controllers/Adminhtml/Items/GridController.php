@@ -61,7 +61,7 @@ class Find_Feed_Adminhtml_Items_GridController extends Mage_Adminhtml_Controller
         if (!empty($idList)) {
             $products = array();
             foreach ($idList as $id) {
-                $model = Mage::getModel('catalog/product');
+                $model = Mage::getModel('Mage_Catalog_Model_Product');
                 if ($model->load($id)) {
                     array_push($products, $model);
                 }
@@ -78,7 +78,7 @@ class Find_Feed_Adminhtml_Items_GridController extends Mage_Adminhtml_Controller
     public function massEnableAction()
     {
         $idList = $this->getRequest()->getParam('item_id');
-        $updateAction = Mage::getModel('catalog/product_action');
+        $updateAction = Mage::getModel('Mage_Catalog_Model_Product_Action');
         $attrData = array(
             'is_imported' => 1
         );
@@ -86,7 +86,7 @@ class Find_Feed_Adminhtml_Items_GridController extends Mage_Adminhtml_Controller
         if ($updatedProducts) {
             try {
                 $updateAction->updateAttributes($idList, $attrData, Mage::app()->getStore()->getId());
-                Mage::getModel('find_feed/import')->processImport();
+                Mage::getModel('Find_Feed_Model_Import')->processImport();
                 $this->_getSession()->addSuccess(Mage::helper('Find_Feed_Helper_Data')->__("%s product in feed.", $updatedProducts));
             } catch (Exception $e) {
                 $this->_getSession()->addError(Mage::helper('Find_Feed_Helper_Data')->__("Unable to process an import. ") . $e->getMessage());
@@ -107,7 +107,7 @@ class Find_Feed_Adminhtml_Items_GridController extends Mage_Adminhtml_Controller
             $updatedProducts++;
         }
         if ($updatedProducts) {
-            Mage::getModel('find_feed/import')->processImport();
+            Mage::getModel('Find_Feed_Model_Import')->processImport();
             $this->_getSession()->addSuccess(Mage::helper('Find_Feed_Helper_Data')->__("%s product not in feed.", $updatedProducts));
         }
         $this->_redirect('*/*/index');

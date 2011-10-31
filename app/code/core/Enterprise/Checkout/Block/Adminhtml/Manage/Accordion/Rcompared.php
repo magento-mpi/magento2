@@ -62,7 +62,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
     {
         if (!$this->hasData('items_collection')) {
             $skipProducts = array();
-            $collection = Mage::getModel('catalog/product_compare_list')
+            $collection = Mage::getModel('Mage_Catalog_Model_Product_Compare_List')
                 ->getItemCollection()
                 ->useProductItem(true)
                 ->setStoreId($this->_getStore()->getId())
@@ -74,7 +74,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
 
             // prepare products collection and apply visitors log to it
             $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
-            $productCollection = Mage::getModel('catalog/product')->getCollection()
+            $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
                 ->setStoreId($this->_getStore()->getId())
                 ->addStoreFilter($this->_getStore()->getId())
                 ->addAttributeToSelect($attributes);

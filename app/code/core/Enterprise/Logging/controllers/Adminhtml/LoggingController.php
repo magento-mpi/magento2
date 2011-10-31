@@ -63,7 +63,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
              ->_title($this->__('View Entry'));
 
         $eventId = $this->getRequest()->getParam('event_id');
-        $model   = Mage::getModel('enterprise_logging/event')
+        $model   = Mage::getModel('Enterprise_Logging_Model_Event')
             ->load($eventId);
         if (!$model->getId()) {
             $this->_redirect('*/*/');
@@ -124,7 +124,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function downloadAction()
     {
-        $archive = Mage::getModel('enterprise_logging/archive')->loadByBaseName(
+        $archive = Mage::getModel('Enterprise_Logging_Model_Archive')->loadByBaseName(
             $this->getRequest()->getParam('basename')
         );
         if ($archive->getFilename()) {

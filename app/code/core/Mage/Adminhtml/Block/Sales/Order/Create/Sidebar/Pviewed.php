@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Mage_Admin
                 $stores[] = $store->getId();
             }
 
-            $collection = Mage::getModel('reports/event')
+            $collection = Mage::getModel('Mage_Reports_Model_Event')
                 ->getCollection()
                 ->addStoreFilter($stores)
                 ->addRecentlyFiler(Mage_Reports_Model_Event::EVENT_PRODUCT_VIEW, $this->getCustomerId(), 0);
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Mage_Admin
 
             $productCollection = null;
             if ($productIds) {
-                $productCollection = Mage::getModel('catalog/product')
+                $productCollection = Mage::getModel('Mage_Catalog_Model_Product')
                     ->getCollection()
                     ->setStoreId($this->getQuote()->getStoreId())
                     ->addStoreFilter($this->getQuote()->getStoreId())

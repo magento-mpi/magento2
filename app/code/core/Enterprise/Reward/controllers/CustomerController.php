@@ -148,7 +148,7 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
      */
     protected function _getReward()
     {
-        $reward = Mage::getModel('enterprise_reward/reward')
+        $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
             ->setCustomer($this->_getCustomer())
             ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
             ->loadByCustomer();

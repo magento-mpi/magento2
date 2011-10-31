@@ -50,7 +50,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Website extends Enterprise_Stagi
             $masterWebsiteId = $website->getMasterWebsiteId();
             $masterWebsite   = Mage::app()->getWebsite($masterWebsiteId);
 
-            $stagingWebsite  = Mage::getModel('core/website');
+            $stagingWebsite  = Mage::getModel('Mage_Core_Model_Website');
 
             $stagingWebsite->setData('is_staging', 1);
             $stagingWebsite->setData('code', $website->getCode());
@@ -71,17 +71,17 @@ class Enterprise_Staging_Model_Resource_Adapter_Website extends Enterprise_Stagi
             }
 
             if (!$stagingWebsite->getId()) {
-                $value = Mage::getModel('core/date')->gmtDate();
+                $value = Mage::getModel('Mage_Core_Model_Date')->gmtDate();
                 $stagingWebsite->setCreatedAt($value);
             } else {
-                $value = Mage::getModel('core/date')->gmtDate();
+                $value = Mage::getModel('Mage_Core_Model_Date')->gmtDate();
                 $stagingWebsite->setUpdatedAt($value);
             }
 
             $stagingWebsite->save();
 
             if (Mage::getStoreConfigFlag('general/content_staging/create_entry_point')) {
-                $entryPoint = Mage::getModel('enterprise_staging/entry')
+                $entryPoint = Mage::getModel('Enterprise_Staging_Model_Entry')
                     ->setWebsite($stagingWebsite)->save();
             } else {
                 $entryPoint = null;
@@ -218,7 +218,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Website extends Enterprise_Stagi
                 }
             }
 
-            $config = Mage::getModel('core/config_data');
+            $config = Mage::getModel('Mage_Core_Model_Config_Data');
             $path = 'web/' . $mode . '/' . $nodeName;
             $config->setPath($path);
             $config->setScope('websites');

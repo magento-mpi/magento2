@@ -186,7 +186,7 @@ class Mage_Paypal_Model_Hostedpro extends Mage_Paypal_Model_Direct
      */
     protected function _buildBasicRequest()
     {
-        $request = Mage::getModel('paypal/hostedpro_request');
+        $request = Mage::getModel('Mage_Paypal_Model_Hostedpro_Request');
         $request->setData(array(
             'METHOD'     => self::BM_BUTTON_METHOD,
             'BUTTONCODE' => self::BM_BUTTON_CODE,

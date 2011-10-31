@@ -75,7 +75,7 @@ class Enterprise_Staging_Model_Observer
         }
         $website = Mage::app()->getWebsite();
         if ($website->getIsStaging()) {
-            $staging = Mage::getModel('enterprise_staging/staging');
+            $staging = Mage::getModel('Enterprise_Staging_Model_Staging');
             $staging->loadByStagingWebsiteId($website->getId());
 
             try {
@@ -150,7 +150,7 @@ class Enterprise_Staging_Model_Observer
     public function automates()
     {
         try {
-            $currentDate = Mage::getModel('core/date')->gmtDate();
+            $currentDate = Mage::getModel('Mage_Core_Model_Date')->gmtDate();
             $collection  = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging_Collection')
                 ->addIsSheduledToFilter();
 
@@ -263,7 +263,7 @@ class Enterprise_Staging_Model_Observer
 
         /* Website ids don't save at origData
          because they are not collected before request parameters are set to product model */
-        $origWebsiteIds = Mage::getModel('catalog/product')->setId($product->getId())->getWebsiteIds();
+        $origWebsiteIds = Mage::getModel('Mage_Catalog_Model_Product')->setId($product->getId())->getWebsiteIds();
         $product->setOrigData('website_ids', $origWebsiteIds);
     }
 

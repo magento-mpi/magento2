@@ -192,7 +192,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
             $useDefault = true;
         }
         if ($useDefault) {
-            $attributeModel = Mage::getModel('googleshopping/attribute_default');
+            $attributeModel = Mage::getModel('Mage_GoogleShopping_Model_Attribute_Default');
         }
         $attributeModel->setName($name);
 

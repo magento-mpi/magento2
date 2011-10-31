@@ -120,7 +120,7 @@ class Mage_Checkout_Block_Onepage_Success extends Mage_Core_Block_Template
     {
         $orderId = Mage::getSingleton('checkout/session')->getLastOrderId();
         if ($orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             if ($order->getId()) {
                 $isVisible = !in_array($order->getState(),
                     Mage::getSingleton('sales/order_config')->getInvisibleOnFrontStates());
@@ -144,7 +144,7 @@ class Mage_Checkout_Block_Onepage_Success extends Mage_Core_Block_Template
         $agreementId = Mage::getSingleton('checkout/session')->getLastBillingAgreementId();
         $customerId = Mage::getSingleton('customer/session')->getCustomerId();
         if ($agreementId && $customerId) {
-            $agreement = Mage::getModel('sales/billing_agreement')->load($agreementId);
+            $agreement = Mage::getModel('Mage_Sales_Model_Billing_Agreement')->load($agreementId);
             if ($agreement->getId() && $customerId == $agreement->getCustomerId()) {
                 $this->addData(array(
                     'agreement_ref_id' => $agreement->getReferenceId(),
@@ -163,7 +163,7 @@ class Mage_Checkout_Block_Onepage_Success extends Mage_Core_Block_Template
     {
         $profileIds = Mage::getSingleton('checkout/session')->getLastRecurringProfileIds();
         if ($profileIds && is_array($profileIds)) {
-            $collection = Mage::getModel('sales/recurring_profile')->getCollection()
+            $collection = Mage::getModel('Mage_Sales_Model_Recurring_Profile')->getCollection()
                 ->addFieldToFilter('profile_id', array('in' => $profileIds))
             ;
             $profiles = array();

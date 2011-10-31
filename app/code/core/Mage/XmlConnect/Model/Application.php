@@ -262,7 +262,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('Mage_XmlConnect_Model_Resource_Application');
-        $this->_configModel = Mage::getModel('xmlconnect/configData');
+        $this->_configModel = Mage::getModel('Mage_XmlConnect_Model_ConfigData');
         $this->_configModel->setDeleteOnUpdate($this->getDeleteOnUpdateConfig());
     }
 
@@ -401,7 +401,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             if (isset($this->_data['conf']['extra'])) {
                 $extra = $this->_data['conf']['extra'];
                 if (isset($extra['tabs'])) {
-                    $tabs = Mage::getModel('xmlconnect/tabs', $extra['tabs']);
+                    $tabs = Mage::getModel('Mage_XmlConnect_Model_Tabs', $extra['tabs']);
                     $result['tabBar']['tabs'] = $tabs;
                 }
                 if (isset($extra['fontColors'])) {
@@ -524,17 +524,17 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         /**
          * PayPal configuration
          */
-        $result['paypal']['businessAccount'] = Mage::getModel('paypal/config')->businessAccount;
+        $result['paypal']['businessAccount'] = Mage::getModel('Mage_Paypal_Model_Config')->businessAccount;
         $result['paypal']['merchantLabel'] = $this->getData('conf/special/merchantLabel');
 
         $isActive = 0;
-        $paypalMepIsAvailable = Mage::getModel('xmlconnect/payment_method_paypal_mep')->isAvailable(null);
+        $paypalMepIsAvailable = Mage::getModel('Mage_XmlConnect_Model_Payment_Method_Paypal_Mep')->isAvailable(null);
         if ($paypalMepIsAvailable && isset($result['paypal']['isActive'])) {
             $isActive = (int) $result['paypal']['isActive'];
         }
         $result['paypal']['isActive'] = $isActive;
 
-        $paypalMeclIsAvailable = Mage::getModel('xmlconnect/payment_method_paypal_mecl')->isAvailable(null);
+        $paypalMeclIsAvailable = Mage::getModel('Mage_XmlConnect_Model_Payment_Method_Paypal_Mecl')->isAvailable(null);
 
         /**
          * PayPal Mobile Express Library Checkout
@@ -608,7 +608,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     public function getEnabledTabsArray()
     {
         if ($this->getData('conf/extra/tabs')) {
-            return Mage::getModel('xmlconnect/tabs', $this->getData('conf/extra/tabs'))->getRenderTabs();
+            return Mage::getModel('Mage_XmlConnect_Model_Tabs', $this->getData('conf/extra/tabs'))->getRenderTabs();
         }
         return array();
     }
@@ -904,7 +904,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     public function getLastParams()
     {
         if (!isset($this->_lastParams)) {
-            $this->_lastParams = Mage::getModel('xmlconnect/history')->getLastParams($this->getId());
+            $this->_lastParams = Mage::getModel('Mage_XmlConnect_Model_History')->getLastParams($this->getId());
         }
         return $this->_lastParams;
     }

@@ -134,7 +134,7 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Rule
      */
     public function getConditionsInstance()
     {
-        return Mage::getModel('enterprise_reminder/rule_condition_combine_root');
+        return Mage::getModel('Enterprise_Reminder_Model_Rule_Condition_Combine_Root');
     }
 
     /**
@@ -157,7 +157,7 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Rule
      */
     public function sendReminderEmails()
     {
-        $mail = Mage::getModel('core/email_template');
+        $mail = Mage::getModel('Mage_Core_Model_Email_Template');
 
         /* @var $translate Mage_Core_Model_Translate */
         $translate = Mage::getSingleton('core/translate');
@@ -173,7 +173,7 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Rule
         foreach ($recipients as $recipient) {
 
             /* @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('customer/customer')->load($recipient['customer_id']);
+            $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($recipient['customer_id']);
             if (!$customer || !$customer->getId()) {
                 continue;
             }
@@ -190,7 +190,7 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Rule
             }
 
             /* @var $coupon Mage_SalesRule_Model_Coupon */
-            $coupon = Mage::getModel('salesrule/coupon')->load($recipient['coupon_id']);
+            $coupon = Mage::getModel('Mage_SalesRule_Model_Coupon')->load($recipient['coupon_id']);
 
             $templateVars = array(
                 'store' => $store,
@@ -225,7 +225,7 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Rule
     {
         $threshold = Mage::helper('Enterprise_Reminder_Helper_Data')->getSendFailureThreshold();
 
-        $currentDate = Mage::getModel('core/date')->date('Y-m-d');
+        $currentDate = Mage::getModel('Mage_Core_Model_Date')->date('Y-m-d');
         $rules = $this->getCollection()->addDateFilter($currentDate)
             ->addIsActiveFilter(1);
 

@@ -83,7 +83,7 @@ class Mage_Adminhtml_Helper_Data extends Mage_Core_Helper_Abstract
 
     public static function getUrl($route='', $params=array())
     {
-        return Mage::getModel('adminhtml/url')->getUrl($route, $params);
+        return Mage::getModel('Mage_Adminhtml_Model_Url')->getUrl($route, $params);
     }
 
 //    public function getCurrentUserId()

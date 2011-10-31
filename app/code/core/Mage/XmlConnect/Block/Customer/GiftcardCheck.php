@@ -43,7 +43,7 @@ class Mage_XmlConnect_Block_Customer_GiftcardCheck extends Enterprise_GiftCardAc
         $card = $this->getCard();
         if ($card->getId()) {
             /** @var $xmlModel Mage_XmlConnect_Model_Simplexml_Element */
-            $xmlModel = Mage::getModel('xmlconnect/simplexml_element', '<gift_card_account></gift_card_account>');
+            $xmlModel = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<gift_card_account></gift_card_account>');
 
             $balance = Mage::helper('Mage_Core_Helper_Data')->currency($card->getBalance(), true, false);
 
@@ -55,7 +55,7 @@ class Mage_XmlConnect_Block_Customer_GiftcardCheck extends Enterprise_GiftCardAc
             }
             $xmlModel->addCustomChild('info', implode(PHP_EOL, $result));
         } else {
-            $xmlModel = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+            $xmlModel = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
             $xmlModel->addCustomChild('status', Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_ERROR);
             $xmlModel->addCustomChild('text', $this->__('Wrong or expired Gift Card Code.'));
         }

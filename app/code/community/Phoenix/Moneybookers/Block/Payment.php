@@ -26,7 +26,7 @@ class Phoenix_Moneybookers_Block_Payment extends Mage_Core_Block_Template
      */
     public function getMoneybookersLogoSrc()
     {
-        $locale = Mage::getModel('moneybookers/acc')->getLocale();
+        $locale = Mage::getModel('Phoenix_Moneybookers_Model_Acc')->getLocale();
         $logoFilename = Mage::getDesign()
             ->getFilename('images' . DS . 'moneybookers' . DS . 'banner_120_' . $locale . '.gif', array('_type' => 'skin'));
 

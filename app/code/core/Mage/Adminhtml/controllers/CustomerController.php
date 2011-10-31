@@ -39,7 +39,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $this->_title($this->__('Customers'))->_title($this->__('Manage Customers'));
 
         $customerId = (int) $this->getRequest()->getParam($idFieldName);
-        $customer = Mage::getModel('customer/customer');
+        $customer = Mage::getModel('Mage_Customer_Model_Customer');
 
         if ($customerId) {
             $customer->load($customerId);
@@ -110,7 +110,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
             if (isset($data['account'])) {
                 /* @var $customerForm Mage_Customer_Model_Form */
-                $customerForm = Mage::getModel('customer/form');
+                $customerForm = Mage::getModel('Mage_Customer_Model_Form');
                 $customerForm->setEntity($customer)
                     ->setFormCode('adminhtml_customer')
                     ->setIsAjaxRequest(true);
@@ -120,7 +120,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
             if (isset($data['address']) && is_array($data['address'])) {
                 /* @var $addressForm Mage_Customer_Model_Form */
-                $addressForm = Mage::getModel('customer/form');
+                $addressForm = Mage::getModel('Mage_Customer_Model_Form');
                 $addressForm->setFormCode('adminhtml_customer_address');
 
                 foreach (array_keys($data['address']) as $addressId) {
@@ -130,7 +130,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
                     $address = $customer->getAddressItemById($addressId);
                     if (!$address) {
-                        $address = Mage::getModel('customer/address');
+                        $address = Mage::getModel('Mage_Customer_Model_Address');
                         $customer->addAddress($address);
                     }
 
@@ -193,7 +193,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $customer = Mage::registry('current_customer');
 
             /* @var $customerForm Mage_Customer_Model_Form */
-            $customerForm = Mage::getModel('customer/form');
+            $customerForm = Mage::getModel('Mage_Customer_Model_Form');
             $customerForm->setEntity($customer)
                 ->setFormCode('adminhtml_customer')
                 ->ignoreInvisible(false)
@@ -220,13 +220,13 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $modifiedAddresses = array();
             if (!empty($data['address'])) {
                 /* @var $addressForm Mage_Customer_Model_Form */
-                $addressForm = Mage::getModel('customer/form');
+                $addressForm = Mage::getModel('Mage_Customer_Model_Form');
                 $addressForm->setFormCode('adminhtml_customer_address')->ignoreInvisible(false);
 
                 foreach (array_keys($data['address']) as $index) {
                     $address = $customer->getAddressItemById($index);
                     if (!$address) {
-                        $address   = Mage::getModel('customer/address');
+                        $address   = Mage::getModel('Mage_Customer_Model_Address');
                     }
 
                     $requestScope = sprintf('address/%s', $index);
@@ -420,7 +420,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function newsletterAction()
     {
         $this->_initCustomer();
-        $subscriber = Mage::getModel('newsletter/subscriber')
+        $subscriber = Mage::getModel('Mage_Newsletter_Model_Subscriber')
             ->loadByCustomer(Mage::registry('current_customer'));
 
         Mage::register('subscriber', $subscriber);
@@ -435,7 +435,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         if ($customer->getId()) {
             if($itemId = (int) $this->getRequest()->getParam('delete')) {
                 try {
-                    Mage::getModel('wishlist/item')->load($itemId)
+                    Mage::getModel('Mage_Wishlist_Model_Item')->load($itemId)
                         ->delete();
                 }
                 catch (Exception $e) {
@@ -475,7 +475,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         // delete an item from cart
         $deleteItemId = $this->getRequest()->getPost('delete');
         if ($deleteItemId) {
-            $quote = Mage::getModel('sales/quote')
+            $quote = Mage::getModel('Mage_Sales_Model_Quote')
                 ->setWebsite(Mage::app()->getWebsite($websiteId))
                 ->loadByCustomer(Mage::registry('current_customer'));
             $item = $quote->getItemById($deleteItemId);
@@ -563,7 +563,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $websiteId      = Mage::app()->getStore()->getWebsiteId();
         $accountData    = $this->getRequest()->getPost('account');
 
-        $customer = Mage::getModel('customer/customer');
+        $customer = Mage::getModel('Mage_Customer_Model_Customer');
         $customerId = $this->getRequest()->getParam('id');
         if ($customerId) {
             $customer->load($customerId);
@@ -573,7 +573,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
 
         /* @var $customerForm Mage_Customer_Model_Form */
-        $customerForm = Mage::getModel('customer/form');
+        $customerForm = Mage::getModel('Mage_Customer_Model_Form');
         $customerForm->setEntity($customer)
             ->setFormCode('adminhtml_customer')
             ->setIsAjaxRequest(true)
@@ -593,7 +593,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         if (!$response->getError()) {
             # Trying to load customer with the same email and return error message
             # if customer with the same email address exisits
-            $checkCustomer = Mage::getModel('customer/customer')
+            $checkCustomer = Mage::getModel('Mage_Customer_Model_Customer')
                 ->setWebsiteId($websiteId);
             $checkCustomer->loadByEmail($accountData['email']);
             if ($checkCustomer->getId() && ($checkCustomer->getId() != $customer->getId())) {
@@ -607,7 +607,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $addressesData = $this->getRequest()->getParam('address');
         if (is_array($addressesData)) {
             /* @var $addressForm Mage_Customer_Model_Form */
-            $addressForm = Mage::getModel('customer/form');
+            $addressForm = Mage::getModel('Mage_Customer_Model_Form');
             $addressForm->setFormCode('adminhtml_customer_address')->ignoreInvisible(false);
             foreach (array_keys($addressesData) as $index) {
                 if ($index == '_template_') {
@@ -615,7 +615,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 }
                 $address = $customer->getAddressItemById($index);
                 if (!$address) {
-                    $address   = Mage::getModel('customer/address');
+                    $address   = Mage::getModel('Mage_Customer_Model_Address');
                 }
 
                 $requestScope = sprintf('address/%s', $index);
@@ -649,7 +649,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         } else {
             try {
                 foreach ($customersIds as $customerId) {
-                    $customer = Mage::getModel('customer/customer')->load($customerId);
+                    $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
                     $customer->setIsSubscribed(true);
                     $customer->save();
                 }
@@ -673,7 +673,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         } else {
             try {
                 foreach ($customersIds as $customerId) {
-                    $customer = Mage::getModel('customer/customer')->load($customerId);
+                    $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
                     $customer->setIsSubscribed(false);
                     $customer->save();
                 }
@@ -697,7 +697,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
              Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please select customer(s).'));
         } else {
             try {
-                $customer = Mage::getModel('customer/customer');
+                $customer = Mage::getModel('Mage_Customer_Model_Customer');
                 foreach ($customersIds as $customerId) {
                     $customer->reset()
                         ->load($customerId)
@@ -724,7 +724,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         } else {
             try {
                 foreach ($customersIds as $customerId) {
-                    $customer = Mage::getModel('customer/customer')->load($customerId);
+                    $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
                     $customer->setGroupId($this->getRequest()->getParam('group'));
                     $customer->save();
                 }

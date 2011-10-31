@@ -57,7 +57,7 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
              ->_title($this->__('Manage Tax Rules'));
 
         $taxRuleId  = $this->getRequest()->getParam('rule');
-        $ruleModel  = Mage::getModel('tax/calculation_rule');
+        $ruleModel  = Mage::getModel('Mage_Tax_Model_Calculation_Rule');
         if ($taxRuleId) {
             $ruleModel->load($taxRuleId);
             if (!$ruleModel->getId()) {

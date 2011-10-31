@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid extends Mage_Admi
     public function getCollection()
     {
         if ($this->getShipment()->getId()) {
-            $collection = Mage::getModel('sales/order_shipment_item')->getCollection()
+            $collection = Mage::getModel('Mage_Sales_Model_Order_Shipment_Item')->getCollection()
                     ->setShipmentFilter($this->getShipment()->getId());
         } else{
             $collection = $this->getShipment()->getAllItems();

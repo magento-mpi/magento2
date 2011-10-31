@@ -74,7 +74,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
                 $data = null;
             }
 
-            $collection = Mage::getModel('enterprise_cms/hierarchy_node')->getCollection()
+            $collection = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node')->getCollection()
                 ->joinCmsPage()
                 ->setOrderByLevel()
                 ->joinPageExistsNodeInfo($this->getPage());

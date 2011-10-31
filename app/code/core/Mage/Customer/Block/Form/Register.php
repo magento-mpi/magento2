@@ -138,7 +138,7 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
     public function getAddress()
     {
         if (is_null($this->_address)) {
-            $this->_address = Mage::getModel('customer/address');
+            $this->_address = Mage::getModel('Mage_Customer_Model_Address');
         }
 
         return $this->_address;

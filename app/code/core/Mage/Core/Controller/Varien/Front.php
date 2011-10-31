@@ -165,7 +165,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         $request->setPathInfo()->setDispatched(false);
         if (!$request->isStraight()) {
             Magento_Profiler::start('db_url_rewrite');
-            Mage::getModel('core/url_rewrite')->rewrite();
+            Mage::getModel('Mage_Core_Model_Url_Rewrite')->rewrite();
             Magento_Profiler::stop('db_url_rewrite');
         }
         Magento_Profiler::start('config_url_rewrite');

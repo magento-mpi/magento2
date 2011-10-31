@@ -69,7 +69,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
         $this->_title($this->__('CMS'))->_title($this->__('Widgets'));
 
         /** @var $widgetInstance Mage_Widget_Model_Widget_Instance */
-        $widgetInstance = Mage::getModel('widget/widget_instance');
+        $widgetInstance = Mage::getModel('Mage_Widget_Model_Widget_Instance');
 
         $instanceId = $this->getRequest()->getParam('instance_id', null);
         $type       = $this->getRequest()->getParam('type', null);

@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_System_Config_Switcher extends Mage_Adminhtml_Block_T
         $storeModel = Mage::getSingleton('adminhtml/system_store');
         /* @var $storeModel Mage_Adminhtml_Model_System_Store */
 
-        $url = Mage::getModel('adminhtml/url');
+        $url = Mage::getModel('Mage_Adminhtml_Model_Url');
 
         $options = array();
         $options['default'] = array(

@@ -123,7 +123,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
             if ($token) {
                 $this->_initToken($token);
                 /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
-                $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+                $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
                 $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
                 $message->addChild('token', $token);
                 $this->getResponse()->setBody($message->asNiceXml());
@@ -275,7 +275,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
             $this->_initToken(false); // no need in token anymore
 
             /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
-            $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+            $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
             $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
 
             $text = $this->__('Thank you for your purchase! ');
@@ -302,7 +302,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
             $this->_initToken(false);
             // if there is an order - cancel it
             $orderId = $this->_getCheckoutSession()->getLastOrderId();
-            $order = ($orderId) ? Mage::getModel('sales/order')->load($orderId) : false;
+            $order = ($orderId) ? Mage::getModel('Mage_Sales_Model_Order')->load($orderId) : false;
 
             if ($order && $order->getId() && $order->getQuoteId() == $this->_getCheckoutSession()->getQuoteId()) {
                 $order->cancel()->save();

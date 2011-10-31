@@ -54,7 +54,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
 
 
         if ($element->getValue()) {
-            $node = Mage::getModel('enterprise_cms/hierarchy_node')->load($element->getValue());
+            $node = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node')->load($element->getValue());
             if ($node->getId()) {
                 $chooser->setLabel($node->getLabel());
             }
@@ -156,7 +156,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
     public function getNodes()
     {
         $nodes = array();
-        $collection = Mage::getModel('enterprise_cms/hierarchy_node')->getCollection()
+        $collection = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node')->getCollection()
             ->joinCmsPage()
             ->setTreeOrder();
 

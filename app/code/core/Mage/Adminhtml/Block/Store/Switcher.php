@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Adminhtml_Block_Template
      */
     public function getWebsiteCollection()
     {
-        $collection = Mage::getModel('core/website')->getResourceCollection();
+        $collection = Mage::getModel('Mage_Core_Model_Website')->getResourceCollection();
 
         $websiteIds = $this->getWebsiteIds();
         if (!is_null($websiteIds)) {
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Adminhtml_Block_Template
     public function getGroupCollection($website)
     {
         if (!$website instanceof Mage_Core_Model_Website) {
-            $website = Mage::getModel('core/website')->load($website);
+            $website = Mage::getModel('Mage_Core_Model_Website')->load($website);
         }
         return $website->getGroupCollection();
     }
@@ -118,7 +118,7 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Adminhtml_Block_Template
     public function getStoreCollection($group)
     {
         if (!$group instanceof Mage_Core_Model_Store_Group) {
-            $group = Mage::getModel('core/store_group')->load($group);
+            $group = Mage::getModel('Mage_Core_Model_Store_Group')->load($group);
         }
         $stores = $group->getStoreCollection();
         $_storeIds = $this->getStoreIds();

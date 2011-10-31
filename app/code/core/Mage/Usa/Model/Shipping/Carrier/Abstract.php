@@ -171,7 +171,7 @@ abstract class Mage_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping_Mo
         }
 
         if ($errorMsg && $showMethod) {
-            $error = Mage::getModel('shipping/rate_result_error');
+            $error = Mage::getModel('Mage_Shipping_Model_Rate_Result_Error');
             $error->setCarrier($this->_code);
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($errorMsg);

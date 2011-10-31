@@ -45,7 +45,7 @@ class Mage_Persistent_Model_Observer_Session
         $customer = $observer->getEvent()->getCustomer();
         // Check if customer is valid (remove persistent cookie for invalid customer)
         if (!$customer || !$customer->getId() || !Mage::helper('Mage_Persistent_Helper_Session')->isRememberMeChecked()) {
-            Mage::getModel('persistent/session')->removePersistentCookie();
+            Mage::getModel('Mage_Persistent_Model_Session')->removePersistentCookie();
             return;
         }
 
@@ -53,7 +53,7 @@ class Mage_Persistent_Model_Observer_Session
         // Delete persistent session, if persistent could not be applied
         if (Mage::helper('Mage_Persistent_Helper_Data')->isEnabled() && ($persistentLifeTime <= 0)) {
             // Remove current customer persistent session
-            Mage::getModel('persistent/session')->deleteByCustomerId($customer->getId());
+            Mage::getModel('Mage_Persistent_Model_Session')->deleteByCustomerId($customer->getId());
             return;
         }
 
@@ -62,11 +62,11 @@ class Mage_Persistent_Model_Observer_Session
 
         // Check if session is wrong or not exists, so create new session
         if (!$sessionModel->getId() || ($sessionModel->getCustomerId() != $customer->getId())) {
-            $sessionModel = Mage::getModel('persistent/session')
+            $sessionModel = Mage::getModel('Mage_Persistent_Model_Session')
                 ->setLoadExpired()
                 ->loadByCustomerId($customer->getId());
             if (!$sessionModel->getId()) {
-                $sessionModel = Mage::getModel('persistent/session')
+                $sessionModel = Mage::getModel('Mage_Persistent_Model_Session')
                     ->setCustomerId($customer->getId())
                     ->save();
             }
@@ -102,7 +102,7 @@ class Mage_Persistent_Model_Observer_Session
             return;
         }
 
-        Mage::getModel('persistent/session')->removePersistentCookie();
+        Mage::getModel('Mage_Persistent_Model_Session')->removePersistentCookie();
 
         // Unset persistent session
         Mage::helper('Mage_Persistent_Helper_Session')->setSession(null);

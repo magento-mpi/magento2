@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         $websiteCode = $this->getRequest()->getParam('website');
         $storeCode = $this->getRequest()->getParam('store');
 
-        $url = Mage::getModel('adminhtml/url');
+        $url = Mage::getModel('Mage_Adminhtml_Model_Url');
 
         $configFields = Mage::getSingleton('adminhtml/config');
         $sections = $configFields->getSections($current);
@@ -208,7 +208,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         $storeModel = Mage::getSingleton('adminhtml/system_store');
         /* @var $storeModel Mage_Adminhtml_Model_System_Store */
 
-        $url = Mage::getModel('adminhtml/url');
+        $url = Mage::getModel('Mage_Adminhtml_Model_Url');
 
         $options = array();
         $options['default'] = array(

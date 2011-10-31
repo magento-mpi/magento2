@@ -52,7 +52,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Grid extends Mage_Adm
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('enterprise_giftwrapping/wrapping')->getCollection()
+        $collection = Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping')->getCollection()
             ->addStoreAttributesToResult()
             ->addWebsitesToResult();
 

@@ -308,7 +308,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      */
     protected function _getRequestModel()
     {
-        return Mage::getModel('authorizenet/directpost_request');
+        return Mage::getModel('Mage_Authorizenet_Model_Directpost_Request');
     }
 
     /**
@@ -425,7 +425,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         $isError = false;
         if ($orderIncrementId) {
             /* @var $order Mage_Sales_Model_Order */
-            $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($orderIncrementId);
             if ($order->getId() &&  $order->getState() == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
                 //operate with order
                 $this->_authOrder($order);
@@ -568,7 +568,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                 $order->sendNewOrderEmail();
             }
 
-            Mage::getModel('sales/quote')
+            Mage::getModel('Mage_Sales_Model_Quote')
                 ->load($order->getQuoteId())
                 ->setIsActive(false)
                 ->save();

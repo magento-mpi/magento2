@@ -96,7 +96,7 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
         }
 
         if (is_null($this->_allAttributes)) {
-            $this->_allAttributes = Mage::getModel('eav/entity_attribute')->getAttributeCodesByFrontendType('weee');
+            $this->_allAttributes = Mage::getModel('Mage_Eav_Model_Entity_Attribute')->getAttributeCodesByFrontendType('weee');
         }
         return $this->_allAttributes;
     }
@@ -126,7 +126,7 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
             $customerTaxClass = null;
         }
 
-        $calculator = Mage::getModel('tax/calculation');
+        $calculator = Mage::getModel('Mage_Tax_Model_Calculation');
         if ($customer) {
             $calculator->setCustomer($customer);
         }
@@ -167,7 +167,7 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
                      * We can't use FPT imcluding/excluding tax
                      */
 //                    if ($calculateTax && Mage::helper('Mage_Weee_Helper_Data')->isTaxable($store)) {
-//                        $defaultPercent = Mage::getModel('tax/calculation')
+//                        $defaultPercent = Mage::getModel('Mage_Tax_Model_Calculation')
 //                              ->getRate($defaultRateRequest
 //                              ->setProductClassId($product->getTaxClassId()));
 //                        $currentPercent = $product->getTaxPercent();

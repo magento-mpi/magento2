@@ -78,7 +78,7 @@ class Mage_Admin_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstra
 
                     $adapter->insert($this->getMainTable(), $insertData);
                 } else {
-                    foreach (Mage::getModel('admin/roles')->getResourcesList2D() as $index => $resName) {
+                    foreach (Mage::getModel('Mage_Admin_Model_Roles')->getResourcesList2D() as $index => $resName) {
                         $row['permission']  = (in_array($resName, $postedResources) ? 'allow' : 'deny');
                         $row['resource_id'] = trim($resName, '/');
 

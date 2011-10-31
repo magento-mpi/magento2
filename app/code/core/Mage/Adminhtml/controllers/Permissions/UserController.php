@@ -60,7 +60,7 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
              ->_title($this->__('Users'));
 
         $id = $this->getRequest()->getParam('user_id');
-        $model = Mage::getModel('admin/user');
+        $model = Mage::getModel('Mage_Admin_Model_User');
 
         if ($id) {
             $model->load($id);
@@ -95,7 +95,7 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
         if ($data = $this->getRequest()->getPost()) {
 
             $id = $this->getRequest()->getParam('user_id');
-            $model = Mage::getModel('admin/user')->load($id);
+            $model = Mage::getModel('Mage_Admin_Model_User')->load($id);
             if (!$model->getId() && $id) {
                 Mage::getSingleton('adminhtml/session')->addError($this->__('This user no longer exists.'));
                 $this->_redirect('*/*/');
@@ -165,7 +165,7 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
                 return;
             }
             try {
-                $model = Mage::getModel('admin/user');
+                $model = Mage::getModel('Mage_Admin_Model_User');
                 $model->setId($id);
                 $model->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The user has been deleted.'));
@@ -185,7 +185,7 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
     public function rolesGridAction()
     {
         $id = $this->getRequest()->getParam('user_id');
-        $model = Mage::getModel('admin/user');
+        $model = Mage::getModel('Mage_Admin_Model_User');
 
         if ($id) {
             $model->load($id);

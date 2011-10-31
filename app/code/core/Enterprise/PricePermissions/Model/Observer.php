@@ -120,7 +120,7 @@ class Enterprise_PricePermissions_Model_Observer
             case 'adminhtml_recurring_profile_edit_form' :
                 if (!Mage::registry('product')->isObjectNew()) {
                     if (!$this->_canReadProductPrice) {
-                        $block->setProductEntity(Mage::getModel('catalog/product'));
+                        $block->setProductEntity(Mage::getModel('Mage_Catalog_Model_Product'));
                     }
                 }
                 if (!$this->_canEditProductPrice) {

@@ -61,7 +61,7 @@ class Enterprise_CustomerBalance_Model_Observer
         }
         if ($data = $observer->getCustomer()->getCustomerBalanceData()) {
             if (!empty($data['amount_delta'])) {
-                $balance = Mage::getModel('enterprise_customerbalance/balance')
+                $balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                     ->setCustomer($observer->getCustomer())
                     ->setWebsiteId(isset($data['website_id']) ? $data['website_id'] : $observer->getCustomer()->getWebsiteId())
                     ->setAmountDelta($data['amount_delta'])
@@ -102,7 +102,7 @@ class Enterprise_CustomerBalance_Model_Observer
         if ($order->getBaseCustomerBalanceAmount() > 0) {
             $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
 
-            $balance = Mage::getModel('enterprise_customerbalance/balance')
+            $balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($websiteId)
                 ->loadByCustomer()
@@ -154,7 +154,7 @@ class Enterprise_CustomerBalance_Model_Observer
             $this->_checkStoreCreditBalance($order);
 
             $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
-            Mage::getModel('enterprise_customerbalance/balance')
+            Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($websiteId)
                 ->setAmountDelta(-$order->getBaseCustomerBalanceAmount())
@@ -178,7 +178,7 @@ class Enterprise_CustomerBalance_Model_Observer
             return $this;
         }
 
-        Mage::getModel('enterprise_customerbalance/balance')
+        Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
             ->setCustomerId($order->getCustomerId())
             ->setWebsiteId(Mage::app()->getStore($order->getStoreId())->getWebsiteId())
             ->setAmountDelta($order->getBaseCustomerBalanceAmount())
@@ -268,7 +268,7 @@ class Enterprise_CustomerBalance_Model_Observer
         }
         $quote->setUseCustomerBalance($shouldUseBalance);
         if ($shouldUseBalance) {
-            $balance = Mage::getModel('enterprise_customerbalance/balance')
+            $balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                 ->setCustomerId($quote->getCustomerId())
                 ->setWebsiteId($store->getWebsiteId())
                 ->loadByCustomer();
@@ -405,7 +405,7 @@ class Enterprise_CustomerBalance_Model_Observer
 
             $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
 
-            $balance = Mage::getModel('enterprise_customerbalance/balance')
+            $balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($websiteId)
                 ->setAmountDelta($creditmemo->getBsCustomerBalTotalRefunded())
@@ -561,7 +561,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function setCustomersBalanceCurrencyToWebsiteBaseCurrency(Varien_Event_Observer $observer)
     {
-        Mage::getModel('enterprise_customerbalance/balance')->setCustomersBalanceCurrencyTo(
+        Mage::getModel('Enterprise_CustomerBalance_Model_Balance')->setCustomersBalanceCurrencyTo(
             $observer->getEvent()->getWebsite()->getWebsiteId(),
             $observer->getEvent()->getWebsite()->getBaseCurrencyCode()
         );

@@ -112,21 +112,21 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
         switch (Mage::registry('store_type')) {
             case 'website':
                 $itemId     = $this->getRequest()->getParam('website_id', null);
-                $model      = Mage::getModel('core/website');
+                $model      = Mage::getModel('Mage_Core_Model_Website');
                 $title      = Mage::helper('Mage_Core_Helper_Data')->__("Website");
                 $notExists  = Mage::helper('Mage_Core_Helper_Data')->__("The website does not exist.");
                 $codeBase   = Mage::helper('Mage_Core_Helper_Data')->__('Before modifying the website code please make sure that it is not used in index.php.');
                 break;
             case 'group':
                 $itemId     = $this->getRequest()->getParam('group_id', null);
-                $model      = Mage::getModel('core/store_group');
+                $model      = Mage::getModel('Mage_Core_Model_Store_Group');
                 $title      = Mage::helper('Mage_Core_Helper_Data')->__("Store");
                 $notExists  = Mage::helper('Mage_Core_Helper_Data')->__("The store does not exist");
                 $codeBase   = false;
                 break;
             case 'store':
                 $itemId     = $this->getRequest()->getParam('store_id', null);
-                $model      = Mage::getModel('core/store');
+                $model      = Mage::getModel('Mage_Core_Model_Store');
                 $title      = Mage::helper('Mage_Core_Helper_Data')->__("Store View");
                 $notExists  = Mage::helper('Mage_Core_Helper_Data')->__("Store view doesn't exist");
                 $codeBase   = Mage::helper('Mage_Core_Helper_Data')->__('Before modifying the store view code please make sure that it is not used in index.php.');
@@ -172,7 +172,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             try {
                 switch ($postData['store_type']) {
                     case 'website':
-                        $websiteModel = Mage::getModel('core/website');
+                        $websiteModel = Mage::getModel('Mage_Core_Model_Website');
                         if ($postData['website']['website_id']) {
                             $websiteModel->load($postData['website']['website_id']);
                         }
@@ -186,7 +186,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
                         break;
 
                     case 'group':
-                        $groupModel = Mage::getModel('core/store_group');
+                        $groupModel = Mage::getModel('Mage_Core_Model_Store_Group');
                         if ($postData['group']['group_id']) {
                             $groupModel->load($postData['group']['group_id']);
                         }
@@ -204,7 +204,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
                     case 'store':
                         $eventName = 'store_edit';
-                        $storeModel = Mage::getModel('core/store');
+                        $storeModel = Mage::getModel('Mage_Core_Model_Store');
                         if ($postData['store']['store_id']) {
                             $storeModel->load($postData['store']['store_id']);
                         }
@@ -213,7 +213,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
                             $storeModel->setId(null);
                             $eventName = 'store_add';
                         }
-                        $groupModel = Mage::getModel('core/store_group')->load($storeModel->getGroupId());
+                        $groupModel = Mage::getModel('Mage_Core_Model_Store_Group')->load($storeModel->getGroupId());
                         $storeModel->setWebsiteId($groupModel->getWebsiteId());
                         $storeModel->save();
 
@@ -252,7 +252,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);
-        if (!$model = Mage::getModel('core/website')->load($itemId)) {
+        if (!$model = Mage::getModel('Mage_Core_Model_Website')->load($itemId)) {
             $session->addError(Mage::helper('Mage_Core_Helper_Data')->__('Unable to proceed. Please, try again.'));
             $this->_redirect('*/*/');
             return ;
@@ -284,7 +284,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);
-        if (!$model = Mage::getModel('core/store_group')->load($itemId)) {
+        if (!$model = Mage::getModel('Mage_Core_Model_Store_Group')->load($itemId)) {
             $session->addError(Mage::helper('Mage_Core_Helper_Data')->__('Unable to proceed. Please, try again.'));
             $this->_redirect('*/*/');
             return ;
@@ -316,7 +316,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);
-        if (!$model = Mage::getModel('core/store')->load($itemId)) {
+        if (!$model = Mage::getModel('Mage_Core_Model_Store')->load($itemId)) {
             $session->addError(Mage::helper('Mage_Core_Helper_Data')->__('Unable to proceed. Please, try again.'));
             $this->_redirect('*/*/');
             return ;
@@ -344,7 +344,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
     {
         $itemId = $this->getRequest()->getParam('item_id');
 
-        if (!$model = Mage::getModel('core/website')->load($itemId)) {
+        if (!$model = Mage::getModel('Mage_Core_Model_Website')->load($itemId)) {
             $this->_getSession()->addError(Mage::helper('Mage_Core_Helper_Data')->__('Unable to proceed. Please, try again'));
             $this->_redirect('*/*/');
             return ;
@@ -376,7 +376,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
     {
         $itemId = $this->getRequest()->getParam('item_id');
 
-        if (!$model = Mage::getModel('core/store_group')->load($itemId)) {
+        if (!$model = Mage::getModel('Mage_Core_Model_Store_Group')->load($itemId)) {
             $this->_getSession()->addError(Mage::helper('Mage_Core_Helper_Data')->__('Unable to proceed. Please, try again.'));
             $this->_redirect('*/*/');
             return ;
@@ -412,7 +412,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
     {
         $itemId = $this->getRequest()->getParam('item_id');
 
-        if (!$model = Mage::getModel('core/store')->load($itemId)) {
+        if (!$model = Mage::getModel('Mage_Core_Model_Store')->load($itemId)) {
             $this->_getSession()->addError(Mage::helper('Mage_Core_Helper_Data')->__('Unable to proceed. Please, try again'));
             $this->_redirect('*/*/');
             return ;
@@ -461,8 +461,8 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             return $this;
         }
         try {
-            $backupDb = Mage::getModel('backup/db');
-            $backup   = Mage::getModel('backup/backup')
+            $backupDb = Mage::getModel('Mage_Backup_Model_Db');
+            $backup   = Mage::getModel('Mage_Backup_Model_Backup')
                 ->setTime(time())
                 ->setType('db')
                 ->setPath(Mage::getBaseDir('var') . DS . 'backups');

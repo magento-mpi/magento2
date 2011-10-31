@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Mage_Adminhtm
      */
     protected function _prepareCollection()
     {
-        $wishlist = Mage::getModel('wishlist/wishlist');
+        $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist');
         $collection = $wishlist->loadByCustomer(Mage::registry('current_customer'))
             ->setSharedStoreIds($wishlist->getSharedStoreIds(false))
             ->getItemCollection()

@@ -41,7 +41,7 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
     protected function _toHtml()
     {
         /** @var $xmlModel Mage_XmlConnect_Model_Simplexml_Element */
-        $xmlModel = Mage::getModel('xmlconnect/simplexml_element', '<form></form>');
+        $xmlModel = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<form></form>');
         $xmlModel->addAttribute('name', 'address_form');
         $xmlModel->addAttribute('method', 'post');
 
@@ -178,7 +178,7 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
         if (Mage::app()->useCache('config') && $cache) {
             $options = unserialize($cache);
         } else {
-            $collection = Mage::getModel('directory/region')->getResourceCollection()->addCountryFilter($countryId)
+            $collection = Mage::getModel('Mage_Directory_Model_Region')->getResourceCollection()->addCountryFilter($countryId)
                 ->load();
             $options = $collection->toOptionArray();
             if (Mage::app()->useCache('config')) {
@@ -201,7 +201,7 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
             $options = unserialize($cache);
         } else {
             /** @var $collection Mage_Directory_Model_Resource_Country_Collection */
-            $collection = Mage::getModel('directory/country')->getResourceCollection()->loadByStore();
+            $collection = Mage::getModel('Mage_Directory_Model_Country')->getResourceCollection()->loadByStore();
             $options = $collection->toOptionArray(false);
             if (Mage::app()->useCache('config')) {
                 Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));

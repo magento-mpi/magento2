@@ -78,7 +78,7 @@ class Mage_Sales_DownloadController extends Mage_Core_Controller_Front_Action
         }
 
         $relativePath = Mage::helper('Mage_Core_Helper_File_Storage_Database')->getMediaRelativePath($filePath);
-        $file = Mage::getModel('core/file_storage_database')->loadByFilename($relativePath);
+        $file = Mage::getModel('Mage_Core_Model_File_Storage_Database')->loadByFilename($relativePath);
 
         if (!$file->getId()) {
             return false;
@@ -104,7 +104,7 @@ class Mage_Sales_DownloadController extends Mage_Core_Controller_Front_Action
      */
     public function downloadProfileCustomOptionAction()
     {
-        $recurringProfile = Mage::getModel('sales/recurring_profile')->load($this->getRequest()->getParam('id'));
+        $recurringProfile = Mage::getModel('Mage_Sales_Model_Recurring_Profile')->load($this->getRequest()->getParam('id'));
 
         if (!$recurringProfile->getId()) {
             $this->_forward('noRoute');
@@ -125,7 +125,7 @@ class Mage_Sales_DownloadController extends Mage_Core_Controller_Front_Action
                 return;
             }
             // Check if the product exists
-            $product = Mage::getModel('catalog/product')->load($request['product']);
+            $product = Mage::getModel('Mage_Catalog_Model_Product')->load($request['product']);
             if (!$product || !$product->getId()) {
                 $this->_forward('noRoute');
                 return;
@@ -149,7 +149,7 @@ class Mage_Sales_DownloadController extends Mage_Core_Controller_Front_Action
     {
         $quoteItemOptionId = $this->getRequest()->getParam('id');
         /** @var $option Mage_Sales_Model_Quote_Item_Option */
-        $option = Mage::getModel('sales/quote_item_option')->load($quoteItemOptionId);
+        $option = Mage::getModel('Mage_Sales_Model_Quote_Item_Option')->load($quoteItemOptionId);
 
         if (!$option->getId()) {
             $this->_forward('noRoute');
@@ -166,7 +166,7 @@ class Mage_Sales_DownloadController extends Mage_Core_Controller_Front_Action
         $productOption = null;
         if ($optionId) {
             /** @var $productOption Mage_Catalog_Model_Product_Option */
-            $productOption = Mage::getModel('catalog/product_option')->load($optionId);
+            $productOption = Mage::getModel('Mage_Catalog_Model_Product_Option')->load($optionId);
         }
         if (!$productOption || !$productOption->getId()
             || $productOption->getProductId() != $option->getProductId() || $productOption->getType() != 'file'

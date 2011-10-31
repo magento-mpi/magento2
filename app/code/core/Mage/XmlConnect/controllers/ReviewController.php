@@ -72,7 +72,7 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
             return false;
         }
 
-        $product = Mage::getModel('catalog/product')->setStoreId(Mage::app()->getStore()->getId())->load($productId);
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId(Mage::app()->getStore()->getId())->load($productId);
         /** @var $product Mage_Catalog_Model_Product */
         if (!$product->getId() || !$product->isVisibleInCatalog() || !$product->isVisibleInSiteVisibility()) {
             return false;
@@ -143,7 +143,7 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
         $product = $this->_initProduct();
         if ($product && !empty($data)) {
             /** @var $review Mage_Review_Model_Review */
-            $review     = Mage::getModel('review/review')->setData($data);
+            $review     = Mage::getModel('Mage_Review_Model_Review')->setData($data);
             $validate   = $review->validate();
 
             if ($validate === true) {
@@ -155,7 +155,7 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
                         ->setStores(array(Mage::app()->getStore()->getId()))->save();
 
                     foreach ($rating as $ratingId => $optionId) {
-                        Mage::getModel('rating/rating')->setRatingId($ratingId)->setReviewId($review->getId())
+                        Mage::getModel('Mage_Rating_Model_Rating')->setRatingId($ratingId)->setReviewId($review->getId())
                             ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
                             ->addOptionVote($optionId, $product->getId());
                     }

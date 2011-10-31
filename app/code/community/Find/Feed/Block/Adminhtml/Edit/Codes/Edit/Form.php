@@ -107,7 +107,7 @@ class Find_Feed_Block_Adminhtml_Edit_Codes_Edit_Form extends Mage_Adminhtml_Bloc
             'options'   => $this->_getEavAttributeList()
         ));
 
-        $source = Mage::getModel('eav/entity_attribute_source_boolean');
+        $source = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Source_Boolean');
         $isImportedOptions = $source->getOptionArray();
 
         $fieldset->addField('is_imported', 'select', array(

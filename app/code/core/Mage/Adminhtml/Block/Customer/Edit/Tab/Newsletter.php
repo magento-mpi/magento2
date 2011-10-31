@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Mage_Adminhtml_B
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_newsletter');
         $customer = Mage::registry('current_customer');
-        $subscriber = Mage::getModel('newsletter/subscriber')->loadByCustomer($customer);
+        $subscriber = Mage::getModel('Mage_Newsletter_Model_Subscriber')->loadByCustomer($customer);
         Mage::register('subscriber', $subscriber);
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_Customer_Helper_Data')->__('Newsletter Information')));

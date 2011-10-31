@@ -109,7 +109,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
         /* @var $attributes Mage_Catalog_Model_Resource_Eav_Resource_Product_Attribute_Collection */
         $attributes = $this->getData('attributes');
         if (is_null($attributes)) {
-            $product = Mage::getModel('catalog/product');
+            $product = Mage::getModel('Mage_Catalog_Model_Product');
             $attributes = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
                 ->addHasOptionsFilter()
                 ->addDisplayInAdvancedSearchFilter()
@@ -222,7 +222,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
             if (isset($value['from']) && isset($value['to'])) {
                 if (!empty($value['from']) || !empty($value['to'])) {
                     if (isset($value['currency'])) {
-                        $currencyModel = Mage::getModel('directory/currency')->load($value['currency']);
+                        $currencyModel = Mage::getModel('Mage_Directory_Model_Currency')->load($value['currency']);
                         $from = $currencyModel->format($value['from'], array(), false);
                         $to = $currencyModel->format($value['to'], array(), false);
                     } else {

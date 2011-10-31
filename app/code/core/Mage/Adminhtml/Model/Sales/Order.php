@@ -48,7 +48,7 @@ class Mage_Adminhtml_Model_Sales_Order
         /**
          * Check customer existing
          */
-        $customer = Mage::getModel('customer/customer')->load($order->getCustomerId());
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($order->getCustomerId());
         if (!$customer->getId()) {
             $this->_getSession()->addNotice(
                 Mage::helper('Mage_Adminhtml_Helper_Data')->__(' The customer does not exist in the system anymore.')
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Model_Sales_Order
             $productIds[] = $item->getProductId();
         }
 
-        $productCollection = Mage::getModel('catalog/product')->getCollection()
+        $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
             ->addIdFilter($productIds)
             ->load();
 

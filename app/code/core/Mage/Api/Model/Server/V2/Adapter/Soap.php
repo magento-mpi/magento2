@@ -44,7 +44,7 @@ class Mage_Api_Model_Server_V2_Adapter_Soap extends Mage_Api_Model_Server_Adapte
         $apiConfigCharset = Mage::getStoreConfig("api/config/charset");
 
         if ($this->getController()->getRequest()->getParam('wsdl') !== null) {
-            $wsdlConfig = Mage::getModel('api/wsdl_config');
+            $wsdlConfig = Mage::getModel('Mage_Api_Model_Wsdl_Config');
             $wsdlConfig->setHandler($this->getHandler())
                 ->init();
             $this->getController()->getResponse()

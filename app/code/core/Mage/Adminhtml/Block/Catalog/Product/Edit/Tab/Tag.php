@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag extends Mage_Adminhtml_B
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('tag/tag')
+        $collection = Mage::getModel('Mage_Tag_Model_Tag')
             ->getResourceCollection()
             ->addProductFilter($this->getProductId())
             ->addPopularity();

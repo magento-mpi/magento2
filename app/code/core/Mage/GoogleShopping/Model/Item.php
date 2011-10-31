@@ -61,7 +61,7 @@ class Mage_GoogleShopping_Model_Item extends Mage_Core_Model_Abstract
     public function getServiceItem()
     {
         if (is_null($this->_serviceItem)) {
-            $this->_serviceItem = Mage::getModel('googleshopping/service_item')
+            $this->_serviceItem = Mage::getModel('Mage_GoogleShopping_Model_Service_Item')
                 ->setStoreId($this->getStoreId());
         }
         return $this->_serviceItem;
@@ -158,7 +158,7 @@ class Mage_GoogleShopping_Model_Item extends Mage_Core_Model_Abstract
             return $registry[$attributeSetId][$targetCountry];
         }
 
-        $type = Mage::getModel('googleshopping/type')
+        $type = Mage::getModel('Mage_GoogleShopping_Model_Type')
             ->loadByAttributeSetId($attributeSetId, $targetCountry);
 
         $registry[$attributeSetId][$targetCountry] = $type;
@@ -176,7 +176,7 @@ class Mage_GoogleShopping_Model_Item extends Mage_Core_Model_Abstract
     public function getProduct()
     {
         if (is_null($this->getData('product')) && !is_null($this->getProductId())) {
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStoreId($this->getStoreId())
                 ->load($this->getProductId());
             $this->setData('product', $product);

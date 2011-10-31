@@ -52,7 +52,7 @@ class Mage_GoogleBase_Model_Observer
                     $product = Mage::getSingleton('catalog/product')
                         ->setStoreId($item->getStoreId())
                         ->load($item->getProductId());
-                    Mage::getModel('googlebase/item')->setProduct($product)->updateItem();
+                    Mage::getModel('Mage_GoogleBase_Model_Item')->setProduct($product)->updateItem();
                 }
             }
         } catch (Exception $e) {

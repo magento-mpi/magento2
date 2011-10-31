@@ -162,7 +162,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
             $resource = $this->getNode('acl/resources');
         } else {
             $resourceName = (is_null($parentName) ? '' : $parentName.'/').$resource->getName();
-            $acl->add(Mage::getModel('api/acl_resource', $resourceName), $parentName);
+            $acl->add(Mage::getModel('Mage_Api_Model_Acl_Resource', $resourceName), $parentName);
         }
 
         $children = $resource->children();

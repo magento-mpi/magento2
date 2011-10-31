@@ -59,10 +59,10 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Account extends Mage_Adminhtm
     protected function _prepareForm()
     {
         /* @var $customerModel Mage_Customer_Model_Customer */
-        $customerModel = Mage::getModel('customer/customer');
+        $customerModel = Mage::getModel('Mage_Customer_Model_Customer');
 
         /* @var $customerForm Mage_Customer_Model_Form */
-        $customerForm   = Mage::getModel('customer/form');
+        $customerForm   = Mage::getModel('Mage_Customer_Model_Form');
         $customerForm->setFormCode('adminhtml_checkout')
             ->setStore($this->getStore())
             ->setEntity($customerModel);

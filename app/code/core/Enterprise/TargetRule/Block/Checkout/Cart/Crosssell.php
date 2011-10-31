@@ -91,7 +91,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
         if (is_null($this->_lastAddedProduct)) {
             $productId = $this->getLastAddedProductId();
             if ($productId) {
-                $this->_lastAddedProduct = Mage::getModel('catalog/product')
+                $this->_lastAddedProduct = Mage::getModel('Mage_Catalog_Model_Product')
                     ->load($productId);
             } else {
                 $this->_lastAddedProduct = false;
@@ -180,7 +180,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
     protected function _getTargetRuleIndex()
     {
         if (is_null($this->_index)) {
-            $this->_index = Mage::getModel('enterprise_targetrule/index');
+            $this->_index = Mage::getModel('Enterprise_TargetRule_Model_Index');
         }
         return $this->_index;
     }
@@ -214,7 +214,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
     protected function _getTargetLinkCollection()
     {
         /* @var $collection Mage_Catalog_Model_Resource_Product_Link_Product_Collection */
-        $collection = Mage::getModel('catalog/product_link')
+        $collection = Mage::getModel('Mage_Catalog_Model_Product_Link')
             ->useCrossSellLinks()
             ->getProductCollection()
             ->setStoreId(Mage::app()->getStore()->getId())

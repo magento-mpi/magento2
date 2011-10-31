@@ -67,7 +67,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options extends Mage_XmlConnect_Bloc
      */
     public function getProductCustomOptionsXmlObject(Mage_Catalog_Model_Product $product)
     {
-        $xmlModel = Mage::getModel('xmlconnect/simplexml_element', '<product></product>');
+        $xmlModel = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<product></product>');
         $optionsNode = $xmlModel->addChild('options');
 
         if (!$product->getId()) {
@@ -196,7 +196,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options extends Mage_XmlConnect_Bloc
     protected function _toHtml()
     {
         $productId = $this->getRequest()->getParam('id', null);
-        $product = Mage::getModel('catalog/product')->setStoreId(Mage::app()->getStore()->getId());
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId(Mage::app()->getStore()->getId());
 
         if ($productId) {
             $product->load($productId);

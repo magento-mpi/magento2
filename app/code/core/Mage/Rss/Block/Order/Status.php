@@ -44,7 +44,7 @@ class Mage_Rss_Block_Order_Status extends Mage_Core_Block_Template
 
     protected function _toHtml()
     {
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = Mage::getModel('Mage_Rss_Model_Rss');
         $order = Mage::registry('current_order');
         $title = Mage::helper('Mage_Rss_Helper_Data')->__('Order # %s Notification(s)',$order->getIncrementId());
         $newurl = Mage::getUrl('sales/order/view',array('order_id' => $order->getId()));

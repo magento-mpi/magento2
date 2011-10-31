@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     protected function _prepareCollection()
     {
-        $model = Mage::getModel('review/review');
+        $model = Mage::getModel('Mage_Review_Model_Review');
         $collection = $model->getProductCollection();
 
         if ($this->getProductId() || $this->getRequest()->getParam('productId', false)) {
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     protected function _prepareColumns()
     {
-        $statuses = Mage::getModel('review/review')
+        $statuses = Mage::getModel('Mage_Review_Model_Review')
             ->getStatusCollection()
             ->load()
             ->toOptionArray();
@@ -220,7 +220,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'confirm' => Mage::helper('Mage_Review_Helper_Data')->__('Are you sure?')
         ));
 
-        $statuses = Mage::getModel('review/review')
+        $statuses = Mage::getModel('Mage_Review_Model_Review')
             ->getStatusCollection()
             ->load()
             ->toOptionArray();

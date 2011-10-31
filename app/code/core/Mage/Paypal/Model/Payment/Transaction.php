@@ -211,7 +211,7 @@ class Mage_Paypal_Model_Payment_Transaction extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         if (!$this->getId()) {
-            $this->setCreatedAt(Mage::getModel('core/date')->gmtDate());
+            $this->setCreatedAt(Mage::getModel('Mage_Core_Model_Date')->gmtDate());
         }
         return parent::_beforeSave();
     }

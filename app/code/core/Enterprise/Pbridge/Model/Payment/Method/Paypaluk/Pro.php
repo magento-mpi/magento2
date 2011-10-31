@@ -117,7 +117,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk
     public function void(Varien_Object $payment)
     {
         $result = $this->getPbridgeMethodInstance()->void($payment);
-        Mage::getModel('paypal/info')->importToPayment(new Varien_Object($result), $payment);
+        Mage::getModel('Mage_Paypal_Model_Info')->importToPayment(new Varien_Object($result), $payment);
         return $result;
     }
 
@@ -130,7 +130,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $result = $this->getPbridgeMethodInstance()->void($payment);
-            Mage::getModel('paypal/info')->importToPayment(new Varien_Object($result), $payment);
+            Mage::getModel('Mage_Paypal_Model_Info')->importToPayment(new Varien_Object($result), $payment);
         }
     }
 
@@ -160,7 +160,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk
             'Payflow PNREF: #%s.',
             $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID)
         ));
-        Mage::getModel('paypal/info')->importToPayment($api, $payment);
+        Mage::getModel('Mage_Paypal_Model_Info')->importToPayment($api, $payment);
     }
 
     /**
@@ -181,6 +181,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk
             'Payflow PNREF: #%s.',
             $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID)
         ));
-        Mage::getModel('paypal/info')->importToPayment($api, $payment);
+        Mage::getModel('Mage_Paypal_Model_Info')->importToPayment($api, $payment);
     }
 }

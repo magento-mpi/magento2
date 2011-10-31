@@ -75,7 +75,7 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
      */
     protected function _initAttribute()
     {
-        $attribute = Mage::getModel('customer/attribute');
+        $attribute = Mage::getModel('Mage_Customer_Model_Attribute');
         $websiteId = $this->getRequest()->getParam('website');
         if ($websiteId) {
             $attribute->setWebsite($websiteId);
@@ -241,7 +241,7 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
 
                 // add set and group info
                 $data['attribute_set_id']   = $this->_getEntityType()->getDefaultAttributeSetId();
-                $data['attribute_group_id'] = Mage::getModel('eav/entity_attribute_set')
+                $data['attribute_group_id'] = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
                     ->getDefaultGroupId($data['attribute_set_id']);
             }
 

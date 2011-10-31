@@ -112,7 +112,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
         $productIds = $this->getRequest()->getParam('product', null);
 
         try {
-            Mage::getModel('googleshopping/massOperations')
+            Mage::getModel('Mage_GoogleShopping_Model_MassOperations')
                 ->addProducts($productIds, $storeId);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
             $this->_redirectToCaptcha($e);
@@ -130,7 +130,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
         $itemIds = $this->getRequest()->getParam('item');
 
         try {
-            Mage::getModel('googleshopping/massOperations')
+            Mage::getModel('Mage_GoogleShopping_Model_MassOperations')
                 ->deleteItems($itemIds);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
             $this->_redirectToCaptcha($e);
@@ -149,7 +149,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
         $itemIds = $this->getRequest()->getParam('item');
 
         try {
-            Mage::getModel('googleshopping/massOperations')
+            Mage::getModel('Mage_GoogleShopping_Model_MassOperations')
                 ->synchronizeItems($itemIds);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
             $this->_redirectToCaptcha($e);
@@ -167,7 +167,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
     {
         $storeId = $this->_getStore()->getId();
         try {
-            Mage::getModel('googleshopping/service')->getClient(
+            Mage::getModel('Mage_GoogleShopping_Model_Service')->getClient(
                 $storeId,
                 Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('captcha_token')),
                 $this->getRequest()->getParam('user_confirm')

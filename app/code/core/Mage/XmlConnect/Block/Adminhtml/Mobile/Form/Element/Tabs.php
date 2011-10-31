@@ -57,7 +57,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Tabs
         }
 
         $block->setTemplate($template);
-        $tabs = Mage::getModel('xmlconnect/tabs', $this->getValue());
+        $tabs = Mage::getModel('Mage_XmlConnect_Model_Tabs', $this->getValue());
         $block->setTabs($tabs);
         $block->setName($this->getName());
         return $block->toHtml();

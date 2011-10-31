@@ -187,7 +187,7 @@ abstract class Mage_Catalog_Model_Layer_Filter_Abstract extends Varien_Object
      */
     protected function _createItem($label, $value, $count=0)
     {
-        return Mage::getModel('catalog/layer_filter_item')
+        return Mage::getModel('Mage_Catalog_Model_Layer_Filter_Item')
             ->setFilter($this)
             ->setLabel($label)
             ->setValue($value)

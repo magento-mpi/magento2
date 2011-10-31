@@ -62,7 +62,7 @@ class Mage_Rating_Model_Rating extends Mage_Core_Model_Abstract
 
     public function addOptionVote($optionId, $entityPkValue)
     {
-        Mage::getModel('rating/rating_option')->setOptionId($optionId)
+        Mage::getModel('Mage_Rating_Model_Rating_Option')->setOptionId($optionId)
             ->setRatingId($this->getId())
             ->setReviewId($this->getReviewId())
             ->setEntityPkValue($entityPkValue)
@@ -72,7 +72,7 @@ class Mage_Rating_Model_Rating extends Mage_Core_Model_Abstract
 
     public function updateOptionVote($optionId)
     {
-        Mage::getModel('rating/rating_option')->setOptionId($optionId)
+        Mage::getModel('Mage_Rating_Model_Rating_Option')->setOptionId($optionId)
             ->setVoteId($this->getVoteId())
             ->setReviewId($this->getReviewId())
             ->setDoUpdate(1)

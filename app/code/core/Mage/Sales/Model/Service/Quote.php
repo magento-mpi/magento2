@@ -79,7 +79,7 @@ class Mage_Sales_Model_Service_Quote
     public function __construct(Mage_Sales_Model_Quote $quote)
     {
         $this->_quote       = $quote;
-        $this->_convertor   = Mage::getModel('sales/convert_quote');
+        $this->_convertor   = Mage::getModel('Mage_Sales_Model_Convert_Quote');
     }
 
     /**
@@ -138,7 +138,7 @@ class Mage_Sales_Model_Service_Quote
         $quote = $this->_quote;
         $isVirtual = $quote->isVirtual();
 
-        $transaction = Mage::getModel('core/resource_transaction');
+        $transaction = Mage::getModel('Mage_Core_Model_Resource_Transaction');
         if ($quote->getCustomerId()) {
             $transaction->addObject($quote->getCustomer());
         }

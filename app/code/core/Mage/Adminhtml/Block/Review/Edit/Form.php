@@ -37,9 +37,9 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
     protected function _prepareForm()
     {
         $review = Mage::registry('review_data');
-        $product = Mage::getModel('catalog/product')->load($review->getEntityPkValue());
-        $customer = Mage::getModel('customer/customer')->load($review->getCustomerId());
-        $statuses = Mage::getModel('review/review')
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($review->getEntityPkValue());
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($review->getCustomerId());
+        $statuses = Mage::getModel('Mage_Review_Model_Review')
             ->getStatusCollection()
             ->load()
             ->toOptionArray();

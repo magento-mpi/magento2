@@ -34,7 +34,7 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
     public function __construct()
     {
         parent::__construct();
-        $this->_processModel = Mage::getModel('index/process');
+        $this->_processModel = Mage::getModel('Mage_Index_Model_Process');
         $this->setId('indexer_processes_grid');
         $this->_filterVisibility = false;
         $this->_pagerVisibility  = false;
@@ -190,7 +190,7 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
         $this->setMassactionIdField('process_id');
         $this->getMassactionBlock()->setFormFieldName('process');
 
-        $modeOptions = Mage::getModel('index/process')->getModesOptions();
+        $modeOptions = Mage::getModel('Mage_Index_Model_Process')->getModesOptions();
 
         $this->getMassactionBlock()->addItem('change_mode', array(
             'label'         => Mage::helper('Mage_Index_Helper_Data')->__('Change Index Mode'),

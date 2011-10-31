@@ -40,7 +40,7 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $this->_address = Mage::getModel('customer/address');
+        $this->_address = Mage::getModel('Mage_Customer_Model_Address');
 
         // Init address object
         if ($id = $this->getRequest()->getParam('id')) {

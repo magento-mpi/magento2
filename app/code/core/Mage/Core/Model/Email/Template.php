@@ -30,7 +30,7 @@
  * Example:
  *
  * // Loading of template
- * $emailTemplate  = Mage::getModel('core/email_template')
+ * $emailTemplate  = Mage::getModel('Mage_Core_Model_Email_Template')
  *    ->load(Mage::getStoreConfig('path_to_email_template_id_config'));
  * $variables = array(
  *    'someObject' => Mage::getSingleton('some_model')
@@ -125,7 +125,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     public function getTemplateFilter()
     {
         if (empty($this->_templateFilter)) {
-            $this->_templateFilter = Mage::getModel('core/email_template_filter');
+            $this->_templateFilter = Mage::getModel('Mage_Core_Model_Email_Template_Filter');
             $this->_templateFilter->setUseAbsoluteLinks($this->getUseAbsoluteLinks())
                 ->setStoreId($this->getDesignConfig()->getStore());
         }

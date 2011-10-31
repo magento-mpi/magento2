@@ -52,7 +52,7 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
 
     public function categoriesAction()
     {
-        $model = Mage::getModel('loadtest/renderer_catalog');
+        $model = Mage::getModel('Mage_LoadTest_Model_Renderer_Catalog');
         /* @var $model Mage_LoadTest_Model_Renderer_Catalog */
         $model->setType('CATEGORY')
             ->setSroreIds($this->getRequest()->getParam('store_ids', null))
@@ -71,7 +71,7 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
 
     public function attributesAction()
     {
-        $model = Mage::getModel('loadtest/renderer_catalog');
+        $model = Mage::getModel('Mage_LoadTest_Model_Renderer_Catalog');
         /* @var $model Mage_LoadTest_Model_Renderer_Catalog */
         $model->setType('ATTRIBUTE_SET')
             ->setText($this->getRequest()->getParam('text', 0))
@@ -90,7 +90,7 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
 
     public function simpleProductsAction()
     {
-        $model = Mage::getModel('loadtest/renderer_catalog');
+        $model = Mage::getModel('Mage_LoadTest_Model_Renderer_Catalog');
         /* @var $model Mage_LoadTest_Model_Renderer_Catalog */
         try {
             $model->setType('SIMPLE_PRODUCT')
@@ -117,7 +117,7 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
 
     public function customersAction()
     {
-        $model = Mage::getModel('loadtest/renderer_customer');
+        $model = Mage::getModel('Mage_LoadTest_Model_Renderer_Customer');
         /* @var $model Mage_LoadTest_Model_Renderer_Customer */
         try {
             $model
@@ -136,7 +136,7 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
 
     public function reviewsAction()
     {
-        $model = Mage::getModel('loadtest/renderer_review');
+        $model = Mage::getModel('Mage_LoadTest_Model_Renderer_Review');
         /* @var $model Mage_LoadTest_Model_Renderer_Review */
         try {
             $model
@@ -152,7 +152,7 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
 
     public function tagsAction()
     {
-        $model = Mage::getModel('loadtest/renderer_tag');
+        $model = Mage::getModel('Mage_LoadTest_Model_Renderer_Tag');
         /* @var $model Mage_LoadTest_Model_Renderer_Tag */
         try {
             $model
@@ -170,7 +170,7 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
 
     public function quotesAction()
     {
-        $model = Mage::getModel('loadtest/renderer_sales');
+        $model = Mage::getModel('Mage_LoadTest_Model_Renderer_Sales');
         /* @var $model Mage_LoadTest_Model_Renderer_Sales */
         try {
             $model->setType('QUOTE')
@@ -190,7 +190,7 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
 
     public function ordersAction()
     {
-        $model = Mage::getModel('loadtest/renderer_sales');
+        $model = Mage::getModel('Mage_LoadTest_Model_Renderer_Sales');
         /* @var $model Mage_LoadTest_Model_Renderer_Sales */
         try {
             $model->setType('ORDER')

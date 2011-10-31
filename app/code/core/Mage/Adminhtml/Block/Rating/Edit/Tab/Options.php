@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Options extends Mage_Adminhtml_Block_
         $fieldset = $form->addFieldset('options_form', array('legend'=>Mage::helper('Mage_Rating_Helper_Data')->__('Assigned Options')));
 
         if( Mage::registry('rating_data') ) {
-            $collection = Mage::getModel('rating/rating_option')
+            $collection = Mage::getModel('Mage_Rating_Model_Rating_Option')
                 ->getResourceCollection()
                 ->addRatingFilter(Mage::registry('rating_data')->getId())
                 ->load();

@@ -241,7 +241,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     public function getCustomer()
     {
         if (!$this->_getData('customer') && $this->getCustomerId()) {
-            $customer = Mage::getModel('customer/customer')->load($this->getCustomerId());
+            $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->getCustomerId());
             $this->setCustomer($customer);
         }
         return $this->_getData('customer');
@@ -357,7 +357,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     public function getHistory()
     {
         if (!$this->_getData('history')) {
-            $this->setData('history', Mage::getModel('enterprise_reward/reward_history'));
+            $this->setData('history', Mage::getModel('Enterprise_Reward_Model_Reward_History'));
             $this->getHistory()->setReward($this);
         }
         return $this->_getData('history');
@@ -372,7 +372,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     protected function _getRateByDirection($direction)
     {
         if (!isset($this->_rates[$direction])) {
-            $this->_rates[$direction] = Mage::getModel('enterprise_reward/reward_rate')
+            $this->_rates[$direction] = Mage::getModel('Enterprise_Reward_Model_Reward_Rate')
                 ->fetch($this->getCustomerGroupId(), $this->getWebsiteId(), $direction);
         }
         return $this->_rates[$direction];
@@ -617,7 +617,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         }
         $history = $this->getHistory();
         $store = Mage::app()->getStore($this->getStore());
-        $mail  = Mage::getModel('core/email_template');
+        $mail  = Mage::getModel('Mage_Core_Model_Email_Template');
         /* @var $mail Mage_Core_Model_Email_Template */
         $mail->setDesignConfig(array('area' => 'frontend', 'store' => $store->getId()));
         $templateVars = array(
@@ -660,7 +660,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     public function sendBalanceWarningNotification($item, $websiteId)
     {
-        $mail  = Mage::getModel('core/email_template');
+        $mail  = Mage::getModel('Mage_Core_Model_Email_Template');
         /* @var $mail Mage_Core_Model_Email_Template */
         $mail->setDesignConfig(array('area' => 'frontend', 'store' => $item->getStoreId()));
         $store = Mage::app()->getStore($item->getStoreId());

@@ -159,7 +159,7 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
      */
     public function getStockItemModel()
     {
-        return Mage::getModel('cataloginventory/stock_item');
+        return Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
     }
 
     /**

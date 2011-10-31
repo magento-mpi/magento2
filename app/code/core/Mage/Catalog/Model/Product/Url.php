@@ -58,7 +58,7 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
     public function getUrlInstance()
     {
         if (!self::$_url) {
-            self::$_url = Mage::getModel('core/url');
+            self::$_url = Mage::getModel('Mage_Core_Model_Url');
         }
         return self::$_url;
     }
@@ -71,7 +71,7 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
     public function getUrlRewrite()
     {
         if (!self::$_urlRewrite) {
-            self::$_urlRewrite = Mage::getModel('core/url_rewrite');
+            self::$_urlRewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite');
         }
         return self::$_urlRewrite;
     }

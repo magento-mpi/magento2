@@ -53,8 +53,8 @@ class Mage_Adminhtml_Model_Sales_Order_Random
 
     public function __construct()
     {
-        $this->_quote = Mage::getModel('sales/quote')->save();
-        $this->_order = Mage::getModel('sales/order');
+        $this->_quote = Mage::getModel('Mage_Sales_Model_Quote')->save();
+        $this->_order = Mage::getModel('Mage_Sales_Model_Order');
     }
 
     protected function _getStores()

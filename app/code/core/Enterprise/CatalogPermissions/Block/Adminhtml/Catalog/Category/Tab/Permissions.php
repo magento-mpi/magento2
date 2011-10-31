@@ -107,7 +107,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     public function getPermissionCollection()
     {
         if (!$this->hasData('permission_collection')) {
-            $collection = Mage::getModel('enterprise_catalogpermissions/permission')
+            $collection = Mage::getModel('Enterprise_CatalogPermissions_Model_Permission')
                 ->getCollection()
                 ->addFieldToFilter('category_id', $this->getCategoryId())
                 ->setOrder('permission_id', 'asc');
@@ -135,7 +135,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
 
         $permissions = array();
         if ($categoryId) {
-            $index  = Mage::getModel('enterprise_catalogpermissions/permission_index')
+            $index  = Mage::getModel('Enterprise_CatalogPermissions_Model_Permission_Index')
                 ->getIndexForCategory($categoryId, null, null);
             foreach ($index as $row) {
                 $permissionKey = $row['website_id'] . '_' . $row['customer_group_id'];
@@ -148,7 +148,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
         }
 
         $websites = Mage::app()->getWebsites(false);
-        $groups   = Mage::getModel('customer/group')->getCollection()->getAllIds();
+        $groups   = Mage::getModel('Mage_Customer_Model_Group')->getCollection()->getAllIds();
 
         /* @var $helper Enterprise_CatalogPermissions_Helper_Data */
         $helper   = Mage::helper('Enterprise_CatalogPermissions_Helper_Data');

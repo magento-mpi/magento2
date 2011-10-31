@@ -60,9 +60,9 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         $shipmentId = $this->getRequest()->getParam('shipment_id');
         $orderId = $this->getRequest()->getParam('order_id');
         if ($shipmentId) {
-            $shipment = Mage::getModel('sales/order_shipment')->load($shipmentId);
+            $shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment')->load($shipmentId);
         } elseif ($orderId) {
-            $order      = Mage::getModel('sales/order')->load($orderId);
+            $order      = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
 
             /**
              * Check order existing
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                 return false;
             }
             $savedQtys = $this->_getItemQtys();
-            $shipment = Mage::getModel('sales/service_order', $order)->prepareShipment($savedQtys);
+            $shipment = Mage::getModel('Mage_Sales_Model_Service_Order', $order)->prepareShipment($savedQtys);
 
             $tracks = $this->getRequest()->getPost('tracking');
             if ($tracks) {
@@ -94,7 +94,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                     if (empty($data['number'])) {
                         Mage::throwException($this->__('Tracking number cannot be empty.'));
                     }
-                    $track = Mage::getModel('sales/order_shipment_track')
+                    $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')
                         ->addData($data);
                     $shipment->addTrack($track);
                 }
@@ -114,7 +114,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
     protected function _saveShipment($shipment)
     {
         $shipment->getOrder()->setIsInProcess(true);
-        $transactionSave = Mage::getModel('core/resource_transaction')
+        $transactionSave = Mage::getModel('Mage_Core_Model_Resource_Transaction')
             ->addObject($shipment)
             ->addObject($shipment->getOrder())
             ->save();
@@ -297,7 +297,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             }
             $shipment = $this->_initShipment();
             if ($shipment) {
-                $track = Mage::getModel('sales/order_shipment_track')
+                $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')
                     ->setNumber($number)
                     ->setCarrierCode($carrier)
                     ->setTitle($title);
@@ -336,7 +336,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
     {
         $trackId    = $this->getRequest()->getParam('track_id');
         $shipmentId = $this->getRequest()->getParam('shipment_id');
-        $track = Mage::getModel('sales/order_shipment_track')->load($trackId);
+        $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')->load($trackId);
         if ($track->getId()) {
             try {
                 if ($this->_initShipment()) {
@@ -375,7 +375,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
     {
         $trackId    = $this->getRequest()->getParam('track_id');
         $shipmentId = $this->getRequest()->getParam('shipment_id');
-        $track = Mage::getModel('sales/order_shipment_track')->load($trackId);
+        $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')->load($trackId);
         if ($track->getId()) {
             try {
                 $response = $track->getNumberDetail();
@@ -501,7 +501,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             return false;
         }
         $shipment->setPackages($this->getRequest()->getParam('packages'));
-        $response = Mage::getModel('shipping/shipping')->requestToShipment($shipment);
+        $response = Mage::getModel('Mage_Shipping_Model_Shipping')->requestToShipment($shipment);
         if ($response->hasErrors()) {
             Mage::throwException($response->getErrors());
         }
@@ -523,7 +523,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         $carrierTitle = Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
         if ($trackingNumbers) {
             foreach ($trackingNumbers as $trackingNumber) {
-                $track = Mage::getModel('sales/order_shipment_track')
+                $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')
                         ->setNumber($trackingNumber)
                         ->setCarrierCode($carrierCode)
                         ->setTitle($carrierTitle);
@@ -610,7 +610,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         $shipment = $this->_initShipment();
 
         if ($shipment) {
-            $pdf = Mage::getModel('sales/order_pdf_shipment_packaging')->getPdf($shipment);
+            $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment_Packaging')->getPdf($shipment);
             $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf',
                 $pdf->render(), 'application/pdf'
             );

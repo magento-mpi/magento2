@@ -514,7 +514,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     protected function _lookupRegionCodeFromAddress(Varien_Object $address)
     {
         if ($regionId = $address->getData('region_id')) {
-            $region = Mage::getModel('directory/region')->load($regionId);
+            $region = Mage::getModel('Mage_Directory_Model_Region')->load($regionId);
             if ($region->getId()) {
                 return $region->getCode();
             }
@@ -578,7 +578,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            Mage::getModel('core/log_adapter', 'payment_' . $this->_config->getMethodCode() . '.log')
+            Mage::getModel('Mage_Core_Model_Log_Adapter', 'payment_' . $this->_config->getMethodCode() . '.log')
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);
         }

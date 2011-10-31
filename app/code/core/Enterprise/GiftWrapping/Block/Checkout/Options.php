@@ -46,7 +46,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
     {
         if (is_null($this->_designCollection)) {
             $store = Mage::app()->getStore();
-            $this->_designCollection = Mage::getModel('enterprise_giftwrapping/wrapping')->getCollection()
+            $this->_designCollection = Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping')->getCollection()
                 ->addStoreAttributesToResult($store->getId())
                 ->applyStatusFilter()
                 ->applyWebsiteFilter($store->getWebsiteId());
@@ -332,8 +332,8 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
      */
     public function canDisplayGiftWrapping()
     {
-        $cartItems      = Mage::getModel('checkout/cart')->getItems();
-        $productModel   = Mage::getModel('catalog/product');
+        $cartItems      = Mage::getModel('Mage_Checkout_Model_Cart')->getItems();
+        $productModel   = Mage::getModel('Mage_Catalog_Model_Product');
         foreach ($cartItems as $item) {
             $product = $productModel->load($item->getProductId());
             if ($product->getGiftWrappingAvailable()) {

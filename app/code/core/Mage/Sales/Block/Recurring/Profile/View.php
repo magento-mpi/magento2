@@ -136,13 +136,13 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
             return;
         }
 
-        $options = Mage::getModel('catalog/product_option')->getCollection()
+        $options = Mage::getModel('Mage_Catalog_Model_Product_Option')->getCollection()
             ->addIdsToFilter(array_keys($request['options']))
             ->addTitleToResult($this->_profile->getInfoValue($key, 'store_id'))
             ->addValuesToResult();
 
-        $productMock = Mage::getModel('catalog/product');
-        $quoteItemOptionMock = Mage::getModel('sales/quote_item_option');
+        $productMock = Mage::getModel('Mage_Catalog_Model_Product');
+        $quoteItemOptionMock = Mage::getModel('Mage_Sales_Model_Quote_Item_Option');
         foreach ($options as $option) {
             $quoteItemOptionMock->setId($option->getId());
 
@@ -239,7 +239,7 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
             $key = 'billing_address_info';
         }
         $this->setIsAddress(true);
-        $address = Mage::getModel('sales/order_address', $this->_profile->getData($key));
+        $address = Mage::getModel('Mage_Sales_Model_Order_Address', $this->_profile->getData($key));
         $this->_addInfo(array(
             'value' => preg_replace('/\\n{2,}/', "\n", $address->getFormated()),
         ));

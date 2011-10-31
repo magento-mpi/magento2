@@ -252,7 +252,7 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
     {
         $this->_ignoreAddressValidation();
 
-        $order = Mage::getModel('sales/service_quote', $this->_quote)->submit();
+        $order = Mage::getModel('Mage_Sales_Model_Service_Quote', $this->_quote)->submit();
         $this->_quote->save();
 
         $this->_getCheckoutSession()->clear();
@@ -287,7 +287,7 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
         $lastId  = $this->_getCheckoutSession()->getLastOrderId();
         $orderId = false;
         if ($lastId) {
-            $order = Mage::getModel('sales/order');
+            $order = Mage::getModel('Mage_Sales_Model_Order');
             $order->load($lastId);
             $orderId = $order->getIncrementId();
         }

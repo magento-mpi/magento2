@@ -50,7 +50,7 @@ class Social_Facebook_Block_Start extends Mage_Core_Block_Template
         $facebookId  = $session->getData('facebook_id');
 
         $this->setPeopleCount(
-            Mage::getModel('social_facebook/facebook')->getCountByProduct($product->getId())
+            Mage::getModel('Social_Facebook_Model_Facebook')->getCountByProduct($product->getId())
         );
 
         if (!$accessToken) {
@@ -62,7 +62,7 @@ class Social_Facebook_Block_Start extends Mage_Core_Block_Template
             $actions = Mage::helper('Social_Facebook_Helper_Data')->getAllActions();
             $users  = array();
             foreach ($actions as $action) {
-                $data = Mage::getModel('social_facebook/facebook')->getLinkedFriends($facebookId, $product->getId(),
+                $data = Mage::getModel('Social_Facebook_Model_Facebook')->getLinkedFriends($facebookId, $product->getId(),
                     $action['action']);
                 if (!empty($data)) {
                     break;

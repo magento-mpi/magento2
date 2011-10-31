@@ -41,9 +41,9 @@ class Mage_XmlConnect_Block_Cart_Paypal_Mep_Totals extends Mage_Checkout_Block_C
     protected function _toHtml()
     {
         /** @var $paypalCart Mage_Paypal_Model_Cart */
-        $paypalCart = Mage::getModel('paypal/cart', array($this->getQuote()));
+        $paypalCart = Mage::getModel('Mage_Paypal_Model_Cart', array($this->getQuote()));
         /** @var $totalsXmlObj Mage_XmlConnect_Model_Simplexml_Element */
-        $totalsXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<cart_totals></cart_totals>');
+        $totalsXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<cart_totals></cart_totals>');
         foreach ($paypalCart->getTotals(true) as $code => $amount) {
             $currencyAmount = $this->helper('Mage_Core_Helper_Data')->currency($amount, false, false);
             $totalsXmlObj->addChild($code, sprintf('%01.2F', $currencyAmount));

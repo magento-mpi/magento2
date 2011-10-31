@@ -53,8 +53,8 @@ class Mage_Customer_Block_Account_Dashboard_Sidebar extends Mage_Core_Block_Temp
     public function getCartItemsCount()
     {
         if( !$this->_cartItemsCount ) {
-            $this->_cartItemsCount = Mage::getModel('sales/quote')
-                ->setId(Mage::getModel('checkout/session')->getQuote()->getId())
+            $this->_cartItemsCount = Mage::getModel('Mage_Sales_Model_Quote')
+                ->setId(Mage::getModel('Mage_Checkout_Model_Session')->getQuote()->getId())
                 ->getItemsCollection()
                 ->getSize();
         }
@@ -65,7 +65,7 @@ class Mage_Customer_Block_Account_Dashboard_Sidebar extends Mage_Core_Block_Temp
     public function getWishlist()
     {
         if( !$this->_wishlist ) {
-            $this->_wishlist = Mage::getModel('wishlist/wishlist')
+            $this->_wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')
                 ->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer());
             $this->_wishlist->getItemCollection()
                 ->addAttributeToSelect('name')

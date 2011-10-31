@@ -68,7 +68,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
     protected function _getWishlist()
     {
         try {
-            $wishlist = Mage::getModel('wishlist/wishlist')
+            $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')
                 ->loadByCustomer($this->_getCustomerSession()->getCustomer(), true);
             Mage::register('wishlist', $wishlist);
         } catch (Mage_Core_Exception $e) {
@@ -122,7 +122,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
             return;
         }
 
-        $product = Mage::getModel('catalog/product')->load($productId);
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             $this->_message($this->__('Can\'t specify product.'), self::MESSAGE_STATUS_ERROR);
             return;
@@ -167,7 +167,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
     {
         $wishlist = $this->_getWishlist();
         $id = (int) $this->getRequest()->getParam('item');
-        $item = Mage::getModel('wishlist/item')->load($id);
+        $item = Mage::getModel('Mage_Wishlist_Model_Item')->load($id);
 
         if ($item->getWishlistId() == $wishlist->getId()) {
             try {
@@ -231,7 +231,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
 
             foreach ($post['description'] as $itemId => $description) {
                 /** @var $item Mage_Wishlist_Model_Item */
-                $item = Mage::getModel('wishlist/item')->load($itemId);
+                $item = Mage::getModel('Mage_Wishlist_Model_Item')->load($itemId);
                 $description = (string) $description;
                 if ($item->getWishlistId() != $wishlist->getId()) {
                     continue;
@@ -286,7 +286,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
         $itemId     = (int)$this->getRequest()->getParam('item');
 
         /* @var $item Mage_Wishlist_Model_Item */
-        $item       = Mage::getModel('wishlist/item')->load($itemId);
+        $item       = Mage::getModel('Mage_Wishlist_Model_Item')->load($itemId);
 
         if (!$item->getId() || $item->getWishlistId() != $wishlist->getId()) {
             $this->_message($this->__('Invalid item or wishlist.'), self::MESSAGE_STATUS_ERROR);
@@ -309,7 +309,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
             ) {
                 $item->delete();
 
-                $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+                $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
                 $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
                 $message->addChild('has_required_options', 1);
                 $message->addChild('product_id', $item->getProductId());

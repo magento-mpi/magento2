@@ -107,7 +107,7 @@ class Mage_Paypal_Block_Iframe extends Mage_Payment_Block_Form
     {
         if (!$this->_order) {
             $incrementId = $this->_getCheckout()->getLastRealOrderId();
-            $this->_order = Mage::getModel('sales/order')
+            $this->_order = Mage::getModel('Mage_Sales_Model_Order')
                 ->loadByIncrementId($incrementId);
         }
         return $this->_order;

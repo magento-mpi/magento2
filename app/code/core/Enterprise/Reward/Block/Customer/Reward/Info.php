@@ -49,7 +49,7 @@ class Enterprise_Reward_Block_Customer_Reward_Info extends Mage_Core_Block_Templ
     {
         $customer = Mage::getSingleton('customer/session')->getCustomer();
         if ($customer && $customer->getId()) {
-            $this->_rewardInstance = Mage::getModel('enterprise_reward/reward')
+            $this->_rewardInstance = Mage::getModel('Enterprise_Reward_Model_Reward')
                 ->setCustomer($customer)
                 ->setWebsiteId(Mage::app()->getWebsite()->getId())
                 ->loadByCustomer();

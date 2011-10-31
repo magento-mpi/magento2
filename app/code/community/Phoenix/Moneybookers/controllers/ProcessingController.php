@@ -46,7 +46,7 @@ class Phoenix_Moneybookers_ProcessingController extends Mage_Core_Controller_Fro
         try {
             $session = $this->_getCheckout();
 
-            $order = Mage::getModel('sales/order');
+            $order = Mage::getModel('Mage_Sales_Model_Order');
             $order->loadByIncrementId($session->getLastRealOrderId());
             if (!$order->getId()) {
                 Mage::throwException('No order for processing found');
@@ -74,7 +74,7 @@ class Phoenix_Moneybookers_ProcessingController extends Mage_Core_Controller_Fro
      */
     public function successAction()
     {
-        $event = Mage::getModel('moneybookers/event')
+        $event = Mage::getModel('Phoenix_Moneybookers_Model_Event')
                  ->setEventData($this->getRequest()->getParams());
         try {
             $quoteId = $event->successEvent();
@@ -96,14 +96,14 @@ class Phoenix_Moneybookers_ProcessingController extends Mage_Core_Controller_Fro
      */
     public function cancelAction()
     {
-        $event = Mage::getModel('moneybookers/event')
+        $event = Mage::getModel('Phoenix_Moneybookers_Model_Event')
                  ->setEventData($this->getRequest()->getParams());
         $message = $event->cancelEvent();
 
         // set quote to active
         $session = $this->_getCheckout();
         if ($quoteId = $session->getMoneybookersQuoteId()) {
-            $quote = Mage::getModel('sales/quote')->load($quoteId);
+            $quote = Mage::getModel('Mage_Sales_Model_Quote')->load($quoteId);
             if ($quote->getId()) {
                 $quote->setIsActive(true)->save();
                 $session->setQuoteId($quoteId);
@@ -120,7 +120,7 @@ class Phoenix_Moneybookers_ProcessingController extends Mage_Core_Controller_Fro
      */
     public function statusAction()
     {
-        $event = Mage::getModel('moneybookers/event')
+        $event = Mage::getModel('Phoenix_Moneybookers_Model_Event')
             ->setEventData($this->getRequest()->getParams());
         $message = $event->processStatusEvent();
         $this->getResponse()->setBody($message);

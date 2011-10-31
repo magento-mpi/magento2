@@ -111,7 +111,7 @@ class Mage_Adminhtml_Promo_WidgetController extends Mage_Adminhtml_Controller_Ac
         $categoryId = (int) $this->getRequest()->getParam('id',false);
         $storeId    = (int) $this->getRequest()->getParam('store');
 
-        $category   = Mage::getModel('catalog/category');
+        $category   = Mage::getModel('Mage_Catalog_Model_Category');
         $category->setStoreId($storeId);
 
         if ($categoryId) {

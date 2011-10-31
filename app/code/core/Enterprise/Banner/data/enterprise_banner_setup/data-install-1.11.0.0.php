@@ -30,13 +30,13 @@ $banners = array(
 );
 
 foreach ($banners as $sortOrder => $bannerData) {
-    $banner = Mage::getModel('enterprise_banner/banner')
+    $banner = Mage::getModel('Enterprise_Banner_Model_Banner')
         ->setName($bannerData[1])
         ->setIsEnabled(1)
         ->setStoreContents(array(0 => $bannerData[2]))
         ->save();
 
-    $widgetInstance = Mage::getModel('widget/widget_instance')
+    $widgetInstance = Mage::getModel('Mage_Widget_Model_Widget_Instance')
         ->setData('page_groups', array(
             array(
                 'page_group' => 'pages',

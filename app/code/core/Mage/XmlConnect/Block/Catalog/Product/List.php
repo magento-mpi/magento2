@@ -54,7 +54,7 @@ class Mage_XmlConnect_Block_Catalog_Product_List extends Mage_XmlConnect_Block_C
      */
     public function getProductsXmlObject()
     {
-        $productsXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<products></products>');
+        $productsXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<products></products>');
         $collection     = $this->_getProductCollection();
 
         if (!$collection) {

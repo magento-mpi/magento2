@@ -41,7 +41,7 @@ class Mage_Bundle_Block_Catalog_Product_List_Partof extends Mage_Catalog_Block_P
 
     protected function _prepareData()
     {
-        $collection = Mage::getModel('catalog/product')->getResourceCollection()
+        $collection = Mage::getModel('Mage_Catalog_Model_Product')->getResourceCollection()
             ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
             ->addAttributeToSort('position', 'asc')
             ->addStoreFilter()

@@ -41,7 +41,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Contents
      */
     public function getMageTargets()
     {
-        $targets = Mage::getModel('connect/extension')->getLabelTargets();
+        $targets = Mage::getModel('Mage_Connect_Model_Extension')->getLabelTargets();
         if (!is_array($targets)) {
             $targets = array();
         }

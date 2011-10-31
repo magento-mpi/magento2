@@ -186,7 +186,7 @@ EOT;
                 foreach ($fileList as $file) {
                     $src = $themeDir . DS . $file['text'];
                     if (is_readable($src)) {
-                        $theme = Mage::getModel('xmlconnect/theme', $src);
+                        $theme = Mage::getModel('Mage_XmlConnect_Model_Theme', $src);
                         $this->_themeArray[$theme->getName()] = $theme;
                     }
                 }
@@ -217,7 +217,7 @@ EOT;
             foreach ($fileList as $file) {
                 $src = $themeDir . DS . $file['text'];
                 if (is_readable($src)) {
-                    $theme = Mage::getModel('xmlconnect/theme', $src);
+                    $theme = Mage::getModel('Mage_XmlConnect_Model_Theme', $src);
                     $defaultThemeArray[$theme->getName()] = $theme;
                 }
             }

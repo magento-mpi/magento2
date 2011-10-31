@@ -68,7 +68,7 @@ class Mage_Log_Model_Resource_Visitor_Online extends Mage_Core_Model_Resource_Db
 
             // retrieve online visitors general data
 
-            $lastDate = Mage::getModel('core/date')->gmtTimestamp() - $object->getOnlineInterval() * 60;
+            $lastDate = Mage::getModel('Mage_Core_Model_Date')->gmtTimestamp() - $object->getOnlineInterval() * 60;
 
             $select = $readAdapter->select()
                 ->from(

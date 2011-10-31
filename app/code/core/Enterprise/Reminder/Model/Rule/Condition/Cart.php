@@ -47,7 +47,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
      */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('enterprise_reminder/rule_condition_cart_combine')->getNewChildSelectOptions();
+        return Mage::getModel('Enterprise_Reminder_Model_Rule_Condition_Cart_Combine')->getNewChildSelectOptions();
     }
 
     /**
@@ -133,7 +133,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
-        $currentTime = Mage::getModel('core/date')->gmtDate('Y-m-d');
+        $currentTime = Mage::getModel('Mage_Core_Model_Date')->gmtDate('Y-m-d');
         $daysDiffSql = Mage::getResourceHelper('Enterprise_Reminder')
             ->getDateDiff('quote.updated_at', $select->getAdapter()->formatDate($currentTime));
 
@@ -145,7 +145,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
                 if ($conditionValue > 0) {
                     $conditionValue--;
                 } else {
-                    $currentTime = Mage::getModel('core/date')->gmtDate();
+                    $currentTime = Mage::getModel('Mage_Core_Model_Date')->gmtDate();
                     $daysDiffSql = Mage::getResourceHelper('Enterprise_Reminder')
                         ->getDateDiff('quote.updated_at', $select->getAdapter()->formatDate($currentTime));
                 }

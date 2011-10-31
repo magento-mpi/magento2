@@ -75,7 +75,7 @@ class Enterprise_WebsiteRestriction_IndexController extends Mage_Core_Controller
             /**
              * Generating page and save it to cache
              */
-            $page = Mage::getModel('cms/page')
+            $page = Mage::getModel('Mage_Cms_Model_Page')
                 ->load(Mage::getStoreConfig($this->_stubPageIdentifier), 'identifier');
 
             Mage::register('restriction_landing_page', $page);

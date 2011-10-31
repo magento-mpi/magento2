@@ -27,7 +27,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Shipping_Taxclass
 {
     public function toOptionArray()
     {
-        $options = Mage::getModel('tax/class_source_product')->toOptionArray();
+        $options = Mage::getModel('Mage_Tax_Model_Class_Source_Product')->toOptionArray();
         //array_unshift($options, array('value'=>'', 'label' => Mage::helper('Mage_Tax_Helper_Data')->__('None')));
         return $options;
     }

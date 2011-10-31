@@ -75,7 +75,7 @@ class Mage_Core_Model_Observer
                 }
 
                 $date = date('Y-m-d H:i:s');
-                Mage::getModel('adminnotification/inbox')->parse(array(
+                Mage::getModel('Mage_AdminNotification_Model_Inbox')->parse(array(
                     array(
                         'severity'      => $severity,
                         'date_added'    => $date,

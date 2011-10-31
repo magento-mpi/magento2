@@ -70,8 +70,8 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
     public function createAction()
     {
         try {
-            $backupDb = Mage::getModel('backup/db');
-            $backup   = Mage::getModel('backup/backup')
+            $backupDb = Mage::getModel('Mage_Backup_Model_Db');
+            $backup   = Mage::getModel('Mage_Backup_Model_Backup')
                 ->setTime(time())
                 ->setType('db')
                 ->setPath(Mage::getBaseDir("var") . DS . "backups");
@@ -92,7 +92,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
      */
     public function downloadAction()
     {
-        $backup = Mage::getModel('backup/backup')
+        $backup = Mage::getModel('Mage_Backup_Model_Backup')
             ->setTime((int)$this->getRequest()->getParam('time'))
             ->setType($this->getRequest()->getParam('type'))
             ->setPath(Mage::getBaseDir("var") . DS . "backups");
@@ -118,7 +118,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
     public function deleteAction()
     {
         try {
-            $backup = Mage::getModel('backup/backup')
+            $backup = Mage::getModel('Mage_Backup_Model_Backup')
                 ->setTime((int)$this->getRequest()->getParam('time'))
                 ->setType($this->getRequest()->getParam('type'))
                 ->setPath(Mage::getBaseDir("var") . DS . "backups")

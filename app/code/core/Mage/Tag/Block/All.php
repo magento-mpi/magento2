@@ -43,7 +43,7 @@ class Mage_Tag_Block_All extends Mage_Core_Block_Template
     {
         if (empty($this->_tags)) {
             $this->_tags = array();
-            $tags = Mage::getModel('tag/tag')->getPopularCollection()
+            $tags = Mage::getModel('Mage_Tag_Model_Tag')->getPopularCollection()
                 ->joinFields(Mage::app()->getStore()->getId())
                 ->limit(100)
                 ->load()

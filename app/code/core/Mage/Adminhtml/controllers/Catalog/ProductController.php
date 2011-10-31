@@ -62,7 +62,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
              ->_title($this->__('Manage Products'));
 
         $productId  = (int) $this->getRequest()->getParam('id');
-        $product    = Mage::getModel('catalog/product')
+        $product    = Mage::getModel('Mage_Catalog_Model_Product')
             ->setStoreId($this->getRequest()->getParam('store', 0));
 
         if (!$productId) {
@@ -109,7 +109,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             && !is_array($this->getRequest()->getParam('product'))
             && $this->getRequest()->getParam('id', false) === false) {
 
-            $configProduct = Mage::getModel('catalog/product')
+            $configProduct = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStoreId(0)
                 ->load($this->getRequest()->getParam('product'))
                 ->setTypeId($this->getRequest()->getParam('type'));
@@ -485,7 +485,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 $productData['stock_data']['use_config_manage_stock'] = 0;
             }
             /* @var $product Mage_Catalog_Model_Product */
-            $product = Mage::getModel('catalog/product');
+            $product = Mage::getModel('Mage_Catalog_Model_Product');
             $product->setData('_edit_mode', true);
             if ($storeId = $this->getRequest()->getParam('store')) {
                 $product->setStoreId($storeId);
@@ -716,7 +716,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                  */
                 if (isset($data['copy_to_stores'])) {
                     foreach ($data['copy_to_stores'] as $storeTo=>$storeFrom) {
-                        $newProduct = Mage::getModel('catalog/product')
+                        $newProduct = Mage::getModel('Mage_Catalog_Model_Product')
                             ->setStoreId($storeFrom)
                             ->load($productId)
                             ->setStoreId($storeTo)
@@ -724,7 +724,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                     }
                 }
 
-                Mage::getModel('catalogrule/rule')->applyAllRulesToProduct($productId);
+                Mage::getModel('Mage_CatalogRule_Model_Rule')->applyAllRulesToProduct($productId);
 
                 $this->_getSession()->addSuccess($this->__('The product has been saved.'));
             } catch (Mage_Core_Exception $e) {
@@ -789,7 +789,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function deleteAction()
     {
         if ($id = $this->getRequest()->getParam('id')) {
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->load($id);
             $sku = $product->getSku();
             try {
@@ -932,7 +932,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function _validateMassStatus(array $productIds, $status)
     {
         if ($status == Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
-            if (!Mage::getModel('catalog/product')->isProductsHasSku($productIds)) {
+            if (!Mage::getModel('Mage_Catalog_Model_Product')->isProductsHasSku($productIds)) {
                 throw new Mage_Core_Exception(
                     $this->__('Some of the processed products have no SKU value defined. Please fill it prior to performing operations on these products.')
                 );
@@ -957,7 +957,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $result = array();
 
         /* @var $configurableProduct Mage_Catalog_Model_Product */
-        $configurableProduct = Mage::getModel('catalog/product')
+        $configurableProduct = Mage::getModel('Mage_Catalog_Model_Product')
             ->setStoreId(Mage_Core_Model_App::ADMIN_STORE_ID)
             ->load($this->getRequest()->getParam('product'));
 
@@ -969,7 +969,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         /* @var $product Mage_Catalog_Model_Product */
 
-        $product = Mage::getModel('catalog/product')
+        $product = Mage::getModel('Mage_Catalog_Model_Product')
             ->setStoreId(0)
             ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
             ->setAttributeSetId($configurableProduct->getAttributeSetId());

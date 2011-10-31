@@ -64,7 +64,7 @@ class Find_Feed_Block_Adminhtml_List_Items_Grid  extends Mage_Adminhtml_Block_Wi
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('catalog/product')->getCollection()
+        $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
             ->setStore($this->_getStore())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
@@ -136,7 +136,7 @@ class Find_Feed_Block_Adminhtml_List_Items_Grid  extends Mage_Adminhtml_Block_Wi
             'index'             => 'price'
         ));
 
-        $source = Mage::getModel('eav/entity_attribute_source_boolean');
+        $source = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Source_Boolean');
         $isImportedOptions = $source->getOptionArray();
 
         $this->addColumn('is_imported', array(

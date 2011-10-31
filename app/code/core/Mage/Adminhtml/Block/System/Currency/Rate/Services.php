@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_System_Currency_Rate_Services extends Mage_Adminhtml_
     {
         $this->setChild('import_services',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
-            ->setOptions(Mage::getModel('adminhtml/system_config_source_currency_service')->toOptionArray(0))
+            ->setOptions(Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Currency_Service')->toOptionArray(0))
             ->setId('rate_services')
             ->setName('rate_services')
             ->setValue(Mage::getSingleton('adminhtml/session')->getCurrencyRateService(true))

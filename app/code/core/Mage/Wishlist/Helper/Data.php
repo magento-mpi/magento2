@@ -110,7 +110,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
                 $this->_wishlist = Mage::registry('wishlist');
             }
             else {
-                $this->_wishlist = Mage::getModel('wishlist/wishlist');
+                $this->_wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist');
                 if ($this->_getCustomerSession()->isLoggedIn()) {
                     $this->_wishlist->loadByCustomer($this->_getCustomerSession()->getCustomer());
                 }

@@ -103,7 +103,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
                         ->load($productId);
 
                     if ($product->getId()) {
-                        Mage::getModel('googlebase/item')
+                        Mage::getModel('Mage_GoogleBase_Model_Item')
                             ->setProduct($product)
                             ->insertItem()
                             ->save();
@@ -144,7 +144,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
 
         try {
             foreach ($itemIds as $itemId) {
-                $item = Mage::getModel('googlebase/item')->load($itemId);
+                $item = Mage::getModel('Mage_GoogleBase_Model_Item')->load($itemId);
                 if ($item->getId()) {
                     $item->deleteItem();
                     $item->delete();
@@ -181,7 +181,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
         try {
             if (!empty($itemIds) && is_array($itemIds)) {
                 foreach ($itemIds as $itemId) {
-                    $item = Mage::getModel('googlebase/item')->load($itemId);
+                    $item = Mage::getModel('Mage_GoogleBase_Model_Item')->load($itemId);
                     if ($item->getId()) {
                         $item->activateItem();
                         $totalPublished++;
@@ -217,7 +217,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
 
         try {
             foreach ($itemIds as $itemId) {
-                $item = Mage::getModel('googlebase/item')->load($itemId);
+                $item = Mage::getModel('Mage_GoogleBase_Model_Item')->load($itemId);
                 if ($item->getId()) {
                     $item->hideItem();
                     $totalHidden++;
@@ -255,7 +255,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
         try {
             $itemIds = $this->getRequest()->getParam('item');
             foreach ($itemIds as $itemId) {
-                $item = Mage::getModel('googlebase/item')->load($itemId);
+                $item = Mage::getModel('Mage_GoogleBase_Model_Item')->load($itemId);
 
                 $stats = Mage::getSingleton('googlebase/service_feed')->getItemStats($item->getGbaseItemId(), $storeId);
                 if ($stats === null) {
@@ -305,7 +305,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
     {
         $storeId = $this->_getStore()->getId();
         try {
-            Mage::getModel('googlebase/service')->getClient(
+            Mage::getModel('Mage_GoogleBase_Model_Service')->getClient(
                 $storeId,
                 Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('captcha_token')),
                 $this->getRequest()->getParam('user_confirm')

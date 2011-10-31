@@ -266,7 +266,7 @@ class Mage_Reports_Model_Resource_Report_Collection
      */
     public function initReport($modelClass)
     {
-        $this->_model = Mage::getModel('reports/report')
+        $this->_model = Mage::getModel('Mage_Reports_Model_Report')
             ->setPageSize($this->getPageSize())
             ->setStoreIds($this->getStoreIds())
             ->initCollection($modelClass);

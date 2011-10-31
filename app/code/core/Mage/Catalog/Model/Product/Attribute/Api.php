@@ -49,7 +49,7 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
         $this->_ignoredAttributeCodes[] = 'type_id';
         $this->_ignoredAttributeTypes[] = 'gallery';
         $this->_ignoredAttributeTypes[] = 'media_image';
-        $this->_entityTypeId = Mage::getModel('eav/entity')->setType('catalog_product')->getTypeId();
+        $this->_entityTypeId = Mage::getModel('Mage_Eav_Model_Entity')->setType('catalog_product')->getTypeId();
     }
 
     /**
@@ -60,7 +60,7 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
      */
     public function items($setId)
     {
-        $attributes = Mage::getModel('catalog/product')->getResource()
+        $attributes = Mage::getModel('Mage_Catalog_Model_Product')->getResource()
                 ->loadAllAttributes()
                 ->getSortedAttributes($setId);
         $result = array();
@@ -101,7 +101,7 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
     public function options($attributeId, $store = null)
     {
         $storeId = $this->_getStoreId($store);
-        $attribute = Mage::getModel('catalog/product')
+        $attribute = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStoreId($storeId)
                 ->getResource()
                 ->getAttribute($attributeId);
@@ -134,7 +134,7 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
      */
     public function types()
     {
-        return Mage::getModel('catalog/product_attribute_source_inputtype')->toOptionArray();
+        return Mage::getModel('Mage_Catalog_Model_Product_Attribute_Source_Inputtype')->toOptionArray();
     }
 
     /**
@@ -146,7 +146,7 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
     public function create($data)
     {
         /** @var $model Mage_Catalog_Model_Resource_Eav_Attribute */
-        $model = Mage::getModel('catalog/resource_eav_attribute');
+        $model = Mage::getModel('Mage_Catalog_Model_Resource_Eav_Attribute');
         /** @var $helper Mage_Catalog_Helper_Product */
         $helper = Mage::helper('Mage_Catalog_Helper_Product');
 

@@ -60,7 +60,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
              ->_title($this->__('Users'));
 
         $id = $this->getRequest()->getParam('user_id');
-        $model = Mage::getModel('api/user');
+        $model = Mage::getModel('Mage_Api_Model_User');
 
         if ($id) {
             $model->load($id);
@@ -94,7 +94,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
     {
         if ($data = $this->getRequest()->getPost()) {
             $id = $this->getRequest()->getPost('user_id', false);
-            $model = Mage::getModel('api/user')->load($id);
+            $model = Mage::getModel('Mage_Api_Model_User')->load($id);
             if (!$model->getId() && $id) {
                 Mage::getSingleton('adminhtml/session')->addError($this->__('This user no longer exists.'));
                 $this->_redirect('*/*/');
@@ -137,7 +137,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
         if ($id = $this->getRequest()->getParam('user_id')) {
 
             try {
-                $model = Mage::getModel('api/user')->load($id);
+                $model = Mage::getModel('Mage_Api_Model_User')->load($id);
                 $model->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The user has been deleted.'));
                 $this->_redirect('*/*/');
@@ -156,7 +156,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
     public function rolesGridAction()
     {
         $id = $this->getRequest()->getParam('user_id');
-        $model = Mage::getModel('api/user');
+        $model = Mage::getModel('Mage_Api_Model_User');
 
         if ($id) {
             $model->load($id);

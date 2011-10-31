@@ -200,7 +200,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
             $carrier    = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($carrierCode, $storeId);
             $countryId  = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddressModel($storeId)->getCountryId();
 
-            $order              = Mage::getModel('sales/order')->load($this->getRma()->getOrderId());
+            $order              = Mage::getModel('Mage_Sales_Model_Order')->load($this->getRma()->getOrderId());
             $shipperAddress     = $order->getShippingAddress();
              if ($carrier) {
                 $params = new Varien_Object(array(
@@ -242,7 +242,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
      */
     public function getShippingCarrierUspsSourceSize()
     {
-        return Mage::getModel('usa/shipping_carrier_usps_source_size')->toOptionArray();
+        return Mage::getModel('Mage_Usa_Model_Shipping_Carrier_Usps_Source_Size')->toOptionArray();
     }
 
     /**

@@ -50,7 +50,7 @@ class Social_Facebook_IndexController extends Mage_Core_Controller_Front_Action
         $session    = Mage::getSingleton('core/session');
         $action     = $this->getRequest()->getParam('action');
         $productId  = $this->getRequest()->getParam('productId');
-        $product    = Mage::getModel('catalog/product')->load($productId);
+        $product    = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
         $productUrl = $product->getUrlModel()->getUrlInStore($product);
 
         $session->setData('product_id', $productId);
@@ -87,7 +87,7 @@ class Social_Facebook_IndexController extends Mage_Core_Controller_Front_Action
     {
         $productId = (int)$this->getRequest()->getParam('id');
         if ($productId) {
-            $product = Mage::getModel('catalog/product')->load($productId);
+            $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
 
             if ($product->getId()) {
                 Mage::register('product', $product);

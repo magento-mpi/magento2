@@ -58,7 +58,7 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Catalog_Abstract
         //customer group id
         $customerGroupId = $this->_getCustomerGroupId();
 
-        $product = Mage::getModel('catalog/product');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
 
         $fields = array(
             'final_price',
@@ -82,7 +82,7 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Catalog_Abstract
         $title = Mage::helper('Mage_Rss_Helper_Data')->__('%s - Special Products', Mage::app()->getStore()->getFrontendName());
         $lang = Mage::getStoreConfig('general/locale/code');
 
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = Mage::getModel('Mage_Rss_Model_Rss');
         $data = array('title' => $title,
                 'description' => $title,
                 'link'        => $newurl,

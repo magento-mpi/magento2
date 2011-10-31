@@ -350,7 +350,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
 
 
         if (is_numeric($request->getOrigState())) {
-            $r->setOrigState(Mage::getModel('directory/region')->load($request->getOrigState())->getCode());
+            $r->setOrigState(Mage::getModel('Mage_Directory_Model_Region')->load($request->getOrigState())->getCode());
         } else {
             $r->setOrigState($request->getOrigState());
         }
@@ -841,12 +841,12 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
             }
             return $result;
         } else {
-            $result = Mage::getModel('shipping/rate_result');
+            $result = Mage::getModel('Mage_Shipping_Model_Rate_Result');
             if ($this->_dhlRates) {
                 foreach ($this->_dhlRates as $rate) {
                     $method = $rate['service'];
                     $data = $rate['data'];
-                    $rate = Mage::getModel('shipping/rate_result_method');
+                    $rate = Mage::getModel('Mage_Shipping_Model_Rate_Result_Method');
                     $rate->setCarrier('dhl');
                     $rate->setCarrierTitle($this->getConfigData('title'));
                     $rate->setMethod($method);
@@ -856,7 +856,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
                     $result->append($rate);
                 }
             } else if (!empty($this->_errors)) {
-                $error = Mage::getModel('shipping/rate_result_error');
+                $error = Mage::getModel('Mage_Shipping_Model_Rate_Result_Error');
                 $error->setCarrier('dhl');
                 $error->setCarrierTitle($this->getConfigData('title'));
                 $error->setErrorMessage($this->getConfigData('specificerrmsg'));
@@ -1220,10 +1220,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
             }
         }
 
-        $result = Mage::getModel('shipping/tracking_result');
+        $result = Mage::getModel('Mage_Shipping_Model_Tracking_Result');
         if ($errorArr || $resultArr) {
             foreach ($errorArr as $t => $r) {
-                $error = Mage::getModel('shipping/tracking_result_error');
+                $error = Mage::getModel('Mage_Shipping_Model_Tracking_Result_Error');
                 $error->setCarrier('dhl');
                 $error->setCarrierTitle($this->getConfigData('title'));
                 $error->setTracking($t);
@@ -1232,7 +1232,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
             }
 
             foreach ($resultArr as $t => $data) {
-                $tracking = Mage::getModel('shipping/tracking_result_status');
+                $tracking = Mage::getModel('Mage_Shipping_Model_Tracking_Result_Status');
                 $tracking->setCarrier('dhl');
                 $tracking->setCarrierTitle($this->getConfigData('title'));
                 $tracking->setTracking($t);
@@ -1242,7 +1242,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
             }
         } else {
             foreach ($trackings as $t) {
-                $error = Mage::getModel('shipping/tracking_result_error');
+                $error = Mage::getModel('Mage_Shipping_Model_Tracking_Result_Error');
                 $error->setCarrier('dhl');
                 $error->setCarrierTitle($this->getConfigData('title'));
                 $error->setTracking($t);

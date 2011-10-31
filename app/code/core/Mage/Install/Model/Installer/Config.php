@@ -65,7 +65,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
     public function install()
     {
         $data = $this->getConfigData();
-        foreach (Mage::getModel('core/config')->getDistroServerVars() as $index=>$value) {
+        foreach (Mage::getModel('Mage_Core_Model_Config')->getDistroServerVars() as $index=>$value) {
             if (!isset($data[$index])) {
                 $data[$index] = $value;
             }

@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag_Customer extends Mage_Ad
     protected function _prepareCollection()
     {
         if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_Tag')) {
-            $collection = Mage::getModel('tag/tag')
+            $collection = Mage::getModel('Mage_Tag_Model_Tag')
                 ->getCustomerCollection()
                 ->addProductFilter($this->getProductId())
                 ->addGroupByTag()

@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Mage_Adminhtml_Blo
             return parent::_toHtml();
         }
 
-        $collection = Mage::getModel('poll/poll_answer')
+        $collection = Mage::getModel('Mage_Poll_Model_Poll_Answer')
             ->getResourceCollection()
             ->addPollFilter(Mage::registry('poll_data')->getId())
             ->load();

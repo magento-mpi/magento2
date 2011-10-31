@@ -67,7 +67,7 @@ class Mage_Sales_Model_Order_Config extends Mage_Core_Model_Config_Base
     {
         $status = false;
         if ($stateNode = $this->_getState($state)) {
-            $status = Mage::getModel('sales/order_status')
+            $status = Mage::getModel('Mage_Sales_Model_Order_Status')
                 ->loadDefaultByState($state);
             $status = $status->getStatus();
         }
@@ -82,7 +82,7 @@ class Mage_Sales_Model_Order_Config extends Mage_Core_Model_Config_Base
      */
     public function getStatusLabel($code)
     {
-        $status = Mage::getModel('sales/order_status')
+        $status = Mage::getModel('Mage_Sales_Model_Order_Status')
             ->load($code);
         return $status->getStoreLabel();
     }

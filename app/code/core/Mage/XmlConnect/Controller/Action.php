@@ -96,7 +96,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
             return;
         }
         /** @var $appModel Mage_XmlConnect_Model_Application */
-        $appModel = Mage::getModel('xmlconnect/application')->loadByCode($appCode);
+        $appModel = Mage::getModel('Mage_XmlConnect_Model_Application')->loadByCode($appCode);
         $appModel->setScreenSize($screenSize);
         if ($appModel && $appModel->getId()) {
             Mage::app()->setCurrentStore(
@@ -141,7 +141,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
     protected function _message($text, $status, $children = array())
     {
         /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
-        $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+        $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
         $message->addCustomChild('status', $status);
         $message->addCustomChild('text', $text);
 

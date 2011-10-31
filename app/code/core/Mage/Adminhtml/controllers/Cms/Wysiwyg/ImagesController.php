@@ -202,7 +202,7 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
     public function getStorage()
     {
         if (!Mage::registry('storage')) {
-            $storage = Mage::getModel('cms/wysiwyg_images_storage');
+            $storage = Mage::getModel('Mage_Cms_Model_Wysiwyg_Images_Storage');
             Mage::register('storage', $storage);
         }
         return Mage::registry('storage');

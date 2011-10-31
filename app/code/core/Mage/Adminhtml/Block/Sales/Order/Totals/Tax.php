@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Sales_Order_Totals_Tax extends Mage_Tax_Block_Sales_O
         if ($source instanceof Mage_Sales_Model_Order) {
             $taxClassAmount = Mage::helper('Mage_Tax_Helper_Data')->getCalculatedTaxes($source);
             if (empty($taxClassAmount)) {
-                $rates = Mage::getModel('sales/order_tax')->getCollection()->loadByOrder($source)->toArray();
+                $rates = Mage::getModel('Mage_Sales_Model_Order_Tax')->getCollection()->loadByOrder($source)->toArray();
                 $taxClassAmount =  Mage::getSingleton('tax/calculation')->reproduceProcess($rates['items']);
             } else {
                 $shippingTax    = Mage::helper('Mage_Tax_Helper_Data')->getShippingTax($source);

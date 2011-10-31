@@ -110,7 +110,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     {
         try {
             $quoteId = $this->getRequest()->getParam('quote_id');
-            $this->_quote = Mage::getModel('sales/quote')->load($quoteId);
+            $this->_quote = Mage::getModel('Mage_Sales_Model_Quote')->load($quoteId);
             $this->_initCheckout();
             $response = $this->_checkout->getShippingOptionsCallbackResponse($this->getRequest()->getParams());
             $this->getResponse()->setBody($response);
@@ -129,7 +129,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             // TODO verify if this logic of order cancelation is deprecated
             // if there is an order - cancel it
             $orderId = $this->_getCheckoutSession()->getLastOrderId();
-            $order = ($orderId) ? Mage::getModel('sales/order')->load($orderId) : false;
+            $order = ($orderId) ? Mage::getModel('Mage_Sales_Model_Order')->load($orderId) : false;
             if ($order && $order->getId() && $order->getQuoteId() == $this->_getCheckoutSession()->getQuoteId()) {
                 $order->cancel()->save();
                 $this->_getCheckoutSession()

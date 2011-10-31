@@ -43,7 +43,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
         $this->_title($this->__('Rewrite Rules'));
 
         // initialize urlrewrite, product and category models
-        Mage::register('current_urlrewrite', Mage::getModel('core/url_rewrite')
+        Mage::register('current_urlrewrite', Mage::getModel('Mage_Core_Model_Url_Rewrite')
             ->load($this->getRequest()->getParam('id', 0))
         );
         $productId  = $this->getRequest()->getParam('product', 0);
@@ -53,8 +53,8 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
             $categoryId = Mage::registry('current_urlrewrite')->getCategoryId();
         }
 
-        Mage::register('current_product', Mage::getModel('catalog/product')->load($productId));
-        Mage::register('current_category', Mage::getModel('catalog/category')->load($categoryId));
+        Mage::register('current_product', Mage::getModel('Mage_Catalog_Model_Product')->load($productId));
+        Mage::register('current_category', Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId));
 
         return $this;
     }

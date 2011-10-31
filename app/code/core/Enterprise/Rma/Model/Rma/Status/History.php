@@ -62,7 +62,7 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
     public function getRma()
     {
         if (!$this->hasData('rma') && $this->getRmaEntityId()) {
-            $rma = Mage::getModel('enterprise_rma/rma')->load($this->getRmaEntityId());
+            $rma = Mage::getModel('Enterprise_Rma_Model_Rma')->load($this->getRmaEntityId());
             $this->setData('rma', $rma);
         }
         return $this->getData('rma');
@@ -137,7 +137,7 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        $mailTemplate = Mage::getModel('core/email_template');
+        $mailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
         /* @var $mailTemplate Mage_Core_Model_Email_Template */
         $copyTo = $configRmaEmail->getCopyTo();
         $copyMethod = $configRmaEmail->getCopyMethod();

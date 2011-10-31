@@ -170,7 +170,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
     {
         if (empty($this->_blocks)) {
             /* @var $update Mage_Core_Model_Layout_Update */
-            $update = Mage::getModel('core/layout')->getUpdate();
+            $update = Mage::getModel('Mage_Core_Model_Layout')->getUpdate();
             /* @var $layoutHandles Mage_Core_Model_Layout_Element */
             $this->_layoutHandlesXml = $update->getFileLayoutUpdatesXml(
                 $this->getArea(),

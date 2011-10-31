@@ -45,7 +45,7 @@ class Enterprise_GiftCardAccount_CartController extends Mage_Core_Controller_Fro
         if (isset($data['giftcard_code'])) {
             $code = $data['giftcard_code'];
             try {
-                Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
+                Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
                     ->loadByCode($code)
                     ->addToCart();
                 Mage::getSingleton('checkout/session')->addSuccess(
@@ -67,7 +67,7 @@ class Enterprise_GiftCardAccount_CartController extends Mage_Core_Controller_Fro
     {
         if ($code = $this->getRequest()->getParam('code')) {
             try {
-                Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
+                Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
                     ->loadByCode($code)
                     ->removeFromCart();
                 Mage::getSingleton('checkout/session')->addSuccess(
@@ -102,7 +102,7 @@ class Enterprise_GiftCardAccount_CartController extends Mage_Core_Controller_Fro
     public function quickCheckAction()
     {
         /* @var $card Enterprise_GiftCardAccount_Model_Giftcardaccount */
-        $card = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
+        $card = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
             ->loadByCode($this->getRequest()->getParam('giftcard_code', ''));
         Mage::register('current_giftcardaccount', $card);
         try {

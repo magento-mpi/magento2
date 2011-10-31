@@ -145,7 +145,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
 
     protected function _getAttributeSetsArray($targetCountry)
     {
-        $entityType = Mage::getModel('catalog/product')->getResource()->getEntityType();
+        $entityType = Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getEntityType();
         $collection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter($entityType->getId());
 
@@ -171,7 +171,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
 
     protected function _getGbaseItemTypesArray($targetCountry)
     {
-        $itemTypes = Mage::getModel('googlebase/service_feed')->getItemTypes($targetCountry);
+        $itemTypes = Mage::getModel('Mage_GoogleBase_Model_Service_Feed')->getItemTypes($targetCountry);
         $result = array('' => '');
         foreach ($itemTypes as $type) {
             $result[$type->getId()] = $type->getName();

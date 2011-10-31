@@ -117,7 +117,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
             'index'   => 'status',
             'type'    => 'options',
             'width'   => '100px',
-            'options' => Mage::getModel('enterprise_rma/rma')->getAllStatuses()
+            'options' => Mage::getModel('Enterprise_Rma_Model_Rma')->getAllStatuses()
         ));
 
         $this->addColumn('action',

@@ -77,7 +77,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
         $product = $this->_loadProduct($productId);
 
         if ($categoryId) {
-            $category = Mage::getModel('catalog/category')->load($categoryId);
+            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
             Mage::register('current_category', $category);
         }
 
@@ -105,7 +105,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
             return false;
         }
 
-        $product = Mage::getModel('catalog/product')
+        $product = Mage::getModel('Mage_Catalog_Model_Product')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($productId);
         /* @var $product Mage_Catalog_Model_Product */
@@ -132,7 +132,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
             return false;
         }
 
-        $review = Mage::getModel('review/review')->load($reviewId);
+        $review = Mage::getModel('Mage_Review_Model_Review')->load($reviewId);
         /* @var $review Mage_Review_Model_Review */
         if (!$review->getId() || !$review->isApproved() || !$review->isAvailableOnStore(Mage::app()->getStore())) {
             return false;
@@ -162,7 +162,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
         if (($product = $this->_initProduct()) && !empty($data)) {
             $session    = Mage::getSingleton('core/session');
             /* @var $session Mage_Core_Model_Session */
-            $review     = Mage::getModel('review/review')->setData($data);
+            $review     = Mage::getModel('Mage_Review_Model_Review')->setData($data);
             /* @var $review Mage_Review_Model_Review */
 
             $validate = $review->validate();
@@ -177,7 +177,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
                         ->save();
 
                     foreach ($rating as $ratingId => $optionId) {
-                        Mage::getModel('rating/rating')
+                        Mage::getModel('Mage_Rating_Model_Rating')
                         ->setRatingId($ratingId)
                         ->setReviewId($review->getId())
                         ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())

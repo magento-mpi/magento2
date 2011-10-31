@@ -58,7 +58,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
             Mage_XmlConnect_Model_Application::APP_SCREEN_SIZE_NAME
         );
         /** @var $app Mage_XmlConnect_Model_Application */
-        $app = Mage::getModel('xmlconnect/application');
+        $app = Mage::getModel('Mage_XmlConnect_Model_Application');
         if ($app) {
             $app->loadByCode($code);
             Mage::app()->setCurrentStore(
@@ -132,7 +132,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
                 $updatedAt = strtotime($app->getUpdatedAt());
                 $loadedAt = (int) $this->getRequest()->getParam('updated_at');
                 if ($loadedAt >= $updatedAt) {
-                    $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+                    $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
                     $message->addChild('status', Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_SUCCESS);
                     $message->addChild('no_changes', '1');
                     $this->getResponse()->setBody($message->asNiceXml());
@@ -161,7 +161,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
     protected function _message($text, $status)
     {
         /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
-        $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+        $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
         $message->addCustomChild('status', $status);
         $message->addCustomChild('text', $text);
         $this->getResponse()->setBody($message->asNiceXml());

@@ -62,7 +62,7 @@ class Mage_Sales_Model_Entity_Sale_Collection extends Varien_Object implements I
 
     public function __construct()
     {
-        $this->_entity = Mage::getModel('sales_entity/order');
+        $this->_entity = Mage::getModel('Mage_Sales_Model_Entity_Order');
         $this->_read = $this->_entity->getReadConnection();
     }
 

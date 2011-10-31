@@ -92,7 +92,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
      */
     public function getShipment()
     {
-        return Mage::getModel('enterprise_rma/shipping')
+        return Mage::getModel('Enterprise_Rma_Model_Shipping')
             ->getShippingLabelByRma($this->getRma());
     }
 

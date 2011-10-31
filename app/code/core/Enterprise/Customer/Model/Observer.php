@@ -47,7 +47,7 @@ class Enterprise_Customer_Model_Observer
     {
         $quote = $observer->getEvent()->getQuote();
         if ($quote instanceof Mage_Core_Model_Abstract) {
-            Mage::getModel('enterprise_customer/sales_quote')
+            Mage::getModel('Enterprise_Customer_Model_Sales_Quote')
                 ->load($quote->getId())
                 ->attachAttributeData($quote);
         }
@@ -65,7 +65,7 @@ class Enterprise_Customer_Model_Observer
     {
         $collection = $observer->getEvent()->getQuoteAddressCollection();
         if ($collection instanceof Varien_Data_Collection_Db) {
-            Mage::getModel('enterprise_customer/sales_quote_address')
+            Mage::getModel('Enterprise_Customer_Model_Sales_Quote_Address')
                 ->attachDataToCollection($collection);
         }
 
@@ -82,7 +82,7 @@ class Enterprise_Customer_Model_Observer
     {
         $quote = $observer->getEvent()->getQuote();
         if ($quote instanceof Mage_Core_Model_Abstract) {
-            Mage::getModel('enterprise_customer/sales_quote')
+            Mage::getModel('Enterprise_Customer_Model_Sales_Quote')
                 ->saveAttributeData($quote);
         }
 
@@ -99,7 +99,7 @@ class Enterprise_Customer_Model_Observer
     {
         $quoteAddress = $observer->getEvent()->getQuoteAddress();
         if ($quoteAddress instanceof Mage_Core_Model_Abstract) {
-            Mage::getModel('enterprise_customer/sales_quote_address')
+            Mage::getModel('Enterprise_Customer_Model_Sales_Quote_Address')
                 ->saveAttributeData($quoteAddress);
         }
 
@@ -116,7 +116,7 @@ class Enterprise_Customer_Model_Observer
     {
         $order = $observer->getEvent()->getOrder();
         if ($order instanceof Mage_Core_Model_Abstract) {
-            Mage::getModel('enterprise_customer/sales_order')
+            Mage::getModel('Enterprise_Customer_Model_Sales_Order')
                 ->load($order->getId())
                 ->attachAttributeData($order);
         }
@@ -134,7 +134,7 @@ class Enterprise_Customer_Model_Observer
     {
         $collection = $observer->getEvent()->getOrderAddressCollection();
         if ($collection instanceof Varien_Data_Collection_Db) {
-            Mage::getModel('enterprise_customer/sales_order_address')
+            Mage::getModel('Enterprise_Customer_Model_Sales_Order_Address')
                 ->attachDataToCollection($collection);
         }
 
@@ -151,7 +151,7 @@ class Enterprise_Customer_Model_Observer
     {
         $order = $observer->getEvent()->getOrder();
         if ($order instanceof Mage_Core_Model_Abstract) {
-            Mage::getModel('enterprise_customer/sales_order')
+            Mage::getModel('Enterprise_Customer_Model_Sales_Order')
                 ->saveAttributeData($order);
         }
 
@@ -168,7 +168,7 @@ class Enterprise_Customer_Model_Observer
     {
         $orderAddress = $observer->getEvent()->getAddress();
         if ($orderAddress instanceof Mage_Core_Model_Abstract) {
-            Mage::getModel('enterprise_customer/sales_order_address')
+            Mage::getModel('Enterprise_Customer_Model_Sales_Order_Address')
                 ->saveAttributeData($orderAddress);
         }
 
@@ -212,9 +212,9 @@ class Enterprise_Customer_Model_Observer
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof Mage_Customer_Model_Attribute && $attribute->isObjectNew()) {
-            Mage::getModel('enterprise_customer/sales_quote')
+            Mage::getModel('Enterprise_Customer_Model_Sales_Quote')
                 ->saveNewAttribute($attribute);
-            Mage::getModel('enterprise_customer/sales_order')
+            Mage::getModel('Enterprise_Customer_Model_Sales_Order')
                 ->saveNewAttribute($attribute);
         }
 
@@ -231,9 +231,9 @@ class Enterprise_Customer_Model_Observer
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof Mage_Customer_Model_Attribute && !$attribute->isObjectNew()) {
-            Mage::getModel('enterprise_customer/sales_quote')
+            Mage::getModel('Enterprise_Customer_Model_Sales_Quote')
                 ->deleteAttribute($attribute);
-            Mage::getModel('enterprise_customer/sales_order')
+            Mage::getModel('Enterprise_Customer_Model_Sales_Order')
                 ->deleteAttribute($attribute);
         }
 
@@ -250,9 +250,9 @@ class Enterprise_Customer_Model_Observer
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof Mage_Customer_Model_Attribute && $attribute->isObjectNew()) {
-            Mage::getModel('enterprise_customer/sales_quote_address')
+            Mage::getModel('Enterprise_Customer_Model_Sales_Quote_Address')
                 ->saveNewAttribute($attribute);
-            Mage::getModel('enterprise_customer/sales_order_address')
+            Mage::getModel('Enterprise_Customer_Model_Sales_Order_Address')
                 ->saveNewAttribute($attribute);
         }
 
@@ -269,9 +269,9 @@ class Enterprise_Customer_Model_Observer
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof Mage_Customer_Model_Attribute && !$attribute->isObjectNew()) {
-            Mage::getModel('enterprise_customer/sales_quote_address')
+            Mage::getModel('Enterprise_Customer_Model_Sales_Quote_Address')
                 ->deleteAttribute($attribute);
-            Mage::getModel('enterprise_customer/sales_order_address')
+            Mage::getModel('Enterprise_Customer_Model_Sales_Order_Address')
                 ->deleteAttribute($attribute);
         }
 

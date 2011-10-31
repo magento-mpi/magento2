@@ -53,7 +53,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Paypal_Direct
     {
         $method = $this->getData('method');
         if (!$method) {
-            $method = Mage::getModel('paypal/direct');
+            $method = Mage::getModel('Mage_Paypal_Model_Direct');
             $this->setData('method', $method);
         }
 

@@ -33,4 +33,4 @@ $cmsBlock = array(
     'stores'        => 0,
 );
 
-Mage::getModel('cms/block')->setData($cmsBlock)->save();
+Mage::getModel('Mage_Cms_Model_Block')->setData($cmsBlock)->save();

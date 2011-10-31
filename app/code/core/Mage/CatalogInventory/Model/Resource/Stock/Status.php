@@ -152,7 +152,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Mage_Core_Model_
      */
     public function getWebsiteStores()
     {
-        $select = Mage::getModel('core/website')->getDefaultStoresSelect(false);
+        $select = Mage::getModel('Mage_Core_Model_Website')->getDefaultStoresSelect(false);
         return $this->_getReadAdapter()->fetchPairs($select);
     }
 

@@ -98,7 +98,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
     protected function _getTargetRuleIndex()
     {
         if (is_null($this->_index)) {
-            $this->_index = Mage::getModel('enterprise_targetrule/index');
+            $this->_index = Mage::getModel('Enterprise_TargetRule_Model_Index');
         }
         return $this->_index;
     }

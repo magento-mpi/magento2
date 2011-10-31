@@ -46,7 +46,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         $product = $this->getProduct($product);
         /* @var Mage_Catalog_Model_Product $product */
         if (is_null($product->getDownloadableLinks())) {
-            $_linkCollection = Mage::getModel('downloadable/link')->getCollection()
+            $_linkCollection = Mage::getModel('Mage_Downloadable_Model_Link')->getCollection()
                 ->addProductToFilter($product->getId())
                 ->addTitleToResult($product->getStoreId())
                 ->addPriceToResult($product->getStore()->getWebsiteId());
@@ -125,7 +125,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         $product = $this->getProduct($product);
         /* @var Mage_Catalog_Model_Product $product */
         if (is_null($product->getDownloadableSamples())) {
-            $_sampleCollection = Mage::getModel('downloadable/sample')->getCollection()
+            $_sampleCollection = Mage::getModel('Mage_Downloadable_Model_Sample')->getCollection()
                 ->addProductToFilter($product->getId())
                 ->addTitleToResult($product->getStoreId());
             $product->setDownloadableSamples($_sampleCollection);
@@ -171,7 +171,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                         if (!$sampleItem['sample_id']) {
                             unset($sampleItem['sample_id']);
                         }
-                        $sampleModel = Mage::getModel('downloadable/sample');
+                        $sampleModel = Mage::getModel('Mage_Downloadable_Model_Sample');
                         $files = array();
                         if (isset($sampleItem['file'])) {
                             $files = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($sampleItem['file']);
@@ -220,7 +220,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                             $sample = $linkItem['sample'];
                             unset($linkItem['sample']);
                         }
-                        $linkModel = Mage::getModel('downloadable/link')
+                        $linkModel = Mage::getModel('Mage_Downloadable_Model_Link')
                             ->setData($linkItem)
                             ->setLinkType($linkItem['type'])
                             ->setProductId($product->getId())
@@ -339,7 +339,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
             $buyRequest = new Varien_Object(unserialize($option->getValue()));
             if (!$buyRequest->hasLinks()) {
                 if (!$product->getLinksPurchasedSeparately()) {
-                    $allLinksIds = Mage::getModel('downloadable/link')
+                    $allLinksIds = Mage::getModel('Mage_Downloadable_Model_Link')
                         ->getCollection()
                         ->addProductToFilter($product->getId())
                         ->getAllIds();

@@ -42,7 +42,7 @@ class Mage_Adminhtml_Model_System_Config_Clone_Media_Image extends Mage_Core_Mod
      */
     public function getPrefixes()
     {
-        //$entityType = Mage::getModel('eav/entity_type');
+        //$entityType = Mage::getModel('Mage_Eav_Model_Entity_Type');
         /* @var $entityType Mage_Eav_Model_Entity_Type */
         //$entityTypeId = $entityType->loadByCode('catalog_product')->getEntityTypeId();
 

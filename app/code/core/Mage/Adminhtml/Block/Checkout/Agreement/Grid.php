@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Grid extends Mage_Adminhtml_Block_
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('checkout/agreement')
+        $collection = Mage::getModel('Mage_Checkout_Model_Agreement')
             ->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();

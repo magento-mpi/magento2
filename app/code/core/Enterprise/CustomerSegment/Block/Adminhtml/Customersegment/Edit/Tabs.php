@@ -62,7 +62,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs exten
 
         $segment = Mage::registry('current_customer_segment');
         if ($segment && $segment->getId()) {
-            $customersQty = Mage::getModel('enterprise_customersegment/segment')->getResource()
+            $customersQty = Mage::getModel('Enterprise_CustomerSegment_Model_Segment')->getResource()
                 ->getSegmentCustomersQty($segment->getId());
             $this->addTab('customers_tab', array(
                 'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Matched Customers (%d)', $customersQty),

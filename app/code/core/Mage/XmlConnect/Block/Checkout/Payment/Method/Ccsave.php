@@ -52,7 +52,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave extends Mage_Payment_
     {
         $method = $this->getData('method');
         if (!$method) {
-            $method = Mage::getModel('payment/method_ccsave');
+            $method = Mage::getModel('Mage_Payment_Model_Method_Ccsave');
             $this->setData('method', $method);
         }
 
@@ -135,7 +135,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave extends Mage_Payment_
         $verification
     </fieldset>
 EOT;
-        $fieldsetXmlObj = Mage::getModel('xmlconnect/simplexml_element', $xml);
+        $fieldsetXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', $xml);
         $formXmlObj->appendChild($fieldsetXmlObj);
     }
 }

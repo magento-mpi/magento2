@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_System_Store_Grid extends Mage_Adminhtml_Block_Widget
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('core/website')
+        $collection = Mage::getModel('Mage_Core_Model_Website')
             ->getCollection()
             ->joinGroupAndStore();
         $this->setCollection($collection);

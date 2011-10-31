@@ -119,7 +119,7 @@ class Mage_GoogleBase_Model_Resource_Item_Collection extends Mage_Core_Model_Res
     {
         $adapter = $this->getConnection();
         $entityType = Mage::getSingleton('eav/config')->getEntityType(Mage_Catalog_Model_Product::ENTITY);
-        $attribute = Mage::getModel('eav/config')->getAttribute($entityType->getEntityTypeId(), 'name');
+        $attribute = Mage::getModel('Mage_Eav_Model_Config')->getAttribute($entityType->getEntityTypeId(), 'name');
 
         $joinConditionDefault = $adapter->quoteInto('p_d.attribute_id=?', $attribute->getAttributeId()) .
             $adapter->quoteInto(' AND p_d.store_id=?', 0) . ' AND main_table.product_id=p_d.entity_id';

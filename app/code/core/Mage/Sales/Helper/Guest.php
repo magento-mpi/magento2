@@ -60,7 +60,7 @@ class Mage_Sales_Helper_Guest extends Mage_Core_Helper_Data
         $errors         = false;
 
         /** @var $order Mage_Sales_Model_Order */
-        $order = Mage::getModel('sales/order');
+        $order = Mage::getModel('Mage_Sales_Model_Order');
 
         if (empty($post) && !Mage::getSingleton('core/cookie')->get($this->_cookieName)) {
             Mage::app()->getResponse()->setRedirect(Mage::getUrl('sales/guest/form'));

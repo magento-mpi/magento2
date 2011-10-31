@@ -246,7 +246,7 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Template
      */
     public function getInclude($templateCode, array $variables)
     {
-        return Mage::getModel('newsletter/template')
+        return Mage::getModel('Mage_Newsletter_Model_Template')
             ->loadByCode($templateCode)
             ->getProcessedTemplate($variables);
     }
@@ -324,7 +324,7 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Template
         catch (Exception $e) {
             if ($subscriber instanceof Mage_Newsletter_Model_Subscriber) {
                 // If letter sent for subscriber, we create a problem report entry
-                $problem = Mage::getModel('newsletter/problem');
+                $problem = Mage::getModel('Mage_Newsletter_Model_Problem');
                 $problem->addSubscriberData($subscriber);
                 if (!is_null($queue)) {
                     $problem->addQueueData($queue);

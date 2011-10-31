@@ -61,12 +61,12 @@ class Mage_GoogleShopping_Model_MassOperations
         if (is_array($productIds)) {
             foreach ($productIds as $productId) {
                 try {
-                    $product = Mage::getModel('catalog/product')
+                    $product = Mage::getModel('Mage_Catalog_Model_Product')
                         ->setStoreId($storeId)
                         ->load($productId);
 
                     if ($product->getId()) {
-                        Mage::getModel('googleshopping/item')
+                        Mage::getModel('Mage_GoogleShopping_Model_Item')
                             ->insertItem($product)
                             ->save();
                         // The product was added successfully

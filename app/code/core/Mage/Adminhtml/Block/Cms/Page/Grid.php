@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('cms/page')->getCollection();
+        $collection = Mage::getModel('Mage_Cms_Model_Page')->getCollection();
         /* @var $collection Mage_Cms_Model_Resource_Page_Collection */
         $collection->setFirstStoreFlag(true);
         $this->setCollection($collection);

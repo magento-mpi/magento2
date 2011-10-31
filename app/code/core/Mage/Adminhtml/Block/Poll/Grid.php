@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('poll/poll')->getCollection();
+        $collection = Mage::getModel('Mage_Poll_Model_Poll')->getCollection();
         $this->setCollection($collection);
         parent::_prepareCollection();
 

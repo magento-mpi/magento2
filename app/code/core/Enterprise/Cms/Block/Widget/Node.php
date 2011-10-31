@@ -86,7 +86,7 @@ class Enterprise_Cms_Block_Widget_Node
     protected function _toHtml()
     {
         if ($this->getNodeId()) {
-            $this->_node = Mage::getModel('enterprise_cms/hierarchy_node')
+            $this->_node = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node')
                 ->load($this->getNodeId());
         } else {
             $this->_node = Mage::registry('current_cms_hierarchy_node');

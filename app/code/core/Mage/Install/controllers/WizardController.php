@@ -249,7 +249,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
             }
             $params['command'] = 'install';
             $params['options'] = array('onlyreqdeps'=>1);
-            $params['params'] = Mage::getModel('install/installer_pear')->getPackages();
+            $params['params'] = Mage::getModel('Mage_Install_Model_Installer_Pear')->getPackages();
             $params['success_callback'] = array($this, 'installSuccessCallback');
             $params['failure_callback'] = array($this, 'installFailureCallback');
         }

@@ -643,7 +643,7 @@ EOT;
         $xml           = '';
         $methods       = unserialize($methods);
         $taxHelper     = Mage::helper('Mage_Tax_Helper_Data');
-        $shippingModel = Mage::getModel('shipping/shipping');
+        $shippingModel = Mage::getModel('Mage_Shipping_Model_Shipping');
 
         foreach ($methods['method'] as $i => $method) {
             if (!$i || !$method) {
@@ -901,7 +901,7 @@ EOT;
                 $this->getQuote()->getStoreId()
             );
         }
-        return Mage::getModel('customer/group')->load($customerGroup)->getTaxClassId();
+        return Mage::getModel('Mage_Customer_Model_Group')->load($customerGroup)->getTaxClassId();
     }
 
     /**

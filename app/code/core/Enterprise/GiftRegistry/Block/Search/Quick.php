@@ -49,7 +49,7 @@ class Enterprise_GiftRegistry_Block_Search_Quick extends Mage_Core_Block_Templat
      */
     public function getTypesCollection()
     {
-        return Mage::getModel('enterprise_giftregistry/type')->getCollection()
+        return Mage::getModel('Enterprise_GiftRegistry_Model_Type')->getCollection()
             ->addStoreData(Mage::app()->getStore()->getId())
             ->applyListedFilter()
             ->applySortOrder();

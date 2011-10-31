@@ -99,7 +99,7 @@ class Enterprise_Rma_Model_Rma_Source_Status extends Enterprise_Rma_Model_Rma_So
 
         $itemStatusArray = array_unique($itemStatusArray);
 
-        $itemStatusModel = Mage::getModel('enterprise_rma/item_attribute_source_status');
+        $itemStatusModel = Mage::getModel('Enterprise_Rma_Model_Item_Attribute_Source_Status');
 
         foreach ($itemStatusArray as $status) {
             if (!$itemStatusModel->checkStatus($status)) {

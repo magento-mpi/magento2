@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Detail extends Mage_Adminhtml_Bloc
     {
         $this->_controller = 'report_tag_product_detail';
 
-        $product = Mage::getModel('catalog/product')->load($this->getRequest()->getParam('id'));
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($this->getRequest()->getParam('id'));
 
         $this->_headerText = Mage::helper('Mage_Reports_Helper_Data')->__('Tags submitted to %s', $product->getName());
         parent::__construct();

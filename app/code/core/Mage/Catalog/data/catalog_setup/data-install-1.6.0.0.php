@@ -28,7 +28,7 @@
 $installer = $this;
 
 // Create Root Catalog Node
-Mage::getModel('catalog/category')
+Mage::getModel('Mage_Catalog_Model_Category')
     ->load(1)
     ->setId(1)
     ->setStoreId(0)
@@ -41,7 +41,7 @@ Mage::getModel('catalog/category')
     ->save();
 
 /* @var $category Mage_Catalog_Model_Category */
-$category = Mage::getModel('catalog/category');
+$category = Mage::getModel('Mage_Catalog_Model_Category');
 
 $category->setStoreId(0)
     ->setName('Default Category')

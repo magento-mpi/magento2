@@ -338,7 +338,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     public function getMetaNodeByType($type)
     {
         if (!isset($this->_metaNodes[$type])) {
-            $model = Mage::getModel('enterprise_cms/hierarchy_node')
+            $model = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node')
                 ->setData($this->_getResource()->getMetaNodeDataByType($this, $type));
 
             $this->_metaNodes[$type] = $model;
@@ -400,7 +400,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
             ->setTreeIsBrief($this->_getData('tree_is_brief'))
             ->getTreeSlice($this, $up, $down);
 
-        $blankModel = Mage::getModel('enterprise_cms/hierarchy_node');
+        $blankModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
         foreach ($data as $parentId => $children) {
             foreach ($children as $childId => $child) {
                 $newModel = clone $blankModel;
@@ -417,7 +417,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     public function getParentNodeChildren()
     {
         $children = $this->_getResource()->getParentNodeChildren($this);
-        $blankModel = Mage::getModel('enterprise_cms/hierarchy_node');
+        $blankModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
         foreach ($children as $childId => $child) {
             $newModel = clone $blankModel;
             $children[$childId] = $newModel->setData($child);

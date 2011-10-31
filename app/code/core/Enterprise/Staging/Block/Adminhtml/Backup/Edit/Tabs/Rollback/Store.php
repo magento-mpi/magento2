@@ -87,7 +87,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback_Store extends
      */
     public function getWebsiteCollection()
     {
-        return Mage::getModel('core/website')->getResourceCollection();
+        return Mage::getModel('Mage_Core_Model_Website')->getResourceCollection();
     }
 
     /**

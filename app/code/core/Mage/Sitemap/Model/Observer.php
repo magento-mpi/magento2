@@ -74,7 +74,7 @@ class Mage_Sitemap_Model_Observer
             return;
         }
 
-        $collection = Mage::getModel('sitemap/sitemap')->getCollection();
+        $collection = Mage::getModel('Mage_Sitemap_Model_Sitemap')->getCollection();
         /* @var $collection Mage_Sitemap_Model_Resource_Sitemap_Collection */
         foreach ($collection as $sitemap) {
             /* @var $sitemap Mage_Sitemap_Model_Sitemap */
@@ -92,7 +92,7 @@ class Mage_Sitemap_Model_Observer
             /* @var $translate Mage_Core_Model_Translate */
             $translate->setTranslateInline(false);
 
-            $emailTemplate = Mage::getModel('core/email_template');
+            $emailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
             /* @var $emailTemplate Mage_Core_Model_Email_Template */
             $emailTemplate->setDesignConfig(array('area' => 'backend'))
                 ->sendTransactional(

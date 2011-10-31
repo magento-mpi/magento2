@@ -43,7 +43,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     protected function _initApp($paramName = 'application_id', $type = false)
     {
         $id = (int) $this->getRequest()->getParam($paramName);
-        $app = Mage::getModel('xmlconnect/application');
+        $app = Mage::getModel('Mage_XmlConnect_Model_Application');
         if ($id) {
             $app->load($id);
             if ($app->getId()) {
@@ -236,10 +236,10 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             }
             if (!$isError) {
                 $this->_processPostRequest();
-                $history = Mage::getModel('xmlconnect/history');
+                $history = Mage::getModel('Mage_XmlConnect_Model_History');
                 $history->setData(array(
                     'params' => $params, 'application_id' => $app->getId(),
-                    'created_at' => Mage::getModel('core/date')->date(), 'store_id' => $app->getStoreId(),
+                    'created_at' => Mage::getModel('Mage_Core_Model_Date')->date(), 'store_id' => $app->getStoreId(),
                     'title' => isset($params['title']) ? $params['title'] : '', 'name' => $app->getName(),
                     'code' => $app->getCode(), 'activation_key' => isset($params['resubmission_activation_key'])
                         ? $params['resubmission_activation_key'] : $params['key'],
@@ -744,7 +744,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         if ($id = $this->getRequest()->getParam('id')) {
             try {
                 // init template and delete
-                Mage::getModel('xmlconnect/template')->load($id)->delete();
+                Mage::getModel('Mage_XmlConnect_Model_Template')->load($id)->delete();
 
                 // display success message
                 Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Template has been deleted.'));
@@ -924,7 +924,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     protected function _initMessage($paramName = 'id')
     {
         $id = (int) $this->getRequest()->getParam($paramName);
-        $message = Mage::getModel('xmlconnect/queue')->load($id);
+        $message = Mage::getModel('Mage_XmlConnect_Model_Queue')->load($id);
         Mage::unregister('current_message');
         Mage::register('current_message', $message);
         return $message;
@@ -939,7 +939,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     protected function _initTemplate($paramName = 'id')
     {
         $id = (int) $this->getRequest()->getParam($paramName);
-        $template = Mage::getModel('xmlconnect/template')->load($id);
+        $template = Mage::getModel('Mage_XmlConnect_Model_Template')->load($id);
         Mage::unregister('current_template');
         Mage::register('current_template', $template);
         return $template;
@@ -1050,7 +1050,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
              Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please select message(s).'));
         } else {
             try {
-                $queue = Mage::getModel('xmlconnect/queue');
+                $queue = Mage::getModel('Mage_XmlConnect_Model_Queue');
                 foreach ($queueIds as $queueId) {
                     $queue->reset()->load((int)$queueId)->setStatus(Mage_XmlConnect_Model_Queue::STATUS_CANCELED)
                         ->save();
@@ -1078,7 +1078,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
              Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please select message(s).'));
         } else {
             try {
-                $queue = Mage::getModel('xmlconnect/queue');
+                $queue = Mage::getModel('Mage_XmlConnect_Model_Queue');
                 foreach ($queueIds as $queueId) {
                     $queue->reset()->load($queueId)->setStatus(Mage_XmlConnect_Model_Queue::STATUS_DELETED)->save();
                 }
@@ -1106,7 +1106,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
         if ($data) {
             try {
-                $data = Mage::getModel('core/input_filter_maliciousCode')->filter($data);
+                $data = Mage::getModel('Mage_Core_Model_Input_Filter_MaliciousCode')->filter($data);
                 $template = $this->_initTemplate('template_id');
                 $message = $this->_initMessage();
 
@@ -1117,7 +1117,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 }
 
                 /** @var $app Mage_XmlConnect_Model_Application */
-                $app = Mage::getModel('xmlconnect/application')->loadByCode($template->getAppCode());
+                $app = Mage::getModel('Mage_XmlConnect_Model_Application')->loadByCode($template->getAppCode());
                 $deviceType = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceType($app);
 
                 if ($deviceType == Mage_XmlConnect_Helper_Data::DEVICE_TYPE_ANDROID
@@ -1266,7 +1266,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         $template = false;
         $isError = false;
         if ($data) {
-            $data = Mage::getModel('core/input_filter_maliciousCode')->filter($data);
+            $data = Mage::getModel('Mage_Core_Model_Input_Filter_MaliciousCode')->filter($data);
             Mage::getSingleton('adminhtml/session')->setTemplateFormData($data);
             try {
                 $id = $this->getRequest()->getParam('id');
@@ -1315,11 +1315,11 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         if (isset($template)) {
             $appCode = $template->getAppCode();
         } else {
-            $appCode = Mage::getModel('xmlconnect/template')->load($message->getTemplateId())->getAppCode();
+            $appCode = Mage::getModel('Mage_XmlConnect_Model_Template')->load($message->getTemplateId())->getAppCode();
         }
 
         /** @var $app Mage_XmlConnect_Model_Application */
-        $app = Mage::getModel('xmlconnect/application')->loadByCode($appCode);
+        $app = Mage::getModel('Mage_XmlConnect_Model_Application')->loadByCode($appCode);
 
         if(!$app->isNotificationsActive()) {
             $this->_getSession()->addError(

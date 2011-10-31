@@ -61,7 +61,7 @@ class Mage_Authorizenet_Model_Directpost_Observer
 
         if ($order && $order->getId()) {
             $payment = $order->getPayment();
-            if ($payment && $payment->getMethod() == Mage::getModel('authorizenet/directpost')->getCode()) {
+            if ($payment && $payment->getMethod() == Mage::getModel('Mage_Authorizenet_Model_Directpost')->getCode()) {
                 /* @var $controller Mage_Core_Controller_Varien_Action */
                 $controller = $observer->getEvent()->getData('controller_action');
                 $result = Mage::helper('Mage_Core_Helper_Data')->jsonDecode(

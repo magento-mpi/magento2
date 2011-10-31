@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('tax/calculation_rule')
+        $collection = Mage::getModel('Mage_Tax_Model_Calculation_Rule')
             ->getCollection();
         $this->setCollection($collection);
         parent::_prepareCollection();
@@ -91,7 +91,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'filter_index' => 'ctc.customer_tax_class_id',
                 'type'    => 'options',
                 'show_missing_option_values' => true,
-                'options' => Mage::getModel('tax/class')->getCollection()->setClassTypeFilter(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER)->toOptionHash(),
+                'options' => Mage::getModel('Mage_Tax_Model_Class')->getCollection()->setClassTypeFilter(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER)->toOptionHash(),
             )
         );
 
@@ -104,7 +104,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'filter_index' => 'ptc.product_tax_class_id',
                 'type'    => 'options',
                 'show_missing_option_values' => true,
-                'options' => Mage::getModel('tax/class')->getCollection()->setClassTypeFilter(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)->toOptionHash(),
+                'options' => Mage::getModel('Mage_Tax_Model_Class')->getCollection()->setClassTypeFilter(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)->toOptionHash(),
             )
         );
 
@@ -117,7 +117,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'filter_index' => 'rate.tax_calculation_rate_id',
                 'type'    => 'options',
                 'show_missing_option_values' => true,
-                'options' => Mage::getModel('tax/calculation_rate')->getCollection()->toOptionHashOptimized(),
+                'options' => Mage::getModel('Mage_Tax_Model_Calculation_Rate')->getCollection()->toOptionHashOptimized(),
             )
         );
 

@@ -77,7 +77,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
 
             $origCategory = null;
             if ($this->getCategoryId()) {
-                $category = Mage::getModel('catalog/category')->load($this->getCategoryId());
+                $category = Mage::getModel('Mage_Catalog_Model_Category')->load($this->getCategoryId());
                 if ($category->getId()) {
                     $origCategory = $layer->getCurrentCategory();
                     $layer->setCurrentCategory($category);

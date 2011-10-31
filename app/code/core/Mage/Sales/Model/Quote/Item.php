@@ -197,7 +197,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     protected function _construct()
     {
         $this->_init('Mage_Sales_Model_Resource_Quote_Item');
-        $this->_errorInfos = Mage::getModel('sales/status_list');
+        $this->_errorInfos = Mage::getModel('Mage_Sales_Model_Status_List');
     }
 
     /**
@@ -590,11 +590,11 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     public function addOption($option)
     {
         if (is_array($option)) {
-            $option = Mage::getModel('sales/quote_item_option')->setData($option)
+            $option = Mage::getModel('Mage_Sales_Model_Quote_Item_Option')->setData($option)
                 ->setItem($this);
         }
         elseif (($option instanceof Varien_Object) && !($option instanceof Mage_Sales_Model_Quote_Item_Option)) {
-            $option = Mage::getModel('sales/quote_item_option')->setData($option->getData())
+            $option = Mage::getModel('Mage_Sales_Model_Quote_Item_Option')->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
         }

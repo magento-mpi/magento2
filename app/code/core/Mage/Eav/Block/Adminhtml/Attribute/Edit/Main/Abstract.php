@@ -76,7 +76,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
 
         $this->_addElementTypes($fieldset);
 
-        $yesno = Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray();
+        $yesno = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray();
 
         $validateClass = sprintf('validate-code validate-length maximum-length-%d',
             Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH);
@@ -90,7 +90,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
             'required' => true,
         ));
 
-        $inputTypes = Mage::getModel('eav/adminhtml_system_config_source_inputtype')->toOptionArray();
+        $inputTypes = Mage::getModel('Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype')->toOptionArray();
 
         $fieldset->addField('frontend_input', 'select', array(
             'name' => 'frontend_input',

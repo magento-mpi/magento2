@@ -198,7 +198,7 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
             return $this;
         }
 
-        $productTypeCollection = Mage::getModel('catalog/product_type')
+        $productTypeCollection = Mage::getModel('Mage_Catalog_Model_Product_Type')
             ->getOptionArray();
 
         $this->_productTypesById = array();

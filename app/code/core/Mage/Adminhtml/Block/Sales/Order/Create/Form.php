@@ -95,7 +95,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
             $data['addresses'] = array();
 
             /* @var $addressForm Mage_Customer_Model_Form */
-            $addressForm = Mage::getModel('customer/form')
+            $addressForm = Mage::getModel('Mage_Customer_Model_Form')
                 ->setFormCode('adminhtml_customer_address')
                 ->setStore($this->getStore());
             foreach ($this->getCustomer()->getAddresses() as $address) {

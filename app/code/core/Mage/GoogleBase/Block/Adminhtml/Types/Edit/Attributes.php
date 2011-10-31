@@ -75,7 +75,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
     {
         $options = array('' => $this->__('Custom attribute, no mapping'));
 
-        $attributes = Mage::getModel('googlebase/service_feed')
+        $attributes = Mage::getModel('Mage_GoogleBase_Model_Service_Feed')
             ->getAttributes($this->getGbaseItemtype(), $this->getTargetCountry());
         foreach ($attributes as $attr) {
             $options[$attr->getId()] = $attr->getName();
@@ -123,7 +123,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
      */
     public function _getAttributes($setId, $escapeJsQuotes = false)
     {
-        $attributes = Mage::getModel('googlebase/attribute')->getAllowedAttributes($setId);
+        $attributes = Mage::getModel('Mage_GoogleBase_Model_Attribute')->getAllowedAttributes($setId);
         $result = array();
 
         foreach ($attributes as $attribute) {

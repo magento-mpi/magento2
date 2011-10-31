@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser extends Mage_Adminhtml_Block_Wid
             ->setUniqId($uniqId);
 
         if ($element->getValue()) {
-            $rule = Mage::getModel('salesrule/rule')->load((int)$element->getValue());
+            $rule = Mage::getModel('Mage_SalesRule_Model_Rule')->load((int)$element->getValue());
             if ($rule->getId()) {
                 $chooser->setLabel($rule->getName());
             }
@@ -100,7 +100,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser extends Mage_Adminhtml_Block_Wid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('salesrule/rule')->getResourceCollection();
+        $collection = Mage::getModel('Mage_SalesRule_Model_Rule')->getResourceCollection();
         $this->setCollection($collection);
 
         return parent::_prepareCollection();

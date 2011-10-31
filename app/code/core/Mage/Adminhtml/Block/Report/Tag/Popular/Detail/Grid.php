@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml
     {
         /* @var $collection Mage_Reports_Model_Resource_Tag_Customer_Collection */
         $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Tag_Customer_Collection');
-        $collection->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus())
+        $collection->addStatusFilter(Mage::getModel('Mage_Tag_Model_Tag')->getApprovedStatus())
                 ->addTagFilter($this->getRequest()->getParam('id'))
                 ->addDescOrder()
                 ->addProductName();

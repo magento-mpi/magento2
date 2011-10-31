@@ -259,7 +259,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function getAddressById($addressId)
     {
-        return Mage::getModel('customer/address')
+        return Mage::getModel('Mage_Customer_Model_Address')
             ->load($addressId);
     }
 
@@ -633,8 +633,8 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     protected function _sendEmailTemplate($template, $sender, $templateParams = array(), $storeId = null)
     {
         /** @var $mailer Mage_Core_Model_Email_Template_Mailer */
-        $mailer = Mage::getModel('core/email_template_mailer');
-        $emailInfo = Mage::getModel('core/email_info');
+        $mailer = Mage::getModel('Mage_Core_Model_Email_Template_Mailer');
+        $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
         $emailInfo->addTo($this->getEmail(), $this->getName());
         $mailer->addEmailInfo($emailInfo);
 
@@ -688,7 +688,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     public function getTaxClassId()
     {
         if (!$this->getData('tax_class_id')) {
-            $this->setTaxClassId(Mage::getModel('customer/group')->getTaxClassId($this->getGroupId()));
+            $this->setTaxClassId(Mage::getModel('Mage_Customer_Model_Group')->getTaxClassId($this->getGroupId()));
         }
         return $this->getData('tax_class_id');
     }
@@ -814,15 +814,15 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
 
         $entityType = Mage::getSingleton('eav/config')->getEntityType('customer');
-        $attribute = Mage::getModel('customer/attribute')->loadByCode($entityType, 'dob');
+        $attribute = Mage::getModel('Mage_Customer_Model_Attribute')->loadByCode($entityType, 'dob');
         if ($attribute->getIsRequired() && '' == trim($this->getDob())) {
             $errors[] = $customerHelper->__('The Date of Birth is required.');
         }
-        $attribute = Mage::getModel('customer/attribute')->loadByCode($entityType, 'taxvat');
+        $attribute = Mage::getModel('Mage_Customer_Model_Attribute')->loadByCode($entityType, 'taxvat');
         if ($attribute->getIsRequired() && '' == trim($this->getTaxvat())) {
             $errors[] = $customerHelper->__('The TAX/VAT number is required.');
         }
-        $attribute = Mage::getModel('customer/attribute')->loadByCode($entityType, 'gender');
+        $attribute = Mage::getModel('Mage_Customer_Model_Attribute')->loadByCode($entityType, 'gender');
         if ($attribute->getIsRequired() && '' == trim($this->getGender())) {
             $errors[] = $customerHelper->__('Gender is required.');
         }
@@ -848,7 +848,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
 
         $regions = Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection');
 
-        $website = Mage::getModel('core/website')->load($row['website_code'], 'code');
+        $website = Mage::getModel('Mage_Core_Model_Website')->load($row['website_code'], 'code');
 
         if (!$website->getId()) {
             $this->addError($hlp->__('Invalid website, skipping the record, line: %s', $line));
@@ -920,7 +920,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             // Handling billing address
             $billingAddress = $this->getPrimaryBillingAddress();
             if (!$billingAddress  instanceof Mage_Customer_Model_Address) {
-                $billingAddress = Mage::getModel('customer/address');
+                $billingAddress = Mage::getModel('Mage_Customer_Model_Address');
             }
 
             $regions->addRegionNameFilter($row['billing_region'])->load();
@@ -961,7 +961,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             // Handling shipping address
             $shippingAddress = $this->getPrimaryShippingAddress();
             if (!$shippingAddress instanceof Mage_Customer_Model_Address) {
-                $shippingAddress = Mage::getModel('customer/address');
+                $shippingAddress = Mage::getModel('Mage_Customer_Model_Address');
             }
 
             $regions->addRegionNameFilter($row['shipping_region'])->load();
@@ -1105,7 +1105,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
                         return false;
                     }
 
-                    $region = Mage::getModel('directory/region')
+                    $region = Mage::getModel('Mage_Directory_Model_Region')
                         ->loadByName($data[$prefix . 'region']);
                     if (!$region->getId()) {
                         return false;

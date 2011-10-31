@@ -53,7 +53,7 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
                     Mage::throwException($this->__('Sorry, but administrator denied subscription for guests. Please <a href="%s">register</a>.', Mage::helper('Mage_Customer_Helper_Data')->getRegisterUrl()));
                 }
 
-                $ownerId = Mage::getModel('customer/customer')
+                $ownerId = Mage::getModel('Mage_Customer_Model_Customer')
                         ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
                         ->loadByEmail($email)
                         ->getId();
@@ -61,7 +61,7 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
                     Mage::throwException($this->__('This email address is already assigned to another user.'));
                 }
 
-                $status = Mage::getModel('newsletter/subscriber')->subscribe($email);
+                $status = Mage::getModel('Mage_Newsletter_Model_Subscriber')->subscribe($email);
                 if ($status == Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE) {
                     $session->addSuccess($this->__('Confirmation request has been sent.'));
                 }
@@ -88,7 +88,7 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
         $code  = (string) $this->getRequest()->getParam('code');
 
         if ($id && $code) {
-            $subscriber = Mage::getModel('newsletter/subscriber')->load($id);
+            $subscriber = Mage::getModel('Mage_Newsletter_Model_Subscriber')->load($id);
             $session = Mage::getSingleton('core/session');
 
             if($subscriber->getId() && $subscriber->getCode()) {
@@ -116,7 +116,7 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
         if ($id && $code) {
             $session = Mage::getSingleton('core/session');
             try {
-                Mage::getModel('newsletter/subscriber')->load($id)
+                Mage::getModel('Mage_Newsletter_Model_Subscriber')->load($id)
                     ->setCheckCode($code)
                     ->unsubscribe();
                 $session->addSuccess($this->__('You have been unsubscribed.'));

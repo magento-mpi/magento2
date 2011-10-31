@@ -186,7 +186,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Admi
             if ($this->_canReturnToStock = Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT)) {
                 $canReturnToStock = false;
                 foreach ($this->getCreditmemo()->getAllItems() as $item) {
-                    $product = Mage::getModel('catalog/product')->load($item->getOrderItem()->getProductId());
+                    $product = Mage::getModel('Mage_Catalog_Model_Product')->load($item->getOrderItem()->getProductId());
                     if ( $product->getId() && $product->getStockItem()->getManageStock() ) {
                         $item->setCanReturnToStock($canReturnToStock = true);
                     } else {

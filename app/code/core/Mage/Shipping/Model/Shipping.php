@@ -66,7 +66,7 @@ class Mage_Shipping_Model_Shipping
     public function getResult()
     {
         if (empty($this->_result)) {
-            $this->_result = Mage::getModel('shipping/rate_result');
+            $this->_result = Mage::getModel('Mage_Shipping_Model_Rate_Result');
         }
         return $this->_result;
     }
@@ -196,7 +196,7 @@ class Mage_Shipping_Model_Shipping
     public function collectRatesByAddress(Varien_Object $address, $limitCarrier = null)
     {
         /** @var $request Mage_Shipping_Model_Rate_Request */
-        $request = Mage::getModel('shipping/rate_request');
+        $request = Mage::getModel('Mage_Shipping_Model_Rate_Request');
         $request->setAllItems($address->getAllItems());
         $request->setDestCountryId($address->getCountryId());
         $request->setDestRegionId($address->getRegionId());
@@ -270,10 +270,10 @@ class Mage_Shipping_Model_Shipping
         }
         $shipperRegionCode = Mage::getStoreConfig(self::XML_PATH_STORE_REGION_ID, $shipmentStoreId);
         if (is_numeric($shipperRegionCode)) {
-            $shipperRegionCode = Mage::getModel('directory/region')->load($shipperRegionCode)->getCode();
+            $shipperRegionCode = Mage::getModel('Mage_Directory_Model_Region')->load($shipperRegionCode)->getCode();
         }
 
-        $recipientRegionCode = Mage::getModel('directory/region')->load($address->getRegionId())->getCode();
+        $recipientRegionCode = Mage::getModel('Mage_Directory_Model_Region')->load($address->getRegionId())->getCode();
 
         $originStreet1 = Mage::getStoreConfig(self::XML_PATH_STORE_ADDRESS1, $shipmentStoreId);
         $originStreet2 = Mage::getStoreConfig(self::XML_PATH_STORE_ADDRESS2, $shipmentStoreId);
@@ -290,7 +290,7 @@ class Mage_Shipping_Model_Shipping
         }
 
         /** @var $request Mage_Shipping_Model_Shipment_Request */
-        $request = Mage::getModel('shipping/shipment_request');
+        $request = Mage::getModel('Mage_Shipping_Model_Shipment_Request');
         $request->setOrderShipment($orderShipment);
         $request->setShipperContactPersonName($admin->getName());
         $request->setShipperContactPersonFirstName($admin->getFirstname());

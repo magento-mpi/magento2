@@ -64,7 +64,7 @@ class Enterprise_PageCache_Model_Cache
                 }
             }
 
-            self::$_cache = Mage::getModel('core/cache', $options);
+            self::$_cache = Mage::getModel('Mage_Core_Model_Cache', $options);
         }
 
         return self::$_cache;

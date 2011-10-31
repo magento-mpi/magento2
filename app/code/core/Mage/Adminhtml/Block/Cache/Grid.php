@@ -161,7 +161,7 @@ class Mage_Adminhtml_Block_Cache_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->setMassactionIdField('id');
         $this->getMassactionBlock()->setFormFieldName('types');
 
-        $modeOptions = Mage::getModel('index/process')->getModesOptions();
+        $modeOptions = Mage::getModel('Mage_Index_Model_Process')->getModesOptions();
 
         $this->getMassactionBlock()->addItem('enable', array(
             'label'         => Mage::helper('Mage_Index_Helper_Data')->__('Enable'),

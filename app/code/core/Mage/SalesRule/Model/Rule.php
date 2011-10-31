@@ -190,7 +190,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
     public function getPrimaryCoupon()
     {
         if ($this->_primaryCoupon === null) {
-            $this->_primaryCoupon = Mage::getModel('salesrule/coupon');
+            $this->_primaryCoupon = Mage::getModel('Mage_SalesRule_Model_Coupon');
             $this->_primaryCoupon->loadPrimaryByRule($this->getId());
             $this->_primaryCoupon->setRule($this)->setIsPrimary(true);
         }
@@ -211,12 +211,12 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
 
     public function getConditionsInstance()
     {
-        return Mage::getModel('salesrule/rule_condition_combine');
+        return Mage::getModel('Mage_SalesRule_Model_Rule_Condition_Combine');
     }
 
     public function getActionsInstance()
     {
-        return Mage::getModel('salesrule/rule_condition_product_combine');
+        return Mage::getModel('Mage_SalesRule_Model_Rule_Condition_Product_Combine');
     }
 
     public function toString($format='')
@@ -406,7 +406,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
             return $this->getPrimaryCoupon();
         }
         /** @var Mage_SalesRule_Model_Coupon $coupon */
-        $coupon = Mage::getModel('salesrule/coupon');
+        $coupon = Mage::getModel('Mage_SalesRule_Model_Coupon');
         $coupon->setRule($this)->setIsPrimary(false);
         $coupon->setUsageLimit($this->getUsesPerCoupon() ? $this->getUsesPerCoupon() : null)
                 ->setUsagePerCustomer($this->getUsesPerCustomer() ? $this->getUsesPerCustomer() : null)

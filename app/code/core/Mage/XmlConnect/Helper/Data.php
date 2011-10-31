@@ -268,7 +268,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
             $options = unserialize($cache);
         } else {
             if (isset($deviceCountries)) {
-                $options = Mage::getModel('directory/country')->getResourceCollection()
+                $options = Mage::getModel('Mage_Directory_Model_Country')->getResourceCollection()
                     ->addFieldToFilter('country_id', array('in' => $deviceCountries))->loadByStore()
                     ->toOptionArray(false);
             }
@@ -571,7 +571,7 @@ EOT;
     {
         $options = array();
         /** @var $app Mage_XmlConnect_Model_Application */
-        foreach (Mage::getModel('xmlconnect/application')->getCollection() as $app) {
+        foreach (Mage::getModel('Mage_XmlConnect_Model_Application')->getCollection() as $app) {
             $options[] = array('value' => $app->getId(), 'label' => $app->getName());
         }
         if (count($options) > 1) {
@@ -593,7 +593,7 @@ EOT;
         static $apps = array();
 
         if (empty($apps)) {
-            foreach (Mage::getModel('xmlconnect/application')->getCollection() as $app) {
+            foreach (Mage::getModel('Mage_XmlConnect_Model_Application')->getCollection() as $app) {
                 $apps[$app->getCode()] = $app->getName();
             }
         }
@@ -627,7 +627,7 @@ EOT;
         try {
             $appCode = $queue->getAppCode();
             /** @var $app Mage_XmlConnect_Model_Application */
-            $app = Mage::getModel('xmlconnect/application')->loadByCode($appCode);
+            $app = Mage::getModel('Mage_XmlConnect_Model_Application')->loadByCode($appCode);
 
             if (!$app->getId()) {
                 Mage::throwException(
@@ -756,7 +756,7 @@ EOT;
             return '';
         }
         if (!isset($this->_appNames[$appCode])) {
-            $app = Mage::getModel('xmlconnect/application')->loadByCode($appCode);
+            $app = Mage::getModel('Mage_XmlConnect_Model_Application')->loadByCode($appCode);
             if ($app->getId()) {
                 $this->_appNames[$appCode] = $app->getName();
             } else {
@@ -777,7 +777,7 @@ EOT;
             return '';
         }
         if (!isset($this->_tplNames[$templateId])) {
-            $template = Mage::getModel('xmlconnect/template')->load($templateId);
+            $template = Mage::getModel('Mage_XmlConnect_Model_Template')->load($templateId);
             if ($template->getId()) {
                 $this->_tplNames[$templateId] = $template->getName();
             } else {

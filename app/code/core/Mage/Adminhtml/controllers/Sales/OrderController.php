@@ -71,7 +71,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     protected function _initOrder()
     {
         $id = $this->getRequest()->getParam('order_id');
-        $order = Mage::getModel('sales/order')->load($id);
+        $order = Mage::getModel('Mage_Sales_Model_Order')->load($id);
 
         if (!$order->getId()) {
             $this->_getSession()->addError($this->__('This order no longer exists.'));
@@ -338,7 +338,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $this->_initOrder();
         $html = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_View_Tab_History')->toHtml();
         /* @var $translate Mage_Core_Model_Translate_Inline */
-        $translate = Mage::getModel('core/translate_inline');
+        $translate = Mage::getModel('Mage_Core_Model_Translate_Inline');
         $translate->isAllowed() && $translate->processResponseBody($html);
         $this->getResponse()->setBody($html);
     }
@@ -352,7 +352,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $countCancelOrder = 0;
         $countNonCancelOrder = 0;
         foreach ($orderIds as $orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             if ($order->canCancel()) {
                 $order->cancel()
                     ->save();
@@ -383,7 +383,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $countHoldOrder = 0;
         $countNonHoldOrder = 0;
         foreach ($orderIds as $orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             if ($order->canHold()) {
                 $order->hold()
                     ->save();
@@ -416,7 +416,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $countNonUnholdOrder = 0;
 
         foreach ($orderIds as $orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             if ($order->canUnhold()) {
                 $order->unhold()
                     ->save();
@@ -469,9 +469,9 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 if ($invoices->getSize() > 0) {
                     $flag = true;
                     if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                        $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Invoice')->getPdf($invoices);
                     } else {
-                        $pages = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                        $pages = Mage::getModel('Mage_Sales_Model_Order_Pdf_Invoice')->getPdf($invoices);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
@@ -503,9 +503,9 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 if ($shipments->getSize()) {
                     $flag = true;
                     if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                        $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment')->getPdf($shipments);
                     } else {
-                        $pages = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                        $pages = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment')->getPdf($shipments);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
@@ -537,9 +537,9 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 if ($creditmemos->getSize()) {
                     $flag = true;
                     if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_creditmemo')->getPdf($creditmemos);
+                        $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Creditmemo')->getPdf($creditmemos);
                     } else {
-                        $pages = Mage::getModel('sales/order_pdf_creditmemo')->getPdf($creditmemos);
+                        $pages = Mage::getModel('Mage_Sales_Model_Order_Pdf_Creditmemo')->getPdf($creditmemos);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
@@ -571,9 +571,9 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 if ($invoices->getSize()){
                     $flag = true;
                     if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                        $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Invoice')->getPdf($invoices);
                     } else {
-                        $pages = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                        $pages = Mage::getModel('Mage_Sales_Model_Order_Pdf_Invoice')->getPdf($invoices);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
@@ -584,9 +584,9 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 if ($shipments->getSize()){
                     $flag = true;
                     if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                        $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment')->getPdf($shipments);
                     } else {
-                        $pages = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                        $pages = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment')->getPdf($shipments);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
@@ -597,9 +597,9 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 if ($creditmemos->getSize()) {
                     $flag = true;
                     if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_creditmemo')->getPdf($creditmemos);
+                        $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Creditmemo')->getPdf($creditmemos);
                     } else {
-                        $pages = Mage::getModel('sales/order_pdf_creditmemo')->getPdf($creditmemos);
+                        $pages = Mage::getModel('Mage_Sales_Model_Order_Pdf_Creditmemo')->getPdf($creditmemos);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
@@ -718,7 +718,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     public function addressAction()
     {
         $addressId = $this->getRequest()->getParam('address_id');
-        $address = Mage::getModel('sales/order_address')
+        $address = Mage::getModel('Mage_Sales_Model_Order_Address')
             ->getCollection()
             ->getItemById($addressId);
         if ($address) {
@@ -736,7 +736,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     public function addressSaveAction()
     {
         $addressId  = $this->getRequest()->getParam('address_id');
-        $address    = Mage::getModel('sales/order_address')->load($addressId);
+        $address    = Mage::getModel('Mage_Sales_Model_Order_Address')->load($addressId);
         $data       = $this->getRequest()->getPost();
         if ($data && $address->getId()) {
             $address->addData($data);

@@ -116,7 +116,7 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
     public function editShippingPostAction()
     {
         if ($addressId = $this->getRequest()->getParam('id')) {
-            Mage::getModel('checkout/type_multishipping')
+            Mage::getModel('Mage_Checkout_Model_Type_Multishipping')
                 ->updateQuoteCustomerShippingAddress($addressId);
         }
         $this->_redirect('*/multishipping/shipping');
@@ -187,7 +187,7 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
     public function setBillingAction()
     {
         if ($addressId = $this->getRequest()->getParam('id')) {
-            Mage::getModel('checkout/type_multishipping')
+            Mage::getModel('Mage_Checkout_Model_Type_Multishipping')
                 ->setQuoteCustomerBillingAddress($addressId);
         }
         $this->_redirect('*/multishipping/billing');
@@ -196,7 +196,7 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
     public function saveBillingAction()
     {
         if ($addressId = $this->getRequest()->getParam('id')) {
-            Mage::getModel('checkout/type_multishipping')
+            Mage::getModel('Mage_Checkout_Model_Type_Multishipping')
                 ->setQuoteCustomerBillingAddress($addressId);
         }
         $this->_redirect('*/multishipping/overview');

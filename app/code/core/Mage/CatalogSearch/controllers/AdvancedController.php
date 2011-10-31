@@ -49,7 +49,7 @@ class Mage_CatalogSearch_AdvancedController extends Mage_Core_Controller_Front_A
         } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('catalogsearch/session')->addError($e->getMessage());
             $this->_redirectError(
-                Mage::getModel('core/url')
+                Mage::getModel('Mage_Core_Model_Url')
                     ->setQueryParams($this->getRequest()->getQuery())
                     ->getUrl('*/*/')
             );

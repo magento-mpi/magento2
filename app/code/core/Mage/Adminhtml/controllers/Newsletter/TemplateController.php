@@ -101,7 +101,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
     {
         $this->_setTitle();
 
-        $model = Mage::getModel('newsletter/template');
+        $model = Mage::getModel('Mage_Newsletter_Model_Template');
         if ($id = $this->getRequest()->getParam('id')) {
             $model->load($id);
         }
@@ -156,7 +156,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
         if (!$request->isPost()) {
             $this->getResponse()->setRedirect($this->getUrl('*/newsletter_template'));
         }
-        $template = Mage::getModel('newsletter/template');
+        $template = Mage::getModel('Mage_Newsletter_Model_Template');
 
         if ($id = (int)$request->getParam('id')) {
             $template->load($id);
@@ -203,7 +203,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
      */
     public function deleteAction ()
     {
-        $template = Mage::getModel('newsletter/template')
+        $template = Mage::getModel('Mage_Newsletter_Model_Template')
             ->load($this->getRequest()->getParam('id'));
         if ($template->getId()) {
             try {

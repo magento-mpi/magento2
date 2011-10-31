@@ -72,7 +72,7 @@ class Mage_CatalogInventory_Model_Observer
         if ($product instanceof Mage_Catalog_Model_Product) {
             $productId = intval($product->getId());
             if (!isset($this->_stockItemsArray[$productId])) {
-                $this->_stockItemsArray[$productId] = Mage::getModel('cataloginventory/stock_item');
+                $this->_stockItemsArray[$productId] = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
             }
             $productStockItem = $this->_stockItemsArray[$productId];
             $productStockItem->assignProduct($product);
@@ -108,9 +108,9 @@ class Mage_CatalogInventory_Model_Observer
     {
         $productCollection = $observer->getEvent()->getCollection();
         if ($productCollection->hasFlag('require_stock_items')) {
-            Mage::getModel('cataloginventory/stock')->addItemsToProducts($productCollection);
+            Mage::getModel('Mage_CatalogInventory_Model_Stock')->addItemsToProducts($productCollection);
         } else {
-            Mage::getModel('cataloginventory/stock_status')->addStockStatusToProducts($productCollection);
+            Mage::getModel('Mage_CatalogInventory_Model_Stock_Status')->addStockStatusToProducts($productCollection);
         }
         return $this;
     }
@@ -124,7 +124,7 @@ class Mage_CatalogInventory_Model_Observer
     public function addInventoryDataToCollection($observer)
     {
         $productCollection = $observer->getEvent()->getProductCollection();
-        Mage::getModel('cataloginventory/stock')->addItemsToProducts($productCollection);
+        Mage::getModel('Mage_CatalogInventory_Model_Stock')->addItemsToProducts($productCollection);
         return $this;
     }
 
@@ -148,7 +148,7 @@ class Mage_CatalogInventory_Model_Observer
 
         $item = $product->getStockItem();
         if (!$item) {
-            $item = Mage::getModel('cataloginventory/stock_item');
+            $item = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
         }
         $this->_prepareItemForSave($item, $product);
         $item->save();

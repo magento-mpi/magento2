@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends 
 
         $availableTypes = array('text', 'select', 'multiselect', 'textarea', 'price');
 
-        $attributes = Mage::getModel('catalog/product')
+        $attributes = Mage::getModel('Mage_Catalog_Model_Product')
             ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
             ->setAttributeSetId($this->_getProduct()->getAttributeSetId())
             ->getAttributes();

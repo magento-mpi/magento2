@@ -43,7 +43,7 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
      */
     public function items($filters = null, $store = null)
     {
-        $collection = Mage::getModel('catalog/product')->getCollection()
+        $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
             ->addStoreFilter($this->_getStoreId($store))
             ->addAttributeToSelect('name');
 
@@ -170,7 +170,7 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
         $this->_checkProductAttributeSet($set);
 
         /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setStoreId($this->_getStoreId($store))
             ->setAttributeSetId($set)
             ->setTypeId($type)
@@ -311,7 +311,7 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
         $product->setStockData($_stockData);
 
         if (property_exists($productData, 'tier_price')) {
-             $tierPrices = Mage::getModel('catalog/product_attribute_tierprice_api_V2')
+             $tierPrices = Mage::getModel('Mage_Catalog_Model_Product_Attribute_Tierprice_Api_V2')
                  ->prepareTierPrices($product, $productData->tier_price);
              $product->setData(Mage_Catalog_Model_Product_Attribute_Tierprice_Api_V2::ATTRIBUTE_CODE, $tierPrices);
         }

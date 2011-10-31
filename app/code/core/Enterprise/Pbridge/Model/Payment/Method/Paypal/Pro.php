@@ -118,7 +118,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro extends Mage_Paypal_Mod
     public function void(Varien_Object $payment)
     {
         $result = $this->getPbridgeMethodInstance()->void($payment);
-        Mage::getModel('paypal/info')->importToPayment(new Varien_Object($result), $payment);
+        Mage::getModel('Mage_Paypal_Model_Info')->importToPayment(new Varien_Object($result), $payment);
         return $result;
     }
 
@@ -131,7 +131,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro extends Mage_Paypal_Mod
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $result = $this->getPbridgeMethodInstance()->void($payment);
-            Mage::getModel('paypal/info')->importToPayment(new Varien_Object($result), $payment);
+            Mage::getModel('Mage_Paypal_Model_Info')->importToPayment(new Varien_Object($result), $payment);
         }
     }
 }

@@ -120,10 +120,10 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
     {
         $nodes = array();
 
-        $fieldsetCollection = Mage::getModel('eav/form_fieldset')->getCollection()
+        $fieldsetCollection = Mage::getModel('Mage_Eav_Model_Form_Fieldset')->getCollection()
             ->addTypeFilter($this->_getFormType())
             ->setSortOrder();
-        $elementCollection = Mage::getModel('eav/form_element')->getCollection()
+        $elementCollection = Mage::getModel('Mage_Eav_Model_Form_Element')->getCollection()
             ->addTypeFilter($this->_getFormType())
             ->setSortOrder();
         foreach ($fieldsetCollection as $fieldset) {

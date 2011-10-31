@@ -156,7 +156,7 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
      */
     protected function _registerCatalogProductDeleteEvent(Mage_Index_Model_Event $event)
     {
-        $tagIds = Mage::getModel('tag/tag_relation')
+        $tagIds = Mage::getModel('Mage_Tag_Model_Tag_Relation')
             ->setProductId($event->getEntityPk())
             ->getRelatedTagIds();
         if ($tagIds) {
@@ -194,7 +194,7 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
 
         // register affected tags
         if ($reindexTags) {
-            $tagIds = Mage::getModel('tag/tag_relation')
+            $tagIds = Mage::getModel('Mage_Tag_Model_Tag_Relation')
                 ->setProductId($actionObject->getProductIds())
                 ->getRelatedTagIds();
             if ($tagIds) {

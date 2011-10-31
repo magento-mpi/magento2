@@ -55,7 +55,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
      */
     public function getMatchedEvents()
     {
-        return Mage::getModel('enterprise_customersegment/segment_condition_customer_address_attributes')
+        return Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attributes')
             ->getMatchedEvents();
     }
 

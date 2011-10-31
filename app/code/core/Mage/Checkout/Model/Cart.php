@@ -140,7 +140,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     {
         /* @var $orderItem Mage_Sales_Model_Order_Item */
         if (is_null($orderItem->getParentItem())) {
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($orderItem->getProductId());
             if (!$product->getId()) {
@@ -172,7 +172,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         if ($productInfo instanceof Mage_Catalog_Model_Product) {
             $product = $productInfo;
         } elseif (is_int($productInfo) || is_string($productInfo)) {
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($productInfo);
         }

@@ -53,7 +53,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         if (is_null($stagingId)) {
             $stagingId  = (int) $this->getRequest()->getParam('id');
         }
-        $staging = Mage::getModel('enterprise_staging/staging');
+        $staging = Mage::getModel('Enterprise_Staging_Model_Staging');
 
         if (!$stagingId) {
             if ($websiteId = (int) $this->getRequest()->getParam('master_website_id')) {
@@ -171,7 +171,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
         try {
             $stagingData = $this->getRequest()->getPost('staging');
-            Mage::getModel('enterprise_staging/staging')
+            Mage::getModel('Enterprise_Staging_Model_Staging')
                 ->setStagingId($this->getRequest()->getParam('id'))
                 ->addData($stagingData)
                 ->validate();
@@ -387,7 +387,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                     $staging->setIsMergeLater(true);
 
                     //convert to internal time
-                    $date = Mage::getModel('core/date')->gmtDate(null, $schedulingDate);
+                    $date = Mage::getModel('Mage_Core_Model_Date')->gmtDate(null, $schedulingDate);
                     $staging->setMergeSchedulingDate($date);
 
                     $originDate = Mage::helper('Mage_Core_Helper_Data')->formatDateRespectTimezone($date, 'medium', true);

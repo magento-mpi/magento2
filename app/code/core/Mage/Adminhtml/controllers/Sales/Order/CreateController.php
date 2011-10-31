@@ -328,7 +328,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
 //        $this->_initSession();
         $this->_getSession()->clear();
         $orderId = $this->getRequest()->getParam('order_id');
-        $order = Mage::getModel('sales/order')->load($orderId);
+        $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
         if (!Mage::helper('Mage_Sales_Helper_Reorder')->canReorder($order)) {
             return $this->_forward('noRoute');
         }
@@ -565,13 +565,13 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
                 Mage::throwException($this->__('Quote item id is not received.'));
             }
 
-            $quoteItem = Mage::getModel('sales/quote_item')->load($quoteItemId);
+            $quoteItem = Mage::getModel('Mage_Sales_Model_Quote_Item')->load($quoteItemId);
             if (!$quoteItem->getId()) {
                 Mage::throwException($this->__('Quote item is not loaded.'));
             }
 
             $configureResult->setOk(true);
-            $optionCollection = Mage::getModel('sales/quote_item_option')->getCollection()
+            $optionCollection = Mage::getModel('Mage_Sales_Model_Quote_Item_Option')->getCollection()
                     ->addItemFilter(array($quoteItemId));
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
 

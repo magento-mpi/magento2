@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Title extends Mage_Core_Block_Template
     {
         $stores = $this->getData('stores');
         if (is_null($stores)) {
-            $stores = Mage::getModel('core/store')
+            $stores = Mage::getModel('Mage_Core_Model_Store')
                 ->getResourceCollection()
                 ->setLoadDefault(false)
                 ->load();

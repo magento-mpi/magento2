@@ -34,7 +34,7 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
     {
         $processId = $this->getRequest()->getParam('process');
         if ($processId) {
-            $process = Mage::getModel('index/process')->load($processId);
+            $process = Mage::getModel('Mage_Index_Model_Process')->load($processId);
             if ($process->getId()) {
                 return $process;
             }
@@ -206,7 +206,7 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
                 $mode = $this->getRequest()->getParam('index_mode');
                 foreach ($processIds as $processId) {
                     /* @var $process Mage_Index_Model_Process */
-                    $process = Mage::getModel('index/process')->load($processId);
+                    $process = Mage::getModel('Mage_Index_Model_Process')->load($processId);
                     if ($process->getId()) {
                         $process->setMode($mode)
                             ->save();

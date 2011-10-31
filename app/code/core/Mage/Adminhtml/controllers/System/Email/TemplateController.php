@@ -205,7 +205,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
         $this->_title($this->__('System'))->_title($this->__('Transactional Emails'));
 
         $id = (int)$this->getRequest()->getParam($idFieldName);
-        $model = Mage::getModel('adminhtml/email_template');
+        $model = Mage::getModel('Mage_Adminhtml_Model_Email_Template');
         if ($id) {
             $model->load($id);
         }

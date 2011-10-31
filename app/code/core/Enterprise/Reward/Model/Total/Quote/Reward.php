@@ -67,7 +67,7 @@ class Enterprise_Reward_Model_Total_Quote_Reward extends Mage_Sales_Model_Quote_
             /* @var $reward Enterprise_Reward_Model_Reward */
             $reward = $quote->getRewardInstance();
             if (!$reward || !$reward->getId()) {
-                $reward = Mage::getModel('enterprise_reward/reward')
+                $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
                     ->setCustomer($quote->getCustomer())
                     ->setCustomerId($quote->getCustomer()->getId())
                     ->setWebsiteId($quote->getStore()->getWebsiteId())

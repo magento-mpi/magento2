@@ -81,7 +81,7 @@ class Enterprise_Staging_Adminhtml_Staging_LogController extends Mage_Adminhtml_
         }
 
         if ($logId) {
-            $log = Mage::getModel('enterprise_staging/staging_log')
+            $log = Mage::getModel('Enterprise_Staging_Model_Staging_Log')
                 ->load($logId);
 
             if ($log->getId()) {

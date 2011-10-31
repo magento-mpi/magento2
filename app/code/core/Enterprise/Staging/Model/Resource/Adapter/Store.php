@@ -59,7 +59,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Store extends Enterprise_Staging
         foreach ($websites as $website) {
             $stores = $website->getStores();
             foreach ($stores as $masterStoreId => $store) {
-                $stagingStore = Mage::getModel('core/store');
+                $stagingStore = Mage::getModel('Mage_Core_Model_Store');
                 $stagingStore->setData('is_active', 1);
                 $stagingStore->setData('is_staging', 1);
                 $stagingStore->setData('code', $store->getCode());
@@ -76,10 +76,10 @@ class Enterprise_Staging_Model_Resource_Adapter_Store extends Enterprise_Staging
                 }
 
                 if (!$stagingStore->getId()) {
-                    $value = Mage::getModel('core/date')->gmtDate();
+                    $value = Mage::getModel('Mage_Core_Model_Date')->gmtDate();
                     $stagingStore->setCreatedAt($value);
                 } else {
-                    $value = Mage::getModel('core/date')->gmtDate();
+                    $value = Mage::getModel('Mage_Core_Model_Date')->gmtDate();
                     $stagingStore->setUpdatedAt($value);
                 }
 

@@ -59,7 +59,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $collection = Mage::getModel('reports/event')
+            $collection = Mage::getModel('Mage_Reports_Model_Event')
                 ->getCollection()
                 ->addStoreFilter($this->_getStore()->getWebsite()->getStoreIds())
                 ->addRecentlyFiler(Mage_Reports_Model_Event::EVENT_PRODUCT_VIEW, $this->_getCustomer()->getId(), 0);
@@ -71,7 +71,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
             $productCollection = parent::getItemsCollection();
             if ($productIds) {
                 $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
-                $productCollection = Mage::getModel('catalog/product')->getCollection()
+                $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
                     ->setStoreId($this->_getStore()->getId())
                     ->addStoreFilter($this->_getStore()->getId())
                     ->addAttributeToSelect($attributes)

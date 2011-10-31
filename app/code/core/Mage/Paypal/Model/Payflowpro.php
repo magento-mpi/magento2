@@ -123,7 +123,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
     public function isAvailable($quote = null)
     {
         $storeId = Mage::app()->getStore($this->getStore())->getId();
-        $config = Mage::getModel('paypal/config')->setStoreId($storeId);
+        $config = Mage::getModel('Mage_Paypal_Model_Config')->setStoreId($storeId);
         if (parent::isAvailable($quote) && $config->isMethodAvailable($this->getCode())) {
             return true;
         }

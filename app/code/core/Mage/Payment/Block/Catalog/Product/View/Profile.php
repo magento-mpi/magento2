@@ -84,7 +84,7 @@ class Mage_Payment_Block_Catalog_Product_View_Profile extends Mage_Core_Block_Te
     {
         $product = Mage::registry('current_product');
         if ($product) {
-            $this->_profile = Mage::getModel('payment/recurring_profile')->importProduct($product);
+            $this->_profile = Mage::getModel('Mage_Payment_Model_Recurring_Profile')->importProduct($product);
         }
         return parent::_prepareLayout();
     }

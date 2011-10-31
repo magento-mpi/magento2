@@ -96,7 +96,7 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
             return false;
         }
 
-        $rma = Mage::getModel('enterprise_rma/rma')->load($entityId);
+        $rma = Mage::getModel('Enterprise_Rma_Model_Rma')->load($entityId);
 
         if ($this->_canViewRma($rma)) {
             Mage::register('current_rma', $rma);
@@ -124,7 +124,7 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
         $post = $this->getRequest()->getPost();
         if (($post) && !empty($post['items'])) {
             try {
-                $rmaModel = Mage::getModel('enterprise_rma/rma');
+                $rmaModel = Mage::getModel('Enterprise_Rma_Model_Rma');
                 $rmaData = array(
                     'status'                => Enterprise_Rma_Model_Rma_Source_Status::STATE_PENDING,
                     'date_requested'        => Mage::getSingleton('core/date')->gmtDate(),
@@ -143,7 +143,7 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
                 }
                 $result->sendNewRmaEmail();
                 if (isset($post['rma_comment']) && !empty($post['rma_comment'])) {
-                    Mage::getModel('enterprise_rma/rma_status_history')
+                    Mage::getModel('Enterprise_Rma_Model_Rma_Status_History')
                         ->setRmaEntityId($rmaModel->getId())
                         ->setComment($post['rma_comment'])
                         ->setIsVisibleOnFront(true)
@@ -203,7 +203,7 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
                 $comment    = trim(strip_tags($comment));
 
                 if (!empty($comment)) {
-                    $result = Mage::getModel('enterprise_rma/rma_status_history')
+                    $result = Mage::getModel('Enterprise_Rma_Model_Rma_Status_History')
                         ->setRmaEntityId(Mage::registry('current_rma')->getEntityId())
                         ->setComment($comment)
                         ->setIsVisibleOnFront(true)
@@ -261,7 +261,7 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
                     Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Enter valid Tracking Number.'));
                 }
 
-                Mage::getModel('enterprise_rma/shipping')
+                Mage::getModel('Enterprise_Rma_Model_Shipping')
                     ->setRmaEntityId($rma->getEntityId())
                     ->setTrackNumber($number)
                     ->setCarrierCode($carrier)
@@ -315,7 +315,7 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
                     Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Enter valid Tracking Number.'));
                 }
 
-                $trackingNumber = Mage::getModel('enterprise_rma/shipping')
+                $trackingNumber = Mage::getModel('Enterprise_Rma_Model_Shipping')
                     ->load($number);
                 if ($trackingNumber->getRmaEntityId() !== $rma->getId()) {
                     Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Wrong RMA Selected.'));

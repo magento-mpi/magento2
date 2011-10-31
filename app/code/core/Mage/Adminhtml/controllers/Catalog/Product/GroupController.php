@@ -31,7 +31,7 @@ class Mage_Adminhtml_Catalog_Product_GroupController extends Mage_Adminhtml_Cont
 {
     public function saveAction()
     {
-        $model = Mage::getModel('eav/entity_attribute_group');
+        $model = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Group');
 
         $model->setAttributeGroupName($this->getRequest()->getParam('attribute_group_name'))
               ->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'));

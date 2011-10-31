@@ -107,7 +107,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
         if (is_numeric($entityType)) {
             $entityTypeId = $entityType;
         } elseif (is_string($entityType)) {
-            $entityType = Mage::getModel('eav/entity_type')->loadByCode($entityType);
+            $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode($entityType);
         }
         if ($entityType instanceof Mage_Eav_Model_Entity_Type) {
             $entityTypeId = $entityType->getId();

@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Notification_Grid extends Mage_Adminhtml_Block_Widget
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('adminnotification/inbox')
+        $collection = Mage::getModel('Mage_AdminNotification_Model_Inbox')
             ->getCollection()
             ->addRemoveFilter();
         $this->setCollection($collection);

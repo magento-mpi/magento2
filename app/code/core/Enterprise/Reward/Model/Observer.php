@@ -57,7 +57,7 @@ class Enterprise_Reward_Model_Observer
                     $data['store_id'] = $customer->getStoreId();
                 }
             }
-            $reward = Mage::getModel('enterprise_reward/reward')
+            $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
                 ->setCustomer($customer)
                 ->setWebsiteId(Mage::app()->getStore($data['store_id'])->getWebsiteId())
                 ->loadByCustomer();
@@ -119,7 +119,7 @@ class Enterprise_Reward_Model_Observer
             try {
                 $subscribeByDefault = Mage::helper('Enterprise_Reward_Helper_Data')
                     ->getNotificationConfig('subscribe_by_default', Mage::app()->getStore()->getWebsiteId());
-                $reward = Mage::getModel('enterprise_reward/reward')
+                $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
                     ->setCustomer($customer)
                     ->setActionEntity($customer)
                     ->setStore(Mage::app()->getStore()->getId())
@@ -154,7 +154,7 @@ class Enterprise_Reward_Model_Observer
         }
         if ($review->isApproved() && $review->getCustomerId()) {
             /* @var $reward Enterprise_Reward_Model_Reward */
-            $reward = Mage::getModel('enterprise_reward/reward')
+            $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
                 ->setCustomerId($review->getCustomerId())
                 ->setStore($review->getStoreId())
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_REVIEW)
@@ -179,7 +179,7 @@ class Enterprise_Reward_Model_Observer
             return $this;
         }
         if (($tag->getApprovedStatus() == $tag->getStatus()) && $tag->getFirstCustomerId()) {
-            $reward = Mage::getModel('enterprise_reward/reward')
+            $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
                 ->setCustomerId($tag->getFirstCustomerId())
                 ->setStore($tag->getFirstStoreId())
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_TAG)
@@ -208,7 +208,7 @@ class Enterprise_Reward_Model_Observer
             return $this;
         }
 
-        $reward = Mage::getModel('enterprise_reward/reward')
+        $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
             ->setCustomerId($subscriber->getCustomerId())
             ->setStore($subscriber->getStoreId())
             ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_NEWSLETTER)
@@ -234,7 +234,7 @@ class Enterprise_Reward_Model_Observer
         }
 
         if ($invitation->getCustomerId() && $invitation->getReferralId()) {
-            $reward = Mage::getModel('enterprise_reward/reward')
+            $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
                 ->setCustomerId($invitation->getCustomerId())
                 ->setWebsiteId($websiteId)
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_CUSTOMER)
@@ -263,7 +263,7 @@ class Enterprise_Reward_Model_Observer
 
         if ($order->getCustomerId() && $this->_isOrderPaidNow($order)) {
             /* @var $reward Enterprise_Reward_Model_Reward */
-            $reward = Mage::getModel('enterprise_reward/reward')
+            $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
                 ->setActionEntity($order)
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($order->getStore()->getWebsiteId())
@@ -315,12 +315,12 @@ class Enterprise_Reward_Model_Observer
             if ($order->getBaseTotalDue() > 0) {
                 return $this;
             }
-            $invitation = Mage::getModel('enterprise_invitation/invitation')
+            $invitation = Mage::getModel('Enterprise_Invitation_Model_Invitation')
                 ->load($order->getCustomerId(), 'referral_id');
             if (!$invitation->getId() || !$invitation->getCustomerId()) {
                 return $this;
             }
-            $reward = Mage::getModel('enterprise_reward/reward')
+            $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
                 ->setActionEntity($invitation)
                 ->setCustomerId($invitation->getCustomerId())
                 ->setStore($order->getStoreId())
@@ -449,7 +449,7 @@ class Enterprise_Reward_Model_Observer
         $quote->setUseRewardPoints((bool)$useRewardPoints);
         if ($quote->getUseRewardPoints()) {
             /* @var $reward Enterprise_Reward_Model_Reward */
-            $reward = Mage::getModel('enterprise_reward/reward')
+            $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
                 ->setCustomer($quote->getCustomer())
                 ->setWebsiteId($quote->getStore()->getWebsiteId())
                 ->loadByCustomer();
@@ -482,7 +482,7 @@ class Enterprise_Reward_Model_Observer
         if ($order->getRewardPointsBalance() > 0) {
             $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
             /* @var $reward Enterprise_Reward_Model_Reward */
-            $reward = Mage::getModel('enterprise_reward/reward')
+            $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($websiteId)
                 ->loadByCustomer();
@@ -535,7 +535,7 @@ class Enterprise_Reward_Model_Observer
         if ($order->getBaseRewardCurrencyAmount() > 0) {
             $this->_checkRewardPointsBalance($order);
 
-            Mage::getModel('enterprise_reward/reward')
+            Mage::getModel('Enterprise_Reward_Model_Reward')
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId(Mage::app()->getStore($order->getStoreId())->getWebsiteId())
                 ->setPointsDelta(-$order->getRewardPointsBalance())
@@ -568,7 +568,7 @@ class Enterprise_Reward_Model_Observer
         if (!$order->getCustomer()->getId()) {
             return $this;
         }
-        Mage::getModel('enterprise_reward/reward')
+        Mage::getModel('Enterprise_Reward_Model_Reward')
             ->setCustomerId($order->getCustomer()->getId())
             ->setWebsiteId(Mage::app()->getStore($order->getStoreId())->getWebsiteId())
             ->setPointsDelta($order->getRewardPointsBalance())
@@ -765,7 +765,7 @@ class Enterprise_Reward_Model_Observer
             );
 
             if ((int)$creditmemo->getRewardPointsBalanceRefund() > 0) {
-                $reward = Mage::getModel('enterprise_reward/reward')
+                $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
                     ->setCustomerId($order->getCustomerId())
                     ->setStore($order->getStoreId())
                     ->setPointsDelta((int)$creditmemo->getRewardPointsBalanceRefund())
@@ -864,7 +864,7 @@ class Enterprise_Reward_Model_Observer
     {
         /* @var $website Mage_Core_Model_Website */
         $website = $observer->getEvent()->getWebsite();
-        Mage::getModel('enterprise_reward/reward')
+        Mage::getModel('Enterprise_Reward_Model_Reward')
             ->prepareOrphanPoints($website->getId(), $website->getBaseCurrencyCode());
         return $this;
     }
@@ -945,7 +945,7 @@ class Enterprise_Reward_Model_Observer
             return $this;
         }
         if ($order->getCustomerId() && !$order->canInvoice() && $order->getRewardSalesrulePoints()) {
-            $reward = Mage::getModel('enterprise_reward/reward')
+            $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($order->getStore()->getWebsiteId())
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_SALESRULE)
@@ -976,7 +976,7 @@ class Enterprise_Reward_Model_Observer
         $groupId    = $observer->getEvent()->getCustomerSession()->getCustomerGroupId();
         $websiteId  = Mage::app()->getStore()->getWebsiteId();
 
-        $rate = Mage::getModel('enterprise_reward/reward_rate');
+        $rate = Mage::getModel('Enterprise_Reward_Model_Reward_Rate');
 
         $hasRates = $rate->fetch(
             $groupId, $websiteId, Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
@@ -1022,7 +1022,7 @@ class Enterprise_Reward_Model_Observer
         $order = $observer->getEvent()->getOrder();
 
         if ($order->getRewardPointsBalance() > 0) {
-            Mage::getModel('enterprise_reward/reward')
+            Mage::getModel('Enterprise_Reward_Model_Reward')
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId(Mage::app()->getStore($order->getStoreId())->getWebsiteId())
                 ->setPointsDelta($order->getRewardPointsBalance())

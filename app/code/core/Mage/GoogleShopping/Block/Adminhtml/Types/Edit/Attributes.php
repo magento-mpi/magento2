@@ -169,7 +169,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
      */
     public function _getAttributes($setId, $escapeJsQuotes = false)
     {
-        $attributes = Mage::getModel('googleshopping/attribute')->getAllowedAttributes($setId);
+        $attributes = Mage::getModel('Mage_GoogleShopping_Model_Attribute')->getAllowedAttributes($setId);
         $result = array();
 
         foreach ($attributes as $attribute) {

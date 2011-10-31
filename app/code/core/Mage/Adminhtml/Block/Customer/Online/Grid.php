@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('log/visitor_online')
+        $collection = Mage::getModel('Mage_Log_Model_Visitor_Online')
             ->prepare()
             ->getCollection();
         /* @var $collection Mage_Log_Model_Resource_Visitor_Online_Collection */

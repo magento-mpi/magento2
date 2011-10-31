@@ -39,7 +39,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Histor
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('enterprise_giftcardaccount/history')
+        $collection = Mage::getModel('Enterprise_GiftCardAccount_Model_History')
             ->getCollection()
             ->addFieldToFilter('giftcardaccount_id', Mage::registry('current_giftcardaccount')->getId());
         $this->setCollection($collection);

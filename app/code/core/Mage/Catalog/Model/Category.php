@@ -132,7 +132,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function getUrlInstance()
     {
         if (!self::$_url) {
-            self::$_url = Mage::getModel('core/url');
+            self::$_url = Mage::getModel('Mage_Core_Model_Url');
         }
         return self::$_url;
     }
@@ -145,7 +145,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function getUrlRewrite()
     {
         if (!self::$_urlRewrite) {
-            self::$_urlRewrite = Mage::getModel('core/url_rewrite');
+            self::$_urlRewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite');
         }
         return self::$_urlRewrite;
     }
@@ -186,7 +186,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
          * Validate new parent category id. (category model is used for backward
          * compatibility in event params)
          */
-        $parent = Mage::getModel('catalog/category')
+        $parent = Mage::getModel('Mage_Catalog_Model_Category')
             ->setStoreId($this->getStoreId())
             ->load($parentId);
 
@@ -346,7 +346,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         }
 
         $storeIds = array();
-        $storeCollection = Mage::getModel('core/store')->getCollection()->loadByCategoryIds($nodes);
+        $storeCollection = Mage::getModel('Mage_Core_Model_Store')->getCollection()->loadByCategoryIds($nodes);
         foreach ($storeCollection as $store) {
             $storeIds[$store->getId()] = $store->getId();
         }
@@ -510,7 +510,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         $path = $this->getUrlKey();
 
         if ($this->getParentId()) {
-            $parentPath = Mage::getModel('catalog/category')->load($this->getParentId())->getCategoryPath();
+            $parentPath = Mage::getModel('Mage_Catalog_Model_Category')->load($this->getParentId())->getCategoryPath();
             $path = $parentPath.'/'.$path;
         }
 
@@ -527,7 +527,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function getParentCategory()
     {
         if (!$this->hasData('parent_category')) {
-            $this->setData('parent_category', Mage::getModel('catalog/category')->load($this->getParentId()));
+            $this->setData('parent_category', Mage::getModel('Mage_Catalog_Model_Category')->load($this->getParentId()));
         }
         return $this->_getData('parent_category');
     }

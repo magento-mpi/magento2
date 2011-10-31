@@ -40,7 +40,7 @@ class Enterprise_GiftCardAccount_Model_System_Config_Backend_Pool extends Mage_C
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
-            Mage::getModel('enterprise_giftcardaccount/pool')->cleanupFree();
+            Mage::getModel('Enterprise_GiftCardAccount_Model_Pool')->cleanupFree();
         }
         parent::_afterSave();
     }
@@ -67,7 +67,7 @@ class Enterprise_GiftCardAccount_Model_System_Config_Backend_Pool extends Mage_C
         if (isset($fields['code_split']['value'])) {
             $v = (int) $fields['code_split']['value'];
             if ($v > 0 && $v < $codeLen) {
-                $sep = Mage::getModel('enterprise_giftcardaccount/pool')->getCodeSeparator();
+                $sep = Mage::getModel('Enterprise_GiftCardAccount_Model_Pool')->getCodeSeparator();
                 $len += (ceil($codeLen/$v) * strlen($sep))-1;
             }
         }

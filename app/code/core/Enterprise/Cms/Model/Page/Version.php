@@ -91,7 +91,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         if (!$this->getId()) {
-            $incrementNumber = Mage::getModel('enterprise_cms/increment')
+            $incrementNumber = Mage::getModel('Enterprise_Cms_Model_Increment')
                 ->getNewIncrementId(Enterprise_Cms_Model_Increment::TYPE_PAGE,
                         $this->getPageId(), Enterprise_Cms_Model_Increment::LEVEL_VERSION);
 
@@ -136,7 +136,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
         // If this was a new version we should create initial revision for it
         // from specified revision or from latest for parent version
         if ($this->getOrigData($this->getIdFieldName()) != $this->getId()) {
-            $revision = Mage::getModel('enterprise_cms/page_revision');
+            $revision = Mage::getModel('Enterprise_Cms_Model_Page_Revision');
 
             // setting data for load
             $userId = $this->getUserId();

@@ -103,7 +103,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     {
         $productId = (int) $this->getRequest()->getParam('product');
         if ($productId) {
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($productId);
             if ($product->getId()) {
@@ -230,7 +230,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     {
         $orderItemIds = $this->getRequest()->getParam('order_items', array());
         if (is_array($orderItemIds)) {
-            $itemsCollection = Mage::getModel('sales/order_item')
+            $itemsCollection = Mage::getModel('Mage_Sales_Model_Order_Item')
                 ->getCollection()
                 ->addIdFilter($orderItemIds)
                 ->load();

@@ -68,7 +68,7 @@ class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional exten
     protected function _getBalanceModel()
     {
         if (is_null($this->_balanceModel)) {
-            $this->_balanceModel = Mage::getModel('enterprise_customerbalance/balance')
+            $this->_balanceModel = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                 ->setCustomer($this->_getCustomer())
                 ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 

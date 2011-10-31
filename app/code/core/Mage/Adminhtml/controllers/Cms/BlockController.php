@@ -79,7 +79,7 @@ class Mage_Adminhtml_Cms_BlockController extends Mage_Adminhtml_Controller_Actio
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('block_id');
-        $model = Mage::getModel('cms/block');
+        $model = Mage::getModel('Mage_Cms_Model_Block');
 
         // 2. Initial checking
         if ($id) {
@@ -117,7 +117,7 @@ class Mage_Adminhtml_Cms_BlockController extends Mage_Adminhtml_Controller_Actio
         if ($data = $this->getRequest()->getPost()) {
 
             $id = $this->getRequest()->getParam('block_id');
-            $model = Mage::getModel('cms/block')->load($id);
+            $model = Mage::getModel('Mage_Cms_Model_Block')->load($id);
             if (!$model->getId() && $id) {
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Cms_Helper_Data')->__('This block no longer exists.'));
                 $this->_redirect('*/*/');
@@ -169,7 +169,7 @@ class Mage_Adminhtml_Cms_BlockController extends Mage_Adminhtml_Controller_Actio
             $title = "";
             try {
                 // init model and delete
-                $model = Mage::getModel('cms/block');
+                $model = Mage::getModel('Mage_Cms_Model_Block');
                 $model->load($id);
                 $title = $model->getTitle();
                 $model->delete();

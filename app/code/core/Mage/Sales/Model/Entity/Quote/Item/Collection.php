@@ -126,7 +126,7 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
             return false;
         }
 
-        $collection = Mage::getModel('catalog/product')->getCollection()
+        $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
             ->setStoreId($this->getStoreId())
             ->addIdFilter($productIds)
             ->addAttributeToSelect('*')

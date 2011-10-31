@@ -1241,7 +1241,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             $productIds[] = $product->getId();
         }
         if (!empty($productIds)) {
-            $options = Mage::getModel('catalog/product_option')
+            $options = Mage::getModel('Mage_Catalog_Model_Product_Option')
                 ->getCollection()
                 ->addTitleToResult(Mage::app()->getStore()->getId())
                 ->addPriceToResult(Mage::app()->getStore()->getId())

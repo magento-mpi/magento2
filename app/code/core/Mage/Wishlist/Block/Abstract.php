@@ -386,7 +386,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
         if (is_object($buyRequest)) {
             $config = $buyRequest->getSuperProductConfig();
             if ($config && !empty($config['product_id'])) {
-                $product = Mage::getModel('catalog/product')
+                $product = Mage::getModel('Mage_Catalog_Model_Product')
                     ->setStoreId(Mage::app()->getStore()->getStoreId())
                     ->load($config['product_id']);
             }

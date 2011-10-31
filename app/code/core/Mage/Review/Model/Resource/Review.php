@@ -303,7 +303,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
             $object->load($object->getReviewId());
         }
 
-        $ratingModel    = Mage::getModel('rating/rating');
+        $ratingModel    = Mage::getModel('Mage_Rating_Model_Rating');
         $ratingSummaries= $ratingModel->getEntitySummary($object->getEntityPkValue(), false);
 
         foreach ($ratingSummaries as $ratingSummaryObject) {

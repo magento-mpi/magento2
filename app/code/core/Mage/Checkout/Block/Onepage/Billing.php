@@ -111,7 +111,7 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
                     $this->_address->setLastname($this->getQuote()->getCustomer()->getLastname());
                 }
             } else {
-                $this->_address = Mage::getModel('sales/quote_address');
+                $this->_address = Mage::getModel('Mage_Sales_Model_Quote_Address');
             }
         }
 

@@ -51,13 +51,13 @@ class Mage_Poll_VoteController extends Mage_Core_Controller_Front_Action
         $answerId   = intval($this->getRequest()->getParam('vote'));
 
         /** @var $poll Mage_Poll_Model_Poll */
-        $poll = Mage::getModel('poll/poll')->load($pollId);
+        $poll = Mage::getModel('Mage_Poll_Model_Poll')->load($pollId);
 
         /**
          * Check poll data
          */
         if ($poll->getId() && !$poll->getClosed() && !$poll->isVoted()) {
-            $vote = Mage::getModel('poll/poll_vote')
+            $vote = Mage::getModel('Mage_Poll_Model_Poll_Vote')
                 ->setPollAnswerId($answerId)
                 ->setIpAddress(Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(true))
                 ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());

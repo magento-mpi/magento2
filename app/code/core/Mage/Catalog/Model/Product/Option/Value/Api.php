@@ -69,7 +69,7 @@ class Mage_Catalog_Model_Product_Option_Value_Api extends Mage_Catalog_Model_Api
     public function info($valueId, $store = null)
     {
         /** @var $productOptionValue Mage_Catalog_Model_Product_Option_Value */
-        $productOptionValue = Mage::getModel('catalog/product_option_value')->load($valueId);
+        $productOptionValue = Mage::getModel('Mage_Catalog_Model_Product_Option_Value')->load($valueId);
         if (!$productOptionValue->getId()) {
             $this->_fault('value_not_exists');
         }
@@ -108,7 +108,7 @@ class Mage_Catalog_Model_Product_Option_Value_Api extends Mage_Catalog_Model_Api
         /** @var $option Mage_Catalog_Model_Product_Option */
         $option = $this->_prepareOption($optionId, $store);
         /** @var $optionValueModel Mage_Catalog_Model_Product_Option_Value */
-        $optionValueModel = Mage::getModel('catalog/product_option_value');
+        $optionValueModel = Mage::getModel('Mage_Catalog_Model_Product_Option_Value');
         $optionValueModel->setOption($option);
         foreach ($data as &$optionValue) {
             foreach ($optionValue as &$value) {
@@ -135,7 +135,7 @@ class Mage_Catalog_Model_Product_Option_Value_Api extends Mage_Catalog_Model_Api
     public function update($valueId, $data, $store = null)
     {
         /** @var $productOptionValue Mage_Catalog_Model_Product_Option_Value */
-        $productOptionValue = Mage::getModel('catalog/product_option_value')->load($valueId);
+        $productOptionValue = Mage::getModel('Mage_Catalog_Model_Product_Option_Value')->load($valueId);
         if (!$productOptionValue->getId()) {
             $this->_fault('value_not_exists');
         }
@@ -176,7 +176,7 @@ class Mage_Catalog_Model_Product_Option_Value_Api extends Mage_Catalog_Model_Api
     public function remove($valueId)
     {
         /** @var $optionValue Mage_Catalog_Model_Product_Option_Value */
-        $optionValue = Mage::getModel('catalog/product_option_value')->load($valueId);
+        $optionValue = Mage::getModel('Mage_Catalog_Model_Product_Option_Value')->load($valueId);
         if (!$optionValue->getId()) {
             $this->_fault('value_not_exists');
         }
@@ -205,7 +205,7 @@ class Mage_Catalog_Model_Product_Option_Value_Api extends Mage_Catalog_Model_Api
     protected function _prepareOption($optionId, $store = null)
     {
         /** @var $option Mage_Catalog_Model_Product_Option */
-        $option = Mage::getModel('catalog/product_option');
+        $option = Mage::getModel('Mage_Catalog_Model_Product_Option');
         if (is_string($store) || is_integer($store)) {
             $storeId = $this->_getStoreId($store);
             $option->setStoreId($storeId);

@@ -46,7 +46,7 @@ class Mage_CatalogRule_Model_Observer
 
         $productWebsiteIds = $product->getWebsiteIds();
 
-        $rules = Mage::getModel('catalogrule/rule')->getCollection()
+        $rules = Mage::getModel('Mage_CatalogRule_Model_Rule')->getCollection()
             ->addFieldToFilter('is_active', 1);
 
         foreach ($rules as $rule) {
@@ -173,7 +173,7 @@ class Mage_CatalogRule_Model_Observer
             && $product->getConfigurablePrice() !== null
         ) {
             $configurablePrice = $product->getConfigurablePrice();
-            $productPriceRule = Mage::getModel('catalogrule/rule')->calcProductPriceRule($product, $configurablePrice);
+            $productPriceRule = Mage::getModel('Mage_CatalogRule_Model_Rule')->calcProductPriceRule($product, $configurablePrice);
             if ($productPriceRule !== null) {
                 $product->setConfigurablePrice($productPriceRule);
             }
@@ -251,7 +251,7 @@ class Mage_CatalogRule_Model_Observer
         }
 
         if ($disabledRulesCount) {
-            Mage::getModel('catalogrule/rule')->applyAll();
+            Mage::getModel('Mage_CatalogRule_Model_Rule')->applyAll();
             Mage::getSingleton('adminhtml/session')->addWarning(
                 Mage::helper('Mage_CatalogRule_Helper_Data')->__('%d Catalog Price Rules based on "%s" attribute have been disabled.', $disabledRulesCount, $attributeCode));
         }
@@ -371,7 +371,7 @@ class Mage_CatalogRule_Model_Observer
             return;
         }
 
-        $rules = Mage::getModel('catalogrule/rule')->getCollection()
+        $rules = Mage::getModel('Mage_CatalogRule_Model_Rule')->getCollection()
             ->addFieldToFilter('is_active', 1);
 
         foreach ($rules as $rule) {

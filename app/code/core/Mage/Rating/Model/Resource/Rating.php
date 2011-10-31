@@ -265,7 +265,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
         $result = array();
 
         //$stores = Mage::app()->getStore()->getResourceCollection()->load();
-        $stores = Mage::getModel('core/store')->getResourceCollection()->load();
+        $stores = Mage::getModel('Mage_Core_Model_Store')->getResourceCollection()->load();
 
         foreach ($data as $row) {
             $clone = clone $object;

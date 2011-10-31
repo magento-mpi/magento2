@@ -87,7 +87,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
     public function getQuery()
     {
         if (!$this->_query) {
-            $this->_query = Mage::getModel('catalogsearch/query')
+            $this->_query = Mage::getModel('Mage_CatalogSearch_Model_Query')
                 ->loadByQuery($this->getQueryText());
             if (!$this->_query->getId()) {
                 $this->_query->setQueryText($this->getQueryText());

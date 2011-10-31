@@ -113,7 +113,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
         else {
             try {
                 foreach ($subscribersIds as $subscriberId) {
-                    $subscriber = Mage::getModel('newsletter/subscriber')->load($subscriberId);
+                    $subscriber = Mage::getModel('Mage_Newsletter_Model_Subscriber')->load($subscriberId);
                     $subscriber->unsubscribe();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
@@ -138,7 +138,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
         else {
             try {
                 foreach ($subscribersIds as $subscriberId) {
-                    $subscriber = Mage::getModel('newsletter/subscriber')->load($subscriberId);
+                    $subscriber = Mage::getModel('Mage_Newsletter_Model_Subscriber')->load($subscriberId);
                     $subscriber->delete();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(

@@ -105,7 +105,7 @@ class Mage_Sales_Model_Order_Address extends Mage_Customer_Model_Address_Abstrac
     public function getOrder()
     {
         if (!$this->_order) {
-            $this->_order = Mage::getModel('sales/order')->load($this->getParentId());
+            $this->_order = Mage::getModel('Mage_Sales_Model_Order')->load($this->getParentId());
         }
         return $this->_order;
     }

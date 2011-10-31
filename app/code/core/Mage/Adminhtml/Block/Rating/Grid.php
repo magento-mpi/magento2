@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Rating_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('rating/rating')
+        $collection = Mage::getModel('Mage_Rating_Model_Rating')
             ->getResourceCollection()
             ->addEntityFilter(Mage::registry('entityId'));
         $this->setCollection($collection);

@@ -53,7 +53,7 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
         $this->_title($this->__('Sales'))->_title($this->__('Terms and Conditions'));
 
         $id  = $this->getRequest()->getParam('id');
-        $agreementModel  = Mage::getModel('checkout/agreement');
+        $agreementModel  = Mage::getModel('Mage_Checkout_Model_Agreement');
         $hlp = Mage::helper('Mage_Checkout_Helper_Data');
         if ($id) {
             $agreementModel->load($id);

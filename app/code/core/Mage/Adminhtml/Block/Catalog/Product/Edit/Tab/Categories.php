@@ -231,7 +231,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
      */
     public function getCategoryChildrenJson($categoryId)
     {
-        $category = Mage::getModel('catalog/category')->load($categoryId);
+        $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
         $node = $this->getRoot($category, 1)->getTree()->getNodeById($categoryId);
 
         if (!$node || !$node->hasChildren()) {

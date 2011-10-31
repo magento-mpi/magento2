@@ -52,7 +52,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Purchaseorder extends Mage_P
     {
         $method = $this->getData('method');
         if (!$method) {
-            $method = Mage::getModel('payment/method_purchaseorder');
+            $method = Mage::getModel('Mage_Payment_Model_Method_Purchaseorder');
             $this->setData('method', $method);
         }
 
@@ -82,7 +82,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Purchaseorder extends Mage_P
     <field name="payment[po_number]" type="text" label="{$poNumberText}" value="$poNumber" required="true" />
 </fieldset>
 EOT;
-        $fieldsetXmlObj = Mage::getModel('xmlconnect/simplexml_element', $xml);
+        $fieldsetXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', $xml);
         $formXmlObj->appendChild($fieldsetXmlObj);
 
         return $paymentItemXmlObj;

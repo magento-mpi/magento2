@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         $customer = Mage::registry('current_customer');
 
         /* @var $customerForm Mage_Customer_Model_Form */
-        $customerForm = Mage::getModel('customer/form');
+        $customerForm = Mage::getModel('Mage_Customer_Model_Form');
         $customerForm->setEntity($customer)
             ->setFormCode('adminhtml_customer')
             ->initDefaultValues();

@@ -132,7 +132,7 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
             $this->unsetData($this->getIdFieldName());
             $this->setCreatedAt(Mage::getSingleton('core/date')->gmtDate());
 
-            $incrementNumber = Mage::getModel('enterprise_cms/increment')
+            $incrementNumber = Mage::getModel('Enterprise_Cms_Model_Increment')
                 ->getNewIncrementId(Enterprise_Cms_Model_Increment::TYPE_PAGE,
                         $this->getVersionId(), Enterprise_Cms_Model_Increment::LEVEL_REVISION);
 
@@ -193,7 +193,7 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
         $this->_getResource()->beginTransaction();
         try {
             $data = $this->_prepareDataForPublish($this);
-            $object = Mage::getModel('enterprise_cms/page_revision')->setData($data);
+            $object = Mage::getModel('Enterprise_Cms_Model_Page_Revision')->setData($data);
             $this->_getResource()->publish($object, $this->getPageId());
             $this->_getResource()->commit();
         } catch (Exception $e){

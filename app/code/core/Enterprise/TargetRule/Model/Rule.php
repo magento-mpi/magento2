@@ -126,7 +126,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
      */
     public function getConditionsInstance()
     {
-        return Mage::getModel('enterprise_targetrule/rule_condition_combine');
+        return Mage::getModel('Enterprise_TargetRule_Model_Rule_Condition_Combine');
     }
 
     /**
@@ -136,7 +136,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
      */
     public function getActionsInstance()
     {
-        return Mage::getModel('enterprise_targetrule/actions_condition_combine');
+        return Mage::getModel('Enterprise_TargetRule_Model_Actions_Condition_Combine');
     }
 
     /**
@@ -242,7 +242,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
                 ),
                 array(
                     'attributes' => $this->getCollectedAttributes(),
-                    'product'    => Mage::getModel('catalog/product'),
+                    'product'    => Mage::getModel('Mage_Catalog_Model_Product'),
                 )
             );
         }

@@ -47,7 +47,7 @@ class Enterprise_Cms_Helper_Data extends Mage_Core_Helper_Abstract
     public function getUsersArray($addEmptyUser = false)
     {
         if (!$this->_usersHash) {
-            $collection = Mage::getModel('admin/user')->getCollection();
+            $collection = Mage::getModel('Mage_Admin_Model_User')->getCollection();
             $this->_usersHash = array();
 
             if ($addEmptyUser) {

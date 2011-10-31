@@ -502,7 +502,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
             $website = Mage::app()->getWebsite($item['website_id']);
 
             if ($website->getBaseCurrencyCode() != $baseCurrency) {
-                $rate = Mage::getModel('directory/currency')
+                $rate = Mage::getModel('Mage_Directory_Model_Currency')
                     ->load($baseCurrency)
                     ->getRate($website->getBaseCurrencyCode());
                 if (!$rate) {

@@ -42,7 +42,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Related extends Mage_XmlConnect_Bloc
     public function getRelatedProductsXmlObj()
     {
         /** @var $relatedXmlObj Mage_XmlConnect_Model_Simplexml_Element */
-        $relatedXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<related_products></related_products>');
+        $relatedXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<related_products></related_products>');
 
         $productObj = $this->getParentBlock()->getProduct();
 

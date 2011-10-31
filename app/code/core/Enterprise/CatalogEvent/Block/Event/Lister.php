@@ -84,7 +84,7 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
             }
 
             if (!empty($allIds)) {
-                $eventCollection = Mage::getModel('enterprise_catalogevent/event')
+                $eventCollection = Mage::getModel('Enterprise_CatalogEvent_Model_Event')
                     ->getCollection();
                 $eventCollection->addFieldToFilter('category_id', array('in' => $allIds))
                     ->addVisibilityFilter()

@@ -61,7 +61,7 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
     public function detailsAction()
     {
         $rowId = $this->getRequest()->getParam('id');
-        $row = Mage::getModel('paypal/report_settlement_row')->load($rowId);
+        $row = Mage::getModel('Mage_Paypal_Model_Report_Settlement_Row')->load($rowId);
         if (!$row->getId()) {
             $this->_redirect('*/*/');
             return;
@@ -79,7 +79,7 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
     public function fetchAction()
     {
         try {
-            $reports = Mage::getModel('paypal/report_settlement');
+            $reports = Mage::getModel('Mage_Paypal_Model_Report_Settlement');
             /* @var $reports Mage_Paypal_Model_Report_Settlement */
             $credentials = $reports->getSftpCredentials();
             if (empty($credentials)) {

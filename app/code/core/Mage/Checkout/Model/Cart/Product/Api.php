@@ -265,7 +265,7 @@ class Mage_Checkout_Model_Cart_Product_Api extends Mage_Checkout_Model_Api_Resou
         }
 
         /** @var $customerQuote Mage_Sales_Model_Quote */
-        $customerQuote = Mage::getModel('sales/quote')
+        $customerQuote = Mage::getModel('Mage_Sales_Model_Quote')
             ->setStoreId($store)
             ->loadByCustomer($customer);
 

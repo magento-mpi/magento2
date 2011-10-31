@@ -191,7 +191,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function rotateLogs()
     {
-        $lastRotationFlag = Mage::getModel('enterprise_logging/flag')->loadSelf();
+        $lastRotationFlag = Mage::getModel('Enterprise_Logging_Model_Flag')->loadSelf();
         $lastRotationTime = $lastRotationFlag->getFlagData();
         $rotationFrequency = 3600 * 24 * (int)Mage::getConfig()->getNode('default/system/rotation/frequency');
         if (!$lastRotationTime || ($lastRotationTime < time() - $rotationFrequency)) {

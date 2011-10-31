@@ -67,7 +67,7 @@ class Mage_Directory_Model_Observer
         }
 
         if (sizeof($importWarnings) == 0) {
-            Mage::getModel('directory/currency')->saveRates($rates);
+            Mage::getModel('Mage_Directory_Model_Currency')->saveRates($rates);
         }
         else {
             $translate = Mage::getSingleton('core/translate');
@@ -75,7 +75,7 @@ class Mage_Directory_Model_Observer
             $translate->setTranslateInline(false);
 
             /* @var $mailTemplate Mage_Core_Model_Email_Template */
-            $mailTemplate = Mage::getModel('core/email_template');
+            $mailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
             $mailTemplate->setDesignConfig(array(
                 'area'  => 'frontend',
             ))->sendTransactional(

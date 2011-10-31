@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Permissions_Grid_Role extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareCollection()
     {
-        $collection =  Mage::getModel("admin/roles")->getCollection();
+        $collection =  Mage::getModel('Mage_Admin_Model_Roles')->getCollection();
         $this->setCollection($collection);
 
         return parent::_prepareCollection();

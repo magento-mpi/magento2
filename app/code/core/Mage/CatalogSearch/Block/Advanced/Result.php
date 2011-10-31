@@ -100,7 +100,7 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Core_Block_Template
 
     public function getFormUrl()
     {
-        return Mage::getModel('core/url')
+        return Mage::getModel('Mage_Core_Model_Url')
             ->setQueryParams($this->getRequest()->getQuery())
             ->getUrl('*/*/', array('_escape' => true));
     }

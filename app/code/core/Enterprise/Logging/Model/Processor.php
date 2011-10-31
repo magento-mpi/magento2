@@ -130,8 +130,8 @@ class Enterprise_Logging_Model_Processor
     public function __construct()
     {
         $this->_config = Mage::getSingleton('enterprise_logging/config');
-        $this->_modelsHandler = Mage::getModel('enterprise_logging/handler_models');
-        $this->_controllerActionsHandler = Mage::getModel('enterprise_logging/handler_controllers');
+        $this->_modelsHandler = Mage::getModel('Enterprise_Logging_Model_Handler_Models');
+        $this->_controllerActionsHandler = Mage::getModel('Enterprise_Logging_Model_Handler_Controllers');
     }
 
     /**
@@ -300,8 +300,8 @@ class Enterprise_Logging_Model_Processor
             $userId = Mage::getSingleton('admin/session')->getUser()->getId();
             $username = Mage::getSingleton('admin/session')->getUser()->getUsername();
         }
-        $errors = Mage::getModel('adminhtml/session')->getMessages()->getErrors();
-        $loggingEvent = Mage::getModel('enterprise_logging/event')->setData(array(
+        $errors = Mage::getModel('Mage_Adminhtml_Model_Session')->getMessages()->getErrors();
+        $loggingEvent = Mage::getModel('Enterprise_Logging_Model_Event')->setData(array(
             'ip'            => Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(),
             'x_forwarded_ip'=> Mage::app()->getRequest()->getServer('HTTP_X_FORWARDED_FOR'),
             'user'          => $username,

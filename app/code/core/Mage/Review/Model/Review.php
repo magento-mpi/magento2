@@ -97,7 +97,7 @@ class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
 
     public function getEntitySummary($product, $storeId=0)
     {
-        $summaryData = Mage::getModel('review/review_summary')
+        $summaryData = Mage::getModel('Mage_Review_Model_Review_Summary')
             ->setStoreId($storeId)
             ->load($product->getId());
         $summary = new Varien_Object();

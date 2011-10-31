@@ -43,7 +43,7 @@ class Mage_Cms_Block_Page extends Mage_Core_Block_Abstract
     {
         if (!$this->hasData('page')) {
             if ($this->getPageId()) {
-                $page = Mage::getModel('cms/page')
+                $page = Mage::getModel('Mage_Cms_Model_Page')
                     ->setStoreId(Mage::app()->getStore()->getId())
                     ->load($this->getPageId(), 'identifier');
             } else {

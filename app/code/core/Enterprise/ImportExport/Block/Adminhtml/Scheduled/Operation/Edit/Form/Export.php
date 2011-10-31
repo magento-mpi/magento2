@@ -55,11 +55,11 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('File Format'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('File Format'),
             'required'  => true,
-            'values'    => Mage::getModel('importexport/source_export_format')->toOptionArray()
+            'values'    => Mage::getModel('Mage_ImportExport_Model_Source_Export_Format')->toOptionArray()
         ), 'entity');
 
         $form->getElement('email_template')
-            ->setValues(Mage::getModel('adminhtml/system_config_source_email_template')
+            ->setValues(Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Email_Template')
                 ->setPath('enterprise_importexport_export_failed')
                 ->toOptionArray()
             );

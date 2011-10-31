@@ -138,7 +138,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
             }
 
             try {
-                $operation = Mage::getModel('enterprise_importexport/scheduled_operation')->setData($data);
+                $operation = Mage::getModel('Enterprise_ImportExport_Model_Scheduled_Operation')->setData($data);
                 $operation->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     Mage::helper('Enterprise_ImportExport_Helper_Data')->getSuccessSaveMessage($operation->getOperationType())
@@ -166,7 +166,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
         $id = (int)$request->getParam('id');
         if ($id) {
             try {
-                Mage::getModel('enterprise_importexport/scheduled_operation')->setId($id)->delete();
+                Mage::getModel('Enterprise_ImportExport_Model_Scheduled_Operation')->setId($id)->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     Mage::helper('Enterprise_ImportExport_Helper_Data')->getSuccessDeleteMessage($request->getParam('type'))
                 );
@@ -277,7 +277,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
                 $this->loadLayout();
 
                 /** @var $export Enterprise_ImportExport_Model_Export */
-                $export = Mage::getModel('enterprise_importexport/export')->setData($data);
+                $export = Mage::getModel('Enterprise_ImportExport_Model_Export')->setData($data);
 
                 /** @var $attrFilterBlock Enterprise_ImportExport_Block_Adminhtml_Export_Filter */
                 $attrFilterBlock = $this->getLayout()->getBlock('export.filter')
@@ -313,7 +313,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
                 Enterprise_ImportExport_Model_Scheduled_Operation::CRON_JOB_NAME_PREFIX . $operationId
             );
             $result = false;
-            $result = Mage::getModel('enterprise_importexport/observer')->processScheduledOperation($schedule, true);
+            $result = Mage::getModel('Enterprise_ImportExport_Model_Observer')->processScheduledOperation($schedule, true);
         } catch (Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
@@ -337,7 +337,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
     public function logCleanAction()
     {
         $schedule = new Varien_Object();
-        $result = Mage::getModel('enterprise_importexport/observer')->scheduledLogClean($schedule, true);
+        $result = Mage::getModel('Enterprise_ImportExport_Model_Observer')->scheduledLogClean($schedule, true);
         if ($result) {
             $this->_getSession()
                 ->addSuccess(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('History files have been deleted'));

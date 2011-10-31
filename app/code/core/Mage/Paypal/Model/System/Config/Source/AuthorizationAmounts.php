@@ -37,7 +37,7 @@ class Mage_Paypal_Model_System_Config_Source_AuthorizationAmounts
     public function toOptionArray()
     {
         /** @var $configModel Mage_Paypal_Model_Config */
-        $configModel = Mage::getModel('paypal/config');
+        $configModel = Mage::getModel('Mage_Paypal_Model_Config');
         return $configModel->getAuthorizationAmounts();
     }
 }

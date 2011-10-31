@@ -40,7 +40,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     public function preDispatch()
     {
         parent::preDispatch();
-        $this->_entityTypeId = Mage::getModel('eav/entity')->setType(Mage_Catalog_Model_Product::ENTITY)->getTypeId();
+        $this->_entityTypeId = Mage::getModel('Mage_Eav_Model_Entity')->setType(Mage_Catalog_Model_Product::ENTITY)->getTypeId();
     }
 
     protected function _initAction()
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     public function editAction()
     {
         $id = $this->getRequest()->getParam('attribute_id');
-        $model = Mage::getModel('catalog/resource_eav_attribute')
+        $model = Mage::getModel('Mage_Catalog_Model_Resource_Eav_Attribute')
             ->setEntityTypeId($this->_entityTypeId);
         if ($id) {
             $model->load($id);
@@ -130,7 +130,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
         $attributeCode  = $this->getRequest()->getParam('attribute_code');
         $attributeId    = $this->getRequest()->getParam('attribute_id');
-        $attribute = Mage::getModel('catalog/resource_eav_attribute')
+        $attribute = Mage::getModel('Mage_Catalog_Model_Resource_Eav_Attribute')
             ->loadByCode($this->_entityTypeId, $attributeCode);
 
         if ($attribute->getId() && !$attributeId) {
@@ -174,7 +174,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
             $redirectBack   = $this->getRequest()->getParam('back', false);
             /* @var $model Mage_Catalog_Model_Entity_Attribute */
-            $model = Mage::getModel('catalog/resource_eav_attribute');
+            $model = Mage::getModel('Mage_Catalog_Model_Resource_Eav_Attribute');
             /* @var $helper Mage_Catalog_Helper_Product */
             $helper = Mage::helper('Mage_Catalog_Helper_Product');
 
@@ -195,7 +195,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             //validate frontend_input
             if (isset($data['frontend_input'])) {
                 /** @var $validatorInputType Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator */
-                $validatorInputType = Mage::getModel('eav/adminhtml_system_config_source_inputtype_validator');
+                $validatorInputType = Mage::getModel('Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator');
                 if (!$validatorInputType->isValid($data['frontend_input'])) {
                     foreach ($validatorInputType->getMessages() as $message) {
                         $session->addError($message);
@@ -309,7 +309,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     public function deleteAction()
     {
         if ($id = $this->getRequest()->getParam('attribute_id')) {
-            $model = Mage::getModel('catalog/resource_eav_attribute');
+            $model = Mage::getModel('Mage_Catalog_Model_Resource_Eav_Attribute');
 
             // entity type check
             $model->load($id);

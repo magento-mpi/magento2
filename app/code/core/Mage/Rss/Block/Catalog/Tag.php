@@ -51,7 +51,7 @@ class Mage_Rss_Block_Catalog_Tag extends Mage_Rss_Block_Catalog_Abstract
         $title = Mage::helper('Mage_Rss_Helper_Data')->__('Products tagged with %s', $tagModel->getName());
         $lang = Mage::getStoreConfig('general/locale/code');
 
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = Mage::getModel('Mage_Rss_Model_Rss');
         $data = array('title' => $title,
             'description' => $title,
             'link'        => $newurl,
@@ -66,7 +66,7 @@ class Mage_Rss_Block_Catalog_Tag extends Mage_Rss_Block_Catalog_Abstract
 
         $_collection->setVisibility(Mage::getSingleton('catalog/product_visibility')->getVisibleInCatalogIds());
 
-        $product = Mage::getModel('catalog/product');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
 
         Mage::getSingleton('core/resource_iterator')->walk(
             Mage::getResourceHelper('Mage_Core')->getQueryUsingAnalyticFunction($_collection->getSelect()),

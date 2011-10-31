@@ -53,7 +53,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
     protected function _prepareCollection()
     {
         /** @var $collection Enterprise_Reward_Model_Resource_Reward_History_Collection */
-        $collection = Mage::getModel('enterprise_reward/reward_history')->getCollection()
+        $collection = Mage::getModel('Enterprise_Reward_Model_Reward_History')->getCollection()
             ->addCustomerFilter($this->getCustomerId())
             ->setExpiryConfig(Mage::helper('Enterprise_Reward_Helper_Data')->getExpiryConfig())
             ->addExpirationDate()
@@ -144,7 +144,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
 // TODO: instead of source models move options to a getter
         $this->addColumn('website', array(
             'type'     => 'options',
-            'options'  => Mage::getModel('enterprise_reward/source_website')->toOptionArray(false),
+            'options'  => Mage::getModel('Enterprise_Reward_Model_Source_Website')->toOptionArray(false),
             'index'    => 'website_id',
             'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
             'sortable' => false,

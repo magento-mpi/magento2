@@ -54,7 +54,7 @@ class Enterprise_GiftRegistry_Block_Customer_List
     public function getEntityCollection()
     {
         if (!$this->hasEntityCollection()) {
-            $this->setData('entity_collection', Mage::getModel('enterprise_giftregistry/entity')->getCollection()
+            $this->setData('entity_collection', Mage::getModel('Enterprise_GiftRegistry_Model_Entity')->getCollection()
                 ->filterByCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
             );
         }
@@ -68,7 +68,7 @@ class Enterprise_GiftRegistry_Block_Customer_List
      */
     public function canAddNewEntity()
     {
-        $collection = Mage::getModel('enterprise_giftregistry/type')->getCollection()
+        $collection = Mage::getModel('Enterprise_GiftRegistry_Model_Type')->getCollection()
             ->addStoreData(Mage::app()->getStore()->getId())
             ->applyListedFilter();
 

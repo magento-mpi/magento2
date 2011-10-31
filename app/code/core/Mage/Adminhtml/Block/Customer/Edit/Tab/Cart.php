@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
         $customer = Mage::registry('current_customer');
         $storeIds = Mage::app()->getWebsite($this->getWebsiteId())->getStoreIds();
 
-        $quote = Mage::getModel('sales/quote')
+        $quote = Mage::getModel('Mage_Sales_Model_Quote')
             ->setSharedStoreIds($storeIds)
             ->loadByCustomer($customer);
 

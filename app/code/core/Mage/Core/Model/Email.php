@@ -71,7 +71,7 @@ class Mage_Core_Model_Email extends Varien_Object
     {
         $body = $this->getData('body');
         if (empty($body) && $this->getTemplate()) {
-            $this->_block = Mage::getModel('core/layout')->createBlock('core/template', 'email')
+            $this->_block = Mage::getModel('Mage_Core_Model_Layout')->createBlock('core/template', 'email')
                 ->setArea('frontend')
                 ->setTemplate($this->getTemplate());
             foreach ($this->getTemplateVars() as $var=>$value) {

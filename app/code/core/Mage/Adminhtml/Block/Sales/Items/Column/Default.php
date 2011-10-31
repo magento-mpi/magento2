@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Sales_Items_Column_Default extends Mage_Adminhtml_Blo
         $_default = $optionInfo['value'];
         if (isset($optionInfo['option_type'])) {
             try {
-                $group = Mage::getModel('catalog/product_option')->groupFactory($optionInfo['option_type']);
+                $group = Mage::getModel('Mage_Catalog_Model_Product_Option')->groupFactory($optionInfo['option_type']);
                 return $group->getCustomizedView($optionInfo);
             } catch (Exception $e) {
                 return $_default;

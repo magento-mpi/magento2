@@ -39,7 +39,7 @@ class Enterprise_Search_Adminhtml_Catalog_SearchController extends Mage_Adminhtm
     public function relatedGridAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('catalogsearch/query');
+        $model = Mage::getModel('Mage_CatalogSearch_Model_Query');
 
         if ($id) {
             $model->load($id);

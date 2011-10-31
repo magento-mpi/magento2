@@ -719,7 +719,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             return $this;
         }
 
-        $serviceModel = Mage::getModel('sales/service_order', $order);
+        $serviceModel = Mage::getModel('Mage_Sales_Model_Service_Order', $order);
         if ($invoice) {
             if ($invoice->getBaseTotalRefunded() > 0) {
                 $adjustment = array('adjustment_positive' => $amount);
@@ -1149,7 +1149,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                 $transaction = $this->_lookupTransaction($transactionId);
             }
             if (!$transaction) {
-                $transaction = Mage::getModel('sales/order_payment_transaction')->setTxnId($transactionId);
+                $transaction = Mage::getModel('Mage_Sales_Model_Order_Payment_Transaction')->setTxnId($transactionId);
             }
             $transaction
                 ->setOrderPaymentObject($this)
@@ -1364,7 +1364,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     {
         if (!$txnId) {
             if ($txnType && $this->getId()) {
-                $collection = Mage::getModel('sales/order_payment_transaction')->getCollection()
+                $collection = Mage::getModel('Mage_Sales_Model_Order_Payment_Transaction')->getCollection()
                     ->setOrderFilter($this->getOrder())
                     ->addPaymentIdFilter($this->getId())
                     ->addTxnTypeFilter($txnType)
@@ -1381,7 +1381,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         if (isset($this->_transactionsLookup[$txnId])) {
             return $this->_transactionsLookup[$txnId];
         }
-        $txn = Mage::getModel('sales/order_payment_transaction')
+        $txn = Mage::getModel('Mage_Sales_Model_Order_Payment_Transaction')
             ->setOrderPaymentObject($this)
             ->loadByTxnId($txnId);
         if ($txn->getId()) {
@@ -1491,7 +1491,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     {
         if ($this->getBillingAgreementData()) {
             $order = $this->getOrder();
-            $agreement = Mage::getModel('sales/billing_agreement')->importOrderPayment($this);
+            $agreement = Mage::getModel('Mage_Sales_Model_Billing_Agreement')->importOrderPayment($this);
             if ($agreement->isValid()) {
                 $message = Mage::helper('Mage_Sales_Helper_Data')->__('Created billing agreement #%s.', $agreement->getReferenceId());
                 $order->addRelatedObject($agreement);

@@ -52,7 +52,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Checkmo extends Mage_Payment
     {
         $method = $this->getData('method');
         if (!$method) {
-            $method = Mage::getModel('payment/method_checkmo');
+            $method = Mage::getModel('Mage_Payment_Model_Method_Checkmo');
             $this->setData('method', $method);
         }
 

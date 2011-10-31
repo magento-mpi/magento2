@@ -314,7 +314,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
                 Mage::throwException(Mage::helper('Mage_Wishlist_Helper_Data')->__('Cannot specify product.'));
             }
 
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStoreId($this->getStoreId())
                 ->load($this->getProductId());
 
@@ -602,12 +602,12 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
     public function addOption($option)
     {
         if (is_array($option)) {
-            $option = Mage::getModel('wishlist/item_option')->setData($option)
+            $option = Mage::getModel('Mage_Wishlist_Model_Item_Option')->setData($option)
                 ->setItem($this);
         } else if ($option instanceof Mage_Wishlist_Model_Item_Option) {
             $option->setItem($this);
         } else if ($option instanceof Varien_Object) {
-            $option = Mage::getModel('wishlist/item_option')->setData($option->getData())
+            $option = Mage::getModel('Mage_Wishlist_Model_Item_Option')->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
         } else {

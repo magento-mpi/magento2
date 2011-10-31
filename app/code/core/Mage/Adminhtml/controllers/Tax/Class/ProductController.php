@@ -71,7 +71,7 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
              ->_title($this->__('Product Tax Classes'));
 
         $classId    = $this->getRequest()->getParam('id');
-        $model      = Mage::getModel('tax/class');
+        $model      = Mage::getModel('Mage_Tax_Model_Class');
         if ($classId) {
             $model->load($classId);
             if (!$model->getId() || $model->getClassType() != Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT) {
@@ -113,7 +113,7 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
     {
         $classId    = $this->getRequest()->getParam('id');
         $session    = Mage::getSingleton('adminhtml/session');
-        $classModel = Mage::getModel('tax/class')
+        $classModel = Mage::getModel('Mage_Tax_Model_Class')
             ->load($classId);
 
         if (!$classModel->getId() || $classModel->getClassType() != Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT) {
@@ -122,7 +122,7 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
             return;
         }
 
-        $ruleCollection = Mage::getModel('tax/calculation_rule')
+        $ruleCollection = Mage::getModel('Mage_Tax_Model_Calculation_Rule')
             ->getCollection()
             ->setClassTypeFilter(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT, $classId);
 
@@ -132,7 +132,7 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
             return;
         }
 
-        $productCollection = Mage::getModel('catalog/product')
+        $productCollection = Mage::getModel('Mage_Catalog_Model_Product')
             ->getCollection()
             ->addAttributeToFilter('tax_class_id', $classId);
         $productCount = $productCollection->getSize();

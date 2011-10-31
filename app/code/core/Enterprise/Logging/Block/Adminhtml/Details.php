@@ -133,7 +133,7 @@ class Enterprise_Logging_Block_Adminhtml_Details extends Mage_Adminhtml_Block_Wi
     public function getEventUser()
     {
         if (null === $this->_eventUser) {
-            $this->_eventUser = Mage::getModel('admin/user')->load($this->getUserId());
+            $this->_eventUser = Mage::getModel('Mage_Admin_Model_User')->load($this->getUserId());
         }
         return $this->_eventUser;
     }

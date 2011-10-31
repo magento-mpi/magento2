@@ -104,7 +104,7 @@ class Mage_Api_Model_Server_Adapter_Soap
 
             $wsdlContent = $io->read('wsdl.xml');
 
-            $template = Mage::getModel('core/email_template_filter');
+            $template = Mage::getModel('Mage_Core_Model_Email_Template_Filter');
 
             $wsdlConfig = new Varien_Object();
             $queryParams = $this->getController()->getRequest()->getQuery();
@@ -196,7 +196,7 @@ class Mage_Api_Model_Server_Adapter_Soap
      */
     protected function getWsdlUrl($params = null, $withAuth = true)
     {
-        $urlModel = Mage::getModel('core/url')
+        $urlModel = Mage::getModel('Mage_Core_Model_Url')
                 ->setUseSession(false);
 
         $wsdlUrl = ($params !== null)? $urlModel->getUrl('*/*/*', $params) : $urlModel->getUrl('*/*/*');

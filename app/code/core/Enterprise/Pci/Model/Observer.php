@@ -112,7 +112,7 @@ class Enterprise_Pci_Model_Observer
 
         // upgrade admin password
         if (!Mage::helper('Mage_Core_Helper_Data')->getEncryptor()->validateHashByVersion($password, $user->getPassword())) {
-            Mage::getModel('admin/user')->load($user->getId())
+            Mage::getModel('Mage_Admin_Model_User')->load($user->getId())
                 ->setNewPassword($password)->setForceNewPassword(true)
                 ->save();
         }

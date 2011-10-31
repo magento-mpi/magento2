@@ -64,7 +64,7 @@ class Mage_Poll_Block_ActivePoll extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->_pollModel = Mage::getModel('poll/poll');
+        $this->_pollModel = Mage::getModel('Mage_Poll_Model_Poll');
     }
 
     /**
@@ -153,7 +153,7 @@ class Mage_Poll_Block_ActivePoll extends Mage_Core_Block_Template
         }
         $poll = $this->_pollModel->load($pollId);
 
-        $pollAnswers = Mage::getModel('poll/poll_answer')
+        $pollAnswers = Mage::getModel('Mage_Poll_Model_Poll_Answer')
             ->getResourceCollection()
             ->addPollFilter($pollId)
             ->load()

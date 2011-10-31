@@ -42,7 +42,7 @@ class Mage_Adminhtml_Cms_WysiwygController extends Mage_Adminhtml_Controller_Act
     {
         $directive = $this->getRequest()->getParam('___directive');
         $directive = Mage::helper('Mage_Core_Helper_Data')->urlDecode($directive);
-        $url = Mage::getModel('core/email_template_filter')->filter($directive);
+        $url = Mage::getModel('Mage_Core_Model_Email_Template_Filter')->filter($directive);
         try {
             $image = Varien_Image_Adapter::factory('GD2');
             $image->open($url);

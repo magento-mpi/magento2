@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Settings extends Mage_Adminh
             'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Type'),
             'name'  => 'type',
             'value' => '',
-            'values'=> Mage::getModel('catalog/product_type')->getOptionArray()
+            'values'=> Mage::getModel('Mage_Catalog_Model_Product_Type')->getOptionArray()
         ));
 
         $fieldset->addField('continue_button', 'note', array(

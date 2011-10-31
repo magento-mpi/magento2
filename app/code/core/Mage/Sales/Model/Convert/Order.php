@@ -42,7 +42,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
     public function toQuote(Mage_Sales_Model_Order $order, $quote=null)
     {
         if (!($quote instanceof Mage_Sales_Model_Quote)) {
-            $quote = Mage::getModel('sales/quote');
+            $quote = Mage::getModel('Mage_Sales_Model_Quote');
         }
 
         $quote->setStoreId($order->getStoreId())
@@ -76,7 +76,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
      */
     public function addressToQuoteAddress(Mage_Sales_Model_Order_Address $address)
     {
-        $quoteAddress = Mage::getModel('sales/quote_address')
+        $quoteAddress = Mage::getModel('Mage_Sales_Model_Quote_Address')
             ->setStoreId($address->getStoreId())
             ->setAddressType($address->getAddressType())
             ->setCustomerId($address->getCustomerId())
@@ -95,7 +95,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
     public function paymentToQuotePayment(Mage_Sales_Model_Order_Payment $payment, $quotePayment=null)
     {
         if (!($quotePayment instanceof Mage_Sales_Model_Quote_Payment)) {
-            $quotePayment = Mage::getModel('sales/quote_payment');
+            $quotePayment = Mage::getModel('Mage_Sales_Model_Quote_Payment');
         }
 
         $quotePayment->setStoreId($payment->getStoreId())
@@ -113,7 +113,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
      */
     public function itemToQuoteItem(Mage_Sales_Model_Order_Item $item)
     {
-        $quoteItem = Mage::getModel('sales/quote_item')
+        $quoteItem = Mage::getModel('Mage_Sales_Model_Quote_Item')
             ->setStoreId($item->getOrder()->getStoreId())
             ->setQuoteItemId($item->getId())
             ->setProductId($item->getProductId())
@@ -131,7 +131,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
      */
     public function toInvoice(Mage_Sales_Model_Order $order)
     {
-        $invoice = Mage::getModel('sales/order_invoice');
+        $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice');
         $invoice->setOrder($order)
             ->setStoreId($order->getStoreId())
             ->setCustomerId($order->getCustomerId())
@@ -150,7 +150,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
      */
     public function itemToInvoiceItem(Mage_Sales_Model_Order_Item $item)
     {
-        $invoiceItem = Mage::getModel('sales/order_invoice_item');
+        $invoiceItem = Mage::getModel('Mage_Sales_Model_Order_Invoice_Item');
         $invoiceItem->setOrderItem($item)
             ->setProductId($item->getProductId());
 
@@ -166,7 +166,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
      */
     public function toShipment(Mage_Sales_Model_Order $order)
     {
-        $shipment = Mage::getModel('sales/order_shipment');
+        $shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment');
         $shipment->setOrder($order)
             ->setStoreId($order->getStoreId())
             ->setCustomerId($order->getCustomerId())
@@ -185,7 +185,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
      */
     public function itemToShipmentItem(Mage_Sales_Model_Order_Item $item)
     {
-        $shipmentItem = Mage::getModel('sales/order_shipment_item');
+        $shipmentItem = Mage::getModel('Mage_Sales_Model_Order_Shipment_Item');
         $shipmentItem->setOrderItem($item)
             ->setProductId($item->getProductId());
 
@@ -201,7 +201,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
      */
     public function toCreditmemo(Mage_Sales_Model_Order $order)
     {
-        $creditmemo = Mage::getModel('sales/order_creditmemo');
+        $creditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo');
         $creditmemo->setOrder($order)
             ->setStoreId($order->getStoreId())
             ->setCustomerId($order->getCustomerId())
@@ -220,7 +220,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
      */
     public function itemToCreditmemoItem(Mage_Sales_Model_Order_Item $item)
     {
-        $creditmemoItem = Mage::getModel('sales/order_creditmemo_item');
+        $creditmemoItem = Mage::getModel('Mage_Sales_Model_Order_Creditmemo_Item');
         $creditmemoItem->setOrderItem($item)
             ->setProductId($item->getProductId());
 

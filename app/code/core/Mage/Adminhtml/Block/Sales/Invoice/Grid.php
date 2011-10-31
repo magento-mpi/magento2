@@ -94,7 +94,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Status'),
             'index'     => 'state',
             'type'      => 'options',
-            'options'   => Mage::getModel('sales/order_invoice')->getStates(),
+            'options'   => Mage::getModel('Mage_Sales_Model_Order_Invoice')->getStates(),
         ));
 
         $this->addColumn('grand_total', array(

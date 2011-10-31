@@ -121,7 +121,7 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
     {
         // prevent overriding product data
         if (isset($this->_data['attribute_code'])
-            && Mage::getModel('catalog/product')->isReservedAttribute($this))
+            && Mage::getModel('Mage_Catalog_Model_Product')->isReservedAttribute($this))
         {
             throw Mage::exception('Mage_Eav', Mage::helper('Mage_Eav_Helper_Data')->__('The attribute code \'%s\' is reserved by system. Please try another attribute code', $this->_data['attribute_code']));
         }

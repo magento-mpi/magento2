@@ -59,7 +59,7 @@ class Enterprise_GiftRegistry_Block_Customer_Checkout extends Mage_Core_Block_Te
         $items = array();
         if ($this->_getCheckoutSession()->getQuoteId()) {
             $quote = $this->_getCheckoutSession()->getQuote();
-            $model = Mage::getModel('enterprise_giftregistry/entity');
+            $model = Mage::getModel('Enterprise_GiftRegistry_Model_Entity');
             foreach ($quote->getItemsCollection() as $quoteItem) {
                 $item = array();
                 if ($registryItemId = $quoteItem->getGiftregistryItemId()) {

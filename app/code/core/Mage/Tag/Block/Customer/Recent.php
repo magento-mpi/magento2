@@ -40,7 +40,7 @@ class Mage_Tag_Block_Customer_Recent extends Mage_Core_Block_Template
     {
         parent::_construct();
 
-        $this->_collection = Mage::getModel('tag/tag')->getEntityCollection()
+        $this->_collection = Mage::getModel('Mage_Tag_Model_Tag')->getEntityCollection()
             ->addStoreFilter(Mage::app()->getStore()->getId())
             ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
             ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())

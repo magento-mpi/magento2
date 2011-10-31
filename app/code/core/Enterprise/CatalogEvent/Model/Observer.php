@@ -51,7 +51,7 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     public function applyEventStatus()
     {
-        $collection = Mage::getModel('enterprise_catalogevent/event')->getCollection();
+        $collection = Mage::getModel('Enterprise_CatalogEvent_Model_Event')->getCollection();
         // We should check only not closed events.
         $collection->addFieldToFilter('status',
             array(
@@ -320,7 +320,7 @@ class Enterprise_CatalogEvent_Model_Observer
         }
 
         if ($this->_eventsToCategories === null) {
-            $this->_eventsToCategories = Mage::getModel('enterprise_catalogevent/event')->getCategoryIdsWithEvent(
+            $this->_eventsToCategories = Mage::getModel('Enterprise_CatalogEvent_Model_Event')->getCategoryIdsWithEvent(
                 Mage::app()->getStore()->getId()
             );
 
@@ -348,7 +348,7 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     protected function _getEventCollection(array $categoryIds = null)
     {
-        $collection = Mage::getModel('enterprise_catalogevent/event')->getCollection();
+        $collection = Mage::getModel('Enterprise_CatalogEvent_Model_Event')->getCollection();
         if ($categoryIds !== null) {
             $collection->addFieldToFilter('category_id',
                 array(

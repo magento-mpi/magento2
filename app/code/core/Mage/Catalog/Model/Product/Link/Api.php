@@ -134,7 +134,7 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
             $_linkInstance = Mage::getSingleton('catalog/product_link');
             $_linkInstance->saveProductRelations($product);
 
-            $indexerStock = Mage::getModel('cataloginventory/stock_status');
+            $indexerStock = Mage::getModel('Mage_CatalogInventory_Model_Stock_Status');
             $indexerStock->updateStatus($productId);
 
             $indexerPrice = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Indexer_Price');
@@ -190,7 +190,7 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
             $_linkInstance = Mage::getSingleton('catalog/product_link');
             $_linkInstance->saveProductRelations($product);
 
-            $indexerStock = Mage::getModel('cataloginventory/stock_status');
+            $indexerStock = Mage::getModel('Mage_CatalogInventory_Model_Stock_Status');
             $indexerStock->updateStatus($productId);
 
             $indexerPrice = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Indexer_Price');
@@ -252,7 +252,7 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
     {
         $typeId = $this->_getTypeId($type);
 
-        $attributes = Mage::getModel('catalog/product_link')
+        $attributes = Mage::getModel('Mage_Catalog_Model_Product_Link')
             ->getAttributes($typeId);
 
         $result = array();

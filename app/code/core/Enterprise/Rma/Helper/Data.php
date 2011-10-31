@@ -195,7 +195,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getReturnAddressModel($storeId = null)
     {
-        $addressModel = Mage::getModel('sales/quote_address');
+        $addressModel = Mage::getModel('Mage_Sales_Model_Quote_Address');
         $addressModel->setData($this->_getAddressData($storeId));
         $addressModel->setCountryId($addressModel->getData('countryId'));
         $addressModel->setStreet($addressModel->getData('street1')."\n".$addressModel->getData('street2'));
@@ -236,7 +236,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         $data['country']    = $this->_getCountryModel()->loadByCode($data['countryId'])->getName();
-        $region             = Mage::getModel('directory/region')->load($data['region_id']);
+        $region             = Mage::getModel('Mage_Directory_Model_Region')->load($data['region_id']);
         $data['region_id']  = $region->getCode();
         $data['region']     = $region->getName();
         $data['company']    = Mage::getStoreConfig(Mage_Core_Model_Store::XML_PATH_STORE_STORE_NAME, $store);
@@ -253,7 +253,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
     protected function _getCountryModel()
     {
         if (is_null($this->_countryModel)) {
-            $this->_countryModel = Mage::getModel('directory/country');
+            $this->_countryModel = Mage::getModel('Mage_Directory_Model_Country');
         }
         return $this->_countryModel;
     }

@@ -94,7 +94,7 @@ class Enterprise_GiftCard_Model_Customer_Api extends Mage_Api_Model_Resource_Abs
      */
     protected function _getGiftCard($code)
     {
-        $card = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
+        $card = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
             ->loadByCode($code);
         if (!$card->getId()) {
             $this->_fault('not_exists');

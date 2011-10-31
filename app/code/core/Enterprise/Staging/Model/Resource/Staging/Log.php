@@ -53,7 +53,7 @@ class Enterprise_Staging_Model_Resource_Staging_Log extends Mage_Core_Model_Reso
     {
         if (!$object->getId()) {
             $object->setIsNew(true);
-            $value = Mage::getModel('core/date')->gmtDate();
+            $value = Mage::getModel('Mage_Core_Model_Date')->gmtDate();
             $object->setCreatedAt($value);
         }
 

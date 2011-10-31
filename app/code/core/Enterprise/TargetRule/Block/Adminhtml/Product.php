@@ -79,7 +79,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
      */
     public function getPositionBehaviorOptions()
     {
-        return Mage::getModel('enterprise_targetrule/source_position')->toOptionArray();
+        return Mage::getModel('Enterprise_TargetRule_Model_Source_Position')->toOptionArray();
     }
 
     /**

@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
 
 
         if ($element->getValue()) {
-            $page = Mage::getModel('cms/page')->load((int)$element->getValue());
+            $page = Mage::getModel('Mage_Cms_Model_Page')->load((int)$element->getValue());
             if ($page->getId()) {
                 $chooser->setLabel($page->getTitle());
             }
@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('cms/page')->getCollection();
+        $collection = Mage::getModel('Mage_Cms_Model_Page')->getCollection();
         /* @var $collection Mage_Cms_Model_Resource_Page_Collection */
         $collection->setFirstStoreFlag(true);
         $this->setCollection($collection);
@@ -151,7 +151,7 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
             'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
-            'options'   => Mage::getModel('cms/page')->getAvailableStatuses(),
+            'options'   => Mage::getModel('Mage_Cms_Model_Page')->getAvailableStatuses(),
             'width'     => '100',
         ));
 

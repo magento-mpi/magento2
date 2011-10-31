@@ -48,9 +48,9 @@ abstract class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Abstract extends Ma
      */
     public function getLinks()
     {
-        $this->_purchasedLinks = Mage::getModel('downloadable/link_purchased')
+        $this->_purchasedLinks = Mage::getModel('Mage_Downloadable_Model_Link_Purchased')
             ->load($this->getOrder()->getId(), 'order_id');
-        $purchasedItems = Mage::getModel('downloadable/link_purchased_item')->getCollection()
+        $purchasedItems = Mage::getModel('Mage_Downloadable_Model_Link_Purchased_Item')->getCollection()
             ->addFieldToFilter('order_item_id', $this->getItem()->getOrderItem()->getId());
         $this->_purchasedLinks->setPurchasedItems($purchasedItems);
 

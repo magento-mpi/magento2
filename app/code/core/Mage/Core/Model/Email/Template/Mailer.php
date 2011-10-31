@@ -61,7 +61,7 @@ class Mage_Core_Model_Email_Template_Mailer extends Varien_Object
      */
     public function send()
     {
-        $emailTemplate = Mage::getModel('core/email_template');
+        $emailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
         // Send all emails from corresponding list
         while (!empty($this->_emailInfos)) {
             $emailInfo = array_pop($this->_emailInfos);

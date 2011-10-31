@@ -61,14 +61,14 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController
         }
 
         /* @var $wishlistItem Mage_Wishlist_Model_Item */
-        $wishlistItem = Mage::getModel('wishlist/item')
+        $wishlistItem = Mage::getModel('Mage_Wishlist_Model_Item')
             ->loadWithOptions($wishlistItemId);
 
         if (!$wishlistItem->getWishlistId()) {
             Mage::throwException($this->__('Wishlist item is not loaded.'));
         }
 
-        $this->_wishlist = Mage::getModel('wishlist/wishlist')
+        $this->_wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')
             ->load($wishlistItem->getWishlistId());
 
         $this->_wishlistItem = $wishlistItem;

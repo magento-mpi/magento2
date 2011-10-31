@@ -150,7 +150,7 @@ class Mage_Sales_Model_Resource_Quote_Item_Collection extends Mage_Core_Model_Re
     protected function _assignOptions()
     {
         $itemIds          = array_keys($this->_items);
-        $optionCollection = Mage::getModel('sales/quote_item_option')->getCollection()
+        $optionCollection = Mage::getModel('Mage_Sales_Model_Quote_Item_Option')->getCollection()
             ->addItemFilter($itemIds);
         foreach ($this as $item) {
             $item->setOptions($optionCollection->getOptionsByItem($item));
@@ -175,7 +175,7 @@ class Mage_Sales_Model_Resource_Quote_Item_Collection extends Mage_Core_Model_Re
         }
         $this->_productIds = array_merge($this->_productIds, $productIds);
 
-        $productCollection = Mage::getModel('catalog/product')->getCollection()
+        $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
             ->setStoreId($this->getStoreId())
             ->addIdFilter($this->_productIds)
             ->addAttributeToSelect(Mage::getSingleton('sales/quote_config')->getProductAttributes())

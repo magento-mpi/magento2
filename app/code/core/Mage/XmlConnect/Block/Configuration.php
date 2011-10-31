@@ -51,7 +51,7 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
         if ($app) {
             $this->_app = $app;
         } else {
-            $this->_app = Mage::getModel('xmlconnect/application');
+            $this->_app = Mage::getModel('Mage_XmlConnect_Model_Application');
             $this->_app->loadDefaultConfiguration();
         }
         return $this;
@@ -112,7 +112,7 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
      */
     protected function _toHtml()
     {
-        $xml = Mage::getModel('xmlconnect/simplexml_element', '<configuration></configuration>');
+        $xml = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<configuration></configuration>');
         $this->_buildRecursive($xml, Mage::helper('Mage_XmlConnect_Helper_Data')->excludeXmlConfigKeys($this->_app->getRenderConf()));
         return $xml->asNiceXml();
     }

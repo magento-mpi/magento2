@@ -62,7 +62,7 @@ class Mage_ProductAlert_AddController extends Mage_Core_Controller_Front_Action
             return ;
         }
 
-        $product = Mage::getModel('catalog/product')->load($productId);
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
         if (!$product->getId()) {
             /* @var $product Mage_Catalog_Model_Product */
             $session->addError($this->__('Not enough parameters.'));
@@ -71,7 +71,7 @@ class Mage_ProductAlert_AddController extends Mage_Core_Controller_Front_Action
         }
 
         try {
-            $model  = Mage::getModel('productalert/price')
+            $model  = Mage::getModel('Mage_ProductAlert_Model_Price')
                 ->setCustomerId(Mage::getSingleton('customer/session')->getId())
                 ->setProductId($product->getId())
                 ->setPrice($product->getFinalPrice())
@@ -96,7 +96,7 @@ class Mage_ProductAlert_AddController extends Mage_Core_Controller_Front_Action
             return ;
         }
 
-        if (!$product = Mage::getModel('catalog/product')->load($productId)) {
+        if (!$product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId)) {
             /* @var $product Mage_Catalog_Model_Product */
             $session->addError($this->__('Not enough parameters.'));
             $this->_redirectUrl($backUrl);
@@ -104,7 +104,7 @@ class Mage_ProductAlert_AddController extends Mage_Core_Controller_Front_Action
         }
 
         try {
-            $model = Mage::getModel('productalert/stock')
+            $model = Mage::getModel('Mage_ProductAlert_Model_Stock')
                 ->setCustomerId(Mage::getSingleton('customer/session')->getId())
                 ->setProductId($product->getId())
                 ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());

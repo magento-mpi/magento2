@@ -99,7 +99,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Form extends Mage_Adminhtml_Block_Widge
     {
         if (!$this->hasData('available_widgets')) {
             $result = array();
-            $allWidgets = Mage::getModel('widget/widget')->getWidgetsArray();
+            $allWidgets = Mage::getModel('Mage_Widget_Model_Widget')->getWidgetsArray();
             $skipped = $this->_getSkippedWidgets();
             foreach ($allWidgets as $widget) {
                 if (is_array($skipped) && in_array($widget['type'], $skipped)) {

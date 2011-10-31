@@ -151,7 +151,7 @@ class Enterprise_Reward_Model_Resource_Reward_History_Collection extends Mage_Co
 
         $this->_joinReward();
 
-        $customer = Mage::getModel('customer/customer');
+        $customer = Mage::getModel('Mage_Customer_Model_Customer');
         /* @var $customer Mage_Customer_Model_Customer */
         $firstname  = $customer->getAttribute('firstname');
         $lastname   = $customer->getAttribute('lastname');

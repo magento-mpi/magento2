@@ -135,7 +135,7 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
      */
     protected function _getAttributeCollection()
     {
-        $collection = Mage::getModel('eav/entity_attribute')->getCollection();
+        $collection = Mage::getModel('Mage_Eav_Model_Entity_Attribute')->getCollection();
         $objectsModel = $this->getAttributeModel();
         if ($objectsModel) {
             $collection->setModel($objectsModel);
@@ -152,7 +152,7 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     public function getAttributeSetCollection()
     {
         if (empty($this->_sets)) {
-            $this->_sets = Mage::getModel('eav/entity_attribute_set')->getResourceCollection()
+            $this->_sets = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')->getResourceCollection()
                 ->setEntityTypeFilter($this->getId());
         }
         return $this->_sets;
@@ -180,7 +180,7 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
         // Start transaction to run SELECT ... FOR UPDATE
         $this->_getResource()->beginTransaction();
 
-        $entityStoreConfig = Mage::getModel('eav/entity_store')
+        $entityStoreConfig = Mage::getModel('Mage_Eav_Model_Entity_Store')
             ->loadByEntityStore($this->getId(), $storeId);
 
         if (!$entityStoreConfig->getId()) {

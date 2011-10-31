@@ -100,7 +100,7 @@ class Mage_Adminhtml_Block_Review_Product_Grid extends Mage_Adminhtml_Block_Cata
                     'sortable'  => false,
                     'index'     => 'websites',
                     'type'      => 'options',
-                    'options'   => Mage::getModel('core/website')->getCollection()->toOptionHash(),
+                    'options'   => Mage::getModel('Mage_Core_Model_Website')->getCollection()->toOptionHash(),
             ));
         }
     }

@@ -126,7 +126,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
     public function getMessageCollection()
     {
         if (!($this->_messages instanceof Mage_Core_Model_Message_Collection)) {
-            $this->_messages = Mage::getModel('core/message_collection');
+            $this->_messages = Mage::getModel('Mage_Core_Model_Message_Collection');
         }
         return $this->_messages;
     }

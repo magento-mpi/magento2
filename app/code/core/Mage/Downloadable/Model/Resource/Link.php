@@ -132,7 +132,7 @@ class Mage_Downloadable_Model_Resource_Link extends Mage_Core_Model_Resource_Db_
                         if ($websiteCurrency == $baseCurrency) {
                             continue;
                         }
-                        $rate = Mage::getModel('directory/currency')->load($baseCurrency)->getRate($websiteCurrency);
+                        $rate = Mage::getModel('Mage_Directory_Model_Currency')->load($baseCurrency)->getRate($websiteCurrency);
                         if (!$rate) {
                             $rate = 1;
                         }

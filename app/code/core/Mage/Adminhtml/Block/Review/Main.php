@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Review_Main extends Mage_Adminhtml_Block_Widget_Grid_
         $customerId = $this->getRequest()->getParam('customerId', false);
         $customerName = '';
         if ($customerId) {
-            $customer = Mage::getModel('customer/customer')->load($customerId);
+            $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
             $customerName = $customer->getFirstname() . ' ' . $customer->getLastname();
             $customerName = $this->escapeHtml($customerName);
         }

@@ -91,7 +91,7 @@ class Mage_CatalogSearch_Block_Term extends Mage_Core_Block_Template
 
     public function getSearchUrl($obj)
     {
-        $url = Mage::getModel('core/url');
+        $url = Mage::getModel('Mage_Core_Model_Url');
         /*
         * url encoding will be done in Url.php http_build_query
         * so no need to explicitly called urlencode for the text

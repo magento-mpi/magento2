@@ -138,7 +138,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initAttributeSets()
     {
-        $productTypeId = Mage::getModel('catalog/product')->getResource()->getTypeId();
+        $productTypeId = Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getTypeId();
         foreach (Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
                 ->setEntityTypeFilter($productTypeId) as $attributeSet) {
             $this->_attrSetIdToName[$attributeSet->getId()] = $attributeSet->getAttributeSetName();

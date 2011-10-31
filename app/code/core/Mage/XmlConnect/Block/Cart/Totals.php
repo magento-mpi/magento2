@@ -41,7 +41,7 @@ class Mage_XmlConnect_Block_Cart_Totals extends Mage_Checkout_Block_Cart_Totals
     protected function _toHtml()
     {
         /** @var $totalsXmlObj Mage_XmlConnect_Model_Simplexml_Element */
-        $totalsXmlObj   = Mage::getModel('xmlconnect/simplexml_element', '<totals></totals>');
+        $totalsXmlObj   = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<totals></totals>');
 
         foreach ($this->getQuote()->getTotals() as $total) {
             $code  = $total->getCode();

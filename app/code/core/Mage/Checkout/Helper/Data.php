@@ -72,7 +72,7 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
             if (!Mage::getStoreConfigFlag('checkout/options/enable_agreements')) {
                 $this->_agreements = array();
             } else {
-                $this->_agreements = Mage::getModel('checkout/agreement')->getCollection()
+                $this->_agreements = Mage::getModel('Mage_Checkout_Model_Agreement')->getCollection()
                     ->addStoreFilter(Mage::app()->getStore()->getId())
                     ->addFieldToFilter('is_active', 1)
                     ->getAllIds();
@@ -149,7 +149,7 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        $mailTemplate = Mage::getModel('core/email_template');
+        $mailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
         /* @var $mailTemplate Mage_Core_Model_Email_Template */
 
         $template = Mage::getStoreConfig('checkout/payment_failed/template', $checkout->getStoreId());

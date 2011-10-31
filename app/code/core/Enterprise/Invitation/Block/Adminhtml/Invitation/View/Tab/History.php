@@ -74,7 +74,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_History
      */
     public function getHistoryCollection()
     {
-        return Mage::getModel('enterprise_invitation/invitation_history')
+        return Mage::getModel('Enterprise_Invitation_Model_Invitation_History')
             ->getCollection()
             ->addFieldToFilter('invitation_id', $this->getInvitation()->getId())
             ->addOrder('history_id');

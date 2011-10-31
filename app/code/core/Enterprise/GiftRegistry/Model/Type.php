@@ -57,7 +57,7 @@ class Enterprise_GiftRegistry_Model_Type extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         if (!$this->hasStoreId() && !$this->getStoreId()) {
-            $xmlModel = Mage::getModel('enterprise_giftregistry/attribute_processor');
+            $xmlModel = Mage::getModel('Enterprise_GiftRegistry_Model_Attribute_Processor');
             $this->setMetaXml($xmlModel->processData($this));
             $this->_cleanupData();
         }
@@ -211,7 +211,7 @@ class Enterprise_GiftRegistry_Model_Type extends Mage_Core_Model_Abstract
      */
     public function assignAttributesStoreData()
     {
-        $xmlModel = Mage::getModel('enterprise_giftregistry/attribute_processor');
+        $xmlModel = Mage::getModel('Enterprise_GiftRegistry_Model_Attribute_Processor');
         $groups = $xmlModel->processXml($this->getMetaXml());
         $storeData = array();
 

@@ -35,7 +35,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Combine extends Mage_Rule_Model_Cond
 
     public function getNewChildSelectOptions()
     {
-        $productCondition = Mage::getModel('catalogrule/rule_condition_product');
+        $productCondition = Mage::getModel('Mage_CatalogRule_Model_Rule_Condition_Product');
         $productAttributes = $productCondition->loadAttributeOptions()->getAttributeOption();
         $attributes = array();
         foreach ($productAttributes as $code=>$label) {

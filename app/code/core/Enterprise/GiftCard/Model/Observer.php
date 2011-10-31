@@ -165,7 +165,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                             if(isset($loadedInvoices[$invoiceId])) {
                                 $invoice = $loadedInvoices[$invoiceId];
                             } else {
-                                $invoice = Mage::getModel('sales/order_invoice')
+                                $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')
                                     ->load($invoiceId);
                                 $loadedInvoices[$invoiceId] = $invoice;
                             }
@@ -253,7 +253,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                             'is_redeemable'          => $isRedeemable,
                         );
 
-                        $email = Mage::getModel('core/email_template')
+                        $email = Mage::getModel('Mage_Core_Model_Email_Template')
                             ->setDesignConfig(array('store' => $item->getOrder()->getStoreId()));
                         $email->sendTransactional(
                             $item->getProductOptionByCode('giftcard_email_template'),

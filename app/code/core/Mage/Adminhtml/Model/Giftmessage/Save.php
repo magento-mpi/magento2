@@ -85,7 +85,7 @@ class Mage_Adminhtml_Model_Giftmessage_Save extends Varien_Object
      */
     protected function _saveOne($entityId, $giftmessage) {
         /* @var $giftmessageModel Mage_Giftmessage_Model_Message */
-        $giftmessageModel = Mage::getModel('giftmessage/message');
+        $giftmessageModel = Mage::getModel('Mage_GiftMessage_Model_Message');
         $entityType = $this->_getMappedType($giftmessage['type']);
 
         switch($entityType) {
@@ -139,7 +139,7 @@ class Mage_Adminhtml_Model_Giftmessage_Save extends Varien_Object
     protected function _deleteOne($entityModel, $giftmessageModel=null)
     {
         if(is_null($giftmessageModel)) {
-            $giftmessageModel = Mage::getModel('giftmessage/message')
+            $giftmessageModel = Mage::getModel('Mage_GiftMessage_Model_Message')
                 ->load($entityModel->getGiftMessageId());
         }
         $giftmessageModel->delete();
@@ -252,7 +252,7 @@ class Mage_Adminhtml_Model_Giftmessage_Save extends Varien_Object
         $allowedItems = $this->getAllowQuoteItems();
         $deleteAllowedItems = array();
         foreach ($products as $productId=>$data) {
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStore($this->_getSession()->getStore())
                 ->load($productId);
             $item = $this->_getQuote()->getItemByProduct($product);

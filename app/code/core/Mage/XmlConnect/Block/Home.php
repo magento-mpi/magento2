@@ -46,7 +46,7 @@ class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Catalog
     protected function _toHtml()
     {
         /** @var $homeXmlObj Mage_XmlConnect_Model_Simplexml_Element */
-        $homeXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<home></home>');
+        $homeXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<home></home>');
 
         $categoryCollection = array();
         $helper = Mage::helper('Mage_Catalog_Helper_Category');
@@ -67,7 +67,7 @@ class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Catalog
 
         foreach ($categoryCollection as $item) {
             /** @var $item Mage_Catalog_Model_Category */
-            $item = Mage::getModel('catalog/category')->load($item->getId());
+            $item = Mage::getModel('Mage_Catalog_Model_Category')->load($item->getId());
             $itemXmlObj = $itemsXmlObj->addChild('item');
             $itemXmlObj->addChild('label', $homeXmlObj->xmlentities($item->getName()));
             $itemXmlObj->addChild('entity_id', $item->getId());

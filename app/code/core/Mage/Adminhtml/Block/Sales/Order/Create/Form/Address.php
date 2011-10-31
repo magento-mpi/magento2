@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
     protected function _getAddressForm()
     {
         if (is_null($this->_addressForm)) {
-            $this->_addressForm = Mage::getModel('customer/form')
+            $this->_addressForm = Mage::getModel('Mage_Customer_Model_Form')
                 ->setFormCode('adminhtml_customer_address')
                 ->setStore($this->getStore());
         }
@@ -100,7 +100,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
         ));
 
         /* @var $addressModel Mage_Customer_Model_Address */
-        $addressModel = Mage::getModel('customer/address');
+        $addressModel = Mage::getModel('Mage_Customer_Model_Address');
 
         $addressForm = $this->_getAddressForm()
             ->setEntity($addressModel);

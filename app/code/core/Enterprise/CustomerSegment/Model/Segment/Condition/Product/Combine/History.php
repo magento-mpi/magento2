@@ -83,7 +83,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
      */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('enterprise_customersegment/segment_condition_product_combine')
+        return Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine')
             ->setDateConditions(true)
             ->getNewChildSelectOptions();
     }

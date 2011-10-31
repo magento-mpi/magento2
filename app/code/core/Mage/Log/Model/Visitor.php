@@ -261,7 +261,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
         if( intval($customerId) <= 0 ) {
             return $this;
         }
-        $customerData = Mage::getModel('customer/customer')->load($customerId);
+        $customerData = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
         $newCustomerData = array();
         foreach( $customerData->getData() as $propName => $propValue ) {
             $newCustomerData['customer_' . $propName] = $propValue;
@@ -277,7 +277,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
         if( intval($quoteId) <= 0 ) {
             return $this;
         }
-        $data->setQuoteData(Mage::getModel('sales/quote')->load($quoteId));
+        $data->setQuoteData(Mage::getModel('Mage_Sales_Model_Quote')->load($quoteId));
         return $this;
     }
 

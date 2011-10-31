@@ -50,7 +50,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('enterprise_customersegment/segment')->getCollection();
+        $collection = Mage::getModel('Enterprise_CustomerSegment_Model_Segment')->getCollection();
         $collection->addCustomerCountToSelect();
         $collection->addWebsitesToResult();
         $this->setCollection($collection);

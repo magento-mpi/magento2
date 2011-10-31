@@ -53,7 +53,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Mage_A
     public function getCollection()
     {
         if (!$this->_collection) {
-            $this->_collection = Mage::getModel('connect/extension_collection');
+            $this->_collection = Mage::getModel('Mage_Connect_Model_Extension_Collection');
         }
         return $this->_collection;
     }

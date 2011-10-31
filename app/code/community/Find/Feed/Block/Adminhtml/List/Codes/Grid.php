@@ -79,7 +79,7 @@ class Find_Feed_Block_Adminhtml_List_Codes_Grid extends Mage_Adminhtml_Block_Wid
             'index' => 'eav_code'
         ));
 
-        $source = Mage::getModel('eav/entity_attribute_source_boolean');
+        $source = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Source_Boolean');
         $isImportedOptions = $source->getOptionArray();
 
         $this->addColumn('is_imported', array(
