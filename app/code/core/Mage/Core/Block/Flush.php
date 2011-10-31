@@ -44,7 +44,7 @@ class Mage_Core_Block_Flush extends Mage_Core_Block_Abstract
         foreach ($this->getSortedChildren() as $name) {
             $block = $this->getLayout()->getBlock($name);
             if (!$block) {
-                Mage::exception(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block: %s', $name));
+                Mage::exception('Mage_Core', Mage::helper('Mage_Core_Helper_Data')->__('Invalid block: %s', $name));
             }
             echo $block->toHtml();
         }
