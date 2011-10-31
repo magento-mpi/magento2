@@ -64,7 +64,7 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
     {
         $entities = array(
             'rma_item'                           => array(
-                'entity_model'                   => 'enterprise_rma/item',
+                'entity_model'                   => 'Enterprise_Rma_Model_Resource_Item',
                 'attribute_model'                => 'enterprise_rma/item_attribute',
                 'table'                          => 'enterprise_rma_item_entity',
                 'increment_model'                => 'eav/entity_increment_numeric',

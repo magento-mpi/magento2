@@ -140,7 +140,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
     {
         $entities = array(
             'customer'                       => array(
-                'entity_model'                   => 'customer/customer',
+                'entity_model'                   => 'Mage_Customer_Model_Resource_Customer',
                 'attribute_model'                => 'customer/attribute',
                 'table'                          => 'customer_entity',
                 'increment_model'                => 'eav/entity_increment_numeric',
@@ -329,7 +329,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             ),
 
             'customer_address'               => array(
-                'entity_model'                   => 'customer/address',
+                'entity_model'                   => 'Mage_Customer_Model_Resource_Address',
                 'attribute_model'                => 'customer/attribute',
                 'table'                          => 'customer_address_entity',
                 'additional_attribute_table'     => 'customer_eav_attribute',

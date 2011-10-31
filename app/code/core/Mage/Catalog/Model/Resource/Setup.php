@@ -78,7 +78,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
     {
         return array(
             'catalog_category'               => array(
-                'entity_model'                   => 'catalog/category',
+                'entity_model'                   => 'Mage_Catalog_Model_Resource_Category',
                 'attribute_model'                => 'catalog/resource_eav_attribute',
                 'table'                          => 'catalog_category_entity',
                 'additional_attribute_table'     => 'catalog_eav_attribute',
@@ -365,7 +365,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                 )
             ),
             'catalog_product'                => array(
-                'entity_model'                   => 'catalog/product',
+                'entity_model'                   => 'Mage_Catalog_Model_Resource_Product',
                 'attribute_model'                => 'catalog/resource_eav_attribute',
                 'table'                          => 'catalog_product_entity',
                 'additional_attribute_table'     => 'catalog_eav_attribute',
