@@ -52,7 +52,8 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->admin('poll_manager');
+        $this->admin();
+        $this->navigate('poll_manager');
         $this->cmsPollsHelper()->closeAllPolls();
         $this->addParameter('id', '0');
     }
@@ -109,6 +110,7 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase
         if (!$this->cmsPollsHelper()->isVisibleIn and $emptyField == 'visible_in') {
             $this->assertTrue($this->successMessage(), $this->messages);
         } else {
+            $this->appendParamsDecorator($this->cmsPollsHelper()->_paramsHelper);
             $this->addFieldIdToMessage($fieldType, $emptyField);
             $this->assertTrue($this->validationMessage(), $this->messages);
             $this->assertTrue($this->verifyMessagesCount(), $this->messages);
@@ -204,7 +206,8 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->cmsPollsHelper()->frontCheckPoll($pollData['poll_question']),
                 "There is no " . $pollData['poll_question'] . " poll on home page");
         //Steps
-        $this->admin('poll_manager');
+        $this->admin();
+        $this->navigate('poll_manager');
         $this->cmsPollsHelper()->setPollState($searchPollData, 'Closed');
         //Verifying
         $this->frontend();
