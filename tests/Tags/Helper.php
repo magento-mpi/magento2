@@ -292,27 +292,30 @@ class Tags_Helper extends Mage_Selenium_TestCase
         $this->validatePage();
     }
 
-    /**
-     * Approves a tag in backend
-     *
-     * @param string|array $searchData Data used in Search Grid for tags. Same as data used for openTag
-     * @param string $newStatus New status
-     */
-    public function changeTagStatus($searchData, $newStatus)
-    {
-        $this->openTag($searchData);
-        $this->fillTagSettings(array('tag_status' => $newStatus));
-        $this->clickButton('save_tag');
-    }
+//    /**
+//     * Approves one tag in backend
+//     *
+//     * @param string|array $searchData Data used in Search Grid for tags. Same as data used for openTag
+//     * @param string $newStatus New status
+//     */
+//    public function changeTagStatus($searchData, $newStatus)
+//    {
+//        $this->openTag($searchData);
+//        $this->fillTagSettings(array('tag_status' => $newStatus));
+//        $this->clickButton('save_tag');
+//    }
 
     /**
-     * Mass action: approves tags in backend
+     * Mass action: approves a set of tags in backend
      *
-     * @param array $tagsSearchData Set of tags to change status
+     * @param array $tagsSearchData Array of tags to change status
      * @param string $newStatus New status
+     *
+     * Example of $tagsSearchData for one tag with 'my tag name' name: array(array('tag_name' => 'my tag name'))
      */
     public function changeTagsStatus(array $tagsSearchData, $newStatus)
     {
+        $this->navigate('all_tags');
         foreach ($tagsSearchData as $searchData) {
             $this->searchAndChoose($searchData);
         }
@@ -332,39 +335,41 @@ class Tags_Helper extends Mage_Selenium_TestCase
         $this->clickButtonAndConfirm('delete_tag', 'confirmation_for_delete');
     }
 
-     /**
-     * Verify a tag from backend for product
+    /**
+     * Checks if the tag is assigned to the product.
+     * Returns true if assigned, or False otherwise.
      *
-     * @param array $searchData Data used in Search Grid for tags. Same as data used for openTag
-     * @param string $productName Product Name to verify tag
+     * @param array $tagSearchData Data used in Search Grid for tags. Same as used for openTag
+     * @param array $productSearchData Product to open. Same as used in productHelper()->openProduct
      */
-    public function verifyTagProduct($searchData,$productName)
+    public function verifyTagProduct(array $tagSearchData, array $productSearchData)
     {
-        $this->productHelper()->openProduct(array('product_name' => $productName));
+        $this->productHelper()->openProduct($productSearchData);
         $this->clickControl('tab', 'product_tags', false);
         $this->pleaseWait();
-        $xpathTR = $this->search($searchData, 'product_tags');
-        return $xpathTR ? true : false ;
+        $xpathTR = $this->search($tagSearchData, 'product_tags');
+        return $xpathTR ? true : false;
     }
 
-     /**
-     * Verify a tag from backend for customer
+    /**
+     * Checks if the customer submmitted the tag.
+     * Returns true if submitted, or False otherwise.
      *
-     * @param array $searchData Data used in Search Grid for tags. Same as data used for openTag
-     * @param array $searchCustomer
+     * @param array $tagSearchData Data used in Search Grid for tags. Same as data used for openTag
+     * @param array $customerSearchData Search data to open customer. Same as in customerHelper()->openCustomer
      */
-    public function verifyTagCustomer($searchTag,$searchCustomer)
+    public function verifyTagCustomer(array $tagSearchData, array $customerSearchData)
     {
-        $searchTag = $this->arrayEmptyClear($searchTag);
-        $this->customerHelper()->openCustomer($searchCustomer);
+        $tagSearchData = $this->arrayEmptyClear($tagSearchData);
+        $this->customerHelper()->openCustomer($customerSearchData);
         $this->clickControl('tab', 'product_tags', false);
         $this->pleaseWait();
-        $xpathTR = $this->formSearchXpath($searchTag);
-        do{
+        $xpathTR = $this->formSearchXpath($tagSearchData);
+        do {
             if ($this->isElementPresent($xpathTR))
                 return true;
-            if ($this->controlIsPresent('link', 'next_page')){
-                $this->clickControl('link', 'next_page',false);
+            if ($this->controlIsPresent('link', 'next_page')) {
+                $this->clickControl('link', 'next_page', false);
                 $this->pleaseWait();
             }else
                 break;
@@ -372,4 +377,5 @@ class Tags_Helper extends Mage_Selenium_TestCase
 
         return false;
     }
+
 }
