@@ -32,25 +32,6 @@
         </Enterprise_Cms>
     </modules>
     <global>
-        <models>
-            <enterprise_cms>
-                <class>Enterprise_Cms_Model</class>
-                <resourceModel>enterprise_cms_resource</resourceModel>
-            </enterprise_cms>
-            <enterprise_cms_resource>
-                <class>Enterprise_Cms_Model_Resource</class>
-            </enterprise_cms_resource>
-        </models>
-        <blocks>
-            <enterprise_cms>
-                <class>Enterprise_Cms_Block</class>
-            </enterprise_cms>
-        </blocks>
-        <helpers>
-            <enterprise_cms>
-                <class>Enterprise_Cms_Helper</class>
-            </enterprise_cms>
-        </helpers>
         <resources>
             <enterprise_cms_setup>
                 <setup>

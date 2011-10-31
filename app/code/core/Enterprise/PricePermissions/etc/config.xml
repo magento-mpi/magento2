@@ -31,23 +31,6 @@
             <version>1.11.0.0</version>
         </Enterprise_PricePermissions>
     </modules>
-    <global>
-        <models>
-            <enterprise_pricepermissions>
-                <class>Enterprise_PricePermissions_Model</class>
-            </enterprise_pricepermissions>
-        </models>
-        <helpers>
-            <enterprise_pricepermissions>
-                <class>Enterprise_PricePermissions_Helper</class>
-            </enterprise_pricepermissions>
-        </helpers>
-        <blocks>
-            <enterprise_pricepermissions>
-                <class>Enterprise_PricePermissions_Block</class>
-            </enterprise_pricepermissions>
-        </blocks>
-    </global>
     <adminhtml>
         <events>
             <core_block_abstract_to_html_before>

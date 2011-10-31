@@ -32,22 +32,6 @@
         </Mage_Tag>
     </modules>
     <global>
-        <models>
-            <tag>
-                <class>Mage_Tag_Model</class>
-                <resourceModel>tag_resource</resourceModel>
-            </tag>
-            <tag_customer>
-                <class>Mage_Tag_Model_Customer</class>
-                <resourceModel>tag_customer_resource</resourceModel>
-            </tag_customer>
-            <tag_resource>
-                <class>Mage_Tag_Model_Resource</class>
-            </tag_resource>
-            <tag_customer_resource>
-                <class>Mage_Tag_Model_Resource_Customer</class>
-            </tag_customer_resource>
-        </models>
         <resources>
             <tag_setup>
                 <setup>
@@ -55,11 +39,6 @@
                 </setup>
             </tag_setup>
         </resources>
-        <blocks>
-            <tag>
-                <class>Mage_Tag_Block</class>
-            </tag>
-        </blocks>
         <index>
             <indexer>
                 <tag_summary>

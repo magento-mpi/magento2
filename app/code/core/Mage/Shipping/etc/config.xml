@@ -32,15 +32,6 @@
         </Mage_Shipping>
     </modules>
     <global>
-        <models>
-            <shipping>
-                <class>Mage_Shipping_Model</class>
-                <resourceModel>shipping_resource</resourceModel>
-            </shipping>
-            <shipping_resource>
-                <class>Mage_Shipping_Model_Resource</class>
-            </shipping_resource>
-        </models>
         <resources>
             <shipping_setup>
                 <setup>

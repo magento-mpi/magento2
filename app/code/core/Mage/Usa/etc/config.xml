@@ -39,11 +39,6 @@
                 </setup>
             </usa_setup>
         </resources>
-        <models>
-            <usa>
-                <class>Mage_Usa_Model</class>
-            </usa>
-        </models>
         <sales>
             <shipping>
                 <carriers>

@@ -32,15 +32,6 @@
         </Mage_Widget>
     </modules>
     <global>
-        <models>
-            <widget>
-                <class>Mage_Widget_Model</class>
-                <resourceModel>widget_resource</resourceModel>
-            </widget>
-            <widget_resource>
-                <class>Mage_Widget_Model_Resource</class>
-            </widget_resource>
-        </models>
         <resources>
             <widget_setup>
                 <setup>
@@ -48,11 +39,6 @@
                 </setup>
             </widget_setup>
         </resources>
-        <blocks>
-            <widget>
-                <class>Mage_Widget_Block</class>
-            </widget>
-        </blocks>
         <cms>
             <page>
                 <tempate_filter>widget/template_filter</tempate_filter>

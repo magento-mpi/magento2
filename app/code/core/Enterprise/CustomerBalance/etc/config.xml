@@ -40,25 +40,6 @@
                 </setup>
             </enterprise_customerbalance_setup>
         </resources>
-        <models>
-            <enterprise_customerbalance>
-                <class>Enterprise_CustomerBalance_Model</class>
-                <resourceModel>enterprise_customerbalance_resource</resourceModel>
-            </enterprise_customerbalance>
-            <enterprise_customerbalance_resource>
-                <class>Enterprise_CustomerBalance_Model_Resource</class>
-            </enterprise_customerbalance_resource>
-        </models>
-        <blocks>
-            <enterprise_customerbalance>
-                <class>Enterprise_CustomerBalance_Block</class>
-            </enterprise_customerbalance>
-        </blocks>
-        <helpers>
-            <enterprise_customerbalance>
-                <class>Enterprise_CustomerBalance_Helper</class>
-            </enterprise_customerbalance>
-        </helpers>
         <template>
             <email>
                 <customer_enterprise_customerbalance_email_template translate="label" module="Enterprise_CustomerBalance">
@@ -102,7 +83,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </adminhtml_customer_save_after>
-
             <sales_quote_payment_import_data_before>
                 <observers>
                     <enterprise_customerbalance>
@@ -111,7 +91,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </sales_quote_payment_import_data_before>
-
             <sales_model_service_quote_submit_before>
                 <observers>
                     <enterprise_customerbalance>
@@ -120,7 +99,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </sales_model_service_quote_submit_before>
-
             <sales_model_service_quote_submit_failure>
                 <observers>
                     <enterprise_customerbalance>
@@ -129,7 +107,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </sales_model_service_quote_submit_failure>
-
             <checkout_type_multishipping_create_orders_single>
                 <observers>
                     <enterprise_customerbalance>
@@ -138,7 +115,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </checkout_type_multishipping_create_orders_single>
-
             <checkout_multishipping_refund_all>
                 <observers>
                     <enterprise_customerbalance>
@@ -147,7 +123,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </checkout_multishipping_refund_all>
-
             <core_layout_update_updates_get_after>
                 <observers>
                     <enterprise_customerbalance>
@@ -156,7 +131,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </core_layout_update_updates_get_after>
-
             <adminhtml_sales_order_create_process_data>
                 <observers>
                     <enterprise_customerbalance>
@@ -165,7 +139,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </adminhtml_sales_order_create_process_data>
-
             <payment_method_is_active>
                 <observers>
                     <enterprise_customerbalance>
@@ -174,7 +147,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </payment_method_is_active>
-
             <sales_quote_collect_totals_before>
                 <observers>
                     <enterprise_customerbalance>
@@ -183,7 +155,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </sales_quote_collect_totals_before>
-
             <sales_quote_merge_after>
                 <observers>
                     <enterprise_customerbalance>
@@ -192,7 +163,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </sales_quote_merge_after>
-
             <sales_order_invoice_save_after>
                 <observers>
                     <enterprise_customerbalance_sales_order_invoice_save_after>
@@ -201,7 +171,6 @@
                     </enterprise_customerbalance_sales_order_invoice_save_after>
                 </observers>
             </sales_order_invoice_save_after>
-
             <sales_order_creditmemo_save_after>
                 <observers>
                     <enterprise_customerbalance>
@@ -210,7 +179,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </sales_order_creditmemo_save_after>
-
             <adminhtml_sales_order_creditmemo_register_before>
                 <observers>
                     <enterprise_customerbalance>
@@ -219,7 +187,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </adminhtml_sales_order_creditmemo_register_before>
-
             <sales_order_load_after>
                 <observers>
                     <enterprise_customerbalance>
@@ -228,7 +195,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </sales_order_load_after>
-
             <sales_order_creditmemo_refund>
                 <observers>
                     <enterprise_customerbalance>
@@ -237,7 +203,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </sales_order_creditmemo_refund>
-
             <website_delete_before>
                 <observers>
                     <enterprise_customerbalance>
@@ -246,7 +211,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </website_delete_before>
-
             <paypal_prepare_line_items>
                 <observers>
                     <enterprise_customerbalance>

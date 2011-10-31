@@ -32,15 +32,6 @@
         </Enterprise_Reward>
     </modules>
     <global>
-        <models>
-            <enterprise_reward>
-                <class>Enterprise_Reward_Model</class>
-                <resourceModel>enterprise_reward_resource</resourceModel>
-            </enterprise_reward>
-            <enterprise_reward_resource>
-                <class>Enterprise_Reward_Model_Resource</class>
-            </enterprise_reward_resource>
-        </models>
         <resources>
             <enterprise_reward_setup>
                 <setup>
@@ -49,16 +40,6 @@
                 </setup>
             </enterprise_reward_setup>
         </resources>
-        <blocks>
-            <enterprise_reward>
-                <class>Enterprise_Reward_Block</class>
-            </enterprise_reward>
-        </blocks>
-        <helpers>
-            <enterprise_reward>
-                <class>Enterprise_Reward_Helper</class>
-            </enterprise_reward>
-        </helpers>
         <template>
             <email>
                 <enterprise_reward_notification_balance_update_template translate="label" module="Enterprise_Reward">

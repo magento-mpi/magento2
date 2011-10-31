@@ -32,15 +32,6 @@
         </Mage_Bundle>
     </modules>
     <global>
-        <models>
-            <bundle>
-                <class>Mage_Bundle_Model</class>
-                <resourceModel>bundle_resource</resourceModel>
-            </bundle>
-            <bundle_resource>
-                <class>Mage_Bundle_Model_Resource</class>
-            </bundle_resource>
-        </models>
         <resources>
             <bundle_setup>
                 <setup>
@@ -49,11 +40,6 @@
                 </setup>
             </bundle_setup>
         </resources>
-        <blocks>
-            <bundle>
-                <class>Mage_Bundle_Block</class>
-            </bundle>
-        </blocks>
         <catalog>
             <product>
                 <type>

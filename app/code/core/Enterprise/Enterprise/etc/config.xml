@@ -32,11 +32,6 @@
         </Enterprise_Enterprise>
     </modules>
     <global>
-        <models>
-            <enterprise_enterprise>
-                <class>Enterprise_Enterprise_Model</class>
-            </enterprise_enterprise>
-        </models>
         <resources>
             <enterprise_enterprise_setup>
                 <setup>

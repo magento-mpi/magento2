@@ -32,15 +32,6 @@
         </Mage_Review>
     </modules>
     <global>
-        <models>
-            <review>
-                <class>Mage_Review_Model</class>
-                <resourceModel>review_resource</resourceModel>
-            </review>
-            <review_resource>
-                <class>Mage_Review_Model_Resource</class>
-            </review_resource>
-        </models>
         <resources>
             <review_setup>
                 <setup>
@@ -48,11 +39,6 @@
                 </setup>
             </review_setup>
         </resources>
-        <blocks>
-            <review>
-                <class>Mage_Review_Block</class>
-            </review>
-        </blocks>
     </global>
     <adminhtml>
         <translate>

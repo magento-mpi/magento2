@@ -32,15 +32,6 @@
         </Mage_Catalog>
     </modules>
     <global>
-        <models>
-            <catalog>
-                <class>Mage_Catalog_Model</class>
-                <resourceModel>catalog_resource</resourceModel>
-            </catalog>
-            <catalog_resource>
-                <class>Mage_Catalog_Model_Resource</class>
-            </catalog_resource>
-        </models>
         <resources>
             <catalog_setup>
                 <setup>
@@ -49,11 +40,6 @@
                 </setup>
             </catalog_setup>
         </resources>
-        <blocks>
-            <catalog>
-                <class>Mage_Catalog_Block</class>
-            </catalog>
-        </blocks>
         <index>
             <indexer>
                 <catalog_product_attribute>
@@ -421,8 +407,8 @@
                 <enabled>0</enabled>
                 <apply_for_all>0</apply_for_all>
                 <display_price_type>1</display_price_type>
-                <explanation_message><![CDATA[Our price is lower than the manufacturer's "minimum advertised price."  As a result, we cannot show you the price in catalog or the product page. <br /><br /> You have no obligation to purchase the product once you know the price. You can simply remove the item from your cart.]]></explanation_message>
-                <explanation_message_whats_this><![CDATA[Our price is lower than the manufacturer's "minimum advertised price."  As a result, we cannot show you the price in catalog or the product page. <br /><br /> You have no obligation to purchase the product once you know the price. You can simply remove the item from your cart.]]></explanation_message_whats_this>
+                <explanation_message>Our price is lower than the manufacturer&apos;s &quot;minimum advertised price.&quot;  As a result, we cannot show you the price in catalog or the product page. &lt;br /&gt;&lt;br /&gt; You have no obligation to purchase the product once you know the price. You can simply remove the item from your cart.</explanation_message>
+                <explanation_message_whats_this>Our price is lower than the manufacturer&apos;s &quot;minimum advertised price.&quot;  As a result, we cannot show you the price in catalog or the product page. &lt;br /&gt;&lt;br /&gt; You have no obligation to purchase the product once you know the price. You can simply remove the item from your cart.</explanation_message_whats_this>
             </msrp>
         </sales>
     </default>

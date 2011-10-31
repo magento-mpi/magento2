@@ -32,15 +32,6 @@
         </Mage_Paygate>
     </modules>
     <global>
-        <models>
-            <paygate>
-                <class>Mage_Paygate_Model</class>
-                <resourceModel>paygate_resource</resourceModel>
-            </paygate>
-            <paygate_resource>
-                <class>Mage_Paygate_Model_Resource</class>
-            </paygate_resource>
-        </models>
         <resources>
             <paygate_setup>
                 <setup>
@@ -91,7 +82,6 @@
             </adminhtml>
         </routers>
     </admin>
-
     <default>
         <payment>
             <authorizenet>

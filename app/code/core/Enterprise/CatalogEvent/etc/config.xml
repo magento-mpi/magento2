@@ -32,25 +32,6 @@
         </Enterprise_CatalogEvent>
     </modules>
     <global>
-        <models>
-            <enterprise_catalogevent>
-                <class>Enterprise_CatalogEvent_Model</class>
-                <resourceModel>enterprise_catalogevent_resource</resourceModel>
-            </enterprise_catalogevent>
-            <enterprise_catalogevent_resource>
-                <class>Enterprise_CatalogEvent_Model_Resource</class>
-            </enterprise_catalogevent_resource>
-        </models>
-        <helpers>
-            <enterprise_catalogevent>
-                <class>Enterprise_CatalogEvent_Helper</class>
-            </enterprise_catalogevent>
-        </helpers>
-        <blocks>
-            <enterprise_catalogevent>
-                <class>Enterprise_CatalogEvent_Block</class>
-            </enterprise_catalogevent>
-        </blocks>
         <resources>
             <enterprise_catalogevent_setup>
                 <setup>

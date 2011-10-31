@@ -31,18 +31,6 @@
             <version>1.11.0.0</version>
         </Enterprise_PromotionPermissions>
     </modules>
-    <global>
-        <models>
-            <enterprise_promotionpermissions>
-                <class>Enterprise_PromotionPermissions_Model</class>
-            </enterprise_promotionpermissions>
-        </models>
-        <helpers>
-            <enterprise_promotionpermissions>
-                <class>Enterprise_PromotionPermissions_Helper</class>
-            </enterprise_promotionpermissions>
-        </helpers>
-    </global>
     <adminhtml>
         <events>
             <core_block_abstract_to_html_before>

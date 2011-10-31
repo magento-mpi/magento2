@@ -32,20 +32,6 @@
         </Mage_CatalogRule>
     </modules>
     <global>
-        <helpers>
-            <catalogrule>
-                <class>Mage_CatalogRule_Helper</class>
-            </catalogrule>
-        </helpers>
-        <models>
-            <catalogrule>
-                <class>Mage_CatalogRule_Model</class>
-                <resourceModel>catalogrule_resource</resourceModel>
-            </catalogrule>
-            <catalogrule_resource>
-                <class>Mage_CatalogRule_Model_Resource</class>
-            </catalogrule_resource>
-        </models>
         <resources>
             <catalogrule_setup>
                 <setup>
@@ -133,7 +119,6 @@
                     </catalogrule>
                 </observers>
             </catalog_product_save_after>
-
             <catalog_product_import_finish_before>
                 <observers>
                     <catalogrule>
@@ -142,7 +127,6 @@
                     </catalogrule>
                 </observers>
             </catalog_product_import_finish_before>
-
             <catalog_product_import_after>
                 <observers>
                     <catalogrule>

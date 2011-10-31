@@ -97,13 +97,8 @@
             <browser>
                 <dirs>
                     <exclude>
-                        <!-- <catalog_dir regexp="0">catalog</catalog_dir> --><!-- use regexp="0" or "1" to override -->
-                        <!-- downloadable>downloadable</downloadable>
-                        <flex_dir>flex</flex_dir>
-                        <import>import</import>
-                        <tmp>tmp</tmp>
-                        <js>js</js>
-                        <css>css</css-->
+                        
+                        
                     </exclude>
                     <include/>
                 </dirs>
@@ -137,15 +132,6 @@
         </cms>
     </adminhtml>
     <global>
-        <models>
-            <cms>
-                <class>Mage_Cms_Model</class>
-                <resourceModel>cms_resource</resourceModel>
-            </cms>
-            <cms_resource>
-                <class>Mage_Cms_Model_Resource</class>
-            </cms_resource>
-        </models>
         <resources>
             <cms_setup>
                 <setup>
@@ -153,11 +139,6 @@
                 </setup>
             </cms_setup>
         </resources>
-        <blocks>
-            <cms>
-                <class>Mage_Cms_Block</class>
-            </cms>
-        </blocks>
         <events>
             <controller_front_init_routers>
                 <observers>

@@ -32,20 +32,6 @@
         </Mage_AdminNotification>
     </modules>
     <global>
-        <models>
-            <adminnotification>
-                <class>Mage_AdminNotification_Model</class>
-                <resourceModel>adminnotification_resource</resourceModel>
-            </adminnotification>
-            <adminnotification_resource>
-                <class>Mage_AdminNotification_Model_Resource</class>
-            </adminnotification_resource>
-        </models>
-        <helpers>
-            <adminnotification>
-                <class>Mage_AdminNotification_Helper</class>
-            </adminnotification>
-        </helpers>
         <resources>
             <adminnotification_setup>
                 <setup>

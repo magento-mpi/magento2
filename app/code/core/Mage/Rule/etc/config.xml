@@ -31,22 +31,6 @@
             <version>1.6.0.0</version>
         </Mage_Rule>
     </modules>
-    <global>
-        <models>
-            <rule>
-                <class>Mage_Rule_Model</class>
-                <resourceModel>rule_resource</resourceModel>
-            </rule>
-            <rule_resource>
-                <class>Mage_Rule_Model_Resource</class>
-            </rule_resource>
-        </models>
-        <blocks>
-            <rule>
-                <class>Mage_Rule_Block</class>
-            </rule>
-        </blocks>
-    </global>
     <adminhtml>
         <translate>
             <modules>

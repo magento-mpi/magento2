@@ -32,15 +32,6 @@
         </Mage_Reports>
     </modules>
     <global>
-        <models>
-            <reports>
-                <class>Mage_Reports_Model</class>
-                <resourceModel>reports_resource</resourceModel>
-            </reports>
-            <reports_resource>
-                <class>Mage_Reports_Model_Resource</class>
-            </reports_resource>
-        </models>
         <resources>
             <reports_setup>
                 <setup>

@@ -54,20 +54,6 @@
                 </formats>
             </address>
         </customer>
-        <blocks>
-            <customer>
-                <class>Mage_Customer_Block</class>
-            </customer>
-        </blocks>
-        <models>
-            <customer>
-                <class>Mage_Customer_Model</class>
-                <resourceModel>customer_resource</resourceModel>
-            </customer>
-            <customer_resource>
-                <class>Mage_Customer_Model_Resource</class>
-            </customer_resource>
-        </models>
         <resources>
             <customer_setup>
                 <setup>

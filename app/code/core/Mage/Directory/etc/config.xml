@@ -42,20 +42,6 @@
                 </services>
             </import>
         </currency>
-        <blocks>
-            <directory>
-                <class>Mage_Directory_Block</class>
-            </directory>
-        </blocks>
-        <models>
-            <directory>
-                <class>Mage_Directory_Model</class>
-                <resourceModel>directory_resource</resourceModel>
-            </directory>
-            <directory_resource>
-                <class>Mage_Directory_Model_Resource</class>
-            </directory_resource>
-        </models>
         <resources>
             <directory_setup>
                 <setup>

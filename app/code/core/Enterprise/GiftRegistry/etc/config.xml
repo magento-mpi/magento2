@@ -32,25 +32,6 @@
         </Enterprise_GiftRegistry>
     </modules>
     <global>
-        <models>
-            <enterprise_giftregistry>
-                <class>Enterprise_GiftRegistry_Model</class>
-                <resourceModel>enterprise_giftregistry_resource</resourceModel>
-            </enterprise_giftregistry>
-            <enterprise_giftregistry_resource>
-                <class>Enterprise_GiftRegistry_Model_Resource</class>
-            </enterprise_giftregistry_resource>
-        </models>
-        <helpers>
-            <enterprise_giftregistry>
-                <class>Enterprise_GiftRegistry_Helper</class>
-            </enterprise_giftregistry>
-        </helpers>
-        <blocks>
-            <enterprise_giftregistry>
-                <class>Enterprise_GiftRegistry_Block</class>
-            </enterprise_giftregistry>
-        </blocks>
         <resources>
             <enterprise_giftregistry_setup>
                 <setup>

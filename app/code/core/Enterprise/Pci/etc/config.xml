@@ -32,24 +32,7 @@
         </Enterprise_Pci>
     </modules>
     <global>
-        <models>
-            <enterprise_pci>
-                <class>Enterprise_Pci_Model</class>
-                <resourceModel>enterprise_pci_resource</resourceModel>
-            </enterprise_pci>
-            <enterprise_pci_resource>
-                <class>Enterprise_Pci_Model_Resource</class>
-            </enterprise_pci_resource>
-        </models>
-        <blocks>
-            <enterprise_pci>
-                <class>Enterprise_Pci_Block</class>
-            </enterprise_pci>
-        </blocks>
         <helpers>
-            <enterprise_pci>
-                <class>Enterprise_Pci_Helper</class>
-            </enterprise_pci>
             <core>
                 <encryption_model>Enterprise_Pci_Model_Encryption</encryption_model>
             </core>

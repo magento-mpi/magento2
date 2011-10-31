@@ -30,15 +30,14 @@
         <Mage_LoadTest>
             <version>0.1.0</version>
             <depends>
-                <Mage_Catalog />
-                <Mage_Customer />
-                <Mage_Sales />
-                <Mage_Tag />
-                <Mage_Review />
+                <Mage_Catalog/>
+                <Mage_Customer/>
+                <Mage_Sales/>
+                <Mage_Tag/>
+                <Mage_Review/>
             </depends>
         </Mage_LoadTest>
     </modules>
-
     <default>
         <dev>
             <loadtest>
@@ -47,14 +46,7 @@
             </loadtest>
         </dev>
     </default>
-
     <global>
-        <models>
-            <loadtest>
-                <class>Mage_LoadTest_Model</class>
-            </loadtest>
-        </models>
-
         <resource>
             <connection>
                 <types>
@@ -64,21 +56,13 @@
                 </types>
             </connection>
         </resource>
-
-        <helpers>
-            <loadtest>
-                <class>Mage_LoadTest_Helper</class>
-            </loadtest>
-        </helpers>
     </global>
-
     <frontend>
         <models>
             <loadtest>
                 <class>Mage_LoadTest_Model_LoadTest</class>
             </loadtest>
         </models>
-
         <routers>
             <loadtest>
                 <use>standard</use>
@@ -88,7 +72,6 @@
                 </args>
             </loadtest>
         </routers>
-
         <translate>
             <modules>
                 <Mage_LoadTest>
@@ -98,7 +81,6 @@
                 </Mage_LoadTest>
             </modules>
         </translate>
-
         <events>
             <controller_action_predispatch>
                 <observers>

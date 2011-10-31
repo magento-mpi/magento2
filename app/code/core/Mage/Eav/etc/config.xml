@@ -32,15 +32,6 @@
         </Mage_Eav>
     </modules>
     <global>
-        <models>
-            <eav>
-                <class>Mage_Eav_Model</class>
-                <resourceModel>eav_resource</resourceModel>
-            </eav>
-            <eav_resource>
-                <class>Mage_Eav_Model_Resource</class>
-            </eav_resource>
-        </models>
         <resources>
             <eav_setup>
                 <setup>

@@ -32,25 +32,6 @@
         </Enterprise_PageCache>
     </modules>
     <global>
-        <models>
-            <enterprise_pagecache>
-                <class>Enterprise_PageCache_Model</class>
-                <resourceModel>enterprise_pagecache_resource</resourceModel>
-            </enterprise_pagecache>
-            <enterprise_pagecache_resource>
-                <class>Enterprise_PageCache_Model_Resource</class>
-            </enterprise_pagecache_resource>
-        </models>
-        <blocks>
-            <enterprise_pagecache>
-                <class>Enterprise_PageCache_Block</class>
-            </enterprise_pagecache>
-        </blocks>
-        <helpers>
-            <enterprise_pagecache>
-                <class>Enterprise_PageCache_Helper</class>
-            </enterprise_pagecache>
-        </helpers>
         <resources>
             <enterprise_pagecache_setup>
                 <setup>
@@ -389,7 +370,6 @@
                 <multicurrency>1</multicurrency>
             </page_crawl>
         </system>
-
         <dev>
             <translate_inline>
                 <invalid_caches>

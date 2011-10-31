@@ -32,25 +32,6 @@
         </Enterprise_AdminGws>
     </modules>
     <global>
-        <models>
-            <enterprise_admingws>
-                <class>Enterprise_AdminGws_Model</class>
-                <resourceModel>enterprise_admingws_resource</resourceModel>
-            </enterprise_admingws>
-            <enterprise_admingws_resource>
-                <class>Enterprise_AdminGws_Model_Resource</class>
-            </enterprise_admingws_resource>
-        </models>
-        <blocks>
-            <enterprise_admingws>
-                <class>Enterprise_AdminGws_Block</class>
-            </enterprise_admingws>
-        </blocks>
-        <helpers>
-            <enterprise_admingws>
-                <class>Enterprise_AdminGws_Helper</class>
-            </enterprise_admingws>
-        </helpers>
         <resources>
             <enterprise_admingws_setup>
                 <setup>
@@ -255,7 +236,7 @@
                     </enterprise_admingws>
                 </observers>
             </adminhtml_catalog_product_grid_prepare_massaction>
-          <adminhtml_catalog_product_edit_tab_attributes_create_html_before>
+            <adminhtml_catalog_product_edit_tab_attributes_create_html_before>
                 <observers>
                     <enterprise_admingws>
                         <class>enterprise_admingws/blocks</class>
@@ -330,8 +311,6 @@
                         <customer_attributes>admin/customer/attributes</customer_attributes>
                     </store_level>
                 </acl_deny>
-                <!-- all callbacks support absolute naming with factory_classname::method -->
-                <!-- for example enterprise_admingws/collections::limitStores -->
                 <collection_load_before>
                     <sales__report_bestsellers_collection>limitBestsellersCollection</sales__report_bestsellers_collection>
                     <reports__product_collection>limitProductReports</reports__product_collection>

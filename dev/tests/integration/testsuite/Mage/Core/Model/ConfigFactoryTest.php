@@ -43,10 +43,6 @@ class Mage_Core_Model_ConfigFactoryTest extends PHPUnit_Framework_TestCase
 
     public function testGetGroupedClassNameRewrites()
     {
-        $rewritingClass = 'Some_Class';
-        $this->_model->setNode('global/models/a_module/rewrite/a_model', $rewritingClass);
-        $this->assertEquals($rewritingClass, $this->_model->getGroupedClassName('model', 'a_module/a_model'));
-
         $rewrittenClass = 'Some_Class_To_Rewrite';
         $rewritingClass = 'Some_Class_That_Rewrites';
         $this->_model->setNode('global/rewrites/' . $rewrittenClass, $rewritingClass);

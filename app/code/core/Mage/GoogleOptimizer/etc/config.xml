@@ -32,20 +32,6 @@
         </Mage_GoogleOptimizer>
     </modules>
     <global>
-        <models>
-            <googleoptimizer>
-                <class>Mage_GoogleOptimizer_Model</class>
-                <resourceModel>googleoptimizer_resource</resourceModel>
-            </googleoptimizer>
-            <googleoptimizer_resource>
-                <class>Mage_GoogleOptimizer_Model_Resource</class>
-            </googleoptimizer_resource>
-        </models>
-        <helpers>
-            <googleoptimizer>
-                <class>Mage_GoogleOptimizer_Helper</class>
-            </googleoptimizer>
-        </helpers>
         <resources>
             <googleoptimizer_setup>
                 <setup>
@@ -53,11 +39,6 @@
                 </setup>
             </googleoptimizer_setup>
         </resources>
-        <blocks>
-            <googleoptimizer>
-                <class>Mage_GoogleOptimizer_Block</class>
-            </googleoptimizer>
-        </blocks>
         <events>
             <cms_page_load_after>
                 <observers>

@@ -32,25 +32,6 @@
         </Mage_ImportExport>
     </modules>
     <global>
-        <models>
-            <importexport>
-                <class>Mage_ImportExport_Model</class>
-                <resourceModel>importexport_resource</resourceModel>
-            </importexport>
-            <importexport_resource>
-                <class>Mage_ImportExport_Model_Resource</class>
-            </importexport_resource>
-        </models>
-        <blocks>
-            <importexport>
-                <class>Mage_ImportExport_Block</class>
-            </importexport>
-        </blocks>
-        <helpers>
-            <importexport>
-                <class>Mage_ImportExport_Helper</class>
-            </importexport>
-        </helpers>
         <resources>
             <importexport_setup>
                 <setup>

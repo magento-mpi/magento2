@@ -32,15 +32,6 @@
         </Mage_Rating>
     </modules>
     <global>
-        <models>
-            <rating>
-                <class>Mage_Rating_Model</class>
-                <resourceModel>rating_resource</resourceModel>
-            </rating>
-            <rating_resource>
-                <class>Mage_Rating_Model_Resource</class>
-            </rating_resource>
-        </models>
         <resources>
             <rating_setup>
                 <setup>
@@ -48,11 +39,6 @@
                 </setup>
             </rating_setup>
         </resources>
-        <blocks>
-            <rating>
-                <class>Mage_Rating_Block</class>
-            </rating>
-        </blocks>
     </global>
     <frontend>
         <translate>

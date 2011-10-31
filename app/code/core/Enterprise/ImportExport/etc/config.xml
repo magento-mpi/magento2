@@ -32,25 +32,6 @@
         </Enterprise_ImportExport>
     </modules>
     <global>
-        <models>
-            <enterprise_importexport>
-                <class>Enterprise_ImportExport_Model</class>
-                <resourceModel>enterprise_importexport_resource</resourceModel>
-            </enterprise_importexport>
-            <enterprise_importexport_resource>
-                <class>Enterprise_ImportExport_Model_Resource</class>
-            </enterprise_importexport_resource>
-        </models>
-        <blocks>
-            <enterprise_importexport>
-                <class>Enterprise_ImportExport_Block</class>
-            </enterprise_importexport>
-        </blocks>
-        <helpers>
-            <enterprise_importexport>
-                <class>Enterprise_ImportExport_Helper</class>
-            </enterprise_importexport>
-        </helpers>
         <resources>
             <enterprise_importexport_setup>
                 <setup>

@@ -32,17 +32,8 @@
         </Mage_Ogone>
     </modules>
     <global>
-        <models>
-            <ogone>
-                <class>Mage_Ogone_Model</class>
-                <resourceModel>ogone_resource</resourceModel>
-            </ogone>
-            <ogone_resource>
-                <class>Mage_Ogone_Model_Resource</class>
-            </ogone_resource>
-        </models>
         <resources>
-           <ogone_setup>
+            <ogone_setup>
                 <setup>
                     <module>Mage_Ogone</module>
                 </setup>
@@ -61,20 +52,27 @@
                 </connection>
             </ogone_read>
         </resources>
-        <blocks>
-            <ogone>
-                <class>Mage_Ogone_Block</class>
-            </ogone>
-        </blocks>
         <sales>
             <order>
                 <statuses>
-                    <pending_ogone translate="label"><label>Pending Ogone</label></pending_ogone>
-                    <cancel_ogone translate="label"><label>Cancelled Ogone</label></cancel_ogone>
-                    <decline_ogone translate="label"><label>Declined Ogone</label></decline_ogone>
-                    <processing_ogone translate="label"><label>Processing Ogone Payment</label></processing_ogone>
-                    <processed_ogone translate="label"><label>Processed Ogone Payment</label></processed_ogone>
-                    <waiting_authorozation translate="label"><label>Waiting Authorization</label></waiting_authorozation>
+                    <pending_ogone translate="label">
+                        <label>Pending Ogone</label>
+                    </pending_ogone>
+                    <cancel_ogone translate="label">
+                        <label>Cancelled Ogone</label>
+                    </cancel_ogone>
+                    <decline_ogone translate="label">
+                        <label>Declined Ogone</label>
+                    </decline_ogone>
+                    <processing_ogone translate="label">
+                        <label>Processing Ogone Payment</label>
+                    </processing_ogone>
+                    <processed_ogone translate="label">
+                        <label>Processed Ogone Payment</label>
+                    </processed_ogone>
+                    <waiting_authorozation translate="label">
+                        <label>Waiting Authorization</label>
+                    </waiting_authorozation>
                 </statuses>
                 <states>
                     <pending_payment>
@@ -84,7 +82,7 @@
                     </pending_payment>
                     <processing>
                         <statuses>
-                            <processed_ogone />
+                            <processed_ogone/>
                         </statuses>
                     </processing>
                 </states>
@@ -112,7 +110,6 @@
             </ogone>
         </routers>
     </frontend>
-
     <default>
         <payment>
             <ogone>

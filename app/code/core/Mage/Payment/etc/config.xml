@@ -32,11 +32,6 @@
         </Mage_Payment>
     </modules>
     <global>
-        <models>
-            <payment>
-                <class>Mage_Payment_Model</class>
-            </payment>
-        </models>
         <resources>
             <payment_setup>
                 <setup>
@@ -44,11 +39,6 @@
                 </setup>
             </payment_setup>
         </resources>
-        <blocks>
-            <payment>
-                <class>Mage_Payment_Block</class>
-            </payment>
-        </blocks>
         <payment>
             <cc>
                 <types>

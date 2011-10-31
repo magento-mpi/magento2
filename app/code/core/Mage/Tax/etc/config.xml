@@ -32,15 +32,6 @@
         </Mage_Tax>
     </modules>
     <global>
-        <models>
-            <tax>
-                <class>Mage_Tax_Model</class>
-                <resourceModel>tax_resource</resourceModel>
-            </tax>
-            <tax_resource>
-                <class>Mage_Tax_Model_Resource</class>
-            </tax_resource>
-        </models>
         <resources>
             <tax_setup>
                 <setup>

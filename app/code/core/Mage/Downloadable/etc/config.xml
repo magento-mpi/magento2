@@ -42,20 +42,6 @@
                 </item>
             </quote>
         </sales>
-        <models>
-            <downloadable>
-                <class>Mage_Downloadable_Model</class>
-                <resourceModel>downloadable_resource</resourceModel>
-            </downloadable>
-            <downloadable_resource>
-                <class>Mage_Downloadable_Model_Resource</class>
-            </downloadable_resource>
-        </models>
-        <blocks>
-            <downloadable>
-                <class>Mage_Downloadable_Block</class>
-            </downloadable>
-        </blocks>
         <resources>
             <downloadable_setup>
                 <setup>
@@ -76,11 +62,6 @@
                         <price_indexer>Mage_Downloadable_Model_Resource_Indexer_Price</price_indexer>
                         <can_use_qty_decimals>0</can_use_qty_decimals>
                     </downloadable>
-                    <!--<bundle>-->
-                        <!--<allowed_selection_types>-->
-                            <!--<downloadable/>-->
-                        <!--</allowed_selection_types>-->
-                    <!--</bundle>-->
                     <configurable>
                         <allow_product_types>
                             <downloadable/>

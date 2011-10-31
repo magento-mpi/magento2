@@ -32,15 +32,6 @@
         </Mage_Weee>
     </modules>
     <global>
-        <models>
-            <weee>
-                <class>Mage_Weee_Model</class>
-                <resourceModel>weee_resource</resourceModel>
-            </weee>
-            <weee_resource>
-                <class>Mage_Weee_Model_Resource</class>
-            </weee_resource>
-        </models>
         <resources>
             <weee_setup>
                 <setup>
@@ -49,11 +40,6 @@
                 </setup>
             </weee_setup>
         </resources>
-        <blocks>
-            <weee>
-                <class>Mage_Weee_Block</class>
-            </weee>
-        </blocks>
         <events>
             <catalog_entity_attribute_save_before>
                 <observers>

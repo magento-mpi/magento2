@@ -32,25 +32,6 @@
         </Enterprise_CustomerSegment>
     </modules>
     <global>
-        <models>
-            <enterprise_customersegment>
-                <class>Enterprise_CustomerSegment_Model</class>
-                <resourceModel>enterprise_customersegment_resource</resourceModel>
-            </enterprise_customersegment>
-            <enterprise_customersegment_resource>
-                <class>Enterprise_CustomerSegment_Model_Resource</class>
-            </enterprise_customersegment_resource>
-        </models>
-        <helpers>
-            <enterprise_customersegment>
-                <class>Enterprise_CustomerSegment_Helper</class>
-            </enterprise_customersegment>
-        </helpers>
-        <blocks>
-            <enterprise_customersegment>
-                <class>Enterprise_CustomerSegment_Block</class>
-            </enterprise_customersegment>
-        </blocks>
         <resources>
             <enterprise_customersegment_setup>
                 <setup>

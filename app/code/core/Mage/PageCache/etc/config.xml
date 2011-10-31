@@ -28,25 +28,10 @@
 <config>
     <modules>
         <Mage_PageCache>
-             <version>1.6.0.0</version>
+            <version>1.6.0.0</version>
         </Mage_PageCache>
     </modules>
     <global>
-        <models>
-            <pagecache>
-                <class>Mage_PageCache_Model</class>
-            </pagecache>
-        </models>
-        <helpers>
-            <pagecache>
-                <class>Mage_PageCache_Helper</class>
-            </pagecache>
-        </helpers>
-        <blocks>
-            <pagecache>
-                <class>Mage_PageCache_Block</class>
-            </pagecache>
-        </blocks>
         <external_cache>
             <controls>
                 <zend_page_cache translate="label" module="Mage_PageCache">
@@ -96,10 +81,14 @@
             <allowed_requests>
                 <cms/>
                 <catalog>
-                    <category><view/></category>
+                    <category>
+                        <view/>
+                    </category>
                 </catalog>
                 <catalog>
-                    <product><view/></product>
+                    <product>
+                        <view/>
+                    </product>
                 </catalog>
             </allowed_requests>
         </cache>

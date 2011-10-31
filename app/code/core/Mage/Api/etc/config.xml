@@ -46,15 +46,6 @@
                 </config_api>
             </types>
         </cache>
-        <models>
-            <api>
-                <class>Mage_Api_Model</class>
-                <resourceModel>api_resource</resourceModel>
-            </api>
-            <api_resource>
-                <class>Mage_Api_Model_Resource</class>
-            </api_resource>
-        </models>
         <resources>
             <api_setup>
                 <setup>

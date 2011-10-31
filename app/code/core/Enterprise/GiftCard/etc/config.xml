@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_GiftCard>
-             <version>1.11.0.0</version>
+            <version>1.11.0.0</version>
         </Enterprise_GiftCard>
     </modules>
     <global>
@@ -40,25 +40,6 @@
                 </setup>
             </enterprise_giftcard_setup>
         </resources>
-        <models>
-            <enterprise_giftcard>
-                <class>Enterprise_GiftCard_Model</class>
-                <resourceModel>enterprise_giftcard_resource</resourceModel>
-            </enterprise_giftcard>
-            <enterprise_giftcard_resource>
-                <class>Enterprise_GiftCard_Model_Resource</class>
-            </enterprise_giftcard_resource>
-        </models>
-        <blocks>
-            <enterprise_giftcard>
-                <class>Enterprise_GiftCard_Block</class>
-            </enterprise_giftcard>
-        </blocks>
-        <helpers>
-            <enterprise_giftcard>
-                <class>Enterprise_GiftCard_Helper</class>
-            </enterprise_giftcard>
-        </helpers>
         <catalog>
             <product>
                 <type>

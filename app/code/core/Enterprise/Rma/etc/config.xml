@@ -32,15 +32,6 @@
         </Enterprise_Rma>
     </modules>
     <global>
-        <models>
-            <enterprise_rma>
-                <class>Enterprise_Rma_Model</class>
-                <resourceModel>enterprise_rma_resource</resourceModel>
-            </enterprise_rma>
-            <enterprise_rma_resource>
-                <class>Enterprise_Rma_Model_Resource</class>
-            </enterprise_rma_resource>
-        </models>
         <resources>
             <enterprise_rma_setup>
                 <setup>
@@ -49,16 +40,6 @@
                 </setup>
             </enterprise_rma_setup>
         </resources>
-        <blocks>
-            <enterprise_rma>
-                <class>Enterprise_Rma_Block</class>
-            </enterprise_rma>
-        </blocks>
-        <helpers>
-            <enterprise_rma>
-                <class>Enterprise_Rma_Helper</class>
-            </enterprise_rma>
-        </helpers>
         <template>
             <email>
                 <sales_email_enterprise_rma_template translate="label" module="Enterprise_Rma">

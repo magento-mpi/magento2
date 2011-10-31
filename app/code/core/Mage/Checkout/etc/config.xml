@@ -32,20 +32,6 @@
         </Mage_Checkout>
     </modules>
     <global>
-        <blocks>
-            <checkout>
-                <class>Mage_Checkout_Block</class>
-            </checkout>
-        </blocks>
-        <models>
-            <checkout>
-                <class>Mage_Checkout_Model</class>
-                <resourceModel>checkout_resource</resourceModel>
-            </checkout>
-            <checkout_resource>
-                <class>Mage_Checkout_Model_Resource</class>
-            </checkout_resource>
-        </models>
         <resources>
             <checkout_setup>
                 <setup>

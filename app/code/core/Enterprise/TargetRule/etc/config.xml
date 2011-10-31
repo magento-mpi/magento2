@@ -32,15 +32,6 @@
         </Enterprise_TargetRule>
     </modules>
     <global>
-        <models>
-            <enterprise_targetrule>
-                <class>Enterprise_TargetRule_Model</class>
-                <resourceModel>enterprise_targetrule_resource</resourceModel>
-            </enterprise_targetrule>
-            <enterprise_targetrule_resource>
-                <class>Enterprise_TargetRule_Model_Resource</class>
-            </enterprise_targetrule_resource>
-        </models>
         <resources>
             <enterprise_targetrule_setup>
                 <setup>
@@ -49,16 +40,6 @@
                 </setup>
             </enterprise_targetrule_setup>
         </resources>
-        <blocks>
-            <enterprise_targetrule>
-                <class>Enterprise_TargetRule_Block</class>
-            </enterprise_targetrule>
-        </blocks>
-        <helpers>
-            <enterprise_targetrule>
-                <class>Enterprise_TargetRule_Helper</class>
-            </enterprise_targetrule>
-        </helpers>
     </global>
     <adminhtml>
         <events>

@@ -32,25 +32,6 @@
         </Enterprise_Banner>
     </modules>
     <global>
-        <models>
-            <enterprise_banner>
-                <class>Enterprise_Banner_Model</class>
-                <resourceModel>enterprise_banner_resource</resourceModel>
-            </enterprise_banner>
-            <enterprise_banner_resource>
-                <class>Enterprise_Banner_Model_Resource</class>
-            </enterprise_banner_resource>
-        </models>
-        <helpers>
-            <enterprise_banner>
-                <class>Enterprise_Banner_Helper</class>
-            </enterprise_banner>
-        </helpers>
-        <blocks>
-            <enterprise_banner>
-                <class>Enterprise_Banner_Block</class>
-            </enterprise_banner>
-        </blocks>
         <resources>
             <enterprise_banner_setup>
                 <setup>

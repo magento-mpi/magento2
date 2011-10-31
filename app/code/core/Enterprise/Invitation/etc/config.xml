@@ -32,25 +32,6 @@
         </Enterprise_Invitation>
     </modules>
     <global>
-        <models>
-            <enterprise_invitation>
-                <class>Enterprise_Invitation_Model</class>
-                <resourceModel>enterprise_invitation_resource</resourceModel>
-            </enterprise_invitation>
-            <enterprise_invitation_resource>
-                <class>Enterprise_Invitation_Model_Resource</class>
-            </enterprise_invitation_resource>
-        </models>
-        <helpers>
-            <enterprise_invitation>
-                <class>Enterprise_Invitation_Helper</class>
-            </enterprise_invitation>
-        </helpers>
-        <blocks>
-            <enterprise_invitation>
-                <class>Enterprise_Invitation_Block</class>
-            </enterprise_invitation>
-        </blocks>
         <resources>
             <enterprise_invitation_setup>
                 <setup>

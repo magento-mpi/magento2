@@ -32,20 +32,6 @@
         </Mage_Newsletter>
     </modules>
     <global>
-        <blocks>
-            <newsletter>
-                <class>Mage_Newsletter_Block</class>
-            </newsletter>
-        </blocks>
-        <models>
-            <newsletter>
-                <class>Mage_Newsletter_Model</class>
-                <resourceModel>newsletter_resource</resourceModel>
-            </newsletter>
-            <newsletter_resource>
-                <class>Mage_Newsletter_Model_Resource</class>
-            </newsletter_resource>
-        </models>
         <resources>
             <newsletter_setup>
                 <setup>

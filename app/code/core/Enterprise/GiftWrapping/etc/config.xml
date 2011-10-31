@@ -28,30 +28,10 @@
 <config>
     <modules>
         <Enterprise_GiftWrapping>
-             <version>1.11.0.0</version>
+            <version>1.11.0.0</version>
         </Enterprise_GiftWrapping>
     </modules>
-
     <global>
-        <models>
-            <enterprise_giftwrapping>
-                <class>Enterprise_GiftWrapping_Model</class>
-                <resourceModel>enterprise_giftwrapping_resource</resourceModel>
-            </enterprise_giftwrapping>
-            <enterprise_giftwrapping_resource>
-                <class>Enterprise_GiftWrapping_Model_Resource</class>
-            </enterprise_giftwrapping_resource>
-        </models>
-        <helpers>
-            <enterprise_giftwrapping>
-                <class>Enterprise_GiftWrapping_Helper</class>
-            </enterprise_giftwrapping>
-        </helpers>
-        <blocks>
-             <enterprise_giftwrapping>
-                <class>Enterprise_GiftWrapping_Block</class>
-             </enterprise_giftwrapping>
-        </blocks>
         <resources>
             <enterprise_giftwrapping_setup>
                 <setup>
@@ -64,8 +44,8 @@
             <quote>
                 <item>
                     <product_attributes>
-                        <gift_wrapping_available />
-                        <gift_wrapping_price />
+                        <gift_wrapping_available/>
+                        <gift_wrapping_price/>
                     </product_attributes>
                 </item>
                 <totals>
@@ -135,7 +115,6 @@
             </paypal_prepare_line_items>
         </events>
     </global>
-
     <frontend>
         <events>
             <checkout_controller_onepage_save_shipping_method>
@@ -180,7 +159,6 @@
             </updates>
         </layout>
     </frontend>
-
     <admin>
         <routers>
             <adminhtml>
@@ -192,7 +170,6 @@
             </adminhtml>
         </routers>
     </admin>
-
     <adminhtml>
         <events>
             <adminhtml_sales_order_create_process_data>
@@ -210,7 +187,7 @@
                         <class>enterprise_giftwrapping/observer</class>
                         <method>salesEventOrderToQuote</method>
                     </enterprise_giftwrapping>
-                 </observers>
+                </observers>
             </sales_convert_order_to_quote>
             <sales_convert_order_item_to_quote_item>
                 <observers>
@@ -219,7 +196,7 @@
                         <class>enterprise_giftwrapping/observer</class>
                         <method>salesEventOrderItemToQuoteItem</method>
                     </enterprise_giftwrapping>
-                 </observers>
+                </observers>
             </sales_convert_order_item_to_quote_item>
         </events>
         <layout>
@@ -239,7 +216,6 @@
             </modules>
         </translate>
     </adminhtml>
-
     <default>
         <sales>
             <gift_options>
@@ -258,6 +234,6 @@
                 <gift_wrapping>1</gift_wrapping>
                 <printed_card>1</printed_card>
             </sales_display>
-         </tax>
+        </tax>
     </default>
 </config>

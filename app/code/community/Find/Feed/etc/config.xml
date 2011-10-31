@@ -32,15 +32,6 @@
         </Find_Feed>
     </modules>
     <global>
-        <models>
-            <find_feed>
-                <class>Find_Feed_Model</class>
-                <resourceModel>find_feed_resource</resourceModel>
-            </find_feed>
-            <find_feed_resource>
-                <class>Find_Feed_Model_Resource</class>
-            </find_feed_resource>
-        </models>
         <resources>
             <find_feed_setup>
                 <setup>
@@ -49,14 +40,6 @@
                 </setup>
             </find_feed_setup>
         </resources>
-        <blocks>
-            <find_feed><class>Find_Feed_Block</class></find_feed>
-        </blocks>
-        <helpers>
-            <find_feed>
-                <class>Find_Feed_Helper</class>
-            </find_feed>
-        </helpers>
     </global>
     <adminhtml>
         <events>
@@ -103,13 +86,13 @@
     </crontab>
     <admin>
         <routers>
-             <adminhtml>
-                 <args>
-                     <modules>
-                         <find_feed before="Mage_Adminhtml">Find_Feed_Adminhtml</find_feed>
-                     </modules>
-                 </args>
-             </adminhtml>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <find_feed before="Mage_Adminhtml">Find_Feed_Adminhtml</find_feed>
+                    </modules>
+                </args>
+            </adminhtml>
         </routers>
     </admin>
     <stores>

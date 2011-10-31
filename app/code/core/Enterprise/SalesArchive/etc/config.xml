@@ -32,25 +32,6 @@
         </Enterprise_SalesArchive>
     </modules>
     <global>
-        <blocks>
-            <enterprise_salesarchive>
-                <class>Enterprise_SalesArchive_Block</class>
-            </enterprise_salesarchive>
-        </blocks>
-        <models>
-            <enterprise_salesarchive>
-                <class>Enterprise_SalesArchive_Model</class>
-                <resourceModel>enterprise_salesarchive_resource</resourceModel>
-            </enterprise_salesarchive>
-            <enterprise_salesarchive_resource>
-                <class>Enterprise_SalesArchive_Model_Resource</class>
-            </enterprise_salesarchive_resource>
-        </models>
-        <helpers>
-            <enterprise_salesarchive>
-                <class>Enterprise_SalesArchive_Helper</class>
-            </enterprise_salesarchive>
-        </helpers>
         <resources>
             <enterprise_salesarchive_setup>
                 <setup>

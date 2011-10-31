@@ -32,21 +32,6 @@
         </Enterprise_Pbridge>
     </modules>
     <global>
-        <models>
-            <enterprise_pbridge>
-                <class>Enterprise_Pbridge_Model</class>
-            </enterprise_pbridge>
-        </models>
-        <blocks>
-            <enterprise_pbridge>
-                <class>Enterprise_Pbridge_Block</class>
-            </enterprise_pbridge>
-        </blocks>
-        <helpers>
-            <enterprise_pbridge>
-                <class>Enterprise_Pbridge_Helper</class>
-            </enterprise_pbridge>
-        </helpers>
         <events>
             <controller_action_predispatch>
                 <observers>

@@ -32,20 +32,6 @@
         </Mage_PaypalUk>
     </modules>
     <global>
-        <models>
-            <paypaluk>
-                <class>Mage_PaypalUk_Model</class>
-                <resourceModel>paypaluk_resource</resourceModel>
-            </paypaluk>
-            <paypaluk_resource>
-                <class>Mage_PaypalUk_Model_Resource</class>
-            </paypaluk_resource>
-        </models>
-        <helpers>
-            <paypaluk>
-                <class>Mage_PaypalUk_Helper</class>
-            </paypaluk>
-        </helpers>
         <resources>
             <paypaluk_setup>
                 <setup>
@@ -53,11 +39,6 @@
                 </setup>
             </paypaluk_setup>
         </resources>
-        <blocks>
-            <paypaluk>
-                <class>Mage_PaypalUk_Block</class>
-            </paypaluk>
-        </blocks>
     </global>
     <frontend>
         <secure_url>

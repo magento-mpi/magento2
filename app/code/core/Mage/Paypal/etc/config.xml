@@ -32,15 +32,6 @@
         </Mage_Paypal>
     </modules>
     <global>
-        <models>
-            <paypal>
-                <class>Mage_Paypal_Model</class>
-                <resourceModel>paypal_resource</resourceModel>
-            </paypal>
-            <paypal_resource>
-                <class>Mage_Paypal_Model_Resource</class>
-            </paypal_resource>
-        </models>
         <resources>
             <paypal_setup>
                 <setup>
@@ -49,11 +40,6 @@
                 </setup>
             </paypal_setup>
         </resources>
-        <blocks>
-            <paypal>
-                <class>Mage_Paypal_Block</class>
-            </paypal>
-        </blocks>
         <sales>
             <order>
                 <statuses>

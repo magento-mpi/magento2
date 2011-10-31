@@ -32,15 +32,6 @@
         </Mage_Index>
     </modules>
     <global>
-        <models>
-            <index>
-                <class>Mage_Index_Model</class>
-                <resourceModel>index_resource</resourceModel>
-            </index>
-            <index_resource>
-                <class>Mage_Index_Model_Resource</class>
-            </index_resource>
-        </models>
         <resources>
             <index_setup>
                 <setup>

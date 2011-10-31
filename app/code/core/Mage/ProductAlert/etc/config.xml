@@ -32,20 +32,6 @@
         </Mage_ProductAlert>
     </modules>
     <global>
-        <models>
-            <productalert>
-                <class>Mage_ProductAlert_Model</class>
-                <resourceModel>productalert_resource</resourceModel>
-            </productalert>
-            <productalert_resource>
-                <class>Mage_ProductAlert_Model_Resource</class>
-            </productalert_resource>
-        </models>
-        <helpers>
-            <productalert>
-                <class>Mage_ProductAlert_Helper</class>
-            </productalert>
-        </helpers>
         <resources>
             <productalert_setup>
                 <setup>
@@ -53,11 +39,6 @@
                 </setup>
             </productalert_setup>
         </resources>
-        <blocks>
-            <productalert>
-                <class>Mage_ProductAlert_Block</class>
-            </productalert>
-        </blocks>
         <template>
             <email>
                 <catalog_productalert_email_stock_template translate="label" module="Mage_ProductAlert">

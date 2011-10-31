@@ -32,20 +32,6 @@
         </Mage_CatalogSearch>
     </modules>
     <global>
-        <models>
-            <catalogsearch>
-                <class>Mage_CatalogSearch_Model</class>
-                <resourceModel>catalogsearch_resource</resourceModel>
-            </catalogsearch>
-            <catalogsearch_resource>
-                <class>Mage_CatalogSearch_Model_Resource</class>
-            </catalogsearch_resource>
-        </models>
-        <helpers>
-            <catalogsearch>
-                <class>Mage_CatalogSearch_Helper</class>
-            </catalogsearch>
-        </helpers>
         <resources>
             <catalogsearch_setup>
                 <setup>
@@ -53,11 +39,6 @@
                 </setup>
             </catalogsearch_setup>
         </resources>
-        <blocks>
-            <catalogsearch>
-                <class>Mage_CatalogSearch_Block</class>
-            </catalogsearch>
-        </blocks>
         <index>
             <indexer>
                 <catalogsearch_fulltext>

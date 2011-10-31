@@ -32,20 +32,6 @@
         </Mage_SalesRule>
     </modules>
     <global>
-        <helpers>
-            <salesrule>
-                <class>Mage_SalesRule_Helper</class>
-            </salesrule>
-        </helpers>
-        <models>
-            <salesrule>
-                <class>Mage_SalesRule_Model</class>
-                <resourceModel>salesrule_resource</resourceModel>
-            </salesrule>
-            <salesrule_resource>
-                <class>Mage_SalesRule_Model_Resource</class>
-            </salesrule_resource>
-        </models>
         <resources>
             <salesrule_setup>
                 <setup>

@@ -41,20 +41,6 @@
                 </item>
             </quote>
         </sales>
-        <models>
-            <googlecheckout>
-                <class>Mage_GoogleCheckout_Model</class>
-                <resourceModel>googlecheckout_resource</resourceModel>
-            </googlecheckout>
-            <googlecheckout_resource>
-                <class>Mage_GoogleCheckout_Model_Resource</class>
-            </googlecheckout_resource>
-        </models>
-        <helpers>
-            <googlecheckout>
-                <class>Mage_GoogleCheckout_Helper</class>
-            </googlecheckout>
-        </helpers>
         <resources>
             <googlecheckout_setup>
                 <setup>
@@ -63,11 +49,6 @@
                 </setup>
             </googlecheckout_setup>
         </resources>
-        <blocks>
-            <googlecheckout>
-                <class>Mage_GoogleCheckout_Block</class>
-            </googlecheckout>
-        </blocks>
     </global>
     <frontend>
         <secure_url>

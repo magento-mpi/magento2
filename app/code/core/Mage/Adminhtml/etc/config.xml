@@ -32,20 +32,6 @@
         </Mage_Adminhtml>
     </modules>
     <global>
-        <models>
-            <adminhtml>
-                <class>Mage_Adminhtml_Model</class>
-                <resourceModel>adminhtml_resource</resourceModel>
-            </adminhtml>
-            <adminhtml_resource>
-                <class>Mage_Adminhtml_Model_Resource</class>
-            </adminhtml_resource>
-        </models>
-        <blocks>
-            <adminhtml>
-                <class>Mage_Adminhtml_Block</class>
-            </adminhtml>
-        </blocks>
         <template>
             <email>
                 <admin_emails_forgot_email_template translate="label" module="Mage_Adminhtml">
@@ -184,7 +170,6 @@
         <general>
             <file>
                 <sitemap_generate_valid_paths>
-                    <!-- This data should be merged with public_files_valid_paths -->
                     <available>
                         <any_path>/*/sitemap.xml</any_path>
                     </available>

@@ -31,22 +31,6 @@
             <version>0.7.0</version>
         </Mage_Install>
     </modules>
-    <global>
-        <models>
-            <install>
-                <class>Mage_Install_Model</class>
-                <resourceModel>install_resource</resourceModel>
-            </install>
-            <install_resource>
-                <class>Mage_Install_Model_Resource</class>
-            </install_resource>
-        </models>
-        <blocks>
-            <install>
-                <class>Mage_Install_Block</class>
-            </install>
-        </blocks>
-    </global>
     <frontend>
         <secure_url>
             <install>/install/wizard/checkSecureHost</install>

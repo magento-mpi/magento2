@@ -31,22 +31,6 @@
             <version>1.6.0.0</version>
         </Mage_Rss>
     </modules>
-    <global>
-        <models>
-            <rss>
-                <class>Mage_Rss_Model</class>
-                <resourceModel>rss_resource</resourceModel>
-            </rss>
-            <rss_resource>
-                <class>Mage_Rss_Model_Resource</class>
-            </rss_resource>
-        </models>
-        <blocks>
-            <rss>
-                <class>Mage_Rss_Block</class>
-            </rss>
-        </blocks>
-    </global>
     <admin>
 
     </admin>

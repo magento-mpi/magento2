@@ -32,25 +32,6 @@
         </Enterprise_CatalogPermissions>
     </modules>
     <global>
-        <models>
-            <enterprise_catalogpermissions>
-                <class>Enterprise_CatalogPermissions_Model</class>
-                <resourceModel>enterprise_catalogpermissions_resource</resourceModel>
-            </enterprise_catalogpermissions>
-            <enterprise_catalogpermissions_resource>
-                <class>Enterprise_CatalogPermissions_Model_Resource</class>
-            </enterprise_catalogpermissions_resource>
-        </models>
-        <helpers>
-            <enterprise_catalogpermissions>
-                <class>Enterprise_CatalogPermissions_Helper</class>
-            </enterprise_catalogpermissions>
-        </helpers>
-        <blocks>
-            <enterprise_catalogpermissions>
-                <class>Enterprise_CatalogPermissions_Block</class>
-            </enterprise_catalogpermissions>
-        </blocks>
         <resources>
             <enterprise_catalogpermissions_setup>
                 <setup>

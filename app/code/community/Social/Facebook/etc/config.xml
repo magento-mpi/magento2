@@ -32,15 +32,6 @@
         </Social_Facebook>
     </modules>
     <global>
-        <models>
-            <social_facebook>
-                <class>Social_Facebook_Model</class>
-                <resourceModel>social_facebook_resource</resourceModel>
-            </social_facebook>
-            <social_facebook_resource>
-                <class>Social_Facebook_Model_Resource</class>
-            </social_facebook_resource>
-        </models>
         <resources>
             <social_facebook_setup>
                 <setup>
@@ -49,26 +40,16 @@
                 </setup>
             </social_facebook_setup>
         </resources>
-        <blocks>
-            <social_facebook>
-                <class>Social_Facebook_Block</class>
-            </social_facebook>
-        </blocks>
-        <helpers>
-            <social_facebook>
-                <class>Social_Facebook_Helper</class>
-            </social_facebook>
-        </helpers>
     </global>
     <admin>
         <routers>
-             <adminhtml>
-                 <args>
-                     <modules>
-                         <social_facebook before="Mage_Adminhtml">Social_Facebook_Adminhtml</social_facebook>
-                     </modules>
-                 </args>
-             </adminhtml>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <social_facebook before="Mage_Adminhtml">Social_Facebook_Adminhtml</social_facebook>
+                    </modules>
+                </args>
+            </adminhtml>
         </routers>
     </admin>
     <adminhtml>

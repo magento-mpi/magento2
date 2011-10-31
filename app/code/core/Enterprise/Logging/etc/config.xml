@@ -32,25 +32,6 @@
         </Enterprise_Logging>
     </modules>
     <global>
-        <models>
-            <enterprise_logging>
-                <class>Enterprise_Logging_Model</class>
-                <resourceModel>enterprise_logging_resource</resourceModel>
-            </enterprise_logging>
-            <enterprise_logging_resource>
-                <class>Enterprise_Logging_Model_Resource</class>
-            </enterprise_logging_resource>
-        </models>
-        <blocks>
-            <enterprise_logging>
-                <class>Enterprise_Logging_Block</class>
-            </enterprise_logging>
-        </blocks>
-        <helpers>
-            <enterprise_logging>
-                <class>Enterprise_Logging_Helper</class>
-            </enterprise_logging>
-        </helpers>
         <resources>
             <enterprise_logging_setup>
                 <setup>

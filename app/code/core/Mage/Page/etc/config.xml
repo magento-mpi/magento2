@@ -32,16 +32,6 @@
         </Mage_Page>
     </modules>
     <global>
-        <models>
-            <page>
-                <class>Mage_Page_Model</class>
-            </page>
-        </models>
-        <blocks>
-            <page>
-                <class>Mage_Page_Block</class>
-            </page>
-        </blocks>
         <page>
             <layouts>
                 <empty module="Mage_Page" translate="label">

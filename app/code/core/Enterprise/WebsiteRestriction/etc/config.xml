@@ -32,22 +32,6 @@
         </Enterprise_WebsiteRestriction>
     </modules>
     <global>
-        <models>
-            <enterprise_websiterestriction>
-                <class>Enterprise_WebsiteRestriction_Model</class>
-                <resourceModel>enterprise_websiterestriction_resource</resourceModel>
-            </enterprise_websiterestriction>
-        </models>
-        <blocks>
-            <enterprise_websiterestriction>
-                <class>Enterprise_WebsiteRestriction_Block</class>
-            </enterprise_websiterestriction>
-        </blocks>
-        <helpers>
-            <enterprise_websiterestriction>
-                <class>Enterprise_WebsiteRestriction_Helper</class>
-            </enterprise_websiterestriction>
-        </helpers>
         <resources>
             <enterprise_websiterestriction_setup>
                 <setup>

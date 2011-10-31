@@ -26,16 +26,6 @@
         </Phoenix_Moneybookers>
     </modules>
     <global>
-        <models>
-            <moneybookers>
-                <class>Phoenix_Moneybookers_Model</class>
-            </moneybookers>
-        </models>
-        <helpers>
-            <moneybookers>
-                <class>Phoenix_Moneybookers_Helper</class>
-            </moneybookers>
-        </helpers>
         <resources>
             <moneybookers_setup>
                 <setup>
@@ -43,9 +33,6 @@
                 </setup>
             </moneybookers_setup>
         </resources>
-        <blocks>
-            <moneybookers><class>Phoenix_Moneybookers_Block</class></moneybookers>
-        </blocks>
         <template>
             <email>
                <moneybookers_activateemail>

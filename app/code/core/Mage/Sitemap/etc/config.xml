@@ -32,15 +32,6 @@
         </Mage_Sitemap>
     </modules>
     <global>
-        <models>
-            <sitemap>
-                <class>Mage_Sitemap_Model</class>
-                <resourceModel>sitemap_resource</resourceModel>
-            </sitemap>
-            <sitemap_resource>
-                <class>Mage_Sitemap_Model_Resource</class>
-            </sitemap_resource>
-        </models>
         <resources>
             <sitemap_setup>
                 <setup>

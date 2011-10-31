@@ -32,18 +32,6 @@
         </Mage_Sales>
     </modules>
     <global>
-        <models>
-            <sales>
-                <class>Mage_Sales_Model</class>
-                <resourceModel>sales_resource</resourceModel>
-            </sales>
-            <sales_entity>
-                <class>Mage_Sales_Model_Entity</class>
-            </sales_entity>
-            <sales_resource>
-                <class>Mage_Sales_Model_Resource</class>
-            </sales_resource>
-        </models>
         <template>
             <email>
                 <sales_email_order_template translate="label" module="Mage_Sales">
@@ -136,11 +124,6 @@
                 </setup>
             </sales_setup>
         </resources>
-        <blocks>
-            <sales>
-                <class>Mage_Sales_Block</class>
-            </sales>
-        </blocks>
         <catalog>
             <product>
                 <flat>
@@ -221,10 +204,6 @@
                 </item>
             </quote>
             <order>
-                <!-- /**
-                      * @depraceted after 1.4.2, statuses are saved into sales_order_status table
-                      */
-                -->
                 <statuses>
                     <pending translate="label">
                         <label>Pending</label>
@@ -537,7 +516,6 @@
                     </sales_billing_agreement>
                 </observers>
             </payment_method_is_active>
-
             <customer_save_after>
                 <observers>
                     <customer>

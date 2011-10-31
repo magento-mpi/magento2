@@ -32,20 +32,6 @@
         </Mage_CatalogInventory>
     </modules>
     <global>
-        <models>
-            <cataloginventory>
-                <class>Mage_CatalogInventory_Model</class>
-                <resourceModel>cataloginventory_resource</resourceModel>
-            </cataloginventory>
-            <cataloginventory_resource>
-                <class>Mage_CatalogInventory_Model_Resource</class>
-            </cataloginventory_resource>
-        </models>
-        <helpers>
-            <cataloginventory>
-                <class>Mage_CatalogInventory_Helper</class>
-            </cataloginventory>
-        </helpers>
         <resources>
             <cataloginventory_setup>
                 <setup>
@@ -54,11 +40,6 @@
                 </setup>
             </cataloginventory_setup>
         </resources>
-        <blocks>
-            <cataloginventory>
-                <class>Mage_CatalogInventory_Block</class>
-            </cataloginventory>
-        </blocks>
         <events>
             <catalog_product_load_after>
                 <observers>

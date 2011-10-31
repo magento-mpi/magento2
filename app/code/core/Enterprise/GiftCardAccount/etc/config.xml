@@ -32,15 +32,6 @@
         </Enterprise_GiftCardAccount>
     </modules>
     <global>
-        <models>
-            <enterprise_giftcardaccount>
-                <class>Enterprise_GiftCardAccount_Model</class>
-                <resourceModel>enterprise_giftcardaccount_resource</resourceModel>
-            </enterprise_giftcardaccount>
-            <enterprise_giftcardaccount_resource>
-                <class>Enterprise_GiftCardAccount_Model_Resource</class>
-            </enterprise_giftcardaccount_resource>
-        </models>
         <resources>
             <enterprise_giftcardaccount_setup>
                 <setup>
@@ -49,16 +40,6 @@
                 </setup>
             </enterprise_giftcardaccount_setup>
         </resources>
-        <blocks>
-            <enterprise_giftcardaccount>
-                <class>Enterprise_GiftCardAccount_Block</class>
-            </enterprise_giftcardaccount>
-        </blocks>
-        <helpers>
-            <enterprise_giftcardaccount>
-                <class>Enterprise_GiftCardAccount_Helper</class>
-            </enterprise_giftcardaccount>
-        </helpers>
         <sales>
             <quote>
                 <totals>
@@ -95,7 +76,6 @@
                 </charset>
             </giftcardaccount>
         </enterprise>
-
         <events>
             <enterprise_giftcardaccount_save_after>
                 <observers>
@@ -105,7 +85,6 @@
                     </enterprise_giftcardaccount_save_after>
                 </observers>
             </enterprise_giftcardaccount_save_after>
-
             <sales_order_invoice_save_after>
                 <observers>
                     <enterprise_giftcardaccount_sales_order_invoice_save_after>
@@ -218,7 +197,6 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </paypal_prepare_line_items>
-
             <sales_model_service_quote_submit_before>
                 <observers>
                     <enterprise_giftcardaccount>
@@ -227,7 +205,6 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </sales_model_service_quote_submit_before>
-
             <sales_model_service_quote_submit_failure>
                 <observers>
                     <enterprise_giftcardaccount>
@@ -236,7 +213,6 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </sales_model_service_quote_submit_failure>
-
             <checkout_type_multishipping_create_orders_single>
                 <observers>
                     <enterprise_giftcardaccount>
@@ -245,7 +221,6 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </checkout_type_multishipping_create_orders_single>
-
             <googlecheckout_save_order_after>
                 <observers>
                     <enterprise_giftcardaccount>
@@ -254,7 +229,6 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </googlecheckout_save_order_after>
-
             <googlecheckout_create_order_before>
                 <observers>
                     <enterprise_giftcardaccount>
@@ -263,7 +237,6 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </googlecheckout_create_order_before>
-
             <checkout_multishipping_refund_all>
                 <observers>
                     <enterprise_giftcardaccount>
@@ -351,7 +324,6 @@
                 </enterprise_giftcardaccount>
             </updates>
         </layout>
-
         <translate>
             <modules>
                 <Enterprise_GiftCardAccount>
@@ -361,7 +333,6 @@
                 </Enterprise_GiftCardAccount>
             </modules>
         </translate>
-
         <events>
             <order_cancel_after>
                 <observers>

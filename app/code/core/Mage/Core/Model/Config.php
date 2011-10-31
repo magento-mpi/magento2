@@ -1213,13 +1213,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      *
      * @param   string $groupType currently supported model, block, helper
      * @param   string $classId slash separated class identifier, ex. group/class or direct class name
-     * @param   string $groupRootNode optional config path for group config
      * @return  string
      */
-    public function getGroupedClassName($groupType, $classId, $groupRootNode=null)
+    public function getGroupedClassName($groupType, $classId)
     {
         if ($this->_isClassAlias($classId)) {
-            $classId = $this->_getGroupedClassName($groupType, $classId, $groupRootNode);
+            $classId = $this->_getGroupedClassName($groupType, $classId);
         }
         return $this->_applyClassRewrites($classId);
     }
@@ -1260,47 +1259,55 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      *
      * @param   string $groupType currently supported model, block, helper
      * @param   string $classId slash separated class identifier, ex. group/class
-     * @param   string $groupRootNode optional config path for group config
      * @return  string
      */
-    protected function _getGroupedClassName($groupType, $classId, $groupRootNode=null)
+    protected function _getGroupedClassName($groupType, $classId)
     {
-        if (empty($groupRootNode)) {
-            $groupRootNode = 'global/'.$groupType.'s';
+        if (isset($this->_classNameCache[$groupType][$classId])) {
+            return $this->_classNameCache[$groupType][$classId];
         }
 
         $classArr = explode('/', trim($classId));
         $group = $classArr[0];
         $class = !empty($classArr[1]) ? $classArr[1] : null;
 
-        if (isset($this->_classNameCache[$groupRootNode][$group][$class])) {
-            return $this->_classNameCache[$groupRootNode][$group][$class];
+        /* Distinguish resource models */
+        if (substr($group, -9) == '_resource') {
+            $group = substr($group, 0, -9);
+            $groupTypeReal = 'model_resource';
+        } else {
+            $groupTypeReal = $groupType;
         }
 
-        $config = $this->_xml->global->{$groupType.'s'}->{$group};
+        /* Determine class prefix including omitted module namespace */
+        $module = (strpos($group, '_') === false ? 'mage_' : '') . $group;
+        $classPrefix = $module . '_' . $groupTypeReal;
 
-        // First - check maybe the entity class was rewritten
-        $className = null;
-        if (isset($config->rewrite->$class)) {
-            $className = (string)$config->rewrite->$class;
+        /* Crutches for non-standard class prefixes */
+        $classPrefixMap = array(
+            'block' => array(
+                'directpost'   => 'Mage_Authorizenet_Block_Directpost',
+            ),
+            'model' => array(
+                'sales_entity' => 'Mage_Sales_Model_Entity',
+                'tag_customer' => 'Mage_Tag_Model_Customer',
+            ),
+            'model_resource' => array(
+                'media'        => 'Mage_Media_Model_File',
+                'tag_customer' => 'Mage_Tag_Model_Resource_Customer',
+            ),
+        );
+        if (isset($classPrefixMap[$groupTypeReal][$group])) {
+            $classPrefix = $classPrefixMap[$groupTypeReal][$group];
         }
 
-        // Second - if entity is not rewritten then use class prefix to form class name
-        if (empty($className)) {
-            if (!empty($config)) {
-                $className = $config->getClassName();
-            }
-            if (empty($className)) {
-                $className = 'mage_'.$group.'_'.$groupType;
-            }
-            if (!empty($class)) {
-                $className .= '_'.$class;
-            }
-            $className = uc_words($className);
-        }
+        /* Build final class name */
+        $result = $classPrefix . ($class ? '_' . $class : '');
+        $result = uc_words($result);
+        $result = $this->_applyClassRewrites($result);
 
-        $this->_classNameCache[$groupRootNode][$group][$class] = $className;
-        return $className;
+        $this->_classNameCache[$groupType][$classId] = $result;
+        return $result;
     }
 
     /**
@@ -1654,20 +1661,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         if (count($classArray) != 2) {
             return false;
         }
-
         list($module, $model) = $classArray;
-        if (!isset($this->_xml->global->models->{$module})) {
-            return false;
-        }
-
-        $moduleNode = $this->_xml->global->models->{$module};
-        if (!empty($moduleNode->resourceModel)) {
-            $resourceModel = (string)$moduleNode->resourceModel;
-        } else {
-            return false;
-        }
-
-        return $resourceModel . '/' . $model;
+        return $module . '_resource/' . $model;
     }
 
     /**

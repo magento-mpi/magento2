@@ -32,25 +32,6 @@
         </Enterprise_Customer>
     </modules>
     <global>
-        <models>
-            <enterprise_customer>
-                <class>Enterprise_Customer_Model</class>
-                <resourceModel>enterprise_customer_resource</resourceModel>
-            </enterprise_customer>
-            <enterprise_customer_resource>
-                <class>Enterprise_Customer_Model_Resource</class>
-            </enterprise_customer_resource>
-        </models>
-        <blocks>
-            <enterprise_customer>
-                <class>Enterprise_Customer_Block</class>
-            </enterprise_customer>
-        </blocks>
-        <helpers>
-            <enterprise_customer>
-                <class>Enterprise_Customer_Helper</class>
-            </enterprise_customer>
-        </helpers>
         <resources>
             <enterprise_customer_setup>
                 <setup>

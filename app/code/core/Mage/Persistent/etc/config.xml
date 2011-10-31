@@ -31,19 +31,7 @@
             <version>1.0.0.0</version>
         </Mage_Persistent>
     </modules>
-
     <global>
-        <models>
-            <persistent>
-                <class>Mage_Persistent_Model</class>
-                <resourceModel>persistent_resource</resourceModel>
-            </persistent>
-
-            <persistent_resource>
-                <class>Mage_Persistent_Model_Resource</class>
-            </persistent_resource>
-        </models>
-
         <resources>
             <persistent_setup>
                 <setup>
@@ -52,7 +40,6 @@
             </persistent_setup>
         </resources>
     </global>
-
     <frontend>
         <secure_url>
             <persistent_onepage_register>/persistent/index/saveMethod</persistent_onepage_register>
@@ -288,7 +275,6 @@
             </modules>
         </translate>
     </adminhtml>
-
     <default>
         <persistent>
             <options>
@@ -301,7 +287,6 @@
             </options>
         </persistent>
     </default>
-
     <crontab>
         <jobs>
             <persistent_clear_expired>

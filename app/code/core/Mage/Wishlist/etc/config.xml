@@ -32,20 +32,6 @@
         </Mage_Wishlist>
     </modules>
     <global>
-        <blocks>
-            <wishlist>
-                <class>Mage_Wishlist_Block</class>
-            </wishlist>
-        </blocks>
-        <models>
-            <wishlist>
-                <class>Mage_Wishlist_Model</class>
-                <resourceModel>wishlist_resource</resourceModel>
-            </wishlist>
-            <wishlist_resource>
-                <class>Mage_Wishlist_Model_Resource</class>
-            </wishlist_resource>
-        </models>
         <resources>
             <wishlist_setup>
                 <setup>

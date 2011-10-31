@@ -32,25 +32,6 @@
         </Enterprise_Reminder>
     </modules>
     <global>
-        <models>
-            <enterprise_reminder>
-                <class>Enterprise_Reminder_Model</class>
-                <resourceModel>enterprise_reminder_resource</resourceModel>
-            </enterprise_reminder>
-            <enterprise_reminder_resource>
-                <class>Enterprise_Reminder_Model_Resource</class>
-            </enterprise_reminder_resource>
-        </models>
-        <helpers>
-            <enterprise_reminder>
-                <class>Enterprise_Reminder_Helper</class>
-            </enterprise_reminder>
-        </helpers>
-        <blocks>
-            <enterprise_reminder>
-                <class>Enterprise_Reminder_Block</class>
-            </enterprise_reminder>
-        </blocks>
         <resources>
             <enterprise_reminder_setup>
                 <setup>

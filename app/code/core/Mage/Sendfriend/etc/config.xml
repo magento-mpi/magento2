@@ -32,15 +32,6 @@
         </Mage_Sendfriend>
     </modules>
     <global>
-        <models>
-            <sendfriend>
-                <class>Mage_Sendfriend_Model</class>
-                <resourceModel>sendfriend_resource</resourceModel>
-            </sendfriend>
-            <sendfriend_resource>
-                <class>Mage_Sendfriend_Model_Resource</class>
-            </sendfriend_resource>
-        </models>
         <resources>
             <sendfriend_setup>
                 <setup>
@@ -49,11 +40,6 @@
                 </setup>
             </sendfriend_setup>
         </resources>
-        <blocks>
-            <sendfriend>
-                <class>Mage_Sendfriend_Block</class>
-            </sendfriend>
-        </blocks>
         <template>
             <email>
                 <sendfriend_email_template translate="label" module="Mage_Sendfriend">
