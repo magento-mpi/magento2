@@ -134,7 +134,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
         $currentTime = Mage::getModel('core/date')->gmtDate('Y-m-d');
-        $daysDiffSql = Mage::getResourceHelper('enterprise_reminder')
+        $daysDiffSql = Mage::getResourceHelper('Enterprise_Reminder')
             ->getDateDiff('quote.updated_at', $select->getAdapter()->formatDate($currentTime));
 
         if ($operator == '=') {
@@ -146,7 +146,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
                     $conditionValue--;
                 } else {
                     $currentTime = Mage::getModel('core/date')->gmtDate();
-                    $daysDiffSql = Mage::getResourceHelper('enterprise_reminder')
+                    $daysDiffSql = Mage::getResourceHelper('Enterprise_Reminder')
                         ->getDateDiff('quote.updated_at', $select->getAdapter()->formatDate($currentTime));
                 }
             }
@@ -156,7 +156,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
         $select->where('quote.is_active = 1');
         $select->where('quote.items_count > 0');
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
-        Mage::getResourceHelper('enterprise_reminder')->setRuleLimit($select, 1);
+        Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
         return $select;
     }
 

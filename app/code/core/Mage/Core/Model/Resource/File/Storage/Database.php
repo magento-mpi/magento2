@@ -299,7 +299,7 @@ class Mage_Core_Model_Resource_File_Storage_Database extends Mage_Core_Model_Res
         }
 
         /* @var $resHelper Mage_Core_Model_Resource_Helper_Abstract */
-        $resHelper = Mage::getResourceHelper('core');
+        $resHelper = Mage::getResourceHelper('Mage_Core');
         $likeExpression = $resHelper->addLikeEscape($folderName . '/', array('position' => 'start'));
         $this->_getWriteAdapter()
             ->delete($this->getMainTable(), new Zend_Db_Expr('filename LIKE ' . $likeExpression));

@@ -75,7 +75,7 @@ class Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
             $column['type']     = $attributeType;
             $column['is_null']  = true;
         } else {
-            $column['type']     = Mage::getResourceHelper('eav')->getDdlTypeByColumnType($attributeType);
+            $column['type']     = Mage::getResourceHelper('Mage_Eav')->getDdlTypeByColumnType($attributeType);
             $column['nullable'] = true;
         }
 

@@ -83,7 +83,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
                 )
             );
 
-            $helper                        = Mage::getResourceHelper('core');
+            $helper                        = Mage::getResourceHelper('Mage_Core');
             $select = $adapter->select();
 
             $select->group(array(
@@ -281,7 +281,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
             'monthly' => self::AGGREGATION_MONTHLY,
             'yearly'  => self::AGGREGATION_YEARLY
         );
-        Mage::getResourceHelper('sales')
+        Mage::getResourceHelper('Mage_Sales')
             ->getBestsellersReportUpdateRatingPos($aggregation, $aggregationAliases,
                 $this->getMainTable(), $aggregationTable);
 

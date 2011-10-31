@@ -335,7 +335,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         $select->from(array('main'=>$table), array(new Zend_Db_Expr(1)));
 
         $select->where($this->_createCustomerFilter($customer, 'main.entity_id'));
-        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
 
         if (!in_array($attribute->getAttributeCode(), array('default_billing', 'default_shipping')) ) {
             $value    = $this->getValue();

@@ -597,7 +597,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
      */
     protected function _getStaticColumns()
     {
-        $helper = Mage::getResourceHelper('catalog');
+        $helper = Mage::getResourceHelper('Mage_Catalog');
         $columns = array();
         $columnsToSkip = array('entity_type_id', 'attribute_set_id');
         $describe = $this->_getWriteAdapter()->describeTable($this->getTable('catalog_category_entity'));

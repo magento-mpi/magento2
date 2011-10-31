@@ -342,7 +342,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
 
         $adapter = $this->getConnection();
         $dateModel = Mage::getSingleton('core/date');
-        $resHelper = Mage::getResourceHelper('core');
+        $resHelper = Mage::getResourceHelper('Mage_Core');
 
         $offsetFromDb = (int) $dateModel->getGmtOffset();
         $startDate = $adapter->getDateAddSql('added_at', $offsetFromDb, Varien_Db_Adapter_Interface::INTERVAL_SECOND);

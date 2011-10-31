@@ -80,6 +80,27 @@ class MageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $module
+     * @param string $expectedClassName
+     * @dataProvider getResourceHelperDataProvider
+     */
+    public function testGetResourceHelper($module, $expectedClassName)
+    {
+        $this->assertInstanceOf($expectedClassName, Mage::getResourceHelper($module));
+    }
+
+    /**
+     * @return array
+     */
+    public function getResourceHelperDataProvider()
+    {
+        return array(
+            array('core', 'Mage_Core_Model_Resource_Helper_Abstract'),
+            array('Mage_Core', 'Mage_Core_Model_Resource_Helper_Abstract')
+        );
+    }
+
+    /**
      * @param string $classId
      * @param string $expectedClassName
      * @dataProvider helperDataProvider

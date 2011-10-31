@@ -74,7 +74,7 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_Re
             ->where('store_id = ?', $storeId)
             ->group('product_id');
 
-        $helper = Mage::getResourceHelper('core');
+        $helper = Mage::getResourceHelper('Mage_Core');
         $helper->addGroupConcatColumn($select, 'parents', 'category_id', ' ', ',', 'is_parent = 1');
         $helper->addGroupConcatColumn($select, 'anchors', 'category_id', ' ', ',', 'is_parent = 0');
         $helper->addGroupConcatColumn($select, 'positions', array('category_id', 'position'), ' ', '_');

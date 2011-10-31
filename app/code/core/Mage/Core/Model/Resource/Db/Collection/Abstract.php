@@ -523,7 +523,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
      */
     protected function _prepareSelect(Varien_Db_Select $select)
     {
-        $helper = Mage::getResourceHelper('core');
+        $helper = Mage::getResourceHelper('Mage_Core');
 
         $unionParts = $select->getPart(Zend_Db_Select::UNION);
         if (!empty($unionParts)) {

@@ -346,7 +346,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
             if ($selectUnions) {
                 $unionParts = array();
                 $cloneSelect = clone $this->getSelect();
-                $helper = Mage::getResourceHelper('core');
+                $helper = Mage::getResourceHelper('Mage_Core');
                 $unionParts[] = '(' . $cloneSelect . ')';
                 foreach ($selectUnions as $union) {
                     $query = $helper->getQueryUsingAnalyticFunction($union);

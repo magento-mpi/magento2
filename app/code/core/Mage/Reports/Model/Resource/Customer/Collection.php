@@ -233,7 +233,7 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
             /*
              * Analytic functions usage
              */
-            $select = Mage::getResourceHelper('core')->getQueryUsingAnalyticFunction($select);
+            $select = Mage::getResourceHelper('Mage_Core')->getQueryUsingAnalyticFunction($select);
 
             foreach ($this->getConnection()->fetchAll($select) as $ordersInfo) {
                 $this->getItemById($ordersInfo['customer_id'])->addData($ordersInfo);

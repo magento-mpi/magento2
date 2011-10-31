@@ -76,7 +76,7 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
         $table       = $this->getTable('sales_invoiced_aggregated');
         $sourceTable = $this->getTable('sales_flat_invoice');
         $orderTable  = $this->getTable('sales_flat_order');
-        $helper      = Mage::getResourceHelper('core');
+        $helper      = Mage::getResourceHelper('Mage_Core');
         $adapter     = $this->_getWriteAdapter();
 
         $adapter->beginTransaction();
@@ -258,7 +258,7 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
 
             $select->having('orders_count > 0');
 
-            $helper      = Mage::getResourceHelper('core');
+            $helper      = Mage::getResourceHelper('Mage_Core');
             $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
             $adapter->query($insertQuery);
             $select->reset();
@@ -286,7 +286,7 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
                 'order_status'
             ));
 
-            $helper      = Mage::getResourceHelper('core');
+            $helper      = Mage::getResourceHelper('Mage_Core');
             $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
             $adapter->query($insertQuery);
 

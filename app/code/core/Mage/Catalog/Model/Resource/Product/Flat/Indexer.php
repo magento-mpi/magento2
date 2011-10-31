@@ -506,7 +506,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
      */
     protected function _compareColumnProperties($column, $describe)
     {
-        return Mage::getResourceHelper('catalog')->compareIndexColumnProperties($column, $describe);
+        return Mage::getResourceHelper('Mage_Catalog')->compareIndexColumnProperties($column, $describe);
     }
 
     /**
@@ -616,7 +616,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
         if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
              /* Convert old format of flat columns to new MMDB format that uses DDL types and definitions */
             foreach ($columns as $key => $column) {
-                $columns[$key] = Mage::getResourceHelper('core')->convertOldColumnDefinition($column);
+                $columns[$key] = Mage::getResourceHelper('Mage_Core')->convertOldColumnDefinition($column);
             }
         }
 

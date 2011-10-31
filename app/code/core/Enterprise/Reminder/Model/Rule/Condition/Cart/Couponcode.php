@@ -106,7 +106,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode
             . "quote.coupon_code IS NOT NULL AND quote.coupon_code <> " . $select->getAdapter()->quote('') . ")");
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
 
-        Mage::getResourceHelper('enterprise_reminder')->setRuleLimit($select, 1);
+        Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
 
         return $select;
     }

@@ -142,7 +142,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
             )
             ->where('pid.attribute_id IN(?)', $attrIds);
 
-        $select->where(Mage::getResourceHelper('catalog')->getIsNullNotNullCondition('pis.value', 'pid.value'));
+        $select->where(Mage::getResourceHelper('Mage_Catalog')->getIsNullNotNullCondition('pis.value', 'pid.value'));
 
         if (!is_null($entityIds)) {
                 $select->where('pid.entity_id IN(?)', $entityIds);

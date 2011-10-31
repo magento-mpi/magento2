@@ -330,7 +330,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
         if (!$query->getIsProcessed()) {
             $searchType = $object->getSearchType($query->getStoreId());
 
-            $preparedTerms = Mage::getResourceHelper('catalogsearch')
+            $preparedTerms = Mage::getResourceHelper('Mage_CatalogSearch')
                 ->prepareTerms($queryText, $query->getMaxQueryWords());
 
             $bind = array();
@@ -339,7 +339,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE
                 || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE
             ) {
-                $helper = Mage::getResourceHelper('core');
+                $helper = Mage::getResourceHelper('Mage_Core');
                 $words = Mage::helper('Mage_Core_Helper_String')->splitWords($queryText, true, $query->getMaxQueryWords());
                 foreach ($words as $word) {
                     $like[] = $helper->getCILike('s.data_index', $word, array('position' => 'any'));
@@ -363,7 +363,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_FULLTEXT
                 || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
                 $bind[':query'] = implode(' ', $preparedTerms[0]);
-                $where = Mage::getResourceHelper('catalogsearch')
+                $where = Mage::getResourceHelper('Mage_CatalogSearch')
                     ->chooseFulltext($this->getMainTable(), $mainTableAlias, $select);
             }
             if ($likeCond != '' && $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
@@ -475,10 +475,10 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     protected function _unifyField($field, $backendType = 'varchar')
     {
         if ($backendType == 'datetime') {
-            $expr = Mage::getResourceHelper('catalogsearch')->castField(
+            $expr = Mage::getResourceHelper('Mage_CatalogSearch')->castField(
                 $this->_getReadAdapter()->getDateFormatSql($field, '%Y-%m-%d %H:%i:%s'));
         } else {
-            $expr = Mage::getResourceHelper('catalogsearch')->castField($field);
+            $expr = Mage::getResourceHelper('Mage_CatalogSearch')->castField($field);
         }
         return $expr;
     }

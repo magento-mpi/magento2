@@ -119,7 +119,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
             ->where('default.value=customer_address.entity_id')
             ->where($this->_createCustomerFilter($customer, 'default.entity_id'));
 
-        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
 
         return $select;
     }

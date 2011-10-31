@@ -93,7 +93,7 @@ class Enterprise_GiftCard_Model_Source_Open extends Mage_Eav_Model_Entity_Attrib
             $column['type']     = $attributeType;
             $column['is_null']  = $isNullable;
         } else {
-            $column['type']     = Mage::getResourceHelper('eav')->getDdlTypeByColumnType($attributeType);
+            $column['type']     = Mage::getResourceHelper('Mage_Eav')->getDdlTypeByColumnType($attributeType);
             $column['nullable'] = $isNullable;
             $column['comment']  = 'Enterprise Giftcard Open ' . $attributeCode . ' column';
         }

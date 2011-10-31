@@ -96,7 +96,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getTableDropSql($tableName)
     {
-        return Mage::getResourceHelper('backup')->getTableDropSql($tableName);
+        return Mage::getResourceHelper('Mage_Backup')->getTableDropSql($tableName);
     }
 
     /**
@@ -108,7 +108,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getTableCreateSql($tableName, $withForeignKeys = false)
     {
-        return Mage::getResourceHelper('backup')->getTableCreateSql($tableName, $withForeignKeys = false);
+        return Mage::getResourceHelper('Mage_Backup')->getTableCreateSql($tableName, $withForeignKeys = false);
     }
 
     /**
@@ -123,7 +123,7 @@ class Mage_Backup_Model_Resource_Db
         if (!$tableName) {
             $tables = $this->getTables();
             foreach($tables as $table) {
-                $fkScript = $fkScript . Mage::getResourceHelper('backup')->getTableForeignKeysSql($table);
+                $fkScript = $fkScript . Mage::getResourceHelper('Mage_Backup')->getTableForeignKeysSql($table);
             }
         } else {
             $fkScript = $this->getTableForeignKeysSql($tableName);
@@ -182,7 +182,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getTableDataSql($tableName, $count = null, $offset = null)
     {
-        return Mage::getResourceHelper('backup')->getInsertSql($tableName);
+        return Mage::getResourceHelper('Mage_Backup')->getInsertSql($tableName);
 
     }
 
@@ -195,7 +195,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getTableCreateScript($tableName, $addDropIfExists = false)
     {
-        return Mage::getResourceHelper('backup')->getTableCreateScript($tableName, $addDropIfExists);;
+        return Mage::getResourceHelper('Mage_Backup')->getTableCreateScript($tableName, $addDropIfExists);;
     }
 
     /**
@@ -231,7 +231,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getHeader()
     {
-        return Mage::getResourceHelper('backup')->getHeader();
+        return Mage::getResourceHelper('Mage_Backup')->getHeader();
     }
 
     /**
@@ -241,7 +241,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getFooter()
     {
-        return Mage::getResourceHelper('backup')->getFooter();        
+        return Mage::getResourceHelper('Mage_Backup')->getFooter();        
     }
 
     /**
@@ -252,7 +252,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getTableDataBeforeSql($tableName)
     {
-        return Mage::getResourceHelper('backup')->getTableDataBeforeSql($tableName);
+        return Mage::getResourceHelper('Mage_Backup')->getTableDataBeforeSql($tableName);
     }
 
     /**
@@ -263,7 +263,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getTableDataAfterSql($tableName)
     {
-        return Mage::getResourceHelper('backup')->getTableDataAfterSql($tableName);
+        return Mage::getResourceHelper('Mage_Backup')->getTableDataAfterSql($tableName);
     }
 
     /**
@@ -273,7 +273,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function beginTransaction()
     {
-        Mage::getResourceHelper('backup')->turnOnSerializableMode();
+        Mage::getResourceHelper('Mage_Backup')->turnOnSerializableMode();
         $this->_read->beginTransaction();
         return $this;
     }
@@ -286,7 +286,7 @@ class Mage_Backup_Model_Resource_Db
     public function commitTransaction()
     {
         $this->_read->commit();
-        Mage::getResourceHelper('backup')->turnOnReadCommittedMode();
+        Mage::getResourceHelper('Mage_Backup')->turnOnReadCommittedMode();
         return $this;
     }
 

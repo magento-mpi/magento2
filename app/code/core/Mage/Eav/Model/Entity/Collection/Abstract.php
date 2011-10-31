@@ -376,7 +376,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
             }
 
             if (in_array($attrInstance->getFrontendClass(), $this->_castToIntMap)) {
-                $orderExpr = Mage::getResourceHelper('eav')->getCastToIntExpression(
+                $orderExpr = Mage::getResourceHelper('Mage_Eav')->getCastToIntExpression(
                     $this->_prepareOrderExpression($orderExpr)
                 );
             }
@@ -1097,7 +1097,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
                 $attributeTypes[$table]
             );
         }
-        $selectGroups = Mage::getResourceHelper('eav')->getLoadAttributesSelectGroups($selects);
+        $selectGroups = Mage::getResourceHelper('Mage_Eav')->getLoadAttributesSelectGroups($selects);
         foreach ($selectGroups as $selects) {
             if (!empty($selects)) {
                 try {
@@ -1129,7 +1129,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         if (empty($attributeIds)) {
             $attributeIds = $this->_selectAttributes;
         }
-        $helper = Mage::getResourceHelper('eav');
+        $helper = Mage::getResourceHelper('Mage_Eav');
         $entityIdField = $this->getEntity()->getEntityIdField();
         $select = $this->getConnection()->select()
             ->from($table, array($entityIdField, 'attribute_id'))
@@ -1147,7 +1147,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
      */
     protected function _addLoadAttributesSelectValues($select, $table, $type)
     {
-        $helper = Mage::getResourceHelper('eav');
+        $helper = Mage::getResourceHelper('Mage_Eav');
         $select->columns(array(
             'value' => $helper->prepareEavAttributeValue($table. '.value', $type),
         ));
@@ -1488,7 +1488,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     public function _prepareSelect(Varien_Db_Select $select)
     {
         if ($this->_useAnalyticFunction) {
-            $helper = Mage::getResourceHelper('core');
+            $helper = Mage::getResourceHelper('Mage_Core');
             return $helper->getQueryUsingAnalyticFunction($select);
         }
 

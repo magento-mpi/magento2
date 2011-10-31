@@ -73,6 +73,9 @@ class Mage_Core_Model_ConfigFactoryTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(
             'Mage_Core_Model_Resource_Helper_Abstract', $this->_model->getResourceHelper('catalog')
         );
+        $this->assertInstanceOf(
+            'Mage_Core_Model_Resource_Helper_Abstract', $this->_model->getResourceHelper('Mage_Core')
+        );
     }
 
     public function testGetModelClassName()

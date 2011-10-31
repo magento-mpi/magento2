@@ -230,7 +230,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
             ->where("val.entity_id = customer_address.entity_id")
             ->where($condition);
 
-        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
 
         return $select;
     }
