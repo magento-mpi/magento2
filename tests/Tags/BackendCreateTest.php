@@ -27,7 +27,7 @@
  */
 
 /**
- * Attribute Set creation tests
+ * Tag creation tests for Backend
  *
  * @package     selenium
  * @subpackage  tests
@@ -44,10 +44,8 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
      */
     private function createSimpleProduct()
     {
-        $simpleProduct = $this->loadData('simple_product_visible', null, array('general_name','general_sku'));
+        $simpleProduct = $this->loadData('simple_product_visible', null, array('general_name', 'general_sku'));
         $this->navigate('manage_products');
-//        $simpleProductData = $this->loadData('simple_product_for_prices_validation_front_1',
-//                array('categories' => $category), array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($simpleProduct);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         return $simpleProduct['general_name'];
