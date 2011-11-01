@@ -47,7 +47,7 @@
                         <is_enabled translate="label">
                             <label>Enable Reward Points Functionality</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -56,7 +56,7 @@
                         <is_enabled_on_front translate="label">
                             <label>Enable Reward Points Functionality on Frontend</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>15</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -65,7 +65,7 @@
                         <publish_history translate="label">
                             <label>Customers May See Reward Points History</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -104,7 +104,7 @@
                         <expiry_calculation translate="label comment">
                             <label>Reward Points Expiry Calculation</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>enterprise_reward/source_points_expiryCalculation</source_model>
+                            <source_model>Enterprise_Reward_Model_Source_Points_ExpiryCalculation</source_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -114,7 +114,7 @@
                         <refund_automatically translate="label">
                             <label>Refund Reward Points Automatically</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>65</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -124,7 +124,7 @@
                             <sort_order>70</sort_order>
                             <label>Landing Page</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_cms_page</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Cms_Page</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -142,7 +142,7 @@
                         <order translate="label comment">
                             <label>Purchase</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -206,7 +206,7 @@
                         <invitation_order_frequency translate="label comment">
                             <label>Invitation Conversion to Order Reward</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>enterprise_reward/source_points_invitationOrder</source_model>
+                            <source_model>Enterprise_Reward_Model_Source_Points_InvitationOrder</source_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -260,7 +260,7 @@
                         <email_sender translate="label">
                             <label>Email Sender</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Identity</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -269,7 +269,7 @@
                         <subscribe_by_default translate="label">
                             <label>Subscribe Customers by Default</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -278,7 +278,7 @@
                         <balance_update_template translate="label">
                             <label>Balance Update Email</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -287,7 +287,7 @@
                         <expiry_warning_template translate="label">
                             <label>Reward Points Expiry Warning Email</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

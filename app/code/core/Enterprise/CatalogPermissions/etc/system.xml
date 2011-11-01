@@ -40,7 +40,7 @@
                         <enabled translate="label comment">
                             <label>Enable</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -51,7 +51,7 @@
                             <label>Allow Browsing Category</label>
                             <frontend_type>select</frontend_type>
                             <frontend_class>enterprise-grant-select browsing-catagories</frontend_class>
-                            <source_model>enterprise_catalogpermissions/adminhtml_system_config_source_grant_landing</source_model>
+                            <source_model>Enterprise_CatalogPermissions_Model_Adminhtml_System_Config_Source_Grant_Landing</source_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -60,7 +60,7 @@
                         <grant_catalog_category_view_groups translate="label">
                             <label>Customer Groups</label>
                             <frontend_type>multiselect</frontend_type>
-                            <source_model>enterprise_catalogpermissions/adminhtml_system_config_source_customer_group</source_model>
+                            <source_model>Enterprise_CatalogPermissions_Model_Adminhtml_System_Config_Source_Customer_Group</source_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -71,7 +71,7 @@
                             <label>Display Product Prices</label>
                             <frontend_type>select</frontend_type>
                             <frontend_class>enterprise-grant-select</frontend_class>
-                            <source_model>enterprise_catalogpermissions/adminhtml_system_config_source_grant</source_model>
+                            <source_model>Enterprise_CatalogPermissions_Model_Adminhtml_System_Config_Source_Grant</source_model>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -80,7 +80,7 @@
                         <grant_catalog_product_price_groups translate="label">
                             <label>Customer Groups</label>
                             <frontend_type>multiselect</frontend_type>
-                            <source_model>enterprise_catalogpermissions/adminhtml_system_config_source_customer_group</source_model>
+                            <source_model>Enterprise_CatalogPermissions_Model_Adminhtml_System_Config_Source_Customer_Group</source_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -91,7 +91,7 @@
                             <label>Allow Adding to Cart</label>
                             <frontend_type>select</frontend_type>
                             <frontend_class>enterprise-grant-select</frontend_class>
-                            <source_model>enterprise_catalogpermissions/adminhtml_system_config_source_grant</source_model>
+                            <source_model>Enterprise_CatalogPermissions_Model_Adminhtml_System_Config_Source_Grant</source_model>
                             <sort_order>6</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -100,7 +100,7 @@
                         <grant_checkout_items_groups translate="label">
                             <label>Customer Groups</label>
                             <frontend_type>multiselect</frontend_type>
-                            <source_model>enterprise_catalogpermissions/adminhtml_system_config_source_customer_group</source_model>
+                            <source_model>Enterprise_CatalogPermissions_Model_Adminhtml_System_Config_Source_Customer_Group</source_model>
                             <sort_order>7</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -110,7 +110,7 @@
                         <restricted_landing_page translate="label">
                             <label>Landing Page</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_cms_page</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Cms_Page</source_model>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -119,7 +119,7 @@
                         <deny_catalog_search translate="label">
                             <label>Disallow Catalog Search By</label>
                             <frontend_type>multiselect</frontend_type>
-                            <source_model>enterprise_catalogpermissions/adminhtml_system_config_source_customer_group</source_model>
+                            <source_model>Enterprise_CatalogPermissions_Model_Adminhtml_System_Config_Source_Customer_Group</source_model>
                             <sort_order>8</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

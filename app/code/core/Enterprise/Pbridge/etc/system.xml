@@ -40,7 +40,7 @@
                         <active translate="label" module="Enterprise_Pbridge">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -81,7 +81,7 @@
                         <debug translate="label" module="Enterprise_Pbridge">
                             <label>Debug</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -97,7 +97,7 @@
                             <comment>Gives effect only when payment bridge is active.</comment>
                             <config_path>payment/authorizenet/using_pbridge</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -140,7 +140,7 @@
                         <active translate="label" module="Enterprise_Pbridge">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -149,7 +149,7 @@
                         <sandbox_flag translate="label">
                             <label>Test Mode</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -165,7 +165,7 @@
                         <payment_action translate="label">
                             <label>Payment Action</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>enterprise_pbridge/source_ogone_paymentAction</source_model>
+                            <source_model>Enterprise_Pbridge_Model_Source_Ogone_PaymentAction</source_model>
                             <sort_order>45</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -175,7 +175,7 @@
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
                             <sort_order>160</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -184,7 +184,7 @@
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>165</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -202,7 +202,7 @@
                             <comment>Gives effect only when payment bridge is active.</comment>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/paypal_direct/using_pbridge</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>37</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -241,7 +241,7 @@
                             <comment>Gives effect only when payment bridge is active.</comment>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/paypaluk_direct/using_pbridge</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>37</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -301,7 +301,7 @@
                             <comment>Gives effect only when payment bridge is active.</comment>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/verisign/using_pbridge</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>33</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

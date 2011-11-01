@@ -40,7 +40,7 @@
                         <allow_price translate="label">
                             <label>Allow Alert When Product Price Changes</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -49,7 +49,7 @@
                         <allow_stock translate="label">
                             <label>Allow Alert When Product Comes Back in Stock</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -59,7 +59,7 @@
                         <email_price_template translate="label">
                             <label>Price Alert Email Template</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -68,7 +68,7 @@
                         <email_stock_template translate="label">
                             <label>Stock Alert Email Template</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -77,7 +77,7 @@
                         <email_identity translate="label">
                             <label>Alert Email Sender</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Identity</source_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -96,7 +96,7 @@
                         <frequency translate="label">
                             <label>Frequency</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_cron_frequency</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency</source_model>
                             <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Product_Alert_Cron</backend_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -122,7 +122,7 @@
                         <error_email_identity translate="label">
                             <label>Error Email Sender</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Identity</source_model>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -131,7 +131,7 @@
                         <error_email_template translate="label">
                             <label>Error Email Template</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>

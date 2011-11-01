@@ -36,7 +36,7 @@
                 <required>1</required>
                 <label>Quick Search Form Types</label>
                 <type>multiselect</type>
-                <source_model>enterprise_giftregistry/source_search</source_model>
+                <source_model>Enterprise_GiftRegistry_Model_Source_Search</source_model>
             </types>
             <template>
                 <values>

@@ -55,7 +55,7 @@
                 <visible>1</visible>
                 <label>Restrict by Banner Types</label>
                 <type>multiselect</type>
-                <source_model>enterprise_banner/config</source_model>
+                <source_model>Enterprise_Banner_Model_Config</source_model>
             </types>
             <rotate translate="label">
                 <visible>1</visible>

@@ -46,7 +46,7 @@
                         <shipping_tax_class translate="label">
                             <label>Tax Class for Shipping</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_shipping_taxclass</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Shipping_Taxclass</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -64,7 +64,7 @@
                         <algorithm translate="label">
                             <label>Tax Calculation Method Based On</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tax/system_config_source_algorithm</source_model>
+                            <source_model>Mage_Tax_Model_System_Config_Source_Algorithm</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -73,7 +73,7 @@
                         <based_on translate="label">
                             <label>Tax Calculation Based On</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_tax_basedon</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Tax_Basedon</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -84,7 +84,7 @@
                             <comment>Whether catalog prices entered by admin include tax.</comment>
                             <frontend_type>select</frontend_type>
                             <backend_model>Mage_Tax_Model_Config_Price_Include</backend_model>
-                            <source_model>tax/system_config_source_priceType</source_model>
+                            <source_model>Mage_Tax_Model_System_Config_Source_PriceType</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -95,7 +95,7 @@
                             <comment>Whether shipping amounts entered by admin or obtained from gateways include tax.</comment>
                             <frontend_type>select</frontend_type>
                             <backend_model>Mage_Tax_Model_Config_Price_Include</backend_model>
-                            <source_model>tax/system_config_source_priceType</source_model>
+                            <source_model>Mage_Tax_Model_System_Config_Source_PriceType</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -104,7 +104,7 @@
                         <apply_after_discount translate="label comment">
                             <label>Apply Customer Tax</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tax/system_config_source_apply</source_model>
+                            <source_model>Mage_Tax_Model_System_Config_Source_Apply</source_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -113,7 +113,7 @@
                         <discount_tax translate="label comment">
                             <label>Apply Discount On Prices</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tax/system_config_source_priceType</source_model>
+                            <source_model>Mage_Tax_Model_System_Config_Source_PriceType</source_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -123,7 +123,7 @@
                         <apply_tax_on translate="label comment">
                             <label>Apply Tax On</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_tax_apply_on</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Tax_Apply_On</source_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -141,7 +141,7 @@
                         <country translate="label">
                             <label>Default Country</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tax/system_config_source_tax_country</source_model>
+                            <source_model>Mage_Tax_Model_System_Config_Source_Tax_Country</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -151,7 +151,7 @@
                             <label>Default State</label>
                             <frontend_type>select</frontend_type>
                             <frontend_model>tax/adminhtml_frontend_region_updater</frontend_model>
-                            <source_model>tax/system_config_source_tax_region</source_model>
+                            <source_model>Mage_Tax_Model_System_Config_Source_Tax_Region</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -177,7 +177,7 @@
                         <type translate="label">
                             <label>Display Product Prices In Catalog</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tax/system_config_source_tax_display_type</source_model>
+                            <source_model>Mage_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -186,7 +186,7 @@
                         <shipping translate="label">
                             <label>Display Shipping Prices</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tax/system_config_source_tax_display_type</source_model>
+                            <source_model>Mage_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -204,7 +204,7 @@
                         <price translate="label">
                             <label>Display Prices</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tax/system_config_source_tax_display_type</source_model>
+                            <source_model>Mage_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -213,7 +213,7 @@
                         <subtotal translate="label">
                             <label>Display Subtotal</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tax/system_config_source_tax_display_type</source_model>
+                            <source_model>Mage_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -222,7 +222,7 @@
                         <shipping translate="label">
                             <label>Display Shipping Amount</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tax/system_config_source_tax_display_type</source_model>
+                            <source_model>Mage_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -231,7 +231,7 @@
                         <!--<discount translate="label">
                             <label>Display Discount Amount</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tax/system_config_source_tax_display_type</source_model>
+                            <source_model>Mage_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -240,7 +240,7 @@
                         <grandtotal translate="label">
                             <label>Include Tax In Grand Total</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -249,7 +249,7 @@
                         <full_summary translate="label">
                             <label>Display Full Tax Summary</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -258,7 +258,7 @@
                          <zero_tax translate="label">
                             <label>Display Zero Tax Subtotal</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>120</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -276,7 +276,7 @@
                         <price translate="label">
                             <label>Display Prices</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tax/system_config_source_tax_display_type</source_model>
+                            <source_model>Mage_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -285,7 +285,7 @@
                         <subtotal translate="label">
                             <label>Display Subtotal</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tax/system_config_source_tax_display_type</source_model>
+                            <source_model>Mage_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -294,7 +294,7 @@
                         <shipping translate="label">
                             <label>Display Shipping Amount</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tax/system_config_source_tax_display_type</source_model>
+                            <source_model>Mage_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -303,7 +303,7 @@
                         <!--<discount translate="label">
                             <label>Display Discount Amount</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tax/system_config_source_tax_display_type</source_model>
+                            <source_model>Mage_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -312,7 +312,7 @@
                         <grandtotal translate="label">
                             <label>Include Tax In Grand Total</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -321,7 +321,7 @@
                         <full_summary translate="label">
                             <label>Display Full Tax Summary</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -330,7 +330,7 @@
                          <zero_tax translate="label">
                             <label>Display Zero Tax Subtotal</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>120</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

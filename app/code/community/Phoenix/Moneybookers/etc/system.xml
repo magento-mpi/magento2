@@ -86,7 +86,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_acc/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -115,7 +115,7 @@
                             <frontend_type>allowspecific</frontend_type>
                             <config_path>payment/moneybookers_acc/allowspecific</config_path>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -125,7 +125,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_acc/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -145,7 +145,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_csi/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -174,7 +174,7 @@
                             <frontend_type>allowspecific</frontend_type>
                             <config_path>payment/moneybookers_csi/allowspecific</config_path>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -184,7 +184,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_csi/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -204,7 +204,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_did/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -233,7 +233,7 @@
                             <frontend_type>allowspecific</frontend_type>
                             <config_path>payment/moneybookers_did/allowspecific</config_path>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -243,7 +243,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_did/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -263,7 +263,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_dnk/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -292,7 +292,7 @@
                             <frontend_type>allowspecific</frontend_type>
                             <config_path>payment/moneybookers_dnk/allowspecific</config_path>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -302,7 +302,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_dnk/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -322,7 +322,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_ebt/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -351,7 +351,7 @@
                             <config_path>payment/moneybookers_ebt/allowspecific</config_path>
                             <frontend_type>allowspecific</frontend_type>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -361,7 +361,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_ebt/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -381,7 +381,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_ent/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -410,7 +410,7 @@
                             <frontend_type>allowspecific</frontend_type>
                             <config_path>payment/moneybookers_ent/allowspecific</config_path>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -420,7 +420,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_ent/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -440,7 +440,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_gcb/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -469,7 +469,7 @@
                             <frontend_type>allowspecific</frontend_type>
                             <config_path>payment/moneybookers_gcb/allowspecific</config_path>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -479,7 +479,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_gcb/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -499,7 +499,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_gir/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -528,7 +528,7 @@
                             <frontend_type>allowspecific</frontend_type>
                             <config_path>payment/moneybookers_gir/allowspecific</config_path>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -538,7 +538,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_gir/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -558,7 +558,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_idl/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -587,7 +587,7 @@
                             <frontend_type>allowspecific</frontend_type>
                             <config_path>payment/moneybookers_idl/allowspecific</config_path>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -597,7 +597,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_idl/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -617,7 +617,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_lsr/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -646,7 +646,7 @@
                             <frontend_type>allowspecific</frontend_type>
                             <config_path>payment/moneybookers_lsr/allowspecific</config_path>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -656,7 +656,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_lsr/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -676,7 +676,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_mae/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -705,7 +705,7 @@
                             <frontend_type>allowspecific</frontend_type>
                             <config_path>payment/moneybookers_mae/allowspecific</config_path>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -715,7 +715,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_mae/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -735,7 +735,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_npy/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -764,7 +764,7 @@
                             <frontend_type>allowspecific</frontend_type>
                             <config_path>payment/moneybookers_npy/allowspecific</config_path>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -774,7 +774,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_npy/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -794,7 +794,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_pli/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -823,7 +823,7 @@
                             <frontend_type>allowspecific</frontend_type>
                             <config_path>payment/moneybookers_pli/allowspecific</config_path>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -833,7 +833,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_pli/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -853,7 +853,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_psp/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -882,7 +882,7 @@
                             <frontend_type>allowspecific</frontend_type>
                             <config_path>payment/moneybookers_psp/allowspecific</config_path>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -892,7 +892,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_psp/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -912,7 +912,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_pwy/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -941,7 +941,7 @@
                             <frontend_type>allowspecific</frontend_type>
                             <config_path>payment/moneybookers_pwy/allowspecific</config_path>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -951,7 +951,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_pwy/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -971,7 +971,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_sft/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1000,7 +1000,7 @@
                             <frontend_type>allowspecific</frontend_type>
                             <config_path>payment/moneybookers_sft/allowspecific</config_path>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -1010,7 +1010,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_sft/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -1030,7 +1030,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_so2/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1059,7 +1059,7 @@
                             <frontend_type>allowspecific</frontend_type>
                             <config_path>payment/moneybookers_so2/allowspecific</config_path>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -1069,7 +1069,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_so2/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -1089,7 +1089,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_wlt/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1118,7 +1118,7 @@
                             <frontend_type>allowspecific</frontend_type>
                             <config_path>payment/moneybookers_wlt/allowspecific</config_path>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -1128,7 +1128,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_wlt/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -1148,7 +1148,7 @@
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <config_path>payment/moneybookers_obt/active</config_path>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1177,7 +1177,7 @@
                             <frontend_type>allowspecific</frontend_type>
                             <config_path>payment/moneybookers_obt/allowspecific</config_path>
                             <sort_order>6</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -1187,7 +1187,7 @@
                             <frontend_type>multiselect</frontend_type>
                             <config_path>payment/moneybookers_obt/specificcountry</config_path>
                             <sort_order>7</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
