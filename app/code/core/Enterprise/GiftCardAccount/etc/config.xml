@@ -47,7 +47,7 @@
                         <class>Enterprise_GiftCardAccount_Model_Total_Quote_Giftcardaccount</class>
                         <after>wee,discount,tax,tax_subtotal,grand_total,reward</after>
                         <before>customerbalance</before>
-                        <renderer>enterprise_giftcardaccount/checkout_cart_total</renderer>
+                        <renderer>Enterprise_GiftCardAccount_Block_Checkout_Cart_Total</renderer>
                     </giftcardaccount>
                 </totals>
             </quote>

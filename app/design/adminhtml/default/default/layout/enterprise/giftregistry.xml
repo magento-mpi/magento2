@@ -43,7 +43,7 @@
         <reference name="customer_edit_tabs">
             <action method="addTab">
                 <tab>giftregistry</tab>
-                <content>enterprise_giftregistry/adminhtml_customer_edit_tab_giftregistry</content>
+                <content>Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry</content>
             </action>
         </reference>
     </adminhtml_customer_edit>

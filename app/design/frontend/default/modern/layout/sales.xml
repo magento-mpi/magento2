@@ -91,8 +91,8 @@ Customer account home dashboard layout
             </block>
             <block type="Mage_Sales_Block_Order_View" name="sales.order.view">
                 <block type="Mage_Sales_Block_Order_Items" name="order_items" template="sales/order/items.phtml">
-                    <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/items/renderer/default.phtml</template></action>
-                    <action method="addItemRender"><type>grouped</type><block>sales/order_item_renderer_grouped</block><template>sales/order/items/renderer/default.phtml</template></action>
+                    <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>sales/order/items/renderer/default.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>sales/order/items/renderer/default.phtml</template></action>
                     <block type="Mage_Sales_Block_Order_Totals" name="order_totals" template="sales/order/totals.phtml">
                         <action method="setLabelProperties"><value>colspan="4" class="a-right"</value></action>
                         <action method="setValueProperties"><value>class="last a-right"</value></action>
@@ -118,8 +118,8 @@ Customer account home dashboard layout
             </block>
             <block type="Mage_Sales_Block_Order_Invoice" name="sales.order.invoice">
                 <block type="Mage_Sales_Block_Order_Invoice_Items" name="invoice_items" template="sales/order/invoice/items.phtml">
-                    <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/invoice/items/renderer/default.phtml</template></action>
-                    <action method="addItemRender"><type>grouped</type><block>sales/order_item_renderer_grouped</block><template>sales/order/invoice/items/renderer/default.phtml</template></action>
+                    <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>sales/order/invoice/items/renderer/default.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>sales/order/invoice/items/renderer/default.phtml</template></action>
                     <block type="Mage_Sales_Block_Order_Invoice_Totals" name="invoice_totals" template="sales/order/totals.phtml">
                         <action method="setLabelProperties"><value>colspan="4" class="a-right"</value></action>
                         <action method="setValueProperties"><value>class="last a-right"</value></action>
@@ -146,7 +146,7 @@ Customer account home dashboard layout
             </block>
             <block type="Mage_Sales_Block_Order_Shipment" name="sales.order.shipment">
                 <block type="Mage_Sales_Block_Order_Shipment_Items" name="shipment_items" template="sales/order/shipment/items.phtml">
-                    <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/shipment/items/renderer/default.phtml</template></action>
+                    <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>sales/order/shipment/items/renderer/default.phtml</template></action>
                     <block type="Mage_Sales_Block_Order_Comments" name="shipment_comments" template="sales/order/comments.phtml" />
                 </block>
             </block>
@@ -168,8 +168,8 @@ Customer account home dashboard layout
             </block>
             <block type="Mage_Sales_Block_Order_Creditmemo" name="sales.order.creditmemo">
                 <block type="Mage_Sales_Block_Order_Creditmemo_Items" name="creditmemo_items" template="sales/order/creditmemo/items.phtml">
-                    <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/creditmemo/items/renderer/default.phtml</template></action>
-                    <action method="addItemRender"><type>grouped</type><block>sales/order_item_renderer_grouped</block><template>sales/order/creditmemo/items/renderer/default.phtml</template></action>
+                    <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>sales/order/creditmemo/items/renderer/default.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>sales/order/creditmemo/items/renderer/default.phtml</template></action>
                     <block type="Mage_Sales_Block_Order_Creditmemo_Totals" name="creditmemo_totals" template="sales/order/totals.phtml">
                         <action method="setLabelProperties"><value>colspan="6" class="a-right"</value></action>
                         <action method="setValueProperties"><value>class="a-right"</value></action>
@@ -198,8 +198,8 @@ Customer account home dashboard layout
         <label>Sales Order Print View</label>
         <reference name="content">
             <block type="Mage_Sales_Block_Order_Print" name="sales.order.print" template="sales/order/print.phtml">
-                <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/items/renderer/default.phtml</template></action>
-                <action method="addItemRender"><type>grouped</type><block>sales/order_item_renderer_grouped</block><template>sales/order/items/renderer/default.phtml</template></action>
+                <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>sales/order/items/renderer/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>sales/order/items/renderer/default.phtml</template></action>
                 <block type="Mage_Sales_Block_Order_Totals" name="order_totals" template="sales/order/totals.phtml">
                     <action method="setLabelProperties"><value>colspan="4" class="a-right"</value></action>
                     <action method="setValueProperties"><value>class="last a-right"</value></action>
@@ -215,8 +215,8 @@ Customer account home dashboard layout
         <label>Sales Invoice Print View</label>
         <reference name="content">
             <block type="Mage_Sales_Block_Order_Print_Invoice" name="sales.order.print.invoice" template="sales/order/print/invoice.phtml">
-                <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/invoice/items/renderer/default.phtml</template></action>
-                <action method="addItemRender"><type>grouped</type><block>sales/order_item_renderer_grouped</block><template>sales/order/invoice/items/renderer/default.phtml</template></action>
+                <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>sales/order/invoice/items/renderer/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>sales/order/invoice/items/renderer/default.phtml</template></action>
                 <block type="Mage_Sales_Block_Order_Invoice_Totals" name="invoice_totals" template="sales/order/totals.phtml">
                     <action method="setLabelProperties"><value>colspan="4" class="a-right"</value></action>
                     <action method="setValueProperties"><value>class="last a-right"</value></action>
@@ -230,7 +230,7 @@ Customer account home dashboard layout
         <label>Sales Shipment Print View</label>
         <reference name="content">
             <block type="Mage_Sales_Block_Order_Print_Shipment" name="sales.order.print.shipment" template="sales/order/print/shipment.phtml">
-                <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/shipment/items/renderer/default.phtml</template></action>
+                <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>sales/order/shipment/items/renderer/default.phtml</template></action>
             </block>
         </reference>
     </sales_order_printshipment>
@@ -238,8 +238,8 @@ Customer account home dashboard layout
     <sales_order_printcreditmemo>
         <reference name="content">
             <block type="Mage_Sales_Block_Order_Print_Creditmemo" name="sales.order.print.creditmemo" template="sales/order/print/creditmemo.phtml">
-                <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/creditmemo/items/renderer/default.phtml</template></action>
-                <action method="addItemRender"><type>grouped</type><block>sales/order_item_renderer_grouped</block><template>sales/order/creditmemo/items/renderer/default.phtml</template></action>
+                <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>sales/order/creditmemo/items/renderer/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>sales/order/creditmemo/items/renderer/default.phtml</template></action>
                 <block type="Mage_Sales_Block_Order_Creditmemo_Totals" name="creditmemo_totals" template="sales/order/totals.phtml">
                     <action method="setLabelProperties"><value>colspan="6" class="a-right"</value></action>
                     <action method="setValueProperties"><value>class="a-right"</value></action>
@@ -254,8 +254,8 @@ Email layouts section
 -->
     <sales_email_order_items>
         <block type="Mage_Sales_Block_Order_Email_Items" name="items" template="email/order/items.phtml">
-            <action method="addItemRender"><type>default</type><block>sales/order_email_items_order_default</block><template>email/order/items/order/default.phtml</template></action>
-            <action method="addItemRender"><type>grouped</type><block>sales/order_email_items_order_grouped</block><template>email/order/items/order/default.phtml</template></action>
+            <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Email_Items_Order_Default</block><template>email/order/items/order/default.phtml</template></action>
+            <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Email_Items_Order_Grouped</block><template>email/order/items/order/default.phtml</template></action>
             <block type="Mage_Sales_Block_Order_Totals" name="order_totals" template="sales/order/totals.phtml">
                 <action method="setLabelProperties"><value>colspan="3" align="right" style="padding:3px 9px"</value></action>
                 <action method="setValueProperties"><value>align="right" style="padding:3px 9px"</value></action>
@@ -268,8 +268,8 @@ Email layouts section
 
     <sales_email_order_invoice_items>
         <block type="Mage_Sales_Block_Order_Email_Invoice_Items" name="items" template="email/order/invoice/items.phtml">
-            <action method="addItemRender"><type>default</type><block>sales/order_email_items_default</block><template>email/order/items/invoice/default.phtml</template></action>
-            <action method="addItemRender"><type>grouped</type><block>sales/order_email_items_order_grouped</block><template>email/order/items/invoice/default.phtml</template></action>
+            <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Email_Items_Default</block><template>email/order/items/invoice/default.phtml</template></action>
+            <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Email_Items_Order_Grouped</block><template>email/order/items/invoice/default.phtml</template></action>
             <block type="Mage_Sales_Block_Order_Invoice_Totals" name="invoice_totals" template="sales/order/totals.phtml">
                 <action method="setLabelProperties"><value>colspan="3" align="right" style="padding:3px 9px"</value></action>
                 <action method="setValueProperties"><value>align="right" style="padding:3px 9px"</value></action>
@@ -280,14 +280,14 @@ Email layouts section
 
     <sales_email_order_shipment_items>
         <block type="Mage_Sales_Block_Order_Email_Shipment_Items" name="items" template="email/order/shipment/items.phtml">
-            <action method="addItemRender"><type>default</type><block>sales/order_email_items_default</block><template>email/order/items/shipment/default.phtml</template></action>
+            <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Email_Items_Default</block><template>email/order/items/shipment/default.phtml</template></action>
         </block>
     </sales_email_order_shipment_items>
 
     <sales_email_order_creditmemo_items>
         <block type="Mage_Sales_Block_Order_Email_Creditmemo_Items" name="items" template="email/order/creditmemo/items.phtml">
-            <action method="addItemRender"><type>default</type><block>sales/order_email_items_default</block><template>email/order/items/creditmemo/default.phtml</template></action>
-            <action method="addItemRender"><type>grouped</type><block>sales/order_email_items_order_grouped</block><template>email/order/items/creditmemo/default.phtml</template></action>
+            <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Email_Items_Default</block><template>email/order/items/creditmemo/default.phtml</template></action>
+            <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Email_Items_Order_Grouped</block><template>email/order/items/creditmemo/default.phtml</template></action>
             <block type="Mage_Sales_Block_Order_Creditmemo_Totals" name="creditmemo_totals" template="sales/order/totals.phtml">
                 <action method="setLabelProperties"><value>colspan="3" align="right" style="padding:3px 9px"</value></action>
                 <action method="setValueProperties"><value>align="right" style="padding:3px 9px"</value></action>
@@ -322,8 +322,8 @@ Guest
             </block>
             <block type="Mage_Sales_Block_Order_View" name="sales.order.view">
                 <block type="Mage_Sales_Block_Order_Items" name="order_items" template="sales/order/items.phtml">
-                    <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/items/renderer/default.phtml</template></action>
-                    <action method="addItemRender"><type>grouped</type><block>sales/order_item_renderer_grouped</block><template>sales/order/items/renderer/default.phtml</template></action>
+                    <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>sales/order/items/renderer/default.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>sales/order/items/renderer/default.phtml</template></action>
                     <block type="Mage_Sales_Block_Order_Totals" name="order_totals" template="sales/order/totals.phtml">
                         <action method="setLabelProperties"><value>colspan="4" class="a-right"</value></action>
                         <action method="setValueProperties"><value>class="last a-right"</value></action>
@@ -351,8 +351,8 @@ Guest
             </block>
             <block type="Mage_Sales_Block_Order_Invoice" name="sales.order.invoice">
                 <block type="Mage_Sales_Block_Order_Invoice_Items" name="invoice_items" template="sales/order/invoice/items.phtml">
-                    <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/invoice/items/renderer/default.phtml</template></action>
-                    <action method="addItemRender"><type>grouped</type><block>sales/order_item_renderer_grouped</block><template>sales/order/invoice/items/renderer/default.phtml</template></action>
+                    <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>sales/order/invoice/items/renderer/default.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>sales/order/invoice/items/renderer/default.phtml</template></action>
                     <block type="Mage_Sales_Block_Order_Invoice_Totals" name="invoice_totals" template="sales/order/totals.phtml">
                         <action method="setLabelProperties"><value>colspan="4" class="a-right"</value></action>
                         <action method="setValueProperties"><value>class="last a-right"</value></action>
@@ -381,7 +381,7 @@ Guest
             </block>
             <block type="Mage_Sales_Block_Order_Shipment" name="sales.order.shipment">
                 <block type="Mage_Sales_Block_Order_Shipment_Items" name="shipment_items" template="sales/order/shipment/items.phtml">
-                    <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/shipment/items/renderer/default.phtml</template></action>
+                    <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>sales/order/shipment/items/renderer/default.phtml</template></action>
                     <block type="Mage_Sales_Block_Order_Comments" name="shipment_comments" template="sales/order/comments.phtml" />
                 </block>
             </block>
@@ -405,8 +405,8 @@ Guest
             </block>
             <block type="Mage_Sales_Block_Order_Creditmemo" name="sales.order.creditmemo">
                 <block type="Mage_Sales_Block_Order_Creditmemo_Items" name="creditmemo_items" template="sales/order/creditmemo/items.phtml">
-                    <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/creditmemo/items/renderer/default.phtml</template></action>
-                    <action method="addItemRender"><type>grouped</type><block>sales/order_item_renderer_grouped</block><template>sales/order/creditmemo/items/renderer/default.phtml</template></action>
+                    <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>sales/order/creditmemo/items/renderer/default.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>sales/order/creditmemo/items/renderer/default.phtml</template></action>
                     <block type="Mage_Sales_Block_Order_Creditmemo_Totals" name="creditmemo_totals" template="sales/order/totals.phtml">
                         <action method="setLabelProperties"><value>colspan="6" class="a-right"</value></action>
                         <action method="setValueProperties"><value>class="a-right"</value></action>
@@ -437,8 +437,8 @@ Guest
         <label>Sales Order Print View</label>
         <reference name="content">
             <block type="Mage_Sales_Block_Order_Print" name="sales.order.print" template="sales/order/print.phtml">
-                <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/items/renderer/default.phtml</template></action>
-                <action method="addItemRender"><type>grouped</type><block>sales/order_item_renderer_grouped</block><template>sales/order/items/renderer/default.phtml</template></action>
+                <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>sales/order/items/renderer/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>sales/order/items/renderer/default.phtml</template></action>
                 <block type="Mage_Sales_Block_Order_Totals" name="order_totals" template="sales/order/totals.phtml">
                     <action method="setLabelProperties"><value>colspan="4" class="a-right"</value></action>
                     <action method="setValueProperties"><value>class="last a-right"</value></action>
@@ -454,8 +454,8 @@ Guest
         <label>Sales Invoice Print View</label>
         <reference name="content">
             <block type="Mage_Sales_Block_Order_Print_Invoice" name="sales.order.print.invoice" template="sales/order/print/invoice.phtml">
-                <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/invoice/items/renderer/default.phtml</template></action>
-                <action method="addItemRender"><type>grouped</type><block>sales/order_item_renderer_grouped</block><template>sales/order/invoice/items/renderer/default.phtml</template></action>
+                <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>sales/order/invoice/items/renderer/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>sales/order/invoice/items/renderer/default.phtml</template></action>
                 <block type="Mage_Sales_Block_Order_Invoice_Totals" name="invoice_totals" template="sales/order/totals.phtml">
                     <action method="setLabelProperties"><value>colspan="4" class="a-right"</value></action>
                     <action method="setValueProperties"><value>class="last a-right"</value></action>
@@ -469,7 +469,7 @@ Guest
         <label>Sales Shipment Print View</label>
         <reference name="content">
             <block type="Mage_Sales_Block_Order_Print_Shipment" name="sales.order.print.shipment" template="sales/order/print/shipment.phtml">
-                <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/shipment/items/renderer/default.phtml</template></action>
+                <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>sales/order/shipment/items/renderer/default.phtml</template></action>
             </block>
         </reference>
     </sales_guest_printshipment>
@@ -477,8 +477,8 @@ Guest
     <sales_guest_printcreditmemo>
         <reference name="content">
             <block type="Mage_Sales_Block_Order_Print_Creditmemo" name="sales.order.print.creditmemo" template="sales/order/print/creditmemo.phtml">
-                <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/creditmemo/items/renderer/default.phtml</template></action>
-                <action method="addItemRender"><type>grouped</type><block>sales/order_item_renderer_grouped</block><template>sales/order/creditmemo/items/renderer/default.phtml</template></action>
+                <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>sales/order/creditmemo/items/renderer/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>sales/order/creditmemo/items/renderer/default.phtml</template></action>
                 <block type="Mage_Sales_Block_Order_Creditmemo_Totals" name="creditmemo_totals" template="sales/order/totals.phtml">
                     <action method="setLabelProperties"><value>colspan="6" class="a-right"</value></action>
                     <action method="setValueProperties"><value>class="a-right"</value></action>

@@ -37,7 +37,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_SelectionController extends Mage_Admi
     {
         return $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('googlebase/adminhtml_items_product')
+                ->createBlock('Mage_GoogleBase_Block_Adminhtml_Items_Product')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->setFirstShow(true)
                 ->toHtml()
@@ -49,7 +49,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_SelectionController extends Mage_Admi
         $this->loadLayout();
         return $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('googlebase/adminhtml_items_product')
+                ->createBlock('Mage_GoogleBase_Block_Adminhtml_Items_Product')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()
            );

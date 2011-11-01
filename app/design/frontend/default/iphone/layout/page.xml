@@ -74,9 +74,9 @@ Default layout, loads most of the pages
                     <action method="setCartTemplate"><value>checkout/cartheader.phtml</value></action>
                     <action method="setEmptyTemplate"><value>checkout/cart/noItemsHeader.phtml</value></action>
                     <action method="chooseTemplate"/>
-                    <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
-                    <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/item/default.phtml</template></action>
-                    <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/item/default.phtml</template></action>
+                    <action method="addItemRender"><type>simple</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>checkout/cart/item/default.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>checkout/cart/item/default.phtml</template></action>
+                    <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>checkout/cart/item/default.phtml</template></action>
                     <remove name="checkout.cart.breadcrumbs"/>
 
                     <block type="Mage_Core_Block_Text_List" name="checkout.cart.top_methods" as="top_methods" translate="label">

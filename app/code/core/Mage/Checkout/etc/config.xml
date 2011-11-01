@@ -53,7 +53,7 @@
             <quote>
                 <totals>
                     <nominal>
-                        <renderer>checkout/total_nominal</renderer>
+                        <renderer>Mage_Checkout_Block_Total_Nominal</renderer>
                     </nominal>
                 </totals>
             </quote>

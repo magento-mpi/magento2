@@ -75,7 +75,7 @@
                 <label>Product</label>
                 <type>label</type>
                 <helper_block>
-                    <type>adminhtml/catalog_product_widget_chooser</type>
+                    <type>Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser</type>
                     <data>
                         <button translate="open">
                             <open>Select Product...</open>
@@ -125,7 +125,7 @@
                 <label>Category</label>
                 <type>label</type>
                 <helper_block>
-                    <type>adminhtml/catalog_category_widget_chooser</type>
+                    <type>Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser</type>
                     <data>
                         <button translate="open">
                             <open>Select Category...</open>

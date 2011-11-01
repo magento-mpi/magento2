@@ -29,7 +29,7 @@
 <layout>
     <install_wizard_config>
         <reference name="database">
-            <action method="addDatabaseBlock"><type>mssql</type><block>install/db_type_mssql</block> <template>install/db/mssql.phtml</template></action>
+            <action method="addDatabaseBlock"><type>mssql</type><block>Mage_Install_Block_Db_Type_Mssql</block> <template>install/db/mssql.phtml</template></action>
         </reference>
     </install_wizard_config>
 </layout>

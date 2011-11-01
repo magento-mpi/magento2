@@ -53,11 +53,11 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback extends Mage_
     {
         $this->setChild('website_store_form',
             $this->getLayout()
-                ->createBlock('enterprise_staging/adminhtml_backup_edit_tabs_rollback_store')
+                ->createBlock('Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback_Store')
         );
 
         $this->setChild('rollbackGrid',
-            $this->getLayout()->createBlock('enterprise_staging/adminhtml_backup_edit_tabs_rollback_items', 'staging.rollback.items')
+            $this->getLayout()->createBlock('Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback_Items', 'staging.rollback.items')
                 ->setExtendInfo($this->getBackup()->getItemVersionCheck()));
 
         return parent::_prepareLayout();

@@ -94,8 +94,12 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tabs extends Mage_Admin
     */
     protected function _getTabHtml($tab)
     {
+//        $classNameParts = explode('_', $tab);
+//        foreach ($classNameParts as $key => $part) {
+//            $classNameParts[$key] = ucfirst($part);
+//        }
 //        return $this->getLayout()
-//            ->createBlock('connect/adminhtml_extension_custom_edit_tab_'.$tab)
+//            ->createBlock('Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_' . implode('_', $classNameParts))
 //            ->initForm()
 //            ->toHtml();
     }

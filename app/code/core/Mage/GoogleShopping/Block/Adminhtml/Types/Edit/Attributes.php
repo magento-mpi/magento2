@@ -116,7 +116,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
             );
         }
 
-        $select = $this->getLayout()->createBlock('googleshopping/adminhtml_types_edit_select')
+        $select = $this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Select')
             ->setId($this->getFieldId().'_{{index}}_gattribute')
             ->setName($this->getFieldName().'[{{index}}][gcontent_attribute]')
             ->setOptions($options);

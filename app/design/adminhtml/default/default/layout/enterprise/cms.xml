@@ -80,9 +80,9 @@
         </reference>
         <reference name="left">
             <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tabs" name="cms_page_revision_edit_tabs">
-                <action method="addTab"><name>content_section</name><block>enterprise_cms/adminhtml_cms_page_revision_edit_tab_content</block></action>
-                <action method="addTab"><name>design_section</name><block>enterprise_cms/adminhtml_cms_page_revision_edit_tab_design</block></action>
-                <action method="addTab"><name>meta_section</name><block>enterprise_cms/adminhtml_cms_page_revision_edit_tab_meta</block></action>
+                <action method="addTab"><name>content_section</name><block>Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content</block></action>
+                <action method="addTab"><name>design_section</name><block>Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Design</block></action>
+                <action method="addTab"><name>meta_section</name><block>Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Meta</block></action>
             </block>
         </reference>
     </adminhtml_cms_page_revision_edit>

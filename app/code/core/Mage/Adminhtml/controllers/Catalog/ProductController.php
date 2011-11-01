@@ -303,9 +303,15 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $this->_initProduct();
         $this->loadLayout();
+
+        $classNameParts = explode('_', $this->getRequest()->getParam('gridOnlyBlock'));
+        foreach ($classNameParts as $key => $part) {
+            $classNameParts[$key] = ucfirst($part);
+        }
+
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('adminhtml/catalog_product_edit_tab_' . $this->getRequest()->getParam('gridOnlyBlock'))
+                ->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_' . implode('_', $classNameParts))
                 ->toHtml()
         );
     }

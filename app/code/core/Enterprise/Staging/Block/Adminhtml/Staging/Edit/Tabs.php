@@ -56,14 +56,14 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs extends Mage_Adminhtm
             $this->addTab('website', array(
                 'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('General Information'),
                 'content'   => $this->getLayout()
-                    ->createBlock('enterprise_staging/adminhtml_staging_edit_tabs_website')
+                    ->createBlock('Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website')
                     ->toHtml(),
             ));
         } else {
             $this->addTab('set', array(
                 'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Settings'),
                 'content'   => $this->getLayout()
-                    ->createBlock('enterprise_staging/adminhtml_staging_edit_tabs_settings')
+                    ->createBlock('Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Settings')
                     ->toHtml(),
                 'active'    => true
             ));

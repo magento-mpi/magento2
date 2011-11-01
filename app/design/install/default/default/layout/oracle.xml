@@ -29,7 +29,7 @@
 <layout>
     <install_wizard_config>
         <reference name="database">
-            <action method="addDatabaseBlock"><type>oracle</type><block>install/db_type_oracle</block> <template>install/db/oracle.phtml</template></action>
+            <action method="addDatabaseBlock"><type>oracle</type><block>Mage_Install_Block_Db_Type_Oracle</block> <template>install/db/oracle.phtml</template></action>
         </reference>
     </install_wizard_config>
 </layout>

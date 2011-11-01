@@ -120,7 +120,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid extends Mage_Adminhtml_Blo
             'index'     => 'action',
             'sortable' => false,
             'filter'   => false,
-            'renderer' => 'enterprise_staging/adminhtml_staging_grid_renderer_event',
+            'renderer' => 'Enterprise_Staging_Block_Adminhtml_Staging_Grid_Renderer_Event',
             'options'   => Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getActionLabelsArray()
         ));
 

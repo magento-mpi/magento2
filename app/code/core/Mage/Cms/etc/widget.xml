@@ -37,7 +37,7 @@
                 <label>CMS Page</label>
                 <type>label</type>
                 <helper_block>
-                    <type>adminhtml/cms_page_widget_chooser</type>
+                    <type>Mage_Adminhtml_Block_Cms_Page_Widget_Chooser</type>
                     <data>
                         <button translate="open">
                             <open>Select Page...</open>
@@ -85,7 +85,7 @@
                 <label>Block</label>
                 <type>label</type>
                 <helper_block>
-                    <type>adminhtml/cms_block_widget_chooser</type>
+                    <type>Mage_Adminhtml_Block_Cms_Block_Widget_Chooser</type>
                     <data>
                         <button translate="open">
                             <open>Select Block...</open>

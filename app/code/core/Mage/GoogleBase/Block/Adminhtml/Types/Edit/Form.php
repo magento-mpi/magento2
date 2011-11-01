@@ -85,7 +85,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
         ));
 
         $attributesBlock = $this->getLayout()
-            ->createBlock('googlebase/adminhtml_types_edit_attributes')
+            ->createBlock('Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes')
             ->setTargetCountry($targetCountry);
         if ($itemType->getId()) {
             $attributesBlock->setAttributeSetId($itemType->getAttributeSetId())

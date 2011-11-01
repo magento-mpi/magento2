@@ -89,7 +89,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml
         ));
 
         $attributesBlock = $this->getLayout()
-            ->createBlock('googleshopping/adminhtml_types_edit_attributes')
+            ->createBlock('Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes')
             ->setTargetCountry($targetCountry);
         if ($itemType->getId()) {
             $attributesBlock->setAttributeSetId($itemType->getAttributeSetId())

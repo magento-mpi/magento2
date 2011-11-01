@@ -45,8 +45,8 @@
         <block type="Mage_XmlConnect_Block_Catalog_Category" name="xmlconnect.catalog.category" output="toHtml">
             <block type="Mage_XmlConnect_Block_Catalog_Product_List" name="xmlconnect.catalog.product.list" as="product_list" output="">
                 <block type="Mage_XmlConnect_Block_Catalog_Product_Price" name="xmlconnect.catalog.product.price" as="product_price" output="">
-                    <action method="addRenderer"><type>bundle</type><renderer>xmlconnect/catalog_product_price_bundle</renderer></action>
-                    <action method="addRenderer"><type>giftcard</type><renderer>xmlconnect/catalog_product_price_giftcard</renderer></action>
+                    <action method="addRenderer"><type>bundle</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Price_Bundle</renderer></action>
+                    <action method="addRenderer"><type>giftcard</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Price_Giftcard</renderer></action>
                 </block>
             </block>
 
@@ -61,31 +61,31 @@
             <block type="Mage_XmlConnect_Block_Catalog_Product_Related" name="xmlconnect.product.related" as="related_products" output=""/>
 
             <block type="Mage_XmlConnect_Block_Catalog_Product_Price" name="xmlconnect.catalog.product.price" as="product_price" output="">
-                <action method="addRenderer"><type>bundle</type><renderer>xmlconnect/catalog_product_price_bundle</renderer></action>
-                <action method="addRenderer"><type>giftcard</type><renderer>xmlconnect/catalog_product_price_giftcard</renderer></action>
+                <action method="addRenderer"><type>bundle</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Price_Bundle</renderer></action>
+                <action method="addRenderer"><type>giftcard</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Price_Giftcard</renderer></action>
             </block>
 
             <block type="Mage_XmlConnect_Block_Catalog_Product_Attributes" name="xmlconnect.catalog.product.attributes" as="additional_info" output="" />
 
             <block type="Mage_XmlConnect_Block_Catalog_Product_Options" name="xmlconnect.catalog.product.options" output="">
-                <action method="addRenderer"><type>simple</type><renderer>xmlconnect/catalog_product_options_simple</renderer></action>
-                <action method="addRenderer"><type>virtual</type><renderer>xmlconnect/catalog_product_options_virtual</renderer></action>
-                <action method="addRenderer"><type>configurable</type><renderer>xmlconnect/catalog_product_options_configurable</renderer></action>
-                <action method="addRenderer"><type>bundle</type><renderer>xmlconnect/catalog_product_options_bundle</renderer></action>
-                <action method="addRenderer"><type>grouped</type><renderer>xmlconnect/catalog_product_options_grouped</renderer></action>
-                <action method="addRenderer"><type>giftcard</type><renderer>xmlconnect/catalog_product_options_giftcard</renderer></action>
+                <action method="addRenderer"><type>simple</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Options_Simple</renderer></action>
+                <action method="addRenderer"><type>virtual</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Options_Virtual</renderer></action>
+                <action method="addRenderer"><type>configurable</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Options_Configurable</renderer></action>
+                <action method="addRenderer"><type>bundle</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Options_Bundle</renderer></action>
+                <action method="addRenderer"><type>grouped</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Options_Grouped</renderer></action>
+                <action method="addRenderer"><type>giftcard</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard</renderer></action>
             </block>
         </block>
     </xmlconnect_catalog_product>
 
     <xmlconnect_catalog_productoptions>
         <block type="Mage_XmlConnect_Block_Catalog_Product_Options" name="xmlconnect.catalog.product.options" output="toHtml">
-            <action method="addRenderer"><type>simple</type><renderer>xmlconnect/catalog_product_options_simple</renderer></action>
-            <action method="addRenderer"><type>virtual</type><renderer>xmlconnect/catalog_product_options_virtual</renderer></action>
-            <action method="addRenderer"><type>configurable</type><renderer>xmlconnect/catalog_product_options_configurable</renderer></action>
-            <action method="addRenderer"><type>bundle</type><renderer>xmlconnect/catalog_product_options_bundle</renderer></action>
-            <action method="addRenderer"><type>grouped</type><renderer>xmlconnect/catalog_product_options_grouped</renderer></action>
-            <action method="addRenderer"><type>giftcard</type><renderer>xmlconnect/catalog_product_options_giftcard</renderer></action>
+            <action method="addRenderer"><type>simple</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Options_Simple</renderer></action>
+            <action method="addRenderer"><type>virtual</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Options_Virtual</renderer></action>
+            <action method="addRenderer"><type>configurable</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Options_Configurable</renderer></action>
+            <action method="addRenderer"><type>bundle</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Options_Bundle</renderer></action>
+            <action method="addRenderer"><type>grouped</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Options_Grouped</renderer></action>
+            <action method="addRenderer"><type>giftcard</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard</renderer></action>
         </block>
     </xmlconnect_catalog_productoptions>
 
@@ -107,8 +107,8 @@
         <block type="Mage_XmlConnect_Block_Catalog_Search" name="xmlconnect.catalog.search" output="toHtml">
             <block type="Mage_XmlConnect_Block_Catalog_Product_List" name="xmlconnect.catalog.product.list" as="product_list" output="">
                 <block type="Mage_XmlConnect_Block_Catalog_Product_Price" name="xmlconnect.catalog.product.price" as="product_price" output="">
-                    <action method="addRenderer"><type>bundle</type><renderer>xmlconnect/catalog_product_price_bundle</renderer></action>
-                    <action method="addRenderer"><type>giftcard</type><renderer>xmlconnect/catalog_product_price_giftcard</renderer></action>
+                    <action method="addRenderer"><type>bundle</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Price_Bundle</renderer></action>
+                    <action method="addRenderer"><type>giftcard</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Price_Giftcard</renderer></action>
                 </block>
             </block>
         </block>
@@ -121,15 +121,15 @@
     <!-- Shopping Cart -->
     <xmlconnect_cart_index>
         <block type="Mage_XmlConnect_Block_Cart" name="xmlconnect.cart" output="toHtml">
-            <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
-            <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/item/default.phtml</template></action>
-            <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
-            <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/item/default.phtml</template></action>
-            <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/checkout_cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
+            <action method="addItemRender"><type>simple</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>checkout/cart/item/default.phtml</template></action>
+            <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>checkout/cart/item/default.phtml</template></action>
+            <action method="addItemRender"><type>bundle</type><block>Mage_Bundle_Block_Checkout_Cart_Item_Renderer</block><template>checkout/cart/item/default.phtml</template></action>
+            <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>checkout/cart/item/default.phtml</template></action>
+            <action method="addItemRender"><type>giftcard</type><block>Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer</block><template>checkout/cart/item/default.phtml</template></action>
 
             <block type="Mage_XmlConnect_Block_Cart_Crosssell" name="xmlconnect.cart.crosssell" as="crosssell">
                 <block type="Mage_XmlConnect_Block_Catalog_Product_Price" name="xmlconnect.catalog.product.price" as="product_price" output="">
-                    <action method="addRenderer"><type>bundle</type><renderer>xmlconnect/catalog_product_price_bundle</renderer></action>
+                    <action method="addRenderer"><type>bundle</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Price_Bundle</renderer></action>
                     <action method="addRenderer"><type>giftcard</type><renderer>giftcard/catalog_product_price_giftcard</renderer></action>
                 </block>
             </block>
@@ -151,8 +151,8 @@
     <xmlconnect_wishlist_index>
         <block type="Mage_XmlConnect_Block_Wishlist" name="xmlconnect.wishlist" output="toHtml">
             <block type="Mage_XmlConnect_Block_Catalog_Product_Price" name="xmlconnect.catalog.product.price" as="product_price" output="">
-                <action method="addRenderer"><type>bundle</type><renderer>xmlconnect/catalog_product_price_bundle</renderer></action>
-                <action method="addRenderer"><type>giftcard</type><renderer>xmlconnect/catalog_product_price_giftcard</renderer></action>
+                <action method="addRenderer"><type>bundle</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Price_Bundle</renderer></action>
+                <action method="addRenderer"><type>giftcard</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Price_Giftcard</renderer></action>
             </block>
         </block>
     </xmlconnect_wishlist_index>
@@ -172,11 +172,11 @@
     <xmlconnect_customer_orderdetails>
         <block type="Mage_XmlConnect_Block_Customer_Order_Details" name="xmlconnect.customer.order.details" output="toHtml">
             <block type="Mage_XmlConnect_Block_Customer_Order_Items" name="xmlconnect.customer.order.items" as="order_items" output="">
-                <action method="addItemRender"><type>default</type><block>xmlconnect/customer_order_item_renderer_default</block><template></template></action>
-                <action method="addItemRender"><type>grouped</type><block>xmlconnect/customer_order_item_renderer_grouped</block><template></template></action>
-                <action method="addItemRender"><type>bundle</type><block>xmlconnect/customer_order_item_renderer_bundle</block><template></template></action>
-                <action method="addItemRender"><type>downloadable</type><block>xmlconnect/customer_order_item_renderer_downloadable</block><template></template></action>
-                <action method="addItemRender"><type>giftcard</type><block>xmlconnect/customer_order_item_renderer_giftcard</block><template></template></action>
+                <action method="addItemRender"><type>default</type><block>Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Default</block><template></template></action>
+                <action method="addItemRender"><type>grouped</type><block>Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Grouped</block><template></template></action>
+                <action method="addItemRender"><type>bundle</type><block>Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Bundle</block><template></template></action>
+                <action method="addItemRender"><type>downloadable</type><block>Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Downloadable</block><template></template></action>
+                <action method="addItemRender"><type>giftcard</type><block>Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Giftcard</block><template></template></action>
 
                 <block type="Mage_XmlConnect_Block_Customer_Order_Totals" name="xmlconnect.customer.order.totals" output="">
                     <block type="Mage_XmlConnect_Block_Customer_Order_Totals_Tax" name="xmlconnect.customer.order.tax" output=""/>
@@ -249,11 +249,11 @@
     <xmlconnect_checkout_orderreview>
         <block type="Mage_XmlConnect_Block_Checkout_Order_Review" name="xmlconnect.checkout.order.review" output="toHtml">
             <block type="Mage_XmlConnect_Block_Checkout_Order_Review_Info" name="xmlconnect.checkout.order.info" as="order_products">
-                <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>checkout/onepage/review/item.phtml</template></action>
-                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/onepage/review/item.phtml</template></action>
-                <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/onepage/review/item.phtml</template></action>
-                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/onepage/review/item.phtml</template></action>
-                <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/checkout_cart_item_renderer</block><template>checkout/onepage/review/item.phtml</template></action>
+                <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>checkout/onepage/review/item.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>checkout/onepage/review/item.phtml</template></action>
+                <action method="addItemRender"><type>bundle</type><block>Mage_Bundle_Block_Checkout_Cart_Item_Renderer</block><template>checkout/onepage/review/item.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>checkout/onepage/review/item.phtml</template></action>
+                <action method="addItemRender"><type>giftcard</type><block>Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer</block><template>checkout/onepage/review/item.phtml</template></action>
             </block>
 
             <block type="Mage_XmlConnect_Block_Cart_Totals" name="xmlconnect.checkout.order.review.totals" as="totals"/>
@@ -276,9 +276,9 @@
     <xmlconnect_paypal_mecl_review>
         <block type="Mage_XmlConnect_Block_Cart_Paypal_Mecl_Review" name="xmlconnect.cart.paypal.mecl.review" output="toHtml">
             <block type="Mage_XmlConnect_Block_Cart_Paypal_Mecl_Details" name="xmlconnect.cart.paypal.mecl.details" as="details">
-                <action method="addItemRender"><type>default</type><block>xmlconnect/cart_item_renderer</block><template></template></action>
-                <action method="addItemRender"><type>grouped</type><block>xmlconnect/cart_item_renderer_grouped</block><template></template></action>
-                <action method="addItemRender"><type>configurable</type><block>xmlconnect/cart_item_renderer_configurable</block><template></template></action>
+                <action method="addItemRender"><type>default</type><block>Mage_XmlConnect_Block_Cart_Item_Renderer</block><template></template></action>
+                <action method="addItemRender"><type>grouped</type><block>Mage_XmlConnect_Block_Cart_Item_Renderer_Grouped</block><template></template></action>
+                <action method="addItemRender"><type>configurable</type><block>Mage_XmlConnect_Block_Cart_Item_Renderer_Configurable</block><template></template></action>
                 <block type="Mage_XmlConnect_Block_Cart_Totals" name="xmlconnect.cart.totals" as="totals"/>
             </block>
         </block>
