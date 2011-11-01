@@ -63,6 +63,7 @@ all_tags:
             success_changed_status: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedTags% record(s) have been updated.')]
             confirmation_for_delete: Are you sure you want to do this?
             tag_already_exists: //li[@class='error-msg' and contains(.,'Tag already exists.')]
+            required_name: //div[@id='advice-required-entry-name' and text()='This is a required field.']
 
 # Edit Tag Page
 edit_tag:

@@ -75,8 +75,7 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>Steps:</p>
      * <p>1. Click button "Add New Tag"</p>
      * <p>2. Fill in the fields in General Information</p>
-     * <p>3. Click button "Save and Continue Edit"</p>
-     * <p>4. Click button "Save Tag"</p>
+     * <p>3. Click button "Save Tag"</p>
      * <p>Expected result:</p>
      * <p>Received the message that the tag has been saved.</p>
      *
@@ -93,6 +92,80 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_tag'), $this->messages);
         //Cleanup
         self::$tagToBeDeleted = array('tag_name' => $setData['tag_name']);
+    }
+
+    /**
+     * <p>Creating a new tag in backend with empty required fields.</p>
+     * <p>Steps:</p>
+     * <p>1. Click button "Add New Tag"</p>
+     * <p>2. Fill in the fields in General Information, but leave one required field empty</p>
+     * <p>3. Click button "Save Tag"</p>
+     * <p>Expected result:</p>
+     * <p>Received error message "This is a required field"</p>
+     *
+     * @dataProvider dataEmptyRequiredFields
+     * @test
+     *
+     * @param string $emptyField Name of the field to leave empty
+     * @param string $validationMessage Validation message to be verified
+     */
+    public function withEmptyRequiredFields($emptyField, $validationMessage)
+    {
+        //Setup
+        $setData = $this->loadData('backend_new_tag', array($emptyField => ''));
+        //Steps
+        $this->tagsHelper()->addTag($setData, false);
+        //Verify
+        $this->assertTrue($this->validationMessage($validationMessage), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    public function dataEmptyRequiredFields()
+    {
+        return array(
+            array('tag_name', 'required_name'),
+        );
+    }
+
+    /**
+     * <p>Creating a new tag with special values (long, special chars).</p>
+     * <p>Steps:</p>
+     * <p>1. Click button "Add New Tag"</p>
+     * <p>2. Fill in the fields in General Information</p>
+     * <p>3. Click button "Save Tag"</p>
+     * <p>4. Open the tag</p>
+     * <p>Expected result:</p>
+     * <p>All fields has the same values.</p>
+     *
+     * @dataProvider dataSpecialValues
+     * @depends createNew
+     * @test
+     *
+     * @param array $specialValue
+     */
+    public function withSpecialValues(array $specialValue)
+    {
+        //Data
+        $setData = $this->loadData('backend_new_tag', $specialValue, 'tag_name');
+        //Steps
+        $this->tagsHelper()->addTag($setData);
+        //Verify
+        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->messages);
+        $this->assertTrue($this->successMessage('success_saved_tag'), $this->messages);
+        $tagToOpen = $this->loadData('backend_search_tag', array('tag_name' => $setData['tag_name']));
+        $this->tagsHelper()->openTag($tagToOpen);
+        $this->verifyForm($setData);
+        //Cleanup
+        self::$tagToBeDeleted = $tagToOpen;
+    }
+
+    public function dataSpecialValues()
+    {
+        return array(
+            array(array('tag_name' => $this->generate('string', 255))), //long
+            array(array('tag_name' => $this->generate('string', 50, ':punct:'))), //special chars
+            array(array('base_popularity' => '4294967295')), //max int(10) unsigned
+        );
     }
 
     /**
@@ -117,8 +190,8 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
     {
         //Setup
         $productName = $this->createSimpleProduct();
-        $setData = $this->loadData('backend_new_tag_with_product', null, 'tag_name');
-        $setData['products_tagged_by_admins']['prod_tag_admin_name'] = $productName;
+        $setData = $this->loadData('backend_new_tag_with_product',
+                array('prod_tag_admin_name' => $productName), 'tag_name');
         //Steps
         $this->navigate('all_tags');
         $this->tagsHelper()->addTag($setData);
