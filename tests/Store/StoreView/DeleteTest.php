@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -44,14 +45,13 @@ class Store_StoreView_DeleteTest extends Mage_Selenium_TestCase
         // @TODO
     }
 
-
     /**
      * @TODO
      * @test
      */
     public function deletable()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -60,6 +60,7 @@ class Store_StoreView_DeleteTest extends Mage_Selenium_TestCase
      */
     public function thatCannotBeDeleted()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
+
 }

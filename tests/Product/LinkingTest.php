@@ -50,7 +50,7 @@ class Product_LinkingTest extends Mage_Selenium_TestCase
      */
     public function test_Related()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -58,7 +58,7 @@ class Product_LinkingTest extends Mage_Selenium_TestCase
      */
     public function test_CrossSells()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -66,7 +66,7 @@ class Product_LinkingTest extends Mage_Selenium_TestCase
      */
     public function test_UpSells()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
 }

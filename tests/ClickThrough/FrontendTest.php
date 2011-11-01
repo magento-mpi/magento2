@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -44,12 +45,12 @@ class ClickThrough_FrontendTest extends Mage_Selenium_TestCase
         // @TODO
     }
 
-
     /**
      * @TODO
      */
     public function test_All()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
+
 }

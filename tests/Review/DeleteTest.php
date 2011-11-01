@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -44,13 +45,12 @@ class Review_DeleteTest extends Mage_Selenium_TestCase
         // @TODO
     }
 
-
     /**
      * @TODO
      */
     public function test_WithRating()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -58,6 +58,7 @@ class Review_DeleteTest extends Mage_Selenium_TestCase
      */
     public function test_WithoutRating()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -44,13 +45,12 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
         // @TODO
     }
 
-
     /**
      * @TODO
      */
     public function test_WithRequiredFieldsOnly()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -58,7 +58,7 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithNameThatAlreadyExists()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -66,7 +66,7 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithEmptyName()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -74,7 +74,7 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithSpecialCharacters()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -82,6 +82,7 @@ class Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithLongValues()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
+
 }

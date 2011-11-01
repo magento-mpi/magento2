@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -44,13 +45,12 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         // @TODO
     }
 
-
     /**
      * @TODO
      */
     public function test_WithRequiredFieldsOnly()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -58,7 +58,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyName()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -66,7 +66,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyCustomerTaxClass()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -74,7 +74,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyProductTaxClass()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -82,7 +82,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyTaxRate()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -90,7 +90,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyPriority()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -98,7 +98,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptySortOrder()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -106,7 +106,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithNameThatAlreadyExists()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -114,7 +114,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithSpecialCharacters()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -122,7 +122,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithLongValues()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -130,7 +130,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithInvalidValueForFields_Priority()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -138,6 +138,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithInvalidValueForFields_SortOrder()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
+
 }

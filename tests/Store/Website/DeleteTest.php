@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -44,14 +45,13 @@ class Store_Website_DeleteTest extends Mage_Selenium_TestCase
         // @TODO
     }
 
-
     /**
      * @TODO
      * @test
      */
     public function deletableWithoutStore()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -60,7 +60,7 @@ class Store_Website_DeleteTest extends Mage_Selenium_TestCase
      */
     public function deletableWithStore()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -69,7 +69,7 @@ class Store_Website_DeleteTest extends Mage_Selenium_TestCase
      */
     public function deletableWithStoreAndStoreView()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -78,6 +78,7 @@ class Store_Website_DeleteTest extends Mage_Selenium_TestCase
      */
     public function thatCannotBeDeleted()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
+
 }

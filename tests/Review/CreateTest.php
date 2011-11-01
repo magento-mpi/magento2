@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -44,13 +45,12 @@ class Review_CreateTest extends Mage_Selenium_TestCase
         // @TODO
     }
 
-
     /**
      * @TODO
      */
     public function test_WithRequiredFieldsOnly_WithRating()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -58,7 +58,7 @@ class Review_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsOnly_WithoutRating()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -66,7 +66,7 @@ class Review_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyNickname()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -74,7 +74,7 @@ class Review_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptySummaryOfReview()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -82,7 +82,7 @@ class Review_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyReview()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -90,6 +90,7 @@ class Review_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_WithLongValues()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
+
 }

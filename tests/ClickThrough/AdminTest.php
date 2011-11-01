@@ -50,6 +50,6 @@ class ClickThrough_AdminTest extends Mage_Selenium_TestCase
      */
     public function test_All()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 }

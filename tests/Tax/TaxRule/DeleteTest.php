@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -44,13 +45,12 @@ class Tax_TaxRule_DeleteTest extends Mage_Selenium_TestCase
         // @TODO
     }
 
-
     /**
      * @TODO
      */
     public function test_NotUsedInProduct()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -58,6 +58,7 @@ class Tax_TaxRule_DeleteTest extends Mage_Selenium_TestCase
      */
     public function test_UsedInProduct()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
+
 }

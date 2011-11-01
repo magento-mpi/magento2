@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -44,13 +45,12 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         // @TODO
     }
 
-
     /**
      * @TODO
      */
     public function test_WithRequiredFieldsOnly()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -58,7 +58,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithTaxIdentifierThatAlreadyExists()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -66,7 +66,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyTaxIdentifier()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -74,7 +74,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyRatePercent()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -82,7 +82,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyRangeFrom()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -90,7 +90,7 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyRangeTo()
     {
-        // @TODO
+        $this->markTestIncomplete('@TODO');
     }
 
     /**
@@ -156,4 +156,5 @@ class Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
     {
         // @TODO
     }
+
 }
