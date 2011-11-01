@@ -124,10 +124,11 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
             'required' => false
         ));
 
+        $eavHelper = Mage::helper('Enterprise_Rma_Helper_Eav');
         $fieldset->addField('reason', 'select', array(
             'label'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Reason to Return'),
             'options' => array(''=>'')
-                + Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeOptionValues('reason')
+                + $eavHelper->getAttributeOptionValues('reason')
                 + array('other' => $reasonOtherAttribute->getStoreLabel()),
             'name' => 'reason',
             'required' => false
@@ -137,7 +138,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
 
         $fieldset->addField('condition', 'select', array(
             'label'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Item Condition'),
-            'options' => array(''=>'') + Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeOptionValues('condition'),
+            'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('condition'),
             'name' => 'condition',
             'required' => false,
             'class' => 'action-select'
@@ -145,7 +146,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
 
         $fieldset->addField('resolution', 'select', array(
             'label'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Resolution'),
-            'options' => array(''=>'') + Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeOptionValues('resolution'),
+            'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('resolution'),
             'name' => 'resolution',
             'required' => false,
             'class' => 'action-select'

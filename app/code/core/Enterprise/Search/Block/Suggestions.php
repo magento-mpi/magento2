@@ -64,6 +64,7 @@ class Enterprise_Search_Block_Suggestions extends Mage_Core_Block_Template
      */
     public function isCountResultsEnabled()
     {
-        return (bool)Mage::helper('Enterprise_Search_Helper_Data')->getSolrConfigData('server_suggestion_count_results_enabled');
+        return (bool)Mage::helper('Enterprise_Search_Helper_Data')
+            ->getSolrConfigData('server_suggestion_count_results_enabled');
     }
 }

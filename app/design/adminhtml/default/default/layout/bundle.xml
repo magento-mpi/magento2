@@ -98,10 +98,10 @@ Layout handle for budle products
             <action method="addItemRender"><type>bundle</type><block>Mage_Bundle_Block_Adminhtml_Sales_Order_Items_Renderer</block><template>bundle/sales/creditmemo/view/items/renderer.phtml</template></action>
         </reference>
     </adminhtml_sales_order_creditmemo_view>
-    
+
     <adminhtml_customer_wishlist>
         <reference name="customer.wishlist.edit.tab">
-            <action method="addProductConfigurationHelper"><type>bundle</type><name>bundle/catalog_product_configuration</name></action>
+            <action method="addProductConfigurationHelper"><type>bundle</type><name>Mage_Bundle_Helper_Catalog_Product_Configuration</name></action>
         </reference>
     </adminhtml_customer_wishlist>
 

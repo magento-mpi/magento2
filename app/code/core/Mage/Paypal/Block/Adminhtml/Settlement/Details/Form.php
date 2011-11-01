@@ -44,6 +44,7 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Details_Form extends Mage_Adminhtml
         $settlement = Mage::getSingleton('paypal/report_settlement');
         /* @var $settlement Mage_Paypal_Model_Report_Settlement */
 
+        $coreHelper = $this->helper('Mage_Core_Helper_Data');
         $fieldsets = array(
             'reference_fieldset' => array(
                 'fields' => array(
@@ -63,15 +64,26 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Details_Form extends Mage_Adminhtml
                 'fields' => array(
                     'transaction_event_code' => array(
                         'label' => $settlement->getFieldLabel('transaction_event_code'),
-                        'value' => sprintf('%s (%s)', $model->getData('transaction_event_code'), $model->getTransactionEvent($model->getData('transaction_event_code')))
+                        'value' => sprintf('%s (%s)',
+                            $model->getData('transaction_event_code'),
+                            $model->getTransactionEvent($model->getData('transaction_event_code'))
+                        )
                     ),
                     'transaction_initiation_date' => array(
                         'label' => $settlement->getFieldLabel('transaction_initiation_date'),
-                        'value' => $this->helper('Mage_Core_Helper_Data')->formatDate($model->getData('transaction_initiation_date'), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true)
+                        'value' => $coreHelper->formatDate(
+                            $model->getData('transaction_initiation_date'),
+                            Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM,
+                            true
+                        )
                     ),
                     'transaction_completion_date' => array(
                         'label' => $settlement->getFieldLabel('transaction_completion_date'),
-                        'value' => $this->helper('Mage_Core_Helper_Data')->formatDate($model->getData('transaction_completion_date'), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true)
+                        'value' => $coreHelper->formatDate(
+                            $model->getData('transaction_completion_date'),
+                            Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM,
+                            true
+                        )
                     ),
                     'transaction_debit_or_credit' => array(
                         'label' => $settlement->getFieldLabel('transaction_debit_or_credit'),

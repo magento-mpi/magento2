@@ -49,7 +49,9 @@ class Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Varien_Data_Form_
                     'type'    => 'button',
                     'disabled' => $disabled,
                     'class' => ($disabled) ? 'disabled' : '',
-                    'onclick' => 'catalogWysiwygEditor.open(\''.Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('*/*/wysiwyg').'\', \''.$this->getHtmlId().'\')'
+                    'onclick' => 'catalogWysiwygEditor.open(\''
+                        . Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('*/*/wysiwyg')
+                        . '\', \'' . $this->getHtmlId().'\')'
                 ))->toHtml();
         }
         return $html;

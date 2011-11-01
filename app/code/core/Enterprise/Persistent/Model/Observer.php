@@ -96,7 +96,9 @@ class Enterprise_Persistent_Model_Observer
 
     public function applyBlockPersistentData($observer)
     {
-        $observer->getEvent()->setConfigFilePath(Mage::helper('Enterprise_Persistent_Helper_Data')->getPersistentConfigFilePath());
+        $observer->getEvent()->setConfigFilePath(
+            Mage::helper('Enterprise_Persistent_Helper_Data')->getPersistentConfigFilePath()
+        );
         return Mage::getSingleton('persistent/observer')->applyBlockPersistentData($observer);
     }
 
@@ -285,7 +287,8 @@ class Enterprise_Persistent_Model_Observer
         /** @var $customerSession Mage_Customer_Model_Session */
         $customerSession = Mage::getSingleton('customer/session');
 
-        if (Mage::helper('Enterprise_Persistent_Helper_Data')->isCustomerAndSegmentsPersist() && $this->_setQuotePersistent) {
+        $helper = Mage::helper('Enterprise_Persistent_Helper_Data');
+        if ($helper->isCustomerAndSegmentsPersist() && $this->_setQuotePersistent) {
             $customerId = $customerSession->getCustomerId();
             if ($customerId) {
                 $quote->setCustomerId($customerId);

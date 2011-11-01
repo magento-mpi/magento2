@@ -49,12 +49,15 @@ class Mage_Persistent_Model_Observer
      */
     public function applyPersistentData($observer)
     {
-        if (!Mage::helper('Mage_Persistent_Helper_Data')->canProcess($observer)
-            || !$this->_getPersistentHelper()->isPersistent() || Mage::getSingleton('customer/session')->isLoggedIn()) {
+        $helper = Mage::helper('Mage_Persistent_Helper_Data');
+        if (!$helper->canProcess($observer)
+            || !$this->_getPersistentHelper()->isPersistent()
+            || Mage::getSingleton('customer/session')->isLoggedIn()
+        ) {
             return $this;
         }
         Mage::getModel('persistent/persistent_config')
-            ->setConfigFilePath(Mage::helper('Mage_Persistent_Helper_Data')->getPersistentConfigFilePath())
+            ->setConfigFilePath($helper->getPersistentConfigFilePath())
             ->fire();
         return $this;
     }
@@ -80,12 +83,13 @@ class Mage_Persistent_Model_Observer
 
         $xPath = '//instances/blocks/*[block_type="' . get_class($block) . '"]';
         $configFilePath = $observer->getEvent()->getConfigFilePath();
+        if (!$configFilePath) {
+            $configFilePath = Mage::helper('Mage_Persistent_Helper_Data')->getPersistentConfigFilePath();
+        }
 
         /** @var $persistentConfig Mage_Persistent_Model_Persistent_Config */
         $persistentConfig = Mage::getModel('persistent/persistent_config')
-            ->setConfigFilePath(
-                $configFilePath ? $configFilePath : Mage::helper('Mage_Persistent_Helper_Data')->getPersistentConfigFilePath()
-            );
+            ->setConfigFilePath($configFilePath);
 
         foreach ($persistentConfig->getXmlConfig()->xpath($xPath) as $persistentConfigInfo) {
             $persistentConfig->fireOne($persistentConfigInfo->asArray(), $block);
@@ -102,9 +106,12 @@ class Mage_Persistent_Model_Observer
      */
     public function emulateWelcomeBlock($block)
     {
-        $block->setWelcome(
-            Mage::helper('Mage_Persistent_Helper_Data')->__('Welcome, %s!', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($this->_getPersistentCustomer()->getName(), null))
+        $escapedName = Mage::helper('Mage_Core_Helper_Data')->escapeHtml(
+            $this->_getPersistentCustomer()->getName(),
+            null
         );
+
+        $block->setWelcome(Mage::helper('Mage_Persistent_Helper_Data')->__('Welcome, %s!', $escapedName));
 
         $this->_applyAccountLinksPersistentData();
         $block->setAdditionalHtml(Mage::app()->getLayout()->getBlock('header.additional')->toHtml());
@@ -131,16 +138,18 @@ class Mage_Persistent_Model_Observer
     {
         $this->_applyAccountLinksPersistentData();
         $block->getCacheKeyInfo();
+        $helper = Mage::helper('Mage_Persistent_Helper_Data');
         $block->addLink(
-            Mage::helper('Mage_Persistent_Helper_Data')->getPersistentName(),
-            Mage::helper('Mage_Persistent_Helper_Data')->getUnsetCookieUrl(),
-            Mage::helper('Mage_Persistent_Helper_Data')->getPersistentName(),
+            $helper->getPersistentName(),
+            $helper->getUnsetCookieUrl(),
+            $helper->getPersistentName(),
             false,
             array(),
             110
         );
-        $block->removeLinkByUrl(Mage::helper('Mage_Customer_Helper_Data')->getRegisterUrl());
-        $block->removeLinkByUrl(Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl());
+        $customerHelper = Mage::helper('Mage_Customer_Helper_Data');
+        $block->removeLinkByUrl($customerHelper->getRegisterUrl());
+        $block->removeLinkByUrl($customerHelper->getLoginUrl());
     }
 
     /**
@@ -167,7 +176,9 @@ class Mage_Persistent_Model_Observer
         );
 
         if (!Mage::helper('Mage_Persistent_Helper_Data')->canProcess($observer)
-            || !$this->_getPersistentHelper()->isPersistent() || Mage::getSingleton('customer/session')->isLoggedIn()) {
+            || !$this->_getPersistentHelper()->isPersistent()
+            || Mage::getSingleton('customer/session')->isLoggedIn()
+        ) {
             return;
         }
 
@@ -444,7 +455,10 @@ class Mage_Persistent_Model_Observer
         /** @var $quote Mage_Sales_Model_Quote */
         $quote = Mage::getSingleton('checkout/session')->getQuote();
         if ($quote && $quote->getId()) {
-            if ($checkQuote && !Mage::helper('Mage_Persistent_Helper_Data')->isShoppingCartPersist() && !$quote->getIsPersistent()) {
+            if ($checkQuote
+                && !Mage::helper('Mage_Persistent_Helper_Data')->isShoppingCartPersist()
+                && !$quote->getIsPersistent()
+            ) {
                 Mage::getSingleton('checkout/session')->unsetAll();
                 return;
             }
@@ -541,7 +555,9 @@ class Mage_Persistent_Model_Observer
     {
         /** @var $layout Mage_Core_Model_Layout */
         $layout = $observer->getEvent()->getLayout();
-        if (Mage::helper('Mage_Persistent_Helper_Data')->canProcess($observer) && $layout && Mage::helper('Mage_Persistent_Helper_Data')->isEnabled()
+        $helper = Mage::helper('Mage_Persistent_Helper_Data');
+        if ($helper->canProcess($observer)
+            && $layout && $helper->isEnabled()
             && Mage::helper('Mage_Persistent_Helper_Session')->isPersistent()
         ) {
             $handle = (Mage::getSingleton('customer/session')->isLoggedIn())

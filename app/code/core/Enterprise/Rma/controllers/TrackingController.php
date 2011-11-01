@@ -93,7 +93,9 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
      */
     protected function _loadValidRma($entityId = null)
     {
-        if (!Mage::getSingleton('customer/session')->isLoggedIn() && !Mage::helper('Mage_Sales_Helper_Guest')->loadValidOrder()) {
+        if (!Mage::getSingleton('customer/session')->isLoggedIn()
+            && !Mage::helper('Mage_Sales_Helper_Guest')->loadValidOrder()
+        ) {
             return;
         }
 
@@ -123,7 +125,8 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
     public function printLabelAction()
     {
         try {
-            $data = Mage::helper('Enterprise_Rma_Helper_Data')->decodeTrackingHash($this->getRequest()->getParam('hash'));
+            $data = Mage::helper('Enterprise_Rma_Helper_Data')
+                ->decodeTrackingHash($this->getRequest()->getParam('hash'));
 
             $rmaIncrementId = '';
             if ($data['key'] == 'rma_id') {

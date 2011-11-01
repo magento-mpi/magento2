@@ -33,6 +33,14 @@
  */
 class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_Item_Renderer
 {
+    protected $_configurationHelper = null;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->_configurationHelper = Mage::helper('Mage_Bundle_Helper_Catalog_Product_Configuration');
+    }
+
     /**
      * Get bundled selections (slections-products collection)
      *
@@ -43,7 +51,7 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
      */
     protected function _getBundleOptions($useCache = true)
     {
-        return Mage::helper('Mage_Bundle_Helper_Catalog_Product_Configuration')->getBundleOptions($this->getItem());
+        return $this->_configurationHelper->getBundleOptions($this->getItem());
     }
 
     /**
@@ -54,7 +62,7 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
      */
     protected function _getSelectionFinalPrice($selectionProduct)
     {
-        return Mage::helper('Mage_Bundle_Helper_Catalog_Product_Configuration')->getSelectionFinalPrice($this->getItem(), $selectionProduct);
+        return $this->_configurationHelper->getSelectionFinalPrice($this->getItem(), $selectionProduct);
     }
 
     /**
@@ -65,7 +73,7 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
      */
     protected function _getSelectionQty($selectionId)
     {
-        return Mage::helper('Mage_Bundle_Helper_Catalog_Product_Configuration')->getSelectionQty($this->getProduct(), $selectionId);
+        return $this->_configurationHelper->getSelectionQty($this->getProduct(), $selectionId);
     }
 
     /**
@@ -76,7 +84,7 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
      */
     public function getOptionList()
     {
-        return Mage::helper('Mage_Bundle_Helper_Catalog_Product_Configuration')->getOptions($this->getItem());
+        return $this->_configurationHelper->getOptions($this->getItem());
     }
 
     /**

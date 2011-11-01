@@ -305,7 +305,8 @@ class Mage_Core_Model_Resource_Setup
          * Hook queries in adapter, so that in MySQL compatibility mode extensions and custom modules will avoid
          * errors due to changes in database structure
          */
-        if (((string)$this->_moduleConfig->codePool != 'core') && Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
+        $helper = Mage::helper('Mage_Core_Helper_Data');
+        if (((string)$this->_moduleConfig->codePool != 'core') && $helper->useDbCompatibleMode()) {
             $this->_hookQueries();
         }
 

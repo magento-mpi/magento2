@@ -34,7 +34,8 @@ class Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer extends Mage_Checkou
      */
     protected function _prepareCustomOption($code)
     {
-        return Mage::helper('Enterprise_GiftCard_Helper_Catalog_Product_Configuration')->prepareCustomOption($this->getItem(), $code);
+        return Mage::helper('Enterprise_GiftCard_Helper_Catalog_Product_Configuration')
+            ->prepareCustomOption($this->getItem(), $code);
     }
 
     /**
@@ -44,7 +45,8 @@ class Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer extends Mage_Checkou
      */
     protected function _getGiftcardOptions()
     {
-        return Mage::helper('Enterprise_GiftCard_Helper_Catalog_Product_Configuration')->getGiftcardOptions($this->getItem());
+        return Mage::helper('Enterprise_GiftCard_Helper_Catalog_Product_Configuration')
+            ->getGiftcardOptions($this->getItem());
     }
 
     /**
@@ -54,6 +56,7 @@ class Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer extends Mage_Checkou
      */
     public function getOptionList()
     {
-        return Mage::helper('Enterprise_GiftCard_Helper_Catalog_Product_Configuration')->getOptions($this->getItem());
+        return Mage::helper('Enterprise_GiftCard_Helper_Catalog_Product_Configuration')
+            ->getOptions($this->getItem());
     }
 }

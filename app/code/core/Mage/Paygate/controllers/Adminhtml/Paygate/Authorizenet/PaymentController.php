@@ -41,7 +41,8 @@ class Mage_Paygate_Adminhtml_Paygate_Authorizenet_PaymentController extends Mage
     {
         $result['success'] = false;
         try {
-            $paymentMethod = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance(Mage_Paygate_Model_Authorizenet::METHOD_CODE);
+            $paymentMethod = Mage::helper('Mage_Payment_Helper_Data')
+                ->getMethodInstance(Mage_Paygate_Model_Authorizenet::METHOD_CODE);
             if ($paymentMethod) {
                 $paymentMethod->setStore(Mage::getSingleton('adminhtml/session_quote')->getQuote()->getStoreId());
                 $paymentMethod->cancelPartialAuthorization(Mage::getSingleton('adminhtml/session_quote')->getQuote()->getPayment());

@@ -110,7 +110,13 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
         $taxClass = Mage::helper('Enterprise_GiftWrapping_Helper_Data')->getWrappingTaxClass($this->getStoreId());
         $item->setTaxClassId($taxClass);
 
-        $price = Mage::helper('Enterprise_GiftWrapping_Helper_Data')->getPrice($item, $basePrice, $includeTax, $shippingAddress, $billingAddress);
+        $price = Mage::helper('Enterprise_GiftWrapping_Helper_Data')->getPrice(
+            $item,
+            $basePrice,
+            $includeTax,
+            $shippingAddress,
+            $billingAddress
+        );
         return Mage::helper('Mage_Core_Helper_Data')->currency($price, true, false);
     }
 
@@ -121,7 +127,8 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
      */
     public function getDisplayWrappingBothPrices()
     {
-        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->displayCartWrappingBothPrices($this->getStoreId());
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')
+            ->displayCartWrappingBothPrices($this->getStoreId());
     }
 
     /**
@@ -131,7 +138,8 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
      */
     public function getDisplayWrappingPriceInclTax()
     {
-        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->displayCartWrappingIncludeTaxPrice($this->getStoreId());
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')
+            ->displayCartWrappingIncludeTaxPrice($this->getStoreId());
     }
 
     /**

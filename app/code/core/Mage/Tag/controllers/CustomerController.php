@@ -122,9 +122,13 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
                 $model = Mage::registry('tagModel');
                 $model->deactivate();
                 $tag = Mage::getModel('tag/tag')->load($tagId)->aggregate();
-                Mage::getSingleton('tag/session')->addSuccess(Mage::helper('Mage_Tag_Helper_Data')->__('The tag has been deleted.'));
+                Mage::getSingleton('tag/session')->addSuccess(
+                    Mage::helper('Mage_Tag_Helper_Data')->__('The tag has been deleted.')
+                );
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/', array(
-                    self::PARAM_NAME_URL_ENCODED => Mage::helper('Mage_Core_Helper_Data')->urlEncode(Mage::getUrl('customer/account/'))
+                    self::PARAM_NAME_URL_ENCODED => Mage::helper('Mage_Core_Helper_Data')->urlEncode(
+                        Mage::getUrl('customer/account/')
+                    )
                 )));
                 return;
             } catch (Exception $e) {

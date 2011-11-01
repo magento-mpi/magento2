@@ -59,7 +59,10 @@ class Mage_Connect_Model_Session extends Mage_Core_Model_Session_Abstract
                 $data['authors']['user'] = array();
                 $data['authors']['email'] = array();
                 foreach ($data['maintainers']['name'] as $i => $name) {
-                    if (!$data['maintainers']['name'][$i] && !$data['maintainers']['handle'][$i] && !$data['maintainers']['email'][$i]) {
+                    if (!$data['maintainers']['name'][$i]
+                        && !$data['maintainers']['handle'][$i]
+                        && !$data['maintainers']['email'][$i]
+                    ) {
                         continue;
                     }
                     array_push($data['authors']['name'], $data['maintainers']['name'][$i]);
@@ -67,15 +70,16 @@ class Mage_Connect_Model_Session extends Mage_Core_Model_Session_Abstract
                     array_push($data['authors']['email'], $data['maintainers']['email'][$i]);
                 }
                 // Convert channel from previous version for entire package
+                $helper = Mage::helper('Mage_Connect_Helper_Data');
                 if (isset($data['channel'])) {
-                    $data['channel'] = Mage::helper('Mage_Connect_Helper_Data')->convertChannelFromV1x($data['channel']);
+                    $data['channel'] = $helper->convertChannelFromV1x($data['channel']);
                 }
                 // Convert channel from previous version for each required package
                 $nRequiredPackages = count($data['depends']['package']['channel']);
                 for ($i = 0; $i < $nRequiredPackages; $i++) {
                     $channel = $data['depends']['package']['channel'][$i];
                     if ($channel) {
-                        $data['depends']['package']['channel'][$i] = Mage::helper('Mage_Connect_Helper_Data')->convertChannelFromV1x($channel);
+                        $data['depends']['package']['channel'][$i] = $helper->convertChannelFromV1x($channel);
                     }
                 }
             }

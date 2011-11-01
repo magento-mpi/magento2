@@ -93,7 +93,9 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
      */
     protected function _checkGuestAllowed()
     {
-        if (Mage::getSingleton('customer/session')->isLoggedIn() || Mage::helper('Mage_Review_Helper_Data')->getIsGuestAllowToWrite()) {
+        if (Mage::getSingleton('customer/session')->isLoggedIn()
+            || Mage::helper('Mage_Review_Helper_Data')->getIsGuestAllowToWrite()
+        ) {
             return true;
         }
 
