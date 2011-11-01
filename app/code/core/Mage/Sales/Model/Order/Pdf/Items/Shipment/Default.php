@@ -46,8 +46,9 @@ class Mage_Sales_Model_Order_Pdf_Items_Shipment_Default extends Mage_Sales_Model
         $lines  = array();
 
         // draw Product name
+        $stringHelper = Mage::helper('Mage_Core_Helper_String');
         $lines[0] = array(array(
-            'text' => Mage::helper('Mage_Core_Helper_String')->str_split($item->getName(), 60, true, true),
+            'text' => $stringHelper->str_split($item->getName(), 60, true, true),
             'feed' => 60,
         ));
 
@@ -59,7 +60,7 @@ class Mage_Sales_Model_Order_Pdf_Items_Shipment_Default extends Mage_Sales_Model
 
         // draw SKU
         $lines[0][] = array(
-            'text'  => Mage::helper('Mage_Core_Helper_String')->str_split($this->getSku($item), 25),
+            'text'  => $stringHelper->str_split($this->getSku($item), 25),
             'feed'  => 440
         );
 
@@ -69,7 +70,7 @@ class Mage_Sales_Model_Order_Pdf_Items_Shipment_Default extends Mage_Sales_Model
             foreach ($options as $option) {
                 // draw options label
                 $lines[][] = array(
-                    'text' => Mage::helper('Mage_Core_Helper_String')->str_split(strip_tags($option['label']), 70, true, true),
+                    'text' => $stringHelper->str_split(strip_tags($option['label']), 70, true, true),
                     'font' => 'italic',
                     'feed' => 60
                 );
@@ -80,7 +81,7 @@ class Mage_Sales_Model_Order_Pdf_Items_Shipment_Default extends Mage_Sales_Model
                     $values = explode(', ', $_printValue);
                     foreach ($values as $value) {
                         $lines[][] = array(
-                            'text' => Mage::helper('Mage_Core_Helper_String')->str_split($value, 50, true, true),
+                            'text' => $stringHelper->str_split($value, 50, true, true),
                             'feed' => 65
                         );
                     }

@@ -53,13 +53,14 @@ class Mage_Adminhtml_Block_Notification_Grid_Renderer_Actions
                 Mage::helper('Mage_AdminNotification_Helper_Data')->__('Mark as Read') .'</a> | '
             : '';
 
+        $encodedUrl = $this->helper('Mage_Core_Helper_Url')->getEncodedUrl();
         return sprintf('%s%s<a href="%s" onClick="deleteConfirm(\'%s\', this.href); return false;">%s</a>',
             $readDetailsHtml,
             $markAsReadHtml,
             $this->getUrl('*/*/remove/', array(
                 '_current'=>true,
                 'id' => $row->getId(),
-                Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->helper('Mage_Core_Helper_Url')->getEncodedUrl())
+                Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $encodedUrl)
             ),
             Mage::helper('Mage_AdminNotification_Helper_Data')->__('Are you sure?'),
             Mage::helper('Mage_AdminNotification_Helper_Data')->__('Remove')

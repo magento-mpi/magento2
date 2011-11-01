@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
     {
         return $this->helper('Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute');
     }
-    
+
     /**
      * Retrieve back button html code
      *
@@ -121,9 +121,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/*/save', array('store'=>Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')->getSelectedStoreId()));
+        $helper = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute');
+        return $this->getUrl(
+            '*/*/save',
+            array(
+                'store' => $helper->getSelectedStoreId()
+            )
+        );
     }
-    
+
     /**
      * Get validation url
      *

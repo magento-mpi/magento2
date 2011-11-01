@@ -139,7 +139,8 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Mage_
                     array(
                         'label'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Staging Website Code'),
                         'name'     => "websites[{$_id}][code]",
-                        'value'    => Mage::helper('Enterprise_Staging_Helper_Website')->generateWebsiteCode($masterWebsite->getCode()),
+                        'value'    => Mage::helper('Enterprise_Staging_Helper_Website')
+                            ->generateWebsiteCode($masterWebsite->getCode()),
                         'required' => true
                     )
                 );

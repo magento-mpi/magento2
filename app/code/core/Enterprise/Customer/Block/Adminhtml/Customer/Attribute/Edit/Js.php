@@ -42,7 +42,9 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Js
      */
     public function getValidateFiltersJson()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(Mage::helper('Enterprise_Customer_Helper_Data')->getAttributeValidateFilters());
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode
+            (Mage::helper('Enterprise_Customer_Helper_Data')->getAttributeValidateFilters()
+        );
     }
 
     /**
@@ -52,7 +54,9 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Js
      */
     public function getFilteTypesJson()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(Mage::helper('Enterprise_Customer_Helper_Data')->getAttributeFilterTypes());
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+            Mage::helper('Enterprise_Customer_Helper_Data')->getAttributeFilterTypes()
+        );
     }
 
     /**

@@ -114,9 +114,14 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
             'UTF-8'
         );
 
+        $text = Mage::helper('Enterprise_Rma_Helper_Data')->__('Order Date: ');
+        $text .= Mage::helper('Mage_Core_Helper_Data')->formatDate(
+            $rma->getOrder()->getCreatedAtStoreDate(),
+            'medium',
+            false
+        );
         $page->drawText(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('Order Date: ') .
-                Mage::helper('Mage_Core_Helper_Data')->formatDate($rma->getOrder()->getCreatedAtStoreDate(), 'medium', false),
+            $text,
             35,
             $this->y - 70,
             'UTF-8'

@@ -63,13 +63,36 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
         $this->addData(array(
             'reference_id' => $this->_profile->getReferenceId(),
             'can_cancel'   => $this->_profile->canCancel(),
-            'cancel_url'   => $this->getUrl('*/*/updateState', array('profile' => $this->_profile->getId(), 'action' => 'cancel')),
+            'cancel_url'   => $this->getUrl(
+                '*/*/updateState',
+                array(
+                    'profile' => $this->_profile->getId(),
+                    'action' => 'cancel'
+                )
+            ),
             'can_suspend'  => $this->_profile->canSuspend(),
-            'suspend_url'  => $this->getUrl('*/*/updateState', array('profile' => $this->_profile->getId(), 'action' => 'suspend')),
+            'suspend_url'  => $this->getUrl(
+                '*/*/updateState',
+                array(
+                    'profile' => $this->_profile->getId(),
+                    'action' => 'suspend'
+                )
+            ),
             'can_activate' => $this->_profile->canActivate(),
-            'activate_url' => $this->getUrl('*/*/updateState', array('profile' => $this->_profile->getId(), 'action' => 'activate')),
+            'activate_url' => $this->getUrl(
+                '*/*/updateState',
+                array(
+                    'profile' => $this->_profile->getId(),
+                    'action' => 'activate'
+                )
+            ),
             'can_update'   => $this->_profile->canFetchUpdate(),
-            'update_url'   => $this->getUrl('*/*/updateProfile', array('profile' => $this->_profile->getId())),
+            'update_url'   => $this->getUrl(
+                '*/*/updateProfile',
+                array(
+                    'profile' => $this->_profile->getId()
+                )
+            ),
             'back_url'     => $this->getUrl('*/*/'),
             'confirmation_message' => Mage::helper('Mage_Sales_Helper_Data')->__('Are you sure you want to do this?'),
         ));
@@ -210,7 +233,8 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
             'label' => $this->_profile->getFieldLabel('currency_code'),
             'value' => $this->_profile->getCurrencyCode()
         ));
-        foreach (array('init_amount', 'trial_billing_amount', 'billing_amount', 'tax_amount', 'shipping_amount') as $key) {
+        $params = array('init_amount', 'trial_billing_amount', 'billing_amount', 'tax_amount', 'shipping_amount');
+        foreach ($params as $key) {
             $value = $this->_profile->getData($key);
             if ($value) {
                 $this->_addInfo(array(
@@ -299,7 +323,9 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
                 'increment_id' => $order->getIncrementId(),
                 'created_at' => $this->formatDate($order->getCreatedAt()),
                 'customer_name' => $order->getCustomerName(),
-                'base_grand_total' => Mage::helper('Mage_Core_Helper_Data')->formatCurrency($order->getBaseGrandTotal(), false),
+                'base_grand_total' => Mage::helper('Mage_Core_Helper_Data')->formatCurrency(
+                    $order->getBaseGrandTotal(), false
+                ),
                 'status' => $order->getStatusLabel(),
                 'increment_id_link_url' => $this->getUrl('sales/order/view/', array('order_id' => $order->getId())),
             ));

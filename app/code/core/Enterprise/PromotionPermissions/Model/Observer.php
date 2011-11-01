@@ -84,14 +84,13 @@ class Enterprise_PromotionPermissions_Model_Observer
     {
         $this->_request = Mage::app()->getRequest();
         // Set necessary flags
-        $this->_canEditCatalogRules = Mage::helper('Enterprise_PromotionPermissions_Helper_Data')->getCanAdminEditCatalogRules();
-        $this->_canEditSalesRules = Mage::helper('Enterprise_PromotionPermissions_Helper_Data')->getCanAdminEditSalesRules();
-        $this->_canEditReminderRules = Mage::helper('Enterprise_PromotionPermissions_Helper_Data')->getCanAdminEditReminderRules();
+        $helper = Mage::helper('Enterprise_PromotionPermissions_Helper_Data');
+        $this->_canEditCatalogRules = $helper->getCanAdminEditCatalogRules();
+        $this->_canEditSalesRules = $helper->getCanAdminEditSalesRules();
+        $this->_canEditReminderRules = $helper->getCanAdminEditReminderRules();
 
-        $this->_isEnterpriseBannerEnabled = Mage::helper('Enterprise_PromotionPermissions_Helper_Data')
-            ->isModuleEnabled('Enterprise_Banner');
-        $this->_isEnterpriseReminderEnabled = Mage::helper('Enterprise_PromotionPermissions_Helper_Data')
-            ->isModuleEnabled('Enterprise_Reminder');
+        $this->_isEnterpriseBannerEnabled = $helper->isModuleEnabled('Enterprise_Banner');
+        $this->_isEnterpriseReminderEnabled = $helper->isModuleEnabled('Enterprise_Reminder');
     }
 
     /**

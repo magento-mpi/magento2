@@ -93,7 +93,9 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
      */
     protected function _loadValidRma($entityId = null)
     {
-        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn() && !Mage::helper('Mage_Sales_Helper_Guest')->loadValidOrder()) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
+            && !Mage::helper('Mage_Sales_Helper_Guest')->loadValidOrder()
+        ) {
             return;
         }
 
@@ -123,7 +125,8 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
     public function printLabelAction()
     {
         try {
-            $data = Mage::helper('Enterprise_Rma_Helper_Data')->decodeTrackingHash($this->getRequest()->getParam('hash'));
+            $data = Mage::helper('Enterprise_Rma_Helper_Data')
+                ->decodeTrackingHash($this->getRequest()->getParam('hash'));
 
             $rmaIncrementId = '';
             if ($data['key'] == 'rma_id') {
@@ -145,7 +148,7 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
                     $pdf = new Zend_Pdf();
                     $page = $shipping->createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->_getSession()->addError(Mage::helper('Mage_Sales_Helper_Data')->__('File extension not known or unsupported type in the following shipment: %s', $shipment->getIncrementId()));
+                        $this->_getSession()->addError(Mage::helper('Mage_Sales_Helper_Data')->__('File extension not known or unsupported type in the following shipment: %s', $shipping->getIncrementId()));
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();

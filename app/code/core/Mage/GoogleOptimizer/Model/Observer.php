@@ -128,7 +128,9 @@ class Mage_GoogleOptimizer_Model_Observer
         /**
          * Check activity for frontend
          */
-        if (Mage::app()->getStore()->getId() && !Mage::helper('Mage_GoogleOptimizer_Helper_Data')->isOptimizerActive()) {
+        if (Mage::app()->getStore()->getId()
+            && !Mage::helper('Mage_GoogleOptimizer_Helper_Data')->isOptimizerActive()
+        ) {
             return $this;
         }
 

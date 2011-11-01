@@ -450,8 +450,9 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
             return;
         }
 
+        $checkoutHelper = Mage::helper('Mage_Checkout_Helper_Data');
         try {
-            if ($requiredAgreements = Mage::helper('Mage_Checkout_Helper_Data')->getRequiredAgreementIds()) {
+            if ($requiredAgreements = $checkoutHelper->getRequiredAgreementIds()) {
                 $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
                 if (array_diff($requiredAgreements, $postedAgreements)) {
                     $error = $this->__('Please agree to all the terms and conditions before placing the order.');
@@ -484,11 +485,11 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
             return;
         } catch (Mage_Core_Exception $e) {
             Mage::logException($e);
-            Mage::helper('Mage_Checkout_Helper_Data')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
+            $checkoutHelper->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
             $error = $e->getMessage();
         } catch (Exception $e) {
             Mage::logException($e);
-            Mage::helper('Mage_Checkout_Helper_Data')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
+            $checkoutHelper->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
             $error = $this->__('An error occurred while processing your order. Please contact us or try again later.');
         }
         $this->getOnepage()->getQuote()->save();

@@ -96,6 +96,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Mage_A
      */
     protected function _getNodesArray($node)
     {
+        $eventHelper = $this->helper('Enterprise_CatalogEvent_Helper_Adminhtml_Event');
         $result = array(
             'id'             => (int)$node->getId(),
             'parent_id'      => (int)$node->getParentId(),
@@ -103,7 +104,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Mage_A
             'is_active'      => (bool)$node->getIsActive(),
             'disabled'       => ($node->getLevel() <= 1 || in_array(
                                     $node->getId(),
-                                    $this->helper('Enterprise_CatalogEvent_Helper_Adminhtml_Event')->getInEventCategoryIds()
+                                    $eventHelper->getInEventCategoryIds()
                                 )),
             'name'           => $node->getName(),
             'level'          => (int)$node->getLevel(),

@@ -62,7 +62,12 @@ class Mage_Adminhtml_Model_Search_Catalog extends Varien_Object
                 'type'          => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Product'),
                 'name'          => $product->getName(),
                 'description'   => Mage::helper('Mage_Core_Helper_String')->substr($description, 0, 30),
-                'url' => Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('*/catalog_product/edit', array('id'=>$product->getId())),
+                'url' => Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl(
+                    '*/catalog_product/edit',
+                    array(
+                        'id' => $product->getId()
+                    )
+                ),
             );
         }
 

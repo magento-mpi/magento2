@@ -196,7 +196,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
                 /**
                  * PayPal MECL management
                  */
-                if (Mage::app()->isSingleStoreMode() || Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getId()) {
+                if (Mage::app()->isSingleStoreMode()
+                    || Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getId()
+                ) {
                     $paypalMeclIsAvailable = Mage::getModel('Mage_XmlConnect_Model_Payment_Method_Paypal_Mecl')
                         ->isAvailable();
                     $activateMeclMethodNote = $this->__('You need to enable PayPal Express Checkout first from the Payment configuration before enabling PayPal MECL.');

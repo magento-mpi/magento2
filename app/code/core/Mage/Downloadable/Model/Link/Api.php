@@ -155,6 +155,7 @@ class Mage_Downloadable_Model_Link_Api extends Mage_Catalog_Model_Api_Resource
 
         $linkArr = array();
         $links = $product->getTypeInstance(true)->getLinks($product);
+        $fileHelper = Mage::helper('Mage_Downloadable_Helper_File');
         foreach ($links as $item) {
             $tmpLinkItem = array(
                 'link_id' => $item->getId(),
@@ -169,7 +170,7 @@ class Mage_Downloadable_Model_Link_Api extends Mage_Catalog_Model_Api_Resource
                 'sample_type' => $item->getSampleType(),
                 'sort_order' => $item->getSortOrder()
             );
-            $file = Mage::helper('Mage_Downloadable_Helper_File')->getFilePath(
+            $file = $fileHelper->getFilePath(
                 Mage_Downloadable_Model_Link::getBasePath(), $item->getLinkFile()
             );
 
@@ -178,7 +179,7 @@ class Mage_Downloadable_Model_Link_Api extends Mage_Catalog_Model_Api_Resource
             }
 
             if ($item->getLinkFile() && is_file($file)) {
-                $name = Mage::helper('Mage_Downloadable_Helper_File')->getFileFromPathFile($item->getLinkFile());
+                $name = $fileHelper->getFileFromPathFile($item->getLinkFile());
                 $tmpLinkItem['file_save'] = array(
                     array(
                         'file' => $item->getLinkFile(),
@@ -187,14 +188,14 @@ class Mage_Downloadable_Model_Link_Api extends Mage_Catalog_Model_Api_Resource
                         'status' => 'old'
                     ));
             }
-            $sampleFile = Mage::helper('Mage_Downloadable_Helper_File')->getFilePath(
+            $sampleFile = $fileHelper->getFilePath(
                 Mage_Downloadable_Model_Link::getBaseSamplePath(), $item->getSampleFile()
             );
             if ($item->getSampleFile() && is_file($sampleFile)) {
                 $tmpLinkItem['sample_file_save'] = array(
                     array(
                         'file' => $item->getSampleFile(),
-                        'name' => Mage::helper('Mage_Downloadable_Helper_File')->getFileFromPathFile($item->getSampleFile()),
+                        'name' => $fileHelper->getFileFromPathFile($item->getSampleFile()),
                         'size' => filesize($sampleFile),
                         'status' => 'old'
                     ));

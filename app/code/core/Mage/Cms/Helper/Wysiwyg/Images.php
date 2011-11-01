@@ -181,7 +181,10 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
                 $html = $fileurl; // $mediaPath;
             } else {
                 $directive = Mage::helper('Mage_Core_Helper_Data')->urlEncode($directive);
-                $html = Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('*/cms_wysiwyg/directive', array('___directive' => $directive));
+                $html = Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl(
+                    '*/cms_wysiwyg/directive',
+                    array('___directive' => $directive)
+                );
             }
         }
         return $html;

@@ -203,11 +203,12 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
      */
     public function getDeleteUrl()
     {
+        $encodedUrl = $this->helper('Mage_Core_Helper_Url')->getEncodedUrl();
         return $this->getUrl(
             'checkout/cart/delete',
             array(
                 'id'=>$this->getItem()->getId(),
-                Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->helper('Mage_Core_Helper_Url')->getEncodedUrl()
+                Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $encodedUrl
             )
         );
     }

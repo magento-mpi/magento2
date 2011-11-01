@@ -89,6 +89,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
     {
         $samplesArr = array();
         $samples = $this->getProduct()->getTypeInstance(true)->getSamples($this->getProduct());
+        $fileHelper = Mage::helper('Mage_Downloadable_Helper_File');
         foreach ($samples as $item) {
             $tmpSampleItem = array(
                 'sample_id' => $item->getId(),
@@ -97,7 +98,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
                 'sample_type' => $item->getSampleType(),
                 'sort_order' => $item->getSortOrder(),
             );
-            $file = Mage::helper('Mage_Downloadable_Helper_File')->getFilePath(
+            $file = $fileHelper->getFilePath(
                 Mage_Downloadable_Model_Sample::getBasePath(), $item->getSampleFile()
             );
             if ($item->getSampleFile() && !is_file($file)) {
@@ -107,7 +108,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
                 $tmpSampleItem['file_save'] = array(
                     array(
                         'file' => $item->getSampleFile(),
-                        'name' => Mage::helper('Mage_Downloadable_Helper_File')->getFileFromPathFile($item->getSampleFile()),
+                        'name' => $fileHelper->getFileFromPathFile($item->getSampleFile()),
                         'size' => filesize($file),
                         'status' => 'old'
                     ));

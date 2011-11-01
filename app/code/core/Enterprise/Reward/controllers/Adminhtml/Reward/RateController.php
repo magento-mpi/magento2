@@ -42,7 +42,9 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabled() && $this->getRequest()->getActionName() != 'noroute') {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabled()
+            && $this->getRequest()->getActionName() != 'noroute'
+        ) {
             $this->_forward('noroute');
         }
         return $this;

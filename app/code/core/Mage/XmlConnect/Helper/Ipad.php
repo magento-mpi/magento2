@@ -556,6 +556,7 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
      */
     public function validateConfig($native)
     {
+        $helper = Mage::helper('Mage_XmlConnect_Helper_Data');
         $errors = array();
         if ($native === false
             || (!isset($native['navigationBar']['icon'])
@@ -565,19 +566,19 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
             $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please upload  an image for "Logo in Header" field from Design Tab.');
         }
 
-        if (!Mage::helper('Mage_XmlConnect_Helper_Data')->validateConfFieldNotEmpty('bannerIpadLandscapeImage', $native)) {
+        if (!$helper->validateConfFieldNotEmpty('bannerIpadLandscapeImage', $native)) {
             $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please upload  an image for "Banner on Home Screen (landscape mode)" field from Design Tab.');
         }
 
-        if (!Mage::helper('Mage_XmlConnect_Helper_Data')->validateConfFieldNotEmpty('bannerIpadImage', $native)) {
+        if (!$helper->validateConfFieldNotEmpty('bannerIpadImage', $native)) {
             $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please upload  an image for "Banner on Home Screen (portrait mode)" field from Design Tab.');
         }
 
-        if (!Mage::helper('Mage_XmlConnect_Helper_Data')->validateConfFieldNotEmpty('backgroundIpadLandscapeImage', $native)) {
+        if (!$helper->validateConfFieldNotEmpty('backgroundIpadLandscapeImage', $native)) {
             $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please upload  an image for "App Background (landscape mode)" field from Design Tab.');
         }
 
-        if (!Mage::helper('Mage_XmlConnect_Helper_Data')->validateConfFieldNotEmpty('backgroundIpadPortraitImage', $native)) {
+        if (!$helper->validateConfFieldNotEmpty('backgroundIpadPortraitImage', $native)) {
             $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please upload  an image for "App Background (portrait mode)" field from Design Tab.');
         }
 

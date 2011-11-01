@@ -151,7 +151,9 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
             'name'  => 'frontend_class',
             'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Input Validation for Store Owner'),
             'title' => Mage::helper('Mage_Eav_Helper_Data')->__('Input Validation for Store Owner'),
-            'values'=> Mage::helper('Mage_Eav_Helper_Data')->getFrontendClasses($attributeObject->getEntityType()->getEntityTypeCode())
+            'values'=> Mage::helper('Mage_Eav_Helper_Data')->getFrontendClasses(
+                $attributeObject->getEntityType()->getEntityTypeCode()
+            )
         ));
 
         if ($attributeObject->getId()) {

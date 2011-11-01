@@ -156,6 +156,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
         $linkArr = array();
         $links = $this->getProduct()->getTypeInstance(true)->getLinks($this->getProduct());
         $priceWebsiteScope = $this->getIsPriceWebsiteScope();
+        $fileHelper = Mage::helper('Mage_Downloadable_Helper_File');
         foreach ($links as $item) {
             $tmpLinkItem = array(
                 'link_id' => $item->getId(),
@@ -170,7 +171,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
                 'sample_type' => $item->getSampleType(),
                 'sort_order' => $item->getSortOrder(),
             );
-            $file = Mage::helper('Mage_Downloadable_Helper_File')->getFilePath(
+            $file = $fileHelper->getFilePath(
                 Mage_Downloadable_Model_Link::getBasePath(), $item->getLinkFile()
             );
 
@@ -183,7 +184,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
                     . $this->getUrl('*/downloadable_product_edit/link', array(
                         'id' => $item->getId(),
                         '_secure' => true
-                    )) . '">' . Mage::helper('Mage_Downloadable_Helper_File')->getFileFromPathFile($item->getLinkFile()) . '</a>';
+                    )) . '">' . $fileHelper->getFileFromPathFile($item->getLinkFile()) . '</a>';
                 $tmpLinkItem['file_save'] = array(
                     array(
                         'file' => $item->getLinkFile(),
@@ -192,14 +193,14 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
                         'status' => 'old'
                     ));
             }
-            $sampleFile = Mage::helper('Mage_Downloadable_Helper_File')->getFilePath(
+            $sampleFile = $fileHelper->getFilePath(
                 Mage_Downloadable_Model_Link::getBaseSamplePath(), $item->getSampleFile()
             );
             if ($item->getSampleFile() && is_file($sampleFile)) {
                 $tmpLinkItem['sample_file_save'] = array(
                     array(
                         'file' => $item->getSampleFile(),
-                        'name' => Mage::helper('Mage_Downloadable_Helper_File')->getFileFromPathFile($item->getSampleFile()),
+                        'name' => $fileHelper->getFileFromPathFile($item->getSampleFile()),
                         'size' => filesize($sampleFile),
                         'status' => 'old'
                     ));

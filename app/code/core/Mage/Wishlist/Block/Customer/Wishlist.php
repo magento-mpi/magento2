@@ -45,7 +45,11 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Wishlist_Block_Abstract
     public function _construct()
     {
         parent::_construct();
-        $this->addOptionsRenderCfg('default', 'Mage_Catalog_Helper_Product_Configuration', 'wishlist/options_list.phtml');
+        $this->addOptionsRenderCfg(
+            'default',
+            'Mage_Catalog_Helper_Product_Configuration',
+            'wishlist/options_list.phtml'
+        );
     }
 
     /**
@@ -187,7 +191,11 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Wishlist_Block_Abstract
      */
     public function getCommentValue(Mage_Wishlist_Model_Item $item)
     {
-        return $this->hasDescription($item) ? $this->getEscapedDescription($item) : Mage::helper('Mage_Wishlist_Helper_Data')->defaultCommentString();
+        if ($this->hasDescription($item)) {
+            return  $this->getEscapedDescription($item);
+        }
+
+        return Mage::helper('Mage_Wishlist_Helper_Data')->defaultCommentString();
     }
 
     /**

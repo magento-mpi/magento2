@@ -51,7 +51,10 @@ class Enterprise_Reward_Model_Action_Tag extends Enterprise_Reward_Model_Action_
      */
     public function getRewardLimit()
     {
-        return Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig('tag_limit', $this->getReward()->getWebsiteId());
+        return Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig(
+            'tag_limit',
+            $this->getReward()->getWebsiteId()
+        );
     }
 
     /**

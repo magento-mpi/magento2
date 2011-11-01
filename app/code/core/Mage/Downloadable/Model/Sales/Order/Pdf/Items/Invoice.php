@@ -47,14 +47,15 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Invoice extends Mage_Downloa
         $lines  = array();
 
         // draw Product name
+        $stringHelper = Mage::helper('Mage_Core_Helper_String');
         $lines[0] = array(array(
-            'text' => Mage::helper('Mage_Core_Helper_String')->str_split($item->getName(), 64, true, true),
+            'text' => $stringHelper->str_split($item->getName(), 64, true, true),
             'feed' => 35,
         ));
 
         // draw SKU
         $lines[0][] = array(
-            'text'  => Mage::helper('Mage_Core_Helper_String')->str_split($this->getSku($item), 25),
+            'text'  => $stringHelper->str_split($this->getSku($item), 25),
             'feed'  => 255
         );
 
@@ -94,7 +95,7 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Invoice extends Mage_Downloa
             foreach ($options as $option) {
                 // draw options label
                 $lines[][] = array(
-                    'text' => Mage::helper('Mage_Core_Helper_String')->str_split(strip_tags($option['label']), 70, true, true),
+                    'text' => $stringHelper->str_split(strip_tags($option['label']), 70, true, true),
                     'font' => 'italic',
                     'feed' => 35
                 );
@@ -104,7 +105,7 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Invoice extends Mage_Downloa
                     $values = explode(', ', $_printValue);
                     foreach ($values as $value) {
                         $lines[][] = array(
-                            'text' => Mage::helper('Mage_Core_Helper_String')->str_split($value, 50, true, true),
+                            'text' => $stringHelper->str_split($value, 50, true, true),
                             'feed' => 40
                         );
                     }
@@ -117,7 +118,7 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Invoice extends Mage_Downloa
 
         // draw Links title
         $lines[][] = array(
-            'text' => Mage::helper('Mage_Core_Helper_String')->str_split($this->getLinksTitle(), 70, true, true),
+            'text' => $stringHelper->str_split($this->getLinksTitle(), 70, true, true),
             'font' => 'italic',
             'feed' => 35
         );
@@ -125,7 +126,7 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Invoice extends Mage_Downloa
         // draw Links
         foreach ($_purchasedItems as $_link) {
             $lines[][] = array(
-                'text' => Mage::helper('Mage_Core_Helper_String')->str_split($_link->getLinkTitle(), 50, true, true),
+                'text' => $stringHelper->str_split($_link->getLinkTitle(), 50, true, true),
                 'feed' => 40
             );
         }

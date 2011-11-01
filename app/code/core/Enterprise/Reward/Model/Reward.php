@@ -664,7 +664,8 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         /* @var $mail Mage_Core_Model_Email_Template */
         $mail->setDesignConfig(array('area' => 'frontend', 'store' => $item->getStoreId()));
         $store = Mage::app()->getStore($item->getStoreId());
-        $amount = Mage::helper('Enterprise_Reward_Helper_Data')
+        $helper = Mage::helper('Enterprise_Reward_Helper_Data');
+        $amount = $helper
             ->getRateFromRatesArray($item->getPointsBalanceTotal(),$websiteId, $item->getCustomerGroupId());
         $action = Mage::getSingleton('Enterprise_Reward_Model_Reward')->getActionInstance($item->getAction());
         $templateVars = array(
@@ -674,7 +675,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
             'remaining_days' => $store->getConfig('enterprise_reward/notification/expiry_day_before'),
             'points_balance' => $item->getPointsBalanceTotal(),
             'points_expiring' => $item->getTotalExpired(),
-            'reward_amount_now' => Mage::helper('Enterprise_Reward_Helper_Data')->formatAmount($amount, true, $item->getStoreId()),
+            'reward_amount_now' => $helper->formatAmount($amount, true, $item->getStoreId()),
             'update_message' => ($action !== null ? $action->getHistoryMessage($item->getAdditionalData()) : '')
         );
         $mail->sendTransactional(

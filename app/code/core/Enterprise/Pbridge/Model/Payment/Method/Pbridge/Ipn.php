@@ -121,7 +121,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
         $sReq .= "&cmd=_notify-validate";
         $sReq = substr($sReq, 1);
 
-        $url = rtrim(Mage::helper('Enterprise_Pbridge_Helper_Data')->getBridgeBaseUrl(), '/') . '/ipn.php?action=PaypalIpn';
+        $helper = Mage::helper('Enterprise_Pbridge_Helper_Data');
+        $url = rtrim($helper->getBridgeBaseUrl(), '/') . '/ipn.php?action=PaypalIpn';
 
         try {
             $http = new Varien_Http_Adapter_Curl();
