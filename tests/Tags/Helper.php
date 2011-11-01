@@ -49,7 +49,11 @@ class Tags_Helper extends Mage_Selenium_TestCase
             $this->fail('Array key is absent in array');
         }
         $tagNameArray = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
+//        $tagNameArray = array();
+//        preg_match("/('[^']+')|\\s?([\\w]+)\\s?/Ui", $tagName, $tagNameArray);
+        print_r($tagNameArray);
         $tagQty = count($tagNameArray);
+        print_r($tagQty);
         $this->addParameter('tagQty', $tagQty);
         if (!$this->controlIsPresent('field', 'input_new_tags')) {
             $this->fail('Element is absent on the page');
@@ -153,6 +157,26 @@ class Tags_Helper extends Mage_Selenium_TestCase
         } else {
             $this->fail('Verification Data is not correct');
         }
+    }
+
+    /**
+     * Tag randomize
+     *
+     * @param array $tagData
+     */
+    public function tagRandomize(array $tagData)
+    {
+        if (array_key_exists('new_tag_names', $tagData)) {
+            $tagData = $tagData['new_tag_names'];
+        } else {
+            $this->fail('Array key is absent in array');
+        }
+        $tags = explode(' ', $tagData);
+        foreach ($tags as $key => $value) {
+        $tempArray[] = $this->generate('string', 5, ':lower:') . '_' . $value;
+        }
+        $modifiedTagData = implode(' ', $tempArray);
+        return $modifiedTagData;
     }
 
     /* ----------------------------------- Backend ----------------------------------- */

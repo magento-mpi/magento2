@@ -28,7 +28,7 @@
 #
 product_page:
     mca: %productUrl%.html
-    title: %productName%
+    title: %productTitle%
     uimap:
         form:
             fieldsets:

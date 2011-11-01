@@ -912,7 +912,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      *
      * @param array $productName
      */
-    public function frontOpenProduct($productName)
+    public function frontOpenProduct($productName, $category = NULL)
     {
         if (is_array($productName)) {
             if (array_key_exists('general_name', $productName)) {
@@ -924,9 +924,13 @@ class Product_Helper extends Mage_Selenium_TestCase
         $productUrl = preg_replace('#[^0-9a-z]+#i', '-', $productName);
         $productUrl = strtolower($productUrl);
         $productUrl = trim($productUrl, '-');
-
-        $this->addParameter('productUrl', $productUrl);
         $this->addParameter('productName', $productName);
+        $this->addParameter('productUrl', $productUrl);
+        if ($category) {
+            $this->addParameter('productTitle', $productName . ' - ' . $category);
+        } else {
+            $this->addParameter('productTitle', $productName);
+        }
         $this->getUimapPage('frontend', 'product_page')->assignParams($this->_paramsHelper);
 
         $this->frontend('product_page');
