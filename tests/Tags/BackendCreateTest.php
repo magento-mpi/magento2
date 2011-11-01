@@ -98,33 +98,22 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>Creating a new tag in backend with empty required fields.</p>
      * <p>Steps:</p>
      * <p>1. Click button "Add New Tag"</p>
-     * <p>2. Fill in the fields in General Information, but leave one required field empty</p>
+     * <p>2. Fill in the fields in General Information, but leave tag name empty</p>
      * <p>3. Click button "Save Tag"</p>
      * <p>Expected result:</p>
      * <p>Received error message "This is a required field"</p>
      *
-     * @dataProvider dataEmptyRequiredFields
      * @test
-     *
-     * @param string $emptyField Name of the field to leave empty
-     * @param string $validationMessage Validation message to be verified
      */
-    public function withEmptyRequiredFields($emptyField, $validationMessage)
+    public function withEmptyTagName()
     {
         //Setup
-        $setData = $this->loadData('backend_new_tag', array($emptyField => ''));
+        $setData = $this->loadData('backend_new_tag', array('tag_name' => ''));
         //Steps
         $this->tagsHelper()->addTag($setData, false);
         //Verify
-        $this->assertTrue($this->validationMessage($validationMessage), $this->messages);
+        $this->assertTrue($this->validationMessage('required_name'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
-    }
-
-    public function dataEmptyRequiredFields()
-    {
-        return array(
-            array('tag_name', 'required_name'),
-        );
     }
 
     /**
