@@ -57,7 +57,7 @@
     <adminhtml_staging_manage_merge>
         <reference name="content">
             <block type="Enterprise_Staging_Block_Adminhtml_Staging_Merge"  name="enterprise_staging_merge">
-                <action method="addMergeSettingsBlockType"><type>website</type><block>enterprise_staging/adminhtml_staging_merge_settings_website</block><template>enterprise/staging/staging/merge/settings/website.phtml</template></action>
+                <action method="addMergeSettingsBlockType"><type>website</type><block>Enterprise_Staging_Block_Adminhtml_Staging_Merge_Settings_Website</block><template>enterprise/staging/staging/merge/settings/website.phtml</template></action>
             </block>
         </reference>
         <reference name="head">
@@ -100,14 +100,14 @@
     <adminhtml_staging_log_view>
         <reference name="content">
             <block type="Enterprise_Staging_Block_Adminhtml_Log_View"  name="enterprise_staging_log_view">
-                <action method="addInformationRenderer"><type>default</type><block>enterprise_staging/adminhtml_log_view_information_default</block><template>enterprise/staging/log/information/default.phtml</template></action>
-                <action method="addInformationRenderer"><type>reset</type><block>enterprise_staging/adminhtml_log_view_information_default</block><template>enterprise/staging/log/information/default.phtml</template></action>
-                <action method="addInformationRenderer"><type>create</type><block>enterprise_staging/adminhtml_log_view_information_staging</block><template>enterprise/staging/log/information/create.phtml</template></action>
-                <action method="addInformationRenderer"><type>merge</type><block>enterprise_staging/adminhtml_log_view_information_staging</block><template>enterprise/staging/log/information/merge.phtml</template></action>
-                <action method="addInformationRenderer"><type>schedule_merge</type><block>enterprise_staging/adminhtml_log_view_information_staging</block><template>enterprise/staging/log/information/merge.phtml</template></action>
-                <action method="addInformationRenderer"><type>unschedule_merge</type><block>enterprise_staging/adminhtml_log_view_information_staging</block><template>enterprise/staging/log/information/default.phtml</template></action>
-                <action method="addInformationRenderer"><type>cron_merge</type><block>enterprise_staging/adminhtml_log_view_information_staging</block><template>enterprise/staging/log/information/merge.phtml</template></action>
-                <action method="addInformationRenderer"><type>rollback</type><block>enterprise_staging/adminhtml_log_view_information_rollback</block><template>enterprise/staging/log/information/rollback.phtml</template></action>
+                <action method="addInformationRenderer"><type>default</type><block>Enterprise_Staging_Block_Adminhtml_Log_View_Information_Default</block><template>enterprise/staging/log/information/default.phtml</template></action>
+                <action method="addInformationRenderer"><type>reset</type><block>Enterprise_Staging_Block_Adminhtml_Log_View_Information_Default</block><template>enterprise/staging/log/information/default.phtml</template></action>
+                <action method="addInformationRenderer"><type>create</type><block>Enterprise_Staging_Block_Adminhtml_Log_View_Information_Staging</block><template>enterprise/staging/log/information/create.phtml</template></action>
+                <action method="addInformationRenderer"><type>merge</type><block>Enterprise_Staging_Block_Adminhtml_Log_View_Information_Staging</block><template>enterprise/staging/log/information/merge.phtml</template></action>
+                <action method="addInformationRenderer"><type>schedule_merge</type><block>Enterprise_Staging_Block_Adminhtml_Log_View_Information_Staging</block><template>enterprise/staging/log/information/merge.phtml</template></action>
+                <action method="addInformationRenderer"><type>unschedule_merge</type><block>Enterprise_Staging_Block_Adminhtml_Log_View_Information_Staging</block><template>enterprise/staging/log/information/default.phtml</template></action>
+                <action method="addInformationRenderer"><type>cron_merge</type><block>Enterprise_Staging_Block_Adminhtml_Log_View_Information_Staging</block><template>enterprise/staging/log/information/merge.phtml</template></action>
+                <action method="addInformationRenderer"><type>rollback</type><block>Enterprise_Staging_Block_Adminhtml_Log_View_Information_Rollback</block><template>enterprise/staging/log/information/rollback.phtml</template></action>
             </block>
         </reference>
     </adminhtml_staging_log_view>

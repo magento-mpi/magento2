@@ -61,7 +61,7 @@
                         <class>enterprise_reward/total_quote_reward</class>
                         <after>wee,discount,tax,tax_subtotal,grand_total</after>
                         <before>giftcardaccount,customerbalance</before>
-                        <renderer>enterprise_reward/checkout_total</renderer>
+                        <renderer>Enterprise_Reward_Block_Checkout_Total</renderer>
                     </reward>
                 </totals>
             </quote>

@@ -52,7 +52,7 @@
 
     <rss_index_wishlist>
         <block type="Mage_Rss_Block_Wishlist" name="rss.wishlist" output="toHtml">
-            <action method="addPriceBlockType"><type>msrp_rss</type><block>catalog/product_price</block><template>wishlist/render/item/price_msrp_rss.phtml</template></action>
+            <action method="addPriceBlockType"><type>msrp_rss</type><block>Mage_Catalog_Block_Product_Price</block><template>wishlist/render/item/price_msrp_rss.phtml</template></action>
         </block>
     </rss_index_wishlist>
 <!--
@@ -60,7 +60,7 @@ Catalog layout
 -->
     <rss_catalog_new>
         <block type="Mage_Rss_Block_Catalog_New" output="toHtml" name="rss.catalog.new">
-            <action method="addPriceBlockType"><type>msrp_rss</type><block>catalog/product_price</block><template>catalog/product/price_msrp_rss.phtml</template></action>
+            <action method="addPriceBlockType"><type>msrp_rss</type><block>Mage_Catalog_Block_Product_Price</block><template>catalog/product/price_msrp_rss.phtml</template></action>
         </block>
     </rss_catalog_new>
 
@@ -74,7 +74,7 @@ Catalog layout
 
     <rss_catalog_tag>
         <block type="Mage_Rss_Block_Catalog_Tag" output="toHtml" name="rss.catalog.tag">
-            <action method="addPriceBlockType"><type>msrp_rss</type><block>catalog/product_price</block><template>catalog/product/price_msrp_rss.phtml</template></action>
+            <action method="addPriceBlockType"><type>msrp_rss</type><block>Mage_Catalog_Block_Product_Price</block><template>catalog/product/price_msrp_rss.phtml</template></action>
         </block>
     </rss_catalog_tag>
 
@@ -88,7 +88,7 @@ Catalog layout
 
     <rss_catalog_category>
         <block type="Mage_Rss_Block_Catalog_Category" output="toHtml" name="rss.catalog.category">
-            <action method="addPriceBlockType"><type>msrp_rss</type><block>catalog/product_price</block><template>catalog/product/price_msrp_rss.phtml</template></action>
+            <action method="addPriceBlockType"><type>msrp_rss</type><block>Mage_Catalog_Block_Product_Price</block><template>catalog/product/price_msrp_rss.phtml</template></action>
         </block>
     </rss_catalog_category>
 <!--

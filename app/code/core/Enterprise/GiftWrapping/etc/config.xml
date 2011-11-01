@@ -52,7 +52,7 @@
                     <giftwrapping>
                         <class>enterprise_giftwrapping/total_quote_giftwrapping</class>
                         <after>subtotal</after>
-                        <renderer>enterprise_giftwrapping/checkout_totals</renderer>
+                        <renderer>Enterprise_GiftWrapping_Block_Checkout_Totals</renderer>
                     </giftwrapping>
                     <tax_giftwrapping>
                         <class>enterprise_giftwrapping/total_quote_tax_giftwrapping</class>

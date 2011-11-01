@@ -70,13 +70,13 @@ Layout handle for cms page
                     <method>addTab</method>
                     <params>
                         <name>googleoptimizer_section</name>
-                        <block>googleoptimizer/adminhtml_cms_page_edit_tab_googleoptimizer</block>
+                        <block>Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer</block>
                     </params>
                 </action>
                 <action method="ifGoogleOptimizerEnabledAppend">
                     <container>js</container>
                     <name>googleoptimizer_js</name>
-                    <type>googleoptimizer/js</type>
+                    <type>Mage_GoogleOptimizer_Block_Js</type>
                     <attributes>
                         <template>googleoptimizer/js.phtml</template>
                     </attributes>

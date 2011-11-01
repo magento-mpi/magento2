@@ -129,7 +129,7 @@
                         <groups>
                             <text translate="label" module="Mage_Adminhtml">
                                 <label>Text</label>
-                                <render>adminhtml/catalog_product_edit_tab_options_type_text</render>
+                                <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Text</render>
                                 <types>
                                     <field translate="label" module="Mage_Adminhtml">
                                         <label>Field</label>
@@ -141,7 +141,7 @@
                             </text>
                             <file translate="label" module="Mage_Adminhtml">
                                 <label>File</label>
-                                <render>adminhtml/catalog_product_edit_tab_options_type_file</render>
+                                <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_File</render>
                                 <types>
                                     <file translate="label" module="Mage_Adminhtml">
                                         <label>File</label>
@@ -150,7 +150,7 @@
                             </file>
                             <select translate="label" module="Mage_Adminhtml">
                                 <label>Select</label>
-                                <render>adminhtml/catalog_product_edit_tab_options_type_select</render>
+                                <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select</render>
                                 <types>
                                     <drop_down translate="label" module="Mage_Adminhtml">
                                         <label>Drop-down</label>
@@ -168,7 +168,7 @@
                             </select>
                             <date translate="label" module="Mage_Adminhtml">
                                 <label>Date</label>
-                                <render>adminhtml/catalog_product_edit_tab_options_type_date</render>
+                                <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Date</render>
                                 <types>
                                     <date translate="label" module="Mage_Adminhtml">
                                         <label>Date</label>

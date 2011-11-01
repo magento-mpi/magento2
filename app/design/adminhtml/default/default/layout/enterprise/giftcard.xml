@@ -29,7 +29,7 @@
 <layout>
     <adminhtml_catalog_product_giftcard>
         <reference name="product_tabs">
-            <action method="addTab"><name>giftcard_info</name><block>enterprise_giftcard/adminhtml_catalog_product_edit_tab_giftcard</block></action>
+            <action method="addTab"><name>giftcard_info</name><block>Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard</block></action>
         </reference>
     </adminhtml_catalog_product_giftcard>
 
@@ -37,7 +37,7 @@
         <reference name="order_items">
             <action method="addColumnRender">
                 <column>name</column>
-                <block>enterprise_giftcard/adminhtml_sales_items_column_name_giftcard</block>
+                <block>Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard</block>
                 <template>sales/items/column/name.phtml</template>
                 <type>giftcard</type>
             </action>
@@ -48,7 +48,7 @@
         <reference name="order_items">
             <action method="addColumnRender">
                 <column>name</column>
-                <block>enterprise_giftcard/adminhtml_sales_items_column_name_giftcard</block>
+                <block>Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard</block>
                 <template>sales/items/column/name.phtml</template>
                 <type>giftcard</type>
             </action>
@@ -59,7 +59,7 @@
         <reference name="order_items">
             <action method="addColumnRender">
                 <column>name</column>
-                <block>enterprise_giftcard/adminhtml_sales_items_column_name_giftcard</block>
+                <block>Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard</block>
                 <template>sales/items/column/name.phtml</template>
                 <type>giftcard</type>
             </action>
@@ -70,7 +70,7 @@
         <reference name="order_items">
             <action method="addColumnRender">
                 <column>name</column>
-                <block>enterprise_giftcard/adminhtml_sales_items_column_name_giftcard</block>
+                <block>Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard</block>
                 <template>sales/items/column/name.phtml</template>
                 <type>giftcard</type>
             </action>
@@ -81,7 +81,7 @@
         <reference name="order_items">
             <action method="addColumnRender">
                 <column>name</column>
-                <block>enterprise_giftcard/adminhtml_sales_items_column_name_giftcard</block>
+                <block>Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard</block>
                 <template>sales/items/column/name.phtml</template>
                 <type>giftcard</type>
             </action>
@@ -92,7 +92,7 @@
         <reference name="order_items">
             <action method="addColumnRender">
                 <column>name</column>
-                <block>enterprise_giftcard/adminhtml_sales_items_column_name_giftcard</block>
+                <block>Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard</block>
                 <template>sales/items/column/name.phtml</template>
                 <type>giftcard</type>
             </action>
@@ -103,7 +103,7 @@
         <reference name="order_items">
             <action method="addColumnRender">
                 <column>name</column>
-                <block>enterprise_giftcard/adminhtml_sales_items_column_name_giftcard</block>
+                <block>Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard</block>
                 <template>sales/items/column/name.phtml</template>
                 <type>giftcard</type>
             </action>

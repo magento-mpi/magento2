@@ -85,7 +85,7 @@
                 <label>Specify Banners</label>
                 <type>label</type>
                 <helper_block>
-                    <type>enterprise_banner/adminhtml_widget_chooser</type>
+                    <type>Enterprise_Banner_Block_Adminhtml_Widget_Chooser</type>
                 </helper_block>
                 <depends>
                     <display_mode>

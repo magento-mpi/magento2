@@ -73,12 +73,12 @@
         </reference>
         <reference name="my.account.wrapper">
             <block type="Enterprise_GiftRegistry_Block_Items" name="giftregistry.customer.items" template="giftregistry/customer/items.phtml">
-                <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>giftregistry/customer/items/default.phtml</template></action>
-                <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>giftregistry/customer/items/default.phtml</template></action>
-                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>giftregistry/customer/items/default.phtml</template></action>
-                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>giftregistry/customer/items/default.phtml</template></action>
-                <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>giftregistry/customer/items/default.phtml</template></action>
-                <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/checkout_cart_item_renderer</block><template>giftregistry/customer/items/default.phtml</template>
+                <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>giftregistry/customer/items/default.phtml</template></action>
+                <action method="addItemRender"><type>simple</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>giftregistry/customer/items/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>giftregistry/customer/items/default.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>giftregistry/customer/items/default.phtml</template></action>
+                <action method="addItemRender"><type>bundle</type><block>Mage_Bundle_Block_Checkout_Cart_Item_Renderer</block><template>giftregistry/customer/items/default.phtml</template></action>
+                <action method="addItemRender"><type>giftcard</type><block>Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer</block><template>giftregistry/customer/items/default.phtml</template>
             </action>
             </block>
         </reference>
@@ -126,12 +126,12 @@
                 <block type="Enterprise_GiftRegistry_Block_Items" name="giftregistry_items" template="giftregistry/view/items.phtml">
                     <block type="Mage_Catalog_Block_Product_Price" template="catalog/product/price_msrp_item.phtml" name="enterprise.giftregistry.item.price" />
 
-                    <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>giftregistry/view/items/default.phtml</template></action>
-                    <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>giftregistry/view/items/default.phtml</template></action>
-                    <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>giftregistry/view/items/default.phtml</template></action>
-                    <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>giftregistry/view/items/default.phtml</template></action>
-                    <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>giftregistry/view/items/default.phtml</template></action>
-                    <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/checkout_cart_item_renderer</block><template>giftregistry/view/items/default.phtml</template></action>
+                    <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>giftregistry/view/items/default.phtml</template></action>
+                    <action method="addItemRender"><type>simple</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>giftregistry/view/items/default.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>giftregistry/view/items/default.phtml</template></action>
+                    <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>giftregistry/view/items/default.phtml</template></action>
+                    <action method="addItemRender"><type>bundle</type><block>Mage_Bundle_Block_Checkout_Cart_Item_Renderer</block><template>giftregistry/view/items/default.phtml</template></action>
+                    <action method="addItemRender"><type>giftcard</type><block>Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer</block><template>giftregistry/view/items/default.phtml</template></action>
                 </block>
                 <block type="Enterprise_GiftRegistry_Block_Customer_Items" name="giftregistry.view.items" template="giftregistry/view/items.phtml"/>
             </block>

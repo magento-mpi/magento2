@@ -29,7 +29,7 @@
 <layout>
     <adminhtml_sales_order_index>
         <reference name="sales_order.grid">
-            <action method="setMassactionBlockName"><name>enterprise_salesarchive/adminhtml_sales_order_grid_massaction</name></action>
+            <action method="setMassactionBlockName"><name>Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Massaction</name></action>
         </reference>
         <reference name="sales_order.grid.container">
             <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Button" name="sales_order.grid.archive.button"></block>
@@ -38,7 +38,7 @@
     
     <adminhtml_sales_order_grid>
         <reference name="sales_order.grid">
-            <action method="setMassactionBlockName"><name>enterprise_salesarchive/adminhtml_sales_order_grid_massaction</name></action>
+            <action method="setMassactionBlockName"><name>Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Massaction</name></action>
         </reference>
     </adminhtml_sales_order_grid>
     

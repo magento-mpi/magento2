@@ -68,22 +68,22 @@
             <block name="enterprise_rma_item_form_template" type="Enterprise_Eav_Block_Form_Template">
                 <action method="addRenderer">
                     <type>text</type>
-                    <renderer_block>enterprise_eav/form_renderer_text</renderer_block>
+                    <renderer_block>Enterprise_Eav_Block_Form_Renderer_Text</renderer_block>
                     <template>rma/form/renderer/text.phtml</template>
                 </action>
                 <action method="addRenderer">
                     <type>textarea</type>
-                    <renderer_block>enterprise_eav/form_renderer_textarea</renderer_block>
+                    <renderer_block>Enterprise_Eav_Block_Form_Renderer_Textarea</renderer_block>
                     <template>rma/form/renderer/textarea.phtml</template>
                 </action>
                 <action method="addRenderer">
                     <type>select</type>
-                    <renderer_block>enterprise_rma/form_renderer_select</renderer_block>
+                    <renderer_block>Enterprise_Rma_Block_Form_Renderer_Select</renderer_block>
                     <template>rma/form/renderer/select.phtml</template>
                 </action>
                 <action method="addRenderer">
                     <type>image</type>
-                    <renderer_block>enterprise_rma/form_renderer_image</renderer_block>
+                    <renderer_block>Enterprise_Rma_Block_Form_Renderer_Image</renderer_block>
                     <template>rma/form/renderer/image.phtml</template>
                 </action>
             </block>
@@ -113,7 +113,7 @@
             <block name="enterprise_rma_item_form_template" type="Enterprise_Eav_Block_Form_Template">
                 <action method="addRenderer">
                     <type>image</type>
-                    <renderer_block>enterprise_rma/form_renderer_image</renderer_block>
+                    <renderer_block>Enterprise_Rma_Block_Form_Renderer_Image</renderer_block>
                     <template>rma/form/view/image.phtml</template>
                 </action>
             </block>
