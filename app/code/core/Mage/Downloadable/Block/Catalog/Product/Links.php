@@ -91,7 +91,7 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
             return '';
         }
 
-        $taxCalculation = Mage::getSingleton('tax/calculation');
+        $taxCalculation = Mage::getSingleton('Mage_Tax_Model_Calculation');
         if (!$taxCalculation->getCustomer() && Mage::registry('current_customer')) {
             $taxCalculation->setCustomer(Mage::registry('current_customer'));
         }

@@ -49,7 +49,7 @@ class Mage_GoogleBase_Model_Observer
                     ->addProductFilterId($product->getId())
                     ->load();
                 foreach ($collection as $item) {
-                    $product = Mage::getSingleton('catalog/product')
+                    $product = Mage::getSingleton('Mage_Catalog_Model_Product')
                         ->setStoreId($item->getStoreId())
                         ->load($item->getProductId());
                     Mage::getModel('Mage_GoogleBase_Model_Item')->setProduct($product)->updateItem();
@@ -57,7 +57,7 @@ class Mage_GoogleBase_Model_Observer
             }
         } catch (Exception $e) {
             if (Mage::app()->getStore()->isAdmin()) {
-                Mage::getSingleton('adminhtml/session')->addNotice(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(
                     Mage::helper('Mage_GoogleBase_Helper_Data')->__("Cannot update Google Base Item for Store '%s'",
                         Mage::app()->getStore($item->getStoreId())->getName())
                 );
@@ -88,7 +88,7 @@ class Mage_GoogleBase_Model_Observer
             }
         } catch (Exception $e) {
             if (Mage::app()->getStore()->isAdmin()) {
-                Mage::getSingleton('adminhtml/session')->addNotice(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(
                     Mage::helper('Mage_GoogleBase_Helper_Data')->__("Cannot update Google Base Item for Store '%s'",
                         Mage::app()->getStore($item->getStoreId())->getName())
                 );

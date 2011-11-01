@@ -201,7 +201,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
             return false;
         }
 
-        $resource = Mage::getSingleton('core/resource');
+        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
         $optionTable      = $resource->getTableName('eav_attribute_option');
         $optionValueTable = $resource->getTableName('eav_attribute_option_value');
         $attributesTable  = $resource->getTableName('eav_attribute');

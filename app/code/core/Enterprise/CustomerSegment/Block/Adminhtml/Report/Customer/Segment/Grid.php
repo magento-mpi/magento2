@@ -115,7 +115,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
             'width'     => 200,
             'index'     => 'website_ids',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash()
+            'options'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteOptionHash()
         ));
 
         $this->addColumn('customer_count', array(

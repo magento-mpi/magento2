@@ -56,7 +56,7 @@ class Mage_Page_Model_Source_Layout
     {
         if ($this->_options === null) {
             $this->_options = array();
-            foreach (Mage::getSingleton('page/config')->getPageLayouts() as $layout) {
+            foreach (Mage::getSingleton('Mage_Page_Model_Config')->getPageLayouts() as $layout) {
                 $this->_options[$layout->getCode()] = $layout->getLabel();
                 if ($layout->getIsDefault()) {
                     $this->_defaultValue = $layout->getCode();

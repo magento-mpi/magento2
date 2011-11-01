@@ -121,7 +121,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
         $this->_initRegistry();
 
         if ($data = $this->getRequest()->getPost()) {
-            $session = Mage::getSingleton('adminhtml/session');
+            $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
             try {
                 // set basic urlrewrite data
                 $model = Mage::registry('current_urlrewrite');
@@ -154,7 +154,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
                     $model->setProductId($product->getId());
                 }
                 if ($product || $category) {
-                    $catalogUrlModel = Mage::getSingleton('catalog/url');
+                    $catalogUrlModel = Mage::getSingleton('Mage_Catalog_Model_Url');
                     $idPath = $catalogUrlModel->generatePath('id', $product, $category);
 
                     // if redirect specified try to find friendly URL
@@ -207,11 +207,11 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
         if (Mage::registry('current_urlrewrite')->getId()) {
             try {
                 Mage::registry('current_urlrewrite')->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
                     Mage::helper('Mage_Adminhtml_Helper_Data')->__('The URL Rewrite has been deleted.')
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')
                     ->addException($e, Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while deleting URL Rewrite.'));
                 $this->_redirect('*/*/edit/', array('id'=>Mage::registry('current_urlrewrite')->getId()));
                 return;
@@ -227,6 +227,6 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/urlrewrite');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/urlrewrite');
     }
 }

@@ -258,7 +258,7 @@ class Mage_Core_Model_Layout_Update
     {
         $storeId = Mage::app()->getStore()->getId();
         $elementClass = $this->getElementClass();
-        $design = Mage::getSingleton('core/design_package');
+        $design = Mage::getSingleton('Mage_Core_Model_Design_Package');
         $cacheKey = 'LAYOUT_'.$design->getArea().'_STORE'.$storeId.'_'.$design->getPackageName().'_'.$design->getTheme('layout');
         $cacheTags = array(self::LAYOUT_GENERAL_CACHE_TAG);
         if (Mage::app()->useCache('layout') && ($layoutStr = Mage::app()->loadCache($cacheKey))) {
@@ -280,7 +280,7 @@ class Mage_Core_Model_Layout_Update
 
 //        $elementClass = $this->getElementClass();
 //
-//        $design = Mage::getSingleton('core/design_package');
+//        $design = Mage::getSingleton('Mage_Core_Model_Design_Package');
 //        $area = $design->getArea();
 //        $storeId = Mage::app()->getStore()->getId();
 //        $cacheKey = 'LAYOUT_'.$area.'_STORE'.$storeId.'_'.$design->getPackageName().'_'.$design->getTheme('layout');
@@ -397,7 +397,7 @@ class Mage_Core_Model_Layout_Update
             $storeId = Mage::app()->getStore()->getId();
         }
         /* @var $design Mage_Core_Model_Design_Package */
-        $design = Mage::getSingleton('core/design_package');
+        $design = Mage::getSingleton('Mage_Core_Model_Design_Package');
         $layoutXml = null;
         $elementClass = $this->getElementClass();
         $updatesRoot = Mage::app()->getConfig()->getNode($area.'/layout/updates');

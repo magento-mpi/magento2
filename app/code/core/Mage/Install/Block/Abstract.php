@@ -38,7 +38,7 @@ abstract class Mage_Install_Block_Abstract extends Mage_Core_Block_Template
      */
     public function getInstaller()
     {
-        return Mage::getSingleton('install/installer');
+        return Mage::getSingleton('Mage_Install_Model_Installer');
     }
     
     /**
@@ -48,7 +48,7 @@ abstract class Mage_Install_Block_Abstract extends Mage_Core_Block_Template
      */
     public function getWizard()
     {
-        return Mage::getSingleton('install/wizard');
+        return Mage::getSingleton('Mage_Install_Model_Wizard');
     }
     
     /**

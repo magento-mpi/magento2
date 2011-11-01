@@ -55,7 +55,7 @@ class Mage_Rss_IndexController extends Mage_Core_Controller_Front_Action
 
     public function wishlistAction()
     {
-        if ( Mage::getSingleton('customer/session')->authenticate($this) ) {
+        if ( Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this) ) {
             if (Mage::getStoreConfig('rss/wishlist/active')) {
                 $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
                 $this->loadLayout(false);

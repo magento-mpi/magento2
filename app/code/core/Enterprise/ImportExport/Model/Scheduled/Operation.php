@@ -87,7 +87,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         $copyTo = explode(',', $this->getEmailCopy());
         $copyMethod = $this->getEmailCopyMethod();
 
-        $mailer = Mage::getSingleton('core/email_template_mailer');
+        $mailer = Mage::getSingleton('Mage_Core_Model_Email_Template_Mailer');
         $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
 
         $receiverEmail = Mage::getStoreConfig(
@@ -307,7 +307,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
     public function run()
     {
         $operation = $this->getInstance();
-        $this->setLastRunDate(Mage::getSingleton('core/date')->gmtTimestamp());
+        $this->setLastRunDate(Mage::getSingleton('Mage_Core_Model_Date')->gmtTimestamp());
         $result = false;
         try {
             $result = $operation->runSchedule($this);

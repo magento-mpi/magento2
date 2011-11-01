@@ -122,7 +122,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
 
 
         $widgetFilters = array('is_email_compatible' => 1);
-        $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(array('widget_filters' => $widgetFilters));
+        $wysiwygConfig = Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->getConfig(array('widget_filters' => $widgetFilters));
         if ($model->isPlain()) {
             $wysiwygConfig->setEnabled(false);
         }

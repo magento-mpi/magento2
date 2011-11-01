@@ -80,7 +80,7 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
      */
     public function getSyncFlag()
     {
-        return Mage::getSingleton('core/file_storage_flag')->loadSelf();
+        return Mage::getSingleton('Mage_Core_Model_File_Storage_Flag')->loadSelf();
     }
 
     /**

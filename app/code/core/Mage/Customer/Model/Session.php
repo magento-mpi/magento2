@@ -61,7 +61,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function getCustomerConfigShare()
     {
-        return Mage::getSingleton('customer/config_share');
+        return Mage::getSingleton('Mage_Customer_Model_Config_Share');
     }
 
     public function __construct()
@@ -285,7 +285,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     protected function _setAuthUrl($key, $url)
     {
         $url = Mage::helper('Mage_Core_Helper_Url')
-            ->removeRequestParam($url, Mage::getSingleton('core/session')->getSessionIdQueryParam());
+            ->removeRequestParam($url, Mage::getSingleton('Mage_Core_Model_Session')->getSessionIdQueryParam());
         // Add correct session ID to URL if needed
         $url = Mage::getModel('Mage_Core_Model_Url')->getRebuiltUrl($url);
         return $this->setData($key, $url);
@@ -333,7 +333,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function renewSession() {
         parent::renewSession();
-        Mage::getSingleton('core/session')->unsSessionHosts();
+        Mage::getSingleton('Mage_Core_Model_Session')->unsSessionHosts();
 
         return $this;
     }

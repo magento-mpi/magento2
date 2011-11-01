@@ -110,7 +110,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_B
                 'index'     => 'website_ids',
                 'type'      => 'options',
                 'sortable'  => false,
-                'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(),
+                'options'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteOptionHash(),
                 'width'     => 200,
             ));
         }

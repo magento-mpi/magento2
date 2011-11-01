@@ -202,9 +202,9 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
                 if ($event->getEntity() == Mage_Core_Model_Config_Data::ENTITY) {
                     $configData = $event->getDataObject();
                     if ($configData->getPath() == Mage_CatalogInventory_Helper_Data::XML_PATH_SHOW_OUT_OF_STOCK) {
-                        Mage::getSingleton('index/indexer')->getProcessByCode('catalog_product_price')
+                        Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_product_price')
                             ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
-                        Mage::getSingleton('index/indexer')->getProcessByCode('catalog_product_attribute')
+                        Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_product_attribute')
                             ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
                     }
                 }

@@ -108,9 +108,9 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
 
         try {
             Mage::getModel('Mage_Api_Model_Roles')->load($rid)->delete();
-            Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The role has been deleted.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The role has been deleted.'));
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($this->__('An error occurred while deleting this role.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('An error occurred while deleting this role.'));
         }
 
         $this->_redirect("*/*/");
@@ -122,7 +122,7 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
         $rid        = $this->getRequest()->getParam('role_id', false);
         $role = Mage::getModel('Mage_Api_Model_Roles')->load($rid);
         if (!$role->getId() && $rid) {
-            Mage::getSingleton('adminhtml/session')->addError($this->__('This Role no longer exists'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('This Role no longer exists'));
             $this->_redirect('*/*/');
             return;
         }
@@ -162,9 +162,9 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
             }
 
             $rid = $role->getId();
-            Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The role has been saved.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The role has been saved.'));
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($this->__('An error occurred while saving this role.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('An error occurred while saving this role.'));
         }
 
         //$this->getResponse()->setRedirect($this->getUrl("*/*/editrole/rid/$rid"));
@@ -206,6 +206,6 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/api/roles');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/api/roles');
     }
 }

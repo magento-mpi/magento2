@@ -447,7 +447,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
      */
     protected function _getCart()
     {
-        return Mage::getSingleton('checkout/cart');
+        return Mage::getSingleton('Mage_Checkout_Model_Cart');
     }
 
     /**
@@ -457,7 +457,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**
@@ -479,7 +479,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
     {
         try {
             $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')
-                ->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer(), true);
+                ->loadByCustomer(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer(), true);
             Mage::register('wishlist', $wishlist);
         } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);

@@ -69,7 +69,7 @@ class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Acti
     {
         parent::postDispatch();
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION )) {
-            Mage::getSingleton('core/session')->setLastUrl(Mage::getUrl('*/*/*', array('_current'=>true)));
+            Mage::getSingleton('Mage_Core_Model_Session')->setLastUrl(Mage::getUrl('*/*/*', array('_current'=>true)));
         }
         return $this;
     }
@@ -100,7 +100,7 @@ class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Acti
     protected function _prepareDownloadResponse($fileName, $content, $contentType = 'application/octet-stream',
         $contentLength = null
     ) {
-        $session = Mage::getSingleton('admin/session');
+        $session = Mage::getSingleton('Mage_Admin_Model_Session');
         if ($session->isFirstPageAfterLogin()) {
             $this->_redirect($session->getUser()->getStartupPageUrl());
             return $this;

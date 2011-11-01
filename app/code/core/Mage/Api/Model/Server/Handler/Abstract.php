@@ -58,7 +58,7 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('api/session');
+        return Mage::getSingleton('Mage_Api_Model_Session');
     }
 
     /**
@@ -68,7 +68,7 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('api/config');
+        return Mage::getSingleton('Mage_Api_Model_Config');
     }
 
     /**
@@ -78,7 +78,7 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
      */
     protected function _getServer()
     {
-        return Mage::getSingleton('api/server');
+        return Mage::getSingleton('Mage_Api_Model_Server');
     }
 
     /**

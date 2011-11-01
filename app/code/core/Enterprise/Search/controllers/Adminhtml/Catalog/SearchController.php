@@ -44,14 +44,14 @@ class Enterprise_Search_Adminhtml_Catalog_SearchController extends Mage_Adminhtm
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('This search no longer exists.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('This search no longer exists.'));
                 $this->_redirect('*/*');
                 return;
             }
         }
 
         // set entered data if was error when we do save
-        $data = Mage::getSingleton('adminhtml/session')->getPageData(true);
+        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }

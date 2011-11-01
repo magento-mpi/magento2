@@ -25,7 +25,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPUnit
     protected function setUp()
     {
         $this->_model = new Mage_Catalog_Model_Product_Attribute_Backend_Tierprice;
-        $this->_model->setAttribute(Mage::getSingleton('eav/config')->getAttribute('catalog_product', 'tier_price'));
+        $this->_model->setAttribute(Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('catalog_product', 'tier_price'));
     }
 
 

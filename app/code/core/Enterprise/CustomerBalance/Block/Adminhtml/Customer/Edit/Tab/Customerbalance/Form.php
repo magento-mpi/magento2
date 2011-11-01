@@ -41,12 +41,12 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
             array('legend' => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Update Balance'))
         );
 
-        if (!Mage::getSingleton('enterprise_customerbalance/balance')->shouldCustomerHaveOneBalance($customer)) {
+        if (!Mage::getSingleton('Enterprise_CustomerBalance_Model_Balance')->shouldCustomerHaveOneBalance($customer)) {
             $fieldset->addField('website_id', 'select', array(
                 'name'     => 'website_id',
                 'label'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Website'),
                 'title'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Website'),
-                'values'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(),
+                'values'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteValuesForForm(),
                 'onchange' => 'updateEmailWebsites()',
             ));
         }

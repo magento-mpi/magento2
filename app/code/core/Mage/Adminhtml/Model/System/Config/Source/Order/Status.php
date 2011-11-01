@@ -43,10 +43,10 @@ class Mage_Adminhtml_Model_System_Config_Source_Order_Status
     public function toOptionArray()
     {
         if ($this->_stateStatuses) {
-            $statuses = Mage::getSingleton('sales/order_config')->getStateStatuses($this->_stateStatuses);
+            $statuses = Mage::getSingleton('Mage_Sales_Model_Order_Config')->getStateStatuses($this->_stateStatuses);
         }
         else {
-            $statuses = Mage::getSingleton('sales/order_config')->getStatuses();
+            $statuses = Mage::getSingleton('Mage_Sales_Model_Order_Config')->getStatuses();
         }
         $options = array();
         $options[] = array(

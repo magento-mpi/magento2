@@ -46,7 +46,7 @@ class Mage_Sendfriend_ProductController extends Mage_Core_Controller_Front_Actio
         /* @var $helper Mage_Sendfriend_Helper_Data */
         $helper = Mage::helper('Mage_Sendfriend_Helper_Data');
         /* @var $session Mage_Customer_Model_Session */
-        $session = Mage::getSingleton('customer/session');
+        $session = Mage::getSingleton('Mage_Customer_Model_Session');
 
         if (!$helper->isEnabled()) {
             $this->norouteAction();
@@ -59,7 +59,7 @@ class Mage_Sendfriend_ProductController extends Mage_Core_Controller_Front_Actio
                 $session->setBeforeAuthUrl(Mage::getUrl('*/*/send', array(
                     '_current' => true
                 )));
-                Mage::getSingleton('catalog/session')
+                Mage::getSingleton('Mage_Catalog_Model_Session')
                     ->setSendfriendFormData($this->getRequest()->getPost());
             }
         }
@@ -120,7 +120,7 @@ class Mage_Sendfriend_ProductController extends Mage_Core_Controller_Front_Actio
         }
 
         if ($model->getMaxSendsToFriend() && $model->isExceedLimit()) {
-            Mage::getSingleton('catalog/session')->addNotice(
+            Mage::getSingleton('Mage_Catalog_Model_Session')->addNotice(
                 $this->__('The messages cannot be sent more than %d times in an hour', $model->getMaxSendsToFriend())
             );
         }
@@ -129,9 +129,9 @@ class Mage_Sendfriend_ProductController extends Mage_Core_Controller_Front_Actio
         $this->_initLayoutMessages('catalog/session');
 
         Mage::dispatchEvent('sendfriend_product', array('product' => $product));
-        $data = Mage::getSingleton('catalog/session')->getSendfriendFormData();
+        $data = Mage::getSingleton('Mage_Catalog_Model_Session')->getSendfriendFormData();
         if ($data) {
-            Mage::getSingleton('catalog/session')->setSendfriendFormData(true);
+            Mage::getSingleton('Mage_Catalog_Model_Session')->setSendfriendFormData(true);
             $block = $this->getLayout()->getBlock('sendfriend.send');
             if ($block) {
                 $block->setFormData($data);
@@ -176,31 +176,31 @@ class Mage_Sendfriend_ProductController extends Mage_Core_Controller_Front_Actio
             $validate = $model->validate();
             if ($validate === true) {
                 $model->send();
-                Mage::getSingleton('catalog/session')->addSuccess($this->__('The link to a friend was sent.'));
+                Mage::getSingleton('Mage_Catalog_Model_Session')->addSuccess($this->__('The link to a friend was sent.'));
                 $this->_redirectSuccess($product->getProductUrl());
                 return;
             }
             else {
                 if (is_array($validate)) {
                     foreach ($validate as $errorMessage) {
-                        Mage::getSingleton('catalog/session')->addError($errorMessage);
+                        Mage::getSingleton('Mage_Catalog_Model_Session')->addError($errorMessage);
                     }
                 }
                 else {
-                    Mage::getSingleton('catalog/session')->addError($this->__('There were some problems with the data.'));
+                    Mage::getSingleton('Mage_Catalog_Model_Session')->addError($this->__('There were some problems with the data.'));
                 }
             }
         }
         catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('catalog/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Catalog_Model_Session')->addError($e->getMessage());
         }
         catch (Exception $e) {
-            Mage::getSingleton('catalog/session')
+            Mage::getSingleton('Mage_Catalog_Model_Session')
                 ->addException($e, $this->__('Some emails were not sent.'));
         }
 
         // save form data
-        Mage::getSingleton('catalog/session')->setSendfriendFormData($data);
+        Mage::getSingleton('Mage_Catalog_Model_Session')->setSendfriendFormData($data);
 
         $this->_redirectError(Mage::getURL('*/*/send', array('_current' => true)));
     }

@@ -264,7 +264,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
      */
     protected function _getCheckoutSession()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**
@@ -470,7 +470,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
                 $this->_throwException(sprintf('Gift card account %s is not redeemable.', $this->getId()));
             }
             if (is_null($customerId)) {
-                $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+                $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
             }
             if (!$customerId) {
                 Mage::throwException(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Invalid customer ID supplied.'));

@@ -159,7 +159,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         if ($shipment = $this->_initShipment()) {
             $this->_title($this->__('New Shipment'));
 
-            $comment = Mage::getSingleton('adminhtml/session')->getCommentText(true);
+            $comment = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getCommentText(true);
             if ($comment) {
                 $shipment->setCommentText($comment);
             }
@@ -182,7 +182,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
     {
         $data = $this->getRequest()->getPost('shipment');
         if (!empty($data['comment_text'])) {
-            Mage::getSingleton('adminhtml/session')->setCommentText($data['comment_text']);
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setCommentText($data['comment_text']);
         }
 
         try {
@@ -223,7 +223,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             $this->_getSession()->addSuccess($isNeedCreateLabel ?
                 $this->__('The shipment has been created. The shipping label has been created.') :
                 $this->__('The shipment has been created.'));
-            Mage::getSingleton('adminhtml/session')->getCommentText(true);
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->getCommentText(true);
         } catch (Mage_Core_Exception $e) {
             if ($isNeedCreateLabel) {
                 $responseAjax->setError(true);
@@ -611,7 +611,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
 
         if ($shipment) {
             $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment_Packaging')->getPdf($shipment);
-            $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf',
+            $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf',
                 $pdf->render(), 'application/pdf'
             );
         }

@@ -116,7 +116,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Admin
     public function getCarriers()
     {
         $carriers = array();
-        $carrierInstances = Mage::getSingleton('shipping/config')->getAllCarriers(
+        $carrierInstances = Mage::getSingleton('Mage_Shipping_Model_Config')->getAllCarriers(
             $this->getShipment()->getStoreId()
         );
         $carriers['custom'] = Mage::helper('Mage_Sales_Helper_Data')->__('Custom Value');
@@ -130,7 +130,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Admin
 
     public function getCarrierTitle($code)
     {
-        if ($carrier = Mage::getSingleton('shipping/config')->getCarrierInstance($code)) {
+        if ($carrier = Mage::getSingleton('Mage_Shipping_Model_Config')->getCarrierInstance($code)) {
             return $carrier->getConfigData('title');
         }
         else {

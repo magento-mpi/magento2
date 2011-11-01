@@ -43,7 +43,7 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**
@@ -145,7 +145,7 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function sendPaymentFailedEmail($checkout, $message, $checkoutType = 'onepage')
     {
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 

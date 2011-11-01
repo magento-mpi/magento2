@@ -48,7 +48,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
         parent::__construct();
         $version = Mage::registry('cms_page_version');
 
-        $config = Mage::getSingleton('enterprise_cms/config');
+        $config = Mage::getSingleton('Enterprise_Cms_Model_Config');
         /* @var $config Enterprise_Cms_Model_Config */
 
         // Add 'new button' depending on permission

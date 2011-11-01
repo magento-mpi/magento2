@@ -213,7 +213,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
     {
         if (!$this->getPage()->getId()
             || !Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isEnabled()
-            || !Mage::getSingleton('admin/session')->isAllowed('cms/hierarchy'))
+            || !Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/hierarchy'))
         {
             return false;
         }

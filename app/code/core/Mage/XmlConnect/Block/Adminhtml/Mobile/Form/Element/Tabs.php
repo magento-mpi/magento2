@@ -41,7 +41,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Tabs
      */
     public function getHtml()
     {
-        if ((bool)Mage::getSingleton('adminhtml/session')->getNewApplication()) {
+        if ((bool)Mage::getSingleton('Mage_Adminhtml_Model_Session')->getNewApplication()) {
             return '';
         }
 

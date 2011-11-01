@@ -93,7 +93,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
 
         $this->_title($model->getId() ? $model->getName() : $this->__('New Rule'));
 
-        $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
+        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -190,8 +190,8 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
                     Mage::helper('Enterprise_TargetRule_Helper_Data')->__('An error occurred while saving Product Rule.')
                 );
 
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                Mage::getSingleton('adminhtml/session')->setPageData($data);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
@@ -218,18 +218,18 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
                 $model = Mage::getModel('Enterprise_TargetRule_Model_Rule');
                 $model->load($id);
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')
                     ->addSuccess(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('The rule has been deleted.'));
                 $this->_redirect('*/*/');
                 return;
             }
             catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        Mage::getSingleton('adminhtml/session')
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')
             ->addError(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Unable to find a page to delete'));
         $this->_redirect('*/*/');
     }
@@ -270,7 +270,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/targetrule');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/targetrule');
     }
 
 }

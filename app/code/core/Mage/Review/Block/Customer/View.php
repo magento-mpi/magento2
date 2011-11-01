@@ -110,6 +110,6 @@ class Mage_Review_Block_Customer_View extends Mage_Catalog_Block_Product_Abstrac
      */
     public function isReviewOwner()
     {
-        return ($this->getReviewData()->getCustomerId() == Mage::getSingleton('customer/session')->getCustomerId());
+        return ($this->getReviewData()->getCustomerId() == Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId());
     }
 }

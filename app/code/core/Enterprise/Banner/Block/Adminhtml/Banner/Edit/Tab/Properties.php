@@ -93,7 +93,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
             'label'     => Mage::helper('Enterprise_Banner_Helper_Data')->__('Specify Types'),
             'name'      => 'types',
             'disabled'  => (bool)$model->getIsReadonly(),
-            'values'    => Mage::getSingleton('enterprise_banner/config')->toOptionArray(false, false),
+            'values'    => Mage::getSingleton('Enterprise_Banner_Model_Config')->toOptionArray(false, false),
             'can_be_empty' => true,
         ));
 

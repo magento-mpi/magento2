@@ -200,10 +200,10 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
      */
     public function __construct()
     {
-        $entityType = Mage::getSingleton('eav/config')->getEntityType($this->getEntityTypeCode());
+        $entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType($this->getEntityTypeCode());
         $this->_entityTypeId    = $entityType->getEntityTypeId();
         $this->_dataSourceModel = Mage_ImportExport_Model_Import::getDataSourceModel();
-        $this->_connection      = Mage::getSingleton('core/resource')->getConnection('write');
+        $this->_connection      = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
     }
 
     /**

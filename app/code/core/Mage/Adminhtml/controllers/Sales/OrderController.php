@@ -478,7 +478,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             }
             if ($flag) {
                 return $this->_prepareDownloadResponse(
-                    'invoice'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
+                    'invoice'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
                     'application/pdf'
                 );
             } else {
@@ -512,7 +512,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             }
             if ($flag) {
                 return $this->_prepareDownloadResponse(
-                    'packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
+                    'packingslip'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
                     'application/pdf'
                 );
             } else {
@@ -546,7 +546,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             }
             if ($flag) {
                 return $this->_prepareDownloadResponse(
-                    'creditmemo'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
+                    'creditmemo'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
                     'application/pdf'
                 );
             } else {
@@ -606,7 +606,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             }
             if ($flag) {
                 return $this->_prepareDownloadResponse(
-                    'docs'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf',
+                    'docs'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf',
                     $pdf->render(), 'application/pdf'
                 );
             } else {
@@ -678,7 +678,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 break;
 
         }
-        return Mage::getSingleton('admin/session')->isAllowed($aclResource);
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($aclResource);
     }
 
     /**

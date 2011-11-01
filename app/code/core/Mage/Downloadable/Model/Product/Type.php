@@ -433,13 +433,13 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         $searchData = parent::getSearchableData($product);
         $product = $this->getProduct($product);
 
-        $linkSearchData = Mage::getSingleton('downloadable/link')
+        $linkSearchData = Mage::getSingleton('Mage_Downloadable_Model_Link')
             ->getSearchableData($product->getId(), $product->getStoreId());
         if ($linkSearchData) {
             $searchData = array_merge($searchData, $linkSearchData);
         }
 
-        $sampleSearchData = Mage::getSingleton('downloadable/sample')
+        $sampleSearchData = Mage::getSingleton('Mage_Downloadable_Model_Sample')
             ->getSearchableData($product->getId(), $product->getStoreId());
         if ($sampleSearchData) {
             $searchData = array_merge($searchData, $sampleSearchData);

@@ -234,6 +234,6 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/enterprise_staging/staging_backup');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/enterprise_staging/staging_backup');
     }
 }

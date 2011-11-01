@@ -121,7 +121,7 @@ class Mage_Dataflow_Model_Convert_Adapter_Io extends Mage_Dataflow_Model_Convert
             return $this;
         }
 
-        $batchModel = Mage::getSingleton('dataflow/batch');
+        $batchModel = Mage::getSingleton('Mage_Dataflow_Model_Batch');
         $destFile = $batchModel->getIoAdapter()->getFile(true);
 
         $result = $this->getResource()->read($this->getVar('filename'), $destFile);
@@ -149,7 +149,7 @@ class Mage_Dataflow_Model_Convert_Adapter_Io extends Mage_Dataflow_Model_Convert
             return $this;
         }
 
-        $batchModel = Mage::getSingleton('dataflow/batch');
+        $batchModel = Mage::getSingleton('Mage_Dataflow_Model_Batch');
 
         $dataFile = $batchModel->getIoAdapter()->getFile(true);
 

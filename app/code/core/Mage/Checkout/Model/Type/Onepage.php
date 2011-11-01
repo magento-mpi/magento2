@@ -71,8 +71,8 @@ class Mage_Checkout_Model_Type_Onepage
     {
         $this->_helper = Mage::helper('Mage_Checkout_Helper_Data');
         $this->_customerEmailExistsMessage = $this->_helper->__('There is already a customer registered using this email address. Please login using this email address or enter a different email address to register your account.');
-        $this->_checkoutSession = Mage::getSingleton('checkout/session');
-        $this->_customerSession = Mage::getSingleton('customer/session');
+        $this->_checkoutSession = Mage::getSingleton('Mage_Checkout_Model_Session');
+        $this->_customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
     }
 
     /**
@@ -973,7 +973,7 @@ class Mage_Checkout_Model_Type_Onepage
 //            break;
 //
 //        default:
-//            $customer = Mage::getSingleton('customer/session')->getCustomer();
+//            $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
 //
 //            if (!$billing->getCustomerId() || $billing->getSaveInAddressBook()) {
 //                $customerBilling = $billing->exportCustomerAddress();
@@ -1117,7 +1117,7 @@ class Mage_Checkout_Model_Type_Onepage
 //        }
 //
 //        if ($this->getQuote()->getCheckoutMethod(true)==Mage_Sales_Model_Quote::CHECKOUT_METHOD_REGISTER
-//            && !Mage::getSingleton('customer/session')->isLoggedIn()) {
+//            && !Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
 //            /**
 //             * we need to save quote here to have it saved with Customer Id.
 //             * so when loginById() executes checkout/session method loadCustomerQuote
@@ -1125,10 +1125,10 @@ class Mage_Checkout_Model_Type_Onepage
 //             */
 //            $this->getQuote()->save();
 //            if ($customer->isConfirmationRequired()) {
-//                Mage::getSingleton('checkout/session')->addSuccess(Mage::helper('Mage_Customer_Helper_Data')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.', Mage::helper('Mage_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail())));
+//                Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(Mage::helper('Mage_Customer_Helper_Data')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.', Mage::helper('Mage_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail())));
 //            }
 //            else {
-//                Mage::getSingleton('customer/session')->loginById($customer->getId());
+//                Mage::getSingleton('Mage_Customer_Model_Session')->loginById($customer->getId());
 //            }
 //        }
 //

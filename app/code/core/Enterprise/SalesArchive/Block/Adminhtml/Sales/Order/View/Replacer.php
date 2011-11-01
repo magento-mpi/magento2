@@ -41,7 +41,7 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer extends 
                 '*/sales_archive/remove',
                 array('order_id' => $this->getOrder()->getId())
             );
-            if (Mage::getSingleton('admin/session')->isAllowed('sales/archive/orders/remove')) {
+            if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/archive/orders/remove')) {
                 $this->getLayout()->getBlock('sales_order_edit')->addButton('restore',  array(
                     'label' => Mage::helper('Enterprise_SalesArchive_Helper_Data')->__('Move to Order Managment'),
                     'onclick' => 'setLocation(\'' . $restoreUrl . '\')',
@@ -49,13 +49,13 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer extends 
                 ));
             }
         } elseif ($this->getOrder()->getIsMoveable() !== false) {
-            $isActive = Mage::getSingleton('enterprise_salesarchive/config')->isArchiveActive();
+            $isActive = Mage::getSingleton('Enterprise_SalesArchive_Model_Config')->isArchiveActive();
             if ($isActive) {
                 $archiveUrl = $this->getUrl(
                     '*/sales_archive/add',
                     array('order_id' => $this->getOrder()->getId())
                 );
-                if (Mage::getSingleton('admin/session')->isAllowed('sales/archive/orders/add')) {
+                if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/archive/orders/add')) {
                     $this->getLayout()->getBlock('sales_order_edit')->addButton('restore',  array(
                         'label' => Mage::helper('Enterprise_SalesArchive_Helper_Data')->__('Move to Archive'),
                         'onclick' => 'setLocation(\'' . $archiveUrl . '\')',

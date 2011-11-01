@@ -69,7 +69,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Product extends Mage_Adminhtml_Block
             $collection->addIdFilter($excludeIds, true);
         }
 
-        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
+        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($collection);
 
         $this->setCollection($collection);
 
@@ -101,7 +101,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Product extends Mage_Adminhtml_Block
                 'width' => '60px',
                 'index' => 'type_id',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('catalog/product_type')->getOptionArray(),
+                'options' => Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getOptionArray(),
         ));
 
         $this->addColumn('set_name',

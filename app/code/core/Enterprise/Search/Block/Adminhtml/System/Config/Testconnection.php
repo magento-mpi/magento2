@@ -70,7 +70,7 @@ class Enterprise_Search_Block_Adminhtml_System_Config_Testconnection
         $this->addData(array(
             'button_label' => Mage::helper('Enterprise_Search_Helper_Data')->__($originalData['button_label']),
             'html_id' => $element->getHtmlId(),
-            'ajax_url' => Mage::getSingleton('adminhtml/url')->getUrl('*/search_system_config_testconnection/ping')
+            'ajax_url' => Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/search_system_config_testconnection/ping')
         ));
 
         return $this->_toHtml();

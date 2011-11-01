@@ -117,7 +117,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Info extends Mage_Adminhtml_Block_Sa
         $accountData = array();
 
         /* @var $config Mage_Eav_Model_Config */
-        $config     = Mage::getSingleton('eav/config');
+        $config     = Mage::getSingleton('Mage_Eav_Model_Config');
         $entityType = 'customer';
         $customer   = Mage::getModel('Mage_Customer_Model_Customer');
         foreach ($config->getEntityAttributeCodes($entityType) as $attributeCode) {

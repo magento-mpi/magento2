@@ -75,7 +75,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
         $this->addColumn('banner_types', array(
             'header'  => Mage::helper('Enterprise_Banner_Helper_Data')->__('Banner Types'),
             'type'    => 'options',
-            'options' => Mage::getSingleton('enterprise_banner/config')->toOptionArray(true, false),
+            'options' => Mage::getSingleton('Enterprise_Banner_Model_Config')->toOptionArray(true, false),
             'index'   => 'types',
             'width'   => 250,
             'filter'  => false, // TODO implement

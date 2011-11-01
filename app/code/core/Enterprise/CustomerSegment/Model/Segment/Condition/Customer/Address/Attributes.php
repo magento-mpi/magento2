@@ -207,7 +207,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('eav/config')->getAttribute('customer_address', $this->getAttribute());
+        return Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer_address', $this->getAttribute());
     }
 
     /**

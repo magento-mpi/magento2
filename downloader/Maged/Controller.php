@@ -508,7 +508,7 @@ final class Maged_Controller
 
             if (self::$_instance->isDownloaded() && self::$_instance->isInstalled()) {
                 Mage::app('', 'store', array('global_ban_use_cache'=>true));
-                Mage::getSingleton('adminhtml/url')->turnOffSecretKey();
+                Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOffSecretKey();
             }
         }
         return self::$_instance;

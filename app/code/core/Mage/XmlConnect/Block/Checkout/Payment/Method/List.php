@@ -76,7 +76,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
      */
     public function getQuote()
     {
-        return Mage::getSingleton('checkout/session')->getQuote();
+        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
     }
 
     /**

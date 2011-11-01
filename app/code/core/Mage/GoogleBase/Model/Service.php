@@ -110,7 +110,7 @@ class Mage_GoogleBase_Model_Service extends Varien_Object
      */
     public function getConfig()
     {
-        return Mage::getSingleton('googlebase/config');
+        return Mage::getSingleton('Mage_GoogleBase_Model_Config');
     }
 
     /**

@@ -36,7 +36,7 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('catalog/session');
+        return Mage::getSingleton('Mage_Catalog_Model_Session');
     }
     /**
      * Display search result

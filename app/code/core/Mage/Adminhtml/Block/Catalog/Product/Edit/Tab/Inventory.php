@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Mage_Admin
     public function getBackordersOption()
     {
         if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
-            return Mage::getSingleton('cataloginventory/source_backorders')->toOptionArray();
+            return Mage::getSingleton('Mage_CatalogInventory_Model_Source_Backorders')->toOptionArray();
         }
 
         return array();
@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Mage_Admin
     public function getStockOption()
     {
         if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
-            return Mage::getSingleton('cataloginventory/source_stock')->toOptionArray();
+            return Mage::getSingleton('Mage_CatalogInventory_Model_Source_Stock')->toOptionArray();
         }
 
         return array();

@@ -72,7 +72,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected function _getCustomerSession()
     {
-        return Mage::getSingleton('customer/session');
+        return Mage::getSingleton('Mage_Customer_Model_Session');
     }
 
     /**
@@ -199,7 +199,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
             $this->_productCollection = $this->getWishlist()
                 ->getProductCollection();
 
-            Mage::getSingleton('catalog/product_visibility')
+            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
                 ->addVisibleInSiteFilterToCollection($this->_productCollection);
         }
         return $this->_productCollection;

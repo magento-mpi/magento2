@@ -43,7 +43,7 @@ extends Mage_Core_Block_Template
      */
     protected function _getOrderCreateModel()
     {
-        return Mage::getSingleton('adminhtml/sales_order_create');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create');
     }
 
     /**
@@ -54,7 +54,7 @@ extends Mage_Core_Block_Template
      */
     public function formatPrice($value)
     {
-        return Mage::getSingleton('adminhtml/session_quote')->getStore()->formatPrice($value);
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getStore()->formatPrice($value);
     }
 
     /**

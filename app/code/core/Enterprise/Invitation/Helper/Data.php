@@ -42,7 +42,7 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getMaxInvitationsPerSend()
     {
-        return Mage::getSingleton('enterprise_invitation/config')->getMaxInvitationsPerSend();
+        return Mage::getSingleton('Enterprise_Invitation_Model_Config')->getMaxInvitationsPerSend();
     }
 
     /**
@@ -53,7 +53,7 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getInvitationRequired()
     {
-        return Mage::getSingleton('enterprise_invitation/config')->getInvitationRequired();
+        return Mage::getSingleton('Enterprise_Invitation_Model_Config')->getInvitationRequired();
     }
 
 
@@ -65,7 +65,7 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getUseInviterGroup()
     {
-        return Mage::getSingleton('enterprise_invitation/config')->getUseInviterGroup();
+        return Mage::getSingleton('Enterprise_Invitation_Model_Config')->getUseInviterGroup();
     }
 
     /**
@@ -76,7 +76,7 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isInvitationMessageAllowed()
     {
-        return Mage::getSingleton('enterprise_invitation/config')->isInvitationMessageAllowed();
+        return Mage::getSingleton('Enterprise_Invitation_Model_Config')->isInvitationMessageAllowed();
     }
 
     /**
@@ -87,7 +87,7 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getInvitationStatusText($invitation)
     {
-        return Mage::getSingleton('enterprise_invitation/source_invitation_status')->getOptionText($invitation->getStatus());
+        return Mage::getSingleton('Enterprise_Invitation_Model_Source_Invitation_Status')->getOptionText($invitation->getStatus());
     }
 
     /**
@@ -154,6 +154,6 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isEnabled()
     {
-        return Mage::getSingleton('enterprise_invitation/config')->isEnabled();
+        return Mage::getSingleton('Enterprise_Invitation_Model_Config')->isEnabled();
     }
 }

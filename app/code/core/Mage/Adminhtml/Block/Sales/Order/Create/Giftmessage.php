@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage extends Mage_Adminhtml
      */
     protected function _getGiftmessageSaveModel()
     {
-        return Mage::getSingleton('adminhtml/giftmessage_save');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Giftmessage_Save');
     }
 
 }

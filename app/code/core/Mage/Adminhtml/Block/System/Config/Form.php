@@ -125,7 +125,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
 
         $this->_configData = $this->_configDataObject->load();
 
-        $this->_configFields = Mage::getSingleton('adminhtml/config');
+        $this->_configFields = Mage::getSingleton('Mage_Adminhtml_Model_Config');
 
         $this->_defaultFieldsetRenderer = Mage::getBlockSingleton('Mage_Adminhtml_Block_System_Config_Form_Fieldset');
         $this->_defaultFieldRenderer = Mage::getBlockSingleton('Mage_Adminhtml_Block_System_Config_Form_Field');

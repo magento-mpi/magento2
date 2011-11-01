@@ -43,7 +43,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
      */
     protected function _getCart()
     {
-        return Mage::getSingleton('checkout/cart');
+        return Mage::getSingleton('Mage_Checkout_Model_Cart');
     }
 
     /**
@@ -53,7 +53,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**

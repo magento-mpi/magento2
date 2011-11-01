@@ -40,14 +40,14 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function authFrontend()
     {
-        $session = Mage::getSingleton('rss/session');
+        $session = Mage::getSingleton('Mage_Rss_Model_Session');
         if ($session->isCustomerLoggedIn()) {
             return;
         }
         list($username, $password) = $this->authValidate();
         $customer = Mage::getModel('Mage_Customer_Model_Customer')->authenticate($username, $password);
         if ($customer && $customer->getId()) {
-            Mage::getSingleton('rss/session')->settCustomer($customer);
+            Mage::getSingleton('Mage_Rss_Model_Session')->settCustomer($customer);
         } else {
             $this->authFailed();
         }
@@ -60,13 +60,13 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function authAdmin($path)
     {
-        $session = Mage::getSingleton('rss/session');
+        $session = Mage::getSingleton('Mage_Rss_Model_Session');
         if ($session->isAdminLoggedIn()) {
             return;
         }
         list($username, $password) = $this->authValidate();
-        Mage::getSingleton('adminhtml/url')->setNoSecret(true);
-        $adminSession = Mage::getSingleton('admin/session');
+        Mage::getSingleton('Mage_Adminhtml_Model_Url')->setNoSecret(true);
+        $adminSession = Mage::getSingleton('Mage_Admin_Model_Session');
         $user = $adminSession->login($username, $password);
         //$user = Mage::getModel('Mage_Admin_Model_User')->login($username, $password);
         if($user && $user->getId() && $user->getIsActive() == '1' && $adminSession->isAllowed($path)){

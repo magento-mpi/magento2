@@ -75,7 +75,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
             $this->setEmptyText($this->__('Please enter search conditions to view products.'));
         }
 
-        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
+        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($collection);
 
         $this->setCollection($collection);
 

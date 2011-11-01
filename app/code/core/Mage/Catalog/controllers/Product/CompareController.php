@@ -53,13 +53,13 @@ class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_
         $items = $this->getRequest()->getParam('items');
 
         if ($beforeUrl = $this->getRequest()->getParam(self::PARAM_NAME_URL_ENCODED)) {
-            Mage::getSingleton('catalog/session')
+            Mage::getSingleton('Mage_Catalog_Model_Session')
                 ->setBeforeCompareUrl(Mage::helper('Mage_Core_Helper_Data')->urlDecode($beforeUrl));
         }
 
         if ($items) {
             $items = explode(',', $items);
-            $list = Mage::getSingleton('catalog/product_compare_list');
+            $list = Mage::getSingleton('Mage_Catalog_Model_Product_Compare_List');
             $list->addProducts($items);
             $this->_redirect('*/*/*');
             return;
@@ -80,8 +80,8 @@ class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_
                 ->load($productId);
 
             if ($product->getId()/* && !$product->isSuper()*/) {
-                Mage::getSingleton('catalog/product_compare_list')->addProduct($product);
-                Mage::getSingleton('catalog/session')->addSuccess(
+                Mage::getSingleton('Mage_Catalog_Model_Product_Compare_List')->addProduct($product);
+                Mage::getSingleton('Mage_Catalog_Model_Session')->addSuccess(
                     $this->__('The product %s has been added to comparison list.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName()))
                 );
                 Mage::dispatchEvent('catalog_product_compare_add_product', array('product'=>$product));
@@ -106,21 +106,21 @@ class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_
             if($product->getId()) {
                 /** @var $item Mage_Catalog_Model_Product_Compare_Item */
                 $item = Mage::getModel('Mage_Catalog_Model_Product_Compare_Item');
-                if(Mage::getSingleton('customer/session')->isLoggedIn()) {
-                    $item->addCustomerData(Mage::getSingleton('customer/session')->getCustomer());
+                if(Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+                    $item->addCustomerData(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer());
                 } elseif ($this->_customerId) {
                     $item->addCustomerData(
                         Mage::getModel('Mage_Customer_Model_Customer')->load($this->_customerId)
                     );
                 } else {
-                    $item->addVisitorId(Mage::getSingleton('log/visitor')->getId());
+                    $item->addVisitorId(Mage::getSingleton('Mage_Log_Model_Visitor')->getId());
                 }
 
                 $item->loadByProduct($product);
 
                 if($item->getId()) {
                     $item->delete();
-                    Mage::getSingleton('catalog/session')->addSuccess(
+                    Mage::getSingleton('Mage_Catalog_Model_Session')->addSuccess(
                         $this->__('The product %s has been removed from comparison list.', $product->getName())
                     );
                     Mage::dispatchEvent('catalog_product_compare_remove_product', array('product'=>$item));
@@ -141,16 +141,16 @@ class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_
     {
         $items = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Compare_Item_Collection');
 
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $items->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+            $items->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId());
         } elseif ($this->_customerId) {
             $items->setCustomerId($this->_customerId);
         } else {
-            $items->setVisitorId(Mage::getSingleton('log/visitor')->getId());
+            $items->setVisitorId(Mage::getSingleton('Mage_Log_Model_Visitor')->getId());
         }
 
         /** @var $session Mage_Catalog_Model_Session */
-        $session = Mage::getSingleton('catalog/session');
+        $session = Mage::getSingleton('Mage_Catalog_Model_Session');
 
         try {
             $items->clear();

@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getSingleton('backup/fs_collection');
+        $collection = Mage::getSingleton('Mage_Backup_Model_Fs_Collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

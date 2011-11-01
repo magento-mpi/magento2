@@ -94,7 +94,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
         $fieldset->addField('is_listed', 'select', array(
             'label'    => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Is Listed'),
             'name'     => 'is_listed',
-            'values'   => Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray(),
+            'values'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray(),
             'scope'    => 'store'
         ));
 

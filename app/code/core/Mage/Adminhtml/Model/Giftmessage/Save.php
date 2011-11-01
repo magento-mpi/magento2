@@ -335,7 +335,7 @@ class Mage_Adminhtml_Model_Giftmessage_Save extends Varien_Object
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session_quote');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote');
     }
 
     /**

@@ -66,7 +66,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
         $customer = Mage::registry('current_customer');
         return $customer->getId()
             && Mage::helper('Enterprise_Reward_Helper_Data')->isEnabled()
-            && Mage::getSingleton('admin/session')
+            && Mage::getSingleton('Mage_Admin_Model_Session')
                 ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_BALANCE);
     }
 

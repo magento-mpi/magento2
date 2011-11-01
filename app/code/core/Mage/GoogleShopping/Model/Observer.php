@@ -48,7 +48,7 @@ class Mage_GoogleShopping_Model_Observer
             Mage::getModel('Mage_GoogleShopping_Model_MassOperations')
                 ->synchronizeItems($items);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
-            Mage::getSingleton('adminhtml/session')
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')
                 ->addError('Cannot update Google Content Item. Google requires CAPTCHA.');
         }
 
@@ -70,7 +70,7 @@ class Mage_GoogleShopping_Model_Observer
             Mage::getModel('Mage_GoogleShopping_Model_MassOperations')
                 ->deleteItems($items);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
-            Mage::getSingleton('adminhtml/session')
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')
                 ->addError('Cannot delete Google Content Item. Google requires CAPTCHA.');
         }
 

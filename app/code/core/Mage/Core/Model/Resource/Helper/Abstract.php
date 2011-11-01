@@ -102,7 +102,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
     {
         $connection = sprintf('%s_%s', $this->_modulePrefix, $name);
         /** @var $resource Mage_Core_Model_Resource */
-        $resource   = Mage::getSingleton('core/resource');
+        $resource   = Mage::getSingleton('Mage_Core_Model_Resource');
 
         return $resource->getConnection($connection);
     }

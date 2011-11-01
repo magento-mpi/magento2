@@ -109,7 +109,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
                 }
                 if ($productIds) {
                     // Load products collection
-                    $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
+                    $attributes = Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes();
                     $products = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
                         ->setStore($this->_getStore())
                         ->addAttributeToSelect($attributes)
@@ -119,7 +119,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
                         )
                         ->addStoreFilter($this->_getStore())
                         ->addIdFilter($productIds);
-                     Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($products);
+                     Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($products);
                      $products->addOptionsToResult();
 
                     // Set products to items

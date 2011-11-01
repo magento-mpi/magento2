@@ -74,7 +74,7 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
      */
     protected function _canViewRma($rma)
     {
-        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
             $currentOrder = Mage::registry('current_order');
             if ($rma->getOrderId() && ($rma->getOrderId() === $currentOrder->getId())) {
                 return true;
@@ -93,7 +93,7 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
      */
     protected function _loadValidRma($entityId = null)
     {
-        if (!Mage::getSingleton('customer/session')->isLoggedIn() && !Mage::helper('Mage_Sales_Helper_Guest')->loadValidOrder()) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn() && !Mage::helper('Mage_Sales_Helper_Guest')->loadValidOrder()) {
             return;
         }
 
@@ -191,7 +191,7 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
             ;
 
             $this->_prepareDownloadResponse(
-                'packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
+                'packingslip'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
                 'application/pdf'
             );
         }

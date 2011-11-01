@@ -46,7 +46,7 @@ class Mage_Paypal_Block_Logo extends Mage_Core_Block_Template
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('paypal/config');
+        return Mage::getSingleton('Mage_Paypal_Model_Config');
     }
 
     /**

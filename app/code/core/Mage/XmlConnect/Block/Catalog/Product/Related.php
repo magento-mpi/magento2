@@ -113,7 +113,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Related extends Mage_XmlConnect_Bloc
     {
         if (is_null($this->_productCollection)) {
             $collection = $this->getParentBlock()->getProduct()->getRelatedProductCollection();
-            Mage::getSingleton('catalog/layer')->prepareProductCollection($collection);
+            Mage::getSingleton('Mage_Catalog_Model_Layer')->prepareProductCollection($collection);
             /**
              * Add rating and review summary, image attribute, apply sort params
              */

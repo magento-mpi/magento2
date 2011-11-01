@@ -121,7 +121,7 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
             'Mage_Catalog_Model_Resource_Eav_Attribute', $this->_model->getAttributeById(null, $product)
         );
 
-        $sku = Mage::getSingleton('eav/config')->getAttribute('catalog_product', 'sku');
+        $sku = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('catalog_product', 'sku');
         $this->assertSame($sku, $this->_model->getAttributeById($sku->getId(), $product));
     }
 

@@ -129,7 +129,7 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Frequency'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Frequency'),
             'required'  => true,
-            'values'    => Mage::getSingleton('enterprise_importexport/scheduled_operation_data')
+            'values'    => Mage::getSingleton('Enterprise_ImportExport_Model_Scheduled_Operation_Data')
                 ->getFrequencyOptionArray()
         ));
 
@@ -138,7 +138,7 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Status'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Status'),
             'required'  => true,
-            'values'    => Mage::getSingleton('enterprise_importexport/scheduled_operation_data')
+            'values'    => Mage::getSingleton('Enterprise_ImportExport_Model_Scheduled_Operation_Data')
                 ->getStatusesOptionArray()
         ));
 
@@ -163,7 +163,7 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Server Type'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Server Type'),
             'required'  => true,
-            'values'    => Mage::getSingleton('enterprise_importexport/scheduled_operation_data')
+            'values'    => Mage::getSingleton('Enterprise_ImportExport_Model_Scheduled_Operation_Data')
                 ->getServerTypesOptionArray(),
         ));
 
@@ -200,7 +200,7 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'name'      => 'file_info[file_mode]',
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('File Mode'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('File Mode'),
-            'values'    => Mage::getSingleton('enterprise_importexport/scheduled_operation_data')
+            'values'    => Mage::getSingleton('Enterprise_ImportExport_Model_Scheduled_Operation_Data')
                 ->getFileModesOptionArray(),
             'class'     => 'ftp-server server-dependent'
         ));
@@ -209,7 +209,7 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'name'      => 'file_info[passive]',
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Passive Mode'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Passive Mode'),
-            'values'    => Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray(),
+            'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray(),
             'class'     => 'ftp-server server-dependent'
         ));
 

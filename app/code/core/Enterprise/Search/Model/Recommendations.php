@@ -40,7 +40,7 @@ class Enterprise_Search_Model_Recommendations
      */
     public function getSearchRecommendations()
     {
-        $productCollection = Mage::getSingleton('enterprise_search/search_layer')->getProductCollection();
+        $productCollection = Mage::getSingleton('Enterprise_Search_Model_Search_Layer')->getProductCollection();
         $searchQueryText = Mage::helper('Mage_CatalogSearch_Helper_Data')->getQuery()->getQueryText();
 
         $params = array(

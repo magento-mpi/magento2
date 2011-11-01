@@ -62,7 +62,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('On Error'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('On Error'),
             'required'  => true,
-            'values'    => Mage::getSingleton('enterprise_importexport/scheduled_operation_data')
+            'values'    => Mage::getSingleton('Enterprise_ImportExport_Model_Scheduled_Operation_Data')
                 ->getForcedImportOptionArray()
         ), 'freq');
 

@@ -150,7 +150,7 @@ class Mage_Paypal_Model_Express_Checkout
         } else {
             throw new Exception('Config instance is required.');
         }
-        $this->_customerSession = Mage::getSingleton('customer/session');
+        $this->_customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
     }
 
     /**
@@ -407,7 +407,7 @@ class Mage_Paypal_Model_Express_Checkout
         // import payment info
         $payment = $quote->getPayment();
         $payment->setMethod($this->_methodType);
-        Mage::getSingleton('paypal/info')->importToPayment($this->_api, $payment);
+        Mage::getSingleton('Mage_Paypal_Model_Info')->importToPayment($this->_api, $payment);
         $payment->setAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_PAYER_ID, $this->_api->getPayerId())
             ->setAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_TOKEN, $token)
         ;

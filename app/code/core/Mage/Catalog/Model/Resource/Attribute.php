@@ -107,7 +107,7 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
         $result = $this->_getReadAdapter()->fetchRow($select);
 
         if ($result) {
-            $attribute = Mage::getSingleton('eav/config')
+            $attribute = Mage::getSingleton('Mage_Eav_Model_Config')
                 ->getAttribute(Mage_Catalog_Model_Product::ENTITY, $result['attribute_id']);
 
             if ($this->isUsedBySuperProducts($attribute, $result['attribute_set_id'])) {

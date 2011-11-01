@@ -1052,7 +1052,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     public function getCurrentUrl($fromStore = true)
     {
         $sidQueryParam = $this->_getSession()->getSessionIdQueryParam();
-        $requestString = Mage::getSingleton('core/url')->escape(
+        $requestString = Mage::getSingleton('Mage_Core_Model_Url')->escape(
             ltrim(Mage::app()->getRequest()->getRequestString(), '/'));
 
         $storeUrl = Mage::app()->getStore()->isCurrentlySecure()
@@ -1119,7 +1119,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();
-        Mage::getSingleton('index/indexer')->logEvent($this, self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE);
+        Mage::getSingleton('Mage_Index_Model_Indexer')->logEvent($this, self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE);
         return parent::_beforeDelete();
     }
 
@@ -1143,7 +1143,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected function _afterDeleteCommit()
     {
         parent::_afterDeleteCommit();
-        Mage::getSingleton('index/indexer')->indexEvents(self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE);
+        Mage::getSingleton('Mage_Index_Model_Indexer')->indexEvents(self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE);
         return $this;
     }
 

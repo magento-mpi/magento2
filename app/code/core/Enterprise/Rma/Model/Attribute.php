@@ -100,7 +100,7 @@ class Enterprise_Rma_Model_Attribute extends Mage_Eav_Model_Entity_Attribute
      */
     protected function _afterSave()
     {
-        Mage::getSingleton('eav/config')->clear();
+        Mage::getSingleton('Mage_Eav_Model_Config')->clear();
         return parent::_afterSave();
     }
 

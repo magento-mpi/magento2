@@ -104,7 +104,7 @@ class Mage_CatalogRule_Model_Observer
         } elseif ($product->hasCustomerGroupId()) {
             $gId = $product->getCustomerGroupId();
         } else {
-            $gId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $gId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
         }
 
         $key = "$date|$wId|$gId|$pId";
@@ -219,7 +219,7 @@ class Mage_CatalogRule_Model_Observer
         $websiteDate        = $observer->getEvent()->getWebsiteDate();
         $updateFields       = $observer->getEvent()->getUpdateFields();
 
-        Mage::getSingleton('catalogrule/rule_product_price')
+        Mage::getSingleton('Mage_CatalogRule_Model_Rule_Product_Price')
             ->applyPriceRuleToIndexTable($select, $indexTable, $entityId, $customerGroupId, $websiteId,
                 $updateFields, $websiteDate);
 
@@ -252,7 +252,7 @@ class Mage_CatalogRule_Model_Observer
 
         if ($disabledRulesCount) {
             Mage::getModel('Mage_CatalogRule_Model_Rule')->applyAll();
-            Mage::getSingleton('adminhtml/session')->addWarning(
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addWarning(
                 Mage::helper('Mage_CatalogRule_Helper_Data')->__('%d Catalog Price Rules based on "%s" attribute have been disabled.', $disabledRulesCount, $attributeCode));
         }
 
@@ -323,9 +323,9 @@ class Mage_CatalogRule_Model_Observer
             $groupId = $observer->getEvent()->getCustomerGroupId();
         } else {
             /* @var $session Mage_Customer_Model_Session */
-            $session = Mage::getSingleton('customer/session');
+            $session = Mage::getSingleton('Mage_Customer_Model_Session');
             if ($session->isLoggedIn()) {
-                $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+                $groupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
             } else {
                 $groupId = Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
             }

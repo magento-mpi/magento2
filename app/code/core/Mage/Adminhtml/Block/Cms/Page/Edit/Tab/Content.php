@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
+        if (Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->isEnabled()) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
     }
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
 
         $fieldset = $form->addFieldset('content_fieldset', array('legend'=>Mage::helper('Mage_Cms_Helper_Data')->__('Content'),'class'=>'fieldset-wide'));
 
-        $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(
+        $wysiwygConfig = Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->getConfig(
             array('tab_id' => $this->getTabId())
         );
 
@@ -148,6 +148,6 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
      */
     protected function _isAllowedAction($action)
     {
-        return Mage::getSingleton('admin/session')->isAllowed('cms/page/' . $action);
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/page/' . $action);
     }
 }

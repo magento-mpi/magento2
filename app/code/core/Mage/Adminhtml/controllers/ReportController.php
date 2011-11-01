@@ -133,15 +133,15 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         switch ($this->getRequest()->getActionName()) {
             case 'search':
-                return Mage::getSingleton('admin/session')->isAllowed('report/search');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('report/search');
                 break;
             /*
             case 'customers':
-                return Mage::getSingleton('admin/session')->isAllowed('report/shopcart');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('report/shopcart');
                 break;
             */
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('report');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('report');
                 break;
         }
     }

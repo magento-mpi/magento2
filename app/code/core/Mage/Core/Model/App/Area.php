@@ -152,13 +152,13 @@ class Mage_Core_Model_App_Area
         if (Mage::app()->getRequest()->isStraight()) {
             return $this;
         }
-        $designPackage = Mage::getSingleton('core/design_package');
+        $designPackage = Mage::getSingleton('Mage_Core_Model_Design_Package');
         if ($designPackage->getArea() != self::AREA_FRONTEND)
             return;
 
         $currentStore = Mage::app()->getStore()->getStoreId();
 
-        $designChange = Mage::getSingleton('core/design')
+        $designChange = Mage::getSingleton('Mage_Core_Model_Design')
             ->loadChange($currentStore);
 
         if ($designChange->getData()) {

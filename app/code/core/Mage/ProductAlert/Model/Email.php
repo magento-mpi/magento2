@@ -251,7 +251,7 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
             return false;
         }
 
-        $appEmulation = Mage::getSingleton('core/app_emulation');
+        $appEmulation = Mage::getSingleton('Mage_Core_Model_App_Emulation');
         $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
 
         if ($this->_type == 'price') {

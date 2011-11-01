@@ -99,7 +99,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
     {
         $page = $this->_initPage();
 
-        $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
+        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true);
         if (! empty($data)) {
             $page->setData($data);
         }
@@ -109,7 +109,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
                 $this->_handles[] = 'adminhtml_cms_page_edit_changes';
             }
         } else if (!$page->hasUnderVersionControl()) {
-            $page->setUnderVersionControl((int)Mage::getSingleton('enterprise_cms/config')->getDefaultVersioningStatus());
+            $page->setUnderVersionControl((int)Mage::getSingleton('Enterprise_Cms_Model_Config')->getDefaultVersioningStatus());
         }
 
         $this->_title($page->getId() ? $page->getTitle() : $this->__('New Page'));
@@ -150,11 +150,11 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
         }
         else {
             try {
-                $userId = Mage::getSingleton('admin/session')->getUser()->getId();
-                $accessLevel = Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel();
+                $userId = Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId();
+                $accessLevel = Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel();
 
                 foreach ($ids as $id) {
-                    $version = Mage::getSingleton('enterprise_cms/page_version')
+                    $version = Mage::getSingleton('Enterprise_Cms_Model_Page_Version')
                         ->loadWithRestrictions($accessLevel, $userId, $id);
 
                     if ($version->getId()) {
@@ -185,7 +185,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
     {
         switch ($this->getRequest()->getActionName()) {
             case 'massDeleteVersions':
-                return Mage::getSingleton('enterprise_cms/config')->canCurrentUserDeleteVersion();
+                return Mage::getSingleton('Enterprise_Cms_Model_Config')->canCurrentUserDeleteVersion();
                 break;
             default:
                 return parent::_isAllowed();

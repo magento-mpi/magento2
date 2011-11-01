@@ -120,7 +120,7 @@ class Mage_GoogleShopping_Model_Service_Item extends Mage_GoogleShopping_Model_S
      */
     public function convertContentDateToTimestamp($gContentDate)
     {
-        return Mage::getSingleton('core/date')->date(null, $gContentDate);
+        return Mage::getSingleton('Mage_Core_Model_Date')->date(null, $gContentDate);
     }
 
     /**

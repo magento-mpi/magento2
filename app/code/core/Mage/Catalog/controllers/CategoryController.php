@@ -53,7 +53,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
         if (!Mage::helper('Mage_Catalog_Helper_Category')->canShow($category)) {
             return false;
         }
-        Mage::getSingleton('catalog/session')->setLastVisitedCategoryId($category->getId());
+        Mage::getSingleton('Mage_Catalog_Model_Session')->setLastVisitedCategoryId($category->getId());
         Mage::register('current_category', $category);
         try {
             Mage::dispatchEvent(
@@ -112,7 +112,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
     public function viewAction()
     {
         if ($category = $this->_initCatagory()) {
-            $design = Mage::getSingleton('catalog/design');
+            $design = Mage::getSingleton('Mage_Catalog_Model_Design');
             $settings = $design->getDesignSettings($category);
 
             // apply custom design
@@ -120,7 +120,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
                 $design->applyCustomDesign($settings->getCustomDesign());
             }
 
-            Mage::getSingleton('catalog/session')->setLastViewedCategoryId($category->getId());
+            Mage::getSingleton('Mage_Catalog_Model_Session')->setLastViewedCategoryId($category->getId());
 
             $update = $this->getLayout()->getUpdate();
             $update->addHandle('default');

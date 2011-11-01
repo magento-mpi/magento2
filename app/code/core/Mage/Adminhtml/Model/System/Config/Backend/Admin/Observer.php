@@ -38,7 +38,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Admin_Observer
         }
 
         /** @var $adminSession Mage_Admin_Model_Session */
-        $adminSession = Mage::getSingleton('admin/session');
+        $adminSession = Mage::getSingleton('Mage_Admin_Model_Session');
         $adminSession->unsetAll();
         $adminSession->getCookie()->delete($adminSession->getSessionName());
 

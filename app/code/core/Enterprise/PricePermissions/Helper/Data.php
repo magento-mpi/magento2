@@ -66,7 +66,7 @@ class Enterprise_PricePermissions_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCanAdminReadProductPrice()
     {
-        return (boolean) Mage::getSingleton('admin/session')->isAllowed(self::READ_PRODUCT_PRICE_ACL_PATH);
+        return (boolean) Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed(self::READ_PRODUCT_PRICE_ACL_PATH);
     }
 
     /**
@@ -76,7 +76,7 @@ class Enterprise_PricePermissions_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCanAdminEditProductPrice()
     {
-        return (boolean) Mage::getSingleton('admin/session')->isAllowed(self::EDIT_PRODUCT_PRICE_ACL_PATH);
+        return (boolean) Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed(self::EDIT_PRODUCT_PRICE_ACL_PATH);
     }
 
     /**
@@ -86,7 +86,7 @@ class Enterprise_PricePermissions_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCanAdminEditProductStatus()
     {
-        return (boolean) Mage::getSingleton('admin/session')->isAllowed(self::EDIT_PRODUCT_STATUS_ACL_PATH);
+        return (boolean) Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed(self::EDIT_PRODUCT_STATUS_ACL_PATH);
     }
 
     /**

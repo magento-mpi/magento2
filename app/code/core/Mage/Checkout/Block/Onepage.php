@@ -129,7 +129,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
 
     public function getMessages()
     {
-        return Mage::getSingleton('customer/session')->getMessages(true);
+        return Mage::getSingleton('Mage_Customer_Model_Session')->getMessages(true);
     }
 
     public function getLoginPostAction()

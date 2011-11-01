@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
     {
         $rateId = (int)$this->getRequest()->getParam('rate');
         $rateObject = new Varien_Object();
-        $rateModel  = Mage::getSingleton('tax/calculation_rate');
+        $rateModel  = Mage::getSingleton('Mage_Tax_Model_Calculation_Rate');
         $rateObject->setData($rateModel->getData());
 
         $form = new Varien_Data_Form();

@@ -199,6 +199,6 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/variable');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/variable');
     }
 }

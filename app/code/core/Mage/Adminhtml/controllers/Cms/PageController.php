@@ -90,7 +90,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
                     Mage::helper('Mage_Cms_Helper_Data')->__('This page no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
@@ -100,7 +100,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         $this->_title($model->getId() ? $model->getTitle() : $this->__('New Page'));
 
         // 3. Set entered data if was error when we do save
-        $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
+        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true);
         if (! empty($data)) {
             $model->setData($data);
         }
@@ -150,10 +150,10 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
                 $model->save();
 
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
                     Mage::helper('Mage_Cms_Helper_Data')->__('The page has been saved.'));
                 // clear previously saved data from session
-                Mage::getSingleton('adminhtml/session')->setFormData(false);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/edit', array('page_id' => $model->getId(), '_current'=>true));
@@ -193,7 +193,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
                 $title = $model->getTitle();
                 $model->delete();
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
                     Mage::helper('Mage_Cms_Helper_Data')->__('The page has been deleted.'));
                 // go to grid
                 Mage::dispatchEvent('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'success'));
@@ -203,14 +203,14 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
             } catch (Exception $e) {
                 Mage::dispatchEvent('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'fail'));
                 // display error message
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                 // go back to edit form
                 $this->_redirect('*/*/edit', array('page_id' => $id));
                 return;
             }
         }
         // display error message
-        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Cms_Helper_Data')->__('Unable to find a page to delete.'));
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Cms_Helper_Data')->__('Unable to find a page to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }
@@ -225,13 +225,13 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         switch ($this->getRequest()->getActionName()) {
             case 'new':
             case 'save':
-                return Mage::getSingleton('admin/session')->isAllowed('cms/page/save');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/page/save');
                 break;
             case 'delete':
-                return Mage::getSingleton('admin/session')->isAllowed('cms/page/delete');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/page/delete');
                 break;
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('cms/page');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/page');
                 break;
         }
     }

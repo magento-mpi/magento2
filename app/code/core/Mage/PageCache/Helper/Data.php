@@ -99,7 +99,7 @@ class Mage_PageCache_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function setNoCacheCookie()
     {
-        $cookie   = Mage::getSingleton('core/cookie');
+        $cookie   = Mage::getSingleton('Mage_Core_Model_Cookie');
         $lifetime = Mage::getStoreConfig(self::XML_PATH_EXTERNAL_CACHE_LIFETIME);
         $noCache  = $cookie->get(self::NO_CACHE_COOKIE);
 

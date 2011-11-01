@@ -52,7 +52,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
      */
     protected function _prepareLayout()
     {
-        if (!Mage::getSingleton('admin/session')
+        if (!Mage::getSingleton('Mage_Admin_Model_Session')
             ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_BALANCE)
         ) {
             // unset template to get empty output

@@ -313,7 +313,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         }
 
         $quote = $qAddress->getQuote();
-        $taxCalculationModel = Mage::getSingleton('tax/calculation');
+        $taxCalculationModel = Mage::getSingleton('Mage_Tax_Model_Calculation');
         $request = $taxCalculationModel->getRateRequest($qAddress);
         $rate = $taxCalculationModel->getRate($request->setProductClassId($shippingTaxClass));
 
@@ -382,7 +382,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         $taxMessage = $this->_applyCustomTax($quote->getShippingAddress());
 
         // CONVERT QUOTE TO ORDER
-        $convertQuote = Mage::getSingleton('sales/convert_quote');
+        $convertQuote = Mage::getSingleton('Mage_Sales_Model_Convert_Quote');
 
         /* @var $order Mage_Sales_Model_Order */
         $order = $convertQuote->toOrder($quote);
@@ -690,7 +690,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         }
 
         if ($method) {
-            Mage::getSingleton('tax/config')->setShippingPriceIncludeTax(false);
+            Mage::getSingleton('Mage_Tax_Model_Config')->setShippingPriceIncludeTax(false);
             $rate = $this->_createShippingRate($method)
                 ->setMethodTitle($shipping['shipping-name']['VALUE'])
                 ->setPrice($shipping['shipping-cost']['VALUE']);

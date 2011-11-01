@@ -71,7 +71,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
     {
         $this->_init('catalog/product', 'Mage_Catalog_Model_Resource_Product');
         $this->setRowIdFieldName('review_id');
-        $this->_reviewStoreTable = Mage::getSingleton('core/resource')->getTableName('review_store');
+        $this->_reviewStoreTable = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('review_store');
         $this->_initTables();
     }
 
@@ -276,8 +276,8 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
      */
     protected function _joinFields()
     {
-        $reviewTable = Mage::getSingleton('core/resource')->getTableName('review');
-        $reviewDetailTable = Mage::getSingleton('core/resource')->getTableName('review_detail');
+        $reviewTable = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('review');
+        $reviewDetailTable = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('review_detail');
 
         $this->addAttributeToSelect('name')
             ->addAttributeToSelect('sku');

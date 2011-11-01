@@ -646,16 +646,16 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
     protected function _fillAttribute(Mage_Catalog_Model_Product $product)
     {
         if (is_null($this->_productAttributes)) {
-            $entityType = Mage::getSingleton('eav/entity_type')
+            $entityType = Mage::getSingleton('Mage_Eav_Model_Entity_Type')
                 ->loadByCode('catalog_product');
             $entityTypeId = $entityType->getId();
 
-            $attributeSet = Mage::getSingleton('eav/entity_attribute_set')
+            $attributeSet = Mage::getSingleton('Mage_Eav_Model_Entity_Attribute_Set')
                 ->load($this->getAttributeSetId());
             /* @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
             if (!$attributeSet->getId() || $attributeSet->getEntityTypeId() != $entityTypeId) {
                 $this->setAttributeSetId($product->getResource()->getEntityType()->getDefaultAttributeSetId());
-                $attributeSet = Mage::getSingleton('eav/entity_attribute_set')
+                $attributeSet = Mage::getSingleton('Mage_Eav_Model_Entity_Attribute_Set')
                     ->load($this->getAttributeSetId());
             }
             $attributeSetId = $attributeSet->getId();

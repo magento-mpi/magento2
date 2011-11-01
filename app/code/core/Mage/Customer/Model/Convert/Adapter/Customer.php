@@ -332,7 +332,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
      */
     public function parse()
     {
-        $batchModel = Mage::getSingleton('dataflow/batch');
+        $batchModel = Mage::getSingleton('Mage_Dataflow_Model_Batch');
         /* @var $batchModel Mage_Dataflow_Model_Batch */
 
         $batchImportModel = $batchModel->getBatchImportModel();

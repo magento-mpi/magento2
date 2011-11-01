@@ -57,7 +57,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
      */
     protected function _getCustomerSession()
     {
-        return Mage::getSingleton('customer/session');
+        return Mage::getSingleton('Mage_Customer_Model_Session');
     }
 
     /**
@@ -294,7 +294,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
         }
 
         try {
-            $cart = Mage::getSingleton('checkout/cart');
+            $cart = Mage::getSingleton('Mage_Checkout_Model_Cart');
             $item->addToCart($cart, true);
             $cart->save()->getQuote()->collectTotals();
             $wishlist->save();

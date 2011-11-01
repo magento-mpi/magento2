@@ -33,7 +33,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment exte
      */
     protected function _getOrderCreateModel()
     {
-        return Mage::getSingleton('adminhtml/sales_order_create');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create');
     }
 
     public function getGiftCards()

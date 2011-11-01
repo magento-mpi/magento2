@@ -135,7 +135,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
 
     protected function _getCountriesArray()
     {
-        $_allowed = Mage::getSingleton('googlebase/config')->getAllowedCountries();
+        $_allowed = Mage::getSingleton('Mage_GoogleBase_Model_Config')->getAllowedCountries();
         $result = array();
         foreach ($_allowed as $iso => $info) {
             $result[$iso] = $info['name'];

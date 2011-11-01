@@ -65,6 +65,6 @@ class Mage_Customer_Block_Widget_Abstract extends Mage_Core_Block_Template
      */
     protected function _getAttribute($attributeCode)
     {
-        return Mage::getSingleton('eav/config')->getAttribute('customer', $attributeCode);
+        return Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer', $attributeCode);
     }
 }

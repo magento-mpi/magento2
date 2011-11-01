@@ -126,7 +126,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
     public function getProductTypes()
     {
         if (is_null($this->_productTypes)) {
-            $this->_productTypes = Mage::getSingleton('catalog/product_type')
+            $this->_productTypes = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
                 ->getOptionArray();
         }
         return $this->_productTypes;
@@ -221,7 +221,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
     {
         $type = $product->getTypeId();
         if (!isset($this->_productTypeInstances[$type])) {
-            $this->_productTypeInstances[$type] = Mage::getSingleton('catalog/product_type')
+            $this->_productTypeInstances[$type] = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
                 ->factory($product, true);
         }
         $product->setTypeInstance($this->_productTypeInstances[$type], true);
@@ -235,7 +235,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
 
         if (!isset($this->_setInstances[$productType][$attributeSetId])) {
             $this->_setInstances[$productType][$attributeSetId] =
-                Mage::getSingleton('catalog/product_type')->factory($this->getProductModel());
+                Mage::getSingleton('Mage_Catalog_Model_Product_Type')->factory($this->getProductModel());
         }
 
         return $this->_setInstances[$productType][$attributeSetId];
@@ -261,7 +261,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
     public function parse()
     {
         $data            = $this->getData();
-        $entityTypeId    = Mage::getSingleton('eav/config')->getEntityType(Mage_Catalog_Model_Product::ENTITY)->getId();
+        $entityTypeId    = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType(Mage_Catalog_Model_Product::ENTITY)->getId();
         $inventoryFields = array();
 
         foreach ($data as $i=>$row) {

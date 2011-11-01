@@ -47,7 +47,7 @@ class Mage_Adminhtml_Model_System_Config_Clone_Media_Image extends Mage_Core_Mod
         //$entityTypeId = $entityType->loadByCode('catalog_product')->getEntityTypeId();
 
         // use cached eav config
-        $entityTypeId = Mage::getSingleton('eav/config')->getEntityType(Mage_Catalog_Model_Product::ENTITY)->getId();
+        $entityTypeId = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType(Mage_Catalog_Model_Product::ENTITY)->getId();
 
         /* @var $collection Mage_Catalog_Model_Resource_Product_Attribute_Collection */
         $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection');

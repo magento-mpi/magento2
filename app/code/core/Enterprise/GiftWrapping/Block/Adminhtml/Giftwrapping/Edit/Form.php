@@ -91,7 +91,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
                 'name'     => 'website_ids',
                 'required' => true,
                 'label'    => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Websites'),
-                'values'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(),
+                'values'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteValuesForForm(),
                 'value'    => $model->getWebsiteIds()
             ));
         }

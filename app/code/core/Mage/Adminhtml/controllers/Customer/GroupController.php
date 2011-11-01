@@ -110,12 +110,12 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
                 $customerGroup->setCode($this->getRequest()->getParam('code'))
                     ->setTaxClassId($taxClass)
                     ->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Customer_Helper_Data')->__('The customer group has been saved.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Customer_Helper_Data')->__('The customer group has been saved.'));
                 $this->getResponse()->setRedirect($this->getUrl('*/customer_group'));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                Mage::getSingleton('adminhtml/session')->setCustomerGroupData($customerGroup->getData());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setCustomerGroupData($customerGroup->getData());
                 $this->getResponse()->setRedirect($this->getUrl('*/customer_group/edit', array('id' => $id)));
                 return;
             }
@@ -135,11 +135,11 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
             try {
                 $customerGroup->load($id);
                 $customerGroup->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Customer_Helper_Data')->__('The customer group has been deleted.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Customer_Helper_Data')->__('The customer group has been deleted.'));
                 $this->getResponse()->setRedirect($this->getUrl('*/customer_group'));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->getResponse()->setRedirect($this->getUrl('*/customer_group/edit', array('id' => $id)));
                 return;
             }
@@ -150,6 +150,6 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/group');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/group');
     }
 }

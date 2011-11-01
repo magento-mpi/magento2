@@ -199,7 +199,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
             }
         }
 
-        $taxCalculation = Mage::getSingleton('tax/calculation');
+        $taxCalculation = Mage::getSingleton('Mage_Tax_Model_Calculation');
         if (!$taxCalculation->getCustomer() && Mage::registry('current_customer')) {
             $taxCalculation->setCustomer(Mage::registry('current_customer'));
         }

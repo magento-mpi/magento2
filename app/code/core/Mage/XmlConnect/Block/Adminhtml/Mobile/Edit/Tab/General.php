@@ -82,7 +82,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General
                 'label'     => $this->__('Store View'),
                 'title'     => $this->__('Store View'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, false),
+                'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(false, false),
             ));
         } else {
             $storeElement = $fieldset->addField('store_id', 'hidden', array(
@@ -153,7 +153,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General
      */
     public function canShowTab()
     {
-        return (bool) !Mage::getSingleton('adminhtml/session')->getNewApplication();
+        return (bool) !Mage::getSingleton('Mage_Adminhtml_Model_Session')->getNewApplication();
     }
 
     /**

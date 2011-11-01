@@ -107,7 +107,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
 
         $this->_title($event->getId() ? sprintf("#%s", $event->getId()) : $this->__('New Event'));
 
-        $sessionData = Mage::getSingleton('adminhtml/session')->getEventData(true);
+        $sessionData = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getEventData(true);
         if (!empty($sessionData)) {
             $event->addData($sessionData);
         }
@@ -262,7 +262,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/events');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/events');
     }
 
     /**

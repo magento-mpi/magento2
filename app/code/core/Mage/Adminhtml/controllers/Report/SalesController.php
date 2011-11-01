@@ -162,7 +162,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
         $refreshStatsLink = $this->getUrl('*/*/refreshstatistics');
         $directRefreshLink = $this->getUrl('*/*/refreshRecent', array('code' => $refreshCode));
 
-        Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Last updated: %s. To refresh last day\'s <a href="%s">statistics</a>, click <a href="%s">here</a>.', $updatedAt, $refreshStatsLink, $directRefreshLink));
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Last updated: %s. To refresh last day\'s <a href="%s">statistics</a>, click <a href="%s">here</a>.', $updatedAt, $refreshStatsLink, $directRefreshLink));
         return $this;
     }
 
@@ -474,7 +474,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
     protected function _getSession()
     {
         if (is_null($this->_adminSession)) {
-            $this->_adminSession = Mage::getSingleton('admin/session');
+            $this->_adminSession = Mage::getSingleton('Mage_Admin_Model_Session');
         }
         return $this->_adminSession;
     }

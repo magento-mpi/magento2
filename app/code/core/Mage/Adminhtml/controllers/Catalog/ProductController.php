@@ -134,7 +134,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         Mage::register('product', $product);
         Mage::register('current_product', $product);
-        Mage::getSingleton('cms/wysiwyg_config')->setStoreId($this->getRequest()->getParam('store'));
+        Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->setStoreId($this->getRequest()->getParam('store'));
         return $product;
     }
 
@@ -875,7 +875,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             if (!empty($productIds)) {
                 try {
                     foreach ($productIds as $productId) {
-                        $product = Mage::getSingleton('catalog/product')->load($productId);
+                        $product = Mage::getSingleton('Mage_Catalog_Model_Product')->load($productId);
                         Mage::dispatchEvent('catalog_controller_product_delete', array('product' => $product));
                         $product->delete();
                     }
@@ -902,7 +902,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         try {
             $this->_validateMassStatus($productIds, $status);
-            Mage::getSingleton('catalog/product_action')
+            Mage::getSingleton('Mage_Catalog_Model_Product_Action')
                 ->updateAttributes($productIds, array('status' => $status), $storeId);
 
             $this->_getSession()->addSuccess(
@@ -1077,7 +1077,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/products');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/products');
     }
 
     /**
@@ -1087,7 +1087,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function showUpdateResultAction()
     {
-        $session = Mage::getSingleton('adminhtml/session');
+        $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
         if ($session->hasCompositeProductResult() && $session->getCompositeProductResult() instanceof Varien_Object){
             /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
             $helper = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Composite');

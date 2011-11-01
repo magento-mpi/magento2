@@ -52,7 +52,7 @@ class Enterprise_Logging_Block_Adminhtml_Details extends Mage_Adminhtml_Block_Wi
         parent::__construct();
         $this->_addButton('back', array(
             'label'   => Mage::helper('Enterprise_Logging_Helper_Data')->__('Back'),
-            'onclick' => "setLocation('" . Mage::getSingleton('adminhtml/url')->getUrl('*/*/'). "')",
+            'onclick' => "setLocation('" . Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/*/'). "')",
             'class'   => 'back'
         ));
     }

@@ -112,7 +112,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('eav/config')->getAttribute('catalog_product', $this->getAttribute());
+        return Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('catalog_product', $this->getAttribute());
     }
 
     /**

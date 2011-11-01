@@ -40,7 +40,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Customer_Address_Street extends
      */
     protected function _afterSave()
     {
-        $attribute = Mage::getSingleton('eav/config')->getAttribute('customer_address', 'street');
+        $attribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer_address', 'street');
         $value  = $this->getValue();
         switch ($this->getScope()) {
             case 'websites':
@@ -70,7 +70,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Customer_Address_Street extends
         $result = parent::_afterDelete();
 
         if ($this->getScope() == 'websites') {
-            $attribute = Mage::getSingleton('eav/config')->getAttribute('customer_address', 'street');
+            $attribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer_address', 'street');
             $website = Mage::app()->getWebsite($this->getWebsiteCode());
             $attribute->setWebsite($website);
             $attribute->load($attribute->getId());

@@ -42,7 +42,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee
         if (!$row->getReferralId()) {
             return '';
         }
-        return '<a href="' . Mage::getSingleton('adminhtml/url')->getUrl('*/customer/edit', array('id' => $row->getReferralId())) . '">'
+        return '<a href="' . Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/customer/edit', array('id' => $row->getReferralId())) . '">'
             . $this->htmlEscape($row->getData($this->getColumn()->getIndex())) . '</a>';
     }
 }

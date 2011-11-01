@@ -76,7 +76,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
                 $storeId    = $this->_getHelper()->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {
-                    $attribute = Mage::getSingleton('eav/config')
+                    $attribute = Mage::getSingleton('Mage_Eav_Model_Config')
                         ->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeCode);
                     if (!$attribute->getAttributeId()) {
                         unset($attributesData[$attributeCode]);
@@ -103,7 +103,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
                     }
                 }
 
-                Mage::getSingleton('catalog/product_action')
+                Mage::getSingleton('Mage_Catalog_Model_Product_Action')
                     ->updateAttributes($this->_getHelper()->getProductIds(), $attributesData, $storeId);
             }
             if ($inventoryData) {
@@ -129,7 +129,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
 
             if ($websiteAddData || $websiteRemoveData) {
                 /* @var $actionModel Mage_Catalog_Model_Product_Action */
-                $actionModel = Mage::getSingleton('catalog/product_action');
+                $actionModel = Mage::getSingleton('Mage_Catalog_Model_Product_Action');
                 $productIds  = $this->_getHelper()->getProductIds();
 
                 if ($websiteRemoveData) {
@@ -201,7 +201,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/update_attributes');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/update_attributes');
     }
 
     /**
@@ -221,7 +221,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
                 $storeId    = $this->_getHelper()->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {
-                    $attribute = Mage::getSingleton('eav/config')
+                    $attribute = Mage::getSingleton('Mage_Eav_Model_Config')
                         ->getAttribute('catalog_product', $attributeCode);
                     if (!$attribute->getAttributeId()) {
                         unset($attributesData[$attributeCode]);

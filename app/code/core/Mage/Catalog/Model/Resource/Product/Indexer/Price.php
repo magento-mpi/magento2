@@ -339,7 +339,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
     {
         if (is_null($this->_indexers)) {
             $this->_indexers = array();
-            $types = Mage::getSingleton('catalog/product_type')->getTypesByPriority();
+            $types = Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getTypesByPriority();
             foreach ($types as $typeId => $typeInfo) {
                 if (isset($typeInfo['price_indexer'])) {
                     $modelName = $typeInfo['price_indexer'];

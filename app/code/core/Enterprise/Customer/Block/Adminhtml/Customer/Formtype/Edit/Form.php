@@ -107,7 +107,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Form extends Ma
                 'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Store View'),
                 'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Store View'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true)
+                'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(false, true)
             ));
 
             $form->setValues($this->_getFormType()->getData());

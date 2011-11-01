@@ -153,7 +153,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Mage_
                     )
                 );
 
-                if (!Mage::getSingleton('enterprise_staging/entry')->isAutomatic()) {
+                if (!Mage::getSingleton('Enterprise_Staging_Model_Entry')->isAutomatic()) {
                     $fieldset->addField('staging_website_base_url_'.$_id, 'text',
                         array(
                             'label' => Mage::helper('Enterprise_Staging_Helper_Data')->__('Base URL'),
@@ -183,7 +183,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Mage_
                 'title'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Frontend Restriction'),
                 'name'      => "websites[{$_id}][visibility]",
                 'value'     => $stagingWebsite ? $stagingWebsite->getVisibility() : Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_HTTP_AUTH,
-                'options'   => Mage::getSingleton('enterprise_staging/staging_config')->getVisibilityOptionArray()
+                'options'   => Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getVisibilityOptionArray()
             ));
 
             $fieldset->addField('staging_website_master_login_'.$_id, 'text',
@@ -252,7 +252,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Mage_
 
         $usedItemCodes = $staging->getStagingItemCodes();
 
-        foreach (Mage::getSingleton('enterprise_staging/staging_config')->getStagingItems() as $stagingItem) {
+        foreach (Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getStagingItems() as $stagingItem) {
             if ((int)$stagingItem->is_backend) {
                 continue;
             }

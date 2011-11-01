@@ -41,7 +41,7 @@ class Enterprise_Reward_Model_Source_Website
      */
     public function toOptionArray($withAll = true)
     {
-        $websites = Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash();
+        $websites = Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteOptionHash();
         if ($withAll) {
             $websites = array(0 => Mage::helper('Enterprise_Reward_Helper_Data')->__('All Websites'))
                       + $websites;

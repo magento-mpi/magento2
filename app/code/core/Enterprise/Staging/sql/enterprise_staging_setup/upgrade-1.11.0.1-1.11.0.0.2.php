@@ -52,8 +52,8 @@ while ($staging = $stagingCollection->fetchItem()) {
             continue;
         }
 
-        $tablePrefix = Mage::getSingleton('enterprise_staging/staging_config')->getTablePrefix($staging)
-            . Mage::getSingleton('enterprise_staging/staging_config')->getStagingBackupTablePrefix()
+        $tablePrefix = Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getTablePrefix($staging)
+            . Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getStagingBackupTablePrefix()
             . $log->getId() . '_';
 
         foreach ($backupTables as $backupTable) {

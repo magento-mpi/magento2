@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Totals_Default extends Mage_Adminh
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session_quote');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote');
     }
 
     /**

@@ -92,7 +92,7 @@ class Mage_Tax_Model_Calculation_Rule extends Mage_Core_Model_Abstract
         $ptc = $this->getData('tax_product_class');
         $rates = $this->getData('tax_rate');
 
-        Mage::getSingleton('tax/calculation')->deleteByRuleId($this->getId());
+        Mage::getSingleton('Mage_Tax_Model_Calculation')->deleteByRuleId($this->getId());
         foreach ($ctc as $c) {
             foreach ($ptc as $p) {
                 foreach ($rates as $r) {
@@ -102,7 +102,7 @@ class Mage_Tax_Model_Calculation_Rule extends Mage_Core_Model_Abstract
                         'customer_tax_class_id'     =>$c,
                         'product_tax_class_id'      =>$p,
                     );
-                    Mage::getSingleton('tax/calculation')->setData($dataArray)->save();
+                    Mage::getSingleton('Mage_Tax_Model_Calculation')->setData($dataArray)->save();
                 }
             }
         }
@@ -111,7 +111,7 @@ class Mage_Tax_Model_Calculation_Rule extends Mage_Core_Model_Abstract
     public function getCalculationModel()
     {
         if (is_null($this->_calculationModel)) {
-            $this->_calculationModel = Mage::getSingleton('tax/calculation');
+            $this->_calculationModel = Mage::getSingleton('Mage_Tax_Model_Calculation');
         }
         return $this->_calculationModel;
     }

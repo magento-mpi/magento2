@@ -62,7 +62,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mage_Adm
         /* @var $model Mage_Cms_Model_Page */
         $version = Mage::registry('cms_page_version');
 
-        $config = Mage::getSingleton('enterprise_cms/config');
+        $config = Mage::getSingleton('Enterprise_Cms_Model_Config');
         /* @var $config Enterprise_Cms_Model_Config */
 
         $isOwner = $config->isCurrentUserOwner($version->getUserId());

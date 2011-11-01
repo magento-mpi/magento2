@@ -153,7 +153,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getUrlModel()
     {
         if ($this->_urlModel === null) {
-            $this->_urlModel = Mage::getSingleton('catalog/product_url');
+            $this->_urlModel = Mage::getSingleton('Mage_Catalog_Model_Product_Url');
         }
         return $this->_urlModel;
     }
@@ -248,14 +248,14 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         if ($singleton === true) {
             if (is_null($this->_typeInstanceSingleton)) {
-                $this->_typeInstanceSingleton = Mage::getSingleton('catalog/product_type')
+                $this->_typeInstanceSingleton = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
                     ->factory($this, true);
             }
             return $this->_typeInstanceSingleton;
         }
 
         if ($this->_typeInstance === null) {
-            $this->_typeInstance = Mage::getSingleton('catalog/product_type')
+            $this->_typeInstance = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
                 ->factory($this);
         }
         return $this->_typeInstance;
@@ -286,7 +286,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getLinkInstance()
     {
         if (!$this->_linkInstance) {
-            $this->_linkInstance = Mage::getSingleton('catalog/product_link');
+            $this->_linkInstance = Mage::getSingleton('Mage_Catalog_Model_Product_Link');
         }
         return $this->_linkInstance;
     }
@@ -535,7 +535,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
         parent::_afterSave();
 
-        Mage::getSingleton('index/indexer')->processEntityAction(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );
         return $this;
@@ -551,7 +551,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         $this->_protectFromNonAdmin();
         $this->cleanCache();
-        Mage::getSingleton('index/indexer')->logEvent(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->logEvent(
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE
         );
         return parent::_beforeDelete();
@@ -565,7 +565,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     protected function _afterDeleteCommit()
     {
         parent::_afterDeleteCommit();
-        Mage::getSingleton('index/indexer')->indexEvents(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->indexEvents(
             self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE
         );
     }
@@ -618,7 +618,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getPriceModel()
     {
-        return Mage::getSingleton('catalog/product_type')->priceFactory($this->getTypeId());
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Type')->priceFactory($this->getTypeId());
     }
 
     /**
@@ -1032,7 +1032,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getMediaConfig()
     {
-        return Mage::getSingleton('catalog/product_media_config');
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config');
     }
 
     /**
@@ -1203,7 +1203,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getVisibleInCatalogStatuses()
     {
-        return Mage::getSingleton('catalog/product_status')->getVisibleStatusIds();
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getVisibleStatusIds();
     }
 
     /**
@@ -1213,7 +1213,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getVisibleStatuses()
     {
-        return Mage::getSingleton('catalog/product_status')->getVisibleStatusIds();
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getVisibleStatusIds();
     }
 
     /**
@@ -1233,7 +1233,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getVisibleInSiteVisibilities()
     {
-        return Mage::getSingleton('catalog/product_visibility')->getVisibleInSiteIds();
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds();
     }
 
     /**
@@ -1592,7 +1592,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getOptionInstance()
     {
         if (!$this->_optionInstance) {
-            $this->_optionInstance = Mage::getSingleton('catalog/product_option');
+            $this->_optionInstance = Mage::getSingleton('Mage_Catalog_Model_Product_Option');
         }
         return $this->_optionInstance;
     }

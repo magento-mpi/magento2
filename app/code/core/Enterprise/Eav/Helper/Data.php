@@ -396,7 +396,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
         if (empty($this->_userDefinedAttributeCodes[$entityTypeCode])) {
             $this->_userDefinedAttributeCodes[$entityTypeCode] = array();
             /* @var $config Mage_Eav_Model_Config */
-            $config = Mage::getSingleton('eav/config');
+            $config = Mage::getSingleton('Mage_Eav_Model_Config');
             foreach ($config->getEntityAttributeCodes($entityTypeCode) as $attributeCode) {
                 $attribute = $config->getAttribute($entityTypeCode, $attributeCode);
                 if ($attribute && $attribute->getIsUserDefined()) {

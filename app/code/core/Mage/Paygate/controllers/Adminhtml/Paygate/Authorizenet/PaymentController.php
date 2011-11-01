@@ -43,8 +43,8 @@ class Mage_Paygate_Adminhtml_Paygate_Authorizenet_PaymentController extends Mage
         try {
             $paymentMethod = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance(Mage_Paygate_Model_Authorizenet::METHOD_CODE);
             if ($paymentMethod) {
-                $paymentMethod->setStore(Mage::getSingleton('adminhtml/session_quote')->getQuote()->getStoreId());
-                $paymentMethod->cancelPartialAuthorization(Mage::getSingleton('adminhtml/session_quote')->getQuote()->getPayment());
+                $paymentMethod->setStore(Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getQuote()->getStoreId());
+                $paymentMethod->cancelPartialAuthorization(Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getQuote()->getPayment());
             }
 
             $result['success']  = true;
@@ -57,7 +57,7 @@ class Mage_Paygate_Adminhtml_Paygate_Authorizenet_PaymentController extends Mage
             $result['error_message'] = $this->__('There was an error canceling transactions. Please contact us or try again later.');
         }
 
-        Mage::getSingleton('adminhtml/session_quote')->getQuote()->getPayment()->save();
+        Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getQuote()->getPayment()->save();
         $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 

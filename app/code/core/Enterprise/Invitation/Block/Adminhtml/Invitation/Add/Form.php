@@ -79,7 +79,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adm
                 'label' => $this->helper('Enterprise_Invitation_Helper_Data')->__('Send From'),
                 'required' => true,
                 'name' => 'store_id',
-                'values' => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
+                'values' => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm()
             ));
         }
 
@@ -109,7 +109,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adm
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
     }
 
 }

@@ -68,7 +68,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
      */
     public function __construct()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
         $this->setType(Mage_Catalog_Model_Category::ENTITY)
             ->setConnection(
                 $resource->getConnection('catalog_read'),
@@ -540,7 +540,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
      */
     public function getProductCount($category)
     {
-        $productTable = Mage::getSingleton('core/resource')->getTableName('catalog_category_product');
+        $productTable = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('catalog_category_product');
 
         $select = $this->getReadConnection()->select()
             ->from(

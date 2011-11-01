@@ -224,6 +224,6 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/rates');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/rates');
     }
 }

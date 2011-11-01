@@ -330,7 +330,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
     protected function _getConditionFullName($conditionName)
     {
         if (!isset($this->_conditionFullNames[$conditionName])) {
-            $name = Mage::getSingleton('shipping/carrier_tablerate')->getCode('condition_name_short', $conditionName);
+            $name = Mage::getSingleton('Mage_Shipping_Model_Carrier_Tablerate')->getCode('condition_name_short', $conditionName);
             $this->_conditionFullNames[$conditionName] = $name;
         }
 

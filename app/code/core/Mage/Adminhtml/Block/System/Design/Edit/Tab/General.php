@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_System_Design_Edit_Tab_General extends Mage_Adminhtml
             $fieldset->addField('store_id', 'select', array(
                 'label'    => Mage::helper('Mage_Core_Helper_Data')->__('Store'),
                 'title'    => Mage::helper('Mage_Core_Helper_Data')->__('Store'),
-                'values'   => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
+                'values'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(),
                 'name'     => 'store_id',
                 'required' => true,
             ));
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_System_Design_Edit_Tab_General extends Mage_Adminhtml
         $fieldset->addField('design', 'select', array(
             'label'    => Mage::helper('Mage_Core_Helper_Data')->__('Custom Design'),
             'title'    => Mage::helper('Mage_Core_Helper_Data')->__('Custom Design'),
-            'values'   => Mage::getSingleton('core/design_source_design')->getAllOptions(),
+            'values'   => Mage::getSingleton('Mage_Core_Model_Design_Source_Design')->getAllOptions(),
             'name'     => 'design',
             'required' => true,
         ));
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_System_Design_Edit_Tab_General extends Mage_Adminhtml
             //'required' => true,
         ));
 
-        $formData = Mage::getSingleton('adminhtml/session')->getDesignData(true);
+        $formData = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getDesignData(true);
         if (!$formData){
             $formData = Mage::registry('design')->getData();
         } else {

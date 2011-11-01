@@ -40,7 +40,7 @@ class Mage_Tax_Model_Sales_Pdf_Grandtotal extends Mage_Sales_Model_Order_Pdf_Tot
     public function getTotalsForDisplay()
     {
         $store = $this->getOrder()->getStore();
-        $config= Mage::getSingleton('tax/config');
+        $config= Mage::getSingleton('Mage_Tax_Model_Config');
         if (!$config->displaySalesTaxWithGrandTotal($store)) {
             return parent::getTotalsForDisplay();
         }

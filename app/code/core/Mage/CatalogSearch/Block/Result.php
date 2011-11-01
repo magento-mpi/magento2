@@ -107,7 +107,7 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
      */
     public function setListOrders()
     {
-        $category = Mage::getSingleton('catalog/layer')
+        $category = Mage::getSingleton('Mage_Catalog_Model_Layer')
             ->getCurrentCategory();
         /* @var $category Mage_Catalog_Model_Category */
         $availableOrders = $category->getAvailableSortByOptions();

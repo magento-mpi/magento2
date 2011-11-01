@@ -297,7 +297,7 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
         if (!Mage::registry('staging/frontend_checked_started')) {
             Mage::register('staging/frontend_checked_started', true);
 
-            $stagingItems = Mage::getSingleton('enterprise_staging/staging_config')->getStagingItems();
+            $stagingItems = Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getStagingItems();
             foreach ($stagingItems as $stagingItem) {
                 if (!$stagingItem->is_backend) {
                     continue;
@@ -321,7 +321,7 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
             }
 
             Mage::unregister('staging/frontend_checked_started');
-            Mage::getSingleton("core/session")->setData('staging_frontend_website_is_checked', true);
+            Mage::getSingleton('Mage_Core_Model_Session')->setData('staging_frontend_website_is_checked', true);
         }
         return $this;
     }
@@ -368,7 +368,7 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
             }
             if ($stagingItem->extends) {
                 foreach ($stagingItem->extends->children() as $extendItem) {
-                    if (!Mage::getSingleton('enterprise_staging/staging_config')->isItemModuleActive($extendItem)) {
+                    if (!Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->isItemModuleActive($extendItem)) {
                          continue;
                     }
                     $adapter = $this->getItemAdapterInstanse($extendItem);

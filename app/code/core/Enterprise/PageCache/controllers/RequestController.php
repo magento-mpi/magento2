@@ -30,7 +30,7 @@ class Enterprise_PageCache_RequestController extends Mage_Core_Controller_Front_
      */
     public function processAction()
     {
-        $processor  = Mage::getSingleton('enterprise_pagecache/processor');
+        $processor  = Mage::getSingleton('Enterprise_PageCache_Model_Processor');
         $content    = Mage::registry('cached_page_content');
         $containers = Mage::registry('cached_page_containers');
         $cacheInstance = Enterprise_PageCache_Model_Cache::getCacheInstance();
@@ -46,7 +46,7 @@ class Enterprise_PageCache_RequestController extends Mage_Core_Controller_Front_
         } else {
             $sessionInfo = array();
         }
-        $session = Mage::getSingleton('core/session');
+        $session = Mage::getSingleton('Mage_Core_Model_Session');
         $cookieName = $session->getSessionName();
         $cookieInfo = array(
             'lifetime' => $session->getCookie()->getLifetime(),

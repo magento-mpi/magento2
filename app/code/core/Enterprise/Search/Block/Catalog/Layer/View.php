@@ -104,7 +104,7 @@ class Enterprise_Search_Block_Catalog_Layer_View extends Mage_Catalog_Block_Laye
     public function getLayer()
     {
         if (Mage::helper('Enterprise_Search_Helper_Data')->getIsEngineAvailableForNavigation()) {
-            return Mage::getSingleton('enterprise_search/catalog_layer');
+            return Mage::getSingleton('Enterprise_Search_Model_Catalog_Layer');
         }
 
         return parent::getLayer();

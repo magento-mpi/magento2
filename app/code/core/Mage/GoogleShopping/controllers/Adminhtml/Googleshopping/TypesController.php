@@ -187,7 +187,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
             $typeModel->save();
 
             $attributes = $this->getRequest()->getParam('attributes');
-            $requiredAttributes = Mage::getSingleton('googleshopping/config')->getRequiredAttributes();
+            $requiredAttributes = Mage::getSingleton('Mage_GoogleShopping_Model_Config')->getRequiredAttributes();
             if (is_array($attributes)) {
                 $typeId = $typeModel->getId();
                 foreach ($attributes as $attrInfo) {
@@ -203,14 +203,14 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
                 }
             }
 
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('The attribute mapping has been saved.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('The attribute mapping has been saved.'));
             if (!empty($requiredAttributes)) {
-                Mage::getSingleton('adminhtml/session')
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')
                     ->addSuccess(Mage::helper('Mage_GoogleShopping_Helper_Category')->getMessage());
             }
         } catch (Exception $e) {
             Mage::logException($e);
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("Can't save Attribute Set Mapping."));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("Can't save Attribute Set Mapping."));
         }
         $this->_redirect('*/*/index', array('store' => $this->_getStore()->getId()));
     }
@@ -294,6 +294,6 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/googleshopping/types');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/googleshopping/types');
     }
 }

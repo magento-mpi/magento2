@@ -88,7 +88,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
     protected function _getAttributesMapByProduct(Mage_Catalog_Model_Product $product)
     {
         $result = array();
-        $group = Mage::getSingleton('googleshopping/config')->getAttributeGroupsFlat();
+        $group = Mage::getSingleton('Mage_GoogleShopping_Model_Config')->getAttributeGroupsFlat();
         foreach ($this->_getAttributesCollection() as $attribute) {
             $productAttribute = Mage::helper('Mage_GoogleShopping_Helper_Product')
                 ->getProductAttribute($product, $attribute->getAttributeId());
@@ -133,7 +133,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
      */
     protected function _getBaseAttributes()
     {
-        $names = Mage::getSingleton('googleshopping/config')->getBaseAttributes();
+        $names = Mage::getSingleton('Mage_GoogleShopping_Model_Config')->getBaseAttributes();
         $attributes = array();
         foreach ($names as $name) {
             $attributes[$name] = $this->_createAttribute($name);
@@ -150,7 +150,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
      */
     protected function _initGroupAttributes($attributes)
     {
-        $group = Mage::getSingleton('googleshopping/config')->getAttributeGroupsFlat();
+        $group = Mage::getSingleton('Mage_GoogleShopping_Model_Config')->getAttributeGroupsFlat();
         foreach ($group as $child => $parent) {
             if (isset($attributes[$parent]) &&
                 !isset($attributes[$parent]['group_attribute_' . $child])) {

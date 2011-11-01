@@ -42,9 +42,9 @@ class Mage_Core_Model_Observer
      */
     public function addSynchronizeNotification(Varien_Event_Observer $observer)
     {
-        $adminSession = Mage::getSingleton('admin/session');
+        $adminSession = Mage::getSingleton('Mage_Admin_Model_Session');
         if (!$adminSession->hasSyncProcessStopWatch()) {
-            $flag = Mage::getSingleton('core/file_storage')->getSyncFlag();
+            $flag = Mage::getSingleton('Mage_Core_Model_File_Storage')->getSyncFlag();
             $state = $flag->getState();
             if ($state == Mage_Core_Model_File_Storage_Flag::STATE_RUNNING) {
                 $syncProcessStopWatch = true;
@@ -58,7 +58,7 @@ class Mage_Core_Model_Observer
 
         if (!$adminSession->getSyncProcessStopWatch()) {
             if (!isset($flag)) {
-                $flag = Mage::getSingleton('core/file_storage')->getSyncFlag();
+                $flag = Mage::getSingleton('Mage_Core_Model_File_Storage')->getSyncFlag();
             }
 
             $state = $flag->getState();

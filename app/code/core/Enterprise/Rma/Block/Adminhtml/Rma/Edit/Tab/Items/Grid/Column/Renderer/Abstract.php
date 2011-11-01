@@ -44,7 +44,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Abs
      */
     public function render(Varien_Object $row)
     {
-        $statusManager = Mage::getSingleton('enterprise_rma/item_status');
+        $statusManager = Mage::getSingleton('Enterprise_Rma_Model_Item_Status');
         $statusManager->setStatus($row->getStatus());
         $this->setStatusManager($statusManager);
 

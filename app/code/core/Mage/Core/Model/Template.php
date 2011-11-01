@@ -80,7 +80,7 @@ abstract class Mage_Core_Model_Template extends Mage_Core_Model_Abstract
         $storeId = is_object($store) ? $store->getId() : $store;
         $area = $designConfig->getArea();
         if (!is_null($storeId)) {
-            $appEmulation = Mage::getSingleton('core/app_emulation');
+            $appEmulation = Mage::getSingleton('Mage_Core_Model_App_Emulation');
             $this->_initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId, $area);
         }
         return $this;
@@ -94,7 +94,7 @@ abstract class Mage_Core_Model_Template extends Mage_Core_Model_Abstract
     protected function _cancelDesignConfig()
     {
         if (!empty($this->_initialEnvironmentInfo)) {
-            $appEmulation = Mage::getSingleton('core/app_emulation');
+            $appEmulation = Mage::getSingleton('Mage_Core_Model_App_Emulation');
             $appEmulation->stopEnvironmentEmulation($this->_initialEnvironmentInfo);
             $this->_initialEnvironmentInfo = null;
         }

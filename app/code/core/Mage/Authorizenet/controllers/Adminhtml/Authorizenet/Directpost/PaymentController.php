@@ -42,7 +42,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController
      */
     protected function _getDirectPostSession()
     {
-        return Mage::getSingleton('authorizenet/directpost_session');
+        return Mage::getSingleton('Mage_Authorizenet_Model_Directpost_Session');
     }
 
     /**
@@ -52,7 +52,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController
      */
     protected function _getOrderSession()
     {
-        return Mage::getSingleton('adminhtml/session_quote');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote');
     }
 
     /**
@@ -62,7 +62,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController
      */
     protected function _getOrderCreateModel()
     {
-        return Mage::getSingleton('adminhtml/sales_order_create');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create');
     }
 
     /**
@@ -118,7 +118,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController
                     $requestToPaygate->setOrderSendConfirmation($sendConfirmationFlag);
                     $requestToPaygate->setStoreId($this->_getOrderCreateModel()->getQuote()->getStoreId());
 
-                    $adminUrl = Mage::getSingleton('adminhtml/url');
+                    $adminUrl = Mage::getSingleton('Mage_Adminhtml_Model_Url');
                     if ($adminUrl->useSecretKey()) {
                         $requestToPaygate->setKey(
                             $adminUrl->getSecretKey('authorizenet_directpost_payment','redirect')
@@ -145,7 +145,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController
             if ($isError) {
                 $result['success'] = 0;
                 $result['error'] = 1;
-                $result['redirect'] = Mage::getSingleton('adminhtml/url')->getUrl('*/sales_order_create/');
+                $result['redirect'] = Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/sales_order_create/');
             }
 
             $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
@@ -187,8 +187,8 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController
             //clear sessions
             $this->_getSession()->clear();
             $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($redirectParams['x_invoice_num']);
-            Mage::getSingleton('adminhtml/session')->clear();
-            Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The order has been created.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->clear();
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The order has been created.'));
         }
 
         if (!empty($redirectParams['error_msg'])) {

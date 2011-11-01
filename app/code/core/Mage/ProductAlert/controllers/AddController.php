@@ -37,10 +37,10 @@ class Mage_ProductAlert_AddController extends Mage_Core_Controller_Front_Action
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('customer/session')->authenticate($this)) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
-            if(!Mage::getSingleton('customer/session')->getBeforeUrl()) {
-                Mage::getSingleton('customer/session')->setBeforeUrl($this->_getRefererUrl());
+            if(!Mage::getSingleton('Mage_Customer_Model_Session')->getBeforeUrl()) {
+                Mage::getSingleton('Mage_Customer_Model_Session')->setBeforeUrl($this->_getRefererUrl());
             }
         }
     }
@@ -48,13 +48,13 @@ class Mage_ProductAlert_AddController extends Mage_Core_Controller_Front_Action
     public function testObserverAction()
     {
         $object = new Varien_Object();
-        $observer = Mage::getSingleton('productalert/observer');
+        $observer = Mage::getSingleton('Mage_ProductAlert_Model_Observer');
         $observer->process($object);
     }
 
     public function priceAction()
     {
-        $session = Mage::getSingleton('catalog/session');
+        $session = Mage::getSingleton('Mage_Catalog_Model_Session');
         $backUrl    = $this->getRequest()->getParam(Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED);
         $productId  = (int) $this->getRequest()->getParam('product_id');
         if (!$backUrl || !$productId) {
@@ -72,7 +72,7 @@ class Mage_ProductAlert_AddController extends Mage_Core_Controller_Front_Action
 
         try {
             $model  = Mage::getModel('Mage_ProductAlert_Model_Price')
-                ->setCustomerId(Mage::getSingleton('customer/session')->getId())
+                ->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getId())
                 ->setProductId($product->getId())
                 ->setPrice($product->getFinalPrice())
                 ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
@@ -87,7 +87,7 @@ class Mage_ProductAlert_AddController extends Mage_Core_Controller_Front_Action
 
     public function stockAction()
     {
-        $session = Mage::getSingleton('catalog/session');
+        $session = Mage::getSingleton('Mage_Catalog_Model_Session');
         /* @var $session Mage_Catalog_Model_Session */
         $backUrl    = $this->getRequest()->getParam(Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED);
         $productId  = (int) $this->getRequest()->getParam('product_id');
@@ -105,7 +105,7 @@ class Mage_ProductAlert_AddController extends Mage_Core_Controller_Front_Action
 
         try {
             $model = Mage::getModel('Mage_ProductAlert_Model_Stock')
-                ->setCustomerId(Mage::getSingleton('customer/session')->getId())
+                ->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getId())
                 ->setProductId($product->getId())
                 ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
             $model->save();

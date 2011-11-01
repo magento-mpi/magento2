@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Tag_Edit_Form extends Mage_Adminhtml_Block_Widget_For
 
         $fieldset->addField('form_key', 'hidden', array(
             'name'  => 'form_key',
-            'value' => Mage::getSingleton('core/session')->getFormKey(),
+            'value' => Mage::getSingleton('Mage_Core_Model_Session')->getFormKey(),
         ));
 
         $fieldset->addField('store_id', 'hidden', array(
@@ -102,13 +102,13 @@ class Mage_Adminhtml_Block_Tag_Edit_Form extends Mage_Adminhtml_Block_Widget_For
             'after_element_html' => ' ' . Mage::helper('Mage_Tag_Helper_Data')->__('[STORE VIEW]'),
         ));
 
-        if (!$model->getId() && !Mage::getSingleton('adminhtml/session')->getTagData() ) {
+        if (!$model->getId() && !Mage::getSingleton('Mage_Adminhtml_Model_Session')->getTagData() ) {
             $model->setStatus(Mage_Tag_Model_Tag::STATUS_APPROVED);
         }
 
-        if ( Mage::getSingleton('adminhtml/session')->getTagData() ) {
-            $form->addValues(Mage::getSingleton('adminhtml/session')->getTagData());
-            Mage::getSingleton('adminhtml/session')->setTagData(null);
+        if ( Mage::getSingleton('Mage_Adminhtml_Model_Session')->getTagData() ) {
+            $form->addValues(Mage::getSingleton('Mage_Adminhtml_Model_Session')->getTagData());
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setTagData(null);
         } else {
             $form->addValues($model->getData());
         }

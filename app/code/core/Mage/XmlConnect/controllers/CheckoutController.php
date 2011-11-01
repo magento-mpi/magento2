@@ -41,8 +41,8 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::getSingleton('customer/session')->isLoggedIn()
-            && !Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout()
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
+            && !Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote()->isAllowedGuestCheckout()
         ) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->_message(
@@ -61,7 +61,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
      */
     public function getOnepage()
     {
-        return Mage::getSingleton('checkout/type_onepage');
+        return Mage::getSingleton('Mage_Checkout_Model_Type_Onepage');
     }
 
     /**
@@ -88,7 +88,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
             $this->_message($error, self::MESSAGE_STATUS_ERROR);
             return;
         }
-        Mage::getSingleton('checkout/session')->setCartWasUpdated(false);
+        Mage::getSingleton('Mage_Checkout_Model_Session')->setCartWasUpdated(false);
         $this->getOnepage()->initCheckout();
 
         try {

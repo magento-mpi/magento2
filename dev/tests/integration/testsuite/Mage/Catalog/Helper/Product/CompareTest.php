@@ -79,7 +79,7 @@ class Mage_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestCase
      */
     public function testCalculate()
     {
-        $session = Mage::getSingleton('catalog/session');
+        $session = Mage::getSingleton('Mage_Catalog_Model_Session');
         try {
             $session->unsCatalogCompareItemsCount();
             $this->assertFalse($this->_helper->hasItems());

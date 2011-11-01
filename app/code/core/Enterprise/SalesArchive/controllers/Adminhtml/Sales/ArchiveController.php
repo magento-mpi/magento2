@@ -195,7 +195,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     public function massRemoveAction()
     {
         $orderIds = $this->getRequest()->getPost('order_ids', array());
-        $removedFromArchive = Mage::getSingleton('enterprise_salesarchive/archive')
+        $removedFromArchive = Mage::getSingleton('Enterprise_SalesArchive_Model_Archive')
             ->removeOrdersFromArchiveById($orderIds);
 
         $removedFromArchiveCount = count($removedFromArchive);
@@ -215,7 +215,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     public function massAddAction()
     {
         $orderIds = $this->getRequest()->getPost('order_ids', array());
-        $archivedIds = Mage::getSingleton('enterprise_salesarchive/archive')
+        $archivedIds = Mage::getSingleton('Enterprise_SalesArchive_Model_Archive')
             ->archiveOrdersById($orderIds);
 
         $archivedCount = count($archivedIds);
@@ -234,7 +234,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     {
         $orderId = $this->getRequest()->getParam('order_id');
         if ($orderId) {
-            $archivedIds = Mage::getSingleton('enterprise_salesarchive/archive')
+            $archivedIds = Mage::getSingleton('Enterprise_SalesArchive_Model_Archive')
                 ->archiveOrdersById($orderId);
             $this->_getSession()->addSuccess($this->__('The order has been archived.'));
             $this->_redirect('*/sales_order/view', array('order_id'=>$orderId));
@@ -251,7 +251,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     {
         $orderId = $this->getRequest()->getParam('order_id');
         if ($orderId) {
-            $orderIds = Mage::getSingleton('enterprise_salesarchive/archive')
+            $orderIds = Mage::getSingleton('Enterprise_SalesArchive_Model_Archive')
                 ->removeOrdersFromArchiveById($orderId);
             $this->_getSession()->addSuccess($this->__('The order has been removed from the archive.'));
             $this->_redirect('*/sales_order/view', array('order_id'=>$orderId));
@@ -324,6 +324,6 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
                 break;
         }
 
-        return Mage::getSingleton('admin/session')->isAllowed($acl);
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($acl);
     }
 }

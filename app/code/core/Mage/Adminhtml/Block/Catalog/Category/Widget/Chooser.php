@@ -94,7 +94,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
                 $categoryId = $value[1];
             }
             if ($categoryId) {
-                $label = Mage::getSingleton('catalog/category')->load($categoryId)->getName();
+                $label = Mage::getSingleton('Mage_Catalog_Model_Category')->load($categoryId)->getName();
                 $chooser->setLabel($label);
             }
         }

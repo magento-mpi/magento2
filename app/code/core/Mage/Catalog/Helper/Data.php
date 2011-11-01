@@ -166,14 +166,14 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getLastViewedUrl()
     {
-        if ($productId = Mage::getSingleton('catalog/session')->getLastViewedProductId()) {
+        if ($productId = Mage::getSingleton('Mage_Catalog_Model_Session')->getLastViewedProductId()) {
             $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
             /* @var $product Mage_Catalog_Model_Product */
             if (Mage::helper('Mage_Catalog_Helper_Product')->canShow($product, 'catalog')) {
                 return $product->getProductUrl();
             }
         }
-        if ($categoryId = Mage::getSingleton('catalog/session')->getLastViewedCategoryId()) {
+        if ($categoryId = Mage::getSingleton('Mage_Catalog_Model_Session')->getLastViewedCategoryId()) {
             $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
             /* @var $category Mage_Catalog_Model_Category */
             if (!Mage::helper('Mage_Catalog_Helper_Category')->canShow($category)) {

@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking extends Mage_Admi
     {
 
         $carriers = array();
-        $carrierInstances = Mage::getSingleton('shipping/config')->getAllCarriers(
+        $carrierInstances = Mage::getSingleton('Mage_Shipping_Model_Config')->getAllCarriers(
             $this->getInvoice()->getStoreId()
         );
         $carriers['custom'] = Mage::helper('Mage_Sales_Helper_Data')->__('Custom Value');

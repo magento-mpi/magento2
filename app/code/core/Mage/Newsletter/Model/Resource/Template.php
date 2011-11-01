@@ -135,9 +135,9 @@ class Mage_Newsletter_Model_Resource_Template extends Mage_Core_Model_Resource_D
             $object->setTemplateActual(1);
         }
         if (!$object->hasAddedAt()) {
-            $object->setAddedAt(Mage::getSingleton('core/date')->gmtDate());
+            $object->setAddedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
         }
-        $object->setModifiedAt(Mage::getSingleton('core/date')->gmtDate());
+        $object->setModifiedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
 
         return parent::_beforeSave($object);
     }

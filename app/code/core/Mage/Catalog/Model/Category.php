@@ -245,7 +245,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         }
         if ($moveComplete) {
             Mage::dispatchEvent('category_move', $eventParams);
-            Mage::getSingleton('index/indexer')->processEntityAction(
+            Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
                 $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
             );
             Mage::app()->cleanCache(array(self::CACHE_TAG));
@@ -593,7 +593,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
             $attribute = $this->getResource()->getAttribute($attributeCode);
         }
         else {
-            $attribute = Mage::getSingleton('catalog/config')
+            $attribute = Mage::getSingleton('Mage_Catalog_Model_Config')
                 ->getAttribute(self::ENTITY, $attributeCode);
         }
         return $attribute;
@@ -884,7 +884,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function getAvailableSortByOptions() {
         $availableSortBy = array();
-        $defaultSortBy   = Mage::getSingleton('catalog/config')
+        $defaultSortBy   = Mage::getSingleton('Mage_Catalog_Model_Config')
             ->getAttributeUsedForSortByArray();
         if ($this->getAvailableSortBy()) {
             foreach ($this->getAvailableSortBy() as $sortBy) {
@@ -908,7 +908,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function getDefaultSortBy() {
         if (!$sortBy = $this->getData('default_sort_by')) {
-            $sortBy = Mage::getSingleton('catalog/config')
+            $sortBy = Mage::getSingleton('Mage_Catalog_Model_Config')
                 ->getProductListDefaultSortBy($this->getStoreId());
         }
         $available = $this->getAvailableSortByOptions();
@@ -939,7 +939,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     protected function _afterSave()
     {
         parent::_afterSave();
-        Mage::getSingleton('index/indexer')->processEntityAction(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );
         return $this;

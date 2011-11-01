@@ -67,7 +67,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm());
+        $this->setValueOption(Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm());
         return $this;
     }
 

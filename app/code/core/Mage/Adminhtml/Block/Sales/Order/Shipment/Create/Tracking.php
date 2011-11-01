@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Tracking extends Mage_Adm
     public function getCarriers()
     {
         $carriers = array();
-        $carrierInstances = Mage::getSingleton('shipping/config')->getAllCarriers(
+        $carrierInstances = Mage::getSingleton('Mage_Shipping_Model_Config')->getAllCarriers(
             $this->getShipment()->getStoreId()
         );
         $carriers['custom'] = Mage::helper('Mage_Sales_Helper_Data')->__('Custom Value');

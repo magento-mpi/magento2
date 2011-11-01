@@ -51,7 +51,7 @@ class Mage_Wishlist_SharedController extends Mage_Wishlist_Controller_Abstract
             return false;
         }
 
-        Mage::getSingleton('checkout/session')->setSharedWishlist($code);
+        Mage::getSingleton('Mage_Checkout_Model_Session')->setSharedWishlist($code);
 
         return $wishlist;
     }
@@ -63,7 +63,7 @@ class Mage_Wishlist_SharedController extends Mage_Wishlist_Controller_Abstract
     public function indexAction()
     {
         $wishlist   = $this->_getWishlist();
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
 
         if ($wishlist && $wishlist->getCustomerId() && $wishlist->getCustomerId() == $customerId) {
             $this->_redirectUrl(Mage::helper('Mage_Wishlist_Helper_Data')->getListUrl());
@@ -94,8 +94,8 @@ class Mage_Wishlist_SharedController extends Mage_Wishlist_Controller_Abstract
 
 
         /* @var $session Mage_Wishlist_Model_Session */
-        $session    = Mage::getSingleton('wishlist/session');
-        $cart       = Mage::getSingleton('checkout/cart');
+        $session    = Mage::getSingleton('Mage_Wishlist_Model_Session');
+        $cart       = Mage::getSingleton('Mage_Checkout_Model_Cart');
 
         $redirectUrl = $this->_getRefererUrl();
 
@@ -114,7 +114,7 @@ class Mage_Wishlist_SharedController extends Mage_Wishlist_Controller_Abstract
             if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
                 $session->addError(Mage::helper('Mage_Wishlist_Helper_Data')->__('This product(s) is currently out of stock'));
             } else {
-                Mage::getSingleton('catalog/session')->addNotice($e->getMessage());
+                Mage::getSingleton('Mage_Catalog_Model_Session')->addNotice($e->getMessage());
                 $redirectUrl = $item->getProductUrl();
             }
         } catch (Exception $e) {

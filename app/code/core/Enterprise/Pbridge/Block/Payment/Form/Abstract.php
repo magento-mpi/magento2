@@ -82,7 +82,7 @@ abstract class Enterprise_Pbridge_Block_Payment_Form_Abstract extends Mage_Payme
      */
     public function getQuote()
     {
-        return Mage::getSingleton('checkout/session')->getQuote();
+        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
     }
 
     /**

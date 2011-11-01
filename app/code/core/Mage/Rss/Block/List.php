@@ -100,7 +100,7 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
 
     public function getCurrentCustomerGroupId()
     {
-        return Mage::getSingleton('customer/session')->getCustomerGroupId();
+        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
     }
 
     /**
@@ -116,7 +116,7 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
         $this->CategoriesRssFeed();
         return $this->getRssFeeds();
 
-/*      $section = Mage::getSingleton('adminhtml/config')->getSections();
+/*      $section = Mage::getSingleton('Mage_Adminhtml_Model_Config')->getSections();
         $catalogFeeds = $section->rss->groups->catalog->fields[0];
         $res = array();
         foreach($catalogFeeds as $code => $feed){
@@ -144,7 +144,7 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
     {
         $store_id = Mage::app()->getStore()->getId();
         $param = array('store_id' => $store_id);
-        $custGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        $custGroup = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
         if ($custGroup) {
             $param = array_merge($param, array('cid' => $custGroup));
         }

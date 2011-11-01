@@ -78,7 +78,7 @@ abstract class Mage_Reports_Model_Product_Index_Abstract extends Mage_Core_Model
         if ($this->hasData('visitor_id')) {
             return $this->getData('visitor_id');
         }
-        return Mage::getSingleton('log/visitor')->getId();
+        return Mage::getSingleton('Mage_Log_Model_Visitor')->getId();
     }
 
     /**
@@ -93,7 +93,7 @@ abstract class Mage_Reports_Model_Product_Index_Abstract extends Mage_Core_Model
         if ($this->hasData('customer_id')) {
             return $this->getData('customer_id');
         }
-        return Mage::getSingleton('customer/session')->getCustomerId();
+        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
     }
 
     /**
@@ -150,7 +150,7 @@ abstract class Mage_Reports_Model_Product_Index_Abstract extends Mage_Core_Model
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('reports/session');
+        return Mage::getSingleton('Mage_Reports_Model_Session');
     }
 
     /**
@@ -164,7 +164,7 @@ abstract class Mage_Reports_Model_Product_Index_Abstract extends Mage_Core_Model
             ->setCustomerId($this->getCustomerId())
             ->addIndexFilter();
 
-        Mage::getSingleton('catalog/product_visibility')
+        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
             ->addVisibleInSiteFilterToCollection($collection);
 
         $count = $collection->getSize();

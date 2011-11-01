@@ -113,7 +113,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
     public function __construct()
     {
-        $this->_session = Mage::getSingleton('adminhtml/session_quote');
+        $this->_session = Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote');
     }
 
     /**
@@ -834,7 +834,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      */
     protected function _parseOptions(Mage_Sales_Model_Quote_Item $item, $additionalOptions)
     {
-        $productOptions = Mage::getSingleton('catalog/product_option_type_default')
+        $productOptions = Mage::getSingleton('Mage_Catalog_Model_Product_Option_Type_Default')
             ->setProduct($item->getProduct())
             ->getProductOptions();
 
@@ -863,7 +863,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                     $optionId = $productOptions[$label]['option_id'];
                     $option = $item->getProduct()->getOptionById($optionId);
 
-                    $group = Mage::getSingleton('catalog/product_option')->groupFactory($option->getType())
+                    $group = Mage::getSingleton('Mage_Catalog_Model_Product_Option')->groupFactory($option->getType())
                         ->setOption($option)
                         ->setProduct($item->getProduct());
 
@@ -956,7 +956,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 $option = $item->getProduct()->getOptionById($optionId);
                 $optionValue = $item->getOptionByCode('option_'.$optionId)->getValue();
 
-                $group = Mage::getSingleton('catalog/product_option')->groupFactory($option->getType())
+                $group = Mage::getSingleton('Mage_Catalog_Model_Product_Option')->groupFactory($option->getType())
                     ->setOption($option)
                     ->setQuoteItem($item);
 
@@ -1025,7 +1025,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         $addressForm    = $this->_getCustomerAddressForm()
             ->setEntity($address)
-            ->setEntityType(Mage::getSingleton('eav/config')->getEntityType('customer_address'))
+            ->setEntityType(Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer_address'))
             ->setIsAjaxRequest(!$this->getIsValidate());
 
         // prepare request

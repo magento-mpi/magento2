@@ -341,7 +341,7 @@ class Enterprise_Staging_Model_Staging_Config
         }
 
         $staging = Mage::getModel('Enterprise_Staging_Model_Staging');
-        if (!Mage::getSingleton("core/session")->getData('staging_frontend_website_is_checked')) {
+        if (!Mage::getSingleton('Mage_Core_Model_Session')->getData('staging_frontend_website_is_checked')) {
             $staging->checkFrontend();
         }
 
@@ -406,7 +406,7 @@ class Enterprise_Staging_Model_Staging_Config
      */
     public function getCoreResourcesVersion()
     {
-        $coreResource = Mage::getSingleton('core/resource');
+        $coreResource = Mage::getSingleton('Mage_Core_Model_Resource');
         $connection  = $coreResource->getConnection('core_read');
         $select = $connection->select()->from($coreResource->getTableName('core_resource'), array('code' , 'version'));
         $result = $connection->fetchPairs($select);

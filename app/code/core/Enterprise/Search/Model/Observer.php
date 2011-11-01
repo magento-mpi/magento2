@@ -100,7 +100,7 @@ class Enterprise_Search_Model_Observer
 
         $object = $observer->getEvent()->getDataObject();
         if ($object->isObjectNew() || $object->getTaxClassId() != $object->getOrigData('tax_class_id')) {
-            Mage::getSingleton('index/indexer')->getProcessByCode('catalogsearch_fulltext')
+            Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext')
                 ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         }
     }
@@ -200,7 +200,7 @@ class Enterprise_Search_Model_Observer
     public function resetCurrentCatalogLayer(Varien_Event_Observer $observer)
     {
         if (Mage::helper('Enterprise_Search_Helper_Data')->getIsEngineAvailableForNavigation()) {
-            Mage::register('current_layer', Mage::getSingleton('enterprise_search/catalog_layer'));
+            Mage::register('current_layer', Mage::getSingleton('Enterprise_Search_Model_Catalog_Layer'));
         }
     }
 
@@ -212,7 +212,7 @@ class Enterprise_Search_Model_Observer
     public function resetCurrentSearchLayer(Varien_Event_Observer $observer)
     {
         if (Mage::helper('Enterprise_Search_Helper_Data')->getIsEngineAvailableForNavigation(false)) {
-            Mage::register('current_layer', Mage::getSingleton('enterprise_search/search_layer'));
+            Mage::register('current_layer', Mage::getSingleton('Enterprise_Search_Model_Search_Layer'));
         }
     }
 }

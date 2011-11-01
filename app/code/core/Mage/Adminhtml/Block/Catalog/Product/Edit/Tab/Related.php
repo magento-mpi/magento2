@@ -157,7 +157,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             'width'     => 100,
             'index'     => 'type_id',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('catalog/product_type')->getOptionArray(),
+            'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getOptionArray(),
         ));
 
         $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
@@ -178,7 +178,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             'width'     => 90,
             'index'     => 'status',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('catalog/product_status')->getOptionArray(),
+            'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getOptionArray(),
         ));
 
         $this->addColumn('visibility', array(
@@ -186,7 +186,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             'width'     => 90,
             'index'     => 'visibility',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('catalog/product_visibility')->getOptionArray(),
+            'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getOptionArray(),
         ));
 
         $this->addColumn('sku', array(

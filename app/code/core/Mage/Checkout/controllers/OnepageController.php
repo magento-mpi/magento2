@@ -41,7 +41,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
         parent::preDispatch();
         $this->_preDispatchValidateCustomer();
 
-        $checkoutSessionQuote = Mage::getSingleton('checkout/session')->getQuote();
+        $checkoutSessionQuote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
         if ($checkoutSessionQuote->getIsMultiShipping()) {
             $checkoutSessionQuote->setIsMultiShipping(false);
             $checkoutSessionQuote->removeAllAddresses();
@@ -79,7 +79,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             return true;
         }
         $action = $this->getRequest()->getActionName();
-        if (Mage::getSingleton('checkout/session')->getCartWasUpdated(true)
+        if (Mage::getSingleton('Mage_Checkout_Model_Session')->getCartWasUpdated(true)
             && !in_array($action, array('index', 'progress'))) {
             $this->_ajaxRedirectResponse();
             return true;
@@ -148,7 +148,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
      */
     public function getOnepage()
     {
-        return Mage::getSingleton('checkout/type_onepage');
+        return Mage::getSingleton('Mage_Checkout_Model_Type_Onepage');
     }
 
     /**
@@ -157,7 +157,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
     public function indexAction()
     {
         if (!Mage::helper('Mage_Checkout_Helper_Data')->canOnepageCheckout()) {
-            Mage::getSingleton('checkout/session')->addError($this->__('The onepage checkout is disabled.'));
+            Mage::getSingleton('Mage_Checkout_Model_Session')->addError($this->__('The onepage checkout is disabled.'));
             $this->_redirect('checkout/cart');
             return;
         }
@@ -168,12 +168,12 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
         }
         if (!$quote->validateMinimumAmount()) {
             $error = Mage::getStoreConfig('sales/minimum_order/error_message');
-            Mage::getSingleton('checkout/session')->addError($error);
+            Mage::getSingleton('Mage_Checkout_Model_Session')->addError($error);
             $this->_redirect('checkout/cart');
             return;
         }
-        Mage::getSingleton('checkout/session')->setCartWasUpdated(false);
-        Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_secure'=>true)));
+        Mage::getSingleton('Mage_Checkout_Model_Session')->setCartWasUpdated(false);
+        Mage::getSingleton('Mage_Customer_Model_Session')->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_secure'=>true)));
         $this->getOnepage()->initCheckout();
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
@@ -269,7 +269,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
         if ($addressId) {
             $address = $this->getOnepage()->getAddress($addressId);
 
-            if (Mage::getSingleton('customer/session')->getCustomer()->getId() == $address->getCustomerId()) {
+            if (Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getId() == $address->getCustomerId()) {
                 $this->getResponse()->setHeader('Content-type', 'application/x-json');
                 $this->getResponse()->setBody($address->toJson());
             } else {
@@ -594,7 +594,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
      */
     protected function _canShowForUnregisteredUsers()
     {
-        return Mage::getSingleton('customer/session')->isLoggedIn()
+        return Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
             || $this->getRequest()->getActionName() == 'index'
             || Mage::helper('Mage_Checkout_Helper_Data')->isAllowedGuestCheckout($this->getOnepage()->getQuote())
             || !Mage::helper('Mage_Checkout_Helper_Data')->isCustomerMustBeLogged();

@@ -81,7 +81,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         parent::_beforeSave();
 
         if (!$this->getIncrementId()) {
-            $incrementId = Mage::getSingleton('eav/config')
+            $incrementId = Mage::getSingleton('Mage_Eav_Model_Config')
                 ->getEntityType('rma_item')
                 ->fetchNewIncrementId($this->getStoreId());
             $this->setIncrementId($incrementId);
@@ -226,7 +226,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         if ($this->getCustomerCustomEmail()) {
             $validateEmail = $this->_validateEmail($this->getCustomerCustomEmail());
             if (is_array($validateEmail)) {
-                $session = Mage::getSingleton('core/session');
+                $session = Mage::getSingleton('Mage_Core_Model_Session');
                 foreach($validateEmail as $error) {
                     $session->addError($error);
                 }
@@ -253,7 +253,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
     public function sendNewRmaEmail()
     {
         /** @var $configRmaEmail Enterprise_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('enterprise_rma/config');
+        $configRmaEmail = Mage::getSingleton('Enterprise_Rma_Model_Config');
         return $this->_sendRmaEmailWithItems($configRmaEmail->getRootRmaEmail());
     }
 
@@ -268,7 +268,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
             return $this;
         }
         /** @var $configRmaEmail Enterprise_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('enterprise_rma/config');
+        $configRmaEmail = Mage::getSingleton('Enterprise_Rma_Model_Config');
         return $this->_sendRmaEmailWithItems($configRmaEmail->getRootAuthEmail());
     }
 
@@ -281,14 +281,14 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
     public function _sendRmaEmailWithItems($rootConfig)
     {
         /** @var $configRmaEmail Enterprise_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('enterprise_rma/config');
+        $configRmaEmail = Mage::getSingleton('Enterprise_Rma_Model_Config');
         $configRmaEmail->init($rootConfig, $this->getStoreId());
 
         if (!$configRmaEmail->isEnabled()) {
             return $this;
         }
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
@@ -447,7 +447,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         }
 
         if ($errors) {
-            $session = Mage::getSingleton('core/session');
+            $session = Mage::getSingleton('Mage_Core_Model_Session');
             $session->addError(
                 Mage::helper('Enterprise_Rma_Helper_Data')->__('There is an error in quantities for item %s.', $preparePost['product_name'])
             );
@@ -659,7 +659,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
             $errorKeys  = array_merge($errorKey, $errorKeys);
         }
 
-        $session    = Mage::getSingleton('core/session');
+        $session    = Mage::getSingleton('Mage_Core_Model_Session');
         $eMessages  = $session->getMessages()->getErrors();
 
         if (!empty($errors) || !empty($eMessages)) {

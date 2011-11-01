@@ -39,8 +39,8 @@ abstract class Enterprise_Staging_Model_Staging_Mapper_Abstract extends Varien_O
      */
     public function __construct()
     {
-        $this->_read  = Mage::getSingleton('core/resource')->getConnection('staging_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('staging_write');
+        $this->_read  = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('staging_read');
+        $this->_write = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('staging_write');
     }
 
     /**

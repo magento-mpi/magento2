@@ -48,16 +48,16 @@ class Enterprise_GiftCardAccount_CartController extends Mage_Core_Controller_Fro
                 Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
                     ->loadByCode($code)
                     ->addToCart();
-                Mage::getSingleton('checkout/session')->addSuccess(
+                Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
                     $this->__('Gift Card "%s" was added.', Mage::helper('Mage_Core_Helper_Data')->htmlEscape($code))
                 );
             } catch (Mage_Core_Exception $e) {
                 Mage::dispatchEvent('enterprise_giftcardaccount_add', array('status' => 'fail', 'code' => $code));
-                Mage::getSingleton('checkout/session')->addError(
+                Mage::getSingleton('Mage_Checkout_Model_Session')->addError(
                     $e->getMessage()
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('checkout/session')->addException($e, $this->__('Cannot apply gift card.'));
+                Mage::getSingleton('Mage_Checkout_Model_Session')->addException($e, $this->__('Cannot apply gift card.'));
             }
         }
         $this->_redirect('checkout/cart');
@@ -70,15 +70,15 @@ class Enterprise_GiftCardAccount_CartController extends Mage_Core_Controller_Fro
                 Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
                     ->loadByCode($code)
                     ->removeFromCart();
-                Mage::getSingleton('checkout/session')->addSuccess(
+                Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
                     $this->__('Gift Card "%s" was removed.', Mage::helper('Mage_Core_Helper_Data')->htmlEscape($code))
                 );
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('checkout/session')->addError(
+                Mage::getSingleton('Mage_Checkout_Model_Session')->addError(
                     $e->getMessage()
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('checkout/session')->addException($e, $this->__('Cannot remove gift card.'));
+                Mage::getSingleton('Mage_Checkout_Model_Session')->addException($e, $this->__('Cannot remove gift card.'));
             }
             $this->_redirect('checkout/cart');
         } else {

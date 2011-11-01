@@ -110,6 +110,6 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('dashboard');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('dashboard');
     }
 }

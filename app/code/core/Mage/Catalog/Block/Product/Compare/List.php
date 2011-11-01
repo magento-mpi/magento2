@@ -108,21 +108,21 @@ class Mage_Catalog_Block_Product_Compare_List extends Mage_Catalog_Block_Product
                 ->useProductItem(true)
                 ->setStoreId(Mage::app()->getStore()->getId());
 
-            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-                $this->_items->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
+            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+                $this->_items->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId());
             } elseif ($this->_customerId) {
                 $this->_items->setCustomerId($this->_customerId);
             } else {
-                $this->_items->setVisitorId(Mage::getSingleton('log/visitor')->getId());
+                $this->_items->setVisitorId(Mage::getSingleton('Mage_Log_Model_Visitor')->getId());
             }
 
             $this->_items
-                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+                ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
                 ->loadComparableAttributes()
                 ->addMinimalPrice()
                 ->addTaxPercents();
 
-            Mage::getSingleton('catalog/product_visibility')
+            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
                 ->addVisibleInSiteFilterToCollection($this->_items);
         }
 

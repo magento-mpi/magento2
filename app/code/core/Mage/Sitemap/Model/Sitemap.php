@@ -143,7 +143,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $io->streamWrite('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
 
         $storeId = $this->getStoreId();
-        $date    = Mage::getSingleton('core/date')->gmtDate('Y-m-d');
+        $date    = Mage::getSingleton('Mage_Core_Model_Date')->gmtDate('Y-m-d');
         $baseUrl = Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
 
         /**
@@ -200,7 +200,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $io->streamWrite('</urlset>');
         $io->streamClose();
 
-        $this->setSitemapTime(Mage::getSingleton('core/date')->gmtDate('Y-m-d H:i:s'));
+        $this->setSitemapTime(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate('Y-m-d H:i:s'));
         $this->save();
 
         return $this;

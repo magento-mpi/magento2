@@ -75,7 +75,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid extends M
             'escape'        => true
         ));
 
-        $dataModel = Mage::getSingleton('enterprise_importexport/scheduled_operation_data');
+        $dataModel = Mage::getSingleton('Enterprise_ImportExport_Model_Scheduled_Operation_Data');
         $this->addColumn('operation_type', array(
             'header'        => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Operation'),
             'width'         => '30px',
@@ -188,7 +188,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid extends M
             'confirm' => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Are you sure you want to delete the selected scheduled imports/exports?')
         ));
 
-        $statuses = Mage::getSingleton('enterprise_importexport/scheduled_operation_data')
+        $statuses = Mage::getSingleton('Enterprise_ImportExport_Model_Scheduled_Operation_Data')
             ->getStatusesOptionArray();
         $this->getMassactionBlock()->addItem('status', array(
             'label'=> Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Change status'),

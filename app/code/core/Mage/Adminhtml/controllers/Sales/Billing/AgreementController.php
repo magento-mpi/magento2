@@ -193,7 +193,7 @@ class Mage_Adminhtml_Sales_Billing_AgreementController extends Mage_Adminhtml_Co
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
     }
 
     /**
@@ -207,14 +207,14 @@ class Mage_Adminhtml_Sales_Billing_AgreementController extends Mage_Adminhtml_Co
             case 'index':
             case 'grid' :
             case 'view' :
-                return Mage::getSingleton('admin/session')->isAllowed('sales/billing_agreement/actions/view');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/billing_agreement/actions/view');
                 break;
             case 'cancel':
             case 'delete':
-                return Mage::getSingleton('admin/session')->isAllowed('sales/billing_agreement/actions/manage');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/billing_agreement/actions/manage');
                 break;
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('sales/billing_agreement');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/billing_agreement');
                 break;
         }
     }

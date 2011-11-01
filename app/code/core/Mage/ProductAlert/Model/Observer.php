@@ -278,7 +278,7 @@ class Mage_ProductAlert_Model_Observer
                 return $this;
             }
 
-            $translate = Mage::getSingleton('core/translate');
+            $translate = Mage::getSingleton('Mage_Core_Model_Translate');
             /* @var $translate Mage_Core_Model_Translate */
             $translate->setTranslateInline(false);
 

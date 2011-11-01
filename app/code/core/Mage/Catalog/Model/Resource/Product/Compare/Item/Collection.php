@@ -242,10 +242,10 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection
                 $attributesData = $this->getConnection()->fetchAll($select);
                 if ($attributesData) {
                     $entityType = Mage_Catalog_Model_Product::ENTITY;
-                    Mage::getSingleton('eav/config')
+                    Mage::getSingleton('Mage_Eav_Model_Config')
                         ->importAttributesData($entityType, $attributesData);
                     foreach ($attributesData as $data) {
-                        $attribute = Mage::getSingleton('eav/config')
+                        $attribute = Mage::getSingleton('Mage_Eav_Model_Config')
                             ->getAttribute($entityType, $data['attribute_code']);
                         $this->_comparableAttributes[$attribute->getAttributeCode()] = $attribute;
                     }

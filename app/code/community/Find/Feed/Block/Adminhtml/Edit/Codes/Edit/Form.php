@@ -60,7 +60,7 @@ class Find_Feed_Block_Adminhtml_Edit_Codes_Edit_Form extends Mage_Adminhtml_Bloc
      */
     protected function _getCatalogEntityType()
     {
-        return Mage::getSingleton('eav/config')->getEntityType('catalog_product')->getId();
+        return Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('catalog_product')->getId();
     }
 
 

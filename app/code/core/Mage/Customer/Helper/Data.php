@@ -64,7 +64,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isLoggedIn()
     {
-        return Mage::getSingleton('customer/session')->isLoggedIn();
+        return Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn();
     }
 
     /**
@@ -75,7 +75,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCustomer()
     {
         if (empty($this->_customer)) {
-            $this->_customer = Mage::getSingleton('customer/session')->getCustomer();
+            $this->_customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
         }
         return $this->_customer;
     }
@@ -141,7 +141,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
         $referer = $this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME);
 
         if (!$referer && !Mage::getStoreConfigFlag(self::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD)) {
-            if (!Mage::getSingleton('customer/session')->getNoReferer()) {
+            if (!Mage::getSingleton('Mage_Customer_Model_Session')->getNoReferer()) {
                 $referer = Mage::getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
                 $referer = Mage::helper('Mage_Core_Helper_Data')->urlEncode($referer);
             }

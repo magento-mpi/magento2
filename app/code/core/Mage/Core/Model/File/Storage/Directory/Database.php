@@ -179,7 +179,7 @@ class Mage_Core_Model_File_Storage_Directory_Database extends Mage_Core_Model_Fi
             return $this;
         }
 
-        $dateSingleton = Mage::getSingleton('core/date');
+        $dateSingleton = Mage::getSingleton('Mage_Core_Model_Date');
         foreach ($dirs as $dir) {
             if (!is_array($dir) || !isset($dir['name']) || !strlen($dir['name'])) {
                 continue;

@@ -401,7 +401,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         if (!$this->getProduct($product)->hasData($key)) {
             $storeId = $this->getProduct($product)->getStoreId();
             $selectionsCollection = Mage::getResourceModel('Mage_Bundle_Model_Resource_Selection_Collection')
-                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+                ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
                 ->addAttributeToSelect('tax_class_id') //used for calculation item taxes in Bundle with Dynamic Price
                 ->setFlag('require_stock_items', true)
                 ->setFlag('product_children', true)
@@ -913,7 +913,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         $searchData = parent::getSearchableData($product);
         $product = $this->getProduct($product);
 
-        $optionSearchData = Mage::getSingleton('bundle/option')
+        $optionSearchData = Mage::getSingleton('Mage_Bundle_Model_Option')
             ->getSearchableData($product->getId(), $product->getStoreId());
         if ($optionSearchData) {
             $searchData = array_merge($searchData, $optionSearchData);

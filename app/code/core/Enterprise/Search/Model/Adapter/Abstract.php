@@ -190,7 +190,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         /**
          * Cleaning MAXPRICE cache
          */
-        $cacheTag = Mage::getSingleton('enterprise_search/catalog_layer_filter_price')->getCacheTag();
+        $cacheTag = Mage::getSingleton('Enterprise_Search_Model_Catalog_Layer_Filter_Price')->getCacheTag();
         Mage::app()->cleanCache(array($cacheTag));
 
         $this->_indexNeedsOptimization = true;
@@ -234,7 +234,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     protected function _getIndexableAttributeParams()
     {
         if (empty($this->_searchableAttributeParams)) {
-            $entityTypeId = Mage::getSingleton('eav/config')
+            $entityTypeId = Mage::getSingleton('Mage_Eav_Model_Config')
                 ->getEntityType('catalog_product')
                 ->getEntityTypeId();
             $items = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Attribute_Collection')

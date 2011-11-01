@@ -124,7 +124,7 @@ abstract class Mage_Install_Model_Installer_Db_Abstract
     protected function _getConnection()
     {
         if (!isset($this->_connection)) {
-            $resource   = Mage::getSingleton('core/resource');
+            $resource   = Mage::getSingleton('Mage_Core_Model_Resource');
             $connection = $resource->createConnection('install', $this->getType(), $this->getConnectionData());
             $this->_connection = $connection;
         }

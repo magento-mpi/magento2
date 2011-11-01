@@ -40,7 +40,7 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
      */
     public function getCart()
     {
-        return Mage::getSingleton('checkout/cart');
+        return Mage::getSingleton('Mage_Checkout_Model_Cart');
     }
 
     /**
@@ -108,7 +108,7 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
      */
     public function getQuote()
     {
-        return Mage::getSingleton('checkout/session')->getQuote();
+        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
     }
 
     /**

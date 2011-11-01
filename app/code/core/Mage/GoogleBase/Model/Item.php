@@ -83,7 +83,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      */
     public function getTargetCountry()
     {
-        return Mage::getSingleton('googlebase/config')->getTargetCountry($this->getStoreId());
+        return Mage::getSingleton('Mage_GoogleBase_Model_Config')->getTargetCountry($this->getStoreId());
     }
 
     /**
@@ -261,7 +261,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
                 }
 
                 $value = $productAttribute->getGbaseValue();
-                $type = Mage::getSingleton('googlebase/attribute')->getGbaseAttributeType($productAttribute);
+                $type = Mage::getSingleton('Mage_GoogleBase_Model_Attribute')->getGbaseAttributeType($productAttribute);
 
                 if ($name && $value && $type) {
                     $result[$name] = array(
@@ -356,7 +356,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
 
         $result = array();
         foreach ($galleryData['images'] as $image) {
-            $image['url'] = Mage::getSingleton('catalog/product_media_config')
+            $image['url'] = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')
                 ->getMediaUrl($image['file']);
             $result[] = $image;
         }

@@ -308,6 +308,6 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/form_type');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/form_type');
     }
 }

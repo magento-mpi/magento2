@@ -39,7 +39,7 @@ class Mage_Customer_Model_Resource_Address extends Mage_Eav_Model_Entity_Abstrac
      */
     protected function _construct()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
         $this->setType('customer_address')->setConnection(
             $resource->getConnection('customer_read'),
             $resource->getConnection('customer_write')

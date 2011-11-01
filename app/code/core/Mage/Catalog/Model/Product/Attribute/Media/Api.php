@@ -354,7 +354,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
      */
     protected function _getMediaConfig()
     {
-        return Mage::getSingleton('catalog/product_media_config');
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config');
     }
 
     /**

@@ -64,6 +64,6 @@ class Find_Feed_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getProductEntityType()
     {
-        return Mage::getSingleton('eav/config')->getEntityType('catalog_product')->getId();
+        return Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('catalog_product')->getId();
     }
 }

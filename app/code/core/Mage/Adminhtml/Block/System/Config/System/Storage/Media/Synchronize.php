@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_System_Config_System_Storage_Media_Synchronize
      */
     public function getAjaxSyncUrl()
     {
-        return Mage::getSingleton('adminhtml/url')->getUrl('*/system_config_system_storage/synchronize');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/system_config_system_storage/synchronize');
     }
 
     /**
@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_System_Config_System_Storage_Media_Synchronize
      */
     public function getAjaxStatusUpdateUrl()
     {
-        return Mage::getSingleton('adminhtml/url')->getUrl('*/system_config_system_storage/status');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/system_config_system_storage/status');
     }
 
     /**
@@ -117,7 +117,7 @@ class Mage_Adminhtml_Block_System_Config_System_Storage_Media_Synchronize
      */
     public function getSyncStorageParams()
     {
-        $flag = Mage::getSingleton('core/file_storage')->getSyncFlag();
+        $flag = Mage::getSingleton('Mage_Core_Model_File_Storage')->getSyncFlag();
         $flagData = $flag->getFlagData();
 
         if ($flag->getState() == Mage_Core_Model_File_Storage_Flag::STATE_NOTIFIED

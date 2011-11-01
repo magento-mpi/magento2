@@ -72,7 +72,7 @@ class Mage_Sales_Block_Order_Invoice extends Mage_Sales_Block_Order_Invoice_Item
      */
     public function getBackUrl()
     {
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
             return Mage::getUrl('*/*/history');
         }
         return Mage::getUrl('*/*/form');
@@ -85,7 +85,7 @@ class Mage_Sales_Block_Order_Invoice extends Mage_Sales_Block_Order_Invoice_Item
      */
     public function getBackTitle()
     {
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
             return Mage::helper('Mage_Sales_Helper_Data')->__('Back to My Orders');
         }
         return Mage::helper('Mage_Sales_Helper_Data')->__('View Another Order');

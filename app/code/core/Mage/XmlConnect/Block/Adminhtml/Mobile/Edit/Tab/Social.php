@@ -315,7 +315,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Social
      */
     public function canShowTab()
     {
-        return (bool) !Mage::getSingleton('adminhtml/session')->getNewApplication();
+        return (bool) !Mage::getSingleton('Mage_Adminhtml_Model_Session')->getNewApplication();
     }
 
     /**

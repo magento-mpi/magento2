@@ -68,7 +68,7 @@ class Mage_Connect_Model_Extension extends Varien_Object
     */
     public function generatePackageXml()
     {
-        Mage::getSingleton('connect/session')
+        Mage::getSingleton('Mage_Connect_Model_Session')
             ->setLocalExtensionPackageFormData($this->getData());
 
         $this->_setPackage()

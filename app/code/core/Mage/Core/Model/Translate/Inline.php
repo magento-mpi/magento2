@@ -152,7 +152,7 @@ class Mage_Core_Model_Translate_Inline
             $this->_isAllowed = $active && Mage::helper('Mage_Core_Helper_Data')->isDevAllowed($store);
         }
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         /* @var $translate Mage_Core_Model_Translate */
 
         return $translate->getTranslateInline() && $this->_isAllowed;

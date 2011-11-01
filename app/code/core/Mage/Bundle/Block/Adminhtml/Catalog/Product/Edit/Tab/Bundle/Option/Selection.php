@@ -104,7 +104,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selecti
                 'class' => 'select select-product-option-type required-option-select'
             ))
             ->setName($this->getFieldName() . '[{{parentIndex}}][{{index}}][selection_price_type]')
-            ->setOptions(Mage::getSingleton('bundle/source_option_selection_price_type')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Mage_Bundle_Model_Source_Option_Selection_Price_Type')->toOptionArray());
         if ($this->getCanEditPrice() === false) {
             $select->setExtraParams('disabled="disabled"');
         }
@@ -124,7 +124,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selecti
                 'class' => 'select'
             ))
             ->setName($this->getFieldName().'[{{parentIndex}}][{{index}}][selection_can_change_qty]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray());
 
         return $select->getHtml();
     }

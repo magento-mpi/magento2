@@ -73,7 +73,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('eav/config')->getAttribute('customer', $this->getAttribute());
+        return Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer', $this->getAttribute());
     }
 
     /**

@@ -54,7 +54,7 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Edit_Form
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
+        if (Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->isEnabled()) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
     }
@@ -135,7 +135,7 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Edit_Form
         ));
 
         $widgetFilters = array('is_email_compatible' => 1);
-        $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(array(
+        $wysiwygConfig = Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->getConfig(array(
 //            'add_widgets'       => true,
 //            'add_variables'     => true,
             'widget_filters'    => $widgetFilters

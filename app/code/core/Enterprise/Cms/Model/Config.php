@@ -169,7 +169,7 @@ class Enterprise_Cms_Model_Config
      */
     protected function _isAllowedAction($action)
     {
-        return Mage::getSingleton('admin/session')->isAllowed('cms/page/' . $action);
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/page/' . $action);
     }
 
     /**
@@ -180,7 +180,7 @@ class Enterprise_Cms_Model_Config
      */
     public function isCurrentUserOwner($userId)
     {
-        return Mage::getSingleton('admin/session')->getUser()->getId() == $userId;
+        return Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId() == $userId;
     }
 
     /**

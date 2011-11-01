@@ -39,8 +39,8 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
     public function newAction()
     {
         if ($this->getRequest()->isPost() && $this->getRequest()->getPost('email')) {
-            $session            = Mage::getSingleton('core/session');
-            $customerSession    = Mage::getSingleton('customer/session');
+            $session            = Mage::getSingleton('Mage_Core_Model_Session');
+            $customerSession    = Mage::getSingleton('Mage_Customer_Model_Session');
             $email              = (string) $this->getRequest()->getPost('email');
 
             try {
@@ -89,7 +89,7 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
 
         if ($id && $code) {
             $subscriber = Mage::getModel('Mage_Newsletter_Model_Subscriber')->load($id);
-            $session = Mage::getSingleton('core/session');
+            $session = Mage::getSingleton('Mage_Core_Model_Session');
 
             if($subscriber->getId() && $subscriber->getCode()) {
                 if($subscriber->confirm($code)) {
@@ -114,7 +114,7 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
         $code  = (string) $this->getRequest()->getParam('code');
 
         if ($id && $code) {
-            $session = Mage::getSingleton('core/session');
+            $session = Mage::getSingleton('Mage_Core_Model_Session');
             try {
                 Mage::getModel('Mage_Newsletter_Model_Subscriber')->load($id)
                     ->setCheckCode($code)

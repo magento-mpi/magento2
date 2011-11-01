@@ -129,7 +129,7 @@ class Mage_GoogleShopping_Model_Service extends Varien_Object
      */
     public function getConfig()
     {
-        return Mage::getSingleton('googleshopping/config');
+        return Mage::getSingleton('Mage_GoogleShopping_Model_Config');
     }
 
     /**

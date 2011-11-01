@@ -69,7 +69,7 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('catalog/session');
+        return Mage::getSingleton('Mage_Catalog_Model_Session');
     }
 
     /**
@@ -125,7 +125,7 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
      */
     public function getAddToWishlistUrl($product)
     {
-        $beforeCompareUrl = Mage::getSingleton('catalog/session')->getBeforeCompareUrl();
+        $beforeCompareUrl = Mage::getSingleton('Mage_Catalog_Model_Session')->getBeforeCompareUrl();
 
         $params = array(
             'product'=>$product->getId(),
@@ -143,7 +143,7 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
      */
     public function getAddToCartUrl($product)
     {
-        $beforeCompareUrl = Mage::getSingleton('catalog/session')->getBeforeCompareUrl();
+        $beforeCompareUrl = Mage::getSingleton('Mage_Catalog_Model_Session')->getBeforeCompareUrl();
         $params = array(
             'product'=>$product->getId(),
             Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl($beforeCompareUrl)
@@ -194,15 +194,15 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
                 ->useProductItem(true)
                 ->setStoreId(Mage::app()->getStore()->getId());
 
-            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-                $this->_itemCollection->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
+            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+                $this->_itemCollection->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId());
             } elseif ($this->_customerId) {
                 $this->_itemCollection->setCustomerId($this->_customerId);
             } else {
-                $this->_itemCollection->setVisitorId(Mage::getSingleton('log/visitor')->getId());
+                $this->_itemCollection->setVisitorId(Mage::getSingleton('Mage_Log_Model_Visitor')->getId());
             }
 
-            Mage::getSingleton('catalog/product_visibility')
+            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
                 ->addVisibleInSiteFilterToCollection($this->_itemCollection);
 
             /* Price data is added to consider item stock status using price index */
@@ -234,18 +234,18 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
             /** @var $collection Mage_Catalog_Model_Resource_Product_Compare_Item_Collection */
             $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Compare_Item_Collection')
                 ->useProductItem(true);
-            if (!$logout && Mage::getSingleton('customer/session')->isLoggedIn()) {
-                $collection->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
+            if (!$logout && Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+                $collection->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId());
             } elseif ($this->_customerId) {
                 $collection->setCustomerId($this->_customerId);
             } else {
-                $collection->setVisitorId(Mage::getSingleton('log/visitor')->getId());
+                $collection->setVisitorId(Mage::getSingleton('Mage_Log_Model_Visitor')->getId());
             }
 
             /* Price data is added to consider item stock status using price index */
             $collection->addPriceData();
 
-            Mage::getSingleton('catalog/product_visibility')
+            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
                 ->addVisibleInSiteFilterToCollection($collection);
 
             $count = $collection->getSize();

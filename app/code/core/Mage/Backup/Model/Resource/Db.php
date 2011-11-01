@@ -55,7 +55,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function __construct()
     {
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('backup_read');
+        $this->_read = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('backup_read');
     }
 
     /**

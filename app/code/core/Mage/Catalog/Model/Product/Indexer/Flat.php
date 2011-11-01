@@ -78,7 +78,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
      */
     protected function _getIndexer()
     {
-        return Mage::getSingleton('catalog/product_flat_indexer');
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Flat_Indexer');
     }
 
     /**

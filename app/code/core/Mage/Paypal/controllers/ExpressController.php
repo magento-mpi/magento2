@@ -57,7 +57,7 @@ class Mage_Paypal_ExpressController extends Mage_Paypal_Controller_Express_Abstr
     public function redirectLogin()
     {
         $this->setFlag('', 'no-dispatch', true);
-        Mage::getSingleton('customer/session')->setBeforeAuthUrl($this->_getRefererUrl());
+        Mage::getSingleton('Mage_Customer_Model_Session')->setBeforeAuthUrl($this->_getRefererUrl());
         $this->getResponse()->setRedirect(
             Mage::helper('Mage_Core_Helper_Url')->addRequestParam(
                 Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl(),

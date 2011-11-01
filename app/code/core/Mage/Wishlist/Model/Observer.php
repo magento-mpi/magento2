@@ -92,11 +92,11 @@ class Mage_Wishlist_Model_Observer extends Mage_Core_Model_Abstract
     public function processAddToCart($observer)
     {
         $request = $observer->getEvent()->getRequest();
-        $sharedWishlist = Mage::getSingleton('checkout/session')->getSharedWishlist();
-        $messages = Mage::getSingleton('checkout/session')->getWishlistPendingMessages();
-        $urls = Mage::getSingleton('checkout/session')->getWishlistPendingUrls();
-        $wishlistIds = Mage::getSingleton('checkout/session')->getWishlistIds();
-        $singleWishlistId = Mage::getSingleton('checkout/session')->getSingleWishlistId();
+        $sharedWishlist = Mage::getSingleton('Mage_Checkout_Model_Session')->getSharedWishlist();
+        $messages = Mage::getSingleton('Mage_Checkout_Model_Session')->getWishlistPendingMessages();
+        $urls = Mage::getSingleton('Mage_Checkout_Model_Session')->getWishlistPendingUrls();
+        $wishlistIds = Mage::getSingleton('Mage_Checkout_Model_Session')->getWishlistIds();
+        $singleWishlistId = Mage::getSingleton('Mage_Checkout_Model_Session')->getSingleWishlistId();
 
         if ($singleWishlistId) {
             $wishlistIds = array($singleWishlistId);
@@ -105,9 +105,9 @@ class Mage_Wishlist_Model_Observer extends Mage_Core_Model_Abstract
         if (count($wishlistIds) && $request->getParam('wishlist_next')){
             $wishlistId = array_shift($wishlistIds);
 
-            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
                 $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')
-                        ->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer(), true);
+                        ->loadByCustomer(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer(), true);
             } else if ($sharedWishlist) {
                 $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->loadByCode($sharedWishlist);
             } else {
@@ -121,21 +121,21 @@ class Mage_Wishlist_Model_Observer extends Mage_Core_Model_Abstract
                 if ($wishlistItem->getId() == $wishlistId)
                     $wishlistItem->delete();
             }
-            Mage::getSingleton('checkout/session')->setWishlistIds($wishlistIds);
-            Mage::getSingleton('checkout/session')->setSingleWishlistId(null);
+            Mage::getSingleton('Mage_Checkout_Model_Session')->setWishlistIds($wishlistIds);
+            Mage::getSingleton('Mage_Checkout_Model_Session')->setSingleWishlistId(null);
         }
 
         if ($request->getParam('wishlist_next') && count($urls)) {
             $url = array_shift($urls);
             $message = array_shift($messages);
 
-            Mage::getSingleton('checkout/session')->setWishlistPendingUrls($urls);
-            Mage::getSingleton('checkout/session')->setWishlistPendingMessages($messages);
+            Mage::getSingleton('Mage_Checkout_Model_Session')->setWishlistPendingUrls($urls);
+            Mage::getSingleton('Mage_Checkout_Model_Session')->setWishlistPendingMessages($messages);
 
-            Mage::getSingleton('checkout/session')->addError($message);
+            Mage::getSingleton('Mage_Checkout_Model_Session')->addError($message);
 
             $observer->getEvent()->getResponse()->setRedirect($url);
-            Mage::getSingleton('checkout/session')->setNoCartRedirect(true);
+            Mage::getSingleton('Mage_Checkout_Model_Session')->setNoCartRedirect(true);
         }
     }
 
@@ -160,7 +160,7 @@ class Mage_Wishlist_Model_Observer extends Mage_Core_Model_Abstract
      */
     public function customerLogout(Varien_Event_Observer $observer)
     {
-        Mage::getSingleton('customer/session')->setWishlistItemCount(0);
+        Mage::getSingleton('Mage_Customer_Model_Session')->setWishlistItemCount(0);
 
         return $this;
     }

@@ -267,6 +267,6 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
      */
     public function canShowReferralLink()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/manage');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/manage');
     }
 }

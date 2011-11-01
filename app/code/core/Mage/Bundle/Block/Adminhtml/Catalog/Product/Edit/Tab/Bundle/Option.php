@@ -207,7 +207,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
                 'extra_params' => 'onchange="bOption.changeType(event)"'
             ))
             ->setName($this->getFieldName().'[{{index}}][type]')
-            ->setOptions(Mage::getSingleton('bundle/source_option_type')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Mage_Bundle_Model_Source_Option_Type')->toOptionArray());
 
         return $select->getHtml();
     }
@@ -220,7 +220,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
                 'class' => 'select'
             ))
             ->setName($this->getFieldName().'[{{index}}][required]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray());
 
         return $select->getHtml();
     }

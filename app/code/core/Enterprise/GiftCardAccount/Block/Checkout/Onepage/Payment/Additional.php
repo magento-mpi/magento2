@@ -28,7 +28,7 @@ class Enterprise_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional exten
 {
     protected function _getQuote()
     {
-        return Mage::getSingleton('checkout/session')->getQuote();
+        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
     }
 
     public function getAppliedGiftCardAmount()

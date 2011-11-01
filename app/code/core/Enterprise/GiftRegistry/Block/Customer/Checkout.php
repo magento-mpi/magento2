@@ -36,7 +36,7 @@ class Enterprise_GiftRegistry_Block_Customer_Checkout extends Mage_Core_Block_Te
      */
     protected function _getCheckoutSession()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**
@@ -129,7 +129,7 @@ class Enterprise_GiftRegistry_Block_Customer_Checkout extends Mage_Core_Block_Te
     {
         $result = array();
         $registryQuoteItemIds = array_keys($this->getItems());
-        $quoteAddressItems = Mage::getSingleton('checkout/type_multishipping')->getQuoteShippingAddressesItems();
+        $quoteAddressItems = Mage::getSingleton('Mage_Checkout_Model_Type_Multishipping')->getQuoteShippingAddressesItems();
         foreach ($quoteAddressItems as $index => $quoteAddressItem) {
             $quoteItemId = $quoteAddressItem->getQuoteItem()->getId();
             if (!$quoteAddressItem->getCustomerAddressId() && in_array($quoteItemId, $registryQuoteItemIds)) {

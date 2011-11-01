@@ -40,7 +40,7 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
      */
     protected function _getFulltextModel()
     {
-        return Mage::getSingleton('catalogsearch/fulltext');
+        return Mage::getSingleton('Mage_CatalogSearch_Model_Fulltext');
     }
 
     /**
@@ -87,7 +87,7 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
     {
         $attribute = $observer->getEvent()->getAttribute();
         /* @var $attribute Mage_Eav_Model_Entity_Attribute */
-        $entityType = Mage::getSingleton('eav/config')->getEntityType(Mage_Catalog_Model_Product::ENTITY);
+        $entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType(Mage_Catalog_Model_Product::ENTITY);
         /* @var $entityType Mage_Eav_Model_Entity_Type */
 
         if ($attribute->getEntityTypeId() != $entityType->getId()) {
@@ -110,8 +110,8 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
         }
 
         if ($showNotice) {
-            $url = Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/system_cache');
-            Mage::getSingleton('adminhtml/session')->addNotice(
+            $url = Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('adminhtml/system_cache');
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(
                 Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Attribute setting change related with Search Index. Please run <a href="%s">Rebuild Search Index</a> process.', $url)
             );
         }

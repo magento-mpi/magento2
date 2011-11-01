@@ -107,14 +107,14 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
                     }
                 }
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The rating has been saved.'));
-                Mage::getSingleton('adminhtml/session')->setRatingData(false);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The rating has been saved.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setRatingData(false);
 
                 $this->_redirect('*/*/');
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                Mage::getSingleton('adminhtml/session')->setRatingData($this->getRequest()->getPost());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setRatingData($this->getRequest()->getPost());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
@@ -130,10 +130,10 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
                 /* @var $model Mage_Rating_Model_Rating */
                 $model->load($this->getRequest()->getParam('id'))
                     ->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The rating has been deleted.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The rating has been deleted.'));
                 $this->_redirect('*/*/');
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
             }
         }
@@ -151,7 +151,7 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/reviews_ratings/ratings');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/reviews_ratings/ratings');
     }
 
 }

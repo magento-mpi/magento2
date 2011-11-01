@@ -143,7 +143,7 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
             'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Layout'),
             'index'     => 'root_template',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('page/source_layout')->getOptions(),
+            'options'   => Mage::getSingleton('Mage_Page_Model_Source_Layout')->getOptions(),
             'width'   => '100',
         ));
 

@@ -60,10 +60,10 @@ class Mage_Poll_VoteController extends Mage_Core_Controller_Front_Action
             $vote = Mage::getModel('Mage_Poll_Model_Poll_Vote')
                 ->setPollAnswerId($answerId)
                 ->setIpAddress(Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(true))
-                ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
+                ->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId());
 
             $poll->addVote($vote);
-            Mage::getSingleton('core/session')->setJustVotedPoll($pollId);
+            Mage::getSingleton('Mage_Core_Model_Session')->setJustVotedPoll($pollId);
             Mage::dispatchEvent(
                 'poll_vote_add',
                 array(

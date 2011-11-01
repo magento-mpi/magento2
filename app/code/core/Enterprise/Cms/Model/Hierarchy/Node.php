@@ -562,7 +562,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
         if (!$layoutCode) {
             return null;
         }
-        $layout = Mage::getSingleton('enterprise_cms/hierarchy_config')->getContextMenuLayout($layoutCode);
+        $layout = Mage::getSingleton('Enterprise_Cms_Model_Hierarchy_Config')->getContextMenuLayout($layoutCode);
         return is_object($layout) ? $layout : null;
     }
 

@@ -52,21 +52,21 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
                 $classType  = $model->getClassType();
                 $classUrl   = '*/tax_class_' . strtolower($classType);
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
                     Mage::helper('Mage_Tax_Helper_Data')->__('The tax class has been saved.')
                 );
                 $this->_redirect($classUrl);
 
                 return ;
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                Mage::getSingleton('adminhtml/session')->setClassData($postData);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setClassData($postData);
                 $this->_redirectReferer();
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
                     Mage::helper('Mage_Tax_Helper_Data')->__('An error occurred while saving this tax class.')
                 );
-                Mage::getSingleton('adminhtml/session')->setClassData($postData);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setClassData($postData);
                 $this->_redirectReferer();
             }
 
@@ -100,7 +100,7 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/tax/classes_product')
-            || Mage::getSingleton('admin/session')->isAllowed('sales/tax/classes_customer');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/tax/classes_product')
+            || Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/tax/classes_customer');
     }
 }

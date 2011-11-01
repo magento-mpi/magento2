@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
     {
         parent::_prepareLayout();
         if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_Cms')) {
-            if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
+            if (Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->isEnabled()) {
                 $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
             }
         }
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
              * Add new attribute button if not image tab
              */
             if (!$form->getElement('media_gallery')
-                 && Mage::getSingleton('admin/session')->isAllowed('catalog/attributes/attributes')) {
+                 && Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/attributes/attributes')) {
                 $headerBar = $this->getLayout()->createBlock(
                     'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create'
                 );

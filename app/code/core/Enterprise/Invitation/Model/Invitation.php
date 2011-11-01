@@ -133,7 +133,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
             if ($inviter) {
                 $this->setCustomerId($inviter->getId());
             }
-            if (Mage::getSingleton('enterprise_invitation/config')->getUseInviterGroup()) {
+            if (Mage::getSingleton('Enterprise_Invitation_Model_Config')->getUseInviterGroup()) {
                 if ($inviter) {
                     $this->setGroupId($inviter->getGroupId());
                 }
@@ -191,7 +191,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
                 $this->getEmail(), null, array(
                     'url'           => Mage::helper('Enterprise_Invitation_Helper_Data')->getInvitationUrl($this),
                     'allow_message' => Mage::app()->getStore()->isAdmin()
-                        || Mage::getSingleton('enterprise_invitation/config')->isInvitationMessageAllowed(),
+                        || Mage::getSingleton('Enterprise_Invitation_Model_Config')->isInvitationMessageAllowed(),
                     'message'       => $this->getMessage(),
                     'store'         => $store,
                     'store_name'    => $store->getGroup()->getName(), // @deprecated after 1.4.0.0-beta1

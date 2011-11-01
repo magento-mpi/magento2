@@ -73,7 +73,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('centinel/session');
+        return Mage::getSingleton('Mage_Centinel_Model_Session');
     }
 
     /**
@@ -84,7 +84,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
      */
     protected function _getConfig()
     {
-        $config = Mage::getSingleton('centinel/config');
+        $config = Mage::getSingleton('Mage_Centinel_Model_Config');
         return $config->setStore($this->getStore());
     }
 
@@ -116,11 +116,11 @@ class Mage_Centinel_Model_Service extends Varien_Object
         $params = array(
             '_secure'  => true,
             '_current' => $current,
-            'form_key' => Mage::getSingleton('core/session')->getFormKey(),
+            'form_key' => Mage::getSingleton('Mage_Core_Model_Session')->getFormKey(),
             'isIframe' => true
         );
         if (Mage::app()->getStore()->isAdmin()) {
-            return Mage::getSingleton('adminhtml/url')->getUrl('*/centinel_index/' . $suffix, $params);
+            return Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/centinel_index/' . $suffix, $params);
         } else {
             return Mage::getUrl('centinel/index/' . $suffix, $params);
         }
@@ -137,7 +137,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
             return $this->_api;
         }
 
-        $this->_api = Mage::getSingleton('centinel/api');
+        $this->_api = Mage::getSingleton('Mage_Centinel_Model_Api');
         $config = $this->_getConfig();
         $this->_api
            ->setProcessorId($config->getProcessorId())

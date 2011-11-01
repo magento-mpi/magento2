@@ -51,7 +51,7 @@ class Enterprise_PageCache_Model_Processor_Default
                 return false;
             }
         }
-        if (Mage::getSingleton('core/session')->getNoCacheFlag()) {
+        if (Mage::getSingleton('Mage_Core_Model_Session')->getNoCacheFlag()) {
             return false;
         }
         return true;
@@ -103,7 +103,7 @@ class Enterprise_PageCache_Model_Processor_Default
          */
         if ($container && !Mage::getIsDeveloperMode()) {
             $container = new $container($this->_placeholder);
-            $container->setProcessor(Mage::getSingleton('enterprise_pagecache/processor'));
+            $container->setProcessor(Mage::getSingleton('Enterprise_PageCache_Model_Processor'));
             $blockContent = $matches[1];
             $container->saveCache($blockContent);
         }

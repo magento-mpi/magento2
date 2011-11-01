@@ -92,7 +92,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
                 'width'     => 100,
                 'index'     => 'website_id',
                 'type'      => 'options',
-                'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(),
+                'options'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteOptionHash(),
         ));
 
         $this->addColumn('date_created',

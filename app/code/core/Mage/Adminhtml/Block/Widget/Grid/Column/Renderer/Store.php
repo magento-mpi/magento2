@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store
      */
     protected function _getStoreModel()
     {
-        return Mage::getSingleton('adminhtml/system_store');
+        return Mage::getSingleton('Mage_Adminhtml_Model_System_Store');
     }
 
     /**

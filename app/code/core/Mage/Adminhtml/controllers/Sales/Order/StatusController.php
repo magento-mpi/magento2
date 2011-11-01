@@ -234,6 +234,6 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/order_statuses');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/order_statuses');
     }
 }

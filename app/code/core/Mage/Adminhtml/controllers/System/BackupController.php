@@ -138,7 +138,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/tools/backup');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/tools/backup');
     }
 
     /**
@@ -148,6 +148,6 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
     }
 }

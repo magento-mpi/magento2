@@ -65,7 +65,7 @@ while ($page = $resource->fetch(Zend_Db::FETCH_ASSOC)) {
         'user_id'         => new Zend_Db_Expr('NULL'),
         'revisions_count' => 1,
         'label'           => $page['title'],
-        'created_at'      => Mage::getSingleton('core/date')->gmtDate()
+        'created_at'      => Mage::getSingleton('Mage_Core_Model_Date')->gmtDate()
     ));
 
     $versionId = $adapter->lastInsertId($installer->getTable('enterprise_cms_page_version'), 'version_id');
@@ -86,7 +86,7 @@ while ($page = $resource->fetch(Zend_Db::FETCH_ASSOC)) {
         $_data[$attr] = $page[$attr];
     }
 
-    $_data['created_at']      = Mage::getSingleton('core/date')->gmtDate();
+    $_data['created_at']      = Mage::getSingleton('Mage_Core_Model_Date')->gmtDate();
     $_data['user_id']         = new Zend_Db_Expr('NULL');
     $_data['revision_number'] = 1;
     $_data['version_id']      = $versionId;

@@ -831,7 +831,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function getConfig()
     {
-        return Mage::getSingleton('sales/order_config');
+        return Mage::getSingleton('Mage_Sales_Model_Order_Config');
     }
 
     /**
@@ -1228,7 +1228,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         $copyMethod = Mage::getStoreConfig(self::XML_PATH_EMAIL_COPY_METHOD, $storeId);
 
         // Start store emulation process
-        $appEmulation = Mage::getSingleton('core/app_emulation');
+        $appEmulation = Mage::getSingleton('Mage_Core_Model_App_Emulation');
         $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
 
         try {
@@ -1476,7 +1476,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         $productsCollection = Mage::getModel('Mage_Catalog_Model_Product')
             ->getCollection()
             ->addIdFilter($products)
-            ->setVisibility(Mage::getSingleton('catalog/product_visibility')->getVisibleInSiteIds())
+            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds())
             /* Price data is added to consider item stock status using price index */
             ->addPriceData()
             ->setPageSize($limit)
@@ -2003,7 +2003,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         }
 
         if (!$this->getIncrementId()) {
-            $incrementId = Mage::getSingleton('eav/config')
+            $incrementId = Mage::getSingleton('Mage_Eav_Model_Config')
                 ->getEntityType('order')
                 ->fetchNewIncrementId($this->getStoreId());
             $this->setIncrementId($incrementId);
@@ -2164,7 +2164,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getFullTaxInfo()
     {
         $rates = Mage::getModel('Mage_Tax_Model_Sales_Order_Tax')->getCollection()->loadByOrder($this)->toArray();
-        return Mage::getSingleton('tax/calculation')->reproduceProcess($rates['items']);
+        return Mage::getSingleton('Mage_Tax_Model_Calculation')->reproduceProcess($rates['items']);
     }
 
     /**

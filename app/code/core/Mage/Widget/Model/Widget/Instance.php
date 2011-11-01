@@ -339,7 +339,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     public function getWidgetsOptionArray()
     {
         $widgets = array();
-        $widgetsArr = Mage::getSingleton('widget/widget')->getWidgetsArray();
+        $widgetsArr = Mage::getSingleton('Mage_Widget_Model_Widget')->getWidgetsArray();
         foreach ($widgetsArr as $widget) {
             $widgets[] = array(
                 'value' => $widget['type'],
@@ -357,10 +357,10 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     public function getWidgetConfig()
     {
         if ($this->_widgetConfigXml === null) {
-            $this->_widgetConfigXml = Mage::getSingleton('widget/widget')
+            $this->_widgetConfigXml = Mage::getSingleton('Mage_Widget_Model_Widget')
                 ->getXmlElementByType($this->getType());
             if ($this->_widgetConfigXml) {
-                $configFile = Mage::getSingleton('core/design_package')->getBaseDir(array(
+                $configFile = Mage::getSingleton('Mage_Core_Model_Design_Package')->getBaseDir(array(
                     '_area'    => $this->getArea(),
                     '_package' => $this->getPackage(),
                     '_theme'   => $this->getTheme(),
@@ -463,7 +463,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
      */
     public function generateLayoutUpdateXml($blockReference, $templatePath = '')
     {
-        $templateFilename = Mage::getSingleton('core/design_package')->getTemplateFilename($templatePath, array(
+        $templateFilename = Mage::getSingleton('Mage_Core_Model_Design_Package')->getTemplateFilename($templatePath, array(
             '_area'    => $this->getArea(),
             '_package' => $this->getPackage(),
             '_theme'   => $this->getTheme()

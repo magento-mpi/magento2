@@ -73,7 +73,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
             }
 
             // prepare products collection and apply visitors log to it
-            $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
+            $attributes = Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes();
             $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
                 ->setStoreId($this->_getStore()->getId())
                 ->addStoreFilter($this->_getStore()->getId())

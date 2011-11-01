@@ -42,7 +42,7 @@ class Mage_Bundle_Block_Catalog_Product_List_Partof extends Mage_Catalog_Block_P
     protected function _prepareData()
     {
         $collection = Mage::getModel('Mage_Catalog_Model_Product')->getResourceCollection()
-            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+            ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
             ->addAttributeToSort('position', 'asc')
             ->addStoreFilter()
             ->addMinimalPrice()
@@ -50,14 +50,14 @@ class Mage_Bundle_Block_Catalog_Product_List_Partof extends Mage_Catalog_Block_P
             ->joinTable('catalog_product_bundle_option', 'parent_id=entity_id', array('option_id' => 'option_id'))
             ->joinTable('catalog_product_bundle_selection', 'option_id=option_id', array('product_id' => 'product_id'), '{{table}}.product_id='.$this->getProduct()->getId());
 
-            $ids = Mage::getSingleton('checkout/cart')->getProductIds();
+            $ids = Mage::getSingleton('Mage_Checkout_Model_Cart')->getProductIds();
 
             if (count($ids)) {
-                $collection->addIdFilter(Mage::getSingleton('checkout/cart')->getProductIds(), true);
+                $collection->addIdFilter(Mage::getSingleton('Mage_Checkout_Model_Cart')->getProductIds(), true);
             }
 
-        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($collection);
+        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInCatalogFilterToCollection($collection);
         $collection->getSelect()->group('entity_id');
 
         $collection->load();

@@ -503,7 +503,7 @@ class Mage_Core_Model_App
      */
     public function getCookie()
     {
-        return Mage::getSingleton('core/cookie');
+        return Mage::getSingleton('Mage_Core_Model_Cookie');
     }
 
     /**
@@ -1016,7 +1016,7 @@ class Mage_Core_Model_App
     public function getLocale()
     {
         if (!$this->_locale) {
-            $this->_locale = Mage::getSingleton('core/locale');
+            $this->_locale = Mage::getSingleton('Mage_Core_Model_Locale');
         }
         return $this->_locale;
     }
@@ -1032,7 +1032,7 @@ class Mage_Core_Model_App
             if ($this->getFrontController()->getAction()) {
                 $this->_layout = $this->getFrontController()->getAction()->getLayout();
             } else {
-                $this->_layout = Mage::getSingleton('core/layout');
+                $this->_layout = Mage::getSingleton('Mage_Core_Model_Layout');
             }
         }
         return $this->_layout;
@@ -1046,7 +1046,7 @@ class Mage_Core_Model_App
     public function getTranslator()
     {
         if (!$this->_translator) {
-            $this->_translator = Mage::getSingleton('core/translate');
+            $this->_translator = Mage::getSingleton('Mage_Core_Model_Translate');
         }
         return $this->_translator;
     }

@@ -50,7 +50,7 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
             $addressType = 'billing';
         }
 
-        $isAllowedGuestCheckout = Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout();
+        $isAllowedGuestCheckout = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote()->isAllowedGuestCheckout();
 
         $countries = $this->_getCountryOptions();
 
@@ -72,7 +72,7 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
             'value'     => ''
         ));
 
-        if ($isAllowedGuestCheckout && !Mage::getSingleton('customer/session')->isLoggedIn()
+        if ($isAllowedGuestCheckout && !Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
             && $addressType == 'billing'
         ) {
             $emailField = $xmlModel->addField($addressType . '[email]', 'text', array(

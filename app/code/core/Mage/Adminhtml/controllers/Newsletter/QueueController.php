@@ -107,7 +107,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
                 return;
             }
 
-            $queue->setQueueStartAt(Mage::getSingleton('core/date')->gmtDate())
+            $queue->setQueueStartAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate())
                 ->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_SENDING)
                 ->save();
         }
@@ -117,7 +117,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
 
     public function pauseAction()
     {
-        $queue = Mage::getSingleton('newsletter/queue')
+        $queue = Mage::getSingleton('Mage_Newsletter_Model_Queue')
             ->load($this->getRequest()->getParam('id'));
 
         if (!in_array($queue->getQueueStatus(),
@@ -134,7 +134,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
 
     public function resumeAction()
     {
-        $queue = Mage::getSingleton('newsletter/queue')
+        $queue = Mage::getSingleton('Mage_Newsletter_Model_Queue')
             ->load($this->getRequest()->getParam('id'));
 
         if (!in_array($queue->getQueueStatus(),
@@ -151,7 +151,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
 
     public function cancelAction()
     {
-        $queue = Mage::getSingleton('newsletter/queue')
+        $queue = Mage::getSingleton('Mage_Newsletter_Model_Queue')
             ->load($this->getRequest()->getParam('id'));
 
         if (!in_array($queue->getQueueStatus(),
@@ -185,7 +185,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
     {
         $this->_title($this->__('Newsletter'))->_title($this->__('Newsletter Queue'));
 
-        Mage::register('current_queue', Mage::getSingleton('newsletter/queue'));
+        Mage::register('current_queue', Mage::getSingleton('Mage_Newsletter_Model_Queue'));
 
         $id = $this->getRequest()->getParam('id');
         $templateId = $this->getRequest()->getParam('template_id');
@@ -274,6 +274,6 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('newsletter/queue');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('newsletter/queue');
     }
 }

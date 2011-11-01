@@ -60,7 +60,7 @@ class Mage_Log_Model_Cron extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 

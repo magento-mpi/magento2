@@ -115,7 +115,7 @@ class Enterprise_Search_Block_Catalogsearch_Layer extends Mage_CatalogSearch_Blo
     {
         $helper = Mage::helper('Enterprise_Search_Helper_Data');
         if ($helper->isThirdPartSearchEngine() && $helper->isActiveEngine()) {
-            return Mage::getSingleton('enterprise_search/search_layer');
+            return Mage::getSingleton('Enterprise_Search_Model_Search_Layer');
         }
 
         return parent::getLayer();

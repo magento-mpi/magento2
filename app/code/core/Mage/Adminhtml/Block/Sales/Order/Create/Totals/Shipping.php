@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Totals_Shipping extends Mage_Admin
      */
     public function displayBoth()
     {
-        return Mage::getSingleton('tax/config')->displayCartShippingBoth();
+        return Mage::getSingleton('Mage_Tax_Model_Config')->displayCartShippingBoth();
     }
 
     /**
@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Totals_Shipping extends Mage_Admin
      */
     public function displayIncludeTax()
     {
-        return Mage::getSingleton('tax/config')->displayCartShippingInclTax();
+        return Mage::getSingleton('Mage_Tax_Model_Config')->displayCartShippingInclTax();
     }
 
     /**

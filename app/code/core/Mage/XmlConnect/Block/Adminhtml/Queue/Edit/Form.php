@@ -71,7 +71,7 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Edit_Form
         }
 
         // set exec_time for showing accordingly to locale datetime settings
-        $model->setExecTime(Mage::getSingleton('core/date')->date(null, $model->getExecTime()));
+        $model->setExecTime(Mage::getSingleton('Mage_Core_Model_Date')->date(null, $model->getExecTime()));
 
         /** @var $sovereignField Varien_Data_Form_Element_Abstract */
         $sovereignField = $fieldset->addField('type', 'select', array(

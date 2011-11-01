@@ -69,7 +69,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
 
             $this->renderLayout();
         } else {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Poll_Helper_Data')->__('The poll does not exist.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Poll_Helper_Data')->__('The poll does not exist.'));
             $this->_redirect('*/*/');
         }
     }
@@ -81,24 +81,24 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                 $model = Mage::getModel('Mage_Poll_Model_Poll');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The poll has been deleted.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The poll has been deleted.'));
                 $this->_redirect('*/*/');
                 return;
             }
             catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Unable to find a poll to delete.'));
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Unable to find a poll to delete.'));
         $this->_redirect('*/*/');
     }
 
     public function saveAction()
     {
-        Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The poll has been saved.'));
-        Mage::getSingleton('adminhtml/session')->setPollData(false);
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The poll has been saved.'));
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->setPollData(false);
         $this->_redirect('*/*/');
     }
 
@@ -199,7 +199,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                 }
             }
             catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_initLayoutMessages('adminhtml/session');
                 $response->setError(true);
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
@@ -210,7 +210,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('cms/poll');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/poll');
     }
 
 }

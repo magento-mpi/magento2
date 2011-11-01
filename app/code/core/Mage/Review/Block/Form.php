@@ -35,11 +35,11 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
 {
     public function __construct()
     {
-        $customerSession = Mage::getSingleton('customer/session');
+        $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
 
         parent::__construct();
 
-        $data =  Mage::getSingleton('review/session')->getFormData(true);
+        $data =  Mage::getSingleton('Mage_Review_Model_Session')->getFormData(true);
         $data = new Varien_Object($data);
 
         // add logged in customer name as nickname
@@ -64,7 +64,7 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
 
         $this->setTemplate('review/form.phtml')
             ->assign('data', $data)
-            ->assign('messages', Mage::getSingleton('review/session')->getMessages(true));
+            ->assign('messages', Mage::getSingleton('Mage_Review_Model_Session')->getMessages(true));
     }
 
     public function getProductInfo()

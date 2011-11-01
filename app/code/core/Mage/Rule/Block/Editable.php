@@ -53,7 +53,7 @@ class Mage_Rule_Block_Editable extends Mage_Core_Block_Abstract
                 . ($element->getParamId() ? ' id="' . $element->getParamId() . '"' : '') . '>'
                 . '<a href="javascript:void(0)" class="label">';
 
-            $translate = Mage::getSingleton('core/translate_inline');
+            $translate = Mage::getSingleton('Mage_Core_Model_Translate_Inline');
 
             $html .= $translate->isAllowed() ? Mage::helper('Mage_Core_Helper_Data')->escapeHtml($valueName) :
                 Mage::helper('Mage_Core_Helper_Data')->escapeHtml(Mage::helper('Mage_Core_Helper_String')->truncate($valueName, 33, '...'));

@@ -120,7 +120,7 @@ class Mage_Widget_Model_Widget_Config extends Varien_Object
         if (count($skipped) > 0) {
             $params['skip_widgets'] = $this->encodeWidgetsToQuery($skipped);
         }
-        return Mage::getSingleton('adminhtml/url')->getUrl('*/widget/index', $params);
+        return Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/widget/index', $params);
     }
 
     /**

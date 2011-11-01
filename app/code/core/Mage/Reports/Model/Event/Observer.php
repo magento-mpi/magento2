@@ -48,12 +48,12 @@ class Mage_Reports_Model_Event_Observer
     protected function _event($eventTypeId, $objectId, $subjectId = null, $subtype = 0)
     {
         if (is_null($subjectId)) {
-            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-                $customer = Mage::getSingleton('customer/session')->getCustomer();
+            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+                $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
                 $subjectId = $customer->getId();
             }
             else {
-                $subjectId = Mage::getSingleton('log/visitor')->getId();
+                $subjectId = Mage::getSingleton('Mage_Log_Model_Visitor')->getId();
                 $subtype = 1;
             }
         }
@@ -79,12 +79,12 @@ class Mage_Reports_Model_Event_Observer
      */
     public function customerLogin(Varien_Event_Observer $observer)
     {
-        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
             return $this;
         }
 
-        $visitorId  = Mage::getSingleton('log/visitor')->getId();
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        $visitorId  = Mage::getSingleton('Mage_Log_Model_Visitor')->getId();
+        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
         $eventModel = Mage::getModel('Mage_Reports_Model_Event');
         $eventModel->updateCustomerType($visitorId, $customerId);
 

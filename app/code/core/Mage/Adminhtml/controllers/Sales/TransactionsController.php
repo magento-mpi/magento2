@@ -110,12 +110,12 @@ class Mage_Adminhtml_Sales_TransactionsController extends Mage_Adminhtml_Control
                 ->setOrder($txn->getOrder())
                 ->importTransactionInfo($txn);
             $txn->save();
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')
                 ->__('The transaction details have been updated.'));
         } catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')
                 ->__('Unable to update transaction details.'));
             Mage::logException($e);
         }
@@ -130,10 +130,10 @@ class Mage_Adminhtml_Sales_TransactionsController extends Mage_Adminhtml_Control
     {
         switch ($this->getRequest()->getActionName()) {
             case 'fetch':
-                return Mage::getSingleton('admin/session')->isAllowed('sales/transactions/fetch');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/transactions/fetch');
                 break;
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('sales/transactions');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/transactions');
                 break;
         }
     }

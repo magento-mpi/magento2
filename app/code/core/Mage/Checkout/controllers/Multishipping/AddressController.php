@@ -40,7 +40,7 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('checkout/type_multishipping');
+        return Mage::getSingleton('Mage_Checkout_Model_Type_Multishipping');
     }
 
     /**
@@ -50,7 +50,7 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
      */
     protected function _getState()
     {
-        return Mage::getSingleton('checkout/type_multishipping_state');
+        return Mage::getSingleton('Mage_Checkout_Model_Type_Multishipping_State');
     }
 
 

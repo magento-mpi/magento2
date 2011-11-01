@@ -63,7 +63,7 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
     {
         $post = $this->getRequest()->getPost();
         if ( $post ) {
-            $translate = Mage::getSingleton('core/translate');
+            $translate = Mage::getSingleton('Mage_Core_Model_Translate');
             /* @var $translate Mage_Core_Model_Translate */
             $translate->setTranslateInline(false);
             try {
@@ -109,14 +109,14 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
 
                 $translate->setTranslateInline(true);
 
-                Mage::getSingleton('customer/session')->addSuccess(Mage::helper('Mage_Contacts_Helper_Data')->__('Your inquiry was submitted and will be responded to as soon as possible. Thank you for contacting us.'));
+                Mage::getSingleton('Mage_Customer_Model_Session')->addSuccess(Mage::helper('Mage_Contacts_Helper_Data')->__('Your inquiry was submitted and will be responded to as soon as possible. Thank you for contacting us.'));
                 $this->_redirect('*/*/');
 
                 return;
             } catch (Exception $e) {
                 $translate->setTranslateInline(true);
 
-                Mage::getSingleton('customer/session')->addError(Mage::helper('Mage_Contacts_Helper_Data')->__('Unable to submit your request. Please, try again later'));
+                Mage::getSingleton('Mage_Customer_Model_Session')->addError(Mage::helper('Mage_Contacts_Helper_Data')->__('Unable to submit your request. Please, try again later'));
                 $this->_redirect('*/*/');
                 return;
             }

@@ -195,7 +195,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
         $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
             ->setStoreId($object->getStoreId())
             ->addPriceData($object->getCustomerGroupId());
-        Mage::getSingleton('catalog/product_visibility')
+        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
             ->addVisibleInCatalogFilterToCollection($collection);
 
         $actionSelect = $rule->getActionSelect();

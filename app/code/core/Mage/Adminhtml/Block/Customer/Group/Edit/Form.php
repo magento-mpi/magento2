@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block
                 'title' => Mage::helper('Mage_Customer_Helper_Data')->__('Tax Class'),
                 'class' => 'required-entry',
                 'required' => true,
-                'values' => Mage::getSingleton('tax/class_source_customer')->toOptionArray()
+                'values' => Mage::getSingleton('Mage_Tax_Model_Class_Source_Customer')->toOptionArray()
             )
         );
 
@@ -83,9 +83,9 @@ class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block
             );
         }
 
-        if( Mage::getSingleton('adminhtml/session')->getCustomerGroupData() ) {
-            $form->addValues(Mage::getSingleton('adminhtml/session')->getCustomerGroupData());
-            Mage::getSingleton('adminhtml/session')->setCustomerGroupData(null);
+        if( Mage::getSingleton('Mage_Adminhtml_Model_Session')->getCustomerGroupData() ) {
+            $form->addValues(Mage::getSingleton('Mage_Adminhtml_Model_Session')->getCustomerGroupData());
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setCustomerGroupData(null);
         } else {
             $form->addValues($customerGroup->getData());
         }

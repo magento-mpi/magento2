@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
+        if (Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->isEnabled()) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
     }
@@ -96,7 +96,7 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
                 'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Store View'),
                 'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Store View'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
+                'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(false, true),
             ));
         }
         else {
@@ -127,7 +127,7 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
             'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Content'),
             'style'     => 'height:36em',
             'required'  => true,
-            'config'    => Mage::getSingleton('cms/wysiwyg_config')->getConfig()
+            'config'    => Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->getConfig()
         ));
 
         $form->setValues($model->getData());

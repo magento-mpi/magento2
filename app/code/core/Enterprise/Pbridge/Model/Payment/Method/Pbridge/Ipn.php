@@ -544,7 +544,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
             $from[Mage_Paypal_Model_Info::FRAUD_FILTERS] = $fraudFilters;
         }
 
-        Mage::getSingleton('paypal/info')->importToPayment($from, $payment);
+        Mage::getSingleton('Mage_Paypal_Model_Info')->importToPayment($from, $payment);
         return $was != $payment->getAdditionalInformation();
     }
 

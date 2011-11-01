@@ -104,7 +104,7 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Mage_Adminhtml_B
                 'label'     => Mage::helper('Mage_Checkout_Helper_Data')->__('Store View'),
                 'title'     => Mage::helper('Mage_Checkout_Helper_Data')->__('Store View'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
+                'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(false, true),
             ));
         }
         else {

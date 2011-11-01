@@ -129,7 +129,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
                 'width' => '60px',
                 'index' => 'type_id',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('catalog/product_type')->getOptionArray(),
+                'options' => Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getOptionArray(),
         ));
 
         $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')

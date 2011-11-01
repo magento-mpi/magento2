@@ -136,10 +136,10 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
     {
         $rid = $this->getRequest()->getParam('rid', false);
 
-        $currentUser = Mage::getModel('Mage_Admin_Model_User')->setId(Mage::getSingleton('admin/session')->getUser()->getId());
+        $currentUser = Mage::getModel('Mage_Admin_Model_User')->setId(Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId());
 
         if (in_array($rid, $currentUser->getRoles()) ) {
-            Mage::getSingleton('adminhtml/session')->addError($this->__('Self-assigned roles cannot be deleted.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Self-assigned roles cannot be deleted.'));
             $this->_redirect('*/*/editrole', array('rid' => $rid));
             return;
         }
@@ -147,9 +147,9 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
         try {
             $role = $this->_initRole()->delete();
 
-            Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The role has been deleted.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The role has been deleted.'));
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($this->__('An error occurred while deleting this role.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('An error occurred while deleting this role.'));
         }
 
         $this->_redirect("*/*/");
@@ -177,7 +177,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
 
         $role = $this->_initRole('role_id');
         if (!$role->getId() && $rid) {
-            Mage::getSingleton('adminhtml/session')->addError($this->__('This Role no longer exists.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('This Role no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -203,11 +203,11 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
             }
 
             $rid = $role->getId();
-            Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The role has been successfully saved.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The role has been successfully saved.'));
         } catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($this->__('An error occurred while saving this role.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('An error occurred while saving this role.'));
         }
 
         //$this->getResponse()->setRedirect($this->getUrl("*/*/editrole/rid/$rid"));
@@ -272,6 +272,6 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/acl/roles');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/acl/roles');
     }
 }

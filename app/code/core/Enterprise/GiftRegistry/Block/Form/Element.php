@@ -41,7 +41,7 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
     protected function _getCountryCollection()
     {
         if (!$this->_countryCollection) {
-            $this->_countryCollection = Mage::getSingleton('directory/country')->getResourceCollection()
+            $this->_countryCollection = Mage::getSingleton('Mage_Directory_Model_Country')->getResourceCollection()
                 ->loadByStore();
         }
         return $this->_countryCollection;

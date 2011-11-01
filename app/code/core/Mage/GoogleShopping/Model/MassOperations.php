@@ -268,7 +268,7 @@ class Mage_GoogleShopping_Model_MassOperations
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
     }
 
     /**

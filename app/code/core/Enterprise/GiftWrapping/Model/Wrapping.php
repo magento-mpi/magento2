@@ -66,7 +66,7 @@ class Enterprise_GiftWrapping_Model_Wrapping extends Mage_Core_Model_Abstract
     {
         if (Mage::app()->isSingleStoreMode()) {
             $this->setData('website_ids', array_keys(
-                Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash()));
+                Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteOptionHash()));
         }
         if ($this->hasTmpImage()) {
             $baseImageName = $this->getTmpImage();

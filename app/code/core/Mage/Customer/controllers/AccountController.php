@@ -47,7 +47,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('customer/session');
+        return Mage::getSingleton('Mage_Customer_Model_Session');
     }
 
     /**

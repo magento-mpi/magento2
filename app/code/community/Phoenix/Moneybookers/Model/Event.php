@@ -70,7 +70,7 @@ class Phoenix_Moneybookers_Model_Event
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**

@@ -86,7 +86,7 @@ class Mage_Paypal_PayflowController extends Mage_Paypal_Controller_Express_Abstr
 
         $checkToken = $this->getRequest()->getParam('TOKEN');
         if ($checkToken) {
-            Mage::getSingleton('paypal/session')->setExpressCheckoutToken($checkToken);
+            Mage::getSingleton('Mage_Paypal_Model_Session')->setExpressCheckoutToken($checkToken);
             $this->_redirect('*/*/review');
             return;
         }
@@ -201,7 +201,7 @@ class Mage_Paypal_PayflowController extends Mage_Paypal_Controller_Express_Abstr
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**

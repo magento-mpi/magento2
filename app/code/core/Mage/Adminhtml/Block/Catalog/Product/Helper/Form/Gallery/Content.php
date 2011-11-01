@@ -101,7 +101,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
             $value = $this->getElement()->getValue();
             if(count($value['images'])>0) {
                 foreach ($value['images'] as &$image) {
-                    $image['url'] = Mage::getSingleton('catalog/product_media_config')
+                    $image['url'] = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')
                                         ->getMediaUrl($image['file']);
                 }
                 return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($value['images']);

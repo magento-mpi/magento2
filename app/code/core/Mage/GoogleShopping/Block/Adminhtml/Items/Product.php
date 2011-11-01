@@ -78,7 +78,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Product extends Mage_Adminhtml_B
             $collection->addIdFilter($excludeIds, true);
         }
 
-        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
+        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($collection);
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -113,7 +113,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Product extends Mage_Adminhtml_B
                 'width' => '60px',
                 'index' => 'type_id',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('catalog/product_type')->getOptionArray(),
+                'options' => Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getOptionArray(),
         ));
 
         $this->addColumn('set_name',

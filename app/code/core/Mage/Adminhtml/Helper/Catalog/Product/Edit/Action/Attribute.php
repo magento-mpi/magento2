@@ -85,7 +85,7 @@ class Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mage_C
      */
     public function getProductIds()
     {
-        $session = Mage::getSingleton('adminhtml/session');
+        $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
 
         if ($this->_getRequest()->isPost() && $this->_getRequest()->getActionName() == 'edit') {
             $session->setProductIds($this->_getRequest()->getParam('product', null));
@@ -122,7 +122,7 @@ class Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mage_C
     public function getAttributes()
     {
         if (is_null($this->_attributes)) {
-            $this->_attributes  = Mage::getSingleton('eav/config')
+            $this->_attributes  = Mage::getSingleton('Mage_Eav_Model_Config')
                 ->getEntityType(Mage_Catalog_Model_Product::ENTITY)
                 ->getAttributeCollection()
                 ->addIsNotUniqueFilter()

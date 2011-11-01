@@ -121,6 +121,6 @@ class Mage_Page_Helper_Layout extends Mage_Core_Helper_Abstract
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('page/config');
+        return Mage::getSingleton('Mage_Page_Model_Config');
     }
 }

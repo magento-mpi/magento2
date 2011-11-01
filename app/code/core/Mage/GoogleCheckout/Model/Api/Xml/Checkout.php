@@ -916,7 +916,7 @@ EOT;
             Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS,
             $this->getQuote()->getStoreId()
         );
-        $taxCalculationModel = Mage::getSingleton('tax/calculation');
+        $taxCalculationModel = Mage::getSingleton('Mage_Tax_Model_Calculation');
 
         if ($shippingTaxClass) {
             if (Mage::helper('Mage_Tax_Helper_Data')->getTaxBasedOn() == 'origin') {
@@ -950,7 +950,7 @@ EOT;
     protected function _getTaxRules()
     {
         $customerTaxClass    = $this->_getCustomerTaxClass();
-        $taxCalculationModel = Mage::getSingleton('tax/calculation');
+        $taxCalculationModel = Mage::getSingleton('Mage_Tax_Model_Calculation');
 
         if (Mage::helper('Mage_Tax_Helper_Data')->getTaxBasedOn() == 'origin') {
             $request = $taxCalculationModel->getRateRequest()->setCustomerClassId($customerTaxClass);

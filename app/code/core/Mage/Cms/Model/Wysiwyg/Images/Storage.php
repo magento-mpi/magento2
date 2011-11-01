@@ -140,7 +140,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
                 $thumbUrl = $this->getThumbnailUrl($item->getFilename(), true);
                 // generate thumbnail "on the fly" if it does not exists
                 if(! $thumbUrl) {
-                    $thumbUrl = Mage::getSingleton('adminhtml/url')->getUrl('*/*/thumbnail', array('file' => $item->getId()));
+                    $thumbUrl = Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/*/thumbnail', array('file' => $item->getId()));
                 }
 
                 $size = @getimagesize($item->getFilename());
@@ -431,7 +431,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
      */
     public function getSession()
     {
-        return Mage::getSingleton('adminhtml/session');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
     }
 
     /**

@@ -83,7 +83,7 @@ class Mage_Sales_Model_Order_Pdf_Total_Default extends Varien_Object
             $rates    = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Tax_Collection')
                 ->loadByOrder($this->getOrder())
                 ->toArray();
-            $fullInfo = Mage::getSingleton('tax/calculation')->reproduceProcess($rates['items']);
+            $fullInfo = Mage::getSingleton('Mage_Tax_Model_Calculation')->reproduceProcess($rates['items']);
             $tax_info = array();
 
             if ($fullInfo) {

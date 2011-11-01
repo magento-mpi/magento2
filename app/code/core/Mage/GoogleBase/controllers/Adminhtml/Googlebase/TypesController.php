@@ -181,9 +181,9 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
                 }
             }
 
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_GoogleBase_Helper_Data')->__('The item type has been saved.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_GoogleBase_Helper_Data')->__('The item type has been saved.'));
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
         }
         $this->_redirect('*/*/index', array('store' => $this->_getStore()->getId()));
     }
@@ -260,6 +260,6 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/googlebase/types');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/googlebase/types');
     }
 }

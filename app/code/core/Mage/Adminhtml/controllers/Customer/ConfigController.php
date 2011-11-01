@@ -50,6 +50,6 @@ class Mage_Adminhtml_Customer_ConfigController extends Mage_Adminhtml_Controller
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/config');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/config');
     }
 }

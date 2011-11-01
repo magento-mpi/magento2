@@ -78,7 +78,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
     public function getAttributeObject()
     {
         try {
-            $obj = Mage::getSingleton('eav/config')
+            $obj = Mage::getSingleton('Mage_Eav_Model_Config')
                 ->getAttribute(Mage_Catalog_Model_Product::ENTITY, $this->getAttribute());
         }
         catch (Exception $e) {
@@ -150,7 +150,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         // Get array of select options. It will be used as source for hashed options
         $selectOptions = null;
         if ($this->getAttribute() === 'attribute_set_id') {
-            $entityTypeId = Mage::getSingleton('eav/config')
+            $entityTypeId = Mage::getSingleton('Mage_Eav_Model_Config')
                 ->getEntityType(Mage_Catalog_Model_Product::ENTITY)->getId();
             $selectOptions = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
                 ->setEntityTypeFilter($entityTypeId)

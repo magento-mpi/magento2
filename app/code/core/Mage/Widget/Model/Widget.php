@@ -241,7 +241,7 @@ class Mage_Widget_Model_Widget extends Varien_Object
             return $directive;
         }
 
-        $config = Mage::getSingleton('widget/widget_config');
+        $config = Mage::getSingleton('Mage_Widget_Model_Widget_Config');
         $imageName = str_replace('/', '__', $type) . '.gif';
         if (is_file($config->getPlaceholderImagesBaseDir() . DS . $imageName)) {
             $image = $config->getPlaceholderImagesBaseUrl() . $imageName;

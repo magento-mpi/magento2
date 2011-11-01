@@ -54,7 +54,7 @@ class Mage_CatalogSearch_Model_Layer extends Mage_Catalog_Model_Layer
     public function prepareProductCollection($collection)
     {
         $collection
-            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+            ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
             ->addSearchFilter(Mage::helper('Mage_CatalogSearch_Helper_Data')->getQuery()->getQueryText())
             ->setStore(Mage::app()->getStore())
             ->addMinimalPrice()
@@ -63,8 +63,8 @@ class Mage_CatalogSearch_Model_Layer extends Mage_Catalog_Model_Layer
             ->addStoreFilter()
             ->addUrlRewrite();
 
-        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($collection);
+        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addVisibleFilterToCollection($collection);
+        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInSearchFilterToCollection($collection);
 
         return $this;
     }

@@ -43,7 +43,7 @@ class Enterprise_Banner_Block_Adminhtml_Permission_Monitor extends Mage_Adminhtm
     protected function _prepareLayout() {
         parent::_prepareLayout();
 
-        if (!Mage::getSingleton('admin/session')->isAllowed('cms/enterprise_banner')) {
+        if (!Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/enterprise_banner')) {
             /** @var $layout Mage_Core_Model_Layout */
             $layout = $this->getLayout();
             if ($layout->getBlock('salesrule.related.banners') !== false) {

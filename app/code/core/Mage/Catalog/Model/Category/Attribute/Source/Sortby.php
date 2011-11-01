@@ -41,7 +41,7 @@ class Mage_Catalog_Model_Category_Attribute_Source_Sortby
      * @return Mage_Catalog_Model_Config
      */
     protected function _getCatalogConfig() {
-        return Mage::getSingleton('catalog/config');
+        return Mage::getSingleton('Mage_Catalog_Model_Config');
     }
 
     /**

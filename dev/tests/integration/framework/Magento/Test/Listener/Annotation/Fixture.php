@@ -94,8 +94,8 @@ class Magento_Test_Listener_Annotation_Fixture
      */
     protected function _isSingleConnection()
     {
-        $readAdapter  = Mage::getSingleton('core/resource')->getConnection('read');
-        $writeAdapter = Mage::getSingleton('core/resource')->getConnection('write');
+        $readAdapter  = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('read');
+        $writeAdapter = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
         return ($readAdapter === $writeAdapter);
     }
 
@@ -107,7 +107,7 @@ class Magento_Test_Listener_Annotation_Fixture
     protected function _startTransaction()
     {
         /** @var $adapter Varien_Db_Adapter_Interface */
-        $adapter = Mage::getSingleton('core/resource')->getConnection('write');
+        $adapter = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
         $adapter->beginTransaction();
     }
 
@@ -117,7 +117,7 @@ class Magento_Test_Listener_Annotation_Fixture
     protected function _rollbackTransaction()
     {
         /** @var $adapter Varien_Db_Adapter_Interface */
-        $adapter = Mage::getSingleton('core/resource')->getConnection('write');
+        $adapter = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
         $adapter->rollBack();
     }
 

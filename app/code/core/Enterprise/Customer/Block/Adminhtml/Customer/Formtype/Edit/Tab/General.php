@@ -110,7 +110,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
             'name'      => 'store_id',
             'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Store View'),
             'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Store View'),
-            'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
+            'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(false, true),
             'value'     => $model->getStoreId(),
             'disabled'  => true
         ));

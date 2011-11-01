@@ -209,7 +209,7 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
     public function getCustomerId()
     {
         if (!$this->hasData('customer_id')) {
-            $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+            $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
             $this->setData('customer_id', $customerId);
         }
         return $this->getData('customer_id');
@@ -223,7 +223,7 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
     public function getVisitorId()
     {
         if (!$this->hasData('visitor_id')) {
-            $visitorId = Mage::getSingleton('log/visitor')->getId();
+            $visitorId = Mage::getSingleton('Mage_Log_Model_Visitor')->getId();
             $this->setData('visitor_id', $visitorId);
         }
         return $this->getData('visitor_id');

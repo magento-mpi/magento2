@@ -134,7 +134,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Core_Model_Abstract
     {
         $customerGroupId = $this->getData('customer_group_id');
         if (is_null($customerGroupId)) {
-            $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
         }
         return $customerGroupId;
     }

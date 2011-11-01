@@ -45,7 +45,7 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
         // Init address object
         if ($id = $this->getRequest()->getParam('id')) {
             $this->_address->load($id);
-            if ($this->_address->getCustomerId() != Mage::getSingleton('customer/session')->getCustomerId()) {
+            if ($this->_address->getCustomerId() != Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId()) {
                 $this->_address->setData(array());
             }
         }
@@ -61,7 +61,7 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $headBlock->setTitle($this->getTitle());
         }
-        if ($postedData = Mage::getSingleton('customer/session')->getAddressFormData(true)) {
+        if ($postedData = Mage::getSingleton('Mage_Customer_Model_Session')->getAddressFormData(true)) {
             $this->_address->setData($postedData);
         }
     }
@@ -132,7 +132,7 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
 
     public function getCustomerAddressCount()
     {
-        return count(Mage::getSingleton('customer/session')->getCustomer()->getAddresses());
+        return count(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getAddresses());
     }
 
     public function canSetAsDefaultBilling()
@@ -153,19 +153,19 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
 
     public function isDefaultBilling()
     {
-        $defaultBilling = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling();
+        $defaultBilling = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getDefaultBilling();
         return $this->getAddress()->getId() && $this->getAddress()->getId() == $defaultBilling;
     }
 
     public function isDefaultShipping()
     {
-        $defaultShipping = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping();
+        $defaultShipping = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getDefaultShipping();
         return $this->getAddress()->getId() && $this->getAddress()->getId() == $defaultShipping;
     }
 
     public function getCustomer()
     {
-        return Mage::getSingleton('customer/session')->getCustomer();
+        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
     }
 
     public function getBackButtonUrl()

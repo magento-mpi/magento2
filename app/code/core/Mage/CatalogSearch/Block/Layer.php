@@ -68,7 +68,7 @@ class Mage_CatalogSearch_Block_Layer extends Mage_Catalog_Block_Layer_View
      */
     public function getLayer()
     {
-        return Mage::getSingleton('catalogsearch/layer');
+        return Mage::getSingleton('Mage_CatalogSearch_Model_Layer');
     }
 
     /**

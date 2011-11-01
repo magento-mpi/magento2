@@ -88,7 +88,7 @@ class Mage_Sitemap_Model_Observer
         }
 
         if ($errors && Mage::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT)) {
-            $translate = Mage::getSingleton('core/translate');
+            $translate = Mage::getSingleton('Mage_Core_Model_Translate');
             /* @var $translate Mage_Core_Model_Translate */
             $translate->setTranslateInline(false);
 

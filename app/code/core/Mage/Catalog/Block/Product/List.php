@@ -106,7 +106,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
         if ($layer) {
             return $layer;
         }
-        return Mage::getSingleton('catalog/layer');
+        return Mage::getSingleton('Mage_Catalog_Model_Layer');
     }
 
     /**
@@ -227,7 +227,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('catalog/config');
+        return Mage::getSingleton('Mage_Catalog_Model_Config');
     }
 
     /**

@@ -108,7 +108,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     public function getConfig()
     {
-        return Mage::getSingleton('enterprise_giftregistry/attribute_config');
+        return Mage::getSingleton('Enterprise_GiftRegistry_Model_Attribute_Config');
     }
 
     /**
@@ -122,7 +122,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
             if ($type = Mage::registry('current_giftregistry_type')) {
                 $this->_typeInstance = $type;
             } else {
-                $this->_typeInstance = Mage::getSingleton('enterprise_giftregistry/type');
+                $this->_typeInstance = Mage::getSingleton('Enterprise_GiftRegistry_Model_Type');
             }
         }
         return $this->_typeInstance;
@@ -187,7 +187,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
                  'class' => 'select required-entry global-scope'
             ))
             ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_searcheable]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray());
 
         return $select->getHtml();
     }
@@ -205,7 +205,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
                  'class' => 'select required-entry global-scope'
             ))
             ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_listed]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray());
 
         return $select->getHtml();
     }
@@ -223,7 +223,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
                  'class' => 'select required-entry global-scope'
             ))
             ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_required]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray());
 
         return $select->getHtml();
     }

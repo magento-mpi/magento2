@@ -240,7 +240,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
 
                 $this->getConditions()->collectValidatedAttributes($productCollection);
 
-                Mage::getSingleton('core/resource_iterator')->walk(
+                Mage::getSingleton('Mage_Core_Model_Resource_Iterator')->walk(
                     $productCollection->getSelect(),
                     array(array($this, 'callbackValidateProduct')),
                     array(
@@ -319,7 +319,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
         $this->getResourceCollection()->walk(array($this->_getResource(), 'updateRuleProductData'));
         $this->_getResource()->applyAllRulesForDateRange();
         $this->_invalidateCache();
-        $indexProcess = Mage::getSingleton('index/indexer')->getProcessByCode('catalog_product_price');
+        $indexProcess = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_product_price');
         if ($indexProcess) {
             $indexProcess->reindexAll();
         }
@@ -364,7 +364,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
         if ($product->hasCustomerGroupId()) {
             $customerGroupId = $product->getCustomerGroupId();
         } else {
-            $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
         }
         $dateTs     = Mage::app()->getLocale()->storeTimeStamp($storeId);
         $cacheKey   = date('Y-m-d', $dateTs) . "|$websiteId|$customerGroupId|$productId|$price";

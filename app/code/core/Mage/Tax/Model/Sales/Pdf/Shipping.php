@@ -40,7 +40,7 @@ class Mage_Tax_Model_Sales_Pdf_Shipping extends Mage_Sales_Model_Order_Pdf_Total
     public function getTotalsForDisplay()
     {
         $store = $this->getOrder()->getStore();
-        $config= Mage::getSingleton('tax/config');
+        $config= Mage::getSingleton('Mage_Tax_Model_Config');
         $amount = $this->getOrder()->formatPriceTxt($this->getAmount());
         $amountInclTax = $this->getSource()->getShippingInclTax();
         if (!$amountInclTax) {

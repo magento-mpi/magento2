@@ -621,8 +621,8 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
      */
     protected function _canViewOrder($order)
     {
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
-        $availableStates = Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates();
+        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+        $availableStates = Mage::getSingleton('Mage_Sales_Model_Order_Config')->getVisibleOnFrontStates();
         if ($order->getId() && $order->getCustomerId() && ($order->getCustomerId() == $customerId)
             && in_array($order->getState(), $availableStates, true)
         ) {
@@ -663,7 +663,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('customer/session');
+        return Mage::getSingleton('Mage_Customer_Model_Session');
     }
 
     /**

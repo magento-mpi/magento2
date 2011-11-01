@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Title extends Mage_Core_Block_Template
     {
         if (is_null($this->_titles)) {
             $this->_titles = array();
-            $titles = Mage::getSingleton('tax/calculation_rate')->getTitles();
+            $titles = Mage::getSingleton('Mage_Tax_Model_Calculation_Rate')->getTitles();
             foreach ($titles as $title) {
                 $this->_titles[$title->getStoreId()] = $title->getValue();
             }

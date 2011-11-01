@@ -72,7 +72,7 @@ class Mage_Authorizenet_Model_Directpost_Observer
                 if (empty($result['error'])) {
                     $payment = $order->getPayment();
                     //if success, then set order to session and add new fields
-                    $session = Mage::getSingleton('authorizenet/directpost_session');
+                    $session = Mage::getSingleton('Mage_Authorizenet_Model_Directpost_Session');
                     $session->addCheckoutOrderIncrementId($order->getIncrementId());
                     $session->setLastOrderIncrementId($order->getIncrementId());
                     $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);

@@ -238,7 +238,7 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
      */
     public function getStorage()
     {
-        return Mage::getSingleton('cms/wysiwyg_images_storage');
+        return Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Images_Storage');
     }
 
     /**

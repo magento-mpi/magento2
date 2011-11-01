@@ -43,9 +43,9 @@ class Mage_Eav_Model_Entity_Attribute_Frontend_Datetime extends Mage_Eav_Model_E
 
         if ($value) {
             try {
-                $data = Mage::getSingleton('core/locale')->date($value, Zend_Date::ISO_8601, null, false)->toString($format);
+                $data = Mage::getSingleton('Mage_Core_Model_Locale')->date($value, Zend_Date::ISO_8601, null, false)->toString($format);
             } catch (Exception $e) {
-                $data = Mage::getSingleton('core/locale')->date($value, null, null, false)->toString($format);
+                $data = Mage::getSingleton('Mage_Core_Model_Locale')->date($value, null, null, false)->toString($format);
             }
         }
 

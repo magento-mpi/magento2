@@ -42,7 +42,7 @@ class Enterprise_Invitation_Block_Customer_List extends Mage_Customer_Block_Acco
         if (!$this->hasInvitationCollection()) {
             $this->setData('invitation_collection', Mage::getModel('Enterprise_Invitation_Model_Invitation')->getCollection()
                 ->addOrder('invitation_id', Varien_Data_Collection::SORT_ORDER_DESC)
-                ->loadByCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+                ->loadByCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
             );
         }
         return $this->_getData('invitation_collection');
@@ -56,7 +56,7 @@ class Enterprise_Invitation_Block_Customer_List extends Mage_Customer_Block_Acco
      */
     public function getStatusText($invitation)
     {
-        return Mage::getSingleton('enterprise_invitation/source_invitation_status')
+        return Mage::getSingleton('Enterprise_Invitation_Model_Source_Invitation_Status')
             ->getOptionText($invitation->getStatus());
     }
 }

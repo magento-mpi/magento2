@@ -76,7 +76,7 @@ class Mage_Persistent_Model_Observer_Session
 
         // Set new cookie
         if ($sessionModel->getId()) {
-            Mage::getSingleton('core/cookie')->set(
+            Mage::getSingleton('Mage_Core_Model_Cookie')->set(
                 Mage_Persistent_Model_Session::COOKIE_NAME,
                 $sessionModel->getKey(),
                 $persistentLifeTime
@@ -126,7 +126,7 @@ class Mage_Persistent_Model_Observer_Session
         $request = $observer->getEvent()->getFront()->getRequest();
 
         // Quote Id could be changed only by logged in customer
-        if (Mage::getSingleton('customer/session')->isLoggedIn()
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
             || ($request && $request->getActionName() == 'logout' && $request->getControllerName() == 'account')
         ) {
             $sessionModel->save();
@@ -155,7 +155,7 @@ class Mage_Persistent_Model_Observer_Session
                 $controllerAction->getFullActionName() == 'checkout_onepage_saveBilling'
                     || $controllerAction->getFullActionName() == 'customer_account_createpost'
             ) {
-                Mage::getSingleton('checkout/session')->setRememberMeChecked((bool)$rememberMeCheckbox);
+                Mage::getSingleton('Mage_Checkout_Model_Session')->setRememberMeChecked((bool)$rememberMeCheckbox);
             }
         }
     }
@@ -176,10 +176,10 @@ class Mage_Persistent_Model_Observer_Session
         /** @var $controllerAction Mage_Core_Controller_Front_Action */
         $controllerAction = $observer->getEvent()->getControllerAction();
 
-        if (Mage::getSingleton('customer/session')->isLoggedIn()
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
             || $controllerAction->getFullActionName() == 'customer_account_logout'
         ) {
-            Mage::getSingleton('core/cookie')->renew(
+            Mage::getSingleton('Mage_Core_Model_Cookie')->renew(
                 Mage_Persistent_Model_Session::COOKIE_NAME,
                 Mage::helper('Mage_Persistent_Helper_Data')->getLifeTime()
             );

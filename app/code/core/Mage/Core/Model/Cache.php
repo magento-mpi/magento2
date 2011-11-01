@@ -225,8 +225,8 @@ class Mage_Core_Model_Cache
     protected function getDbAdapterOptions()
     {
         $options['adapter_callback'] = array($this, 'getDbAdapter');
-        $options['data_table']  = Mage::getSingleton('core/resource')->getTableName('core_cache');
-        $options['tags_table']  = Mage::getSingleton('core/resource')->getTableName('core_cache_tag');
+        $options['data_table']  = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('core_cache');
+        $options['tags_table']  = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('core_cache_tag');
         return $options;
     }
 
@@ -424,7 +424,7 @@ class Mage_Core_Model_Cache
      */
     public function getDbAdapter()
     {
-        return Mage::getSingleton('core/resource')->getConnection('core_write');
+        return Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('core_write');
     }
 
     /**

@@ -66,7 +66,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     public function getDataModel()
     {
         if (is_null($this->_dataModel)) {
-            $this->setDataModel(Mage::getSingleton('install/session'));
+            $this->setDataModel(Mage::getSingleton('Mage_Install_Model_Session'));
         }
         return $this->_dataModel;
     }
@@ -143,9 +143,9 @@ class Mage_Install_Model_Installer extends Varien_Object
     {
         $data['db_active'] = true;
 
-        $data = Mage::getSingleton('install/installer_db')->checkDbConnectionData($data);
+        $data = Mage::getSingleton('Mage_Install_Model_Installer_Db')->checkDbConnectionData($data);
 
-        Mage::getSingleton('install/installer_config')
+        Mage::getSingleton('Mage_Install_Model_Installer_Config')
             ->setConfigData($data)
             ->install();
         return $this;
@@ -307,13 +307,13 @@ class Mage_Install_Model_Installer extends Varien_Object
         if ($key) {
             Mage::helper('Mage_Core_Helper_Data')->validateKey($key);
         }
-        Mage::getSingleton('install/installer_config')->replaceTmpEncryptKey($key);
+        Mage::getSingleton('Mage_Install_Model_Installer_Config')->replaceTmpEncryptKey($key);
         return $this;
     }
 
     public function finish()
     {
-        Mage::getSingleton('install/installer_config')->replaceTmpInstallDate();
+        Mage::getSingleton('Mage_Install_Model_Installer_Config')->replaceTmpInstallDate();
         Mage::app()->cleanCache();
 
         $cacheData = array();

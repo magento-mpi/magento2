@@ -153,8 +153,8 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
         // status and visibility filter
         $visibility     = $this->_getSearchableAttribute('visibility');
         $status         = $this->_getSearchableAttribute('status');
-        $visibilityVals = Mage::getSingleton('catalog/product_visibility')->getVisibleInSearchIds();
-        $statusVals     = Mage::getSingleton('catalog/product_status')->getVisibleStatusIds();
+        $visibilityVals = Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSearchIds();
+        $statusVals     = Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getVisibleStatusIds();
 
         $lastProductId = 0;
         while (true) {
@@ -396,7 +396,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
      */
     public function getEavConfig()
     {
-        return Mage::getSingleton('eav/config');
+        return Mage::getSingleton('Mage_Eav_Model_Config');
     }
 
     /**
@@ -543,7 +543,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             $productEmulator = $this->_getProductEmulator();
             $productEmulator->setTypeId($typeId);
 
-            $this->_productTypes[$typeId] = Mage::getSingleton('catalog/product_type')
+            $this->_productTypes[$typeId] = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
                 ->factory($productEmulator);
         }
         return $this->_productTypes[$typeId];

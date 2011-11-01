@@ -98,7 +98,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
                 'index'     => 'website_ids',
                 'type'      => 'options',
                 'sortable'  => false,
-                'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(),
+                'options'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteOptionHash(),
                 'width'     => 200,
             ));
         }

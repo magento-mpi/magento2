@@ -62,8 +62,8 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
         if (is_null($this->_relatedOrders)) {
             $this->_relatedOrders = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection')
                 ->addFieldToSelect('*')
-                ->addFieldToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId())
-                ->addFieldToFilter('state', array('in' => Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates()))
+                ->addFieldToFilter('customer_id', Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getId())
+                ->addFieldToFilter('state', array('in' => Mage::getSingleton('Mage_Sales_Model_Order_Config')->getVisibleOnFrontStates()))
                 ->addBillingAgreementsFilter($this->_billingAgreementInstance->getAgreementId())
                 ->setOrder('created_at', 'desc');
         }

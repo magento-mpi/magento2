@@ -86,7 +86,7 @@ class Mage_GoogleShopping_Model_Item extends Mage_Core_Model_Abstract
      */
     public function getTargetCountry()
     {
-        return Mage::getSingleton('googleshopping/config')->getTargetCountry($this->getStoreId());
+        return Mage::getSingleton('Mage_GoogleShopping_Model_Config')->getTargetCountry($this->getStoreId());
     }
 
     /**

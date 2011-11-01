@@ -75,7 +75,7 @@ class Enterprise_GiftRegistry_Model_Person extends Mage_Core_Model_Abstract
         }
 
         $customValues = $this->getCustom();
-        $attributes = Mage::getSingleton('enterprise_giftregistry/entity')->getRegistrantAttributes();
+        $attributes = Mage::getSingleton('Enterprise_GiftRegistry_Model_Entity')->getRegistrantAttributes();
 
         $errorsCustom = $helper->validateCustomAttributes($customValues, $attributes);
         if ($errorsCustom !== true) {

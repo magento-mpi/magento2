@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Varien_Data_Form_
         $html = parent::getAfterElementHtml();
         if ($this->getIsWysiwygEnabled()) {
             $disabled = ($this->getDisabled() || $this->getReadonly());
-            $html .= Mage::getSingleton('core/layout')
+            $html .= Mage::getSingleton('Mage_Core_Model_Layout')
                 ->createBlock('Mage_Adminhtml_Block_Widget_Button', '', array(
                     'label'   => Mage::helper('Mage_Catalog_Helper_Data')->__('WYSIWYG Editor'),
                     'type'    => 'button',
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Varien_Data_Form_
     public function getIsWysiwygEnabled()
     {
         if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_Cms')) {
-            return (bool)(Mage::getSingleton('cms/wysiwyg_config')->isEnabled() && $this->getEntityAttribute()->getIsWysiwygEnabled());
+            return (bool)(Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->isEnabled() && $this->getEntityAttribute()->getIsWysiwygEnabled());
         }
 
         return false;

@@ -90,7 +90,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
         }
         if (!$segment->getId() && !$segment->getMassactionIds()) {
             if ($outputMessage) {
-                Mage::getSingleton('adminhtml/session')->addError($this->__('Wrong customer segment requested.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Wrong customer segment requested.'));
             }
             return false;
         }
@@ -163,7 +163,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
                     $viewModeLabel = Mage::helper('Enterprise_CustomerSegment_Helper_Data')->getViewModeLabel(
                         $this->_getAdminSession()->getViewMode()
                     );
-                    Mage::getSingleton('adminhtml/session')->addNotice(
+                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(
                         $this->__('Viewing combined "%s" report from segments: %s.', $viewModeLabel, implode(', ', $segments))
                     );
                 }
@@ -187,13 +187,13 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
         if ($segment) {
             try {
                 $segment->matchCustomers();
-                Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
                     $this->__('Customer Segment data has been refreshed.')
                 );
                 $this->_redirect('*/*/detail', array('_current' => true));
                 return ;
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             }
         }
         $this->_redirect('*/*/detail', array('_current' => true));
@@ -269,7 +269,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
      */
     protected function _isAllowed()
     {
-        return  Mage::getSingleton('admin/session')->isAllowed('customer/customersegment')
+        return  Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/customersegment')
                 && Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled();
     }
 }

@@ -57,13 +57,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     protected function _prepareCollection()
     {
-        $userId = Mage::getSingleton('admin/session')->getUser()->getId();
+        $userId = Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId();
 
         /* var $collection Enterprise_Cms_Model_Resource_Version_Collection */
         $collection = Mage::getModel('Enterprise_Cms_Model_Page_Version')->getCollection()
             ->addPageFilter($this->getPage())
             ->addVisibilityFilter($userId,
-                Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel())
+                Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel())
             ->addUserColumn()
             ->addUserNameColumn();
 
@@ -214,7 +214,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     protected function _prepareMassaction()
     {
-        if (Mage::getSingleton('enterprise_cms/config')->canCurrentUserDeleteVersion()) {
+        if (Mage::getSingleton('Enterprise_Cms_Model_Config')->canCurrentUserDeleteVersion()) {
             $this->setMassactionIdField('version_id');
             $this->getMassactionBlock()->setFormFieldName('version');
 

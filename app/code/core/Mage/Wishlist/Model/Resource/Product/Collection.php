@@ -144,7 +144,7 @@ class Mage_Wishlist_Model_Resource_Product_Collection extends Mage_Catalog_Model
         $this->setDaysInWishlist(false);
 
         $resourceHelper = Mage::getResourceHelper('Mage_Core');
-        $nowDate = $adapter->formatDate(Mage::getSingleton('core/date')->date());
+        $nowDate = $adapter->formatDate(Mage::getSingleton('Mage_Core_Model_Date')->date());
 
         $this->joinField('store_name', 'core_store', 'name', 'store_id=item_store_id');
         $this->joinField('days_in_wishlist',

@@ -85,7 +85,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main extends Mag
             'label'     => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Apply To'),
             'name'      => 'apply_to',
             'required'  => true,
-            'options'   => Mage::getSingleton('enterprise_targetrule/rule')->getAppliesToOptions(true),
+            'options'   => Mage::getSingleton('Enterprise_TargetRule_Model_Rule')->getAppliesToOptions(true),
         ));
 
         // TODO: fix possible issues with date format

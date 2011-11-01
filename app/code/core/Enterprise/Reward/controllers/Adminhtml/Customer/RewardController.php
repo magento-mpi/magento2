@@ -99,7 +99,7 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminht
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')
+        return Mage::getSingleton('Mage_Admin_Model_Session')
             ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_BALANCE);
     }
 }

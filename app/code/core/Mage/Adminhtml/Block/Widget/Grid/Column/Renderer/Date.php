@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Date
                     $data = Mage::app()->getLocale()
                         ->date($data, Varien_Date::DATETIME_INTERNAL_FORMAT)->toString($format);
                 } else {
-                    $data = Mage::getSingleton('core/locale')
+                    $data = Mage::getSingleton('Mage_Core_Model_Locale')
                         ->date($data, Zend_Date::ISO_8601, null, false)->toString($format);
                 }
             }
@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Date
                     $data = Mage::app()->getLocale()
                         ->date($data, Varien_Date::DATETIME_INTERNAL_FORMAT)->toString($format);
                 } else {
-                    $data = Mage::getSingleton('core/locale')->date($data, null, null, false)->toString($format);
+                    $data = Mage::getSingleton('Mage_Core_Model_Locale')->date($data, null, null, false)->toString($format);
                 }
             }
             return $data;

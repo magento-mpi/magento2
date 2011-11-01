@@ -127,7 +127,7 @@ require 'app/Mage.php';
 try {
     $app = Mage::app('default');
 
-    $installer = Mage::getSingleton('install/installer_console');
+    $installer = Mage::getSingleton('Mage_Install_Model_Installer_Console');
     /* @var $installer Mage_Install_Model_Installer_Console */
 
     if ($installer->init($app)          // initialize installer

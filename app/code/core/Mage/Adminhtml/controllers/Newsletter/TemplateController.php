@@ -39,7 +39,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
      */
     protected function _isAllowed ()
     {
-        return Mage::getSingleton('admin/session')
+        return Mage::getSingleton('Mage_Admin_Model_Session')
             ->isAllowed('newsletter/template');
     }
 
@@ -170,7 +170,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
                 ->setTemplateSenderName($request->getParam('sender_name'))
                 ->setTemplateText($request->getParam('text'))
                 ->setTemplateStyles($request->getParam('styles'))
-                ->setModifiedAt(Mage::getSingleton('core/date')->gmtDate());
+                ->setModifiedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
 
             if (!$template->getId()) {
                 $template->setTemplateType(Mage_Newsletter_Model_Template::TYPE_HTML);

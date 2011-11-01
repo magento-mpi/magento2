@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Adjustments extends Mag
      */
     public function getShippingAmount()
     {
-        $config = Mage::getSingleton('tax/config');
+        $config = Mage::getSingleton('Mage_Tax_Model_Config');
         $source = $this->getSource();
         if ($config->displaySalesShippingInclTax($source->getOrder()->getStoreId())) {
             $shipping = $source->getBaseShippingInclTax();
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Adjustments extends Mag
      */
     public function getShippingLabel()
     {
-        $config = Mage::getSingleton('tax/config');
+        $config = Mage::getSingleton('Mage_Tax_Model_Config');
         $source = $this->getSource();
         if ($config->displaySalesShippingInclTax($source->getOrder()->getStoreId())) {
             $label = $this->helper('Mage_Sales_Helper_Data')->__('Refund Shipping (Incl. Tax)');

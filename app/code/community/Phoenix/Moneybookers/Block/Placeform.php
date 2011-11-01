@@ -26,7 +26,7 @@ class Phoenix_Moneybookers_Block_Placeform extends Mage_Core_Block_Template
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**

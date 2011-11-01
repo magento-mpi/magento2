@@ -140,7 +140,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml
      */
     protected function _getCountriesArray()
     {
-        $_allowed = Mage::getSingleton('googleshopping/config')->getAllowedCountries();
+        $_allowed = Mage::getSingleton('Mage_GoogleShopping_Model_Config')->getAllowedCountries();
         $result = array();
         foreach ($_allowed as $iso => $info) {
             $result[$iso] = $info['name'];

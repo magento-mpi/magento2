@@ -95,7 +95,7 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
 
         $expirationDate = $entry->getGbaseAttribute('expiration_date');
         if (isset($expirationDate[0]) && is_object($expirationDate[0])) {
-            $result['expires'] = Mage::getSingleton('googlebase/service_item')
+            $result['expires'] = Mage::getSingleton('Mage_GoogleBase_Model_Service_Item')
                                     ->gBaseDate2DateTime($expirationDate[0]->getText());
         }
 
@@ -139,7 +139,7 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
      */
     public function getItemTypes($targetCountry)
     {
-        $locale = Mage::getSingleton('googlebase/config')->getCountryInfo($targetCountry, 'locale');
+        $locale = Mage::getSingleton('Mage_GoogleBase_Model_Config')->getCountryInfo($targetCountry, 'locale');
         $location = self::ITEM_TYPES_LOCATION . '/' . $locale;
 
         $itemTypes = array();

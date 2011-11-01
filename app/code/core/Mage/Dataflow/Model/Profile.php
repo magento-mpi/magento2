@@ -195,7 +195,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         /* @var $profile Mage_Dataflow_Model_Convert_Profile */
 
         try {
-            $batch = Mage::getSingleton('dataflow/batch')
+            $batch = Mage::getSingleton('Mage_Dataflow_Model_Batch')
                 ->setProfileId($this->getId())
                 ->setStoreId($this->getStoreId())
                 ->save();

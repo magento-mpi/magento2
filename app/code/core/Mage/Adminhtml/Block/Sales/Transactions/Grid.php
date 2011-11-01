@@ -111,7 +111,7 @@ class Mage_Adminhtml_Block_Sales_Transactions_Grid extends Mage_Adminhtml_Block_
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Transaction Type'),
             'index'     => 'txn_type',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('sales/order_payment_transaction')->getTransactionTypes()
+            'options'   => Mage::getSingleton('Mage_Sales_Model_Order_Payment_Transaction')->getTransactionTypes()
         ));
 
         $this->addColumn('is_closed', array(

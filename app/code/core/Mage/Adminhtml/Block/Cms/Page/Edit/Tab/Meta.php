@@ -130,6 +130,6 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
      */
     protected function _isAllowedAction($action)
     {
-        return Mage::getSingleton('admin/session')->isAllowed('cms/page/' . $action);
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/page/' . $action);
     }
 }

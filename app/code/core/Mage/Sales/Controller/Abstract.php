@@ -42,8 +42,8 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
      */
     protected function _canViewOrder($order)
     {
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
-        $availableStates = Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates();
+        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+        $availableStates = Mage::getSingleton('Mage_Sales_Model_Order_Config')->getVisibleOnFrontStates();
         if ($order->getId() && $order->getCustomerId() && ($order->getCustomerId() == $customerId)
             && in_array($order->getState(), $availableStates, $strict = true)
             ) {
@@ -142,7 +142,7 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
         }
         $order = Mage::registry('current_order');
 
-        $cart = Mage::getSingleton('checkout/cart');
+        $cart = Mage::getSingleton('Mage_Checkout_Model_Cart');
         $cartTruncated = false;
         /* @var $cart Mage_Checkout_Model_Cart */
 
@@ -151,15 +151,15 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
             try {
                 $cart->addOrderItem($item);
             } catch (Mage_Core_Exception $e){
-                if (Mage::getSingleton('checkout/session')->getUseNotice(true)) {
-                    Mage::getSingleton('checkout/session')->addNotice($e->getMessage());
+                if (Mage::getSingleton('Mage_Checkout_Model_Session')->getUseNotice(true)) {
+                    Mage::getSingleton('Mage_Checkout_Model_Session')->addNotice($e->getMessage());
                 }
                 else {
-                    Mage::getSingleton('checkout/session')->addError($e->getMessage());
+                    Mage::getSingleton('Mage_Checkout_Model_Session')->addError($e->getMessage());
                 }
                 $this->_redirect('*/*/history');
             } catch (Exception $e) {
-                Mage::getSingleton('checkout/session')->addException($e,
+                Mage::getSingleton('Mage_Checkout_Model_Session')->addException($e,
                     Mage::helper('Mage_Checkout_Helper_Data')->__('Cannot add the item to shopping cart.')
                 );
                 $this->_redirect('checkout/cart');
@@ -204,7 +204,7 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
             $this->loadLayout('print');
             $this->renderLayout();
         } else {
-            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
                 $this->_redirect('*/*/history');
             } else {
                 $this->_redirect('sales/guest/form');
@@ -233,7 +233,7 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
             $this->loadLayout('print');
             $this->renderLayout();
         } else {
-            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
                 $this->_redirect('*/*/history');
             } else {
                 $this->_redirect('sales/guest/form');
@@ -263,7 +263,7 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
             $this->loadLayout('print');
             $this->renderLayout();
         } else {
-            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
                 $this->_redirect('*/*/history');
             } else {
                 $this->_redirect('sales/guest/form');

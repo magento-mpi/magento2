@@ -61,7 +61,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
      */
     public function addAction()
     {
-        $rateModel = Mage::getSingleton('tax/calculation_rate')
+        $rateModel = Mage::getSingleton('Mage_Tax_Model_Calculation_Rate')
             ->load(null);
 
         $this->_title($this->__('Sales'))
@@ -71,7 +71,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         $this->_title($this->__('New Rate'));
 
         //This line substitutes in the form the previously entered by the user values, if any of them were wrong.
-        $rateModel->setData(Mage::getSingleton('adminhtml/session')->getFormData(true));
+        $rateModel->setData(Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true));
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('Mage_Tax_Helper_Data')->__('Manage Tax Rates'), Mage::helper('Mage_Tax_Helper_Data')->__('Manage Tax Rates'), $this->getUrl('*/tax_rate'))
@@ -105,7 +105,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
             $rateId = $this->getRequest()->getParam('tax_calculation_rate_id');
             if ($rateId) {
-                $rateModel = Mage::getSingleton('tax/calculation_rate')->load($rateId);
+                $rateModel = Mage::getSingleton('Mage_Tax_Model_Calculation_Rate')->load($rateId);
                 if (!$rateModel->getId()) {
                     unset($ratePost['tax_calculation_rate_id']);
                 }
@@ -116,16 +116,16 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
             try {
                 $rateModel->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Tax_Helper_Data')->__('The tax rate has been saved.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Tax_Helper_Data')->__('The tax rate has been saved.'));
                 $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                 return true;
             } catch (Mage_Core_Exception $e) {
                 //save entered by the user values in session, for re-rendering of form.
-                Mage::getSingleton('adminhtml/session')->setFormData($ratePost);
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setFormData($ratePost);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
-                //Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('An error occurred while saving this rate.'));
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                //Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('An error occurred while saving this rate.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             }
 
             $this->_redirectReferer();
@@ -145,7 +145,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
              ->_title($this->__('Manage Tax Zones and Rates'));
 
         $rateId = (int)$this->getRequest()->getParam('rate');
-        $rateModel = Mage::getSingleton('tax/calculation_rate')->load($rateId);
+        $rateModel = Mage::getSingleton('Mage_Tax_Model_Calculation_Rate')->load($rateId);
         if (!$rateModel->getId()) {
             $this->getResponse()->setRedirect($this->getUrl("*/*/"));
             return ;
@@ -177,15 +177,15 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 try {
                     $rateModel->delete();
 
-                    Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Tax_Helper_Data')->__('The tax rate has been deleted.'));
+                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Tax_Helper_Data')->__('The tax rate has been deleted.'));
                     $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                     return true;
                 }
                 catch (Mage_Core_Exception $e) {
-                    Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                 }
                 catch (Exception $e) {
-                    Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('An error occurred while deleting this rate.'));
+                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('An error occurred while deleting this rate.'));
                 }
                 if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                     $this->getResponse()->setRedirect($referer);
@@ -194,7 +194,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                     $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                 }
             } else {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('An error occurred while deleting this rate. Incorrect rate ID.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('An error occurred while deleting this rate. Incorrect rate ID.'));
                 $this->getResponse()->setRedirect($this->getUrl('*/*/'));
             }
         }
@@ -267,15 +267,15 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
             try {
                 $this->_importRates();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Tax_Helper_Data')->__('The tax rate has been imported.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Tax_Helper_Data')->__('The tax rate has been imported.'));
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('Invalid file upload attempt'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('Invalid file upload attempt'));
             }
         }
         else {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('Invalid file upload attempt'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('Invalid file upload attempt'));
         }
         $this->_redirect('*/*/importExport');
     }
@@ -345,12 +345,12 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 }
 
                 if (count($csvFields) != count($v)) {
-                    Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('Invalid file upload attempt'));
+                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('Invalid file upload attempt'));
                 }
 
                 $country = Mage::getModel('Mage_Directory_Model_Country')->loadByCode($v[1], 'iso2_code');
                 if (!$country->getId()) {
-                    Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('One of the country has invalid code.'));
+                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('One of the country has invalid code.'));
                     continue;
                 }
 
@@ -472,13 +472,13 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
         switch ($this->getRequest()->getActionName()) {
             case 'importExport':
-                return Mage::getSingleton('admin/session')->isAllowed('sales/tax/import_export');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/tax/import_export');
                 break;
             case 'index':
-                return Mage::getSingleton('admin/session')->isAllowed('sales/tax/rates');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/tax/rates');
                 break;
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('sales/tax/rates');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/tax/rates');
                 break;
         }
     }

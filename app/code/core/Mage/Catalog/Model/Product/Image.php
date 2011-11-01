@@ -267,7 +267,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         if (($file) && (0 !== strpos($file, '/', 0))) {
             $file = '/' . $file;
         }
-        $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
+        $baseDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
 
         if ('/no_selection' == $file) {
             $file = null;
@@ -312,7 +312,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
 
         // build new filename (most important params)
         $path = array(
-            Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath(),
+            Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseMediaPath(),
             'cache',
             Mage::app()->getStore()->getId(),
             $path[] = $this->getDestinationSubdir()
@@ -560,7 +560,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
             return $filePath;
         }
 
-        $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
+        $baseDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
 
         if( $this->_fileExists($baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file) ) {
             $filePath = $baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file;

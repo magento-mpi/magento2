@@ -218,7 +218,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     {
         $canShow = $this->getCanShowTab();
         if (is_null($canShow)) {
-            $canShow = Mage::getSingleton('admin/session')->isAllowed('catalog/enterprise_catalogpermissions');
+            $canShow = Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/enterprise_catalogpermissions');
         }
         return $canShow;
     }

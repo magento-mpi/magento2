@@ -138,7 +138,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function getSharingConfig()
     {
-        return Mage::getSingleton('customer/config_share');
+        return Mage::getSingleton('Mage_Customer_Model_Config_Share');
     }
 
     /**
@@ -222,7 +222,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     public function getName()
     {
         $name = '';
-        $config = Mage::getSingleton('eav/config');
+        $config = Mage::getSingleton('Mage_Eav_Model_Config');
         if ($config->getAttribute('customer', 'prefix')->getIsVisible() && $this->getPrefix()) {
             $name .= $this->getPrefix() . ' ';
         }
@@ -813,7 +813,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             $errors[] = $customerHelper->__('Please make sure your passwords match.');
         }
 
-        $entityType = Mage::getSingleton('eav/config')->getEntityType('customer');
+        $entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer');
         $attribute = Mage::getModel('Mage_Customer_Model_Attribute')->loadByCode($entityType, 'dob');
         if ($attribute->getIsRequired() && '' == trim($this->getDob())) {
             $errors[] = $customerHelper->__('The Date of Birth is required.');

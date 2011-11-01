@@ -138,12 +138,12 @@ class Mage_Core_Model_Resource_Setup
 
         $modName = (string)$this->_resourceConfig->setup->module;
         $this->_moduleConfig = $config->getModuleConfig($modName);
-        $connection = Mage::getSingleton('core/resource')->getConnection($this->_resourceName);
+        $connection = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection($this->_resourceName);
         /**
          * If module setup configuration wasn't loaded
          */
         if (!$connection) {
-            $connection = Mage::getSingleton('core/resource')->getConnection($this->_resourceName);
+            $connection = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection($this->_resourceName);
         }
         $this->_conn = $connection;
     }
@@ -181,7 +181,7 @@ class Mage_Core_Model_Resource_Setup
     {
         $cacheKey = $this->_getTableCacheName($tableName);
         if (!isset($this->_tables[$cacheKey])) {
-            $this->_tables[$cacheKey] = Mage::getSingleton('core/resource')->getTableName($tableName);
+            $this->_tables[$cacheKey] = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName($tableName);
         }
         return $this->_tables[$cacheKey];
     }
@@ -375,7 +375,7 @@ class Mage_Core_Model_Resource_Setup
      */
     public function callbackQueryHook(&$sql, &$bind)
     {
-        Mage::getSingleton('core/resource_setup_query_modifier', array($this->getConnection()))
+        Mage::getSingleton('Mage_Core_Model_Resource_Setup_Query_Modifier', array($this->getConnection()))
             ->processQuery($sql, $bind);
         return $this;
     }
@@ -951,7 +951,7 @@ class Mage_Core_Model_Resource_Setup
      */
     public function getIdxName($tableName, $fields, $indexType = '')
     {
-        return Mage::getSingleton('core/resource')->getIdxName($tableName, $fields, $indexType);
+        return Mage::getSingleton('Mage_Core_Model_Resource')->getIdxName($tableName, $fields, $indexType);
     }
 
     /**
@@ -965,7 +965,7 @@ class Mage_Core_Model_Resource_Setup
      */
     public function getFkName($priTableName, $priColumnName, $refTableName, $refColumnName)
     {
-        return Mage::getSingleton('core/resource')
+        return Mage::getSingleton('Mage_Core_Model_Resource')
             ->getFkName($priTableName, $priColumnName, $refTableName, $refColumnName);
     }
 

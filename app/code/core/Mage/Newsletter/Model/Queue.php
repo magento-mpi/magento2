@@ -239,7 +239,7 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
      */
     protected function _finishQueue()
     {
-        $this->setQueueFinishAt(Mage::getSingleton('core/date')->gmtDate());
+        $this->setQueueFinishAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
         $this->setQueueStatus(self::STATUS_SENT);
         $this->save();
 

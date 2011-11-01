@@ -150,9 +150,9 @@ class Social_Facebook_Model_Facebook extends Mage_Core_Model_Abstract
      */
     public function getApi()
     {
-        $session = Mage::getSingleton('core/session');
+        $session = Mage::getSingleton('Mage_Core_Model_Session');
 
-        return Mage::getSingleton('social_facebook/api')
+        return Mage::getSingleton('Social_Facebook_Model_Api')
             ->setProductUrl($session->getData('product_url'))
             ->setFacebookAction($session->getData('facebook_action'))
             ->setProductOgUrl($session->getData('product_og_url'))
@@ -167,7 +167,7 @@ class Social_Facebook_Model_Facebook extends Mage_Core_Model_Abstract
      */
     public function removeSessionApi()
     {
-        Mage::getSingleton('core/session')
+        Mage::getSingleton('Mage_Core_Model_Session')
             ->unsetData('product_url')
             ->unsetData('facebook_action')
             ->unsetData('product_og_url')
@@ -192,7 +192,7 @@ class Social_Facebook_Model_Facebook extends Mage_Core_Model_Abstract
         }
 
         try {
-            $session = Mage::getSingleton('core/session');
+            $session = Mage::getSingleton('Mage_Core_Model_Session');
 
             $productUrl         = $session->getData('product_url');
             $this->_accessToken = $session->getData('access_token');
@@ -212,9 +212,9 @@ class Social_Facebook_Model_Facebook extends Mage_Core_Model_Abstract
                 ;
             }
         } catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('core/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Core_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('core/session')->addError(
+            Mage::getSingleton('Mage_Core_Model_Session')->addError(
                  Mage::helper('Social_Facebook_Helper_Data')->__('Cannot Get Facebook Access Token')
             );
             Mage::logException($e);
@@ -248,10 +248,10 @@ class Social_Facebook_Model_Facebook extends Mage_Core_Model_Abstract
             }
             $action =  $this->getApi()->sendFacebookAction();
         } catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('core/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Core_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
-            $action = Mage::getSingleton('core/session')->getData('facebook_action');
-            Mage::getSingleton('core/session')->addError(
+            $action = Mage::getSingleton('Mage_Core_Model_Session')->getData('facebook_action');
+            Mage::getSingleton('Mage_Core_Model_Session')->addError(
                  Mage::helper('Social_Facebook_Helper_Data')->__('Cannot Make "%s" Action. Please, try later.', $action)
             );
             Mage::logException($e);
@@ -273,9 +273,9 @@ class Social_Facebook_Model_Facebook extends Mage_Core_Model_Abstract
             }
             $friends = $this->getApi()->getFacebookFriends();
         } catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('core/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Core_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('core/session')->addError(
+            Mage::getSingleton('Mage_Core_Model_Session')->addError(
                  Mage::helper('Social_Facebook_Helper_Data')->__('Cannot Get Your Facebook Friends')
             );
             Mage::logException($e);
@@ -298,12 +298,12 @@ class Social_Facebook_Model_Facebook extends Mage_Core_Model_Abstract
 
             $user = $this->getApi()->getFacebookUser();
             if ($user) {
-                Mage::getSingleton('core/session')->setData('facebook_id', $user['facebook_id']);
+                Mage::getSingleton('Mage_Core_Model_Session')->setData('facebook_id', $user['facebook_id']);
             }
         } catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('core/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Core_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('core/session')->addError(
+            Mage::getSingleton('Mage_Core_Model_Session')->addError(
                  Mage::helper('Social_Facebook_Helper_Data')->__('Cannot Get Facebook User')
             );
             Mage::logException($e);

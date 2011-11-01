@@ -54,7 +54,7 @@ class Mage_XmlConnect_Block_Catalog_Category extends Mage_XmlConnect_Block_Catal
             $hasMoreProductItems = 0;
             $productListBlock = $this->getChild('product_list');
             if ($productListBlock && $categoryModel->getLevel() > 1) {
-                $layer = Mage::getSingleton('catalog/layer');
+                $layer = Mage::getSingleton('Mage_Catalog_Model_Layer');
                 $productsXmlObj = $productListBlock->setCategory($categoryModel)->setLayer($layer)
                     ->getProductsXmlObject();
                 $hasMoreProductItems = (int)$productListBlock->getHasProductItems();
@@ -107,7 +107,7 @@ class Mage_XmlConnect_Block_Catalog_Category extends Mage_XmlConnect_Block_Catal
      */
     public function getCurrentChildCategories()
     {
-        $layer = Mage::getSingleton('catalog/layer');
+        $layer = Mage::getSingleton('Mage_Catalog_Model_Layer');
         $category   = $layer->getCurrentCategory();
         /* @var $category Mage_Catalog_Model_Category */
         $categories = $category->getChildrenCategories();

@@ -43,7 +43,7 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
         }
 
         $this->getLayout()->getMessagesBlock()->setMessages(
-            Mage::getSingleton('adminhtml/session')->getMessages(true)
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages(true)
         );
         $this->loadLayout();
 
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
                 $collection->walk('unsubscribe');
             }
 
-            Mage::getSingleton('adminhtml/session')
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')
                 ->addSuccess(Mage::helper('Mage_Newsletter_Helper_Data')->__('Selected problem subscribers have been unsubscribed.'));
         }
 
@@ -88,10 +88,10 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
                 $collection->walk('delete');
             }
 
-            Mage::getSingleton('adminhtml/session')
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')
                 ->addSuccess(Mage::helper('Mage_Newsletter_Helper_Data')->__('Selected problems have been deleted.'));
         }
-                $this->getLayout()->getMessagesBlock()->setMessages(Mage::getSingleton('adminhtml/session')->getMessages(true));
+                $this->getLayout()->getMessagesBlock()->setMessages(Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages(true));
 
         $grid = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Problem_Grid');
         $this->getResponse()->setBody($grid->toHtml());
@@ -99,6 +99,6 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('newsletter/problem');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('newsletter/problem');
     }
 }

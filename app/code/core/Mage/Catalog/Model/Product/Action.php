@@ -77,7 +77,7 @@ class Mage_Catalog_Model_Product_Action extends Mage_Core_Model_Abstract
         ));
 
         // register mass action indexer event
-        Mage::getSingleton('index/indexer')->processEntityAction(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
             $this, Mage_Catalog_Model_Product::ENTITY, Mage_Index_Model_Event::TYPE_MASS_ACTION
         );
         return $this;
@@ -115,7 +115,7 @@ class Mage_Catalog_Model_Product_Action extends Mage_Core_Model_Abstract
         ));
 
         // register mass action indexer event
-        Mage::getSingleton('index/indexer')->processEntityAction(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
             $this, Mage_Catalog_Model_Product::ENTITY, Mage_Index_Model_Event::TYPE_MASS_ACTION
         );
 

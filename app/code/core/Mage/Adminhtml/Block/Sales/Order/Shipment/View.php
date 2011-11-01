@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View extends Mage_Adminhtml_Bloc
 
         $this->_removeButton('reset');
         $this->_removeButton('delete');
-        if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/emails')) {
+        if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/order/actions/emails')) {
             $this->_updateButton('save', 'label', Mage::helper('Mage_Sales_Helper_Data')->__('Send Tracking Information'));
             $this->_updateButton('save',
                 'onclick', "deleteConfirm('"

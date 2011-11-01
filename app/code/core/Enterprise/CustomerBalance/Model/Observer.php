@@ -109,7 +109,7 @@ class Enterprise_CustomerBalance_Model_Observer
                 ->getAmount();
 
             if (($order->getBaseCustomerBalanceAmount() - $balance) >= 0.0001) {
-                Mage::getSingleton('checkout/type_onepage')
+                Mage::getSingleton('Mage_Checkout_Model_Type_Onepage')
                     ->getCheckout()
                     ->setUpdateSection('payment-method')
                     ->setGotoSection('payment');

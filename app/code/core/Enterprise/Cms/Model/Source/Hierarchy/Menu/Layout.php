@@ -46,7 +46,7 @@ class Enterprise_Cms_Model_Source_Hierarchy_Menu_Layout
            $options[] = array('label' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Use default'), 'value' => '');
         }
 
-        foreach (Mage::getSingleton('enterprise_cms/hierarchy_config')->getContextMenuLayouts() as $code => $info) {
+        foreach (Mage::getSingleton('Enterprise_Cms_Model_Hierarchy_Config')->getContextMenuLayouts() as $code => $info) {
             $options[] = array(
                 'label' => $info->getLabel(),
                 'value' => $code

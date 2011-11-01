@@ -69,7 +69,7 @@ class Enterprise_GiftCardAccount_Model_Observer
         if (is_array($cards)) {
             foreach ($cards as $card) {
                 /** @var $giftCardAccount Enterprise_GiftCardAccount_Model_Giftcardaccount */
-                $giftCardAccount = Mage::getSingleton('enterprise_giftcardaccount/giftcardaccount')->load($card['i']);
+                $giftCardAccount = Mage::getSingleton('Enterprise_GiftCardAccount_Model_Giftcardaccount')->load($card['i']);
                 try {
                     $giftCardAccount->isValid(true, true, false, (float)$quote->getBaseGiftCardsAmountUsed());
                 } catch (Mage_Core_Exception $e) {
@@ -225,16 +225,16 @@ class Enterprise_GiftCardAccount_Model_Observer
                     ->loadByCode($code)
                     ->addToCart(true, $quote);
                 /*
-                Mage::getSingleton('adminhtml/session_quote')->addSuccess(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addSuccess(
                     $this->__('Gift Card "%s" was added.', Mage::helper('Mage_Core_Helper_Data')->htmlEscape($code))
                 );
                 */
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('adminhtml/session_quote')->addError(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addError(
                     $e->getMessage()
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session_quote')->addException(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addException(
                     $e,
                     $this->__('Cannot apply Gift Card')
                 );
@@ -249,16 +249,16 @@ class Enterprise_GiftCardAccount_Model_Observer
                     ->loadByCode($code)
                     ->removeFromCart(false, $quote);
                 /*
-                Mage::getSingleton('adminhtml/session_quote')->addSuccess(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addSuccess(
                     $this->__('Gift Card "%s" was removed.', Mage::helper('Mage_Core_Helper_Data')->htmlEscape($code))
                 );
                 */
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('adminhtml/session_quote')->addError(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addError(
                     $e->getMessage()
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session_quote')->addException(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addException(
                     $e,
                     $this->__('Cannot remove Gift Card')
                 );

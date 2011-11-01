@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
         $cacheKeyInfo = array(
             'admin_top_nav',
             $this->getActive(),
-            Mage::getSingleton('admin/session')->getUser()->getId(),
+            Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId(),
             Mage::app()->getLocale()->getLocaleCode()
         );
         // Add additional key parameters if needed
@@ -130,7 +130,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
     protected function _buildMenuArray(Varien_Simplexml_Element $parent=null, $path='', $level=0)
     {
         if (is_null($parent)) {
-            $parent = Mage::getSingleton('admin/config')->getAdminhtmlConfig()->getNode('menu');
+            $parent = Mage::getSingleton('Mage_Admin_Model_Config')->getAdminhtmlConfig()->getNode('menu');
         }
 
         $parentArr = array();
@@ -232,7 +232,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
         return true;
         $resource = (string)$acl->resource;
         $privilege = (string)$acl->privilege;
-        return Mage::getSingleton('admin/session')->isAllowed($resource, $privilege);
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($resource, $privilege);
     }*/
 
     /**
@@ -244,7 +244,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
     protected function _checkAcl($resource)
     {
         try {
-            $res =  Mage::getSingleton('admin/session')->isAllowed($resource);
+            $res =  Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($resource);
         } catch (Exception $e) {
             return false;
         }

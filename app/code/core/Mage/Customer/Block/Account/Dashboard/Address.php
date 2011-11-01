@@ -36,7 +36,7 @@ class Mage_Customer_Block_Account_Dashboard_Address extends Mage_Core_Block_Temp
 {
     public function getCustomer()
     {
-        return Mage::getSingleton('customer/session')->getCustomer();
+        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
     }
 
     public function getPrimaryShippingAddressHtml()

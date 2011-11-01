@@ -49,7 +49,7 @@ class Enterprise_GiftRegistry_SearchController extends Mage_Core_Controller_Fron
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('customer/session');
+        return Mage::getSingleton('Mage_Customer_Model_Session');
     }
 
     /**
@@ -81,7 +81,7 @@ class Enterprise_GiftRegistry_SearchController extends Mage_Core_Controller_Fron
         }
         if (isset($params['type_id'])) {
             $type = $this->_initType($params['type_id']);
-            $dateType = Mage::getSingleton('enterprise_giftregistry/attribute_config')->getStaticDateType();
+            $dateType = Mage::getSingleton('Enterprise_GiftRegistry_Model_Attribute_Config')->getStaticDateType();
             if ($dateType) {
                 $attribute = $type->getAttributeByCode($dateType);
                 $format = (isset($attribute['date_format'])) ? $attribute['date_format'] : null;

@@ -123,7 +123,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
     public function getValueInstance()
     {
         if (!$this->_valueInstance) {
-            $this->_valueInstance = Mage::getSingleton('catalog/product_option_value');
+            $this->_valueInstance = Mage::getSingleton('Mage_Catalog_Model_Product_Option_Value');
         }
         return $this->_valueInstance;
     }

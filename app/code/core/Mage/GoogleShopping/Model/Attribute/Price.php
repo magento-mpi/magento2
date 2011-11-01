@@ -46,7 +46,7 @@ class Mage_GoogleShopping_Model_Attribute_Price extends Mage_GoogleShopping_Mode
         $product->setCustomerGroupId(Mage::getStoreConfig('customer/create_account/default_group', $product->getStoreId()));
 
         $store = Mage::app()->getStore($product->getStoreId());
-        $targetCountry = Mage::getSingleton('googleshopping/config')->getTargetCountry($product->getStoreId());
+        $targetCountry = Mage::getSingleton('Mage_GoogleShopping_Model_Config')->getTargetCountry($product->getStoreId());
         $isSalePriceAllowed = ($targetCountry == 'US');
 
         // get tax settings

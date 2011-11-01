@@ -102,7 +102,7 @@ class Mage_Install_Block_Db_Main extends Mage_Core_Block_Template
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $data = Mage::getSingleton('install/session')->getConfigData(true);
+            $data = Mage::getSingleton('Mage_Install_Model_Session')->getConfigData(true);
             if (empty($data)) {
                 $data = Mage::getModel('Mage_Install_Model_Installer_Config')->getFormData();
             }

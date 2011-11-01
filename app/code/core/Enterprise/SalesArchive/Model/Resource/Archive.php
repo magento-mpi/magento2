@@ -77,7 +77,7 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('enterprise_salesarchive/config');
+        return Mage::getSingleton('Enterprise_SalesArchive_Model_Config');
     }
 
     /**

@@ -74,7 +74,7 @@ class Enterprise_PageCache_Model_Container_Messages extends Enterprise_PageCache
      */
     protected function _renderBlock()
     {
-        Mage::getSingleton('core/cookie')->delete(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE);
+        Mage::getSingleton('Mage_Core_Model_Cookie')->delete(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE);
 
         $block = $this->_placeholder->getAttribute('block');
         $block = new $block;

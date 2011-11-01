@@ -76,14 +76,14 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
             $this->_forward('noRoute');
             return ;
         }
-        $isOwner    = $wishlist->isOwner(Mage::getSingleton('customer/session')->getCustomerId());
+        $isOwner    = $wishlist->isOwner(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId());
 
         $messages   = array();
         $addedItems = array();
         $notSalable = array();
         $hasOptions = array();
 
-        $cart       = Mage::getSingleton('checkout/cart');
+        $cart       = Mage::getSingleton('Mage_Checkout_Model_Cart');
         $collection = $wishlist->getItemCollection()
                 ->setVisibilityFilter();
 
@@ -158,7 +158,7 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
                 }
                 $redirectUrl = $item->getProductUrl();
             } else {
-                $wishlistSession = Mage::getSingleton('wishlist/session');
+                $wishlistSession = Mage::getSingleton('Mage_Wishlist_Model_Session');
                 foreach ($messages as $message) {
                     $wishlistSession->addError($message);
                 }
@@ -172,7 +172,7 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
                 $wishlist->save();
             }
             catch (Exception $e) {
-                Mage::getSingleton('wishlist/session')->addError($this->__('Cannot update wishlist'));
+                Mage::getSingleton('Mage_Wishlist_Model_Session')->addError($this->__('Cannot update wishlist'));
                 $redirectUrl = $indexUrl;
             }
 
@@ -181,7 +181,7 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
                 $products[] = '"' . $product->getName() . '"';
             }
 
-            Mage::getSingleton('checkout/session')->addSuccess(
+            Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
                 Mage::helper('Mage_Wishlist_Helper_Data')->__('%d product(s) have been added to shopping cart: %s.', count($addedItems), join(', ', $products))
             );
         }

@@ -42,7 +42,7 @@ abstract class Mage_Checkout_Model_Type_Abstract extends Varien_Object
     {
         $checkout = $this->getData('checkout_session');
         if (is_null($checkout)) {
-            $checkout = Mage::getSingleton('checkout/session');
+            $checkout = Mage::getSingleton('Mage_Checkout_Model_Session');
             $this->setData('checkout_session', $checkout);
         }
         return $checkout;
@@ -77,7 +77,7 @@ abstract class Mage_Checkout_Model_Type_Abstract extends Varien_Object
     {
         $customer = $this->getData('customer_session');
         if (is_null($customer)) {
-            $customer = Mage::getSingleton('customer/session');
+            $customer = Mage::getSingleton('Mage_Customer_Model_Session');
             $this->setData('customer_session', $customer);
         }
         return $customer;

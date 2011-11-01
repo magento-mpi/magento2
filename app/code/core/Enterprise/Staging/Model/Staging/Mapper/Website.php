@@ -159,7 +159,7 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         $_stagingItems = array();
 
         foreach ($stagingItems as $stagingItemCode => $stagingItemInfo) {
-            $stagingItem = Mage::getSingleton('enterprise_staging/staging_config')->getStagingItem($stagingItemCode);
+            $stagingItem = Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getStagingItem($stagingItemCode);
             if ($stagingItem) {
                 $_stagingItems[$stagingItemCode] = $stagingItem;
             }

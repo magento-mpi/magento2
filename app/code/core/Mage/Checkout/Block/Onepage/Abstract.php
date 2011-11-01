@@ -46,7 +46,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     public function getCustomer()
     {
         if (empty($this->_customer)) {
-            $this->_customer = Mage::getSingleton('customer/session')->getCustomer();
+            $this->_customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
         }
         return $this->_customer;
     }
@@ -59,7 +59,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     public function getCheckout()
     {
         if (empty($this->_checkout)) {
-            $this->_checkout = Mage::getSingleton('checkout/session');
+            $this->_checkout = Mage::getSingleton('Mage_Checkout_Model_Session');
         }
         return $this->_checkout;
     }
@@ -79,13 +79,13 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
 
     public function isCustomerLoggedIn()
     {
-        return Mage::getSingleton('customer/session')->isLoggedIn();
+        return Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn();
     }
 
     public function getCountryCollection()
     {
         if (!$this->_countryCollection) {
-            $this->_countryCollection = Mage::getSingleton('directory/country')->getResourceCollection()
+            $this->_countryCollection = Mage::getSingleton('Mage_Directory_Model_Country')->getResourceCollection()
                 ->loadByStore();
         }
         return $this->_countryCollection;

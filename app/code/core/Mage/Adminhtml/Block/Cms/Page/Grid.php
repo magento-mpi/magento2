@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Layout'),
             'index'     => 'root_template',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('page/source_layout')->getOptions(),
+            'options'   => Mage::getSingleton('Mage_Page_Model_Source_Layout')->getOptions(),
         ));
 
         /**
@@ -97,7 +97,7 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('cms/page')->getAvailableStatuses()
+            'options'   => Mage::getSingleton('Mage_Cms_Model_Page')->getAvailableStatuses()
         ));
 
         $this->addColumn('creation_time', array(

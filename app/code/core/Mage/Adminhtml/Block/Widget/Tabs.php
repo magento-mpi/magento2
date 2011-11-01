@@ -191,7 +191,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
     {
         if ($activeTab = $this->getRequest()->getParam('active_tab')) {
             $this->setActiveTab($activeTab);
-        } elseif ($activeTabId = Mage::getSingleton('admin/session')->getActiveTabId()) {
+        } elseif ($activeTabId = Mage::getSingleton('Mage_Admin_Model_Session')->getActiveTabId()) {
             $this->_setActiveTab($activeTabId);
         }
 

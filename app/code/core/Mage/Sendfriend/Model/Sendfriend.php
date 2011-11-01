@@ -118,7 +118,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
         }
 
         /* @var $translate Mage_Core_Model_Translate */
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         $translate->setTranslateInline(false);
 
         /* @var $mailTemplate Mage_Core_Model_Email_Template */

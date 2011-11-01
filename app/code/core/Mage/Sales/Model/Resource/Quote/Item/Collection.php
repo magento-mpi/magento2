@@ -178,7 +178,7 @@ class Mage_Sales_Model_Resource_Quote_Item_Collection extends Mage_Core_Model_Re
         $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
             ->setStoreId($this->getStoreId())
             ->addIdFilter($this->_productIds)
-            ->addAttributeToSelect(Mage::getSingleton('sales/quote_config')->getProductAttributes())
+            ->addAttributeToSelect(Mage::getSingleton('Mage_Sales_Model_Quote_Config')->getProductAttributes())
             ->addOptionsToResult()
             ->addStoreFilter()
             ->addUrlRewrite()

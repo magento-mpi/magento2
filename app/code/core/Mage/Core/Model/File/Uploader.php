@@ -92,7 +92,7 @@ class Mage_Core_Model_File_Uploader extends Varien_File_Uploader
     {
         //validate with protected file types
         /** @var $validator Mage_Core_Model_File_Validator_NotProtectedExtension */
-        $validator = Mage::getSingleton('core/file_validator_notProtectedExtension');
+        $validator = Mage::getSingleton('Mage_Core_Model_File_Validator_NotProtectedExtension');
         if (!$validator->isValid($extension)) {
             return false;
         }

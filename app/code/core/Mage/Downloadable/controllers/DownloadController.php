@@ -41,7 +41,7 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('core/session');
+        return Mage::getSingleton('Mage_Core_Model_Session');
     }
 
     /**
@@ -51,7 +51,7 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
      */
     protected function _getCustomerSession()
     {
-        return Mage::getSingleton('customer/session');
+        return Mage::getSingleton('Mage_Customer_Model_Session');
     }
 
     protected function _processDownload($resource, $resourceType)

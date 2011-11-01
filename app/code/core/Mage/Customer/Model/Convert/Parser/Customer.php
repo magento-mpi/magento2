@@ -558,7 +558,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
     {
         $data = $this->getData();
 
-        $entityTypeId = Mage::getSingleton('eav/config')->getEntityType('customer')->getId();
+        $entityTypeId = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer')->getId();
         $result = array();
         foreach ($data as $i=>$row) {
             $this->setPosition('Line: '.($i+1));

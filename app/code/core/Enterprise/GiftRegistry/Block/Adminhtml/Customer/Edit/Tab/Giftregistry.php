@@ -68,7 +68,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry
         $customer = Mage::registry('current_customer');
         return $customer->getId()
            && Mage::helper('Enterprise_GiftRegistry_Helper_Data')->isEnabled()
-           && Mage::getSingleton('admin/session')->isAllowed('customer/enterprise_giftregistry');
+           && Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/enterprise_giftregistry');
     }
 
     /**

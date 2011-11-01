@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Notification_Grid_Renderer_Severity
      */
     public function render(Varien_Object $row)
     {
-        $notice = Mage::getSingleton('adminnotification/inbox');
+        $notice = Mage::getSingleton('Mage_AdminNotification_Model_Inbox');
 
         switch ($row->getData($this->getColumn()->getIndex())) {
             case Mage_AdminNotification_Model_Inbox::SEVERITY_CRITICAL:

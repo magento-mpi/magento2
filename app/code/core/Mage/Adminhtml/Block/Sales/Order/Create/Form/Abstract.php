@@ -142,7 +142,7 @@ abstract class Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
 
         foreach ($attributes as $attribute) {
             /** @var $attribute Mage_Customer_Model_Attribute */
-            $attribute->setStoreId(Mage::getSingleton('adminhtml/session_quote')->getStoreId());
+            $attribute->setStoreId(Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getStoreId());
             $inputType = $attribute->getFrontend()->getInputType();
 
             if ($inputType) {

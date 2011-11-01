@@ -445,7 +445,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/store');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/store');
     }
 
     /**

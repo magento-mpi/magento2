@@ -119,7 +119,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
 
     public function isAllowedForGiftMessage($item)
     {
-        return Mage::getSingleton('adminhtml/giftmessage_save')->getIsAllowedQuoteItem($item);
+        return Mage::getSingleton('Mage_Adminhtml_Model_Giftmessage_Save')->getIsAllowedQuoteItem($item);
     }
 
     /**
@@ -129,8 +129,8 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
      */
     public function displayTotalsIncludeTax()
     {
-        $res = Mage::getSingleton('tax/config')->displayCartSubtotalInclTax($this->getStore())
-            || Mage::getSingleton('tax/config')->displayCartSubtotalBoth($this->getStore());
+        $res = Mage::getSingleton('Mage_Tax_Model_Config')->displayCartSubtotalInclTax($this->getStore())
+            || Mage::getSingleton('Mage_Tax_Model_Config')->displayCartSubtotalBoth($this->getStore());
         return $res;
     }
 

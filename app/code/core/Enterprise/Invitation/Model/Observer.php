@@ -43,7 +43,7 @@ class Enterprise_Invitation_Model_Observer
 
     public function __construct()
     {
-        $this->_config = Mage::getSingleton('enterprise_invitation/config');
+        $this->_config = Mage::getSingleton('Enterprise_Invitation_Model_Config');
     }
 
     /**
@@ -76,7 +76,7 @@ class Enterprise_Invitation_Model_Observer
      */
     public function postDispatchInvitationMassUpdate($config, $eventModel)
     {
-        $messages = Mage::getSingleton('admin/session')->getMessages();
+        $messages = Mage::getSingleton('Mage_Admin_Model_Session')->getMessages();
         $errors = $messages->getErrors();
         $notices = $messages->getItemsByType(Mage_Core_Model_Message::NOTICE);
         $status = (empty($errors) && empty($notices))

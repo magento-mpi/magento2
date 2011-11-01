@@ -350,10 +350,10 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
         if ($paths) {
             // create prefix path parts
             $prefixParts[] = array(
-                'title' => Mage::getSingleton('admin/config')->getMenuItemLabel('system'),
+                'title' => Mage::getSingleton('Mage_Admin_Model_Config')->getMenuItemLabel('system'),
             );
             $prefixParts[] = array(
-                'title' => Mage::getSingleton('admin/config')->getMenuItemLabel('system/config'),
+                'title' => Mage::getSingleton('Mage_Admin_Model_Config')->getMenuItemLabel('system/config'),
                 'url' => $this->getUrl('adminhtml/system_config/'),
             );
 
@@ -383,14 +383,14 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
                     }
                 }
                 $pathParts[] = array(
-                    'title' => Mage::getSingleton('adminhtml/config')->getSystemConfigNodeLabel($sectionName),
+                    'title' => Mage::getSingleton('Mage_Adminhtml_Model_Config')->getSystemConfigNodeLabel($sectionName),
                     'url' => $this->getUrl('adminhtml/system_config/edit', $urlParams),
                 );
                 $pathParts[] = array(
-                    'title' => Mage::getSingleton('adminhtml/config')->getSystemConfigNodeLabel($sectionName, $groupName)
+                    'title' => Mage::getSingleton('Mage_Adminhtml_Model_Config')->getSystemConfigNodeLabel($sectionName, $groupName)
                 );
                 $pathParts[] = array(
-                    'title' => Mage::getSingleton('adminhtml/config')->getSystemConfigNodeLabel($sectionName, $groupName, $fieldName),
+                    'title' => Mage::getSingleton('Mage_Adminhtml_Model_Config')->getSystemConfigNodeLabel($sectionName, $groupName, $fieldName),
                     'scope' => $scopeLabel
                 );
                 $result[] = $pathParts;

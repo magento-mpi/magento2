@@ -41,7 +41,7 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
     protected function _getEntityType()
     {
         if (is_null($this->_entityType)) {
-            $this->_entityType = Mage::getSingleton('eav/config')->getEntityType('rma_item');
+            $this->_entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('rma_item');
         }
         return $this->_entityType;
     }
@@ -349,6 +349,6 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_rma');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/enterprise_rma');
     }
 }

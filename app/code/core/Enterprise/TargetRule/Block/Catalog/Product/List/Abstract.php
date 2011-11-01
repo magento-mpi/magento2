@@ -198,7 +198,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
             $linkCollection->setPageSize($limit);
         }
 
-        Mage::getSingleton('catalog/product_visibility')
+        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
             ->addVisibleInCatalogFilterToCollection($linkCollection);
 
         $linkCollection->setFlag('do_not_use_category_id', true);
@@ -273,7 +273,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
             $collection->addFieldToFilter('entity_id', array('in' => $productIds));
             $this->_addProductAttributesAndPrices($collection);
 
-            Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInCatalogFilterToCollection($collection);
             $collection->setPageSize($limit)->setFlag('do_not_use_category_id', true);
 
             foreach ($collection as $item) {

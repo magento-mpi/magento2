@@ -42,7 +42,7 @@ class Mage_Tax_Block_Checkout_Grandtotal extends Mage_Checkout_Block_Total_Defau
     public function includeTax()
     {
         if ($this->getTotal()->getAddress()->getGrandTotal()) {
-            return Mage::getSingleton('tax/config')->displayCartTaxWithGrandTotal($this->getStore());
+            return Mage::getSingleton('Mage_Tax_Model_Config')->displayCartTaxWithGrandTotal($this->getStore());
         }
         return false;
     }

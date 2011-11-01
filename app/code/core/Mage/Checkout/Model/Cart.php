@@ -51,7 +51,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
      */
     public function getCheckoutSession()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**
@@ -61,7 +61,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
      */
     public function getCustomerSession()
     {
-        return Mage::getSingleton('customer/session');
+        return Mage::getSingleton('Mage_Customer_Model_Session');
     }
 
     public function getItems()
@@ -364,7 +364,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         Mage::dispatchEvent('checkout_cart_update_items_before', array('cart'=>$this, 'info'=>$data));
 
         /* @var $messageFactory Mage_Core_Model_Message */
-        $messageFactory = Mage::getSingleton('core/message');
+        $messageFactory = Mage::getSingleton('Mage_Core_Model_Message');
         $session = $this->getCheckoutSession();
         $qtyRecalculatedFlag = false;
         foreach ($data as $itemId => $itemInfo) {
@@ -445,7 +445,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 
     public function getProductIds()
     {
-        $quoteId = Mage::getSingleton('checkout/session')->getQuoteId();
+        $quoteId = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuoteId();
         if (null === $this->_productIds) {
             $this->_productIds = array();
             if ($this->getSummaryQty()>0) {
@@ -465,14 +465,14 @@ class Mage_Checkout_Model_Cart extends Varien_Object
      */
     public function getSummaryQty()
     {
-        $quoteId = Mage::getSingleton('checkout/session')->getQuoteId();
+        $quoteId = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuoteId();
 
         //If there is no quote id in session trying to load quote
         //and get new quote id. This is done for cases when quote was created
         //not by customer (from backend for example).
-        if (!$quoteId && Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $quote = Mage::getSingleton('checkout/session')->getQuote();
-            $quoteId = Mage::getSingleton('checkout/session')->getQuoteId();
+        if (!$quoteId && Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+            $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+            $quoteId = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuoteId();
         }
 
         if ($quoteId && $this->_summaryQty === null) {

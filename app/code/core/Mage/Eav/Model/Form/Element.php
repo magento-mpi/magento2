@@ -107,7 +107,7 @@ class Mage_Eav_Model_Form_Element extends Mage_Core_Model_Abstract
     public function getAttribute()
     {
         if (!$this->hasData('attribute')) {
-            $attribute = Mage::getSingleton('eav/config')
+            $attribute = Mage::getSingleton('Mage_Eav_Model_Config')
                 ->getAttribute($this->getEntityTypeId(), $this->getAttributeId());
             $this->setData('attribute', $attribute);
         }

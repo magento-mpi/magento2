@@ -71,7 +71,7 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Report_Grid extends Mage_Adminhtml_
      */
     protected function _prepareColumns()
     {
-        $settlement = Mage::getSingleton('paypal/report_settlement');
+        $settlement = Mage::getSingleton('Mage_Paypal_Model_Report_Settlement');
         $this->addColumn('report_date', array(
             'header'    => $settlement->getFieldLabel('report_date'),
             'index'     => 'report_date',

@@ -32,7 +32,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Email_Identity
     {
         if (is_null($this->_options)) {
             $this->_options = array();
-            $config = Mage::getSingleton('adminhtml/config')->getSection('trans_email')->groups->children();
+            $config = Mage::getSingleton('Mage_Adminhtml_Model_Config')->getSection('trans_email')->groups->children();
             foreach ($config as $node) {
                 $nodeName   = $node->getName();
                 $label      = (string) $node->label;

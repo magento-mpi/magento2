@@ -65,8 +65,8 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
      */
     public function displayTotalsIncludeTax()
     {
-        $res = Mage::getSingleton('tax/config')->displayCartSubtotalInclTax($this->getStore())
-            || Mage::getSingleton('tax/config')->displayCartSubtotalBoth($this->getStore());
+        $res = Mage::getSingleton('Mage_Tax_Model_Config')->displayCartSubtotalInclTax($this->getStore())
+            || Mage::getSingleton('Mage_Tax_Model_Config')->displayCartSubtotalBoth($this->getStore());
 
         return $res;
     }
@@ -141,7 +141,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
      */
     public function isAllowedActionColumn()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/update');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/enterprise_checkout/update');
     }
 
     /**

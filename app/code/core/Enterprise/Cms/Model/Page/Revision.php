@@ -100,7 +100,7 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
     {
         parent::_construct();
         $this->_init('Enterprise_Cms_Model_Resource_Page_Revision');
-        $this->_config = Mage::getSingleton('enterprise_cms/config');
+        $this->_config = Mage::getSingleton('Enterprise_Cms_Model_Config');
     }
 
     /**
@@ -130,7 +130,7 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
          */
         if ($this->_revisionedDataWasModified() || $this->getVersionId() != $this->getOrigData('version_id')) {
             $this->unsetData($this->getIdFieldName());
-            $this->setCreatedAt(Mage::getSingleton('core/date')->gmtDate());
+            $this->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
 
             $incrementNumber = Mage::getModel('Enterprise_Cms_Model_Increment')
                 ->getNewIncrementId(Enterprise_Cms_Model_Increment::TYPE_PAGE,

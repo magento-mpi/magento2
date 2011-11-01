@@ -473,7 +473,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         );
         $result['general']['xmlconnectVersion'] = Mage::getConfig()->getNode(self::XML_PATH_MODULE_VERSION);
 
-        $result['general']['isAllowedGuestCheckout'] = (int)Mage::getSingleton('checkout/session')
+        $result['general']['isAllowedGuestCheckout'] = (int)Mage::getSingleton('Mage_Checkout_Model_Session')
             ->getQuote()->isAllowedGuestCheckout();
 
         /**
@@ -663,7 +663,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $this->setUpdatedAt(Mage::getSingleton('core/date')->gmtDate());
+        $this->setUpdatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
         return $this;
     }
 

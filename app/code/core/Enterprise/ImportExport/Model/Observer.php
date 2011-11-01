@@ -183,7 +183,7 @@ class Enterprise_ImportExport_Model_Observer
             return $this;
         }
 
-        $mailer = Mage::getSingleton('core/email_template_mailer');
+        $mailer = Mage::getSingleton('Mage_Core_Model_Email_Template_Mailer');
         $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
         $emailInfo->addTo($receiverEmail);
 

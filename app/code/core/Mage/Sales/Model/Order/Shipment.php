@@ -387,7 +387,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
         }
 
         // Start store emulation process
-        $appEmulation = Mage::getSingleton('core/app_emulation');
+        $appEmulation = Mage::getSingleton('Mage_Core_Model_App_Emulation');
         $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
 
         try {

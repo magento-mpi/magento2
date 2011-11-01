@@ -83,7 +83,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 
     public function getTablePrefix()
     {
-        $prefix = Mage::getSingleton('enterprise_staging/staging_config')
+        $prefix = Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')
             ->getTablePrefix();
         if ($this->getId()) {
             $prefix .= $this->getId();
@@ -202,7 +202,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function checkCoreFlag()
     {
-        $process = Mage::getSingleton('index/indexer')->getProcessByCode('catalog_category_product');
+        $process = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_category_product');
         if ($process->isLocked()) {
             return false;
         } else {
@@ -217,7 +217,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function setCoreFlag()
     {
-        $process = Mage::getSingleton('index/indexer')->getProcessByCode('catalog_category_product');
+        $process = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_category_product');
         $process->lock();
         return $this;
     }
@@ -229,7 +229,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function releaseCoreFlag()
     {
-        $process = Mage::getSingleton('index/indexer')->getProcessByCode('catalog_category_product');
+        $process = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_category_product');
         if ($process->isLocked()) {
             $process->unlock();
         }
@@ -520,7 +520,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     public function getMapperInstance()
     {
         if ($this->_mapperInstance === null) {
-            $this->_mapperInstance = Mage::getSingleton('enterprise_staging/staging_mapper_website');
+            $this->_mapperInstance = Mage::getSingleton('Enterprise_Staging_Model_Staging_Mapper_Website');
         }
         return $this->_mapperInstance;
     }

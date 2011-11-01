@@ -67,7 +67,7 @@ class Enterprise_CustomerSegment_Model_Observer
         }
 
         if ($customerId) {
-            Mage::getSingleton('enterprise_customersegment/customer')->processCustomerEvent(
+            Mage::getSingleton('Enterprise_CustomerSegment_Model_Customer')->processCustomerEvent(
                 $eventName,
                 $customerId
             );
@@ -85,7 +85,7 @@ class Enterprise_CustomerSegment_Model_Observer
         $eventName = $observer->getEvent()->getName();
         $customer = Mage::registry('segment_customer');
 
-        $customerSession = Mage::getSingleton('customer/session');
+        $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
         if (!$customerSession->isLoggedIn() && !$customer) {
             return $this;
         }
@@ -93,7 +93,7 @@ class Enterprise_CustomerSegment_Model_Observer
             $customer = $customerSession->getCustomer();
         }
         $website = Mage::app()->getStore()->getWebsite();
-        Mage::getSingleton('enterprise_customersegment/customer')->processEvent($eventName, $customer, $website);
+        Mage::getSingleton('Enterprise_CustomerSegment_Model_Customer')->processEvent($eventName, $customer, $website);
     }
 
     /**
@@ -109,7 +109,7 @@ class Enterprise_CustomerSegment_Model_Observer
         $customer = $quote->getCustomer();
         if ($customer && $customer->getId()) {
             $website = $quote->getStore()->getWebsite();
-            Mage::getSingleton('enterprise_customersegment/customer')->processCustomer($customer, $website);
+            Mage::getSingleton('Enterprise_CustomerSegment_Model_Customer')->processCustomer($customer, $website);
         }
     }
 

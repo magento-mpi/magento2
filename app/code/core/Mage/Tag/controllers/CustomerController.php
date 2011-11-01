@@ -38,7 +38,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
     {
         $tagId = (int) $this->getRequest()->getParam('tagId');
         if ($tagId) {
-            $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+            $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
             $model = Mage::getModel('Mage_Tag_Model_Tag_Relation');
             $model->loadByTagCustomer(null, $tagId, $customerId);
             Mage::register('tagModel', $model);
@@ -49,8 +49,8 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
 
     public function indexAction()
     {
-        if( !Mage::getSingleton('customer/session')->isLoggedIn() ) {
-            Mage::getSingleton('customer/session')->authenticate($this);
+        if( !Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn() ) {
+            Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this);
             return;
         }
 
@@ -74,8 +74,8 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
 
     public function viewAction()
     {
-        if( !Mage::getSingleton('customer/session')->isLoggedIn() ) {
-            Mage::getSingleton('customer/session')->authenticate($this);
+        if( !Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn() ) {
+            Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this);
             return;
         }
 
@@ -111,8 +111,8 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
 
     public function removeAction()
     {
-        if( !Mage::getSingleton('customer/session')->isLoggedIn() ) {
-            Mage::getSingleton('customer/session')->authenticate($this);
+        if( !Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn() ) {
+            Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this);
             return;
         }
 
@@ -122,13 +122,13 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
                 $model = Mage::registry('tagModel');
                 $model->deactivate();
                 $tag = Mage::getModel('Mage_Tag_Model_Tag')->load($tagId)->aggregate();
-                Mage::getSingleton('tag/session')->addSuccess(Mage::helper('Mage_Tag_Helper_Data')->__('The tag has been deleted.'));
+                Mage::getSingleton('Mage_Tag_Model_Session')->addSuccess(Mage::helper('Mage_Tag_Helper_Data')->__('The tag has been deleted.'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/', array(
                     self::PARAM_NAME_URL_ENCODED => Mage::helper('Mage_Core_Helper_Data')->urlEncode(Mage::getUrl('customer/account/'))
                 )));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('tag/session')->addError(Mage::helper('Mage_Tag_Helper_Data')->__('Unable to remove tag. Please, try again later.'));
+                Mage::getSingleton('Mage_Tag_Model_Session')->addError(Mage::helper('Mage_Tag_Helper_Data')->__('Unable to remove tag. Please, try again later.'));
             }
         }
         else {

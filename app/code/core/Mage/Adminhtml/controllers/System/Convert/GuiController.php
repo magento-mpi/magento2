@@ -87,7 +87,7 @@ class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_
         $profile = Mage::registry('current_convert_profile');
 
         // set entered data if was error when we do save
-        $data = Mage::getSingleton('adminhtml/session')->getConvertProfileData(true);
+        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getConvertProfileData(true);
 
         if (!empty($data)) {
             $profile->addData($data);
@@ -149,6 +149,6 @@ class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_
 //                break;
 //        }
 
-        return Mage::getSingleton('admin/session')->isAllowed('admin/system/convert/gui');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/system/convert/gui');
     }
 }

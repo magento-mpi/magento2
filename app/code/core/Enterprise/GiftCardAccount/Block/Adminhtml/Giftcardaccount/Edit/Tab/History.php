@@ -70,7 +70,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Histor
             'index'     => 'action',
             'sortable'  => false,
             'type'      => 'options',
-            'options'   => Mage::getSingleton('enterprise_giftcardaccount/history')->getActionNamesArray(),
+            'options'   => Mage::getSingleton('Enterprise_GiftCardAccount_Model_History')->getActionNamesArray(),
         ));
 
         $currency = Mage::app()->getWebsite(Mage::registry('current_giftcardaccount')->getWebsiteId())->getBaseCurrencyCode();

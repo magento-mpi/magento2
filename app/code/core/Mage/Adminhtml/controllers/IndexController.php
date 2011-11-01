@@ -47,7 +47,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
             $block->assign($index, $value);
         }
         $html = $block->toHtml();
-        Mage::getSingleton('core/translate_inline')->processResponseBody($html);
+        Mage::getSingleton('Mage_Core_Model_Translate_Inline')->processResponseBody($html);
         $this->getResponse()->setBody($html);
     }
 
@@ -57,7 +57,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
-        $session = Mage::getSingleton('admin/session');
+        $session = Mage::getSingleton('Mage_Admin_Model_Session');
         $url = $session->getUser()->getStartupPageUrl();
         if ($session->isFirstPageAfterLogin()) {
             // retain the "first page after login" value in session (before redirect)
@@ -71,7 +71,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
      */
     public function loginAction()
     {
-        if (Mage::getSingleton('admin/session')->isLoggedIn()) {
+        if (Mage::getSingleton('Mage_Admin_Model_Session')->isLoggedIn()) {
             $this->_redirect('*');
             return;
         }
@@ -93,7 +93,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
     public function logoutAction()
     {
         /** @var $adminSession Mage_Admin_Model_Session */
-        $adminSession = Mage::getSingleton('admin/session');
+        $adminSession = Mage::getSingleton('Mage_Admin_Model_Session');
         $adminSession->unsetAll();
         $adminSession->getCookie()->delete($adminSession->getSessionName());
         $adminSession->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('You have logged out.'));
@@ -109,7 +109,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         $searchModules = Mage::getConfig()->getNode("adminhtml/global_search");
         $items = array();
 
-        if (!Mage::getSingleton('admin/session')->isAllowed('admin/global_search')) {
+        if (!Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/global_search')) {
             $items[] = array(
                 'id' => 'error',
                 'type' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Error'),
@@ -132,7 +132,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
                 $query = $this->getRequest()->getParam('query', '');
                 foreach ($searchModules->children() as $searchConfig) {
 
-                    if ($searchConfig->acl && !Mage::getSingleton('admin/session')->isAllowed($searchConfig->acl)){
+                    if ($searchConfig->acl && !Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($searchConfig->acl)){
                         continue;
                     }
 
@@ -183,7 +183,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
     {
         $locale = $this->getRequest()->getParam('locale');
         if ($locale) {
-            Mage::getSingleton('adminhtml/session')->setLocale($locale);
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setLocale($locale);
         }
         $this->_redirectReferer();
     }

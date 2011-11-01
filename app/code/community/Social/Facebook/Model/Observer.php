@@ -44,14 +44,14 @@ class Social_Facebook_Model_Observer
         if (!Mage::helper('Social_Facebook_Helper_Data')->isEnabled()) {
             return false;
         }
-        $session        = Mage::getSingleton('core/session');
+        $session        = Mage::getSingleton('Mage_Core_Model_Session');
 
         $facebookAction = $session->getData('facebook_action');
         $productId      = $session->getData('product_id');
         $productUrl     = $session->getData('product_url');
 
         /** @var $facebookModel Social_Facebook_Model_Facebook */
-        $facebookModel  = Mage::getSingleton('social_facebook/facebook');
+        $facebookModel  = Mage::getSingleton('Social_Facebook_Model_Facebook');
 
         if ($facebookAction) {
             $result = $facebookModel->sendFacebookAction();
@@ -105,7 +105,7 @@ class Social_Facebook_Model_Observer
      */
     protected function _cacheFriends($facebookId)
     {
-        $facebookModel = Mage::getSingleton('social_facebook/facebook');
+        $facebookModel = Mage::getSingleton('Social_Facebook_Model_Facebook');
 
         $users  = $facebookModel->cacheFriends(array(), $facebookId);
 

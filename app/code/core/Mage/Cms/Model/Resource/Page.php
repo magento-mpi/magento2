@@ -100,10 +100,10 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
 
         // modify create / update dates
         if ($object->isObjectNew() && !$object->hasCreationTime()) {
-            $object->setCreationTime(Mage::getSingleton('core/date')->gmtDate());
+            $object->setCreationTime(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
         }
 
-        $object->setUpdateTime(Mage::getSingleton('core/date')->gmtDate());
+        $object->setUpdateTime(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
 
         return parent::_beforeSave($object);
     }

@@ -96,7 +96,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
     {
         $options[] = array('label' => $this->__('Custom attribute, no mapping'));
 
-        $attributesTree = Mage::getSingleton('googleshopping/config')
+        $attributesTree = Mage::getSingleton('Mage_GoogleShopping_Model_Config')
             ->getAttributesByCountry($this->getTargetCountry());
 
         foreach ($attributesTree as $destination => $attributes) {

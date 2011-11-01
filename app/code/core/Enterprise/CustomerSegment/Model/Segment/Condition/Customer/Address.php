@@ -92,7 +92,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
     {
         $resource = $this->getResource();
         $select = $resource->createSelect();
-        $addressEntityType = Mage::getSingleton('eav/config')->getEntityType('customer_address');
+        $addressEntityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer_address');
         $addressTable = $resource->getTable($addressEntityType->getEntityTable());
 
         $select->from(array('customer_address' => $addressTable), array(new Zend_Db_Expr(1)));

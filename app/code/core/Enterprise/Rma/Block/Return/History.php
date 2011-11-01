@@ -33,7 +33,7 @@ class Enterprise_Rma_Block_Return_History extends Mage_Core_Block_Template
 
         $returns = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Rma_Grid_Collection')
             ->addFieldToSelect('*')
-            ->addFieldToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId())
+            ->addFieldToFilter('customer_id', Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getId())
             ->setOrder('date_requested', 'desc')
         ;
 

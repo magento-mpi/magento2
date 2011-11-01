@@ -210,7 +210,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
      */
     public function getConfig()
     {
-        return Mage::getSingleton('sales/order_invoice_config');
+        return Mage::getSingleton('Mage_Sales_Model_Order_Invoice_Config');
     }
 
     /**
@@ -733,7 +733,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         }
 
         // Start store emulation process
-        $appEmulation = Mage::getSingleton('core/app_emulation');
+        $appEmulation = Mage::getSingleton('Mage_Core_Model_App_Emulation');
         $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
 
         try {

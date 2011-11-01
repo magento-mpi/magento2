@@ -53,7 +53,7 @@ class Enterprise_Staging_Model_Observer
             $modelEntity = $observer->getEvent()->getModelEntity();
             $website     = Mage::app()->getWebsite();
             if ($website->getIsStaging()) {
-                $_tableName = Mage::getSingleton('enterprise_staging/staging_config')
+                $_tableName = Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')
                     ->getStagingFrontendTableName($tableName, $modelEntity, $website);
                 if ($_tableName) {
                     $resource->setMappedTableName($tableName, $_tableName);
@@ -282,7 +282,7 @@ class Enterprise_Staging_Model_Observer
         $productOrigData    = $product->getOrigData();
         $oldWebsiteIds      = $productOrigData['website_ids'];
         unset($productOrigData);
-        $productUnlinkedSingleton = Mage::getSingleton('enterprise_staging/staging_product_unlinked');
+        $productUnlinkedSingleton = Mage::getSingleton('Enterprise_Staging_Model_Staging_Product_Unlinked');
 
         $unlinkedWebsiteIds = array_diff($oldWebsiteIds, $newWebsiteIds);
         $productUnlinkedSingleton->addProductsUnlinkAssociations($productId, $unlinkedWebsiteIds);
@@ -304,7 +304,7 @@ class Enterprise_Staging_Model_Observer
         $productIds = $observer->getEvent()->getProductIds();
         $action     = $observer->getEvent()->getAction();
 
-        $productUnlinkedSingleton = Mage::getSingleton('enterprise_staging/staging_product_unlinked');
+        $productUnlinkedSingleton = Mage::getSingleton('Enterprise_Staging_Model_Staging_Product_Unlinked');
 
         if ($action == 'add') {
             $productUnlinkedSingleton->removeProductsUnlinkAssociations($productIds, $websiteIds);

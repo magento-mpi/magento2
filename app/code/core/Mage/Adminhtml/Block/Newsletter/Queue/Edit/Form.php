@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
     protected function _prepareForm()
     {
         /* @var $queue Mage_Newsletter_Model_Queue */
-        $queue = Mage::getSingleton('newsletter/queue');
+        $queue = Mage::getSingleton('Mage_Newsletter_Model_Queue');
 
         $form = new Varien_Data_Form();
 
@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
                     'name'          => 'stores[]',
                     'label'         => Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers From'),
                     'image'         => $this->getSkinUrl('images/grid-cal.gif'),
-                    'values'        => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
+                    'values'        => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(),
                     'value'         => $queue->getStores()
                 ));
             }
@@ -96,7 +96,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
                     'label'         => Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers From'),
                     'image'         => $this->getSkinUrl('images/grid-cal.gif'),
                     'required'      => true,
-                    'values'        => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
+                    'values'        => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(),
                     'value'         => $queue->getStores()
                 ));
             }
@@ -139,7 +139,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
         ));
 
         $widgetFilters = array('is_email_compatible' => 1);
-        $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(array('widget_filters' => $widgetFilters));
+        $wysiwygConfig = Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->getConfig(array('widget_filters' => $widgetFilters));
 
         if ($queue->isNew()) {
             $fieldset->addField('text','editor', array(

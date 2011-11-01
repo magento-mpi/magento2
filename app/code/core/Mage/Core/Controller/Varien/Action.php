@@ -234,7 +234,7 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     public function getLayout()
     {
-        return Mage::getSingleton('core/layout');
+        return Mage::getSingleton('Mage_Core_Model_Layout');
     }
 
     /**
@@ -279,7 +279,7 @@ abstract class Mage_Core_Controller_Varien_Action
         $update->addHandle('STORE_'.Mage::app()->getStore()->getCode());
 
         // load theme handle
-        $package = Mage::getSingleton('core/design_package');
+        $package = Mage::getSingleton('Mage_Core_Model_Design_Package');
         $update->addHandle(
             'THEME_'.$package->getArea().'_'.$package->getPackageName().'_'.$package->getTheme('layout')
         );
@@ -392,7 +392,7 @@ abstract class Mage_Core_Controller_Varien_Action
         $this->getLayout()->setDirectOutput(false);
 
         $output = $this->getLayout()->getOutput();
-        Mage::getSingleton('core/translate_inline')->processResponseBody($output);
+        Mage::getSingleton('Mage_Core_Model_Translate_Inline')->processResponseBody($output);
         $this->getResponse()->appendBody($output);
         Magento_Profiler::stop('layout_render');
 
@@ -490,11 +490,11 @@ abstract class Mage_Core_Controller_Varien_Action
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION)) {
             $checkCookie = in_array($this->getRequest()->getActionName(), $this->_cookieCheckActions);
             $checkCookie = $checkCookie && !$this->getRequest()->getParam('nocookie', false);
-            $cookies = Mage::getSingleton('core/cookie')->get();
+            $cookies = Mage::getSingleton('Mage_Core_Model_Cookie')->get();
             if ($checkCookie && empty($cookies)) {
                 $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
             }
-            Mage::getSingleton('core/session', array('name' => $this->_sessionNamespace))->start();
+            Mage::getSingleton('Mage_Core_Model_Session', array('name' => $this->_sessionNamespace))->start();
         }
 
         Mage::app()->loadArea($this->getLayout()->getArea());
@@ -863,7 +863,7 @@ abstract class Mage_Core_Controller_Varien_Action
     protected function _validateFormKey()
     {
         if (!($formKey = $this->getRequest()->getParam('form_key', null))
-            || $formKey != Mage::getSingleton('core/session')->getFormKey()) {
+            || $formKey != Mage::getSingleton('Mage_Core_Model_Session')->getFormKey()) {
             return false;
         }
         return true;
@@ -1004,7 +1004,7 @@ abstract class Mage_Core_Controller_Varien_Action
         $contentType = 'application/octet-stream',
         $contentLength = null)
     {
-        $session = Mage::getSingleton('admin/session');
+        $session = Mage::getSingleton('Mage_Admin_Model_Session');
         if ($session->isFirstPageAfterLogin()) {
             $this->_redirect($session->getUser()->getStartupPageUrl());
             return $this;

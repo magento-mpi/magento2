@@ -48,7 +48,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Catalog_Search_Type extends Mag
             $this->getScopeId()
         );
         if ($newValue != $oldValue) {
-            Mage::getSingleton('catalogsearch/fulltext')->resetSearchResults();
+            Mage::getSingleton('Mage_CatalogSearch_Model_Fulltext')->resetSearchResults();
         }
 
         return $this;

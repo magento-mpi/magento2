@@ -65,7 +65,7 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends 
      */
     public function canAssignGwsAll()
     {
-        return Mage::getSingleton('enterprise_admingws/role')->getIsAll();
+        return Mage::getSingleton('Enterprise_AdminGws_Model_Role')->getIsAll();
     }
 
     /**
@@ -79,7 +79,7 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends 
         foreach (Mage::app()->getWebsites() as $website) {
             foreach ($website->getGroups() as $group) {
                 $groupId = $group->getId();
-                if (!Mage::getSingleton('enterprise_admingws/role')->hasStoreGroupAccess($groupId)) {
+                if (!Mage::getSingleton('Enterprise_AdminGws_Model_Role')->hasStoreGroupAccess($groupId)) {
                     $result[$groupId] = $groupId;
                 }
             }

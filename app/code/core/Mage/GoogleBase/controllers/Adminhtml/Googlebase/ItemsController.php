@@ -98,7 +98,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
         try {
             if (is_array($productIds)) {
                 foreach ($productIds as $productId) {
-                    $product = Mage::getSingleton('catalog/product')
+                    $product = Mage::getSingleton('Mage_Catalog_Model_Product')
                         ->setStoreId($storeId)
                         ->load($productId);
 
@@ -257,7 +257,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
             foreach ($itemIds as $itemId) {
                 $item = Mage::getModel('Mage_GoogleBase_Model_Item')->load($itemId);
 
-                $stats = Mage::getSingleton('googlebase/service_feed')->getItemStats($item->getGbaseItemId(), $storeId);
+                $stats = Mage::getSingleton('Mage_GoogleBase_Model_Service_Feed')->getItemStats($item->getGbaseItemId(), $storeId);
                 if ($stats === null) {
                     $item->delete();
                     $totalDeleted++;
@@ -357,12 +357,12 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
 
     protected function _getConfig()
     {
-        return Mage::getSingleton('googlebase/config');
+        return Mage::getSingleton('Mage_GoogleBase_Model_Config');
     }
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/googlebase/items');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/googlebase/items');
     }
 
     /**

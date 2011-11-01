@@ -43,7 +43,7 @@ class Phoenix_Moneybookers_Helper_Data extends Mage_Payment_Helper_Data
     {
         $storeId = Mage::app()->getStore()->getId();
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 

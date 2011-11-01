@@ -46,7 +46,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_C
                 'class' => 'select global-scope'
             ))
             ->setName('attributes[{{prefix}}][{{id}}][show_region]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray());
 
         return $select->getHtml();
     }

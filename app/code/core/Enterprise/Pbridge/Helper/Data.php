@@ -104,7 +104,7 @@ class Enterprise_Pbridge_Helper_Data extends Mage_Core_Helper_Abstract
         if ($quote && $quote instanceof Mage_Sales_Model_Quote) {
             return $quote;
         }
-        return Mage::getSingleton('checkout/session')->getQuote();
+        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
     }
 
     /**

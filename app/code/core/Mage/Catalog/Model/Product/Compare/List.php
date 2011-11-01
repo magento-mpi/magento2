@@ -108,9 +108,9 @@ class Mage_Catalog_Model_Product_Compare_List extends Varien_Object
      */
     protected function _addVisitorToItem($item)
     {
-        $item->addVisitorId(Mage::getSingleton('log/visitor')->getId());
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $item->addCustomerData(Mage::getSingleton('customer/session')->getCustomer());
+        $item->addVisitorId(Mage::getSingleton('Mage_Log_Model_Visitor')->getId());
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+            $item->addCustomerData(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer());
         }
 
         return $this;

@@ -666,7 +666,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         $store = Mage::app()->getStore($item->getStoreId());
         $amount = Mage::helper('Enterprise_Reward_Helper_Data')
             ->getRateFromRatesArray($item->getPointsBalanceTotal(),$websiteId, $item->getCustomerGroupId());
-        $action = Mage::getSingleton('enterprise_reward/reward')->getActionInstance($item->getAction());
+        $action = Mage::getSingleton('Enterprise_Reward_Model_Reward')->getActionInstance($item->getAction());
         $templateVars = array(
             'store' => $store,
             'customer_name' => $item->getCustomerFirstname().' '.$item->getCustomerLastname(),

@@ -106,14 +106,14 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Rss_Block_Abstract
             ->setOrder('low_stock_date');
 
         $collection->addAttributeToFilter('status',
-            array('in' => Mage::getSingleton('catalog/product_status')->getVisibleStatusIds()));
+            array('in' => Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getVisibleStatusIds()));
         Mage::dispatchEvent('rss_catalog_notify_stock_collection_select', array('collection' => $collection));
 
         /*
         using resource iterator to load the data one by one
         instead of loading all at the same time. loading all data at the same time can cause the big memory allocation.
         */
-        Mage::getSingleton('core/resource_iterator')->walk(
+        Mage::getSingleton('Mage_Core_Model_Resource_Iterator')->walk(
             $collection->getSelect(),
             array(array($this, 'addNotifyItemXmlCallback')),
             array('rssObj'=> $rssObj, 'product'=>$product, 'globalQty' => $globalNotifyStockQty)

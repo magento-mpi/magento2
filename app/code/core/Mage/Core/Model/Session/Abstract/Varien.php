@@ -136,7 +136,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
      */
     public function getCookie()
     {
-        return Mage::getSingleton('core/cookie');
+        return Mage::getSingleton('Mage_Core_Model_Cookie');
     }
 
     /**

@@ -141,15 +141,15 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
         }
 
-        $_request = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false);
+        $_request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest(false, false, false);
         /* @var $product Mage_Catalog_Model_Product */
         $product = $this->getProduct();
         $_request->setProductClassId($product->getTaxClassId());
-        $defaultTax = Mage::getSingleton('tax/calculation')->getRate($_request);
+        $defaultTax = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($_request);
 
-        $_request = Mage::getSingleton('tax/calculation')->getRateRequest();
+        $_request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest();
         $_request->setProductClassId($product->getTaxClassId());
-        $currentTax = Mage::getSingleton('tax/calculation')->getRate($_request);
+        $currentTax = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($_request);
 
         $_regularPrice = $product->getPrice();
         $_finalPrice = $product->getFinalPrice();

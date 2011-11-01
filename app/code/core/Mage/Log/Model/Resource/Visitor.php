@@ -166,7 +166,7 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
         $data = new Varien_Object(array(
             'url_id'        => $visitor->getLastUrlId(),
             'visitor_id'    => $visitor->getId(),
-            'visit_time'    => Mage::getSingleton('core/date')->gmtDate()
+            'visit_time'    => Mage::getSingleton('Mage_Core_Model_Date')->gmtDate()
         ));
         $bind = $this->_prepareDataForTable($data, $this->getTable('log_url'));
 
@@ -188,7 +188,7 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
             $data = new Varien_Object(array(
                 'visitor_id'    => $visitor->getVisitorId(),
                 'customer_id'   => $visitor->getCustomerId(),
-                'login_at'      => Mage::getSingleton('core/date')->gmtDate(),
+                'login_at'      => Mage::getSingleton('Mage_Core_Model_Date')->gmtDate(),
                 'store_id'      => Mage::app()->getStore()->getId()
             ));
             $bind = $this->_prepareDataForTable($data, $this->getTable('log_customer'));
@@ -200,7 +200,7 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
 
         if ($visitor->getDoCustomerLogout() && $logId = $visitor->getCustomerLogId()) {
             $data = new Varien_Object(array(
-                'logout_at' => Mage::getSingleton('core/date')->gmtDate(),
+                'logout_at' => Mage::getSingleton('Mage_Core_Model_Date')->gmtDate(),
                 'store_id'  => (int)Mage::app()->getStore()->getId(),
             ));
 
@@ -233,7 +233,7 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
             $data = new Varien_Object(array(
                 'quote_id'      => (int) $visitor->getQuoteId(),
                 'visitor_id'    => (int) $visitor->getId(),
-                'created_at'    => Mage::getSingleton('core/date')->gmtDate()
+                'created_at'    => Mage::getSingleton('Mage_Core_Model_Date')->gmtDate()
             ));
 
             $bind = $this->_prepareDataForTable($data, $this->getTable('log_quote'));

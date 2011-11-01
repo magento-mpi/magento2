@@ -41,6 +41,6 @@ class Enterprise_AdminGws_Model_Observer_Abstract
      */
     public function __construct()
     {
-        $this->_role = Mage::getSingleton('enterprise_admingws/role');
+        $this->_role = Mage::getSingleton('Enterprise_AdminGws_Model_Role');
     }
 }

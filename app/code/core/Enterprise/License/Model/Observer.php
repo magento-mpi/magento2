@@ -62,7 +62,7 @@ class Enterprise_License_Model_Observer
     {
         $enterprise_license=Mage::helper('Enterprise_License_Helper_Data');
         if($enterprise_license->isIoncubeLoaded() && $enterprise_license->isIoncubeEncoded()) {
-            $lastCalculation = Mage::getSingleton('admin/session')->getDaysLeftBeforeExpired();
+            $lastCalculation = Mage::getSingleton('Mage_Admin_Model_Session')->getDaysLeftBeforeExpired();
 
             $dayOfLastCalculation = date('d', $lastCalculation['updatedAt']);
 
@@ -70,7 +70,7 @@ class Enterprise_License_Model_Observer
 
             $isComeNewDay = ($currentDay != $dayOfLastCalculation);
 
-            if(!Mage::getSingleton('admin/session')->hasDaysLeftBeforeExpired() or $isComeNewDay) {
+            if(!Mage::getSingleton('Mage_Admin_Model_Session')->hasDaysLeftBeforeExpired() or $isComeNewDay) {
                 $this->_calculateDaysLeftToExpired();
             }
         }
@@ -97,7 +97,7 @@ class Enterprise_License_Model_Observer
 
             $daysLeftBeforeExpired = floor(($expiredTimestamp - time()) / 86400);
 
-            Mage::getSingleton('admin/session')->setDaysLeftBeforeExpired(
+            Mage::getSingleton('Mage_Admin_Model_Session')->setDaysLeftBeforeExpired(
                 array(
                     'daysLeftBeforeExpired' => $daysLeftBeforeExpired,
                     'updatedAt' => time()

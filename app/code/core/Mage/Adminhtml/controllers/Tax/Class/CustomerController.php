@@ -77,7 +77,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
         if ($classId) {
             $model->load($classId);
             if (!$model->getId() || $model->getClassType() != Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('This class no longer exists'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('This class no longer exists'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -85,7 +85,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
 
         $this->_title($model->getId() ? $model->getClassName() : $this->__('New Class'));
 
-        $data = Mage::getSingleton('adminhtml/session')->getClassData(true);
+        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getClassData(true);
         if (!empty($data)) {
             $model->setData($data);
         }
@@ -113,12 +113,12 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
     public function deleteAction()
     {
         $classId    = $this->getRequest()->getParam('id');
-        $session    = Mage::getSingleton('adminhtml/session');
+        $session    = Mage::getSingleton('Mage_Adminhtml_Model_Session');
         $classModel = Mage::getModel('Mage_Tax_Model_Class')
             ->load($classId);
 
         if (!$classModel->getId() || $classModel->getClassType() != Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('This class no longer exists'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('This class no longer exists'));
             $this->_redirect('*/*/');
             return;
         }
@@ -182,6 +182,6 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/tax/classes_customer');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/tax/classes_customer');
     }
 }

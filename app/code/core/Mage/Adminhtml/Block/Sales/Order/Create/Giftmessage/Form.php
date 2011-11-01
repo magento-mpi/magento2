@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Mage_Admi
 
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session_quote');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote');
     }
 
     /**

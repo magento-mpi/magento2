@@ -142,7 +142,7 @@ class Mage_Adminhtml_Customer_Cart_Product_Composite_CartController extends Mage
         }
 
         $updateResult->setJsVarName($this->getRequest()->getParam('as_js_varname'));
-        Mage::getSingleton('adminhtml/session')->setCompositeProductResult($updateResult);
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->setCompositeProductResult($updateResult);
         $this->_redirect('*/catalog_product/showUpdateResult');
 
         return $this;
@@ -155,6 +155,6 @@ class Mage_Adminhtml_Customer_Cart_Product_Composite_CartController extends Mage
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/manage');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/manage');
     }
 }

@@ -43,7 +43,7 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
         $this->assertInstanceOf('Mage_Catalog_Model_Product', $currentProduct);
         $this->assertEquals(1, $currentProduct->getId());
 
-        $lastViewedProductId = Mage::getSingleton('catalog/session')->getLastViewedProductId();
+        $lastViewedProductId = Mage::getSingleton('Mage_Catalog_Model_Session')->getLastViewedProductId();
         $this->assertEquals(1, $lastViewedProductId);
 
         /* Layout updates */

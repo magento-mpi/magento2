@@ -89,7 +89,7 @@ class Mage_Api_Model_Roles extends Mage_Core_Model_Abstract
         static $result;
 
         if (is_null($resource)) {
-            $resource = Mage::getSingleton('api/config')->getNode('acl/resources');
+            $resource = Mage::getSingleton('Mage_Api_Model_Config')->getNode('acl/resources');
             $resourceName = null;
             $level = -1;
         } else {

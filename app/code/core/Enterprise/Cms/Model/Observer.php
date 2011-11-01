@@ -45,7 +45,7 @@ class Enterprise_Cms_Model_Observer
      */
     public function __construct()
     {
-        $this->_config = Mage::getSingleton('enterprise_cms/config');
+        $this->_config = Mage::getSingleton('Enterprise_Cms_Model_Config');
     }
 
     /**
@@ -81,12 +81,12 @@ class Enterprise_Cms_Model_Observer
                 'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Under Version Control'),
                 'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Under Version Control'),
                 'name'      => 'under_version_control',
-                'values'    => Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray()
+                'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray()
             ));
 
             if ($page->getPublishedRevisionId() && $page->getUnderVersionControl()) {
-                $userId = Mage::getSingleton('admin/session')->getUser()->getId();
-                $accessLevel = Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel();
+                $userId = Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId();
+                $accessLevel = Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel();
 
                 $revision = Mage::getModel('Enterprise_Cms_Model_Page_Revision')
                     ->loadWithRestrictions($accessLevel, $userId, $page->getPublishedRevisionId());
@@ -112,7 +112,7 @@ class Enterprise_Cms_Model_Observer
             }
         }
 
-        if ($revisionAvailable && !Mage::getSingleton('admin/session')->isAllowed('cms/page/save_revision')) {
+        if ($revisionAvailable && !Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/page/save_revision')) {
             foreach ($baseFieldset->getElements() as $element) {
                 $element->setDisabled(true);
             }
@@ -206,7 +206,7 @@ class Enterprise_Cms_Model_Observer
             $version->setLabel($page->getTitle())
                 ->setAccessLevel(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC)
                 ->setPageId($page->getId())
-                ->setUserId(Mage::getSingleton('admin/session')->getUser()->getId())
+                ->setUserId(Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId())
                 ->setInitialRevisionData($revisionInitialData)
                 ->save();
 
@@ -225,7 +225,7 @@ class Enterprise_Cms_Model_Observer
 
         // rebuild URL rewrites if page has changed for identifier
         if ($page->dataHasChangedFor('identifier')) {
-            Mage::getSingleton('enterprise_cms/hierarchy_node')->updateRewriteUrls($page);
+            Mage::getSingleton('Enterprise_Cms_Model_Hierarchy_Node')->updateRewriteUrls($page);
         }
 
         /*
@@ -233,7 +233,7 @@ class Enterprise_Cms_Model_Observer
          * which are not specified in array. So should be called even array is empty!
          * Returns array of new ids for page nodes array( oldId => newId ).
          */
-        Mage::getSingleton('enterprise_cms/hierarchy_node')->appendPageToNodes($page, $page->getAppendToNodes());
+        Mage::getSingleton('Enterprise_Cms_Model_Hierarchy_Node')->appendPageToNodes($page, $page->getAppendToNodes());
 
         /*
          * Updating sort order for nodes in parent nodes which have current page as child
@@ -318,7 +318,7 @@ class Enterprise_Cms_Model_Observer
             ->addAccessLevelFilter(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PRIVATE)
             ->addUserIdFilter();
 
-         Mage::getSingleton('core/resource_iterator')
+         Mage::getSingleton('Mage_Core_Model_Resource_Iterator')
             ->walk($collection->getSelect(), array(array($this, 'removeVersionCallback')), array('version'=> $version));
 
          return $this;

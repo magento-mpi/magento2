@@ -49,7 +49,7 @@ class Enterprise_Logging_Block_Adminhtml_Archive_Grid extends Mage_Adminhtml_Blo
      */
     protected function _prepareCollection()
     {
-        $this->setCollection(Mage::getSingleton('enterprise_logging/archive_collection'));
+        $this->setCollection(Mage::getSingleton('Enterprise_Logging_Model_Archive_Collection'));
         return parent::_prepareCollection();
     }
 

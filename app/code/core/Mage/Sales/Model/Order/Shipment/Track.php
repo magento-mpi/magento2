@@ -138,7 +138,7 @@ class Mage_Sales_Model_Order_Shipment_Track extends Mage_Sales_Model_Abstract
      */
     public function getNumberDetail()
     {
-        $carrierInstance = Mage::getSingleton('shipping/config')->getCarrierInstance($this->getCarrierCode());
+        $carrierInstance = Mage::getSingleton('Mage_Shipping_Model_Config')->getCarrierInstance($this->getCarrierCode());
         if (!$carrierInstance) {
             $custom = array();
             $custom['title'] = $this->getTitle();

@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
      */
     public function getStore()
     {
-        return Mage::getSingleton('adminhtml/session_quote')->getStore();
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getStore();
     }
 
     /**
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
      */
     public function getQuote()
     {
-        return Mage::getSingleton('adminhtml/session_quote')->getQuote();
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getQuote();
     }
 
     protected function _addColumnFilterToCollection($column)
@@ -94,7 +94,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
      */
     protected function _prepareCollection()
     {
-        $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
+        $attributes = Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes();
         /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection();
         $collection
@@ -107,7 +107,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
             ))
             ->addAttributeToSelect('gift_message_available');
 
-        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
+        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($collection);
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -195,7 +195,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
      */
     protected function _getGiftmessageSaveModel()
     {
-        return Mage::getSingleton('adminhtml/giftmessage_save');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Giftmessage_Save');
     }
 
     /*

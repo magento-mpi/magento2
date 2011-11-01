@@ -244,7 +244,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
      */
     public function getModel()
     {
-        return Mage::getSingleton('catalogsearch/advanced');
+        return Mage::getSingleton('Mage_CatalogSearch_Model_Advanced');
     }
 
     public function getSearchPostUrl()

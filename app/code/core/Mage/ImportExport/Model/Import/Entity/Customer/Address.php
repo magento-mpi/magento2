@@ -170,7 +170,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer_Address extends Mage_Import
         $customerId     = null;
         $regionColName  = self::getColNameForAttrCode('region');
         $countryColName = self::getColNameForAttrCode('country_id');
-        $regionIdAttr   = Mage::getSingleton('eav/config')->getAttribute($this->getEntityTypeCode(), 'region_id');
+        $regionIdAttr   = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute($this->getEntityTypeCode(), 'region_id');
         $regionIdTable  = $regionIdAttr->getBackend()->getTable();
         $regionIdAttrId = $regionIdAttr->getId();
 

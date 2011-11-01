@@ -60,7 +60,7 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
     protected function _checkFilesystem()
     {
         $res = true;
-        $config = Mage::getSingleton('install/config')->getPathForCheck();
+        $config = Mage::getSingleton('Mage_Install_Model_Config')->getPathForCheck();
 
         if (isset($config['writeable'])) {
             foreach ($config['writeable'] as $item) {

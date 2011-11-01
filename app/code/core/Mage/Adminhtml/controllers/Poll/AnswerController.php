@@ -59,13 +59,13 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
                     ->setId($this->getRequest()->getParam('id'))
                     ->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
                     Mage::helper('Mage_Poll_Helper_Data')->__('The answer has been saved.'));
                 $this->_redirect('*/poll/edit',
                                  array('id' => $this->getRequest()->getParam('poll_id'), 'tab' => 'answers_section'));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
@@ -125,7 +125,7 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('cms/poll');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/poll');
     }
 
 }

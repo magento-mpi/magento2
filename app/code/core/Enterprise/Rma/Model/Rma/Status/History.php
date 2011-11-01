@@ -76,7 +76,7 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
     public function sendCommentEmail()
     {
         /** @var $configRmaEmail Enterprise_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('enterprise_rma/config');
+        $configRmaEmail = Mage::getSingleton('Enterprise_Rma_Model_Config');
         $order = $this->getRma()->getOrder();
         if ($order->getCustomerIsGuest()) {
             $customerName = $order->getBillingAddress()->getName();
@@ -101,7 +101,7 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
     public function sendCustomerCommentEmail()
     {
         /** @var $configRmaEmail Enterprise_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('enterprise_rma/config');
+        $configRmaEmail = Mage::getSingleton('Enterprise_Rma_Model_Config');
         $sendTo = array(
             array(
                 'email' => $configRmaEmail->getCustomerEmailRecipient($this->getStoreId()),
@@ -123,7 +123,7 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
     public function _sendCommentEmail($rootConfig, $sendTo, $isGuestAvailable = true)
     {
         /** @var $configRmaEmail Enterprise_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('enterprise_rma/config');
+        $configRmaEmail = Mage::getSingleton('Enterprise_Rma_Model_Config');
         $configRmaEmail->init($rootConfig, $this->getStoreId());
 
         if (!$configRmaEmail->isEnabled()) {
@@ -133,7 +133,7 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
         $order = $this->getRma()->getOrder();
         $comment = $this->getComment();
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
@@ -220,7 +220,7 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
                 ->setComment($systemComments[$rma->getStatus()])
                 ->setIsVisibleOnFront(true)
                 ->setStatus($rma->getStatus())
-                ->setCreatedAt(Mage::getSingleton('core/date')->gmtDate())
+                ->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate())
                 ->setIsAdmin(1)
                 ->save();
         }

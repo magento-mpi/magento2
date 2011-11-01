@@ -131,7 +131,7 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
                 $link->getResource()->saveProductLinks($product, $links, $typeId);
             }
 
-            $_linkInstance = Mage::getSingleton('catalog/product_link');
+            $_linkInstance = Mage::getSingleton('Mage_Catalog_Model_Product_Link');
             $_linkInstance->saveProductRelations($product);
 
             $indexerStock = Mage::getModel('Mage_CatalogInventory_Model_Stock_Status');
@@ -187,7 +187,7 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
                 $link->getResource()->saveProductLinks($product, $links, $typeId);
             }
 
-            $_linkInstance = Mage::getSingleton('catalog/product_link');
+            $_linkInstance = Mage::getSingleton('Mage_Catalog_Model_Product_Link');
             $_linkInstance->saveProductRelations($product);
 
             $indexerStock = Mage::getModel('Mage_CatalogInventory_Model_Stock_Status');

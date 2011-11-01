@@ -171,9 +171,10 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function processCustomerEvent($eventName, $customerId)
     {
-        if (Mage::getSingleton('customer/config_share')->isWebsiteScope()) {
+        if (Mage::getSingleton('Mage_Customer_Model_Config_Share')->isWebsiteScope()) {
             $websiteIds = Mage::getResourceSingleton('Mage_Customer_Model_Resource_Customer')
                 ->getWebsiteId($customerId);
+
             if ($websiteIds) {
                 $websiteIds = array($websiteIds);
             } else {

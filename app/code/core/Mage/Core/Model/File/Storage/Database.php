@@ -195,7 +195,7 @@ class Mage_Core_Model_File_Storage_Database extends Mage_Core_Model_File_Storage
             return $this;
         }
 
-        $dateSingleton = Mage::getSingleton('core/date');
+        $dateSingleton = Mage::getSingleton('Mage_Core_Model_Date');
         foreach ($files as $file) {
             if (!isset($file['filename']) || !strlen($file['filename']) || !isset($file['content'])) {
                 continue;

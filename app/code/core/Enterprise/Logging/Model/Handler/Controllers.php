@@ -102,7 +102,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
 
         //Collect skip encrypted fields
-        $encryptedNodeEntriesPaths = Mage::getSingleton('adminhtml/config')->getEncryptedNodeEntriesPaths(true);
+        $encryptedNodeEntriesPaths = Mage::getSingleton('Mage_Adminhtml_Model_Config')->getEncryptedNodeEntriesPaths(true);
         $skipEncrypted = array();
         foreach ($encryptedNodeEntriesPaths as $fieldName) {
             $skipEncrypted[] = $fieldName['field'];
@@ -173,7 +173,7 @@ class Enterprise_Logging_Model_Handler_Controllers
                 $info = Mage::app()->getRequest()->getParam('email');
             }
             $success = true;
-            $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+            $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
             if ($messages) {
                 $success = 'error' != $messages->getType();
             }
@@ -325,7 +325,7 @@ class Enterprise_Logging_Model_Handler_Controllers
             return false;
         }
         $success = true;
-        $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -406,7 +406,7 @@ class Enterprise_Logging_Model_Handler_Controllers
             $eventModel->setEventCode('tax_product_tax_classes');
         }
         $success = true;
-        $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -520,7 +520,7 @@ class Enterprise_Logging_Model_Handler_Controllers
             return false;
         }
         $success = true;
-        $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -557,7 +557,7 @@ class Enterprise_Logging_Model_Handler_Controllers
             ->setOriginalData(array())
             ->setResultData(array('rates' => implode(', ', $values))));
         $success = true;
-        $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -585,7 +585,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         }
 
         $success = true;
-        $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -605,7 +605,7 @@ class Enterprise_Logging_Model_Handler_Controllers
             return false;
         }
         $success = true;
-        $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -643,7 +643,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         if ($request->getParam('action')) {
             $message .= ucfirst($request->getParam('action')) . ' action: ';
         }
-        $message .= Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()->getCode();
+        $message .= Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage()->getCode();
         return $eventModel->setInfo($message);
     }
 }

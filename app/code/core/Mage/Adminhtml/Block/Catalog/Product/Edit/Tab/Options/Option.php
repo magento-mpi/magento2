@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
             if ($product = Mage::registry('product')) {
                 $this->_productInstance = $product;
             } else {
-                $this->_productInstance = Mage::getSingleton('catalog/product');
+                $this->_productInstance = Mage::getSingleton('Mage_Catalog_Model_Product');
             }
         }
 
@@ -162,7 +162,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
                 'class' => 'select select-product-option-type required-option-select'
             ))
             ->setName($this->getFieldName().'[{{id}}][type]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_product_options_type')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Product_Options_Type')->toOptionArray());
 
         return $select->getHtml();
     }
@@ -175,7 +175,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
                 'class' => 'select'
             ))
             ->setName($this->getFieldName().'[{{id}}][is_require]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray());
 
         return $select->getHtml();
     }

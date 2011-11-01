@@ -43,7 +43,7 @@ class Mage_Review_Model_Observer
     public function tagProductCollectionLoadAfter(Varien_Event_Observer $observer)
     {
         $collection = $observer->getEvent()->getCollection();
-        Mage::getSingleton('review/review')
+        Mage::getSingleton('Mage_Review_Model_Review')
             ->appendSummary($collection);
 
         return $this;

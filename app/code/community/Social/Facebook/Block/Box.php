@@ -27,7 +27,7 @@ class Social_Facebook_Block_Box extends Mage_Core_Block_Template
      */
     protected function _construct()
     {
-        if (!Mage::helper('Social_Facebook_Helper_Data')->isEnabled() || Mage::getSingleton('core/session')->getNoBoxes()) {
+        if (!Mage::helper('Social_Facebook_Helper_Data')->isEnabled() || Mage::getSingleton('Mage_Core_Model_Session')->getNoBoxes()) {
             return;
         }
         parent::_construct();
@@ -37,7 +37,7 @@ class Social_Facebook_Block_Box extends Mage_Core_Block_Template
 
         $this->setAllActions(Mage::helper('Social_Facebook_Helper_Data')->getAllActions());
 
-        $this->setFacebookId(Mage::getSingleton('core/session')->getData('facebook_id'));
+        $this->setFacebookId(Mage::getSingleton('Mage_Core_Model_Session')->getData('facebook_id'));
 
         return $this;
     }

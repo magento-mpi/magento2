@@ -85,7 +85,7 @@ class Mage_GoogleCheckout_Block_Link extends Mage_Core_Block_Template
      */
     public function _toHtml()
     {
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
+        $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
         if (Mage::getModel('Mage_GoogleCheckout_Model_Payment')->isAvailable($quote) && $quote->validateMinimumAmount()) {
             Mage::dispatchEvent('googlecheckout_block_link_html_before', array('block' => $this));
             return parent::_toHtml();
@@ -95,7 +95,7 @@ class Mage_GoogleCheckout_Block_Link extends Mage_Core_Block_Template
 
     public function getIsDisabled()
     {
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
+        $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
         /* @var $quote Mage_Sales_Model_Quote */
         foreach ($quote->getAllVisibleItems() as $item) {
             /* @var $item Mage_Sales_Model_Quote_Item */

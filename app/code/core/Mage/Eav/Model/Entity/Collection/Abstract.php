@@ -418,7 +418,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     public function addAttributeToSelect($attribute, $joinType = false)
     {
         if (is_array($attribute)) {
-            Mage::getSingleton('eav/config')->loadCollectionAttributes($this->getEntity()->getType(), $attribute);
+            Mage::getSingleton('Mage_Eav_Model_Config')->loadCollectionAttributes($this->getEntity()->getType(), $attribute);
             foreach ($attribute as $a) {
                 $this->addAttributeToSelect($a, $joinType);
             }
@@ -437,7 +437,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
             if (isset($this->_joinAttributes[$attribute])) {
                 $attrInstance = $this->_joinAttributes[$attribute]['attribute'];
             } else {
-                $attrInstance = Mage::getSingleton('eav/config')
+                $attrInstance = Mage::getSingleton('Mage_Eav_Model_Config')
                     ->getCollectionAttribute($this->getEntity()->getType(), $attribute);
             }
             if (empty($attrInstance)) {
@@ -691,7 +691,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
             );
         }
 
-        $table = Mage::getSingleton('core/resource')->getTableName($table);
+        $table = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName($table);
         $tableAlias = $this->_getAttributeTableAlias($alias);
 
         // validate bind
@@ -754,7 +754,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
             $tableName = $table;
         }
 
-        $tableName = Mage::getSingleton('core/resource')->getTableName($tableName);
+        $tableName = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName($tableName);
         if (empty($tableAlias)) {
             $tableAlias = $tableName;
         }
@@ -1079,7 +1079,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
             if (!$attributeId) {
                 continue;
             }
-            $attribute = Mage::getSingleton('eav/config')->getCollectionAttribute($entity->getType(), $attributeCode);
+            $attribute = Mage::getSingleton('Mage_Eav_Model_Config')->getCollectionAttribute($entity->getType(), $attributeCode);
             if ($attribute && !$attribute->isStatic()) {
                 $tableAttributes[$attribute->getBackendTable()][] = $attributeId;
                 if (!isset($attributeTypes[$attribute->getBackendTable()])) {
@@ -1175,7 +1175,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         }
         $attributeCode = array_search($valueInfo['attribute_id'], $this->_selectAttributes);
         if (!$attributeCode) {
-            $attribute = Mage::getSingleton('eav/config')->getCollectionAttribute(
+            $attribute = Mage::getSingleton('Mage_Eav_Model_Config')->getCollectionAttribute(
                 $this->getEntity()->getType(),
                 $valueInfo['attribute_id']
             );

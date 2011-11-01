@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
         $this->setTemplate('system/config/edit.phtml');
 
         $sectionCode = $this->getRequest()->getParam('section');
-        $sections = Mage::getSingleton('adminhtml/config')->getSections();
+        $sections = Mage::getSingleton('Mage_Adminhtml_Model_Config')->getSections();
 
         $this->_section = $sections->$sectionCode;
 

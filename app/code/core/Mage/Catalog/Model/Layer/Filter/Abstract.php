@@ -171,7 +171,7 @@ abstract class Mage_Catalog_Model_Layer_Filter_Abstract extends Varien_Object
     {
         $layer = $this->_getData('layer');
         if (is_null($layer)) {
-            $layer = Mage::getSingleton('catalog/layer');
+            $layer = Mage::getSingleton('Mage_Catalog_Model_Layer');
             $this->setData('layer', $layer);
         }
         return $layer;

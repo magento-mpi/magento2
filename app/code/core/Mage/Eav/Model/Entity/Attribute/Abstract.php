@@ -292,7 +292,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
      */
     public function getEntityType()
     {
-        return Mage::getSingleton('eav/config')->getEntityType($this->getEntityTypeId());
+        return Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType($this->getEntityTypeId());
     }
 
     /**

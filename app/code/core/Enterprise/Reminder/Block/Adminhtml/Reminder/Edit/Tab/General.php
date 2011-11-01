@@ -88,7 +88,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
                 'name'     => 'website_ids',
                 'required' => true,
                 'label'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Assigned to Websites'),
-                'values'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(),
+                'values'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteValuesForForm(),
                 'value'    => $model->getWebsiteIds()
             ));
         }

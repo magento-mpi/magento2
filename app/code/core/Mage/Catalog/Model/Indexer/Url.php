@@ -219,7 +219,7 @@ class Mage_Catalog_Model_Indexer_Url extends Mage_Index_Model_Indexer_Abstract
             $this->reindexAll();
         }
 
-        $urlModel = Mage::getSingleton('catalog/url');
+        $urlModel = Mage::getSingleton('Mage_Catalog_Model_Url');
 
         // Force rewrites history saving
         $dataObject = $event->getDataObject();
@@ -246,6 +246,6 @@ class Mage_Catalog_Model_Indexer_Url extends Mage_Index_Model_Indexer_Abstract
      */
     public function reindexAll()
     {
-        Mage::getSingleton('catalog/url')->refreshRewrites();
+        Mage::getSingleton('Mage_Catalog_Model_Url')->refreshRewrites();
     }
 }

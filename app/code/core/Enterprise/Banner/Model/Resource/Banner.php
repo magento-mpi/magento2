@@ -104,7 +104,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
      */
     public function filterByTypes($types = array())
     {
-        $this->_bannerTypesFilter = Mage::getSingleton('enterprise_banner/config')->explodeTypes($types);
+        $this->_bannerTypesFilter = Mage::getSingleton('Enterprise_Banner_Model_Config')->explodeTypes($types);
         return $this;
     }
 

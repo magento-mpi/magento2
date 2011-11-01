@@ -307,14 +307,14 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
      */
     public function prepareProductCollection($collection)
     {
-        $collection->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+        $collection->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
             ->setStore(Mage::app()->getStore())
             ->addMinimalPrice()
             ->addTaxPercents()
             ->addStoreFilter();
 
-        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($collection);
+        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addVisibleFilterToCollection($collection);
+        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInSearchFilterToCollection($collection);
         return $this;
     }
 }

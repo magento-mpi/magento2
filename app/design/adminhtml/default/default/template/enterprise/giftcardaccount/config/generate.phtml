@@ -49,7 +49,7 @@ echo Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__(
 //<![CDATA[
 function redirectToGeneration()
 {
-    var url = '<?php echo Mage::getSingleton('adminhtml/url')->getUrl('*/giftcardaccount/generate'); ?>';
+    var url = '<?php echo Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/giftcardaccount/generate'); ?>';
     if (confirm('<?php echo Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Do you really want to proceed? All unsaved changes will be lost.'); ?>')) {
         if (Prototype.Browser.IE) {
             var generateLink = new Element('a', {href: url});

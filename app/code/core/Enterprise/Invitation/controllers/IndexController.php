@@ -40,13 +40,13 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::getSingleton('enterprise_invitation/config')->isEnabledOnFront()) {
+        if (!Mage::getSingleton('Enterprise_Invitation_Model_Config')->isEnabledOnFront()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
         }
 
-        if (!Mage::getSingleton('customer/session')->authenticate($this)) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)) {
             $this->getResponse()->setRedirect(Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl());
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
@@ -60,8 +60,8 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
     {
         $data = $this->getRequest()->getPost();
         if ($data) {
-            $customer = Mage::getSingleton('customer/session')->getCustomer();
-            $invPerSend = Mage::getSingleton('enterprise_invitation/config')->getMaxInvitationsPerSend();
+            $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+            $invPerSend = Mage::getSingleton('Enterprise_Invitation_Model_Config')->getMaxInvitationsPerSend();
             $attempts = 0;
             $sent     = 0;
             $customerExists = 0;
@@ -80,7 +80,7 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
                         'message'  => (isset($data['message']) ? $data['message'] : ''),
                     ))->save();
                     if ($invitation->sendInvitationEmail()) {
-                        Mage::getSingleton('customer/session')->addSuccess(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation for %s has been sent.', $email));
+                        Mage::getSingleton('Mage_Customer_Model_Session')->addSuccess(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation for %s has been sent.', $email));
                         $sent++;
                     }
                     else {
@@ -93,15 +93,15 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
                         $customerExists++;
                     }
                     else {
-                        Mage::getSingleton('customer/session')->addError($e->getMessage());
+                        Mage::getSingleton('Mage_Customer_Model_Session')->addError($e->getMessage());
                     }
                 }
                 catch (Exception $e) {
-                    Mage::getSingleton('customer/session')->addError(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Failed to send email to %s.', $email));
+                    Mage::getSingleton('Mage_Customer_Model_Session')->addError(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Failed to send email to %s.', $email));
                 }
             }
             if ($customerExists) {
-                Mage::getSingleton('customer/session')->addNotice(
+                Mage::getSingleton('Mage_Customer_Model_Session')->addNotice(
                     Mage::helper('Enterprise_Invitation_Helper_Data')->__('%d invitation(s) were not sent, because customer accounts already exist for specified email addresses.', $customerExists)
                 );
             }

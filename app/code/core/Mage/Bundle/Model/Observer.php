@@ -117,13 +117,13 @@ class Mage_Bundle_Model_Observer
 
         /* @var $bundleCollection Mage_Catalog_Model_Resource_Product_Collection */
         $bundleCollection = $product->getCollection()
-            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+            ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
             ->addStoreFilter()
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents();
 
-        Mage::getSingleton('catalog/product_visibility')
+        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
             ->addVisibleInCatalogFilterToCollection($bundleCollection);
 
         if (!is_null($limit)) {
@@ -268,7 +268,7 @@ class Mage_Bundle_Model_Observer
     {
         $product = $observer->getEvent()->getProduct();
         if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
-            Mage::getSingleton('bundle/price_index')
+            Mage::getSingleton('Mage_Bundle_Model_Price_Index')
                 ->addPriceIndexToProduct($product);
         }
 

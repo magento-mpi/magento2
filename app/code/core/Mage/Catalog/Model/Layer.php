@@ -58,7 +58,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         if ($this->_stateKey === null) {
             $this->_stateKey = 'STORE_'.Mage::app()->getStore()->getId()
                 . '_CAT_' . $this->getCurrentCategory()->getId()
-                . '_CUSTGROUP_' . Mage::getSingleton('customer/session')->getCustomerGroupId();
+                . '_CUSTGROUP_' . Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
         }
 
         return $this->_stateKey;
@@ -106,15 +106,15 @@ class Mage_Catalog_Model_Layer extends Varien_Object
     public function prepareProductCollection($collection)
     {
         $collection
-            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+            ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()
             //->addStoreFilter()
             ->addUrlRewrite($this->getCurrentCategory()->getId());
 
-        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addVisibleFilterToCollection($collection);
+        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInCatalogFilterToCollection($collection);
 
         return $this;
     }
@@ -205,7 +205,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
      */
     public function getFilterableAttributes()
     {
-//        $entity = Mage::getSingleton('eav/config')
+//        $entity = Mage::getSingleton('Mage_Eav_Model_Config')
 //            ->getEntityType('catalog_product');
 
         $setIds = $this->_getSetIds();

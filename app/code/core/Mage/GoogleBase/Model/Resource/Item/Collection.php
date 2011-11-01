@@ -118,7 +118,7 @@ class Mage_GoogleBase_Model_Resource_Item_Collection extends Mage_Core_Model_Res
     protected function _joinTables()
     {
         $adapter = $this->getConnection();
-        $entityType = Mage::getSingleton('eav/config')->getEntityType(Mage_Catalog_Model_Product::ENTITY);
+        $entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType(Mage_Catalog_Model_Product::ENTITY);
         $attribute = Mage::getModel('Mage_Eav_Model_Config')->getAttribute($entityType->getEntityTypeId(), 'name');
 
         $joinConditionDefault = $adapter->quoteInto('p_d.attribute_id=?', $attribute->getAttributeId()) .

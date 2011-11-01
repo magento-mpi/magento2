@@ -35,7 +35,7 @@ class Mage_Wishlist_Model_Config
      */
     public function getProductAttributes()
     {
-        $attrsForCatalog  = Mage::getSingleton('catalog/config')->getProductAttributes();
+        $attrsForCatalog  = Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes();
         $attrsForWishlist = Mage::getConfig()->getNode(self::XML_PATH_PRODUCT_ATTRIBUTES)->asArray();
 
         return array_merge($attrsForCatalog, array_keys($attrsForWishlist));

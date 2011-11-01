@@ -26,7 +26,7 @@ class Phoenix_Moneybookers_ProcessingController extends Mage_Core_Controller_Fro
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**

@@ -179,7 +179,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      */
     protected function _checkBackendTables($entityName)
     {
-        $stagingTablePrefix = Mage::getSingleton('enterprise_staging/staging_config')->getTablePrefix();
+        $stagingTablePrefix = Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getTablePrefix();
         $targetTable = $this->_getWriteAdapter()->getTableName($stagingTablePrefix . $this->getTable($entityName));
 
         if (!$this->tableExists($targetTable)) {
@@ -468,7 +468,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      */
     public function getBackupTablePrefix($addOnPrefix = '')
     {
-        $config = Mage::getSingleton('enterprise_staging/staging_config');
+        $config = Mage::getSingleton('Enterprise_Staging_Model_Staging_Config');
 
         $backupPrefix = $config->getTablePrefix($this->getStaging()) . $config->getStagingBackupTablePrefix();
         if (!empty($addOnPrefix)) {

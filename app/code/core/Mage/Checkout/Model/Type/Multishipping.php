@@ -416,7 +416,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         $quote->reserveOrderId();
         $quote->collectTotals();
 
-        $convertQuote = Mage::getSingleton('sales/convert_quote');
+        $convertQuote = Mage::getSingleton('Mage_Sales_Model_Convert_Quote');
         $order = $convertQuote->addressToOrder($address);
         $order->setQuote($quote);
         $order->setBillingAddress(
@@ -527,8 +527,8 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 $orderIds[$order->getId()] = $order->getIncrementId();
             }
 
-            Mage::getSingleton('core/session')->setOrderIds($orderIds);
-            Mage::getSingleton('checkout/session')->setLastQuoteId($this->getQuote()->getId());
+            Mage::getSingleton('Mage_Core_Model_Session')->setOrderIds($orderIds);
+            Mage::getSingleton('Mage_Checkout_Model_Session')->setLastQuoteId($this->getQuote()->getId());
 
             $this->getQuote()
                 ->setIsActive(false)
@@ -622,7 +622,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
      */
     public function getOrderIds($asAssoc = false)
     {
-        $idsAssoc = Mage::getSingleton('core/session')->getOrderIds();
+        $idsAssoc = Mage::getSingleton('Mage_Core_Model_Session')->getOrderIds();
         return $asAssoc ? $idsAssoc : array_keys($idsAssoc);
     }
 }

@@ -47,7 +47,7 @@ class Mage_Cms_Block_Page extends Mage_Core_Block_Abstract
                     ->setStoreId(Mage::app()->getStore()->getId())
                     ->load($this->getPageId(), 'identifier');
             } else {
-                $page = Mage::getSingleton('cms/page');
+                $page = Mage::getSingleton('Mage_Cms_Model_Page');
             }
             $this->setData('page', $page);
         }

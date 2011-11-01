@@ -124,7 +124,7 @@ class Mage_Eav_Model_Attribute_Data_File extends Mage_Eav_Model_Attribute_Data_A
          * Check protected file extension
          */
         /** @var $validator Mage_Core_Model_File_Validator_NotProtectedExtension */
-        $validator = Mage::getSingleton('core/file_validator_notProtectedExtension');
+        $validator = Mage::getSingleton('Mage_Core_Model_File_Validator_NotProtectedExtension');
         if (!$validator->isValid($extension)) {
             return $validator->getMessages();
         }

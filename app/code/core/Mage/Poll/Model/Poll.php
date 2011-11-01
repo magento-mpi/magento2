@@ -217,7 +217,7 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
             $pattern = '#^' . preg_quote($this->_pollCookieDefaultName, '#') . '(\d+)$#';
             $match   = array();
             if (preg_match($pattern, $cookieName, $match)) {
-                if ($match[1] != Mage::getSingleton('core/session')->getJustVotedPoll()) {
+                if ($match[1] != Mage::getSingleton('Mage_Core_Model_Session')->getJustVotedPoll()) {
                     $idsArray[$match[1]] = $match[1];
                 }
             }

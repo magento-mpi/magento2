@@ -655,7 +655,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     protected function _removeNotApplicableAttributes($product = null)
     {
         $product    = $this->getProduct($product);
-        $eavConfig  = Mage::getSingleton('eav/config');
+        $eavConfig  = Mage::getSingleton('Mage_Eav_Model_Config');
         $entityType = $product->getResource()->getEntityType();
         foreach ($eavConfig->getEntityAttributeCodes($entityType, $product) as $attributeCode) {
             $attribute = $eavConfig->getAttribute($entityType, $attributeCode);
@@ -922,7 +922,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         $product    = $this->getProduct($product);
         $searchData = array();
         if ($product->getHasOptions()){
-            $searchData = Mage::getSingleton('catalog/product_option')
+            $searchData = Mage::getSingleton('Mage_Catalog_Model_Product_Option')
                 ->getSearchableData($product->getId(), $product->getStoreId());
         }
 

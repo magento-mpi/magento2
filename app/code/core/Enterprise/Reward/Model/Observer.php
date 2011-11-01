@@ -487,7 +487,7 @@ class Enterprise_Reward_Model_Observer
                 ->setWebsiteId($websiteId)
                 ->loadByCustomer();
             if (($order->getRewardPointsBalance() - $reward->getPointsBalance()) >= 0.0001) {
-                Mage::getSingleton('checkout/type_onepage')
+                Mage::getSingleton('Mage_Checkout_Model_Type_Onepage')
                     ->getCheckout()
                     ->setUpdateSection('payment-method')
                     ->setGotoSection('payment');
@@ -525,7 +525,7 @@ class Enterprise_Reward_Model_Observer
     {
         if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()
             || (Mage::app()->getStore()->isAdmin()
-                && !Mage::getSingleton('admin/session')
+                && !Mage::getSingleton('Mage_Admin_Model_Session')
                     ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_AFFECT))
         ) {
             return $this;
@@ -820,7 +820,7 @@ class Enterprise_Reward_Model_Observer
                 ->load();
 
             foreach ($collection as $item) {
-                Mage::getSingleton('enterprise_reward/reward')
+                Mage::getSingleton('Enterprise_Reward_Model_Reward')
                     ->sendBalanceWarningNotification($item, $website->getId());
             }
 

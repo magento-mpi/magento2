@@ -80,7 +80,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
                 'force_reindex_required'   => 1
             ));
             $massObject->setProductIds(array($productId));
-            Mage::getSingleton('index/indexer')->processEntityAction(
+            Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
                 $massObject, Mage_Catalog_Model_Product::ENTITY, Mage_Index_Model_Event::TYPE_MASS_ACTION
             );
         }
@@ -270,7 +270,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
     {
         if (is_null($this->_indexers)) {
             $this->_indexers = array();
-            $types = Mage::getSingleton('catalog/product_type')->getTypesByPriority();
+            $types = Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getTypesByPriority();
             foreach ($types as $typeId => $typeInfo) {
                 if (isset($typeInfo['stock_indexer'])) {
                     $modelName = $typeInfo['stock_indexer'];

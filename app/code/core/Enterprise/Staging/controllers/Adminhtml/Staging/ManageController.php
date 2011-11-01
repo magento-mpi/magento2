@@ -129,7 +129,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 );
             }
 
-            $entryPoint = Mage::getSingleton('enterprise_staging/entry');
+            $entryPoint = Mage::getSingleton('Enterprise_Staging_Model_Entry');
             if ($entryPoint->isAutomatic()) {
                 $this->_getSession()->addNotice(
                     Mage::helper('Enterprise_Staging_Helper_Data')->__('The base URL for this website will be created automatically.')
@@ -237,7 +237,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 }
             }
             try {
-                $entryPoint = Mage::getSingleton('enterprise_staging/entry');
+                $entryPoint = Mage::getSingleton('Enterprise_Staging_Model_Entry');
                 if ($entryPoint->isAutomatic()) {
                     if (!$entryPoint->canEntryPointBeCreated()) {
                         $redirectBack = true;
@@ -473,6 +473,6 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/enterprise_staging/staging_grid');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/enterprise_staging/staging_grid');
     }
 }

@@ -195,11 +195,11 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
             $optionCollection
                 ->getSelect()
                 ->join(
-                    array('ea' => Mage::getSingleton('core/resource')->getTableName('eav_attribute')),
+                    array('ea' => Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('eav_attribute')),
                     'main_table.attribute_id = ea.attribute_id',
                     array('attribute_code' => 'ea.attribute_code'))
                 ->join(
-                    array('eat' => Mage::getSingleton('core/resource')->getTableName('eav_entity_type')),
+                    array('eat' => Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('eav_entity_type')),
                     'ea.entity_type_id = eat.entity_type_id',
                     array(''))
                 ->where('eat.entity_type_code = ?', $this->_getEntityTypeCode());

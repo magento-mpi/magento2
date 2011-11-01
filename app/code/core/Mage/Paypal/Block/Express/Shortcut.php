@@ -69,7 +69,7 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
         $config = Mage::getModel('Mage_Paypal_Model_Config', array($this->_paymentMethodCode));
         $isInCatalog = $this->getIsInCatalogProduct();
         $quote = ($isInCatalog || '' == $this->getIsQuoteAllowed())
-            ? null : Mage::getSingleton('checkout/session')->getQuote();
+            ? null : Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
 
         // check visibility on cart or product page
         $context = $isInCatalog ? 'visible_on_product' : 'visible_on_cart';
@@ -120,7 +120,7 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
         }
 
         // ask whether to create a billing agreement
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId(); // potential issue for caching
+        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId(); // potential issue for caching
         if (Mage::helper('Mage_Paypal_Helper_Data')->shouldAskToCreateBillingAgreement($config, $customerId)) {
             $this->setConfirmationUrl($this->getUrl($this->_startAction,
                 array(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1)

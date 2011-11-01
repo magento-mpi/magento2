@@ -62,7 +62,7 @@ class Mage_Widget_Model_Template_Filter extends Mage_Cms_Model_Template_Filter
         }
         
         // we have no other way to avoid fatal errors for type like 'cms/widget__link', '_cms/widget_link' etc. 
-        $xml = Mage::getSingleton('widget/widget')->getXmlElementByType($type);
+        $xml = Mage::getSingleton('Mage_Widget_Model_Widget')->getXmlElementByType($type);
         if ($xml === null) {
             return '';
         }

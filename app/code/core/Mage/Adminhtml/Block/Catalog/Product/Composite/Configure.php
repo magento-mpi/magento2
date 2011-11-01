@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Configure extends Mage_Admi
             if (Mage::registry('current_product')) {
                 $this->_product = Mage::registry('current_product');
             } else {
-                $this->_product = Mage::getSingleton('catalog/product');
+                $this->_product = Mage::getSingleton('Mage_Catalog_Model_Product');
             }
         }
         return $this->_product;

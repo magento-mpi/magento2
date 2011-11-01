@@ -40,7 +40,7 @@ class Mage_Checkout_Block_Multishipping_Addresses extends Mage_Sales_Block_Items
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/type_multishipping');
+        return Mage::getSingleton('Mage_Checkout_Model_Type_Multishipping');
     }
 
     protected function _prepareLayout()

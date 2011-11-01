@@ -56,7 +56,7 @@ foreach ($options as $option) {
         )
         ->save();
 
-    Mage::getSingleton('catalog/product_action')->updateAttributes(
+    Mage::getSingleton('Mage_Catalog_Model_Product_Action')->updateAttributes(
         array($product->getId()),
         array($attribute->getAttributeCode() => $option->getId()),
         $product->getStoreId()

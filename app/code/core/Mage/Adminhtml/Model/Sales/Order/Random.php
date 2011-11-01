@@ -82,8 +82,8 @@ class Mage_Adminhtml_Model_Sales_Order_Random
         if (!$this->_productCollection) {
             $this->_productCollection= Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
             //$this->_productCollection->getEntity()->setStore($this->_getStore());
-            Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_productCollection);
-            Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($this->_productCollection);
+            Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addVisibleFilterToCollection($this->_productCollection);
+            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInSearchFilterToCollection($this->_productCollection);
             $this->_productCollection->addAttributeToSelect('name')
                 ->addAttributeToSelect('sku')
                 ->addAttributeToFilter('type_id', Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)

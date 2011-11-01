@@ -39,7 +39,7 @@ class Enterprise_CustomerBalance_InfoController extends Mage_Core_Controller_Fro
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('customer/session')->authenticate($this)) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }

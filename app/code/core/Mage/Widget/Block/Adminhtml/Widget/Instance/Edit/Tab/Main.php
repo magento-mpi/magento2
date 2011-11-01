@@ -153,7 +153,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
                 'label'     => Mage::helper('Mage_Widget_Helper_Data')->__('Assign to Store Views'),
                 'title'     => Mage::helper('Mage_Widget_Helper_Data')->__('Assign to Store Views'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
+                'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(false, true),
             ));
         }
 

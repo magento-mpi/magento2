@@ -168,7 +168,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
         }
 
         $this->_productIds = array_merge($this->_productIds, array_keys($productIds));
-        $attributes = Mage::getSingleton('wishlist/config')->getProductAttributes();
+        $attributes = Mage::getSingleton('Mage_Wishlist_Model_Config')->getProductAttributes();
         $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection();
         foreach ($storeIds as $id) {
             $productCollection->addStoreFilter($id);
@@ -181,7 +181,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
             ->addUrlRewrite();
 
         if ($this->_productVisible) {
-            Mage::getSingleton('catalog/product_visibility')->addVisibleInSiteFilterToCollection($productCollection);
+            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInSiteFilterToCollection($productCollection);
         }
         if ($this->_productSalable) {
             $productCollection = Mage::helper('Mage_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($productCollection);
@@ -252,7 +252,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
      */
     public function addStoreData()
     {
-        $storeTable = Mage::getSingleton('core/resource')->getTableName('core_store');
+        $storeTable = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('core_store');
         $this->getSelect()->join(array('store'=>$storeTable), 'main_table.store_id=store.store_id', array(
             'store_name'=>'name',
             'item_store_id' => 'store_id'
@@ -341,7 +341,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
         $this->_addDaysInWishlist = true;
 
         $adapter = $this->getConnection();
-        $dateModel = Mage::getSingleton('core/date');
+        $dateModel = Mage::getSingleton('Mage_Core_Model_Date');
         $resHelper = Mage::getResourceHelper('Mage_Core');
 
         $offsetFromDb = (int) $dateModel->getGmtOffset();
@@ -370,8 +370,8 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
 
         $filter = array();
 
-        $now = Mage::getSingleton('core/date')->date();
-        $gmtOffset = (int) Mage::getSingleton('core/date')->getGmtOffset();
+        $now = Mage::getSingleton('Mage_Core_Model_Date')->date();
+        $gmtOffset = (int) Mage::getSingleton('Mage_Core_Model_Date')->getGmtOffset();
         if (isset($constraints['from'])) {
             $lastDay = new Zend_Date($now, Varien_Date::DATETIME_INTERNAL_FORMAT);
             $lastDay->subSecond($gmtOffset)

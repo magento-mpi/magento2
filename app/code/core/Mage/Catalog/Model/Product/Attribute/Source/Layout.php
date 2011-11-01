@@ -36,7 +36,7 @@ class Mage_Catalog_Model_Product_Attribute_Source_Layout extends Mage_Eav_Model_
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getSingleton('page/source_layout')->toOptionArray();
+            $this->_options = Mage::getSingleton('Mage_Page_Model_Source_Layout')->toOptionArray();
             array_unshift($this->_options, array('value'=>'', 'label'=>Mage::helper('Mage_Catalog_Helper_Data')->__('No layout updates')));
         }
         return $this->_options;

@@ -146,7 +146,7 @@ class Enterprise_GiftRegistry_Block_Search_Widget_Form
     public function getSearchFormOptions()
     {
         if (is_null($this->_selectOptions)) {
-            $allForms = Mage::getSingleton('enterprise_giftregistry/source_search')->getTypes();
+            $allForms = Mage::getSingleton('Enterprise_GiftRegistry_Model_Source_Search')->getTypes();
             $useForms = $this->_getFormTypes();
             $codeAll = Enterprise_GiftRegistry_Model_Source_Search::SEARCH_ALL_FORM;
 

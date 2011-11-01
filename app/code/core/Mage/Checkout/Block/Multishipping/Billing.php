@@ -82,7 +82,7 @@ class Mage_Checkout_Block_Multishipping_Billing extends Mage_Payment_Block_Form_
     {
         $address = $this->getData('address');
         if (is_null($address)) {
-            $address = Mage::getSingleton('checkout/type_multishipping')->getQuote()->getBillingAddress();
+            $address = Mage::getSingleton('Mage_Checkout_Model_Type_Multishipping')->getQuote()->getBillingAddress();
             $this->setData('address', $address);
         }
         return $address;
@@ -95,7 +95,7 @@ class Mage_Checkout_Block_Multishipping_Billing extends Mage_Payment_Block_Form_
      */
     public function getQuote()
     {
-        return Mage::getSingleton('checkout/session')->getQuote();
+        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
     }
 
     /**

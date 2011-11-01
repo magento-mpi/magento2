@@ -39,7 +39,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Category extends Mage_Core_Mode
             $rootId     = $this->getValue();
             $storeId    = $this->getScopeId();
 
-            $category   = Mage::getSingleton('catalog/category');
+            $category   = Mage::getSingleton('Mage_Catalog_Model_Category');
             $tree       = $category->getTreeModel();
 
             // Create copy of categories attributes for choosed store

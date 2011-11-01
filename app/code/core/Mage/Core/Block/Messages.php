@@ -77,7 +77,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
 
     public function _prepareLayout()
     {
-        $this->addMessages(Mage::getSingleton('core/session')->getMessages(true));
+        $this->addMessages(Mage::getSingleton('Mage_Core_Model_Session')->getMessages(true));
         parent::_prepareLayout();
     }
 
@@ -151,7 +151,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
      */
     public function addError($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->error($message));
+        $this->addMessage(Mage::getSingleton('Mage_Core_Model_Message')->error($message));
         return $this;
     }
 
@@ -163,7 +163,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
      */
     public function addWarning($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->warning($message));
+        $this->addMessage(Mage::getSingleton('Mage_Core_Model_Message')->warning($message));
         return $this;
     }
 
@@ -175,7 +175,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
      */
     public function addNotice($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->notice($message));
+        $this->addMessage(Mage::getSingleton('Mage_Core_Model_Message')->notice($message));
         return $this;
     }
 
@@ -187,7 +187,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
      */
     public function addSuccess($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->success($message));
+        $this->addMessage(Mage::getSingleton('Mage_Core_Model_Message')->success($message));
         return $this;
     }
 

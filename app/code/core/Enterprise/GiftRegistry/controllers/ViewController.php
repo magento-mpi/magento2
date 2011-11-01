@@ -80,9 +80,9 @@ class Enterprise_GiftRegistry_ViewController extends Mage_Core_Controller_Front_
             return;
         }
         /* @var Mage_Checkout_Model_Cart */
-        $cart = Mage::getSingleton('checkout/cart');
+        $cart = Mage::getSingleton('Mage_Checkout_Model_Cart');
         /* @var $session Mage_Wishlist_Model_Session */
-        $session    = Mage::getSingleton('customer/session');
+        $session    = Mage::getSingleton('Mage_Customer_Model_Session');
         $success = false;
 
         try {

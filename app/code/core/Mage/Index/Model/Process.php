@@ -174,7 +174,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         }
 
         if ($this->getDepends()) {
-            $indexer = Mage::getSingleton('index/indexer');
+            $indexer = Mage::getSingleton('Mage_Index_Model_Indexer');
             foreach ($this->getDepends() as $code) {
                 $process = $indexer->getProcessByCode($code);
                 if ($process) {

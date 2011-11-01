@@ -164,7 +164,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice extends Mage_Catalo
     {
         $rates  = $this->_getWebsiteRates();
         $data   = array();
-        $price  = Mage::getSingleton('catalog/product_type')->priceFactory($productTypeId);
+        $price  = Mage::getSingleton('Mage_Catalog_Model_Product_Type')->priceFactory($productTypeId);
         foreach ($priceData as $v) {
             $key = join('-', array($v['cust_group'], $v['price_qty']));
             if ($v['website_id'] == $websiteId) {

@@ -142,7 +142,7 @@ class Enterprise_Staging_Model_Staging_Log extends Mage_Core_Model_Abstract
 
         $additionalData = array();
         $exceptionMessage = '';
-        $config = Mage::getSingleton('enterprise_staging/staging_config');
+        $config = Mage::getSingleton('Enterprise_Staging_Model_Staging_Config');
 
         if ($onState == 'before') {
             $status = Enterprise_Staging_Model_Staging_Config::STATUS_STARTED;

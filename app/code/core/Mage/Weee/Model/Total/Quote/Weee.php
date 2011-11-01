@@ -56,7 +56,7 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quote_
     {
         $this->setCode('weee');
         $this->_helper = Mage::helper('Mage_Weee_Helper_Data');
-        $this->_config = Mage::getSingleton('tax/config');
+        $this->_config = Mage::getSingleton('Mage_Tax_Model_Config');
     }
 
     /**
@@ -334,7 +334,7 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quote_
         }
         $custTaxClassId = $address->getQuote()->getCustomerTaxClassId();
 
-        $taxCalculationModel = Mage::getSingleton('tax/calculation');
+        $taxCalculationModel = Mage::getSingleton('Mage_Tax_Model_Calculation');
         /* @var $taxCalculationModel Mage_Tax_Model_Calculation */
         $request = $taxCalculationModel->getRateRequest(
             $address,

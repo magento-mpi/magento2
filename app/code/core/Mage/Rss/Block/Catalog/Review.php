@@ -87,7 +87,7 @@ class Mage_Rss_Block_Catalog_Review extends Mage_Rss_Block_Abstract
 
         Mage::dispatchEvent('rss_catalog_review_collection_select', array('collection' => $collection));
 
-        Mage::getSingleton('core/resource_iterator')->walk(
+        Mage::getSingleton('Mage_Core_Model_Resource_Iterator')->walk(
             $collection->getSelect(),
             array(array($this, 'addReviewItemXmlCallback')),
             array('rssObj'=> $rssObj, 'reviewModel'=> $reviewModel));

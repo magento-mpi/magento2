@@ -365,7 +365,7 @@ final class Mage
      */
     public static function getDesign()
     {
-        return self::getSingleton('core/design_package');
+        return self::getSingleton('Mage_Core_Model_Design_Package');
     }
 
     /**

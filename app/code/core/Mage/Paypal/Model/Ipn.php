@@ -249,7 +249,7 @@ class Mage_Paypal_Model_Ipn
         $this->_order = null;
         $this->_getOrder();
 
-        $this->_info = Mage::getSingleton('paypal/info');
+        $this->_info = Mage::getSingleton('Mage_Paypal_Model_Info');
         try {
             // handle payment_status
             $paymentStatus = $this->_filterPaymentStatus($this->_request['payment_status']);

@@ -199,7 +199,7 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
     public function addSetInfo($entityType, array $attributes, $setId = null)
     {
         $attributeIds   = array();
-        $config         = Mage::getSingleton('eav/config');
+        $config         = Mage::getSingleton('Mage_Eav_Model_Config');
         $entityType     = $config->getEntityType($entityType);
         foreach ($attributes as $attribute) {
             $attribute = $config->getAttribute($entityType, $attribute);

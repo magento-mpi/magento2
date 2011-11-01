@@ -44,7 +44,7 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Buttons extends Mage_Adminhtml_B
         if ($container instanceof Mage_Adminhtml_Block_Template && $container->getOrderId()) {
             $isReturnable = Mage::helper('Enterprise_Rma_Helper_Data')->canCreateRma($container->getOrder(), true);
             if ($isReturnable) {
-                $url = Mage::getSingleton('adminhtml/url')
+                $url = Mage::getSingleton('Mage_Adminhtml_Model_Url')
                    ->getUrl('*/rma/new', array('order_id' => $container->getOrderId()));
 
                 $container->addButton('create_rma', array(

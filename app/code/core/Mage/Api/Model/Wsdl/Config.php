@@ -60,7 +60,7 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
     {
         if (is_null(self::$_namespacesPrefix)) {
             self::$_namespacesPrefix = array();
-            $config = Mage::getSingleton('api/config')->getNode('v2/wsdl/prefix')->children();
+            $config = Mage::getSingleton('Mage_Api_Model_Config')->getNode('v2/wsdl/prefix')->children();
             foreach ($config as $prefix => $namespace) {
                 self::$_namespacesPrefix[$namespace->asArray()] = $prefix;
             }

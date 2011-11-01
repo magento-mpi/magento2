@@ -42,7 +42,7 @@ class Mage_GoogleShopping_Model_Attribute_Destinations extends Mage_GoogleShoppi
      */
     public function convertAttribute($product, $entry)
     {
-        $destInfo = Mage::getSingleton('googleshopping/config')
+        $destInfo = Mage::getSingleton('Mage_GoogleShopping_Model_Config')
             ->getDestinationsInfo($product->getStoreId());
         $entry->setDestinationsMode($destInfo);
 

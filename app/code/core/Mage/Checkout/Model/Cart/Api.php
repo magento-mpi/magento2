@@ -79,7 +79,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
 
         if ($quote->getGiftMessageId() > 0) {
             $quote->setGiftMessage(
-                Mage::getSingleton('giftmessage/message')->load($quote->getGiftMessageId())->getMessage()
+                Mage::getSingleton('Mage_GiftMessage_Model_Message')->load($quote->getGiftMessageId())->getMessage()
             );
         }
 
@@ -91,7 +91,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
         foreach ($quote->getAllItems() as $item) {
             if ($item->getGiftMessageId() > 0) {
                 $item->setGiftMessage(
-                    Mage::getSingleton('giftmessage/message')->load($item->getGiftMessageId())->getMessage()
+                    Mage::getSingleton('Mage_GiftMessage_Model_Message')->load($item->getGiftMessageId())->getMessage()
                 );
             }
 

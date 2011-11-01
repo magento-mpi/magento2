@@ -117,7 +117,7 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Collection extends Mage_Core_M
         $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
             ->setStoreId(Mage::app()->getStore()->getId())
             ->addIdFilter($this->_productIds)
-            ->addAttributeToSelect(Mage::getSingleton('sales/quote_config')->getProductAttributes())
+            ->addAttributeToSelect(Mage::getSingleton('Mage_Sales_Model_Quote_Config')->getProductAttributes())
             ->addStoreFilter()
             ->addUrlRewrite()
             ->addOptionsToResult();

@@ -178,7 +178,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
         if ($invoice) {
             $this->_title($this->__('New Invoice'));
 
-            if ($comment = Mage::getSingleton('adminhtml/session')->getCommentText(true)) {
+            if ($comment = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getCommentText(true)) {
                 $invoice->setCommentText($comment);
             }
 
@@ -230,7 +230,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
         $orderId = $this->getRequest()->getParam('order_id');
 
         if (!empty($data['comment_text'])) {
-            Mage::getSingleton('adminhtml/session')->setCommentText($data['comment_text']);
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setCommentText($data['comment_text']);
         }
 
         try {
@@ -298,7 +298,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
                         $this->_getSession()->addError($this->__('Unable to send the shipment email.'));
                     }
                 }
-                Mage::getSingleton('adminhtml/session')->getCommentText(true);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->getCommentText(true);
                 $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
             } else {
                 $this->_redirect('*/*/new', array('order_id' => $orderId));

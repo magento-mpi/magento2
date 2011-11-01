@@ -127,7 +127,7 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
                 $rmaModel = Mage::getModel('Enterprise_Rma_Model_Rma');
                 $rmaData = array(
                     'status'                => Enterprise_Rma_Model_Rma_Source_Status::STATE_PENDING,
-                    'date_requested'        => Mage::getSingleton('core/date')->gmtDate(),
+                    'date_requested'        => Mage::getSingleton('Mage_Core_Model_Date')->gmtDate(),
                     'order_id'              => $order->getId(),
                     'order_increment_id'    => $order->getIncrementId(),
                     'store_id'              => $order->getStoreId(),
@@ -148,16 +148,16 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
                         ->setComment($post['rma_comment'])
                         ->setIsVisibleOnFront(true)
                         ->setStatus($rmaModel->getStatus())
-                        ->setCreatedAt(Mage::getSingleton('core/date')->gmtDate())
+                        ->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate())
                         ->save();
                 }
-                Mage::getSingleton('core/session')->addSuccess(
+                Mage::getSingleton('Mage_Core_Model_Session')->addSuccess(
                     Mage::helper('Enterprise_Rma_Helper_Data')->__('Return #%s has been submitted successfully', $rmaModel->getIncrementId())
                 );
                 $this->_redirectSuccess(Mage::getUrl('*/*/returns'));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('core/session')->addError(
+                Mage::getSingleton('Mage_Core_Model_Session')->addError(
                     Mage::helper('Enterprise_Rma_Helper_Data')->__('Cannot create New Return, try again later')
                 );
                 Mage::logException($e);
@@ -186,7 +186,7 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
 
         $incrementId = Mage::registry('current_order')->getIncrementId();
         $message = Mage::helper('Enterprise_Rma_Helper_Data')->__('Cannot create rma for order #%s.', $incrementId);
-        Mage::getSingleton('core/session')->addError($message);
+        Mage::getSingleton('Mage_Core_Model_Session')->addError($message);
         $this->_redirect('sales/order/history');
         return false;
     }
@@ -208,7 +208,7 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
                         ->setComment($comment)
                         ->setIsVisibleOnFront(true)
                         ->setStatus(Mage::registry('current_rma')->getStatus())
-                        ->setCreatedAt(Mage::getSingleton('core/date')->gmtDate())
+                        ->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate())
                         ->save();
                     $result->setStoreId(Mage::registry('current_rma')->getStoreId());
                     $result->sendCustomerCommentEmail();
@@ -227,7 +227,7 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
                 );
             }
             if (is_array($response)) {
-               Mage::getSingleton('core/session')->addError($response['message']);
+               Mage::getSingleton('Mage_Core_Model_Session')->addError($response['message']);
             }
             $this->_redirect('*/*/view', array('entity_id' => (int)$this->getRequest()->getParam('entity_id')));
             return;
@@ -286,7 +286,7 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
             );
         }
         if (is_array($response)) {
-            Mage::getSingleton('core/session')->setErrorMessage($response['message']);
+            Mage::getSingleton('Mage_Core_Model_Session')->setErrorMessage($response['message']);
         }
 
         $this->loadLayout();
@@ -340,7 +340,7 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
             );
         }
         if (is_array($response)) {
-            Mage::getSingleton('core/session')->setErrorMessage($response['message']);
+            Mage::getSingleton('Mage_Core_Model_Session')->setErrorMessage($response['message']);
         }
 
         $this->loadLayout();

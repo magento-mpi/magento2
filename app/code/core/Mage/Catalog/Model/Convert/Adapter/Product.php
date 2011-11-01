@@ -275,7 +275,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     {
         $type = $product->getTypeId();
         if (!isset($this->_productTypeInstances[$type])) {
-            $this->_productTypeInstances[$type] = Mage::getSingleton('catalog/product_type')
+            $this->_productTypeInstances[$type] = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
                 ->factory($product, true);
         }
         $product->setTypeInstance($this->_productTypeInstances[$type], true);
@@ -365,7 +365,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
     public function parse()
     {
-        $batchModel = Mage::getSingleton('dataflow/batch');
+        $batchModel = Mage::getSingleton('Mage_Dataflow_Model_Batch');
         /* @var $batchModel Mage_Dataflow_Model_Batch */
 
         $batchImportModel = $batchModel->getBatchImportModel();
@@ -856,7 +856,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         Mage::dispatchEvent($this->_eventPrefix . '_after', array());
 
         $entity = new Varien_Object();
-        Mage::getSingleton('index/indexer')->processEntityAction(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
             $entity, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );
     }

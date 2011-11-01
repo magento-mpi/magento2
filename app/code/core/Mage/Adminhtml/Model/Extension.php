@@ -37,7 +37,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
 
     public function generatePackageXml()
     {
-        Mage::getSingleton('adminhtml/session')
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')
             ->setLocalExtensionPackageFormData($this->getData());
 
         Varien_Pear::$reloadOnRegistryUpdate = false;

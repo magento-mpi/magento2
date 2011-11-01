@@ -42,7 +42,7 @@ class Mage_Install_Model_Wizard
 
     public function __construct()
     {
-        $this->_steps = Mage::getSingleton('install/config')->getWizardSteps();
+        $this->_steps = Mage::getSingleton('Mage_Install_Model_Config')->getWizardSteps();
 
         foreach ($this->_steps as $index => $step) {
             $this->_steps[$index]->setUrl(

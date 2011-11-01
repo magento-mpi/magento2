@@ -40,7 +40,7 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
      */
     protected function _getSyncSingleton()
     {
-        return Mage::getSingleton('core/file_storage');
+        return Mage::getSingleton('Mage_Core_Model_File_Storage');
     }
 
     /**
@@ -75,7 +75,7 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
         }
 
         $flag->setState(Mage_Core_Model_File_Storage_Flag::STATE_RUNNING)->save();
-        Mage::getSingleton('admin/session')->setSyncProcessStopWatch(false);
+        Mage::getSingleton('Mage_Admin_Model_Session')->setSyncProcessStopWatch(false);
 
         $storage = array('type' => (int) $_REQUEST['storage']);
         if (isset($_REQUEST['connection']) && !empty($_REQUEST['connection'])) {
@@ -155,7 +155,7 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
 
                     $state = Mage_Core_Model_File_Storage_Flag::STATE_NOTIFIED;
                 case Mage_Core_Model_File_Storage_Flag::STATE_NOTIFIED:
-                    $block = Mage::getSingleton('core/layout')
+                    $block = Mage::getSingleton('Mage_Core_Model_Layout')
                         ->createBlock('Mage_Adminhtml_Block_Notification_Toolbar')
                         ->setTemplate('notification/toolbar.phtml');
                     $result['html'] = $block->toHtml();

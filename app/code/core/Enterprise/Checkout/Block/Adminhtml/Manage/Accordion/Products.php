@@ -65,7 +65,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
+            $attributes = Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes();
             $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
                 ->setStore($this->_getStore())
                 ->addAttributeToSelect($attributes)
@@ -74,7 +74,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
                     array_keys(Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray())
                 )
                 ->addStoreFilter($this->_getStore());
-            Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
+            Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($collection);
             $this->setData('items_collection', $collection);
         }
         return $this->getData('items_collection');

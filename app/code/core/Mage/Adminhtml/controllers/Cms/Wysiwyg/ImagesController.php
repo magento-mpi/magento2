@@ -228,6 +228,6 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('cms/media_gallery');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/media_gallery');
     }
 }

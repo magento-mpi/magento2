@@ -335,7 +335,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
     protected function _getCarriers($object)
     {
         $carriers = array();
-        $carrierInstances = Mage::getSingleton('shipping/config')->getAllCarriers(
+        $carrierInstances = Mage::getSingleton('Mage_Shipping_Model_Config')->getAllCarriers(
             $object->getStoreId()
         );
 

@@ -131,7 +131,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         parent::_beforeSave();
-        $this->setUpdatedAt(Mage::getSingleton('core/date')->gmtDate());
+        $this->setUpdatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
         return $this;
     }
 

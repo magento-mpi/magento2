@@ -50,7 +50,7 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
     protected function _getEntityType()
     {
         if (is_null($this->_entityType)) {
-            $this->_entityType = Mage::getSingleton('eav/config')->getEntityType('customer_address');
+            $this->_entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer_address');
         }
         return $this->_entityType;
     }
@@ -369,6 +369,6 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('admin/customer/attributes/customer_address_attributes');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/customer/attributes/customer_address_attributes');
     }
 }

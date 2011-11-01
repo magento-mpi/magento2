@@ -59,8 +59,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Revision extends Mage_Admi
             ->addPageFilter($this->getRequest()->getParam('page_id'))
             ->joinVersions()
             ->addNumberSort()
-            ->addVisibilityFilter(Mage::getSingleton('admin/session')->getUser()->getId(),
-                Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
+            ->addVisibilityFilter(Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId(),
+                Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel());
 
         $revisions = array();
 

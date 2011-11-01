@@ -172,7 +172,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'width' => '60px',
                 'index' => 'type_id',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('catalog/product_type')->getOptionArray(),
+                'options' => Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getOptionArray(),
         ));
 
         $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
@@ -230,7 +230,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'width' => '70px',
                 'index' => 'status',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('catalog/product_status')->getOptionArray(),
+                'options' => Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getOptionArray(),
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
@@ -284,7 +284,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
              'confirm' => Mage::helper('Mage_Catalog_Helper_Data')->__('Are you sure?')
         ));
 
-        $statuses = Mage::getSingleton('catalog/product_status')->getOptionArray();
+        $statuses = Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getOptionArray();
 
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('status', array(
@@ -301,7 +301,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
              )
         ));
 
-        if (Mage::getSingleton('admin/session')->isAllowed('catalog/update_attributes')){
+        if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/update_attributes')){
             $this->getMassactionBlock()->addItem('attributes', array(
                 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Update Attributes'),
                 'url'   => $this->getUrl('*/catalog_product_action_attribute/edit', array('_current'=>true))

@@ -128,7 +128,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAmount($product, $shipping = null, $billing = null, $website = null, $calculateTaxes = false)
     {
         if ($this->isEnabled()) {
-            return Mage::getSingleton('weee/tax')->
+            return Mage::getSingleton('Mage_Weee_Model_Tax')->
                     getWeeeAmount($product, $shipping, $billing, $website, $calculateTaxes);
         }
         return 0;
@@ -194,7 +194,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
     public function getProductWeeeAttributes($product, $shipping = null, $billing = null,
         $website = null, $calculateTaxes = false)
     {
-        return Mage::getSingleton('weee/tax')
+        return Mage::getSingleton('Mage_Weee_Model_Tax')
                 ->getProductWeeeAttributes($product, $shipping, $billing, $website, $calculateTaxes);
     }
 

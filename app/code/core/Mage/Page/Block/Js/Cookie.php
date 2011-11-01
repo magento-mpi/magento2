@@ -33,7 +33,7 @@ class Mage_Page_Block_Js_Cookie extends Mage_Core_Block_Template
      */
     public function getCookie()
     {
-        return Mage::getSingleton('core/cookie');
+        return Mage::getSingleton('Mage_Core_Model_Cookie');
     }
     /**
      * Get configured cookie domain

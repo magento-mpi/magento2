@@ -64,11 +64,11 @@ class Mage_Rss_Block_Catalog_Tag extends Mage_Rss_Block_Catalog_Abstract
             ->addTagFilter($tagModel->getId())
             ->addStoreFilter($storeId);
 
-        $_collection->setVisibility(Mage::getSingleton('catalog/product_visibility')->getVisibleInCatalogIds());
+        $_collection->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
 
         $product = Mage::getModel('Mage_Catalog_Model_Product');
 
-        Mage::getSingleton('core/resource_iterator')->walk(
+        Mage::getSingleton('Mage_Core_Model_Resource_Iterator')->walk(
             Mage::getResourceHelper('Mage_Core')->getQueryUsingAnalyticFunction($_collection->getSelect()),
             array(array($this, 'addTaggedItemXml')),
             array('rssObj'=> $rssObj, 'product'=>$product),

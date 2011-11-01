@@ -45,7 +45,7 @@ class Enterprise_PageCache_Model_Processor_Product extends Enterprise_PageCache_
         $cacheInstance = Enterprise_PageCache_Model_Cache::getCacheInstance();
 
         /** @var Enterprise_PageCache_Model_Processor */
-        $processor = Mage::getSingleton('enterprise_pagecache/processor');
+        $processor = Mage::getSingleton('Enterprise_PageCache_Model_Processor');
         $countLimit = Mage::getStoreConfig(Mage_Reports_Block_Product_Viewed::XML_PATH_RECENTLY_VIEWED_COUNT);
         // save recently viewed product count limit
         $cacheId = $processor->getRecentlyViewedCountCacheId();

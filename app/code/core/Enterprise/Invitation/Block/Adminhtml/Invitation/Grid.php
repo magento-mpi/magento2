@@ -79,7 +79,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             'type'  => 'text'
         ));
 
-        $renderer = (Mage::getSingleton('admin/session')->isAllowed('customer/manage'))
+        $renderer = (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/manage'))
             ? 'Enterprise_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee' : false;
 
         $this->addColumn('invitee', array(
@@ -109,7 +109,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             'header' => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Status'),
             'index' => 'status',
             'type' => 'options',
-            'options' => Mage::getSingleton('enterprise_invitation/source_invitation_status')->getOptions(),
+            'options' => Mage::getSingleton('Enterprise_Invitation_Model_Source_Invitation_Status')->getOptions(),
             'width' => 140
         ));
 
@@ -117,7 +117,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             'header'  => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Valid on Website'),
             'index'   => 'website_id',
             'type'    => 'options',
-            'options' => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(),
+            'options' => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteOptionHash(),
             'width'   => 150,
         ));
 

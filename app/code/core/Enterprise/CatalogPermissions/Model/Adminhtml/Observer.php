@@ -69,7 +69,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
         $category = $observer->getEvent()->getCategory();
         /* @var $category Mage_Catalog_Model_Category */
         if ($category->hasData('permissions') && is_array($category->getData('permissions'))
-            && Mage::getSingleton('admin/session')->isAllowed('catalog/enterprise_catalogpermissions')) {
+            && Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/enterprise_catalogpermissions')) {
             foreach ($category->getData('permissions') as $data) {
                 $permission = Mage::getModel('Enterprise_CatalogPermissions_Model_Permission');
                 if (!empty($data['id'])) {
@@ -131,7 +131,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
     {
         if (!empty($this->_indexQueue)) {
             foreach ($this->_indexQueue as $item) {
-                Mage::getSingleton('enterprise_catalogpermissions/permission_index')->reindex($item);
+                Mage::getSingleton('Enterprise_CatalogPermissions_Model_Permission_Index')->reindex($item);
             }
             $this->_indexQueue = array();
             Mage::app()->cleanCache(array(Mage_Catalog_Model_Category::CACHE_TAG));
@@ -139,7 +139,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
 
         if (!empty($this->_indexProductQueue)) {
             foreach ($this->_indexProductQueue as $item) {
-                Mage::getSingleton('enterprise_catalogpermissions/permission_index')->reindexProducts($item);
+                Mage::getSingleton('Enterprise_CatalogPermissions_Model_Permission_Index')->reindexProducts($item);
             }
             $this->_indexProductQueue = array();
         }
@@ -155,7 +155,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
     public function cleanCacheOnConfigChange()
     {
         Mage::app()->cleanCache(array(Mage_Catalog_Model_Category::CACHE_TAG));
-        Mage::getSingleton('enterprise_catalogpermissions/permission_index')->reindexProductsStandalone();
+        Mage::getSingleton('Enterprise_CatalogPermissions_Model_Permission_Index')->reindexProductsStandalone();
         return $this;
     }
 
@@ -220,7 +220,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
         if (!Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->isEnabled()) {
             return $this;
         }
-        if (!Mage::getSingleton('admin/session')->isAllowed('catalog/enterprise_catalogpermissions')) {
+        if (!Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/enterprise_catalogpermissions')) {
             return $this;
         }
 

@@ -77,7 +77,7 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $formData = Mage::getSingleton('customer/session')->getCustomerFormData(true);
+            $formData = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerFormData(true);
             $data = new Varien_Object();
             if ($formData) {
                 $data->addData($formData);

@@ -68,7 +68,7 @@ class Mage_Catalog_Block_Product_New extends Mage_Catalog_Block_Product_Abstract
            Mage::app()->getStore()->getId(),
            Mage::getDesign()->getPackageName(),
            Mage::getDesign()->getTheme('template'),
-           Mage::getSingleton('customer/session')->getCustomerGroupId(),
+           Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId(),
            'template' => $this->getTemplate(),
            $this->getProductsCount()
         );
@@ -84,7 +84,7 @@ class Mage_Catalog_Block_Product_New extends Mage_Catalog_Block_Product_Abstract
         $todayDate  = Mage::app()->getLocale()->date()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
 
         $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
-        $collection->setVisibility(Mage::getSingleton('catalog/product_visibility')->getVisibleInCatalogIds());
+        $collection->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
 
         $collection = $this->_addProductAttributesAndPrices($collection)
             ->addStoreFilter()

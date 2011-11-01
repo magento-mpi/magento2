@@ -124,7 +124,7 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
 
         $groups = explode(',', $groups);
 
-        return !in_array(Mage::getSingleton('customer/session')->getCustomerGroupId(), $groups);
+        return !in_array(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId(), $groups);
     }
 
     /**
@@ -155,7 +155,7 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
             $groups = explode(',', $groups);
 
             if ($customerGroupId === null) {
-                $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+                $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
             }
 
             return in_array(

@@ -253,7 +253,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
         /* @var $helper Mage_Sendfriend_Helper_Data */
         $helper = Mage::helper('Mage_Sendfriend_Helper_Data');
         /* @var $session Mage_Customer_Model_Session */
-        $session = Mage::getSingleton('customer/session');
+        $session = Mage::getSingleton('Mage_Customer_Model_Session');
 
         if (!$helper->isEnabled()) {
             $this->_message($this->__('Tell a Friend is disabled.'), self::MESSAGE_STATUS_ERROR);

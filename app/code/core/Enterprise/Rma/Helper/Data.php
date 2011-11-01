@@ -126,7 +126,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getReturnCreateUrl($order)
     {
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
             return Mage::getUrl('rma/return/create', array('order_id' => $order->getId()));
         } else {
             return Mage::getUrl('rma/guest/create', array('order_id' => $order->getId()));
@@ -174,7 +174,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $contactName = new Varien_Object();
         if (Mage::getStoreConfigFlag(Enterprise_Rma_Model_Rma::XML_PATH_USE_STORE_ADDRESS, $storeId)) {
-            $admin = Mage::getSingleton('admin/session')->getUser();
+            $admin = Mage::getSingleton('Mage_Admin_Model_Session')->getUser();
             $contactName->setFirstName($admin->getFirstname());
             $contactName->setLastName($admin->getLastname());
             $contactName->setName($admin->getName());

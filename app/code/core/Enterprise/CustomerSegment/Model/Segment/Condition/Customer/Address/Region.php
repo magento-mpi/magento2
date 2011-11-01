@@ -120,7 +120,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     public function getConditionsSql($customer, $website)
     {
         $inversion = ((int)$this->getValue() ? '' : ' NOT ');
-        $attribute = Mage::getSingleton('eav/config')->getAttribute('customer_address', 'region');
+        $attribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer_address', 'region');
         $select = $this->getResource()->createSelect();
 
         $ifnull = $this->getResource()->getReadConnection()

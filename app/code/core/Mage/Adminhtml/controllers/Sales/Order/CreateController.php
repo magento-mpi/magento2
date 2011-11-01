@@ -49,7 +49,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session_quote');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote');
     }
 
     /**
@@ -69,7 +69,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
      */
     protected function _getOrderCreateModel()
     {
-        return Mage::getSingleton('adminhtml/sales_order_create');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create');
     }
 
     /**
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
      */
     protected function _getGiftmessageSaveModel()
     {
-        return Mage::getSingleton('adminhtml/giftmessage_save');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Giftmessage_Save');
     }
 
     /**
@@ -395,7 +395,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
         $result = $this->getLayout()->getBlock('content')->toHtml();
         if ($request->getParam('as_js_varname')) {
-            Mage::getSingleton('adminhtml/session')->setUpdateResult($result);
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setUpdateResult($result);
             $this->_redirect('*/*/showUpdateResult');
         } else {
             $this->getResponse()->setBody($result);
@@ -427,7 +427,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
 
         $updateResult->setJsVarName($this->getRequest()->getParam('as_js_varname'));
-        Mage::getSingleton('adminhtml/session')->setCompositeProductResult($updateResult);
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->setCompositeProductResult($updateResult);
         $this->_redirect('*/catalog_product/showUpdateResult');
     }
 
@@ -475,7 +475,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
                 ->createOrder();
 
             $this->_getSession()->clear();
-            Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The order has been created.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The order has been created.'));
             $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
         } catch (Mage_Payment_Model_Info_Exception $e) {
             $this->_getOrderCreateModel()->saveQuote();
@@ -522,7 +522,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
                 $aclResource = 'sales/order/actions';
                 break;
         }
-        return Mage::getSingleton('admin/session')->isAllowed($aclResource);
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($aclResource);
     }
 
     /*
@@ -538,7 +538,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $configureResult = new Varien_Object();
         $configureResult->setOk(true);
         $configureResult->setProductId($productId);
-        $sessionQuote = Mage::getSingleton('adminhtml/session_quote');
+        $sessionQuote = Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote');
         $configureResult->setCurrentStoreId($sessionQuote->getStore()->getId());
         $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
 
@@ -578,7 +578,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             $configureResult->setBuyRequest($quoteItem->getBuyRequest());
             $configureResult->setCurrentStoreId($quoteItem->getStoreId());
             $configureResult->setProductId($quoteItem->getProductId());
-            $sessionQuote = Mage::getSingleton('adminhtml/session_quote');
+            $sessionQuote = Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote');
             $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
 
         } catch (Exception $e) {
@@ -602,7 +602,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
      */
     public function showUpdateResultAction()
     {
-        $session = Mage::getSingleton('adminhtml/session');
+        $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
         if ($session->hasUpdateResult() && is_scalar($session->getUpdateResult())){
             $this->getResponse()->setBody($session->getUpdateResult());
             $session->unsUpdateResult();

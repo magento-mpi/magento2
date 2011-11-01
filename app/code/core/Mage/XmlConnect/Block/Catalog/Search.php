@@ -64,7 +64,7 @@ class Mage_XmlConnect_Block_Catalog_Search extends Mage_XmlConnect_Block_Catalog
          */
         $productListBlock = $this->getChild('product_list');
         if ($productListBlock) {
-            $layer = Mage::getSingleton('catalogsearch/layer');
+            $layer = Mage::getSingleton('Mage_CatalogSearch_Model_Layer');
             $productsXmlObj = $productListBlock->setLayer($layer)
                 ->setNeedBlockApplyingFilters(!$isLayeredNavigationAllowed)->getProductsXmlObject();
             $searchXmlObject->appendChild($productsXmlObj);

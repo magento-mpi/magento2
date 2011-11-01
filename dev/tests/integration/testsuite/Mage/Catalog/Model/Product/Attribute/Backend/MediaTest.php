@@ -26,9 +26,9 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
 
     public static function setUpBeforeClass()
     {
-        self::$_mediaTmpDir = Mage::getSingleton('catalog/product_media_config')->getTmpMediaPath();
+        self::$_mediaTmpDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getTmpMediaPath();
         $fixturesDir        = realpath(__DIR__.'/../../../../_files');
-        $mediaDir           = Mage::getSingleton('catalog/product_media_config')->getMediaPath();
+        $mediaDir           = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getMediaPath();
 
         mkdir($mediaDir, 0777, true);
         mkdir(self::$_mediaTmpDir, 0777, true);
@@ -41,7 +41,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
     protected function setUp()
     {
         $this->_model = new Mage_Catalog_Model_Product_Attribute_Backend_Media();
-        $this->_model->setAttribute(Mage::getSingleton('eav/config')->getAttribute('catalog_product', 'media_gallery'));
+        $this->_model->setAttribute(Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('catalog_product', 'media_gallery'));
     }
 
     public function testAfterLoad()

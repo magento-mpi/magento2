@@ -36,7 +36,7 @@ class Mage_Checkout_Block_Onepage_Payment_Methods extends Mage_Payment_Block_For
 {
     public function getQuote()
     {
-        return Mage::getSingleton('checkout/session')->getQuote();
+        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
     }
 
     /**

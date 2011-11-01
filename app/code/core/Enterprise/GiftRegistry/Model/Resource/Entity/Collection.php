@@ -218,7 +218,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
          * Apply search filters by static attributes
          */
         /** @var $config Enterprise_GiftRegistry_Model_Attribute_Config */
-        $config = Mage::getSingleton('enterprise_giftregistry/attribute_config');
+        $config = Mage::getSingleton('Enterprise_GiftRegistry_Model_Attribute_Config');
         $staticCodes = $config->getStaticTypesCodes();
         foreach ($staticCodes as $code) {
             if (!empty($params[$code])) {

@@ -47,7 +47,7 @@ class Mage_Review_Model_Resource_Review_Summary_Collection extends Varien_Data_C
      */
     public function __construct()
     {
-        $resources = Mage::getSingleton('core/resource');
+        $resources = Mage::getSingleton('Mage_Core_Model_Resource');
         $this->_setIdFieldName('primary_id');
 
         parent::__construct($resources->getConnection('review_read'));

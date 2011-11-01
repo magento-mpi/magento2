@@ -48,8 +48,8 @@ class Mage_Catalog_Block_Seo_Sitemap_Product extends Mage_Catalog_Block_Seo_Site
         $collection->addAttributeToSelect('url_key');
         $collection->addStoreFilter();
 
-        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addVisibleFilterToCollection($collection);
+        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInCatalogFilterToCollection($collection);
 
         $this->setCollection($collection);
 

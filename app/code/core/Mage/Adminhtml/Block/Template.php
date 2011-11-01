@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Template extends Mage_Core_Block_Template
      */
     public function getFormKey()
     {
-        return Mage::getSingleton('core/session')->getFormKey();
+        return Mage::getSingleton('Mage_Core_Model_Session')->getFormKey();
     }
 
     /**

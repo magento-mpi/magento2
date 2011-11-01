@@ -1664,7 +1664,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function getFieldset($name, $root = 'global')
     {
         /** @var $config Mage_Core_Model_Config_Base */
-        $config = Mage::getSingleton('core/config_fieldset');
+        $config = Mage::getSingleton('Mage_Core_Model_Config_Fieldset');
         $rootNode = $config->getNode($root . '/fieldsets');
         if (!$rootNode) {
             return null;

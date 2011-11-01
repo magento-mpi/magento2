@@ -101,7 +101,7 @@ class Find_Feed_Block_Adminhtml_List_Items_Grid  extends Mage_Adminhtml_Block_Wi
             'width'             => '60px',
             'index'             => 'type_id',
             'type'              => 'options',
-            'options'           => Mage::getSingleton('catalog/product_type')->getOptionArray(),
+            'options'           => Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getOptionArray(),
         ));
 
         $entityTypeId =  Mage::helper('Find_Feed_Helper_Data')->getProductEntityType();

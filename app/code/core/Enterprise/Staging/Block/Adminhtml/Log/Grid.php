@@ -79,7 +79,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_W
             'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Action'),
             'index'     => 'action',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('enterprise_staging/staging_config')->getActionLabelsArray(),
+            'options'   => Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getActionLabelsArray(),
             'width' => 200
         ));
 
@@ -103,7 +103,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_W
             'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Result'),
             'index'     => 'status',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('enterprise_staging/staging_config')->getStatusLabelsArray(),
+            'options'   => Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getStatusLabelsArray(),
             'width'  => 100
         ));
 

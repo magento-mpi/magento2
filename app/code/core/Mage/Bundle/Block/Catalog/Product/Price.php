@@ -36,13 +36,13 @@ class Mage_Bundle_Block_Catalog_Product_Price extends Mage_Catalog_Block_Product
 
     public function isRatesGraterThenZero()
     {
-        $_request = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false);
+        $_request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest(false, false, false);
         $_request->setProductClassId($this->getProduct()->getTaxClassId());
-        $defaultTax = Mage::getSingleton('tax/calculation')->getRate($_request);
+        $defaultTax = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($_request);
 
-        $_request = Mage::getSingleton('tax/calculation')->getRateRequest();
+        $_request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest();
         $_request->setProductClassId($this->getProduct()->getTaxClassId());
-        $currentTax = Mage::getSingleton('tax/calculation')->getRate($_request);
+        $currentTax = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($_request);
 
         return (floatval($defaultTax) > 0 || floatval($currentTax) > 0);
     }

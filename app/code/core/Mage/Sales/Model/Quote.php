@@ -1330,7 +1330,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
 
         if (is_string($message)) {
-            $message = Mage::getSingleton('core/message')->error($message);
+            $message = Mage::getSingleton('Mage_Core_Model_Message')->error($message);
         }
 
         $messages[$index] = $message;

@@ -69,12 +69,12 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         }
 
         if ($activeTabId = (string) $this->getRequest()->getParam('active_tab_id')) {
-            Mage::getSingleton('admin/session')->setActiveTabId($activeTabId);
+            Mage::getSingleton('Mage_Admin_Model_Session')->setActiveTabId($activeTabId);
         }
 
         Mage::register('category', $category);
         Mage::register('current_category', $category);
-        Mage::getSingleton('cms/wysiwyg_config')->setStoreId($this->getRequest()->getParam('store'));
+        Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->setStoreId($this->getRequest()->getParam('store'));
         return $category;
     }
     /**
@@ -90,7 +90,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
      */
     public function addAction()
     {
-        Mage::getSingleton('admin/session')->unsActiveTabId();
+        Mage::getSingleton('Mage_Admin_Model_Session')->unsActiveTabId();
         $this->_forward('edit');
     }
 
@@ -104,7 +104,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 
         $storeId = (int) $this->getRequest()->getParam('store');
         $parentId = (int) $this->getRequest()->getParam('parent');
-        $_prevStoreId = Mage::getSingleton('admin/session')
+        $_prevStoreId = Mage::getSingleton('Mage_Admin_Model_Session')
             ->getLastViewedStore(true);
 
         if (!empty($_prevStoreId) && !$this->getRequest()->getQuery('isAjax')) {
@@ -113,7 +113,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         }
 
         $categoryId = (int) $this->getRequest()->getParam('id');
-        $_prevCategoryId = Mage::getSingleton('admin/session')
+        $_prevCategoryId = Mage::getSingleton('Mage_Admin_Model_Session')
             ->getLastEditedCategory(true);
 
 
@@ -145,7 +145,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         /**
          * Check if we have data in session (if duering category save was exceprion)
          */
-        $data = Mage::getSingleton('adminhtml/session')->getCategoryData(true);
+        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getCategoryData(true);
         if (isset($data['general'])) {
             $category->addData($data['general']);
         }
@@ -158,7 +158,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             $breadcrumbsPath = $category->getPath();
             if (empty($breadcrumbsPath)) {
                 // but if no category, and it is deleted - prepare breadcrumbs from path, saved in session
-                $breadcrumbsPath = Mage::getSingleton('admin/session')->getDeletedPath(true);
+                $breadcrumbsPath = Mage::getSingleton('Mage_Admin_Model_Session')->getDeletedPath(true);
                 if (!empty($breadcrumbsPath)) {
                     $breadcrumbsPath = explode('/', $breadcrumbsPath);
                     // no need to get parent breadcrumbs if deleting category level 1
@@ -172,9 +172,9 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 }
             }
 
-            Mage::getSingleton('admin/session')
+            Mage::getSingleton('Mage_Admin_Model_Session')
                 ->setLastViewedStore($this->getRequest()->getParam('store'));
-            Mage::getSingleton('admin/session')
+            Mage::getSingleton('Mage_Admin_Model_Session')
                 ->setLastEditedCategory($category->getId());
 //            $this->_initLayoutMessages('adminhtml/session');
             $this->loadLayout();
@@ -230,9 +230,9 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
     public function categoriesJsonAction()
     {
         if ($this->getRequest()->getParam('expand_all')) {
-            Mage::getSingleton('admin/session')->setIsTreeWasExpanded(true);
+            Mage::getSingleton('Mage_Admin_Model_Session')->setIsTreeWasExpanded(true);
         } else {
-            Mage::getSingleton('admin/session')->setIsTreeWasExpanded(false);
+            Mage::getSingleton('Mage_Admin_Model_Session')->setIsTreeWasExpanded(false);
         }
         if ($categoryId = (int) $this->getRequest()->getPost('id')) {
             $this->getRequest()->setParam('id', $categoryId);
@@ -340,7 +340,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 $category->unsetData('use_post_data_config');
 
                 $category->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('The category has been saved.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('The category has been saved.'));
                 $refreshTree = 'true';
             }
             catch (Exception $e){
@@ -398,18 +398,18 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 $category = Mage::getModel('Mage_Catalog_Model_Category')->load($id);
                 Mage::dispatchEvent('catalog_controller_category_delete', array('category'=>$category));
 
-                Mage::getSingleton('admin/session')->setDeletedPath($category->getPath());
+                Mage::getSingleton('Mage_Admin_Model_Session')->setDeletedPath($category->getPath());
 
                 $category->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('The category has been deleted.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('The category has been deleted.'));
             }
             catch (Mage_Core_Exception $e){
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current'=>true)));
                 return;
             }
             catch (Exception $e){
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('An error occurred while trying to delete the category.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('An error occurred while trying to delete the category.'));
                 $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current'=>true)));
                 return;
             }
@@ -494,6 +494,6 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/categories');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/categories');
     }
 }

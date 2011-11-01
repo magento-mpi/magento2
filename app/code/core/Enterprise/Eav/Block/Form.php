@@ -210,7 +210,7 @@ class Enterprise_Eav_Block_Form extends Mage_Core_Block_Template
      */
     public function setEntityType($entityType)
     {
-        $this->_entityType = Mage::getSingleton('eav/config')->getEntityType($entityType);
+        $this->_entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType($entityType);
         return $this;
     }
 

@@ -63,7 +63,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function getSession()
     {
-        return Mage::getSingleton('paypal/session');
+        return Mage::getSingleton('Mage_Paypal_Model_Session');
     }
 
     /**
@@ -73,7 +73,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**

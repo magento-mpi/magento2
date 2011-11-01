@@ -89,7 +89,7 @@ class Mage_XmlConnect_Model_Observer
         if ($message instanceof Mage_XmlConnect_Model_Queue && (strtolower($message->getExecTime()) == 'null'
             || !$message->getExecTime())
         ) {
-            $message->setExecTime(Mage::getSingleton('core/date')->gmtDate());
+            $message->setExecTime(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
             Mage::helper('Mage_XmlConnect_Helper_Data')->sendBroadcastMessage($message);
             return true;
         }

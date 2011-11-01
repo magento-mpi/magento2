@@ -92,8 +92,8 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::getSingleton('customer/session')->isLoggedIn()
-            && !Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout()
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
+            && !Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote()->isAllowedGuestCheckout()
         ) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->_message($this->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR,
@@ -111,7 +111,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
         try {
             $this->_initCheckout();
 
-            $customer = Mage::getSingleton('customer/session')->getCustomer();
+            $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
             if ($customer && $customer->getId()) {
                 $this->_checkout->setCustomerWithAddressChange(
                     $customer, null, $this->_getQuote()->getShippingAddress()
@@ -349,7 +349,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
      */
     protected function _getCheckoutSession()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**
@@ -405,6 +405,6 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
      */
     private function _getSession()
     {
-        return Mage::getSingleton('paypal/session');
+        return Mage::getSingleton('Mage_Paypal_Model_Session');
     }
 }

@@ -135,7 +135,7 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
 
         if ($order->getGiftMessageId() > 0) {
             $order->setGiftMessage(
-                Mage::getSingleton('giftmessage/message')->load($order->getGiftMessageId())->getMessage()
+                Mage::getSingleton('Mage_GiftMessage_Model_Message')->load($order->getGiftMessageId())->getMessage()
             );
         }
 
@@ -148,7 +148,7 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
         foreach ($order->getAllItems() as $item) {
             if ($item->getGiftMessageId() > 0) {
                 $item->setGiftMessage(
-                    Mage::getSingleton('giftmessage/message')->load($item->getGiftMessageId())->getMessage()
+                    Mage::getSingleton('Mage_GiftMessage_Model_Message')->load($item->getGiftMessageId())->getMessage()
                 );
             }
 

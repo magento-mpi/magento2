@@ -269,7 +269,7 @@ class Mage_Sales_Model_Observer
         if (!($methodInstance instanceof Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract)) {
             return;
         }
-        if (!Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/use')) {
+        if (!Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/order/actions/use')) {
             $observer->getEvent()->getResult()->isAvailable = false;
         }
     }
@@ -290,12 +290,12 @@ class Mage_Sales_Model_Observer
              * It is needed to process customer's quotes for all websites
              * if customer accounts are shared between all of them
              */
-            $websites = (Mage::getSingleton('customer/config_share')->isWebsiteScope())
+            $websites = (Mage::getSingleton('Mage_Customer_Model_Config_Share')->isWebsiteScope())
                 ? array(Mage::app()->getWebsite($customer->getWebsiteId()))
                 : Mage::app()->getWebsites();
 
             /** @var $quote Mage_Sales_Model_Quote */
-            $quote = Mage::getSingleton('sales/quote');
+            $quote = Mage::getSingleton('Mage_Sales_Model_Quote');
 
             foreach ($websites as $website) {
                 $quote->setWebsite($website);

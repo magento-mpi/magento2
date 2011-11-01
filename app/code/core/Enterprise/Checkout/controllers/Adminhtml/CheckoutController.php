@@ -48,8 +48,8 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
      */
     public function getCartModel()
     {
-        return Mage::getSingleton('enterprise_checkout/cart')
-            ->setSession(Mage::getSingleton('adminhtml/session'));
+        return Mage::getSingleton('Enterprise_Checkout_Model_Cart')
+            ->setSession(Mage::getSingleton('Mage_Adminhtml_Model_Session'));
     }
 
     /**
@@ -366,7 +366,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
      */
     public function createOrderAction()
     {
-        if (!Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/create')) {
+        if (!Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/order/actions/create')) {
             Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Access denied.'));
         }
         try {
@@ -377,7 +377,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             $activeQuote = $this->getCartModel()->getQuote();
             $quote = $this->getCartModel()->copyQuote($activeQuote);
             if ($quote->getId()) {
-                $session = Mage::getSingleton('adminhtml/sales_order_create')->getSession();
+                $session = Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create')->getSession();
                 $session->setQuoteId($quote->getId())
                    ->setStoreId($quote->getStoreId())
                    ->setCustomerId($quote->getCustomerId());
@@ -593,7 +593,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
      */
     protected function _isModificationAllowed()
     {
-        if (!Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/update')) {
+        if (!Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/enterprise_checkout/update')) {
             Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Access denied.'));
         }
     }
@@ -605,8 +605,8 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/view')
-            || Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/update');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/enterprise_checkout/view')
+            || Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/enterprise_checkout/update');
     }
 
     /**
@@ -640,7 +640,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             $configureResult->setBuyRequest($quoteItem->getBuyRequest());
             $configureResult->setCurrentStoreId($quoteItem->getStoreId());
             $configureResult->setProductId($quoteItem->getProductId());
-            $sessionQuote = Mage::getSingleton('adminhtml/session_quote');
+            $sessionQuote = Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote');
             $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
         } catch (Exception $e) {
             $configureResult->setError(true);
@@ -717,7 +717,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
         $result = $this->getLayout()->getBlock('content')->toHtml();
         if ($this->getRequest()->getParam('as_js_varname')) {
-            Mage::getSingleton('adminhtml/session')->setUpdateResult($result);
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setUpdateResult($result);
             $this->_redirect('*/*/showUpdateResult');
         } else {
             $this->getResponse()->setBody($result);
@@ -827,7 +827,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                     try {
                         $this->getCartModel()->addProduct($itemInfo->getProductId(), $config);
                     } catch (Mage_Core_Exception $e){
-                        Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                     } catch (Exception $e){
                         Mage::logException($e);
                     }
@@ -887,7 +887,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
      */
     public function showUpdateResultAction()
     {
-        $session = Mage::getSingleton('adminhtml/session');
+        $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
         if ($session->hasUpdateResult() && is_scalar($session->getUpdateResult())){
             $this->getResponse()->setBody($session->getUpdateResult());
             $session->unsUpdateResult();

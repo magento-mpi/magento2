@@ -54,7 +54,7 @@ class Enterprise_CustomerBalance_Block_Account_History extends Mage_Core_Block_T
      */
     public function getEvents()
     {
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
         if (!$customerId) {
             return false;
         }
@@ -77,7 +77,7 @@ class Enterprise_CustomerBalance_Block_Account_History extends Mage_Core_Block_T
     public function getActionNames()
     {
         if (is_null($this->_actionNames)) {
-            $this->_actionNames = Mage::getSingleton('enterprise_customerbalance/balance_history')->getActionNamesArray();
+            $this->_actionNames = Mage::getSingleton('Enterprise_CustomerBalance_Model_Balance_History')->getActionNamesArray();
         }
         return $this->_actionNames;
     }

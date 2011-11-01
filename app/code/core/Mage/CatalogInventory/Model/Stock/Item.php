@@ -250,7 +250,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         $product->setStockItem($this);
 
         $product->setIsInStock($this->getIsInStock());
-        Mage::getSingleton('cataloginventory/stock_status')
+        Mage::getSingleton('Mage_CatalogInventory_Model_Stock_Status')
             ->assignProduct($product, $this->getStockId(), $this->getStockStatus());
         return $this;
     }
@@ -302,7 +302,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         } else if (Mage::app()->getStore()->isAdmin()) {
             $customerGroupId = Mage_Customer_Model_Group::CUST_GROUP_ALL;
         } else {
-            $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
         }
         if (!array_key_exists($customerGroupId, $this->_minSaleQtyCache)) {
             if ($this->getUseConfigMinSaleQty()) {
@@ -786,7 +786,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     protected function _afterSave()
     {
         parent::_afterSave();
-        Mage::getSingleton('index/indexer')->processEntityAction(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );
         return $this;

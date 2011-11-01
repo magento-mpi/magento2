@@ -40,7 +40,7 @@ class Mage_GiftMessage_Block_Adminhtml_Sales_Order_Create_Form extends Mage_Admi
      */
     public function canDisplayGiftmessageForm()
     {
-        $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
+        $quote = Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getQuote();
         return $this->helper('Mage_GiftMessage_Helper_Message')->getIsMessagesAvailable('items', $quote, $quote->getStore());
     }
 }

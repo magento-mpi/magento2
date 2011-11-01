@@ -40,7 +40,7 @@ class Mage_Downloadable_Model_Link_Api extends Mage_Catalog_Model_Api_Resource
      */
     protected function _getValidator()
     {
-        return Mage::getSingleton('downloadable/link_api_validator');
+        return Mage::getSingleton('Mage_Downloadable_Model_Link_Api_Validator');
     }
 
     /**
@@ -234,10 +234,10 @@ class Mage_Downloadable_Model_Link_Api extends Mage_Catalog_Model_Api_Resource
 
         switch($resourceType) {
             case 'link':
-                $downloadableModel = Mage::getSingleton('downloadable/link');
+                $downloadableModel = Mage::getSingleton('Mage_Downloadable_Model_Link');
                 break;
             case 'sample':
-                $downloadableModel = Mage::getSingleton('downloadable/sample');
+                $downloadableModel = Mage::getSingleton('Mage_Downloadable_Model_Sample');
                 break;
         }
 

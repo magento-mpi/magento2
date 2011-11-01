@@ -78,8 +78,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
     {
         $this->setCode('tax');
         $this->_helper      = Mage::helper('Mage_Tax_Helper_Data');
-        $this->_calculator  = Mage::getSingleton('tax/calculation');
-        $this->_config      = Mage::getSingleton('tax/config');
+        $this->_calculator  = Mage::getSingleton('Mage_Tax_Model_Calculation');
+        $this->_config      = Mage::getSingleton('Mage_Tax_Model_Config');
     }
 
     /**

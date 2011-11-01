@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventory
      */
     public function getBackordersOption()
     {
-        return Mage::getSingleton('cataloginventory/source_backorders')->toOptionArray();
+        return Mage::getSingleton('Mage_CatalogInventory_Model_Source_Backorders')->toOptionArray();
     }
 
     /**

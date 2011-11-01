@@ -442,6 +442,6 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
      */
     public function gBaseDate2DateTime($gBaseDate)
     {
-        return Mage::getSingleton('core/date')->date(null, $gBaseDate);
+        return Mage::getSingleton('Mage_Core_Model_Date')->date(null, $gBaseDate);
     }
 }

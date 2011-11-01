@@ -52,7 +52,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
         $this->_blockGroup = 'enterprise_cms';
 
         /* @var $config Enterprise_Cms_Model_Config */
-        $config = Mage::getSingleton('enterprise_cms/config');
+        $config = Mage::getSingleton('Enterprise_Cms_Model_Config');
 
         $this->setFormActionUrl($this->getUrl('*/cms_page_revision/save'));
 

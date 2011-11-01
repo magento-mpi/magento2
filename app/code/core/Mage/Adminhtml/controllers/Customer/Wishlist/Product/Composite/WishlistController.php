@@ -129,7 +129,7 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController
             $updateResult->setMessage($e->getMessage());
         }
         $updateResult->setJsVarName($this->getRequest()->getParam('as_js_varname'));
-        Mage::getSingleton('adminhtml/session')->setCompositeProductResult($updateResult);
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->setCompositeProductResult($updateResult);
         $this->_redirect('*/catalog_product/showUpdateResult');
 
         return false;
@@ -142,6 +142,6 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/manage');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/manage');
     }
 }

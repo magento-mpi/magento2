@@ -89,9 +89,9 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
             try {
                 $design->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The design change has been saved.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The design change has been saved.'));
             } catch (Exception $e){
-                Mage::getSingleton('adminhtml/session')
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')
                     ->addError($e->getMessage())
                     ->setDesignData($data);
                 $this->_redirect('*/*/edit', array('id'=>$design->getId()));
@@ -110,13 +110,13 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
             try {
                 $design->delete();
 
-                Mage::getSingleton('adminhtml/session')
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')
                     ->addSuccess($this->__('The design change has been deleted.'));
             } catch (Mage_Exception $e) {
-                Mage::getSingleton('adminhtml/session')
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')
                     ->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')
                     ->addException($e, $this->__("Cannot delete the design change."));
             }
         }
@@ -125,6 +125,6 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/design');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/design');
     }
 }

@@ -49,8 +49,8 @@ class Mage_Api_Model_Server
 
     public function init(Mage_Api_Controller_Action $controller, $adapter='default', $handler='default')
     {
-        $adapters = Mage::getSingleton('api/config')->getActiveAdapters();
-        $handlers = Mage::getSingleton('api/config')->getHandlers();
+        $adapters = Mage::getSingleton('Mage_Api_Model_Config')->getActiveAdapters();
+        $handlers = Mage::getSingleton('Mage_Api_Model_Config')->getHandlers();
         $this->_api = $adapter;
         if (isset($adapters[$adapter])) {
             $adapterModel = Mage::getModel((string) $adapters[$adapter]->model);

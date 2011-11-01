@@ -42,7 +42,7 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::getSingleton('customer/session')->authenticate($this)) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
         if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()) {
@@ -128,7 +128,7 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('customer/session');
+        return Mage::getSingleton('Mage_Customer_Model_Session');
     }
 
     /**

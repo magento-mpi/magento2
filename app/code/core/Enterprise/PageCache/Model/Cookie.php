@@ -111,7 +111,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     public function updateCustomerCookies()
     {
         /** @var Mage_Customer_Model_Session $session */
-        $session = Mage::getSingleton('customer/session');
+        $session = Mage::getSingleton('Mage_Customer_Model_Session');
         $customerId = $session->getCustomerId();
         $customerGroupId = $session->getCustomerGroupId();
         if (!$customerId || is_null($customerGroupId)) {

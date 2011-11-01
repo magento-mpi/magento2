@@ -112,7 +112,7 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
     {
         $websiteId = Mage::app()->getStore($store)->getWebsiteId();
         if (!isset($this->_streetLines[$websiteId])) {
-            $attribute = Mage::getSingleton('eav/config')->getAttribute('customer_address', 'street');
+            $attribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer_address', 'street');
             $lines = (int)$attribute->getMultilineCount();
             if($lines <= 0) {
                 $lines = 2;
@@ -125,7 +125,7 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
 
     public function getFormat($code)
     {
-        $format = Mage::getSingleton('customer/address_config')->getFormatByCode($code);
+        $format = Mage::getSingleton('Mage_Customer_Model_Address_Config')->getFormatByCode($code);
         return $format->getRenderer() ? $format->getRenderer()->getFormat() : '';
     }
 
@@ -153,7 +153,7 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
         if (is_null($this->_attributes)) {
             $this->_attributes = array();
             /* @var $config Mage_Eav_Model_Config */
-            $config = Mage::getSingleton('eav/config');
+            $config = Mage::getSingleton('Mage_Eav_Model_Config');
             foreach ($config->getEntityAttributeCodes('customer_address') as $attributeCode) {
                 $this->_attributes[$attributeCode] = $config->getAttribute('customer_address', $attributeCode);
             }

@@ -87,7 +87,7 @@ class Mage_Core_Block_Html_Calendar extends Mage_Core_Block_Template
      */
     public function getTimezoneOffsetSeconds()
     {
-        return Mage::getSingleton('core/date')->getGmtOffset();
+        return Mage::getSingleton('Mage_Core_Model_Date')->getGmtOffset();
     }
 
     /**
@@ -98,6 +98,6 @@ class Mage_Core_Block_Html_Calendar extends Mage_Core_Block_Template
      */
     public function getStoreTimestamp($store = null)
     {
-        return Mage::getSingleton('core/locale')->storeTimeStamp($store);
+        return Mage::getSingleton('Mage_Core_Model_Locale')->storeTimeStamp($store);
     }
 }

@@ -160,7 +160,7 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Rule
         $mail = Mage::getModel('Mage_Core_Model_Email_Template');
 
         /* @var $translate Mage_Core_Model_Translate */
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         $translate->setTranslateInline(false);
 
         $identity = Mage::helper('Enterprise_Reminder_Helper_Data')->getEmailIdentity();
@@ -238,7 +238,7 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Rule
 
             if ($rule->getSalesruleId()) {
                 /* @var $salesRule Mage_SalesRule_Model_Rule */
-                $salesRule = Mage::getSingleton('salesrule/rule')->load($rule->getSalesruleId());
+                $salesRule = Mage::getSingleton('Mage_SalesRule_Model_Rule')->load($rule->getSalesruleId());
                 $websiteIds = array_intersect($rule->getWebsiteIds(), $salesRule->getWebsiteIds());
             } else {
                 $salesRule = null;

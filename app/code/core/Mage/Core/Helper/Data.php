@@ -158,7 +158,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
             return '';
         }
         if (is_null($date)) {
-            $date = Mage::app()->getLocale()->date(Mage::getSingleton('core/date')->gmtTimestamp(), null, null);
+            $date = Mage::app()->getLocale()->date(Mage::getSingleton('Mage_Core_Model_Date')->gmtTimestamp(), null, null);
         } else if (!$date instanceof Zend_Date) {
             $date = Mage::app()->getLocale()->date(strtotime($date), null, null);
         }
@@ -626,7 +626,7 @@ XML;
     {
         $json = Zend_Json::encode($valueToEncode, $cycleCheck, $options);
         /* @var $inline Mage_Core_Model_Translate_Inline */
-        $inline = Mage::getSingleton('core/translate_inline');
+        $inline = Mage::getSingleton('Mage_Core_Model_Translate_Inline');
         if ($inline->isAllowed()) {
             $inline->setIsJson(true);
             $inline->processResponseBody($json);

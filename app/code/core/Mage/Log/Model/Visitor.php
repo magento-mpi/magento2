@@ -74,7 +74,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('core/session');
+        return Mage::getSingleton('Mage_Core_Model_Session');
     }
 
     /**

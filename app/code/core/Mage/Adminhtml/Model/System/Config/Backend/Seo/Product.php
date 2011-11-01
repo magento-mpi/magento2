@@ -38,7 +38,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Seo_Product extends Mage_Core_M
          * Index model responsible for rewrites index
          */
 //        if ($this->isValueChanged()) {
-//            Mage::getSingleton('catalog/url')->refreshRewrites();
+//            Mage::getSingleton('Mage_Catalog_Model_Url')->refreshRewrites();
 //        }
         return $this;
     }

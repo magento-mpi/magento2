@@ -348,7 +348,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
                     $CarrierCode = $track->getCarrierCode();
                     if ($CarrierCode!='custom')
                     {
-                        $carrier = Mage::getSingleton('shipping/config')->getCarrierInstance($CarrierCode);
+                        $carrier = Mage::getSingleton('Mage_Shipping_Model_Config')->getCarrierInstance($CarrierCode);
                         $carrierTitle = $carrier->getConfigData('title');
                     }
                     else
@@ -471,7 +471,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
      *
      */
     protected function _beforeGetPdf() {
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
     }
@@ -481,7 +481,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
      *
      */
     protected function _afterGetPdf() {
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(true);
     }

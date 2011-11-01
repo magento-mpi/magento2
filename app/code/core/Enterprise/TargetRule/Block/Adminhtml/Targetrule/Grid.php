@@ -125,7 +125,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid extends Mage_Adminht
             'align'     => 'left',
             'index'     => 'apply_to',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('enterprise_targetrule/rule')->getAppliesToOptions(),
+            'options'   => Mage::getSingleton('Enterprise_TargetRule_Model_Rule')->getAppliesToOptions(),
             'width'     => 150,
         ));
 

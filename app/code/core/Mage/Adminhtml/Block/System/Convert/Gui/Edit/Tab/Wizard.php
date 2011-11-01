@@ -59,12 +59,12 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
         if (!isset($this->_attributes[$entityType])) {
             switch ($entityType) {
                 case 'product':
-                    $attributes = Mage::getSingleton('catalog/convert_parser_product')
+                    $attributes = Mage::getSingleton('Mage_Catalog_Model_Convert_Parser_Product')
                         ->getExternalAttributes();
                     break;
 
                 case 'customer':
-                    $attributes = Mage::getSingleton('customer/convert_parser_customer')
+                    $attributes = Mage::getSingleton('Mage_Customer_Model_Convert_Parser_Customer')
                         ->getExternalAttributes();
                     break;
             }
@@ -125,7 +125,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
 
     public function getProductTypeFilterOptions()
     {
-        $options = Mage::getSingleton('catalog/product_type')->getOptionArray();
+        $options = Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getOptionArray();
         array_splice($options, 0, 0, array(''=>$this->__('Any Type')));
         return $options;
     }
@@ -148,7 +148,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
 
     public function getProductVisibilityFilterOptions()
     {
-        $options = Mage::getSingleton('catalog/product_visibility')->getOptionArray();
+        $options = Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getOptionArray();
 
         array_splice($options, 0, 0, array(''=>$this->__('Any Visibility')));
         return $options;
@@ -156,7 +156,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
 
     public function getProductStatusFilterOptions()
     {
-        $options = Mage::getSingleton('catalog/product_status')->getOptionArray();
+        $options = Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getOptionArray();
 
         array_splice($options, 0, 0, array(''=>$this->__('Any Status')));
         return $options;
@@ -203,7 +203,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
      */
     protected function _getStoreModel() {
         if (is_null($this->_storeModel)) {
-            $this->_storeModel = Mage::getSingleton('adminhtml/system_store');
+            $this->_storeModel = Mage::getSingleton('Mage_Adminhtml_Model_System_Store');
         }
         return $this->_storeModel;
     }

@@ -102,7 +102,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
             Mage::app()->setCurrentStore(
                 Mage::app()->getStore($appModel->getStoreId())->getCode()
             );
-            Mage::getSingleton('core/locale')->emulate($appModel->getStoreId());
+            Mage::getSingleton('Mage_Core_Model_Locale')->emulate($appModel->getStoreId());
             Mage::register('current_app', $appModel);
         } else {
             $this->_message(

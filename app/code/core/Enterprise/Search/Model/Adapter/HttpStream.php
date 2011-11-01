@@ -75,7 +75,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         $options = array_merge($def_options, $options);
 
         try {
-            $this->_client = Mage::getSingleton('enterprise_search/client_solr', $options);
+            $this->_client = Mage::getSingleton('Enterprise_Search_Model_Client_Solr', $options);
         } catch (Exception $e) {
             Mage::logException($e);
         }

@@ -64,7 +64,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
             Mage::app()->setCurrentStore(
                 Mage::app()->getStore($app->getStoreId())->getCode()
             );
-            Mage::getSingleton('core/locale')->emulate($app->getStoreId());
+            Mage::getSingleton('Mage_Core_Model_Locale')->emulate($app->getStoreId());
             $app->setScreenSize($screenSize);
 
             if (!$app->getId()) {
@@ -109,7 +109,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
                  * @todo add management of cookie expire to application admin panel
                  */
                 $cookieExpireOffset = 3600 * 24 * 30;
-                Mage::getSingleton('core/cookie')->set(
+                Mage::getSingleton('Mage_Core_Model_Cookie')->set(
                     $item['cookieName'], $item['value'], $cookieExpireOffset, '/', null, null, true
                 );
             }

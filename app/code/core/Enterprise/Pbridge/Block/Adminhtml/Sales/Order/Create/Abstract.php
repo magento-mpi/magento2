@@ -89,6 +89,6 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract extends Ent
      */
     public function getQuote()
     {
-        return Mage::getSingleton('adminhtml/session_quote')->getQuote();
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getQuote();
     }
 }

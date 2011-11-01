@@ -81,7 +81,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
             'header'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Website'),
             'index'     => 'website_id',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(),
+            'options'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteOptionHash(),
             'sortable'  => false,
             'width'     => 200,
         ));
@@ -92,7 +92,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
             'index'     => 'action',
             'sortable'  => false,
             'type'      => 'options',
-            'options'   => Mage::getSingleton('enterprise_customerbalance/balance_history')->getActionNamesArray(),
+            'options'   => Mage::getSingleton('Enterprise_CustomerBalance_Model_Balance_History')->getActionNamesArray(),
         ));
 
         $this->addColumn('balance_delta', array(

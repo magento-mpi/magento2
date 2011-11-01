@@ -128,7 +128,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Mage_Adminhtml_B
             'header'            => Mage::helper('Mage_Sales_Helper_Data')->__('Status'),
             'index'             => 'status',
             'type'              => 'options',
-            'options'           => Mage::getSingleton('sales/billing_agreement')->getStatusesArray()
+            'options'           => Mage::getSingleton('Mage_Sales_Model_Billing_Agreement')->getStatusesArray()
         ));
 
         $this->addColumn('created_at', array(

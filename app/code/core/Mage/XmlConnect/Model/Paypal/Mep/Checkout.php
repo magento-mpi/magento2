@@ -77,7 +77,7 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
      */
     public function __construct($params = array())
     {
-        $this->_checkoutSession = Mage::getSingleton('checkout/session');
+        $this->_checkoutSession = Mage::getSingleton('Mage_Checkout_Model_Session');
         if (isset($params['quote']) && $params['quote'] instanceof Mage_Sales_Model_Quote) {
             $this->_quote = $params['quote'];
         } else {
@@ -109,12 +109,12 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
         * want to load the correct customer information by assigning to address
         * instead of just loading from sales/quote_address
         */
-        $customer = Mage::getSingleton('customer/session')->getCustomer();
+        $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
         if ($customer) {
             $this->_quote->assignCustomer($customer);
         }
-        if (!Mage::getSingleton('customer/session')->isLoggedIn()
-            && Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout()
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
+            && Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote()->isAllowedGuestCheckout()
         ) {
             $this->_prepareGuestQuote();
         }
@@ -154,8 +154,8 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
         }
 
         if (empty($data['firstname']) && empty($data['lastname'])) {
-            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-                $customer = Mage::getSingleton('customer/session')->getCustomer();
+            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+                $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
                 $data['firstname'] = $customer->getFirstname();
                 $data['lastname'] = $customer->getLastname();
             } else {
@@ -265,7 +265,7 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
             ->setLastOrderId($order->getId())->setLastRealOrderId($order->getIncrementId());
 
         if ($order->getState() == Mage_Sales_Model_Order::STATE_PROCESSING
-            && Mage::getSingleton('customer/session')->isLoggedIn()
+            && Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
         ) {
             try {
                 $order->sendNewOrderEmail();

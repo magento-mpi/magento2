@@ -533,7 +533,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('catalog/product_media_config');
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config');
     }
 
     /**
@@ -589,7 +589,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         if (Mage::helper('Mage_Core_Helper_File_Storage_Database')->checkDbUsage()) {
             $destFile = Mage::helper('Mage_Core_Helper_File_Storage_Database')
                 ->getUniqueFilename(
-                    Mage::getSingleton('catalog/product_media_config')->getBaseMediaUrlAddition(),
+                    Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseMediaUrlAddition(),
                     $file
                 );
         } else {

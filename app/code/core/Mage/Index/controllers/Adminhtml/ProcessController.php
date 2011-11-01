@@ -165,7 +165,7 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
     public function massReindexAction()
     {
         /* @var $indexer Mage_Index_Model_Indexer */
-        $indexer    = Mage::getSingleton('index/indexer');
+        $indexer    = Mage::getSingleton('Mage_Index_Model_Indexer');
         $processIds = $this->getRequest()->getParam('process');
         if (empty($processIds) || !is_array($processIds)) {
             $this->_getSession()->addError(Mage::helper('Mage_Index_Helper_Data')->__('Please select Indexes'));
@@ -233,6 +233,6 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/index');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/index');
     }
 }

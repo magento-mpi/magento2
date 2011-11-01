@@ -38,7 +38,7 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('checkout/type_multishipping');
+        return Mage::getSingleton('Mage_Checkout_Model_Type_Multishipping');
     }
 
     /**
@@ -48,7 +48,7 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
      */
     protected function _getState()
     {
-        return Mage::getSingleton('checkout/type_multishipping_state');
+        return Mage::getSingleton('Mage_Checkout_Model_Type_Multishipping_State');
     }
 
     /**
@@ -68,7 +68,7 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
      */
     protected function _getCheckoutSession()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**
@@ -106,7 +106,7 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
         }
 
         if (!in_array($action, array('login', 'register'))) {
-            if (!Mage::getSingleton('customer/session')->authenticate($this, $this->_getHelper()->getMSLoginUrl())) {
+            if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this, $this->_getHelper()->getMSLoginUrl())) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             }
 
@@ -158,7 +158,7 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
      */
     public function loginAction()
     {
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
             $this->_redirect('*/*/');
             return;
         }
@@ -178,7 +178,7 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
      */
     public function registerAction()
     {
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
             $this->_redirectUrl($this->_getHelper()->getMSCheckoutUrl());
             return;
         }
@@ -553,7 +553,7 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
     public function redirectLogin()
     {
         $this->setFlag('', 'no-dispatch', true);
-        Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl('*/*', array('_secure'=>true)));
+        Mage::getSingleton('Mage_Customer_Model_Session')->setBeforeAuthUrl(Mage::getUrl('*/*', array('_secure'=>true)));
 
         $this->getResponse()->setRedirect(
             Mage::helper('Mage_Core_Helper_Url')->addRequestParam(

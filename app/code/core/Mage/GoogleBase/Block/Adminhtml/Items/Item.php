@@ -113,7 +113,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
                 'width'     => '150px',
                 'type'      => 'options',
                 'width'     => '70px',
-                'options'   => Mage::getSingleton('googlebase/source_statuses')->getStatuses(),
+                'options'   => Mage::getSingleton('Mage_GoogleBase_Model_Source_Statuses')->getStatuses(),
                 'index'     => 'is_hidden',
         ));
 

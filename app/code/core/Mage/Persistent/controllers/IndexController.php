@@ -82,12 +82,12 @@ class Mage_Persistent_IndexController extends Mage_Core_Controller_Front_Action
     protected function _cleanup()
     {
         Mage::dispatchEvent('persistent_session_expired');
-        $customerSession = Mage::getSingleton('customer/session');
+        $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
         $customerSession
             ->setCustomerId(null)
             ->setCustomerGroupId(null);
         if ($this->_clearCheckoutSession) {
-            Mage::getSingleton('checkout/session')->unsetAll();
+            Mage::getSingleton('Mage_Checkout_Model_Session')->unsetAll();
         }
         $this->_getHelper()->getSession()->removePersistentCookie();
         return $this;
@@ -101,13 +101,13 @@ class Mage_Persistent_IndexController extends Mage_Core_Controller_Front_Action
         if ($this->_getHelper()->isPersistent()) {
             $this->_getHelper()->getSession()->removePersistentCookie();
             /** @var $customerSession Mage_Customer_Model_Session */
-            $customerSession = Mage::getSingleton('customer/session');
+            $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
             if (!$customerSession->isLoggedIn()) {
                 $customerSession->setCustomerId(null)
                     ->setCustomerGroupId(null);
             }
 
-            Mage::getSingleton('persistent/observer')->setQuoteGuest();
+            Mage::getSingleton('Mage_Persistent_Model_Observer')->setQuoteGuest();
         }
 
         $checkoutUrl = $this->_getRefererUrl();
@@ -120,7 +120,7 @@ class Mage_Persistent_IndexController extends Mage_Core_Controller_Front_Action
      */
     public function expressCheckoutAction()
     {
-        Mage::getSingleton('core/session')->addNotice(
+        Mage::getSingleton('Mage_Core_Model_Session')->addNotice(
             Mage::helper('Mage_Persistent_Helper_Data')->__('Shopping cart has been updated with appropriate prices')
         );
         $this->_redirect('checkout/cart');

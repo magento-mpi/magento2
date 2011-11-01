@@ -152,7 +152,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
      */
     public function __construct()
     {
-        $this->_resources = Mage::getSingleton('core/resource');
+        $this->_resources = Mage::getSingleton('Mage_Core_Model_Resource');
         parent::__construct();
     }
 

@@ -33,7 +33,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
     }
 
     /**
@@ -190,6 +190,6 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/cache');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/cache');
     }
 }

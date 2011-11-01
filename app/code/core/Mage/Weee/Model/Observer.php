@@ -39,7 +39,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         $form = $observer->getEvent()->getForm();
 //        $product = $observer->getEvent()->getProduct();
 
-        $attributes = Mage::getSingleton('weee/tax')->getWeeeAttributeCodes(true);
+        $attributes = Mage::getSingleton('Mage_Weee_Model_Tax')->getWeeeAttributeCodes(true);
         foreach ($attributes as $code) {
             if ($weeeTax = $form->getElement($code)) {
                 $weeeTax->setRenderer(
@@ -63,7 +63,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
 
         $block      = $observer->getEvent()->getObject();
         $list       = $block->getFormExcludedFieldList();
-        $attributes = Mage::getSingleton('weee/tax')->getWeeeAttributeCodes(true);
+        $attributes = Mage::getSingleton('Mage_Weee_Model_Tax')->getWeeeAttributeCodes(true);
         $list       = array_merge($list, array_values($attributes));
 
         $block->setFormExcludedFieldList($list);
@@ -78,7 +78,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
      */
     protected function _getSelect()
     {
-        return Mage::getSingleton('weee/tax')->getResource()->getReadConnection()->select();
+        return Mage::getSingleton('Mage_Weee_Model_Tax')->getResource()->getReadConnection()->select();
     }
 
     /**

@@ -46,7 +46,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Form extends Mage_Adminhtml_Bl
     protected function _prepareForm()
     {
         $form       = new Varien_Data_Form();
-        $config     = Mage::getSingleton('enterprise_staging/staging_config');
+        $config     = Mage::getSingleton('Enterprise_Staging_Model_Staging_Config');
         $log        = $this->getLog();
         $staging    = $log->getStaging();
         $fieldset   = $form->addFieldset('general_fieldset',

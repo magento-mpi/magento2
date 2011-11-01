@@ -544,7 +544,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     protected function _getCustomerGroupId()
     {
-        return Mage::getSingleton('customer/session')->getCustomerGroupId();
+        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
     }
 
     /**
@@ -554,7 +554,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     protected function _getIndexModel()
     {
-        return Mage::getSingleton('enterprise_catalogpermissions/permission_index');
+        return Mage::getSingleton('Enterprise_CatalogPermissions_Model_Permission_Index');
     }
 
     /**

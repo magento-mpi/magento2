@@ -66,7 +66,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
                 $this->_getQuote()->removeAllAddresses();
             }
 
-            $customer = Mage::getSingleton('customer/session')->getCustomer();
+            $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
             if ($customer && $customer->getId()) {
                 $this->_checkout->setCustomerWithAddressChange(
                     $customer, null, $this->_getQuote()->getShippingAddress()
@@ -164,10 +164,10 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             return;
         }
         catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('checkout/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Checkout_Model_Session')->addError($e->getMessage());
         }
         catch (Exception $e) {
-            Mage::getSingleton('checkout/session')->addError($this->__('Unable to process Express Checkout approval.'));
+            Mage::getSingleton('Mage_Checkout_Model_Session')->addError($this->__('Unable to process Express Checkout approval.'));
             Mage::logException($e);
         }
         $this->_redirect('checkout/cart');
@@ -191,10 +191,10 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             return;
         }
         catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('checkout/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Checkout_Model_Session')->addError($e->getMessage());
         }
         catch (Exception $e) {
-            Mage::getSingleton('checkout/session')->addError(
+            Mage::getSingleton('Mage_Checkout_Model_Session')->addError(
                 $this->__('Unable to initialize Express Checkout review.')
             );
             Mage::logException($e);
@@ -370,7 +370,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
      */
     private function _getSession()
     {
-        return Mage::getSingleton('paypal/session');
+        return Mage::getSingleton('Mage_Paypal_Model_Session');
     }
 
     /**
@@ -380,7 +380,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
      */
     private function _getCheckoutSession()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**

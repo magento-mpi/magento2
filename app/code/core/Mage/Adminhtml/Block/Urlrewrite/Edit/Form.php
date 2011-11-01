@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
             'options'      => $model->getOptions(),
             'description'  => $model->getDescription(),
         );
-        if ($sessionData = Mage::getSingleton('adminhtml/session')->getData('urlrewrite_data', true)) {
+        if ($sessionData = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getData('urlrewrite_data', true)) {
             foreach ($formValues as $key => $value) {
                 if (isset($sessionData[$key])) {
                     $formValues[$key] = $sessionData[$key];
@@ -100,7 +100,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         $isFilterAllowed = false;
         // get store switcher or a hidden field with its id
         if (!Mage::app()->isSingleStoreMode()) {
-            $stores  = Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm();
+            $stores  = Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm();
             $entityStores = array();
             $noStoreError = false;
 
@@ -210,7 +210,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
             }
 
             if ($_category || $_product) {
-                $catalogUrlModel = Mage::getSingleton('catalog/url');
+                $catalogUrlModel = Mage::getSingleton('Mage_Catalog_Model_Url');
                 $idPath->setValue($catalogUrlModel->generatePath('id', $_product, $_category));
                 if (!isset($sessionData['request_path'])) {
                     $requestPath->setValue($catalogUrlModel->generatePath('request', $_product, $_category, ''));

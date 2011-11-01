@@ -175,7 +175,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
     public function setSaleableStatus($product = null)
     {
         $this->getProduct($product)->setData($this->_keyStatusFilters,
-            Mage::getSingleton('catalog/product_status')->getSaleableStatusIds());
+            Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getSaleableStatusIds());
         return $this;
     }
 

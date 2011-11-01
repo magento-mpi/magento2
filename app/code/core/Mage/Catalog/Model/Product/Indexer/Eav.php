@@ -133,7 +133,7 @@ class Mage_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer_Ab
     protected function _attributeIsIndexable($attribute)
     {
         if (!$attribute instanceof Mage_Catalog_Model_Resource_Eav_Attribute) {
-            $attribute = Mage::getSingleton('eav/config')
+            $attribute = Mage::getSingleton('Mage_Eav_Model_Config')
                 ->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attribute);
         }
 

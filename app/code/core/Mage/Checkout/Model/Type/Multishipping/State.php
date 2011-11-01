@@ -82,7 +82,7 @@ class Mage_Checkout_Model_Type_Multishipping_State extends Varien_Object
             $step->setIsComplete(false);
         }
 
-        $this->_checkout = Mage::getSingleton('checkout/type_multishipping');
+        $this->_checkout = Mage::getSingleton('Mage_Checkout_Model_Type_Multishipping');
         $this->_steps[$this->getActiveStep()]->setIsActive(true);
     }
 
@@ -208,6 +208,6 @@ class Mage_Checkout_Model_Type_Multishipping_State extends Varien_Object
      */
     public function getCheckoutSession()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 }

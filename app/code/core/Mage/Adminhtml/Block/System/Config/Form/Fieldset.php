@@ -196,7 +196,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
         if ($element->getExpanded() !== null) {
             return 1;
         }
-        $extra = Mage::getSingleton('admin/session')->getUser()->getExtra();
+        $extra = Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getExtra();
         if (isset($extra['configState'][$element->getId()])) {
             return $extra['configState'][$element->getId()];
         }

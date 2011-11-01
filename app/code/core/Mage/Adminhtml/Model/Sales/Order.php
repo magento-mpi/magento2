@@ -40,7 +40,7 @@ class Mage_Adminhtml_Model_Sales_Order
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
     }
 
     public function checkRelation(Mage_Sales_Model_Order $order)

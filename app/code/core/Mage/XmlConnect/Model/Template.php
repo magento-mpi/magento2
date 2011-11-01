@@ -53,7 +53,7 @@ class Mage_XmlConnect_Model_Template extends Mage_Core_Model_Template
     {
         parent::_beforeSave();
 
-        $currentDate = Mage::getSingleton('core/date')->gmtDate();
+        $currentDate = Mage::getSingleton('Mage_Core_Model_Date')->gmtDate();
         if (!$this->getId()) {
             $this->setCreatedAt($currentDate);
         }

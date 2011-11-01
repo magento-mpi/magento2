@@ -49,7 +49,7 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
         }
         $custTaxClassId = $address->getQuote()->getCustomerTaxClassId();
 
-        $taxCalculationModel = Mage::getSingleton('tax/calculation');
+        $taxCalculationModel = Mage::getSingleton('Mage_Tax_Model_Calculation');
         /* @var $taxCalculationModel Mage_Tax_Model_Calculation */
         $request = $taxCalculationModel->getRateRequest($address, $address->getQuote()->getBillingAddress(), $custTaxClassId, $store);
 

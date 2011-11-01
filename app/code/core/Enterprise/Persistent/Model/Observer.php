@@ -52,7 +52,7 @@ class Enterprise_Persistent_Model_Observer
             $customer = Mage::getModel('Mage_Customer_Model_Customer')->load(
                 $this->_getPersistentHelper()->getSession()->getCustomerId()
             );
-            Mage::getSingleton('customer/session')
+            Mage::getSingleton('Mage_Customer_Model_Session')
                 ->setCustomerId($customer->getId())
                 ->setCustomerGroupId($customer->getGroupId());
 
@@ -85,7 +85,7 @@ class Enterprise_Persistent_Model_Observer
     public function applyPersistentData($observer)
     {
         if (!Mage::helper('Mage_Persistent_Helper_Data')->canProcess($observer)
-            || !$this->_isPersistent() || Mage::getSingleton('customer/session')->isLoggedIn()
+            || !$this->_isPersistent() || Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
         ) {
             return;
         }
@@ -97,7 +97,7 @@ class Enterprise_Persistent_Model_Observer
     public function applyBlockPersistentData($observer)
     {
         $observer->getEvent()->setConfigFilePath(Mage::helper('Enterprise_Persistent_Helper_Data')->getPersistentConfigFilePath());
-        return Mage::getSingleton('persistent/observer')->applyBlockPersistentData($observer);
+        return Mage::getSingleton('Mage_Persistent_Model_Observer')->applyBlockPersistentData($observer);
     }
 
     /**
@@ -169,7 +169,7 @@ class Enterprise_Persistent_Model_Observer
      */
     public function removeCartLink($observer)
     {
-        $block =  Mage::getSingleton('core/layout')->getBlock('checkout.links');
+        $block =  Mage::getSingleton('Mage_Core_Model_Layout')->getBlock('checkout.links');
         if ($block) {
             $block->removeLinkByUrl(Mage::getUrl('checkout/cart'));
         }
@@ -283,7 +283,7 @@ class Enterprise_Persistent_Model_Observer
         }
 
         /** @var $customerSession Mage_Customer_Model_Session */
-        $customerSession = Mage::getSingleton('customer/session');
+        $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
 
         if (Mage::helper('Enterprise_Persistent_Helper_Data')->isCustomerAndSegmentsPersist() && $this->_setQuotePersistent) {
             $customerId = $customerSession->getCustomerId();
@@ -350,7 +350,7 @@ class Enterprise_Persistent_Model_Observer
         if (!$this->_isCompareProductsPersist()) {
             return;
         }
-        Mage::getSingleton('catalog/product_compare_item')->bindCustomerLogout();
+        Mage::getSingleton('Mage_Catalog_Model_Product_Compare_Item')->bindCustomerLogout();
     }
 
     /**
@@ -458,7 +458,7 @@ class Enterprise_Persistent_Model_Observer
      */
     protected function _isLoggedOut()
     {
-        return $this->_isPersistent() && !Mage::getSingleton('customer/session')->isLoggedIn();
+        return $this->_isPersistent() && !Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn();
     }
 
     /**

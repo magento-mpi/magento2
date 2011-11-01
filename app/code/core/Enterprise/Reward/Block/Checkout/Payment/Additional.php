@@ -41,7 +41,7 @@ class Enterprise_Reward_Block_Checkout_Payment_Additional extends Mage_Core_Bloc
      */
     public function getCustomer()
     {
-        return Mage::getSingleton('customer/session')->getCustomer();
+        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
     }
 
     /**
@@ -51,7 +51,7 @@ class Enterprise_Reward_Block_Checkout_Payment_Additional extends Mage_Core_Bloc
      */
     public function getQuote()
     {
-        return Mage::getSingleton('checkout/session')->getQuote();
+        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
     }
 
     /**

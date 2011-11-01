@@ -145,7 +145,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
             $form->addValues($this->getEmailTemplate()->getData());
         }
 
-        if ($values = Mage::getSingleton('adminhtml/session')->getData('email_template_form_data', true)) {
+        if ($values = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getData('email_template_form_data', true)) {
             $form->setValues($values);
         }
 

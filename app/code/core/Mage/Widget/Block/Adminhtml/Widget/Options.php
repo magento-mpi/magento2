@@ -110,7 +110,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Wi
         if (!$this->getWidgetType()) {
             Mage::throwException($this->__('Widget Type is not specified'));
         }
-        $config = Mage::getSingleton('widget/widget')->getConfigAsObject($this->getWidgetType());
+        $config = Mage::getSingleton('Mage_Widget_Model_Widget')->getConfigAsObject($this->getWidgetType());
         if (!$config->getParameters()) {
             return $this;
         }

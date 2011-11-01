@@ -85,8 +85,8 @@ class Mage_XmlConnect_Block_Customer_Address_Form extends Mage_Customer_Block_Ad
         $billingChecked = $shippingChecked = false;
 
         if ($addressId && $address && $address->getId()) {
-            $defaultBillingAddressId = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling();
-            $defaultShippingAddressId = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping();
+            $defaultBillingAddressId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getDefaultBilling();
+            $defaultShippingAddressId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getDefaultShipping();
 
             $billingChecked = (int)$addressId == $defaultBillingAddressId;
             $shippingChecked = (int)$addressId == $defaultShippingAddressId;

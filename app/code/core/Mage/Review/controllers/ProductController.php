@@ -52,10 +52,10 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
 
         $action = $this->getRequest()->getActionName();
         if (!$allowGuest && $action == 'post' && $this->getRequest()->isPost()) {
-            if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+            if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-                Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_current' => true)));
-                Mage::getSingleton('review/session')->setFormData($this->getRequest()->getPost())
+                Mage::getSingleton('Mage_Customer_Model_Session')->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_current' => true)));
+                Mage::getSingleton('Mage_Review_Model_Session')->setFormData($this->getRequest()->getPost())
                     ->setRedirectUrl($this->_getRefererUrl());
                 $this->_redirectUrl(Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl());
             }
@@ -149,7 +149,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
      */
     public function postAction()
     {
-        if ($data = Mage::getSingleton('review/session')->getFormData(true)) {
+        if ($data = Mage::getSingleton('Mage_Review_Model_Session')->getFormData(true)) {
             $rating = array();
             if (isset($data['ratings']) && is_array($data['ratings'])) {
                 $rating = $data['ratings'];
@@ -160,7 +160,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
         }
 
         if (($product = $this->_initProduct()) && !empty($data)) {
-            $session    = Mage::getSingleton('core/session');
+            $session    = Mage::getSingleton('Mage_Core_Model_Session');
             /* @var $session Mage_Core_Model_Session */
             $review     = Mage::getModel('Mage_Review_Model_Review')->setData($data);
             /* @var $review Mage_Review_Model_Review */
@@ -171,7 +171,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
                     $review->setEntityId($review->getEntityIdByCode(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE))
                         ->setEntityPkValue($product->getId())
                         ->setStatusId(Mage_Review_Model_Review::STATUS_PENDING)
-                        ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+                        ->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
                         ->setStoreId(Mage::app()->getStore()->getId())
                         ->setStores(array(Mage::app()->getStore()->getId()))
                         ->save();
@@ -180,7 +180,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
                         Mage::getModel('Mage_Rating_Model_Rating')
                         ->setRatingId($ratingId)
                         ->setReviewId($review->getId())
-                        ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+                        ->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
                         ->addOptionVote($optionId, $product->getId());
                     }
 
@@ -205,7 +205,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
             }
         }
 
-        if ($redirectUrl = Mage::getSingleton('review/session')->getRedirectUrl(true)) {
+        if ($redirectUrl = Mage::getSingleton('Mage_Review_Model_Session')->getRedirectUrl(true)) {
             $this->_redirectUrl($redirectUrl);
             return;
         }
@@ -221,7 +221,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
         if ($product = $this->_initProduct()) {
             Mage::register('productId', $product->getId());
 
-            $design = Mage::getSingleton('catalog/design');
+            $design = Mage::getSingleton('Mage_Catalog_Model_Design');
             $settings = $design->getDesignSettings($product);
             if ($settings->getCustomDesign()) {
                 $design->applyCustomDesign($settings->getCustomDesign());

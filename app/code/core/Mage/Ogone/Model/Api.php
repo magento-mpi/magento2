@@ -186,7 +186,7 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
      */
     public function __construct()
     {
-        $this->_config = Mage::getSingleton('ogone/config');
+        $this->_config = Mage::getSingleton('Mage_Ogone_Model_Config');
         return $this;
     }
 

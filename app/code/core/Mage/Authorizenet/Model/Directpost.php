@@ -318,7 +318,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      */
     public function getResponse()
     {
-        return Mage::getSingleton('authorizenet/directpost_response');
+        return Mage::getSingleton('Mage_Authorizenet_Model_Directpost_Response');
     }
 
     /**

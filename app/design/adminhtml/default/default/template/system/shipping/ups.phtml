@@ -25,9 +25,9 @@
  */
 
 
-$orShipArr = Mage::getSingleton('usa/shipping_carrier_ups')->getCode('originShipment');
+$orShipArr = Mage::getSingleton('Mage_Usa_Model_Shipping_Carrier_Ups')->getCode('originShipment');
 
-$defShipArr = Mage::getSingleton('usa/shipping_carrier_ups')->getCode('method');
+$defShipArr = Mage::getSingleton('Mage_Usa_Model_Shipping_Carrier_Ups')->getCode('method');
 
 $sectionCode = $this->getRequest()->getParam('section');
 $websiteCode = $this->getRequest()->getParam('website');

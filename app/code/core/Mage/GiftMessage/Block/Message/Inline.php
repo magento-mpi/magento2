@@ -118,8 +118,8 @@ class Mage_GiftMessage_Block_Message_Inline extends Mage_Core_Block_Template
      */
     public function getDefaultFrom()
     {
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            return Mage::getSingleton('customer/session')->getCustomer()->getName();
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+            return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getName();
         } else {
             return $this->getEntity()->getBillingAddress()->getName();
         }

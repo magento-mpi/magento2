@@ -96,7 +96,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
                         $this->getPageId(), Enterprise_Cms_Model_Increment::LEVEL_VERSION);
 
             $this->setVersionNumber($incrementNumber);
-            $this->setCreatedAt(Mage::getSingleton('core/date')->gmtDate());
+            $this->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
         }
 
         if (!$this->getLabel()) {
@@ -140,7 +140,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
 
             // setting data for load
             $userId = $this->getUserId();
-            $accessLevel = Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel();
+            $accessLevel = Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel();
 
             if ($this->getInitialRevisionData()) {
                 $revision->setData($this->getInitialRevisionData());

@@ -84,12 +84,12 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
         // redirect to first allowed website or store scope
         if ($this->_role->getWebsiteIds()) {
-            return $this->_redirect($controller, Mage::getSingleton('adminhtml/url')
+            return $this->_redirect($controller, Mage::getSingleton('Mage_Adminhtml_Model_Url')
                 ->getUrl('adminhtml/system_config/edit',
                      array('website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode()))
             );
         }
-        $this->_redirect($controller, Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/system_config/edit',
+        $this->_redirect($controller, Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('adminhtml/system_config/edit',
             array('website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode(),
             'store' => Mage::app()->getAnyStoreView()->getCode()))
         );
@@ -478,13 +478,13 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     {
         $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
         if (null === $url) {
-            $url = Mage::getSingleton('adminhtml/url')->getUrl('*/*/denied');
+            $url = Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/*/denied');
         }
         elseif (is_array($url)) {
-            $url = Mage::getSingleton('adminhtml/url')->getUrl(array_shift($url), $url);
+            $url = Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl(array_shift($url), $url);
         }
         elseif (false === strpos($url, 'http', 0)) {
-            $url = Mage::getSingleton('adminhtml/url')->getUrl($url);
+            $url = Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl($url);
         }
         Mage::app()->getResponse()->setRedirect($url);
     }
@@ -939,7 +939,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $productNotExclusiveIds = implode(', ', $productNotExclusiveIds);
             $helper = Mage::helper('Enterprise_AdminGws_Helper_Data');
             $message = $helper->__('Not enough permissions to delete this item(s): %s.', $productNotExclusiveIds);
-            Mage::getSingleton('adminhtml/session')->addError($message);
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($message);
         }
 
         $this->_request->setParam('product', $productExclusiveIds);
@@ -989,7 +989,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     {
         if (!$this->_role->getIsAll()) {
             $result = false;
-            if (Mage::getSingleton('admin/session')->isAllowed('admin/promo/catalog')) {
+            if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/promo/catalog')) {
                 /** @var $ruleModel Mage_Catalogrule_Model_Rule */
                 $ruleModel = Mage::getModel('Mage_CatalogRule_Model_Rule')->load(
                     Mage::app()->getRequest()->getParam('rule_id')

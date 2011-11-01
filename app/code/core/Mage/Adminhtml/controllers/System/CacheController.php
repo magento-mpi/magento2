@@ -40,7 +40,7 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
     }
 
     /**
@@ -124,7 +124,7 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
             switch ($catalogAction) {
                 case 'refresh_catalog_rewrites':
                     try {
-                        Mage::getSingleton('catalog/url')->refreshRewrites();
+                        Mage::getSingleton('Mage_Catalog_Model_Url')->refreshRewrites();
                         $this->_getSession()->addSuccess(
                             Mage::helper('Mage_Adminhtml_Helper_Data')->__('The Catalog Rewrites were refreshed.')
                         );
@@ -154,7 +154,7 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
 
                 case 'rebuild_search_index':
                     try {
-                        Mage::getSingleton('catalogsearch/fulltext')->rebuildIndex();
+                        Mage::getSingleton('Mage_CatalogSearch_Model_Fulltext')->rebuildIndex();
                         $this->_getSession()->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The search index has been rebuilt.'));
                     }
                     catch (Mage_Core_Exception $e) {
@@ -167,7 +167,7 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
 
                 case 'rebuild_inventory_stock_status':
                     try {
-                        Mage::getSingleton('cataloginventory/stock_status')->rebuild();
+                        Mage::getSingleton('Mage_CatalogInventory_Model_Stock_Status')->rebuild();
                         $this->_getSession()->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The CatalogInventory Stock Status has been rebuilt.'));
                     }
                     catch (Mage_Core_Exception $e) {
@@ -180,7 +180,7 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
 
                 case 'rebuild_catalog_index':
                     try {
-                        Mage::getSingleton('catalog/index')->rebuild();
+                        Mage::getSingleton('Mage_Catalog_Model_Index')->rebuild();
                         $this->_getSession()->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The catalog index has been rebuilt.'));
                     }
                     catch (Mage_Core_Exception $e) {
@@ -228,7 +228,7 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
     public function refreshCatalogRewritesAction()
     {
         try {
-            Mage::getSingleton('catalog/url')->refreshRewrites();
+            Mage::getSingleton('Mage_Catalog_Model_Url')->refreshRewrites();
             $this->_getSession()->addSuccess(
                 Mage::helper('Mage_Adminhtml_Helper_Data')->__('The catalog rewrites have been refreshed.')
             );
@@ -263,6 +263,6 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/cache');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/cache');
     }
 }

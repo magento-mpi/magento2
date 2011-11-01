@@ -76,7 +76,7 @@ class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mag
      */
     public function deleteOrphanBalancesAction()
     {
-        $balance = Mage::getSingleton('enterprise_customerbalance/balance')->deleteBalancesByCustomerId(
+        $balance = Mage::getSingleton('Enterprise_CustomerBalance_Model_Balance')->deleteBalancesByCustomerId(
             (int)$this->getRequest()->getParam('id')
         );
         $this->_redirect('*/customer/edit/', array('_current'=>true));
@@ -103,6 +103,6 @@ class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mag
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/manage');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/manage');
     }
 }

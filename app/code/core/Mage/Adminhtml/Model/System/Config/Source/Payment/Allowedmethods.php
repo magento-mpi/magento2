@@ -29,13 +29,13 @@ class Mage_Adminhtml_Model_System_Config_Source_Payment_Allowedmethods
 {
     protected function _getPaymentMethods()
     {
-        return Mage::getSingleton('payment/config')->getActiveMethods();
+        return Mage::getSingleton('Mage_Payment_Model_Config')->getActiveMethods();
     }
 
 //    public function toOptionArray()
 //    {
 //        $methods = array(array('value'=>'', 'label'=>''));
-//        $payments = Mage::getSingleton('payment/config')->getActiveMethods();
+//        $payments = Mage::getSingleton('Mage_Payment_Model_Config')->getActiveMethods();
 //        foreach ($payments as $paymentCode=>$paymentModel) {
 //            $paymentTitle = Mage::getStoreConfig('payment/'.$paymentCode.'/title');
 //            $methods[$paymentCode] = array(

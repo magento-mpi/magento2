@@ -42,7 +42,7 @@ class Social_Facebook_Block_Start extends Mage_Core_Block_Template
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::registry('product');
-        $session = Mage::getSingleton('core/session');
+        $session = Mage::getSingleton('Mage_Core_Model_Session');
         $session->setData('product_id', $product->getId());
         $session->setData('product_url', $product->getUrlModel()->getUrlInStore($product));
 

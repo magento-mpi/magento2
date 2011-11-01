@@ -61,14 +61,14 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('This search no longer exists.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('This search no longer exists.'));
                 $this->_redirect('*/*');
                 return;
             }
         }
 
         // set entered data if was error when we do save
-        $data = Mage::getSingleton('adminhtml/session')->getPageData(true);
+        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -152,17 +152,17 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
                 $model = Mage::getModel('Mage_CatalogSearch_Model_Query');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('The search was deleted.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('The search was deleted.'));
                 $this->_redirect('*/*/');
                 return;
             }
             catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('Unable to find a search term to delete.'));
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('Unable to find a search term to delete.'));
         $this->_redirect('*/*/');
     }
 
@@ -170,20 +170,20 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
     {
         $searchIds = $this->getRequest()->getParam('search');
         if(!is_array($searchIds)) {
-             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please select catalog searches.'));
+             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please select catalog searches.'));
         } else {
             try {
                 foreach ($searchIds as $searchId) {
                     $model = Mage::getModel('Mage_CatalogSearch_Model_Query')->load($searchId);
                     $model->delete();
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
                     Mage::helper('Mage_Adminhtml_Helper_Data')->__(
                         'Total of %d record(s) were deleted', count($searchIds)
                     )
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             }
         }
 
@@ -192,6 +192,6 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/search');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/search');
     }
 }

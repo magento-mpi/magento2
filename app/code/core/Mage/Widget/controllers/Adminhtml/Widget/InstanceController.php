@@ -40,7 +40,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
     }
 
     /**
@@ -291,6 +291,6 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('cms/widget_instance');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/widget_instance');
     }
 }

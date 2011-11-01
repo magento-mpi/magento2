@@ -60,7 +60,7 @@ class Enterprise_GiftRegistry_Block_Customer_Edit extends Mage_Directory_Block_D
      */
     public function getFormDataPost()
     {
-        return Mage::getSingleton('customer/session')->getGiftRegistryEntityFormData(true);
+        return Mage::getSingleton('Mage_Customer_Model_Session')->getGiftRegistryEntityFormData(true);
     }
 
     /**

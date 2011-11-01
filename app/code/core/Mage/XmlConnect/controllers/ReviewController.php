@@ -93,7 +93,7 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
      */
     protected function _checkGuestAllowed()
     {
-        if (Mage::getSingleton('customer/session')->isLoggedIn() || Mage::helper('Mage_Review_Helper_Data')->getIsGuestAllowToWrite()) {
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn() || Mage::helper('Mage_Review_Helper_Data')->getIsGuestAllowToWrite()) {
             return true;
         }
 
@@ -150,13 +150,13 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
                 try {
                     $review->setEntityId($review->getEntityIdByCode(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE))
                         ->setEntityPkValue($product->getId())->setStatusId(Mage_Review_Model_Review::STATUS_PENDING)
-                        ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+                        ->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
                         ->setStoreId(Mage::app()->getStore()->getId())
                         ->setStores(array(Mage::app()->getStore()->getId()))->save();
 
                     foreach ($rating as $ratingId => $optionId) {
                         Mage::getModel('Mage_Rating_Model_Rating')->setRatingId($ratingId)->setReviewId($review->getId())
-                            ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+                            ->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
                             ->addOptionVote($optionId, $product->getId());
                     }
 

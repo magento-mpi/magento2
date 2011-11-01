@@ -87,7 +87,7 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
             'index'     => 'event_code',
             'type'      => 'options',
             'sortable'  => false,
-            'options'   => Mage::getSingleton('enterprise_logging/config')->getLabels(),
+            'options'   => Mage::getSingleton('Enterprise_Logging_Model_Config')->getLabels(),
         ));
 
         $actions = array();

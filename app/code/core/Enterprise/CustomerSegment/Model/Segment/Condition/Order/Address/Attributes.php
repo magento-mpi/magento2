@@ -90,7 +90,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
             $this->_attributes  = array();
 
             /* @var $config Mage_Eav_Model_Config */
-            $config     = Mage::getSingleton('eav/config');
+            $config     = Mage::getSingleton('Mage_Eav_Model_Config');
             $attributes = array();
 
             foreach ($config->getEntityAttributeCodes('customer_address') as $attributeCode) {

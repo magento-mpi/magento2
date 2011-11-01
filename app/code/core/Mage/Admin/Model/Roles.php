@@ -94,7 +94,7 @@ class Mage_Admin_Model_Roles extends Mage_Core_Model_Abstract
     {
         static $result;
         if (is_null($resource)) {
-            $resource = Mage::getSingleton('admin/config')->getAdminhtmlConfig()->getNode('acl/resources');
+            $resource = Mage::getSingleton('Mage_Admin_Model_Config')->getAdminhtmlConfig()->getNode('acl/resources');
             $resourceName = null;
             $level = -1;
         } else {

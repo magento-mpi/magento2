@@ -42,7 +42,7 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Abstract extends Mage
      */
     protected function _getAttribute($attributeCode)
     {
-        return Mage::getSingleton('eav/config')->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeCode);
+        return Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeCode);
     }
 
     /**

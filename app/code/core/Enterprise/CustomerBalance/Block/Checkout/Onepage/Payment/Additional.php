@@ -47,7 +47,7 @@ class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional exten
      */
     protected function _getQuote()
     {
-        return Mage::getSingleton('checkout/session')->getQuote();
+        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
     }
 
     /**
@@ -88,7 +88,7 @@ class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional exten
      */
     protected function _getCustomer()
     {
-        return Mage::getSingleton('customer/session')->getCustomer();
+        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
     }
 
     /**

@@ -53,7 +53,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tabs
      */
     protected function _prepareLayout()
     {
-        if (Mage::getSingleton('adminhtml/session')->getNewApplication()) {
+        if (Mage::getSingleton('Mage_Adminhtml_Model_Session')->getNewApplication()) {
             $this->addTab('set', array(
                 'label'     => $this->__('Settings'),
                 'content'   => $this->getLayout()

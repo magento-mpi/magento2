@@ -292,11 +292,11 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
             $attributesData = $this->_getResource()
                 ->setStoreId($this->getStoreId())
                 ->getAttributesUsedInListing();
-            Mage::getSingleton('eav/config')
+            Mage::getSingleton('Mage_Eav_Model_Config')
                 ->importAttributesData($entityType, $attributesData);
             foreach ($attributesData as $attributeData) {
                 $attributeCode = $attributeData['attribute_code'];
-                $this->_usedInProductListing[$attributeCode] = Mage::getSingleton('eav/config')
+                $this->_usedInProductListing[$attributeCode] = Mage::getSingleton('Mage_Eav_Model_Config')
                     ->getAttribute($entityType, $attributeCode);
             }
         }
@@ -314,11 +314,11 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
             $entityType     = Mage_Catalog_Model_Product::ENTITY;
             $attributesData = $this->_getResource()
                 ->getAttributesUsedForSortBy();
-            Mage::getSingleton('eav/config')
+            Mage::getSingleton('Mage_Eav_Model_Config')
                 ->importAttributesData($entityType, $attributesData);
             foreach ($attributesData as $attributeData) {
                 $attributeCode = $attributeData['attribute_code'];
-                $this->_usedForSortBy[$attributeCode] = Mage::getSingleton('eav/config')
+                $this->_usedForSortBy[$attributeCode] = Mage::getSingleton('Mage_Eav_Model_Config')
                     ->getAttribute($entityType, $attributeCode);
             }
         }

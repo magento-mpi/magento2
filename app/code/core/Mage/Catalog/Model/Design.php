@@ -78,7 +78,7 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
      */
     protected function _apply($package, $theme)
     {
-        Mage::getSingleton('core/design_package')
+        Mage::getSingleton('Mage_Core_Model_Design_Package')
             ->setPackageName($package)
             ->setTheme($theme);
     }

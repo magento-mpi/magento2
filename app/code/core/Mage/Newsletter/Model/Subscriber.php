@@ -307,7 +307,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
     public function subscribe($email)
     {
         $this->loadByEmail($email);
-        $customerSession = Mage::getSingleton('customer/session');
+        $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
 
         if(!$this->getId()) {
             $this->setSubscriberConfirmCode($this->randomSequence());
@@ -507,7 +507,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
@@ -543,7 +543,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
@@ -578,7 +578,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 

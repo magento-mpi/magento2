@@ -188,7 +188,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
 
             $select->where(implode(' OR ', $whereCondition));
             $attributesData = $adapter->fetchAll($select, $bind);
-            Mage::getSingleton('eav/config')
+            Mage::getSingleton('Mage_Eav_Model_Config')
                 ->importAttributesData($this->getEntityType(), $attributesData);
 
             foreach ($attributesData as $data) {
@@ -234,12 +234,12 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
         if ($this->_attributes === null) {
             $this->_attributes = array();
             $attributeCodes    = $this->getAttributeCodes();
-            $entity = Mage::getSingleton('eav/config')
+            $entity = Mage::getSingleton('Mage_Eav_Model_Config')
                 ->getEntityType($this->getEntityType())
                 ->getEntity();
 
             foreach ($attributeCodes as $attributeCode) {
-                $attribute = Mage::getSingleton('eav/config')
+                $attribute = Mage::getSingleton('Mage_Eav_Model_Config')
                     ->getAttribute($this->getEntityType(), $attributeCode)
                     ->setEntity($entity);
                 try {
@@ -273,7 +273,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             if (!$attribute->getId()) {
                 Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid attribute %s', $attributeCode));
             }
-            $entity = Mage::getSingleton('eav/config')
+            $entity = Mage::getSingleton('Mage_Eav_Model_Config')
                 ->getEntityType($this->getEntityType())
                 ->getEntity();
             $attribute->setEntity($entity);
@@ -595,7 +595,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
      */
     public function getFkName($priTableName, $priColumnName, $refTableName, $refColumnName)
     {
-        return Mage::getSingleton('core/resource')
+        return Mage::getSingleton('Mage_Core_Model_Resource')
             ->getFkName($priTableName, $priColumnName, $refTableName, $refColumnName);
     }
 
@@ -1043,7 +1043,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
 
             foreach (array_keys(Mage_Catalog_Model_Product_Type::getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);
-                $this->_productTypes[$typeId] = Mage::getSingleton('catalog/product_type')
+                $this->_productTypes[$typeId] = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
                     ->factory($productEmulator);
             }
         }

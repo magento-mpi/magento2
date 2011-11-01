@@ -51,7 +51,7 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Core_Block_Template
     }
 
     public function setListOrders() {
-        $category = Mage::getSingleton('catalog/layer')
+        $category = Mage::getSingleton('Mage_Catalog_Model_Layer')
             ->getCurrentCategory();
         /* @var $category Mage_Catalog_Model_Category */
 
@@ -81,7 +81,7 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Core_Block_Template
 
     public function getSearchModel()
     {
-        return Mage::getSingleton('catalogsearch/advanced');
+        return Mage::getSingleton('Mage_CatalogSearch_Model_Advanced');
     }
 
     public function getResultCount()

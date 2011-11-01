@@ -61,7 +61,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
     public function canSendCommentEmail()
     {
         /** @var $configRmaEmail Enterprise_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('enterprise_rma/config');
+        $configRmaEmail = Mage::getSingleton('Enterprise_Rma_Model_Config');
         $configRmaEmail->init($configRmaEmail->getRootCommentEmail(), $this->getOrder()->getStore());
         return $configRmaEmail->isEnabled();
     }
@@ -74,7 +74,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
     public function canSendConfirmationEmail()
     {
         /** @var $configRmaEmail Enterprise_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('enterprise_rma/config');
+        $configRmaEmail = Mage::getSingleton('Enterprise_Rma_Model_Config');
         $configRmaEmail->init($configRmaEmail->getRootRmaEmail(), $this->getOrder()->getStore());
         return $configRmaEmail->isEnabled();
     }

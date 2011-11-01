@@ -72,7 +72,7 @@ class Mage_Centinel_IndexController extends Mage_Core_Controller_Front_Action
      */
     private function _getPayment()
     {
-        return Mage::getSingleton('checkout/session')->getQuote()->getPayment();
+        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote()->getPayment();
     }
 
     /**

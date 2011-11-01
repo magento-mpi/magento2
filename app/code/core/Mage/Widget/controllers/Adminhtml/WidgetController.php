@@ -40,7 +40,7 @@ class Mage_Widget_Adminhtml_WidgetController extends Mage_Adminhtml_Controller_A
     {
         // save extra params for widgets insertion form
         $skipped = $this->getRequest()->getParam('skip_widgets');
-        $skipped = Mage::getSingleton('widget/widget_config')->decodeWidgetsFromQuery($skipped);
+        $skipped = Mage::getSingleton('Mage_Widget_Model_Widget_Config')->decodeWidgetsFromQuery($skipped);
 
         Mage::register('skip_widgets', $skipped);
 
@@ -81,7 +81,7 @@ class Mage_Widget_Adminhtml_WidgetController extends Mage_Adminhtml_Controller_A
         $type = $this->getRequest()->getPost('widget_type');
         $params = $this->getRequest()->getPost('parameters', array());
         $asIs = $this->getRequest()->getPost('as_is');
-        $html = Mage::getSingleton('widget/widget')->getWidgetDeclaration($type, $params, $asIs);
+        $html = Mage::getSingleton('Mage_Widget_Model_Widget')->getWidgetDeclaration($type, $params, $asIs);
         $this->getResponse()->setBody($html);
     }
 }

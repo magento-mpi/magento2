@@ -83,7 +83,7 @@ class Mage_Catalog_Block_Layer_State extends Mage_Core_Block_Template
     public function getLayer()
     {
         if (!$this->hasData('layer')) {
-            $this->setLayer(Mage::getSingleton('catalog/layer'));
+            $this->setLayer(Mage::getSingleton('Mage_Catalog_Model_Layer'));
         }
         return $this->_getData('layer');
     }

@@ -161,8 +161,8 @@ abstract class Mage_ImportExport_Model_Export_Entity_Abstract
     public function __construct()
     {
         $entityCode = $this->getEntityTypeCode();
-        $this->_entityTypeId = Mage::getSingleton('eav/config')->getEntityType($entityCode)->getEntityTypeId();
-        $this->_connection   = Mage::getSingleton('core/resource')->getConnection('write');
+        $this->_entityTypeId = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType($entityCode)->getEntityTypeId();
+        $this->_connection   = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
     }
 
     /**

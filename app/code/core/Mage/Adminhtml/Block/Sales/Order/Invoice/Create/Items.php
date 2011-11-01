@@ -194,7 +194,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Adminht
      */
     public function isCaptureAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/capture');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/order/actions/capture');
     }
 
     /**

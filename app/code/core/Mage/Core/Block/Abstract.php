@@ -863,7 +863,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         }
         $html = $this->_loadCache();
         if ($html === false) {
-            $translate = Mage::getSingleton('core/translate');
+            $translate = Mage::getSingleton('Mage_Core_Model_Translate');
             /** @var $translate Mage_Core_Model_Translate */
             if ($this->hasData('translate_inline')) {
                 $translate->setTranslateInline($this->getData('translate_inline'));
@@ -1285,7 +1285,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         }
         $cacheKey = $this->getCacheKey();
         /** @var $session Mage_Core_Model_Session */
-        $session = Mage::getSingleton('core/session');
+        $session = Mage::getSingleton('Mage_Core_Model_Session');
         $cacheData = Mage::app()->loadCache($cacheKey);
         if ($cacheData) {
             $cacheData = str_replace(
@@ -1310,7 +1310,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         }
         $cacheKey = $this->getCacheKey();
         /** @var $session Mage_Core_Model_Session */
-        $session = Mage::getSingleton('core/session');
+        $session = Mage::getSingleton('Mage_Core_Model_Session');
         $data = str_replace(
             $session->getSessionIdQueryParam() . '=' . $session->getEncryptedSessionId(),
             $this->_getSidPlaceholder($cacheKey),

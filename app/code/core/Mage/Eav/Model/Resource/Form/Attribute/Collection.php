@@ -123,7 +123,7 @@ class Mage_Eav_Model_Resource_Form_Attribute_Collection extends Mage_Core_Model_
      */
     public function setEntityType($entityType)
     {
-        $this->_entityType = Mage::getSingleton('eav/config')->getEntityType($entityType);
+        $this->_entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType($entityType);
         return $this;
     }
 

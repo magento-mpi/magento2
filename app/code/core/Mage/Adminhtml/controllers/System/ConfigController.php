@@ -78,7 +78,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $website = $this->getRequest()->getParam('website');
         $store   = $this->getRequest()->getParam('store');
 
-        $configFields = Mage::getSingleton('adminhtml/config');
+        $configFields = Mage::getSingleton('Mage_Adminhtml_Model_Config');
 
         $sections     = $configFields->getSections($current);
         $section      = $sections->$current;
@@ -121,7 +121,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      */
     public function saveAction()
     {
-        $session = Mage::getSingleton('adminhtml/session');
+        $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
         /* @var $session Mage_Adminhtml_Model_Session */
 
         $groups = $this->getRequest()->getPost('groups');
@@ -253,7 +253,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/config');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/config');
     }
 
     /**
@@ -267,7 +267,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     protected function _isSectionAllowed($section)
     {
         try {
-            $session = Mage::getSingleton('admin/session');
+            $session = Mage::getSingleton('Mage_Admin_Model_Session');
             $resourceLookup = "admin/system/config/{$section}";
             if ($session->getData('acl') instanceof Mage_Admin_Model_Acl) {
                 $resourceId = $session->getData('acl')->get($resourceLookup)->getResourceId();
@@ -297,7 +297,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      */
     protected function _saveState($configState = array())
     {
-        $adminUser = Mage::getSingleton('admin/session')->getUser();
+        $adminUser = Mage::getSingleton('Mage_Admin_Model_Session')->getUser();
         if (is_array($configState)) {
             $extra = $adminUser->getExtra();
             if (!is_array($extra)) {

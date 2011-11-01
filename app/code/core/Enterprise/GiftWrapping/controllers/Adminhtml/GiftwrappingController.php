@@ -137,7 +137,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
                 }
 
                 $model->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('The gift wrapping has been saved.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('The gift wrapping has been saved.'));
 
                 $redirectBack = $this->getRequest()->getParam('back', false);
                 if ($redirectBack) {
@@ -145,11 +145,11 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
                     return;
                 }
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Failed to save gift wrapping.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Failed to save gift wrapping.'));
                 Mage::logException($e);
             }
         }
@@ -174,11 +174,11 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
                     Mage::throwException(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Image was not uploaded.'));
                 }
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Failed to save gift wrapping.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Failed to save gift wrapping.'));
                 Mage::logException($e);
             }
         }
@@ -276,7 +276,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_giftwrapping');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/enterprise_giftwrapping');
     }
 
     /**

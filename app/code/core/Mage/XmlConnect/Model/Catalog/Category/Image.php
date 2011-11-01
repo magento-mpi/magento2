@@ -46,7 +46,7 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
         if (($file) && (0 !== strpos($file, '/', 0))) {
             $file = '/' . $file;
         }
-        $baseDir = Mage::getSingleton('xmlconnect/catalog_category_media_config')->getBaseMediaPath();
+        $baseDir = Mage::getSingleton('Mage_XmlConnect_Model_Catalog_Category_Media_Config')->getBaseMediaPath();
 
         if ('/no_selection' == $file) {
             $file = null;
@@ -93,7 +93,7 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
         $this->_baseFile = $baseFile;
 
         // build new filename (most important params)
-        $path = array(Mage::getSingleton('xmlconnect/catalog_category_media_config')->getBaseMediaPath(), 'cache',
+        $path = array(Mage::getSingleton('Mage_XmlConnect_Model_Catalog_Category_Media_Config')->getBaseMediaPath(), 'cache',
             Mage::app()->getStore()->getId(), $path[] = $this->getDestinationSubdir()
         );
         if ((!empty($this->_width)) || (!empty($this->_height))) {
@@ -138,7 +138,7 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
             return $filePath;
         }
 
-        $baseDir = Mage::getSingleton('xmlconnect/catalog_category_media_config')->getBaseMediaPath();
+        $baseDir = Mage::getSingleton('Mage_XmlConnect_Model_Catalog_Category_Media_Config')->getBaseMediaPath();
 
         if (file_exists($baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file)) {
             $filePath = $baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file;

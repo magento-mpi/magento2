@@ -92,8 +92,8 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
             if ($user->getId()) {
                 $this->renewSession();
 
-                if (Mage::getSingleton('adminhtml/url')->useSecretKey()) {
-                    Mage::getSingleton('adminhtml/url')->renewSecretUrls();
+                if (Mage::getSingleton('Mage_Adminhtml_Model_Url')->useSecretKey()) {
+                    Mage::getSingleton('Mage_Adminhtml_Model_Url')->renewSecretUrls();
                 }
                 $this->setIsFirstPageAfterLogin(true);
                 $this->setUser($user);
@@ -112,7 +112,7 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
             Mage::dispatchEvent('admin_session_user_login_failed',
                 array('user_name' => $username, 'exception' => $e));
             if ($request && !$request->getParam('messageSent')) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                 $request->setParam('messageSent', true);
             }
         }
@@ -147,8 +147,8 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
     /**
      * Check current user permission on resource and privilege
      *
-     * Mage::getSingleton('admin/session')->isAllowed('admin/catalog')
-     * Mage::getSingleton('admin/session')->isAllowed('catalog')
+     * Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/catalog')
+     * Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog')
      *
      * @param   string $resource
      * @param   string $privilege
@@ -220,8 +220,8 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     protected function _getRequestUri($request = null)
     {
-        if (Mage::getSingleton('adminhtml/url')->useSecretKey()) {
-            return Mage::getSingleton('adminhtml/url')->getUrl('*/*/*', array('_current' => true));
+        if (Mage::getSingleton('Mage_Adminhtml_Model_Url')->useSecretKey()) {
+            return Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/*/*', array('_current' => true));
         } elseif ($request) {
             return $request->getRequestUri();
         } else {

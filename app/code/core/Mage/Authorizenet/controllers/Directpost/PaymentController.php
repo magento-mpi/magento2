@@ -38,7 +38,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**
@@ -48,7 +48,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
      */
     protected function _getDirectPostSession()
     {
-        return Mage::getSingleton('authorizenet/directpost_session');
+        return Mage::getSingleton('Mage_Authorizenet_Model_Directpost_Session');
     }
 
     /**

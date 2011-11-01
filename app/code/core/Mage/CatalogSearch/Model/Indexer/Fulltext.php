@@ -93,7 +93,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
      */
     protected function _getIndexer()
     {
-        return Mage::getSingleton('catalogsearch/fulltext');
+        return Mage::getSingleton('Mage_CatalogSearch_Model_Fulltext');
     }
 
     /**

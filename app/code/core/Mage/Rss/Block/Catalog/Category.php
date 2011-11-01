@@ -54,7 +54,7 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Catalog_Abstract
         if ($categoryId) {
             $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
             if ($category && $category->getId()) {
-                $layer = Mage::getSingleton('catalog/layer')->setStore($storeId);
+                $layer = Mage::getSingleton('Mage_Catalog_Model_Layer')->setStore($storeId);
                 //want to load all products no matter anchor or not
                 $category->setIsAnchor(true);
                 $newurl = $category->getUrl();
@@ -88,7 +88,7 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Catalog_Abstract
                 $_productCollection = $currentCategory
                     ->getProductCollection()
                     ->addAttributeToSort('updated_at','desc')
-                    ->setVisibility(Mage::getSingleton('catalog/product_visibility')->getVisibleInCatalogIds())
+                    ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds())
                     ->setCurPage(1)
                     ->setPageSize(50)
                 ;

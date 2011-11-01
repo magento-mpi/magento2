@@ -92,14 +92,14 @@ getFinalPrice() - used in shopping cart calculations
             ->applyFrontendPriceLimitations()
         ;
 
-        $products->setVisibility(Mage::getSingleton('catalog/product_visibility')->getVisibleInCatalogIds());
+        $products->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
 
         /*
         using resource iterator to load the data one by one
         instead of loading all at the same time. loading all data at the same time can cause the big memory allocation.
         */
 
-        Mage::getSingleton('core/resource_iterator')->walk(
+        Mage::getSingleton('Mage_Core_Model_Resource_Iterator')->walk(
                 $products->getSelect(),
                 array(array($this, 'addNewItemXmlCallback')),
                 array('rssObj'=> $rssObj, 'product'=>$product)

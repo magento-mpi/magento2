@@ -43,7 +43,7 @@ class Mage_Adminhtml_Catalog_Product_GalleryController extends Mage_Adminhtml_Co
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
             $result = $uploader->save(
-                Mage::getSingleton('catalog/product_media_config')->getBaseTmpMediaPath()
+                Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath()
             );
 
             /**
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Catalog_Product_GalleryController extends Mage_Adminhtml_Co
             $result['tmp_name'] = str_replace(DS, "/", $result['tmp_name']);
             $result['path'] = str_replace(DS, "/", $result['path']);
 
-            $result['url'] = Mage::getSingleton('catalog/product_media_config')->getTmpMediaUrl($result['file']);
+            $result['url'] = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getTmpMediaUrl($result['file']);
             $result['file'] = $result['file'] . '.tmp';
             $result['cookie'] = array(
                 'name'     => session_name(),
@@ -73,6 +73,6 @@ class Mage_Adminhtml_Catalog_Product_GalleryController extends Mage_Adminhtml_Co
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/products');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/products');
     }
 } // Class Mage_Adminhtml_Catalog_Product_GalleryController End

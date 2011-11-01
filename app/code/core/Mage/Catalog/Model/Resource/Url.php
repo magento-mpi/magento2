@@ -102,7 +102,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      */
     public function getCategoryModel()
     {
-        return Mage::getSingleton('catalog/category');
+        return Mage::getSingleton('Mage_Catalog_Model_Category');
     }
 
     /**
@@ -112,7 +112,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      */
     public function getProductModel()
     {
-        return Mage::getSingleton('catalog/product');
+        return Mage::getSingleton('Mage_Catalog_Model_Product');
     }
 
     /**
@@ -663,7 +663,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      */
     protected function _getCategories($categoryIds, $storeId = null, $path = null)
     {
-        $isActiveAttribute = Mage::getSingleton('eav/config')
+        $isActiveAttribute = Mage::getSingleton('Mage_Eav_Model_Config')
             ->getAttribute(Mage_Catalog_Model_Category::ENTITY, 'is_active');
         $categories        = array();
         $adapter           = $this->_getReadAdapter();

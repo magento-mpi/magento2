@@ -136,7 +136,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Category extends Mage_Core_Model_Resou
     protected function _addFilter($storeId, $attributeCode, $value, $type = '=')
     {
         if (!isset($this->_attributesCache[$attributeCode])) {
-            $attribute = Mage::getSingleton('catalog/category')->getResource()->getAttribute($attributeCode);
+            $attribute = Mage::getSingleton('Mage_Catalog_Model_Category')->getResource()->getAttribute($attributeCode);
 
             $this->_attributesCache[$attributeCode] = array(
                 'entity_type_id'    => $attribute->getEntityTypeId(),

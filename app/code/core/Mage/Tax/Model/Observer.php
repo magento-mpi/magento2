@@ -168,14 +168,14 @@ class Mage_Tax_Model_Observer
         }
 
         if ($collection->requireTaxPercent()) {
-            $request = Mage::getSingleton('tax/calculation')->getRateRequest();
+            $request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest();
             foreach ($collection as $item) {
                 if (null === $item->getTaxClassId()) {
                     $item->setTaxClassId($item->getMinimalTaxClassId());
                 }
                 if (!isset($classToRate[$item->getTaxClassId()])) {
                     $request->setProductClassId($item->getTaxClassId());
-                    $classToRate[$item->getTaxClassId()] = Mage::getSingleton('tax/calculation')->getRate($request);
+                    $classToRate[$item->getTaxClassId()] = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($request);
                 }
                 $item->setTaxPercent($classToRate[$item->getTaxClassId()]);
             }

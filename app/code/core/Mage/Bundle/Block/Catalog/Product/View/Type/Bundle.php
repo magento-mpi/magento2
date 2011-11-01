@@ -115,8 +115,8 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
                 $taxPercent = 0;
                 $taxClassId = $_selection->getTaxClassId();
                 if ($taxClassId) {
-                    $request = Mage::getSingleton('tax/calculation')->getRateRequest();
-                    $taxPercent = Mage::getSingleton('tax/calculation')->getRate(
+                    $request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest();
+                    $taxPercent = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate(
                         $request->setProductClassId($taxClassId)
                     );
                 }

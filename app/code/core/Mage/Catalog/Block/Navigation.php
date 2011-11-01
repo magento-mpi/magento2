@@ -70,7 +70,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             Mage::app()->getStore()->getId(),
             Mage::getDesign()->getPackageName(),
             Mage::getDesign()->getTheme('template'),
-            Mage::getSingleton('customer/session')->getCustomerGroupId(),
+            Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId(),
             'template' => $this->getTemplate(),
             'name' => $this->getNameInLayout(),
             $this->getCurrenCategoryKey()
@@ -124,7 +124,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      */
     public function getCurrentChildCategories()
     {
-        $layer = Mage::getSingleton('catalog/layer');
+        $layer = Mage::getSingleton('Mage_Catalog_Model_Layer');
         $category   = $layer->getCurrentCategory();
         /* @var $category Mage_Catalog_Model_Category */
         $categories = $category->getChildrenCategories();
@@ -342,8 +342,8 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      */
     public function getCurrentCategory()
     {
-        if (Mage::getSingleton('catalog/layer')) {
-            return Mage::getSingleton('catalog/layer')->getCurrentCategory();
+        if (Mage::getSingleton('Mage_Catalog_Model_Layer')) {
+            return Mage::getSingleton('Mage_Catalog_Model_Layer')->getCurrentCategory();
         }
         return false;
     }

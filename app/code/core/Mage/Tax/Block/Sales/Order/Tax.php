@@ -43,7 +43,7 @@ class Mage_Tax_Block_Sales_Order_Tax extends Mage_Core_Block_Template
      */
     protected function _construct()
     {
-        $this->_config = Mage::getSingleton('tax/config');
+        $this->_config = Mage::getSingleton('Mage_Tax_Model_Config');
     }
 
     /**

@@ -76,7 +76,7 @@ class Mage_Rss_Block_Order_New extends Mage_Core_Block_Template
 
         Mage::dispatchEvent('rss_order_new_collection_select', array('collection' => $collection));
 
-        Mage::getSingleton('core/resource_iterator')
+        Mage::getSingleton('Mage_Core_Model_Resource_Iterator')
             ->walk($collection->getSelect(), array(array($this, 'addNewOrderXmlCallback')), array('rssObj'=> $rssObj, 'order'=>$order , 'detailBlock' => $detailBlock));
 
         return $rssObj->createRssXml();

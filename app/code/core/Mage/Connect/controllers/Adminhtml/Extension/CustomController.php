@@ -68,7 +68,7 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
      */
     public function resetAction()
     {
-        Mage::getSingleton('connect/session')->unsCustomExtensionPackageFormData();
+        Mage::getSingleton('Mage_Connect_Model_Session')->unsCustomExtensionPackageFormData();
         $this->_redirect('*/*/edit');
     }
 
@@ -80,7 +80,7 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
     {
         $packageName = base64_decode(strtr($this->getRequest()->getParam('id'), '-_,', '+/='));
         if ($packageName) {
-            $session = Mage::getSingleton('connect/session');
+            $session = Mage::getSingleton('Mage_Connect_Model_Session');
             try {
                 $data = Mage::helper('Mage_Connect_Helper_Data')->loadLocalPackage($packageName);
                 if (!$data) {
@@ -104,7 +104,7 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
      */
     public function saveAction()
     {
-        $session = Mage::getSingleton('connect/session');
+        $session = Mage::getSingleton('Mage_Connect_Model_Session');
         $p = $this->getRequest()->getPost();
 
         if (!empty($p['_create'])) {
@@ -147,7 +147,7 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
      */
     public function createAction()
     {
-        $session = Mage::getSingleton('connect/session');
+        $session = Mage::getSingleton('Mage_Connect_Model_Session');
         try {
             $p = $this->getRequest()->getPost();
             $session->setCustomExtensionPackageFormData($p);
@@ -199,6 +199,6 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/extensions/custom');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/extensions/custom');
     }
 }

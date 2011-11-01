@@ -42,15 +42,15 @@ class Mage_Tag_Block_Customer_Recent extends Mage_Core_Block_Template
 
         $this->_collection = Mage::getModel('Mage_Tag_Model_Tag')->getEntityCollection()
             ->addStoreFilter(Mage::app()->getStore()->getId())
-            ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
-            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+            ->addCustomerFilter(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
+            ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
             ->setDescOrder()
             ->setPageSize(5)
             ->setActiveFilter()
             ->load()
             ->addProductTags();
 
-        Mage::getSingleton('catalog/product_visibility')
+        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
             ->addVisibleInSiteFilterToCollection($this->_collection);
     }
 

@@ -1122,7 +1122,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
      */
     public function getAttribute($attribute)
     {
-        return Mage::getSingleton('catalog/config')
+        return Mage::getSingleton('Mage_Catalog_Model_Config')
             ->getAttribute(Mage_Catalog_Model_Category::ENTITY, $attribute);
     }
 

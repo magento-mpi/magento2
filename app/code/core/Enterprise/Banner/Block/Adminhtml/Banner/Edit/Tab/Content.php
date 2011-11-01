@@ -84,7 +84,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
         $banner = Mage::registry('current_banner');
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('banner_content_');
-        $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(array(
+        $wysiwygConfig = Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->getConfig(array(
             'tab_id' => $this->getTabId(),
             'skip_widgets' => array('Enterprise_Banner_Block_Widget_Banner'),
         ));

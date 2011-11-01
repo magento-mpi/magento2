@@ -111,7 +111,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Grid extends Mage_Adminht
             'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Website'),
             'index'  => 'website_id',
             'type'   => 'options',
-            'options' => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash()
+            'options' => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteOptionHash()
         ));
 
         return parent::_prepareColumns();

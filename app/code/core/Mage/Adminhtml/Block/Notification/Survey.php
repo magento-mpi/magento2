@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Notification_Survey extends Mage_Adminhtml_Block_Temp
      */
     public function canShow()
     {
-        $adminSession = Mage::getSingleton('admin/session');
+        $adminSession = Mage::getSingleton('Mage_Admin_Model_Session');
         $seconds = intval(date('s', time()));
         if ($adminSession->getHideSurveyQuestion() || !$adminSession->isAllowed('all')
             || Mage_AdminNotification_Model_Survey::isSurveyViewed()

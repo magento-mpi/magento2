@@ -36,7 +36,7 @@ class Mage_CatalogSearch_AjaxController extends Mage_Core_Controller_Front_Actio
     public function suggestAction()
     {
         if (!$this->getRequest()->getParam('q', false)) {
-            $this->getResponse()->setRedirect(Mage::getSingleton('core/url')->getBaseUrl());
+            $this->getResponse()->setRedirect(Mage::getSingleton('Mage_Core_Model_Url')->getBaseUrl());
         }
 
         $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_CatalogSearch_Block_Autocomplete')->toHtml());

@@ -267,7 +267,7 @@ class Enterprise_PageCache_Model_Processor
         if ($designChange) {
             $designChange = unserialize($designChange);
             if (is_array($designChange) && isset($designChange['package']) && isset($designChange['theme'])) {
-                $designPackage = Mage::getSingleton('core/design_package');
+                $designPackage = Mage::getSingleton('Mage_Core_Model_Design_Package');
                 $designPackage->setPackageName($designChange['package'])
                     ->setTheme($designChange['theme']);
             }
@@ -499,7 +499,7 @@ class Enterprise_PageCache_Model_Processor
                 /*
                  * Save design change in cache
                  */
-                $designChange = Mage::getSingleton('core/design');
+                $designChange = Mage::getSingleton('Mage_Core_Model_Design');
                 if ($designChange->getData()) {
                     $cacheInstance->save(
                         serialize($designChange->getData()),
@@ -518,7 +518,7 @@ class Enterprise_PageCache_Model_Processor
                     Mage::app()->getRequest()->getRequestedControllerName());
                 $this->setMetadata('routing_requested_action', Mage::app()->getRequest()->getRequestedActionName());
 
-                $this->setMetadata('sid_cookie_name', Mage::getSingleton('core/session')->getSessionName());
+                $this->setMetadata('sid_cookie_name', Mage::getSingleton('Mage_Core_Model_Session')->getSessionName());
 
                 $this->_saveMetadata();
             }

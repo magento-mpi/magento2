@@ -82,7 +82,7 @@ class Enterprise_GiftRegistry_Block_Customer_Share
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = Mage::getSingleton('customer/session')
+            $this->_formData = Mage::getSingleton('Mage_Customer_Model_Session')
                 ->getData('sharing_form', true);
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {

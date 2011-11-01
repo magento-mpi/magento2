@@ -47,7 +47,7 @@ class Mage_XmlConnect_Block_Review_Form extends Mage_Core_Block_Template
      */
     protected function _toHtml()
     {
-        $customer = Mage::getSingleton('customer/session')->getCustomer();
+        $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
         /** @var $xmlReview Mage_XmlConnect_Model_Simplexml_Element */
         $xmlReview = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<form></form>');
         $xmlReview->addAttribute('name', 'review_form');

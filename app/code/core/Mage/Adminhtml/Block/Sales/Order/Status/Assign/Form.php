@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Assign_Form extends Mage_Adminhtml
             ->toOptionArray();
         array_unshift($statuses, array('value' => '', 'label' => ''));
 
-        $states = Mage::getSingleton('sales/order_config')->getStates();
+        $states = Mage::getSingleton('Mage_Sales_Model_Order_Config')->getStates();
         $states = array_merge(array('' => ''), $states);
 
         $fieldset->addField('status', 'select',

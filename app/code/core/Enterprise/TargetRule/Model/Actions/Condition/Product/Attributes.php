@@ -76,7 +76,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
     public function getValueOption($option = null)
     {
         if (!$this->getData('value_option') && $this->getAttribute() == 'type_id') {
-            $options = Mage::getSingleton('catalog/product_type')->getAllOption();
+            $options = Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getAllOption();
             $this->setData('value_option', $options);
         }
         return parent::getValueOption($option);
@@ -91,7 +91,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
     public function getValueSelectOptions()
     {
         if (!$this->getData('value_select_options') && $this->getAttribute() == 'type_id') {
-            $options = Mage::getSingleton('catalog/product_type')->getAllOptions();
+            $options = Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getAllOptions();
             $this->setData('value_select_options', $options);
         }
         return parent::getValueSelectOptions();

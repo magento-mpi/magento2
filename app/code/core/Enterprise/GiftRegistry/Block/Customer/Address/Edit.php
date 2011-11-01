@@ -113,7 +113,7 @@
     public function getCustomer()
     {
         if (empty($this->_customer)) {
-            $this->_customer = Mage::getSingleton('customer/session')->getCustomer();
+            $this->_customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
         }
         return $this->_customer;
     }
@@ -125,6 +125,6 @@
      */
     public function isCustomerLoggedIn()
     {
-        return Mage::getSingleton('customer/session')->isLoggedIn();
+        return Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn();
     }
 }

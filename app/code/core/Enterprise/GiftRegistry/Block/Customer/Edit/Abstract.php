@@ -114,7 +114,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
      */
     public function isAttributeStatic($code)
     {
-        $types = Mage::getSingleton('enterprise_giftregistry/attribute_config')->getStaticTypesCodes();
+        $types = Mage::getSingleton('Enterprise_GiftRegistry_Model_Attribute_Config')->getStaticTypesCodes();
         if (in_array($code, $types)) {
             return true;
         }
@@ -128,7 +128,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
      */
     public function getAttributeGroups()
     {
-        return Mage::getSingleton('enterprise_giftregistry/attribute_config')->getAttributeGroups();
+        return Mage::getSingleton('Enterprise_GiftRegistry_Model_Attribute_Config')->getAttributeGroups();
     }
 
     /**
@@ -140,7 +140,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
     public function getGroupLabel($groupId)
     {
         if ($this->_groups === null) {
-            $this->_groups = Mage::getSingleton('enterprise_giftregistry/attribute_config')->getAttributeGroups();
+            $this->_groups = Mage::getSingleton('Enterprise_GiftRegistry_Model_Attribute_Config')->getAttributeGroups();
         }
         if (is_array($this->_groups) && (!empty($this->_groups[$groupId]))
             && is_array($this->_groups[$groupId]) && !empty($this->_groups[$groupId]['label'])) {

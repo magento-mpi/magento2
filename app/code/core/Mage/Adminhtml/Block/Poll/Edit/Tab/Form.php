@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Form extends Mage_Adminhtml_Block_Widge
                 'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Visible In'),
                 'required'  => true,
                 'name'      => 'store_ids[]',
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
+                'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(),
                 'value'     => Mage::registry('poll_data')->getStoreIds()
             ));
         }
@@ -80,9 +80,9 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Form extends Mage_Adminhtml_Block_Widge
         }
 
 
-        if( Mage::getSingleton('adminhtml/session')->getPollData() ) {
-            $form->setValues(Mage::getSingleton('adminhtml/session')->getPollData());
-            Mage::getSingleton('adminhtml/session')->setPollData(null);
+        if( Mage::getSingleton('Mage_Adminhtml_Model_Session')->getPollData() ) {
+            $form->setValues(Mage::getSingleton('Mage_Adminhtml_Model_Session')->getPollData());
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setPollData(null);
         } elseif( Mage::registry('poll_data') ) {
             $form->setValues(Mage::registry('poll_data')->getData());
 

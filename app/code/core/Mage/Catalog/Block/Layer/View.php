@@ -148,7 +148,7 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
      */
     public function getLayer()
     {
-        return Mage::getSingleton('catalog/layer');
+        return Mage::getSingleton('Mage_Catalog_Model_Layer');
     }
 
     /**

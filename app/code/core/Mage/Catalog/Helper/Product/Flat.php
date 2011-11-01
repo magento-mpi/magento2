@@ -74,7 +74,7 @@ class Mage_Catalog_Helper_Product_Flat extends Mage_Core_Helper_Abstract
     public function getFlag()
     {
         if (is_null($this->_flagObject)) {
-            $this->_flagObject = Mage::getSingleton('catalog/product_flat_flag')
+            $this->_flagObject = Mage::getSingleton('Mage_Catalog_Model_Product_Flat_Flag')
                 ->loadSelf();
         }
         return $this->_flagObject;

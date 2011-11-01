@@ -55,7 +55,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     public function getName()
     {
         $name = '';
-        $config = Mage::getSingleton('eav/config');
+        $config = Mage::getSingleton('Mage_Eav_Model_Config');
         if ($config->getAttribute('customer_address', 'prefix')->getIsVisible() && $this->getPrefix()) {
             $name .= $this->getPrefix() . ' ';
         }
@@ -313,7 +313,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
      */
     public function getConfig()
     {
-        return Mage::getSingleton('customer/address_config');
+        return Mage::getSingleton('Mage_Customer_Model_Address_Config');
     }
 
     protected function _beforeSave()

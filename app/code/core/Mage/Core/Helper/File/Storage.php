@@ -71,7 +71,7 @@ class Mage_Core_Helper_File_Storage extends Mage_Core_Helper_Abstract
      */
     public function getStorageFileModel()
     {
-        return Mage::getSingleton('core/file_storage_file');
+        return Mage::getSingleton('Mage_Core_Model_File_Storage_File');
     }
 
     /**
@@ -96,7 +96,7 @@ class Mage_Core_Helper_File_Storage extends Mage_Core_Helper_Abstract
      */
     public function getStorageModel($storage = null, $params = array())
     {
-        return Mage::getSingleton('core/file_storage')->getStorageModel($storage, $params);
+        return Mage::getSingleton('Mage_Core_Model_File_Storage')->getStorageModel($storage, $params);
     }
 
     /**

@@ -185,7 +185,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
                 'width'     => 100,
                 'index'     => 'type_id',
                 'type'      => 'options',
-                'options'   => Mage::getSingleton('catalog/product_type')->getOptionArray(),
+                'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getOptionArray(),
         ));
 
         $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
@@ -233,7 +233,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
                 'width'     => 70,
                 'index'     => 'status',
                 'type'      => 'options',
-                'options'   => Mage::getSingleton('catalog/product_status')->getOptionArray(),
+                'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getOptionArray(),
         ));
 
         return parent::_prepareColumns();

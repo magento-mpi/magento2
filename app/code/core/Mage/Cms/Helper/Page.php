@@ -63,7 +63,7 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
     protected function _renderPage(Mage_Core_Controller_Varien_Action  $action, $pageId = null, $renderLayout = true)
     {
 
-        $page = Mage::getSingleton('cms/page');
+        $page = Mage::getSingleton('Mage_Cms_Model_Page');
         if (!is_null($pageId) && $pageId!==$page->getId()) {
             $delimeterPosition = strrpos($pageId, '|');
             if ($delimeterPosition) {
@@ -85,7 +85,7 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
         if ($page->getCustomTheme()) {
             if ($inRange) {
                 list($package, $theme) = explode('/', $page->getCustomTheme());
-                Mage::getSingleton('core/design_package')
+                Mage::getSingleton('Mage_Core_Model_Design_Package')
                     ->setPackageName($package)
                     ->setTheme($theme);
             }

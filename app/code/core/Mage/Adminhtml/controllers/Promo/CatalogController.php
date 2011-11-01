@@ -49,7 +49,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         $this->_title($this->__('Promotions'))->_title($this->__('Catalog Price Rules'));
 
         if (Mage::app()->loadCache('catalog_rules_dirty')) {
-            Mage::getSingleton('adminhtml/session')->addNotice(
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(
                 Mage::helper('Mage_CatalogRule_Helper_Data')->__('There are rules that have been changed but were not applied. Please, click Apply Rules in order to see immediate effect in the catalog.')
             );
         }
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         if ($id) {
             $model->load($id);
             if (! $model->getRuleId()) {
-                Mage::getSingleton('adminhtml/session')->addError(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
                     Mage::helper('Mage_CatalogRule_Helper_Data')->__('This rule no longer exists.')
                 );
                 $this->_redirect('*/*');
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         $this->_title($model->getRuleId() ? $model->getName() : $this->__('New Rule'));
 
         // set entered data if was error when we do save
-        $data = Mage::getSingleton('adminhtml/session')->getPageData(true);
+        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -146,14 +146,14 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
 
                 $model->loadPost($data);
 
-                Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setPageData($model->getData());
 
                 $model->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
                     Mage::helper('Mage_CatalogRule_Helper_Data')->__('The rule has been saved.')
                 );
-                Mage::getSingleton('adminhtml/session')->setPageData(false);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setPageData(false);
                 if ($autoApply) {
                     $this->getRequest()->setParam('rule_id', $model->getId());
                     $this->_forward('applyRules');
@@ -173,7 +173,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
                     Mage::helper('Mage_CatalogRule_Helper_Data')->__('An error occurred while saving the rule data. Please review the log and try again.')
                 );
                 Mage::logException($e);
-                Mage::getSingleton('adminhtml/session')->setPageData($data);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
@@ -189,7 +189,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
                 $model->load($id);
                 $model->delete();
                 Mage::app()->saveCache(1, 'catalog_rules_dirty');
-                Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
                     Mage::helper('Mage_CatalogRule_Helper_Data')->__('The rule has been deleted.')
                 );
                 $this->_redirect('*/*/');
@@ -205,7 +205,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
                 return;
             }
         }
-        Mage::getSingleton('adminhtml/session')->addError(
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
             Mage::helper('Mage_CatalogRule_Helper_Data')->__('Unable to find a rule to delete.')
         );
         $this->_redirect('*/*/');
@@ -280,11 +280,11 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         try {
             Mage::getModel('Mage_CatalogRule_Model_Rule')->applyAll();
             Mage::app()->removeCache('catalog_rules_dirty');
-            Mage::getSingleton('adminhtml/session')->addSuccess(
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
                 Mage::helper('Mage_CatalogRule_Helper_Data')->__('The rules have been applied.')
             );
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError(
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
                 Mage::helper('Mage_CatalogRule_Helper_Data')->__('Unable to apply rules.')
             );
             throw $e;
@@ -301,6 +301,6 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('promo/catalog');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('promo/catalog');
     }
 }

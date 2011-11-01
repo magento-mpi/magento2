@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
                 'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Store View'),
                 'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Store View'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
+                'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(false, true),
                 'disabled'  => $isElementDisabled
             ));
         }
@@ -170,6 +170,6 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
      */
     protected function _isAllowedAction($action)
     {
-        return Mage::getSingleton('admin/session')->isAllowed('cms/page/' . $action);
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/page/' . $action);
     }
 }

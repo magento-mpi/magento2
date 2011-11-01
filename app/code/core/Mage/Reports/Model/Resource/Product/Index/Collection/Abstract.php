@@ -110,12 +110,12 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Collection_Abstract
     {
         $condition = array();
 
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $condition['customer_id'] = Mage::getSingleton('customer/session')->getCustomerId();
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+            $condition['customer_id'] = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
         } elseif ($this->_customerId) {
             $condition['customer_id'] = $this->_customerId;
         } else {
-            $condition['visitor_id'] = Mage::getSingleton('log/visitor')->getId();
+            $condition['visitor_id'] = Mage::getSingleton('Mage_Log_Model_Visitor')->getId();
         }
 
         return $condition;

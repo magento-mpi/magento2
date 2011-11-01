@@ -61,6 +61,6 @@ class Enterprise_Reward_Block_Customer_Reward_Subscription extends Mage_Core_Blo
      */
     protected function _getCustomer()
     {
-        return Mage::getSingleton('customer/session')->getCustomer();
+        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
     }
 }

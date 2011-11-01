@@ -61,8 +61,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
             // Commented this bc now revision are shown in scope of version and not page.
             // So if user has permission to load this version he
             // has permission to see all its versions
-            //->addVisibilityFilter(Mage::getSingleton('admin/session')->getUser()->getId(),
-            //    Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
+            //->addVisibilityFilter(Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId(),
+            //    Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel());
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -187,7 +187,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
      */
     protected function _prepareMassaction()
     {
-        if (Mage::getSingleton('enterprise_cms/config')->canCurrentUserDeleteRevision()) {
+        if (Mage::getSingleton('Enterprise_Cms_Model_Config')->canCurrentUserDeleteRevision()) {
             $this->setMassactionIdField('revision_id');
             $this->getMassactionBlock()->setFormFieldName('revision');
 

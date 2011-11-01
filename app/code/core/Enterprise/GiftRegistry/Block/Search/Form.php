@@ -53,7 +53,7 @@ class Enterprise_GiftRegistry_Block_Search_Form extends Mage_Core_Block_Template
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = Mage::getSingleton('customer/session')->getRegistrySearchData();
+            $this->_formData = Mage::getSingleton('Mage_Customer_Model_Session')->getRegistrySearchData();
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;

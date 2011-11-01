@@ -78,17 +78,17 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
             $errors = $importModel->getMessages();
             if( sizeof($errors) > 0 ) {
                 foreach ($errors as $error) {
-                    Mage::getSingleton('adminhtml/session')->addWarning($error);
+                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addWarning($error);
                 }
-                Mage::getSingleton('adminhtml/session')->addWarning(Mage::helper('Mage_Adminhtml_Helper_Data')->__('All possible rates were fetched, please click on "Save" to apply'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addWarning(Mage::helper('Mage_Adminhtml_Helper_Data')->__('All possible rates were fetched, please click on "Save" to apply'));
             } else {
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('All rates were fetched, please click on "Save" to apply'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('All rates were fetched, please click on "Save" to apply'));
             }
 
-            Mage::getSingleton('adminhtml/session')->setRates($rates);
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setRates($rates);
         }
         catch (Exception $e){
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
     }
@@ -100,18 +100,18 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
             try {
                 foreach ($data as $currencyCode => $rate) {
                     foreach( $rate as $currencyTo => $value ) {
-                        $value = abs(Mage::getSingleton('core/locale')->getNumber($value));
+                        $value = abs(Mage::getSingleton('Mage_Core_Model_Locale')->getNumber($value));
                         $data[$currencyCode][$currencyTo] = $value;
                         if( $value == 0 ) {
-                            Mage::getSingleton('adminhtml/session')->addWarning(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Invalid input data for %s => %s rate', $currencyCode, $currencyTo));
+                            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addWarning(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Invalid input data for %s => %s rate', $currencyCode, $currencyTo));
                         }
                     }
                 }
 
                 Mage::getModel('Mage_Directory_Model_Currency')->saveRates($data);
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('All valid rates have been saved.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('All valid rates have been saved.'));
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             }
         }
 
@@ -120,6 +120,6 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/currency');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/currency');
     }
 }

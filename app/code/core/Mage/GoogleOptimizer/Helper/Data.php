@@ -71,7 +71,7 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
         }
         $stores = array_merge(
             array(0),
-            array_keys(Mage::getSingleton('adminhtml/system_store')->getStoreCollection())
+            array_keys(Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreCollection())
         );
         foreach ($stores as $store) {
             if ($this->isOptimizerActive($store)) {
@@ -161,7 +161,7 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
         $choices = Mage::getModel('Mage_GoogleOptimizer_Model_Adminhtml_System_Config_Source_Googleoptimizer_Conversionpages')
             ->toOptionArray();
         $url = Mage::getModel('Mage_Core_Model_Url');
-        $session = Mage::getSingleton('core/session')->setSkipSessionIdFlag(true);
+        $session = Mage::getSingleton('Mage_Core_Model_Session')->setSkipSessionIdFlag(true);
         $store = Mage::app()->getStore($this->getStoreId());
         foreach ($choices as $choice) {
             $route = '';

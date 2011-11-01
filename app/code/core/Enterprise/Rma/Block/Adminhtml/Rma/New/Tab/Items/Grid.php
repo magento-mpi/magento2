@@ -97,7 +97,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
      */
     protected function _prepareColumns()
     {
-        $statusManager = Mage::getSingleton('enterprise_rma/item_status');
+        $statusManager = Mage::getSingleton('Enterprise_Rma_Model_Item_Status');
         $this->addColumn('product_name', array(
             'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Product Name'),
             'width' => '80px',

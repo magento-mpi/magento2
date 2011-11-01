@@ -38,7 +38,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion extends Mage_Adminhtm
      */
     protected function _toHtml()
     {
-        if (!Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/update')) {
+        if (!Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/enterprise_checkout/update')) {
             return parent::_toHtml();
         }
         foreach ($this->getChild() as $child) {

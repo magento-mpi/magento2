@@ -71,7 +71,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
                 'name'      => 'website_ids',
                 'label'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Assigned to Website'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(),
+                'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteValuesForForm(),
             ));
         }
 

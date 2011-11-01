@@ -97,7 +97,7 @@ class Mage_Core_Helper_File_Storage_Database extends Mage_Core_Helper_Abstract
      */
     public function getStorageFileModel()
     {
-        return Mage::getSingleton('core/file_storage_file');
+        return Mage::getSingleton('Mage_Core_Model_File_Storage_File');
     }
 
     /**

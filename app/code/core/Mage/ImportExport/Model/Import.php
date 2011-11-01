@@ -472,7 +472,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
 
         $indexers = self::$_entityInvalidatedIndexes[$this->getEntity()];
         foreach ($indexers as $indexer) {
-            $indexProcess = Mage::getSingleton('index/indexer')->getProcessByCode($indexer);
+            $indexProcess = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode($indexer);
             if ($indexProcess) {
                 $indexProcess->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
             }

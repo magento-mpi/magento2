@@ -75,7 +75,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon extends Mage_Adminh
      */
     protected function _toHtml()
     {
-        if (!Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/update')) {
+        if (!Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/enterprise_checkout/update')) {
             return '';
         }
         return parent::_toHtml();

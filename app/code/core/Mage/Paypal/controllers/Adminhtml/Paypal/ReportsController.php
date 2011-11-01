@@ -130,13 +130,13 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
         switch ($this->getRequest()->getActionName()) {
             case 'index':
             case 'details':
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/paypal_settlement_reports/view');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('report/salesroot/paypal_settlement_reports/view');
                 break;
             case 'fetch':
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/paypal_settlement_reports/fetch');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('report/salesroot/paypal_settlement_reports/fetch');
                 break;
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/paypal_settlement_reports');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('report/salesroot/paypal_settlement_reports');
                 break;
         }
     }

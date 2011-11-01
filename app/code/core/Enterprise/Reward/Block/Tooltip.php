@@ -53,8 +53,8 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
             if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()) {
                 return $this;
             }
-            $customer = Mage::getSingleton('customer/session')->getCustomer();
-            $this->_rewardInstance = Mage::getSingleton('enterprise_reward/reward')
+            $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+            $this->_rewardInstance = Mage::getSingleton('Enterprise_Reward_Model_Reward')
                 ->setCustomer($customer)
                 ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
                 ->loadByCustomer();

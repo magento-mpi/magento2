@@ -204,7 +204,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
      */
     protected function _getLockModel()
     {
-        return Mage::getSingleton('enterprise_cms/hierarchy_lock');
+        return Mage::getSingleton('Enterprise_Cms_Model_Hierarchy_Lock');
     }
 
     /**
@@ -214,6 +214,6 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('cms/hierarchy');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/hierarchy');
     }
 }

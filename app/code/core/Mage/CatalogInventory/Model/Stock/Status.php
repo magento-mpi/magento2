@@ -86,7 +86,7 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
 
             foreach (array_keys(Mage_Catalog_Model_Product_Type::getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);
-                $this->_productTypes[$typeId] = Mage::getSingleton('catalog/product_type')
+                $this->_productTypes[$typeId] = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
                     ->factory($productEmulator);
             }
         }
@@ -149,7 +149,7 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
      */
     public function getProductStatusModel()
     {
-        return Mage::getSingleton('catalog/product_status');
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Status');
     }
 
     /**
@@ -304,7 +304,7 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
             foreach ($requiredChildrenIds as $groupedChildrenIds) {
                 $childrenIds = array_merge($childrenIds, $groupedChildrenIds);
             }
-            $childrenWebsites = Mage::getSingleton('catalog/product_website')
+            $childrenWebsites = Mage::getSingleton('Mage_Catalog_Model_Product_Website')
                 ->getWebsites($childrenIds);
             foreach ($websites as $websiteId => $storeId) {
                 $childrenStatus = $this->getProductStatusModel()

@@ -43,7 +43,7 @@ class Mage_LoadTest_IndexController extends Mage_Core_Controller_Front_Action
 
     public function spiderAction()
     {
-        $session = Mage::getSingleton('loadtest/session');
+        $session = Mage::getSingleton('Mage_LoadTest_Model_Session');
         /* @var $session Mage_LoadTest_Model_Session */
 
         $key = $this->getRequest()->getParam('key');

@@ -42,8 +42,8 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard extends Mage_XmlCon
     {
         $senderName = $this->getDefaultValue('giftcard_sender_name');
         if (!strlen($senderName)) {
-            $firstName = (string) Mage::getSingleton('customer/session')->getCustomer()->getFirstname();
-            $lastName  = (string) Mage::getSingleton('customer/session')->getCustomer()->getLastname();
+            $firstName = (string) Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getFirstname();
+            $lastName  = (string) Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getLastname();
 
             if ($firstName && $lastName) {
                 $senderName = $firstName . ' ' . $lastName;
@@ -64,7 +64,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard extends Mage_XmlCon
         $senderEmail = $this->getDefaultValue('giftcard_sender_email');
 
         if (!strlen($senderEmail)) {
-            $senderEmail = (string) Mage::getSingleton('customer/session')->getCustomer()->getEmail();
+            $senderEmail = (string) Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getEmail();
         }
         return $senderEmail;
     }

@@ -40,7 +40,7 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
     {
         parent::__construct();
 
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
             $this->setTemplate('sales/order/history.phtml');
             $this->initOrders();
         }
@@ -53,12 +53,12 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
     public function initOrders()
     {
         $customerId = $this->getCustomerId() ? $this->getCustomerId()
-            : Mage::getSingleton('customer/session')->getCustomer()->getId();
+            : Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getId();
 
         $orders = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection')
             ->addAttributeToFilter('customer_id', $customerId)
             ->addAttributeToFilter('state',
-                array('in' => Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates())
+                array('in' => Mage::getSingleton('Mage_Sales_Model_Order_Config')->getVisibleOnFrontStates())
             )
             ->addAttributeToSort('created_at', 'desc')
             ->setPage(1,1);
@@ -131,7 +131,7 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
     protected function _toHtml()
     {
         if (Mage::helper('Mage_Sales_Helper_Reorder')->isAllow()
-            && (Mage::getSingleton('customer/session')->isLoggedIn() || $this->getCustomerId())
+            && (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn() || $this->getCustomerId())
         ) {
             return parent::_toHtml();
         }

@@ -254,7 +254,7 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
             'increment_id', 'created_at', 'customer_firstname', 'customer_lastname', 'base_grand_total', 'status'
         ));
         $this->_relatedOrders->addFieldToFilter('state', array(
-            'in' => Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates()
+            'in' => Mage::getSingleton('Mage_Sales_Model_Order_Config')->getVisibleOnFrontStates()
         ));
 
         $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager')

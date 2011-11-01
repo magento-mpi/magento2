@@ -55,8 +55,8 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::getSingleton('customer/session')->isLoggedIn()
-            && !Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout()
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
+            && !Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote()->isAllowedGuestCheckout()
         ) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->_message(
@@ -254,8 +254,8 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
              */
             $data = $this->getRequest()->getPost('payment', array());
 
-            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-                $data['payer'] = Mage::getSingleton('customer/session')->getCustomer()->getEmail();
+            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+                $data['payer'] = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getEmail();
             }
 
             $this->_checkout->savePayment($data);
@@ -309,7 +309,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
         }
         $this->_getCheckoutSession()->setCartWasUpdated(false);
 
-        $this->_checkout = Mage::getSingleton('xmlconnect/paypal_mep_checkout', array('quote'  => $quote));
+        $this->_checkout = Mage::getSingleton('Mage_XmlConnect_Model_Paypal_Mep_Checkout', array('quote'  => $quote));
     }
 
     /**
@@ -319,7 +319,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
      */
     protected function _getCheckoutSession()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**

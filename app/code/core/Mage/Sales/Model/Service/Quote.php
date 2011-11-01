@@ -191,7 +191,7 @@ class Mage_Sales_Model_Service_Quote
             Mage::dispatchEvent('sales_model_service_quote_submit_success', array('order'=>$order, 'quote'=>$quote));
         } catch (Exception $e) {
 
-            if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+            if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
                 // reset customer ID's on exception, because customer not saved
                 $quote->getCustomer()->setId(null);
             }

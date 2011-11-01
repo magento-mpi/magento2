@@ -116,7 +116,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'value'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('No preview available'),
         ));
 
-        $yesNoOptions = Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray();
+        $yesNoOptions = Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray();
 
         /**
          * Define field set with elements for root nodes
@@ -161,7 +161,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                 'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Chapter/Section'),
                 'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Chapter/Section'),
                 'name'      => 'meta_chapter_section',
-                'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_menu_chapter')->toOptionArray(),
+                'values'    => Mage::getSingleton('Enterprise_Cms_Model_Source_Hierarchy_Menu_Chapter')->toOptionArray(),
                 'onchange'   => 'hierarchyNodes.nodeChanged()',
                 'container_id' => 'field_meta_chapter_section',
                 'tabindex'   => '50'
@@ -178,7 +178,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         $pagerFieldset->addField('pager_visibility', 'select', array(
             'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Enable Pagination'),
             'name'      => 'pager_visibility',
-            'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_visibility')->toOptionArray(),
+            'values'    => Mage::getSingleton('Enterprise_Cms_Model_Source_Hierarchy_Visibility')->toOptionArray(),
             'value'     => Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT,
             'onchange'  => "hierarchyNodes.metadataChanged('pager_visibility', 'pager_fieldset')",
             'tabindex'  => '70'
@@ -228,7 +228,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         $menuFieldset->addField('menu_layout', 'select', array(
             'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Menu Layout'),
             'name'      => 'menu_layout',
-            'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_menu_layout')->toOptionArray(true),
+            'values'    => Mage::getSingleton('Enterprise_Cms_Model_Source_Hierarchy_Menu_Layout')->toOptionArray(true),
             'onchange'   => "hierarchyNodes.nodeChanged()",
             'container_id' => 'field_menu_layout',
             'tabindex'  => '115'
@@ -258,7 +258,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('List Type'),
             'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('List Type'),
             'name'      => 'menu_ordered',
-            'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_menu_listtype')->toOptionArray(),
+            'values'    => Mage::getSingleton('Enterprise_Cms_Model_Source_Hierarchy_Menu_Listtype')->toOptionArray(),
             'onchange'  => 'hierarchyNodes.menuListTypeChanged()',
             'container_id' => 'field_menu_ordered',
             'tabindex'  => '140'
@@ -267,7 +267,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('List Style'),
             'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('List Style'),
             'name'      => 'menu_list_type',
-            'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_menu_listmode')->toOptionArray(),
+            'values'    => Mage::getSingleton('Enterprise_Cms_Model_Source_Hierarchy_Menu_Listmode')->toOptionArray(),
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_menu_list_type',
             'tabindex'  => '150'
@@ -557,7 +557,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function getListModesJson()
     {
-        $listModes = Mage::getSingleton('enterprise_cms/source_hierarchy_menu_listmode')->toOptionArray();
+        $listModes = Mage::getSingleton('Enterprise_Cms_Model_Source_Hierarchy_Menu_Listmode')->toOptionArray();
         $result = array();
         foreach ($listModes as $type => $label) {
             if ($type == '') {
@@ -633,6 +633,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     protected function _getLockModel()
     {
-        return Mage::getSingleton('enterprise_cms/hierarchy_lock');
+        return Mage::getSingleton('Enterprise_Cms_Model_Hierarchy_Lock');
     }
 }

@@ -87,7 +87,7 @@ class Enterprise_Cms_Model_Hierarchy_Lock extends Mage_Core_Model_Abstract
     protected function _getSession()
     {
         if ($this->_session === null) {
-            return Mage::getSingleton('admin/session');
+            return Mage::getSingleton('Mage_Admin_Model_Session');
         }
         return $this->_session;
     }

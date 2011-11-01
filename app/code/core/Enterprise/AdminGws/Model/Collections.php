@@ -342,7 +342,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     protected function _initRssAdminRole()
     {
         /* @var $rssSession Mage_Rss_Model_Session */
-        $rssSession = Mage::getSingleton('rss/session');
+        $rssSession = Mage::getSingleton('Mage_Rss_Model_Session');
         /* @var $adminUser Mage_Admin_Model_User */
         $adminUser = $rssSession->getAdmin();
         if ($adminUser) {

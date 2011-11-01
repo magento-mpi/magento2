@@ -129,12 +129,12 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         }
 
         if (! ($model = $this->_initTag())) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong tag was specified.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong tag was specified.'));
             return $this->_redirect('*/*/index', array('store' => $this->getRequest()->getParam('store')));
         }
 
         // set entered data if was error when we do save
-        $data = Mage::getSingleton('adminhtml/session')->getTagData(true);
+        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getTagData(true);
         if (! empty($data)) {
             $model->addData($data);
         }
@@ -163,7 +163,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             $data['store']              = $postData['store_id'];
 
             if (!$model = $this->_initTag()) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong tag was specified.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong tag was specified.'));
                 return $this->_redirect('*/*/index', array('store' => $data['store']));
             }
 
@@ -178,8 +178,8 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             try {
                 $model->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The tag has been saved.'));
-                Mage::getSingleton('adminhtml/session')->setTagData(false);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The tag has been saved.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setTagData(false);
 
                 if (($continue = $this->getRequest()->getParam('continue'))) {
                     return $this->_redirect('*/tag/edit', array('tag_id' => $model->getId(), 'store' => $model->getStoreId(), 'ret' => $continue));
@@ -187,8 +187,8 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
                     return $this->_redirect('*/tag/' . $this->getRequest()->getParam('ret', 'index'));
                 }
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                Mage::getSingleton('adminhtml/session')->setTagData($data);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setTagData($data);
 
                 return $this->_redirect('*/*/edit', array('tag_id' => $model->getId(), 'store' => $model->getStoreId()));
             }
@@ -205,7 +205,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function deleteAction()
     {
         $model   = $this->_initTag();
-        $session = Mage::getSingleton('adminhtml/session');
+        $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
 
         if ($model && $model->getId()) {
             try {
@@ -290,18 +290,18 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     {
         $tagIds = $this->getRequest()->getParam('tag');
         if(!is_array($tagIds)) {
-             Mage::getSingleton('adminhtml/session')->addError($this->__('Please select tag(s).'));
+             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Please select tag(s).'));
         } else {
             try {
                 foreach ($tagIds as $tagId) {
                     $tag = Mage::getModel('Mage_Tag_Model_Tag')->load($tagId);
                     $tag->delete();
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
                     $this->__('Total of %d record(s) have been deleted.', count($tagIds))
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             }
         }
 
@@ -318,7 +318,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         $storeId = (int)$this->getRequest()->getParam('store', 0);
         if(!is_array($tagIds)) {
             // No products selected
-            Mage::getSingleton('adminhtml/session')->addError($this->__('Please select tag(s).'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Please select tag(s).'));
         } else {
             try {
                 foreach ($tagIds as $tagId) {
@@ -327,11 +327,11 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
                         ->setStatus($this->getRequest()->getParam('status'));
                      $tag->save();
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
                     $this->__('Total of %d record(s) have been updated.', count($tagIds))
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             }
         }
         $ret = $this->getRequest()->getParam('ret') ? $this->getRequest()->getParam('ret') : 'index';
@@ -346,13 +346,13 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     {
         switch ($this->getRequest()->getActionName()) {
             case 'pending':
-                return Mage::getSingleton('admin/session')->isAllowed('catalog/tag/pending');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/tag/pending');
                 break;
             case 'all':
-                return Mage::getSingleton('admin/session')->isAllowed('catalog/tag/all');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/tag/all');
                 break;
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('catalog/tag');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/tag');
                 break;
         }
     }

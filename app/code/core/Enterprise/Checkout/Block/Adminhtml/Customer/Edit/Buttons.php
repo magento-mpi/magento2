@@ -40,15 +40,15 @@ class Enterprise_Checkout_Block_Adminhtml_Customer_Edit_Buttons extends Mage_Adm
      */
     public function addButtons()
     {
-        if (!Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/view')
-            && !Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/update')
+        if (!Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/enterprise_checkout/view')
+            && !Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/enterprise_checkout/update')
             || Mage::app()->getStore()->getWebsiteId() == Mage::registry('current_customer')->getWebsiteId())
         {
             return $this;
         }
         $container = $this->getParentBlock();
         if ($container instanceof Mage_Adminhtml_Block_Template && $container->getCustomerId()) {
-            $url = Mage::getSingleton('adminhtml/url')
+            $url = Mage::getSingleton('Mage_Adminhtml_Model_Url')
                ->getUrl('*/checkout/index', array('customer' => $container->getCustomerId()));
             $container->addButton('manage_quote', array(
                 'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Manage Shopping Cart'),

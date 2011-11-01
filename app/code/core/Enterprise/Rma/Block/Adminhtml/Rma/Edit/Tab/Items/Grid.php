@@ -107,7 +107,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
      */
     protected function _prepareColumns()
     {
-        $statusManager = Mage::getSingleton('enterprise_rma/item_status');
+        $statusManager = Mage::getSingleton('Enterprise_Rma_Model_Item_Status');
         $rma = Mage::registry('current_rma');
         if ($rma
             && (($rma->getStatus() === Enterprise_Rma_Model_Rma_Source_Status::STATE_CLOSED)
@@ -326,7 +326,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
      */
     public function setAllFieldsEditable()
     {
-        Mage::getSingleton('enterprise_rma/item_status')->setAllEditable();
+        Mage::getSingleton('Enterprise_Rma_Model_Item_Status')->setAllEditable();
         return $this;
     }
 

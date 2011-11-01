@@ -37,7 +37,7 @@ class Mage_SalesRule_Model_Quote_Discount extends Mage_Sales_Model_Quote_Address
     public function __construct()
     {
         $this->setCode('discount');
-        $this->_calculator = Mage::getSingleton('salesrule/validator');
+        $this->_calculator = Mage::getSingleton('Mage_SalesRule_Model_Validator');
     }
 
     /**

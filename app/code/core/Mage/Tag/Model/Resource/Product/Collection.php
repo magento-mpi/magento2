@@ -298,7 +298,7 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
      */
     public function addPopularityFilter($condition)
     {
-        $tagRelationTable = Mage::getSingleton('core/resource')
+        $tagRelationTable = Mage::getSingleton('Mage_Core_Model_Resource')
             ->getTableName('tag_relation');
 
         $select = $this->getConnection()->select()

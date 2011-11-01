@@ -218,7 +218,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      */
     public function sendShareRegistryEmail($recipient, $storeId, $message, $sender = null)
     {
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         $translate->setTranslateInline(false);
 
         if (is_null($storeId)) {
@@ -275,7 +275,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      */
     public function sendUpdateRegistryEmail($updatedQty)
     {
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         $translate->setTranslateInline(false);
 
         $owner = Mage::getModel('Mage_Customer_Model_Customer')
@@ -316,7 +316,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      */
     public function sendNewRegistryEmail()
     {
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         $translate->setTranslateInline(false);
 
         $owner = Mage::getModel('Mage_Customer_Model_Customer')
@@ -506,7 +506,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      */
     public function setTypeById($typeId) {
         $this->_typeId = (int) $typeId;
-        $this->_type = Mage::getSingleton('enterprise_giftregistry/type');
+        $this->_type = Mage::getSingleton('Enterprise_GiftRegistry_Model_Type');
         $this->_type->setStoreId(Mage::app()->getStore()->getStoreId());
         $this->setData('type_id', $typeId);
         $this->_type->load($this->_typeId);
@@ -554,7 +554,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      */
     public function getStaticTypeIds()
     {
-        return Mage::getSingleton('enterprise_giftregistry/attribute_config')
+        return Mage::getSingleton('Enterprise_GiftRegistry_Model_Attribute_Config')
             ->getStaticTypesCodes();
     }
 
@@ -698,7 +698,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
 
         if ($isAddAction) {
             $this->addData(array(
-                'customer_id' => Mage::getSingleton('customer/session')->getCustomer()->getId(),
+                'customer_id' => Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getId(),
                 'website_id' => Mage::app()->getStore()->getWebsiteId(),
                 'url_key' => $this->getGenerateKeyId(),
                 'created_at' => Mage::getModel('Mage_Core_Model_Date')->date(),

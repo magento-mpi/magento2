@@ -127,7 +127,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
                 'label'     => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Websites'),
                 'title'     => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Websites'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('adminhtml/system_config_source_website')->toOptionArray(),
+                'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Website')->toOptionArray(),
             ));
         }
         else {

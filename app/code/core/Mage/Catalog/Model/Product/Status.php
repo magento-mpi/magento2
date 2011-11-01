@@ -199,7 +199,7 @@ class Mage_Catalog_Model_Product_Status extends Mage_Core_Model_Abstract
      */
     public function updateProductStatus($productId, $storeId, $value)
     {
-        Mage::getSingleton('catalog/product_action')
+        Mage::getSingleton('Mage_Catalog_Model_Product_Action')
             ->updateAttributes(array($productId), array('status' => $value), $storeId);
 
         // add back compatibility event

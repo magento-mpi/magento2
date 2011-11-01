@@ -190,7 +190,7 @@ class Mage_Catalog_Model_Product_Type_Price
         if ($product->getCustomerGroupId()) {
             return $product->getCustomerGroupId();
         }
-        return Mage::getSingleton('customer/session')->getCustomerGroupId();
+        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
     }
 
     /**

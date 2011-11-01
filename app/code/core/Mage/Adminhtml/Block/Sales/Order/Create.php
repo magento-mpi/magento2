@@ -107,14 +107,14 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session_quote');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote');
     }
 
     public function getCancelUrl()
     {
         if ($this->_getSession()->getOrder()->getId()) {
             $url = $this->getUrl('*/sales_order/view', array(
-                'order_id' => Mage::getSingleton('adminhtml/session_quote')->getOrder()->getId()
+                'order_id' => Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getOrder()->getId()
             ));
         } else {
             $url = $this->getUrl('*/*/cancel');

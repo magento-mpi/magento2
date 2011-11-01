@@ -85,7 +85,7 @@ class Enterprise_WebsiteRestriction_IndexController extends Mage_Core_Controller
                     ->isStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo())
                 ) {
                     list($package, $theme) = explode('/', $page->getCustomTheme());
-                    Mage::getSingleton('core/design_package')
+                    Mage::getSingleton('Mage_Core_Model_Design_Package')
                         ->setPackageName($package)
                         ->setTheme($theme);
                 }

@@ -259,7 +259,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
 
         // set current date if added at data is not defined
         if (is_null($this->getAddedAt())) {
-            $this->setAddedAt(Mage::getSingleton('core/date')->gmtDate());
+            $this->setAddedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
         }
 
         return $this;
@@ -276,7 +276,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
         $data = array();
         $data['product_id']  = $this->getProductId();
         $data['wishlist_id'] = $this->getWishlistId();
-        $data['added_at']    = $this->getAddedAt() ? $this->getAddedAt() : Mage::getSingleton('core/date')->gmtDate();
+        $data['added_at']    = $this->getAddedAt() ? $this->getAddedAt() : Mage::getSingleton('Mage_Core_Model_Date')->gmtDate();
         $data['description'] = $this->getDescription();
         $data['store_id']    = $this->getStoreId() ? $this->getStoreId() : Mage::app()->getStore()->getId();
 

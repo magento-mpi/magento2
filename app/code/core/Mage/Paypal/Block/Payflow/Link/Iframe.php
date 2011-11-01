@@ -97,6 +97,6 @@ class Mage_Paypal_Block_Payflow_Link_Iframe extends Mage_Payment_Block_Form
      */
     protected function _getSalesDocument()
     {
-       return Mage::getSingleton('checkout/session')->getQuote();
+       return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
     }
 }
