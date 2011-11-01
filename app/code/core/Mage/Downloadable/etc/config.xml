@@ -57,7 +57,7 @@
                         <label>Downloadable Product</label>
                         <model>Mage_Downloadable_Model_Product_Type</model>
                         <is_qty>1</is_qty>
-                        <price_model>downloadable/product_price</price_model>
+                        <price_model>Mage_Downloadable_Model_Product_Price</price_model>
                         <composite>0</composite>
                         <price_indexer>Mage_Downloadable_Model_Resource_Indexer_Price</price_indexer>
                         <can_use_qty_decimals>0</can_use_qty_decimals>
