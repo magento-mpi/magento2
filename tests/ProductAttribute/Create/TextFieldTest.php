@@ -230,6 +230,7 @@ class ProductAttribute_Create_TextFieldTest extends Mage_Selenium_TestCase
         //Data
         $attrData = $this->loadData('product_attribute_textfield',
                 array('admin_title' => $this->generate('string', 32, ':punct:')), 'attribute_code');
+        $attrData['admin_title'] = preg_replace('/<|>/', '', $attrData['admin_title']);
         $searchData = $this->loadData('attribute_search_data', array('attribute_code' => $attrData['attribute_code']));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);

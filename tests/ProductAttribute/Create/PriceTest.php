@@ -269,6 +269,7 @@ class ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
         //Data
         $attrData = $this->loadData('product_attribute_price',
                 array('admin_title' => $this->generate('string', 32, ':punct:')), 'attribute_code');
+        $attrData['admin_title'] = preg_replace('/<|>/', '', $attrData['admin_title']);
         $searchData = $this->loadData('attribute_search_data', array('attribute_code' => $attrData['attribute_code']));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);

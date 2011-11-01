@@ -170,6 +170,7 @@ class AttributeSet_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $setData = $this->loadData('attribute_set', array('set_name' => $this->generate('string', 32, ':punct:')));
+        $setData['set_name'] = preg_replace('/<|>/', '', $setData['set_name']);
         $attributeSetSearch['set_name'] = $setData['set_name'];
         //Steps
         $this->attributeSetHelper()->createAttributeSet($setData);
