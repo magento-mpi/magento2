@@ -531,7 +531,9 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
 
             // prepare multi-store values and system columns values
             foreach ($this->_storeIdToCode as $storeId => &$storeCode) { // go through all stores
-                $collection = $this->_prepareEntityCollection(Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection'));
+                $collection = $this->_prepareEntityCollection(
+                    Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
+                );
                 $collection
                     ->setStoreId($storeId)
                     ->setPage($offsetProducts, $limitProducts);

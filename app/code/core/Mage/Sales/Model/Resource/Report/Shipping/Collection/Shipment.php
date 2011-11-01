@@ -42,7 +42,8 @@ class Mage_Sales_Model_Resource_Report_Shipping_Collection_Shipment
     public function __construct()
     {
         $this->setModel('adminhtml/report_item');
-        $this->_resource = Mage::getResourceModel('Mage_Sales_Model_Resource_Report')->init('sales_shipping_aggregated');
+        $this->_resource = Mage::getResourceModel('Mage_Sales_Model_Resource_Report')
+            ->init('sales_shipping_aggregated');
         $this->setConnection($this->getResource()->getReadConnection());
     }
 }

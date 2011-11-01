@@ -91,21 +91,22 @@ class Mage_Customer_Block_Account_Dashboard_Sidebar extends Mage_Core_Block_Temp
         return Mage::getUrl('wishlist/index/cart', array('item' => $wishlistItem->getId()));
     }
 
-     public function getCompareItems()
-     {
-         if( !$this->_compareItems ) {
-             $this->_compareItems = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Compare_Item_Collection')
-                 ->setStoreId(Mage::app()->getStore()->getId());
-            $this->_compareItems->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
-            $this->_compareItems
-                ->addAttributeToSelect('name')
-                ->useProductItem()
-                ->load();
+    public function getCompareItems()
+    {
+    if( !$this->_compareItems ) {
+        $this->_compareItems = Mage::getResourceModel(
+            'Mage_Catalog_Model_Resource_Product_Compare_Item_Collection'
+        )
+        ->setStoreId(Mage::app()->getStore()->getId());
+        $this->_compareItems->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
+        $this->_compareItems
+            ->addAttributeToSelect('name')
+            ->useProductItem()
+            ->load();
+    }
 
-         }
-
-         return $this->_compareItems;
-     }
+     return $this->_compareItems;
+    }
 
      public function getCompareJsObjectName()
      {

@@ -337,7 +337,8 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
                 foreach ($stores as $storeIds) {
                     if (isset($storeIds[0]) && $storeIds[0]) {
                         if (Mage::helper('Mage_Catalog_Helper_Product_Flat')->isBuilt()) {
-                            Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Flat_Indexer')->rebuild($storeIds[0]);
+                            Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Flat_Indexer')
+                                ->rebuild($storeIds[0]);
                         }
                     }
                 }

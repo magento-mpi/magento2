@@ -60,7 +60,8 @@ class Mage_Catalog_Model_Observer
                 array($store->getId())
             );*/
             if (Mage::helper('Mage_Catalog_Helper_Category_Flat')->isEnabled(true)) {
-                Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Flat')->synchronize(null, array($store->getId()));
+                Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Flat')
+                    ->synchronize(null, array($store->getId()));
             }
             Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product')->refreshEnabledIndex($store);
         }

@@ -507,7 +507,8 @@ class Mage_Catalog_Model_Convert_Parser_Product
      */
     public function getExternalAttributes()
     {
-        $productAttributes  = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')->load();
+        $productAttributes  = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
+            ->load();
         $attributes         = $this->_externalFields;
 
         foreach ($productAttributes as $attr) {

@@ -274,7 +274,8 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
      */
     protected function _initAttributes()
     {
-        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection')->addSystemHiddenFilterWithPasswordHash();
+        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection')
+            ->addSystemHiddenFilterWithPasswordHash();
         foreach ($collection as $attribute) {
             $this->_attributes[$attribute->getAttributeCode()] = array(
                 'id'          => $attribute->getId(),

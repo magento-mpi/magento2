@@ -138,7 +138,9 @@ class Mage_ImportExport_Model_Export_Entity_Customer extends Mage_ImportExport_M
      */
     public function export()
     {
-        $collection     = $this->_prepareEntityCollection(Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection'));
+        $collection     = $this->_prepareEntityCollection(
+            Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection')
+        );
         $validAttrCodes = $this->_getExportAttrCodes();
         $writer         = $this->getWriter();
         $defaultAddrMap = Mage_ImportExport_Model_Import_Entity_Customer_Address::getDefaultAddressAttrMapping();
@@ -166,7 +168,10 @@ class Mage_ImportExport_Model_Export_Entity_Customer extends Mage_ImportExport_M
             $addrAttributes[$attrCode] = $options;
             $addrColNames[] = Mage_ImportExport_Model_Import_Entity_Customer_Address::getColNameForAttrCode($attrCode);
         }
-        foreach (Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Collection')->addAttributeToSelect('*') as $address) {
+
+        $addresses = Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Collection')
+            ->addAttributeToSelect('*');
+        foreach ($addresses as $address) {
             $addrRow = array();
 
             foreach ($addrAttributes as $attrCode => $attrValues) {

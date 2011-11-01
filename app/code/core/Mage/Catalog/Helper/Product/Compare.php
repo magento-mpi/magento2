@@ -188,7 +188,9 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
     public function getItemCollection()
     {
         if (!$this->_itemCollection) {
-            $this->_itemCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Compare_Item_Collection')
+            $this->_itemCollection = Mage::getResourceModel(
+                    'Mage_Catalog_Model_Resource_Product_Compare_Item_Collection'
+                )
                 ->useProductItem(true)
                 ->setStoreId(Mage::app()->getStore()->getId());
 

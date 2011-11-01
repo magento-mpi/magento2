@@ -47,13 +47,15 @@ class Mage_XmlConnect_Block_Customer_Order_List extends Mage_Core_Block_Template
     {
         $ordersXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<orders></orders>');
 
-        $orders = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection')->addFieldToSelect('*')->addFieldToFilter(
-            'customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId()
-        )
-        ->addFieldToFilter(
-            'state', array('in' => Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates())
-        )
-        ->setOrder('created_at', 'desc');
+        $orders = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection')
+            ->addFieldToSelect('*')
+            ->addFieldToFilter(
+                'customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId()
+            )
+            ->addFieldToFilter(
+                'state', array('in' => Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates())
+            )
+            ->setOrder('created_at', 'desc');
 
         $orders->getSelect()->limit(self::ORDERS_LIST_LIMIT, 0);
         $orders->load();

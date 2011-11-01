@@ -102,7 +102,11 @@ class Mage_Sales_Model_Entity_Sale_Collection extends Varien_Object implements I
             $this->printLogQuery(true, true, $this->getSelect()->__toString());
             throw $e;
         }
-        $stores = Mage::getResourceModel('Mage_Core_Model_Resource_Store_Collection')->setWithoutDefaultFilter()->load()->toOptionHash();
+
+        $stores = Mage::getResourceModel('Mage_Core_Model_Resource_Store_Collection')
+            ->setWithoutDefaultFilter()
+            ->load()
+            ->toOptionHash();
         if (! empty($values)) {
             foreach ($values as $v) {
                 $obj = new Varien_Object($v);

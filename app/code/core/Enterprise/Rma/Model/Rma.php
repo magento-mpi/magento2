@@ -470,7 +470,8 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         if (!$this->getIsUpdate()) {
             $availableItems = Mage::helper('Enterprise_Rma_Helper_Data')->getOrderItems($orderId);
         } else {
-            $availableItems = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item')->getOrderItemsCollection($orderId);
+            $availableItems = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item')
+                ->getOrderItemsCollection($orderId);
         }
 
         $itemsArray = array();

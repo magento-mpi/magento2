@@ -47,7 +47,8 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Enterprise_Banner_Model_Resource_Banner_Collection')->addStoresVisibility();
+        $collection = Mage::getResourceModel('Enterprise_Banner_Model_Resource_Banner_Collection')
+            ->addStoresVisibility();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

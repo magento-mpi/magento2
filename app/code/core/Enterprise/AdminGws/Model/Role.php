@@ -281,7 +281,9 @@ class Enterprise_AdminGws_Model_Role extends Varien_Object
                 $categoryIds[] = $this->getGroup($groupId)->getRootCategoryId();
             }
 
-            foreach (Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection')->addIdFilter($categoryIds) as $category) {
+            $categories = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection')
+                ->addIdFilter($categoryIds);
+            foreach ($categories  as $category) {
                 $this->_allowedRootCategories[$category->getId()] = $category->getPath();
             }
         }

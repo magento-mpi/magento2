@@ -80,7 +80,9 @@ class Mage_Sales_Model_Order_Pdf_Total_Default extends Varien_Object
                 $tax['font_size'] = $fontSize;
             }
         } else {
-            $rates    = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Tax_Collection')->loadByOrder($this->getOrder())->toArray();
+            $rates    = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Tax_Collection')
+                ->loadByOrder($this->getOrder())
+                ->toArray();
             $fullInfo = Mage::getSingleton('tax/calculation')->reproduceProcess($rates['items']);
             $tax_info = array();
 

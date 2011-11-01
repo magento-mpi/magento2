@@ -123,7 +123,9 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
     public function getSubscribersCollection()
     {
         if (is_null($this->_subscribersCollection)) {
-            $this->_subscribersCollection = Mage::getResourceModel('Mage_Newsletter_Model_Resource_Subscriber_Collection')
+            $this->_subscribersCollection = Mage::getResourceModel(
+                    'Mage_Newsletter_Model_Resource_Subscriber_Collection'
+                )
                 ->useQueue($this);
         }
 

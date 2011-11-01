@@ -57,7 +57,8 @@ class Mage_Sales_Model_Resource_Report_Refunded_Collection_Order
     {
         parent::_construct();
         $this->setModel('adminhtml/report_item');
-        $this->_resource = Mage::getResourceModel('Mage_Sales_Model_Resource_Report')->init('sales_refunded_aggregated_order');
+        $this->_resource = Mage::getResourceModel('Mage_Sales_Model_Resource_Report')
+            ->init('sales_refunded_aggregated_order');
         $this->setConnection($this->getResource()->getReadConnection());
     }
 
@@ -68,7 +69,7 @@ class Mage_Sales_Model_Resource_Report_Refunded_Collection_Order
      */
     protected function _getSelectedColumns()
     {
-        $adapter = $this->getConnection(); 
+        $adapter = $this->getConnection();
         if ('month' == $this->_period) {
             $this->_periodFormat = $adapter->getDateFormatSql('period', '%Y-%m');
         } elseif ('year' == $this->_period) {
@@ -102,7 +103,7 @@ class Mage_Sales_Model_Resource_Report_Refunded_Collection_Order
     protected function _initSelect()
     {
         $this->getSelect()->from(
-            $this->getResource()->getMainTable() , 
+            $this->getResource()->getMainTable() ,
             $this->_getSelectedColumns()
         );
         if (!$this->isTotals()) {

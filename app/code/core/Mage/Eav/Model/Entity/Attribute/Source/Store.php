@@ -41,7 +41,9 @@ class Mage_Eav_Model_Entity_Attribute_Source_Store extends Mage_Eav_Model_Entity
     public function getAllOptions()
     {
         if ($this->_options === null) {
-            $this->_options = Mage::getResourceModel('Mage_Core_Model_Resource_Store_Collection')->load()->toOptionArray();
+            $this->_options = Mage::getResourceModel('Mage_Core_Model_Resource_Store_Collection')
+                ->load()
+                ->toOptionArray();
         }
         return $this->_options;
     }
