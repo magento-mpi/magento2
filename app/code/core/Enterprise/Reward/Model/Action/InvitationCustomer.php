@@ -65,7 +65,10 @@ class Enterprise_Reward_Model_Action_InvitationCustomer extends Enterprise_Rewar
      */
     public function getRewardLimit()
     {
-        return Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig('invitation_customer_limit', $this->getReward()->getWebsiteId());
+        return Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig(
+            'invitation_customer_limit',
+            $this->getReward()->getWebsiteId()
+        );
     }
 
     /**

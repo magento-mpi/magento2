@@ -536,7 +536,10 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             );
         } catch (Mage_Core_Exception $e) {
             Mage::logException($e);
-            Mage::helper('Mage_Checkout_Helper_Data')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
+            Mage::helper('Mage_Checkout_Helper_Data')->sendPaymentFailedEmail(
+                $this->getOnepage()->getQuote(),
+                $e->getMessage()
+            );
             $result['success'] = false;
             $result['error'] = true;
             $result['error_messages'] = $e->getMessage();
@@ -558,7 +561,10 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             }
         } catch (Exception $e) {
             Mage::logException($e);
-            Mage::helper('Mage_Checkout_Helper_Data')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
+            Mage::helper('Mage_Checkout_Helper_Data')->sendPaymentFailedEmail(
+                $this->getOnepage()->getQuote(),
+                $e->getMessage()
+            );
             $result['success']  = false;
             $result['error']    = true;
             $result['error_messages'] = $this->__('There was an error processing your order. Please contact us or try again later.');

@@ -60,7 +60,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region extends Mage_Adminhtml_
         $html.= '</select>';
 
         $html.= '<script type="text/javascript">'."\n";
-        $html.= 'new regionUpdater("'.$country->getHtmlId().'", "'.$element->getHtmlId().'", "'.$selectId.'", '.$this->helper('Mage_Directory_Helper_Data')->getRegionJson().');'."\n";
+        $html.= 'new regionUpdater("'
+            . $country->getHtmlId() . '", "' . $element->getHtmlId() . '", "' . $selectId . '", '
+            . $this->helper('Mage_Directory_Helper_Data')->getRegionJson().');'."\n";
         $html.= '</script>'."\n";
 
         $html.= '</td></tr>'."\n";

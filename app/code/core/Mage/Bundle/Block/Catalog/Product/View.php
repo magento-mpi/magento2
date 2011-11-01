@@ -47,13 +47,19 @@ class Mage_Bundle_Block_Catalog_Product_View extends Mage_Catalog_Block_Product_
         }
         $prices  = $product->getFormatedTierPrice();
 
+        $taxHelper = Mage::helper('Mage_Tax_Helper_Data');
+
         $res = array();
         if (is_array($prices)) {
             foreach ($prices as $price) {
                 $price['price_qty'] = $price['price_qty']*1;
                 $price['savePercent'] = ceil(100 - $price['price']);
-                $price['formated_price'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $price['website_price'])));
-                $price['formated_price_incl_tax'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $price['website_price'], true)));
+                $price['formated_price'] = Mage::app()->getStore()->formatPrice(
+                    Mage::app()->getStore()->convertPrice($taxHelper->getPrice($product, $price['website_price']))
+                );
+                $price['formated_price_incl_tax'] = Mage::app()->getStore()->formatPrice(
+                    Mage::app()->getStore()->convertPrice($taxHelper->getPrice($product, $price['website_price'], true))
+                );
                 $res[] = $price;
             }
         }

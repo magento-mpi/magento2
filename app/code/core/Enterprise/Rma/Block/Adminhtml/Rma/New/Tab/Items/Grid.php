@@ -134,12 +134,13 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
             'sortable' => false
         ));
 
+        $eavHelper = Mage::helper('Enterprise_Rma_Helper_Eav');
         $this->addColumn('reason', array(
             'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Reason to Return'),
             'width' => '80px',
             'getter'   => array($this, 'getReasonOptionStringValue'),
             'type'  => 'select',
-            'options' => array(''=>'') + Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeOptionValues('reason'),
+            'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('reason'),
             'index' => 'reason',
             'sortable' => false
         ));
@@ -148,7 +149,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
             'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Item Condition'),
             'width' => '80px',
             'type'  => 'select',
-            'options' => array(''=>'') + Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeOptionValues('condition'),
+            'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('condition'),
             'index' => 'condition',
             'sortable' => false
         ));
@@ -158,7 +159,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
             'width' => '80px',
             'index' => 'resolution',
             'type'  => 'select',
-            'options' => array(''=>'') + Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeOptionValues('resolution'),
+            'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('resolution'),
             'sortable' => false
         ));
 

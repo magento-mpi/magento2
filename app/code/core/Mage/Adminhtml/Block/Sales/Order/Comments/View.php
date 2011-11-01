@@ -70,13 +70,14 @@ class Mage_Adminhtml_Block_Sales_Order_Comments_View extends Mage_Adminhtml_Bloc
 
     public function canSendCommentEmail()
     {
+        $helper = Mage::helper('Mage_Sales_Helper_Data');
         switch ($this->getParentType()) {
             case 'invoice':
-                return Mage::helper('Mage_Sales_Helper_Data')->canSendInvoiceCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
+                return $helper->canSendInvoiceCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
             case 'shipment':
-                return Mage::helper('Mage_Sales_Helper_Data')->canSendShipmentCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
+                return $helper->canSendShipmentCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
             case 'creditmemo':
-                return Mage::helper('Mage_Sales_Helper_Data')->canSendCreditmemoCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
+                return $helper->canSendCreditmemoCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
         }
 
         return true;

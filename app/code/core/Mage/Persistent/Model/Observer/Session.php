@@ -44,7 +44,10 @@ class Mage_Persistent_Model_Observer_Session
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = $observer->getEvent()->getCustomer();
         // Check if customer is valid (remove persistent cookie for invalid customer)
-        if (!$customer || !$customer->getId() || !Mage::helper('Mage_Persistent_Helper_Session')->isRememberMeChecked()) {
+        if (!$customer
+            || !$customer->getId()
+            || !Mage::helper('Mage_Persistent_Helper_Session')->isRememberMeChecked()
+        ) {
             Mage::getModel('persistent/session')->removePersistentCookie();
             return;
         }
@@ -91,7 +94,8 @@ class Mage_Persistent_Model_Observer_Session
      */
     public function synchronizePersistentOnLogout(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('Mage_Persistent_Helper_Data')->isEnabled() || !Mage::helper('Mage_Persistent_Helper_Data')->getClearOnLogout()) {
+        $helper = Mage::helper('Mage_Persistent_Helper_Data');
+        if (!$helper->isEnabled() || !$helper->getClearOnLogout()) {
             return;
         }
 
@@ -115,12 +119,15 @@ class Mage_Persistent_Model_Observer_Session
      */
     public function synchronizePersistentInfo(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('Mage_Persistent_Helper_Data')->isEnabled() || !Mage::helper('Mage_Persistent_Helper_Session')->isPersistent()) {
+        $helper = Mage::helper('Mage_Persistent_Helper_Session');
+        if (!Mage::helper('Mage_Persistent_Helper_Data')->isEnabled()
+            || !$helper->isPersistent()
+        ) {
             return;
         }
 
         /** @var $sessionModel Mage_Persistent_Model_Session */
-        $sessionModel = Mage::helper('Mage_Persistent_Helper_Session')->getSession();
+        $sessionModel = $helper->getSession();
 
         /** @var $request Mage_Core_Controller_Request_Http */
         $request = $observer->getEvent()->getFront()->getRequest();
@@ -140,8 +147,10 @@ class Mage_Persistent_Model_Observer_Session
      */
     public function setRememberMeCheckedStatus(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('Mage_Persistent_Helper_Data')->canProcess($observer)
-            || !Mage::helper('Mage_Persistent_Helper_Data')->isEnabled() || !Mage::helper('Mage_Persistent_Helper_Data')->isRememberMeEnabled()
+        $helper = Mage::helper('Mage_Persistent_Helper_Data');
+        if (!$helper->canProcess($observer)
+            || !$helper->isEnabled()
+            || !$helper->isRememberMeEnabled()
         ) {
             return;
         }
@@ -167,8 +176,10 @@ class Mage_Persistent_Model_Observer_Session
      */
     public function renewCookie(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('Mage_Persistent_Helper_Data')->canProcess($observer)
-            || !Mage::helper('Mage_Persistent_Helper_Data')->isEnabled() || !Mage::helper('Mage_Persistent_Helper_Session')->isPersistent()
+        $helper = Mage::helper('Mage_Persistent_Helper_Data');
+        if (!$helper->canProcess($observer)
+            || !$helper->isEnabled()
+            || !Mage::helper('Mage_Persistent_Helper_Session')->isPersistent()
         ) {
             return;
         }
@@ -181,7 +192,7 @@ class Mage_Persistent_Model_Observer_Session
         ) {
             Mage::getSingleton('core/cookie')->renew(
                 Mage_Persistent_Model_Session::COOKIE_NAME,
-                Mage::helper('Mage_Persistent_Helper_Data')->getLifeTime()
+                $helper->getLifeTime()
             );
         }
     }

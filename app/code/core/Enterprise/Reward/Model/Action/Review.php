@@ -51,7 +51,10 @@ class Enterprise_Reward_Model_Action_Review extends Enterprise_Reward_Model_Acti
      */
     public function getRewardLimit()
     {
-        return Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig('review_limit', $this->getReward()->getWebsiteId());
+        return Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig(
+            'review_limit',
+            $this->getReward()->getWebsiteId()
+        );
     }
 
     /**

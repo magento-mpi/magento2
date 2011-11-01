@@ -99,9 +99,10 @@ class Mage_Rss_Block_Catalog_Tag extends Mage_Rss_Block_Catalog_Abstract
         $allowedPriceInRss = $product->getAllowedPriceInRss();
 
         $product->unsetData()->load($args['row']['entity_id']);
-        $description = '<table><tr>'.
-        '<td><a href="'.$product->getProductUrl().'"><img src="'. $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75) .'" border="0" align="left" height="75" width="75"></a></td>'.
-        '<td  style="text-decoration:none;">'.$product->getDescription();
+        $description = '<table><tr><td><a href="' . $product->getProductUrl() . '"><img src="'
+            . $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75)
+            . '" border="0" align="left" height="75" width="75"></a></td>'
+            . '<td  style="text-decoration:none;">'.$product->getDescription();
 
         if ($allowedPriceInRss) {
             $description .= $this->getPriceHtml($product,true);

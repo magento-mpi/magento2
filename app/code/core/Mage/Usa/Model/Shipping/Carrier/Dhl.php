@@ -330,7 +330,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         $r->setValue(round($request->getPackageValue(), 2));
         $r->setValueWithDiscount($request->getPackageValueWithDiscount());
         $r->setCustomsValue($request->getPackageCustomsValue());
-        $r->setDestStreet(Mage::helper('Mage_Core_Helper_String')->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35));
+        $r->setDestStreet(
+            Mage::helper('Mage_Core_Helper_String')->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35)
+        );
         $r->setDestStreetLine2($request->getDestStreetLine2());
         $r->setDestCity($request->getDestCity());
         $r->setOrigCompanyName($request->getOrigCompanyName());

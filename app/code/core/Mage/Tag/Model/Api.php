@@ -122,7 +122,8 @@ class Mage_Tag_Model_Api extends Mage_Catalog_Model_Api_Resource
         try {
             /** @var $tag Mage_Tag_Model_Tag */
             $tag = Mage::getModel('tag/tag');
-            $tagNamesArr = Mage::helper('Mage_Tag_Helper_Data')->cleanTags(Mage::helper('Mage_Tag_Helper_Data')->extractTags($data['tag']));
+            $tagHelper = Mage::helper('Mage_Tag_Helper_Data');
+            $tagNamesArr = $tagHelper->cleanTags($tagHelper->extractTags($data['tag']));
             foreach ($tagNamesArr as $tagName) {
                 // unset previously added tag data
                 $tag->unsetData();

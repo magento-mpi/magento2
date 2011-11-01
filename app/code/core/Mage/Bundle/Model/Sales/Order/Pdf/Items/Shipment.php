@@ -52,6 +52,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Mage_Bundle_Model
         $_prevOptionId = '';
         $drawItems = array();
 
+        $stringHelper = Mage::helper('Mage_Core_Helper_String');
         foreach ($items as $_item) {
             $line   = array();
 
@@ -74,7 +75,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Mage_Bundle_Model
                 if ($_prevOptionId != $attributes['option_id']) {
                     $line[0] = array(
                         'font'  => 'italic',
-                        'text'  => Mage::helper('Mage_Core_Helper_String')->str_split($attributes['option_label'],60, true, true),
+                        'text'  => $stringHelper->str_split($attributes['option_label'],60, true, true),
                         'feed'  => 60
                     );
 
@@ -115,7 +116,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Mage_Bundle_Model
                 $name = $_item->getName();
             }
             $text = array();
-            foreach (Mage::helper('Mage_Core_Helper_String')->str_split($name, 60, true, true) as $part) {
+            foreach ($stringHelper->str_split($name, 60, true, true) as $part) {
                 $text[] = $part;
             }
             $line[] = array(
@@ -125,7 +126,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Mage_Bundle_Model
 
             // draw SKUs
             $text = array();
-            foreach (Mage::helper('Mage_Core_Helper_String')->str_split($_item->getSku(), 30) as $part) {
+            foreach ($stringHelper->str_split($_item->getSku(), 30) as $part) {
                 $text[] = $part;
             }
             $line[] = array(
@@ -143,7 +144,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Mage_Bundle_Model
                 foreach ($options['options'] as $option) {
                     $lines = array();
                     $lines[][] = array(
-                        'text'  => Mage::helper('Mage_Core_Helper_String')->str_split(strip_tags($option['label']), 70, true, true),
+                        'text'  => $stringHelper->str_split(strip_tags($option['label']), 70, true, true),
                         'font'  => 'italic',
                         'feed'  => 60
                     );
@@ -153,7 +154,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Mage_Bundle_Model
                         $_printValue = isset($option['print_value']) ? $option['print_value'] : strip_tags($option['value']);
                         $values = explode(', ', $_printValue);
                         foreach ($values as $value) {
-                            foreach (Mage::helper('Mage_Core_Helper_String')->str_split($value, 50, true, true) as $_value) {
+                            foreach ($stringHelper->str_split($value, 50, true, true) as $_value) {
                                 $text[] = $_value;
                             }
                         }

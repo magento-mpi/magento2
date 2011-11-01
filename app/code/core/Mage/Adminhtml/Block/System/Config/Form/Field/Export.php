@@ -41,9 +41,11 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Export extends Varien_Data_F
             'website' => $buttonBlock->getRequest()->getParam('website')
         );
 
+        $url = Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl("*/*/exportTablerates", $params);
         $data = array(
             'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Export CSV'),
-            'onclick'   => 'setLocation(\''.Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl("*/*/exportTablerates", $params) . 'conditionName/\' + $(\'carriers_tablerate_condition_name\').value + \'/tablerates.csv\' )',
+            'onclick'   => "setLocation('" . $url
+                . "conditionName/' + $('carriers_tablerate_condition_name').value + '/tablerates.csv' )",
             'class'     => '',
         );
 

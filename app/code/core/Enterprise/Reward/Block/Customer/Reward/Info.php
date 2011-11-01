@@ -66,8 +66,9 @@ class Enterprise_Reward_Block_Customer_Reward_Info extends Mage_Core_Block_Templ
      */
     protected function _prepareTemplateData()
     {
-        $maxBalance = (int)Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig('max_points_balance');
-        $minBalance = (int)Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig('min_points_balance');
+        $helper = Mage::helper('Enterprise_Reward_Helper_Data');
+        $maxBalance = (int)$helper->getGeneralConfig('max_points_balance');
+        $minBalance = (int)$helper->getGeneralConfig('min_points_balance');
         $balance = $this->_rewardInstance->getPointsBalance();
         $this->addData(array(
             'points_balance' => $balance,
@@ -80,8 +81,8 @@ class Enterprise_Reward_Block_Customer_Reward_Info extends Mage_Core_Block_Templ
             'is_max_balance_reached' => $balance >= $maxBalance,
             'min_balance' => $minBalance,
             'is_min_balance_reached' => $balance >= $minBalance,
-            'expire_in' => (int)Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig('expiration_days'),
-            'is_history_published' => (int)Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig('publish_history'),
+            'expire_in' => (int)$helper->getGeneralConfig('expiration_days'),
+            'is_history_published' => (int)$helper->getGeneralConfig('publish_history'),
         ));
     }
 }

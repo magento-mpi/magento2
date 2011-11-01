@@ -611,8 +611,9 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     {
         $store = $this->getStore();
 
-        if (!Mage::helper('Mage_Tax_Helper_Data')->priceIncludesTax($store)) {
-            if (Mage::helper('Mage_Tax_Helper_Data')->applyTaxAfterDiscount($store)) {
+        $taxHelper = Mage::helper('Mage_Tax_Helper_Data');
+        if (!$taxHelper->priceIncludesTax($store)) {
+            if ($taxHelper->applyTaxAfterDiscount($store)) {
                 $rowTotal       = $this->getRowTotalWithDiscount();
                 $rowBaseTotal   = $this->getBaseRowTotalWithDiscount();
             } else {
@@ -630,7 +631,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setTaxBeforeDiscount($store->roundPrice($rowTotal * $taxPercent));
             $this->setBaseTaxBeforeDiscount($store->roundPrice($rowBaseTotal * $taxPercent));
         } else {
-            if (Mage::helper('Mage_Tax_Helper_Data')->applyTaxAfterDiscount($store)) {
+            if ($taxHelper->applyTaxAfterDiscount($store)) {
                 $totalBaseTax = $this->getBaseTaxAmount();
                 $totalTax = $this->getTaxAmount();
 
@@ -644,7 +645,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             }
         }
 
-        if (Mage::helper('Mage_Tax_Helper_Data')->discountTax($store) && !Mage::helper('Mage_Tax_Helper_Data')->applyTaxAfterDiscount($store)) {
+        if ($taxHelper->discountTax($store) && !$taxHelper->applyTaxAfterDiscount($store)) {
             if ($this->getDiscountPercent()) {
                 $baseTaxAmount =  $this->getBaseTaxBeforeDiscount();
                 $taxAmount = $this->getTaxBeforeDiscount();
@@ -693,7 +694,8 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     {
         $store = $this->getQuote()->getStore();
 
-        if (Mage::helper('Mage_Tax_Helper_Data')->priceIncludesTax($store)) {
+        $taxHelper = Mage::helper('Mage_Tax_Helper_Data');
+        if ($taxHelper->priceIncludesTax($store)) {
             $bAddress = $this->getQuote()->getBillingAddress();
             $sAddress = $this->getQuote()->getShippingAddress();
 
@@ -714,7 +716,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
                 $sAddress = $bAddress;
             }
 
-            $priceExcludingTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice(
+            $priceExcludingTax = $taxHelper->getPrice(
                 $this->getProduct()->setTaxPercent(null),
                 $value,
                 false,
@@ -724,7 +726,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
                 $store
             );
 
-            $priceIncludingTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice(
+            $priceIncludingTax = $taxHelper->getPrice(
                 $this->getProduct()->setTaxPercent(null),
                 $value,
                 true,
@@ -740,9 +742,9 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
                     $qty = $qty*$this->getParentItem()->getQty();
                 }
 
-                if (Mage::helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax($store)) {
+                if ($taxHelper->displayCartPriceInclTax($store)) {
                     $rowTotal = $value*$qty;
-                    $rowTotalExcTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice(
+                    $rowTotalExcTax = $taxHelper->getPrice(
                         $this->getProduct()->setTaxPercent(null),
                         $rowTotal,
                         false,
@@ -751,7 +753,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
                         $this->getQuote()->getCustomerTaxClassId(),
                         $store
                     );
-                    $rowTotalIncTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice(
+                    $rowTotalIncTax = $taxHelper->getPrice(
                         $this->getProduct()->setTaxPercent(null),
                         $rowTotal,
                         true,

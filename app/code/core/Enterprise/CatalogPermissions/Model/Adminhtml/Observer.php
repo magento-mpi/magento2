@@ -47,7 +47,8 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
     {
         $category = $observer->getEvent()->getCategory();
         /* @var $category Mage_Catalog_Model_Category */
-        if (!Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->isAllowedCategory($category) && $category->hasData('permissions')) {
+        $helper = Mage::helper('Enterprise_CatalogPermissions_Helper_Data');
+        if (!$helper->isAllowedCategory($category) && $category->hasData('permissions')) {
             $category->unsetData('permissions');
         }
 
