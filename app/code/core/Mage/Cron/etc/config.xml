@@ -45,7 +45,7 @@
             <default>
                 <observers>
                     <cron_observer>
-                        <class>cron/observer</class>
+                        <class>Mage_Cron_Model_Observer</class>
                         <method>dispatch</method>
                     </cron_observer>
                 </observers>

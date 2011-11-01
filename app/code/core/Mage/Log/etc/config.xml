@@ -66,7 +66,7 @@
             <controller_action_predispatch>
                 <observers>
                     <log>
-                        <class>log/visitor</class>
+                        <class>Mage_Log_Model_Visitor</class>
                         <method>initByRequest</method>
                     </log>
                 </observers>
@@ -74,7 +74,7 @@
             <controller_action_postdispatch>
                 <observers>
                     <log>
-                        <class>log/visitor</class>
+                        <class>Mage_Log_Model_Visitor</class>
                         <method>saveByRequest</method>
                     </log>
                 </observers>
@@ -82,7 +82,7 @@
             <customer_login>
                 <observers>
                     <log>
-                        <class>log/visitor</class>
+                        <class>Mage_Log_Model_Visitor</class>
                         <method>bindCustomerLogin</method>
                     </log>
                 </observers>
@@ -90,7 +90,7 @@
             <customer_logout>
                 <observers>
                     <log>
-                        <class>log/visitor</class>
+                        <class>Mage_Log_Model_Visitor</class>
                         <method>bindCustomerLogout</method>
                     </log>
                 </observers>
@@ -98,7 +98,7 @@
             <sales_quote_save_after>
                 <observers>
                     <log>
-                        <class>log/visitor</class>
+                        <class>Mage_Log_Model_Visitor</class>
                         <method>bindQuoteCreate</method>
                     </log>
                 </observers>
@@ -106,7 +106,7 @@
             <checkout_quote_destroy>
                 <observers>
                     <log>
-                        <class>log/visitor</class>
+                        <class>Mage_Log_Model_Visitor</class>
                         <method>bindQuoteDestroy</method>
                     </log>
                 </observers>

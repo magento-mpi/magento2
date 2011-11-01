@@ -36,7 +36,7 @@
             <controller_action_predispatch>
                 <observers>
                     <enterprise_pbridge>
-                        <class>enterprise_pbridge/observer</class>
+                        <class>Enterprise_Pbridge_Model_Observer</class>
                         <method>addPrivacyHeader</method>
                     </enterprise_pbridge>
                 </observers>
@@ -44,7 +44,7 @@
             <payment_method_is_active>
                 <observers>
                     <enterprise_pbridge>
-                        <class>enterprise_pbridge/observer</class>
+                        <class>Enterprise_Pbridge_Model_Observer</class>
                         <method>isPaymentMethodAvailable</method>
                     </enterprise_pbridge>
                 </observers>

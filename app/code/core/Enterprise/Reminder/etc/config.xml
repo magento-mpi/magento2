@@ -53,7 +53,7 @@
             <salesrule_rule_get_coupon_types>
                 <observers>
                     <enterprise_reminder>
-                        <class>enterprise_reminder/observer</class>
+                        <class>Enterprise_Reminder_Model_Observer</class>
                         <method>getCouponTypes</method>
                     </enterprise_reminder>
                 </observers>
@@ -61,7 +61,7 @@
             <adminhtml_promo_quote_edit_tab_main_prepare_form>
                 <observers>
                     <enterprise_reminder>
-                        <class>enterprise_reminder/observer</class>
+                        <class>Enterprise_Reminder_Model_Observer</class>
                         <method>updatePromoQuoteTabMainForm</method>
                     </enterprise_reminder>
                 </observers>

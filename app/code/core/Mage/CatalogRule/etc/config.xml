@@ -43,7 +43,7 @@
             <prepare_catalog_product_price_index_table>
                 <observers>
                     <catalogrule>
-                        <class>catalogrule/observer</class>
+                        <class>Mage_CatalogRule_Model_Observer</class>
                         <method>prepareCatalogProductPriceIndexTable</method>
                     </catalogrule>
                 </observers>
@@ -51,7 +51,7 @@
             <catalog_product_type_configurable_price>
                 <observers>
                     <catalogrule>
-                        <class>catalogrule/observer</class>
+                        <class>Mage_CatalogRule_Model_Observer</class>
                         <method>catalogProductTypeConfigurablePrice</method>
                     </catalogrule>
                 </observers>
@@ -68,7 +68,7 @@
             <catalog_product_get_final_price>
                 <observers>
                     <catalogrule>
-                        <class>catalogrule/observer</class>
+                        <class>Mage_CatalogRule_Model_Observer</class>
                         <method>processFrontFinalPrice</method>
                     </catalogrule>
                 </observers>
@@ -76,7 +76,7 @@
             <prepare_catalog_product_collection_prices>
                 <observers>
                     <catalogrule>
-                        <class>catalogrule/observer</class>
+                        <class>Mage_CatalogRule_Model_Observer</class>
                         <method>prepareCatalogProductCollectionPrices</method>
                     </catalogrule>
                 </observers>
@@ -106,7 +106,7 @@
             <catalog_product_get_final_price>
                 <observers>
                     <catalogrule>
-                        <class>catalogrule/observer</class>
+                        <class>Mage_CatalogRule_Model_Observer</class>
                         <method>processAdminFinalPrice</method>
                     </catalogrule>
                 </observers>
@@ -114,7 +114,7 @@
             <catalog_product_save_after>
                 <observers>
                     <catalogrule>
-                        <class>catalogrule/observer</class>
+                        <class>Mage_CatalogRule_Model_Observer</class>
                         <method>applyAllRulesOnProduct</method>
                     </catalogrule>
                 </observers>
@@ -122,7 +122,7 @@
             <catalog_product_import_finish_before>
                 <observers>
                     <catalogrule>
-                        <class>catalogrule/observer</class>
+                        <class>Mage_CatalogRule_Model_Observer</class>
                         <method>createCatalogRulesRelations</method>
                     </catalogrule>
                 </observers>
@@ -130,7 +130,7 @@
             <catalog_product_import_after>
                 <observers>
                     <catalogrule>
-                        <class>catalogrule/observer</class>
+                        <class>Mage_CatalogRule_Model_Observer</class>
                         <method>applyAllRules</method>
                     </catalogrule>
                 </observers>
@@ -138,7 +138,7 @@
             <catalog_entity_attribute_delete_after>
                 <observers>
                     <catalogrule>
-                        <class>catalogrule/observer</class>
+                        <class>Mage_CatalogRule_Model_Observer</class>
                         <method>catalogAttributeDeleteAfter</method>
                     </catalogrule>
                 </observers>
@@ -146,7 +146,7 @@
             <catalog_entity_attribute_save_after>
                 <observers>
                     <catalogrule>
-                        <class>catalogrule/observer</class>
+                        <class>Mage_CatalogRule_Model_Observer</class>
                         <method>catalogAttributeSaveAfter</method>
                     </catalogrule>
                 </observers>
@@ -168,7 +168,7 @@
             <catalog_product_get_final_price>
                 <observers>
                     <catalogrule>
-                        <class>catalogrule/observer</class>
+                        <class>Mage_CatalogRule_Model_Observer</class>
                         <method>processAdminFinalPrice</method>
                     </catalogrule>
                 </observers>

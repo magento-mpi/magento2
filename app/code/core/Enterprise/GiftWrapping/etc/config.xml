@@ -50,12 +50,12 @@
                 </item>
                 <totals>
                     <giftwrapping>
-                        <class>enterprise_giftwrapping/total_quote_giftwrapping</class>
+                        <class>Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping</class>
                         <after>subtotal</after>
                         <renderer>enterprise_giftwrapping/checkout_totals</renderer>
                     </giftwrapping>
                     <tax_giftwrapping>
-                        <class>enterprise_giftwrapping/total_quote_tax_giftwrapping</class>
+                        <class>Enterprise_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping</class>
                         <after>tax</after>
                         <before>grand_total</before>
                     </tax_giftwrapping>
@@ -64,11 +64,11 @@
             <order_invoice>
                 <totals>
                     <giftwrapping>
-                        <class>enterprise_giftwrapping/total_invoice_giftwrapping</class>
+                        <class>Enterprise_GiftWrapping_Model_Total_Invoice_Giftwrapping</class>
                         <after>subtotal</after>
                     </giftwrapping>
                     <tax_giftwrapping>
-                        <class>enterprise_giftwrapping/total_invoice_tax_giftwrapping</class>
+                        <class>Enterprise_GiftWrapping_Model_Total_Invoice_Tax_Giftwrapping</class>
                         <after>tax</after>
                         <before>grand_total</before>
                     </tax_giftwrapping>
@@ -77,11 +77,11 @@
             <order_creditmemo>
                 <totals>
                     <giftwrapping>
-                        <class>enterprise_giftwrapping/total_creditmemo_giftwrapping</class>
+                        <class>Enterprise_GiftWrapping_Model_Total_Creditmemo_Giftwrapping</class>
                         <after>subtotal</after>
                     </giftwrapping>
                     <tax_giftwrapping>
-                        <class>enterprise_giftwrapping/total_creditmemo_tax_giftwrapping</class>
+                        <class>Enterprise_GiftWrapping_Model_Total_Creditmemo_Tax_Giftwrapping</class>
                         <after>tax</after>
                         <before>grand_total</before>
                     </tax_giftwrapping>
@@ -92,7 +92,7 @@
             <sales_quote_collect_totals_before>
                 <observers>
                     <enterprise_giftwrapping>
-                        <class>enterprise_giftwrapping/observer</class>
+                        <class>Enterprise_GiftWrapping_Model_Observer</class>
                         <method>quoteCollectTotalsBefore</method>
                     </enterprise_giftwrapping>
                 </observers>
@@ -100,7 +100,7 @@
             <googlecheckout_checkout_before>
                 <observers>
                     <enterprise_giftwrapping>
-                        <class>enterprise_giftwrapping/observer</class>
+                        <class>Enterprise_GiftWrapping_Model_Observer</class>
                         <method>googlecheckoutCheckoutBefore</method>
                     </enterprise_giftwrapping>
                 </observers>
@@ -108,7 +108,7 @@
             <paypal_prepare_line_items>
                 <observers>
                     <enterprise_giftwrapping>
-                        <class>enterprise_giftwrapping/observer</class>
+                        <class>Enterprise_GiftWrapping_Model_Observer</class>
                         <method>addPaypalGiftWrappingItem</method>
                     </enterprise_giftwrapping>
                 </observers>
@@ -120,7 +120,7 @@
             <checkout_controller_onepage_save_shipping_method>
                 <observers>
                     <enterprise_giftwrapping>
-                        <class>enterprise_giftwrapping/observer</class>
+                        <class>Enterprise_GiftWrapping_Model_Observer</class>
                         <method>checkoutProcessWrappingInfo</method>
                     </enterprise_giftwrapping>
                 </observers>
@@ -128,7 +128,7 @@
             <checkout_controller_multishipping_shipping_post>
                 <observers>
                     <enterprise_giftwrapping>
-                        <class>enterprise_giftwrapping/observer</class>
+                        <class>Enterprise_GiftWrapping_Model_Observer</class>
                         <method>checkoutProcessWrappingInfo</method>
                     </enterprise_giftwrapping>
                 </observers>
@@ -136,7 +136,7 @@
             <gift_options_prepare_items>
                 <observers>
                     <enterprise_giftwrapping>
-                        <class>enterprise_giftwrapping/observer</class>
+                        <class>Enterprise_GiftWrapping_Model_Observer</class>
                         <method>prepareGiftOptpionsItems</method>
                     </enterprise_giftwrapping>
                 </observers>
@@ -175,7 +175,7 @@
             <adminhtml_sales_order_create_process_data>
                 <observers>
                     <enterprise_giftwrapping>
-                        <class>enterprise_giftwrapping/observer</class>
+                        <class>Enterprise_GiftWrapping_Model_Observer</class>
                         <method>processOrderCreationData</method>
                     </enterprise_giftwrapping>
                 </observers>
@@ -184,7 +184,7 @@
                 <observers>
                     <enterprise_giftwrapping>
                         <type>model</type>
-                        <class>enterprise_giftwrapping/observer</class>
+                        <class>Enterprise_GiftWrapping_Model_Observer</class>
                         <method>salesEventOrderToQuote</method>
                     </enterprise_giftwrapping>
                 </observers>
@@ -193,7 +193,7 @@
                 <observers>
                     <enterprise_giftwrapping>
                         <type>model</type>
-                        <class>enterprise_giftwrapping/observer</class>
+                        <class>Enterprise_GiftWrapping_Model_Observer</class>
                         <method>salesEventOrderItemToQuoteItem</method>
                     </enterprise_giftwrapping>
                 </observers>

@@ -111,7 +111,7 @@
             <controller_action_layout_load_before>
                 <observers>
                     <customer_is_logged_in_observer>
-                        <class>customer/observer</class>
+                        <class>Mage_Customer_Model_Observer</class>
                         <method>beforeLoadLayout</method>
                     </customer_is_logged_in_observer>
                 </observers>

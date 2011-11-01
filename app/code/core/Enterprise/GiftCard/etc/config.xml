@@ -87,7 +87,7 @@
             <sales_convert_quote_item_to_order_item>
                 <observers>
                     <enterprise_giftcard_append_additional_data>
-                        <class>enterprise_giftcard/observer</class>
+                        <class>Enterprise_GiftCard_Model_Observer</class>
                         <method>appendGiftcardAdditionalData</method>
                     </enterprise_giftcard_append_additional_data>
                 </observers>
@@ -95,7 +95,7 @@
             <sales_order_save_commit_after>
                 <observers>
                     <enterprise_giftcard_generate_giftcardaccounts>
-                        <class>enterprise_giftcard/observer</class>
+                        <class>Enterprise_GiftCard_Model_Observer</class>
                         <method>generateGiftCardAccounts</method>
                     </enterprise_giftcard_generate_giftcardaccounts>
                 </observers>
@@ -103,7 +103,7 @@
             <catalog_product_collection_load_after>
                 <observers>
                     <enterprise_giftcard>
-                        <class>enterprise_giftcard/observer</class>
+                        <class>Enterprise_GiftCard_Model_Observer</class>
                         <method>loadAttributesAfterCollectionLoad</method>
                     </enterprise_giftcard>
                 </observers>
@@ -176,7 +176,7 @@
             <adminhtml_catalog_product_edit_prepare_form>
                 <observers>
                     <enterprise_giftcard_product_edit_prepare_form>
-                        <class>enterprise_giftcard/observer</class>
+                        <class>Enterprise_GiftCard_Model_Observer</class>
                         <method>setAmountsRendererInForm</method>
                     </enterprise_giftcard_product_edit_prepare_form>
                 </observers>
@@ -184,7 +184,7 @@
             <adminhtml_catalog_product_form_prepare_excluded_field_list>
                 <observers>
                     <enterprise_giftcard_product_excluded_field_list>
-                        <class>enterprise_giftcard/observer</class>
+                        <class>Enterprise_GiftCard_Model_Observer</class>
                         <method>updateExcludedFieldList</method>
                     </enterprise_giftcard_product_excluded_field_list>
                 </observers>

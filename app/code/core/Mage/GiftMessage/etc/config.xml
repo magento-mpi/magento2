@@ -73,7 +73,7 @@
                 <observers>
                     <giftmessage>
                         <type>model</type>
-                        <class>giftmessage/observer</class>
+                        <class>Mage_GiftMessage_Model_Observer</class>
                         <method>salesEventConvertQuoteItemToOrderItem</method>
                     </giftmessage>
                 </observers>
@@ -82,7 +82,7 @@
                 <observers>
                     <giftmessage>
                         <type>model</type>
-                        <class>giftmessage/observer</class>
+                        <class>Mage_GiftMessage_Model_Observer</class>
                         <method>salesEventConvertQuoteAddressToOrder</method>
                     </giftmessage>
                 </observers>
@@ -91,7 +91,7 @@
                 <observers>
                     <giftmessage>
                         <type>model</type>
-                        <class>giftmessage/observer</class>
+                        <class>Mage_GiftMessage_Model_Observer</class>
                         <method>salesEventConvertQuoteToOrder</method>
                     </giftmessage>
                 </observers>
@@ -100,7 +100,7 @@
                 <observers>
                     <giftmessage>
                         <type>model</type>
-                        <class>giftmessage/observer</class>
+                        <class>Mage_GiftMessage_Model_Observer</class>
                         <method>checkoutEventCreateOrder</method>
                     </giftmessage>
                 </observers>
@@ -109,7 +109,7 @@
                 <observers>
                     <giftmessage>
                         <type>model</type>
-                        <class>giftmessage/observer</class>
+                        <class>Mage_GiftMessage_Model_Observer</class>
                         <method>salesEventOrderToQuote</method>
                     </giftmessage>
                 </observers>
@@ -118,7 +118,7 @@
                 <observers>
                     <giftmessage>
                         <type>model</type>
-                        <class>giftmessage/observer</class>
+                        <class>Mage_GiftMessage_Model_Observer</class>
                         <method>salesEventOrderItemToQuoteItem</method>
                     </giftmessage>
                 </observers>
@@ -138,7 +138,7 @@
                 <observers>
                     <giftmessage>
                         <type>model</type>
-                        <class>giftmessage/observer</class>
+                        <class>Mage_GiftMessage_Model_Observer</class>
                         <method>salesEventConvertQuoteItemToOrderItem</method>
                     </giftmessage>
                 </observers>
@@ -147,7 +147,7 @@
                 <observers>
                     <giftmessage>
                         <type>model</type>
-                        <class>giftmessage/observer</class>
+                        <class>Mage_GiftMessage_Model_Observer</class>
                         <method>salesEventConvertQuoteAddressToOrder</method>
                     </giftmessage>
                 </observers>
@@ -156,7 +156,7 @@
                 <observers>
                     <giftmessage>
                         <type>model</type>
-                        <class>giftmessage/observer</class>
+                        <class>Mage_GiftMessage_Model_Observer</class>
                         <method>salesEventConvertQuoteToOrder</method>
                     </giftmessage>
                 </observers>
@@ -165,7 +165,7 @@
                 <observers>
                     <giftmessage>
                         <type>model</type>
-                        <class>giftmessage/observer</class>
+                        <class>Mage_GiftMessage_Model_Observer</class>
                         <method>checkoutEventCreateGiftMessage</method>
                     </giftmessage>
                 </observers>
@@ -174,7 +174,7 @@
                 <observers>
                     <giftmessage>
                         <type>model</type>
-                        <class>giftmessage/observer</class>
+                        <class>Mage_GiftMessage_Model_Observer</class>
                         <method>checkoutEventCreateGiftMessage</method>
                     </giftmessage>
                 </observers>
@@ -183,7 +183,7 @@
                 <observers>
                     <giftmessage>
                         <type>model</type>
-                        <class>giftmessage/observer</class>
+                        <class>Mage_GiftMessage_Model_Observer</class>
                         <method>salesEventOrderToQuote</method>
                     </giftmessage>
                 </observers>

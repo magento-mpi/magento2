@@ -74,7 +74,7 @@
             <adminhtml_catalog_product_attribute_edit_prepare_form>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>eavAttributeEditFormInit</method>
                     </enterprise_search>
                 </observers>
@@ -82,7 +82,7 @@
             <catalogsearch_index_process_start>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>holdCommit</method>
                     </enterprise_search>
                 </observers>
@@ -90,7 +90,7 @@
             <catalogsearch_index_process_complete>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>applyIndexChanges</method>
                     </enterprise_search>
                 </observers>
@@ -98,7 +98,7 @@
             <catalogsearch_query_save_after>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>searchQueryEditFormAfterSave</method>
                     </enterprise_search>
                 </observers>
@@ -106,7 +106,7 @@
             <customer_group_save_after>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>customerGroupSaveAfter</method>
                     </enterprise_search>
                 </observers>
@@ -114,7 +114,7 @@
             <website_delete_before>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>saveStoreIdsBeforeScopeDelete</method>
                     </enterprise_search>
                 </observers>
@@ -122,7 +122,7 @@
             <store_group_delete_before>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>saveStoreIdsBeforeScopeDelete</method>
                     </enterprise_search>
                 </observers>
@@ -130,7 +130,7 @@
             <website_delete_after>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>clearIndexForStores</method>
                     </enterprise_search>
                 </observers>
@@ -138,7 +138,7 @@
             <store_group_delete_after>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>clearIndexForStores</method>
                     </enterprise_search>
                 </observers>
@@ -146,7 +146,7 @@
             <store_delete_after>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>clearIndexForStores</method>
                     </enterprise_search>
                 </observers>
@@ -174,7 +174,7 @@
             <controller_action_predispatch_catalog_category_view>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>resetCurrentCatalogLayer</method>
                     </enterprise_search>
                 </observers>
@@ -182,7 +182,7 @@
             <controller_action_predispatch_catalogsearch_result_index>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>resetCurrentSearchLayer</method>
                     </enterprise_search>
                 </observers>
@@ -190,7 +190,7 @@
             <controller_action_predispatch_catalogsearch_advanced_result>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>resetCurrentSearchLayer</method>
                     </enterprise_search>
                 </observers>

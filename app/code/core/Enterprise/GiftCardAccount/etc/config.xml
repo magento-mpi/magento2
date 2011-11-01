@@ -44,7 +44,7 @@
             <quote>
                 <totals>
                     <giftcardaccount>
-                        <class>enterprise_giftcardaccount/total_quote_giftcardaccount</class>
+                        <class>Enterprise_GiftCardAccount_Model_Total_Quote_Giftcardaccount</class>
                         <after>wee,discount,tax,tax_subtotal,grand_total,reward</after>
                         <before>customerbalance</before>
                         <renderer>enterprise_giftcardaccount/checkout_cart_total</renderer>
@@ -54,14 +54,14 @@
             <order_invoice>
                 <totals>
                     <giftcardaccount>
-                        <class>enterprise_giftcardaccount/total_invoice_giftcardaccount</class>
+                        <class>Enterprise_GiftCardAccount_Model_Total_Invoice_Giftcardaccount</class>
                     </giftcardaccount>
                 </totals>
             </order_invoice>
             <order_creditmemo>
                 <totals>
                     <giftcardaccount>
-                        <class>enterprise_giftcardaccount/total_creditmemo_giftcardaccount</class>
+                        <class>Enterprise_GiftCardAccount_Model_Total_Creditmemo_Giftcardaccount</class>
                     </giftcardaccount>
                 </totals>
             </order_creditmemo>
@@ -80,7 +80,7 @@
             <enterprise_giftcardaccount_save_after>
                 <observers>
                     <enterprise_giftcardaccount_save_after>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>giftcardaccountSaveAfter</method>
                     </enterprise_giftcardaccount_save_after>
                 </observers>
@@ -88,7 +88,7 @@
             <sales_order_invoice_save_after>
                 <observers>
                     <enterprise_giftcardaccount_sales_order_invoice_save_after>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>increaseOrderInvoicedAmount</method>
                     </enterprise_giftcardaccount_sales_order_invoice_save_after>
                 </observers>
@@ -96,7 +96,7 @@
             <sales_order_invoice_register>
                 <observers>
                     <enterprise_giftcardaccount_sales_order_invoice_register>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>increaseOrderGiftCardInvoicedAmount</method>
                     </enterprise_giftcardaccount_sales_order_invoice_register>
                 </observers>
@@ -104,7 +104,7 @@
             <enterprise_giftcardaccount_charge_by_code>
                 <observers>
                     <enterprise_giftcardaccount_charge_by_code>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>chargeByCode</method>
                     </enterprise_giftcardaccount_charge_by_code>
                 </observers>
@@ -112,7 +112,7 @@
             <enterprise_giftcardaccount_charge>
                 <observers>
                     <enterprise_giftcardaccount_charge>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>chargeById</method>
                     </enterprise_giftcardaccount_charge>
                 </observers>
@@ -120,7 +120,7 @@
             <enterprise_giftcardaccount_create>
                 <observers>
                     <enterprise_giftcardaccount_create>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>create</method>
                     </enterprise_giftcardaccount_create>
                 </observers>
@@ -128,7 +128,7 @@
             <adminhtml_sales_order_create_process_data>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>processOrderCreationData</method>
                     </enterprise_giftcardaccount>
                 </observers>
@@ -136,7 +136,7 @@
             <sales_quote_payment_import_data_before>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>paymentDataImport</method>
                     </enterprise_giftcardaccount>
                 </observers>
@@ -144,7 +144,7 @@
             <payment_method_is_active>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>togglePaymentMethods</method>
                     </enterprise_giftcardaccount>
                 </observers>
@@ -152,7 +152,7 @@
             <sales_quote_collect_totals_before>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>quoteCollectTotalsBefore</method>
                     </enterprise_giftcardaccount>
                 </observers>
@@ -160,7 +160,7 @@
             <sales_quote_merge_after>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>quoteMergeAfter</method>
                     </enterprise_giftcardaccount>
                 </observers>
@@ -168,7 +168,7 @@
             <sales_order_creditmemo_refund>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>refund</method>
                     </enterprise_giftcardaccount>
                 </observers>
@@ -176,7 +176,7 @@
             <adminhtml_sales_order_creditmemo_register_before>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>creditmemoDataImport</method>
                     </enterprise_giftcardaccount>
                 </observers>
@@ -184,7 +184,7 @@
             <sales_order_load_after>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>salesOrderLoadAfter</method>
                     </enterprise_giftcardaccount>
                 </observers>
@@ -192,7 +192,7 @@
             <paypal_prepare_line_items>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>addPaypalGiftCardItem</method>
                     </enterprise_giftcardaccount>
                 </observers>
@@ -200,7 +200,7 @@
             <sales_model_service_quote_submit_before>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>processOrderPlace</method>
                     </enterprise_giftcardaccount>
                 </observers>
@@ -208,7 +208,7 @@
             <sales_model_service_quote_submit_failure>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>revertGiftCardAccountBalance</method>
                     </enterprise_giftcardaccount>
                 </observers>
@@ -216,7 +216,7 @@
             <checkout_type_multishipping_create_orders_single>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>processOrderPlace</method>
                     </enterprise_giftcardaccount>
                 </observers>
@@ -224,7 +224,7 @@
             <googlecheckout_save_order_after>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>processOrderPlace</method>
                     </enterprise_giftcardaccount>
                 </observers>
@@ -232,7 +232,7 @@
             <googlecheckout_create_order_before>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>processOrderCreateBefore</method>
                     </enterprise_giftcardaccount>
                 </observers>
@@ -240,7 +240,7 @@
             <checkout_multishipping_refund_all>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>revertGiftCardsForAllOrders</method>
                     </enterprise_giftcardaccount>
                 </observers>
@@ -298,7 +298,7 @@
             <google_checkout_discount_item_price>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>googleCheckoutDiscoutItem</method>
                     </enterprise_giftcardaccount>
                 </observers>
@@ -337,7 +337,7 @@
             <order_cancel_after>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>returnFundsToStoreCredit</method>
                     </enterprise_giftcardaccount>
                 </observers>

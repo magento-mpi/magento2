@@ -46,7 +46,7 @@
             <admin_session_user_login_success>
                 <observers>
                     <enterprise_enterprise>
-                        <class>enterprise_enterprise/observer</class>
+                        <class>Enterprise_Enterprise_Model_Observer</class>
                         <method>setHideSurveyQuestion</method>
                     </enterprise_enterprise>
                 </observers>
@@ -59,7 +59,7 @@
             <controller_action_predispatch_install>
                 <observers>
                     <enterprise_install>
-                        <class>enterprise_enterprise/observer_install</class>
+                        <class>Enterprise_Enterprise_Model_Observer_Install</class>
                         <method>setDesignTheme</method>
                     </enterprise_install>
                 </observers>

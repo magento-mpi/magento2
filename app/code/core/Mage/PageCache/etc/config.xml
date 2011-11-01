@@ -36,7 +36,7 @@
             <controls>
                 <zend_page_cache translate="label" module="Mage_PageCache">
                     <label>Zend Full Page Cache</label>
-                    <class>pagecache/control_zend</class>
+                    <class>Mage_PageCache_Model_Control_Zend</class>
                 </zend_page_cache>
             </controls>
         </external_cache>
@@ -71,7 +71,7 @@
             <controller_action_predispatch>
                 <observers>
                     <pagecache>
-                        <class>pagecache/observer</class>
+                        <class>Mage_PageCache_Model_Observer</class>
                         <method>processPreDispatch</method>
                     </pagecache>
                 </observers>

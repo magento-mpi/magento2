@@ -36,7 +36,7 @@
             <core_block_abstract_to_html_before>
                 <observers>
                     <enterprise_promotionpermissions>
-                        <class>enterprise_promotionpermissions/observer</class>
+                        <class>Enterprise_PromotionPermissions_Model_Observer</class>
                         <method>coreBlockAbstractToHtmlBefore</method>
                     </enterprise_promotionpermissions>
                 </observers>
@@ -44,7 +44,7 @@
             <adminhtml_block_html_before>
                 <observers>
                     <enterprise_promotionpermissions>
-                        <class>enterprise_promotionpermissions/observer</class>
+                        <class>Enterprise_PromotionPermissions_Model_Observer</class>
                         <method>adminhtmlBlockHtmlBefore</method>
                     </enterprise_promotionpermissions>
                 </observers>
@@ -52,7 +52,7 @@
             <controller_action_predispatch>
                 <observers>
                     <enterprise_promotionpermissions>
-                        <class>enterprise_promotionpermissions/observer</class>
+                        <class>Enterprise_PromotionPermissions_Model_Observer</class>
                         <method>controllerActionPredispatch</method>
                     </enterprise_promotionpermissions>
                 </observers>

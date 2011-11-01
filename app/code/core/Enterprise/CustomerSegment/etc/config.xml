@@ -44,7 +44,7 @@
             <customer_save_commit_after>
                 <observers>
                     <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
+                        <class>Enterprise_CustomerSegment_Model_Observer</class>
                         <method>processCustomerEvent</method>
                     </enterprise_customersegment>
                 </observers>
@@ -52,7 +52,7 @@
             <customer_address_save_commit_after>
                 <observers>
                     <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
+                        <class>Enterprise_CustomerSegment_Model_Observer</class>
                         <method>processCustomerEvent</method>
                     </enterprise_customersegment>
                 </observers>
@@ -60,7 +60,7 @@
             <customer_address_delete_commit_after>
                 <observers>
                     <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
+                        <class>Enterprise_CustomerSegment_Model_Observer</class>
                         <method>processCustomerEvent</method>
                     </enterprise_customersegment>
                 </observers>
@@ -68,7 +68,7 @@
             <customer_balance_save_commit_after>
                 <observers>
                     <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
+                        <class>Enterprise_CustomerSegment_Model_Observer</class>
                         <method>processCustomerEvent</method>
                     </enterprise_customersegment>
                 </observers>
@@ -98,7 +98,7 @@
             <salesrule_rule_condition_combine>
                 <observers>
                     <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
+                        <class>Enterprise_CustomerSegment_Model_Observer</class>
                         <method>addSegmentsToSalesRuleCombine</method>
                     </enterprise_customersegment>
                 </observers>
@@ -106,7 +106,7 @@
             <sales_quote_collect_totals_before>
                 <observers>
                     <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
+                        <class>Enterprise_CustomerSegment_Model_Observer</class>
                         <method>processQuote</method>
                     </enterprise_customersegment>
                 </observers>
@@ -114,7 +114,7 @@
             <enterprise_customer_address_attribute_edit_tab_general_prepare_form>
                 <observers>
                     <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
+                        <class>Enterprise_CustomerSegment_Model_Observer</class>
                         <method>enterpiseCustomerAttributeEditPrepareForm</method>
                     </enterprise_customersegment>
                 </observers>
@@ -122,7 +122,7 @@
             <enterprise_customer_attribute_edit_tab_general_prepare_form>
                 <observers>
                     <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
+                        <class>Enterprise_CustomerSegment_Model_Observer</class>
                         <method>enterpiseCustomerAttributeEditPrepareForm</method>
                     </enterprise_customersegment>
                 </observers>
@@ -143,7 +143,7 @@
             <sales_quote_save_commit_after>
                 <observers>
                     <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
+                        <class>Enterprise_CustomerSegment_Model_Observer</class>
                         <method>processEvent</method>
                     </enterprise_customersegment>
                 </observers>
@@ -151,7 +151,7 @@
             <sales_order_save_commit_after>
                 <observers>
                     <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
+                        <class>Enterprise_CustomerSegment_Model_Observer</class>
                         <method>processEvent</method>
                     </enterprise_customersegment>
                 </observers>
@@ -159,7 +159,7 @@
             <catalog_controller_product_view>
                 <observers>
                     <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
+                        <class>Enterprise_CustomerSegment_Model_Observer</class>
                         <method>processEvent</method>
                     </enterprise_customersegment>
                 </observers>
@@ -167,7 +167,7 @@
             <checkout_cart_save_after>
                 <observers>
                     <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
+                        <class>Enterprise_CustomerSegment_Model_Observer</class>
                         <method>processEvent</method>
                     </enterprise_customersegment>
                 </observers>
@@ -175,7 +175,7 @@
             <wishlist_items_renewed>
                 <observers>
                     <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
+                        <class>Enterprise_CustomerSegment_Model_Observer</class>
                         <method>processEvent</method>
                     </enterprise_customersegment>
                 </observers>
@@ -183,7 +183,7 @@
             <customer_login>
                 <observers>
                     <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
+                        <class>Enterprise_CustomerSegment_Model_Observer</class>
                         <method>processEvent</method>
                     </enterprise_customersegment>
                 </observers>
@@ -191,7 +191,7 @@
             <newsletter_subscriber_save_commit_after>
                 <observers>
                     <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
+                        <class>Enterprise_CustomerSegment_Model_Observer</class>
                         <method>processEvent</method>
                     </enterprise_customersegment>
                 </observers>

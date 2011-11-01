@@ -86,7 +86,7 @@
                 <observers>
                     <loadtest>
                         <type>singleton</type>
-                        <class>loadtest/observer</class>
+                        <class>Mage_LoadTest_Model_Observer</class>
                         <method>preDispatch</method>
                     </loadtest>
                 </observers>
@@ -95,7 +95,7 @@
                 <observers>
                     <loadtest>
                         <type>singleton</type>
-                        <class>loadtest/observer</class>
+                        <class>Mage_LoadTest_Model_Observer</class>
                         <method>postDispatch</method>
                     </loadtest>
                 </observers>
@@ -104,7 +104,7 @@
                 <observers>
                     <loadtest>
                         <type>singleton</type>
-                        <class>loadtest/observer</class>
+                        <class>Mage_LoadTest_Model_Observer</class>
                         <method>prepareLayoutBefore</method>
                     </loadtest>
                 </observers>
@@ -113,7 +113,7 @@
                 <observers>
                     <loadtest>
                         <type>singleton</type>
-                        <class>loadtest/observer</class>
+                        <class>Mage_LoadTest_Model_Observer</class>
                         <method>prepareLayoutAfter</method>
                     </loadtest>
                 </observers>
@@ -122,7 +122,7 @@
                 <observers>
                     <loadtest>
                         <type>singleton</type>
-                        <class>loadtest/observer</class>
+                        <class>Mage_LoadTest_Model_Observer</class>
                         <method>toHtmlBefore</method>
                     </loadtest>
                 </observers>
@@ -131,7 +131,7 @@
                 <observers>
                     <loadtest>
                         <type>singleton</type>
-                        <class>loadtest/observer</class>
+                        <class>Mage_LoadTest_Model_Observer</class>
                         <method>toHtmlAfter</method>
                     </loadtest>
                 </observers>

@@ -53,7 +53,7 @@
             <quote>
                 <totals>
                     <customerbalance>
-                        <class>enterprise_customerbalance/total_quote_customerbalance</class>
+                        <class>Enterprise_CustomerBalance_Model_Total_Quote_Customerbalance</class>
                         <after>wee,discount,tax,tax_subtotal,grand_total,reward,giftcardaccount</after>
                         <renderer>enterprise_customerbalance/checkout_total</renderer>
                     </customerbalance>
@@ -62,14 +62,14 @@
             <order_invoice>
                 <totals>
                     <customerbalance>
-                        <class>enterprise_customerbalance/total_invoice_customerbalance</class>
+                        <class>Enterprise_CustomerBalance_Model_Total_Invoice_Customerbalance</class>
                     </customerbalance>
                 </totals>
             </order_invoice>
             <order_creditmemo>
                 <totals>
                     <customerbalance>
-                        <class>enterprise_customerbalance/total_creditmemo_customerbalance</class>
+                        <class>Enterprise_CustomerBalance_Model_Total_Creditmemo_Customerbalance</class>
                     </customerbalance>
                 </totals>
             </order_creditmemo>
@@ -78,7 +78,7 @@
             <adminhtml_customer_save_after>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>customerSaveAfter</method>
                     </enterprise_customerbalance>
                 </observers>
@@ -86,7 +86,7 @@
             <sales_quote_payment_import_data_before>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>paymentDataImport</method>
                     </enterprise_customerbalance>
                 </observers>
@@ -94,7 +94,7 @@
             <sales_model_service_quote_submit_before>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>processOrderPlace</method>
                     </enterprise_customerbalance>
                 </observers>
@@ -102,7 +102,7 @@
             <sales_model_service_quote_submit_failure>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>revertStoreCredit</method>
                     </enterprise_customerbalance>
                 </observers>
@@ -110,7 +110,7 @@
             <checkout_type_multishipping_create_orders_single>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>processOrderPlace</method>
                     </enterprise_customerbalance>
                 </observers>
@@ -118,7 +118,7 @@
             <checkout_multishipping_refund_all>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>revertStoreCreditForAllOrders</method>
                     </enterprise_customerbalance>
                 </observers>
@@ -126,7 +126,7 @@
             <core_layout_update_updates_get_after>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>disableLayout</method>
                     </enterprise_customerbalance>
                 </observers>
@@ -134,7 +134,7 @@
             <adminhtml_sales_order_create_process_data>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>processOrderCreationData</method>
                     </enterprise_customerbalance>
                 </observers>
@@ -142,7 +142,7 @@
             <payment_method_is_active>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>togglePaymentMethods</method>
                     </enterprise_customerbalance>
                 </observers>
@@ -150,7 +150,7 @@
             <sales_quote_collect_totals_before>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>quoteCollectTotalsBefore</method>
                     </enterprise_customerbalance>
                 </observers>
@@ -158,7 +158,7 @@
             <sales_quote_merge_after>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>quoteMergeAfter</method>
                     </enterprise_customerbalance>
                 </observers>
@@ -166,7 +166,7 @@
             <sales_order_invoice_save_after>
                 <observers>
                     <enterprise_customerbalance_sales_order_invoice_save_after>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>increaseOrderInvoicedAmount</method>
                     </enterprise_customerbalance_sales_order_invoice_save_after>
                 </observers>
@@ -174,7 +174,7 @@
             <sales_order_creditmemo_save_after>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>creditmemoSaveAfter</method>
                     </enterprise_customerbalance>
                 </observers>
@@ -182,7 +182,7 @@
             <adminhtml_sales_order_creditmemo_register_before>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>creditmemoDataImport</method>
                     </enterprise_customerbalance>
                 </observers>
@@ -190,7 +190,7 @@
             <sales_order_load_after>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>salesOrderLoadAfter</method>
                     </enterprise_customerbalance>
                 </observers>
@@ -198,7 +198,7 @@
             <sales_order_creditmemo_refund>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>refund</method>
                     </enterprise_customerbalance>
                 </observers>
@@ -206,7 +206,7 @@
             <website_delete_before>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>setCustomersBalanceCurrencyToWebsiteBaseCurrency</method>
                     </enterprise_customerbalance>
                 </observers>
@@ -214,7 +214,7 @@
             <paypal_prepare_line_items>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>addPaypalCustomerBalanceItem</method>
                     </enterprise_customerbalance>
                 </observers>
@@ -293,7 +293,7 @@
             <adminhtml_customer_prepare_save>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>prepareCustomerBalanceSave</method>
                     </enterprise_customerbalance>
                 </observers>

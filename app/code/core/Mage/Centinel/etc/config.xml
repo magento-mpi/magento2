@@ -36,7 +36,7 @@
             <sales_convert_quote_to_order>
                 <observers>
                     <centinel>
-                        <class>centinel/observer</class>
+                        <class>Mage_Centinel_Model_Observer</class>
                         <method>salesEventConvertQuoteToOrder</method>
                     </centinel>
                 </observers>
@@ -44,7 +44,7 @@
             <checkout_submit_all_after>
                 <observers>
                     <centinel>
-                        <class>centinel/observer</class>
+                        <class>Mage_Centinel_Model_Observer</class>
                         <method>checkoutSubmitAllAfter</method>
                     </centinel>
                 </observers>
@@ -66,7 +66,7 @@
                 <observers>
                     <centinel>
                         <type>model</type>
-                        <class>centinel/observer</class>
+                        <class>Mage_Centinel_Model_Observer</class>
                         <method>paymentFormBlockToHtmlBefore</method>
                     </centinel>
                 </observers>
@@ -98,7 +98,7 @@
                 <observers>
                     <centinel>
                         <type>model</type>
-                        <class>centinel/observer</class>
+                        <class>Mage_Centinel_Model_Observer</class>
                         <method>paymentInfoBlockPrepareSpecificInformation</method>
                     </centinel>
                 </observers>

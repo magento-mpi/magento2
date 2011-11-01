@@ -45,7 +45,7 @@
                 <observers>
                     <weee>
                         <type>model</type>
-                        <class>weee/observer</class>
+                        <class>Mage_Weee_Model_Observer</class>
                         <method>assignBackendModelToAttribute</method>
                     </weee>
                 </observers>
@@ -53,7 +53,7 @@
             <catalogrule_after_apply>
                 <observers>
                     <weee>
-                        <class>weee/observer</class>
+                        <class>Mage_Weee_Model_Observer</class>
                         <method>updateDiscountPercents</method>
                     </weee>
                 </observers>
@@ -61,7 +61,7 @@
             <catalog_product_view_config>
                 <observers>
                     <weee>
-                        <class>weee/observer</class>
+                        <class>Mage_Weee_Model_Observer</class>
                         <method>updateCofigurableProductOptions</method>
                     </weee>
                 </observers>
@@ -69,7 +69,7 @@
             <bundle_product_view_config>
                 <observers>
                     <weee>
-                        <class>weee/observer</class>
+                        <class>Mage_Weee_Model_Observer</class>
                         <method>updateBundleProductOptions</method>
                     </weee>
                 </observers>
@@ -79,14 +79,14 @@
             <quote>
                 <totals>
                     <weee>
-                        <class>weee/total_quote_weee</class>
+                        <class>Mage_Weee_Model_Total_Quote_Weee</class>
                         <after>subtotal,tax_subtotal</after>
                         <before>tax,discount</before>
                     </weee>
                 </totals>
                 <nominal_totals>
                     <nominal_weee>
-                        <class>weee/total_quote_nominal_weee</class>
+                        <class>Mage_Weee_Model_Total_Quote_Nominal_Weee</class>
                         <sort_order>600</sort_order>
                     </nominal_weee>
                 </nominal_totals>
@@ -94,7 +94,7 @@
             <order_invoice>
                 <totals>
                     <weee>
-                        <class>weee/total_invoice_weee</class>
+                        <class>Mage_Weee_Model_Total_Invoice_Weee</class>
                         <after>subtotal,tax</after>
                         <before>grand_total</before>
                     </weee>
@@ -103,7 +103,7 @@
             <order_creditmemo>
                 <totals>
                     <weee>
-                        <class>weee/total_creditmemo_weee</class>
+                        <class>Mage_Weee_Model_Total_Creditmemo_Weee</class>
                         <after>subtotal,tax</after>
                         <before>grand_total</before>
                     </weee>
@@ -116,7 +116,7 @@
             <adminhtml_catalog_product_edit_prepare_form>
                 <observers>
                     <weee>
-                        <class>weee/observer</class>
+                        <class>Mage_Weee_Model_Observer</class>
                         <method>setWeeeRendererInForm</method>
                     </weee>
                 </observers>
@@ -124,7 +124,7 @@
             <adminhtml_catalog_product_form_prepare_excluded_field_list>
                 <observers>
                     <weee>
-                        <class>weee/observer</class>
+                        <class>Mage_Weee_Model_Observer</class>
                         <method>updateExcludedFieldList</method>
                     </weee>
                 </observers>
@@ -133,7 +133,7 @@
                 <observers>
                     <weee>
                         <type>model</type>
-                        <class>weee/observer</class>
+                        <class>Mage_Weee_Model_Observer</class>
                         <method>addWeeeTaxAttributeType</method>
                     </weee>
                 </observers>
@@ -141,7 +141,7 @@
             <adminhtml_catalog_product_edit_element_types>
                 <observers>
                     <weee>
-                        <class>weee/observer</class>
+                        <class>Mage_Weee_Model_Observer</class>
                         <method>updateElementTypes</method>
                     </weee>
                 </observers>

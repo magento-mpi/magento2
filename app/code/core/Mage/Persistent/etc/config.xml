@@ -64,7 +64,7 @@
             <customer_login>
                 <observers>
                     <persistent>
-                        <class>persistent/observer_session</class>
+                        <class>Mage_Persistent_Model_Observer_Session</class>
                         <method>synchronizePersistentOnLogin</method>
                     </persistent>
                 </observers>
@@ -72,7 +72,7 @@
             <customer_logout>
                 <observers>
                     <persistent>
-                        <class>persistent/observer_session</class>
+                        <class>Mage_Persistent_Model_Observer_Session</class>
                         <method>synchronizePersistentOnLogout</method>
                     </persistent>
                 </observers>
@@ -80,7 +80,7 @@
             <controller_front_send_response_after>
                 <observers>
                     <persistent>
-                        <class>persistent/observer_session</class>
+                        <class>Mage_Persistent_Model_Observer_Session</class>
                         <method>synchronizePersistentInfo</method>
                     </persistent>
                 </observers>
@@ -88,7 +88,7 @@
             <controller_action_layout_load_before>
                 <observers>
                     <persistent>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>createPersistentHandleLayout</method>
                     </persistent>
                 </observers>
@@ -96,7 +96,7 @@
             <controller_action_predispatch_customer_account_loginPost>
                 <observers>
                     <persistent>
-                        <class>persistent/observer_session</class>
+                        <class>Mage_Persistent_Model_Observer_Session</class>
                         <method>setRememberMeCheckedStatus</method>
                     </persistent>
                 </observers>
@@ -104,11 +104,11 @@
             <controller_action_predispatch_customer_account_createpost>
                 <observers>
                     <persistent>
-                        <class>persistent/observer_session</class>
+                        <class>Mage_Persistent_Model_Observer_Session</class>
                         <method>setRememberMeCheckedStatus</method>
                     </persistent>
                     <persistent_authenticate>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>customerAuthenticatedEvent</method>
                     </persistent_authenticate>
                 </observers>
@@ -116,7 +116,7 @@
             <controller_action_layout_generate_blocks_after>
                 <observers>
                     <persistent>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>applyPersistentData</method>
                     </persistent>
                 </observers>
@@ -124,19 +124,19 @@
             <controller_action_predispatch>
                 <observers>
                     <persistent>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>emulateQuote</method>
                     </persistent>
                     <persistent_session>
-                        <class>persistent/observer_session</class>
+                        <class>Mage_Persistent_Model_Observer_Session</class>
                         <method>renewCookie</method>
                     </persistent_session>
                     <persistent_quote>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>checkExpirePersistentQuote</method>
                     </persistent_quote>
                     <persistent_customer>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>emulateCustomer</method>
                     </persistent_customer>
                 </observers>
@@ -144,7 +144,7 @@
             <checkout_allow_guest>
                 <observers>
                     <persistent>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>disableGuestCheckout</method>
                     </persistent>
                 </observers>
@@ -152,7 +152,7 @@
             <customer_customer_authenticated>
                 <observers>
                     <persistent>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>customerAuthenticatedEvent</method>
                     </persistent>
                 </observers>
@@ -160,7 +160,7 @@
             <controller_action_predispatch_persistent_index_unsetCookie>
                 <observers>
                     <persistent>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>preventClearCheckoutSession</method>
                     </persistent>
                 </observers>
@@ -168,7 +168,7 @@
             <controller_action_postdispatch_persistent_index_unsetCookie>
                 <observers>
                     <persistent>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>makePersistentQuoteGuest</method>
                     </persistent>
                 </observers>
@@ -176,7 +176,7 @@
             <sales_quote_save_before>
                 <observers>
                     <persistent>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>setQuotePersistentData</method>
                     </persistent>
                 </observers>
@@ -184,7 +184,7 @@
             <custom_quote_process>
                 <observers>
                     <persistent>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>setLoadPersistentQuote</method>
                     </persistent>
                 </observers>
@@ -192,7 +192,7 @@
             <controller_action_postdispatch_checkout_onepage_saveBilling>
                 <observers>
                     <persistent>
-                        <class>persistent/observer_session</class>
+                        <class>Mage_Persistent_Model_Observer_Session</class>
                         <method>setRememberMeCheckedStatus</method>
                     </persistent>
                 </observers>
@@ -200,7 +200,7 @@
             <customer_register_success>
                 <observers>
                     <persistent>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>removePersistentCookie</method>
                     </persistent>
                 </observers>
@@ -208,7 +208,7 @@
             <controller_action_predispatch_paypal_express_start>
                 <observers>
                     <persistent>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>preventExpressCheckout</method>
                     </persistent>
                 </observers>
@@ -216,7 +216,7 @@
             <controller_action_predispatch_paypaluk_express_start>
                 <observers>
                     <persistent>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>preventExpressCheckout</method>
                     </persistent>
                 </observers>
@@ -224,7 +224,7 @@
             <controller_action_predispatch_googlecheckout_redirect_checkout>
                 <observers>
                     <persistent>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>preventExpressCheckout</method>
                     </persistent>
                 </observers>
@@ -232,7 +232,7 @@
             <controller_action_predispatch_checkout_multishipping_index>
                 <observers>
                     <persistent>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>preventExpressCheckout</method>
                     </persistent>
                 </observers>
@@ -240,7 +240,7 @@
             <render_block>
                 <observers>
                     <persistent>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>applyBlockPersistentData</method>
                     </persistent>
                 </observers>
@@ -248,7 +248,7 @@
             <update_customer_cookies>
                 <observers>
                     <persistent>
-                        <class>persistent/observer</class>
+                        <class>Mage_Persistent_Model_Observer</class>
                         <method>updateCustomerCookies</method>
                     </persistent>
                 </observers>

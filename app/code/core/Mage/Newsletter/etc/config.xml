@@ -67,7 +67,7 @@
             <customer_save_after>
                 <observers>
                     <newsletter_subscribe_observer>
-                        <class>newsletter/observer</class>
+                        <class>Mage_Newsletter_Model_Observer</class>
                         <method>subscribeCustomer</method>
                     </newsletter_subscribe_observer>
                 </observers>
@@ -75,7 +75,7 @@
             <customer_delete_after>
                 <observers>
                     <newsletter_subscribe_observer>
-                        <class>newsletter/observer</class>
+                        <class>Mage_Newsletter_Model_Observer</class>
                         <method>customerDeleted</method>
                     </newsletter_subscribe_observer>
                 </observers>
@@ -103,7 +103,7 @@
             <customer_save_after>
                 <observers>
                     <newsletter_subscribe_observer>
-                        <class>newsletter/observer</class>
+                        <class>Mage_Newsletter_Model_Observer</class>
                         <method>subscribeCustomer</method>
                     </newsletter_subscribe_observer>
                 </observers>
@@ -111,7 +111,7 @@
             <customer_delete_after>
                 <observers>
                     <newsletter_subscribe_observer>
-                        <class>newsletter/observer</class>
+                        <class>Mage_Newsletter_Model_Observer</class>
                         <method>customerDeleted</method>
                     </newsletter_subscribe_observer>
                 </observers>

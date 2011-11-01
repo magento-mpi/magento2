@@ -128,7 +128,7 @@
             <cms_wysiwyg_config_prepare>
                 <observers>
                     <variable_observer>
-                        <class>core/variable_observer</class>
+                        <class>Mage_Core_Model_Variable_Observer</class>
                         <method>prepareWysiwygPluginConfig</method>
                     </variable_observer>
                 </observers>
@@ -136,7 +136,7 @@
             <controller_action_predispatch_adminhtml>
                 <observers>
                     <synchronize_notification>
-                        <class>core/observer</class>
+                        <class>Mage_Core_Model_Observer</class>
                         <method>addSynchronizeNotification</method>
                     </synchronize_notification>
                 </observers>
@@ -144,7 +144,7 @@
             <show_synchronize_message>
                 <observers>
                     <synchronize_notification>
-                        <class>core/observer</class>
+                        <class>Mage_Core_Model_Observer</class>
                         <method>addSynchronizeNotification</method>
                     </synchronize_notification>
                 </observers>

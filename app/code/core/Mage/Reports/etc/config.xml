@@ -43,7 +43,7 @@
             <log_log_clean_after>
                 <observers>
                     <reports>
-                        <class>reports/event_observer</class>
+                        <class>Mage_Reports_Model_Event_Observer</class>
                         <method>eventClean</method>
                     </reports>
                 </observers>
@@ -82,7 +82,7 @@
             <catalog_product_compare_remove_product>
                 <observers>
                     <reports>
-                        <class>reports/event_observer</class>
+                        <class>Mage_Reports_Model_Event_Observer</class>
                         <method>catalogProductCompareRemoveProduct</method>
                     </reports>
                 </observers>
@@ -90,7 +90,7 @@
             <customer_login>
                 <observers>
                     <reports>
-                        <class>reports/event_observer</class>
+                        <class>Mage_Reports_Model_Event_Observer</class>
                         <method>customerLogin</method>
                     </reports>
                 </observers>
@@ -98,7 +98,7 @@
             <customer_logout>
                 <observers>
                     <reports>
-                        <class>reports/event_observer</class>
+                        <class>Mage_Reports_Model_Event_Observer</class>
                         <method>customerLogout</method>
                     </reports>
                 </observers>
@@ -106,7 +106,7 @@
             <catalog_controller_product_view>
                 <observers>
                     <reports>
-                        <class>reports/event_observer</class>
+                        <class>Mage_Reports_Model_Event_Observer</class>
                         <method>catalogProductView</method>
                     </reports>
                 </observers>
@@ -114,7 +114,7 @@
             <sendfriend_product>
                 <observers>
                     <reports>
-                        <class>reports/event_observer</class>
+                        <class>Mage_Reports_Model_Event_Observer</class>
                         <method>sendfriendProduct</method>
                     </reports>
                 </observers>
@@ -122,7 +122,7 @@
             <catalog_product_compare_add_product>
                 <observers>
                     <reports>
-                        <class>reports/event_observer</class>
+                        <class>Mage_Reports_Model_Event_Observer</class>
                         <method>catalogProductCompareAddProduct</method>
                     </reports>
                 </observers>
@@ -130,7 +130,7 @@
             <catalog_product_compare_item_collection_clear>
                 <observers>
                     <reports>
-                        <class>reports/event_observer</class>
+                        <class>Mage_Reports_Model_Event_Observer</class>
                         <method>catalogProductCompareClear</method>
                     </reports>
                 </observers>
@@ -138,7 +138,7 @@
             <sales_quote_item_save_before>
                 <observers>
                     <reports>
-                        <class>reports/event_observer</class>
+                        <class>Mage_Reports_Model_Event_Observer</class>
                         <method>checkoutCartAddProduct</method>
                     </reports>
                 </observers>
@@ -146,7 +146,7 @@
             <wishlist_add_product>
                 <observers>
                     <reports>
-                        <class>reports/event_observer</class>
+                        <class>Mage_Reports_Model_Event_Observer</class>
                         <method>wishlistAddProduct</method>
                     </reports>
                 </observers>
@@ -154,7 +154,7 @@
             <wishlist_share>
                 <observers>
                     <reports>
-                        <class>reports/event_observer</class>
+                        <class>Mage_Reports_Model_Event_Observer</class>
                         <method>wishlistShare</method>
                     </reports>
                 </observers>

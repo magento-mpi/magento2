@@ -137,42 +137,42 @@
             <quote>
                 <totals>
                     <nominal>
-                        <class>sales/quote_address_total_nominal</class>
+                        <class>Mage_Sales_Model_Quote_Address_Total_Nominal</class>
                         <before>subtotal</before>
                     </nominal>
                     <subtotal>
-                        <class>sales/quote_address_total_subtotal</class>
+                        <class>Mage_Sales_Model_Quote_Address_Total_Subtotal</class>
                         <after>nominal</after>
                         <before>grand_total</before>
                     </subtotal>
                     <shipping>
-                        <class>sales/quote_address_total_shipping</class>
+                        <class>Mage_Sales_Model_Quote_Address_Total_Shipping</class>
                         <after>subtotal,freeshipping,tax_subtotal</after>
                         <before>grand_total</before>
                     </shipping>
                     <grand_total>
-                        <class>sales/quote_address_total_grand</class>
+                        <class>Mage_Sales_Model_Quote_Address_Total_Grand</class>
                         <after>subtotal</after>
                     </grand_total>
                     <msrp>
-                        <class>sales/quote_address_total_msrp</class>
+                        <class>Mage_Sales_Model_Quote_Address_Total_Msrp</class>
                     </msrp>
                 </totals>
                 <nominal_totals>
                     <recurring_initial_fee>
-                        <class>sales/quote_address_total_nominal_recurring_initial</class>
+                        <class>Mage_Sales_Model_Quote_Address_Total_Nominal_Recurring_Initial</class>
                         <sort_order>10</sort_order>
                     </recurring_initial_fee>
                     <recurring_trial_payment>
-                        <class>sales/quote_address_total_nominal_recurring_trial</class>
+                        <class>Mage_Sales_Model_Quote_Address_Total_Nominal_Recurring_Trial</class>
                         <sort_order>50</sort_order>
                     </recurring_trial_payment>
                     <nominal_subtotal>
-                        <class>sales/quote_address_total_nominal_subtotal</class>
+                        <class>Mage_Sales_Model_Quote_Address_Total_Nominal_Subtotal</class>
                         <sort_order>250</sort_order>
                     </nominal_subtotal>
                     <nominal_shipping>
-                        <class>sales/quote_address_total_nominal_shipping</class>
+                        <class>Mage_Sales_Model_Quote_Address_Total_Nominal_Shipping</class>
                         <sort_order>1250</sort_order>
                     </nominal_shipping>
                 </nominal_totals>
@@ -299,44 +299,44 @@
             <order_invoice>
                 <totals>
                     <subtotal>
-                        <class>sales/order_invoice_total_subtotal</class>
+                        <class>Mage_Sales_Model_Order_Invoice_Total_Subtotal</class>
                     </subtotal>
                     <discount>
-                        <class>sales/order_invoice_total_discount</class>
+                        <class>Mage_Sales_Model_Order_Invoice_Total_Discount</class>
                     </discount>
                     <shipping>
-                        <class>sales/order_invoice_total_shipping</class>
+                        <class>Mage_Sales_Model_Order_Invoice_Total_Shipping</class>
                     </shipping>
                     <tax>
-                        <class>sales/order_invoice_total_tax</class>
+                        <class>Mage_Sales_Model_Order_Invoice_Total_Tax</class>
                     </tax>
                     <grand_total>
-                        <class>sales/order_invoice_total_grand</class>
+                        <class>Mage_Sales_Model_Order_Invoice_Total_Grand</class>
                     </grand_total>
                     <cost_total>
-                        <class>sales/order_invoice_total_cost</class>
+                        <class>Mage_Sales_Model_Order_Invoice_Total_Cost</class>
                     </cost_total>
                 </totals>
             </order_invoice>
             <order_creditmemo>
                 <totals>
                     <subtotal>
-                        <class>sales/order_creditmemo_total_subtotal</class>
+                        <class>Mage_Sales_Model_Order_Creditmemo_Total_Subtotal</class>
                     </subtotal>
                     <shipping>
-                        <class>sales/order_creditmemo_total_shipping</class>
+                        <class>Mage_Sales_Model_Order_Creditmemo_Total_Shipping</class>
                     </shipping>
                     <tax>
-                        <class>sales/order_creditmemo_total_tax</class>
+                        <class>Mage_Sales_Model_Order_Creditmemo_Total_Tax</class>
                     </tax>
                     <discount>
-                        <class>sales/order_creditmemo_total_discount</class>
+                        <class>Mage_Sales_Model_Order_Creditmemo_Total_Discount</class>
                     </discount>
                     <grand_total>
-                        <class>sales/order_creditmemo_total_grand</class>
+                        <class>Mage_Sales_Model_Order_Creditmemo_Total_Grand</class>
                     </grand_total>
                     <cost_total>
-                        <class>sales/order_creditmemo_total_cost</class>
+                        <class>Mage_Sales_Model_Order_Creditmemo_Total_Cost</class>
                     </cost_total>
                 </totals>
             </order_creditmemo>
@@ -439,7 +439,7 @@
             <sales_quote_collect_totals_after>
                 <observers>
                     <catalog_msrp>
-                        <class>sales/observer</class>
+                        <class>Mage_Sales_Model_Observer</class>
                         <method>setQuoteCanApplyMsrp</method>
                     </catalog_msrp>
                 </observers>
@@ -467,7 +467,7 @@
             <catalog_product_delete_before>
                 <observers>
                     <sales_quote_observer>
-                        <class>sales/observer</class>
+                        <class>Mage_Sales_Model_Observer</class>
                         <method>substractQtyFromQuotes</method>
                     </sales_quote_observer>
                 </observers>
@@ -475,7 +475,7 @@
             <catalogrule_before_apply>
                 <observers>
                     <sales_quote_observer>
-                        <class>sales/observer</class>
+                        <class>Mage_Sales_Model_Observer</class>
                         <method>markQuotesRecollectOnCatalogRules</method>
                     </sales_quote_observer>
                 </observers>
@@ -483,7 +483,7 @@
             <catalogrule_after_apply>
                 <observers>
                     <sales_quote_observer>
-                        <class>sales/observer</class>
+                        <class>Mage_Sales_Model_Observer</class>
                         <method>markQuotesRecollectOnCatalogRules</method>
                     </sales_quote_observer>
                 </observers>
@@ -491,7 +491,7 @@
             <catalog_product_save_after>
                 <observers>
                     <sales_quote>
-                        <class>sales/observer</class>
+                        <class>Mage_Sales_Model_Observer</class>
                         <method>catalogProductSaveAfter</method>
                     </sales_quote>
                 </observers>
@@ -499,7 +499,7 @@
             <catalog_product_status_update>
                 <observers>
                     <sales_quote>
-                        <class>sales/observer</class>
+                        <class>Mage_Sales_Model_Observer</class>
                         <method>catalogProductStatusUpdate</method>
                     </sales_quote>
                 </observers>
@@ -507,7 +507,7 @@
             <catalog_product_edit_form_render_recurring>
                 <observers>
                     <payment>
-                        <class>sales/observer</class>
+                        <class>Mage_Sales_Model_Observer</class>
                         <method>prepareProductEditFormRecurringProfile</method>
                     </payment>
                 </observers>
@@ -515,7 +515,7 @@
             <payment_method_is_active>
                 <observers>
                     <sales_billing_agreement>
-                        <class>sales/observer</class>
+                        <class>Mage_Sales_Model_Observer</class>
                         <method>restrictAdminBillingAgreementUsage</method>
                     </sales_billing_agreement>
                 </observers>
@@ -523,7 +523,7 @@
             <customer_save_after>
                 <observers>
                     <customer>
-                        <class>sales/observer</class>
+                        <class>Mage_Sales_Model_Observer</class>
                         <method>customerSaveAfter</method>
                     </customer>
                 </observers>

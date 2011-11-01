@@ -46,7 +46,7 @@
             <admin_system_config_changed_section_feed>
                 <observers>
                     <find_feed>
-                        <class>find_feed/observer</class>
+                        <class>Find_Feed_Model_Observer</class>
                         <method>saveSystemConfig</method>
                     </find_feed>
                 </observers>

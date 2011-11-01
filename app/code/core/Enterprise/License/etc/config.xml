@@ -52,7 +52,7 @@
             <admin_user_authenticate_after>
                 <observers>
                     <enterprise_license>
-                        <class>enterprise_license/observer</class>
+                        <class>Enterprise_License_Model_Observer</class>
                         <method>adminUserAuthenticateAfter</method>
                     </enterprise_license>
                 </observers>
@@ -60,7 +60,7 @@
             <controller_action_predispatch>
                 <observers>
                     <enterprise_license>
-                        <class>enterprise_license/observer</class>
+                        <class>Enterprise_License_Model_Observer</class>
                         <method>preDispatch</method>
                     </enterprise_license>
                 </observers>

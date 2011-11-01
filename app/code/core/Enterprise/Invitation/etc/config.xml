@@ -118,7 +118,7 @@
             <customer_registration_is_allowed>
                 <observers>
                     <enterprise_invitation>
-                        <class>enterprise_invitation/observer</class>
+                        <class>Enterprise_Invitation_Model_Observer</class>
                         <method>restrictCustomerRegistration</method>
                     </enterprise_invitation>
                 </observers>

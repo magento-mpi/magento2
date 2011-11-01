@@ -45,7 +45,7 @@
                 <observers>
                     <enterprise_salesarchive>
                         <type>singleton</type>
-                        <class>enterprise_salesarchive/observer</class>
+                        <class>Enterprise_SalesArchive_Model_Observer</class>
                         <method>salesUpdateGridRecords</method>
                     </enterprise_salesarchive>
                 </observers>
@@ -54,7 +54,7 @@
                 <observers>
                     <enterprise_salesarchive>
                         <type>singleton</type>
-                        <class>enterprise_salesarchive/observer</class>
+                        <class>Enterprise_SalesArchive_Model_Observer</class>
                         <method>salesUpdateGridRecords</method>
                     </enterprise_salesarchive>
                 </observers>
@@ -63,7 +63,7 @@
                 <observers>
                     <enterprise_salesarchive>
                         <type>singleton</type>
-                        <class>enterprise_salesarchive/observer</class>
+                        <class>Enterprise_SalesArchive_Model_Observer</class>
                         <method>salesUpdateGridRecords</method>
                     </enterprise_salesarchive>
                 </observers>
@@ -72,7 +72,7 @@
                 <observers>
                     <enterprise_salesarchive>
                         <type>singleton</type>
-                        <class>enterprise_salesarchive/observer</class>
+                        <class>Enterprise_SalesArchive_Model_Observer</class>
                         <method>salesUpdateGridRecords</method>
                     </enterprise_salesarchive>
                 </observers>
@@ -103,7 +103,7 @@
                 <observers>
                     <enterprise_salesarchive>
                         <type>singleton</type>
-                        <class>enterprise_salesarchive/observer</class>
+                        <class>Enterprise_SalesArchive_Model_Observer</class>
                         <method>salesObjectAfterLoad</method>
                     </enterprise_salesarchive>
                 </observers>
@@ -112,7 +112,7 @@
                 <observers>
                     <enterprise_salesarchive>
                         <type>singleton</type>
-                        <class>enterprise_salesarchive/observer</class>
+                        <class>Enterprise_SalesArchive_Model_Observer</class>
                         <method>salesObjectAfterLoad</method>
                     </enterprise_salesarchive>
                 </observers>
@@ -121,7 +121,7 @@
                 <observers>
                     <enterprise_salesarchive>
                         <type>singleton</type>
-                        <class>enterprise_salesarchive/observer</class>
+                        <class>Enterprise_SalesArchive_Model_Observer</class>
                         <method>salesObjectAfterLoad</method>
                     </enterprise_salesarchive>
                 </observers>
@@ -130,7 +130,7 @@
                 <observers>
                     <enterprise_salesarchive>
                         <type>singleton</type>
-                        <class>enterprise_salesarchive/observer</class>
+                        <class>Enterprise_SalesArchive_Model_Observer</class>
                         <method>salesObjectAfterLoad</method>
                     </enterprise_salesarchive>
                 </observers>
@@ -139,7 +139,7 @@
                 <observers>
                     <enterprise_salesarchive>
                         <type>singleton</type>
-                        <class>enterprise_salesarchive/observer</class>
+                        <class>Enterprise_SalesArchive_Model_Observer</class>
                         <method>appendGridCollection</method>
                     </enterprise_salesarchive>
                 </observers>

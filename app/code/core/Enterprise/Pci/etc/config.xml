@@ -49,7 +49,7 @@
             <admin_user_save_before>
                 <observers>
                     <enterprise_pci>
-                        <class>enterprise_pci/observer</class>
+                        <class>Enterprise_Pci_Model_Observer</class>
                         <method>checkAdminPasswordChange</method>
                     </enterprise_pci>
                 </observers>
@@ -57,7 +57,7 @@
             <admin_user_save_after>
                 <observers>
                     <enterprise_pci>
-                        <class>enterprise_pci/observer</class>
+                        <class>Enterprise_Pci_Model_Observer</class>
                         <method>trackAdminNewPassword</method>
                     </enterprise_pci>
                 </observers>
@@ -76,7 +76,7 @@
             <admin_user_authenticate_after>
                 <observers>
                     <enterprise_pci>
-                        <class>enterprise_pci/observer</class>
+                        <class>Enterprise_Pci_Model_Observer</class>
                         <method>adminAuthenticate</method>
                     </enterprise_pci>
                 </observers>
@@ -84,7 +84,7 @@
             <api_user_authenticated>
                 <observers>
                     <enterprise_pci>
-                        <class>enterprise_pci/observer</class>
+                        <class>Enterprise_Pci_Model_Observer</class>
                         <method>upgradeApiKey</method>
                     </enterprise_pci>
                 </observers>
@@ -92,7 +92,7 @@
             <controller_action_predispatch>
                 <observers>
                     <enterprise_pci>
-                        <class>enterprise_pci/observer</class>
+                        <class>Enterprise_Pci_Model_Observer</class>
                         <method>forceAdminPasswordChange</method>
                     </enterprise_pci>
                 </observers>
@@ -124,7 +124,7 @@
             <customer_customer_authenticated>
                 <observers>
                     <enterprise_pci>
-                        <class>enterprise_pci/observer</class>
+                        <class>Enterprise_Pci_Model_Observer</class>
                         <method>upgradeCustomerPassword</method>
                     </enterprise_pci>
                 </observers>

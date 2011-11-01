@@ -57,7 +57,7 @@
             <sales_order_item_save_after>
                 <observers>
                     <notifystock>
-                        <class>rss/observer</class>
+                        <class>Mage_Rss_Model_Observer</class>
                         <method>salesOrderItemSaveAfterNotifyStock</method>
                     </notifystock>
                 </observers>
@@ -65,7 +65,7 @@
             <sales_order_item_save_after>
                 <observers>
                     <ordernew>
-                        <class>rss/observer</class>
+                        <class>Mage_Rss_Model_Observer</class>
                         <method>salesOrderItemSaveAfterOrderNew</method>
                     </ordernew>
                 </observers>

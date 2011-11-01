@@ -44,7 +44,7 @@
             <catalog_product_load_after>
                 <observers>
                     <inventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>addInventoryData</method>
                     </inventory>
                 </observers>
@@ -52,7 +52,7 @@
             <catalog_product_clear>
                 <observers>
                     <inventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>removeInventoryData</method>
                     </inventory>
                 </observers>
@@ -60,7 +60,7 @@
             <catalog_product_collection_load_after>
                 <observers>
                     <inventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>addStockStatusToCollection</method>
                     </inventory>
                 </observers>
@@ -68,7 +68,7 @@
             <catalog_product_prepare_index_select>
                 <observers>
                     <inventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>prepareCatalogProductIndexSelect</method>
                     </inventory>
                 </observers>
@@ -76,7 +76,7 @@
             <sales_quote_item_collection_products_after_load>
                 <observers>
                     <inventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>addInventoryDataToCollection</method>
                     </inventory>
                 </observers>
@@ -84,7 +84,7 @@
             <sales_quote_item_qty_set_after>
                 <observers>
                     <inventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>checkQuoteItemQty</method>
                     </inventory>
                 </observers>
@@ -92,7 +92,7 @@
             <checkout_submit_all_after>
                 <observers>
                     <inventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>checkoutAllSubmitAfter</method>
                     </inventory>
                 </observers>
@@ -100,7 +100,7 @@
             <sales_model_service_quote_submit_before>
                 <observers>
                     <inventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>subtractQuoteInventory</method>
                     </inventory>
                 </observers>
@@ -108,7 +108,7 @@
             <sales_model_service_quote_submit_success>
                 <observers>
                     <inventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>reindexQuoteInventory</method>
                     </inventory>
                 </observers>
@@ -116,7 +116,7 @@
             <sales_model_service_quote_submit_failure>
                 <observers>
                     <inventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>revertQuoteInventory</method>
                     </inventory>
                 </observers>
@@ -124,7 +124,7 @@
             <sales_order_item_cancel>
                 <observers>
                     <inventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>cancelOrderItem</method>
                     </inventory>
                 </observers>
@@ -132,7 +132,7 @@
             <sales_order_creditmemo_save_after>
                 <observers>
                     <inventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>refundOrderInventory</method>
                     </inventory>
                 </observers>
@@ -140,7 +140,7 @@
             <catalog_product_save_after>
                 <observers>
                     <inventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>saveInventoryData</method>
                     </inventory>
                 </observers>
@@ -148,7 +148,7 @@
             <catalog_model_product_duplicate>
                 <observers>
                     <inventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>copyInventoryData</method>
                     </inventory>
                 </observers>
@@ -156,7 +156,7 @@
             <admin_system_config_changed_section_cataloginventory>
                 <observers>
                     <inventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>updateItemsStockUponConfigChange</method>
                     </inventory>
                 </observers>
@@ -164,7 +164,7 @@
             <prepare_catalog_product_index_select>
                 <observers>
                     <cataloginventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>prepareCatalogProductIndexSelect</method>
                     </cataloginventory>
                 </observers>

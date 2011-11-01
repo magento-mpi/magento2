@@ -63,7 +63,7 @@
             <customer_address_load_before>
                 <observers>
                     <enterprise_giftregistry>
-                        <class>enterprise_giftregistry/observer</class>
+                        <class>Enterprise_GiftRegistry_Model_Observer</class>
                         <method>addressDataBeforeLoad</method>
                     </enterprise_giftregistry>
                 </observers>
@@ -71,7 +71,7 @@
             <customer_address_load_after>
                 <observers>
                     <enterprise_giftregistry>
-                        <class>enterprise_giftregistry/observer</class>
+                        <class>Enterprise_GiftRegistry_Model_Observer</class>
                         <method>addressDataAfterLoad</method>
                     </enterprise_giftregistry>
                 </observers>
@@ -79,7 +79,7 @@
             <sales_convert_quote_item_to_order_item>
                 <observers>
                     <enterprise_giftregistry>
-                        <class>enterprise_giftregistry/observer</class>
+                        <class>Enterprise_GiftRegistry_Model_Observer</class>
                         <method>convertItems</method>
                     </enterprise_giftregistry>
                 </observers>
@@ -87,7 +87,7 @@
             <sales_order_place_after>
                 <observers>
                     <enterprise_giftregistry>
-                        <class>enterprise_giftregistry/observer</class>
+                        <class>Enterprise_GiftRegistry_Model_Observer</class>
                         <method>orderPlaced</method>
                     </enterprise_giftregistry>
                 </observers>
@@ -126,7 +126,7 @@
             <customer_address_format>
                 <observers>
                     <enterprise_giftregistry>
-                        <class>enterprise_giftregistry/observer</class>
+                        <class>Enterprise_GiftRegistry_Model_Observer</class>
                         <method>addressFormatAdmin</method>
                     </enterprise_giftregistry>
                 </observers>
@@ -163,7 +163,7 @@
             <checkout_cart_product_add_after>
                 <observers>
                     <enterprise_giftregistry>
-                        <class>enterprise_giftregistry/observer</class>
+                        <class>Enterprise_GiftRegistry_Model_Observer</class>
                         <method>addGiftRegistryQuoteFlag</method>
                     </enterprise_giftregistry>
                 </observers>
@@ -171,7 +171,7 @@
             <customer_address_format>
                 <observers>
                     <enterprise_giftregistry>
-                        <class>enterprise_giftregistry/observer</class>
+                        <class>Enterprise_GiftRegistry_Model_Observer</class>
                         <method>addressFormatFront</method>
                     </enterprise_giftregistry>
                 </observers>

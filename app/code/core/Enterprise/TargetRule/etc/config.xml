@@ -46,7 +46,7 @@
             <catalog_product_save_after>
                 <observers>
                     <enterprise_targetrule>
-                        <class>enterprise_targetrule/observer</class>
+                        <class>Enterprise_TargetRule_Model_Observer</class>
                         <method>catalogProductAfterSave</method>
                     </enterprise_targetrule>
                 </observers>

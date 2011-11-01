@@ -50,7 +50,7 @@
             <websiterestriction_frontend>
                 <observers>
                     <xmlconnect>
-                        <class>xmlconnect/observer</class>
+                        <class>Mage_XmlConnect_Model_Observer</class>
                         <method>restrictWebsite</method>
                     </xmlconnect>
                 </observers>
@@ -89,7 +89,7 @@
             <core_config_data_save_after>
                 <observers>
                     <xmlconnect>
-                        <class>xmlconnect/observer</class>
+                        <class>Mage_XmlConnect_Model_Observer</class>
                         <method>changeUpdatedAtParamOnConfigSave</method>
                     </xmlconnect>
                 </observers>
@@ -97,7 +97,7 @@
             <before_save_message_queue>
                 <observers>
                     <xmlconnect>
-                        <class>xmlconnect/observer</class>
+                        <class>Mage_XmlConnect_Model_Observer</class>
                         <method>sendMessageImmediately</method>
                     </xmlconnect>
                 </observers>

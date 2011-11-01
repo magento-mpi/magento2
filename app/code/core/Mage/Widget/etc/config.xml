@@ -75,7 +75,7 @@
             <cms_wysiwyg_config_prepare>
                 <observers>
                     <widget_observer>
-                        <class>widget/observer</class>
+                        <class>Mage_Widget_Model_Observer</class>
                         <method>prepareWidgetsPluginConfig</method>
                     </widget_observer>
                 </observers>

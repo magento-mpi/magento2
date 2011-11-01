@@ -83,7 +83,7 @@
             <adminhtml_customer_orders_add_action_renderer>
                 <observers>
                     <enterprise_rma>
-                        <class>enterprise_rma/observer</class>
+                        <class>Enterprise_Rma_Model_Observer</class>
                         <method>addRmaOption</method>
                     </enterprise_rma>
                 </observers>

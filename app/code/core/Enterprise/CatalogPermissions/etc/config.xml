@@ -46,7 +46,7 @@
             <catalog_category_save_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Adminhtml_Observer</class>
                         <method>saveCategoryPermissions</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -54,7 +54,7 @@
             <category_move>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Adminhtml_Observer</class>
                         <method>reindexCategoryPermissionOnMove</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -62,7 +62,7 @@
             <store_add>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Adminhtml_Observer</class>
                         <method>reindexProducts</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -70,7 +70,7 @@
             <website_add>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Adminhtml_Observer</class>
                         <method>reindexProducts</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -78,7 +78,7 @@
             <customer_group_save_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Adminhtml_Observer</class>
                         <method>reindex</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -86,7 +86,7 @@
             <controller_action_postdispatch>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Adminhtml_Observer</class>
                         <method>reindexPermissions</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -94,7 +94,7 @@
             <catalog_product_save_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Adminhtml_Observer</class>
                         <method>saveProductPermissionIndex</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -102,7 +102,7 @@
             <adminhtml_catalog_category_tabs>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Adminhtml_Observer</class>
                         <method>addCategoryPermissionTab</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -110,7 +110,7 @@
             <catalog_product_import_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Adminhtml_Observer</class>
                         <method>reindexProducts</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -118,7 +118,7 @@
             <catalog_product_to_website_change>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Adminhtml_Observer</class>
                         <method>reindexAfterProductAssignedWebsite</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -126,7 +126,7 @@
             <admin_system_config_changed_section_enterprise_catalogpermissions>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Adminhtml_Observer</class>
                         <method>cleanCacheOnConfigChange</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -154,7 +154,7 @@
             <catalog_product_collection_before_add_count_to_categories>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Observer</class>
                         <method>applyCategoryPermissionOnProductCount</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -162,7 +162,7 @@
             <catalog_product_is_salable_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Observer</class>
                         <method>applyIsSalableToProduct</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -170,7 +170,7 @@
             <catalog_category_collection_load_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Observer</class>
                         <method>applyCategoryPermissionOnLoadCollection</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -178,7 +178,7 @@
             <catalog_category_collection_add_is_active_filter>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Observer</class>
                         <method>applyCategoryPermissionOnIsActiveFilterToCollection</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -186,7 +186,7 @@
             <catalog_category_tree_init_inactive_category_ids>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Observer</class>
                         <method>applyCategoryInactiveIds</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -194,7 +194,7 @@
             <catalog_product_collection_apply_limitations_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Observer</class>
                         <method>applyProductPermissionOnCollection</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -202,7 +202,7 @@
             <catalog_product_collection_load_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Observer</class>
                         <method>applyProductPermissionOnCollectionAfterLoad</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -210,7 +210,7 @@
             <catalog_controller_product_init_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Observer</class>
                         <method>applyProductPermission</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -218,7 +218,7 @@
             <review_controller_product_init_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Observer</class>
                         <method>applyProductPermission</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -226,7 +226,7 @@
             <catalog_controller_category_init_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Observer</class>
                         <method>applyCategoryPermission</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -234,7 +234,7 @@
             <checkout_cart_product_add_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Observer</class>
                         <method>checkQuoteItemSetProduct</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -242,7 +242,7 @@
             <checkout_cart_save_before>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Observer</class>
                         <method>checkQuotePermissions</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -250,7 +250,7 @@
             <controller_action_predispatch_catalogsearch>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Observer</class>
                         <method>checkCatalogSearchPreDispatch</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -258,7 +258,7 @@
             <controller_action_layout_load_before>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Observer</class>
                         <method>checkCatalogSearchLayout</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -266,7 +266,7 @@
             <rss_catalog_new_xml_callback>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Observer</class>
                         <method>checkIfProductAllowedInRss</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -274,7 +274,7 @@
             <rss_catalog_special_xml_callback>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Observer</class>
                         <method>checkIfProductAllowedInRss</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -282,7 +282,7 @@
             <rss_catalog_tagged_item_xml_callback>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Observer</class>
                         <method>checkIfProductAllowedInRss</method>
                     </enterprise_catalogpermissions>
                 </observers>
@@ -290,7 +290,7 @@
             <rss_catalog_category_xml_callback>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
+                        <class>Enterprise_CatalogPermissions_Model_Observer</class>
                         <method>checkIfProductAllowedInRss</method>
                     </enterprise_catalogpermissions>
                 </observers>

@@ -114,7 +114,7 @@
             <catalog_product_prepare_save>
                 <observers>
                     <downloadable_observer>
-                        <class>downloadable/observer</class>
+                        <class>Mage_Downloadable_Model_Observer</class>
                         <method>prepareProductSave</method>
                     </downloadable_observer>
                 </observers>
@@ -122,7 +122,7 @@
             <sales_order_item_save_commit_after>
                 <observers>
                     <downloadable_observer>
-                        <class>downloadable/observer</class>
+                        <class>Mage_Downloadable_Model_Observer</class>
                         <method>saveDownloadableOrderItem</method>
                     </downloadable_observer>
                 </observers>
@@ -130,7 +130,7 @@
             <sales_order_save_commit_after>
                 <observers>
                     <downloadable_observer>
-                        <class>downloadable/observer</class>
+                        <class>Mage_Downloadable_Model_Observer</class>
                         <method>setLinkStatus</method>
                     </downloadable_observer>
                 </observers>
@@ -170,7 +170,7 @@
             <sales_order_item_save_commit_after>
                 <observers>
                     <downloadable_observer>
-                        <class>downloadable/observer</class>
+                        <class>Mage_Downloadable_Model_Observer</class>
                         <method>saveDownloadableOrderItem</method>
                     </downloadable_observer>
                 </observers>
@@ -178,7 +178,7 @@
             <sales_order_save_commit_after>
                 <observers>
                     <downloadable_observer>
-                        <class>downloadable/observer</class>
+                        <class>Mage_Downloadable_Model_Observer</class>
                         <method>setLinkStatus</method>
                     </downloadable_observer>
                 </observers>
@@ -186,7 +186,7 @@
             <checkout_type_onepage_save_order_after>
                 <observers>
                     <checkout_type_onepage_save_order_after>
-                        <class>downloadable/observer</class>
+                        <class>Mage_Downloadable_Model_Observer</class>
                         <method>setHasDownloadableProducts</method>
                     </checkout_type_onepage_save_order_after>
                 </observers>
@@ -194,7 +194,7 @@
             <checkout_type_multishipping_create_orders_single>
                 <observers>
                     <checkout_type_multishipping_create_orders_single>
-                        <class>downloadable/observer</class>
+                        <class>Mage_Downloadable_Model_Observer</class>
                         <method>setHasDownloadableProducts</method>
                     </checkout_type_multishipping_create_orders_single>
                 </observers>
@@ -202,7 +202,7 @@
             <checkout_allow_guest>
                 <observers>
                     <checkout_allow_guest>
-                        <class>downloadable/observer</class>
+                        <class>Mage_Downloadable_Model_Observer</class>
                         <method>isAllowedGuestCheckout</method>
                     </checkout_allow_guest>
                 </observers>

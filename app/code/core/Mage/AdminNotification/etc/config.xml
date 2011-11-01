@@ -54,7 +54,7 @@
             <controller_action_predispatch>
                 <observers>
                     <adminnotification>
-                        <class>adminnotification/observer</class>
+                        <class>Mage_AdminNotification_Model_Observer</class>
                         <method>preDispatch</method>
                     </adminnotification>
                 </observers>

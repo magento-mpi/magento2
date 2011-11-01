@@ -240,7 +240,7 @@
             <controller_front_init_before>
                 <observers>
                     <enterprise_staging>
-                        <class>enterprise_staging/observer</class>
+                        <class>Enterprise_Staging_Model_Observer</class>
                         <method>beforeFrontendInit</method>
                     </enterprise_staging>
                 </observers>
@@ -259,7 +259,7 @@
             <website_delete_commit_after>
                 <observers>
                     <enterprise_staging_delete_website>
-                        <class>enterprise_staging/observer</class>
+                        <class>Enterprise_Staging_Model_Observer</class>
                         <method>deleteWebsite</method>
                     </enterprise_staging_delete_website>
                 </observers>
@@ -267,7 +267,7 @@
             <catalog_product_save_before>
                 <observers>
                     <enterprise_staging_remember_product_original_website_ids>
-                        <class>enterprise_staging/observer</class>
+                        <class>Enterprise_Staging_Model_Observer</class>
                         <method>rememberProductOriginalWebsiteIds</method>
                     </enterprise_staging_remember_product_original_website_ids>
                 </observers>
@@ -275,7 +275,7 @@
             <catalog_product_save_after>
                 <observers>
                     <enterprise_staging_change_unlinked_product_website_association>
-                        <class>enterprise_staging/observer</class>
+                        <class>Enterprise_Staging_Model_Observer</class>
                         <method>changeUnlinkedProductWebsiteAssociation</method>
                     </enterprise_staging_change_unlinked_product_website_association>
                 </observers>
@@ -283,7 +283,7 @@
             <catalog_product_website_update>
                 <observers>
                     <enterprise_staging_mass_product_website_update>
-                        <class>enterprise_staging/observer</class>
+                        <class>Enterprise_Staging_Model_Observer</class>
                         <method>massProductWebsiteUpdate</method>
                     </enterprise_staging_mass_product_website_update>
                 </observers>
@@ -313,7 +313,7 @@
             <resource_get_tablename>
                 <observers>
                     <enterprise_staging_get_table_name>
-                        <class>enterprise_staging/observer</class>
+                        <class>Enterprise_Staging_Model_Observer</class>
                         <method>getTableName</method>
                     </enterprise_staging_get_table_name>
                 </observers>
@@ -321,7 +321,7 @@
             <websiterestriction_frontend>
                 <observers>
                     <enterprise_staging>
-                        <class>enterprise_staging/observer</class>
+                        <class>Enterprise_Staging_Model_Observer</class>
                         <method>takeFrontendDown</method>
                     </enterprise_staging>
                 </observers>

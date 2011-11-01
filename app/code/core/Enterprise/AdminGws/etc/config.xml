@@ -44,7 +44,7 @@
             <rss_catalog_notify_stock_collection_select>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/collections</class>
+                        <class>Enterprise_AdminGws_Model_Collections</class>
                         <method>rssCatalogNotifyStockCollectionSelect</method>
                     </enterprise_admingws>
                 </observers>
@@ -52,7 +52,7 @@
             <rss_catalog_review_collection_select>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/collections</class>
+                        <class>Enterprise_AdminGws_Model_Collections</class>
                         <method>rssCatalogReviewCollectionSelect</method>
                     </enterprise_admingws>
                 </observers>
@@ -71,7 +71,7 @@
             <admin_roles_load_after>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/observer</class>
+                        <class>Enterprise_AdminGws_Model_Observer</class>
                         <method>addDataAfterRoleLoad</method>
                     </enterprise_admingws>
                 </observers>
@@ -79,7 +79,7 @@
             <admin_roles_save_before>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/observer</class>
+                        <class>Enterprise_AdminGws_Model_Observer</class>
                         <method>setDataBeforeRoleSave</method>
                     </enterprise_admingws>
                 </observers>
@@ -87,7 +87,7 @@
             <admin_permissions_role_prepare_save>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/observer</class>
+                        <class>Enterprise_AdminGws_Model_Observer</class>
                         <method>prepareRoleSave</method>
                     </enterprise_admingws>
                 </observers>
@@ -95,7 +95,7 @@
             <staging_website_create_after>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/observer</class>
+                        <class>Enterprise_AdminGws_Model_Observer</class>
                         <method>copyWebsiteCopyPermissions</method>
                     </enterprise_admingws>
                 </observers>
@@ -103,7 +103,7 @@
             <controller_action_predispatch>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/observer</class>
+                        <class>Enterprise_AdminGws_Model_Observer</class>
                         <method>adminControllerPredispatch</method>
                     </enterprise_admingws>
                 </observers>
@@ -111,7 +111,7 @@
             <core_collection_abstract_load_before>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/observer</class>
+                        <class>Enterprise_AdminGws_Model_Observer</class>
                         <method>limitCollection</method>
                     </enterprise_admingws>
                 </observers>
@@ -119,7 +119,7 @@
             <eav_collection_abstract_load_before>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/observer</class>
+                        <class>Enterprise_AdminGws_Model_Observer</class>
                         <method>limitCollection</method>
                     </enterprise_admingws>
                 </observers>
@@ -127,7 +127,7 @@
             <review_review_collection_load_before>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/observer</class>
+                        <class>Enterprise_AdminGws_Model_Observer</class>
                         <method>limitCollection</method>
                     </enterprise_admingws>
                 </observers>
@@ -135,7 +135,7 @@
             <log_visitor_collection_load_before>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/observer</class>
+                        <class>Enterprise_AdminGws_Model_Observer</class>
                         <method>limitCollection</method>
                     </enterprise_admingws>
                 </observers>
@@ -143,7 +143,7 @@
             <model_save_before>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/observer</class>
+                        <class>Enterprise_AdminGws_Model_Observer</class>
                         <method>validateModelSaveBefore</method>
                     </enterprise_admingws>
                 </observers>
@@ -151,7 +151,7 @@
             <model_delete_before>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/observer</class>
+                        <class>Enterprise_AdminGws_Model_Observer</class>
                         <method>validateModelDeleteBefore</method>
                     </enterprise_admingws>
                 </observers>
@@ -159,7 +159,7 @@
             <model_load_after>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/observer</class>
+                        <class>Enterprise_AdminGws_Model_Observer</class>
                         <method>validateModelLoadAfter</method>
                     </enterprise_admingws>
                 </observers>
@@ -167,7 +167,7 @@
             <catalog_product_validate_after>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/models</class>
+                        <class>Enterprise_AdminGws_Model_Models</class>
                         <method>catalogProductValidateAfter</method>
                     </enterprise_admingws>
                 </observers>
@@ -175,7 +175,7 @@
             <adminhtml_catalog_category_tree_is_moveable>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/blocks</class>
+                        <class>Enterprise_AdminGws_Model_Blocks</class>
                         <method>catalogCategoryIsMoveable</method>
                     </enterprise_admingws>
                 </observers>
@@ -183,7 +183,7 @@
             <adminhtml_catalog_category_tree_can_add_root_category>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/blocks</class>
+                        <class>Enterprise_AdminGws_Model_Blocks</class>
                         <method>catalogRootCategoryCanBeAdded</method>
                     </enterprise_admingws>
                 </observers>
@@ -191,7 +191,7 @@
             <adminhtml_catalog_category_tree_can_add_sub_category>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/blocks</class>
+                        <class>Enterprise_AdminGws_Model_Blocks</class>
                         <method>catalogCategoryCanBeAdded</method>
                     </enterprise_admingws>
                 </observers>
@@ -199,7 +199,7 @@
             <catalog_category_tree_move_before>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/models</class>
+                        <class>Enterprise_AdminGws_Model_Models</class>
                         <method>catalogCategoryMoveBefore</method>
                     </enterprise_admingws>
                 </observers>
@@ -207,7 +207,7 @@
             <enterprise_catalog_permissions_is_allowed_category>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/models</class>
+                        <class>Enterprise_AdminGws_Model_Models</class>
                         <method>catalogCategoryIsCatalogPermissionsAllowed</method>
                     </enterprise_admingws>
                 </observers>
@@ -215,7 +215,7 @@
             <adminhtml_block_html_before>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/observer</class>
+                        <class>Enterprise_AdminGws_Model_Observer</class>
                         <method>restrictBlocks</method>
                     </enterprise_admingws>
                 </observers>
@@ -223,7 +223,7 @@
             <store_group_save_after>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/models</class>
+                        <class>Enterprise_AdminGws_Model_Models</class>
                         <method>coreStoreGroupSaveAfter</method>
                     </enterprise_admingws>
                 </observers>
@@ -231,7 +231,7 @@
             <adminhtml_catalog_product_grid_prepare_massaction>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/observer</class>
+                        <class>Enterprise_AdminGws_Model_Observer</class>
                         <method>catalogProductPrepareMassAction</method>
                     </enterprise_admingws>
                 </observers>
@@ -239,7 +239,7 @@
             <adminhtml_catalog_product_edit_tab_attributes_create_html_before>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/blocks</class>
+                        <class>Enterprise_AdminGws_Model_Blocks</class>
                         <method>disallowCreateAttributeButtonDisplay</method>
                     </enterprise_admingws>
                 </observers>
@@ -247,7 +247,7 @@
             <adminhtml_catalog_product_attribute_set_main_html_before>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/blocks</class>
+                        <class>Enterprise_AdminGws_Model_Blocks</class>
                         <method>removeAttributeSetControls</method>
                     </enterprise_admingws>
                 </observers>
@@ -255,7 +255,7 @@
             <adminhtml_catalog_product_attribute_set_toolbar_main_html_before>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/blocks</class>
+                        <class>Enterprise_AdminGws_Model_Blocks</class>
                         <method>removeAddNewAttributeSetButton</method>
                     </enterprise_admingws>
                 </observers>
@@ -263,7 +263,7 @@
             <sales_sale_collection_query_before>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/collections</class>
+                        <class>Enterprise_AdminGws_Model_Collections</class>
                         <method>addSalesSaleCollectionStoreFilter</method>
                     </enterprise_admingws>
                 </observers>
@@ -271,7 +271,7 @@
             <catalog_product_website_update_before>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/models</class>
+                        <class>Enterprise_AdminGws_Model_Models</class>
                         <method>catalogProductActionWithWebsitesAfter</method>
                     </enterprise_admingws>
                 </observers>
@@ -279,7 +279,7 @@
             <rss_order_new_collection_select>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/collections</class>
+                        <class>Enterprise_AdminGws_Model_Collections</class>
                         <method>rssOrderNewCollectionSelect</method>
                     </enterprise_admingws>
                 </observers>
@@ -287,7 +287,7 @@
             <adminhtml_banner_edit_tab_content_before_prepare_form>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/blocks</class>
+                        <class>Enterprise_AdminGws_Model_Blocks</class>
                         <method>disableAllStoreViewsContentFeild</method>
                     </enterprise_admingws>
                 </observers>
@@ -295,7 +295,7 @@
             <adminhtml_staging_backup_edit_tab_rollback_after_prepare_columns>
                 <observers>
                     <enterprise_admingws>
-                        <class>enterprise_admingws/blocks</class>
+                        <class>Enterprise_AdminGws_Model_Blocks</class>
                         <method>disableStagingBackupRollbackTabItems</method>
                     </enterprise_admingws>
                 </observers>

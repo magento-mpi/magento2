@@ -66,7 +66,7 @@
             <log_log_clean_after>
                 <observers>
                     <catalog_product_compare_item>
-                        <class>catalog/observer</class>
+                        <class>Mage_Catalog_Model_Observer</class>
                         <method>catalogProductCompareClean</method>
                     </catalog_product_compare_item>
                 </observers>
@@ -245,7 +245,7 @@
             <cms_wysiwyg_images_static_urls_allowed>
                 <observers>
                     <catalog_wysiwyg>
-                        <class>catalog/observer</class>
+                        <class>Mage_Catalog_Model_Observer</class>
                         <method>catalogCheckIsUsingStaticUrlsAllowed</method>
                     </catalog_wysiwyg>
                 </observers>
@@ -270,7 +270,7 @@
                 <observers>
                     <catalog>
                         <type>model</type>
-                        <class>catalog/product_compare_item</class>
+                        <class>Mage_Catalog_Model_Product_Compare_Item</class>
                         <method>bindCustomerLogin</method>
                     </catalog>
                 </observers>
@@ -279,7 +279,7 @@
                 <observers>
                     <catalog>
                         <type>model</type>
-                        <class>catalog/product_compare_item</class>
+                        <class>Mage_Catalog_Model_Product_Compare_Item</class>
                         <method>bindCustomerLogout</method>
                     </catalog>
                 </observers>
@@ -288,7 +288,7 @@
                 <observers>
                     <catalog>
                         <type>model</type>
-                        <class>catalog/product_option_observer</class>
+                        <class>Mage_Catalog_Model_Product_Option_Observer</class>
                         <method>copyQuoteFilesToOrderFiles</method>
                     </catalog>
                 </observers>

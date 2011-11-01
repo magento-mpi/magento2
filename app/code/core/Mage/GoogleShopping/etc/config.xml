@@ -65,7 +65,7 @@
             <catalog_product_save_after>
                 <observers>
                     <googleshopping_observer>
-                        <class>googleshopping/observer</class>
+                        <class>Mage_GoogleShopping_Model_Observer</class>
                         <method>saveProductItem</method>
                     </googleshopping_observer>
                 </observers>
@@ -73,7 +73,7 @@
             <catalog_product_delete_before>
                 <observers>
                     <googleshopping_observer>
-                        <class>googleshopping/observer</class>
+                        <class>Mage_GoogleShopping_Model_Observer</class>
                         <method>deleteProductItem</method>
                     </googleshopping_observer>
                 </observers>

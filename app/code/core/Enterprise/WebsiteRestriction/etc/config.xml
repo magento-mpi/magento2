@@ -46,7 +46,7 @@
             <controller_action_predispatch>
                 <observers>
                     <enterprise_websiterestriction>
-                        <class>enterprise_websiterestriction/observer</class>
+                        <class>Enterprise_WebsiteRestriction_Model_Observer</class>
                         <method>restrictWebsite</method>
                     </enterprise_websiterestriction>
                 </observers>
@@ -54,7 +54,7 @@
             <customer_registration_is_allowed>
                 <observers>
                     <enterprise_websiterestriction>
-                        <class>enterprise_websiterestriction/observer</class>
+                        <class>Enterprise_WebsiteRestriction_Model_Observer</class>
                         <method>restrictCustomersRegistration</method>
                     </enterprise_websiterestriction>
                 </observers>
@@ -62,7 +62,7 @@
             <controller_action_layout_load_before>
                 <observers>
                     <enterprise_websiterestriction>
-                        <class>enterprise_websiterestriction/observer</class>
+                        <class>Enterprise_WebsiteRestriction_Model_Observer</class>
                         <method>addPrivateSalesLayoutUpdate</method>
                     </enterprise_websiterestriction>
                 </observers>

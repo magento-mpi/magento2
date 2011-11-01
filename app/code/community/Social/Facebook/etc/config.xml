@@ -91,7 +91,7 @@
             <controller_action_predispatch_catalog_product_view>
                 <observers>
                     <social_facebook_code>
-                        <class>social_facebook/observer</class>
+                        <class>Social_Facebook_Model_Observer</class>
                         <method>catalogProduct</method>
                     </social_facebook_code>
                 </observers>

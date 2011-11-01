@@ -54,7 +54,7 @@
             <catalog_product_delete_after_done>
                 <observers>
                     <review>
-                        <class>review/observer</class>
+                        <class>Mage_Review_Model_Observer</class>
                         <method>processProductAfterDeleteEvent</method>
                     </review>
                 </observers>
@@ -75,7 +75,7 @@
             <review_save_after>
                 <observers>
                     <rss>
-                        <class>rss/observer</class>
+                        <class>Mage_Rss_Model_Observer</class>
                         <method>reviewSaveAfter</method>
                     </rss>
                 </observers>
@@ -102,7 +102,7 @@
                 <observers>
                     <review>
                         <type>model</type>
-                        <class>review/observer</class>
+                        <class>Mage_Review_Model_Observer</class>
                         <method>tagProductCollectionLoadAfter</method>
                     </review>
                 </observers>
@@ -111,7 +111,7 @@
                 <observers>
                     <review>
                         <type>model</type>
-                        <class>review/observer</class>
+                        <class>Mage_Review_Model_Observer</class>
                         <method>catalogBlockProductCollectionBeforeToHtml</method>
                     </review>
                 </observers>

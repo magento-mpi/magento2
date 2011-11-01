@@ -52,7 +52,7 @@
             <checkout_submit_all_after>
                 <observers>
                     <directpost_update_all_edit_increments>
-                        <class>authorizenet/directpost_observer</class>
+                        <class>Mage_Authorizenet_Model_Directpost_Observer</class>
                         <method>updateAllEditIncrements</method>
                     </directpost_update_all_edit_increments>
                 </observers>
@@ -89,7 +89,7 @@
             <checkout_submit_all_after>
                 <observers>
                     <directpost_save_order_after_submit>
-                        <class>authorizenet/directpost_observer</class>
+                        <class>Mage_Authorizenet_Model_Directpost_Observer</class>
                         <method>saveOrderAfterSubmit</method>
                     </directpost_save_order_after_submit>
                 </observers>
@@ -97,7 +97,7 @@
             <controller_action_postdispatch_checkout_onepage_saveOrder>
                 <observers>
                     <directpost_save_order_onepage>
-                        <class>authorizenet/directpost_observer</class>
+                        <class>Mage_Authorizenet_Model_Directpost_Observer</class>
                         <method>addAdditionalFieldsToResponseFrontend</method>
                     </directpost_save_order_onepage>
                 </observers>

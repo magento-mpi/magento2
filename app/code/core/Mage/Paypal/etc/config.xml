@@ -108,7 +108,7 @@
             <checkout_submit_all_after>
                 <observers>
                     <hss_save_order_after_submit>
-                        <class>paypal/observer</class>
+                        <class>Mage_Paypal_Model_Observer</class>
                         <method>saveOrderAfterSubmit</method>
                     </hss_save_order_after_submit>
                 </observers>
@@ -116,7 +116,7 @@
             <controller_action_postdispatch_checkout_onepage_saveOrder>
                 <observers>
                     <hss_save_order_onepage>
-                        <class>paypal/observer</class>
+                        <class>Mage_Paypal_Model_Observer</class>
                         <method>setResponseAfterSaveOrder</method>
                     </hss_save_order_onepage>
                 </observers>

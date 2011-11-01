@@ -62,7 +62,7 @@
             <clean_media_cache_after>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>cleanCache</method>
                     </enterprise_pagecache>
                 </observers>
@@ -70,7 +70,7 @@
             <clean_catalog_images_cache_after>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>cleanCache</method>
                     </enterprise_pagecache>
                 </observers>
@@ -78,7 +78,7 @@
             <model_save_commit_after>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>validateDataChanges</method>
                     </enterprise_pagecache>
                 </observers>
@@ -86,7 +86,7 @@
             <model_delete_commit_after>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>validateDataDelete</method>
                     </enterprise_pagecache>
                 </observers>
@@ -94,7 +94,7 @@
             <controller_action_postdispatch_adminhtml_system_config_save>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>invalidateCache</method>
                     </enterprise_pagecache>
                 </observers>
@@ -102,7 +102,7 @@
             <controller_action_postdispatch_adminhtml_catalog_product_action_attribute_save>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>invalidateCache</method>
                     </enterprise_pagecache>
                 </observers>
@@ -110,7 +110,7 @@
             <controller_action_postdispatch_adminhtml_catalog_product_massStatus>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>invalidateCache</method>
                     </enterprise_pagecache>
                 </observers>
@@ -118,7 +118,7 @@
             <catalogrule_after_apply>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>cleanCache</method>
                     </enterprise_pagecache>
                 </observers>
@@ -126,7 +126,7 @@
             <core_config_backend_design_exception_save_after>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>registerDesignExceptionsChange</method>
                     </enterprise_pagecache>
                 </observers>
@@ -134,7 +134,7 @@
             <adminhtml_cache_refresh_type>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>cleanCache</method>
                     </enterprise_pagecache>
                 </observers>
@@ -142,7 +142,7 @@
             <adminhtml_cache_flush_system>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>cleanCache</method>
                     </enterprise_pagecache>
                 </observers>
@@ -150,7 +150,7 @@
             <adminhtml_cache_flush_all>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>cleanCache</method>
                     </enterprise_pagecache>
                 </observers>
@@ -171,7 +171,7 @@
             <controller_response_redirect>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>checkMessages</method>
                     </enterprise_pagecache>
                 </observers>
@@ -179,7 +179,7 @@
             <model_load_after>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>registerModelTag</method>
                     </enterprise_pagecache>
                 </observers>
@@ -187,7 +187,7 @@
             <controller_action_predispatch>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>processPreDispatch</method>
                     </enterprise_pagecache>
                 </observers>
@@ -195,7 +195,7 @@
             <controller_action_postdispatch_catalog_product_view>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>checkProductState</method>
                     </enterprise_pagecache>
                 </observers>
@@ -203,7 +203,7 @@
             <controller_action_postdispatch_catalog_category_view>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>checkCategoryState</method>
                     </enterprise_pagecache>
                 </observers>
@@ -211,7 +211,7 @@
             <controller_front_send_response_before>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>cacheResponse</method>
                     </enterprise_pagecache>
                 </observers>
@@ -219,7 +219,7 @@
             <core_block_abstract_to_html_after>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>renderBlockPlaceholder</method>
                     </enterprise_pagecache>
                 </observers>
@@ -227,11 +227,11 @@
             <customer_login>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>customerLogin</method>
                     </enterprise_pagecache>
                     <enterprise_pagecache_compare_list_change>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>registerCompareListChange</method>
                     </enterprise_pagecache_compare_list_change>
                 </observers>
@@ -239,7 +239,7 @@
             <controller_action_postdispatch_customer_account_logoutSuccess>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>customerLogout</method>
                     </enterprise_pagecache>
                 </observers>
@@ -247,7 +247,7 @@
             <sales_quote_save_after>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>registerQuoteChange</method>
                     </enterprise_pagecache>
                 </observers>
@@ -255,7 +255,7 @@
             <sales_quote_remove_item>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>registerQuoteChange</method>
                     </enterprise_pagecache>
                 </observers>
@@ -263,7 +263,7 @@
             <catalog_product_compare_add_product>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>registerCompareListChange</method>
                     </enterprise_pagecache>
                 </observers>
@@ -271,7 +271,7 @@
             <catalog_product_compare_remove_product>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>registerCompareListChange</method>
                     </enterprise_pagecache>
                 </observers>
@@ -279,7 +279,7 @@
             <catalog_product_compare_item_collection_clear>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>registerCompareListChange</method>
                     </enterprise_pagecache>
                 </observers>
@@ -287,7 +287,7 @@
             <core_session_abstract_add_message>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>processNewMessage</method>
                     </enterprise_pagecache>
                 </observers>
@@ -295,7 +295,7 @@
             <core_session_abstract_clear_messages>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>processMessageClearing</method>
                     </enterprise_pagecache>
                 </observers>
@@ -303,7 +303,7 @@
             <wishlist_add_product>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>registerWishlistChange</method>
                     </enterprise_pagecache>
                 </observers>
@@ -311,7 +311,7 @@
             <wishlist_item_delete_commit_after>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>registerWishlistChange</method>
                     </enterprise_pagecache>
                 </observers>
@@ -319,7 +319,7 @@
             <sales_order_place_after>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>registerNewOrder</method>
                     </enterprise_pagecache>
                 </observers>
@@ -327,7 +327,7 @@
             <poll_vote_add>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>registerPollChange</method>
                     </enterprise_pagecache>
                 </observers>
@@ -335,7 +335,7 @@
             <catalog_controller_product_init_before>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>updateProductInfo</method>
                     </enterprise_pagecache>
                 </observers>
