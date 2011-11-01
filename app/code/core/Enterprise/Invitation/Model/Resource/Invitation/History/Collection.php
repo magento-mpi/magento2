@@ -41,6 +41,9 @@ class Enterprise_Invitation_Model_Resource_Invitation_History_Collection
      */
     protected function _construct()
     {
-        $this->_init('enterprise_invitation/invitation_history', 'Enterprise_Invitation_Model_Resource_Invitation_History');
+        $this->_init(
+            'enterprise_invitation/invitation_history',
+            'Enterprise_Invitation_Model_Resource_Invitation_History'
+        );
     }
 }

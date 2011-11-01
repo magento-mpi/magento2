@@ -62,7 +62,10 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_type_configurable_attribute', 'Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute');
+        $this->_init(
+            'catalog/product_type_configurable_attribute',
+            'Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute'
+        );
         $this->_labelTable = $this->getTable('catalog_product_super_attribute_label');
         $this->_priceTable = $this->getTable('catalog_product_super_attribute_pricing');
     }
