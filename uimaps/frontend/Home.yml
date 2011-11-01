@@ -30,7 +30,7 @@ home:
     mca: home
     title: Home page
     uimap: &homePage
-        form: &newCustomerForm
+        form: &homePage
             fieldsets:
                 -
                     frontend_header:
@@ -50,7 +50,15 @@ home:
                           vote: //button[span='Vote']
                         radiobuttons:
                             vote: //li[span/label='%answer%']/input
-        messages:
+        messages: &homeMessages
+            tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.//span,'%tagQty% tag(s) have been accepted for moderation.')]
+
+home_with_hidden_mca:
+    title: Home page
+    uimap:
+        form: *homePage
+        messages: *homeMessages
+
 
 home:
     mca:

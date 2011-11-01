@@ -125,7 +125,7 @@ my_account_my_tags:
             success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]
 
 my_account_my_tags_after_delete:
-    mca: tag/customer/index/uenc/aHR0cDovL2tkLnZhcmllbi5jb20vZGV2L2V2Z2VuaXkubWlza292LzFfNi9pbmRleC5waHAvY3VzdG9tZXIvYWNjb3VudC8,/
+    mca: tag/customer/index/uenc/%id%/
     title: My Tags
     uimap:
         form: *my_tags

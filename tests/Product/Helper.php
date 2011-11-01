@@ -912,7 +912,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      *
      * @param array $productName
      */
-    public function frontOpenProduct($productName, $category = NULL)
+    public function frontOpenProduct($productName, $categoryPath = NULL)
     {
         if (is_array($productName)) {
             if (array_key_exists('general_name', $productName)) {
@@ -926,13 +926,23 @@ class Product_Helper extends Mage_Selenium_TestCase
         $productUrl = trim($productUrl, '-');
         $this->addParameter('productName', $productName);
         $this->addParameter('productUrl', $productUrl);
-        if ($category) {
-            $this->addParameter('productTitle', $productName . ' - ' . $category);
+        if ($categoryPath != NULL) {
+            $nodes = explode('/', $categoryPath);
+            if (trim($nodes[0]) == 'Default Category') {
+                array_shift($nodes);
+                $nodes = array_reverse($nodes);
+            } else {
+                $nodes = array_reverse($nodes);
+            }
+            $categoryName = '';
+            foreach ($nodes as $value) {
+                $categoryName =  $categoryName . ' - ' . trim($value);
+            }
+            $this->addParameter('productTitle', $productName . $categoryName);
         } else {
             $this->addParameter('productTitle', $productName);
         }
         $this->getUimapPage('frontend', 'product_page')->assignParams($this->_paramsHelper);
-
         $this->frontend('product_page');
         $xpathName = $this->getCurrentUimapPage()->getMainForm()->findPageelement('product_name');
         $openedProductName = $this->getText($xpathName);

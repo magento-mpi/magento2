@@ -50,11 +50,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
             $this->fail('Array key is absent in array');
         }
         $tagNameArray = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
-//        $tagNameArray = array();
-//        preg_match("/('[^']+')|\\s?([\\w]+)\\s?/Ui", $tagName, $tagNameArray);
-        print_r($tagNameArray);
-        $tagQty = count($tagNameArray);
-        print_r($tagQty);
+        $tagQty = count(array_filter($tagNameArray, 'strlen'));
         $this->addParameter('tagQty', $tagQty);
         if (!$this->controlIsPresent('field', 'input_new_tags')) {
             $this->fail('Element is absent on the page');
@@ -81,9 +77,10 @@ class Tags_Helper extends Mage_Selenium_TestCase
             //Verification in "My Recent tags" area
             $this->navigate('customer_account');
             $this->addParameter('productName', $productName);
-            $tagNameArray = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
+            $tagNameArray = array_filter(explode("\n",
+                    preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName)), 'strlen');
             foreach ($tagNameArray as $value) {
-                $this->addParameter('tagName', trim($value));
+                $this->addParameter('tagName', trim($value, " \x22\x27"));
                 $this->assertTrue($this->controlIsPresent('link', 'product_info'), "Cannot find tag with name: $value");
                 $this->clickControl('link', 'product_info');
                 $this->assertTrue($this->controlIsPresent('link', 'product_name'), "Cannot find tag with name: $value");
@@ -94,7 +91,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
             //Verification in "My Account -> My Tags"
             $this->navigate('my_account_my_tags');
             foreach ($tagNameArray as $value) {
-                $this->addParameter('tagName', trim($value));
+                $this->addParameter('tagName', trim($value, " \x22\x27"));
                 $this->assertTrue($this->controlIsPresent('link', 'tag_name'), "Cannot find tag with name: $value");
                 $this->clickControl('link', 'tag_name');
                 $this->assertTrue($this->controlIsPresent('link', 'product_name'), "Cannot find tag with name: $value");
@@ -119,7 +116,8 @@ class Tags_Helper extends Mage_Selenium_TestCase
         $tagName = (isset($verificationData['new_tag_names'])) ? $verificationData['new_tag_names'] : NULL;
         if ($category && $productName && $tagName) {
             $this->addParameter('productName', $verificationData['product_name']);
-            $tagNameArray = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
+            $tagNameArray = array_filter(explode("\n",
+                    preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName)), 'strlen');
             $category = substr($category, strpos($category, '/') + 1);
             $url = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $category)), '-');
             $this->addParameter('categoryTitle', $category);
@@ -139,7 +137,6 @@ class Tags_Helper extends Mage_Selenium_TestCase
 
     /**
      * Delete tag
-     * Need to be modified
      *
      * @param array $verificationData
      */
@@ -147,37 +144,19 @@ class Tags_Helper extends Mage_Selenium_TestCase
     {
         $tagName = (isset($verificationData['new_tag_names'])) ? $verificationData['new_tag_names'] : NULL;
         if ($tagName) {
-            $tagNameArray = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
+            $tagNameArray = array_filter(explode("\n",
+                    preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName)), 'strlen');;
             foreach ($tagNameArray as $value) {
-                $this->addParameter('tagName', $value);
+                $this->addParameter('tagName', trim($value, " \x22\x27"));
                 $this->assertTrue($this->controlIsPresent('link', 'tag_name'), "Cannot find tag with name: $value");
                 $this->clickControl('link', 'tag_name');
                 $this->clickButtonAndConfirm('delete_tag', 'confirmation_for_delete');
+                $this->addParameter('id', $this->defineIdFromUrl());
                 $this->assertTrue($this->successMessage('success_deleted_tag'), $this->messages);
             }
         } else {
             $this->fail('Verification Data is not correct');
         }
-    }
-
-    /**
-     * Tag randomize
-     *
-     * @param array $tagData
-     */
-    public function tagRandomize(array $tagData)
-    {
-        if (array_key_exists('new_tag_names', $tagData)) {
-            $tagData = $tagData['new_tag_names'];
-        } else {
-            $this->fail('Array key is absent in array');
-        }
-        $tags = explode(' ', $tagData);
-        foreach ($tags as $key => $value) {
-            $tempArray[] = $this->generate('string', 5, ':lower:') . '_' . $value;
-        }
-        $modifiedTagData = implode(' ', $tempArray);
-        return $modifiedTagData;
     }
 
     /* ----------------------------------- Backend ----------------------------------- */
