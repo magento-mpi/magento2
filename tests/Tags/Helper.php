@@ -65,6 +65,21 @@ class Tags_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Correct string with tags for verification
+     *
+     * @param string $tagName
+     * @return array
+     */
+    public function convertStringToArray($tagName)
+    {
+        $tagNameArray = array_filter(explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName)), 'strlen');
+        foreach ($tagNameArray as $key => $value) {
+            $tags[$key] = trim($value, " \x22\x27");
+            $tags[$key] = htmlspecialchars($tags[$key]);
+        }
+        return $tags;
+    }
+    /**
      * Verification tags on frontend
      *
      * @param array $verificationData
@@ -77,10 +92,9 @@ class Tags_Helper extends Mage_Selenium_TestCase
             //Verification in "My Recent tags" area
             $this->navigate('customer_account');
             $this->addParameter('productName', $productName);
-            $tagNameArray = array_filter(explode("\n",
-                    preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName)), 'strlen');
+            $tagNameArray = $this->convertStringToArray($tagName);
             foreach ($tagNameArray as $value) {
-                $this->addParameter('tagName', trim($value, " \x22\x27"));
+                $this->addParameter('tagName', $value);
                 $this->assertTrue($this->controlIsPresent('link', 'product_info'), "Cannot find tag with name: $value");
                 $this->clickControl('link', 'product_info');
                 $this->assertTrue($this->controlIsPresent('link', 'product_name'), "Cannot find tag with name: $value");
@@ -116,8 +130,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
         $tagName = (isset($verificationData['new_tag_names'])) ? $verificationData['new_tag_names'] : NULL;
         if ($category && $productName && $tagName) {
             $this->addParameter('productName', $verificationData['product_name']);
-            $tagNameArray = array_filter(explode("\n",
-                    preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName)), 'strlen');
+            $tagNameArray = $this->convertStringToArray($tagName);
             $category = substr($category, strpos($category, '/') + 1);
             $url = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $category)), '-');
             $this->addParameter('categoryTitle', $category);
@@ -144,10 +157,9 @@ class Tags_Helper extends Mage_Selenium_TestCase
     {
         $tagName = (isset($verificationData['new_tag_names'])) ? $verificationData['new_tag_names'] : NULL;
         if ($tagName) {
-            $tagNameArray = array_filter(explode("\n",
-                    preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName)), 'strlen');;
+            $tagNameArray = $this->convertStringToArray($tagName);
             foreach ($tagNameArray as $value) {
-                $this->addParameter('tagName', trim($value, " \x22\x27"));
+                $this->addParameter('tagName', $value);
                 $this->assertTrue($this->controlIsPresent('link', 'tag_name'), "Cannot find tag with name: $value");
                 $this->clickControl('link', 'tag_name');
                 $this->clickButtonAndConfirm('delete_tag', 'confirmation_for_delete');

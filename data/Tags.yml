@@ -37,11 +37,11 @@ new_tag_single:
 
 new_tag_double:
     product_name: %noValue%
-    new_tag_names: "serty werty"
+    new_tag_names: "qerty werty"
 
 new_tag_complex:
     product_name: %noValue%
-    new_tag_names: "'ddddd''dddddddd sdfd ''2'"
+    new_tag_names: "'dddddd''ddddddddd ssdfd ''3'"
 
 #*********************************************
 #*         Backend                           *
