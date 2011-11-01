@@ -61,7 +61,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
             $this->_redirect('*/*/', array('store' => Mage::app()->getAnyStoreView()->getId(), '_current' => true));
             return;
         }
-        $contentBlock = $this->getLayout()->createBlock('googleshopping/adminhtml_items')->setStore($this->_getStore());
+        $contentBlock = $this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Items')->setStore($this->_getStore());
 
         if ($this->getRequest()->getParam('captcha_token') && $this->getRequest()->getParam('captcha_url')) {
             $contentBlock->setGcontentCaptchaToken(
@@ -97,7 +97,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
         $this->loadLayout();
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('googleshopping/adminhtml_items_item')
+                ->createBlock('Mage_GoogleShopping_Block_Adminhtml_Items_Item')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()
            );

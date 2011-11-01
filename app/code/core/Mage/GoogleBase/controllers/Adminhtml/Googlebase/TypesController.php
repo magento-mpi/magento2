@@ -76,7 +76,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('Mage_GoogleBase_Helper_Data')->__('Item Types'), Mage::helper('Mage_GoogleBase_Helper_Data')->__('Item Types'))
-            ->_addContent($this->getLayout()->createBlock('googlebase/adminhtml_types'))
+            ->_addContent($this->getLayout()->createBlock('Mage_GoogleBase_Block_Adminhtml_Types'))
             ->renderLayout();
     }
 
@@ -86,7 +86,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
     public function gridAction()
     {
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('googlebase/adminhtml_types_grid')->toHtml()
+            $this->getLayout()->createBlock('Mage_GoogleBase_Block_Adminhtml_Types_Grid')->toHtml()
         );
     }
 
@@ -99,7 +99,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
 
             $this->_initAction()
                 ->_addBreadcrumb(Mage::helper('Mage_GoogleBase_Helper_Data')->__('New Item Type'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Item Type'))
-                ->_addContent($this->getLayout()->createBlock('googlebase/adminhtml_types_edit'))
+                ->_addContent($this->getLayout()->createBlock('Mage_GoogleBase_Block_Adminhtml_Types_Edit'))
                 ->renderLayout();
         } catch (Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -135,7 +135,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
 
             $this->_initAction()
                 ->_addBreadcrumb($id ? Mage::helper('Mage_GoogleBase_Helper_Data')->__('Edit Item Type') : Mage::helper('Mage_GoogleBase_Helper_Data')->__('New Item Type'), $id ? Mage::helper('Mage_GoogleBase_Helper_Data')->__('Edit Item Type') : Mage::helper('Mage_GoogleBase_Helper_Data')->__('New Item Type'))
-                ->_addContent($this->getLayout()->createBlock('googlebase/adminhtml_types_edit'))
+                ->_addContent($this->getLayout()->createBlock('Mage_GoogleBase_Block_Adminhtml_Types_Edit'))
                 ->renderLayout();
         } catch (Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -208,7 +208,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
     {
         try {
             $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('googlebase/adminhtml_types_edit_attributes')
+            $this->getLayout()->createBlock('Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes')
                 ->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'))
                 ->setGbaseItemtype($this->getRequest()->getParam('gbase_itemtype'))
                 ->setTargetCountry($this->getRequest()->getParam('target_country'))
@@ -225,7 +225,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
     {
         try {
             $this->getResponse()->setBody(
-                $this->getLayout()->getBlockSingleton('googlebase/adminhtml_types_edit_form')
+                $this->getLayout()->getBlockSingleton('Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form')
                     ->getItemTypesSelectElement($this->getRequest()->getParam('target_country'))
                     ->toHtml()
             );
@@ -239,7 +239,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
     {
         try {
             $this->getResponse()->setBody(
-                $this->getLayout()->getBlockSingleton('googlebase/adminhtml_types_edit_form')
+                $this->getLayout()->getBlockSingleton('Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form')
                     ->getAttributeSetsSelectElement($this->getRequest()->getParam('target_country'))
                     ->toHtml()
             );

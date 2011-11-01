@@ -47,7 +47,7 @@ class Find_Feed_Adminhtml_Items_GridController extends Mage_Adminhtml_Controller
     public function gridAction()
     {
         $this->loadLayout();
-        $this->getResponse()->setBody($this->getLayout()->createBlock('find_feed/adminhtml_list_items_grid')->toHtml());
+        $this->getResponse()->setBody($this->getLayout()->createBlock('Find_Feed_Block_Adminhtml_List_Items_Grid')->toHtml());
     }
 
     /**

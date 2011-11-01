@@ -49,14 +49,14 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs extends Mage_Adminhtml
         $this->addTab('backup_general_info', array(
             'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Backup General Info'),
             'content'   => $this->getLayout()
-                ->createBlock('enterprise_staging/adminhtml_backup_edit_tabs_general')
+                ->createBlock('Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_General')
                 ->toHtml()
         ));
 
         $this->addTab('rollback', array(
             'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Rollback'),
             'content'   => $this->getLayout()
-                ->createBlock('enterprise_staging/adminhtml_backup_edit_tabs_rollback')
+                ->createBlock('Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback')
                 ->toHtml()
         ));
 

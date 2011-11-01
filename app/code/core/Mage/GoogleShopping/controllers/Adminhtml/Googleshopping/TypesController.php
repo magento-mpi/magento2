@@ -90,7 +90,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Attribute Maps'), Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Attribute Maps'))
-            ->_addContent($this->getLayout()->createBlock('googleshopping/adminhtml_types'))
+            ->_addContent($this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Types'))
             ->renderLayout();
     }
 
@@ -100,7 +100,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
     public function gridAction()
     {
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('googleshopping/adminhtml_types_grid')->toHtml()
+            $this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Types_Grid')->toHtml()
         );
     }
 
@@ -116,7 +116,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
 
             $this->_initAction()
                 ->_addBreadcrumb(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('New attribute set mapping'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('New attribute set mapping'))
-                ->_addContent($this->getLayout()->createBlock('googleshopping/adminhtml_types_edit'))
+                ->_addContent($this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Types_Edit'))
                 ->renderLayout();
         } catch (Exception $e) {
             Mage::logException($e);
@@ -150,7 +150,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
             $breadcrumbLabel = $typeId ? Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Edit attribute set mapping') : Mage::helper('Mage_GoogleShopping_Helper_Data')->__('New attribute set mapping');
             $this->_initAction()
                 ->_addBreadcrumb($breadcrumbLabel, $breadcrumbLabel)
-                ->_addContent($this->getLayout()->createBlock('googleshopping/adminhtml_types_edit'))
+                ->_addContent($this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Types_Edit'))
                 ->renderLayout();
         } catch (Exception $e) {
             Mage::logException($e);
@@ -242,7 +242,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
     {
         try {
             $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('googleshopping/adminhtml_types_edit_attributes')
+            $this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes')
                 ->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'))
                 ->setTargetCountry($this->getRequest()->getParam('target_country'))
                 ->setAttributeSetSelected(true)
@@ -262,7 +262,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
     {
         try {
             $this->getResponse()->setBody(
-                $this->getLayout()->getBlockSingleton('googleshopping/adminhtml_types_edit_form')
+                $this->getLayout()->getBlockSingleton('Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form')
                     ->getAttributeSetsSelectElement($this->getRequest()->getParam('target_country'))
                     ->toHtml()
             );
