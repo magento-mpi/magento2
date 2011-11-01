@@ -70,7 +70,7 @@ backend_new_tag_with_product:
     tag_name: tag_name
     tag_status: Approved
     base_popularity: %noValue%
-    switch_store: %noValue%
+    switch_store: Default Store View
     products_tagged_by_admins:
         prod_tag_admin_id_from: %noValue%
         prod_tag_admin_id_to: %noValue%
