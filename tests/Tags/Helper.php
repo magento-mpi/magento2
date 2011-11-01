@@ -231,11 +231,11 @@ class Tags_Helper extends Mage_Selenium_TestCase
      *
      * @param string|array $tagData
      */
-    public function addTag($tagData, $waitForPageToLoad = true)
+    public function addTag($tagData)
     {
         $this->clickButton('add_new_tag');
         $this->fillTagSettings($tagData);
-        $this->clickButton('save_tag', $waitForPageToLoad);
+        $this->saveForm('save_tag');
     }
 
     /**

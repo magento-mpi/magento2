@@ -110,7 +110,7 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         //Setup
         $setData = $this->loadData('backend_new_tag', array('tag_name' => ''));
         //Steps
-        $this->tagsHelper()->addTag($setData, false);
+        $this->tagsHelper()->addTag($setData);
         //Verify
         $this->assertTrue($this->validationMessage('required_name'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
