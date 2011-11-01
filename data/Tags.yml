@@ -33,15 +33,21 @@
 
 new_tag_single:
     product_name: %noValue%
-    new_tag_names: 'serty'
+    new_tag_names:
+        tag_1: 'serty'
 
 new_tag_double:
     product_name: %noValue%
-    new_tag_names: serty werty
+    new_tag_names:
+        tag_1: serty
+        tag_2: werty
 
 new_tag_complex:
     product_name: %noValue%
-    new_tag_names: ddddd 'dddddddd sdfd ' 2
+    new_tag_names:
+        tag_1: ddddd
+        tag_2: 'dddddddd sdfd '
+        tag_3: 2
 
 #*********************************************
 #*         Backend                           *
