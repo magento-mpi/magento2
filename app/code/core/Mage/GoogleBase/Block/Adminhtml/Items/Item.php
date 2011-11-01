@@ -64,7 +64,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
                 'header'    => $this->__('Google Base ID'),
                 'width'     => '150px',
                 'index'     => 'gbase_item_id',
-                'renderer'  => 'googlebase/adminhtml_items_renderer_id',
+                'renderer'  => 'Mage_GoogleBase_Block_Adminhtml_Items_Renderer_Id',
 
         ));
 

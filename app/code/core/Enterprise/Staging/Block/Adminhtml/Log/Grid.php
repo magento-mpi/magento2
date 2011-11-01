@@ -87,7 +87,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_W
             'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Website From'),
             'index'     => 'master_website_name',
             'type'      => 'text',
-            'renderer' => 'enterprise_staging/adminhtml_log_grid_renderer_website',
+            'renderer' => 'Enterprise_Staging_Block_Adminhtml_Log_Grid_Renderer_Website',
             'width'     => 300
         ));
 
@@ -95,7 +95,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_W
             'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Website To'),
             'index'     => 'staging_website_name',
             'type'      => 'text',
-            'renderer' => 'enterprise_staging/adminhtml_log_grid_renderer_website',
+            'renderer' => 'Enterprise_Staging_Block_Adminhtml_Log_Grid_Renderer_Website',
             'width'     => 300
         ));
 

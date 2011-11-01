@@ -68,7 +68,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Grid extends Mage_Adminhtml_Block_Wi
                 'header'    => $this->__('Target Country'),
                 'width'     => '150px',
                 'index'     => 'target_country',
-                'renderer'  => 'googlebase/adminhtml_types_renderer_country',
+                'renderer'  => 'Mage_GoogleBase_Block_Adminhtml_Types_Renderer_Country',
                 'filter'    => false
         ));
 
