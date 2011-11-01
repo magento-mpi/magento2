@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -87,7 +88,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
                 $this->clickControl('link', 'product_info');
                 $this->assertTrue($this->controlIsPresent('link', 'product_name'), "Cannot find tag with name: $value");
                 $this->assertTrue($this->controlIsPresent('pageelement', 'tag_name_box'),
-                                                          "Cannot find tag with name: $value");
+                        "Cannot find tag with name: $value");
                 $this->navigate('customer_account');
             }
             //Verification in "My Account -> My Tags"
@@ -98,7 +99,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
                 $this->clickControl('link', 'tag_name');
                 $this->assertTrue($this->controlIsPresent('link', 'product_name'), "Cannot find tag with name: $value");
                 $this->assertTrue($this->controlIsPresent('pageelement', 'tag_name_box'),
-                                                          "Cannot find tag with name: $value");
+                        "Cannot find tag with name: $value");
                 $this->clickControl('link', 'back_to_tags_list');
             }
         } else {
@@ -173,7 +174,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
         }
         $tags = explode(' ', $tagData);
         foreach ($tags as $key => $value) {
-        $tempArray[] = $this->generate('string', 5, ':lower:') . '_' . $value;
+            $tempArray[] = $this->generate('string', 5, ':lower:') . '_' . $value;
         }
         $modifiedTagData = implode(' ', $tempArray);
         return $modifiedTagData;
@@ -188,9 +189,6 @@ class Tags_Helper extends Mage_Selenium_TestCase
      */
     protected function selectStoreView($store_view_name)
     {
-        if (!$store_view_name) {
-            return false;
-        }
         $xpath = $this->_getControlXpath('dropdown', 'switch_store');
         $toSelect = $xpath . "//option[contains(.,'" . $store_view_name . "')]";
         $isSelected = $toSelect . '[@selected]';
@@ -220,22 +218,21 @@ class Tags_Helper extends Mage_Selenium_TestCase
                 unset($tagData['switch_store']);
             }
         }
+        $prod_tag_admin = (isset($tagData['products_tagged_by_admins'])) ? $tagData['products_tagged_by_admins'] : null;
         // Fill general options
         $this->fillForm($tagData, 'general_info');
-        // Add tag name to parameters
-        $xpathTagName = $this->_getControlXpath('field', 'tag_name');
-        $tagName = $this->getElementByXpath($xpathTagName, 'value');
-        $this->addParameter('tagName', $tagName);
-        //Fill additional options
-        $this->clickButton('save_and_continue_edit');
-        if (!$this->controlIsPresent('field', 'prod_tag_admin_name')) {
-            $this->clickControl('link', 'prod_tag_admin_expand', false);
-            $this->waitForAjax();
-        }
-        $prod_tag_admin = (isset($tagData['products_tagged_by_admins'])) ? $tagData['products_tagged_by_admins'] : null;
         if ($prod_tag_admin) {
+            // Add tag name to parameters
+            $tagName = $this->getValue($this->_getControlXpath('field', 'tag_name'));
+            $this->addParameter('tagName', $tagName);
+            //Fill additional options
+            $this->clickButton('save_and_continue_edit');
+            if (!$this->controlIsPresent('field', 'prod_tag_admin_name')) {
+                $this->clickControl('link', 'prod_tag_admin_expand', false);
+                $this->waitForAjax();
+            }
             $this->searchAndChoose($prod_tag_admin, 'products_tagged_by_admins');
-        };
+        }
     }
 
     /**
@@ -262,11 +259,10 @@ class Tags_Helper extends Mage_Selenium_TestCase
         $searchData = $this->arrayEmptyClear($searchData);
         // Check if store views are available
         $key = 'filter_store_view';
-        if (array_key_exists($key, $searchData) || !$this->controlIsPresent('dropdown', 'store_view')) {
+        if (array_key_exists($key, $searchData) && !$this->controlIsPresent('dropdown', 'store_view')) {
             unset($searchData[$key]);
         }
         // Search and open
-        $this->navigate('all_tags');
         $xpathTR = $this->search($searchData, 'tags_grid');
         $this->assertNotEquals(null, $xpathTR, 'Tag ' . implode(',', $searchData) . ' is not found');
         $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('tags_grid_head', false);
@@ -293,8 +289,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
         foreach ($tagsSearchData as $searchData) {
             $this->searchAndChoose($searchData);
         }
-        $this->fillForm(array('tags_massaction' => 'Change status'));
-        $this->fillForm(array('tags_status' => $newStatus));
+        $this->fillForm(array('tags_massaction' => 'Change status', 'tags_status' => $newStatus));
         $this->clickButton('submit');
     }
 
