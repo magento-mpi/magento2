@@ -658,9 +658,27 @@ edit_product:
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages: *productMesssages
 
+create_empty_simple_from_configurable:
+    mca: catalog_product/new/set/%setId%/type/simple/required/%attrId%/popup/1/
+    title: New Product / Manage Products / Catalog / Magento Admin
+    uimap: *newProduct
+
+create_simple_from_configurable:
+    mca: catalog_product/new/set/%setId%/type/simple/required/%attrId%/popup/1/product/%id%/
+    title: New Product / Manage Products / Catalog / Magento Admin
+    uimap: *newProduct
+
 created_simple_from_configurable:
-#    mca: catalog_product/created/id/%id%/edit/0/%productParameters%
-    mca: catalog_product/created/id/%id%/edit/0/attributes/%attributesUrl%/set/%setId%/type/%productType%/
+    mca: catalog_product/created/id/%id%/edit/0/set/%setId%/type/simple/required/%attrId%/popup/1/product/%productId%/
+    title: Magento Admin
+    uimap:
+        form: *newProductCreationForm
+        buttons:
+            close_window: //button[span='Close Window']
+        messages: *productMesssages
+
+created_empty_simple_from_configurable:
+    mca: catalog_product/created/id/%id%/edit/0/set/%setId%/type/simple/required/%attrId%/popup/1/
     title: Magento Admin
     uimap:
         form: *newProductCreationForm

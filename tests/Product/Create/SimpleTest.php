@@ -564,6 +564,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         //Steps
         //1.Define attribute ID
         $attrId = $this->productAttributeHelper()->defineAttributeId($searchAttr);
+        $this->addParameter('attrId', $attrId);
         //2.Define attribute set ID that used in product
         $this->navigate('manage_products');
         $productXpath = $this->search($data['search']);
@@ -571,12 +572,11 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $columnId = $this->productHelper()->findColumnNumberByName('Attrib. Set Name');
         $value = $this->getText($productXpath . "/td[$columnId]");
         $setId = $this->getValue("//tr[@class='filter']/th[$columnId]//option[text()='$value']");
+        $this->addParameter('setId', $setId);
         //3. Open product and create simple product
         $this->productHelper()->openProduct($data['search']);
         $this->clickControl('tab', 'associated', false);
         $this->pleaseWait();
-        $productParameters = "set/$setId/type/simple/required/$attrId/popup/1/";
-        $this->addParameter('productParameters', $productParameters);
         $this->clickButton('create_empty', false);
         $names = $this->getAllWindowNames();
         $this->waitForPopUp(end($names), '30000');
@@ -584,7 +584,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->productHelper()->fillProductInfo($simpleEmpty);
         $this->saveForm('save');
         $this->selectWindow(null);
-        sleep(2);
+        $this->waitForAjax();
         $xpath = $this->search(array('associated_search_sku' => $simpleEmpty['general_sku']), 'associated');
         $this->assertNotEquals(null, $xpath, 'Product is not found');
     }
@@ -604,6 +604,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         //Steps
         //1.Define attribute ID
         $attrId = $this->productAttributeHelper()->defineAttributeId($searchAttr);
+        $this->addParameter('attrId', $attrId);
         //2.Define attribute set ID that used in product
         $this->navigate('manage_products');
         $productXpath = $this->search($data['search']);
@@ -611,13 +612,12 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $columnId = $this->productHelper()->findColumnNumberByName('Attrib. Set Name');
         $value = $this->getText($productXpath . "/td[$columnId]");
         $setId = $this->getValue("//tr[@class='filter']/th[$columnId]//option[text()='$value']");
+        $this->addParameter('setId', $setId);
         //3. Open product and create simple product
         $this->productHelper()->openProduct($data['search']);
+         $this->addParameter('productId', $this->_paramsHelper->getParameter('id'));
         $this->clickControl('tab', 'associated', false);
         $this->pleaseWait();
-        $id = $this->_paramsHelper->getParameter('id');
-        $productParameters = "set/$setId/type/simple/required/$attrId/popup/1/product/$id/";
-        $this->addParameter('productParameters', $productParameters);
         $this->clickButton('create_copy_from_configurable', false);
         $names = $this->getAllWindowNames();
         $this->waitForPopUp(end($names), '30000');
@@ -625,7 +625,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->productHelper()->fillProductInfo($simple);
         $this->saveForm('save');
         $this->selectWindow(null);
-        sleep(2);
+        $this->waitForAjax();
         $xpath = $this->search(array('associated_search_sku' => $simple['general_sku']), 'associated');
         $this->assertNotEquals(null, $xpath, 'Product is not found');
     }
