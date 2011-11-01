@@ -232,7 +232,7 @@
                     <cron_expr>0 3 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>enterprise_search/indexer_indexer::reindexAll</model>
+                    <model>Enterprise_Search_Model_Indexer_Indexer::reindexAll</model>
                 </run>
             </enterprise_search_index_reindex_all>
         </jobs>

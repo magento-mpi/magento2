@@ -79,7 +79,7 @@
                     <config_path>feed/settings/cron_schedule</config_path>
                 </schedule>
                 <run>
-                    <model>find_feed/import::dispatch</model>
+                    <model>Find_Feed_Model_Import::dispatch</model>
                 </run>
             </find_feed_file_send>
         </jobs>

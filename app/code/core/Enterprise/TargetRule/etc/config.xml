@@ -111,7 +111,7 @@
                     <cron_expr>0 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>enterprise_targetrule/index::cron</model>
+                    <model>Enterprise_TargetRule_Model_Index::cron</model>
                 </run>
             </enterprise_targetrule_index_reindex>
         </jobs>

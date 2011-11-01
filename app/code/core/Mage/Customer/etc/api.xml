@@ -29,7 +29,7 @@
     <api>
         <resources>
             <customer translate="title" module="Mage_Customer">
-                <model>customer/customer_api</model>
+                <model>Mage_Customer_Model_Customer_Api</model>
                 <title>Customer API</title>
                 <acl>customer</acl>
                 <methods>
@@ -75,7 +75,7 @@
                 </faults>
             </customer>
             <customer_group>
-                <model>customer/group_api</model>
+                <model>Mage_Customer_Model_Group_Api</model>
                 <title>Customer's Groups API</title>
                 <acl>customer</acl>
                 <methods>
@@ -86,7 +86,7 @@
                 </methods>
             </customer_group>
             <customer_address>
-                <model>customer/address_api</model>
+                <model>Mage_Customer_Model_Address_Api</model>
                 <title>Customer Address API</title>
                 <acl>customer/address</acl>
                 <methods>

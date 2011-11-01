@@ -29,7 +29,7 @@
     <api>
         <resources>
             <giftcard_account translate="title" module="Enterprise_GiftCardAccount">
-                <model>enterprise_giftcardaccount/api</model>
+                <model>Enterprise_GiftCardAccount_Model_Api</model>
                 <title>GiftCard Account API</title>
                 <acl>giftcard_account</acl>
                 <methods>

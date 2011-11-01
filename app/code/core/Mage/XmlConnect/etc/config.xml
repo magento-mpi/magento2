@@ -135,14 +135,14 @@
         <payment>
             <paypal_mep>
                 <active>1</active>
-                <model>xmlconnect/payment_method_paypal_mep</model>
+                <model>Mage_XmlConnect_Model_Payment_Method_Paypal_Mep</model>
                 <title>PayPal Mobile Payments Library</title>
                 <allowspecific>0</allowspecific>
                 <group>paypal</group>
             </paypal_mep>
             <paypal_mecl>
                 <active>1</active>
-                <model>xmlconnect/payment_method_paypal_mecl</model>
+                <model>Mage_XmlConnect_Model_Payment_Method_Paypal_Mecl</model>
                 <title>PayPal Mobile Express Checkout Library</title>
                 <allowspecific>0</allowspecific>
                 <group>paypal</group>
@@ -414,7 +414,7 @@
         <jobs>
             <xmlconnect_notification_send_all>
                 <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
-                <run><model>xmlconnect/observer::scheduledSend</model></run>
+                <run><model>Mage_XmlConnect_Model_Observer::scheduledSend</model></run>
             </xmlconnect_notification_send_all>
         </jobs>
     </crontab>

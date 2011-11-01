@@ -30,7 +30,7 @@
         <resources>
             <enterprise_customerbalance translate="title" module="Enterprise_CustomerBalance">
                 <title>Customer Balance API</title>
-                <model>enterprise_customerbalance/api</model>
+                <model>Enterprise_CustomerBalance_Model_Api</model>
                 <acl>enterprise_customerbalance</acl>
                 <methods>
                     <balance translate="title" module="Enterprise_CustomerBalance">
@@ -59,7 +59,7 @@
             </enterprise_customerbalance>
             <enterprise_customerbalance_quote translate="title" module="Enterprise_CustomerBalance">
                 <title>Customer Balance for Quote API</title>
-                <model>enterprise_customerbalance/quote_api</model>
+                <model>Enterprise_CustomerBalance_Model_Quote_Api</model>
                 <acl>cart/storecredit</acl>
                 <methods>
                     <setAmount>

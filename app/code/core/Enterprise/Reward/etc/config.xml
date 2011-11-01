@@ -448,7 +448,7 @@
                     <cron_expr>1 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>enterprise_reward/observer::scheduledBalanceExpireNotification</model>
+                    <model>Enterprise_Reward_Model_Observer::scheduledBalanceExpireNotification</model>
                 </run>
             </enterprise_reward_balance_warning_notification>
             <enterprise_reward_expire_points>
@@ -456,7 +456,7 @@
                     <cron_expr>1 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>enterprise_reward/observer::scheduledPointsExpiration</model>
+                    <model>Enterprise_Reward_Model_Observer::scheduledPointsExpiration</model>
                 </run>
             </enterprise_reward_expire_points>
         </jobs>

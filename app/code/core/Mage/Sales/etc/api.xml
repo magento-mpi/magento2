@@ -29,7 +29,7 @@
     <api>
         <resources>
             <sales_order translate="title" module="Mage_Sales">
-                <model>sales/order_api</model>
+                <model>Mage_Sales_Model_Order_Api</model>
                 <title>Order API</title>
                 <acl>sales/order</acl>
                 <methods>
@@ -80,7 +80,7 @@
             </sales_order>
             <sales_order_shipment>
                 <title>Shipment API</title>
-                <model>sales/order_shipment_api</model>
+                <model>Mage_Sales_Model_Order_Shipment_Api</model>
                 <acl>sales/order/shipment</acl>
                 <methods>
                     <list translate="title" module="Mage_Sales">
@@ -141,7 +141,7 @@
             </sales_order_shipment>
             <sales_order_invoice>
                 <title>Invoice API</title>
-                <model>sales/order_invoice_api</model>
+                <model>Mage_Sales_Model_Order_Invoice_Api</model>
                 <acl>sales/order/invoice</acl>
                 <methods>
                     <list translate="title" module="Mage_Sales">
@@ -199,7 +199,7 @@
            </sales_order_invoice>
             <sales_order_creditmemo>
                 <title>Credit memo API</title>
-                <model>sales/order_creditmemo_api</model>
+                <model>Mage_Sales_Model_Order_Creditmemo_Api</model>
                 <acl>sales/order/creditmemo</acl>
                 <methods>
                     <list translate="title" module="Mage_Sales">

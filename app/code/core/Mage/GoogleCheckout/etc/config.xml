@@ -116,13 +116,13 @@
         <carriers>
             <googlecheckout>
                 <active>1</active>
-                <model>googlecheckout/shipping</model>
+                <model>Mage_GoogleCheckout_Model_Shipping</model>
             </googlecheckout>
         </carriers>
         <payment>
             <googlecheckout>
                 <active>1</active>
-                <model>googlecheckout/payment</model>
+                <model>Mage_GoogleCheckout_Model_Payment</model>
             </googlecheckout>
         </payment>
         <google>

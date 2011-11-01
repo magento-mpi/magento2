@@ -162,7 +162,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>enterprise_salesarchive/observer::archiveOrdersByCron</model>
+                    <model>Enterprise_SalesArchive_Model_Observer::archiveOrdersByCron</model>
                 </run>
             </enterprise_salesarchive_archive_orders>
         </jobs>

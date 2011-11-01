@@ -29,7 +29,7 @@
     <api>
         <resources>
             <giftmessage translate="title" module="Mage_GiftMessage">
-                <model>giftmessage/api</model>
+                <model>Mage_GiftMessage_Model_Api</model>
                 <title>Gift Message API</title>
                 <acl>giftmessage/set</acl>
                 <methods>

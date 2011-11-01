@@ -128,7 +128,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>salesrule/observer::aggregateSalesReportCouponsData</model>
+                    <model>Mage_SalesRule_Model_Observer::aggregateSalesReportCouponsData</model>
                 </run>
             </aggregate_sales_report_coupons_data>
         </jobs>

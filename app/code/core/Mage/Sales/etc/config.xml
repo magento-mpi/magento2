@@ -534,7 +534,7 @@
         <payment>
             <googlecheckout>
                 <active>1</active>
-                <model>googlecheckout/payment</model>
+                <model>Mage_GoogleCheckout_Model_Payment</model>
                 <title>Google Checkout</title>
             </googlecheckout>
         </payment>
@@ -630,7 +630,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>sales/observer::cleanExpiredQuotes</model>
+                    <model>Mage_Sales_Model_Observer::cleanExpiredQuotes</model>
                 </run>
             </sales_clean_quotes>
             <aggregate_sales_report_order_data>
@@ -638,7 +638,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>sales/observer::aggregateSalesReportOrderData</model>
+                    <model>Mage_Sales_Model_Observer::aggregateSalesReportOrderData</model>
                 </run>
             </aggregate_sales_report_order_data>
             <aggregate_sales_report_shipment_data>
@@ -646,7 +646,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>sales/observer::aggregateSalesReportShipmentData</model>
+                    <model>Mage_Sales_Model_Observer::aggregateSalesReportShipmentData</model>
                 </run>
             </aggregate_sales_report_shipment_data>
             <aggregate_sales_report_invoiced_data>
@@ -654,7 +654,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>sales/observer::aggregateSalesReportInvoicedData</model>
+                    <model>Mage_Sales_Model_Observer::aggregateSalesReportInvoicedData</model>
                 </run>
             </aggregate_sales_report_invoiced_data>
             <aggregate_sales_report_refunded_data>
@@ -662,7 +662,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>sales/observer::aggregateSalesReportRefundedData</model>
+                    <model>Mage_Sales_Model_Observer::aggregateSalesReportRefundedData</model>
                 </run>
             </aggregate_sales_report_refunded_data>
             <aggregate_sales_report_bestsellers_data>
@@ -670,7 +670,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>sales/observer::aggregateSalesReportBestsellersData</model>
+                    <model>Mage_Sales_Model_Observer::aggregateSalesReportBestsellersData</model>
                 </run>
             </aggregate_sales_report_bestsellers_data>
         </jobs>

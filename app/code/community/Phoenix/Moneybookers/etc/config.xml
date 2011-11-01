@@ -136,14 +136,14 @@
             <moneybookers_acc>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/acc</model>
+                <model>Phoenix_Moneybookers_Model_Acc</model>
                 <title>Credit Card / Visa, Mastercard, AMEX, JCB, Diners</title>
                 <allowspecific>0</allowspecific>
             </moneybookers_acc>
             <moneybookers_csi>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/csi</model>
+                <model>Phoenix_Moneybookers_Model_Csi</model>
                 <title>CartaSi</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>IT</specificcountry>
@@ -151,7 +151,7 @@
             <moneybookers_did>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/did</model>
+                <model>Phoenix_Moneybookers_Model_Did</model>
                 <title>Lastschrift (ELV)</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>DE</specificcountry>
@@ -159,7 +159,7 @@
             <moneybookers_dnk>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/dnk</model>
+                <model>Phoenix_Moneybookers_Model_Dnk</model>
                 <title>Dankort</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>DK</specificcountry>
@@ -167,7 +167,7 @@
             <moneybookers_ebt>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/ebt</model>
+                <model>Phoenix_Moneybookers_Model_Ebt</model>
                 <title>Nordea Solo</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>SE</specificcountry>
@@ -175,7 +175,7 @@
             <moneybookers_ent>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/ent</model>
+                <model>Phoenix_Moneybookers_Model_Ent</model>
                 <title>eNETS</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>SG</specificcountry>
@@ -183,7 +183,7 @@
             <moneybookers_gcb>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/gcb</model>
+                <model>Phoenix_Moneybookers_Model_Gcb</model>
                 <title>Carte Bleue</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>FR</specificcountry>
@@ -191,7 +191,7 @@
             <moneybookers_gir>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/gir</model>
+                <model>Phoenix_Moneybookers_Model_Gir</model>
                 <title>Giropay</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>DE</specificcountry>
@@ -199,7 +199,7 @@
             <moneybookers_idl>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/idl</model>
+                <model>Phoenix_Moneybookers_Model_Idl</model>
                 <title>iDeal</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>NL</specificcountry>
@@ -207,7 +207,7 @@
             <moneybookers_lsr>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/lsr</model>
+                <model>Phoenix_Moneybookers_Model_Lsr</model>
                 <title>Laser</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>IE</specificcountry>
@@ -215,7 +215,7 @@
             <moneybookers_mae>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/mae</model>
+                <model>Phoenix_Moneybookers_Model_Mae</model>
                 <title>Maestro</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>GB,AT,ES</specificcountry>
@@ -223,7 +223,7 @@
             <moneybookers_npy>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/npy</model>
+                <model>Phoenix_Moneybookers_Model_Npy</model>
                 <title>EPS Online-Überweisung</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>AT</specificcountry>
@@ -231,7 +231,7 @@
             <moneybookers_pli>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/pli</model>
+                <model>Phoenix_Moneybookers_Model_Pli</model>
                 <title>POLi</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>AU</specificcountry>
@@ -239,7 +239,7 @@
             <moneybookers_psp>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/psp</model>
+                <model>Phoenix_Moneybookers_Model_Psp</model>
                 <title>Postepay</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>IT</specificcountry>
@@ -247,7 +247,7 @@
             <moneybookers_pwy>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/pwy</model>
+                <model>Phoenix_Moneybookers_Model_Pwy</model>
                 <title>All Polish Banks</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>PL</specificcountry>
@@ -255,7 +255,7 @@
             <moneybookers_sft>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/sft</model>
+                <model>Phoenix_Moneybookers_Model_Sft</model>
                 <title>Sofortüberweisung</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>DE</specificcountry>
@@ -263,7 +263,7 @@
             <moneybookers_so2>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/so2</model>
+                <model>Phoenix_Moneybookers_Model_So2</model>
                 <title>Nordea Solo</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>FI</specificcountry>
@@ -271,14 +271,14 @@
             <moneybookers_wlt>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/wlt</model>
+                <model>Phoenix_Moneybookers_Model_Wlt</model>
                 <title>Moneybookers eWallet</title>
                 <allowspecific>0</allowspecific>
             </moneybookers_wlt>
             <moneybookers_obt>
                 <group>mbookers</group>
                 <active>0</active>
-                <model>moneybookers/obt</model>
+                <model>Phoenix_Moneybookers_Model_Obt</model>
                 <title>Onlineüberweisung (empfohlen)</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>GB,DE</specificcountry>

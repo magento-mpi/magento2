@@ -86,7 +86,7 @@
         <jobs>
             <sitemap_generate>
                 <run>
-                    <model>sitemap/observer::scheduledGenerateSitemaps</model>
+                    <model>Mage_Sitemap_Model_Observer::scheduledGenerateSitemaps</model>
                 </run>
             </sitemap_generate>
         </jobs>

@@ -43,22 +43,22 @@
         <index>
             <indexer>
                 <catalog_product_attribute>
-                    <model>catalog/product_indexer_eav</model>
+                    <model>Mage_Catalog_Model_Product_Indexer_Eav</model>
                 </catalog_product_attribute>
                 <catalog_product_price>
-                    <model>catalog/product_indexer_price</model>
+                    <model>Mage_Catalog_Model_Product_Indexer_Price</model>
                 </catalog_product_price>
                 <catalog_url>
-                    <model>catalog/indexer_url</model>
+                    <model>Mage_Catalog_Model_Indexer_Url</model>
                 </catalog_url>
                 <catalog_product_flat>
-                    <model>catalog/product_indexer_flat</model>
+                    <model>Mage_Catalog_Model_Product_Indexer_Flat</model>
                 </catalog_product_flat>
                 <catalog_category_flat>
-                    <model>catalog/category_indexer_flat</model>
+                    <model>Mage_Catalog_Model_Category_Indexer_Flat</model>
                 </catalog_category_flat>
                 <catalog_category_product>
-                    <model>catalog/category_indexer_product</model>
+                    <model>Mage_Catalog_Model_Category_Indexer_Product</model>
                 </catalog_category_product>
             </indexer>
         </index>
@@ -77,13 +77,13 @@
                 <type>
                     <simple translate="label" module="Mage_Catalog">
                         <label>Simple Product</label>
-                        <model>catalog/product_type_simple</model>
+                        <model>Mage_Catalog_Model_Product_Type_Simple</model>
                         <composite>0</composite>
                         <index_priority>10</index_priority>
                     </simple>
                     <grouped translate="label" module="Mage_Catalog">
                         <label>Grouped Product</label>
-                        <model>catalog/product_type_grouped</model>
+                        <model>Mage_Catalog_Model_Product_Type_Grouped</model>
                         <price_model>catalog/product_type_grouped_price</price_model>
                         <composite>1</composite>
                         <allow_product_types>
@@ -95,7 +95,7 @@
                     </grouped>
                     <configurable translate="label" module="Mage_Catalog">
                         <label>Configurable Product</label>
-                        <model>catalog/product_type_configurable</model>
+                        <model>Mage_Catalog_Model_Product_Type_Configurable</model>
                         <price_model>catalog/product_type_configurable_price</price_model>
                         <composite>1</composite>
                         <allow_product_types>
@@ -107,7 +107,7 @@
                     </configurable>
                     <virtual translate="label" module="Mage_Catalog">
                         <label>Virtual Product</label>
-                        <model>catalog/product_type_virtual</model>
+                        <model>Mage_Catalog_Model_Product_Type_Virtual</model>
                         <composite>0</composite>
                         <index_priority>20</index_priority>
                     </virtual>
@@ -419,7 +419,7 @@
                     <cron_expr>0 2 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>catalog/product_indexer_price::reindexAll</model>
+                    <model>Mage_Catalog_Model_Product_Indexer_Price::reindexAll</model>
                 </run>
             </catalog_product_index_price_reindex_all>
         </jobs>

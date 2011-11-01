@@ -42,7 +42,7 @@
         <index>
             <indexer>
                 <catalogsearch_fulltext>
-                    <model>catalogsearch/indexer_fulltext</model>
+                    <model>Mage_CatalogSearch_Model_Indexer_Fulltext</model>
                 </catalogsearch_fulltext>
             </indexer>
         </index>

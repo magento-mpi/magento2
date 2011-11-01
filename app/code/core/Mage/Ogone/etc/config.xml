@@ -113,7 +113,7 @@
     <default>
         <payment>
             <ogone>
-                <model>ogone/api</model>
+                <model>Mage_Ogone_Model_Api</model>
                 <title>Ogone</title>
                 <secret_key backend_model="adminhtml/system_config_backend_encrypted"/>
                 <payment_action>authorize</payment_action>

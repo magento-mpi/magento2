@@ -126,18 +126,18 @@
         <pdf>
             <totals>
                 <subtotal>
-                    <model>tax/sales_pdf_subtotal</model>
+                    <model>Mage_Tax_Model_Sales_Pdf_Subtotal</model>
                 </subtotal>
                 <shipping>
-                    <model>tax/sales_pdf_shipping</model>
+                    <model>Mage_Tax_Model_Sales_Pdf_Shipping</model>
                 </shipping>
                 <grand_total>
-                    <model>tax/sales_pdf_grandtotal</model>
+                    <model>Mage_Tax_Model_Sales_Pdf_Grandtotal</model>
                 </grand_total>
                 <tax translate="title">
                     <title>Tax</title>
                     <source_field>tax_amount</source_field>
-                    <model>tax/sales_pdf_tax</model>
+                    <model>Mage_Tax_Model_Sales_Pdf_Tax</model>
                     <font_size>7</font_size>
                     <display_zero>0</display_zero>
                     <sort_order>300</sort_order>
@@ -218,7 +218,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>tax/observer::aggregateSalesReportTaxData</model>
+                    <model>Mage_Tax_Model_Observer::aggregateSalesReportTaxData</model>
                 </run>
             </aggregate_sales_report_tax_data>
         </jobs>

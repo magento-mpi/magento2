@@ -191,7 +191,7 @@
         <index>
             <indexer>
                 <cataloginventory_stock>
-                    <model>cataloginventory/indexer_stock</model>
+                    <model>Mage_CatalogInventory_Model_Indexer_Stock</model>
                 </cataloginventory_stock>
                 <catalog_product_attribute>
                     <depends>

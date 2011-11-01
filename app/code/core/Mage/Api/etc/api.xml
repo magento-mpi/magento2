@@ -29,7 +29,7 @@
     <api>
         <adapters>
             <soap>
-                <model>api/server_adapter_soap</model>
+                <model>Mage_Api_Model_Server_Adapter_Soap</model>
                 <handler>default</handler>
                 <active>1</active>
                 <required>
@@ -39,7 +39,7 @@
                 </required>
             </soap>
             <soap_v2>
-                <model>api/server_v2_adapter_soap</model>
+                <model>Mage_Api_Model_Server_V2_Adapter_Soap</model>
                 <handler>soap_v2</handler>
                 <active>1</active>
                 <required>
@@ -49,7 +49,7 @@
                 </required>
             </soap_v2>
             <soap_wsi>
-                <model>api/server_wsi_adapter_soap</model>
+                <model>Mage_Api_Model_Server_Wsi_Adapter_Soap</model>
                 <handler>soap_wsi</handler>
                 <active>1</active>
                 <required>
@@ -59,7 +59,7 @@
                 </required>
             </soap_wsi>
             <xmlrpc>
-                <model>api/server_adapter_xmlrpc</model>
+                <model>Mage_Api_Model_Server_Adapter_Xmlrpc</model>
                 <handler>default</handler>
                 <active>1</active>
             </xmlrpc>
@@ -69,13 +69,13 @@
         </adapters>
         <handlers>
             <default>
-                <model>api/server_handler</model>
+                <model>Mage_Api_Model_Server_Handler</model>
             </default>
             <soap_v2>
-                <model>api/server_v2_handler</model>
+                <model>Mage_Api_Model_Server_V2_Handler</model>
             </soap_v2>
             <soap_wsi>
-                <model>api/server_wsi_handler</model>
+                <model>Mage_Api_Model_Server_Wsi_Handler</model>
             </soap_wsi>
         </handlers>
         <resources>

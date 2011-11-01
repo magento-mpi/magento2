@@ -117,7 +117,7 @@
                     <cron_expr>*/15 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>enterprise_reminder/observer::scheduledNotification</model>
+                    <model>Enterprise_Reminder_Model_Observer::scheduledNotification</model>
                 </run>
             </send_notification>
         </jobs>

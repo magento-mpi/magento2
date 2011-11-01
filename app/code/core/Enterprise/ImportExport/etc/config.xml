@@ -90,7 +90,7 @@
             <jobs>
                 <enterprise_import_export_log_clean>
                     <run>
-                        <model>enterprise_importexport/observer::scheduledLogClean</model>
+                        <model>Enterprise_ImportExport_Model_Observer::scheduledLogClean</model>
                     </run>
                 </enterprise_import_export_log_clean>
             </jobs>

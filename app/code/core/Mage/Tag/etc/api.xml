@@ -30,7 +30,7 @@
         <resources>
             <catalog_product_tag translate="title" module="Mage_Tag">
                 <title>Product Tag API</title>
-                <model>tag/api</model>
+                <model>Mage_Tag_Model_Api</model>
                 <acl>catalog/product/tag</acl>
                 <methods>
                     <list translate="title" module="Mage_Tag">

@@ -117,7 +117,7 @@
         <jobs>
             <catalog_product_alert>
                 <run>
-                    <model>productalert/observer::process</model>
+                    <model>Mage_ProductAlert_Model_Observer::process</model>
                 </run>
             </catalog_product_alert>
         </jobs>

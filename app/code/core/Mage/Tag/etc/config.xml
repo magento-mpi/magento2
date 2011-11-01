@@ -42,7 +42,7 @@
         <index>
             <indexer>
                 <tag_summary>
-                    <model>tag/indexer_summary</model>
+                    <model>Mage_Tag_Model_Indexer_Summary</model>
                 </tag_summary>
             </indexer>
         </index>

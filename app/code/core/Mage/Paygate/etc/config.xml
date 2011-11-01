@@ -92,7 +92,7 @@
                 <email_customer>0</email_customer>
                 <login backend_model="adminhtml/system_config_backend_encrypted"/>
                 <merchant_email/>
-                <model>paygate/authorizenet</model>
+                <model>Mage_Paygate_Model_Authorizenet</model>
                 <order_status>processing</order_status>
                 <payment_action>authorize</payment_action>
                 <test>1</test>

@@ -170,7 +170,7 @@
                     <cron_expr>*/5 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>newsletter/observer::scheduledSend</model>
+                    <model>Mage_Newsletter_Model_Observer::scheduledSend</model>
                 </run>
             </newsletter_send_all>
         </jobs>

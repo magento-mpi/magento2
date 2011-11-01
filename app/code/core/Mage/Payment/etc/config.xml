@@ -141,7 +141,7 @@
             <ccsave>
                 <active>1</active>
                 <cctypes>AE,VI,MC,DI</cctypes>
-                <model>payment/method_ccsave</model>
+                <model>Mage_Payment_Model_Method_Ccsave</model>
                 <order_status>pending</order_status>
                 <title>Credit Card (saved)</title>
                 <allowspecific>0</allowspecific>
@@ -149,7 +149,7 @@
             </ccsave>
             <checkmo>
                 <active>1</active>
-                <model>payment/method_checkmo</model>
+                <model>Mage_Payment_Model_Method_Checkmo</model>
                 <order_status>pending</order_status>
                 <title>Check / Money order</title>
                 <allowspecific>0</allowspecific>
@@ -157,7 +157,7 @@
             </checkmo>
             <free>
                 <active>1</active>
-                <model>payment/method_free</model>
+                <model>Mage_Payment_Model_Method_Free</model>
                 <order_status>pending</order_status>
                 <title>No Payment Information Required</title>
                 <allowspecific>0</allowspecific>
@@ -166,7 +166,7 @@
             </free>
             <purchaseorder>
                 <active>0</active>
-                <model>payment/method_purchaseorder</model>
+                <model>Mage_Payment_Model_Method_Purchaseorder</model>
                 <order_status>pending</order_status>
                 <title>Purchase Order</title>
                 <allowspecific>0</allowspecific>

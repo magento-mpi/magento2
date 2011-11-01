@@ -84,10 +84,10 @@
     <default>
         <payment>
             <paypaluk_express>
-                <model>paypaluk/express</model>
+                <model>Mage_PaypalUk_Model_Express</model>
             </paypaluk_express>
             <paypaluk_direct>
-                <model>paypaluk/direct</model>
+                <model>Mage_PaypalUk_Model_Direct</model>
             </paypaluk_direct>
         </payment>
     </default>

@@ -294,7 +294,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>persistent/observer::clearExpiredCronJob</model>
+                    <model>Mage_Persistent_Model_Observer::clearExpiredCronJob</model>
                 </run>
             </persistent_clear_expired>
         </jobs>

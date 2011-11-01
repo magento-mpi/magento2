@@ -45,7 +45,7 @@
                 <type>
                     <giftcard translate="label" module="Enterprise_GiftCard">
                         <label>Gift Card</label>
-                        <model>enterprise_giftcard/catalog_product_type_giftcard</model>
+                        <model>Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard</model>
                         <price_model>enterprise_giftcard/catalog_product_price_giftcard</price_model>
                         <index_priority>45</index_priority>
                         <composite>0</composite>

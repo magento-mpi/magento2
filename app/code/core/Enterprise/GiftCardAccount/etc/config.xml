@@ -371,7 +371,7 @@
                     <cron_expr>0 1 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>enterprise_giftcardaccount/cron::updateStates</model>
+                    <model>Enterprise_GiftCardAccount_Model_Cron::updateStates</model>
                 </run>
             </enterprise_giftcardaccount_update_states>
             <enterprise_giftcardaccount_generage_codes_pool>
@@ -379,7 +379,7 @@
                     <cron_expr>30 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>enterprise_giftcardaccount/pool::applyCodesGeneration</model>
+                    <model>Enterprise_GiftCardAccount_Model_Pool::applyCodesGeneration</model>
                 </run>
             </enterprise_giftcardaccount_generage_codes_pool>
         </jobs>

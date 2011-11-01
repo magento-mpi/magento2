@@ -355,7 +355,7 @@
                     <cron_expr>* * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>enterprise_staging/observer::automates</model>
+                    <model>Enterprise_Staging_Model_Observer::automates</model>
                 </run>
             </enterprise_staging_automates>
         </jobs>

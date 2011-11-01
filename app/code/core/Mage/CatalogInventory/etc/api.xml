@@ -29,7 +29,7 @@
     <api>
         <resources>
             <cataloginventory_stock_item translate="title" module="Mage_CatalogInventory">
-                <model>cataloginventory/stock_item_api</model>
+                <model>Mage_CatalogInventory_Model_Stock_Item_Api</model>
                 <title>Inventory API</title>
                 <acl>cataloginventory</acl>
                 <methods>

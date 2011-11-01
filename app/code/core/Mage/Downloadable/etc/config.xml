@@ -55,7 +55,7 @@
                 <type>
                     <downloadable translate="label" module="Mage_Downloadable">
                         <label>Downloadable Product</label>
-                        <model>downloadable/product_type</model>
+                        <model>Mage_Downloadable_Model_Product_Type</model>
                         <is_qty>1</is_qty>
                         <price_model>downloadable/product_price</price_model>
                         <composite>0</composite>

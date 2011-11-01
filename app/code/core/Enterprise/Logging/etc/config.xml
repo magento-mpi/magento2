@@ -148,7 +148,7 @@
                     <cron_expr>1 2 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>enterprise_logging/observer::rotateLogs</model>
+                    <model>Enterprise_Logging_Model_Observer::rotateLogs</model>
                 </run>
             </enterprise_logging_rotate_logs>
         </jobs>
