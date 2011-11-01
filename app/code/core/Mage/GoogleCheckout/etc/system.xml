@@ -93,7 +93,7 @@
                         <merchant_id translate="label">
                             <label>Merchant ID</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -102,7 +102,7 @@
                         <merchant_key translate="label">
                             <label>Merchant Key</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -187,7 +187,7 @@
                             <label>Allowed Methods</label>
                             <frontend_type>select</frontend_type>
                             <frontend_model>googlecheckout/adminhtml_shipping_merchant</frontend_model>
-                            <backend_model>adminhtml/system_config_backend_serialized</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Serialized</backend_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

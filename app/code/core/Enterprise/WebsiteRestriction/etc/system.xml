@@ -41,7 +41,7 @@
                             <label>Access Restriction</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <backend_model>enterprise_websiterestriction/system_config_backend_active</backend_model>
+                            <backend_model>Enterprise_WebsiteRestriction_Model_System_Config_Backend_Active</backend_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -51,7 +51,7 @@
                             <label>Restriction Mode</label>
                             <frontend_type>select</frontend_type>
                             <source_model>enterprise_websiterestriction/system_config_source_modes</source_model>
-                            <backend_model>enterprise_websiterestriction/system_config_backend_active</backend_model>
+                            <backend_model>Enterprise_WebsiteRestriction_Model_System_Config_Backend_Active</backend_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>

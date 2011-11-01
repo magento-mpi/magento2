@@ -34,7 +34,7 @@
                         <default_product_price translate="label comment">
                             <label>Default Product Price</label>
                             <comment><![CDATA[Defines the default product price]]></comment>
-                            <backend_model>enterprise_pricepermissions/system_config_backend_catalog_product_price_default</backend_model>
+                            <backend_model>Enterprise_PricePermissions_Model_System_Config_Backend_Catalog_Product_Price_Default</backend_model>
                             <frontend_model>enterprise_pricepermissions/adminhtml_catalog_product_price_default</frontend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>

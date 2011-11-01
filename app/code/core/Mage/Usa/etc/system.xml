@@ -166,7 +166,7 @@
                         <id translate="label">
                             <label>Access ID</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -175,7 +175,7 @@
                         <password translate="label">
                             <label>Password</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -193,7 +193,7 @@
                         <shipping_intlkey translate="label">
                             <label>Shipping Key (International)</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -202,7 +202,7 @@
                         <shipping_key translate="label">
                             <label>Shipping Key</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -404,7 +404,7 @@
                         <account translate="label comment">
                             <label>Account ID</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -414,7 +414,7 @@
                         <meter_number translate="label">
                             <label>Meter Number</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -423,7 +423,7 @@
                         <key translate="label">
                             <label>Key</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -432,7 +432,7 @@
                         <password translate="label">
                             <label>Password</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -613,7 +613,7 @@
                         <access_license_number translate="label">
                             <label>Access License Number</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -753,7 +753,7 @@
                         <password translate="label">
                             <label>Password</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -813,7 +813,7 @@
                         <username translate="label">
                             <label>UserId</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -940,7 +940,7 @@
                         <userid translate="label">
                             <label>User ID</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -949,7 +949,7 @@
                         <password translate="label">
                             <label>Password</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>54</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

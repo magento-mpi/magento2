@@ -85,7 +85,7 @@
                         <secret_key_out translate="label comment">
                             <label>SHA-IN Pass Phrase</label>
                             <comment><![CDATA[Use in posting data from Magento to Ogone.<br/>Use in data checking by Ogone before the payment.]]></comment>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <frontend_type>obscure</frontend_type>
                             <sort_order>25</sort_order>
                             <show_in_default>1</show_in_default>
@@ -95,7 +95,7 @@
                         <secret_key_in translate="label comment">
                             <label>SHA-OUT Pass Phrase</label>
                             <comment><![CDATA[Use in posting data from Ogone to Magento.<br/>Use in feedback data checking by Magento.]]></comment>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <frontend_type>obscure</frontend_type>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>

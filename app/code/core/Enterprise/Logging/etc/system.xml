@@ -72,7 +72,7 @@
                         <actions translate="label">
                             <label>Enabled Actions</label>
                             <frontend_model>enterprise_logging/adminhtml_system_config_actions</frontend_model>
-                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Serialized_Array</backend_model>
                             <show_in_default>1</show_in_default>
                         </actions>
                     </fields>

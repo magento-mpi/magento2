@@ -66,7 +66,7 @@
                         <login translate="label">
                             <label>API Login ID</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -75,7 +75,7 @@
                         <trans_key translate="label">
                             <label>Transaction Key</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -84,7 +84,7 @@
                         <trans_md5 translate="label">
                             <label>Merchant MD5</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

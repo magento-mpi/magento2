@@ -49,7 +49,7 @@
                         </status>
                         <key>
                             <label>Authorization Key</label>
-                            <backend_model>loadtest/backend_key</backend_model>
+                            <backend_model>Mage_LoadTest_Model_Backend_Key</backend_model>
                             <frontend_type>text</frontend_type>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>

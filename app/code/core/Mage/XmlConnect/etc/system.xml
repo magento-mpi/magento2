@@ -32,7 +32,7 @@
                 <secure>
                     <fields>
                         <base_url module="Mage_XmlConnect">
-                            <backend_model>xmlconnect/adminhtml_system_config_backend_baseurl</backend_model>
+                            <backend_model>Mage_XmlConnect_Model_Adminhtml_System_Config_Backend_Baseurl</backend_model>
                         </base_url>
                     </fields>
                 </secure>
@@ -43,7 +43,7 @@
                 <options>
                     <fields>
                         <default module="Mage_XmlConnect">
-                            <backend_model>xmlconnect/adminhtml_system_config_backend_currency_default</backend_model>
+                            <backend_model>Mage_XmlConnect_Model_Adminhtml_System_Config_Backend_Currency_Default</backend_model>
                         </default>
                     </fields>
                 </options>

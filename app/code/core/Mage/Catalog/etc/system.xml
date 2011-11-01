@@ -104,7 +104,7 @@
                             <label>Use Flat Catalog Category</label>
                             <frontend_type>select</frontend_type>
                             <frontend_model>adminhtml/system_config_form_field_select_flatcatalog</frontend_model>
-                            <backend_model>catalog/system_config_backend_catalog_category_flat</backend_model>
+                            <backend_model>Mage_Catalog_Model_System_Config_Backend_Catalog_Category_Flat</backend_model>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
@@ -116,7 +116,7 @@
                             <label>Use Flat Catalog Product</label>
                             <frontend_type>select</frontend_type>
                             <frontend_model>adminhtml/system_config_form_field_select_flatproduct</frontend_model>
-                            <backend_model>catalog/system_config_backend_catalog_product_flat</backend_model>
+                            <backend_model>Mage_Catalog_Model_System_Config_Backend_Catalog_Product_Flat</backend_model>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
@@ -193,7 +193,7 @@
                         <placeholder>
                             <label></label>
                             <frontend_type>image</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_image</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Image</backend_model>
                             <upload_dir config="system/filesystem/media" scope_info="1">catalog/product/placeholder</upload_dir>
                             <base_url type="media" scope_info="1">catalog/product/placeholder</base_url>
                             <sort_order>1</sort_order>
@@ -215,7 +215,7 @@
                         <category_url_suffix translate="label comment">
                             <label>Category URL Suffix</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>catalog/system_config_backend_catalog_url_rewrite_suffix</backend_model>
+                            <backend_model>Mage_Catalog_Model_System_Config_Backend_Catalog_Url_Rewrite_Suffix</backend_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -225,7 +225,7 @@
                         <product_url_suffix translate="label comment">
                             <label>Product URL Suffix</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>catalog/system_config_backend_catalog_url_rewrite_suffix</backend_model>
+                            <backend_model>Mage_Catalog_Model_System_Config_Backend_Catalog_Url_Rewrite_Suffix</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -236,7 +236,7 @@
                             <label>Use Categories Path for Product URLs</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <backend_model>adminhtml/system_config_backend_seo_product</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Seo_Product</backend_model>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -293,7 +293,7 @@
                             <comment><![CDATA[Defines the base currency scope ("Currency Setup" > "Currency Options" > "Base Currency")]]>.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_price_scope</source_model>
-                            <backend_model>adminhtml/system_config_backend_price_scope</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Price_Scope</backend_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -424,7 +424,7 @@
                         <image translate="label">
                             <label>Watermark</label>
                             <frontend_type>image</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_image</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Image</backend_model>
                             <upload_dir config="system/filesystem/media" scope_info="1">catalog/product/watermark</upload_dir>
                             <base_url type="media" scope_info="1">catalog/product/watermark</base_url>
                             <sort_order>200</sort_order>

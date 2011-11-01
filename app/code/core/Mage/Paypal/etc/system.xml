@@ -64,7 +64,7 @@
                             <comment>If not specified, Default Country from General Config will be used</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>paypal/system_config_source_merchantCountry</source_model>
-                            <backend_model>paypal/system_config_backend_merchantCountry</backend_model>
+                            <backend_model>Mage_Paypal_Model_System_Config_Backend_MerchantCountry</backend_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <sort_order>5</sort_order>
@@ -259,7 +259,7 @@
                             <label>API Username</label>
                             <config_path>paypal/wpp/api_username</config_path>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -268,7 +268,7 @@
                             <label>API Password</label>
                             <config_path>paypal/wpp/api_password</config_path>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -276,7 +276,7 @@
                         <api_signature translate="label">
                             <label>API Signature</label>
                             <config_path>paypal/wpp/api_signature</config_path>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <frontend_type>obscure</frontend_type>
                             <sort_order>15</sort_order>
                             <show_in_default>1</show_in_default>
@@ -287,7 +287,7 @@
                             <label>API Certificate</label>
                             <config_path>paypal/wpp/api_cert</config_path>
                             <frontend_type>file</frontend_type>
-                            <backend_model>paypal/system_config_backend_cert</backend_model>
+                            <backend_model>Mage_Paypal_Model_System_Config_Backend_Cert</backend_model>
                             <sort_order>17</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -944,7 +944,7 @@
                             <label>User</label>
                             <frontend_type>obscure</frontend_type>
                             <config_path>paypal/wpuk/user</config_path>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -961,7 +961,7 @@
                             <label>Password</label>
                             <config_path>paypal/wpuk/pwd</config_path>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1152,7 +1152,7 @@
                             <label>User</label>
                             <config_path>payment/verisign/user</config_path>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>45</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1169,7 +1169,7 @@
                             <label>Password</label>
                             <config_path>payment/verisign/pwd</config_path>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>55</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1388,7 +1388,7 @@
                             <label>Login</label>
                             <config_path>paypal/fetch_reports/ftp_login</config_path>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1397,7 +1397,7 @@
                             <label>Password</label>
                             <config_path>paypal/fetch_reports/ftp_password</config_path>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>15</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1661,7 +1661,7 @@
                             <label>Password</label>
                             <config_path>payment/payflow_link/pwd</config_path>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
                             <sort_order>55</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

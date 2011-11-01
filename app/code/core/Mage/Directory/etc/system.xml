@@ -47,7 +47,7 @@
                             <frontend_type>select</frontend_type>
                             <frontend_model>directory/adminhtml_frontend_currency_base</frontend_model>
                             <source_model>adminhtml/system_config_source_currency</source_model>
-                            <backend_model>adminhtml/system_config_backend_currency_base</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Currency_Base</backend_model>
                             <sort_order>1</sort_order>
                             <comment><![CDATA[Base currency is used for all online payment transactions. Scope is defined by the catalog price scope ("Catalog" > "Price" > "Catalog Price Scope").]]></comment>
                             <show_in_default>1</show_in_default>
@@ -58,7 +58,7 @@
                             <label>Default Display Currency</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_currency</source_model>
-                            <backend_model>adminhtml/system_config_backend_currency_default</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Currency_Default</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -68,7 +68,7 @@
                             <label>Allowed Currencies</label>
                             <frontend_type>multiselect</frontend_type>
                             <source_model>adminhtml/system_config_source_currency</source_model>
-                            <backend_model>adminhtml/system_config_backend_currency_allow</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Currency_Allow</backend_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -150,7 +150,7 @@
                             <label>Service</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_currency_service</source_model>
-                            <backend_model>adminhtml/system_config_backend_currency_cron</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Currency_Cron</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -181,7 +181,7 @@
                         <installed translate="label">
                             <label>Installed Currencies</label>
                             <frontend_type>multiselect</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_locale</backend_model>
+                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Locale</backend_model>
                             <source_model>adminhtml/system_config_source_locale_currency_all</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
