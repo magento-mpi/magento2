@@ -29,13 +29,13 @@
 <layout>
     <adminhtml_staging_manage_index>
         <reference name="content">
-            <block type="enterprise_staging/adminhtml_staging"  name="enterprise_staging" />
+            <block type="Enterprise_Staging_Block_Adminhtml_Staging"  name="enterprise_staging" />
         </reference>
     </adminhtml_staging_manage_index>
 
     <adminhtml_staging_manage_grid>
         <remove name="root" />
-        <block type="enterprise_staging/adminhtml_staging_grid" output="toHtml" name="enterprise_staging_grid" />
+        <block type="Enterprise_Staging_Block_Adminhtml_Staging_Grid" output="toHtml" name="enterprise_staging_grid" />
     </adminhtml_staging_manage_grid>
 
     <adminhtml_staging_manage_new>
@@ -44,10 +44,10 @@
 
     <adminhtml_staging_manage_edit>
         <reference name="content">
-            <block type="enterprise_staging/adminhtml_staging_edit"  name="enterprise_staging_edit" />
+            <block type="Enterprise_Staging_Block_Adminhtml_Staging_Edit"  name="enterprise_staging_edit" />
         </reference>
         <reference name="left">
-            <block type="enterprise_staging/adminhtml_staging_edit_tabs" name="enterprise_staging_edit_tabs"></block>
+            <block type="Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs" name="enterprise_staging_edit_tabs"></block>
         </reference>
         <reference name="head">
             <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
@@ -56,7 +56,7 @@
 
     <adminhtml_staging_manage_merge>
         <reference name="content">
-            <block type="enterprise_staging/adminhtml_staging_merge"  name="enterprise_staging_merge">
+            <block type="Enterprise_Staging_Block_Adminhtml_Staging_Merge"  name="enterprise_staging_merge">
                 <action method="addMergeSettingsBlockType"><type>website</type><block>enterprise_staging/adminhtml_staging_merge_settings_website</block><template>enterprise/staging/staging/merge/settings/website.phtml</template></action>
             </block>
         </reference>
@@ -67,7 +67,7 @@
 
     <adminhtml_staging_backup_index>
         <reference name="content">
-            <block type="enterprise_staging/adminhtml_backup"  name="enterprise_staging_backup" />
+            <block type="Enterprise_Staging_Block_Adminhtml_Backup"  name="enterprise_staging_backup" />
         </reference>
         <reference name="head">
             <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
@@ -76,15 +76,15 @@
 
     <adminhtml_staging_backup_grid>
         <remove name="root" />
-        <block type="enterprise_staging/adminhtml_backup_grid" output="toHtml" name="enterprise_staging_backup" />
+        <block type="Enterprise_Staging_Block_Adminhtml_Backup_Grid" output="toHtml" name="enterprise_staging_backup" />
     </adminhtml_staging_backup_grid>
 
     <adminhtml_staging_backup_edit>
         <reference name="content">
-            <block type="enterprise_staging/adminhtml_backup_edit"  name="enterprise_staging_backup_edit" />
+            <block type="Enterprise_Staging_Block_Adminhtml_Backup_Edit"  name="enterprise_staging_backup_edit" />
         </reference>
         <reference name="left">
-            <block type="enterprise_staging/adminhtml_backup_edit_tabs" name="enterprise_staging_backup_edit_tabs"></block>
+            <block type="Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs" name="enterprise_staging_backup_edit_tabs"></block>
         </reference>
         <reference name="head">
             <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
@@ -93,13 +93,13 @@
 
     <adminhtml_staging_log_index>
         <reference name="content">
-            <block type="enterprise_staging/adminhtml_log"  name="enterprise_staging_log" />
+            <block type="Enterprise_Staging_Block_Adminhtml_Log"  name="enterprise_staging_log" />
         </reference>
     </adminhtml_staging_log_index>
 
     <adminhtml_staging_log_view>
         <reference name="content">
-            <block type="enterprise_staging/adminhtml_log_view"  name="enterprise_staging_log_view">
+            <block type="Enterprise_Staging_Block_Adminhtml_Log_View"  name="enterprise_staging_log_view">
                 <action method="addInformationRenderer"><type>default</type><block>enterprise_staging/adminhtml_log_view_information_default</block><template>enterprise/staging/log/information/default.phtml</template></action>
                 <action method="addInformationRenderer"><type>reset</type><block>enterprise_staging/adminhtml_log_view_information_default</block><template>enterprise/staging/log/information/default.phtml</template></action>
                 <action method="addInformationRenderer"><type>create</type><block>enterprise_staging/adminhtml_log_view_information_staging</block><template>enterprise/staging/log/information/create.phtml</template></action>

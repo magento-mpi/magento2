@@ -35,12 +35,12 @@
         </reference>
         <reference name="content">
             <block type="Mage_Core_Block_Template" template="head/window.phtml" name="head.window" />
-            <block type="find_feed/adminhtml_list_codes" name="adminhtml_list_codes" />
+            <block type="Find_Feed_Block_Adminhtml_List_Codes" name="adminhtml_list_codes" />
         </reference>
     </adminhtml_codes_grid_index>
     <adminhtml_items_grid_index>
         <reference name="content">
-            <block type="find_feed/adminhtml_list_items" name="adminhtml_list_items_grid" />
+            <block type="Find_Feed_Block_Adminhtml_List_Items" name="adminhtml_list_items_grid" />
         </reference>
     </adminhtml_items_grid_index>
 </layout>   
