@@ -29,7 +29,7 @@
 home:
     mca: home
     title: Home page
-    uimap:
+    uimap: &homePage
         form: &newCustomerForm
             fieldsets:
                 -
@@ -51,6 +51,11 @@ home:
                         radiobuttons:
                             vote: //li[span/label='%answer%']/input
         messages:
+
+home:
+    mca:
+    title: Home page
+    uimap: *homePage
 
 test_page:
     mca: %url_key%
