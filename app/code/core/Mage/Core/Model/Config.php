@@ -1257,6 +1257,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Retrieve class name by class group
      *
+     * @todo Method contains legacy support of "/" in the class name, it should be revised in the scope of MAGETWO-563
+     *
      * @param   string $groupType currently supported model, block, helper
      * @param   string $classId slash separated class identifier, ex. group/class
      * @return  string
@@ -1279,11 +1281,52 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             $groupTypeReal = $groupType;
         }
 
-        /* Determine class prefix including omitted module namespace */
-        $module = (strpos($group, '_') === false ? 'mage_' : '') . $group;
+        /* Determine omitted module namespace */
+        $module = (strpos($group, '_') === false ? 'mage_' : '') . strtolower($group);
+
+        /* Fix upper case symbols in the module name */
+        $modulesCaseSensitive = array(
+            'mage_adminnotification'          => 'mage_adminNotification',
+            'mage_cataloginventory'           => 'mage_catalogInventory',
+            'mage_catalogrule'                => 'mage_catalogRule',
+            'mage_catalogsearch'              => 'mage_catalogSearch',
+            'mage_giftmessage'                => 'mage_giftMessage',
+            'mage_googleanalytics'            => 'mage_googleAnalytics',
+            'mage_googlebase'                 => 'mage_googleBase',
+            'mage_googlecheckout'             => 'mage_googleCheckout',
+            'mage_googleoptimizer'            => 'mage_googleOptimizer',
+            'mage_googleshopping'             => 'mage_googleShopping',
+            'mage_importexport'               => 'mage_importExport',
+            'mage_pagecache'                  => 'mage_pageCache',
+            'mage_paypaluk'                   => 'mage_paypalUk',
+            'mage_productalert'               => 'mage_productAlert',
+            'mage_salesrule'                  => 'mage_salesRule',
+            'mage_xmlconnect'                 => 'mage_xmlConnect',
+            'enterprise_admingws'             => 'enterprise_adminGws',
+            'enterprise_catalogevent'         => 'enterprise_catalogEvent',
+            'enterprise_catalogpermissions'   => 'enterprise_catalogPermissions',
+            'enterprise_customerbalance'      => 'enterprise_customerBalance',
+            'enterprise_customersegment'      => 'enterprise_customerSegment',
+            'enterprise_giftcard'             => 'enterprise_giftCard',
+            'enterprise_giftcardaccount'      => 'enterprise_giftCardAccount',
+            'enterprise_giftregistry'         => 'enterprise_giftRegistry',
+            'enterprise_giftwrapping'         => 'enterprise_giftWrapping',
+            'enterprise_importexport'         => 'enterprise_importExport',
+            'enterprise_pagecache'            => 'enterprise_pageCache',
+            'enterprise_pricepermissions'     => 'enterprise_pricePermissions',
+            'enterprise_promotionpermissions' => 'enterprise_promotionPermissions',
+            'enterprise_salesarchive'         => 'enterprise_salesArchive',
+            'enterprise_targetrule'           => 'enterprise_targetRule',
+            'enterprise_websiterestriction'   => 'enterprise_websiteRestriction',
+        );
+        if (isset($modulesCaseSensitive[$module])) {
+            $module = $modulesCaseSensitive[$module];
+        }
+
+        /* General class prefix */
         $classPrefix = $module . '_' . $groupTypeReal;
 
-        /* Crutches for non-standard class prefixes */
+        /* Non-standard class prefixes */
         $classPrefixMap = array(
             'block' => array(
                 'directpost'   => 'Mage_Authorizenet_Block_Directpost',
