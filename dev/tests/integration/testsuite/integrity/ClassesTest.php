@@ -112,19 +112,26 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Finds usage of Mage::getResourceModel('Class_Name')
+     * Finds usage of Mage::getResourceModel('Class_Name'), Mage::getResourceSingleton('Class_Name')
      *
      * @param SplFileInfo $fileInfo
      * @param string $content
      * @return array
      */
-    protected function _visitMageGetResourceModel($fileInfo, $content)
+    protected function _visitMageGetResource($fileInfo, $content)
     {
         if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
             return array();
         }
 
-        return $this->_getFuncStringArguments('Mage::getResourceModel', $content);
+        $funcNames = array('Mage::getResourceModel', 'Mage::getResourceSingleton');
+        $result = array();
+        foreach ($funcNames as $funcName) {
+            $classNames = $this->_getFuncStringArguments($funcName, $content);
+            $result = array_merge($result, $classNames);
+        }
+
+        return $result;
     }
 
     /**
