@@ -77,8 +77,16 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
     {
         $output   = '';
         $blockTab = $this->getRequest()->getParam('block');
+
+        $classNameParts = explode('_', $blockTab);
+        foreach ($classNameParts as $key => $part) {
+            $classNameParts[$key] = ucfirst($part);
+        }
+
         if (in_array($blockTab, array('tab_orders', 'tab_amounts', 'totals'))) {
-            $output = $this->getLayout()->createBlock('adminhtml/dashboard_' . $blockTab)->toHtml();
+            $output = $this->getLayout()->createBlock(
+                'Mage_Adminhtml_Block_Dashboard_' . implode('_', $classNameParts)
+            )->toHtml();
         }
         $this->getResponse()->setBody($output);
         return;
