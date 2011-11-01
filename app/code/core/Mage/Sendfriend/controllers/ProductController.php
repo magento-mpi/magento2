@@ -126,7 +126,7 @@ class Mage_Sendfriend_ProductController extends Mage_Core_Controller_Front_Actio
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
 
         Mage::dispatchEvent('sendfriend_product', array('product' => $product));
         $data = Mage::getSingleton('Mage_Catalog_Model_Session')->getSendfriendFormData();

@@ -123,10 +123,10 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
             }
         }
 
-        $this->_initLayoutMessages('customer/session');
-        $this->_initLayoutMessages('checkout/session');
-        $this->_initLayoutMessages('catalog/session');
-        $this->_initLayoutMessages('wishlist/session');
+        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Mage_Checkout_Model_Session');
+        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
+        $this->_initLayoutMessages('Mage_Wishlist_Model_Session');
 
         $this->renderLayout();
     }
@@ -499,8 +499,8 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
     public function shareAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('customer/session');
-        $this->_initLayoutMessages('wishlist/session');
+        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Mage_Wishlist_Model_Session');
         $this->renderLayout();
     }
 

@@ -136,7 +136,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
         if ($attribute->getId() && !$attributeId) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
                 Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute with the same code already exists'));
-            $this->_initLayoutMessages('adminhtml/session');
+            $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }

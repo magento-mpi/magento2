@@ -61,7 +61,7 @@ class Enterprise_GiftRegistry_ViewController extends Mage_Core_Controller_Front_
         Mage::register('current_entity', $entity);
 
         $this->loadLayout();
-        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Info'));

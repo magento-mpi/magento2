@@ -182,7 +182,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             $this->_initCheckout();
             $this->_checkout->prepareOrderReview($this->_initToken());
             $this->loadLayout();
-            $this->_initLayoutMessages('paypal/session');
+            $this->_initLayoutMessages('Mage_Paypal_Model_Session');
             $this->getLayout()->getBlock('paypal.express.review')
                 ->setQuote($this->_getQuote())
                 ->getChild('details')->setQuote($this->_getQuote())

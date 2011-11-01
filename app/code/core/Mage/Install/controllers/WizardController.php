@@ -111,7 +111,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
-        $this->_initLayoutMessages('install/session');
+        $this->_initLayoutMessages('Mage_Install_Model_Session');
 
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('Mage_Install_Block_Begin', 'install.begin')
@@ -146,7 +146,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
-        $this->_initLayoutMessages('install/session');
+        $this->_initLayoutMessages('Mage_Install_Model_Session');
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('Mage_Install_Block_Locale', 'install.locale')
         );
@@ -195,7 +195,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
-        $this->_initLayoutMessages('install/session');
+        $this->_initLayoutMessages('Mage_Install_Model_Session');
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('Mage_Install_Block_Download', 'install.download')
         );
@@ -293,7 +293,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         }
 
         $this->_prepareLayout();
-        $this->_initLayoutMessages('install/session');
+        $this->_initLayoutMessages('Mage_Install_Model_Session');
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('Mage_Install_Block_Config', 'install.config')
         );
@@ -365,7 +365,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->_checkIfInstalled();
 
         $this->_prepareLayout();
-        $this->_initLayoutMessages('install/session');
+        $this->_initLayoutMessages('Mage_Install_Model_Session');
 
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('Mage_Install_Block_Admin', 'install.administrator')
@@ -435,7 +435,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         Mage_AdminNotification_Model_Survey::saveSurveyViewed(true);
 
         $this->_prepareLayout();
-        $this->_initLayoutMessages('install/session');
+        $this->_initLayoutMessages('Mage_Install_Model_Session');
 
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('Mage_Install_Block_End', 'install.end')

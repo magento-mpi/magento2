@@ -164,7 +164,7 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
         } else {
             $response = array();
             if ($hasError) {
-                $this->_initLayoutMessages('adminhtml/session');
+                $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
                 $response['error']   = 1;
                 $response['message'] = $this->getLayout()->getMessagesBlock()->getGroupedHtml();
             } else {

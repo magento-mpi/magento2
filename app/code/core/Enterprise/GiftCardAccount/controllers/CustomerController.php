@@ -67,7 +67,7 @@ class Enterprise_GiftCardAccount_CustomerController extends Mage_Core_Controller
             return;
         }
         $this->loadLayout();
-        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $this->loadLayoutUpdates();
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {

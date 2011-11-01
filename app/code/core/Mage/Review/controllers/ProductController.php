@@ -263,8 +263,8 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('review/session');
-        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('Mage_Review_Model_Session');
+        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
         $this->renderLayout();
     }
 

@@ -53,7 +53,7 @@ class Enterprise_Rma_ReturnController extends Mage_Core_Controller_Front_Action
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
 
         $this->getLayout()->getBlock('head')->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('My Returns'));
 
@@ -124,7 +124,7 @@ class Enterprise_Rma_ReturnController extends Mage_Core_Controller_Front_Action
                 }
             }
             $this->loadLayout();
-            $this->_initLayoutMessages('core/session');
+            $this->_initLayoutMessages('Mage_Core_Model_Session');
             $this->getLayout()->getBlock('head')->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('Create New Return'));
             if ($block = $this->getLayout()->getBlock('customer.account.link.back')) {
                 $block->setRefererUrl($this->_getRefererUrl());
@@ -212,7 +212,7 @@ class Enterprise_Rma_ReturnController extends Mage_Core_Controller_Front_Action
         Mage::register('current_order', $order);
 
         $this->loadLayout();
-        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
         $this->getLayout()
             ->getBlock('head')
             ->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA #%s', Mage::registry('current_rma')->getIncrementId()));
@@ -246,7 +246,7 @@ class Enterprise_Rma_ReturnController extends Mage_Core_Controller_Front_Action
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
 
         if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
             $navigationBlock->setActive('sales/order/history');

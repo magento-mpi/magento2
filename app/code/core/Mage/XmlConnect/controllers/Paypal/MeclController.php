@@ -166,7 +166,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
             $this->_initCheckout();
             $this->_checkout->prepareOrderReview($this->_initToken());
             $this->loadLayout(false);
-            $this->_initLayoutMessages('paypal/session');
+            $this->_initLayoutMessages('Mage_Paypal_Model_Session');
 
             $messages = $this->_getSession()->getMessages(true);
             $messageArray = array();

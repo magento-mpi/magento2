@@ -54,8 +54,8 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
         $this->getLayout()->getBlock('contactForm')
             ->setFormAction( Mage::getUrl('*/*/post') );
 
-        $this->_initLayoutMessages('customer/session');
-        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
         $this->renderLayout();
     }
 

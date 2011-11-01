@@ -59,7 +59,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('Mage_Customer_Model_Session');
         if ($block = $this->getLayout()->getBlock('giftregistry_list')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
@@ -205,7 +205,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
         try {
             $entity = $this->_initEntity();
             $this->loadLayout();
-            $this->_initLayoutMessages('customer/session');
+            $this->_initLayoutMessages('Mage_Customer_Model_Session');
             $headBlock = $this->getLayout()->getBlock('head');
             if ($headBlock) {
                 $headBlock->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Share Gift Registry'));
@@ -232,8 +232,8 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
         try {
             Mage::register('current_entity', $this->_initEntity());
             $this->loadLayout();
-            $this->_initLayoutMessages('customer/session');
-            $this->_initLayoutMessages('checkout/session');
+            $this->_initLayoutMessages('Mage_Customer_Model_Session');
+            $this->_initLayoutMessages('Mage_Checkout_Model_Session');
             $headBlock = $this->getLayout()->getBlock('head');
             if ($headBlock) {
                 $headBlock->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Items'));
@@ -412,7 +412,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
     public function viewAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $this->loadLayoutUpdates();
         if ($block = $this->getLayout()->getBlock('giftregistry_view')) {
             $block->setRefererUrl($this->_getRefererUrl());
@@ -428,7 +428,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
     public function addSelectAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('Mage_Customer_Model_Session');
         if ($block = $this->getLayout()->getBlock('giftregistry_addselect')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
@@ -473,7 +473,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
             Mage::register('enterprise_giftregistry_address', $model->exportAddress());
 
             $this->loadLayout();
-            $this->_initLayoutMessages('customer/session');
+            $this->_initLayoutMessages('Mage_Customer_Model_Session');
 
             if ($model->getId()) {
                 $pageTitle = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Edit Gift Registry');

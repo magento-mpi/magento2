@@ -200,7 +200,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
             }
             catch (Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
-                $this->_initLayoutMessages('adminhtml/session');
+                $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
                 $response->setError(true);
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }

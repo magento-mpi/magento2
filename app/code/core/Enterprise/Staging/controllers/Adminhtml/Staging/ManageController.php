@@ -182,7 +182,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $this->_getSession()->addError(
                 Mage::helper('Enterprise_Staging_Helper_Data')->__('An error occurred while validating data. Please review the log and try again.')
             );
-            $this->_initLayoutMessages('adminhtml/session');
+            $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }

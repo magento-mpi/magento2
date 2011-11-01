@@ -45,7 +45,7 @@ class Enterprise_Pbridge_Adminhtml_PbridgeController extends Mage_Adminhtml_Cont
         $this->generateLayoutXml();
         $this->generateLayoutBlocks();
         $this->_isLayoutLoaded = true;
-        $this->_initLayoutMessages('adminhtml/session');
+        $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
         return $this;
     }
 

@@ -165,7 +165,7 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
                     Mage::helper('Enterprise_Rma_Helper_Data')->__('Attribute with the same code already exists')
                 );
 
-                $this->_initLayoutMessages('adminhtml/session');
+                $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
                 $response->setError(true);
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }

@@ -240,7 +240,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
             $response->setMessage($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addException($e, $this->__('An error occurred while updating the product(s) attributes.'));
-            $this->_initLayoutMessages('adminhtml/session');
+            $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }

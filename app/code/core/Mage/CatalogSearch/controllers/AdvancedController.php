@@ -37,7 +37,7 @@ class Mage_CatalogSearch_AdvancedController extends Mage_Core_Controller_Front_A
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('catalogsearch/session');
+        $this->_initLayoutMessages('Mage_CatalogSearch_Model_Session');
         $this->renderLayout();
     }
 
@@ -54,7 +54,7 @@ class Mage_CatalogSearch_AdvancedController extends Mage_Core_Controller_Front_A
                     ->getUrl('*/*/')
             );
         }
-        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
         $this->renderLayout();
     }
 }

@@ -108,7 +108,7 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_Acc
         try {
             $invitation = $this->_initInvitation();
             $this->loadLayout();
-            $this->_initLayoutMessages('customer/session');
+            $this->_initLayoutMessages('Mage_Customer_Model_Session');
             $this->renderLayout();
             return;
         }

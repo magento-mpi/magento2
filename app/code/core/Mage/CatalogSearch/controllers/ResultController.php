@@ -75,8 +75,8 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
             Mage::helper('Mage_CatalogSearch_Helper_Data')->checkNotes();
 
             $this->loadLayout();
-            $this->_initLayoutMessages('catalog/session');
-            $this->_initLayoutMessages('checkout/session');
+            $this->_initLayoutMessages('Mage_Catalog_Model_Session');
+            $this->_initLayoutMessages('Mage_Checkout_Model_Session');
             $this->renderLayout();
 
             if (!Mage::helper('Mage_CatalogSearch_Helper_Data')->isMinQueryLength()) {

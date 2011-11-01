@@ -170,7 +170,7 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
                     Mage::helper('Enterprise_Customer_Helper_Data')->__('Attribute with the same code already exists')
                 );
 
-                $this->_initLayoutMessages('adminhtml/session');
+                $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
                 $response->setError(true);
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }

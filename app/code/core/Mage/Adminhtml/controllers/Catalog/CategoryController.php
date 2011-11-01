@@ -176,7 +176,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 ->setLastViewedStore($this->getRequest()->getParam('store'));
             Mage::getSingleton('Mage_Admin_Model_Session')
                 ->setLastEditedCategory($category->getId());
-//            $this->_initLayoutMessages('adminhtml/session');
+//            $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
             $this->loadLayout();
             $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'messages' => $this->getLayout()->getMessagesBlock()->getGroupedHtml(),

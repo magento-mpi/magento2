@@ -57,7 +57,7 @@ class Mage_Sales_OrderController extends Mage_Sales_Controller_Abstract
     public function historyAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
 
         $this->getLayout()->getBlock('head')->setTitle($this->__('My Orders'));
 

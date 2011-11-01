@@ -164,7 +164,7 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
             }
         }
         $this->loadLayout();
-        $this->_initLayoutMessages('core/session');
+        $this->_initLayoutMessages('Mage_Core_Model_Session');
         $this->getLayout()->getBlock('head')->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('Create New Return'));
         if ($block = $this->getLayout()->getBlock('customer.account.link.back')) {
             $block->setRefererUrl($this->_getRefererUrl());

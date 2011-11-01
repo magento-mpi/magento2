@@ -147,8 +147,8 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         Magento_Profiler::start(__METHOD__ . 'cart_display');
         $this
             ->loadLayout()
-            ->_initLayoutMessages('checkout/session')
-            ->_initLayoutMessages('catalog/session')
+            ->_initLayoutMessages('Mage_Checkout_Model_Session')
+            ->_initLayoutMessages('Mage_Catalog_Model_Session')
             ->getLayout()->getBlock('head')->setTitle($this->__('Shopping Cart'));
         $this->renderLayout();
         Magento_Profiler::stop(__METHOD__ . 'cart_display');

@@ -60,8 +60,8 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     {
         if (count($this->_getSession()->getCustomer()->getAddresses())) {
             $this->loadLayout();
-            $this->_initLayoutMessages('customer/session');
-            $this->_initLayoutMessages('catalog/session');
+            $this->_initLayoutMessages('Mage_Customer_Model_Session');
+            $this->_initLayoutMessages('Mage_Catalog_Model_Session');
 
             $block = $this->getLayout()->getBlock('address_book');
             if ($block) {
@@ -89,7 +89,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     public function formAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {
             $navigationBlock->setActive('customer/address');

@@ -57,7 +57,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
             ->generateLayoutXml()
             ->generateLayoutBlocks();
 
-        $this->_initLayoutMessages('adminhtml/session');
+        $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
 
         //load layout, set active menu and breadcrumbs
         $this->_setActiveMenu('cms/page')
