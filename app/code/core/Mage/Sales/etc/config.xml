@@ -343,15 +343,15 @@
         </sales>
         <pdf>
             <invoice>
-                <default>sales/order_pdf_items_invoice_default</default>
-                <grouped>sales/order_pdf_items_invoice_grouped</grouped>
+                <default>Mage_Sales_Model_Order_Pdf_Items_Invoice_Default</default>
+                <grouped>Mage_Sales_Model_Order_Pdf_Items_Invoice_Grouped</grouped>
             </invoice>
             <shipment>
-                <default>sales/order_pdf_items_shipment_default</default>
+                <default>Mage_Sales_Model_Order_Pdf_Items_Shipment_Default</default>
             </shipment>
             <creditmemo>
-                <default>sales/order_pdf_items_creditmemo_default</default>
-                <grouped>sales/order_pdf_items_creditmemo_grouped</grouped>
+                <default>Mage_Sales_Model_Order_Pdf_Items_Creditmemo_Default</default>
+                <grouped>Mage_Sales_Model_Order_Pdf_Items_Creditmemo_Grouped</grouped>
             </creditmemo>
             <totals>
                 <subtotal translate="title">

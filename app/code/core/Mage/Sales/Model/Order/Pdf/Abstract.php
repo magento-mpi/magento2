@@ -56,7 +56,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
      */
     protected $_pdf;
 
-    protected $_defaultTotalModel = 'sales/order_pdf_total_default';
+    protected $_defaultTotalModel = 'Mage_Sales_Model_Order_Pdf_Total_Default';
 
     /**
      * Retrieve PDF

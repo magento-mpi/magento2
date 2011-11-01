@@ -92,13 +92,13 @@
         </sales>
         <pdf>
             <invoice>
-                <bundle>bundle/sales_order_pdf_items_invoice</bundle>
+                <bundle>Mage_Bundle_Model_Sales_Order_Pdf_Items_Invoice</bundle>
             </invoice>
             <shipment>
-                <bundle>bundle/sales_order_pdf_items_shipment</bundle>
+                <bundle>Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment</bundle>
             </shipment>
             <creditmemo>
-                <bundle>bundle/sales_order_pdf_items_creditmemo</bundle>
+                <bundle>Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo</bundle>
             </creditmemo>
         </pdf>
     </global>

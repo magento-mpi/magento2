@@ -346,7 +346,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         if (!$callback = $this->_pickCallback('collection_load_before', $collection)) {
             return;
         }
-        $this->_invokeCallback($callback, 'enterprise_admingws/collections', $collection);
+        $this->_invokeCallback($callback, 'Enterprise_AdminGws_Model_Collections', $collection);
     }
 
     /**
@@ -363,7 +363,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         if (!$callback = $this->_pickCallback('model_save_before', $model)) {
             return;
         }
-        $this->_invokeCallback($callback, 'enterprise_admingws/models', $model);
+        $this->_invokeCallback($callback, 'Enterprise_AdminGws_Model_Models', $model);
     }
 
     /**
@@ -381,7 +381,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         if (!$callback = $this->_pickCallback('model_load_after', $model)) {
             return;
         }
-        $this->_invokeCallback($callback, 'enterprise_admingws/models', $model);
+        $this->_invokeCallback($callback, 'Enterprise_AdminGws_Model_Models', $model);
     }
 
     /**
@@ -400,7 +400,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         if (!$callback = $this->_pickCallback('model_delete_before', $model)) {
             return;
         }
-        $this->_invokeCallback($callback, 'enterprise_admingws/models', $model);
+        $this->_invokeCallback($callback, 'Enterprise_AdminGws_Model_Models', $model);
     }
 
     /**
@@ -451,7 +451,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         if ($callback) {
             $this->_invokeCallback(
                 $callback,
-                'enterprise_admingws/controllers',
+                'Enterprise_AdminGws_Model_Controllers',
                 $observer->getEvent()->getControllerAction()
             );
         }
@@ -474,7 +474,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
             return;
         }
         /* the $observer is used intentionally */
-        $this->_invokeCallback($callback, 'enterprise_admingws/blocks', $observer);
+        $this->_invokeCallback($callback, 'Enterprise_AdminGws_Model_Blocks', $observer);
     }
 
     /**

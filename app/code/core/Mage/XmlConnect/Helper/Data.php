@@ -118,7 +118,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
             case self::DEVICE_TYPE_IPHONE:
             case self::DEVICE_TYPE_IPAD:
             case self::DEVICE_TYPE_ANDROID:
-                $previewModel = Mage::getSingleton('xmlconnect/preview_' . strtolower($deviceType));
+                $previewModel = Mage::getSingleton('Mage_XmlConnect_Model_Preview_' . uc_words($deviceType));
                 break;
             default:
                 Mage::throwException(

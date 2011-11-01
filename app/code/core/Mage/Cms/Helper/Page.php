@@ -121,7 +121,7 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
                 ->applyTemplate($page->getRootTemplate());
         }
 
-        foreach (array('catalog/session', 'checkout/session') as $class_name) {
+        foreach (array('Mage_Catalog_Model_Session', 'Mage_Checkout_Model_Session') as $class_name) {
             $storage = Mage::getSingleton($class_name);
             if ($storage) {
                 $action->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));

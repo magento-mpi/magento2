@@ -73,7 +73,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
      *
      * @var array
      */
-    protected $_usedStorageTypes = array('core/session');
+    protected $_usedStorageTypes = array('Mage_Core_Model_Session');
 
     public function _prepareLayout()
     {

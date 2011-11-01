@@ -408,7 +408,7 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
 
     protected function _getItemTypeInstance($type, $params = array())
     {
-	return Mage::getSingleton('loadtest/renderer_sales_item_type_' . strtolower($type));
+	return Mage::getSingleton('Mage_LoadTest_Model_Renderer_Sales_Item_Type_' . uc_words($type));
     }
 
     protected function _getProduct($product_id)

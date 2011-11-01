@@ -77,10 +77,10 @@
         </catalog>
         <pdf>
             <invoice>
-                <downloadable>downloadable/sales_order_pdf_items_invoice</downloadable>
+                <downloadable>Mage_Downloadable_Model_Sales_Order_Pdf_Items_Invoice</downloadable>
             </invoice>
             <creditmemo>
-                <downloadable>downloadable/sales_order_pdf_items_creditmemo</downloadable>
+                <downloadable>Mage_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo</downloadable>
             </creditmemo>
         </pdf>
     </global>

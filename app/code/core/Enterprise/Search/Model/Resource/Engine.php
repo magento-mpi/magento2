@@ -408,9 +408,9 @@ class Enterprise_Search_Model_Resource_Engine
             case 'solr':
             default:
                 if (extension_loaded('solr')) {
-                    $model = 'enterprise_search/adapter_phpExtension';
+                    $model = 'Enterprise_Search_Model_Adapter_PhpExtension';
                 } else {
-                    $model = 'enterprise_search/adapter_httpStream';
+                    $model = 'Enterprise_Search_Model_Adapter_HttpStream';
                 }
                 break;
         }
