@@ -49,8 +49,8 @@ class Tags_Helper extends Mage_Selenium_TestCase
         } else {
             $this->fail('Array key is absent in array');
         }
-        $tagNameArray = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
-        $tagQty = count(array_filter($tagNameArray, 'strlen'));
+        $tagNameArray = $this->convertStringToArray($tagName);
+        $tagQty = count($tagNameArray);
         $this->addParameter('tagQty', $tagQty);
         if (!$this->controlIsPresent('field', 'input_new_tags')) {
             $this->fail('Element is absent on the page');

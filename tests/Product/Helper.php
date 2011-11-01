@@ -928,12 +928,10 @@ class Product_Helper extends Mage_Selenium_TestCase
         $this->addParameter('productUrl', $productUrl);
         if ($categoryPath != NULL) {
             $nodes = explode('/', $categoryPath);
-            if (trim($nodes[0]) == 'Default Category') {
+            if (count($nodes) > 1 ) {
                 array_shift($nodes);
-                $nodes = array_reverse($nodes);
-            } else {
-                $nodes = array_reverse($nodes);
             }
+            $nodes = array_reverse($nodes);
             $categoryName = '';
             foreach ($nodes as $value) {
                 $categoryName =  $categoryName . ' - ' . trim($value);
