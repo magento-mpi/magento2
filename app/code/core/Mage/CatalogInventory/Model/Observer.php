@@ -677,7 +677,8 @@ class Mage_CatalogInventory_Model_Observer
         }
 
         if( count($productIds)) {
-            Mage::getResourceSingleton('Mage_CatalogInventory_Model_Resource_Indexer_Stock')->reindexProducts($productIds);
+            Mage::getResourceSingleton('Mage_CatalogInventory_Model_Resource_Indexer_Stock')
+                ->reindexProducts($productIds);
         }
 
         // Reindex previously remembered items

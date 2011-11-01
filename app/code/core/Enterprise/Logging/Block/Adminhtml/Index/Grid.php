@@ -91,7 +91,9 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
         ));
 
         $actions = array();
-        foreach (Mage::getResourceSingleton('Enterprise_Logging_Model_Resource_Event')->getAllFieldValues('action') as $action) {
+        $fieldValues = Mage::getResourceSingleton('Enterprise_Logging_Model_Resource_Event')
+            ->getAllFieldValues('action');
+        foreach ($fieldValues as $action) {
             $actions[$action] = $action;
         }
         $this->addColumn('action', array(

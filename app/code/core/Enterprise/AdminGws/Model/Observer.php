@@ -120,7 +120,9 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     protected function _getAllStoreGroups()
     {
         if (null === $this->_storeGroupCollection) {
-            $this->_storeGroupCollection = Mage::getResourceSingleton('Mage_Core_Model_Resource_Store_Group_Collection');
+            $this->_storeGroupCollection = Mage::getResourceSingleton(
+                    'Mage_Core_Model_Resource_Store_Group_Collection'
+                );
         }
         return $this->_storeGroupCollection;
     }

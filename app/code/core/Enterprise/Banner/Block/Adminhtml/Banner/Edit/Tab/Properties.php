@@ -109,9 +109,10 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
         ));
         $model->setCustomerSegmentIsAll($model->getCustomerSegmentIds() ? '0' : '1'); // see $form->setValues() below
 
+        $resource = Mage::getResourceSingleton('Enterprise_CustomerSegment_Model_Resource_Segment_Collection');
         $fieldset->addField('customer_segment_ids', 'multiselect', array(
             'name'         => 'customer_segment_ids',
-            'values'       => Mage::getResourceSingleton('Enterprise_CustomerSegment_Model_Resource_Segment_Collection')->toOptionArray(),
+            'values'       => $resource->toOptionArray(),
             'can_be_empty' => true,
         ));
 

@@ -238,8 +238,9 @@ class Enterprise_Cms_Model_Observer
         /*
          * Updating sort order for nodes in parent nodes which have current page as child
          */
+        $resource = Mage::getResourceSingleton('Enterprise_Cms_Model_Resource_Hierarchy_Node');
         foreach ($page->getNodesSortOrder() as $nodeId => $value) {
-            Mage::getResourceSingleton('Enterprise_Cms_Model_Resource_Hierarchy_Node')->updateSortOrder($nodeId, $value);
+            $resource->updateSortOrder($nodeId, $value);
         }
 
         return $this;

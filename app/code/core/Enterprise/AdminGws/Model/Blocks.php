@@ -1067,7 +1067,8 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     {
         $block = $observer->getEvent()->getBlock();
         $eventCategoryId = $block->getEvent()->getCategoryId();
-        $categoryPath = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category')->getCategoryPathById($eventCategoryId);
+        $categoryPath = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category')
+            ->getCategoryPathById($eventCategoryId);
         if (!$this->_role->hasExclusiveCategoryAccess($categoryPath)) {
             $block->removeButton('save');
             $block->removeButton('save_and_continue');

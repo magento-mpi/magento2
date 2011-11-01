@@ -63,7 +63,9 @@ class Mage_Reports_Model_Resource_Product_Lowstock_Collection extends Mage_Repor
     protected function _getInventoryItemResource()
     {
         if ($this->_inventoryItemResource === null) {
-            $this->_inventoryItemResource = Mage::getResourceSingleton('Mage_CatalogInventory_Model_Resource_Stock_Item');
+            $this->_inventoryItemResource = Mage::getResourceSingleton(
+                    'Mage_CatalogInventory_Model_Resource_Stock_Item'
+                );
         }
         return $this->_inventoryItemResource;
     }
