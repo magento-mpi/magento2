@@ -32,6 +32,16 @@
         </Enterprise_Search>
     </modules>
     <global>
+        <!--  Example of manual addition locale code with language code to support new language -->
+        <!--
+        <enterprise_search>
+            <supported_languages>
+                <solr>
+                    <bg_BG>bg</bg_BG>
+                </solr>
+            </supported_languages>
+        </enterprise_search>
+        -->
         <resources>
             <enterprise_search_setup>
                 <setup>

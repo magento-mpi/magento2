@@ -149,171 +149,88 @@
             </paypal_mecl>
         </payment>
         <screen_size>
+            <!-- WARNING !!!!!  ALL IMAGE NODES MUST END ON "icon"|"Icon"|"Image"  !!!!!  -->
             <default>
                 <content>
-                    <product_small>70</product_small>
-                    <product_big>130</product_big>
-                    <category>80</category>
-                    <product_gallery_big>280</product_gallery_big>
-                    <product_gallery_small>40</product_gallery_small>
+                        <product_small>70</product_small>
+                        <product_big>130</product_big>
+                        <category>80</category>
+                        <product_gallery_big>280</product_gallery_big>
+                        <product_gallery_small>40</product_gallery_small>
                 </content>
                 <interface>
                     <native>
                         <navigationBar>
-                            <icon>
-                                <widthMax>35</widthMax>
-                                <heightMax>35</heightMax>
-                            </icon>
+                            <icon> <widthMax>35</widthMax> <heightMax>35</heightMax> </icon>
                         </navigationBar>
                         <sortingBar>
-                            <backgroundImage>
-                                <width>320</width>
-                                <height>40</height>
-                            </backgroundImage>
+                            <backgroundImage> <width>320</width> <height>40</height> </backgroundImage>
                         </sortingBar>
                         <tabBar>
-                            <home>
-                                <icon>
-                                    <heightMax>35</heightMax>
-                                </icon>
-                            </home>
-                            <shop>
-                                <icon>
-                                    <heightMax>35</heightMax>
-                                </icon>
-                            </shop>
-                            <search>
-                                <icon>
-                                    <heightMax>35</heightMax>
-                                </icon>
-                            </search>
-                            <cart>
-                                <icon>
-                                    <heightMax>35</heightMax>
-                                </icon>
-                            </cart>
-                            <more>
-                                <icon>
-                                    <heightMax>35</heightMax>
-                                </icon>
-                            </more>
+                            <home> <icon> <heightMax>35</heightMax> </icon> </home>
+                            <shop> <icon> <heightMax>35</heightMax> </icon> </shop>
+                            <search> <icon> <heightMax>35</heightMax> </icon> </search>
+                            <cart> <icon> <heightMax>35</heightMax> </icon> </cart>
+                            <more> <icon> <heightMax>35</heightMax> </icon> </more>
                         </tabBar>
                         <body>
-                            <bannerImage>
-                                <width>320</width>
-                                <height>230</height>
-                            </bannerImage>
-                            <backgroundImage>
-                                <width>320</width>
-                                <height>367</height>
-                            </backgroundImage>
-                            <bannerIpadLandscapeImage>
-                                <width>1024</width>
-                                <height>344</height>
-                            </bannerIpadLandscapeImage>
-                            <bannerIpadImage>
-                                <width>768</width>
-                                <height>294</height>
-                            </bannerIpadImage>
-                            <backgroundIpadLandscapeImage>
-                                <width>1024</width>
-                                <height>704</height>
-                            </backgroundIpadLandscapeImage>
-                            <backgroundIpadPortraitImage>
-                                <width>768</width>
-                                <height>960</height>
-                            </backgroundIpadPortraitImage>
-                            <bannerAndroidImage>
-                                <width>320</width>
-                                <height>258</height>
-                            </bannerAndroidImage>
-                            <itemBackgroundIcon>
-                                <width>90</width>
-                                <height>120</height>
-                            </itemBackgroundIcon>
-                            <rowBackgroundIcon>
-                                <width>320</width>
-                                <height>90</height>
-                            </rowBackgroundIcon>
-                            <rowAttributeIcon>
-                                <widthMax>30</widthMax>
-                                <heightMax>90</heightMax>
-                            </rowAttributeIcon>
-                            <addToCartBackgroundIcon>
-                                <width>136</width>
-                                <height>28</height>
-                            </addToCartBackgroundIcon>
-                            <actionsBackgroundIcon>
-                                <width>107</width>
-                                <height>37</height>
-                            </actionsBackgroundIcon>
-                            <reviewsBackgroundIcon>
-                                <width>320</width>
-                                <height>37</height>
-                            </reviewsBackgroundIcon>
+                            <!-- iphone images -->
+                            <bannerImage> <width>320</width> <height>230</height> </bannerImage>
+                            <backgroundImage> <width>320</width> <height>367</height> </backgroundImage>
+
+                            <!-- ipad images -->
+                            <bannerIpadLandscapeImage> <width>1024</width> <height>344</height> </bannerIpadLandscapeImage>
+                            <bannerIpadImage> <width>768</width> <height>294</height> </bannerIpadImage>
+                            <backgroundIpadLandscapeImage> <width>1024</width> <height>704</height> </backgroundIpadLandscapeImage>
+                            <backgroundIpadPortraitImage> <width>768</width> <height>960</height> </backgroundIpadPortraitImage>
+
+                            <!-- andriod images -->
+                            <bannerAndroidImage> <width>320</width> <height>258</height> </bannerAndroidImage>
+
+                            <!-- images that are the same for all type of devices -->
+                            <itemBackgroundIcon> <width>90</width> <height>120</height> </itemBackgroundIcon>
+                            <rowBackgroundIcon> <width>320</width> <height>90</height> </rowBackgroundIcon>
+                            <rowAttributeIcon> <widthMax>30</widthMax> <heightMax>90</heightMax> </rowAttributeIcon>
+                            <addToCartBackgroundIcon> <width>136</width> <height>28</height> </addToCartBackgroundIcon>
+                            <actionsBackgroundIcon> <width>107</width> <height>37</height> </actionsBackgroundIcon>
+                            <reviewsBackgroundIcon> <width>320</width> <height>37</height> </reviewsBackgroundIcon>
                         </body>
                         <appliedFilters>
-                            <backgroundImage>
-                                <width>320</width>
-                                <height>20</height>
-                            </backgroundImage>
+                            <backgroundImage> <width>320</width> <height>20</height> </backgroundImage>
                         </appliedFilters>
                         <itemActions>
-                            <backgroundImage>
-                                <width>320</width>
-                                <height>90</height>
-                            </backgroundImage>
-                            <viewGalleryIcon>
-                                <widthMax>40</widthMax>
-                                <heightMax>40</heightMax>
-                            </viewGalleryIcon>
-                            <tellAFriendIcon>
-                                <widthMax>40</widthMax>
-                                <heightMax>40</heightMax>
-                            </tellAFriendIcon>
-                            <addToWishlistIcon>
-                                <widthMax>40</widthMax>
-                                <heightMax>40</heightMax>
-                            </addToWishlistIcon>
-                            <addToCartIcon>
-                                <widthMax>40</widthMax>
-                                <heightMax>40</heightMax>
-                            </addToCartIcon>
-                            <viewDetailsIcon>
-                                <widthMax>40</widthMax>
-                                <heightMax>40</heightMax>
-                            </viewDetailsIcon>
-                            <radioEnabledIcon>
-                                <widthMax>20</widthMax>
-                                <heightMax>20</heightMax>
-                            </radioEnabledIcon>
-                            <radioDisabledIcon>
-                                <widthMax>20</widthMax>
-                                <heightMax>20</heightMax>
-                            </radioDisabledIcon>
-                            <checkBoxEnabledIcon>
-                                <widthMax>20</widthMax>
-                                <heightMax>20</heightMax>
-                            </checkBoxEnabledIcon>
-                            <checkBoxDisabledIcon>
-                                <widthMax>20</widthMax>
-                                <heightMax>20</heightMax>
-                            </checkBoxDisabledIcon>
+                            <backgroundImage> <width>320</width> <height>90</height> </backgroundImage>
+                            <viewGalleryIcon> <widthMax>40</widthMax> <heightMax>40</heightMax> </viewGalleryIcon>
+                            <tellAFriendIcon> <widthMax>40</widthMax> <heightMax>40</heightMax> </tellAFriendIcon>
+                            <addToWishlistIcon> <widthMax>40</widthMax> <heightMax>40</heightMax> </addToWishlistIcon>
+                            <addToCartIcon> <widthMax>40</widthMax> <heightMax>40</heightMax> </addToCartIcon>
+                            <viewDetailsIcon> <widthMax>40</widthMax> <heightMax>40</heightMax> </viewDetailsIcon>
+                            <radioEnabledIcon> <widthMax>20</widthMax> <heightMax>20</heightMax> </radioEnabledIcon>
+                            <radioDisabledIcon> <widthMax>20</widthMax> <heightMax>20</heightMax> </radioDisabledIcon>
+                            <checkBoxEnabledIcon> <widthMax>20</widthMax> <heightMax>20</heightMax> </checkBoxEnabledIcon>
+                            <checkBoxDisabledIcon> <widthMax>20</widthMax> <heightMax>20</heightMax> </checkBoxDisabledIcon>
                         </itemActions>
                     </native>
                     <submit>
-                        <icon/>
-                        <big_logo/>
-                        <loader_image/>
-                        <loader_image_i4/>
-                        <logo/>
-                        <logo_i4/>
-                        <big_logo_i4/>
-                        <ipad_loader_portrait_image/>
-                        <ipad_loader_landscape_image/>
-                        <ipad_logo/>
-                        <android_loader_image/>
-                        <android_logo/>
+                        <!-- images that are the same for all type of devices -->
+                        <icon></icon>
+                        <big_logo></big_logo>
+
+                        <!-- iphone images -->
+                        <loader_image></loader_image>
+                        <loader_image_i4></loader_image_i4>
+                        <logo></logo>
+                        <logo_i4></logo_i4>
+                        <big_logo_i4></big_logo_i4>
+
+                        <!-- ipad images -->
+                        <ipad_loader_portrait_image></ipad_loader_portrait_image>
+                        <ipad_loader_landscape_image></ipad_loader_landscape_image>
+                        <ipad_logo></ipad_logo>
+
+                        <!-- andriod images -->
+                        <android_loader_image></android_loader_image>
+                        <android_logo></android_logo>
                     </submit>
                 </interface>
             </default>
@@ -343,6 +260,7 @@
                     <updates>
                         <u1>
                             <path>interface/native/tabBar</path>
+                            <!-- 48px -->
                             <function>zoom</function>
                             <data>1.31428</data>
                         </u1>
@@ -353,6 +271,7 @@
                     <updates>
                         <u1>
                             <path>interface/native/tabBar</path>
+                            <!-- 72px -->
                             <function>zoom</function>
                             <data>2.05714</data>
                         </u1>
@@ -377,22 +296,22 @@
                 </default>
             </_480x800>
             <_480x854>
-                <default>
-                    <source>default</source>
-                    <updates>
-                        <u1>
-                            <path>/</path>
-                            <function>zoom</function>
-                            <data>1.5</data>
-                        </u1>
-                        <u2>
+                <default>
+                    <source>default</source>
+                    <updates>
+                        <u1>
+                            <path>/</path>
+                            <function>zoom</function>
+                            <data>1.5</data>
+                        </u1>
+                         <u2>
                             <path>content/product_gallery_big</path>
                             <function>update</function>
                             <data>840</data>
                         </u2>
-                    </updates>
-                </default>
-            </_480x854>
+                    </updates>
+                </default>
+            </_480x854>
             <_640x960>
                 <default>
                     <source>default</source>
@@ -494,12 +413,8 @@
     <crontab>
         <jobs>
             <xmlconnect_notification_send_all>
-                <schedule>
-                    <cron_expr>*/5 * * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>xmlconnect/observer::scheduledSend</model>
-                </run>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <run><model>xmlconnect/observer::scheduledSend</model></run>
             </xmlconnect_notification_send_all>
         </jobs>
     </crontab>

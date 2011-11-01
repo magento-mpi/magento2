@@ -92,6 +92,9 @@
             <googleshopping>
                 <target_country>US</target_country>
                 <account_type>HOSTED_OR_GOOGLE</account_type>
+                <!-- Availabled target countries. Each country must have
+                     language code (ISO 639-1) and currency code (ISO 3166)
+                     according to Google Content documentation. -->
                 <allowed_countries>
                     <AU translate="name currency_name">
                         <name>Australia</name>
@@ -157,13 +160,42 @@
                         <currency_name>US Dollar</currency_name>
                     </US>
                 </allowed_countries>
+                <!-- Available destinations for products. -->
                 <destinations>
                     <product_search>ProductSearch</product_search>
                     <product_ads>ProductAds</product_ads>
                     <commerce_search>CommerceSearch</commerce_search>
                 </destinations>
+                <!-- Attributes which available for customer's mapping.
+                     They are grouped by destinations and may have country limitation. -->
                 <attributes>
                     <Item>
+                        <!-- These attributes aren't available for mapping
+                        <id translate="name">
+                            <name>ID</name>
+                            <required>1</required>
+                        </id>
+                        <link translate="name">
+                            <name>Link to product item page</name>
+                            <required>1</required>
+                        </link>
+                        <content_language translate="name">
+                            <name>Language used in the item content</name>
+                            <required>1</required>
+                        </content_language>
+                        <target_country translate="name">
+                            <name>Target country</name>
+                            <required>1</required>
+                        </target_country>
+                        <image_link translate="name">
+                            <name>Image link</name>
+                            <required>0</required>
+                        </image_link>
+                        <item_group_id  translate="name">
+                            <name>Item Group ID</name>
+                            <required>0</required>
+                        </item_group_id>
+                        -->
                         <title translate="name">
                             <name>Title</name>
                             <required>1</required>
@@ -281,6 +313,7 @@
                         </adwords_queryparam>
                     </ProductAds>
                 </attributes>
+                <!-- Groups are dependencies between attributes -->
                 <attribute_groups>
                     <price>
                         <sale_price/>
@@ -299,6 +332,8 @@
                         <description/>
                     </content>
                 </attribute_groups>
+                <!-- Base attributes are required and auto-calculated.
+                     They will be added to entry even without mapping. -->
                 <base_attributes>
                     <id/>
                     <title/>
