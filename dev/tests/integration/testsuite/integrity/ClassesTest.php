@@ -170,4 +170,33 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         }
         return $result;
     }
+
+    /**
+     * Finds usage of Mage::getResourceHelper('Module_Name')
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitMageGetResourceHelper($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        $modules = $this->_getFuncStringArguments('Mage::getResourceHelper', $content);
+        if (!$modules) {
+            return array();
+        }
+
+        $result = array();
+        $db = array('Mysql4', 'Mssql', 'Oracle');
+        foreach ($modules as $module) {
+            foreach ($db as $suffix) {
+                $result[] = $module . '_Model_Resource_Helper_' . $suffix;
+            }
+        }
+
+        return $result;
+    }
 }
