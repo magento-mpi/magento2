@@ -173,11 +173,13 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
         $status = 'test';
         $this->_model->getRequest()->setParam('__status__', $status);
         $caughtException = false;
+        $message = '';
         try {
             $this->_model->norouteAction();
         } catch (Exception $e) {
             $caughtException = true;
+            $message = $e->getMessage();
         }
-        $this->assertFalse($caughtException, $e->getMessage());
+        $this->assertFalse($caughtException, $message);
     }
 }
