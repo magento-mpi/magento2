@@ -41,7 +41,9 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
     protected function setUp()
     {
         $this->_model = new Mage_Catalog_Model_Product_Attribute_Backend_Media();
-        $this->_model->setAttribute(Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('catalog_product', 'media_gallery'));
+        $this->_model->setAttribute(
+            Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('catalog_product', 'media_gallery')
+        );
     }
 
     public function testAfterLoad()
