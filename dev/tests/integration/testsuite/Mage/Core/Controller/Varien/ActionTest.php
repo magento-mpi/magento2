@@ -15,7 +15,7 @@
 class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Controller_Varien_Action
+     * @var Mage_Core_Controller_Varien_Action|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -166,5 +166,18 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
         $controller->preDispatch();
         $this->assertEquals($expectedArea, Mage::getDesign()->getArea());
         $this->assertEquals($expectedDesign, Mage::getDesign()->getDesignTheme());
+    }
+
+    public function testNoRouteAction()
+    {
+        $status = 'test';
+        $this->_model->getRequest()->setParam('__status__', $status);
+        $caughtException = false;
+        try {
+            $this->_model->norouteAction();
+        } catch (Exception $e) {
+            $caughtException = true;
+        }
+        $this->assertFalse($caughtException, $e->getMessage());
     }
 }
