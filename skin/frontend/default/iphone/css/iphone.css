@@ -1761,11 +1761,11 @@ section .category-title { display:none; }
 .compare-table th,
 .compare-table td { border:1px solid #ccc; padding:5px 15px; vertical-align:top; }
 .compare-table td a { color:#fb6b36; }
-.compare-table th { background:url(../images/fabric.jpg) repeat; border:none; -webkit-box-shadow:inset -3px 0 3px  -3px #ccc; text-shadow:1px 1px 1px #fff; text-align:left; position:relative; padding:5px 25px 5px 15px; }
+.compare-table th { background:url(../images/fabric.jpg) repeat; border:none; -webkit-box-shadow:inset -3px 0 3px  -3px #ccc; text-shadow:1px 1px 1px #fff; text-align:left; position:relative; padding:5px 5px 5px 15px; }
 .compare-table tr:nth-child(even) td { background:#f6f6f6; }
-.compare-table .nobr { white-space:nowrap; }
-.compare-table .collapsible:before { content:''; background:url(../images/i_arrow_white.png) no-repeat 0 0; background-size:10px 10px; height:10px; width:10px; display:inline-block; margin-left:-20px; position:absolute; top:9px; left:100%; -webkit-transform:scaleY(-1); }
-.compare-table .collapsible.collapsed:before { -webkit-transform:scaleY(1); }
+.compare-table .nobr { display:block; padding-right:20px; white-space:nowrap; position:relative; }
+.compare-table .collapsible .nobr:before { content:''; background:url(../images/i_arrow_white.png) no-repeat 0 0; background-size:10px 10px; height:10px; width:10px; display:inline-block; margin-left:-15px; position:absolute; top:5px; left:100%; -webkit-transform:scaleY(-1); }
+.compare-table .collapsible.collapsed .nobr:before { -webkit-transform:scaleY(1); }
 .compare-table .collapsed .content { height:18px; max-width:125px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .compare-table .product-name { font-size:13px; font-weight:bold; line-height:16px; margin-bottom:5px; }
 .compare-table .product-name a { color:#000; }
