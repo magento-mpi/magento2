@@ -24,12 +24,12 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
+<?php if( $this->getCount() ): ?>
 <div class="collateral-box">
     <div class="head"><h4><?php echo $this->__('Product Tags') ?></h4></div>
-    <?php echo $this->getChildHtml('list_before')?>
-    <?php if( $this->getCount() ): ?>
+        <?php echo $this->getChildHtml('list_before')?>
         <div class="tags-list">
             <?php echo $this->renderTags('<a href="%1$s">%2$s</a> <span>(%3$s)</span>') ?>
         </div>
-    <?php endif; ?>
 </div>
+<?php endif; ?>
