@@ -28,7 +28,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     public function testClassExists($className)
     {
         if ($className == 'Mage_Catalog_Model_Resource_Convert') {
-            $this->markTestIncomplete('Bug MAGE-4763');
+            $this->markTestSkipped('Bug MAGE-4763');
         }
         $this->assertTrue(class_exists($className), 'Class ' . $className . ' does not exist');
     }
