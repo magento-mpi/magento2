@@ -294,10 +294,13 @@ class Mage_Core_Model_Translate_Inline
      */
     protected function _escapeInline()
     {
-        preg_match('/{{escape=(.)}}(.*?){{escape}}/', $this->_content, $matches);
-        while (isset($matches[1])) {
+        // {{escape='}}some_javascript_with_'_inside{{escape}}
+        while (preg_match('/\{\{escape=(.)\}\}(.*?)\{\{escape\}\}/', $this->_content, $matches)) {
+            // escape double quote character to make it possible to use it inside ""
             $charToEscape = str_replace('"', '\\"', $matches[1]);
-            $part = str_replace("{$charToEscape}", "\\{$charToEscape}", $matches[2]);
+            // preg_replace() used to avoid escaping already escaped quotes
+            $part = preg_replace("/[^\\\\]{$charToEscape}/", "\\{$charToEscape}", $matches[2]);
+            // Replace markers+string with the string itself
             $this->_content = str_replace($matches[0], $part, $this->_content);
         }
         return $this;
