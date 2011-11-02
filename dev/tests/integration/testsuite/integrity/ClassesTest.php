@@ -190,10 +190,10 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         }
 
         $result = array();
-        $db = array('Mysql4', 'Mssql', 'Oracle');
+        $dbSuffixes = array('Mysql4', 'Mssql', 'Oracle');
         foreach ($modules as $module) {
-            foreach ($db as $suffix) {
-                $result[] = $module . '_Model_Resource_Helper_' . $suffix;
+            foreach ($dbSuffixes as $dbSuffix) {
+                $result[] = $module . '_Model_Resource_Helper_' . $dbSuffix;
             }
         }
 
