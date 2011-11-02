@@ -1517,7 +1517,6 @@ section .category-title { display:none; }
 .product-essential .product-options-bottom .add-to-cart label { display:inline-block; font-size:14px; font-weight:bold; margin-bottom:50px; }
 .product-essential .product-options-bottom .add-to-cart input[type=text] { display:inline-block; margin-bottom:10px; width:40px; font-size:12px; }
 .product-essential .product-options-bottom .add-to-cart button { display:block; float:right; margin:50px -100% 0 0; padding:5px 20px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; }
-.product-essential .product-options-bottom li { display:none; }
 .product-shop .price-box { overflow:hidden; }
     .product-shop .price-box .price-label { vertical-align:baseline; }
     .product-shop .price-box .old-price { color:#ccc; }
