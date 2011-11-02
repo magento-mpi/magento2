@@ -285,6 +285,14 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
                     $reindexData['catalogsearch_action_type'] = $actionObject->getActionType();
                 }
 
+                if (isset($attrData['name'])
+                    || isset($attrData['description'])
+                    || isset($attrData['short_description'])
+                ) {
+                    $rebuildIndex = true;
+                    $reindexData['catalogsearch_force_reindex'] = true;
+                }
+
                 // register affected products
                 if ($rebuildIndex) {
                     $reindexData['catalogsearch_product_ids'] = $actionObject->getProductIds();
@@ -379,6 +387,11 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
                         ->cleanIndex(null, $productIds)
                         ->resetSearchResults();
                 }
+            }
+            if (isset($data['catalogsearch_force_reindex'])) {
+                $this->_getIndexer()
+                    ->rebuildIndex(null, $productIds)
+                    ->resetSearchResults();
             }
         } else if (isset($data['catalogsearch_category_update_product_ids'])) {
             $productIds = $data['catalogsearch_category_update_product_ids'];
