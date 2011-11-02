@@ -49,7 +49,7 @@
                         <module>Mage_Core</module>
                         <model>core</model>
                         <label>System Configuration</label>
-                        <resource_adapter>enterprise_staging/adapter_item_config</resource_adapter>
+                        <resource_adapter>Enterprise_Staging_Model_Resource_Adapter_Item_Config</resource_adapter>
                         <entities>
                             <config_data/>
                         </entities>
@@ -78,7 +78,7 @@
                         <module>Mage_Catalog</module>
                         <model>catalog</model>
                         <label>Catalog Categories</label>
-                        <resource_adapter>enterprise_staging/adapter_item_category</resource_adapter>
+                        <resource_adapter>Enterprise_Staging_Model_Resource_Adapter_Item_Category</resource_adapter>
                     </category>
                     <catalog_permissions translate="label">
                         <module>Enterprise_CatalogPermissions</module>
@@ -137,7 +137,7 @@
                         <entities>
                             <page_store/>
                         </entities>
-                        <resource_adapter>enterprise_staging/adapter_item_cms_page</resource_adapter>
+                        <resource_adapter>Enterprise_Staging_Model_Resource_Adapter_Item_Cms_Page</resource_adapter>
                     </cms_page>
                     <cms_block translate="label">
                         <module>Mage_Cms</module>

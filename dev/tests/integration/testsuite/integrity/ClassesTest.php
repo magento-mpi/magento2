@@ -56,7 +56,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     {
         $directory  = new RecursiveDirectoryIterator(Mage::getRoot());
         $iterator = new RecursiveIteratorIterator($directory);
-        $regexIterator = new RegexIterator($iterator, '/(\.php|\.phtml)$/');
+        $regexIterator = new RegexIterator($iterator, '/(\.php|\.phtml|\.xml)$/');
 
         $result = array();
         foreach ($regexIterator as $fileInfo) {
@@ -195,6 +195,33 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             foreach ($db as $suffix) {
                 $result[] = $module . '_Model_Resource_Helper_' . $suffix;
             }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Finds usage of staging resource adapters across xml configs
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitStagingResourceAdapters($fileInfo, $content)
+    {
+        if ($fileInfo->getBasename() != 'config.xml') {
+            return array();
+        }
+
+        $xml = new SimpleXMLElement($content);
+        $resourceAdapters = $xml->xpath('/config/global/enterprise/staging/staging_items/*/resource_adapter');
+        if (!$resourceAdapters) {
+            return array();
+        }
+
+        $result = array();
+        foreach ($resourceAdapters as $resourceAdapter) {
+            $result[] = (string) $resourceAdapter;
         }
 
         return $result;
