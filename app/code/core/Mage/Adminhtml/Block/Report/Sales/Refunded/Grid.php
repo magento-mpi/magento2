@@ -44,8 +44,8 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded_Grid extends Mage_Adminhtml_Blo
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'created_at_refunded')
-            ? 'sales/report_refunded_collection_refunded'
-            : 'sales/report_refunded_collection_order';
+            ? 'Mage_Sales_Model_Resource_Report_Refunded_Collection_Refunded'
+            : 'Mage_Sales_Model_Resource_Report_Refunded_Collection_Order';
     }
 
     protected function _prepareColumns()

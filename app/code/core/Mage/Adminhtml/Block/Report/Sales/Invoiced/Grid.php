@@ -44,8 +44,8 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'created_at_invoice')
-            ? 'sales/report_invoiced_collection_invoiced'
-            : 'sales/report_invoiced_collection_order';
+            ? 'Mage_Sales_Model_Resource_Report_Invoiced_Collection_Invoiced'
+            : 'Mage_Sales_Model_Resource_Report_Invoiced_Collection_Order';
     }
 
     protected function _prepareColumns()

@@ -45,9 +45,9 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
     public function getResourceCollectionName()
     {
         if (($this->getFilterData()->getData('report_type') == 'updated_at_order')) {
-            return 'salesrule/report_updatedat_collection';
+            return 'Mage_SalesRule_Model_Resource_Report_Updatedat_Collection';
         } else {
-            return 'salesrule/report_collection';
+            return 'Mage_SalesRule_Model_Resource_Report_Collection';
         }
     }
 

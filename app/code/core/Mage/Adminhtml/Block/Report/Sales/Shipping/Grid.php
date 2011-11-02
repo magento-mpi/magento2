@@ -45,8 +45,8 @@ class Mage_Adminhtml_Block_Report_Sales_Shipping_Grid extends Mage_Adminhtml_Blo
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'created_at_shipment')
-            ? 'sales/report_shipping_collection_shipment'
-            : 'sales/report_shipping_collection_order';
+            ? 'Mage_Sales_Model_Resource_Report_Shipping_Collection_Shipment'
+            : 'Mage_Sales_Model_Resource_Report_Shipping_Collection_Order';
     }
 
     protected function _prepareColumns()

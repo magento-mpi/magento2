@@ -44,8 +44,8 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'updated_at_order')
-            ? 'sales/report_order_updatedat_collection'
-            : 'sales/report_order_collection';
+            ? 'Mage_Sales_Model_Resource_Report_Order_Updatedat_Collection'
+            : 'Mage_Sales_Model_Resource_Report_Order_Collection';
     }
 
     protected function _prepareColumns()

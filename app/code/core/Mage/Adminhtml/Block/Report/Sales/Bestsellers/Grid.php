@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Report_Sales_Bestsellers_Grid extends Mage_Adminhtml_
 
     public function getResourceCollectionName()
     {
-        return 'sales/report_bestsellers_collection';
+        return 'Mage_Sales_Model_Resource_Report_Bestsellers_Collection';
     }
 
     protected function _prepareColumns()

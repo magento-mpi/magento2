@@ -45,8 +45,8 @@ class Mage_Adminhtml_Block_Report_Sales_Tax_Grid extends Mage_Adminhtml_Block_Re
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'updated_at_order')
-            ? 'tax/report_updatedat_collection'
-            : 'tax/report_collection';
+            ? 'Mage_Tax_Model_Resource_Report_Updatedat_Collection'
+            : 'Mage_Tax_Model_Resource_Report_Collection';
     }
 
     protected function _prepareColumns()
