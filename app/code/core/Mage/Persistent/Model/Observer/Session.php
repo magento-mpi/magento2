@@ -44,16 +44,11 @@ class Mage_Persistent_Model_Observer_Session
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = $observer->getEvent()->getCustomer();
         // Check if customer is valid (remove persistent cookie for invalid customer)
-<<<<<<< HEAD
-        if (!$customer || !$customer->getId() || !Mage::helper('Mage_Persistent_Helper_Session')->isRememberMeChecked()) {
-            Mage::getModel('Mage_Persistent_Model_Session')->removePersistentCookie();
-=======
         if (!$customer
             || !$customer->getId()
             || !Mage::helper('Mage_Persistent_Helper_Session')->isRememberMeChecked()
         ) {
-            Mage::getModel('persistent/session')->removePersistentCookie();
->>>>>>> 74d951f6415195cf4504e284353f1413a5907b18
+            Mage::getModel('Mage_Persistent_Model_Session')->removePersistentCookie();
             return;
         }
 
