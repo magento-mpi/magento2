@@ -132,7 +132,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
             ->setName('widget_instance[{{id}}][page_group]')
             ->setId('widget_instance[{{id}}][page_group]')
             ->setClass('required-entry page_group_select select')
-            ->setExtraParams("onchange=\"WidgetInstance.displayPageGroup(this.value+'_{{id}}')\"")
+            ->setExtraParams("onchange=\"WidgetInstance.displayPageGroup(this.value+\'_{{id}}\')\"")
             ->setOptions($this->_getDisplayOnOptions());
         return $selectBlock->toHtml();
     }
