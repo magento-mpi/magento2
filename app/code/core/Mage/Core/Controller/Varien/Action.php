@@ -254,7 +254,6 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     public function loadLayout($handles=null, $generateBlocks=true, $generateXml=true)
     {
-        echo "loadLayout";
         // if handles were specified in arguments load them first
         if (false!==$handles && ''!==$handles) {
             $this->getLayout()->getUpdate()->addHandle($handles ? $handles : 'default');
