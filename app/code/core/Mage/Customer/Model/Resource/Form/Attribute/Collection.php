@@ -39,7 +39,7 @@ class Mage_Customer_Model_Resource_Form_Attribute_Collection extends Mage_Eav_Mo
      *
      * @var string
      */
-    protected $_moduleName = 'customer';
+    protected $_moduleName = 'Mage_Customer';
 
     /**
      * Current EAV entity type code

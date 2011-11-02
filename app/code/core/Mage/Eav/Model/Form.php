@@ -133,7 +133,7 @@ abstract class Mage_Eav_Model_Form
      */
     protected function _getFormAttributeCollection()
     {
-        return Mage::getResourceModel($this->_moduleName . '/form_attribute_collection');
+        return Mage::getResourceModel($this->_moduleName . '_Model_Resource_Form_Attribute_Collection');
     }
 
     /**
