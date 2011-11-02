@@ -87,18 +87,21 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
     /**
      * Reindex category permissions
      *
-     * @param string $categoryPath
+     * @param string|null $categoryPath
      * @return Enterprise_CatalogPermissions_Model_Resource_Permission_Index
      */
-    public function reindex($categoryPath)
+    public function reindex($categoryPath = null)
     {
         $readAdapter  = $this->_getReadAdapter();
         $writeAdapter = $this->_getWriteAdapter();
+
         $select       = $readAdapter->select()
-            ->from($this->getTable('catalog/category'), array('entity_id','path'))
-            ->where('path LIKE ?', $categoryPath . '/%')
-            ->orWhere('entity_id IN(?)', explode('/', $categoryPath))
-            ->order('level ASC');
+            ->from($this->getTable('catalog/category'), array('entity_id','path'));
+        if (!is_null($categoryPath)) {
+            $select->where('path LIKE ?', $categoryPath . '/%')
+                ->orWhere('entity_id IN(?)', explode('/', $categoryPath));
+        }
+        $select->order('level ASC');
 
         $categoryPath = $readAdapter->fetchPairs($select);
         $categoryIds = array_keys($categoryPath);
@@ -1109,6 +1112,25 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
     {
         $this->_insertData[$table][] = $data;
         $this->_commitInsert($table, false);
+        return $this;
+    }
+
+    /**
+     * Reindex all
+     *
+     * @return Enterprise_CatalogPermissions_Model_Resource_Permission_Index
+     */
+    public function reindexAll()
+    {
+        $this->beginTransaction();
+        try {
+            $this->reindex();
+            $this->reindexProducts();
+            $this->commit();
+        } catch (Exception $e) {
+            $this->rollBack();
+            throw $e;
+        }
         return $this;
     }
 }
