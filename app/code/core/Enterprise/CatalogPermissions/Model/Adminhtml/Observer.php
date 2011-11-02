@@ -266,4 +266,14 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
 
         return $this;
     }
+
+    /**
+     * Apply categories and products permissions after reindex category products
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function applyPermissionsAfterReindex(Varien_Event_Observer $observer)
+    {
+        Mage::getSingleton('index/indexer')->getProcessByCode('catalogpermissions')->reindexEverything();
+    }
 }

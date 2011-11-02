@@ -196,6 +196,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
             $this->_getResource()->failProcess($this);
             throw $e;
         }
+        Mage::dispatchEvent('after_reindex_process_' . $this->getIndexerCode());
     }
 
     /**
