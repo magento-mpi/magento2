@@ -145,12 +145,10 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         if (is_string($extensions)) {
             $extensions = array($extensions);
         }
-        foreach ($extensions as $extension) {
-            if ($fileInfo->getExtension() == $extension) {
-                return true;
-            }
-        }
-        return false;
+
+        $fileExtension = pathinfo($fileInfo->getBasename(), PATHINFO_EXTENSION);
+        $key = array_search($fileExtension, $extensions);
+        return ($key !== false);
     }
 
     /**
