@@ -65,9 +65,9 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
         $entities = array(
             'rma_item'                           => array(
                 'entity_model'                   => 'Enterprise_Rma_Model_Resource_Item',
-                'attribute_model'                => 'enterprise_rma/item_attribute',
+                'attribute_model'                => 'Enterprise_Rma_Model_Item_Attribute',
                 'table'                          => 'enterprise_rma_item_entity',
-                'increment_model'                => 'eav/entity_increment_numeric',
+                'increment_model'                => 'Mage_Eav_Model_Entity_Increment_Numeric',
                 'additional_attribute_table'     => 'enterprise_rma_item_eav_attribute',
                 'increment_per_store'            => 1,
                 'entity_attribute_collection'    => null,
@@ -120,7 +120,7 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
                         'type'               => 'static',
                         'label'              => 'Status',
                         'input'              => 'select',
-                        'source'             => 'enterprise_rma/item_attribute_source_status',
+                        'source'             => 'Enterprise_Rma_Model_Item_Attribute_Source_Status',
                         'visible'            => false,
                         'sort_order'         => 60,
                         'position'           => 60,

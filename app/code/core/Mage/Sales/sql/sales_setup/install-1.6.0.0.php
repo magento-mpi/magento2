@@ -3583,28 +3583,28 @@ $installer->getConnection()->createTable($table);
 $installer->addEntityType('order', array(
     'entity_model'          => 'Mage_Sales_Model_Resource_Order',
     'table'                 => 'sales_flat_order',
-    'increment_model'       => 'eav/entity_increment_numeric',
+    'increment_model'       => 'Mage_Eav_Model_Entity_Increment_Numeric',
     'increment_per_store'   => true
 ));
 
 $installer->addEntityType('invoice', array(
     'entity_model'          => 'Mage_Sales_Model_Resource_Order_Invoice',
     'table'                 => 'sales_flat_invoice',
-    'increment_model'       => 'eav/entity_increment_numeric',
+    'increment_model'       => 'Mage_Eav_Model_Entity_Increment_Numeric',
     'increment_per_store'   => true
 ));
 
 $installer->addEntityType('creditmemo', array(
     'entity_model'          => 'Mage_Sales_Model_Resource_Order_Creditmemo',
     'table'                 => 'sales_flat_creditmemo',
-    'increment_model'       => 'eav/entity_increment_numeric',
+    'increment_model'       => 'Mage_Eav_Model_Entity_Increment_Numeric',
     'increment_per_store'   => true
 ));
 
 $installer->addEntityType('shipment', array(
     'entity_model'          => 'Mage_Sales_Model_Resource_Order_Shipment',
     'table'                 => 'sales_flat_shipment',
-    'increment_model'       => 'eav/entity_increment_numeric',
+    'increment_model'       => 'Mage_Eav_Model_Entity_Increment_Numeric',
     'increment_per_store'   => true
 ));
 

@@ -215,10 +215,10 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         */
         $inputTypes = array(
             'multiselect'   => array(
-                'backend_model'     => 'eav/entity_attribute_backend_array'
+                'backend_model'     => 'Mage_Eav_Model_Entity_Attribute_Backend_Array'
             ),
             'boolean'       => array(
-                'source_model'      => 'eav/entity_attribute_source_boolean'
+                'source_model'      => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean'
             )
         );
 

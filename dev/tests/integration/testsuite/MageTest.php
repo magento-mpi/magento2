@@ -29,6 +29,7 @@ class MageTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
+     *
      */
     public function testGetDesign()
     {

@@ -36,7 +36,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'is_returnable', ar
     'label'             => 'Enable RMA',
     'input'             => 'select',
     'class'             => '',
-    'source'            => 'enterprise_rma/product_source',
+    'source'            => 'Enterprise_Rma_Model_Product_Source',
     'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
     'visible'           => true,
     'required'          => false,

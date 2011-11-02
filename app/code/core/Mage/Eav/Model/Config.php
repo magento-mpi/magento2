@@ -265,7 +265,7 @@ class Mage_Eav_Model_Config
          */
         foreach ($entityTypesData as $typeData) {
             if (!isset($typeData['attribute_model'])) {
-                $typeData['attribute_model'] = 'eav/entity_attribute';
+                $typeData['attribute_model'] = 'Mage_Eav_Model_Entity_Attribute';
             }
 
             $typeCode   = $typeData['entity_type_code'];

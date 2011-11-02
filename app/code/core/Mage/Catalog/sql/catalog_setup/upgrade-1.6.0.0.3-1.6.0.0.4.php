@@ -31,7 +31,7 @@ $installer->updateAttribute(
     Mage_Catalog_Model_Product::ENTITY,
     'msrp_enabled',
     'source_model',
-    'catalog/product_attribute_source_msrp_type_enabled'
+    'Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled'
 );
 
 $installer->updateAttribute(
@@ -45,7 +45,7 @@ $installer->updateAttribute(
     Mage_Catalog_Model_Product::ENTITY,
     'msrp_display_actual_price_type',
     'source_model',
-    'catalog/product_attribute_source_msrp_type_price'
+    'Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price'
 );
 
 $installer->updateAttribute(

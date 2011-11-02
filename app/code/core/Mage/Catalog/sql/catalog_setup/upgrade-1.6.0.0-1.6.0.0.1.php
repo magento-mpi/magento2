@@ -37,7 +37,7 @@ $productTypes = join(',', $productTypes);
 
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'msrp_enabled', array(
     'group'         => 'Prices',
-    'backend'       => 'catalog/product_attribute_backend_msrp',
+    'backend'       => 'Mage_Catalog_Model_Product_Attribute_Backend_Msrp',
     'frontend'      => '',
     'label'         => 'Apply MAP',
     'input'         => 'select',
@@ -55,11 +55,11 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'msrp_enabled', arr
 
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'msrp_display_actual_price_type', array(
     'group'         => 'Prices',
-    'backend'       => 'catalog/product_attribute_backend_boolean',
+    'backend'       => 'Mage_Catalog_Model_Product_Attribute_Backend_Boolean',
     'frontend'      => '',
     'label'         => 'Display Actual Price',
     'input'         => 'select',
-    'source'        => 'catalog/product_attribute_source_msrp_type',
+    'source'        => 'Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type',
     'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
     'visible'       => true,
     'required'      => false,
@@ -73,7 +73,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'msrp_display_actua
 
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'msrp', array(
     'group'         => 'Prices',
-    'backend'       => 'catalog/product_attribute_backend_price',
+    'backend'       => 'Mage_Catalog_Model_Product_Attribute_Backend_Price',
     'frontend'      => '',
     'label'         => 'Manufacturer\'s Suggested Retail Price',
     'type'          => 'decimal',

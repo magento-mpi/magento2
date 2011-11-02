@@ -177,7 +177,7 @@ $installer->addAttribute('catalog_category', 'thumbnail', array(
     'type'          => 'varchar',
     'label'         => 'Thumbnail Image',
     'input'         => 'image',
-    'backend'       => 'catalog/category_attribute_backend_image',
+    'backend'       => 'Mage_Catalog_Model_Category_Attribute_Backend_Image',
     'required'      => false,
     'sort_order'    => 4,
     'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,

@@ -38,7 +38,7 @@ class Find_Feed_Model_Resource_Codes_Collection extends Mage_Core_Model_Resource
      */
     protected function _construct()
     {
-        $this->_init('find_feed/codes', 'Find_Feed_Model_Resource_Codes');
+        $this->_init('Find_Feed_Model_Codes', 'Find_Feed_Model_Resource_Codes');
     }
 
     /**

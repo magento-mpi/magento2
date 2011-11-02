@@ -40,8 +40,8 @@ class Mage_ImportExport_Model_Export_Entity_Product_Type_Simple
      * @var array
      */
     protected $_attributeOverrides = array(
-        'has_options'      => array('source_model' => 'eav/entity_attribute_source_boolean'),
-        'required_options' => array('source_model' => 'eav/entity_attribute_source_boolean'),
+        'has_options'      => array('source_model' => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean'),
+        'required_options' => array('source_model' => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean'),
         'created_at'       => array('backend_type' => 'datetime'),
         'updated_at'       => array('backend_type' => 'datetime')
     );

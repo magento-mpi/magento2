@@ -247,11 +247,11 @@ $installer = Mage::getResourceModel('Mage_Catalog_Model_Resource_Setup', 'catalo
 
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_wrapping_available', array(
     'group'         => 'Gift Options',
-    'backend'       => 'catalog/product_attribute_backend_boolean',
+    'backend'       => 'Mage_Catalog_Model_Product_Attribute_Backend_Boolean',
     'frontend'      => '',
     'label'         => 'Allow Gift Wrapping',
     'input'         => 'select',
-    'source'        => 'eav/entity_attribute_source_boolean',
+    'source'        => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean',
     'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
     'visible'       => true,
     'required'      => false,
@@ -267,7 +267,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_wrapping_avai
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_wrapping_price', array(
     'group'         => 'Gift Options',
     'type'          => 'decimal',
-    'backend'       => 'catalog/product_attribute_backend_price',
+    'backend'       => 'Mage_Catalog_Model_Product_Attribute_Backend_Price',
     'frontend'      => '',
     'label'         => 'Price for Gift Wrapping',
     'input'         => 'price',

@@ -38,7 +38,7 @@ class Mage_Adminhtml_Model_Email_Template extends Mage_Core_Model_Email_Template
      * Xml path to email template nodes
      *
      */
-    const XML_PATH_TEMPLATE_EMAIL = '//sections/*/groups/*/fields/*[source_model="adminhtml/system_config_source_email_template"]';
+    const XML_PATH_TEMPLATE_EMAIL = '//sections/*/groups/*/fields/*[source_model="Mage_Adminhtml_Model_System_Config_Source_Email_Template"]';
 
     /**
      * Collect all system config pathes where current template is used as default

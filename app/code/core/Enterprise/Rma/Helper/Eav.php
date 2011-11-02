@@ -103,7 +103,7 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
                 'validate_types'    => array(),
                 'validate_filters'  => array(),
                 'filter_types'      => array(),
-                'source_model'      => 'eav/entity_attribute_source_table',
+                'source_model'      => 'Mage_Eav_Model_Entity_Attribute_Source_Table',
                 'backend_type'      => 'int',
                 'default_value'     => false,
             ),
