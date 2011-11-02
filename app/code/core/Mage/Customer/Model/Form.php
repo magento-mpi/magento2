@@ -39,7 +39,7 @@ class Mage_Customer_Model_Form extends Mage_Eav_Model_Form
      *
      * @var string
      */
-    protected $_moduleName = 'customer';
+    protected $_moduleName = 'Mage_Customer';
 
     /**
      * Current EAV entity type code

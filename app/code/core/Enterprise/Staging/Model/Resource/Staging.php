@@ -337,7 +337,7 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
         if ($itemXmlConfig) {
             $resourceAdapterName = (string) $itemXmlConfig->resource_adapter;
             if (!$resourceAdapterName) {
-                $resourceAdapterName = 'enterprise_staging/adapter_item_default';
+                $resourceAdapterName = 'Enterprise_Staging_Model_Resource_Adapter_Item_Default';
             }
             $resourceAdapter = Mage::getResourceModel($resourceAdapterName);
             if ($resourceAdapter) {

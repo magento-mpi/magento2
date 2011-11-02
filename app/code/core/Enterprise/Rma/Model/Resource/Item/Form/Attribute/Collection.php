@@ -40,7 +40,7 @@ class Enterprise_Rma_Model_Resource_Item_Form_Attribute_Collection
      *
      * @var string
      */
-    protected $_moduleName = 'enterprise_rma';
+    protected $_moduleName = 'Enterprise_Rma';
 
     /**
      * Current EAV entity type code
