@@ -1225,11 +1225,13 @@ section .category-title { display:none; }
 }
 
 .c-list li > .actions ul {
-    border:1px solid #E2E2E2;
+    border:1px solid;
+    border-color:#ddd #d4d4d4 #ccc;
     border-radius:2px;
     background:-webkit-gradient(linear, 0 0, 0 100%, from(#F1F1F1), to(#E0DFE0));
     padding:3px 3px 0;
     height:68px;
+    -webkit-box-shadow:0 0 3px rgba(0, 0, 0, 0.1);
 }
 
 @media(orientation:landscape) {
