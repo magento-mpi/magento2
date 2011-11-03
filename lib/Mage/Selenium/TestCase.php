@@ -428,6 +428,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         if ($_isFirst) {
             $this->browserRestart();
+            $this->setUpBeforeTests();
             $_isFirst = false;
         }
     }
