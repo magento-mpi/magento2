@@ -47,6 +47,11 @@
             <directory suffix="Test.php">tests/Customer</directory>
             <directory suffix="Test.php">tests/Order</directory>
             <directory suffix="TaxAndPricesValidation">tests/Tax</directory>
+            <directory suffix="Test.php">tests/CmsPages</directory>
+            <directory suffix="Test.php">tests/CmsPolls</directory>
+            <directory suffix="Test.php">tests/CmsStaticBlocks</directory>
+            <directory suffix="Test.php">tests/CmsWidgets</directory>
+            <directory suffix="Test.php">tests/CheckoutOnePage</directory>
         </testsuite>
     </testsuites>
     <logging>
