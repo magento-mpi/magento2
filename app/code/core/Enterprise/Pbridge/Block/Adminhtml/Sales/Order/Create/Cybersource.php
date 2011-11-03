@@ -18,19 +18,27 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    design
- * @package     enterprise_default
+ * @category    Enterprise
+ * @package     Enterprise_Pbridge
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
-?>
-<ul class="form-list pbridge" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
-    <li>
-        <?php if ($this->getReloadAllowed()): ?>
-            <span class="pbridge-reload"><a href="#" onclick="reloadIframe('<?php echo $this->getMethodCode() ?>');return false;">Reload Form</a></span>
-        <?php endif; ?>
-        <div id="payment_form_<?php echo $this->getMethodCode() ?>_container">
-            <?php echo $this->getChildHtml('pbridge_iframe'); ?>
-        </div>
-    </li>
-</ul>
+
+
+/**
+ * Cybersource.Com payment block
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Pbridge
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Cybersource
+    extends Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
+{
+    /**
+     * Cybersource payment code
+     *
+     * @var string
+     */
+    protected $_code = 'cybersource_soap';
+}

@@ -19,18 +19,15 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    design
- * @package     enterprise_default
+ * @package     default_default
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<ul class="form-list pbridge" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
-    <li>
-        <?php if ($this->getReloadAllowed()): ?>
-            <span class="pbridge-reload"><a href="#" onclick="reloadIframe('<?php echo $this->getMethodCode() ?>');return false;">Reload Form</a></span>
-        <?php endif; ?>
-        <div id="payment_form_<?php echo $this->getMethodCode() ?>_container">
-            <?php echo $this->getChildHtml('pbridge_iframe'); ?>
-        </div>
-    </li>
-</ul>
+
+<iframe src="<?php echo $this->getSourceUrl() ?>"
+    height="<?php echo $this->getIframeHeight() ?>"
+    width="<?php echo $this->getIframeWidth() ?>"
+    marginheight="0" marginwidth="0"
+    scrolling="<?php echo $this->getScrolling()?>" frameborder="0"
+    style="border:0 none"></iframe>
