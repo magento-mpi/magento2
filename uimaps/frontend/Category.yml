@@ -74,6 +74,12 @@ category_page:
                 -
                     compare_products:
                         xpath: //div[@class[contains(.,'block-compare')]]
+                        links:
+                          clear_all: //a[text()='Clear All']
+                          delete_product: //li[p='%productName%']/a
+                          product_link: //p[a='%productName%']/a
+                        buttons:
+                          compare: //button[@title='Compare']
                 -
                     my_cart:
                         xpath: //div[@class[contains(.,'block-cart')]]
@@ -95,6 +101,10 @@ category_page:
                         links:
                             tag_name: //ul[@class='tags-list']/li/a[text()='%tagName%']
                             view_all_tags: //a[text()='View All Tags']
+
+        messages:
+            product_added_to_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product %productName% has been added to comparison list.')]
+            confirmation_for_delete: Are you sure you would like to remove this item from the compare products?
 
 category_page_index:
     mca: %categoryUrl%.html%param%

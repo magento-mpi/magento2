@@ -50,6 +50,17 @@ home:
                           vote: //button[span='Vote']
                         radiobuttons:
                             vote: //li[span/label='%answer%']/input
+
+                -
+                    compare_products:
+                        xpath: //div[@class[contains(.,'block-compare')]]
+                        links:
+                          clear_all: //a[text()='Clear All']
+                          delete_product: //li[p='%productName%']/a
+                          product_link: //p[a='%productName%']/a
+                        buttons:
+                          compare: //button[@title='Compare']
+
         messages: &homeMessages
             tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.//span,'%tagQty% tag(s) have been accepted for moderation.')]
 

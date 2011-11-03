@@ -141,5 +141,17 @@ product_page:
                             upsell_as_low_as: //table[@id='upsell-product-table']//td[*//a[text()='%productName%']]//a[@class='minimal-price-link']/span[normalize-space(text())='%price%']
                             upsell_as_low_as_excl_tax: //table[@id='upsell-product-table']//td[*//a[text()='%productName%']]//a[@class='minimal-price-link']/span[@class='price-excluding-tax']/span[normalize-space(text())='%price%']
                             upsell_as_low_as_incl_tax: //table[@id='upsell-product-table']//td[*//a[text()='%productName%']]//a[@class='minimal-price-link']/span[@class='price-including-tax']/span[normalize-space(text())='%price%']
+                -
+                    compare_products:
+                        xpath: //div[@class[contains(.,'block-compare')]]
+                        links:
+                          clear_all: //a[text()='Clear All']
+                          delete_product: //li[p='%productName%']/a
+                          product_link: //p[a='%productName%']/a
+                        buttons:
+                          compare: //button[@title='Compare']
+
         messages:
             tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.//span,'%tagQty% tag(s) have been accepted for moderation.')]
+            product_added_to_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product %productName% has been added to comparison list.')]
+            confirmation_for_delete: Are you sure you would like to remove this item from the compare products?
