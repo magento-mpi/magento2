@@ -109,8 +109,8 @@ document.observe("dom:loaded", function() {
             this.handle.observe('gestureend', this.gestureEnd.bind(this));
         },
         removeAll: function () {
-            this.handle.select('input').each(function (input) {
-                    input.writeAttribute('value', 0);
+            this.handle.select('input[name*=qty]').each(function (input) {
+                input.writeAttribute('value', 0);
             });
             this.form.submit();
         },
@@ -152,7 +152,7 @@ document.observe("dom:loaded", function() {
     }
     
     if ( $$('.wishlist-wrap')[0] ) {
-        var wishlistGroup = new groupItems($$('.wishlist-wrap')[0], $('remove-all'), 'li > a', $('wishlist-view-form'));
+        var wishlistGroup = new groupItems($$('.wishlist-wrap')[0], $('remove-all-wishlist'), 'li > a', $('wishlist-view-form'));
     }
 
     if ( $$('#remember-me-box a')[0] ) {
