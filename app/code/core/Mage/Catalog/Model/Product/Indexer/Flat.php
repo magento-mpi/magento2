@@ -234,7 +234,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
                     $reindexData['catalog_product_flat_action_type'] = $actionObject->getActionType();
                 }
 
-                if (isset($attrData['price'])) {
+                if (isset($attrData['price']) || isset($attrData['name'])) {
                     $reindexFlat = true;
                     $reindexData['catalog_product_flat_force_update'] = true;
                 }
