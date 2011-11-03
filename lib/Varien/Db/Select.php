@@ -29,7 +29,7 @@
  *
  * @method Varien_Db_Adapter_Interface|Zend_Db_Adapter_Abstract getAdapter()
  * @property Varien_Db_Adapter_Interface|Zend_Db_Adapter_Abstract $_adapter
- * @method Varien_Db_Select from($name, $cols, $schema = null)
+ * @method Varien_Db_Select from($name, $cols = '*', $schema = null)
  * @method Varien_Db_Select join($name, $cond, $cols, $schema = null)
  * @method Varien_Db_Select joinInner($name, $cond, $cols, $schema = null)
  * @method Varien_Db_Select joinLeft($name, $cond, $cols = '*', $schema = null)
