@@ -248,4 +248,28 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         }
         return $matches[1];
     }
+
+    /**
+     * Finds usage of block class names in tags or attribute values of layout files
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitBlockNamesInLayoutFiles($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, 'xml')) {
+            return array();
+        }
+
+        $matches = array();
+        if (!preg_match('/\n\s*<([a-z]+)/', $content, $matches) || $matches[1] != 'layout') {
+            return array();
+        }
+
+        if (preg_match_all('/[>"]{1}([A-Z]{1}\w+_Block_\w+[a-zA-Z0-9]{1})[>"]{1}/', $content, $matches)) {
+            return array_unique($matches[1]);
+        }
+        return array();
+    }
 }
