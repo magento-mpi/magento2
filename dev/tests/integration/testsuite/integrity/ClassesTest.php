@@ -350,4 +350,26 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
         return $this->_getFuncStringArguments('->initReport', $content);
     }
+
+    /**
+     * Finds usage of "'resource_model' => 'Class_Name'"
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitResourceClassesAsArrayEntries($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php'))) {
+            return array();
+        }
+
+        $regexp = "'resource_model'" . '\s*=>\s*' . "'([A-Za-z_]+)'";
+        $matched = preg_match_all('/' . $regexp . '/', $content, $matches);
+
+        if (!$matched) {
+            return array();
+        }
+        return $matches[1];
+    }
 }

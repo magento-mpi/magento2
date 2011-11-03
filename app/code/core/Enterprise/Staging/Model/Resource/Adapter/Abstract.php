@@ -72,8 +72,14 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
      * @var mixed
      */
     protected $_flatTables     = array(
-        'catalog/category_flat' => array('helper' => 'Mage_Catalog_Helper_Category_Flat'),
-        'catalog/product_flat'  => array('helper' => 'Mage_Catalog_Helper_Product_Flat')
+        'catalog/category_flat' => array(
+            'helper' => 'Mage_Catalog_Helper_Category_Flat',
+            'resource_model' => 'Mage_Catalog_Model_Resource_Category_Flat'
+        ),
+        'catalog/product_flat'  => array(
+            'helper' => 'Mage_Catalog_Helper_Product_Flat',
+            'resource_model' => 'Mage_Catalog_Model_Resource_Product_Flat'
+        )
     );
 
     /**
