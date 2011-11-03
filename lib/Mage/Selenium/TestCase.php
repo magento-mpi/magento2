@@ -426,7 +426,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         static $_isFirst = true;
 
         if ($_isFirst) {
-            $this->setUpBeforeTests();
+            $this->browserRestart();
             $_isFirst = false;
         }
     }
@@ -438,6 +438,26 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function setUpBeforeTests()
     {
+    }
+
+    /**
+     * Function overrides browser memory leak issue with big tests ammount. Basically it restarts browser.
+     *
+     * @return null
+     */
+
+    public function browserRestart()
+    {
+                    $url=$this->getLocation();
+                    $this->drivers[0]->setContiguousSession(false);
+                    $this->drivers[0]->stop();
+                    $this->drivers[0]->setTestCase($this);
+                    $this->drivers[0]->setTestId($this->testId);
+                    $this->drivers[0]->setBrowserUrl($this->_applicationHelper->getBaseUrl());
+                    $this->drivers[0]->setContiguousSession(true);
+                    $this->drivers[0]->start();
+                    $this->loginAdminUser();
+                    $this->navigate('dashboard');
     }
 
     /**
