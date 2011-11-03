@@ -45,7 +45,7 @@ class Mage_Paypal_Model_Resource_Payment_Transaction_Collection
      */
     protected function _construct()
     {
-        $this->_init('paypal/payment_transaction', 'Mage_Paypal_Model_Resource_Payment_Transaction');
+        $this->_init('Mage_Paypal_Model_Payment_Transaction', 'Mage_Paypal_Model_Resource_Payment_Transaction');
         parent::_construct();
     }
 

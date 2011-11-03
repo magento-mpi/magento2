@@ -44,44 +44,4 @@
     <adminhtml_permissions_role_rolegrid>
         <block type="Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role" name="adminhtml.permission.role.grid"/>
     </adminhtml_permissions_role_rolegrid>
-<!--
-    <adminhtml_system_config_edit>
-        <reference name="left">
-            <remove name="adminhtml.system.config.switcher"/>
-            <block type="enterprise_permissions/system_config_switcher" name="enterprise.system.config.switcher" template="enterprise/permissions/system/config/switcher.phtml" before="-"/>
-        </reference>
-    </adminhtml_system_config_edit>
-
-    <adminhtml_catalog_product_edit>
-        <reference name="left">
-            <remove name="store_switcher"/>
-            <block type="enterprise_permissions/store_switcher" name="permissions_store_switcher" template="enterprise/permissions/store/switcher.phtml" before="-"></block>
-        </reference>
-    </adminhtml_catalog_product_edit>
-
-    <adminhtml_catalog_product_index>
-        <reference name="products_list">
-            <remove name="store_switcher"/>
-            <block type="enterprise_permissions/store_switcher" name="permissions_store_switcher" as="store_switcher" template="enterprise/permissions/store/switcher.phtml">
-                <action method="setUseConfirm"><params>0</params></action>
-            </block>
-        </reference>
-    </adminhtml_catalog_product_index>
-
-    <adminhtml_dashboard_index>
-        <reference name="dashboard">
-            <remove name="store_switcher"/>
-            <block type="enterprise_permissions/store_switcher" name="permissions_store_switcher" as="store_switcher" template="enterprise/permissions/store/switcher.phtml">
-                <action method="setUseConfirm"><params>0</params></action>
-            </block>
-        </reference>
-    </adminhtml_dashboard_index>
-
-    <adminhtml_catalog_product_action_attribute_edit>
-        <reference name="left">
-            <remove name="store_switcher"/>
-            <block type="enterprise_permissions/store_switcher" name="permissions_store_switcher" template="enterprise/permissions/store/switcher.phtml" before="-"></block>
-        </reference>
-    </adminhtml_catalog_product_action_attribute_edit>
--->
 </layout>

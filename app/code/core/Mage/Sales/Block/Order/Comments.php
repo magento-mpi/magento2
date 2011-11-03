@@ -72,11 +72,11 @@ class Mage_Sales_Block_Order_Comments extends Mage_Core_Block_Template
         if (is_null($this->_commentCollection)) {
             $entity = $this->getEntity();
             if ($entity instanceof Mage_Sales_Model_Order_Invoice) {
-                $collectionClass = 'sales/order_invoice_comment_collection';
+                $collectionClass = 'Mage_Sales_Model_Resource_Order_Invoice_Comment_Collection';
             } else if ($entity instanceof Mage_Sales_Model_Order_Creditmemo) {
-                $collectionClass = 'sales/order_creditmemo_comment_collection';
+                $collectionClass = 'Mage_Sales_Model_Resource_Order_Creditmemo_Comment_Collection';
             } else if ($entity instanceof Mage_Sales_Model_Order_Shipment) {
-                $collectionClass = 'sales/order_shipment_comment_collection';
+                $collectionClass = 'Mage_Sales_Model_Resource_Order_Shipment_Comment_Collection';
             } else {
                 Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Invalid entity model'));
             }

@@ -55,7 +55,7 @@ class Mage_Rating_Model_Resource_Rating_Option_Collection extends Mage_Core_Mode
      */
     protected function _construct()
     {
-        $this->_init('rating/rating_option', 'Mage_Rating_Model_Resource_Rating_Option');
+        $this->_init('Mage_Rating_Model_Rating_Option', 'Mage_Rating_Model_Resource_Rating_Option');
         $this->_ratingOptionTable   = $this->getTable('rating_option');
         $this->_ratingVoteTable     = $this->getTable('rating_option_vote');
     }

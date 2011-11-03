@@ -40,7 +40,7 @@ class Mage_Cms_Model_Resource_Block_Collection extends Mage_Core_Model_Resource_
      */
     protected function _construct()
     {
-        $this->_init('cms/block', 'Mage_Cms_Model_Resource_Block');
+        $this->_init('Mage_Cms_Model_Block', 'Mage_Cms_Model_Resource_Block');
         $this->_map['fields']['store'] = 'store_table.store_id';
     }
 

@@ -40,7 +40,7 @@ class Enterprise_Banner_Model_Resource_Banner_Collection extends Mage_Core_Model
      */
     protected function _construct()
     {
-        $this->_init('enterprise_banner/banner', 'Enterprise_Banner_Model_Resource_Banner');
+        $this->_init('Enterprise_Banner_Model_Banner', 'Enterprise_Banner_Model_Resource_Banner');
         $this->_map['fields']['banner_id'] = 'main_table.banner_id';
     }
 

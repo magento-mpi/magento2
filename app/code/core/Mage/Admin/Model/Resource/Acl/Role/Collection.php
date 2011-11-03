@@ -40,6 +40,6 @@ class Mage_Admin_Model_Resource_Acl_Role_Collection extends Mage_Core_Model_Reso
      */
     protected function _construct()
     {
-        $this->_init('admin/acl_role', 'Mage_Admin_Model_Resource_Acl_Role');
+        $this->_init('Mage_Admin_Model_Acl_Role', 'Mage_Admin_Model_Resource_Acl_Role');
     }
 }

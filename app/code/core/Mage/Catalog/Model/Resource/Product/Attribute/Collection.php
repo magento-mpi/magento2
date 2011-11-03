@@ -41,7 +41,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Collection
      */
     protected function _construct()
     {
-        $this->_init('catalog/resource_eav_attribute', 'Mage_Eav_Model_Resource_Entity_Attribute');
+        $this->_init('Mage_Catalog_Model_Resource_Eav_Attribute', 'Mage_Eav_Model_Resource_Entity_Attribute');
     }
 
     /**

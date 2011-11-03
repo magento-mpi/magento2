@@ -54,7 +54,7 @@ class Mage_Sales_Model_Resource_Order_Address_Collection extends Mage_Sales_Mode
      */
     protected function _construct()
     {
-        $this->_init('sales/order_address', 'Mage_Sales_Model_Resource_Order_Address');
+        $this->_init('Mage_Sales_Model_Order_Address', 'Mage_Sales_Model_Resource_Order_Address');
     }
 
     /**

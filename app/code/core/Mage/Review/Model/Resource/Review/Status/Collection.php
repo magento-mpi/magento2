@@ -47,7 +47,7 @@ class Mage_Review_Model_Resource_Review_Status_Collection extends Mage_Core_Mode
      */
     protected function _construct()
     {
-        $this->_init('review/review_status', 'Mage_Review_Model_Resource_Review_Status');
+        $this->_init('Mage_Review_Model_Review_Status', 'Mage_Review_Model_Resource_Review_Status');
     }
     
     /**

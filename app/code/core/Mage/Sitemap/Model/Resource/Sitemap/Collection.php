@@ -40,7 +40,7 @@ class Mage_Sitemap_Model_Resource_Sitemap_Collection extends Mage_Core_Model_Res
      */
     public function _construct()
     {
-        $this->_init('sitemap/sitemap', 'Mage_Sitemap_Model_Resource_Sitemap');
+        $this->_init('Mage_Sitemap_Model_Sitemap', 'Mage_Sitemap_Model_Resource_Sitemap');
     }
 
     /**

@@ -47,7 +47,7 @@ class Mage_Eav_Model_Resource_Form_Fieldset_Collection extends Mage_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('eav/form_fieldset', 'Mage_Eav_Model_Resource_Form_Fieldset');
+        $this->_init('Mage_Eav_Model_Form_Fieldset', 'Mage_Eav_Model_Resource_Form_Fieldset');
     }
 
     /**

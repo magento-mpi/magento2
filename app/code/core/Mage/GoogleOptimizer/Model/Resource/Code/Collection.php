@@ -40,6 +40,6 @@ class Mage_GoogleOptimizer_Model_Resource_Code_Collection extends Mage_Core_Mode
      */
     protected function _construct()
     {
-        $this->_init('googleoptimizer/code', 'Mage_GoogleOptimizer_Model_Resource_Code');
+        $this->_init('Mage_GoogleOptimizer_Model_Code', 'Mage_GoogleOptimizer_Model_Resource_Code');
     }
 }

@@ -328,6 +328,16 @@ class Mage_Customer_Model_Convert_Adapter_Customer
     }
 
     /**
+     * Retrieve collection for load
+     *
+     * @return Mage_Customer_Model_Resource_Customer_Collection
+     */
+    protected function _getCollectionForLoad()
+    {
+        return Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
+    }
+
+    /**
      * Not use :(
      */
     public function parse()

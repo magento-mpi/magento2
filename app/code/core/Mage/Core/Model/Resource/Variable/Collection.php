@@ -48,7 +48,7 @@ class Mage_Core_Model_Resource_Variable_Collection extends Mage_Core_Model_Resou
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('core/variable', 'Mage_Core_Model_Resource_Variable');
+        $this->_init('Mage_Core_Model_Variable', 'Mage_Core_Model_Resource_Variable');
     }
 
     /**

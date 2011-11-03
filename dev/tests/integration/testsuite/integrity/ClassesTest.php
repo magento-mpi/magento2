@@ -226,6 +226,92 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Finds usage of helpers in php files through helper function
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitHelperFunctionCalls($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        $result = array();
+        $modules = $this->_getFuncStringArguments('helper', $content);
+        if ($modules) {
+            $result = array_merge($result, $modules);
+        }
+
+        $modules = $this->_getFuncStringArguments('setDataHelperName', $content);
+        if ($modules) {
+            $result = array_merge($result, $modules);
+        }
+
+        $combine = array();
+        $matched = preg_match_all('/addProductConfigurationHelper\(.*,[\'"](.*)[\'"]\)/', $content, $matches);
+        if ($matched) {
+            $combine = array_merge($combine, $matches[1]);
+        }
+
+        $matched = preg_match_all('/addOptionsRenderCfg\(.*,[\'"](.*)[\'"],.*\)/', $content, $matches);
+        if ($matched) {
+            $combine = array_merge($combine, $matches[1]);
+        }
+
+        foreach ($combine as $match) {
+            if (strpos($match, '$') === FALSE) {
+                continue;
+            }
+            $result[] = $match;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Finds usage of helpers in layout files through attributes and layouts
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitXmlAttributeDefinitions($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('xml'))) {
+            return array();
+        }
+
+        $result = array();
+        $matched = preg_match_all('/helper="(.*)::.*"/Us', $content, $matches);
+        if ($matched) {
+            $result = array_merge($result, $matches[1]);
+        }
+
+        $matched = preg_match_all('/module="(.*)"/Us', $content, $matches);
+        if ($matched) {
+            foreach ($matches[1] as $module) {
+                $result[] = $module . '_Helper_Data';
+            }
+        }
+
+        $matched = preg_match_all('/method="addProductConfigurationHelper"><type>.*<\/type><name>(.*)<\/name>/',
+            $content, $matches);
+        if ($matched) {
+            $result = array_merge($result, $matches[1]);
+        }
+
+        $matched = preg_match_all('/method="addOptionsRenderCfg"><type>.*<\/type><helper>(.*)<\/helper>/',
+            $content, $matches);
+        if ($matched) {
+            $result = array_merge($result, $matches[1]);
+        }
+
+        return $result;
+    }
+
+    /**
      * Finds methods that return collection names for grid blocks
      *
      * @param SplFileInfo $fileInfo
@@ -241,6 +327,44 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $regexp = ' _getCollectionClass\(\)\s+';
         $regexp .= '{\s+';
         $regexp .= 'return\s+[\'"]([a-zA-Z_\/]+)[\'"];';
+        $matched = preg_match_all('/' . $regexp . '/', $content, $matches);
+
+        if (!$matched) {
+            return array();
+        }
+        return $matches[1];
+    }
+
+    /**
+     * Finds usage of initReport('Class_Name')
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitInitReport($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        return $this->_getFuncStringArguments('->initReport', $content);
+    }
+
+    /**
+     * Finds usage of "'resource_model' => 'Class_Name'"
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitResourceClassesAsArrayEntries($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php'))) {
+            return array();
+        }
+
+        $regexp = "'resource_model'" . '\s*=>\s*' . "'([A-Za-z_]+)'";
         $matched = preg_match_all('/' . $regexp . '/', $content, $matches);
 
         if (!$matched) {

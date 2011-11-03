@@ -177,7 +177,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
          */
         if (!$object->getId()) {
             if ($object->getFrontendInput() == 'select') {
-                $object->setSourceModel('eav/entity_attribute_source_table');
+                $object->setSourceModel('Mage_Eav_Model_Entity_Attribute_Source_Table');
             }
         }
 

@@ -732,7 +732,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'type'                       => 'text',
                         'label'                      => 'Custom Layout Update',
                         'input'                      => 'textarea',
-                        'backend'                    => 'Mage_Catalog_Model_Product_Attribute_Backend_Customlayoutupdate',
+                        'backend'                    => 'Mage_Catalog_Model_Attribute_Backend_Customlayoutupdate',
                         'required'                   => false,
                         'sort_order'                 => 4,
                         'global'                     => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,

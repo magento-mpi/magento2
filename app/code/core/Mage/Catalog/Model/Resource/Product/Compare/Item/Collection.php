@@ -61,7 +61,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_compare_item', 'Mage_Catalog_Model_Resource_Product');
+        $this->_init('Mage_Catalog_Model_Product_Compare_Item', 'Mage_Catalog_Model_Resource_Product');
         $this->_initTables();
     }
 
@@ -280,7 +280,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection
      */
     public function useProductItem()
     {
-        $this->setObject('catalog/product');
+        $this->setObject('Mage_Catalog_Model_Product');
 
         $this->setFlag('url_data_object', true);
         $this->setFlag('do_not_use_category_id', true);

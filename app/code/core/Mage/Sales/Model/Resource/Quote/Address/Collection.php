@@ -54,7 +54,7 @@ class Mage_Sales_Model_Resource_Quote_Address_Collection extends Mage_Core_Model
      */
     protected function _construct()
     {
-        $this->_init('sales/quote_address', 'Mage_Sales_Model_Resource_Quote_Address');
+        $this->_init('Mage_Sales_Model_Quote_Address', 'Mage_Sales_Model_Resource_Quote_Address');
     }
 
     /**

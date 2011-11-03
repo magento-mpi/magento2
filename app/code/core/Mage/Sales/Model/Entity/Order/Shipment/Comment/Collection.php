@@ -36,7 +36,7 @@ class Mage_Sales_Model_Entity_Order_Shipment_Comment_Collection extends Mage_Eav
 {
     protected function _construct()
     {
-        $this->_init('sales/order_shipment_comment', 'Mage_Sales_Model_Resource_Order_Shipment_Comment');
+        $this->_init('Mage_Sales_Model_Order_Shipment_Comment', 'Mage_Sales_Model_Resource_Order_Shipment_Comment');
     }
 
     public function setShipmentFilter($shipmentId)

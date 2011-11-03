@@ -41,7 +41,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'msrp_enabled', arr
     'frontend'      => '',
     'label'         => 'Apply MAP',
     'input'         => 'select',
-    'source'        => 'eav/entity_attribute_source_boolean',
+    'source'        => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean',
     'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
     'visible'       => true,
     'required'      => false,

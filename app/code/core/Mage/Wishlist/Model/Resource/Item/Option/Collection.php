@@ -55,7 +55,7 @@ class Mage_Wishlist_Model_Resource_Item_Option_Collection extends Mage_Core_Mode
      */
     protected function _construct()
     {
-        $this->_init('wishlist/item_option', 'Mage_Wishlist_Model_Resource_Item_Option');
+        $this->_init('Mage_Wishlist_Model_Item_Option', 'Mage_Wishlist_Model_Resource_Item_Option');
     }
 
     /**

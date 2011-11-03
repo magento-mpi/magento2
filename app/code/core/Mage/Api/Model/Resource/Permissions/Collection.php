@@ -40,6 +40,6 @@ class Mage_Api_Model_Resource_Permissions_Collection extends Mage_Core_Model_Res
      */
     protected function _construct()
     {
-        $this->_init('api/rules', 'Mage_Api_Model_Resource_Rules');
+        $this->_init('Mage_Api_Model_Rules', 'Mage_Api_Model_Resource_Rules');
     }
 }

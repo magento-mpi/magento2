@@ -113,7 +113,7 @@
     <frontend>
         <layout>
             <updates>
-                <enterprise_giftcard module="Mage_Enterprise_GiftCard">
+                <enterprise_giftcard module="Enterprise_GiftCard">
                     <file>giftcard.xml</file>
                 </enterprise_giftcard>
             </updates>

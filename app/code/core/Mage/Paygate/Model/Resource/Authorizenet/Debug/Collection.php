@@ -40,6 +40,6 @@ class Mage_Paygate_Model_Resource_Authorizenet_Debug_Collection extends Mage_Cor
      */
     protected function _construct()
     {
-        $this->_init('paygate/authorizenet_debug', 'Mage_Paygate_Model_Resource_Authorizenet_Debug');
+        $this->_init('Mage_Paygate_Model_Authorizenet_Debug', 'Mage_Paygate_Model_Resource_Authorizenet_Debug');
     }
 }

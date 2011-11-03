@@ -51,7 +51,7 @@ class Mage_Checkout_Model_Resource_Agreement_Collection extends Mage_Core_Model_
      */
     protected function _construct()
     {
-        $this->_init('checkout/agreement', 'Mage_Checkout_Model_Resource_Agreement');
+        $this->_init('Mage_Checkout_Model_Agreement', 'Mage_Checkout_Model_Resource_Agreement');
     }
 
     /**

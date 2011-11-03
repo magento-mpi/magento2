@@ -39,7 +39,7 @@ class Enterprise_Rma_Model_Resource_Item_Collection extends Mage_Eav_Model_Entit
      */
     protected function _construct()
     {
-        $this->_init('enterprise_rma/item', 'Enterprise_Rma_Model_Resource_Item');
+        $this->_init('Enterprise_Rma_Model_Item', 'Enterprise_Rma_Model_Resource_Item');
     }
 
     /**

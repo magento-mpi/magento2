@@ -159,11 +159,11 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
 
         if ($this->getBackendType() == 'datetime') {
             if (!$this->getBackendModel()) {
-                $this->setBackendModel('eav/entity_attribute_backend_datetime');
+                $this->setBackendModel('Mage_Eav_Model_Entity_Attribute_Backend_Datetime');
             }
 
             if (!$this->getFrontendModel()) {
-                $this->setFrontendModel('eav/entity_attribute_frontend_datetime');
+                $this->setFrontendModel('Mage_Eav_Model_Entity_Attribute_Frontend_Datetime');
             }
 
             // save default date value as timestamp
@@ -180,7 +180,7 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
 
         if ($this->getBackendType() == 'gallery') {
             if (!$this->getBackendModel()) {
-                $this->setBackendModel('eav/entity_attribute_backend_media');
+                $this->setBackendModel('Mage_Eav_Model_Entity_Attribute_Backend_Media');
             }
         }
 

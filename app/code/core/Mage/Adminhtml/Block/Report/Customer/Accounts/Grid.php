@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Report_Customer_Accounts_Grid extends Mage_Adminhtml_
     protected function _prepareCollection()
     {
         parent::_prepareCollection();
-        $this->getCollection()->initReport('reports/accounts_collection');
+        $this->getCollection()->initReport('Mage_Reports_Model_Resource_Accounts_Collection');
     }
 
     protected function _prepareColumns()

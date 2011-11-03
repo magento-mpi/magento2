@@ -38,6 +38,6 @@ class Enterprise_Rma_Model_Resource_Rma_Collection extends Mage_Core_Model_Resou
      */
     protected function _construct()
     {
-        $this->_init('enterprise_rma/rma', 'Enterprise_Rma_Model_Resource_Rma');
+        $this->_init('Enterprise_Rma_Model_Rma', 'Enterprise_Rma_Model_Resource_Rma');
     }
 }

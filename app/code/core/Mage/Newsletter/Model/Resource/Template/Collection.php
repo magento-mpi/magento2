@@ -40,7 +40,7 @@ class Mage_Newsletter_Model_Resource_Template_Collection extends Mage_Core_Model
      */
     protected function _construct()
     {
-        $this->_init('newsletter/template', 'Mage_Newsletter_Model_Resource_Template');
+        $this->_init('Mage_Newsletter_Model_Template', 'Mage_Newsletter_Model_Resource_Template');
     }
 
     /**

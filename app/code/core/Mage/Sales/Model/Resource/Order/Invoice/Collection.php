@@ -61,7 +61,7 @@ class Mage_Sales_Model_Resource_Order_Invoice_Collection extends Mage_Sales_Mode
      */
     protected function _construct()
     {
-        $this->_init('sales/order_invoice', 'Mage_Sales_Model_Resource_Order_Invoice');
+        $this->_init('Mage_Sales_Model_Order_Invoice', 'Mage_Sales_Model_Resource_Order_Invoice');
     }
 
     /**

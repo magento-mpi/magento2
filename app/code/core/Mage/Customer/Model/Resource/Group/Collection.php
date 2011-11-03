@@ -39,7 +39,7 @@ class Mage_Customer_Model_Resource_Group_Collection extends Mage_Core_Model_Reso
      */
     protected function _construct()
     {
-        $this->_init('customer/group', 'Mage_Customer_Model_Resource_Group');
+        $this->_init('Mage_Customer_Model_Group', 'Mage_Customer_Model_Resource_Group');
     }
 
     /**

@@ -41,7 +41,7 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid exten
     protected function _prepareCollection()
     {
         parent::_prepareCollection();
-        $this->getCollection()->initReport('enterprise_invitation/report_invitation_collection');
+        $this->getCollection()->initReport('Enterprise_Invitation_Model_Resource_Report_Invitation_Collection');
         return $this;
     }
 

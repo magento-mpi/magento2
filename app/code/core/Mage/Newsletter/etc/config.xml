@@ -137,7 +137,7 @@
         </translate>
         <layout>
             <updates>
-                <newsletter module="Mage_Mage_Newsletter">
+                <newsletter module="Mage_Newsletter">
                     <file>newsletter.xml</file>
                 </newsletter>
             </updates>

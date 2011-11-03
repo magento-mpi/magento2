@@ -25,7 +25,7 @@
  */
 
 
-class Mage_Eav_Model_Convert_Adapter_Entity
+abstract class Mage_Eav_Model_Convert_Adapter_Entity
     extends Mage_Dataflow_Model_Convert_Adapter_Abstract
 {
     /**
@@ -252,7 +252,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity
             $this->addException(Mage::helper('Mage_Eav_Helper_Data')->__('Invalid entity specified'), Varien_Convert_Exception::FATAL);
         }
         try {
-            $collection = $this->_getCollectionForLoad($entityType);
+            $collection = $this->_getCollectionForLoad();
 
             if (isset($this->_joinAttr) && is_array($this->_joinAttr)) {
                 foreach ($this->_joinAttr as $val) {
@@ -317,10 +317,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity
      *
      * @return Mage_Eav_Model_Entity_Collection
      */
-    protected function _getCollectionForLoad($entityType)
-    {
-        return Mage::getResourceModel($entityType.'_collection');
-    }
+    abstract protected function _getCollectionForLoad();
 
     public function save()
     {

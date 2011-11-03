@@ -116,7 +116,7 @@ class Mage_Log_Model_Resource_Visitor_Collection extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('log/visitor', 'Mage_Log_Model_Resource_Visitor');
+        $this->_init('Mage_Log_Model_Visitor', 'Mage_Log_Model_Resource_Visitor');
 
         $this->_visitorTable     = $this->getTable('log_visitor');
         $this->_visitorInfoTable = $this->getTable('log_visitor_info');

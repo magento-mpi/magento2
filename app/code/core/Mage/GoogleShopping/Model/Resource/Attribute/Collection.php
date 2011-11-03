@@ -42,7 +42,7 @@ class Mage_GoogleShopping_Model_Resource_Attribute_Collection extends Mage_Core_
 
     protected function _construct()
     {
-        $this->_init('googleshopping/attribute', 'Mage_GoogleShopping_Model_Resource_Attribute');
+        $this->_init('Mage_GoogleShopping_Model_Attribute', 'Mage_GoogleShopping_Model_Resource_Attribute');
     }
 
     /**

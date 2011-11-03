@@ -40,7 +40,7 @@ class Mage_Reports_Model_Resource_Event_Type_Collection extends Mage_Core_Model_
      */
     protected function _construct()
     {
-        $this->_init('reports/event_type', 'Mage_Reports_Model_Resource_Event_Type');
+        $this->_init('Mage_Reports_Model_Event_Type', 'Mage_Reports_Model_Resource_Event_Type');
     }
 
     /**

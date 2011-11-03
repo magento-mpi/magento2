@@ -38,6 +38,6 @@ class Enterprise_Rma_Model_Resource_Grid_Collection extends Mage_Core_Model_Reso
      */
     protected function _construct()
     {
-        $this->_init('enterprise_rma/grid', 'Enterprise_Rma_Model_Resource_Grid');
+        $this->_init('Enterprise_Rma_Model_Grid', 'Enterprise_Rma_Model_Resource_Grid');
     }
 }

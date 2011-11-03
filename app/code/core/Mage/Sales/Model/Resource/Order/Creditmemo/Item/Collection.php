@@ -54,7 +54,7 @@ class Mage_Sales_Model_Resource_Order_Creditmemo_Item_Collection extends Mage_Sa
      */
     protected function _construct()
     {
-        $this->_init('sales/order_creditmemo_item', 'Mage_Sales_Model_Resource_Order_Creditmemo_Item');
+        $this->_init('Mage_Sales_Model_Order_Creditmemo_Item', 'Mage_Sales_Model_Resource_Order_Creditmemo_Item');
     }
 
     /**

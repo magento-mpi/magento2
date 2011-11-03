@@ -92,7 +92,7 @@
         </translate>
         <layout>
             <updates>
-                <review module="Mage_Mage_Review">
+                <review module="Mage_Review">
                     <file>review.xml</file>
                 </review>
             </updates>

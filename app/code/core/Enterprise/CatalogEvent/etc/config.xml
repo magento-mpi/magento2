@@ -120,7 +120,7 @@
         </events>
         <layout>
             <updates>
-                <enterprise_catalogevent module="Mage_Enterprise_CatalogEvent">
+                <enterprise_catalogevent module="Enterprise_CatalogEvent">
                     <file>catalogevent.xml</file>
                 </enterprise_catalogevent>
             </updates>

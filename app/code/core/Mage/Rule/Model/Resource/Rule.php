@@ -40,6 +40,6 @@ class Mage_Rule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _construct()
     {
-        $this->_init('rule/rule', 'rule_id');
+        $this->_init('Mage_Rule_Model_Rule', 'rule_id');
     }
 }

@@ -42,7 +42,7 @@ class Enterprise_Cms_Model_Resource_Page_Revision_Collection
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('enterprise_cms/page_revision', 'Enterprise_Cms_Model_Resource_Page_Revision');
+        $this->_init('Enterprise_Cms_Model_Page_Revision', 'Enterprise_Cms_Model_Resource_Page_Revision');
     }
 
     /**

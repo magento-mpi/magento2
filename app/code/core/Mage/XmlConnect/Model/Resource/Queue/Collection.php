@@ -40,7 +40,7 @@ class Mage_XmlConnect_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
      */
     protected function _construct()
     {
-        $this->_init('xmlconnect/queue', 'Mage_XmlConnect_Model_Resource_Queue');
+        $this->_init('Mage_XmlConnect_Model_Queue', 'Mage_XmlConnect_Model_Resource_Queue');
     }
 
     /**

@@ -63,7 +63,7 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_invitation module="Mage_Enterprise_Invitation">
+                <enterprise_invitation module="Enterprise_Invitation">
                     <file>enterprise/invitation.xml</file>
                 </enterprise_invitation>
             </updates>

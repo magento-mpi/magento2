@@ -52,7 +52,7 @@ class Enterprise_Invitation_Model_Resource_Invitation_Collection extends Mage_Co
      */
     protected function _construct()
     {
-        $this->_init('enterprise_invitation/invitation', 'Enterprise_Invitation_Model_Resource_Invitation');
+        $this->_init('Enterprise_Invitation_Model_Invitation', 'Enterprise_Invitation_Model_Resource_Invitation');
     }
 
     /**

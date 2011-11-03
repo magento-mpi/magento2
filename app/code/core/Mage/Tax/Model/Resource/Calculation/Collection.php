@@ -39,6 +39,6 @@ class Mage_Tax_Model_Resource_Calculation_Collection extends Mage_Core_Model_Res
      */
     protected function _construct()
     {
-        $this->_init('tax/calculation', 'Mage_Tax_Model_Resource_Calculation');
+        $this->_init('Mage_Tax_Model_Calculation', 'Mage_Tax_Model_Resource_Calculation');
     }
 }

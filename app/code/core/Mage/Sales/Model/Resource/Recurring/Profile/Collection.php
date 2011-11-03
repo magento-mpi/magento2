@@ -54,6 +54,6 @@ class Mage_Sales_Model_Resource_Recurring_Profile_Collection extends Mage_Core_M
      */
     protected function _construct()
     {
-        $this->_init('sales/recurring_profile', 'Mage_Sales_Model_Resource_Recurring_Profile');
+        $this->_init('Mage_Sales_Model_Recurring_Profile', 'Mage_Sales_Model_Resource_Recurring_Profile');
     }
 }

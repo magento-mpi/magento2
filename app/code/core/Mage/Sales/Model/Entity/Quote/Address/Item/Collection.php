@@ -37,7 +37,7 @@ class Mage_Sales_Model_Entity_Quote_Address_Item_Collection extends Mage_Eav_Mod
 {
     protected function _construct()
     {
-        $this->_init('sales/quote_address_item', 'Mage_Sales_Model_Resource_Quote_Address_Item');
+        $this->_init('Mage_Sales_Model_Quote_Address_Item', 'Mage_Sales_Model_Resource_Quote_Address_Item');
     }
     
     public function setAddressFilter($addressId)

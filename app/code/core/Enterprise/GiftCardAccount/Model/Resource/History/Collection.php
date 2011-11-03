@@ -41,6 +41,6 @@ class Enterprise_GiftCardAccount_Model_Resource_History_Collection
      */
     protected function _construct()
     {
-        $this->_init('enterprise_giftcardaccount/history', 'Enterprise_GiftCardAccount_Model_Resource_History');
+        $this->_init('Enterprise_GiftCardAccount_Model_History', 'Enterprise_GiftCardAccount_Model_Resource_History');
     }
 }

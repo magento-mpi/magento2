@@ -161,7 +161,7 @@
         </translate>
         <layout>
             <updates>
-                <downloadable module="Mage_Mage_Downloadable">
+                <downloadable module="Mage_Downloadable">
                     <file>downloadable.xml</file>
                 </downloadable>
             </updates>

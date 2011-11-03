@@ -40,6 +40,6 @@ class Mage_Admin_Model_Resource_User_Collection extends Mage_Core_Model_Resource
      */
     protected function _construct()
     {
-        $this->_init('admin/user', 'Mage_Admin_Model_Resource_User');
+        $this->_init('Mage_Admin_Model_User', 'Mage_Admin_Model_Resource_User');
     }
 }

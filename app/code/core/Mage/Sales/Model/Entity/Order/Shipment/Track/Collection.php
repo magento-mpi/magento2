@@ -37,7 +37,7 @@ class Mage_Sales_Model_Entity_Order_Shipment_Track_Collection extends Mage_Eav_M
 {
     public function _construct()
     {
-        $this->_init('sales/order_shipment_track', 'Mage_Sales_Model_Resource_Order_Shipment_Track');
+        $this->_init('Mage_Sales_Model_Order_Shipment_Track', 'Mage_Sales_Model_Resource_Order_Shipment_Track');
     }
 
     public function setShipmentFilter($shipmentId)

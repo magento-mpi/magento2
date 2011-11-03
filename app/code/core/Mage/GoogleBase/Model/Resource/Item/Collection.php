@@ -41,7 +41,7 @@ class Mage_GoogleBase_Model_Resource_Item_Collection extends Mage_Core_Model_Res
      */
     protected function _construct()
     {
-        $this->_init('googlebase/item', 'Mage_GoogleBase_Model_Resource_Item');
+        $this->_init('Mage_GoogleBase_Model_Item', 'Mage_GoogleBase_Model_Resource_Item');
     }
 
     /**

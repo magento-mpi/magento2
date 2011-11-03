@@ -37,7 +37,7 @@ class Mage_Sales_Model_Entity_Order_Shipment_Item_Collection extends Mage_Eav_Mo
 {
     protected function _construct()
     {
-        $this->_init('sales/order_shipment_item', 'Mage_Sales_Model_Resource_Order_Shipment_Item');
+        $this->_init('Mage_Sales_Model_Order_Shipment_Item', 'Mage_Sales_Model_Resource_Order_Shipment_Item');
     }
 
     public function setShipmentFilter($shipmentId)

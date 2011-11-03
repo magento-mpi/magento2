@@ -39,6 +39,6 @@ class Enterprise_Rma_Model_Resource_Rma_Status_History_Collection
      */
     protected function _construct()
     {
-        $this->_init('enterprise_rma/rma_status_history', 'Enterprise_Rma_Model_Resource_Rma_Status_History');
+        $this->_init('Enterprise_Rma_Model_Rma_Status_History', 'Enterprise_Rma_Model_Resource_Rma_Status_History');
     }
 }

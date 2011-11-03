@@ -40,6 +40,6 @@ class Mage_Admin_Model_Resource_Permissions_Collection extends Mage_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('admin/rules', 'Mage_Admin_Model_Resource_Rules');
+        $this->_init('Mage_Admin_Model_Rules', 'Mage_Admin_Model_Resource_Rules');
     }
 }

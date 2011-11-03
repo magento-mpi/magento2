@@ -39,7 +39,7 @@ class Mage_Rating_Model_Resource_Rating_Option_Vote_Collection extends Mage_Core
      */
     protected function _construct()
     {
-        $this->_init('rating/rating_option_vote', 'Mage_Rating_Model_Resource_Rating_Option_Vote');
+        $this->_init('Mage_Rating_Model_Rating_Option_Vote', 'Mage_Rating_Model_Resource_Rating_Option_Vote');
     }
 
     /**

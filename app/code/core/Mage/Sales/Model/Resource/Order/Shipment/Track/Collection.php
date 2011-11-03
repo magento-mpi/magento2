@@ -62,7 +62,7 @@ class Mage_Sales_Model_Resource_Order_Shipment_Track_Collection
      */
     protected function _construct()
     {
-        $this->_init('sales/order_shipment_track', 'Mage_Sales_Model_Resource_Order_Shipment_Track');
+        $this->_init('Mage_Sales_Model_Order_Shipment_Track', 'Mage_Sales_Model_Resource_Order_Shipment_Track');
     }
 
     /**
