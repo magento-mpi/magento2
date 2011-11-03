@@ -157,7 +157,7 @@ class Magento_Test_Bootstrap
         $magentoDir, $localXmlFile, $globalEtcFiles, $moduleEtcFiles, $tmpDir, $cleanupAction = self::CLEANUP_NONE
     ) {
         if (!in_array($cleanupAction, array(self::CLEANUP_NONE, self::CLEANUP_UNINSTALL, self::CLEANUP_RESTORE_DB))) {
-            throw new Exception("Cleanup action '{$this->_cleanupAction}' is not supported.");
+            throw new Exception("Cleanup action '{$cleanupAction}' is not supported.");
         }
 
         $this->_magentoDir = $magentoDir;
@@ -177,6 +177,7 @@ class Magento_Test_Bootstrap
 
         $this->_cleanupAction = $cleanupAction;
         $this->_cleanup();
+        $this->_ensureDirExists($this->_installDir);
 
         $this->_emulateEnvironment();
 
@@ -251,8 +252,7 @@ class Magento_Test_Bootstrap
             throw new Exception("Directory '{$optionCode}' must not be cleaned up while running tests.");
         }
         $dir = $this->_options[$optionCode];
-        Varien_Io_File::rmdirRecursive($dir);
-        mkdir($dir);
+        $this->_removeDirectory($dir, false);
     }
 
     /**
@@ -389,6 +389,30 @@ class Magento_Test_Bootstrap
     }
 
     /**
+     * Remove entire directory from the file system
+     *
+     * @param string $dir
+     * @param bool $removeDirItself Whether to remove directory itself along with all its children
+     */
+    protected function _removeDirectory($dir, $removeDirItself = true)
+    {
+        foreach (scandir($dir) as $dirOrFile) {
+            if ($dirOrFile == '.' || $dirOrFile == '..') {
+                continue;
+            }
+            $dirOrFile = $dir . DIRECTORY_SEPARATOR . $dirOrFile;
+            if (is_dir($dirOrFile)) {
+                $this->_removeDirectory($dirOrFile);
+            } else {
+                unlink($dirOrFile);
+            }
+        }
+        if ($removeDirItself) {
+            rmdir($dir);
+        }
+    }
+
+    /**
      * Install application using temporary directory and vendor-specific database settings
      */
     protected function _install()
@@ -451,10 +475,7 @@ class Magento_Test_Bootstrap
      */
     protected function _cleanupFilesystem()
     {
-        require_once __DIR__ . '/../../../../../../lib/Varien/Io/Interface.php';
-        require_once __DIR__ . '/../../../../../../lib/Varien/Io/Abstract.php';
-        require_once __DIR__ . '/../../../../../../lib/Varien/Io/File.php';
-        Varien_Io_File::rmdirRecursive($this->_installDir);
+        $this->_removeDirectory($this->_installDir);
     }
 
     /**

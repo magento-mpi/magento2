@@ -66,6 +66,7 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
                 '_instantiateDb',
                 '_isInstalled',
                 '_emulateEnvironment',
+                '_ensureDirExists',
                 '_install',
                 '_cleanupFilesystem',
             ),
