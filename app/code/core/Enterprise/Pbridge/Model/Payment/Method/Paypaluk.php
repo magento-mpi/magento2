@@ -92,9 +92,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
     {
         if ($this->_pbridgeMethodInstance === null) {
             $this->_pbridgeMethodInstance = Mage::helper('payment')->getMethodInstance('pbridge');
-            if ($this->_pbridgeMethodInstance) {
-                $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
-            }
+            $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
         }
         return $this->_pbridgeMethodInstance;
     }
@@ -164,8 +162,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
      */
     public function isAvailable($quote = null)
     {
-        return $this->getPbridgeMethodInstance() ?
-            $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote) : false;
+        return $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote);
     }
 
     /**
@@ -264,8 +261,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
     {
         $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(0)
             ->setIsTransactionPending($api->getIsPaymentPending());
-        $payment->setPreparedMessage(Mage::helper('enterprise_pbridge')->__(
-            'Payflow PNREF: #%s.',
+        $payment->setPreparedMessage(Mage::helper('enterprise_pbridge')->__('Payflow PNREF: #%s.',
             $api->getData(Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro::TRANSPORT_PAYFLOW_TXN_ID)
         ));
 

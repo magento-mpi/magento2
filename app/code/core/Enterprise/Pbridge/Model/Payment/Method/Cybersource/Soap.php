@@ -26,27 +26,27 @@
 
 
 /**
- * Authoreze.Net dummy payment method model
+ * Cybersource.Com dummy payment method model
  *
  * @category    Enterprise
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_Model_Authorizenet
+class Enterprise_Pbridge_Model_Payment_Method_Cybersource_Soap extends Mage_Cybersource_Model_Soap
 {
     /**
      * Form block type for the frontend
      *
      * @var string
      */
-    protected $_formBlockType = 'enterprise_pbridge/checkout_payment_authorizenet';
+    protected $_formBlockType = 'enterprise_pbridge/checkout_payment_cybersource';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = 'enterprise_pbridge/adminhtml_sales_order_create_authorizenet';
+    protected $_backendFormBlockType = 'enterprise_pbridge/adminhtml_sales_order_create_cybersource';
 
     /**
      * Payment Bridge Payment Method Instance
@@ -54,6 +54,28 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
      * @var Enterprise_Pbridge_Model_Payment_Method_Pbridge
      */
     protected $_pbridgeMethodInstance = null;
+
+    /**
+     * Payment Bridge Payment Method Code
+     *
+     * @var string
+     */
+    protected $_code = 'cybersource_soap';
+
+    /**
+     * Check method for processing with base currency
+     *
+     * @param string $currencyCode
+     * @return boolean
+     */
+    public function canUseForCurrency($currencyCode)
+    {
+         if ($currencyCode == 'USD') {
+             return true;
+         }
+         return false;
+    }
+
 
     /**
      * Return that current payment method is dummy
@@ -74,7 +96,9 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
     {
         if ($this->_pbridgeMethodInstance === null) {
             $this->_pbridgeMethodInstance = Mage::helper('payment')->getMethodInstance('pbridge');
-            $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
+            if ($this->_pbridgeMethodInstance) {
+                $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
+            }
         }
         return $this->_pbridgeMethodInstance;
     }
@@ -99,6 +123,10 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
         return parent::getCode();
     }
 
+    /**
+     * Getter for Payment method title
+     * @return string
+     */
     public function getTitle()
     {
         return parent::getTitle();
@@ -139,7 +167,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
      */
     public function isAvailable($quote = null)
     {
-        return $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote);
+        return $this->getPbridgeMethodInstance() ?
+            $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote) : false;
     }
 
     /**
@@ -157,7 +186,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
     /**
      * Validate payment method information object
      *
-     * @return Enterprise_Pbridge_Model_Payment_Method_Authorizenet
+     * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource
      */
     public function validate()
     {
@@ -170,7 +199,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
      *
      * @param Varien_Object $payment
      * @param float $amount
-     * @return Enterprise_Pbridge_Model_Payment_Method_Authorizenet
+     * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource
      */
     public function authorize(Varien_Object $payment, $amount)
     {
@@ -184,7 +213,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
      *
      * @param Varien_Object $payment
      * @param float $amount
-     * @return Enterprise_Pbridge_Model_Payment_Method_Authorizenet
+     * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource
      */
     public function capture(Varien_Object $payment, $amount)
     {
@@ -193,7 +222,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
             $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         }
         $payment->addData((array)$response);
-        $payment->setIsTransactionClosed(0);
         return $this;
     }
 
@@ -202,13 +230,12 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
      *
      * @param Varien_Object $payment
      * @param float $amount
-     * @return Enterprise_Pbridge_Model_Payment_Method_Authorizenet
+     * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource
      */
     public function refund(Varien_Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
         $payment->addData((array)$response);
-        $payment->setShouldCloseParentTransaction(false);
         return $this;
     }
 
@@ -216,7 +243,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
      * Voiding method being executed via Payment Bridge
      *
      * @param Varien_Object $payment
-     * @return Enterprise_Pbridge_Model_Payment_Method_Authorizenet
+     * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource
      */
     public function void(Varien_Object $payment)
     {
@@ -226,29 +253,23 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
     }
 
     /**
-     * Cancel payment
+     * Cancel method being executed via Payment Bridge
      *
      * @param Varien_Object $payment
-     * @return Enterprise_Pbridge_Model_Payment_Method_Authorizenet
+     * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource
      */
     public function cancel(Varien_Object $payment)
     {
-        if (!$payment->getOrder()->getInvoiceCollection()->count()) {
-            $response = $this->getPbridgeMethodInstance()->void($payment);
-            $payment->addData((array)$response);
-        }
+        $response = $this->getPbridgeMethodInstance()->void($payment);
+        $payment->addData((array)$response);
         return $this;
-    }
-
-    public function getIsCentinelValidationEnabled()
-    {
-        return true;
     }
 
     /**
      * Store id setter, also set storeId to helper
      *
      * @param int $store
+     * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource_Soap
      */
     public function setStore($store)
     {
