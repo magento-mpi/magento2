@@ -38,6 +38,8 @@ shopping_cart:
                         buttons:
                             continue_shopping: //button[span='Continue Shopping']
                             update_shopping_cart: //button[span='Update Shopping Cart']
+                        checkboxes:
+                            move_to_wishlist: %productXpath%//input[@title='Move to Wishlist']
                         links:
                             remove_item: //a[@title='Remove item']
                         fields:
@@ -61,6 +63,14 @@ shopping_cart:
                             region: //input[@id='region']
                         radiobuttons:
                             ship_method: //dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and following-sibling::*[contains(text(),'%shipMethod%')]]
+                -
+                    crosssells:
+                        xpath: //div[@class='crosssell']
+                        links:
+                            crosssell_product: //div[@class='crosssell']//a[text()='%crosssellProductName%']
+                            crosssell_add_to_cart: //div[@class='crosssell']//a[text()='%crosssellProductName%']/ancestor::li//button[@title='Add to Cart']
+                            crosssell_add_to_wishlist: //div[@class='crosssell']//a[text()='%crosssellProductName%']/ancestor::li//a[@class='link-wishlist']
+                            crosssell_add_to_compare: //div[@class='crosssell']//a[text()='%crosssellProductName%']/ancestor::li//a[@class='link-compare']
         buttons:
             proceed_to_checkout: //button[span='Proceed to Checkout']
         messages:

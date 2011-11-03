@@ -34,13 +34,13 @@ product_page:
             fieldsets:
                 -
                     product_info:
-                        xpath: //div[@class='product-shop']
+                        xpath: //div[@class='product-essential']
                         buttons:
                             add_to_cart: //button[span='Add to Cart']
                         fields:
                             product_qty: //input[@id='qty']
                         links:
-                            add_to_wishlist: //a[text()='Add to Wishlist']
+                            add_to_wishlist: //div[@class='product-essential']//a[text()='Add to Wishlist']
                             add_to_compare: //a[text()='Add to Compare']
                             email_to_friend: //a[text()='Email to a Friend']
                             first_review: //a[text()='Be the first to review this product']
@@ -87,5 +87,19 @@ product_page:
                             add_tags: //button[@title='Add Tags']
                         fields:
                             input_new_tags: //input[@id='productTagName']
+                -
+                    related_products:
+                        xpath: //div[@class='block block-related']
+                        links:
+                            related_select_all: //div[@class='block block-related']//a[text()='select all']
+                            related_product: //div[@class='block block-related']//a[text()='%relatedProductName%']
+                            related_add_to_wishlist: //div[@class='block block-related']//a[text()='%relatedProductName%']/ancestor::li//a[@class='link-wishlist']
+                        checkboxes:
+                            select_related_product: //div[@class='block block-related']//a[text()='%relatedProductName%']/ancestor::li/input[@name='related_products[]']
+                -
+                    upsells:
+                        xpath: //div[@class='box-collateral box-up-sell']
+                        links:
+                            upsell_product: //div[@class='box-collateral box-up-sell']//a[text()='%relatedProductName%']
         messages:
             tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.//span,'%tagQty% tag(s) have been accepted for moderation.')]
