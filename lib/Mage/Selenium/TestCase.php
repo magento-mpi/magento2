@@ -427,7 +427,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         static $_isFirst = true;
 
         if ($_isFirst) {
-            $this->browserRestart();
+           // $this->browserRestart();
             $this->setUpBeforeTests();
             $_isFirst = false;
         }
@@ -2067,10 +2067,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param string $buttonName Name of the button, what intended to save (submit) form (from UIMap)
      * @param boolean $validate
-     *
+     * @param boolean $wait
      * @return Mage_Selenium_TestCase
      */
-    public function saveForm($buttonName, $validate = true)
+    public function saveForm($buttonName, $validate = true, $wait = false)
     {
         $this->messages = array();
         $this->_parseMessages();
@@ -2090,7 +2090,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 ${$message} .= $exclude;
             }
         }
-        $this->clickButton($buttonName, false);
+        $this->clickButton($buttonName, $wait);
         $this->waitForElement(array($success, $error, $validation));
         $this->addParameter('id', $this->defineIdFromUrl());
         if ($validate) {
