@@ -390,6 +390,28 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         return $this->_testHelpers[$helperClassName];
     }
+   /**
+     * Returns the number of nodes that match the specified Css selector,
+     * eg. "table" would give the number of tables.
+     * @param string $locator CSS selector
+     */
+    public function getCssCount($locator)
+    {
+        $script = "this.browserbot.evaluateCssCount('" . $locator . "', this.browserbot.getDocument())";
+        return $this->getEval($script);
+    }
+   /**
+     * Returns the number of nodes that match the specified xPath selector,
+     * eg. "table" would give the number of tables.
+     * @param string $locator xPath selector
+     */
+    public function getXpathCount($locator)
+    {
+        if (stripos('css=',trim($locator)) == 1) {
+         return $this->getCssCount($locator);
+        }
+        return parent::getXpathCount($locator);
+    }
 
     /**
      * Implementetion of setUpBeforeClass() method in the object context, called as setUpBeforeTests()<br>
@@ -2239,10 +2261,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         if ($fieldKey == $d_key) {
                             $elemXPath = $baseXpath . $fieldXPath;
                             if ($this->isElementPresent($elemXPath)) {
-                                if ($this->getValue($elemXPath) != $d_val) {
+                                $val = $this->getValue($elemXPath);
+                                if ($val != $d_val) {
                                     $this->messages['error'][] = "The stored value for '"
                                             . $d_key . "' field is not equal to specified: ('$d_val' != '"
-                                            . $this->getValue($elemXPath) . "')";
+                                            . $val . "')";
                                     $resultFlag = false;
                                 }
                             } else {
@@ -2709,5 +2732,4 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->mouseUpAt($blockTo, '1,1');
         $this->clickAt($specElemantXpath, '1,1');
     }
-
-}
+ }
