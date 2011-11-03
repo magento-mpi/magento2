@@ -40,6 +40,6 @@ class Mage_Wishlist_Model_Resource_Wishlist_Collection extends Mage_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('wishlist/wishlist', 'Mage_Wishlist_Model_Resource_Wishlist');
+        $this->_init('Mage_Wishlist_Model_Wishlist', 'Mage_Wishlist_Model_Resource_Wishlist');
     }
 }

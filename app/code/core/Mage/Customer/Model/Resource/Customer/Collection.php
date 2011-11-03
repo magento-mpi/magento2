@@ -39,7 +39,7 @@ class Mage_Customer_Model_Resource_Customer_Collection extends Mage_Eav_Model_En
      */
     protected function _construct()
     {
-        $this->_init('customer/customer', 'Mage_Customer_Model_Resource_Customer');
+        $this->_init('Mage_Customer_Model_Customer', 'Mage_Customer_Model_Resource_Customer');
     }
 
     /**

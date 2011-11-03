@@ -40,6 +40,6 @@ class Mage_XmlConnect_Model_Resource_Application_Collection extends Mage_Core_Mo
      */
     protected function _construct()
     {
-        $this->_init('xmlconnect/application', 'Mage_XmlConnect_Model_Resource_Application');
+        $this->_init('Mage_XmlConnect_Model_Application', 'Mage_XmlConnect_Model_Resource_Application');
     }
 }

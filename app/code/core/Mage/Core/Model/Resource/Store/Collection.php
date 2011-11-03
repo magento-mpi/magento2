@@ -49,7 +49,7 @@ class Mage_Core_Model_Resource_Store_Collection extends Mage_Core_Model_Resource
     protected function _construct()
     {
         $this->setFlag('load_default_store', false);
-        $this->_init('core/store', 'Mage_Core_Model_Resource_Store');
+        $this->_init('Mage_Core_Model_Store', 'Mage_Core_Model_Resource_Store');
     }
 
     /**

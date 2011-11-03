@@ -53,7 +53,7 @@ class Mage_Core_Model_Resource_Website_Collection extends Mage_Core_Model_Resour
     protected function _construct()
     {
         $this->setFlag('load_default_website', false);
-        $this->_init('core/website', 'Mage_Core_Model_Resource_Website');
+        $this->_init('Mage_Core_Model_Website', 'Mage_Core_Model_Resource_Website');
     }
 
     /**

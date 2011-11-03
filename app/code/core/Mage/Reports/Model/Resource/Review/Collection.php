@@ -40,7 +40,7 @@ class Mage_Reports_Model_Resource_Review_Collection extends Mage_Review_Model_Re
      */
     protected function _construct()
     {
-        $this->_init('review/review', 'Mage_Review_Model_Resource_Review');
+        $this->_init('Mage_Review_Model_Review', 'Mage_Review_Model_Resource_Review');
     }
 
     /**

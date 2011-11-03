@@ -40,7 +40,7 @@ class Mage_Core_Model_Resource_Config_Data_Collection extends Mage_Core_Model_Re
      */
     protected function _construct()
     {
-        $this->_init('core/config_data', 'Mage_Core_Model_Resource_Config_Data');
+        $this->_init('Mage_Core_Model_Config_Data', 'Mage_Core_Model_Resource_Config_Data');
     }
 
     /**

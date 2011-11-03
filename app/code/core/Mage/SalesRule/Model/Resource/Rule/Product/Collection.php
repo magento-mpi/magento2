@@ -41,6 +41,6 @@ class Mage_SalesRule_Model_Resource_Rule_Product_Collection extends Mage_Core_Mo
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('salesrule/rule_product', 'Mage_SalesRule_Model_Resource_Rule_Product');
+        $this->_init('Mage_SalesRule_Model_Rule_Product', 'Mage_SalesRule_Model_Resource_Rule_Product');
     }
 }

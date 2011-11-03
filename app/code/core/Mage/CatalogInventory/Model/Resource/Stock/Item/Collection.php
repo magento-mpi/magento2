@@ -40,7 +40,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage_Co
      */
     protected function _construct()
     {
-        $this->_init('cataloginventory/stock_item', 'Mage_CatalogInventory_Model_Resource_Stock_Item');
+        $this->_init('Mage_CatalogInventory_Model_Stock_Item', 'Mage_CatalogInventory_Model_Resource_Stock_Item');
     }
 
     /**

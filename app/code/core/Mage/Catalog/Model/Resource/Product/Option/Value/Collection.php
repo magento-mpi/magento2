@@ -40,7 +40,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value_Collection
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_option_value', 'Mage_Catalog_Model_Resource_Product_Option_Value');
+        $this->_init('Mage_Catalog_Model_Product_Option_Value', 'Mage_Catalog_Model_Resource_Product_Option_Value');
     }
 
     /**

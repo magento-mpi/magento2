@@ -36,7 +36,7 @@ class Mage_Sales_Model_Entity_Order_Creditmemo_Comment_Collection extends Mage_E
 {
     protected function _construct()
     {
-        $this->_init('sales/order_creditmemo_comment', 'Mage_Sales_Model_Resource_Order_Creditmemo_Comment');
+        $this->_init('Mage_Sales_Model_Order_Creditmemo_Comment', 'Mage_Sales_Model_Resource_Order_Creditmemo_Comment');
     }
 
     public function setCreditmemoFilter($creditmemoId)

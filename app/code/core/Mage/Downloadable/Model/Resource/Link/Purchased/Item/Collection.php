@@ -41,6 +41,6 @@ class Mage_Downloadable_Model_Resource_Link_Purchased_Item_Collection
      */
     protected function _construct()
     {
-        $this->_init('downloadable/link_purchased_item', 'Mage_Downloadable_Model_Resource_Link_Purchased_Item');
+        $this->_init('Mage_Downloadable_Model_Link_Purchased_Item', 'Mage_Downloadable_Model_Resource_Link_Purchased_Item');
     }
 }

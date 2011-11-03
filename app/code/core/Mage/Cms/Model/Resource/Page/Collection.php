@@ -48,7 +48,7 @@ class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_D
      */
     protected function _construct()
     {
-        $this->_init('cms/page', 'Mage_Cms_Model_Resource_Page');
+        $this->_init('Mage_Cms_Model_Page', 'Mage_Cms_Model_Resource_Page');
         $this->_map['fields']['page_id'] = 'main_table.page_id';
         $this->_map['fields']['store']   = 'store_table.store_id';
     }

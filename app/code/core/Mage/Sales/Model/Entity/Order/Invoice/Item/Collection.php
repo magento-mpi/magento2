@@ -36,7 +36,7 @@ class Mage_Sales_Model_Entity_Order_Invoice_Item_Collection extends Mage_Eav_Mod
 {
     protected function _construct()
     {
-        $this->_init('sales/order_invoice_item', 'Mage_Sales_Model_Resource_Order_Invoice_Item');
+        $this->_init('Mage_Sales_Model_Order_Invoice_Item', 'Mage_Sales_Model_Resource_Order_Invoice_Item');
     }
 
     public function setInvoiceFilter($invoiceId)

@@ -47,7 +47,7 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Collection extends Mage_Core_M
      */
     protected function _construct()
     {
-        $this->_init('enterprise_giftregistry/item', 'Enterprise_GiftRegistry_Model_Resource_Item');
+        $this->_init('Enterprise_GiftRegistry_Model_Item', 'Enterprise_GiftRegistry_Model_Resource_Item');
     }
 
     /**

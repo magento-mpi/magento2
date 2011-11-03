@@ -44,7 +44,7 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
 
     protected function _construct()
     {
-        $this->_init('sales/quote_item', 'Mage_Sales_Model_Resource_Quote_Item');
+        $this->_init('Mage_Sales_Model_Quote_Item', 'Mage_Sales_Model_Resource_Quote_Item');
     }
 
     public function getStoreId()

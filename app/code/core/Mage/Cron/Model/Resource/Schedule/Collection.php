@@ -40,6 +40,6 @@ class Mage_Cron_Model_Resource_Schedule_Collection extends Mage_Core_Model_Resou
      */
     public function _construct()
     {
-        $this->_init('cron/schedule', 'Mage_Cron_Model_Resource_Schedule');
+        $this->_init('Mage_Cron_Model_Schedule', 'Mage_Cron_Model_Resource_Schedule');
     }
 }

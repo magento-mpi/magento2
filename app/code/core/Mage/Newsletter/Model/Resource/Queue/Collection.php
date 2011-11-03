@@ -55,7 +55,7 @@ class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
     protected function _construct()
     {
         $this->_map['fields']['queue_id'] = 'main_table.queue_id';
-        $this->_init('newsletter/queue', 'Mage_Newsletter_Model_Resource_Queue');
+        $this->_init('Mage_Newsletter_Model_Queue', 'Mage_Newsletter_Model_Resource_Queue');
     }
 
     /**

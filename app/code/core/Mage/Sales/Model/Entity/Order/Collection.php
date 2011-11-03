@@ -36,7 +36,7 @@ class Mage_Sales_Model_Entity_Order_Collection extends Mage_Eav_Model_Entity_Col
 {
     protected function _construct()
     {
-        $this->_init('sales/order', 'Mage_Sales_Model_Resource_Order');
+        $this->_init('Mage_Sales_Model_Order', 'Mage_Sales_Model_Resource_Order');
     }
 
     public function addItemCountExpr()

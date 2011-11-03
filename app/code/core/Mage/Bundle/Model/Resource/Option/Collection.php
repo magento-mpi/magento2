@@ -54,7 +54,7 @@ class Mage_Bundle_Model_Resource_Option_Collection extends Mage_Core_Model_Resou
      */
     protected function _construct()
     {
-        $this->_init('bundle/option', 'Mage_Bundle_Model_Resource_Option');
+        $this->_init('Mage_Bundle_Model_Option', 'Mage_Bundle_Model_Resource_Option');
     }
 
     /**

@@ -35,6 +35,6 @@ class Mage_Sales_Model_Entity_Quote_Collection extends Mage_Eav_Model_Entity_Col
 {
     protected function _construct()
     {
-        $this->_init('sales/quote', 'Mage_Sales_Model_Resource_Quote');
+        $this->_init('Mage_Sales_Model_Quote', 'Mage_Sales_Model_Resource_Quote');
     }
 }

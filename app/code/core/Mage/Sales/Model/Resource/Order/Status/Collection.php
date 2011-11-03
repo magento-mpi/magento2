@@ -38,7 +38,7 @@ class Mage_Sales_Model_Resource_Order_Status_Collection extends Mage_Core_Model_
      */
     protected function _construct()
     {
-        $this->_init('sales/order_status', 'Mage_Sales_Model_Resource_Order_Status');
+        $this->_init('Mage_Sales_Model_Order_Status', 'Mage_Sales_Model_Resource_Order_Status');
     }
 
     /**

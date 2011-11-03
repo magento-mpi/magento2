@@ -40,7 +40,7 @@ class Mage_Downloadable_Model_Resource_Link_Purchased_Collection extends Mage_Co
      */
     protected function _construct()
     {
-        $this->_init('downloadable/link_purchased', 'Mage_Downloadable_Model_Resource_Link_Purchased');
+        $this->_init('Mage_Downloadable_Model_Link_Purchased', 'Mage_Downloadable_Model_Resource_Link_Purchased');
     }
 
     /**

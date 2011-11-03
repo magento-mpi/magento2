@@ -40,7 +40,7 @@ class Mage_Sales_Model_Resource_Quote_Collection extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('sales/quote', 'Mage_Sales_Model_Resource_Quote');
+        $this->_init('Mage_Sales_Model_Quote', 'Mage_Sales_Model_Resource_Quote');
     }
 }
 

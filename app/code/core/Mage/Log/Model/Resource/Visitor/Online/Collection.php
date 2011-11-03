@@ -47,7 +47,7 @@ class Mage_Log_Model_Resource_Visitor_Online_Collection extends Mage_Core_Model_
      */
     protected function _construct()
     {
-        $this->_init('log/visitor_online', 'Mage_Log_Model_Resource_Visitor_Online');
+        $this->_init('Mage_Log_Model_Visitor_Online', 'Mage_Log_Model_Resource_Visitor_Online');
     }
 
     /**

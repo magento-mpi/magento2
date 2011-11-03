@@ -39,7 +39,7 @@ class Mage_Customer_Model_Resource_Address_Collection extends Mage_Eav_Model_Ent
      */
     protected function _construct()
     {
-        $this->_init('customer/address', 'Mage_Customer_Model_Resource_Address');
+        $this->_init('Mage_Customer_Model_Address', 'Mage_Customer_Model_Resource_Address');
     }
 
     /**

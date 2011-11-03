@@ -184,10 +184,10 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     protected function _construct()
     {
         if ($this->isEnabledFlat()) {
-            $this->_init('catalog/product', 'Mage_Catalog_Model_Resource_Product_Flat');
+            $this->_init('Mage_Catalog_Model_Product', 'Mage_Catalog_Model_Resource_Product_Flat');
         }
         else {
-            $this->_init('catalog/product', 'Mage_Catalog_Model_Resource_Product');
+            $this->_init('Mage_Catalog_Model_Product', 'Mage_Catalog_Model_Resource_Product');
         }
         $this->_initTables();
     }

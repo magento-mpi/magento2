@@ -40,7 +40,7 @@ class Mage_Sales_Model_Resource_Order_Tax_Collection extends Mage_Core_Model_Res
      */
     protected function _construct()
     {
-        $this->_init('sales/order_tax', 'Mage_Sales_Model_Resource_Order_Tax');
+        $this->_init('Mage_Sales_Model_Order_Tax', 'Mage_Sales_Model_Resource_Order_Tax');
     }
 
     /**

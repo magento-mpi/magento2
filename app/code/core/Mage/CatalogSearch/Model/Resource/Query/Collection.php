@@ -47,7 +47,7 @@ class Mage_CatalogSearch_Model_Resource_Query_Collection extends Mage_Core_Model
      */
     protected function _construct()
     {
-        $this->_init('catalogsearch/query', 'Mage_CatalogSearch_Model_Resource_Query');
+        $this->_init('Mage_CatalogSearch_Model_Query', 'Mage_CatalogSearch_Model_Resource_Query');
     }
 
     /**

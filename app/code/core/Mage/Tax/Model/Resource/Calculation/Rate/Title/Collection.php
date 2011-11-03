@@ -39,7 +39,7 @@ class Mage_Tax_Model_Resource_Calculation_Rate_Title_Collection extends Mage_Cor
      */
     protected function _construct()
     {
-        $this->_init('tax/calculation_rate_title', 'Mage_Tax_Model_Resource_Calculation_Rate_Title');
+        $this->_init('Mage_Tax_Model_Calculation_Rate_Title', 'Mage_Tax_Model_Resource_Calculation_Rate_Title');
     }
 
     /**

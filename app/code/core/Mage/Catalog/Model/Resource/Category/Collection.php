@@ -82,7 +82,7 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
      */
     protected function _construct()
     {
-        $this->_init('catalog/category', 'Mage_Catalog_Model_Resource_Category');
+        $this->_init('Mage_Catalog_Model_Category', 'Mage_Catalog_Model_Resource_Category');
 
         $this->_productWebsiteTable = $this->getTable('catalog_product_website');
         $this->_productTable        = $this->getTable('catalog_category_product');

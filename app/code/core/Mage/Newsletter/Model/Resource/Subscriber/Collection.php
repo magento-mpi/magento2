@@ -78,7 +78,7 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('newsletter/subscriber', 'Mage_Newsletter_Model_Resource_Subscriber');
+        $this->_init('Mage_Newsletter_Model_Subscriber', 'Mage_Newsletter_Model_Resource_Subscriber');
         $this->_queueLinkTable = $this->getTable('newsletter_queue_link');
         $this->_storeTable = $this->getTable('core_store');
 

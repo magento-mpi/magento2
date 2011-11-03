@@ -40,7 +40,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection extends Mage_Cor
      */
     protected function _construct()
     {
-        $this->_init('eav/entity_attribute_group', 'Mage_Eav_Model_Resource_Entity_Attribute_Group');
+        $this->_init('Mage_Eav_Model_Entity_Attribute_Group', 'Mage_Eav_Model_Resource_Entity_Attribute_Group');
     }
 
     /**

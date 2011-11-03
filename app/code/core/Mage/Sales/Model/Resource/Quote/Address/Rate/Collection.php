@@ -47,7 +47,7 @@ class Mage_Sales_Model_Resource_Quote_Address_Rate_Collection extends Mage_Core_
      */
     protected function _construct()
     {
-        $this->_init('sales/quote_address_rate', 'Mage_Sales_Model_Resource_Quote_Address_Rate');
+        $this->_init('Mage_Sales_Model_Quote_Address_Rate', 'Mage_Sales_Model_Resource_Quote_Address_Rate');
     }
 
     /**
