@@ -407,7 +407,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function getXpathCount($locator)
     {
-        if (stripos('css=',trim($locator)) == 1) {
+        $pos = stripos(trim($locator),'css=');
+        if ($pos !== false && $pos == 0) {
          return $this->getCssCount($locator);
         }
         return parent::getXpathCount($locator);
