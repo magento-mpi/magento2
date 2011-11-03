@@ -429,12 +429,11 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     /**
      * Retrieve not loaded collection
      *
-     * @param string $entityType
      * @return Mage_Catalog_Model_Resource_Product_Collection
      */
-    protected function _getCollectionForLoad($entityType)
+    protected function _getCollectionForLoad()
     {
-        $collection = parent::_getCollectionForLoad($entityType)
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
             ->setStoreId($this->getStoreId())
             ->addStoreFilter($this->getStoreId());
         return $collection;
