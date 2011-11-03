@@ -68,9 +68,13 @@ shopping_cart:
                         xpath: //div[@class='crosssell']
                         links:
                             crosssell_product: //div[@class='crosssell']//a[text()='%crosssellProductName%']
-                            crosssell_add_to_cart: //div[@class='crosssell']//a[text()='%crosssellProductName%']/ancestor::li//button[@title='Add to Cart']
-                            crosssell_add_to_wishlist: //div[@class='crosssell']//a[text()='%crosssellProductName%']/ancestor::li//a[@class='link-wishlist']
-                            crosssell_add_to_compare: //div[@class='crosssell']//a[text()='%crosssellProductName%']/ancestor::li//a[@class='link-compare']
+                            crosssell_add_to_cart: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//button[@title='Add to Cart']
+                            crosssell_add_to_wishlist: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//a[@class='link-wishlist']
+                            crosssell_add_to_compare: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//a[@class='link-compare']
+                        pageelements:
+                            price: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//span[@class='regular-price']/span[@class='price']
+                            old_price: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//p[@class='old-price']//span[@class='price']
+                            special_price: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//p[@class='special-price']//span[@class='price']
         buttons:
             proceed_to_checkout: //button[span='Proceed to Checkout']
         messages:

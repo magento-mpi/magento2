@@ -36,18 +36,20 @@ my_wishlist:
                     wishlist:
                         xpath: //div[@class='my-wishlist']
                         buttons:
-                            add_to_cart: //table[@id='wishlist-table']//a[text()='%productName%']/ancestor::tr//button[@class='button btn-cart']
+                            add_to_cart: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]/td/button[@class='button btn-cart']
                         fields:
-                            comment: //table[@id='wishlist-table']//a[text()='%productName%']/ancestor::tr//textarea[@title='Comment']
-                            qty: //table[@id='wishlist-table']//a[text()='%productName%']/ancestor::tr//input[@class='input-text qty']
+                            comment: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]/td/textarea[@title='Comment']
+                            qty: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//input[@class='input-text qty']
                         links:
                             product: //table[@id='wishlist-table']//a[text()='%productName%']
-                            view_details: //table[@id='wishlist-table']//a[text()='%productName%']/ancestor::td//a[@class='details']
-                            edit: //table[@id='wishlist-table']//a[text()='%productName%']/ancestor::tr//a[text()='Edit']
-                            remove_item: //table[@id='wishlist-table']//a[text()='%productName%']/ancestor::tr//a[@title='Remove Item']
+                            view_details: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//a[@class='details']
+                            edit: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//a[text()='Edit']
+                            remove_item: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//a[@title='Remove Item']
                         pageelements:
-                            price: //table[@id='wishlist-table']//a[text()='%productName%']/ancestor::td//span[@class='price']
-                            added_on: //table[@id='wishlist-table']//a[text()='%productName%']/ancestor::tr//span[@class='nobr']
+                            price: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//span[@class='regular-price']/span[@class='price']
+                            old_price: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//p[@class='old-price']/span[@class='price']
+                            special_price: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//p[@class='special-price']/span[@class='price']
+                            added_on: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//span[@class='nobr']
         messages:
             added_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'%productName% has been added to your wishlist.')]
         buttons:

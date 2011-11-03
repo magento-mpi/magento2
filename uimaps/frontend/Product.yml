@@ -92,14 +92,22 @@ product_page:
                         xpath: //div[@class='block block-related']
                         links:
                             related_select_all: //div[@class='block block-related']//a[text()='select all']
-                            related_product: //div[@class='block block-related']//a[text()='%relatedProductName%']
-                            related_add_to_wishlist: //div[@class='block block-related']//a[text()='%relatedProductName%']/ancestor::li//a[@class='link-wishlist']
+                            related_product: //ol[@id='block-related']//a[text()='%relatedProductName%']
+                            related_add_to_wishlist: //ol[@id='block-related']/li[*//a[text()='%relatedProductName%']]//a[@class='link-wishlist']
                         checkboxes:
-                            select_related_product: //div[@class='block block-related']//a[text()='%relatedProductName%']/ancestor::li/input[@name='related_products[]']
+                            select_related_product: //li[*//a[text()='%relatedProductName%']]/input[@name='related_products[]']
+                        pageelements:
+                            price: //ol[@id='block-related']/li[*//a[text()='%relatedProductName%']]//span[@class='regular-price']/span[@class='price']
+                            old_price: //ol[@id='block-related']/li[*//a[text()='%relatedProductName%']]//p[@class='old-price']//span[@class='price']
+                            special_price: //ol[@id='block-related']/li[*//a[text()='%relatedProductName%']]//p[@class='special-price']//span[@class='price']
                 -
                     upsells:
                         xpath: //div[@class='box-collateral box-up-sell']
                         links:
                             upsell_product: //div[@class='box-collateral box-up-sell']//a[text()='%relatedProductName%']
+                        pageelements:
+                            price: //table[@id='upsell-product-table']//tr[*//a[text()='%relatedProductName%']]//span[@class='regular-price']/span[@class='price']
+                            old_price: //table[@id='upsell-product-table']//tr[*//a[text()='%relatedProductName%']]//p[@class='old-price']//span[@class='price']
+                            special_price: //table[@id='upsell-product-table']//tr[*//a[text()='%relatedProductName%']]//p[@class='special-price']//span[@class='price']
         messages:
             tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.//span,'%tagQty% tag(s) have been accepted for moderation.')]
