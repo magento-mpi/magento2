@@ -46,7 +46,7 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Grid extends M
      */
     protected function _getCollectionClass()
     {
-        return 'enterprise_salesarchive/order_collection';
+        return 'Enterprise_SalesArchive_Model_Resource_Order_Collection';
     }
 
     /**

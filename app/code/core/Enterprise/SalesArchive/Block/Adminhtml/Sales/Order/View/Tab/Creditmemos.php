@@ -39,6 +39,6 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Creditmemos
      */
     protected function _getCollectionClass()
     {
-        return 'enterprise_salesarchive/order_creditmemo_collection';
+        return 'Enterprise_SalesArchive_Model_Resource_Order_Creditmemo_Collection';
     }
 }

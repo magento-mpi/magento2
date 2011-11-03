@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
      */
     protected function _getCollectionClass()
     {
-        return 'sales/order_creditmemo_grid_collection';
+        return 'Mage_Sales_Model_Resource_Order_Creditmemo_Grid_Collection';
     }
 
 

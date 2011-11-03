@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
      */
     protected function _getCollectionClass()
     {
-        return 'sales/order_grid_collection';
+        return 'Mage_Sales_Model_Resource_Order_Grid_Collection';
     }
 
     protected function _prepareCollection()

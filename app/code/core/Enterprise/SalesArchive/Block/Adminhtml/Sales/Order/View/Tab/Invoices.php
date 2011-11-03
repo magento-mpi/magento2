@@ -40,6 +40,6 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Invoices
      */
     protected function _getCollectionClass()
     {
-        return 'enterprise_salesarchive/order_invoice_collection';
+        return 'Enterprise_SalesArchive_Model_Resource_Order_Invoice_Collection';
     }
 }

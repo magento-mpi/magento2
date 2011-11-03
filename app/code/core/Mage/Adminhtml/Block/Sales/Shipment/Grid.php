@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Widg
      */
     protected function _getCollectionClass()
     {
-        return 'sales/order_shipment_grid_collection';
+        return 'Mage_Sales_Model_Resource_Order_Shipment_Grid_Collection';
     }
 
     /**

@@ -224,4 +224,28 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
         return $result;
     }
+
+    /**
+     * Finds methods that return collection names for grid blocks
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitCollectionNamesInGridBlocks($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, 'php')) {
+            return array();
+        }
+
+        $regexp = ' _getCollectionClass\(\)\s+';
+        $regexp .= '{\s+';
+        $regexp .= 'return\s+[\'"]([a-zA-Z_\/]+)[\'"];';
+        $matched = preg_match_all('/' . $regexp . '/', $content, $matches);
+
+        if (!$matched) {
+            return array();
+        }
+        return $matches[1];
+    }
 }

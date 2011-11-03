@@ -45,7 +45,7 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Gri
      */
     protected function _getCollectionClass()
     {
-        return 'enterprise_salesarchive/order_creditmemo_collection';
+        return 'Enterprise_SalesArchive_Model_Resource_Order_Creditmemo_Collection';
     }
 
     /**

@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
      */
     protected function _getCollectionClass()
     {
-        return 'sales/order_invoice_grid_collection';
+        return 'Mage_Sales_Model_Resource_Order_Invoice_Grid_Collection';
     }
 
     protected function _prepareCollection()

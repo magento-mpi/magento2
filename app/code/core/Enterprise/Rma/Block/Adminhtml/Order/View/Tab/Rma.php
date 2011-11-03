@@ -43,16 +43,6 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Tab_Rma
     }
 
     /**
-     * Retrieve collection class
-     *
-     * @return string
-     */
-    protected function _getCollectionClass()
-    {
-        return 'enterprise_rma/rma_grid_collection';
-    }
-
-    /**
      * Configuring and setting collection
      *
      * @return Enterprise_Rma_Block_Adminhtml_Order_View_Tab_Rma
