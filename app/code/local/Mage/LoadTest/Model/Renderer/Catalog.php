@@ -443,7 +443,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
                 $count = 0;
             }
             if ($type == 'multiselect') {
-                $backendModel = 'eav/entity_attribute_backend_array';
+                $backendModel = 'Mage_Eav_Model_Entity_Attribute_Backend_Array';
             }
         }
         else {
