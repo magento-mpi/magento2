@@ -180,25 +180,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected $_firstPageAfterAdminLogin = 'dashboard';
 
 //    protected $captureScreenshotOnFailure = TRUE;
-
 //    protected $screenshotPath = SELENIUM_TESTS_SCREENSHOTDIR;
-
 //    protected $screenshotUrl = SELENIUM_TESTS_SCREENSHOTDIR;
-
-    /**
-     * Excluded message about Bundle product
-     *
-     * @var string
-     */
-    const excludedBundleMessage =
-        'Bundle with dynamic pricing cannot include custom defined options. Options will not be saved.';
-
-    /**
-     * Excluded message about Configurable product
-     *
-     * @var string
-     */
-    const excludedConfigurableMessage = 'Links with associated products will retain only after saving current product.';
 
     /**
      * Success message Xpath
@@ -390,7 +373,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         return $this->_testHelpers[$helperClassName];
     }
-   /**
+
+    /**
      * Returns the number of nodes that match the specified Css selector,
      * eg. "table" would give the number of tables.
      * @param string $locator CSS selector
@@ -400,16 +384,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $script = "this.browserbot.evaluateCssCount('" . $locator . "', this.browserbot.getDocument())";
         return $this->getEval($script);
     }
-   /**
+
+    /**
      * Returns the number of nodes that match the specified xPath selector,
      * eg. "table" would give the number of tables.
      * @param string $locator xPath selector
      */
     public function getXpathCount($locator)
     {
-        $pos = stripos(trim($locator),'css=');
+        $pos = stripos(trim($locator), 'css=');
         if ($pos !== false && $pos == 0) {
-         return $this->getCssCount($locator);
+            return $this->getCssCount($locator);
         }
         return parent::getXpathCount($locator);
     }
@@ -427,7 +412,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         static $_isFirst = true;
 
         if ($_isFirst) {
-           // $this->browserRestart();
+            $this->browserRestart();
             $this->setUpBeforeTests();
             $_isFirst = false;
         }
@@ -447,19 +432,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @return null
      */
-
     public function browserRestart()
     {
-                    $url=$this->getLocation();
-                    $this->drivers[0]->setContiguousSession(false);
-                    $this->drivers[0]->stop();
-                    $this->drivers[0]->setTestCase($this);
-                    $this->drivers[0]->setTestId($this->testId);
-                    $this->drivers[0]->setBrowserUrl($this->_applicationHelper->getBaseUrl());
-                    $this->drivers[0]->setContiguousSession(true);
-                    $this->drivers[0]->start();
-                    $this->loginAdminUser();
-                    $this->navigate('dashboard');
+        $this->drivers[0]->setContiguousSession(false);
+        $this->drivers[0]->stop();
+        $this->drivers[0]->setTestCase($this);
+        $this->drivers[0]->setTestId($this->testId);
+        $this->drivers[0]->setBrowserUrl($this->_applicationHelper->getBaseUrl());
+        $this->drivers[0]->setContiguousSession(true);
+        $this->drivers[0]->start();
+        //$this->open($this->_applicationHelper->getBaseUrl());
     }
 
     /**
@@ -897,7 +879,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         if ($mca && $mca[0] != '/') {
-            $mca = '/'. $mca;
+            $mca = '/' . $mca;
         }
 
         if (self::$_area == 'admin') {
@@ -1753,30 +1735,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         if (!empty($xpath)) {
             $totalElements = $this->getXpathCount($xpath);
-            $extraXpath = '';
-            if ($totalElements > 1 && $xpath != self::xpathValidationMessage) {
-                if (substr($xpath, 0, 2) == '//') {
-                    $middle = substr($xpath, 2);
-                } else {
-                    $middle = $xpath;
-                }
-                $xpathAdditional = $xpath;
-                $begin = '//*[';
-                $end = ']';
-                $additional = '';
-                while ($this->isElementPresent($xpathAdditional . '[2]') == FALSE) {
-                    $additional .= '*/';
-                    $needXpath = $begin . $additional . $middle . $end;
-                    $xpathAdditional = $needXpath;
-                }
-                $extraXpath = $xpathAdditional;
-            }
             for ($i = 1; $i < $totalElements + 1; $i++) {
-                if (!$extraXpath || $extraXpath == $xpath) {
-                    $x = $xpath . '[' . $i . ']';
-                } else {
-                    $x = $extraXpath . '[' . $i . ']' . $xpath;
-                }
+                $x = $xpath . '[' . $i . ']';
 
                 switch ($get) {
                     case 'value' :
@@ -2754,4 +2714,5 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->mouseUpAt($blockTo, '1,1');
         $this->clickAt($specElemantXpath, '1,1');
     }
- }
+
+}
