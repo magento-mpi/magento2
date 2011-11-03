@@ -42,7 +42,7 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order_Grid
     protected function _prepareCollection()
     {
         parent::_prepareCollection();
-        $this->getCollection()->initReport('enterprise_invitation/report_invitation_order_collection');
+        $this->getCollection()->initReport('Enterprise_Invitation_Model_Resource_Report_Invitation_Order_Collection');
         return $this;
     }
 

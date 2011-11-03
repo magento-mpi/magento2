@@ -43,7 +43,8 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Customer_Grid
     protected function _prepareCollection()
     {
         parent::_prepareCollection();
-        $this->getCollection()->initReport('enterprise_invitation/report_invitation_customer_collection');
+        $this->getCollection()
+            ->initReport('Enterprise_Invitation_Model_Resource_Report_Invitation_Customer_Collection');
         return $this;
     }
 
