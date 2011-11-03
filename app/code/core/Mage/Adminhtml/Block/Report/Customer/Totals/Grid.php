@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Report_Customer_Totals_Grid extends Mage_Adminhtml_Bl
     protected function _prepareCollection()
     {
         parent::_prepareCollection();
-        $this->getCollection()->initReport('reports/customer_totals_collection');
+        $this->getCollection()->initReport('Mage_Reports_Model_Resource_Customer_Totals_Collection');
     }
 
     protected function _prepareColumns()

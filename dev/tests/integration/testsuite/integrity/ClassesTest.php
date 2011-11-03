@@ -334,4 +334,20 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         }
         return $matches[1];
     }
+
+    /**
+     * Finds usage of initReport('Class_Name')
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitInitReport($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        return $this->_getFuncStringArguments('->initReport', $content);
+    }
 }
