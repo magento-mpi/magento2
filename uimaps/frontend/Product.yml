@@ -104,7 +104,7 @@ product_page:
                     upsells:
                         xpath: //div[@class='box-collateral box-up-sell']
                         links:
-                            upsell_product: //div[@class='box-collateral box-up-sell']//a[text()='%relatedProductName%']
+                            upsell_product: //table[@id='upsell-product-table']//a[text()='%relatedProductName%']
                         pageelements:
                             price: //table[@id='upsell-product-table']//tr[*//a[text()='%relatedProductName%']]//span[@class='regular-price']/span[@class='price']
                             old_price: //table[@id='upsell-product-table']//tr[*//a[text()='%relatedProductName%']]//p[@class='old-price']//span[@class='price']

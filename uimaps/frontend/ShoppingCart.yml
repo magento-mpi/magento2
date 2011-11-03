@@ -67,7 +67,7 @@ shopping_cart:
                     crosssells:
                         xpath: //div[@class='crosssell']
                         links:
-                            crosssell_product: //div[@class='crosssell']//a[text()='%crosssellProductName%']
+                            crosssell_product: //ul[@id='crosssell-products-list']//a[text()='%crosssellProductName%']
                             crosssell_add_to_cart: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//button[@title='Add to Cart']
                             crosssell_add_to_wishlist: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//a[@class='link-wishlist']
                             crosssell_add_to_compare: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//a[@class='link-compare']
