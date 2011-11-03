@@ -451,21 +451,10 @@ class Magento_Test_Bootstrap
      */
     protected function _cleanupFilesystem()
     {
-        $files = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($this->_installDir),
-            RecursiveIteratorIterator::CHILD_FIRST
-        );
-        foreach ($files as $file) {
-            if ($file->isDir()) {
-                rmdir($file->getRealPath());
-            } else {
-                unlink($file->getRealPath());
-            }
-        }
-        /* On Windows iterator excludes iterated directory itself */
-        if (is_dir($this->_installDir)) {
-            rmdir($this->_installDir);
-        }
+        require_once __DIR__ . '/../../../../../../lib/Varien/Io/Interface.php';
+        require_once __DIR__ . '/../../../../../../lib/Varien/Io/Abstract.php';
+        require_once __DIR__ . '/../../../../../../lib/Varien/Io/File.php';
+        Varien_Io_File::rmdirRecursive($this->_installDir);
     }
 
     /**
