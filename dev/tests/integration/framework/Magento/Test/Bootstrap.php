@@ -20,6 +20,13 @@ class Magento_Test_Bootstrap
     const DB_BACKUP_NAME = 'bootstrap_backup';
 
     /**
+     * CLEANUP_* constants represent allowed cleanup actions
+     */
+    const CLEANUP_NONE       = '';
+    const CLEANUP_UNINSTALL  = 'uninstall';
+    const CLEANUP_RESTORE_DB = 'restoreDatabase';
+
+    /**
      * @var Magento_Test_Bootstrap
      */
     private static $_instance;
@@ -93,11 +100,11 @@ class Magento_Test_Bootstrap
     protected $_db = null;
 
     /**
-     * Method to be ran on object destruction
+     * Cleanup action represented by CLEANUP_* constants
      *
      * @var string
      */
-    protected static $_shutdownMethod;
+    protected $_cleanupAction;
 
     /**
      * Set self instance for static access
@@ -144,9 +151,15 @@ class Magento_Test_Bootstrap
      * @param string $globalEtcFiles
      * @param string $moduleEtcFiles
      * @param string $tmpDir
+     * @param string $cleanupAction
      */
-    public function __construct($magentoDir, $localXmlFile, $globalEtcFiles, $moduleEtcFiles, $tmpDir)
-    {
+    public function __construct(
+        $magentoDir, $localXmlFile, $globalEtcFiles, $moduleEtcFiles, $tmpDir, $cleanupAction = self::CLEANUP_NONE
+    ) {
+        if (!in_array($cleanupAction, array(self::CLEANUP_NONE, self::CLEANUP_UNINSTALL, self::CLEANUP_RESTORE_DB))) {
+            throw new Exception("Cleanup action '{$this->_cleanupAction}' is not supported.");
+        }
+
         $this->_magentoDir = $magentoDir;
         $this->_localXmlFile = $localXmlFile;
         $this->_globalEtcFiles = $this->_exposeFiles($globalEtcFiles);
@@ -161,6 +174,9 @@ class Magento_Test_Bootstrap
         $this->_installEtcDir = $this->_installDir . '/etc';
 
         $this->_db = $this->_instantiateDb();
+
+        $this->_cleanupAction = $cleanupAction;
+        $this->_cleanup();
 
         $this->_emulateEnvironment();
 
@@ -210,14 +226,8 @@ class Magento_Test_Bootstrap
             'upload_dir'  => $this->_installDir . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'upload',
         );
 
-        /* Catch initialization exception for correct execution of shutdown method */
-        try {
-            Mage::setIsDeveloperMode((int)$this->_localXml->global->development_mode);
-            Mage::app($scopeCode, $scopeType, $this->_options);
-        } catch (Exception $e) {
-            $this->_shutdown();
-            throw new RuntimeException($e->getMessage());
-        }
+        Mage::setIsDeveloperMode((int)$this->_localXml->global->development_mode);
+        Mage::app($scopeCode, $scopeType, $this->_options);
     }
 
     /**
@@ -256,61 +266,27 @@ class Magento_Test_Bootstrap
     }
 
     /**
-     * Register tests shutdown action
-     *
-     * @param string $shutdownAction
-     * @throws Exception
-     */
-    public static function setShutdownAction($shutdownAction)
-    {
-        $shutdownMethod = '_doShutdown' . ucfirst($shutdownAction);
-        if (!method_exists(__CLASS__, $shutdownMethod)) {
-            throw new Exception("Shutdown action '{$shutdownAction}' is not supported.");
-        }
-        self::$_shutdownMethod = $shutdownMethod;
-    }
-
-    /**
-     * Reset the shutdown action
-     */
-    public static function resetShutdownAction()
-    {
-        self::$_shutdownMethod = null;
-    }
-
-    /**
-     * Perform requested shutdown operations
+     * Perform requested cleanup operations
      */
     public function __destruct()
     {
-        $this->_shutdown();
+        $this->_cleanup();
     }
 
     /**
-     * Call shutdown method if it is registered
+     * Perform a cleanup action
      */
-    protected function _shutdown()
+    protected function _cleanup()
     {
-        if (self::$_shutdownMethod) {
-            call_user_func(array($this, self::$_shutdownMethod));
+        switch ($this->_cleanupAction) {
+            case self::CLEANUP_UNINSTALL:
+                $this->_db->cleanup();
+                $this->_cleanupFilesystem();
+                break;
+            case self::CLEANUP_RESTORE_DB:
+                $this->_db->restoreBackup(self::DB_BACKUP_NAME);
+                break;
         }
-    }
-
-    /**
-     * Perform 'uninstall' shutdown action
-     */
-    protected function _doShutdownUninstall()
-    {
-        $this->_db->cleanup();
-        $this->_cleanupFilesystem();
-    }
-
-    /**
-     * Perform 'restoreDatabase' shutdown action
-     */
-    protected function _doShutdownRestoreDatabase()
-    {
-        $this->_db->restoreBackup(self::DB_BACKUP_NAME);
     }
 
     /**

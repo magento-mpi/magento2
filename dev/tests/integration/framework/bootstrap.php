@@ -25,8 +25,10 @@ set_include_path(implode(
     )
 ));
 
-if (defined('TESTS_SHUTDOWN_METHOD') && TESTS_SHUTDOWN_METHOD) {
-    Magento_Test_Bootstrap::setShutdownAction(TESTS_SHUTDOWN_METHOD);
+if (defined('TESTS_CLEANUP_ACTION') && TESTS_CLEANUP_ACTION) {
+    $cleanupAction = TESTS_CLEANUP_ACTION;
+} else {
+    $cleanupAction = Magento_Test_Bootstrap::CLEANUP_NONE;
 }
 
 if (defined('TESTS_LOCAL_CONFIG_FILE') && TESTS_LOCAL_CONFIG_FILE) {
@@ -56,7 +58,8 @@ Magento_Test_Bootstrap::setInstance(new Magento_Test_Bootstrap(
     $localXmlFile,
     $globalEtcFiles,
     $moduleEtcFiles,
-    "$baseDir/tmp"
+    "$baseDir/tmp",
+    $cleanupAction
 ));
 
 /* Enable profiler if necessary */
