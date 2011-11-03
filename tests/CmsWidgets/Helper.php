@@ -203,7 +203,8 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
         $title = 'Not Selected';
         if (array_key_exists('category_path', $options)) {
             $this->addParameter('param', "//div[@id='widget-chooser_content']");
-            $title = end(explode('/', $options['category_path']));
+            $nodes = explode('/', $options['category_path']);
+            $title = end($nodes);
             $this->categoryHelper()->selectCategory($options['category_path']);
             $this->waitForAjax();
             unset($options['category_path']);
