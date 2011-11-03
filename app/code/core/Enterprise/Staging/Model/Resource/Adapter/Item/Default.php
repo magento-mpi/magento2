@@ -141,8 +141,8 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      */
     protected function _itemFlatRun($entityName, $callbackMethod)
     {
-        $helper   = Mage::helper($entityName);
-        $resource = Mage::getResourceModel($entityName);
+        $helper   = Mage::helper($this->_flatTables[$entityName]['helper']);
+        $resource = Mage::getResourceModel($this->_flatTables[$entityName]['resource_model']);
 
         if ($helper->isBuilt()) {
             $staging    = $this->getStaging();
