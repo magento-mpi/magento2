@@ -137,7 +137,7 @@
         </translate>
         <layout>
             <updates>
-                <customer module="Mage_Mage_Customer">
+                <customer module="Mage_Customer">
                     <file>customer.xml</file>
                 </customer>
             </updates>

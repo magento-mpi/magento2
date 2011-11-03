@@ -252,7 +252,7 @@
         </translate>
         <layout>
             <updates>
-                <enterprise_customerbalance module="Mage_Enterprise_CustomerBalance">
+                <enterprise_customerbalance module="Enterprise_CustomerBalance">
                     <file>customerbalance.xml</file>
                 </enterprise_customerbalance>
             </updates>

@@ -97,7 +97,7 @@
         </translate>
         <layout>
             <updates>
-                <wishlist module="Mage_Mage_Wishlist">
+                <wishlist module="Mage_Wishlist">
                     <file>wishlist.xml</file>
                 </wishlist>
             </updates>

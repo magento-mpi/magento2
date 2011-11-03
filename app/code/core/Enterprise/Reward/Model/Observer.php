@@ -307,7 +307,7 @@ class Enterprise_Reward_Model_Observer
      */
     protected function _invitationToOrder($observer)
     {
-        if (Mage::helper('Core')->isModuleEnabled('Enterprise_Invitation')) {
+        if (Mage::helper('Mage_Core_Helper_Data')->isModuleEnabled('Enterprise_Invitation')) {
             $invoice = $observer->getEvent()->getInvoice();
             /* @var $invoice Mage_Sales_Model_Order_Invoice */
             $order = $invoice->getOrder();

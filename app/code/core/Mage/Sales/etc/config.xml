@@ -424,13 +424,13 @@
         </translate>
         <layout>
             <updates>
-                <sales module="Mage_Mage_Sales">
+                <sales module="Mage_Sales">
                     <file>sales.xml</file>
                 </sales>
-                <sales_billing_agreement module="Mage_Mage_Sales">
+                <sales_billing_agreement module="Mage_Sales">
                     <file>sales/billing_agreement.xml</file>
                 </sales_billing_agreement>
-                <sales_recurring_profile module="Mage_Mage_Sales">
+                <sales_recurring_profile module="Mage_Sales">
                     <file>sales/recurring_profile.xml</file>
                 </sales_recurring_profile>
             </updates>

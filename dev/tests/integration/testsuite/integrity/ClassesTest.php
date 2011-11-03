@@ -226,6 +226,92 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Finds usage of helpers in php files through helper function
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitHelperFunctionCalls($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        $result = array();
+        $modules = $this->_getFuncStringArguments('helper', $content);
+        if ($modules) {
+            $result = array_merge($result, $modules);
+        }
+
+        $modules = $this->_getFuncStringArguments('setDataHelperName', $content);
+        if ($modules) {
+            $result = array_merge($result, $modules);
+        }
+
+        $combine = array();
+        $matched = preg_match_all('/addProductConfigurationHelper\(.*,[\'"](.*)[\'"]\)/', $content, $matches);
+        if ($matched) {
+            $combine = array_merge($combine, $matches[1]);
+        }
+
+        $matched = preg_match_all('/addOptionsRenderCfg\(.*,[\'"](.*)[\'"],.*\)/', $content, $matches);
+        if ($matched) {
+            $combine = array_merge($combine, $matches[1]);
+        }
+
+        foreach ($combine as $match) {
+            if (strpos($match, '$') === FALSE) {
+                continue;
+            }
+            $result[] = $match;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Finds usage of helpers in layout files through attributes and layouts
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitXmlAttributeDefinitions($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('xml'))) {
+            return array();
+        }
+
+        $result = array();
+        $matched = preg_match_all('/helper="(.*)::.*"/Us', $content, $matches);
+        if ($matched) {
+            $result = array_merge($result, $matches[1]);
+        }
+
+        $matched = preg_match_all('/module="(.*)"/Us', $content, $matches);
+        if ($matched) {
+            foreach ($matches[1] as $module) {
+                $result[] = $module . '_Helper_Data';
+            }
+        }
+
+        $matched = preg_match_all('/method="addProductConfigurationHelper"><type>.*<\/type><name>(.*)<\/name>/',
+            $content, $matches);
+        if ($matched) {
+            $result = array_merge($result, $matches[1]);
+        }
+
+        $matched = preg_match_all('/method="addOptionsRenderCfg"><type>.*<\/type><helper>(.*)<\/helper>/',
+            $content, $matches);
+        if ($matched) {
+            $result = array_merge($result, $matches[1]);
+        }
+
+        return $result;
+    }
+
+    /**
      * Finds methods that return collection names for grid blocks
      *
      * @param SplFileInfo $fileInfo
