@@ -55,8 +55,8 @@ class Mage_Adminhtml_Block_Poll_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Ta
                 'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Poll Answers'),
                 'title'     => Mage::helper('Mage_Poll_Helper_Data')->__('Poll Answers'),
                 'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Poll_Edit_Tab_Answers')
-                                ->append($this->getLayout()->createBlock('Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List'))
-                                ->toHtml(),
+                    ->append($this->getLayout()->createBlock('Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List'))
+                    ->toHtml(),
                 'active'    => ( $this->getRequest()->getParam('tab') == 'answers_section' ) ? true : false,
             ));
         return parent::_beforeToHtml();

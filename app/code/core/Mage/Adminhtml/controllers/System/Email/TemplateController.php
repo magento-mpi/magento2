@@ -52,7 +52,9 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
 
     public function gridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Email_Template_Grid')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Email_Template_Grid')->toHtml()
+        );
     }
 
 
@@ -84,8 +86,10 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
 
         $this->_title($template->getId() ? $template->getTemplateCode() : $this->__('New Template'));
 
-        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Email_Template_Edit', 'template_edit')
-                                                            ->setEditMode((bool)$this->getRequest()->getParam('id')));
+        $this->_addContent($this->getLayout()
+            ->createBlock('Mage_Adminhtml_Block_System_Email_Template_Edit', 'template_edit')
+            ->setEditMode((bool)$this->getRequest()->getParam('id'))
+        );
         $this->renderLayout();
     }
 

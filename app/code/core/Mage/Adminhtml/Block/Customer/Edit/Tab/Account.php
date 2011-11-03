@@ -132,7 +132,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
                         'class' => 'validate-new-password'
                     )
                 );
-                $field->setRenderer($this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Edit_Renderer_Newpass'));
+                $field->setRenderer(
+                    $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Edit_Renderer_Newpass')
+                );
 
                 // prepare customer confirmation control (only for existing customers)
                 $confirmationKey = $customer->getConfirmation();

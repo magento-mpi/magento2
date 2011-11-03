@@ -97,7 +97,9 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
      */
     public function productGridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Product_Grid')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Product_Grid')->toHtml()
+        );
     }
 
     /**

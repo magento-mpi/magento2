@@ -55,13 +55,15 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
 */
         $this->addTab('account', array(
             'label'     => Mage::helper('Mage_Customer_Helper_Data')->__('Account Information'),
-            'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Edit_Tab_Account')->initForm()->toHtml(),
+            'content'   => $this->getLayout()
+                ->createBlock('Mage_Adminhtml_Block_Customer_Edit_Tab_Account')->initForm()->toHtml(),
             'active'    => Mage::registry('current_customer')->getId() ? false : true
         ));
 
         $this->addTab('addresses', array(
             'label'     => Mage::helper('Mage_Customer_Helper_Data')->__('Addresses'),
-            'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses')->initForm()->toHtml(),
+            'content'   => $this->getLayout()
+                ->createBlock('Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses')->initForm()->toHtml(),
         ));
 
 
@@ -92,7 +94,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
             if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('newsletter/subscriber')) {
                 $this->addTab('newsletter', array(
                     'label'     => Mage::helper('Mage_Customer_Helper_Data')->__('Newsletter'),
-                    'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter')->initForm()->toHtml()
+                    'content'   => $this->getLayout()
+                        ->createBlock('Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter')->initForm()->toHtml()
                 ));
             }
 

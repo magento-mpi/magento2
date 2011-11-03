@@ -53,7 +53,8 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
             $this->_redirect('*/*/', array('store' => Mage::app()->getAnyStoreView()->getId(), '_current' => true));
             return;
         }
-        $contentBlock = $this->getLayout()->createBlock('Mage_GoogleBase_Block_Adminhtml_Items')->setStore($this->_getStore());
+        $contentBlock = $this->getLayout()
+            ->createBlock('Mage_GoogleBase_Block_Adminhtml_Items')->setStore($this->_getStore());
 
         if ($this->getRequest()->getParam('captcha_token') && $this->getRequest()->getParam('captcha_url')) {
             $contentBlock->setGbaseCaptchaToken(

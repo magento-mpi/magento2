@@ -65,7 +65,9 @@ class Find_Feed_Adminhtml_Codes_GridController extends Mage_Adminhtml_Controller
     public function gridAction()
     {
         $this->loadLayout();
-        $this->getResponse()->setBody($this->getLayout()->createBlock('Find_Feed_Block_Adminhtml_List_Codes_Grid')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('Find_Feed_Block_Adminhtml_List_Codes_Grid')->toHtml()
+        );
     }
 
     /**
@@ -75,7 +77,9 @@ class Find_Feed_Adminhtml_Codes_GridController extends Mage_Adminhtml_Controller
     public function editFormAction()
     {
         $this->loadLayout();
-        $this->getResponse()->setBody($this->getLayout()->createBlock('Find_Feed_Block_Adminhtml_Edit_Codes')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('Find_Feed_Block_Adminhtml_Edit_Codes')->toHtml()
+        );
     }
 
     /**

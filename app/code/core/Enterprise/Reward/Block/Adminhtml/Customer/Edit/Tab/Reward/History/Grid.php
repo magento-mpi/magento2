@@ -158,7 +158,8 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
             'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Reason'),
             'sortable' => false,
             'filter'   => false,
-            'renderer' => 'Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid_Column_Renderer_Reason',
+            'renderer' =>
+                'Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid_Column_Renderer_Reason',
         ));
 
         $this->addColumn('created_at', array(

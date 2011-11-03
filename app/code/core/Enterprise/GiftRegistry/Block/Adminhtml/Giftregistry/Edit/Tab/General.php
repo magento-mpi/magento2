@@ -47,7 +47,9 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
         parent::_prepareLayout();
 
         Varien_Data_Form::setFieldsetElementRenderer(
-            $this->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element')
+            $this->getLayout()->createBlock(
+                'Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element'
+            )
         );
     }
 

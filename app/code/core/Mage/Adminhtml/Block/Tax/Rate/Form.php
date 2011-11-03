@@ -195,7 +195,11 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         $form->setMethod('post');
 
         if (!Mage::app()->isSingleStoreMode()) {
-            $form->addElement(Mage::getBlockSingleton('Mage_Adminhtml_Block_Tax_Rate_Title_Fieldset')->setLegend(Mage::helper('Mage_Tax_Helper_Data')->__('Tax Titles')));
+            $form->addElement(
+                Mage::getBlockSingleton('Mage_Adminhtml_Block_Tax_Rate_Title_Fieldset')
+                    ->setLegend(Mage::helper('Mage_Tax_Helper_Data')
+                    ->__('Tax Titles'))
+            );
         }
 
         $form->setValues($rateObject->getData());

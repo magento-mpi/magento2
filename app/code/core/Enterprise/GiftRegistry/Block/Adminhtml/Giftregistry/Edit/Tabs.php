@@ -49,12 +49,16 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs
     {
         $this->addTab('general_section', array(
             'label'   => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('General Information'),
-            'content' => $this->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General')->toHtml()
+            'content' => $this->getLayout()->createBlock(
+                'Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General'
+            )->toHtml()
         ));
 
         $this->addTab('registry_attributes', array(
             'label'   => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Attributes'),
-            'content' => $this->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_Registry')->toHtml()
+            'content' => $this->getLayout()->createBlock(
+                'Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_Registry'
+            )->toHtml()
         ));
 
         return parent::_beforeToHtml();

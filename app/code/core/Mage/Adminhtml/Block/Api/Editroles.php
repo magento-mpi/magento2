@@ -42,7 +42,9 @@ class Mage_Adminhtml_Block_Api_Editroles extends Mage_Adminhtml_Block_Widget_Tab
         $this->addTab('info', array(
             'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Info'),
             'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Info'),
-            'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_Tab_Roleinfo')->setRole($role)->toHtml(),
+            'content'   => $this->getLayout()->createBlock(
+                'Mage_Adminhtml_Block_Api_Tab_Roleinfo'
+            )->setRole($role)->toHtml(),
             'active'    => true
         ));
 
@@ -56,7 +58,10 @@ class Mage_Adminhtml_Block_Api_Editroles extends Mage_Adminhtml_Block_Widget_Tab
             $this->addTab('roles', array(
                 'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Users'),
                 'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Users'),
-                'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_Tab_Rolesusers', 'role.users.grid')->toHtml(),
+                'content'   => $this->getLayout()->createBlock(
+                    'Mage_Adminhtml_Block_Api_Tab_Rolesusers',
+                    'role.users.grid'
+                )->toHtml(),
             ));
         }
         return parent::_beforeToHtml();

@@ -80,7 +80,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes
         return array(
             'price' => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Price'),
             'image' => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Image'),
-            'boolean' => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean')
+            'boolean' => Mage::getConfig()
+                ->getBlockClassName('Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean')
         );
     }
 

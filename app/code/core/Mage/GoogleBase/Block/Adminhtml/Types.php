@@ -45,7 +45,8 @@ class Mage_GoogleBase_Block_Adminhtml_Types extends Mage_Adminhtml_Block_Widget_
 
 //    public function getGridHtml()
 //    {
-//        $_storeSwitcherHtml = $this->getLayout()->createBlock('Mage_GoogleBase_Block_Adminhtml_Store_Switcher')->toHtml();
+//        $_storeSwitcherHtml = $this->getLayout()
+//            ->createBlock('Mage_GoogleBase_Block_Adminhtml_Store_Switcher')->toHtml();
 //        return $_storeSwitcherHtml . parent::getGridHtml();
 //    }
 //

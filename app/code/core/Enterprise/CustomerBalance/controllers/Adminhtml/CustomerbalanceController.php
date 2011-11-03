@@ -66,7 +66,9 @@ class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mag
         $this->_initCustomer();
         $this->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid')->toHtml()
+            $this->getLayout()->createBlock(
+                'Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid'
+            )->toHtml()
         );
     }
 

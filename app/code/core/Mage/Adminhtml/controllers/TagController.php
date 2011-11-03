@@ -103,7 +103,9 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function ajaxPendingGridAction()
     {
         $this->loadLayout();
-        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Grid_Pending')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Grid_Pending')->toHtml()
+        );
     }
 
     /**
@@ -269,7 +271,9 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function productAction()
     {
         $this->_initTag();
-        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Product_Grid')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Product_Grid')->toHtml()
+        );
     }
 
     /**
@@ -279,7 +283,9 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function customerAction()
     {
         $this->_initTag();
-        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Customer_Grid')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Customer_Grid')->toHtml()
+        );
     }
 
     /**

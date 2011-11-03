@@ -44,7 +44,8 @@ class Mage_Adminhtml_Block_Permissions_Edituser extends Mage_Adminhtml_Block_Wid
             $this->addTab('roles', array(
                 'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Roles'),
                 'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Roles'),
-                'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Permissions_Tab_Userroles')->toHtml(),
+                'content'   => $this->getLayout()
+                    ->createBlock('Mage_Adminhtml_Block_Permissions_Tab_Userroles')->toHtml(),
             ));
         }
         return parent::_beforeToHtml();

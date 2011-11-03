@@ -42,7 +42,10 @@ class Mage_Adminhtml_Block_Customer_Online extends Mage_Adminhtml_Block_Template
 
     public function _beforeToHtml()
     {
-        $this->setChild('grid', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Online_Grid', 'customer.grid'));
+        $this->setChild(
+            'grid',
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Online_Grid', 'customer.grid')
+        );
         return parent::_beforeToHtml();
     }
 

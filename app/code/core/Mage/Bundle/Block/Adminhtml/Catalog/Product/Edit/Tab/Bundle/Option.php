@@ -125,8 +125,11 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
                 ))
         );
 
-        $this->setChild('selection_template',
-            $this->getLayout()->createBlock('Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selection')
+        $this->setChild(
+            'selection_template',
+            $this->getLayout()->createBlock(
+                'Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selection'
+            )
         );
 
         return parent::_prepareLayout();

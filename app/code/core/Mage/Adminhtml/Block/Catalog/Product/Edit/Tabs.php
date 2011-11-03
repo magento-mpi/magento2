@@ -135,7 +135,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 $this->addTab('productalert', array(
                     'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Alerts'),
                     'content'   => $this->_translateHtml($this->getLayout()
-                        ->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts', 'admin.alerts.products')->toHtml())
+                        ->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts', 'admin.alerts.products')
+                        ->toHtml()
+                    )
                 ));
             }
 

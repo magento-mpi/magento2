@@ -674,12 +674,16 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'export'        => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_System_Config_Form_Field_Export'),
-            'import'        => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_System_Config_Form_Field_Import'),
+            'export' => Mage::getConfig()
+                ->getBlockClassName('Mage_Adminhtml_Block_System_Config_Form_Field_Export'),
+            'import' => Mage::getConfig()
+                 ->getBlockClassName('Mage_Adminhtml_Block_System_Config_Form_Field_Import'),
             'allowspecific' => Mage::getConfig()
                 ->getBlockClassName('Mage_Adminhtml_Block_System_Config_Form_Field_Select_Allowspecific'),
-            'image'         => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_System_Config_Form_Field_Image'),
-            'file'          => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_System_Config_Form_Field_File')
+            'image' => Mage::getConfig()
+                ->getBlockClassName('Mage_Adminhtml_Block_System_Config_Form_Field_Image'),
+            'file' => Mage::getConfig()
+                ->getBlockClassName('Mage_Adminhtml_Block_System_Config_Form_Field_File')
         );
     }
 

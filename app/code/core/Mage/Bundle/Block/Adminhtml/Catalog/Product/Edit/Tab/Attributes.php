@@ -46,7 +46,8 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
         $special_price = $this->getForm()->getElement('special_price');
         if ($special_price) {
             $special_price->setRenderer(
-                $this->getLayout()->createBlock('Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Special')
+                $this->getLayout()
+                    ->createBlock('Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Special')
                     ->setDisableChild(false)
             );
         }
@@ -54,7 +55,8 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
         $sku = $this->getForm()->getElement('sku');
         if ($sku) {
             $sku->setRenderer(
-                $this->getLayout()->createBlock('Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend')
+                $this->getLayout()
+                    ->createBlock('Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend')
                     ->setDisableChild(false)
             );
         }
@@ -62,8 +64,11 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
         $price = $this->getForm()->getElement('price');
         if ($price) {
             $price->setRenderer(
-                $this->getLayout()->createBlock('Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend',
-                    'adminhtml.catalog.product.bundle.edit.tab.attributes.price')->setDisableChild(true)
+                $this->getLayout()
+                    ->createBlock(
+                        'Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend',
+                        'adminhtml.catalog.product.bundle.edit.tab.attributes.price')
+                    ->setDisableChild(true)
             );
         }
 
@@ -98,7 +103,8 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
         $weight = $this->getForm()->getElement('weight');
         if ($weight) {
             $weight->setRenderer(
-                $this->getLayout()->createBlock('Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend')
+                $this->getLayout()
+                    ->createBlock('Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend')
                     ->setDisableChild(true)
             );
         }

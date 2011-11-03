@@ -55,8 +55,8 @@ class Mage_Adminhtml_Block_Rating_Edit_Tabs extends Mage_Adminhtml_Block_Widget_
                 'label'     => Mage::helper('Mage_Rating_Helper_Data')->__('Rating Options'),
                 'title'     => Mage::helper('Mage_Rating_Helper_Data')->__('Rating Options'),
                 'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Rating_Edit_Tab_Options')
-                                ->append($this->getLayout()->createBlock('Mage_Adminhtml_Block_Rating_Edit_Tab_Options'))
-                                ->toHtml(),
+                    ->append($this->getLayout()->createBlock('Mage_Adminhtml_Block_Rating_Edit_Tab_Options'))
+                    ->toHtml(),
            ));*/
         return parent::_beforeToHtml();
     }

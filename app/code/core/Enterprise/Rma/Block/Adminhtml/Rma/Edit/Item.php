@@ -120,7 +120,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'image' => Mage::getConfig()->getBlockClassName('Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Image')
+            'image' => Mage::getConfig()
+                    ->getBlockClassName('Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Image')
         );
     }
 

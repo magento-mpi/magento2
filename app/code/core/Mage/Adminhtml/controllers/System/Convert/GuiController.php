@@ -73,7 +73,9 @@ class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_
 
     public function gridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Convert_Gui_Grid')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Convert_Gui_Grid')->toHtml()
+        );
     }
 
     /**

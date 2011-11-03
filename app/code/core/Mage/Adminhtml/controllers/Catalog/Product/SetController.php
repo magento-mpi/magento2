@@ -50,8 +50,12 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
             Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Attribute Sets'),
             Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Attribute Sets'));
 
-        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main'));
-        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Grid'));
+        $this->_addContent(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main')
+        );
+        $this->_addContent(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Grid')
+        );
 
         $this->renderLayout();
     }
@@ -187,7 +191,9 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
         $this->loadLayout();
         $this->_setActiveMenu('catalog/sets');
 
-        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Add'));
+        $this->_addContent(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Add')
+        );
 
         $this->renderLayout();
     }

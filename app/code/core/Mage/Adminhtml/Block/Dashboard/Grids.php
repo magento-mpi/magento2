@@ -61,7 +61,8 @@ class Mage_Adminhtml_Block_Dashboard_Grids extends Mage_Adminhtml_Block_Widget_T
         // load this active tab statically
         $this->addTab('ordered_products', array(
             'label'     => $this->__('Bestsellers'),
-            'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Dashboard_Tab_Products_Ordered')->toHtml(),
+            'content'   => $this->getLayout()
+                ->createBlock('Mage_Adminhtml_Block_Dashboard_Tab_Products_Ordered')->toHtml(),
             'active'    => true
         ));
 

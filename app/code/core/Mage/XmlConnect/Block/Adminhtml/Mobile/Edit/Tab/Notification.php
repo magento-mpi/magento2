@@ -133,28 +133,30 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Notification
         ));
 
         // field dependencies
-        $this->setChild('form_after', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
-            ->addFieldMap($applicationKey->getHtmlId(), $applicationKey->getName())
-            ->addFieldMap($applicationSecret->getHtmlId(), $applicationSecret->getName())
-            ->addFieldMap($applicationMasterSecret->getHtmlId(), $applicationMasterSecret->getName())
-            ->addFieldMap($mailboxTitle->getHtmlId(), $mailboxTitle->getName())
-            ->addFieldMap($notificationEnabled->getHtmlId(), $notificationEnabled->getName())
-            ->addFieldDependence(
-                $applicationKey->getName(),
-                $notificationEnabled->getName(),
-                1)
-            ->addFieldDependence(
-                $applicationSecret->getName(),
-                $notificationEnabled->getName(),
-                1)
-            ->addFieldDependence(
-                $applicationMasterSecret->getName(),
-                $notificationEnabled->getName(),
-                1)
-            ->addFieldDependence(
-                $mailboxTitle->getName(),
-                $notificationEnabled->getName(),
-                1)
+        $this->setChild(
+            'form_after',
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
+                ->addFieldMap($applicationKey->getHtmlId(), $applicationKey->getName())
+                ->addFieldMap($applicationSecret->getHtmlId(), $applicationSecret->getName())
+                ->addFieldMap($applicationMasterSecret->getHtmlId(), $applicationMasterSecret->getName())
+                ->addFieldMap($mailboxTitle->getHtmlId(), $mailboxTitle->getName())
+                ->addFieldMap($notificationEnabled->getHtmlId(), $notificationEnabled->getName())
+                ->addFieldDependence(
+                    $applicationKey->getName(),
+                    $notificationEnabled->getName(),
+                    1)
+                ->addFieldDependence(
+                    $applicationSecret->getName(),
+                    $notificationEnabled->getName(),
+                    1)
+                ->addFieldDependence(
+                    $applicationMasterSecret->getName(),
+                    $notificationEnabled->getName(),
+                    1)
+                ->addFieldDependence(
+                    $mailboxTitle->getName(),
+                    $notificationEnabled->getName(),
+                    1)
             );
         return parent::_prepareForm();
     }

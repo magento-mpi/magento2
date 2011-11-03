@@ -45,13 +45,15 @@ class Mage_Adminhtml_Block_System_Currency_Edit_Tabs extends Mage_Adminhtml_Bloc
     {
         $this->addTab('general', array(
             'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('General Information'),
-            'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Currency_Edit_Tab_Main')->toHtml(),
+            'content'   => $this->getLayout()
+                ->createBlock('Mage_Adminhtml_Block_System_Currency_Edit_Tab_Main')->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('currency_rates', array(
             'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Rates'),
-            'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Currency_Edit_Tab_Rates')->toHtml(),
+            'content'   => $this->getLayout()
+                ->createBlock('Mage_Adminhtml_Block_System_Currency_Edit_Tab_Rates')->toHtml(),
         ));
         
         return parent::_beforeToHtml();

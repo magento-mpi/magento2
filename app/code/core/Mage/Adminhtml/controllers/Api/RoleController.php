@@ -98,7 +98,11 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
                 ->setRoleInfo(Mage::getModel('Mage_Api_Model_Roles')->load($roleId))
                 ->setTemplate('api/roleinfo.phtml')
         );
-        $this->_addJs($this->getLayout()->createBlock('Mage_Adminhtml_Block_Template')->setTemplate('api/role_users_grid_js.phtml'));
+        $this->_addJs(
+            $this->getLayout()
+                ->createBlock('Mage_Adminhtml_Block_Template')
+                ->setTemplate('api/role_users_grid_js.phtml')
+        );
         $this->renderLayout();
     }
 
@@ -174,7 +178,9 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
 
     public function editrolegridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_Role_Grid_User')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_Role_Grid_User')->toHtml()
+        );
     }
 
     protected function _deleteUserFromRole($userId, $roleId)

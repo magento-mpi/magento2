@@ -65,9 +65,15 @@ class Mage_Adminhtml_Block_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form_Con
     {
         parent::_prepareLayout();
 
-        $this->setChild('store_switcher', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Store_Switcher'))
-             ->setChild('tag_assign_accordion', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Edit_Assigned'))
-             ->setChild('accordion', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Edit_Accordion'));
+        $this->setChild(
+                'store_switcher',
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Store_Switcher'))
+             ->setChild(
+                'tag_assign_accordion',
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Edit_Assigned'))
+             ->setChild(
+                'accordion',
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Edit_Accordion'));
 
         return $this;
     }

@@ -83,10 +83,15 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
 
         $this->_initAction()
             ->_addBreadcrumb($id ? $this->__('Edit User') : $this->__('New User'), $id ? $this->__('Edit User') : $this->__('New User'))
-            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Permissions_User_Edit')->setData('action', $this->getUrl('*/permissions_user/save')))
+            ->_addContent($this->getLayout()
+                ->createBlock('Mage_Adminhtml_Block_Permissions_User_Edit')
+                ->setData('action', $this->getUrl('*/permissions_user/save')))
             ->_addLeft($this->getLayout()->createBlock('Mage_Adminhtml_Block_Permissions_User_Edit_Tabs'));
 
-        $this->_addJs($this->getLayout()->createBlock('Mage_Adminhtml_Block_Template')->setTemplate('permissions/user_roles_grid_js.phtml'));
+        $this->_addJs($this->getLayout()
+            ->createBlock('Mage_Adminhtml_Block_Template')
+            ->setTemplate('permissions/user_roles_grid_js.phtml')
+        );
         $this->renderLayout();
     }
 
@@ -192,7 +197,9 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
         }
 
         Mage::register('permissions_user', $model);
-        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Roles')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Roles')->toHtml()
+        );
     }
 
     public function roleGridAction()

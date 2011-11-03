@@ -61,7 +61,8 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
             $this->_redirect('*/*/', array('store' => Mage::app()->getAnyStoreView()->getId(), '_current' => true));
             return;
         }
-        $contentBlock = $this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Items')->setStore($this->_getStore());
+        $contentBlock = $this->getLayout()
+            ->createBlock('Mage_GoogleShopping_Block_Adminhtml_Items')->setStore($this->_getStore());
 
         if ($this->getRequest()->getParam('captcha_token') && $this->getRequest()->getParam('captcha_url')) {
             $contentBlock->setGcontentCaptchaToken(

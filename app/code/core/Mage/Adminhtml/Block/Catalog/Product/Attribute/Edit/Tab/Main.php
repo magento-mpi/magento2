@@ -231,12 +231,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
         }
 
         // define field dependencies
-        $this->setChild('form_after', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
-            ->addFieldMap("is_wysiwyg_enabled", 'wysiwyg_enabled')
-            ->addFieldMap("is_html_allowed_on_front", 'html_allowed_on_front')
-            ->addFieldMap("frontend_input", 'frontend_input_type')
-            ->addFieldDependence('wysiwyg_enabled', 'frontend_input_type', 'textarea')
-            ->addFieldDependence('html_allowed_on_front', 'wysiwyg_enabled', '0')
+        $this->setChild(
+            'form_after',
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
+                ->addFieldMap("is_wysiwyg_enabled", 'wysiwyg_enabled')
+                ->addFieldMap("is_html_allowed_on_front", 'html_allowed_on_front')
+                ->addFieldMap("frontend_input", 'frontend_input_type')
+                ->addFieldDependence('wysiwyg_enabled', 'frontend_input_type', 'textarea')
+                ->addFieldDependence('html_allowed_on_front', 'wysiwyg_enabled', '0')
         );
 
         Mage::dispatchEvent('adminhtml_catalog_product_attribute_edit_prepare_form', array(
@@ -255,7 +257,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'apply'         => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Apply'),
+            'apply' => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Apply'),
         );
     }
 }

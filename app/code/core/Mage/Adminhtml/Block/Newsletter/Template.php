@@ -43,7 +43,10 @@ class Mage_Adminhtml_Block_Newsletter_Template extends Mage_Adminhtml_Block_Temp
 
     protected function _prepareLayout()
     {
-        $this->setChild('grid', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Template_Grid', 'newsletter.template.grid'));
+        $this->setChild(
+            'grid',
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Template_Grid', 'newsletter.template.grid')
+        );
         return parent::_prepareLayout();
     }
 

@@ -39,7 +39,9 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
 
     public function gridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Design_Grid')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Design_Grid')->toHtml()
+        );
     }
 
     public function newAction()

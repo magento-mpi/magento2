@@ -33,9 +33,18 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer extends 
     protected function _prepareLayout()
     {
         if ($this->getOrder()->getIsArchived()) {
-            $this->getLayout()->getBlock('sales_order_tabs')->addTab('order_shipments', 'Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Shipments');
-            $this->getLayout()->getBlock('sales_order_tabs')->addTab('order_invoices', 'Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Invoices');
-            $this->getLayout()->getBlock('sales_order_tabs')->addTab('order_creditmemos', 'Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Creditmemos');
+            $this->getLayout()->getBlock('sales_order_tabs')->addTab(
+                'order_shipments',
+                'Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Shipments'
+            );
+            $this->getLayout()->getBlock('sales_order_tabs')->addTab(
+                'order_invoices',
+                'Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Invoices'
+            );
+            $this->getLayout()->getBlock('sales_order_tabs')->addTab(
+                'order_creditmemos',
+                'Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Creditmemos'
+            );
 
             $restoreUrl = $this->getUrl(
                 '*/sales_archive/remove',

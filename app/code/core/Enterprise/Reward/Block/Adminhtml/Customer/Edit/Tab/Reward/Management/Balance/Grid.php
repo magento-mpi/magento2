@@ -176,11 +176,12 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
     {
         $html = parent::_afterToHtml($html);
         if ($this->_customerHasOrphanPoints) {
-            $deleteOrhanPointsButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
-                'label'     => Mage::helper('Enterprise_Reward_Helper_Data')->__('Delete Orphan Points'),
-                'onclick'   => 'setLocation(\'' . $this->getDeleteOrphanPointsUrl() .'\')',
-                'class'     => 'scalable delete',
-            ));
+            $deleteOrhanPointsButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+                ->setData(array(
+                    'label'     => Mage::helper('Enterprise_Reward_Helper_Data')->__('Delete Orphan Points'),
+                    'onclick'   => 'setLocation(\'' . $this->getDeleteOrphanPointsUrl() .'\')',
+                    'class'     => 'scalable delete',
+                ));
             $html .= $deleteOrhanPointsButton->toHtml();
         }
         return $html;

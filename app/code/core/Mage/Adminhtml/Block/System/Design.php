@@ -40,7 +40,10 @@ class Mage_Adminhtml_Block_System_Design extends Mage_Adminhtml_Block_Template
                     ))
                 );
 
-        $this->setChild('grid', $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Design_Grid', 'design.grid'));
+        $this->setChild('grid', $this->getLayout()->createBlock(
+            'Mage_Adminhtml_Block_System_Design_Grid',
+            'design.grid'
+        ));
         return parent::_prepareLayout();
     }
 }

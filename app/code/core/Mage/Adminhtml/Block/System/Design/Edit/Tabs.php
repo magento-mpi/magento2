@@ -38,7 +38,8 @@ class Mage_Adminhtml_Block_System_Design_Edit_Tabs extends Mage_Adminhtml_Block_
     {
         $this->addTab('general', array(
             'label'     => Mage::helper('Mage_Core_Helper_Data')->__('General'),
-            'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Design_Edit_Tab_General')->toHtml(),
+            'content'   => $this->getLayout()
+                ->createBlock('Mage_Adminhtml_Block_System_Design_Edit_Tab_General')->toHtml(),
         ));
 
         return parent::_prepareLayout();

@@ -120,13 +120,15 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
         $this->setForm($form);
 
         // define customer segments and types field dependencies
-        $this->setChild('form_after', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
-            ->addFieldMap("{$htmlIdPrefix}is_types", 'is_types')
-            ->addFieldMap("{$htmlIdPrefix}types", 'types')
-            ->addFieldDependence('types', 'is_types', '1')
-            ->addFieldMap("{$htmlIdPrefix}customer_segment_is_all", 'customer_segment_is_all')
-            ->addFieldMap("{$htmlIdPrefix}customer_segment_ids", 'customer_segment_ids')
-            ->addFieldDependence('customer_segment_ids', 'customer_segment_is_all', '0')
+        $this->setChild(
+            'form_after',
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
+                ->addFieldMap("{$htmlIdPrefix}is_types", 'is_types')
+                ->addFieldMap("{$htmlIdPrefix}types", 'types')
+                ->addFieldDependence('types', 'is_types', '1')
+                ->addFieldMap("{$htmlIdPrefix}customer_segment_is_all", 'customer_segment_is_all')
+                ->addFieldMap("{$htmlIdPrefix}customer_segment_ids", 'customer_segment_ids')
+                ->addFieldDependence('customer_segment_ids', 'customer_segment_is_all', '0')
         );
         return $this;
     }

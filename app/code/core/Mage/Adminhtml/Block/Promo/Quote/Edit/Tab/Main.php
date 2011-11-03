@@ -85,7 +85,10 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
 
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_SalesRule_Helper_Data')->__('General Information')));
+        $fieldset = $form->addFieldset(
+            'base_fieldset',
+            array('legend'=>Mage::helper('Mage_SalesRule_Helper_Data')->__('General Information'))
+        );
 
         if ($model->getId()) {
             $fieldset->addField('rule_id', 'hidden', array(
@@ -238,7 +241,8 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
         $this->setForm($form);
 
         // field dependencies
-        $this->setChild('form_after', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
+        $this->setChild('form_after', $this->getLayout()
+            ->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
             ->addFieldMap($couponTypeFiled->getHtmlId(), $couponTypeFiled->getName())
             ->addFieldMap($couponCodeFiled->getHtmlId(), $couponCodeFiled->getName())
             ->addFieldMap($usesPerCouponFiled->getHtmlId(), $usesPerCouponFiled->getName())

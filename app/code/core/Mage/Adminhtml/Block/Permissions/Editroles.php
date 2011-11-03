@@ -38,14 +38,26 @@ class Mage_Adminhtml_Block_Permissions_Editroles extends Mage_Adminhtml_Block_Wi
     {
         $role = Mage::registry('current_role');
 
-        $this->addTab('info', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Permissions_Tab_Roleinfo')->setRole($role)->setActive(true));
-        $this->addTab('account', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Permissions_Tab_Rolesedit', 'adminhtml.permissions.tab.rolesedit'));
+        $this->addTab(
+            'info',
+            $this->getLayout()
+                ->createBlock('Mage_Adminhtml_Block_Permissions_Tab_Roleinfo')
+                ->setRole($role)
+                ->setActive(true)
+        );
+        $this->addTab(
+            'account',
+            $this->getLayout()
+                ->createBlock('Mage_Adminhtml_Block_Permissions_Tab_Rolesedit', 'adminhtml.permissions.tab.rolesedit')
+        );
 
         if ($role->getId()) {
             $this->addTab('roles', array(
                 'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Users'),
                 'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Users'),
-                'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Permissions_Tab_Rolesusers', 'role.users.grid')->toHtml(),
+                'content'   => $this->getLayout()
+                    ->createBlock('Mage_Adminhtml_Block_Permissions_Tab_Rolesusers', 'role.users.grid')
+                    ->toHtml(),
             ));
         }
 

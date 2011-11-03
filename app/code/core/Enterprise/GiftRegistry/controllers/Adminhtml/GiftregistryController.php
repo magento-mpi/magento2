@@ -95,7 +95,9 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
 
         $this->_addBreadcrumb($this->__('New Type'), $this->__('New Type'))
             ->_addContent($block)
-            ->_addLeft($this->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs'))
+            ->_addLeft($this->getLayout()->createBlock(
+                'Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs')
+            )
             ->renderLayout();
     }
 
@@ -121,7 +123,9 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
 
         $this->_addBreadcrumb($this->__('Edit Type'), $this->__('Edit Type'))
             ->_addContent($block)
-            ->_addLeft($this->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs'))
+            ->_addLeft(
+                $this->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs')
+            )
             ->renderLayout();
     }
 

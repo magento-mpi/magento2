@@ -110,10 +110,11 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
 
         $this->_addBreadcrumb(
                 $model->getId() ? $this->__('Edit Segment') : $this->__('New Segment'),
-                $model->getId() ? $this->__('Edit Segment') : $this->__('New Segment'))
-            ->_addContent($block)
-            ->_addLeft($this->getLayout()->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs'))
-            ->renderLayout();
+                $model->getId() ? $this->__('Edit Segment') : $this->__('New Segment')
+            )->_addContent($block)
+            ->_addLeft(
+                $this->getLayout()->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs')
+            )->renderLayout();
     }
 
     /**

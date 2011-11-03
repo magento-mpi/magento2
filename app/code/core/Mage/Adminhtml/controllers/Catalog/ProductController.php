@@ -279,11 +279,15 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $storeId = $this->getRequest()->getParam('store_id', 0);
         $storeMediaUrl = Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
 
-        $content = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg_Content', '', array(
-            'editor_element_id' => $elementId,
-            'store_id'          => $storeId,
-            'store_media_url'   => $storeMediaUrl,
-        ));
+        $content = $this->getLayout()->createBlock(
+            'Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg_Content',
+            '',
+            array(
+                'editor_element_id' => $elementId,
+                'store_id'          => $storeId,
+                'store_media_url'   => $storeMediaUrl,
+            )
+        );
         $this->getResponse()->setBody($content->toHtml());
     }
 
@@ -469,7 +473,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $product = $this->_initProduct();
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle', 'admin.product.bundle.items')
+                ->createBlock(
+                    'Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle',
+                    'admin.product.bundle.items')
                 ->setProductId($product->getId())
                 ->toHtml()
         );

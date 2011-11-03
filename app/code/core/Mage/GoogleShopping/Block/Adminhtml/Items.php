@@ -47,9 +47,18 @@ class Mage_GoogleShopping_Block_Adminhtml_Items extends Mage_Adminhtml_Block_Wid
      */
     protected function _prepareLayout()
     {
-        $this->setChild('item', $this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Items_Item'));
-        $this->setChild('product', $this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Items_Product'));
-        $this->setChild('store_switcher', $this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Store_Switcher'));
+        $this->setChild(
+            'item',
+            $this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Items_Item')
+        );
+        $this->setChild(
+            'product',
+            $this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Items_Product')
+        );
+        $this->setChild(
+            'store_switcher',
+            $this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Store_Switcher')
+        );
 
         return $this;
     }

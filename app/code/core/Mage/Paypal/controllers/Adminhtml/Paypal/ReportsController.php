@@ -69,7 +69,8 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
         Mage::register('current_transaction', $row);
         $this->_initAction()
             ->_title($this->__('View Transaction'))
-            ->_addContent($this->getLayout()->createBlock('Mage_Paypal_Block_Adminhtml_Settlement_Details', 'settlementDetails'))
+            ->_addContent($this->getLayout()
+                ->createBlock('Mage_Paypal_Block_Adminhtml_Settlement_Details', 'settlementDetails'))
             ->renderLayout();
     }
 

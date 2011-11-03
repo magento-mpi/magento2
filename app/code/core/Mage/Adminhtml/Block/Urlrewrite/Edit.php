@@ -104,7 +104,10 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_C
             }
             // categories selector & skip categories button
             else {
-                $this->setChild('categories_tree', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Category_Tree'));
+                $this->setChild(
+                    'categories_tree',
+                    $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Category_Tree')
+                );
                 $this->setChild('skip_categories',
                     $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
                         'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Skip Category Selection'),
@@ -279,11 +282,17 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_C
         }
         // products grid
         elseif ('product' === $mode) {
-            $this->setChild('products_grid', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Product_Grid'));
+            $this->setChild(
+                'products_grid',
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Product_Grid')
+            );
         }
         // categories tree
         elseif ('category' === $mode) {
-            $this->setChild('categories_tree', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Category_Tree'));
+            $this->setChild(
+                'categories_tree',
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Category_Tree')
+            );
         }
         return $this;
     }

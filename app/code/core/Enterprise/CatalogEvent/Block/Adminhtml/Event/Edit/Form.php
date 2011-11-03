@@ -209,7 +209,8 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'image' => Mage::getConfig()->getBlockClassName('Enterprise_CatalogEvent_Block_Adminhtml_Event_Helper_Image')
+            'image' => Mage::getConfig()
+                    ->getBlockClassName('Enterprise_CatalogEvent_Block_Adminhtml_Event_Helper_Image')
         );
     }
 

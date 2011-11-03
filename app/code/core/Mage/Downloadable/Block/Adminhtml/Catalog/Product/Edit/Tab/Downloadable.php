@@ -148,7 +148,8 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         $accordion->addItem('samples', array(
             'title'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Samples'),
             'content' => $this->getLayout()
-                ->createBlock('Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples')->toHtml(),
+                ->createBlock('Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples')
+                ->toHtml(),
             'open'    => false,
         ));
 

@@ -55,7 +55,10 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Adminhtml_Block_Widget_C
             'class'   => 'add'
         ));
 
-        $this->setChild('grid', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Grid', 'product.grid'));
+        $this->setChild(
+            'grid',
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Grid', 'product.grid')
+        );
         return parent::_prepareLayout();
     }
 

@@ -215,11 +215,15 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $storeId = $this->getRequest()->getParam('store_id', 0);
         $storeMediaUrl = Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
 
-        $content = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg_Content', '', array(
-            'editor_element_id' => $elementId,
-            'store_id'          => $storeId,
-            'store_media_url'   => $storeMediaUrl,
-        ));
+        $content = $this->getLayout()->createBlock(
+            'Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg_Content',
+            '',
+            array(
+                'editor_element_id' => $elementId,
+                'store_id'          => $storeId,
+                'store_media_url'   => $storeMediaUrl,
+            )
+        );
 
         $this->getResponse()->setBody($content->toHtml());
     }
@@ -429,7 +433,8 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             return;
         }
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Category_Tab_Product', 'category.product.grid')
+            $this->getLayout()
+                ->createBlock('Mage_Adminhtml_Block_Catalog_Category_Tab_Product', 'category.product.grid')
                 ->toHtml()
         );
     }

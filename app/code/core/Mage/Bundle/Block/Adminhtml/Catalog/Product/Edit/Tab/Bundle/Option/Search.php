@@ -49,7 +49,8 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search 
     {
         $this->setChild(
             'grid',
-            $this->getLayout()->createBlock('Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_Grid',
+            $this->getLayout()->createBlock(
+                'Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_Grid',
                 'adminhtml.catalog.product.edit.tab.bundle.option.search.grid')
         );
         return parent::_prepareLayout();

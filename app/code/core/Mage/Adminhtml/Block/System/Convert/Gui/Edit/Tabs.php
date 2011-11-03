@@ -60,23 +60,27 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tabs extends Mage_Adminhtml_B
             if ($profile->getDirection()!='export') {
                 $this->addTab('upload', array(
                     'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Upload File'),
-                    'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Upload')->toHtml(),
+                    'content'   => $this->getLayout()
+                        ->createBlock('Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Upload')->toHtml(),
                 ));
             }
 
             $this->addTab('run', array(
                 'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Run Profile'),
-                'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_Run')->toHtml(),
+                'content'   => $this->getLayout()
+                    ->createBlock('Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_Run')->toHtml(),
             ));
 
             $this->addTab('view', array(
                 'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Profile Actions XML'),
-                'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_View')->initForm()->toHtml(),
+                'content'   => $this->getLayout()
+                    ->createBlock('Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_View')->initForm()->toHtml(),
             ));
 
             $this->addTab('history', array(
                 'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Profile History'),
-                'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_History')->toHtml(),
+                'content'   => $this->getLayout()
+                    ->createBlock('Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_History')->toHtml(),
             ));
         }
 

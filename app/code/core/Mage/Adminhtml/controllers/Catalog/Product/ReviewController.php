@@ -279,12 +279,16 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
     public function productGridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Review_Product_Grid')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Review_Product_Grid')->toHtml()
+        );
     }
 
     public function reviewGridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Review_Grid')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Review_Grid')->toHtml()
+        );
     }
 
     public function jsonProductInfoAction()
@@ -359,7 +363,10 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
     public function ratingItemsAction()
     {
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Review_Rating_Detailed')->setIndependentMode()->toHtml()
+            $this->getLayout()
+                ->createBlock('Mage_Adminhtml_Block_Review_Rating_Detailed')
+                ->setIndependentMode()
+                ->toHtml()
         );
     }
 
