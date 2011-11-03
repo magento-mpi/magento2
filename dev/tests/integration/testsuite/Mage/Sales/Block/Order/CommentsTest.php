@@ -29,11 +29,11 @@ class Mage_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
      * @param string $expectedCommentsClass
      * @dataProvider getCommentsDataProvider
      */
-    public function testGetComments($commentedEntity, $expectedCommentsClass)
+    public function testGetComments($commentedEntity, $expectedClass)
     {
         $this->_block->setEntity($commentedEntity);
         $comments = $this->_block->getComments();
-        $this->assertInstanceOf($expectedCommentsClass, $comments);
+        $this->assertInstanceOf($expectedClass, $comments);
     }
 
     /**
