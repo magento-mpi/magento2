@@ -234,6 +234,11 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
                     $reindexData['catalog_product_flat_action_type'] = $actionObject->getActionType();
                 }
 
+                if (isset($attrData['price'])) {
+                    $reindexFlat = true;
+                    $reindexData['catalog_product_flat_force_update'] = true;
+                }
+
                 // register affected products
                 if ($reindexFlat) {
                     $reindexData['catalog_product_flat_product_ids'] = $actionObject->getProductIds();
@@ -304,6 +309,10 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
             if (isset($data['catalog_product_flat_status'])) {
                 $status = $data['catalog_product_flat_status'];
                 $this->_getIndexer()->updateProductStatus($productIds, $status);
+            }
+
+            if (isset($data['catalog_product_flat_force_update'])) {
+                $this->_getIndexer()->updateProduct($productIds);
             }
         } else if (!empty($data['catalog_product_flat_delete_store_id'])) {
             $this->_getIndexer()->deleteStore($data['catalog_product_flat_delete_store_id']);
