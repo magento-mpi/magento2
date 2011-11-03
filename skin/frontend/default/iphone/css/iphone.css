@@ -1767,7 +1767,7 @@ section .category-title { display:none; }
 .compare-table .collapsible .nobr:before { content:''; background:url(../images/i_arrow_white.png) no-repeat 0 0; background-size:10px 10px; height:10px; width:10px; display:inline-block; margin-left:-15px; position:absolute; top:5px; left:100%; -webkit-transform:scaleY(-1); }
 .compare-table .collapsible.collapsed .nobr:before { -webkit-transform:scaleY(1); }
 .compare-table .collapsed .content { height:18px; max-width:125px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.compare-table .product-name { font-size:13px; font-weight:bold; line-height:16px; margin-bottom:5px; }
+.compare-table .product-name { font-size:13px; font-weight:bold; line-height:16px; margin:0 10px 5px 0; overflow:hidden; }
 .compare-table .product-name a { color:#000; }
 .compare-table .btn-cart {
     background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221));
