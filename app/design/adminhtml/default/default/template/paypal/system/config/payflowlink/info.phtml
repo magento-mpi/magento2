@@ -107,3 +107,15 @@
         </li>
     </ul>
 </div>
+<script type="text/javascript">
+//<![CDATA[
+    document.observe("dom:loaded", function() {
+        $('row_paypal_payflow_link_authorization_amount').insert({after:'<tr id="PayFlowLinkLearnMoreRow"><td colspan="4"><tr>'});
+        $('PayFlowLinkLearnMoreRow').down().insert({top:$('PayFlowLinkLearnMoreText')});
+        $('PayFlowLinkLearnMore').observe('click', function(event){
+            $('PayFlowLinkLearnMoreText').toggle();
+            event.stop();
+        });
+    });
+//]]>
+</script>
