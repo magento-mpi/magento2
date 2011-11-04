@@ -30,11 +30,11 @@
 
     <checkout_cart_index>
         <reference name="checkout.cart.top_methods">
-            <block type="Mage_GoogleCheckout_Block_Link" name="checkout.cart.methods.googlecheckout.top" template="Mage_GoogleCheckout_Block_Link.phtml" before="-"/>
+            <block type="Mage_GoogleCheckout_Block_Link" name="checkout.cart.methods.googlecheckout.top" template="googlecheckout/link.phtml" before="-"/>
         </reference>
 
         <reference name="checkout.cart.methods">
-            <block type="Mage_GoogleCheckout_Block_Link" name="checkout.cart.methods.googlecheckout.bottom" template="Mage_GoogleCheckout_Block_Link.phtml"/>
+            <block type="Mage_GoogleCheckout_Block_Link" name="checkout.cart.methods.googlecheckout.bottom" template="googlecheckout/link.phtml"/>
         </reference>
     </checkout_cart_index>
 

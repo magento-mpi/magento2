@@ -46,7 +46,7 @@ Default layout, loads most of the pages
 
         <!-- Mage_Catalog -->
         <reference name="top.menu">
-            <block type="Mage_Catalog_Block_Navigation" name="catalog.topnav" template="Mage_Catalog_Block_Navigation/top.phtml"/>
+            <block type="Mage_Catalog_Block_Navigation" name="catalog.topnav" template="catalog/navigation/top.phtml"/>
         </reference>
         <reference name="top.container">
             <block type="Mage_Cms_Block_Block" name="cms.top.callout" before="-">
@@ -77,7 +77,7 @@ Category default layout
     <catalog_category_default translate="label">
         <label>Catalog Category (Non-Anchor)</label>
         <reference name="left">
-            <block type="Mage_Catalog_Block_Navigation" name="catalog.leftnav" before="-" template="Mage_Catalog_Block_Navigation/left.phtml"/>
+            <block type="Mage_Catalog_Block_Navigation" name="catalog.leftnav" before="-" template="catalog/navigation/left.phtml"/>
         </reference>
         <reference name="breadcrumbs.container">
             <block type="Mage_Catalog_Block_Category_View" name="category.title" after="breadcrumbs" template="catalog/category/title.phtml"/>

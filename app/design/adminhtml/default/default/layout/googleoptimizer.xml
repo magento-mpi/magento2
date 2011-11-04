@@ -38,7 +38,7 @@ Layout handle for products
             <action method="addTab"><name>googleoptimizer</name><block>tab_googleoptimizer</block></action>
         </reference>
         <reference name="js">
-            <block type="Mage_GoogleOptimizer_Block_Js" template="Mage_GoogleOptimizer_Block_Js.phtml" name="googleoptimizer_js"></block>
+            <block type="Mage_GoogleOptimizer_Block_Js" template="googleoptimizer/js.phtml" name="googleoptimizer_js"></block>
         </reference>
     </adminhtml_catalog_product_edit>
 
@@ -48,13 +48,13 @@ Layout handle for products
             <action method="addTab"><name>googleoptimizer</name><block>tab_googleoptimizer</block></action>
         </reference>
         <reference name="js">
-            <block type="Mage_GoogleOptimizer_Block_Js" template="Mage_GoogleOptimizer_Block_Js.phtml" name="googleoptimizer_js"></block>
+            <block type="Mage_GoogleOptimizer_Block_Js" template="googleoptimizer/js.phtml" name="googleoptimizer_js"></block>
         </reference>
     </adminhtml_catalog_product_new>
 
     <adminhtml_catalog_category_edit>
         <reference name="js">
-            <block type="Mage_GoogleOptimizer_Block_Js" template="Mage_GoogleOptimizer_Block_Js.phtml" name="googleoptimizer_js"></block>
+            <block type="Mage_GoogleOptimizer_Block_Js" template="googleoptimizer/js.phtml" name="googleoptimizer_js"></block>
         </reference>
     </adminhtml_catalog_category_edit>
 

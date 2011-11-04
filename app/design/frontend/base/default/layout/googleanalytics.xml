@@ -35,7 +35,7 @@ Default layout, loads most of the pages
     <default>
         <!-- Mage_GoogleAnalytics -->
         <reference name="after_body_start">
-            <block type="Mage_GoogleAnalytics_Block_Ga" name="google_analytics" as="google_analytics" template="Mage_GoogleAnalytics_Block_Ga.phtml" />
+            <block type="Mage_GoogleAnalytics_Block_Ga" name="google_analytics" as="google_analytics" template="googleanalytics/ga.phtml" />
         </reference>
     </default>
 </layout>

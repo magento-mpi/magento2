@@ -45,7 +45,7 @@ Default layout, loads most of the pages
     <default>
         <!-- Mage_Catalog -->
         <reference name="top.menu">
-            <block type="Mage_Catalog_Block_Navigation" name="catalog.topnav" template="Mage_Catalog_Block_Navigation/top.phtml"/>
+            <block type="Mage_Catalog_Block_Navigation" name="catalog.topnav" template="catalog/navigation/top.phtml"/>
         </reference>
         <reference name="left">
             <block type="Mage_Core_Block_Template" name="left.permanent.callout" template="callouts/left_col.phtml">
@@ -74,7 +74,7 @@ Category default layout
     <catalog_category_default translate="label">
         <label>Catalog Category (Non-Anchor)</label>
         <reference name="left">
-            <block type="Mage_Catalog_Block_Navigation" name="catalog.leftnav" after="currency" template="Mage_Catalog_Block_Navigation/left.phtml"/>
+            <block type="Mage_Catalog_Block_Navigation" name="catalog.leftnav" after="currency" template="catalog/navigation/left.phtml"/>
         </reference>
         <reference name="content">
             <block type="Mage_Catalog_Block_Category_View" name="category.products" template="catalog/category/view.phtml">
@@ -148,7 +148,7 @@ Category layered navigation layout
         <label>Catalog Category (Without Subcategories)</label>
         <remove name="right.reports.product.viewed" />
         <reference name="right">
-            <block type="Mage_Reports_Block_Product_Viewed" before="right.permanent.callout" name="left.reports.product.viewed" template="Mage_Reports_Block_Product_Viewed.phtml" />
+            <block type="Mage_Reports_Block_Product_Viewed" before="right.permanent.callout" name="left.reports.product.viewed" template="reports/product_viewed.phtml" />
         </reference>
     </catalog_category_layered_nochildren>
 

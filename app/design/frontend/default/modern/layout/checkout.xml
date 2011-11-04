@@ -314,7 +314,7 @@ One page checkout main layout
             </block>
         </reference>
         <reference name="content">
-            <block type="Mage_Checkout_Block_Onepage" name="checkout.onepage" template="Mage_Checkout_Block_Onepage.phtml">
+            <block type="Mage_Checkout_Block_Onepage" name="checkout.onepage" template="checkout/onepage.phtml">
                 <block type="Mage_Checkout_Block_Onepage_Login" name="checkout.onepage.login" as="login" template="checkout/onepage/login.phtml">
                     <block type="Mage_Page_Block_Html_Wrapper" name="checkout.onepage.login.before" as="login_before" translate="label">
                         <label>Login/Registration Before</label>

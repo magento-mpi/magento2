@@ -33,7 +33,7 @@ Product view
 -->
     <catalog_product_view>
         <reference name="product.info.extrahint">
-            <block type="Mage_CatalogInventory_Block_Qtyincrements" name="product.info.extrahint.qtyincrements" template="Mage_CatalogInventory_Block_Qtyincrements.phtml"/>
+            <block type="Mage_CatalogInventory_Block_Qtyincrements" name="product.info.extrahint.qtyincrements" template="cataloginventory/qtyincrements.phtml"/>
         </reference>
     </catalog_product_view>
 

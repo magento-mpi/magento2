@@ -227,7 +227,7 @@ Additional block for bundle product type
         <reference name="product.info.options.wrapper.bottom">
             <remove name="product.tierprices" />
             <block type="Mage_Bundle_Block_Catalog_Product_View" name="bundle.tierprices" as="tierprices" before="-" template="bundle/catalog/product/view/tierprices.phtml"/>
-            <block type="Mage_CatalogInventory_Block_Qtyincrements" name="product.info.extrahint" as="extrahint" template="Mage_CatalogInventory_Block_Qtyincrements.phtml"/>
+            <block type="Mage_CatalogInventory_Block_Qtyincrements" name="product.info.extrahint" as="extrahint" template="cataloginventory/qtyincrements.phtml"/>
         </reference>
         <reference name="product.clone_prices">
             <action method="addPriceBlockType"><type>bundle</type><block>Mage_Bundle_Block_Catalog_Product_Price</block><template>bundle/catalog/product/view/price.phtml</template></action>

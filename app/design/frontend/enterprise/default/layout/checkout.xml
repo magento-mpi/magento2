@@ -341,7 +341,7 @@ One page checkout main layout
             <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="Mage_Checkout_Block_Onepage" name="checkout.onepage" template="Mage_Checkout_Block_Onepage.phtml">
+            <block type="Mage_Checkout_Block_Onepage" name="checkout.onepage" template="checkout/onepage.phtml">
                 <block type="Mage_Cms_Block_Block" name="checkout.callout" as="checkoutCallout">
                     <action method="setBlockId"><block_id>checkout_callout</block_id></action>
                 </block>

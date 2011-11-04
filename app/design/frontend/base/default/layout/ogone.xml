@@ -45,7 +45,7 @@
             <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="Mage_Ogone_Block_Paypage" name="ogone_paypage" template="Mage_Ogone_Block_Paypage.phtml"/>
+            <block type="Mage_Ogone_Block_Paypage" name="ogone_paypage" template="ogone/paypage.phtml"/>
         </reference>
     </ogone_api_paypage>
 
@@ -53,7 +53,7 @@
         <remove name="right"/>
         <remove name="left"/>
         <reference name="content">
-            <block type="Mage_Ogone_Block_Placeform" name="ogone_placeform" template="Mage_Ogone_Block_Placeform.phtml"/>            
+            <block type="Mage_Ogone_Block_Placeform" name="ogone_placeform" template="ogone/placeform.phtml"/>            
         </reference>
     </ogone_api_placeform>
 </layout>

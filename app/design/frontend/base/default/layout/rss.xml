@@ -42,7 +42,7 @@
             <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
         </reference>
         <reference name="content">
-              <block type="Mage_Rss_Block_List" name="rss.list" template="Mage_Rss_Block_List.phtml"/>
+              <block type="Mage_Rss_Block_List" name="rss.list" template="rss/list.phtml"/>
         </reference>
     </rss_index_index>
 
