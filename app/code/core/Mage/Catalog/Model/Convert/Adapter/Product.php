@@ -416,7 +416,8 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             }
         }
 
-        $this->setVar('entity_type', 'catalog/product');
+        $this->setVar('entity_type', 'catalog/product')
+            ->setVar('entity_resource', 'Mage_Catalog_Model_Resource_Product');
         if (!Mage::registry('Object_Cache_Product')) {
             $this->setProduct(Mage::getModel('Mage_Catalog_Model_Product'));
         }
@@ -429,11 +430,12 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     /**
      * Retrieve not loaded collection
      *
+     * @param string $entityResource
      * @return Mage_Catalog_Model_Resource_Product_Collection
      */
-    protected function _getCollectionForLoad()
+    protected function _getCollectionForLoad($entityResource)
     {
-        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
+        $collection = parent::_getCollectionForLoad($entityResource)
             ->setStoreId($this->getStoreId())
             ->addStoreFilter($this->getStoreId());
         return $collection;

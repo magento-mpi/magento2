@@ -224,7 +224,8 @@ class Mage_Customer_Model_Convert_Adapter_Customer
 
     public function __construct()
     {
-        $this->setVar('entity_type', 'customer/customer');
+        $this->setVar('entity_type', 'customer/customer')
+            ->setVar('entity_resource', 'Mage_Customer_Model_Resource_Customer');
 
         if (!Mage::registry('Object_Cache_Customer')) {
             $this->setCustomer(Mage::getModel('Mage_Customer_Model_Customer'));
@@ -325,16 +326,6 @@ class Mage_Customer_Model_Convert_Adapter_Customer
 
         parent::setFilter($attrFilterArray, $attrToDb);
         return parent::load();
-    }
-
-    /**
-     * Retrieve collection for load
-     *
-     * @return Mage_Customer_Model_Resource_Customer_Collection
-     */
-    protected function _getCollectionForLoad()
-    {
-        return Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
     }
 
     /**
