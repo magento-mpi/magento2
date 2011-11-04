@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Products extends Mage_Adminhtml_Block_Widget
             'index'     => 'tags',
             'sortable'  => false,
             'filter'    => false,
-            'renderer'  => 'adminhtml/tag_grid_column_renderer_tags'
+            'renderer'  => 'Mage_Adminhtml_Block_Tag_Grid_Column_Renderer_Tags'
         ));
         $this->addColumn('action', array(
             'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('Action'),
