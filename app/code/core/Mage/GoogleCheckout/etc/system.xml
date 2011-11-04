@@ -186,7 +186,7 @@
                         <allowed_methods translate="label">
                             <label>Allowed Methods</label>
                             <frontend_type>select</frontend_type>
-                            <frontend_model>googlecheckout/adminhtml_shipping_merchant</frontend_model>
+                            <frontend_model>Mage_GoogleCheckout_Block_Adminhtml_Shipping_Merchant</frontend_model>
                             <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Serialized</backend_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
@@ -343,7 +343,7 @@
                             <frontend_type>select</frontend_type>
                             <sort_order>24</sort_order>
                             <source_model>Mage_Adminhtml_Model_System_Config_Source_Shipping_Allspecificcountries</source_model>
-                            <frontend_model>googlecheckout/adminhtml_shipping_applicable_countries</frontend_model>
+                            <frontend_model>Mage_GoogleCheckout_Block_Adminhtml_Shipping_Applicable_Countries</frontend_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -383,7 +383,7 @@
                             <frontend_type>select</frontend_type>
                             <sort_order>34</sort_order>
                             <source_model>Mage_Adminhtml_Model_System_Config_Source_Shipping_Allspecificcountries</source_model>
-                            <frontend_model>googlecheckout/adminhtml_shipping_applicable_countries</frontend_model>
+                            <frontend_model>Mage_GoogleCheckout_Block_Adminhtml_Shipping_Applicable_Countries</frontend_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -422,7 +422,7 @@
                             <frontend_type>select</frontend_type>
                             <sort_order>44</sort_order>
                             <source_model>Mage_Adminhtml_Model_System_Config_Source_Shipping_Allspecificcountries</source_model>
-                            <frontend_model>googlecheckout/adminhtml_shipping_applicable_countries</frontend_model>
+                            <frontend_model>Mage_GoogleCheckout_Block_Adminhtml_Shipping_Applicable_Countries</frontend_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>

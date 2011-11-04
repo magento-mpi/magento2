@@ -92,7 +92,7 @@
                         <customer translate="label" module="Enterprise_Persistent">
                             <label>Persist Customer Group Membership and Segmentation</label>
                             <frontend_type>select</frontend_type>
-                            <frontend_model>enterprise_persistent/adminhtml_system_config_customer</frontend_model>
+                            <frontend_model>Enterprise_Persistent_Block_Adminhtml_System_Config_Customer</frontend_model>
                             <backend_model>Enterprise_Persistent_Model_Adminhtml_System_Config_Customer</backend_model>
                             <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>130</sort_order>

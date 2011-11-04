@@ -137,7 +137,7 @@
                         </pool_threshold>
                         <generate translate="label comment">
                             <label></label>
-                            <frontend_model>enterprise_giftcardaccount/adminhtml_system_config_generate</frontend_model>
+                            <frontend_model>Enterprise_GiftCardAccount_Block_Adminhtml_System_Config_Generate</frontend_model>
                             <sort_order>8</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>

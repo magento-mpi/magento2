@@ -130,7 +130,7 @@
             <block type="Mage_XmlConnect_Block_Cart_Crosssell" name="xmlconnect.cart.crosssell" as="crosssell">
                 <block type="Mage_XmlConnect_Block_Catalog_Product_Price" name="xmlconnect.catalog.product.price" as="product_price" output="">
                     <action method="addRenderer"><type>bundle</type><renderer>Mage_XmlConnect_Block_Catalog_Product_Price_Bundle</renderer></action>
-                    <action method="addRenderer"><type>giftcard</type><renderer>giftcard/catalog_product_price_giftcard</renderer></action>
+                    <action method="addRenderer"><type>giftcard</type><renderer>Mage_Giftcard_Block_Catalog_Product_Price_Giftcard</renderer></action>
                 </block>
             </block>
         </block>

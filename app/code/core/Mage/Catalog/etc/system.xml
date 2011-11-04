@@ -103,7 +103,7 @@
                         <flat_catalog_category translate="label">
                             <label>Use Flat Catalog Category</label>
                             <frontend_type>select</frontend_type>
-                            <frontend_model>adminhtml/system_config_form_field_select_flatcatalog</frontend_model>
+                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Select_Flatcatalog</frontend_model>
                             <backend_model>Mage_Catalog_Model_System_Config_Backend_Catalog_Category_Flat</backend_model>
                             <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>100</sort_order>
@@ -115,7 +115,7 @@
                         <flat_catalog_product translate="label">
                             <label>Use Flat Catalog Product</label>
                             <frontend_type>select</frontend_type>
-                            <frontend_model>adminhtml/system_config_form_field_select_flatproduct</frontend_model>
+                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Select_Flatproduct</frontend_model>
                             <backend_model>Mage_Catalog_Model_System_Config_Backend_Catalog_Product_Flat</backend_model>
                             <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>100</sort_order>
@@ -364,7 +364,7 @@
                         <date_fields_order translate="label">
                             <label>Date Fields Order</label>
                             <frontend_type>select</frontend_type>
-                            <frontend_model>adminhtml/catalog_form_renderer_config_dateFieldsOrder</frontend_model>
+                            <frontend_model>Mage_Adminhtml_Block_Catalog_Form_Renderer_Config_DateFieldsOrder</frontend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -383,7 +383,7 @@
                             <label>Year Range</label>
                             <comment>Use four-digit year format.</comment>
                             <frontend_type>text</frontend_type>
-                            <frontend_model>adminhtml/catalog_form_renderer_config_yearRange</frontend_model>
+                            <frontend_model>Mage_Adminhtml_Block_Catalog_Form_Renderer_Config_YearRange</frontend_model>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

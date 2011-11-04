@@ -92,7 +92,7 @@
                         </otype>
                         <action translate="comment">
                             <label>Actions Settings</label>
-                            <frontend_model>social_facebook/adminhtml_facebuttons</frontend_model>
+                            <frontend_model>Social_Facebook_Block_Adminhtml_Facebuttons</frontend_model>
                             <backend_model>Social_Facebook_Model_Facebuttons</backend_model>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>

@@ -110,7 +110,7 @@
                         <solr_test_connect_wizard translate="button_label">
                             <label></label>
                             <button_label>Test Connection</button_label>
-                            <frontend_model>enterprise_search/adminhtml_system_config_testconnection</frontend_model>
+                            <frontend_model>Enterprise_Search_Block_Adminhtml_System_Config_Testconnection</frontend_model>
                             <sort_order>58</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>

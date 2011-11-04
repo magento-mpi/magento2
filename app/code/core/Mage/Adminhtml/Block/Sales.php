@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Sales extends Mage_Adminhtml_Block_Template
     public function _beforeToHtml()
     {
         $this->assign('createUrl', $this->getUrl('*/sales/new'));
-        $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/sales_grid', 'sales.grid'));
+        $this->setChild('grid', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Grid', 'sales.grid'));
         return parent::_beforeToHtml();
     }
 }

@@ -214,7 +214,7 @@
                         </allow_partial_authorization>
                         <heading_3dsecure translate="label">
                             <label>3D Secure</label>
-                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Heading</frontend_model>
                             <sort_order>120</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

@@ -45,7 +45,7 @@
                         <base translate="label comment">
                             <label>Base Currency</label>
                             <frontend_type>select</frontend_type>
-                            <frontend_model>directory/adminhtml_frontend_currency_base</frontend_model>
+                            <frontend_model>Mage_Directory_Block_Adminhtml_Frontend_Currency_Base</frontend_model>
                             <source_model>Mage_Adminhtml_Model_System_Config_Source_Currency</source_model>
                             <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Currency_Base</backend_model>
                             <sort_order>1</sort_order>

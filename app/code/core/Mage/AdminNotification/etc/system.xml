@@ -58,7 +58,7 @@
                         <last_update translate="label">
                             <label>Last Update</label>
                             <frontend_type>label</frontend_type>
-                            <frontend_model>adminhtml/system_config_form_field_notification</frontend_model>
+                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Notification</frontend_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>

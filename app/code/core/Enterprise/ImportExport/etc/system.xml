@@ -55,7 +55,7 @@
                         </enabled>
                         <clean_now translate="label">
                             <frontend_type>button</frontend_type>
-                            <frontend_model>enterprise_importexport/adminhtml_system_config_clean</frontend_model>
+                            <frontend_model>Enterprise_ImportExport_Block_Adminhtml_System_Config_Clean</frontend_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>

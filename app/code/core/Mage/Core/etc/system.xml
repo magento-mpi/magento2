@@ -91,7 +91,7 @@
                 <modules_disable_output translate="label">
                     <label>Disable Modules Output</label>
                     <frontend_type>text</frontend_type>
-                    <frontend_model>adminhtml/system_config_form_fieldset_modules_disableOutput</frontend_model>
+                    <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Fieldset_Modules_DisableOutput</frontend_model>
                     <sort_order>2</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -290,7 +290,7 @@
                         </name>
                         <ua_regexp translate="comment">
                             <label></label>
-                            <frontend_model>adminhtml/system_config_form_field_regexceptions</frontend_model>
+                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Regexceptions</frontend_model>
                             <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Design_Exception</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
@@ -326,7 +326,7 @@
                         </template>
                         <template_ua_regexp translate="comment">
                             <label></label>
-                            <frontend_model>adminhtml/system_config_form_field_regexceptions</frontend_model>
+                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Regexceptions</frontend_model>
                             <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Serialized_Array</backend_model>
                             <sort_order>25</sort_order>
                             <show_in_default>1</show_in_default>
@@ -344,7 +344,7 @@
                         </skin>
                         <skin_ua_regexp translate="comment">
                             <label></label>
-                            <frontend_model>adminhtml/system_config_form_field_regexceptions</frontend_model>
+                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Regexceptions</frontend_model>
                             <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Serialized_Array</backend_model>
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
@@ -361,7 +361,7 @@
                         </layout>
                         <layout_ua_regexp translate="comment">
                             <label></label>
-                            <frontend_model>adminhtml/system_config_form_field_regexceptions</frontend_model>
+                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Regexceptions</frontend_model>
                             <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Serialized_Array</backend_model>
                             <sort_order>55</sort_order>
                             <show_in_default>1</show_in_default>
@@ -378,7 +378,7 @@
                         </default>
                         <default_ua_regexp translate="comment">
                             <label></label>
-                            <frontend_model>adminhtml/system_config_form_field_regexceptions</frontend_model>
+                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Regexceptions</frontend_model>
                             <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Serialized_Array</backend_model>
                             <sort_order>65</sort_order>
                             <show_in_default>1</show_in_default>
@@ -867,7 +867,7 @@
                         </media_database>
                         <synchronize translate="label comment">
                             <frontend_type>button</frontend_type>
-                            <frontend_model>adminhtml/system_config_system_storage_media_synchronize</frontend_model>
+                            <frontend_model>Mage_Adminhtml_Block_System_Config_System_Storage_Media_Synchronize</frontend_model>
                             <sort_order>300</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
