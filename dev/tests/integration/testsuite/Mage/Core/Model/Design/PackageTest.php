@@ -221,6 +221,10 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
                 'Module::favicon.ico',
                 'skin/frontend/test/default/default/en_US/Module/favicon.ico',
             ),
+            'lib file' => array(
+                'varien/product.js',
+                'js/varien/product.js',
+            ),
         );
     }
 

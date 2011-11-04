@@ -271,12 +271,13 @@ class Mage_Core_Model_Design_Package
      * Returns the first found file or last file from the list as absolute path
      *
      * @param string $file relative file name
-     * @param array $themeDirs list of theme directories (absolute paths) - must not be empty
+     * @param array $themeDirs theme directories (absolute paths) - must not be empty
      * @param string|false $module module context
-     * @param string $moduleDirs list of module directories (absolute paths, makes sense with previous parameter only)
+     * @param array $moduleDirs module directories (absolute paths, makes sense with previous parameter only)
+     * @param array $extraDirs additional lookup directories (absolute paths)
      * @return string
      */
-    protected function _fallback($file, $themeDirs, $module, $moduleDirs)
+    protected function _fallback($file, $themeDirs, $module = false, $moduleDirs = array(), $extraDirs = array())
     {
         Magento_Profiler::start(__METHOD__);
         // add modules to lookup
@@ -287,6 +288,7 @@ class Mage_Core_Model_Design_Package
             });
             $dirs = array_merge($themeDirs, $moduleDirs);
         }
+        $dirs = array_merge($dirs, $extraDirs);
         // look for files
         $tryFile = '';
         foreach ($dirs as $dir) {
@@ -404,7 +406,7 @@ class Mage_Core_Model_Design_Package
             $theme = $this->_getInheritedTheme($theme);
         } while ($theme);
 
-        return $this->_fallback($file, $dirs, false, array());
+        return $this->_fallback($file, $dirs);
     }
 
     /**
@@ -543,7 +545,8 @@ class Mage_Core_Model_Design_Package
             $file,
             $dirs,
             $module,
-            array("{$moduleDir}/{$area}/locale/{$locale}", "{$moduleDir}/{$area}",)
+            array("{$moduleDir}/{$area}/locale/{$locale}", "{$moduleDir}/{$area}"),
+            array(Mage::getBaseDir('js'))
         );
     }
 
@@ -574,30 +577,25 @@ class Mage_Core_Model_Design_Package
      * @param string $file
      * @param bool|null $isSecure
      * @return string
+     * @throws Exception
      */
     protected function _getPublicFileUrl($file, $isSecure = null)
     {
-        $publicDir = Mage::getBaseDir('media');
-        if (strpos($file, $publicDir) !== 0) {
-            throw new Exception('No public access to the file: ' . $file);
+        $publicDirUrlTypes = array(
+            Mage_Core_Model_Store::URL_TYPE_MEDIA => Mage::getBaseDir('media'),
+            Mage_Core_Model_Store::URL_TYPE_JS    => Mage::getBaseDir('js'),
+        );
+        foreach ($publicDirUrlTypes as $publicUrlType => $publicDir) {
+            $publicDir .= DIRECTORY_SEPARATOR;
+            if (strpos($file, $publicDir) !== 0) {
+                continue;
+            }
+            $url = str_replace($publicDir, '', $file);
+            $url = str_replace(DIRECTORY_SEPARATOR, '/' , $url);
+            $url = Mage::getBaseUrl($publicUrlType, $isSecure) . $url;
+            return $url;
         }
-        $url = str_replace($publicDir, '', $file);
-        $url = ltrim(str_replace(DIRECTORY_SEPARATOR, '/' , $url), '/');
-        $url = $this->_getSkinUrl($url, $isSecure);
-        return $url;
-    }
-
-    /**
-     * Composes url to file in skin directory.
-     * Just builds the url without doing any publication stuff.
-     *
-     * @param string $file
-     * @param bool|null $isSecure
-     * @return string
-     */
-    protected function _getSkinUrl($file, $isSecure = null)
-    {
-        return Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA, $isSecure) . $file;
+        throw new Exception("There is no public access to the file '$file'.");
     }
 
     /**
@@ -673,6 +671,10 @@ class Mage_Core_Model_Design_Package
             throw new Exception("Unable to locate skin file: '{$file}'");
         }
 
+        if (!$this->_needToPublishFile($file)) {
+            return $file;
+        }
+
         $isCssFile = preg_match('/\.css$/', $skinFile);
         if ($isDuplicationAllowed || $isCssFile) {
             $publicFile = $this->_buildPublicSkinRedundantFilename($skinFile, $params);
@@ -699,6 +701,17 @@ class Mage_Core_Model_Design_Package
         }
         return $publicFile;
 
+    }
+
+    /**
+     * Determine whether a file needs to be published
+     *
+     * @param string $file
+     * @return bool
+     */
+    protected function _needToPublishFile($file)
+    {
+        return (strpos($file, Mage::getBaseDir('js') . DIRECTORY_SEPARATOR) !== 0);
     }
 
     /**
