@@ -2072,7 +2072,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function clickButtonAndConfirm($buttonName, $message)
     {
-        $this->clickControlAndConfirm('button', $controlName, $message);
+        $this->clickControlAndConfirm('button', $buttonName, $message);
     }
 
     /**
