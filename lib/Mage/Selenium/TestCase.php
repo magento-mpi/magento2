@@ -441,7 +441,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->drivers[0]->setBrowserUrl($this->_applicationHelper->getBaseUrl());
         $this->drivers[0]->setContiguousSession(true);
         $this->drivers[0]->start();
-        //$this->open($this->_applicationHelper->getBaseUrl());
+        $this->open($this->_applicationHelper->getBaseUrl());
     }
 
     /**
