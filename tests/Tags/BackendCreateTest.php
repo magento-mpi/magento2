@@ -36,13 +36,13 @@
 class Tags_BackendCreateTest extends Mage_Selenium_TestCase
 {
 
-    private static $tagToBeDeleted = array();
+    protected $tagToBeDeleted = array();
 
     /**
      * <p>Create a simple product for tests</p>
      *
      */
-    private function createSimpleProduct()
+    protected function createSimpleProduct()
     {
         $simpleProduct = $this->loadData('simple_product_visible', null, array('general_name', 'general_sku'));
         $this->navigate('manage_products');
@@ -91,7 +91,7 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('all_tags'), $this->messages);
         $this->assertTrue($this->successMessage('success_saved_tag'), $this->messages);
         //Cleanup
-        self::$tagToBeDeleted = array('tag_name' => $setData['tag_name']);
+        $this->tagToBeDeleted = array('tag_name' => $setData['tag_name']);
     }
 
     /**
@@ -145,7 +145,7 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         $this->tagsHelper()->openTag($tagToOpen);
         $this->verifyForm($setData);
         //Cleanup
-        self::$tagToBeDeleted = $tagToOpen;
+        $this->tagToBeDeleted = $tagToOpen;
     }
 
     public function dataSpecialValues()
@@ -192,15 +192,15 @@ class Tags_BackendCreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         $this->assertTrue($this->tagsHelper()->verifyTagProduct($tagSearchData, $productSearchData), $this->messages);
         //Cleanup
-        self::$tagToBeDeleted = array('tag_name' => $setData['tag_name']);
+        $this->tagToBeDeleted = array('tag_name' => $setData['tag_name']);
     }
 
     protected function tearDown()
     {
-        if (!empty(self::$tagToBeDeleted)) {
+        if (!empty($this->tagToBeDeleted)) {
             $this->navigate('all_tags');
-            $this->tagsHelper()->deleteTag(self::$tagToBeDeleted);
-            self::$tagToBeDeleted = array();
+            $this->tagsHelper()->deleteTag($this->tagToBeDeleted);
+            $this->tagToBeDeleted = array();
         }
     }
 

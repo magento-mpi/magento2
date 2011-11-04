@@ -36,7 +36,7 @@
 class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
 {
 
-    protected static $blockToBeDeleted = array();
+    protected $blockToBeDeleted = array();
 
     /**
      * <p>Log in to Backend.</p>
@@ -79,7 +79,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('manage_cms_static_blocks'), $this->messages);
         $this->assertTrue($this->successMessage('success_saved_block'), $this->messages);
         //Cleanup
-        self::$blockToBeDeleted = $this->loadData('search_static_block',
+        $this->blockToBeDeleted = $this->loadData('search_static_block',
                                         array('filter_block_identifier' => $setData['block_identifier']));
     }
     /**
@@ -104,7 +104,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('manage_cms_static_blocks'), $this->messages);
         $this->assertTrue($this->successMessage('success_saved_block'), $this->messages);
         //Cleanup
-        self::$blockToBeDeleted = $this->loadData('search_static_block',
+        $this->blockToBeDeleted = $this->loadData('search_static_block',
                                         array('filter_block_identifier' => $setData['block_identifier']));
     }
 
@@ -140,7 +140,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         $this->cmsStaticBlocksHelper()->openStaticBlock($blockToOpen);
         $this->verifyForm($setData, null, array('text_editor'));
         //Cleanup
-        self::$blockToBeDeleted = $blockToOpen;
+        $this->blockToBeDeleted = $blockToOpen;
     }
 
     public function dataSpecialValues()
@@ -241,9 +241,9 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
 
     protected function tearDown()
     {
-        if (!empty(self::$blockToBeDeleted)) {
-            $this->cmsStaticBlocksHelper()->deleteStaticBlock(self::$blockToBeDeleted);
-            self::$blockToBeDeleted = array();
+        if (!empty($this->blockToBeDeleted)) {
+            $this->cmsStaticBlocksHelper()->deleteStaticBlock($this->blockToBeDeleted);
+            $this->blockToBeDeleted = array();
         }
     }
 
