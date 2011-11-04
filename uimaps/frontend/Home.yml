@@ -53,16 +53,17 @@ home:
 
                 -
                     compare_products:
-                        xpath: //div[@class[contains(.,'block-compare')]]
+                        xpath: //div[@class[contains(.,'block-compare')] and */ol[@id='compare-items']]
                         links:
                           clear_all: //a[text()='Clear All']
                           delete_product: //li[p='%productName%']/a
-                          product_link: //p[a='%productName%']/a
+                          product_link: //ol[@id='compare-items']//p[a='%productName%']/a
                         buttons:
                           compare: //button[@title='Compare']
 
         messages: &homeMessages
             tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.//span,'%tagQty% tag(s) have been accepted for moderation.')]
+            confirmation_for_removing_product_from_compare: Are you sure you would like to remove this item from the compare products?
 
 home_with_hidden_mca:
     title: Home page
