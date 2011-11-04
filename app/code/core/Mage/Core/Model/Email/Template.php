@@ -33,7 +33,7 @@
  * $emailTemplate  = Mage::getModel('Mage_Core_Model_Email_Template')
  *    ->load(Mage::getStoreConfig('path_to_email_template_id_config'));
  * $variables = array(
- *    'someObject' => Mage::getSingleton('some_model')
+ *    'someObject' => Mage::getSingleton('Mage_Core_Model_Resource_Email_Template')
  *    'someString' => 'Some string value'
  * );
  * $emailTemplate->send('some@domain.com', 'Name Of User', $variables);

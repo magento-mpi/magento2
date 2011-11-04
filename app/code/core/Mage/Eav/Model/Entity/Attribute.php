@@ -64,16 +64,16 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
     {
         switch ($this->getAttributeCode()) {
             case 'created_at':
-                return 'eav/entity_attribute_backend_time_created';
+                return 'Mage_Eav_Model_Entity_Attribute_Backend_Time_Created';
 
             case 'updated_at':
-                return 'eav/entity_attribute_backend_time_updated';
+                return 'Mage_Eav_Model_Entity_Attribute_Backend_Time_Updated';
 
             case 'store_id':
-                return 'eav/entity_attribute_backend_store';
+                return 'Mage_Eav_Model_Entity_Attribute_Backend_Store';
 
             case 'increment_id':
-                return 'eav/entity_attribute_backend_increment';
+                return 'Mage_Eav_Model_Entity_Attribute_Backend_Increment';
         }
 
         return parent::_getDefaultBackendModel();
@@ -97,7 +97,7 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
     protected function _getDefaultSourceModel()
     {
         if ($this->getAttributeCode() == 'store_id') {
-            return 'eav/entity_attribute_source_store';
+            return 'Mage_Eav_Model_Entity_Attribute_Source_Store';
         }
         return parent::_getDefaultSourceModel();
     }
@@ -180,7 +180,7 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
 
         if ($this->getBackendType() == 'gallery') {
             if (!$this->getBackendModel()) {
-                $this->setBackendModel('Mage_Eav_Model_Entity_Attribute_Backend_Media');
+                $this->setBackendModel('Mage_Eav_Model_Entity_Attribute_Backend_Default');
             }
         }
 

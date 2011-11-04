@@ -48,14 +48,12 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subcombine
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'enterprise_reminder/rule_condition_cart_';
-
         return array_merge_recursive(
             parent::getNewChildSelectOptions(), array(
                 $this->_getRecursiveChildSelectOption(),
-                Mage::getModel("{$prefix}storeview")->getNewChildSelectOptions(),
-                Mage::getModel("{$prefix}sku")->getNewChildSelectOptions(),
-                Mage::getModel("{$prefix}attributes")->getNewChildSelectOptions()
+                Mage::getModel("Enterprise_Reminder_Model_Rule_Condition_Cart_Storeview")->getNewChildSelectOptions(),
+                Mage::getModel("Enterprise_Reminder_Model_Rule_Condition_Cart_Sku")->getNewChildSelectOptions(),
+                Mage::getModel("Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes")->getNewChildSelectOptions()
             )
         );
     }

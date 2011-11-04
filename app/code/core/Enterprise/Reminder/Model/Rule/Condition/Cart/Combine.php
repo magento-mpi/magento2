@@ -48,18 +48,21 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Combine
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'enterprise_reminder/rule_condition_cart_';
-
         return array_merge_recursive(
             parent::getNewChildSelectOptions(), array(
                 $this->_getRecursiveChildSelectOption(),
-                Mage::getModel("{$prefix}couponcode")->getNewChildSelectOptions(),
-                Mage::getModel("{$prefix}itemsquantity")->getNewChildSelectOptions(),
-                Mage::getModel("{$prefix}totalquantity")->getNewChildSelectOptions(),
-                Mage::getModel("{$prefix}virtual")->getNewChildSelectOptions(),
-                Mage::getModel("{$prefix}amount")->getNewChildSelectOptions(),
+                Mage::getModel("Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode")
+                        ->getNewChildSelectOptions(),
+                Mage::getModel("Enterprise_Reminder_Model_Rule_Condition_Cart_Itemsquantity")
+                        ->getNewChildSelectOptions(),
+                Mage::getModel("Enterprise_Reminder_Model_Rule_Condition_Cart_Totalquantity")
+                        ->getNewChildSelectOptions(),
+                Mage::getModel("Enterprise_Reminder_Model_Rule_Condition_Cart_Virtual")
+                        ->getNewChildSelectOptions(),
+                Mage::getModel("Enterprise_Reminder_Model_Rule_Condition_Cart_Amount")
+                        ->getNewChildSelectOptions(),
                 array( // subselection combo
-                    'value' => 'enterprise_reminder/rule_condition_cart_subselection',
+                    'value' => 'Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection',
                     'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Items Subselection')
                 )
             )

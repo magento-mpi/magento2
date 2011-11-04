@@ -58,9 +58,6 @@
             </shipping>
             <tax>
                 <methods>
-                    <uszipcode>
-                        <class>Mage_Usa_Model_Tax_Uszipcode</class>
-                    </uszipcode>
                 </methods>
             </tax>
         </sales>

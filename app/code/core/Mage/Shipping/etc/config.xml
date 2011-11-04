@@ -39,40 +39,6 @@
                 </setup>
             </shipping_setup>
         </resources>
-        <sales>
-            <shipping>
-                <rule>
-                    <conditions>
-                        <dest_country>
-                            <class>Mage_Sales_Model_Shipping_Rule_Condition_Dest_Country</class>
-                        </dest_country>
-                        <dest_region>
-                            <class>Mage_Sales_Model_Shipping_Rule_Condition_Dest_Region</class>
-                        </dest_region>
-                        <dest_zip>
-                            <class>Mage_Sales_Model_Shipping_Rule_Condition_Dest_Zip</class>
-                        </dest_zip>
-                        <package_weight>
-                            <class>Mage_Sales_Model_Shipping_Rule_Condition_Package_Weight</class>
-                        </package_weight>
-                        <order_subtotal>
-                            <class>Mage_Sales_Model_Shipping_Rule_Condition_Order_Subtotal</class>
-                        </order_subtotal>
-                        <order_totalqty>
-                            <class>Mage_Sales_Model_Shipping_Rule_Condition_Order_Totalqty</class>
-                        </order_totalqty>
-                    </conditions>
-                    <actions>
-                        <carrier>
-                            <class>Mage_Sales_Model_Shipping_Rule_Action_Carrier</class>
-                        </carrier>
-                        <method>
-                            <class>Mage_Sales_Model_Shipping_Rule_Action_Method</class>
-                        </method>
-                    </actions>
-                </rule>
-            </shipping>
-        </sales>
     </global>
     <adminhtml>
         <translate>
