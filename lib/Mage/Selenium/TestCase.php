@@ -2022,16 +2022,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Performs submit form and confirmation popup
+     * Click on specified control with specified name and confirm confirmation popup
      *
-     * @param string $buttonName Name of a button from UIMap
-     * @param string $message Message ID from UIMap
+     * @param string $controlType Type of control (e.g. button|link)
+     * @param string $controlName Name of a control from UIMap
+     * @param string $message Confirmation message
      *
      * @return boolean
      */
-    public function clickButtonAndConfirm($buttonName, $message)
+    public function clickControlAndConfirm($controlType, $controlName, $message)
     {
-        $buttonXpath = $this->_getControlXpath('button', $buttonName);
+        $buttonXpath = $this->_getControlXpath($controlType, $buttonName);
         if ($this->isElementPresent($buttonXpath)) {
             $confirmation = $this->getCurrentLocationUimapPage()->findMessage($message);
             $this->chooseCancelOnNextConfirmation();
@@ -2059,6 +2060,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         return false;
+    }
+
+    /**
+     * Performs submit form and confirmation popup
+     *
+     * @param string $buttonName Name of a button from UIMap
+     * @param string $message Message ID from UIMap
+     *
+     * @return boolean
+     */
+    public function clickButtonAndConfirm($buttonName, $message)
+    {
+        $this->clickControlAndConfirm('button', $controlName, $message);
     }
 
     /**
