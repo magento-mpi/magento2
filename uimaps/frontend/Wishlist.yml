@@ -34,47 +34,46 @@ my_wishlist:
             fieldsets:
                 -
                     wishlist:
-                        xpath: //div[@class='my-wishlist']
+                        xpath: //fieldset[./table[@id='wishlist-table']]
                         buttons:
-                            add_to_cart: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]/td/button[@class='button btn-cart']
+                            add_to_cart: //table[@id='wishlist-table']//tr[contains(.,'%productName%')]//button[span='Add to Cart']
+                            share_wishlist: //button[span='Share Wishlist']
+                            add_all_to_cart: //button[span='Add All to Cart']
+                            update_wishlist: //button[span='Update Wishlist']
                         fields:
-                            comment: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]/td/textarea[@title='Comment']
-                            qty: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//input[@class='input-text qty']
+                            comment: //tr[contains(.,'%productName%')]//textarea[@title='Comment']
+                            qty: //tr[contains(.,'%productName%')]//input[@class='input-text qty']
                         links:
-                            product: //table[@id='wishlist-table']//a[text()='%productName%']
-                            view_details: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//a[@class='details']
-                            edit: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//a[text()='Edit']
-                            remove_item: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//a[@title='Remove Item']
-                            back: //p[@class='back-link']/a[contains(.,'Back')]
+                            product_name: //table[@id='wishlist-table']//a[text()='%productName%']
+                            view_details: //tr[contains(.,'%productName%')]//a[@class='details']
+                            edit: //tr[contains(.,'%productName%')]//a[text()='Edit']
+                            remove_item: //tr[contains(.,'%productName%')]//a[@title='Remove Item']
                         pageelements:
+                            product_table_head: //table[@id='wishlist-table']/thead
                             no_items: //div[@class='my-wishlist']/p[normalize-space(text())='You have no items in your wishlist.']
-                            price_regular: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//span[@class='regular-price']/span[@class='price' and normalize-space(text())='%price%']
-                            price_old: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//p[@class='old-price']/span[@class='price']
-                            price_special: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//p[@class='special-price']/span[@class='price']
-                            price_excluding_tax: //table[@id='wishlist-table']//tr[*//a[text()='%productName%'] and not(*//p[@class='special-price'])]//span[@class='price-excluding-tax']/span[normalize-space(text())='%price%']
-                            price_including_tax: //table[@id='wishlist-table']//tr[*//a[text()='%productName%'] and not(*//p[@class='special-price'])]//span[@class='price-including-tax']/span[normalize-space(text())='%price%']
-                            price_special_excluding_tax: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//p[@class='special-price']/span[@class='price-excluding-tax']/span[normalize-space(text())='%price%']
-                            price_special_inlcuding_tax: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//p[@class='special-price']/span[@class='price-including-tax']/span[normalize-space(text())='%price%']
-                            price_as_low_as:  #todo - cannot add because of the current bug MAGE-4112
-                            ex_price_regular: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//span[@class='regular-price']/span[@class='price']
-                            ex_price_old: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//p[@class='old-price']/span[@class='price']
-                            ex_price_special: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//p[@class='special-price']/span[@class='price']
-                            ex_price_excluding_tax: //table[@id='wishlist-table']//tr[*//a[text()='%productName%'] and not(*//p[@class='special-price'])]//span[@class='price-excluding-tax']/span[@class='price']
-                            ex_price_including_tax: //table[@id='wishlist-table']//tr[*//a[text()='%productName%'] and not(*//p[@class='special-price'])]//span[@class='price-including-tax']/span[@class='price']
-                            ex_price_special_excluding_tax: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//p[@class='special-price']/span[@class='price-excluding-tax']/span[@class='price']
-                            ex_price_special_inlcuding_tax: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//p[@class='special-price']/span[@class='price-including-tax']/span[@class='price']
-                            ex_price_as_low_as:  #todo - cannot add because of the current bug MAGE-4112
-                            added_on: //table[@id='wishlist-table']//tr[*//a[text()='%productName%']]//span[@class='nobr']
+                            price_regular: //tr[contains(.,'%productName%')]//span[@class='regular-price']/span[@class='price' and normalize-space(text())='%price%']
+                            price_old: //tr[contains(.,'%productName%')]//p[@class='old-price']/span[@class='price']
+                            price_special: //tr[contains(.,'%productName%')]//p[@class='special-price']/span[@class='price']
+                            price_excluding_tax: //tr[contains(.,'%productName%') and not(*//p[@class='special-price'])]//span[@class='price-excluding-tax']/span[normalize-space(text())='%price%']
+                            price_including_tax: //tr[contains(.,'%productName%') and not(*//p[@class='special-price'])]//span[@class='price-including-tax']/span[normalize-space(text())='%price%']
+                            price_special_excluding_tax: //tr[contains(.,'%productName%')]//p[@class='special-price']/span[@class='price-excluding-tax']/span[normalize-space(text())='%price%']
+                            price_special_inlcuding_tax: //tr[contains(.,'%productName%')]//p[@class='special-price']/span[@class='price-including-tax']/span[normalize-space(text())='%price%']
+                            #price_as_low_as:  TODO - cannot add because of the current bug MAGE-4112
+                            ex_price_regular: //tr[contains(.,'%productName%')]//span[@class='regular-price']/span[@class='price']
+                            ex_price_old: //tr[contains(.,'%productName%')]//p[@class='old-price']/span[@class='price']
+                            ex_price_special: //tr[contains(.,'%productName%')]//p[@class='special-price']/span[@class='price']
+                            ex_price_excluding_tax: //tr[contains(.,'%productName%') and not(*//p[@class='special-price'])]//span[@class='price-excluding-tax']/span[@class='price']
+                            ex_price_including_tax: //tr[contains(.,'%productName%') and not(*//p[@class='special-price'])]//span[@class='price-including-tax']/span[@class='price']
+                            ex_price_special_excluding_tax: //tr[contains(.,'%productName%')]//p[@class='special-price']/span[@class='price-excluding-tax']/span[@class='price']
+                            ex_price_special_inlcuding_tax: //tr[contains(.,'%productName%')]//p[@class='special-price']/span[@class='price-including-tax']/span[@class='price']
+                            #ex_price_as_low_as:  TODO - cannot add because of the current bug MAGE-4112
+                            added_on: //tr[contains(.,'%productName%')]//span[@class='nobr']
         messages: &wishlistMessages
-            added_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'%productName% has been added to your wishlist.')]
-            added_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'Your Wishlist has been shared.')]
+            successfully_added_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'%productName% has been added to your wishlist.')]
+            successfully_shared_wishlist: //li[normalize-space(@class)='success-msg' and contains(.//span,'Your Wishlist has been shared.')]
             confirmation_for_delete: Are you sure you want to remove this product from your wishlist?
-            invalid_emails: //div[@class='validation-advice' and @id='advice-validate-emails-email_address']
-            required_emails: //div[@class='validation-advice' and @id='advice-required-entry-email_address' and text()='This is a required field.']
-        buttons:
-            share_wishlist: //button[@class='button btn-share']
-            add_all_to_cart: //button[@class='button btn-add']
-            update_wishlist: //button[@class='button btn-update']
+        links:
+            back: //p[@class='back-link']/a[contains(.,'Back')]
 
 share_wishlist:
     mca: wishlist/index/share/
@@ -88,8 +87,10 @@ share_wishlist:
                         buttons:
                             share_wishlist: //button[@title='Share Wishlist']
                         fields:
-                            emails: //textarea[@id='email_address']
-                            message: //textarea[@id='message']
+                            emails: //textarea[@name='emails']
+                            message: //textarea[@name='message']
                         links:
                             back: //p[@class='back-link']/a[contains(.,'Back')]
-        messages: *wishlistMessages
+        messages:
+            invalid_emails: //div[@class='validation-advice' and @id='advice-validate-emails-email_address']
+            required_emails: //div[@class='validation-advice' and @id='advice-required-entry-email_address' and text()='This is a required field.']
