@@ -35,55 +35,76 @@
  */
 class Wishlist_Helper extends Mage_Selenium_TestCase
 {
-    // Add product to Wishlist from product page
-    // @TODO: Add to Product Helper
-    //
-    // Add product to Wishlist from category page
-    // @TODO: Add to Category Helper
-    //
     // Add product to Wishlist from shopping cart
-    // @TODO: Add to ShoppingCart Helper
-    //
-    // Empty shopping cart
     // @TODO: Add to ShoppingCart Helper
 
     /**
-     * Opens My Wishlist.
+     * Adds product to wishlist from a specific catalog page.
      *
-     * @return boolean If the wishlist was open
+     * @param string $productName
+     * @param string $categoryName
      */
-    public function frontOpenWishlist()
+    public function addProductToWishlistFromCatalogPage($productName, $categoryName)
     {
-        // @TODO
+        $pageId = $this->categoryHelper()->frontSearchAndOpenPageWithProduct($productName, $categoryName);
+        if (!$pageId)
+            $this->fail('Could not find the product');
+        $this->addParameter('productName', $productName);
+        $this->clickButton('add_to_wishlist');
+    }
+
+    /**
+     * Adds product to wishlist from the product details page.
+     *
+     * @param string $productName
+     * @param string $categoryPath
+     */
+    public function addProductToWishlistFromProductPage($productName, $categoryPath = null)
+    {
+        $this->productHelper()->frontOpenProduct($productName, $categoryPath);
+        $this->addParameter('productName', $productName);
+        $this->clickButton('add_to_wishlist');
     }
 
     /**
      * Finds the product in the wishlist.
      *
-     * @param string|array $productSearchData Data used to find the product in the wishlist
-     * @return null|array Returns the product details (name, comment, qty) if the product was found, or null otherwise.
+     * @param string|array $productNameSet Product name or array of product names to search for.
+     * @return boolean True if the product is in the wishlist, False otherwise.
      */
-    public function frontFindProductInWishlist($productSearchData)
+    public function frontWishlistHasProducts($productNameSet)
     {
-        // @TODO
+        if (is_string($productNameSet)) {
+            $productNameSet = array($productNameSet);
+        }
+        foreach ($productNameSet as $productName) {
+            $this->addParameter('productName', $productName);
+            if (!$this->controlIsPresent('link', 'product_name')) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
      * Removes the product from the wishlist
      *
-     * @param string|array $productSearchData Data used to find the product in the wishlist
+     * @param string $productName
      */
-    public function frontRemoveProductFromWishlist($productSearchData)
+    public function frontRemoveProductFromWishlist($productName)
     {
-        // @TODO
+        $this->addParameter('productName', $productName);
+        $this->clickButtonAndConfirm('remove_item', 'confirmation_for_delete');
     }
 
     /**
      * Removes all products from the wishlist
      */
-    public function frontEmptyWishlist()
+    public function frontClearWishlist()
     {
-        // @TODO
+        while ($this->controlIsPresent('link', 'remove_item_generic')) {
+            $this->clickControlAndConfirm('link', 'remove_item_generic', 'confirmation_for_delete');
+        }
     }
 
     /**
@@ -93,7 +114,12 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
      */
     public function frontShareWishlist($shareData)
     {
-        // @TODO
+        if (!$this->buttonIsPresent('share_wishlist')) {
+            $this->fail("Cannot share an empty wishlist");
+        }
+        $this->clickButton('share_wishlist');
+        $this->fillForm($shareData);
+        $this->saveForm('share_wishlist');
     }
 
 }

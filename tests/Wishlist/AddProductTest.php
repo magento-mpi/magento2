@@ -36,8 +36,15 @@
 class Wishlist_AddProductTest extends Mage_Selenium_TestCase
 {
 
-    protected static $productToBeRemoved = array();
-//    protected static $categoryName = null;
+//    protected $customer;
+//    protected $category;
+    protected $productSimple;
+    protected $productVirtual;
+    protected $productDownloadable;
+    protected $productGrouped;
+    protected $productBundle;
+    protected $productConfigurable;
+//    protected $productCustomOptions;
 
     /**
      * <p>Login as a registered user</p>
@@ -45,18 +52,64 @@ class Wishlist_AddProductTest extends Mage_Selenium_TestCase
     public function setUpBeforeTests()
     {
         $this->logoutCustomer();
+        $this->loginAdminUser();
+        // TODO Create a new catalog (if needed)
     }
 
     /**
      * <p>Preconditions:</p>
-     * <p>Remove all products from My Wishlist</p>
      * <p>@TODO</p>
      */
     protected function assertPreConditions()
     {
         $this->navigate('');
-        $this->assertTrue($this->checkCurrentPage(''), $this->messages);
         $this->addParameter('', '0');
+    }
+
+    /**
+     * <p>Create a new customer for tests</p>
+     *
+     * @test
+     */
+    public function createCustomer()
+    {
+        $this->loginAdminUser();
+        $userData = $this->loadData('customer_account_for_prices_validation', NULL, 'email');
+        $this->navigate('manage_customers');
+        $this->customerHelper()->createCustomer($userData);
+        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+
+        return array('email' => $userData['email'], 'password' => $userData['password']);
+    }
+
+    /**
+     * <p>Create a new product of the specified type</p>
+     */
+    protected function createProduct(array $productData, $productType)
+    {
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData, $productType);
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+
+        return $productData;
+    }
+
+    /**
+     * <p>Create products of all types for the tests</p>
+     *
+     * @test
+     */
+    public function createAllProducts()
+    {
+        // TODO Create products of all types
+        $productData = $this->loadData('simple_product_required', null, array('general_name', 'general_sku'));
+        $this->productSimple = $this->createProduct($productData, 'simple');
+        $productData = $this->loadData('virtual_product_required', null, array('general_name', 'general_sku'));
+        $this->productVirtual = $this->createProduct($productData, 'virtual');
+        $productData = $this->loadData('downloadable_product_required', null, array('general_name', 'general_sku'));
+        $this->productDownloadable = $this->createProduct($productData, 'downloadable');
+        $productData = $this->loadData('grouped_product_required', null, array('general_name', 'general_sku'));
+        $this->productGrouped = $this->createProduct($productData, 'grouped');
     }
 
     /**
@@ -75,7 +128,6 @@ class Wishlist_AddProductTest extends Mage_Selenium_TestCase
         //Steps
         //Verify
         //Cleanup
-        self::$productToBeRemoved = array();
     }
 
     /**
@@ -95,7 +147,6 @@ class Wishlist_AddProductTest extends Mage_Selenium_TestCase
         //Steps
         //Verify
         //Cleanup
-        self::$productToBeRemoved = array();
     }
 
     /**
@@ -115,7 +166,6 @@ class Wishlist_AddProductTest extends Mage_Selenium_TestCase
         //Steps
         //Verify
         //Cleanup
-        self::$productToBeRemoved = array();
     }
 
     /**
@@ -136,7 +186,6 @@ class Wishlist_AddProductTest extends Mage_Selenium_TestCase
         //Steps
         //Verify
         //Cleanup
-        self::$productToBeRemoved = array();
     }
 
     /**
@@ -157,15 +206,6 @@ class Wishlist_AddProductTest extends Mage_Selenium_TestCase
         //Steps
         //Verify
         //Cleanup
-        self::$productToBeRemoved = array();
-    }
-
-    protected function tearDown()
-    {
-        if (!empty(self::$productToBeRemoved)) {
-            $this->wishlistHelper()->removeProduct(self::$productToBeRemoved);
-            self::$productToBeRemoved = array();
-        }
     }
 
 }

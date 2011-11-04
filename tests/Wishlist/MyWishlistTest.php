@@ -36,8 +36,7 @@
 class Wishlist_MyWishlistTest extends Mage_Selenium_TestCase
 {
 
-    protected static $productToBeRemoved = array();
-//    protected static $categoryName = null;
+    // TODO: add cases about not registered customer
 
     /**
      * <p>Login as a registered user</p>
@@ -53,47 +52,54 @@ class Wishlist_MyWishlistTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->navigate('');
-        $this->assertTrue($this->checkCurrentPage(''), $this->messages);
-        $this->addParameter('', '0');
+        $this->customerHelper()->frontLoginCustomer(
+                array('email' => 'kateryna.muntianu@magento.com', 'password' => '123123q'));
+//        $this->navigate('');
+//        $this->addParameter('', '0');
     }
 
     /**
      * <p>Removes a product from My Wishlist</p>
      * <p>Steps:</p>
-     * <p>1. Add a product to the wishlist</p>
-     * <p>2. Remove the product from the wishlist</p>
+     * <p>1. Open home page</p>
+     * <p>2. Click "My Wishlist" link</p>
      * <p>Expected result:</p>
-     * <p>The product is not in the wishlist</p>
+     * <p>The wishlist is opened.</p>
      *
      * @test
      */
-    public function removeProductFromWishlist($productData, $categoryPath)
+    public function openMyWishlistViaQuickAccessLink($productData, $categoryPath)
     {
         //Setup
+        $this->navigate('home');
         //Steps
+        $this->clickControl('link', 'my_wishlist');
         //Verify
+        $this->assertTrue($this->checkCurrentPage('my_wishlist'), $this->messages);
         //Cleanup
-        self::$productToBeRemoved = array();
     }
 
     /**
      * <p>Removes all products from My Wishlist. For all product types</p>
      * <p>Steps:</p>
      * <p>1. Add products to the wishlist</p>
-     * <p>2. Remove all products from the wishlist</p>
+     * <p>2. Remove one product from the wishlist</p>
      * <p>Expected result:</p>
-     * <p>'You have no items in your wishlist.' is displayed</p>
+     * <p>The product is no longer in wishlist</p>
+     * <p>3. Repeat for all products until the last one</p>
+     * <p>4. Remove the last product from the wishlist</p>
+     * <p>Expected result:</p>
+     * <p>Message 'You have no items in your wishlist.' is displayed</p>
      *
      * @test
      */
-    public function removeAllProductsFromWishlist(array $productDataSet)
+    public function removeProductsFromWishlist(array $productDataSet)
     {
         //Setup
         //Steps
         //Verify
+        $this->assertTrue($this->controlIsPresent('pageelement', 'no_items'), $this->messages);
         //Cleanup
-        self::$productToBeRemoved = array();
     }
 
     /**
@@ -115,11 +121,10 @@ class Wishlist_MyWishlistTest extends Mage_Selenium_TestCase
         //Steps
         //Verify
         //Cleanup
-        self::$productToBeRemoved = array();
     }
 
     /**
-     * <p>Shares My Wishlist</p>
+     * <p>Shares My Wishlist with invalid email(s) provided</p>
      * <p>Steps:</p>
      * <p>1. Add a product to the wishlist</p>
      * <p>2. Open My Wishlist</p>
@@ -137,15 +142,29 @@ class Wishlist_MyWishlistTest extends Mage_Selenium_TestCase
         //Steps
         //Verify
         //Cleanup
-        self::$productToBeRemoved = array();
     }
 
-    protected function tearDown()
+    /**
+     * <p>Shares My Wishlist with empty email provided</p>
+     * <p>Steps:</p>
+     * <p>1. Add a product to the wishlist</p>
+     * <p>2. Open My Wishlist</p>
+     * <p>3. Click "Share Wishlist" button</p>
+     * <p>4. Enter an invalid email and a message</p>
+     * <p>5. Click "Share Wishlist" button
+     * <p>Expected result:</p>
+     * <p>An error message is displayed</p>
+     *
+     * @test
+     */
+    public function shareWishlistWithEmptyEmail()
     {
-        if (!empty(self::$productToBeRemoved)) {
-            $this->wishlistHelper()->removeProduct(self::$productToBeRemoved);
-            self::$productToBeRemoved = array();
-        }
+        //Setup
+        //Steps
+        //Verify
+        //Cleanup
     }
+
+    // @TODO: Verify that not logged in customer cannot add to wishlist
 
 }

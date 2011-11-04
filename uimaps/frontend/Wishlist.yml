@@ -48,6 +48,7 @@ my_wishlist:
                             view_details: //tr[contains(.,'%productName%')]//a[@class='details']
                             edit: //tr[contains(.,'%productName%')]//a[text()='Edit']
                             remove_item: //tr[contains(.,'%productName%')]//a[@title='Remove Item']
+                            remove_item_generic: //a[@title='Remove Item']
                         pageelements:
                             product_table_head: //table[@id='wishlist-table']/thead
                             no_items: //div[@class='my-wishlist']/p[normalize-space(text())='You have no items in your wishlist.']
