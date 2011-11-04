@@ -137,7 +137,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
      * Add language code suffix to text fields
      * and type suffix for not text dynamic fields
      *
-     * @see $this->_usedFields, $this->_searchTextFields
+     * @see $this->_usedFields
      *
      * @param array $data
      * @param array $attributesParams

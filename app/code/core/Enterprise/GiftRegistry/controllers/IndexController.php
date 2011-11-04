@@ -373,18 +373,6 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
     }
 
     /**
-     * Get customer active gift registry entity
-     *
-     * @deprecated after 1.9.1.1
-     * @return Enterprise_GiftRegistry_Model_Entity
-     */
-    protected function _getActiveEntity()
-    {
-        return Mage::getModel('Enterprise_GiftRegistry_Model_Entity')
-            ->getActiveEntity($this->_getSession()->getCustomerId());
-    }
-
-    /**
      * Get current customer session
      *
      * @return Mage_Customer_Model_Session

@@ -424,15 +424,4 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
     {
         return count($this->getItemCollection());
     }
-
-    /**
-     * Retrieve linked as cross-sell product collection
-     *
-     * @deprecated after 1.11.0.2 use getLinkCollection() instead
-     * @return Mage_Catalog_Model_Resource_Product_Link_Product_Collection
-     */
-    protected function _getLinkCollection()
-    {
-        return $this->getLinkCollection();
-    }
 }

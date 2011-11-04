@@ -62,19 +62,6 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
     }
 
     /**
-     * Quote parameters into condition string
-     * @deprecated after 1.10.0.0 - please use quoteInto of current adapter
-     *
-     * @param string $string
-     * @param string | array $param
-     * @return string
-     */
-    public function quoteInto($string, $param)
-    {
-        return $this->_getReadAdapter()->quoteInto($string, $param);
-    }
-
-    /**
      * Prepare object data for saving
      *
      * @param Mage_Core_Model_Abstract $object

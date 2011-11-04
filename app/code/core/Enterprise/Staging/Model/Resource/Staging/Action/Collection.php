@@ -77,20 +77,6 @@ class Enterprise_Staging_Model_Resource_Staging_Action_Collection
     }
 
     /**
-     * Add backuped filter
-     *
-     * @deprecated after 1.8.0.0
-     *
-     * @return Enterprise_Staging_Model_Resource_Staging_Action_Collection
-     */
-    public function addBackupedFilter()
-    {
-        //        $this->addFieldToFilter('main_table.is_backuped', 1);
-
-        return $this;
-    }
-
-    /**
      * Add staging to collection
      *
      * @return Enterprise_Staging_Model_Resource_Staging_Action_Collection
@@ -126,7 +112,7 @@ class Enterprise_Staging_Model_Resource_Staging_Action_Collection
                 array('staging_website_id' => 'website_id',
                     'staging_website_name' => 'name')
         );
-        
+
         Mage::getResourceHelper('Mage_Core')->prepareColumnsList($this->getSelect());
 
         return $this;

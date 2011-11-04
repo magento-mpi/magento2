@@ -670,19 +670,6 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Remove "All Store Views" information from CMS page or block model
-     *
-     * @deprecated after 1.3.2.3
-     * @param Varien_Object $model
-     */
-    public function cmsPageBlockLoadAfter($model)
-    {
-        if ($storeIds = $model->getData('store_id')) {
-            $model->setData('store_id', array_intersect($this->_role->getStoreIds(), $storeIds));
-        }
-    }
-
-    /**
      * Check whether category can be moved
      *
      * @param Varien_Event_Observer $observer

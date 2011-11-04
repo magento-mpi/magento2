@@ -88,25 +88,4 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
 
         return $this;
     }
-
-
-
-
-
-    /**
-     * Apply category filter to product collection
-     *
-     * @deprecated after 1.10.0.2
-     *
-     * @param   Mage_Catalog_Model_Category $category
-     * @param   Mage_Catalog_Model_Layer_Filter_Category $filter
-     * @return  Enterprise_Search_Model_Catalog_Layer_Filter_Category
-     */
-    public function addCategoryFilter($category, $filter)
-    {
-        $productCollection = $this->getLayer()->getProductCollection();
-        $productCollection->addFqFilter(array('categories' => $category->getId()));
-
-        return $this;
-    }
 }

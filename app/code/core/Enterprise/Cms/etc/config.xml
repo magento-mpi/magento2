@@ -36,7 +36,7 @@
             <enterprise_cms_setup>
                 <setup>
                     <module>Enterprise_Cms</module>
-                    <class>Enterprise_Cms_Model_Resource_Setup</class>
+                    <class>Mage_Core_Model_Resource_Setup</class>
                 </setup>
             </enterprise_cms_setup>
         </resources>

@@ -637,20 +637,6 @@ class Enterprise_Reward_Model_Observer
     }
 
     /**
-     * Set invoiced reward amount to order
-     *
-     * @deprecated after 1.9.0.0
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_Reward_Model_Observer
-     */
-    public function invoiceSaveAfter(Varien_Event_Observer $observer)
-    {
-        $this->invoiceRegister($observer);
-        return $this;
-    }
-
-
-    /**
      * Set invoiced reward amount to order after invoice register
      *
      * @param Varien_Event_Observer $observer

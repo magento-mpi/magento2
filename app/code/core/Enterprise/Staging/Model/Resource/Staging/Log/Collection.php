@@ -60,20 +60,6 @@ class Enterprise_Staging_Model_Resource_Staging_Log_Collection extends Mage_Core
     }
 
     /**
-     * Add backuped filter
-     *
-     * @deprecated after 1.8.0.0
-     *
-     * @return Enterprise_Staging_Model_Resource_Staging_Log_Collection
-     */
-    public function addBackupedFilter()
-    {
-        //        $this->addFieldToFilter('main_table.is_backuped', 1);
-
-        return $this;
-    }
-
-    /**
      * Joining staging table to collection
      *
      * @return Enterprise_Staging_Model_Resource_Staging_Log_Collection

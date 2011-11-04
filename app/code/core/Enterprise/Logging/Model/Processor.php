@@ -89,22 +89,6 @@ class Enterprise_Logging_Model_Processor
     protected $_eventChanges = array();
 
     /**
-     * Set of fields that should not be logged for all models
-     *
-     * @deprecated 1.6.0.0
-     * @var array
-     */
-    protected $_skipFields = array();
-
-    /**
-     * Set of fields that should not be logged per expected model
-     *
-     * @deprecated 1.6.0.0
-     * @var array
-     */
-    protected $_skipFieldsByModel = array();
-
-    /**
      * Collection of affected ids
      *
      * @var array
@@ -117,12 +101,6 @@ class Enterprise_Logging_Model_Processor
      * @var array
      */
     protected $_collectedAdditionalData = array();
-
-    /**
-     * @deprecated after 1.6.0.0
-     *
-     */
-    const XML_PATH_SKIP_GLOBAL_FIELDS = 'adminhtml/enterprise/logging/skip_fields';
 
     /**
      * Initialize configuration model, controller and model handler
@@ -468,27 +446,6 @@ class Enterprise_Logging_Model_Processor
         }
 
         return $return;
-    }
-
-    /**
-     * Clear model data from objects, arrays and fields that should be skipped
-     *
-     * @deprecated after 1.6.0.0
-     * @param array $data
-     * @return array
-     */
-    public function cleanupData($data)
-    {
-        if (!$data && !is_array($data)) {
-            return array();
-        }
-        $clearData = array();
-        foreach ($data as $key=>$value) {
-            if (!in_array($key, $this->_skipFields) && !in_array($key, $this->_skipFieldsByModel) && !is_array($value) && !is_object($value)) {
-                $clearData[$key] = $value;
-            }
-        }
-        return $clearData;
     }
 
     /**

@@ -172,7 +172,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Engine extends Mage_Core_Model_
      *
      * @return bool
      */
-    public function isLeyeredNavigationAllowed()
+    public function isLayeredNavigationAllowed()
     {
         return true;
     }

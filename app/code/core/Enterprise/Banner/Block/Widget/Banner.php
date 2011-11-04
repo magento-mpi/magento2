@@ -194,7 +194,8 @@ class Enterprise_Banner_Block_Widget_Banner
             if (!$customer) {
                 $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
             }
-            $segmentIds = Mage::getSingleton('Enterprise_CustomerSegment_Model_Customer')->getCustomerSegmentIds($customer);
+            $segmentIds = Mage::getSingleton('Enterprise_CustomerSegment_Model_Customer')
+                ->getCustomerSegmentIdsForWebsite($customer->getId(), Mage::app()->getWebsite()->getId());
         }
 
         $this->_bannerResource->filterByTypes($this->getTypes());

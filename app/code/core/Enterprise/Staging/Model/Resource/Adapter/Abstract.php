@@ -410,52 +410,6 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
     }
 
     /**
-     * Get create table sql
-     *
-     * @deprecated after 1.10.1.0
-     * @param mixed $tableDescription
-     * @param bool $isFlat
-     * @return string
-     */
-    protected function _getCreateSql($tableDescription, $isFlat = false)
-    {
-        $_sql = "CREATE TABLE IF NOT EXISTS `{$tableDescription['table_name']}`\n";
-
-        $rows = array();
-        if (!empty($tableDescription['fields'])) {
-            foreach ($tableDescription['fields'] as $field) {
-                $rows[] = $this->_getFieldSql($field);
-            }
-        }
-
-        foreach ($tableDescription['keys'] as $key) {
-            $rows[] = $this->_getKeySql($key);
-        }
-        foreach ($tableDescription['constraints'] as $key) {
-            if ($isFlat) {
-                $rows[] = $this->_getFlatConstraintSql($key, $tableDescription);
-            }
-            else {
-                $rows[] = $this->_getConstraintSql($key);
-            }
-        }
-        $rows = implode(",\n", $rows);
-        $_sql .= " ({$rows})";
-
-        if (!empty($tableDescription['engine'])) {
-            $_sql .= " ENGINE={$tableDescription['engine']}";
-        }
-        if (!empty($tableDescription['charset'])) {
-            $_sql .= " DEFAULT CHARSET={$tableDescription['charset']}";
-        }
-        if (!empty($tableDescription['collate'])) {
-            $_sql .= " COLLATE={$tableDescription['collate']}";
-        }
-
-        return $_sql;
-    }
-
-    /**
      * Get create table Ddl
      *
      * @param array $tableDescription

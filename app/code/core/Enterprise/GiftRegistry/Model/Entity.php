@@ -410,29 +410,6 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get active entity
-     *
-     * @deprecated after 1.9.1.1
-     * @param int $customerId
-     * @return false|Enterprise_GiftRegistry_Model_Entity
-     */
-    public function getActiveEntity($customerId)
-    {
-        $collection = $this->getCollection()
-            ->filterByCustomerId($customerId)
-            ->filterByActive();
-
-        if ($collection->getSize()) {
-            foreach ($collection as $entity) {
-                return $entity;
-            }
-        } else {
-            Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('There is no active gift registries.'));
-        }
-        return false;
-    }
-
-    /**
      * Load entity model by gift registry item id
      *
      * @param int $itemId

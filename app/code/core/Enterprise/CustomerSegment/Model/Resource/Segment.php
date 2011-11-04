@@ -317,45 +317,4 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
             array(':segment_id' => (int)$segmentId)
         );
     }
-
-    /**
-     * save CustomerSegments from select
-     *
-     * @deprecated after 1.6.0.0 - please use saveCustomersFromSelect
-     *
-     * @param Enterprise_CustomerSegment_Model_Segment $segment
-     * @param Varien_Db_Select $select
-     * @return Enterprise_CustomerSegment_Model_Resource_Segment
-     */
-    public function saveSegmentCustomersFromSelect($segment, $select)
-    {
-        $table = $this->getTable('enterprise_customersegment_customer');
-        $adapter = $this->_getWriteAdapter();
-        $segmentId = $segment->getId();
-        $now = $this->formatDate(time());
-
-        $adapter->delete($table, $adapter->quoteInto('segment_id=?', $segmentId));
-
-        $data = array();
-        $count= 0;
-        $stmt = $adapter->query($select);
-        while ($row = $stmt->fetch()) {
-            $data[] = array(
-                'segment_id'    => $segmentId,
-                'customer_id'   => $row['entity_id'],
-                'added_date'    => $now,
-                'updated_date'  => $now,
-            );
-            $count++;
-            if ($count>1000) {
-                $count = 0;
-                $adapter->insertMultiple($table, $data);
-                $data = array();
-            }
-        }
-        if ($count>0) {
-            $adapter->insertMultiple($table, $data);
-        }
-        return $this;
-    }
 }

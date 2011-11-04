@@ -27,15 +27,6 @@
 abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_Rule_Model_Condition_Combine
 {
     /**
-     * Flag of using History condition (for conditions of Product_Attribute)
-     *
-     * @deprecated after 1.11.1.0
-     *
-     * @var bool
-     */
-    protected $_combineHistory = false;
-
-    /**
      * Flag of using condition combine (for conditions of Product_Attribute)
      *
      * @var bool

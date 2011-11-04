@@ -61,16 +61,6 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
     }
 
     /**
-     * @deprecated after 1.3.2.3
-     * @param Mage_Customer_Model_Customer $customer
-     * @return bool
-     */
-    public function shouldCustomerHaveOneBalance($customer)
-    {
-        return false;
-    }
-
-    /**
      * Get balance amount
      *
      * @return float
@@ -133,10 +123,6 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
     {
         $this->_ensureCustomer();
 
-        // make sure appropriate website was set. Admin website is disallowed
-        if ((!$this->hasWebsiteId()) && $this->shouldCustomerHaveOneBalance($this->getCustomer())) {
-            $this->setWebsiteId($this->getCustomer()->getWebsiteId());
-        }
         if (0 == $this->getWebsiteId()) {
             Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Website ID must be set.'));
         }
@@ -246,14 +232,6 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
         }
         return $this->getAmount() >=
             ((float)$quote->getBaseGrandTotal() + (float)$quote->getBaseCustomerBalAmountUsed());
-    }
-
-    /**
-     * @deprecated after 1.3.2.3
-     */
-    public function isFulAmountCovered(Mage_Sales_Model_Quote $quote)
-    {
-        return $this->isFullAmountCovered($quote);
     }
 
     /**

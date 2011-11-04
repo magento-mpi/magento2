@@ -55,13 +55,6 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
 
     const CACHE_TAG             = 'catalog_event';
 
-    /**
-     * Path to time zone in configuration
-     *
-     * @deprecated after 1.3.2.3
-     */
-    const XML_PATH_DEFAULT_TIMEZONE = 'general/locale/timezone';
-
     const IMAGE_PATH = 'enterprise/catalogevent';
 
     protected $_store = null;
@@ -340,25 +333,6 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Converts given date to internal date format in UTC
-     *
-     * @deprecated after 1.3.2.3
-     * @param  string $dateTime
-     * @param  string $format
-     * @return string
-     */
-    protected function _convertDateTime($dateTime, $format)
-    {
-        $date = new Zend_Date(Mage::app()->getLocale()->getLocale());
-        $date->setTimezone(Mage::app()->getStore()->getConfig(self::XML_PATH_DEFAULT_TIMEZONE));
-        $format = Mage::app()->getLocale()->getDateTimeFormat($format);
-        $date->set($dateTime, $format);
-        $date->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
-        return $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
-    }
-
-
-    /**
      * Checks if object can be deleted
      *
      * @return boolean
@@ -400,20 +374,6 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     {
         $this->_isReadonly = (boolean) $value;
         return $this;
-    }
-
-    /**
-     * @deprecated after 1.3.2.2
-     */
-    public function updateStatus()
-    {
-        $originalStatus = $this->getStatus();
-        if ($originalStatus == self::STATUS_OPEN || $originalStatus == self::STATUS_UPCOMING) {
-            $this->applyStatusByDates();
-            if ($this->getStatus() != $originalStatus) {
-                $this->save();
-            }
-        }
     }
 
     /**

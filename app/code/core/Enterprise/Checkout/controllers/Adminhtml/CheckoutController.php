@@ -132,23 +132,6 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     }
 
     /**
-     * Init store based on quote and customer sharing options
-     * Store customer, store and quote to registry
-     *
-     * Deprecated - use _initData() instead
-     *
-     * @deprecated after 1.5.0.0
-     *
-     * @throws Mage_Core_Exception
-     * @throws Enterprise_Checkout_Exception
-     * @return Enterprise_Checkout_Adminhtml_CheckoutController
-     */
-    protected function _initAction()
-    {
-        return $this->_initData();
-    }
-
-    /**
      * Renderer for page title
      *
      * @return Mage_Adminhtml_Controller_Action

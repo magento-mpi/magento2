@@ -258,25 +258,6 @@ class Enterprise_PageCache_Model_Observer
     }
 
     /**
-     * Check cache settings for specific block type and associate block to container if needed
-     *
-     * @param Varien_Event_Observer $observer
-     * @deprecated after 1.8
-     */
-    public function blockCreateAfter(Varien_Event_Observer $observer)
-    {
-        if (!$this->_isEnabled) {
-            return $this;
-        }
-        $block  = $observer->getEvent()->getBlock();
-        $placeholder = $this->_config->getBlockPlaceholder($block);
-        if ($placeholder) {
-            $block->setFrameTags($placeholder->getStartTag(), $placeholder->getEndTag());
-        }
-        return $this;
-    }
-
-    /**
      * Set cart hash in cookie on quote change
      *
      * @param Varien_Event_Observer $observer
@@ -515,28 +496,6 @@ class Enterprise_PageCache_Model_Observer
     protected function _getCookie()
     {
         return Mage::getSingleton('Enterprise_PageCache_Model_Cookie');
-    }
-
-    /**
-     * Check if last viewed product id should be processed after cached product view
-     * @deprecated after 1.8 - added dynamic block generation
-     */
-    protected function _checkViewedProducts()
-    {
-        $varName = Enterprise_PageCache_Model_Processor::LAST_PRODUCT_COOKIE;
-        $productId = (int) Mage::getSingleton('Mage_Core_Model_Cookie')->get($varName);
-        if ($productId) {
-            $model = Mage::getModel('Mage_Reports_Model_Product_Index_Viewed');
-            if (!$model->getCount()) {
-                $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
-                if ($product->getId()) {
-                    $model->setProductId($productId)
-                        ->save()
-                        ->calculate();
-                }
-            }
-            Mage::getSingleton('Mage_Core_Model_Cookie')->delete($varName);
-        }
     }
 
     /**

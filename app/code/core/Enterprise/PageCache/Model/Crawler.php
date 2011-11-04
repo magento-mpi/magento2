@@ -81,28 +81,6 @@ class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get internal links from page content
-     *
-     * @deprecated after 1.11.0.0
-     *
-     * @param string $pageContent
-     * @return array
-     */
-    public function getUrls($pageContent)
-    {
-        $urls = array();
-        preg_match_all(
-            "/\s+href\s*=\s*[\"\']?([^\s\"\']+)[\"\'\s]+/ims",
-            $pageContent,
-            $urls
-        );
-        if (isset($urls[1])) {
-            $urls = $urls[1];
-        }
-        return $urls;
-    }
-
-    /**
      * Get configuration for stores base urls.
      *
      * array(

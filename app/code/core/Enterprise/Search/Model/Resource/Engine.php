@@ -503,43 +503,8 @@ class Enterprise_Search_Model_Resource_Engine
         return $this->_adapter->getIndexNeedsOptimization();
     }
 
-
-
-
-
-    /**
-     * Retrieve search suggestions
-     *
-     * @deprecated after 1.9.0.0
-     *
-     * @param  string $query
-     * @param  array $params see description in appropriate search adapter
-     * @param  int|bool $limit
-     * @param  bool $withResultsCounts
-     * @return array
-     */
-    public function getSuggestionsByQuery($query, $params = array(), $limit = false, $withResultsCounts = false)
-    {
-        return $this->_adapter->getSuggestionsByQuery($query, $params, $limit, $withResultsCounts);
-    }
-
-    /**
-     * Define if Layered Navigation is allowed
-     *
-     * @deprecated after 1.9.1
-     * @see $this->isLayeredNavigationAllowed()
-     *
-     * @return bool
-     */
-    public function isLeyeredNavigationAllowed()
-    {
-        $this->isLayeredNavigationAllowed();
-    }
-
     /**
      * Refresh products indexes affected on category update
-     *
-     * @deprecated after 1.11.0.0
      *
      * @param  array $productIds
      * @param  array $categoryIds

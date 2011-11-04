@@ -85,14 +85,6 @@
                     </enterprise_giftcardaccount_save_after>
                 </observers>
             </enterprise_giftcardaccount_save_after>
-            <sales_order_invoice_save_after>
-                <observers>
-                    <enterprise_giftcardaccount_sales_order_invoice_save_after>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>increaseOrderInvoicedAmount</method>
-                    </enterprise_giftcardaccount_sales_order_invoice_save_after>
-                </observers>
-            </sales_order_invoice_save_after>
             <sales_order_invoice_register>
                 <observers>
                     <enterprise_giftcardaccount_sales_order_invoice_register>

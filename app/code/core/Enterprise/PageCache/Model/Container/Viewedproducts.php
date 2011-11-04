@@ -81,16 +81,4 @@ class Enterprise_PageCache_Model_Container_Viewedproducts extends Enterprise_Pag
 
         return $block->toHtml();
     }
-
-    /**
-     * Save information about last viewed products
-     *
-     * @param array $productIds
-     * @return Enterprise_PageCache_Model_Container_Viewedproducts
-     * @deprecated after 1.8
-     */
-    protected function _registerProductsView($productIds)
-    {
-        return $this;
-    }
 }

@@ -382,17 +382,6 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     }
 
     /**
-     * Return Gift Card Account state as user-friendly label
-     *
-     * @deprecated after 1.3.2.3 use magic method instead
-     * @return string
-     */
-    public function getStateText()
-    {
-        return $this->_setStateText();
-    }
-
-    /**
      * Set state text on after load
      *
      * @return Enterprise_GiftCardAccount_Model_Giftcardaccount
@@ -526,7 +515,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
                 'code'          => $code,
                 'balance'       => $balance,
                 'store'         => $recipientStore,
-                'store_name'    => $recipientStore->getName()  // @deprecated after 1.4.0.0-beta1
+                'store_name'    => $recipientStore->getName(),
             )
         );
 
@@ -540,7 +529,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
 
     /**
      * Set state text by loaded state code
-     * Used in _afterLoad() and old getStateText()
+     * Used in _afterLoad()
      *
      * @return string
      */

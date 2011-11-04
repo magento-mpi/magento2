@@ -294,18 +294,6 @@ class Enterprise_CatalogPermissions_Model_Observer
     /**
      * Checks quote item for product permissions
      *
-     * @deprecated after 1.11.0.0
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_CatalogPermissions_Model_Observer
-     */
-    public function checkQuoteItem(Varien_Event_Observer $observer)
-    {
-        return $this;
-    }
-
-    /**
-     * Checks quote item for product permissions
-     *
      * @param Varien_Event_Observer $observer
      * @return Enterprise_CatalogPermissions_Model_Observer
      */

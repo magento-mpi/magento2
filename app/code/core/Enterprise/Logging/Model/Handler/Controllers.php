@@ -291,12 +291,6 @@ class Enterprise_Logging_Model_Handler_Controllers
     }
 
     /**
-     *
-     * @deprecated after 1.6.1.0
-     */
-    public function postDispatchMyAccountSave($config, $eventModel){}
-
-    /**
      * Special handler for newsletter unsubscribe
      *
      * @param Varien_Simplexml_Element $config
@@ -331,12 +325,6 @@ class Enterprise_Logging_Model_Handler_Controllers
         }
         return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Tax Rates Import'));
     }
-
-    /**
-     *
-     * @deprecated after 1.6.0.0-rc1
-     */
-    public function postDispatchSystemStoreSave($config, $eventModel){}
 
     /**
      * Custom handler for catalog product mass attribute update

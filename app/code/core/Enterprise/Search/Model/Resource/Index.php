@@ -35,19 +35,6 @@
 class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_Resource_Fulltext
 {
     /**
-     * Define product count processed at one iteration
-     *
-     * @deprecated after 1.11.0.0
-     *
-     * @var int
-     */
-    protected $_limit = 100;
-
-
-
-
-
-    /**
      * Return array of category, position and visibility data by products
      *
      * @param   int $storeId
@@ -200,48 +187,5 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_Re
             ->orWhere('c_p.category_id = ?', $categoryId);
 
         return $adapter->fetchCol($select);
-    }
-
-
-
-
-
-    /**
-     * Update category'es products indexes
-     *
-     * @deprecated after 1.11.0.0
-     *
-     * @param   array $productIds
-     * @return  Enterprise_Search_Model_Resource_Index
-     */
-    public function updateCategoryIndexData($productIds)
-    {
-        foreach (Mage::app()->getStores(false) as $store) {
-            $index = $this->_getCatalogCategoryData($store->getId(), $productIds, false);
-            foreach (array_chunk($index, $this->_limit, true) as $indexPart) {
-                $this->_engine->saveEntityIndexes($store->getId(), $indexPart, 'product');
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Update category'es products price index
-     *
-     * @deprecated after 1.11.0.0
-     *
-     * @return Enterprise_Search_Model_Resource_Index
-     */
-    public function updatePriceIndexData()
-    {
-        foreach (Mage::app()->getStores(false) as $store) {
-            $index = $this->_getCatalogProductPriceData();
-            foreach (array_chunk($index, $this->_limit, true) as $indexPart) {
-                $this->_engine->saveEntityIndexes($store->getId(), $indexPart, 'product');
-            }
-        }
-
-        return $this;
     }
 }

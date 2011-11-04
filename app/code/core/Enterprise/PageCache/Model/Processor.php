@@ -29,10 +29,6 @@ class Enterprise_PageCache_Model_Processor
     const NO_CACHE_COOKIE               = 'NO_CACHE';
     const XML_NODE_ALLOWED_CACHE        = 'frontend/cache/requests';
     const XML_PATH_ALLOWED_DEPTH        = 'system/page_cache/allowed_depth';
-    /**
-     * @deprecated after 1.8.0.0
-     */
-    const XML_PATH_LIFE_TIME            = 'system/page_cache/lifetime';
     const XML_PATH_CACHE_MULTICURRENCY  = 'system/page_cache/multicurrency';
     const XML_PATH_CACHE_DEBUG          = 'system/page_cache/debug';
     const REQUEST_ID_PREFIX             = 'REQEST_';

@@ -41,39 +41,6 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     protected $_eventsToCategories = null;
 
-
-    /**
-     * @deprecated - logic moved to Event->load() and Collection _afterLoad() methods
-     *
-     * Applies event status by cron
-     *
-     * @return void
-     */
-    public function applyEventStatus()
-    {
-        $collection = Mage::getModel('Enterprise_CatalogEvent_Model_Event')->getCollection();
-        // We should check only not closed events.
-        $collection->addFieldToFilter('status',
-            array(
-                'in' => array(
-                    Enterprise_CatalogEvent_Model_Event::STATUS_OPEN,
-                    Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING
-                )
-            ));
-        foreach ($collection as $event) {
-            /* @var $event Enterprise_CatalogEvent_Model_Event */
-            try {
-                $event->applyStatusByDates();
-                if ($event->dataHasChangedFor('status')) {
-                    // Save only if status was changed.
-                    $event->save();
-                }
-            } catch (Exception $e) {    // Ignore
-                Mage::logException($e);
-            }
-        }
-    }
-
     /**
      * Applies event to category
      *

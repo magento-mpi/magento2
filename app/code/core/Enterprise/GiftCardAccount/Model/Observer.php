@@ -122,21 +122,6 @@ class Enterprise_GiftCardAccount_Model_Observer
     }
 
     /**
-     * @deprecated after EE 1.7.1
-     * @The order gift cards invoices should increase during invoice register not after invoice saved.
-     *
-     * Increase order giftcards_amount_invoiced attribute based on created invoice
-     * used for event: sales_order_invoice_save_after
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_GiftCardAccount_Model_Observer
-     */
-    public function increaseOrderInvoicedAmount(Varien_Event_Observer $observer)
-    {
-        return $this;
-    }
-
-    /**
      * Increase order giftcards_amount_invoiced attribute based on created invoice
      * used for event: sales_order_invoice_register
      *

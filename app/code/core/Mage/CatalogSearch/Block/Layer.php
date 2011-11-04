@@ -78,7 +78,7 @@ class Mage_CatalogSearch_Block_Layer extends Mage_Catalog_Block_Layer_View
      */
     public function canShowBlock()
     {
-        $_isLNAllowedByEngine = Mage::helper('Mage_CatalogSearch_Helper_Data')->getEngine()->isLeyeredNavigationAllowed();
+        $_isLNAllowedByEngine = Mage::helper('Mage_CatalogSearch_Helper_Data')->getEngine()->isLayeredNavigationAllowed();
         if (!$_isLNAllowedByEngine) {
             return false;
         }

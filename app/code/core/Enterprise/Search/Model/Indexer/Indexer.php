@@ -85,32 +85,4 @@ class Enterprise_Search_Model_Indexer_Indexer
 
         return $this;
     }
-
-
-
-
-
-    /**
-     * Change indexes status to defined
-     *
-     * @deprecated after 1.11.0.0
-     *
-     * @param   string|array $indexList
-     * @param   string $status
-     * @return  Enterprise_Search_Model_Indexer_Indexer
-     */
-    protected function _changeIndexesStatus($indexList, $status)
-    {
-        $indexer = Mage::getSingleton('Mage_Index_Model_Indexer');
-
-        if (!is_array($indexList)) {
-            $indexList = array($indexList);
-        }
-
-        foreach ($indexList as $index) {
-            $indexer->getProcessByCode($index)->changeStatus($status);
-        }
-
-        return $this;
-    }
 }

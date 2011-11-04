@@ -109,16 +109,4 @@ class Enterprise_Search_Block_Catalog_Layer_View extends Mage_Catalog_Block_Laye
 
         return parent::getLayer();
     }
-
-    /**
-     * Check if search engine gen be used for catalog navigation
-     *
-     * @deprecated after 1.9.0.0 - use Enterprise_Search_Helper_Data::getIsEngineAvailableForNavigation()
-     *
-     * @return bool
-     */
-    public function getIsEngineAvailable()
-    {
-        return Mage::helper('Enterprise_Search_Helper_Data')->getIsEngineAvailableForNavigation();
-    }
 }

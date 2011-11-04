@@ -153,23 +153,6 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     protected $_indexNeedsOptimization = false;
 
-
-
-
-
-    /**
-     * Text fields which can store data differ in different languages
-     *
-     * @deprecated after 1.11.0.0
-     *
-     * @var array
-     */
-    protected $_searchTextFields = array('name', 'alphaNameSort');
-
-
-
-
-
     /**
      * Before commit action
      *
@@ -491,22 +474,6 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     public function getStats($query, $params = array())
     {
         return $this->_search($query, $params);
-    }
-
-    /**
-     * Retrieve search suggestions by query
-     *
-     * @depracated after 1.9.0.0
-     *
-     * @param string $query
-     * @param array $params
-     * @param int $limit
-     * @param bool $withResultsCounts
-     * @return array
-     */
-    public function getSuggestionsByQuery($query, $params = array(), $limit = false, $withResultsCounts = false)
-    {
-        return $this->_searchSuggestions($query, $params, $limit, $withResultsCounts);
     }
 
     /**
@@ -932,57 +899,5 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     public function getIndexNeedsOptimization()
     {
         return $this->_indexNeedsOptimization;
-    }
-
-
-
-
-
-    /**
-     * Filter index data by common Solr metadata fields
-     * Add language code suffix to text fields
-     *
-     * @deprecated after 1.8.0.0 - use $this->_prepareIndexData()
-     * @see $this->_usedFields, $this->_searchTextFields
-     *
-     * @param  array $data
-     * @param  string|null $localeCode
-     * @return array
-     */
-    protected function _filterIndexData($data, $localeCode = null)
-    {
-        if (empty($data) || !is_array($data)) {
-            return array();
-        }
-
-        foreach ($data as $code => $value) {
-            if(!in_array($code, $this->_usedFields) && strpos($code, 'fulltext') !== 0 ) {
-                unset($data[$code]);
-            }
-        }
-
-        $languageCode = $this->_getLanguageCodeByLocaleCode($localeCode);
-        if ($languageCode) {
-            foreach ($data as $key => $value) {
-                if (in_array($key, $this->_searchTextFields) || strpos($key, 'fulltext') === 0) {
-                    $data[$key . '_' . $languageCode] = $value;
-                    unset($data[$key]);
-                }
-            }
-        }
-
-        return $data;
-    }
-
-    /**
-     * Retrieve default searchable fields
-     *
-     * @deprecated after 1.11.0.0
-     *
-     * @return array
-     */
-    public function getSearchTextFields()
-    {
-        return $this->_searchTextFields;
     }
 }
