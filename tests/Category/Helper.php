@@ -255,6 +255,19 @@ class Category_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * OpenCategory
+     *
+     * @param string $categoryName
+     */
+    public function frontOpenCategory($categoryName)
+    {
+        $url = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $categoryName)), '-');
+        $this->addParameter('categoryTitle', $categoryName);
+        $this->addParameter('categoryUrl', $url);
+        $this->frontend('category_page');
+    }
+
+    /**
      * Searches the page with the product in the category
      *
      * @param string $productName
@@ -263,11 +276,8 @@ class Category_Helper extends Mage_Selenium_TestCase
      */
     public function frontSearchAndOpenPageWithProduct($productName, $category)
     {
-        $url = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $category)), '-');
-        $this->addParameter('categoryTitle', $category);
-        $this->addParameter('categoryUrl', $url);
+        $this->frontOpenCategory($category);
         $this->addParameter('productName', $productName);
-        $this->frontend('category_page');
         $xpathNext = $this->_getControlXpath('link', 'next_page');
         $xpathProduct = $this->_getControlXpath('pageelement', 'product_name_header');
 
