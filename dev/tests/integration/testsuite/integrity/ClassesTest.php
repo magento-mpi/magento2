@@ -364,8 +364,8 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             return array();
         }
 
-        $regexp = "'resource_model'" . '\s*=>\s*' . "'([A-Za-z_]+)'";
-        $matched = preg_match_all('/' . $regexp . '/', $content, $matches);
+        $regexp = "/'resource_model'" . '\s*=>\s*' . "'([A-Za-z_]+)'/";
+        $matched = preg_match_all($regexp, $content, $matches);
 
         if (!$matched) {
             return array();
@@ -395,5 +395,25 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             return array_unique($matches[1]);
         }
         return array();
+    }
+
+    /**
+     * Finds usage of resource model classes, set as "_parentResourceModelName = 'Class_Name'"
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitEnterpriseSalesParentResourceModel($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, 'php')) {
+            return array();
+        }
+
+        $regexp = '/_parentResourceModelName\s*=\s*[\'"]([a-zA-Z0-9_]+)[\'"];/';
+        if (!preg_match_all($regexp, $content, $matches)) {
+            return array();
+        }
+        return $matches[1];
     }
 }
