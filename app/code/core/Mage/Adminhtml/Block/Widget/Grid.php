@@ -1218,8 +1218,6 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     /**
      * Grid url getter
      *
-     * @deprecated after 1.3.2.3 Use getAbsoluteGridUrl() method instead
-     *
      * @return string current grid url
      */
     public function getGridUrl()

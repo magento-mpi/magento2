@@ -87,17 +87,6 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info
     }
 
     /**
-     * Retrieve giftmessage block html
-     *
-     * @deprecated after 1.4.2.0, use self::getGiftOptionsHtml() instead
-     * @return string
-     */
-    public function getGiftmessageHtml()
-    {
-        return $this->getChildHtml('order_giftmessage');
-    }
-
-    /**
      * Retrieve gift options container block html
      *
      * @return string

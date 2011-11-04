@@ -292,13 +292,6 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         $this->_redirect('*/*');
     }
 
-    /**
-     * @deprecated since 1.5.0.0
-     */
-    public function addToAlersAction()
-    {
-    }
-
     protected function _isAllowed()
     {
         return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('promo/catalog');

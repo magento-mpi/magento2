@@ -41,6 +41,6 @@ class Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip extends Mage_Adminhtml_B
             return ip2long($value);
         }
         $expr = Mage::getResourceHelper('Enterprise_Logging')->getInetNtoaExpr();
-        return array('field_expr' => $expr, 'like' => "%{$this->_escapeValue($value)}%");
+        return array('field_expr' => $expr, 'like' => $value);
     }
 }

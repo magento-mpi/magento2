@@ -84,7 +84,6 @@ class Mage_Adminhtml_Report_StatisticsController extends Mage_Adminhtml_Controll
      * Retrieve array of collection names by code specified in request
      *
      * @return array
-     * @deprecated after 1.4.0.1
      */
     protected function _getCollectionNames()
     {

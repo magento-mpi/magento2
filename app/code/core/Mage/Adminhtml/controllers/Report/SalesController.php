@@ -139,17 +139,6 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
 
-    /**
-     * Retrieve array of collection names by code specified in request
-     *
-     * @deprecated after 1.4.0.1
-     * @return array
-     */
-    protected function _getCollectionNames()
-    {
-        return array();
-    }
-
     protected function _showLastExecutionTime($flagCode, $refreshCode)
     {
         $flag = Mage::getModel('Mage_Reports_Model_Flag')->setReportFlagCode($flagCode)->loadSelf();

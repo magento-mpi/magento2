@@ -110,16 +110,6 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Abstract extends Mage_Admin
     }
 
     /**
-     * @deprecated after 1.5.0.0
-     * @param  $value
-     * @return mixed
-     */
-    protected function _escapeValue($value)
-    {
-        return str_replace('_', '\_', str_replace('\\', '\\\\', $value));
-    }
-
-    /**
      * Retrieve filter html
      *
      * @return string
@@ -128,5 +118,4 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Abstract extends Mage_Admin
     {
         return '';
     }
-
 }
