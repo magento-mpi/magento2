@@ -52,7 +52,7 @@
     <enterprise_giftregistry_index_view>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="enterprise_giftregistry/customer_view" name="giftregistry.customer.view" template="giftregistry/customer/view.phtml"></block>
+            <block type="Enterprise_Giftregistry_Block_Customer_View" name="giftregistry.customer.view" template="giftregistry/customer/view.phtml"></block>
         </reference>
     </enterprise_giftregistry_index_view>
 

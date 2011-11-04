@@ -432,5 +432,5 @@ One page checkout order review block
             <block type="Mage_Checkout_Block_Onepage_Failure" name="checkout.failure" template="checkout/onepage/failure.phtml"/>
         </reference>
     </checkout_onepage_failure>
-    <block type="core/list" name="additional.product.info"/>
+    <block type="Mage_Core_Block_List" name="additional.product.info"/>
 </layout>

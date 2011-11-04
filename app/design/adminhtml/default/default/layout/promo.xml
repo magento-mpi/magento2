@@ -85,6 +85,6 @@
     </adminhtml_promo_quote_edit>
     <adminhtml_promo_quote_grid>
         <remove name="root" />
-        <block type="adminhtml/promo_quote_edit_tab_product" name="promo_quote_grid" output="toHtml" />
+        <block type="Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Product" name="promo_quote_grid" output="toHtml" />
     </adminhtml_promo_quote_grid>
 </layout>

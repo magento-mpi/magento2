@@ -233,7 +233,7 @@ Base customer alerts preview layout (?)
 
     <alert_preview>
         <block type="Mage_Core_Block_Template" name="root" output="toHtml" template="alert/template/preview.phtml">
-            <block type="adminhtml/alert_template_preview" name="content" as="content"></block>
+            <block type="Mage_Adminhtml_Block_Alert_Template_Preview" name="content" as="content"></block>
         </block>
     </alert_preview>
 <!--

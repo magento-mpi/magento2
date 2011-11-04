@@ -437,7 +437,7 @@ Catalog search terms block
             <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="catalog/seo_searchterm" name="seo.searchterm" template="catalog/seo/searchterm.phtml"/>
+            <block type="Mage_Catalog_Block_Seo_Searchterm" name="seo.searchterm" template="catalog/seo/searchterm.phtml"/>
         </reference>
     </catalog_seo_searchterm_popular>
 

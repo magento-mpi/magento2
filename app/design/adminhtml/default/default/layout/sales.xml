@@ -106,7 +106,7 @@
                             <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="due" template="sales/order/totals/due.phtml" />
                         </block>
                         <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
-                            <block type="adminhtml/sales_order_totals_subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
+                            <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
                             <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Tax" name="tax" template="sales/order/totals/tax.phtml" />
                             <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="shipping" template="sales/order/totals/shipping.phtml" />
                             <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="discount" template="sales/order/totals/discount.phtml" />
@@ -162,7 +162,7 @@
                                 <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="due" template="sales/order/totals/due.phtml" />
                             </block>
                             <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
-                                <block type="adminhtml/sales_order_totals_subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
+                                <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
                                 <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="tax" template="sales/order/totals/item.phtml">
                                     <action method="setSourceField"><value>tax_amount</value></action>
                                     <action method="setLabel"><value>Tax</value></action>
@@ -206,7 +206,7 @@
                     <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="due" template="sales/order/totals/due.phtml" />
                 </block>
                 <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
-                    <block type="adminhtml/sales_order_totals_subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
+                    <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
                     <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="tax" template="sales/order/totals/item.phtml">
                         <action method="setSourceField"><value>tax_amount</value></action>
                         <action method="setLabel"><value>Tax</value></action>
@@ -262,7 +262,7 @@
                             <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="due" template="sales/order/totals/due.phtml" />
                         </block>
                         <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
-                            <block type="adminhtml/sales_order_totals_subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
+                            <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
                             <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="tax" template="sales/order/totals/item.phtml">
                                 <action method="setSourceField"><value>tax_amount</value></action>
                                 <action method="setLabel"><value>Tax</value></action>
@@ -374,7 +374,7 @@
                                 </block>
                             </block>
                             <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
-                                <block type="adminhtml/sales_order_totals_subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
+                                <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
                                 <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="tax" template="sales/order/totals/item.phtml">
                                     <action method="setSourceField"><value>tax_amount</value></action>
                                     <action method="setLabel"><value>Tax</value></action>
@@ -413,7 +413,7 @@
                     </block>
                 </block>
                 <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
-                    <block type="adminhtml/sales_order_totals_subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
+                    <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
                     <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="tax" template="sales/order/totals/item.phtml">
                         <action method="setSourceField"><value>tax_amount</value></action>
                         <action method="setLabel"><value>Tax</value></action>
@@ -463,7 +463,7 @@
                             <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="due" template="sales/order/totals/due.phtml" />
                         </block>
                         <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
-                            <block type="adminhtml/sales_order_totals_subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
+                            <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
                             <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Tax" name="tax" template="sales/order/totals/tax.phtml" />
                             <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="shipping" template="sales/order/totals/shipping.phtml" />
                             <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="discount" template="sales/order/totals/discount.phtml" />

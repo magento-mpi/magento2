@@ -190,7 +190,7 @@
     </xmlconnect_customer_storecredit>
 
     <xmlconnect_customer_giftcardcheck>
-        <block type="xmlconnect/customer_giftcardCheck" name="xmlconnect.customer.giftcardCheck" output="toHtml"/>
+        <block type="Mage_XmlConnect_Block_Customer_GiftcardCheck" name="xmlconnect.customer.giftcardCheck" output="toHtml"/>
     </xmlconnect_customer_giftcardcheck>
 
     <!-- Configuration -->
