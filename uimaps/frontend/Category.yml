@@ -96,12 +96,23 @@ category_page:
                         radiobuttons:
                             vote: //li[span/label='%answer%']/input
                 -
+                    newsletter:
+                        xpath: //div[@class='block block-subscribe']
+                        buttons:
+                            subscribe: //button[span='Subscribe']
+                        fields:
+                            sign_up_newsletter: //input[@id='newsletter']
+                -
                     popular_tags:
                         xpath: //div[@class[contains(.,'block block-tags')]]
                         links:
                             tag_name: //ul[@class='tags-list']/li/a[text()='%tagName%']
                             view_all_tags: //a[text()='View All Tags']
-
+        messages:
+            success_subscription: //li[normalize-space(@class)='success-msg' and contains(.//span,'Thank you for your subscription.')]
+            invalid_email: //div[@class='validation-advice' and text()='Please enter a valid email address. For example johndoe@domain.com.']
+            long_email: "//li[normalize-space(@class)='error-msg' and contains(.//span,'There was a problem with the subscription: Please enter a valid email address.')]"
+            reqired_field: //div[@class='validation-advice' and text()='This is a required field.']
         messages:
             product_added_to_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product %productName% has been added to comparison list.')]
             confirmation_for_delete: Are you sure you would like to remove this item from the compare products?
