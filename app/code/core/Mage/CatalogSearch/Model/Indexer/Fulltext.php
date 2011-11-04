@@ -37,6 +37,13 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
     const EVENT_MATCH_RESULT_KEY = 'catalogsearch_fulltext_match_result';
 
     /**
+     * List of searchable attributes
+     *
+     * @var null|array
+     */
+    protected $_searchableAttributes = null;
+
+    /**
      * Retrieve resource instance
      *
      * @return Mage_CatalogSearch_Model_Resource_Indexer_Fulltext
@@ -285,10 +292,8 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
                     $reindexData['catalogsearch_action_type'] = $actionObject->getActionType();
                 }
 
-                if (isset($attrData['name'])
-                    || isset($attrData['description'])
-                    || isset($attrData['short_description'])
-                ) {
+                $searchableAttributes = array_intersect($this->_getSearchableAttributes(), array_keys($attrData));
+                if (count($searchableAttributes) > 0) {
                     $rebuildIndex = true;
                     $reindexData['catalogsearch_force_reindex'] = true;
                 }
@@ -304,6 +309,26 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
         }
 
         return $this;
+    }
+
+    /**
+     * Retrieve searchable attributes list
+     *
+     * @return array
+     */
+    protected function _getSearchableAttributes()
+    {
+        if (is_null($this->_searchableAttributes)) {
+            /** @var $lolo Mage_Catalog_Model_Resource_Product_Attribute_Collection */
+            $attributeCollection = Mage::getResourceModel('catalog/product_attribute_collection');
+            $attributeCollection->addIsSearchableFilter();
+
+            foreach ($attributeCollection as $attribute) {
+                $this->_searchableAttributes[] = $attribute->getAttributeCode();
+            }
+        }
+
+        return $this->_searchableAttributes;
     }
 
     /**
