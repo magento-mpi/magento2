@@ -143,11 +143,11 @@ product_page:
                             upsell_as_low_as_incl_tax: //table[@id='upsell-product-table']//td[*//a[text()='%productName%']]//a[@class='minimal-price-link']/span[@class='price-including-tax']/span[normalize-space(text())='%price%']
                 -
                     compare_products:
-                        xpath: //div[@class[contains(.,'block-compare')]]
+                        xpath: //div[@class[contains(.,'block-compare')] and */ol[@id='compare-items']]
                         links:
                           clear_all: //a[text()='Clear All']
                           delete_product: //li[p='%productName%']/a
-                          product_link: //p[a='%productName%']/a
+                          product_link: //ol[@id='compare-items']//a[text()='%productName%']
                         buttons:
                           compare: //button[@title='Compare']
 

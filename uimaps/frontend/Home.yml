@@ -57,7 +57,7 @@ home:
                         links:
                           clear_all: //a[text()='Clear All']
                           delete_product: //li[p='%productName%']/a
-                          product_link: //ol[@id='compare-items']//p[a='%productName%']/a
+                          product_link: //ol[@id='compare-items']//a[text()='%productName%']
                         buttons:
                           compare: //button[@title='Compare']
 
