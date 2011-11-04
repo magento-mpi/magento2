@@ -59,9 +59,6 @@
     </global>
     <frontend>
         <models>
-            <loadtest>
-                <class>Mage_LoadTest_Model_LoadTest</class>
-            </loadtest>
         </models>
         <routers>
             <loadtest>

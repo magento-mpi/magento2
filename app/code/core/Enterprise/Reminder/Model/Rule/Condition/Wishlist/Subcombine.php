@@ -48,13 +48,11 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Subcombine
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'enterprise_reminder/rule_condition_wishlist_';
-
         return array_merge_recursive(
             parent::getNewChildSelectOptions(), array(
                 $this->_getRecursiveChildSelectOption(),
-                Mage::getModel("{$prefix}storeview")->getNewChildSelectOptions(),
-                Mage::getModel("{$prefix}attributes")->getNewChildSelectOptions()
+                Mage::getModel("Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview")->getNewChildSelectOptions(),
+                Mage::getModel("Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes")->getNewChildSelectOptions()
             )
         );
     }

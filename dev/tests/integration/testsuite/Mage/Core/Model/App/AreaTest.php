@@ -31,7 +31,7 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->load(Mage_Core_Model_App_Area::PART_DESIGN);
         /** @var Mage_Core_Model_Design_Package $design */
-        $design = Mage::registry('_singleton/core/design_package');
+        $design = Mage::registry('_singleton/Mage_Core_Model_Design_Package');
         $this->assertInstanceOf('Mage_Core_Model_Design_Package', $design);
         $this->assertSame($design, Mage::getDesign());
         $this->assertEquals('frontend', $design->getArea());

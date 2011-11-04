@@ -112,29 +112,6 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Finds usage of Mage::getResourceModel('Class_Name'), Mage::getResourceSingleton('Class_Name')
-     *
-     * @param SplFileInfo $fileInfo
-     * @param string $content
-     * @return array
-     */
-    protected function _visitMageGetResource($fileInfo, $content)
-    {
-        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
-            return array();
-        }
-
-        $funcNames = array('Mage::getResourceModel', 'Mage::getResourceSingleton');
-        $result = array();
-        foreach ($funcNames as $funcName) {
-            $classNames = $this->_getFuncStringArguments($funcName, $content);
-            $result = array_merge($result, $classNames);
-        }
-
-        return $result;
-    }
-
-    /**
      * Checks whether file path has required extension
      *
      * @param string|array $extensions
@@ -166,6 +143,29 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         if ($matched) {
             $result = $matches[1];
         }
+        return $result;
+    }
+
+    /**
+     * Finds usage of Mage::getResourceModel('Class_Name'), Mage::getResourceSingleton('Class_Name')
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitMageGetResource($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        $funcNames = array('Mage::getResourceModel', 'Mage::getResourceSingleton');
+        $result = array();
+        foreach ($funcNames as $funcName) {
+            $classNames = $this->_getFuncStringArguments($funcName, $content);
+            $result = array_merge($result, $classNames);
+        }
+
         return $result;
     }
 
@@ -415,5 +415,141 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             return array();
         }
         return $matches[1];
+    }
+
+    /**
+     * Find usage of Mage::getModel("Class_Name")
+     *
+    * @param SplFileInfo $fileInfo
+    * @param string $content
+    * @return array
+    */
+    protected function _visitMageGetModel($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        return $this->_getFuncStringArguments("Mage::getModel", $content);
+    }
+
+    /**
+     * Find usage of Mage::getSingleton("Class_Name")
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitMageGetSingleton($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        return $this->_getFuncStringArguments("Mage::getSingleton", $content);
+    }
+
+    /**
+     * Find usage model_names in other functions
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitOtherFunctionsWithModelDeclaration($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        $funcPatterns = array(
+             /** _init is used for setting table_names either */
+            // array ("->_init", "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?['\"](\\s?,\\s?['\"].*['\"]\\))/Ui" ),
+            array ("->_initLayoutMessages", "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
+            array ("->setAttributeModel", "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
+            array ("->setAttributeModel", "/{%function_name%}\\(['".'"]([\w\d\/\_]+)?["'."'](.*\\))/Ui" ),
+            array ("->setBackendModel", "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
+            array ("->setBackendModel", "/{%function_name%}\\(['".'"]([\w\d\/\_]+)?["'."'](.*\\))/Ui" ),
+            array ("->setFrontendModel", "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
+            array ("->setFrontendModel", "/{%function_name%}\\(['".'"]([\w\d\/\_]+)?["'."'](.*\\))/Ui" ),
+            array ("->setSourceModel", "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
+            array ("->setSourceModel", "/{%function_name%}\\(['".'"]([\w\d\/\_]+)?["'."'](.*\\))/Ui" ),
+        );
+
+        $patterns = array();
+        foreach($funcPatterns as $funcPattern) {
+            list($function, $pattern) = $funcPattern;
+            $patterns[] = str_replace("{%function_name%}", $function, $pattern);
+        }
+
+        $result = array();
+        foreach ($patterns as $pattern) {
+            $matched = preg_match_all($pattern, $content, $matches);
+            if ($matched) {
+                $result = array_merge($result, $matches[1]);
+            }
+        }
+        $result = array_unique($result);
+        return $result;
+    }
+
+    /**
+     * Finds usage model in *.xml files
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitXmlAttributeDefinitionsForModels($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('xml'))) {
+            return array();
+        }
+
+        $skippedFiles = array(
+            "app".DS."etc".DS."config.xml",
+            "Enterprise".DS."Staging".DS."etc".DS."config.xml",
+            /** @TODO  path should be change after layout moved */
+            "app".DS."design".DS."adminhtml".
+                DS."default".DS."default".DS."layout".DS."enterprise".DS."customerbalance.xml",
+        );
+
+        foreach($skippedFiles as $skippedFile) {
+            if (strpos($fileInfo->getRealPath(), $skippedFile) !== false) {
+                return array();
+            }
+        }
+
+        $_wordsToFind = array(
+            "class",
+            "model",
+            "backend_model",
+            "source_model",
+            "price_model",
+            "model_token",
+            "attribute_model",
+            "writer_model"
+        );
+        $_patternsToFind = array(
+            ">([\\w\\d\\/\\_]+)?(<\\/)",
+            ">([\\w\\d\\/\\_]+)?(::[\\w\\d\\_]+<\\/)"
+        );
+
+        $patterns = array();
+        foreach($_wordsToFind as $wordToFind) {
+            foreach($_patternsToFind as $patternToFind) {
+                $patterns[] = "/"."<".$wordToFind.$patternToFind.$wordToFind.">/Ui";
+            }
+        }
+
+        $result = array();
+        foreach ($patterns as $pattern) {
+            $matched = preg_match_all($pattern, $content, $matches);
+            if ($matched) {
+                $result = array_merge($result, $matches[1]);
+            }
+        }
+        $result = array_unique($result);
+        return $result;
     }
 }
