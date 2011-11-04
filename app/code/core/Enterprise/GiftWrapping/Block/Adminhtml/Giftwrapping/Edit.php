@@ -34,7 +34,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit extends Mage_Adm
     public function __construct()
     {
         $this->_controller = 'adminhtml_giftwrapping';
-        $this->_blockGroup = 'enterprise_giftwrapping';
+        $this->_blockGroup = 'Enterprise_GiftWrapping';
 
         parent::__construct();
 

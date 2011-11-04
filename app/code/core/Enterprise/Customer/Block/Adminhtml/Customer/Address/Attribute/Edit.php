@@ -52,7 +52,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit
     public function __construct()
     {
         $this->_objectId   = 'attribute_id';
-        $this->_blockGroup = 'enterprise_customer';
+        $this->_blockGroup = 'Enterprise_Customer';
         $this->_controller = 'adminhtml_customer_address_attribute';
 
         parent::__construct();

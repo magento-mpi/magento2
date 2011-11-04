@@ -38,7 +38,7 @@ class Mage_XmlConnect_Block_Adminhtml_History extends Mage_Adminhtml_Block_Widge
      */
     public function __construct()
     {
-        $this->_blockGroup = 'xmlconnect';
+        $this->_blockGroup = 'Mage_XmlConnect';
         $this->_controller = 'adminhtml_history';
         $this->_headerText = $this->__('App Submission History');
 

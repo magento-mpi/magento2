@@ -41,7 +41,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma extends Mage_Adminhtml_Block_Widget_Gri
     public function _construct()
     {
         $this->_controller = 'adminhtml_rma';
-        $this->_blockGroup = 'enterprise_rma';
+        $this->_blockGroup = 'Enterprise_Rma';
         $this->_headerText = Mage::helper('Enterprise_Rma_Helper_Data')->__('Manage RMA');
         $this->_addButtonLabel = Mage::helper('Enterprise_Rma_Helper_Data')->__('New RMA Request');
         parent::_construct();

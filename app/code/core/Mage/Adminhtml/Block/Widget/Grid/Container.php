@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Adminhtml_Block_Wi
 
     protected $_addButtonLabel;
     protected $_backButtonLabel;
-    protected $_blockGroup = 'adminhtml';
+    protected $_blockGroup = 'Mage_Adminhtml';
 
     public function __construct()
     {
@@ -61,9 +61,16 @@ class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareLayout()
     {
-        $this->setChild( 'grid',
-            $this->getLayout()->createBlock( $this->_blockGroup.'/' . $this->_controller . '_grid',
-            $this->_controller . '.grid')->setSaveParametersInSession(true) );
+        $this->setChild(
+            'grid',
+            $this->getLayout()->createBlock(
+                $this->_blockGroup
+                    . '_Block_'
+                    . str_replace(' ', '_', ucwords(str_replace('_', ' ', $this->_controller)))
+                    . '_Grid',
+                $this->_controller . '.grid')
+                ->setSaveParametersInSession(true)
+        );
         return parent::_prepareLayout();
     }
 

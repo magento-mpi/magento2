@@ -48,7 +48,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation extends Mage_A
             'class'   => 'add'
         ));
 
-        $this->_blockGroup = 'enterprise_importexport';
+        $this->_blockGroup = 'Enterprise_ImportExport';
         $this->_controller = 'adminhtml_scheduled_operation';
         $this->_headerText = Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Scheduled Import/Export');
     }

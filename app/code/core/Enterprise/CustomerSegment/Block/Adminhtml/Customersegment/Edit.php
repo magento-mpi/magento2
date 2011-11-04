@@ -36,7 +36,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Ma
     {
         $this->_objectId = 'id';
         $this->_controller = 'adminhtml_customersegment';
-        $this->_blockGroup = 'enterprise_customersegment';
+        $this->_blockGroup = 'Enterprise_CustomerSegment';
 
         parent::__construct();
         /** @var Enterprise_CustomerSegment_Model_Segment */

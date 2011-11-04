@@ -49,7 +49,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
         $this->_objectId = 'revision_id';
 
         $this->_controller = 'adminhtml_cms_page_revision';
-        $this->_blockGroup = 'enterprise_cms';
+        $this->_blockGroup = 'Enterprise_Cms';
 
         /* @var $config Enterprise_Cms_Model_Config */
         $config = Mage::getSingleton('Enterprise_Cms_Model_Config');

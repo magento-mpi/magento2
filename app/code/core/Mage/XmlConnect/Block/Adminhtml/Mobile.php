@@ -39,7 +39,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile extends Mage_Adminhtml_Block_Widget
     public function __construct()
     {
         $this->_controller = 'adminhtml_mobile';
-        $this->_blockGroup = 'xmlconnect';
+        $this->_blockGroup = 'Mage_XmlConnect';
         $xmlconnectVersion = Mage::getConfig()->getNode(
             Mage_XmlConnect_Model_Application::XML_PATH_MODULE_VERSION
         );

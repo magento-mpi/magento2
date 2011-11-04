@@ -35,7 +35,7 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Customer extends M
     public function __construct()
     {
         $this->_controller = 'adminhtml_report_invitation_customer';
-        $this->_blockGroup = 'enterprise_invitation';
+        $this->_blockGroup = 'Enterprise_Invitation';
         $this->_headerText = Mage::helper('Enterprise_Invitation_Helper_Data')->__('Customers');
         parent::__construct();
         $this->_removeButton('add');

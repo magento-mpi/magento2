@@ -41,7 +41,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit
     {
         $this->_objectId    = 'application_id';
         $this->_controller  = 'adminhtml_mobile';
-        $this->_blockGroup  = 'xmlconnect';
+        $this->_blockGroup  = 'Mage_XmlConnect';
         parent::__construct();
         if ((bool)!Mage::getSingleton('Mage_Adminhtml_Model_Session')->getNewApplication()) {
             $app = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();

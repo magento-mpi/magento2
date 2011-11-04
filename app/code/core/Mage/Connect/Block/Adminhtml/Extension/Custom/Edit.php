@@ -41,7 +41,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit extends Mage_Adminhtml_
     public function __construct()
     {
         $this->_objectId    = 'id';
-        $this->_blockGroup  = 'connect';
+        $this->_blockGroup  = 'Mage_Connect';
         $this->_controller  = 'adminhtml_extension_custom';
 
         parent::__construct();

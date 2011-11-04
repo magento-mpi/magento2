@@ -35,7 +35,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
     extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     protected $_objectId = 'id';
-    protected $_blockGroup = 'enterprise_catalogevent';
+    protected $_blockGroup = 'Enterprise_CatalogEvent';
     protected $_controller = 'adminhtml_event';
 
     /**
@@ -74,7 +74,14 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
         parent::_prepareLayout();
 
         if (!$this->getEvent()->getId() && !$this->getEvent()->getCategoryId()) {
-            $this->setChild('form', $this->getLayout()->createBlock($this->_blockGroup . '/' . $this->_controller . '_' . $this->_mode . '_category'));
+            $this->setChild(
+                'form',
+                $this->getLayout()->createBlock($this->_blockGroup
+                    . '_Block_'
+                    . str_replace(' ', '_', ucwords(str_replace('_', ' ', $this->_controller . '_' . $this->_mode)))
+                    . '_Category'
+                )
+            );
         }
 
         if ($this->getRequest()->getParam('category')) {

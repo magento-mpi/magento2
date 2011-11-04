@@ -59,7 +59,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit extends Mage_Adminhtml_Block
         parent::_construct();
 
         $this->_objectId   = 'import_id';
-        $this->_blockGroup = 'importexport';
+        $this->_blockGroup = 'Mage_ImportExport';
         $this->_controller = 'adminhtml_import';
     }
 

@@ -31,7 +31,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit extends Ma
     {
         $this->_objectId = 'id';
         $this->_controller = 'adminhtml_giftcardaccount';
-        $this->_blockGroup = 'enterprise_giftcardaccount';
+        $this->_blockGroup = 'Enterprise_GiftCardAccount';
 
         parent::__construct();
 

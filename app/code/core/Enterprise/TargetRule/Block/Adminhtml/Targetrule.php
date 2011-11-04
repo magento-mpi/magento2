@@ -34,7 +34,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule extends Mage_Adminhtml_Bl
     public function __construct()
     {
         $this->_controller = 'adminhtml_targetrule';
-        $this->_blockGroup = 'enterprise_targetrule';
+        $this->_blockGroup = 'Enterprise_TargetRule';
         $this->_headerText = Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Manage Product Rules');
         $this->_addButtonLabel = Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Add Rule');
         parent::__construct();

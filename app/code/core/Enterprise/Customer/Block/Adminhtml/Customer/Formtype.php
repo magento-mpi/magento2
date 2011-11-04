@@ -39,7 +39,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype extends Mage_Adminht
      */
     public function __construct()
     {
-        $this->_blockGroup = 'enterprise_customer';
+        $this->_blockGroup = 'Enterprise_Customer';
         $this->_controller = 'adminhtml_customer_formtype';
         $this->_headerText = Mage::helper('Enterprise_Customer_Helper_Data')->__('Manage Form Types');
 

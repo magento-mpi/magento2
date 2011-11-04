@@ -40,7 +40,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
      */
     public function __construct()
     {
-        $this->_blockGroup = 'enterprise_customersegment';
+        $this->_blockGroup = 'Enterprise_CustomerSegment';
         $this->_controller = 'adminhtml_report_customer_segment_detail';
         $this->_headerText = (!$this->htmlEscape($this->getCustomerSegment()->getName()))
             ? Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Segments Report')

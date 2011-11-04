@@ -38,7 +38,7 @@ class Mage_XmlConnect_Block_Adminhtml_Queue extends Mage_Adminhtml_Block_Widget_
      */
     public function __construct()
     {
-        $this->_blockGroup = 'xmlconnect';
+        $this->_blockGroup = 'Mage_XmlConnect';
         $this->_controller = 'adminhtml_queue';
         $this->_headerText = $this->__('AirMail Messages Queue');
 

@@ -50,7 +50,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit extends Mage_Ad
     public function __construct()
     {
         $this->_objectId   = 'type_id';
-        $this->_blockGroup = 'enterprise_customer';
+        $this->_blockGroup = 'Enterprise_Customer';
         $this->_controller = 'adminhtml_customer_formtype';
 
         parent::__construct();

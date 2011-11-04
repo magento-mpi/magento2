@@ -34,7 +34,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit extends Mage_Adminhtml_Block
     {
         $this->_objectId = 'id';
         $this->_controller = 'adminhtml_banner';
-        $this->_blockGroup = 'enterprise_banner';
+        $this->_blockGroup = 'Enterprise_Banner';
 
         parent::__construct();
 

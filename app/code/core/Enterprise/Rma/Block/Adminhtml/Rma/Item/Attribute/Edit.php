@@ -52,7 +52,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit
     public function __construct()
     {
         $this->_objectId    = 'attribute_id';
-        $this->_blockGroup  = 'enterprise_rma';
+        $this->_blockGroup  = 'Enterprise_Rma';
         $this->_controller  = 'adminhtml_rma_item_attribute';
 
         parent::__construct();

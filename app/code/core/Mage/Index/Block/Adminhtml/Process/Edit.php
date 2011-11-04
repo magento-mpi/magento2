@@ -31,7 +31,7 @@ class Mage_Index_Block_Adminhtml_Process_Edit extends Mage_Adminhtml_Block_Widge
     {
         $this->_objectId = 'process_id';
         $this->_controller = 'adminhtml_process';
-        $this->_blockGroup = 'index';
+        $this->_blockGroup = 'Mage_Index';
 
         parent::__construct();
 

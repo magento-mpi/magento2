@@ -36,7 +36,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types extends Mage_Adminhtml_Block_Wid
 {
     public function __construct()
     {
-        $this->_blockGroup = 'googleshopping';
+        $this->_blockGroup = 'Mage_GoogleShopping';
         $this->_controller = 'adminhtml_types';
         $this->_addButtonLabel = Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Add Attribute Mapping');
         $this->_headerText = Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Manage Attribute Mapping');

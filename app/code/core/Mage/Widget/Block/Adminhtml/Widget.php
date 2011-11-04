@@ -37,7 +37,7 @@ class Mage_Widget_Block_Adminhtml_Widget extends Mage_Adminhtml_Block_Widget_For
     {
         parent::__construct();
 
-        $this->_blockGroup = 'widget';
+        $this->_blockGroup = 'Mage_Widget';
         $this->_controller = 'adminhtml';
         $this->_mode = 'widget';
         $this->_headerText = 'Widget Insertion';

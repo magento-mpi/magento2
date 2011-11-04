@@ -34,7 +34,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New extends Mage_Adminhtml_Block_Widget
     {
         $this->_objectId = 'id';
         $this->_controller = 'adminhtml_rma';
-        $this->_blockGroup = 'enterprise_rma';
+        $this->_blockGroup = 'Enterprise_Rma';
 
         parent::__construct();
 

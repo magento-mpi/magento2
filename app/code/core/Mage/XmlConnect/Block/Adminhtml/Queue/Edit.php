@@ -41,7 +41,7 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Edit
     {
         $this->_objectId    = 'id';
         $this->_controller  = 'adminhtml_queue';
-        $this->_blockGroup  = 'xmlconnect';
+        $this->_blockGroup  = 'Mage_XmlConnect';
         parent::__construct();
 
         $message = Mage::registry('current_message');

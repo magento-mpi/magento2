@@ -38,7 +38,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit extends Mage_Adminhtml_B
     public function __construct()
     {
         $this->_objectId = 'id';
-        $this->_blockGroup = 'enterprise_reminder';
+        $this->_blockGroup = 'Enterprise_Reminder';
         $this->_controller = 'adminhtml_reminder';
 
         parent::__construct();

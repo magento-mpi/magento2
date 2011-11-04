@@ -37,7 +37,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_View extends Mage_Adminhtml_Block_W
     public function __construct()
     {
         parent::__construct();
-        $this->_blockGroup = 'enterprise_staging';
+        $this->_blockGroup = 'Enterprise_Staging';
         $this->_controller = 'adminhtml_log';
         $this->_mode = 'view';
 

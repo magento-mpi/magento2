@@ -39,7 +39,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute extends Mage_Adminh
      */
     public function __construct()
     {
-        $this->_blockGroup = 'enterprise_customer';
+        $this->_blockGroup = 'Enterprise_Customer';
         $this->_controller = 'adminhtml_customer_attribute';
         $this->_headerText = Mage::helper('Enterprise_Customer_Helper_Data')->__('Manage Customer Attributes');
         $this->_addButtonLabel = Mage::helper('Enterprise_Customer_Helper_Data')->__('Add New Attribute');

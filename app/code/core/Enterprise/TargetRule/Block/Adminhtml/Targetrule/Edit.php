@@ -31,7 +31,7 @@
 
 class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
-    protected $_blockGroup = 'enterprise_targetrule';
+    protected $_blockGroup = 'Enterprise_TargetRule';
     protected $_controller = 'adminhtml_targetrule';
 
     public function __construct()

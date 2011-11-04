@@ -33,7 +33,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Mage_Adm
      */
     public function __construct()
     {
-        $this->_blockGroup = 'enterprise_giftregistry';
+        $this->_blockGroup = 'Enterprise_GiftRegistry';
         $this->_controller = 'adminhtml_giftregistry';
 
         parent::__construct();

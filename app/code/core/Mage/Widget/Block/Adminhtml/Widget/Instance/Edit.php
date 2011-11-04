@@ -41,7 +41,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit extends Mage_Adminhtml_Bl
     {
         parent::_construct();
         $this->_objectId = 'instance_id';
-        $this->_blockGroup = 'widget';
+        $this->_blockGroup = 'Mage_Widget';
         $this->_controller = 'adminhtml_widget_instance';
     }
 

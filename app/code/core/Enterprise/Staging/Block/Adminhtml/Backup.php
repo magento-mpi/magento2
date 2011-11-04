@@ -34,7 +34,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup extends Mage_Adminhtml_Block_Wid
 {
     public function __construct()
     {
-        $this->_blockGroup = 'enterprise_staging';
+        $this->_blockGroup = 'Enterprise_Staging';
         $this->_controller = 'adminhtml_backup';
         $this->_headerText = Mage::helper('Enterprise_Staging_Helper_Data')->__('Backups');
         parent::__construct();

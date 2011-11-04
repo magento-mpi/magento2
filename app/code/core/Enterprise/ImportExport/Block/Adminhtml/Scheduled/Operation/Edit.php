@@ -42,7 +42,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit
      */
     protected function _construct()
     {
-        $this->_blockGroup = 'enterprise_importexport';
+        $this->_blockGroup = 'Enterprise_ImportExport';
         $this->_mode = 'edit';
         $this->_controller = 'adminhtml_scheduled_operation';
 

@@ -40,7 +40,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit extends Mage_Adminhtml_B
     public function __construct()
     {
         $this->_objectId   = 'node_id';
-        $this->_blockGroup = 'enterprise_cms';
+        $this->_blockGroup = 'Enterprise_Cms';
         $this->_controller = 'adminhtml_cms_hierarchy';
 
         parent::__construct();

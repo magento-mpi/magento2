@@ -38,7 +38,7 @@ class Mage_XmlConnect_Block_Adminhtml_Template extends Mage_Adminhtml_Block_Widg
      */
     public function __construct()
     {
-        $this->_blockGroup = 'xmlconnect';
+        $this->_blockGroup = 'Mage_XmlConnect';
         $this->_controller = 'adminhtml_template';
         $this->_headerText = $this->__('AirMail templates');
 

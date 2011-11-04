@@ -36,7 +36,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
     extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     protected $_objectId   = 'version_id';
-    protected $_blockGroup = 'enterprise_cms';
+    protected $_blockGroup = 'Enterprise_Cms';
     protected $_controller = 'adminhtml_cms_page_version';
 
     /**

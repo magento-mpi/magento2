@@ -33,7 +33,7 @@
 class Enterprise_Invitation_Block_Adminhtml_Invitation_Add extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     protected $_objectId = 'invitation_id';
-    protected $_blockGroup = 'enterprise_invitation';
+    protected $_blockGroup = 'Enterprise_Invitation';
     protected $_controller = 'adminhtml_invitation';
     protected $_mode = 'add';
 

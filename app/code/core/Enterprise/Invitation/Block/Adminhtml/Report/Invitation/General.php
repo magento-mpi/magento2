@@ -35,7 +35,7 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General extends Ma
     public function __construct()
     {
         $this->_controller = 'adminhtml_report_invitation_general';
-        $this->_blockGroup = 'enterprise_invitation';
+        $this->_blockGroup = 'Enterprise_Invitation';
         $this->_headerText = Mage::helper('Enterprise_Invitation_Helper_Data')->__('General');
         parent::__construct();
         $this->_removeButton('add');

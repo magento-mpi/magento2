@@ -40,7 +40,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View extends Mage_Adminhtml_B
         $this->_objectId    = 'agreement';
         $this->_controller  = 'adminhtml_billing_agreement';
         $this->_mode        = 'view';
-        $this->_blockGroup  = 'sales';
+        $this->_blockGroup  = 'Mage_Sales';
 
         parent::__construct();
 
