@@ -113,7 +113,6 @@ category_page:
             invalid_email: //div[@class='validation-advice' and text()='Please enter a valid email address. For example johndoe@domain.com.']
             long_email: "//li[normalize-space(@class)='error-msg' and contains(.//span,'There was a problem with the subscription: Please enter a valid email address.')]"
             reqired_field: //div[@class='validation-advice' and text()='This is a required field.']
-        messages:
             product_added_to_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product %productName% has been added to comparison list.')]
             confirmation_for_delete: Are you sure you would like to remove this item from the compare products?
 
