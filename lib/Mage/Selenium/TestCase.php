@@ -251,6 +251,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     const xpathGoToNotifications = "//a[text()='Go to notifications']";
 
     /**
+     * 'Cache Management' xpath link when cache are invalided
+     *
+     * @var string
+     */
+    const xpathCacheInvalidated = "//a[text()='Cache Management']";
+
+    /**
+     * 'Index Management' xpath link when indexes are invalided
+     *
+     * @var string
+     */
+    const xpathIndexesInvalidated = "//a[text()='Index Management']";
+
+    /**
      * Qty elements in Table
      * @var string
      */
@@ -739,6 +753,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function validatePage($page = '')
     {
+        if ($page) {
+            $this->assertTrue($this->checkCurrentPage($page), $this->messages);
+        }
         if (!$page) {
             $page = $this->_findCurrentPageFromUrl($this->getLocation());
         }
@@ -1849,6 +1866,74 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->fail($e->getMessage());
         }
         return $this;
+    }
+
+    /**
+     * Clear invalided cache in Admin
+     */
+    public function clearInvalidedCache()
+    {
+        if ($this->isElementPresent(self::xpathCacheInvalidated)) {
+            $this->clickAtAndWait(self::xpathCacheInvalidated);
+            $this->validatePage('cache_storage_management');
+
+            $invalided = array('cache_disabled', 'cache_invalided');
+            foreach ($invalided as $value) {
+                $xpath = $this->_getControlXpath('pageelement', $value);
+                $qty = $this->getXpathCount($xpath);
+                for ($i = 1; $i < $qty + 1; $i++) {
+                    $fillData = array('path' => $xpath . '[' . $i . ']//input', 'value' => 'Yes');
+                    $this->_fillFormCheckbox($fillData);
+                }
+            }
+            $this->fillForm(array('cache_action' => 'Refresh'));
+
+            $selectedItems = $this->getText($this->_getControlXpath('pageelement', 'selected_items'));
+            $this->addParameter('qtySelected', $selectedItems);
+
+            $this->clickButton('submit', false);
+            $alert = $this->isAlertPresent();
+            if ($alert) {
+                $text = $this->getAlert();
+                $this->fail($text);
+            }
+            $this->waitForPageToLoad();
+            $this->validatePage('cache_storage_management');
+        }
+    }
+
+    /**
+     * Reindex Indexes
+     */
+    public function reindexInvalidedData()
+    {
+        if ($this->isElementPresent(self::xpathIndexesInvalidated)) {
+            $this->clickAtAndWait(self::xpathIndexesInvalidated);
+            $this->validatePage('index_management');
+
+            $invalided = array('reindex_required', 'update_reqiured');
+            foreach ($invalided as $value) {
+                $xpath = $this->_getControlXpath('pageelement', $value);
+                $qty = $this->getXpathCount($xpath);
+                for ($i = 1; $i < $qty + 1; $i++) {
+                    $fillData = array('path' => $xpath . '[' . $i . ']//input', 'value' => 'Yes');
+                    $this->_fillFormCheckbox($fillData);
+                }
+            }
+            $this->fillForm(array('reindex_action' => 'Reindex Data'));
+
+            $selectedItems = $this->getText($this->_getControlXpath('pageelement', 'selected_items'));
+            $this->addParameter('qtySelected', $selectedItems);
+
+            $this->clickButton('submit', false);
+            $alert = $this->isAlertPresent();
+            if ($alert) {
+                $text = $this->getAlert();
+                $this->fail($text);
+            }
+            $this->waitForPageToLoad();
+            $this->validatePage('index_management');
+        }
     }
 
     /**
