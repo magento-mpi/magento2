@@ -75,7 +75,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Merge extends Mage_Adminhtml_Bl
     protected function _getMergeSettingsBlock($stagingType)
     {
         if (!isset($this->_mergeSettingsBlock[$stagingType])) {
-            $block = 'Mage_Adminhtml_Block_Template';
+            $block = 'Enterprise_Staging_Block_Staging_Merge_Settings';
             if (isset($this->_mergeSettingsBlockTypes[$stagingType])) {
                 if ($this->_mergeSettingsBlockTypes[$stagingType]['block'] != '') {
                     $block = $this->_mergeSettingsBlockTypes[$stagingType]['block'];
