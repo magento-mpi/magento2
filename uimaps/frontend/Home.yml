@@ -37,7 +37,7 @@ home:
                         xpath: //div[@class='header']
                         links:
                             my_account: //a[@title='My Account']
-                            my_wishlist: //a[@title='My Wishlist']
+                            my_wishlist: //a[contains(@title,'My Wishlist')]
                             my_cart: //a[@title='My Cart']
                             checkout: //a[@title='Checkout']
                             log_in: //a[@title='Log In']
