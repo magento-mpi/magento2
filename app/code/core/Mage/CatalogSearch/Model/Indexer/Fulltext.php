@@ -319,7 +319,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
     protected function _getSearchableAttributes()
     {
         if (is_null($this->_searchableAttributes)) {
-            /** @var $lolo Mage_Catalog_Model_Resource_Product_Attribute_Collection */
+            /** @var $attributeCollection Mage_Catalog_Model_Resource_Product_Attribute_Collection */
             $attributeCollection = Mage::getResourceModel('catalog/product_attribute_collection');
             $attributeCollection->addIsSearchableFilter();
 
