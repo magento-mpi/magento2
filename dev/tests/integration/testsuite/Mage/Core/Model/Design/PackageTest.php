@@ -172,20 +172,30 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
                 $prefix . 'custom_theme/skin/theme_nested_skin/locale/ru_RU/Fixture_Module/fixture_script.js',
                 'ru_RU',
             ),
-            'primary fallback - same theme & default skin' => array(
+            'lib skin file inside theme' => array(
+                'varien/product.js',
+                array('_skin' => 'theme_nested_skin'),
+                $prefix . 'custom_theme/skin/theme_nested_skin/varien/product.js',
+            ),
+            'primary theme fallback - same theme & default skin' => array(
                 'fixture_script_two.js',
                 array('_skin' => 'theme_nested_skin'),
                 $prefix . 'custom_theme/skin/default/fixture_script_two.js',
             ),
-            'secondary fallback - default theme & same skin' => array(
+            'secondary theme fallback - default theme & same skin' => array(
                 'fixture_script_three.js',
                 array('_skin' => 'theme_nested_skin'),
                 $prefix . 'default/skin/theme_nested_skin/fixture_script_three.js',
             ),
-            'final fallback - default theme & default skin' => array(
+            'final theme fallback - default theme & default skin' => array(
                 'fixture_script_four.js',
                 array('_skin' => 'theme_nested_skin'),
                 $prefix . 'default/skin/default/fixture_script_four.js',
+            ),
+            'lib fallback' => array(
+                'varien/product.js',
+                array('_skin' => 'default'),
+                '%s/js/varien/product.js',
             ),
         );
     }
@@ -223,7 +233,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             ),
             'lib file' => array(
                 'varien/product.js',
-                'js/varien/product.js',
+                'http://localhost/js/varien/product.js',
             ),
         );
     }
