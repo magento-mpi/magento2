@@ -160,7 +160,9 @@ class Mage_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element
     {
         $element = $this->getElement();
         $label = $element->getLabel();
-        empty($label) || $element->setLabel($this->__($label));
+        if (empty($label)) {
+            $element->setLabel($this->__($label));
+        }
         return $element->getLabelHtml();
     }
 
