@@ -135,35 +135,35 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
         //Data
         $toFill = TRUE;
         if ($emailType == 'empty') {
-            $toFill = False;
+            $toFill = FALSE;
         }
         //Preconditions
         $this->customerHelper()->frontLoginCustomer($customer);
-        $this->newsletterHelper()->openCategory($category);
-        if (!$this->controlIsPresent('field', 'sign_up_newsletter')) {
-            $this->fail('Element is absent on the page');
-        }
+        $nodes = explode('/', $category);
+        $category = end($nodes);
+        $this->categoryHelper()->frontOpenCategory($category);
         if ($toFill) {
             $newSubscriberEmail = $this->generate('email', $length, $emailType);
             $this->fillForm(array('sign_up_newsletter' => $newSubscriberEmail));
         }
-        if ($emailType == 'valid' && (int) $length <= 70) {
+        if ($emailType == 'valid') {
             $this->clickButton('subscribe');
+        } else {
+            $this->clickButton('subscribe', FALSE);
+        }
+        if ($emailType == 'valid' && (int) $length <= 70) {
             $this->assertTrue($this->successMessage('success_subscription'), $this->messages);
             $this->loginAdminUser();
             $this->navigate('newsletter_subscribers');
             $this->assertNotEquals(NULL, $this->search(array('filter_email' => $newSubscriberEmail)));
         } elseif ($emailType == 'valid' && (int) $length > 70) {
-            $this->clickButton('subscribe');
             $this->assertTrue($this->errorMessage('long_email'), $this->messages);
             $this->loginAdminUser();
             $this->navigate('newsletter_subscribers');
             $this->assertEquals(NULL, $this->search(array('filter_email' => $newSubscriberEmail)));
         } elseif ($emailType == 'empty') {
-            $this->clickButton('subscribe', FALSE);
             $this->assertTrue($this->validationMessage('reqired_field'), $this->messages);
         } else {
-            $this->clickButton('subscribe', FALSE);
             $this->assertTrue($this->validationMessage('invalid_email'), $this->messages);
             $this->loginAdminUser();
             $this->navigate('newsletter_subscribers');

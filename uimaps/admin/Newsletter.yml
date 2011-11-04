@@ -45,16 +45,21 @@ newsletter_subscribers:
                             subscribers_massaction: //select[@id='subscriberGrid_massaction-select']
                             export_to: //select[@id='subscriberGrid_export']
                             filter_massaction: //select[@name='massaction']
-                            subscribers_type: //select[@id='subscriberGrid_filter_type']
-                            subscribers_status: //select[@id='subscriberGrid_filter_status']
-                            subscribers_website: //select[@id='subscriberGrid_filter_website']
-                            subscribers_store: //select[@id='subscriberGrid_filter_group']
-                            subscribers_store_view: //select[@id='subscriberGrid_filter_store']
+                            filter_type: //select[@id='subscriberGrid_filter_type']
+                            filter_status: //select[@id='subscriberGrid_filter_status']
+                            filter_website: //select[@id='subscriberGrid_filter_website']
+                            filter_store: //select[@id='subscriberGrid_filter_group']
+                            filter_store_view: //select[@id='subscriberGrid_filter_store']
                         fields:
                             filter_id: //input[@name='subscriber_id']
                             filter_email: //input[@name='email']
                             filter_customer_first_name: //input[@name='firstname']
                             filter_customer_last_name: //input[@name='lastname']
+                        links:
+                            select_all: //a[text()='Select All']
+                            unselect_all: //a[text()='Unselect All']
+                            select_visible: //a[text()='Select Visible']
+                            unselect_visible: //a[text()='Unselect Visible']
                         pageelements:
                             poll_grid_head: //div[@id='subscriberGrid']//thead/tr[@class='headings']
         messages: &subscribersMesssages
