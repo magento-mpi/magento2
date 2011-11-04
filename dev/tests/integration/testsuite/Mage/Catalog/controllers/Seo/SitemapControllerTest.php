@@ -57,7 +57,6 @@ class Mage_Catalog_Seo_SitemapControllerTest extends Magento_Test_TestCase_Contr
 
         /* Layout updates */
         $handles = Mage::app()->getLayout()->getUpdate()->getHandles();
-        var_dump($handles);
         $this->assertContains('catalog_seo_sitemap_category_tree', $handles);
     }
 

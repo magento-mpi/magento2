@@ -56,11 +56,6 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('Task MAGETWO-586');
         }
 
-        print_r($className . "\n");
-        if ($className == 'Mage_Install_Model_Installer_Pear') {
-            $className = 'Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Image';
-        }
-
         $this->assertTrue(class_exists($className), 'Class ' . $className . ' does not exist');
     }
 
