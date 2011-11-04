@@ -253,7 +253,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
         $this->loadLayout()
             ->_setActiveMenu('sales/tax_importExport')
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tax_rate_importExport'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tax_Rate_ImportExport'))
             ->renderLayout();
     }
 

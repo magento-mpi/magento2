@@ -372,7 +372,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'image' => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_helper_image'),
+            'image' => Mage::getConfig()->getBlockClassName('Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Image'),
         );
     }
 

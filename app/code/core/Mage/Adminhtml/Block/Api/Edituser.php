@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Api_Edituser extends Mage_Adminhtml_Block_Widget_Tabs
         $this->addTab('account', array(
             'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Info'),
             'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Info'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/api_tab_useredit')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_Tab_Useredit')->toHtml(),
             'active'    => true
         ));
         if( $this->getUser()->getUserId() ) {

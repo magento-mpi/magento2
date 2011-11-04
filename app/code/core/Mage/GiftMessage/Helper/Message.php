@@ -68,7 +68,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
             return '&nbsp;';
         }
 
-        return Mage::getSingleton('Mage_Core_Model_Layout')->createBlock('giftmessage/message_helper')
+        return Mage::getSingleton('Mage_Core_Model_Layout')->createBlock('Mage_GiftMessage_Block_Message_Helper')
             ->setId('giftmessage_button_' . $this->_nextId++)
             ->setCanDisplayContainer(true)
             ->setEntity($entity)
@@ -89,7 +89,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
             return '';
         }
 
-        return Mage::getSingleton('Mage_Core_Model_Layout')->createBlock('giftmessage/message_inline')
+        return Mage::getSingleton('Mage_Core_Model_Layout')->createBlock('Mage_GiftMessage_Block_Message_Inline')
             ->setId('giftmessage_form_' . $this->_nextId++)
             ->setDontDisplayContainer($dontDisplayContainer)
             ->setEntity($entity)

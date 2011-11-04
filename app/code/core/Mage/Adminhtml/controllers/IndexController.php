@@ -173,7 +173,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
      */
     public function testAction()
     {
-        echo $this->getLayout()->createBlock('core/profiler')->toHtml();
+        echo $this->getLayout()->createBlock('Mage_Core_Block_Profiler')->toHtml();
     }
 
     /**
