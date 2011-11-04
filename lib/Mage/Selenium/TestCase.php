@@ -2032,7 +2032,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function clickControlAndConfirm($controlType, $controlName, $message)
     {
-        $buttonXpath = $this->_getControlXpath($controlType, $buttonName);
+        $buttonXpath = $this->_getControlXpath($controlType, $controlName);
         if ($this->isElementPresent($buttonXpath)) {
             $confirmation = $this->getCurrentLocationUimapPage()->findMessage($message);
             $this->chooseCancelOnNextConfirmation();
@@ -2056,7 +2056,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 return true;
             }
         } else {
-            $this->messages['error'][] = "There is no way to click button(There is no '$buttonName' button)\n";
+            $this->messages['error'][] = "There is no way to click on control(There is no '$controlName' control)\n";
         }
 
         return false;
