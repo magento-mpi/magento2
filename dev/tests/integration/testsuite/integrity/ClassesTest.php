@@ -31,6 +31,10 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('Bug MAGE-4763');
         }
 
+        if ($className == 'Mage_Install_Model_Installer_Pear') {
+            $this->markTestSkipped('Bug MAGETWO-602');
+        }
+
         $skippedClasses = array(
             'Enterprise_Staging_Block_Staging_Merge_Settings',
             'Enterprise_Giftregistry_Block_Customer_View',
@@ -445,11 +449,11 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
         $tags = "attributeType|name|content|render|admin_renderer|block|renderer_block|renderer";
         $regexp = "/<(?:" . $tags . ")>([a-zA-Z0-9_]+\/[a-zA-Z0-9_]+)<\/(?:" . $tags . ")>/";
-        if (preg_match_all($regexp, $content, $matches)){
+        if (preg_match_all($regexp, $content, $matches)) {
             $classes = $matches[1];
         }
 
-        if (preg_match_all("/<block[a-z0-9_.\- =\"]+type=\"([a-zA-Z0-9_\/]+)\"/", $content, $matches)){
+        if (preg_match_all("/<block[a-z0-9_.\- =\"]+type=\"([a-zA-Z0-9_\/]+)\"/", $content, $matches)) {
             $classes = array_merge($classes, $matches[1]);
         }
 
@@ -471,7 +475,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         }
 
         $mathods = "addBlock|createBlock|getBlockClassName|getBlockSingleton";
-        if (preg_match_all("/(?:" . $mathods . ")\(['\"]([a-zA-Z0-9_\/]+)['\"][\),]/", $content, $matches)){
+        if (preg_match_all("/(?:" . $mathods . ")\(['\"]([a-zA-Z0-9_\/]+)['\"][\),]/", $content, $matches)) {
             return array_unique($matches[1]);
         }
 
@@ -501,10 +505,10 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     /**
      * Find usage of Mage::getModel("Class_Name")
      *
-    * @param SplFileInfo $fileInfo
-    * @param string $content
-    * @return array
-    */
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
     protected function _visitMageGetModel($fileInfo, $content)
     {
         if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
@@ -558,7 +562,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         );
 
         $patterns = array();
-        foreach($funcPatterns as $funcPattern) {
+        foreach ($funcPatterns as $funcPattern) {
             list($function, $pattern) = $funcPattern;
             $patterns[] = str_replace("{%function_name%}", $function, $pattern);
         }
@@ -595,7 +599,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
                 DS."default".DS."default".DS."layout".DS."enterprise".DS."customerbalance.xml",
         );
 
-        foreach($skippedFiles as $skippedFile) {
+        foreach ($skippedFiles as $skippedFile) {
             if (strpos($fileInfo->getRealPath(), $skippedFile) !== false) {
                 return array();
             }
@@ -617,8 +621,8 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         );
 
         $patterns = array();
-        foreach($_wordsToFind as $wordToFind) {
-            foreach($_patternsToFind as $patternToFind) {
+        foreach ($_wordsToFind as $wordToFind) {
+            foreach ($_patternsToFind as $patternToFind) {
                 $patterns[] = "/"."<".$wordToFind.$patternToFind.$wordToFind.">/Ui";
             }
         }

@@ -36,29 +36,37 @@ class Enterprise_SalesArchive_Model_Archive
 
     /**
      * Archive entities definition
-     * array(
-     *  $entity => $entityModel
-     * )
+     *
      * @var $_entities array
      */
     protected $_entities = array(
-        self::ORDER     => 'sales/order',
-        self::INVOICE   => 'sales/order_invoice',
-        self::SHIPMENT  => 'sales/order_shipment',
-        self::CREDITMEMO=> 'sales/order_creditmemo',
+        self::ORDER => array(
+            'model' => 'Mage_Sales_Model_Order',
+            'resource_model' => 'Mage_Sales_Model_Resource_Order'
+        ),
+        self::INVOICE => array(
+            'model' => 'Mage_Sales_Model_Order_Invoice',
+            'resource_model' => 'Mage_Sales_Model_Resource_Order_Invoice'
+        ),
+        self::SHIPMENT  => array(
+            'model' => 'Mage_Sales_Model_Order_Shipment',
+            'resource_model' => 'Mage_Sales_Model_Resource_Order_Shipment'
+        ),
+        self::CREDITMEMO => array(
+            'model' => 'Mage_Sales_Model_Order_Creditmemo',
+            'resource_model' => 'Mage_Sales_Model_Resource_Order_Creditmemo'
+        )
     );
 
     /**
-     * Etities data getter
+     * Returns resource model class of an entity
      *
-     * @return string | array | false
+     * @param string $entity
+     * @return string | false
      */
-    public function getEntityModel($entity = null)
+    public function getEntityResourceModel($entity)
     {
-        if ($entity) {
-            return isset($this->_entities[$entity]) ? $this->_entities[$entity] : false;
-        }
-        return $this->_entities;
+        return isset($this->_entities[$entity]) ? $this->_entities[$entity]['resource_model'] : false;
     }
 
     /**
@@ -102,11 +110,13 @@ class Enterprise_SalesArchive_Model_Archive
      */
     public function detectArchiveEntity($object)
     {
-        foreach ($this->_entities as $archiveEntity => $entityModel) {
-            $className = Mage::getConfig()->getModelClassName($entityModel);
-            $resourceClassName = Mage::getConfig()->getResourceModelClassName($entityModel);
-            if ($object instanceof $className || $object instanceof $resourceClassName) {
-                return $archiveEntity;
+        $keys = array('model', 'resource_model');
+        foreach ($this->_entities as $archiveEntity => $entityClasses) {
+            foreach ($keys as $key) {
+                $className = $entityClasses[$key];
+                if ($object instanceof $className) {
+                    return $archiveEntity;
+                }
             }
         }
         return false;

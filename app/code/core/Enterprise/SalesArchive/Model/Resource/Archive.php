@@ -247,7 +247,7 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
         $adapter = $this->_getWriteAdapter();
         $sourceTable = $this->getArchiveEntitySourceTable($archiveEntity);
         $targetTable = $this->getArchiveEntityTable($archiveEntity);
-        $sourceResource = Mage::getResourceSingleton($archive->getEntityModel($archiveEntity));
+        $sourceResource = Mage::getResourceSingleton($archive->getEntityResourceModel($archiveEntity));
         if ($conditionValue instanceof Zend_Db_Expr) {
             $select = $adapter->select();
             // Remove order grid records moved to archive
@@ -279,7 +279,7 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
         $adapter = $this->_getWriteAdapter();
         $sourceTable = $this->getArchiveEntityTable($archiveEntity);
         $targetTable = $this->getArchiveEntitySourceTable($archiveEntity);
-        $sourceResource = Mage::getResourceSingleton($archive->getEntityModel($archiveEntity));
+        $sourceResource = Mage::getResourceSingleton($archive->getEntityResourceModel($archiveEntity));
 
         $insertFields = array_intersect(
             array_keys($adapter->describeTable($targetTable)),
@@ -335,7 +335,7 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
         }
 
         /* @var $resource Mage_Sales_Model_Resource_Abstract */
-        $resource = Mage::getResourceSingleton($archive->getEntityModel($archiveEntity));
+        $resource = Mage::getResourceSingleton($archive->getEntityResourceModel($archiveEntity));
 
         $gridColumns = array_keys($this->_getWriteAdapter()->describeTable(
             $this->getArchiveEntityTable($archiveEntity)
@@ -362,7 +362,7 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
      */
     public function getRelatedIds($archive, $archiveEntity, $ids)
     {
-        $resourceClass = $archive->getEntityModel($archiveEntity);
+        $resourceClass = $archive->getEntityResourceModel($archiveEntity);
 
         if (empty($resourceClass) || empty($ids)) {
             return array();
@@ -373,7 +373,7 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
 
         $select = $this->_getReadAdapter()->select()
             ->from(array('main_table' => $resource->getMainTable()), 'entity_id')
-            ->joinInner( // Filter by archived orders
+            ->joinInner( // Filter by archived order
                 array('order_archive' => $this->getArchiveEntityTable('order')),
                 'main_table.order_id = order_archive.entity_id',
                 array()
