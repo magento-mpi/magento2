@@ -347,7 +347,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
              * and module of that engine was disabled after that.
              * Problem is in this engine in database configuration still set.
              */
-            if ($engine && Mage::getConfig()->getResourceModelClassName($engine)) {
+            if ($engine) {
                 $model = Mage::getResourceSingleton($engine);
                 if ($model && $model->test()) {
                     $this->_engine = $model;

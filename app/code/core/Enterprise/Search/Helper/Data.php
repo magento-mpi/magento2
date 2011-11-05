@@ -365,7 +365,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $engine = $this->getSearchConfigData('engine');
 
-        if ($engine && Mage::getConfig()->getResourceModelClassName($engine)) {
+        if ($engine) {
             $model = Mage::getResourceSingleton($engine);
             if ($model && $model->test() && $model->allowAdvancedIndex()) {
                 return true;
