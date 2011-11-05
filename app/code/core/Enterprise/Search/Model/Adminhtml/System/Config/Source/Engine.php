@@ -37,8 +37,10 @@ class Enterprise_Search_Model_Adminhtml_System_Config_Source_Engine
     public function toOptionArray()
     {
         $engines = array(
-            'catalogsearch/fulltext_engine' => Mage::helper('Enterprise_Search_Helper_Data')->__('MySql Fulltext'),
-            'enterprise_search/engine'      => Mage::helper('Enterprise_Search_Helper_Data')->__('Solr')
+            'Mage_CatalogSearch_Model_Resource_Fulltext_Engine' => Mage::helper('Enterprise_Search_Helper_Data')
+                ->__('MySql Fulltext'),
+            'Enterprise_Search_Model_Resource_Engine' => Mage::helper('Enterprise_Search_Helper_Data')
+                ->__('Solr')
         );
         $options = array();
         foreach ($engines as $k => $v) {

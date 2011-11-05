@@ -207,7 +207,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     public function isThirdPartSearchEngine()
     {
         $engine = $this->getSearchConfigData('engine');
-        if ($engine == 'enterprise_search/engine') {
+        if ($engine == 'Enterprise_Search_Model_Resource_Engine') {
             return true;
         }
 
