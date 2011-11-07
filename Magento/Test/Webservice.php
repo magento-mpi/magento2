@@ -45,7 +45,7 @@ class Magento_Test_Webservice extends PHPUnit_Framework_TestCase
 
     public function getWebService()
     {
-        if (is_null(self::$_ws)) {
+        if (null === self::$_ws) {
             $class = $this->_webServiceMap[strtolower(TESTS_WEBSERVICE_TYPE)];
             self::$_ws = new $class();
             self::$_ws->init();
