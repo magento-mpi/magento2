@@ -48,9 +48,24 @@
  */
 class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Index_Model_Indexer_Abstract
 {
+    /**
+     * Reindex products permissions event type
+     */
     const EVENT_TYPE_REINDEX_PRODUCTS = 'reindex_permissions';
+
+    /**
+     * Category entity for indexers
+     */
     const ENTITY_CATEGORY = 'catalogpermissions_category';
+
+    /**
+     * Product entity for indexers
+     */
     const ENTITY_PRODUCT = 'catalogpermissions_product';
+
+    /**
+     * Config entity for indexers
+     */
     const ENTITY_CONFIG = 'catalogpermissions_config';
 
     /**
