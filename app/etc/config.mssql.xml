@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Mage
+ * @package     Mage_Core
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <global>
+        <resource>
+            <connection>
+                <types>
+                    <pdo_mssql>
+                        <adapter>Varien_Db_Adapter_Pdo_Mssql</adapter>
+                        <compatibleMode>0</compatibleMode>
+                    </pdo_mssql>
+                </types>
+            </connection>
+        </resource>
+    </global>
+
+    <install>
+        <databases>
+            <mssql>
+                <type>pdo_mssql</type>
+                <pdo_types>
+                    <dblib>pdo_dblib</dblib>
+                    <sqlsrv>pdo_sqlsrv</sqlsrv>
+                </pdo_types>
+                <min_version>10.0.0000.00</min_version>
+                <extensions>
+                    <pdo_mysql/>
+                </extensions>
+            </mssql>
+        </databases>
+
+        <layout>
+            <updates>
+                <install_mssql>
+                    <file>mssql.xml</file>
+                </install_mssql>
+            </updates>
+        </layout>
+    </install>
+</config>
