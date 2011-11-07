@@ -239,7 +239,7 @@ class Mage_Catalog_Model_Observer
      */
     public function reindexProductPrices(Mage_Cron_Model_Schedule $schedule)
     {
-        $indexProcess = Mage::getModel('index/indexer')->getProcessByCode('catalog_product_price');
+        $indexProcess = Mage::getSingleton('index/indexer')->getProcessByCode('catalog_product_price');
         if ($indexProcess) {
             $indexProcess->reindexAll();
         }

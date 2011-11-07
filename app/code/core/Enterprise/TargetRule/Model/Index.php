@@ -355,7 +355,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
                 switch ($event->getEntity()) {
                     case self::ENTITY_PRODUCT:
                         $data = $event->getNewData();
-                        if ($data['product']) {
+                        if (!empty($data['product'])) {
                             $this->_reindex($data['product']);
                         }
                         break;
@@ -365,7 +365,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
                 switch ($event->getEntity()) {
                     case self::ENTITY_TARGETRULE:
                         $data = $event->getNewData();
-                        if ($data['params']) {
+                        if (!empty($data['params'])) {
                             $params = $data['params'];
                             $this->_cleanIndex($params->getTypeId(), $params->getStore());
                         }

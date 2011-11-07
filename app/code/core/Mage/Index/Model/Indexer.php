@@ -52,6 +52,14 @@ class Mage_Index_Model_Indexer
     protected $_allowTableChanges = true;
 
     /**
+     * Current processing event(s)
+     * In array case it should be array(Entity type, Event type)
+     *
+     * @var null|Mage_Index_Model_Event|array
+     */
+    protected $_currentEvent = null;
+
+    /**
      * Class constructor. Initialize index processes based on configuration
      */
     public function __construct()
@@ -149,7 +157,8 @@ class Mage_Index_Model_Indexer
         Mage::dispatchEvent('start_index_events' . $this->_getEventTypeName($entity, $type));
         $allowTableChanges = $this->_allowTableChanges;
         if ($allowTableChanges) {
-            $this->_changeKeyStatus(false, array($entity, $type));
+            $this->_currentEvent = array($entity, $type);
+            $this->_changeKeyStatus(false);
         }
 
         /** @var $resourceModel Mage_Index_Model_Resource_Process */
@@ -165,7 +174,8 @@ class Mage_Index_Model_Indexer
         }
         if ($allowTableChanges) {
             $this->_allowTableChanges = true;
-            $this->_changeKeyStatus(true, array($entity, $type));
+            $this->_changeKeyStatus(true);
+            $this->_currentEvent = null;
         }
         Mage::dispatchEvent('end_index_events' . $this->_getEventTypeName($entity, $type));
         return $this;
@@ -237,7 +247,8 @@ class Mage_Index_Model_Indexer
             Mage::dispatchEvent('start_process_event' . $this->_getEventTypeName($entityType, $eventType));
             $allowTableChanges = $this->_allowTableChanges;
             if ($allowTableChanges) {
-                $this->_changeKeyStatus(false, $event);
+                $this->_currentEvent = $event;
+                $this->_changeKeyStatus(false);
             }
             /** @var $resourceModel Mage_Index_Model_Resource_Process */
             $resourceModel = Mage::getResourceSingleton('index/process');
@@ -250,13 +261,15 @@ class Mage_Index_Model_Indexer
                 $resourceModel->rollBack();
                 if ($allowTableChanges) {
                     $this->_allowTableChanges = true;
-                    $this->_changeKeyStatus(true, $event);
+                    $this->_changeKeyStatus(true);
+                    $this->_currentEvent = null;
                 }
                 throw $e;
             }
             if ($allowTableChanges) {
                 $this->_allowTableChanges = true;
-                $this->_changeKeyStatus(true, $event);
+                $this->_changeKeyStatus(true);
+                $this->_currentEvent = null;
             }
             $event->save();
             Mage::dispatchEvent('end_process_event' . $this->_getEventTypeName($entityType, $eventType));
@@ -302,10 +315,9 @@ class Mage_Index_Model_Indexer
      * Enable/Disable keys in index tables
      *
      * @param bool $enable
-     * @param null|Mage_Index_Model_Event|array $event
      * @return Mage_Index_Model_Indexer
      */
-    protected function _changeKeyStatus($enable = true, $event = null)
+    protected function _changeKeyStatus($enable = true)
     {
         $processed = array();
         foreach ($this->_processesCollection as $process) {
@@ -318,14 +330,14 @@ class Mage_Index_Model_Indexer
                 foreach ($process->getDepends() as $processCode) {
                     $dependProcess = $this->getProcessByCode($processCode);
                     if ($dependProcess && !in_array($processCode, $processed)) {
-                        if ($this->_changeProcessKeyStatus($dependProcess, $enable, $event)) {
+                        if ($this->_changeProcessKeyStatus($dependProcess, $enable)) {
                             $processed[] = $processCode;
                         }
                     }
                 }
             }
 
-            if ($this->_changeProcessKeyStatus($process, $enable, $event)) {
+            if ($this->_changeProcessKeyStatus($process, $enable)) {
                 $processed[] = $code;
             }
         }
@@ -338,11 +350,11 @@ class Mage_Index_Model_Indexer
      *
      * @param mixed|Mage_Index_Model_Process $process
      * @param bool $enable
-     * @param null|Mage_Index_Model_Event|array $event
      * @return bool
      */
-    protected function _changeProcessKeyStatus($process, $enable = true, $event = null)
+    protected function _changeProcessKeyStatus($process, $enable = true)
     {
+        $event = $this->_currentEvent;
         if ($process instanceof Mage_Index_Model_Process
             && $process->getMode() !== Mage_Index_Model_Process::MODE_MANUAL
             && !$process->isLocked()
