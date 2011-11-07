@@ -1141,14 +1141,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function pleaseWait($waitAppear = 10, $waitDisappear = 30)
     {
         for ($second = 0; $second < $waitAppear; $second++) {
-            if ($this->isElementPresent(Mage_Selenium_TestCase::xpathLoadingHolder)) {
+            if ($this->isElementPresent(Mage_Selenium_TestCase::$xpathLoadingHolder)) {
                 break;
             }
             sleep(1);
         }
 
         for ($second = 0; $second < $waitDisappear; $second++) {
-            if (!$this->isElementPresent(Mage_Selenium_TestCase::xpathLoadingHolder)) {
+            if (!$this->isElementPresent(Mage_Selenium_TestCase::$xpathLoadingHolder)) {
                 break;
             }
             sleep(1);
