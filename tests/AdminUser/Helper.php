@@ -65,9 +65,9 @@ class AdminUser_Helper extends Mage_Selenium_TestCase
     {
         $this->fillForm($loginData);
         $this->clickButton('login', false);
-        $this->waitForElement(array(self::xpathAdminLogo,
-                                    self::xpathErrorMessage,
-                                    self::xpathValidationMessage));
+        $this->waitForElement(array(self::$xpathAdminLogo,
+                                    self::$xpathErrorMessage,
+                                    self::$xpathValidationMessage));
     }
 
     /**
@@ -80,9 +80,9 @@ class AdminUser_Helper extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('forgot_password'));
         $this->fillForm($emailData);
         $this->clickButton('retrieve_password', false);
-        $this->waitForElement(array(self::xpathSuccessMessage,
-                                    self::xpathErrorMessage,
-                                    self::xpathValidationMessage));
+        $this->waitForElement(array(self::$xpathSuccessMessage,
+                                    self::$xpathErrorMessage,
+                                    self::$xpathValidationMessage));
     }
 
 }

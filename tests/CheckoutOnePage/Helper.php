@@ -150,7 +150,7 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 }
                 $billingSetXpath = $page->findFieldset('billing_information')->getXpath();
                 $this->click($set->findButton('login'));
-                $this->waitForElement(array(self::xpathErrorMessage, self::xpathValidationMessage,
+                $this->waitForElement(array(self::$xpathErrorMessage, self::$xpathValidationMessage,
                     $billingSetXpath . "[contains(@class,'active')]"));
                 break;
             default:
