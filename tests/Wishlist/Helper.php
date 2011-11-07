@@ -38,19 +38,21 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
     // Add product to Wishlist from shopping cart
     // @TODO: Add to ShoppingCart Helper
 
+
     /**
      * Adds product to wishlist from a specific catalog page.
      *
      * @param string $productName
-     * @param string $categoryName
+     * @param string $category
      */
-    public function addProductToWishlistFromCatalogPage($productName, $categoryName)
+    public function addProductToWishlistFromCatalogPage($productName, $category)
     {
-        $pageId = $this->categoryHelper()->frontSearchAndOpenPageWithProduct($productName, $categoryName);
+        $phelp = $this->_paramsHelper;
+        $pageId = $this->categoryHelper()->frontSearchAndOpenPageWithProduct($productName, $category);
         if (!$pageId)
             $this->fail('Could not find the product');
         $this->addParameter('productName', $productName);
-        $this->clickButton('add_to_wishlist');
+        $this->clickControl('link', 'add_to_wishlist');
     }
 
     /**
