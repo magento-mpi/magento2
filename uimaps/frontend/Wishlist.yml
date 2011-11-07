@@ -29,7 +29,7 @@
 my_wishlist:
     mca: wishlist/
     title: My Wishlist
-    uimap:
+    uimap: &myWishlist
         form:
             fieldsets:
                 -
@@ -75,6 +75,11 @@ my_wishlist:
             confirmation_for_delete: Are you sure you want to remove this product from your wishlist?
         links:
             back: //p[@class='back-link']/a[contains(.,'Back')]
+
+my_wishlist_index:
+    mca: wishlist/index/
+    title: My Wishlist
+    uimap: *myWishlist
 
 share_wishlist:
     mca: wishlist/index/share/

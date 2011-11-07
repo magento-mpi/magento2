@@ -43,12 +43,12 @@ category_page:
                             grid: //a[@class='grid']
                             next_page: //a[@title='Next']
                             learn_more: //li[h2/a='%productName%']//a[@class='link-learn']
-                            add_to_wish_list: //li[h2/a='%productName%']//a[@class='link-wishlist']
+                            add_to_wishlist: //li[h2/a='%productName%']//a[@class='link-wishlist']
                             add_to_compare: //li[h2/a='%productName%']//a[@class='link-compare']
                         buttons:
                             add_to_cart: //li[h2/a='%productName%']//button[span='Add to Cart']
                         pageelements:
-                            product_name_header: //a[text()='%productName%']
+                            product_name_header: //div[@class='category-products']//a[text()='%productName%']
                             price_regular: //li[h2/a='%productName%']//span[@class='regular-price']/span[@class='price' and normalize-space(text())='%price%']
                             price_excluding_tax: //li[h2/a='%productName%']//span[@class='price-excluding-tax']/span[@class='price' and normalize-space(text())='%price%']
                             price_including_tax: //li[h2/a='%productName%']//span[@class='price-including-tax']/span[@class='price' and normalize-space(text())='%price%']
