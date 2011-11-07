@@ -2385,8 +2385,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @return integer The number of nodes that match the specified $xpath
      */
-    public function verifyMessagesCount($count = 1, $xpath = Mage_Selenium_TestCase::xpathValidationMessage)
+    public function verifyMessagesCount($count = 1, $xpath = null)
     {
+        if ($xpath === null) {
+            $xpath = $this->$xpathValidationMessage;
+        }
         $this->_parseMessages();
         return $this->getXpathCount($xpath) == $count;
     }
