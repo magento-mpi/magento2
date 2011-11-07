@@ -2388,7 +2388,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function verifyMessagesCount($count = 1, $xpath = null)
     {
         if ($xpath === null) {
-            $xpath = $this->$xpathValidationMessage;
+            $xpath = self::$xpathValidationMessage;
         }
         $this->_parseMessages();
         return $this->getXpathCount($xpath) == $count;
