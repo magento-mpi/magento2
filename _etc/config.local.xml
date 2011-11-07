@@ -32,6 +32,7 @@
                 <types>
                     <local>
                         <class>Mage_PHPUnit_Db_Type_Local</class>
+                        <adapter>Mage_PHPUnit_Db_Adapter</adapter>
                     </local>
                 </types>
             </connection>
@@ -43,6 +44,6 @@
             <local>
                 <type>local</type>
             </local>
-        </databases>       
+        </databases>
     </install>
 </config>
