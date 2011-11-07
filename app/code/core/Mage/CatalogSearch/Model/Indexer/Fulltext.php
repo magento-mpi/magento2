@@ -292,7 +292,11 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
                     $reindexData['catalogsearch_action_type'] = $actionObject->getActionType();
                 }
 
-                $searchableAttributes = array_intersect($this->_getSearchableAttributes(), array_keys($attrData));
+                $searchableAttributes = array();
+                if (is_array($attrData)) {
+                    $searchableAttributes = array_intersect($this->_getSearchableAttributes(), array_keys($attrData));
+                }
+
                 if (count($searchableAttributes) > 0) {
                     $rebuildIndex = true;
                     $reindexData['catalogsearch_force_reindex'] = true;
@@ -319,7 +323,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
     protected function _getSearchableAttributes()
     {
         if (is_null($this->_searchableAttributes)) {
-            /** @var $attributeCollection Mage_Catalog_Model_Resource_Product_Attribute_Collection */
+            /** @var $lolo Mage_Catalog_Model_Resource_Product_Attribute_Collection */
             $attributeCollection = Mage::getResourceModel('catalog/product_attribute_collection');
             $attributeCollection->addIsSearchableFilter();
 
