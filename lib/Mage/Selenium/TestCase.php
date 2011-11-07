@@ -188,67 +188,67 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @var string
      */
-    const xpathSuccessMessage = "//*/descendant::*[normalize-space(@class)='success-msg'][string-length(.)>1]";
+    protected static $xpathSuccessMessage = "//*/descendant::*[normalize-space(@class)='success-msg'][string-length(.)>1]";
 
     /**
      * Error message Xpath
      *
      * @var string
      */
-    const xpathErrorMessage = "//*/descendant::*[normalize-space(@class)='error-msg'][string-length(.)>1]";
+    protected static $xpathErrorMessage = "//*/descendant::*[normalize-space(@class)='error-msg'][string-length(.)>1]";
 
     /**
      * Notice message Xpath
      *
      * @var string
      */
-    const xpathNoticeMessage = "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]";
+    protected static $xpathNoticeMessage = "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]";
 
     /**
      * Error message Xpath
      *
      * @var string
      */
-    const xpathValidationMessage = "//*/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))]";
+    protected static $xpathValidationMessage = "//*/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))]";
 
     /**
      * Field Name xpath with ValidationMessage
      *
      *  @var string
      */
-    const xpathFieldNameWithValidationMessage ="/ancestor::*[2]//label/descendant-or-self::*[string-length(text())>1]";
+    protected static $xpathFieldNameWithValidationMessage ="/ancestor::*[2]//label/descendant-or-self::*[string-length(text())>1]";
 
     /**
      * Loading holder XPath
      * @var string
      */
-    const xpathLoadingHolder = "//div[@id='loading-mask' and not(contains(@style,'display: none'))]";
+    protected static $xpathLoadingHolder = "//div[@id='loading-mask' and not(contains(@style,'display: none'))]";
 
     /**
      * Log Out link
      * @var string
      */
-    const xpathLogOutAdmin = "//div[@class='header-right']//a[@class='link-logout']";
+    protected static $xpathLogOutAdmin = "//div[@class='header-right']//a[@class='link-logout']";
 
     /**
      * Admin Logo Xpath
      * @var string
      */
-    const xpathAdminLogo = "//img[@class='logo' and contains(@src,'logo.gif')]";
+    protected static $xpathAdminLogo = "//img[@class='logo' and contains(@src,'logo.gif')]";
 
     /**
      * Incoming Message Close button Xpath
      *
      * @var string
      */
-    const xpathIncomingMessageClose = "//*[@id='message-popup-window' and @class='message-popup show']//a[span='close']";
+    protected static $xpathIncomingMessageClose = "//*[@id='message-popup-window' and @class='message-popup show']//a[span='close']";
 
     /**
      * 'Go to notifications' xpath in 'Latest Message' block
      *
      * @var string
      */
-    const xpathGoToNotifications = "//a[text()='Go to notifications']";
+    protected static $xpathGoToNotifications = "//a[text()='Go to notifications']";
 
     /**
      * 'Cache Management' xpath link when cache are invalided
@@ -268,7 +268,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Qty elements in Table
      * @var string
      */
-    const qtyElementsInTable = "//td[@class='pager']//span[contains(@id,'total-count')]";
+    protected static $qtyElementsInTable = "//td[@class='pager']//span[contains(@id,'total-count')]";
 
     /**
      * @var string
@@ -395,7 +395,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function getCssCount($locator)
     {
-        $script = "this.browserbot.evaluateCssCount('" . $locator . "', this.browserbot.getDocument())";
+        $script = "this.browserbot.evaluateCssCount('" . addslashes($locator) . "', this.browserbot.getDocument())";
         return $this->getEval($script);
     }
 
@@ -439,8 +439,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function setUpBeforeTests()
     {
-    }
 
+    }
     /**
      * Function overrides browser memory leak issue with big tests ammount. Basically it restarts browser.
      *
@@ -764,7 +764,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 'Fatal error on page: \'There has been an error processing your request\'');
         $this->assertTextNotPresent('Notice', 'Notice error on page');
         $this->assertTextNotPresent('Parse error', 'Parse error on page');
-        if (!$this->isElementPresent(self::xpathNoticeMessage)) {
+        if (!$this->isElementPresent(self::$xpathNoticeMessage)) {
             $this->assertTextNotPresent('Warning', 'Warning on page');
         }
         $this->assertTextNotPresent('was not found', 'Something was not found:)');
@@ -1259,9 +1259,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 foreach ($uimapFields as $fieldsType => $fieldsData) {
                     foreach ($fieldsData as $uimapFieldName => $uimapFieldValue) {
                         if ($dataFieldName == $uimapFieldName) {
+                            $parent = $fieldset->getXpath();
+                            if (!is_null($parent) && !$parent == '')
+                                $uimapFieldValue = str_ireplace ('css=', ' ', $uimapFieldValue );
                             $dataMap[$dataFieldName] = array(
                                 'type'  => $fieldsType,
-                                'path'  => $fieldset->getXpath() . $uimapFieldValue,
+                                'path'  => $parent . $uimapFieldValue,
                                 'value' => $dataFieldValue
                             );
                             break 3;
@@ -1434,8 +1437,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
-        $totalCount = intval($this->getText($xpath . self::qtyElementsInTable));
-        $xpathPager = $xpath . self::qtyElementsInTable . "[not(text()='" . $totalCount . "')]";
+        $totalCount = intval($this->getText($xpath . self::$qtyElementsInTable));
+        $xpathPager = $xpath . self::$qtyElementsInTable . "[not(text()='" . $totalCount . "')]";
 
         $xpathTR = $this->formSearchXpath($data);
 
@@ -1657,7 +1660,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return (!empty($message))
             ? $this->checkMessage($message)
-            : $this->checkMessageByXpath(self::xpathErrorMessage);
+            : $this->checkMessageByXpath(self::$xpathErrorMessage);
     }
 
     /**
@@ -1683,7 +1686,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return (!empty($message))
             ? $this->checkMessage($message)
-            : $this->checkMessageByXpath(self::xpathSuccessMessage);
+            : $this->checkMessageByXpath(self::$xpathSuccessMessage);
     }
 
     /**
@@ -1709,7 +1712,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return (!empty($message))
             ? $this->checkMessage($message)
-            : $this->checkMessageByXpath(self::xpathValidationMessage);
+            : $this->checkMessageByXpath(self::$xpathValidationMessage);
     }
 
     /**
@@ -1731,10 +1734,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _parseMessages()
     {
-        $this->messages['success'] = $this->getElementsByXpath(self::xpathSuccessMessage);
-        $this->messages['error'] = $this->getElementsByXpath(self::xpathErrorMessage);
-        $this->messages['validation'] = $this->getElementsByXpath(self::xpathValidationMessage, 'text',
-                self::xpathFieldNameWithValidationMessage);
+        $this->messages['success'] = $this->getElementsByXpath(self::$xpathSuccessMessage);
+        $this->messages['error'] = $this->getElementsByXpath(self::$xpathErrorMessage);
+        $this->messages['validation'] = $this->getElementsByXpath(self::$xpathValidationMessage, 'text',
+                self::$xpathFieldNameWithValidationMessage);
     }
 
     /**
@@ -1752,9 +1755,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         if (!empty($xpath)) {
             $totalElements = $this->getXpathCount($xpath);
+            $pos = stripos(trim($xpath), 'css=');
             for ($i = 1; $i < $totalElements + 1; $i++) {
-                $x = $xpath . '[' . $i . ']';
-
+                if ($pos !== false && $pos == 0) {
+                    $x = $xpath . ':nth(' . ($i-1) . ')';
+                }
+                else
+                {
+                    $x = $xpath . '[' . $i . ']';
+                }
                 switch ($get) {
                     case 'value' :
                         $element = $this->getValue($x);
@@ -1846,15 +1855,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     );
                     $this->fillForm($loginData);
                     $this->clickButton('login', false);
-                    $this->waitForElement(array(self::xpathAdminLogo,
-                                                self::xpathErrorMessage,
-                                                self::xpathValidationMessage));
+                    $this->waitForElement(array(self::$xpathAdminLogo,
+                                                self::$xpathErrorMessage,
+                                                self::$xpathValidationMessage));
                     if (!$this->checkCurrentPage($this->_firstPageAfterAdminLogin)) {
                         throw new PHPUnit_Framework_Exception('Admin was not logged in');
                     }
-                    if ($this->isElementPresent(self::xpathGoToNotifications)) {
-                        if ($this->waitForElement(self::xpathIncomingMessageClose, 10)) {
-                            $this->click(self::xpathIncomingMessageClose);
+                    if ($this->isElementPresent(self::$xpathGoToNotifications)) {
+                        if ($this->waitForElement(self::$xpathIncomingMessageClose, 10)) {
+                            $this->click(self::$xpathIncomingMessageClose);
                         }
                     }
                     $this->validatePage($this->_firstPageAfterAdminLogin);
@@ -1944,8 +1953,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function logoutAdminUser()
     {
         try {
-            if ($this->isElementPresent(self::xpathLogOutAdmin)) {
-                $this->click(self::xpathLogOutAdmin);
+            if ($this->isElementPresent(self::$xpathLogOutAdmin)) {
+                $this->click(self::$xpathLogOutAdmin);
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
                 $this->validatePage('log_in_to_admin');
             }
@@ -2136,9 +2145,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         foreach ($this->messages as $key => $value) {
             $this->messages[$key] = array_unique($value);
         }
-        $success = self::xpathSuccessMessage;
-        $error = self::xpathErrorMessage;
-        $validation = self::xpathValidationMessage;
+        $success = self::$xpathSuccessMessage;
+        $error = self::$xpathErrorMessage;
+        $validation = self::$xpathValidationMessage;
         $types = array('success', 'error', 'validation');
         foreach ($types as $message) {
             if (array_key_exists($message, $this->messages)) {
