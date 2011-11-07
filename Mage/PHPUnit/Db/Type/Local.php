@@ -27,7 +27,7 @@
 class Mage_PHPUnit_Db_Type_Local extends Mage_Core_Model_Resource_Type_Db
 {
     /**
-     * Get stub adapter 
+     * Get stub adapter
      *
      * @param array $config Connection config
      * @return Mage_PHPUnit_Db_Adapter
