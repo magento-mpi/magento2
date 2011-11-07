@@ -28,7 +28,7 @@
  */
 
 /**
- * Prices Validation on the frontend
+ * Newsletter Subscription validation
  *
  * @package     selenium
  * @subpackage  tests
@@ -169,6 +169,90 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
             $this->navigate('newsletter_subscribers');
             $this->assertEquals(NULL, $this->search(array('filter_email' => $newSubscriberEmail)));
         }
+    }
+
+    /**
+     * <p> Delete Subscriber</p>
+     *
+     * <p> Steps:</p>
+     * <p>1. Login to Frontend</p>
+     * <p>2. Open created category</p>
+     * <p>3. Enter email to subscribe</p>
+     * <p>4. Check message</p>
+     * <p>5. Login to backend</p>
+     * <p>6. Goto Newsletter -> Newsletter Subscribers</p>
+     * <p>7. Verify email in subscribers list</p>
+     * <p>8. Select subscriber`s email from the list</p>
+     * <p>9. Choose "Delete" option in actions</p>
+     * <p>10. Click "Submit" button</p>
+     * <p>11. Check confirmation message</p>
+     *
+     * <p>Expected result: Subscriber`s email removed from the list</p>
+     *
+     * @depends createCustomer
+     * @depends createCategory
+     * @depends createProduct
+     *
+     * @test
+     */
+    public function subscriberDelete($customer, $category)
+    {
+        $nodes = explode('/', $category);
+        $category = end($nodes);
+        $newSubscriberEmail = $this->generate('email', 15, 'valid');
+        $this->customerHelper()->frontLoginCustomer($customer);
+        $this->categoryHelper()->frontOpenCategory($category);
+        $this->fillForm(array('sign_up_newsletter' => $newSubscriberEmail));
+        $this->clickButton('subscribe');
+        $this->assertTrue($this->successMessage('success_subscription'), $this->messages);
+        $this->loginAdminUser();
+        $this->navigate('newsletter_subscribers');
+        $this->searchAndChoose(array('filter_email' => $newSubscriberEmail));
+        $this->fillForm(array('subscribers_massaction' => 'Delete'));
+        $this->clickButton('submit');
+        $this->assertTrue($this->successMessage('success_delete'), $this->messages);
+    }
+
+    /**
+     * <p> Unsubscribe Subscriber</p>
+     *
+     * <p> Steps:</p>
+     * <p>1. Login to Frontend</p>
+     * <p>2. Open created category</p>
+     * <p>3. Enter email to subscribe</p>
+     * <p>4. Check message</p>
+     * <p>5. Login to backend</p>
+     * <p>6. Goto Newsletter -> Newsletter Subscribers</p>
+     * <p>7. Verify email in subscribers list</p>
+     * <p>8. Select subscriber`s email from the list</p>
+     * <p>9. Choose "Unsubscribe" option in actions</p>
+     * <p>10. Click "Submit" button</p>
+     * <p>11. Check confirmation message</p>
+     *
+     * <p>Expected result: Subscriber`s email status changed</p>
+     *
+     * @depends createCustomer
+     * @depends createCategory
+     * @depends createProduct
+     *
+     * @test
+     */
+    public function subscriberUnsubscribe($customer, $category)
+    {
+        $nodes = explode('/', $category);
+        $category = end($nodes);
+        $newSubscriberEmail = $this->generate('email', 15, 'valid');
+        $this->customerHelper()->frontLoginCustomer($customer);
+        $this->categoryHelper()->frontOpenCategory($category);
+        $this->fillForm(array('sign_up_newsletter' => $newSubscriberEmail));
+        $this->clickButton('subscribe');
+        $this->assertTrue($this->successMessage('success_subscription'), $this->messages);
+        $this->loginAdminUser();
+        $this->navigate('newsletter_subscribers');
+        $this->searchAndChoose(array('filter_email' => $newSubscriberEmail));
+        $this->fillForm(array('subscribers_massaction' => 'Unsubscribe'));
+        $this->clickButton('submit');
+        $this->assertTrue($this->successMessage('success_update'), $this->messages);
     }
 
     public function newsletterData()
