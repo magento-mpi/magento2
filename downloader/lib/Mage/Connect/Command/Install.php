@@ -23,18 +23,15 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-
-final class Mage_Connect_Command_Install
-extends Mage_Connect_Command
+final class Mage_Connect_Command_Install extends Mage_Connect_Command
 {
-
     /**
      * Install action callback
+     *
      * @param string $command
      * @param array $options
      * @param array $params
-     * @return void
+     * @return array|null
      */
     public function doInstall($command, $options, $params, $objects = array())
     {
@@ -42,16 +39,21 @@ extends Mage_Connect_Command
 
         $installFileMode = $command === 'install-file';
 
-
-        $cache=null;
-        /**
-         * @var $cache Mage_Connect_Singleconfig
-         */
+        /** @var $ftpObj Mage_Connect_Ftp */
         $ftpObj=null;
-
+        $ftp = empty($options['ftp']) ? false : $options['ftp'];
+        /** @var $packager Mage_Connect_Packager */
+        $packager = $this->getPackager();
+        /** @var $cache Mage_Connect_Singleconfig */
+        /** @var $config Mage_Connect_Config */
+        if($ftp) {
+            list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
+        } else {
+            $cache = $this->getSconfig();
+            $config = $this->config();
+        }
 
         try {
-            $packager = $this->getPackager();
             $forceMode = isset($options['force']);
             $upgradeAllMode = $command == 'upgrade-all';
             $upgradeMode = $command == 'upgrade' || $command == 'upgrade-all';
@@ -63,13 +65,6 @@ extends Mage_Connect_Command
             $channelAuth = isset($options['auth'])?$options['auth']:array();
 
             $rest = $this->rest();
-            $ftp = empty($options['ftp']) ? false : $options['ftp'];
-            if($ftp) {
-                list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
-            } else {
-                $config = $this->config();
-                $cache = $this->getSconfig();
-            }
             if(empty($config->magento_root)){
                 $config->magento_root=dirname(dirname($_SERVER['SCRIPT_FILENAME']));
             }
@@ -136,7 +131,6 @@ extends Mage_Connect_Command
                 $pName = $package->getName();
                 $pVer = $package->getVersion();
 
-
                 if (!($cache->isChannelName($pChan) || $cache->isChannelAlias($pChan))) {
                     throw new Exception("The '{$pChan}' channel is not installed. Please use the MAGE shell "
                         . "script to install the '{$pChan}' channel.");
@@ -174,7 +168,6 @@ extends Mage_Connect_Command
                     }
                 }
 
-
                 if(!$noFilesInstall) {
                     if($ftp) {
                         $packager->processInstallPackageFtp($package, $filename, $config, $ftpObj);
@@ -187,7 +180,6 @@ extends Mage_Connect_Command
                 $installedDepsAssoc = array();
                 $installedDepsAssoc[] = array('channel'=>$pChan, 'name'=>$pName, 'version'=>$pVer);
                 $installedDeps[] = array($pChan, $pName, $pVer);
-
 
                 $title = isset($options['title']) ? $options['title'] : "Package installed: ";
                 $out = array($command => array('data'=>$installedDeps, 'assoc'=>$installedDepsAssoc,  'title'=>$title));
@@ -202,7 +194,6 @@ extends Mage_Connect_Command
             }
 
             if(!$upgradeAllMode) {
-
                 if(count($params) < 2) {
                     throw new Exception("Argument should be: channelName packageName");
                 }
@@ -223,13 +214,6 @@ extends Mage_Connect_Command
                 if(count($packagesToInstall['failed'])) {
                     $showError=!count($packagesToInstall['result']);
                     foreach($packagesToInstall['failed'] as $failed){
-                        //$failed = array(
-                        //    'name'=>$package,
-                        //    'channel'=>$chanName,
-                        //    'max'=>$versionMax,
-                        //    'min'=>$versionMin,
-                        //    'reason'=>$e->getMessage()
-                        //);
                         $msg="Package {$failed['channel']}/{$failed['name']} failed: ".$failed['reason'];
                         if($showError){
                             $this->doError($command, $msg);
@@ -269,7 +253,6 @@ extends Mage_Connect_Command
              */
             $installedDeps = array();
             $installedDepsAssoc = array();
-            $keys = array();
 
             foreach($packagesToInstall as $package) {
                 try {
@@ -325,8 +308,6 @@ extends Mage_Connect_Command
                                     $this->ui()->output($row);
                                 }
                             }
-                            /*$this->ui()->confirm('Do you want rewrite all files?');
-                             continue;*/
                         }
                     }
 
@@ -391,9 +372,6 @@ extends Mage_Connect_Command
                         }
                     }
 
-                    /**
-                     * @todo: make "Use custom permissions" functionality working
-                     */
                     if(!$noFilesInstall) {
                         $this->ui()->output("Installing package {$pChan}/{$pName} {$pVer}");
                         if($ftp) {
@@ -413,8 +391,6 @@ extends Mage_Connect_Command
                 }
             }
 
-
-
             $title = isset($options['title']) ? $options['title'] : "Package installed: ";
             $out = array($command => array('data'=>$installedDeps, 'assoc'=>$installedDepsAssoc,  'title'=>$title));
 
@@ -425,7 +401,6 @@ extends Mage_Connect_Command
 
             $this->ui()->output($out);
             return $out[$command]['data'];
-
         } catch (Exception $e) {
             if($ftp) {
                 $packager->writeToRemoteCache($cache, $ftpObj);
@@ -437,10 +412,11 @@ extends Mage_Connect_Command
 
     /**
      * Upgrade action callback
+     *
      * @param string $command
      * @param array $options
      * @param array $params
-     * @return void
+     * @return array|null
      */
     public function doUpgrade($command, $options, $params)
     {
@@ -450,10 +426,11 @@ extends Mage_Connect_Command
 
     /**
      * Updgrade action callback
+     *
      * @param string $command
      * @param array $options
      * @param array $params
-     * @return void
+     * @return array|null
      */
     public function doUpgradeAll($command, $options, $params)
     {
@@ -463,15 +440,15 @@ extends Mage_Connect_Command
 
     /**
      * Uninstall package callback
+     *
      * @param string $command
      * @param array $options
      * @param array $params
-     * @return unknown_type
+     * @return null
      */
     public function doUninstall($command, $options, $params)
     {
         $this->cleanupParams($params);
-        //$this->splitPackageArgs($params);
 
         try {
             if(count($params) != 2) {
@@ -480,11 +457,15 @@ extends Mage_Connect_Command
 
             $channel = $params[0];
             $package = $params[1];
+            /** @var $packager Mage_Connect_Packager */
             $packager = $this->getPackager();
-            $withDepsMode = !isset($options['nodeps']);
+            $withDepsMode = !isset($options['nodeps'])? false : (boolean)$options['nodeps'];
             $forceMode = isset($options['force']);
 
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
+            /** @var $cache Mage_Connect_Singleconfig */
+            /** @var $config Mage_Connect_Config */
+            /** @var $ftpObj Mage_Connect_Ftp */
             if($ftp) {
                 list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
             } else {
@@ -492,7 +473,6 @@ extends Mage_Connect_Command
                 $config = $this->config();
             }
 
-            $chan = $cache->getChannel($channel);
             $channel = $cache->chanName($channel);
             if(!$cache->hasPackage($channel, $package)) {
                 throw new Exception("Package is not installed");
@@ -556,12 +536,8 @@ extends Mage_Connect_Command
             }
             $out = array($command=>array('data'=>$deletedPackages, 'title'=>'Package deleted: '));
             $this->ui()->output($out);
-
         } catch (Exception $e) {
             return $this->doError($command, $e->getMessage());
         }
-
     }
-
 }
-
