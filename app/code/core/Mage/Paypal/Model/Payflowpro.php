@@ -87,7 +87,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
     protected $_canUseForMultishipping  = true;
     protected $_canSaveCc = false;
     protected $_isProxy = false;
-    protected $_canFetchTransactionInfo = true;
+    protected $_canFetchTransactionInfo = false;
 
     /**
      * Gateway request timeout
