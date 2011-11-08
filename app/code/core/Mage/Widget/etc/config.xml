@@ -41,10 +41,10 @@
         </resources>
         <cms>
             <page>
-                <tempate_filter>widget/template_filter</tempate_filter>
+                <tempate_filter>Mage_Widget_Model_Template_Filter</tempate_filter>
             </page>
             <block>
-                <tempate_filter>widget/template_filter</tempate_filter>
+                <tempate_filter>Mage_Widget_Model_Template_Filter</tempate_filter>
             </block>
         </cms>
         <widget>

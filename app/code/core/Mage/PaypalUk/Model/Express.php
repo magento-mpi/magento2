@@ -39,7 +39,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Paypal_Model_Express
      *
      * @var $_proType string
      */
-    protected $_proType = 'paypaluk/pro';
+    protected $_proType = 'Mage_PaypalUk_Model_Pro';
 
     /**
      * Express Checkout payment method instance

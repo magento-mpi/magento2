@@ -36,7 +36,7 @@ class Mage_PaypalUk_Model_Direct extends Mage_Paypal_Model_Direct
      *
      * @var string
      */
-    protected $_proType = 'paypaluk/pro';
+    protected $_proType = 'Mage_PaypalUk_Model_Pro';
 
     /**
      * Return available CC types for gateway based on merchant country

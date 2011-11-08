@@ -34,41 +34,52 @@ class Mage_Core_Model_ConfigFactoryTest extends PHPUnit_Framework_TestCase
         $this->_model->init(self::$_options);
     }
 
-    public function testGetGroupedClassName()
+    /**
+     * @dataProvider classNameRewriteDataProvider
+     */
+    public function testClassNameRewrite($originalClass, $expectedClass, $classNameGetter)
     {
-        $this->assertEquals('Mage_Core_Model_Config', $this->_model->getGroupedClassName('model', 'core/config'));
-        $this->assertEquals('Mage_Core_Block_Config', $this->_model->getGroupedClassName('block', 'core/config'));
-        $this->assertEquals('Mage_Core_Helper_String', $this->_model->getGroupedClassName('helper', 'core/string'));
+        $this->_model->setNode("global/rewrites/$originalClass", $expectedClass);
+        $this->assertEquals($expectedClass, $this->_model->$classNameGetter($originalClass));
     }
 
-    public function testGetGroupedClassNameRewrites()
+    public function classNameRewriteDataProvider()
     {
-        $rewrittenClass = 'Some_Class_To_Rewrite';
-        $rewritingClass = 'Some_Class_That_Rewrites';
-        $this->_model->setNode('global/rewrites/' . $rewrittenClass, $rewritingClass);
-        $this->assertEquals($rewritingClass, $this->_model->getGroupedClassName(null, $rewrittenClass));
+        return array(
+            'block'          => array('My_Module_Block_Class', 'Another_Module_Block_Class', 'getBlockClassName'),
+            'helper'         => array('My_Module_Helper_Data', 'Another_Module_Helper_Data', 'getHelperClassName'),
+            'model'          => array('My_Module_Model_Class', 'Another_Module_Model_Class', 'getModelClassName'),
+            'resource model' => array(
+                'My_Module_Model_Resource_Collection',
+                'Another_Module_Model_Resource_Collection_New',
+                'getResourceModelClassName'
+            ),
+        );
     }
 
     public function testGetBlockClassName()
     {
-        $this->assertEquals('Mage_Core_Block_Config', $this->_model->getBlockClassName('core/config'));
         $this->assertEquals('Mage_Core_Block_Template', $this->_model->getBlockClassName('Mage_Core_Block_Template'));
     }
 
-    public function testGetHelperClassName()
+    /**
+     * @dataProvider getHelperClassNameDataProvider
+     */
+    public function testGetHelperClassName($inputClassName, $expectedClassName)
     {
-        $this->assertEquals('Mage_Core_Helper_Data', $this->_model->getHelperClassName('core'));
-        $this->assertEquals('Mage_Core_Helper_String', $this->_model->getHelperClassName('core/string'));
-        $this->assertEquals('Mage_Core_Helper_Http', $this->_model->getHelperClassName('Mage_Core_Helper_Http'));
-        $this->assertEquals('Mage_Core_Helper_Data', $this->_model->getHelperClassName('Mage_Core'));
+        $this->assertEquals($expectedClassName, $this->_model->getHelperClassName($inputClassName));
+    }
+
+    public function getHelperClassNameDataProvider()
+    {
+        return array(
+            'class name'  => array('Mage_Core_Helper_Http', 'Mage_Core_Helper_Http'),
+            'module name' => array('Mage_Core',             'Mage_Core_Helper_Data'),
+        );
     }
 
     public function testGetResourceHelper()
     {
-        $this->assertInstanceOf('Mage_Core_Model_Resource_Helper_Abstract', $this->_model->getResourceHelper('core'));
-        $this->assertInstanceOf(
-            'Mage_Core_Model_Resource_Helper_Abstract', $this->_model->getResourceHelper('catalog')
-        );
         $this->assertInstanceOf(
             'Mage_Core_Model_Resource_Helper_Abstract', $this->_model->getResourceHelper('Mage_Core')
         );
@@ -76,83 +87,24 @@ class Mage_Core_Model_ConfigFactoryTest extends PHPUnit_Framework_TestCase
 
     public function testGetModelClassName()
     {
-        $this->assertEquals('Mage_Core_Model_Config', $this->_model->getModelClassName('core/config'));
+        $this->assertEquals('Mage_Core_Model_Config', $this->_model->getModelClassName('Mage_Core_Model_Config'));
     }
 
     public function testGetModelInstance()
     {
-        $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->getModelInstance('core/config'));
-        $this->assertInstanceOf(
-            'Mage_Core_Model_Config', $this->_model->getModelInstance('Mage_Core_Model_Config')
-        );
-    }
-
-    /**
-     *
-     * @param string $configPath
-     * @param string $node
-     * @param string $nodeValue
-     * @param string $expectedClass
-     *
-     * @dataProvider getNodeClassInstanceDataProvider
-     */
-    public function testGetNodeClassInstance($configPath, $node, $nodeValue, $expectedClass)
-    {
-        $nodePath = $configPath . '/' . $node;
-        $oldValue = Mage::getConfig()->getNode($nodePath);
-
-        Mage::getConfig()->setNode($nodePath, $nodeValue);
-        $actualInstance = $this->_model->getNodeClassInstance($configPath);
-        Mage::getConfig()->setNode($nodePath, $oldValue);
-
-        $this->assertInstanceOf($expectedClass, $actualInstance);
-    }
-
-    /**
-     * @return array
-     */
-    public function getNodeClassInstanceDataProvider()
-    {
-        return array(
-            'alias in "class"' => array(
-                'global/tmp/alias_class',
-                'class',
-                'core/url',
-                'Mage_Core_Model_Url'
-            ),
-            'alias in "model"' => array(
-                'global/tmp/alias_model',
-                'model',
-                'core/url',
-                'Mage_Core_Model_Url'
-            ),
-            'full class in "class"' => array(
-                'global/tmp/full_class',
-                'class',
-                'Mage_Core_Model_Url',
-                'Mage_Core_Model_Url'
-            ),
-            'full class in "model"' => array(
-                'global/tmp/full_model',
-                'model',
-                'Mage_Core_Model_Url',
-                'Mage_Core_Model_Url'
-            ),
-        );
+        $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->getModelInstance('Mage_Core_Model_Config'));
     }
 
     public function testGetResourceModelClassName()
     {
         $this->assertEquals(
-            'Mage_Core_Model_Resource_Config', $this->_model->getResourceModelClassName('core/config')
+            'Mage_Core_Model_Resource_Config',
+            $this->_model->getResourceModelClassName('Mage_Core_Model_Resource_Config')
         );
     }
 
     public function testGetResourceModelInstance()
     {
-        $this->assertInstanceOf(
-            'Mage_Core_Model_Resource_Config', $this->_model->getResourceModelInstance('core/config')
-        );
         $this->assertInstanceOf(
             'Mage_Core_Model_Resource_Config',
             $this->_model->getResourceModelInstance('Mage_Core_Model_Resource_Config')

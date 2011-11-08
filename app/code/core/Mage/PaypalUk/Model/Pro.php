@@ -43,7 +43,7 @@ class Mage_PaypalUk_Model_Pro extends Mage_Paypal_Model_Pro
      *
      * @var string
      */
-    protected $_configType = 'paypal/config';
+    protected $_configType = 'Mage_Paypal_Model_Config';
 
     /**
      * Payflow trx_id key in transaction info

@@ -175,7 +175,7 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
      */
     function getAttributeModule($sectionNode = null, $groupNode = null, $fieldNode = null)
     {
-        $moduleName = 'adminhtml';
+        $moduleName = 'Mage_Adminhtml';
         if (is_object($sectionNode) && method_exists($sectionNode, 'attributes')) {
             $sectionAttributes = $sectionNode->attributes();
             $moduleName = isset($sectionAttributes['module']) ? (string)$sectionAttributes['module'] : $moduleName;

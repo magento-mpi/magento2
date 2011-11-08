@@ -144,9 +144,9 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
         $this->initProductLayout($product, $controller);
 
         if ($controller instanceof Mage_Catalog_Controller_Product_View_Interface) {
-            $controller->initLayoutMessages('catalog/session');
-            $controller->initLayoutMessages('tag/session');
-            $controller->initLayoutMessages('checkout/session');
+            $controller->initLayoutMessages('Mage_Catalog_Model_Session');
+            $controller->initLayoutMessages('Mage_Tag_Model_Session');
+            $controller->initLayoutMessages('Mage_Checkout_Model_Session');
         } else {
             throw new Mage_Core_Exception($this->__('Bad controller interface for showing product'), $this->ERR_BAD_CONTROLLER_INTERFACE);
         }

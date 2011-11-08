@@ -132,28 +132,22 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'named block' => array(
-                'core/text',
-                'some_block_name',
-                array('type' => 'core/text'),
-                '/^some_block_name$/'
-            ),
-            'named block full class' => array(
                 'Mage_Core_Block_Template',
                 'some_block_name_full_class',
                 array('type' => 'Mage_Core_Block_Template'),
                 '/^some_block_name_full_class$/'
             ),
             'anonymous block' => array(
-                'core/text_list',
+                'Mage_Core_Block_Text_List',
                 '',
-                array('type' => 'core/text_list',
+                array('type' => 'Mage_Core_Block_Text_List',
                 'key1' => 'value1'),
                 '/^ANONYMOUS_.+/'
             ),
             'anonymous suffix' => array(
-                'core/template',
+                'Mage_Core_Block_Template',
                 '.some_anonymous_suffix',
-                array('type' => 'core/template'),
+                array('type' => 'Mage_Core_Block_Template'),
                 '/^ANONYMOUS_.+/',
                 'some_anonymous_suffix'
             )
@@ -202,7 +196,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     public function getBlockSingletonDataProvider()
     {
         return array(
-            array('core/text', 'Mage_Core_Block_Text'),
             array('Mage_Core_Block_Text', 'Mage_Core_Block_Text')
         );
     }

@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Template extends Mage_Core_Block_Template
      */
     protected function _getUrlModelClass()
     {
-        return 'adminhtml/url';
+        return 'Mage_Adminhtml_Model_Url';
     }
 
     /**

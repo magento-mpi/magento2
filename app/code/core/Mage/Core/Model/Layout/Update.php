@@ -91,7 +91,7 @@ class Mage_Core_Model_Layout_Update
     public function getElementClass()
     {
         if (!$this->_elementClass) {
-            $this->_elementClass = Mage::getConfig()->getModelClassName('core/layout_element');
+            $this->_elementClass = Mage::getConfig()->getModelClassName('Mage_Core_Model_Layout_Element');
         }
         return $this->_elementClass;
     }

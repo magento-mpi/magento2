@@ -39,7 +39,7 @@ class Mage_Sales_Model_Quote_Address_Total_Nominal extends Mage_Sales_Model_Quot
      */
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
-        $collector = Mage::getSingleton('sales/quote_address_total_nominal_collector',
+        $collector = Mage::getSingleton('Mage_Sales_Model_Quote_Address_Total_Nominal_Collector',
             array('store' => $address->getQuote()->getStore())
         );
 

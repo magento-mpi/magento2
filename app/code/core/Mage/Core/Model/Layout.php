@@ -83,7 +83,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function __construct($data=array())
     {
-        $this->_elementClass = Mage::getConfig()->getModelClassName('core/layout_element');
+        $this->_elementClass = Mage::getConfig()->getModelClassName('Mage_Core_Model_Layout_Element');
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
         $this->_update = Mage::getModel('Mage_Core_Model_Layout_Update');
         parent::__construct($data);
@@ -461,11 +461,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected function _getBlockInstance($block, array $attributes=array())
     {
         if (is_string($block)) {
-            if (strpos($block, '/')!==false) {
-                if (!$block = Mage::getConfig()->getBlockClassName($block)) {
-                    Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block type: %s', $block));
-                }
-            }
+            $block = Mage::getConfig()->getBlockClassName($block);
             if (class_exists($block, false) || mageFindClassFile($block)) {
                 $block = new $block($attributes);
             }

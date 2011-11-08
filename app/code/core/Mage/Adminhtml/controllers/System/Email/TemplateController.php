@@ -119,12 +119,10 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
                 ->setOrigTemplateVariables($request->getParam('orig_template_variables'));
 
             if (!$template->getId()) {
-                //$type = constant(Mage::getConfig()->getModelClassName('core/email_template') . "::TYPE_HTML");
                 $template->setTemplateType(Mage_Core_Model_Email_Template::TYPE_HTML);
             }
 
             if($request->getParam('_change_type_flag')) {
-                //$type = constant(Mage::getConfig()->getModelClassName('core/email_template') . "::TYPE_TEXT");
                 $template->setTemplateType(Mage_Core_Model_Email_Template::TYPE_TEXT);
                 $template->setTemplateStyles('');
             }

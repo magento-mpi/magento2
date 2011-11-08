@@ -74,7 +74,6 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function getResourceModelDataProvider()
     {
         return array(
-            array('core/config', 'Mage_Core_Model_Resource_Config'),
             array('Mage_Core_Model_Resource_Config', 'Mage_Core_Model_Resource_Config')
         );
     }
@@ -95,7 +94,6 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function getResourceHelperDataProvider()
     {
         return array(
-            array('core', 'Mage_Core_Model_Resource_Helper_Abstract'),
             array('Mage_Core', 'Mage_Core_Model_Resource_Helper_Abstract')
         );
     }
@@ -116,9 +114,8 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function helperDataProvider()
     {
         return array(
-            array('core', 'Mage_Core_Helper_Data'),
-            array('core/http', 'Mage_Core_Helper_Http'),
-            array('Mage_Core_Helper_Js', 'Mage_Core_Helper_Js'),
+            'module name' => array('Mage_Core',           'Mage_Core_Helper_Data'),
+            'class name'  => array('Mage_Core_Helper_Js', 'Mage_Core_Helper_Js'),
         );
     }
 }

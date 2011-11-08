@@ -106,9 +106,9 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
                 /**
                  * Get field backend model
                  */
-                $backendClass = $sections->descend($section.'/groups/'.$group.'/fields/'.$field.'/backend_model');
+                $backendClass = (string)$sections->descend($section.'/groups/'.$group.'/fields/'.$field.'/backend_model');
                 if (!$backendClass && $clonedFields && isset($mappedFields[$field])) {
-                    $backendClass = $sections->descend($section.'/groups/'.$group.'/fields/'.$mappedFields[$field].'/backend_model');
+                    $backendClass = (string)$sections->descend($section.'/groups/'.$group.'/fields/'.$mappedFields[$field].'/backend_model');
                 }
                 if (!$backendClass) {
                     $backendClass = 'Mage_Core_Model_Config_Data';

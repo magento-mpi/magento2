@@ -108,7 +108,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
             }
         }
         elseif (is_string($tab)) {
-            if (strpos($tab, '/')) {
+            if (strpos($tab, '_Block_')) {
                 $this->_tabs[$tabId] = $this->getLayout()->createBlock($tab);
             }
             elseif ($this->getChild($tab)) {

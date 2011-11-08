@@ -1209,34 +1209,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
-     * Retrieve class name by class group
-     *
-     * @param   string $groupType currently supported model, block, helper
-     * @param   string $classId slash separated class identifier, ex. group/class or direct class name
-     * @return  string
-     */
-    public function getGroupedClassName($groupType, $classId)
-    {
-        if ($this->_isClassAlias($classId)) {
-            $classId = $this->_getGroupedClassName($groupType, $classId);
-        }
-        return $this->_applyClassRewrites($classId);
-    }
-
-    /**
-     * Checks that $classString is a class alias, not direct class name
-     * FIXME: MAGETWO-548 temporary method, must be removed in MAGETWO-554
-     *
-     * @param string $classString
-     * @return bool
-     *
-     */
-    protected function _isClassAlias($classString)
-    {
-        return strpos($classString, '/') !== false;
-    }
-
-    /**
      * Check rewrite section and apply rewrites to $className, if any
      *
      * @param   string $className
@@ -1255,133 +1227,29 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
-     * Retrieve class name by class group
-     *
-     * @todo Method contains legacy support of "/" in the class name, it should be revised in the scope of MAGETWO-563
-     *
-     * @param   string $groupType currently supported model, block, helper
-     * @param   string $classId slash separated class identifier, ex. group/class
-     * @return  string
-     */
-    protected function _getGroupedClassName($groupType, $classId)
-    {
-        if (isset($this->_classNameCache[$groupType][$classId])) {
-            return $this->_classNameCache[$groupType][$classId];
-        }
-
-        $classArr = explode('/', trim($classId));
-        $group = $classArr[0];
-        $class = !empty($classArr[1]) ? $classArr[1] : null;
-
-        /* Distinguish resource models */
-        if (substr($group, -9) == '_resource') {
-            $group = substr($group, 0, -9);
-            $groupTypeReal = 'model_resource';
-        } else {
-            $groupTypeReal = $groupType;
-        }
-
-        /* Determine omitted module namespace */
-        $module = (strpos($group, '_') === false ? 'mage_' : '') . strtolower($group);
-
-        /* Fix upper case symbols in the module name */
-        $modulesCaseSensitive = array(
-            'mage_adminnotification'          => 'mage_adminNotification',
-            'mage_cataloginventory'           => 'mage_catalogInventory',
-            'mage_catalogrule'                => 'mage_catalogRule',
-            'mage_catalogsearch'              => 'mage_catalogSearch',
-            'mage_giftmessage'                => 'mage_giftMessage',
-            'mage_googleanalytics'            => 'mage_googleAnalytics',
-            'mage_googlebase'                 => 'mage_googleBase',
-            'mage_googlecheckout'             => 'mage_googleCheckout',
-            'mage_googleoptimizer'            => 'mage_googleOptimizer',
-            'mage_googleshopping'             => 'mage_googleShopping',
-            'mage_importexport'               => 'mage_importExport',
-            'mage_pagecache'                  => 'mage_pageCache',
-            'mage_paypaluk'                   => 'mage_paypalUk',
-            'mage_productalert'               => 'mage_productAlert',
-            'mage_salesrule'                  => 'mage_salesRule',
-            'mage_xmlconnect'                 => 'mage_xmlConnect',
-            'enterprise_admingws'             => 'enterprise_adminGws',
-            'enterprise_catalogevent'         => 'enterprise_catalogEvent',
-            'enterprise_catalogpermissions'   => 'enterprise_catalogPermissions',
-            'enterprise_customerbalance'      => 'enterprise_customerBalance',
-            'enterprise_customersegment'      => 'enterprise_customerSegment',
-            'enterprise_giftcard'             => 'enterprise_giftCard',
-            'enterprise_giftcardaccount'      => 'enterprise_giftCardAccount',
-            'enterprise_giftregistry'         => 'enterprise_giftRegistry',
-            'enterprise_giftwrapping'         => 'enterprise_giftWrapping',
-            'enterprise_importexport'         => 'enterprise_importExport',
-            'enterprise_pagecache'            => 'enterprise_pageCache',
-            'enterprise_pricepermissions'     => 'enterprise_pricePermissions',
-            'enterprise_promotionpermissions' => 'enterprise_promotionPermissions',
-            'enterprise_salesarchive'         => 'enterprise_salesArchive',
-            'enterprise_targetrule'           => 'enterprise_targetRule',
-            'enterprise_websiterestriction'   => 'enterprise_websiteRestriction',
-        );
-        if (isset($modulesCaseSensitive[$module])) {
-            $module = $modulesCaseSensitive[$module];
-        }
-
-        /* General class prefix */
-        $classPrefix = $module . '_' . $groupTypeReal;
-
-        /* Non-standard class prefixes */
-        $classPrefixMap = array(
-            'block' => array(
-                'directpost'   => 'Mage_Authorizenet_Block_Directpost',
-            ),
-            'model' => array(
-                'sales_entity' => 'Mage_Sales_Model_Entity',
-                'tag_customer' => 'Mage_Tag_Model_Customer',
-            ),
-            'model_resource' => array(
-                'media'        => 'Mage_Media_Model_File',
-                'tag_customer' => 'Mage_Tag_Model_Resource_Customer',
-            ),
-        );
-        if (isset($classPrefixMap[$groupTypeReal][$group])) {
-            $classPrefix = $classPrefixMap[$groupTypeReal][$group];
-        }
-
-        /* Build final class name */
-        $result = $classPrefix . ($class ? '_' . $class : '');
-        $result = uc_words($result);
-        $result = $this->_applyClassRewrites($result);
-
-        $this->_classNameCache[$groupType][$classId] = $result;
-        return $result;
-    }
-
-    /**
      * Retrieve block class name
      *
-     * @param   string $blockType
+     * @param   string $blockClass
      * @return  string
      */
-    public function getBlockClassName($blockType)
+    public function getBlockClassName($blockClass)
     {
-        return $this->getGroupedClassName('block', $blockType);
+        return $this->getModelClassName($blockClass);
     }
 
     /**
      * Retrieve helper class name
      *
-     * @param   string $name
+     * @param   string $helperClass
      * @return  string
      */
-    public function getHelperClassName($helperName)
+    public function getHelperClassName($helperClass)
     {
-        if (preg_match('/^[a-z]/', $helperName)) {
-            if (strpos($helperName, '/') === false) {
-                $helperName .= '/data';
-            }
-        } else {
-            if (strpos($helperName, '_Helper_') === false) {
-                $helperName .= '_Helper_Data';
-            }
+        /* Default helper class for a module */
+        if (strpos($helperClass, '_Helper_') === false) {
+            $helperClass .= '_Helper_Data';
         }
-        return $this->getGroupedClassName('helper', $helperName);
+        return $this->getModelClassName($helperClass);
     }
 
     /**
@@ -1398,34 +1266,23 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $connectionModel = $this->_getResourceConnectionModel('core');
 
-        if (preg_match('/[A-Z]/', $moduleName)) {
-            $helperClassName = $moduleName . '_Model_Resource_Helper_' . ucfirst($connectionModel);
-            $connection = strtolower($moduleName);
-            if (substr($moduleName, 0, 5) == 'Mage_') {
-                $connection = substr($connection, 5);
-            }
-        } else {
-            $helperClass     = sprintf('%s/helper_%s', $moduleName, $connectionModel);
-            $helperClassName = $this->_getResourceModelFactoryClassName($helperClass);
-            $connection = $moduleName;
+        $helperClassName = $moduleName . '_Model_Resource_Helper_' . ucfirst($connectionModel);
+        $connection = strtolower($moduleName);
+        if (substr($moduleName, 0, 5) == 'Mage_') {
+            $connection = substr($connection, 5);
         }
-        if ($helperClassName) {
-            return $this->getModelInstance($helperClassName, $connection);
-        }
-
-        return false;
+        return $this->getModelInstance($helperClassName, $connection);
     }
 
     /**
      * Retrieve module class name
      *
-     * @param   sting $modelClass
+     * @param   string $modelClass
      * @return  string
      */
     public function getModelClassName($modelClass)
     {
-        $modelClass = trim($modelClass);
-        return $this->getGroupedClassName('model', $modelClass);
+        return $this->_applyClassRewrites($modelClass);
     }
 
     /**
@@ -1457,17 +1314,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
     }
 
-    public function getNodeClassInstance($path)
-    {
-        $config = Mage::getConfig()->getNode($path);
-        if (!$config) {
-            return false;
-        } else {
-            $className = $config->getClassName();
-            return new $className();
-        }
-    }
-
     /**
      * Get resource model object by alias
      *
@@ -1477,12 +1323,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getResourceModelInstance($modelClass='', $constructArguments=array())
     {
-        if ($this->_isClassAlias($modelClass)) {
-            $modelClass = $this->_getResourceModelFactoryClassName($modelClass);
-            if (!$modelClass) {
-                return false;
-            }
-        }
         return $this->getModelInstance($modelClass, $constructArguments);
     }
 
@@ -1693,22 +1533,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
-     * Get factory class name for a resource
-     *
-     * @param string $modelClass
-     * @return string|false
-     */
-    protected function _getResourceModelFactoryClassName($modelClass)
-    {
-        $classArray = explode('/', $modelClass);
-        if (count($classArray) != 2) {
-            return false;
-        }
-        list($module, $model) = $classArray;
-        return $module . '_resource/' . $model;
-    }
-
-    /**
      * Get a resource model class name
      *
      * @param string $modelClass
@@ -1716,10 +1540,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getResourceModelClassName($modelClass)
     {
-        $factoryName = $this->_getResourceModelFactoryClassName($modelClass);
-        if ($factoryName) {
-            return $this->getModelClassName($factoryName);
-        }
-        return false;
+        return $this->getModelClassName($modelClass);
     }
 }

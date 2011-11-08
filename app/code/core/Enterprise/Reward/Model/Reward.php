@@ -82,18 +82,18 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         parent::_construct();
         $this->_init('Enterprise_Reward_Model_Resource_Reward');
         self::$_actionModelClasses = self::$_actionModelClasses + array(
-            self::REWARD_ACTION_ADMIN               => 'enterprise_reward/action_admin',
-            self::REWARD_ACTION_ORDER               => 'enterprise_reward/action_order',
-            self::REWARD_ACTION_REGISTER            => 'enterprise_reward/action_register',
-            self::REWARD_ACTION_NEWSLETTER          => 'enterprise_reward/action_newsletter',
-            self::REWARD_ACTION_INVITATION_CUSTOMER => 'enterprise_reward/action_invitationCustomer',
-            self::REWARD_ACTION_INVITATION_ORDER    => 'enterprise_reward/action_invitationOrder',
-            self::REWARD_ACTION_REVIEW              => 'enterprise_reward/action_review',
-            self::REWARD_ACTION_TAG                 => 'enterprise_reward/action_tag',
-            self::REWARD_ACTION_ORDER_EXTRA         => 'enterprise_reward/action_orderExtra',
-            self::REWARD_ACTION_CREDITMEMO          => 'enterprise_reward/action_creditmemo',
-            self::REWARD_ACTION_SALESRULE           => 'enterprise_reward/action_salesrule',
-            self::REWARD_ACTION_REVERT              => 'enterprise_reward/action_orderRevert'
+            self::REWARD_ACTION_ADMIN               => 'Enterprise_Reward_Model_Action_Admin',
+            self::REWARD_ACTION_ORDER               => 'Enterprise_Reward_Model_Action_Order',
+            self::REWARD_ACTION_REGISTER            => 'Enterprise_Reward_Model_Action_Register',
+            self::REWARD_ACTION_NEWSLETTER          => 'Enterprise_Reward_Model_Action_Newsletter',
+            self::REWARD_ACTION_INVITATION_CUSTOMER => 'Enterprise_Reward_Model_Action_InvitationCustomer',
+            self::REWARD_ACTION_INVITATION_ORDER    => 'Enterprise_Reward_Model_Action_InvitationOrder',
+            self::REWARD_ACTION_REVIEW              => 'Enterprise_Reward_Model_Action_Review',
+            self::REWARD_ACTION_TAG                 => 'Enterprise_Reward_Model_Action_Tag',
+            self::REWARD_ACTION_ORDER_EXTRA         => 'Enterprise_Reward_Model_Action_OrderExtra',
+            self::REWARD_ACTION_CREDITMEMO          => 'Enterprise_Reward_Model_Action_Creditmemo',
+            self::REWARD_ACTION_SALESRULE           => 'Enterprise_Reward_Model_Action_Salesrule',
+            self::REWARD_ACTION_REVERT              => 'Enterprise_Reward_Model_Action_OrderRevert'
         );
     }
 

@@ -495,15 +495,10 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
             $this->_callbacks[$callbackGroup] = array();
             $callbacks = (array)Mage::getConfig()->getNode(self::XML_PATH_VALIDATE_CALLBACK . $callbackGroup);
             foreach ($callbacks as $className => $callback) {
-                $factoryClassName = str_replace('__', '/', $className);
+                $factoryClassName = uc_words($className);
                 switch ($callbackGroup) {
                     case 'collection_load_before':
-                        if (0 === strpos($factoryClassName, '_', 0)) {
-                            $className = Mage::getConfig()->getModelClassName(substr($factoryClassName, 1));
-                        }
-                        else {
-                            $className = Mage::getConfig()->getResourceModelClassName($factoryClassName);
-                        }
+                        $className = Mage::getConfig()->getResourceModelClassName($factoryClassName);
                         break;
                     case 'block_html_before':
                         $className = Mage::getConfig()->getBlockClassName($factoryClassName);

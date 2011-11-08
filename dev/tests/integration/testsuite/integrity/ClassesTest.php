@@ -169,7 +169,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     protected function _getFuncStringArguments($funcName, $content)
     {
         $result = array();
-        $matched = preg_match_all('/' . $funcName . '\([\'"]([^\'"]+)[\'"]\)/', $content, $matches);
+        $matched = preg_match_all('/' . $funcName . '\([\'"]([^\'"\$]+)[\'"]\)/', $content, $matches);
         if ($matched) {
             $result = $matches[1];
         }
