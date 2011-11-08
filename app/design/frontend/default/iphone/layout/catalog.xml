@@ -379,6 +379,25 @@ SEO Site Map
         <reference name="head">
             <action method="setTitle" translate="title" module="Mage_Catalog"><title>Site Map</title></action>
         </reference>
+        <reference name="content">
+            <block type="Mage_Page_Block_Html_Breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-">
+                <action method="addCrumb" translate="crumbName" module="Mage_Catalog">
+                    <crumbName>home</crumbName>
+                    <crumbInfo>
+                        <label>Home</label>
+                        <title>Home</title>
+                        <link>/</link>
+                    </crumbInfo>
+                </action>
+                <action method="addCrumb" translate="crumbName" module="Mage_Catalog">
+                    <crumbName>categories</crumbName>
+                    <crumbInfo>
+                        <label>Categories</label>
+                        <title>Categories</title>
+                    </crumbInfo>
+                </action>
+            </block>
+        </reference>
         <update handle="catalog_seo_sitemap" />
         <reference name="seo.sitemap.container">
             <action method="setTitle" translate="title" module="Mage_Catalog"><title>Categories</title></action>
