@@ -25,24 +25,25 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Magento_Test_Webservice_XmlRpc extends Magento_Test_Webservice_Abstract
+abstract class Magento_Test_Webservice_Abstract
 {
-    public function init()
-    {
-        $this->_client = new Zend_XmlRpc_Client(TESTS_WEBSERVICE_URL.'/api/xmlrpc/');
-        // 30 seconds wasn't enough for some crud tests, increased to timeout 60
-        $this->_client->getHttpClient()->setConfig(array('timeout' => 60));
-        $this->_session = $this->_client->call('login',array(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY));
-    }
+    /** @var string */
+    protected $_session = null;
+
+    /** @var Zend_Soap_Client */
+    protected $_client = null;
+
+    abstract public function init();
+
+    abstract public function call($path, $params = array());
 
     public function login($api, $key)
     {
-        return $this->_client->call('login',array($api, $key));
+        return $this->_client->login($api, $key);
     }
 
-
-    public function call($path, $params = array())
+    public function hasSession()
     {
-        return $this->_client->call('call', array($this->_session, $path, $params));
+        return !empty($this->_session);
     }
 }

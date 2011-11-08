@@ -25,13 +25,8 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Magento_Test_Webservice_SoapV2
+class Magento_Test_Webservice_SoapV2 extends Magento_Test_Webservice_Abstract
 {
-    /** @var string */
-    private $_session = null;
-
-    /** @var Zend_Soap_Client */
-    private $_client = null;
     private $_configFunction;
     private $_configAlias;
 
@@ -42,11 +37,6 @@ class Magento_Test_Webservice_SoapV2
         $this->_session        = $this->_client->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
         $this->_configFunction = Mage::getSingleton('api/config')->getNode('v2/resources_function_prefix')->children();
         $this->_configAlias    = Mage::getSingleton('api/config')->getNode('resources_alias')->children();
-    }
-
-    public function login($api, $key)
-    {
-        return $this->_client->login($api, $key);
     }
 
     /**

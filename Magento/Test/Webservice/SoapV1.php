@@ -25,25 +25,13 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Magento_Test_Webservice_SoapV1
+class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
 {
-    /** @var string */
-    private $_session = null;
-
-    /** @var Zend_Soap_Client */
-    private $_client = null;
-
     public function init()
     {
         $this->_client = new Zend_Soap_Client(TESTS_WEBSERVICE_URL.'/api/soap/?wsdl=1');
         $this->_session =  $this->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
     }
-
-    public function login($api, $key)
-    {
-        return $this->_client->login($api, $key);
-    }
-
 
     public function call($path, $params = array())
     {
