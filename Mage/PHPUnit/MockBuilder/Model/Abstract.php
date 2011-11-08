@@ -87,6 +87,10 @@ abstract class Mage_PHPUnit_MockBuilder_Model_Abstract extends Mage_PHPUnit_Mock
      */
     public function getRealModelClass()
     {
-        return $this->_getModelHelper()->getRealModelClass($this->getModel());
+        $model = $this->getModel();
+        $helper = $this->_getModelHelper();
+        $class = $helper->getRealModelClass($model);
+
+        return $class;
     }
 }

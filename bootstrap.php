@@ -25,23 +25,22 @@
  */
 
 /* Initialize DEV constants */
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..'. DIRECTORY_SEPARATOR
-    . 'config.php';
+require_once dirname(dirname(dirname(__FILE__))) . '/config.php';
 date_default_timezone_set('America/Los_Angeles');
 
-if (file_exists('config.php')) {
+define('UNIT_ROOT', DEV_ROOT . '/tests/unit');
+define('UNIT_FRAMEWORK', UNIT_ROOT . '/framework');
+define('UNIT_TEMP', UNIT_ROOT . '/tmp');
+
+if (file_exists(UNIT_FRAMEWORK . '/config.php')) {
     require_once 'config.php';
 } else {
     require_once 'config.php.dist';
 }
 
-$_rootDir = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..'. DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
-require_once $_rootDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Mage.php';
+require_once DEV_APP . '/Mage.php';
+require_once UNIT_FRAMEWORK . '/autoloader.php';
 
-$stubsDir = dirname(__FILE__) . DIRECTORY_SEPARATOR . '_stubs';
-
-set_include_path($stubsDir . PATH_SEPARATOR . get_include_path() . PATH_SEPARATOR . dirname(__FILE__));
-chdir($_rootDir);
 
 //need to initialize test App configuration in bootstrap
 //because data providers in test cases are run before setUp() and even before setUpBeforeClass() methods in TestCase.
