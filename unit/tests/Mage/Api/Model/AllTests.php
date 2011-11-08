@@ -1,12 +1,12 @@
 <?php
 /**
- * Test case for Mage
+ * Test case for Mage_Customer_Model_*
  *
  * @category   Mage
- * @package    Mage
+ * @package    Mage_Api
  * @author     Magento Api Team <api-team@magento.com>
  */
-class Mage_AllTests
+class Mage_Api_Model_AllTests
 {
     /**
      * Get suite with all tests
@@ -16,9 +16,9 @@ class Mage_AllTests
      */
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Magento API Customer Tests');
-        $suite->addTest(Mage_Customer_Model_AllTests::suite());
-        $suite->addTest(Mage_Api_Model_AllTests::suite());
+        $suite = new PHPUnit_Framework_TestSuite('Magento API Mage_Api Models');
+        $suite->addTestSuite('Mage_Api_Model_SessionTest');
         return $suite;
     }
 }
+
