@@ -52,7 +52,7 @@ class Mage_Index_Model_Resource_Process_Collection extends Mage_Core_Model_Resou
     {
         $countsSelect = $this->getConnection()
             ->select()
-            ->from($this->getTable('index/process_event'), array('process_id', 'events' => 'COUNT(*)'))
+            ->from($this->getTable('index_process_event'), array('process_id', 'events' => 'COUNT(*)'))
             ->where('status=?', Mage_Index_Model_Process::EVENT_STATUS_NEW)
             ->group('process_id');
         $this->getSelect()

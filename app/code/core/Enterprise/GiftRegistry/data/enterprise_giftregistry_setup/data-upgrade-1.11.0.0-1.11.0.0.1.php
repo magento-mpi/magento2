@@ -34,7 +34,7 @@ $defaultTypes = array(
 );
 foreach ($defaultTypes as $typeId => $label) {
     $installer->getConnection()->update(
-        $this->getTable('enterprise_giftregistry/info'),
+        $this->getTable('enterprise_giftregistry_type_info'),
         array('store_id' => Mage_Core_Model_App::ADMIN_STORE_ID),
         array(
             'type_id = ?' => $typeId,
