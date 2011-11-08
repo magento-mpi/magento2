@@ -31,21 +31,33 @@ set_include_path(join(PATH_SEPARATOR, array(
     UNIT_FRAMEWORK . '/_stubs',
     get_include_path()
 )));
-//chdir($_rootDir);
 
-spl_autoload_register('magentoAutoloadForUnitTests');
-function magentoAutoloadForUnitTests($class)
+
+spl_autoload_register('mageAutoloader');
+
+/**
+ * Unit auto class loader
+ *
+ * @param string $class
+ * @return void
+ * @throws Magento_Exception
+ */
+function mageAutoloader($class)
 {
+    static $paths;
+    if (null === $paths) {
+        $paths = explode(PATH_SEPARATOR, get_include_path());
+    }
     $file = str_replace('_', '/', $class) . '.php';
 
-    /*$e = new Exception();
-    $trace = $e->getTrace();
+    foreach ($paths as $path) {
+        $filename = $path . DIRECTORY_SEPARATOR . $file;
+        if (file_exists($filename)) {
+            require_once $filename;
+            return;
+        }
+    }
+    throw new Magento_Exception(
+        sprintf('Class does not exist in path "%s"', get_include_path()));
 
-    echo __FILE__;
-    echo '<pre>';
-    var_dump($trace[2]);
-    echo '</pre>';
-    //exit;*/
-
-    require_once $file;
 }
