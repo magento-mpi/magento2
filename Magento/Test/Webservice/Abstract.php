@@ -25,6 +25,9 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Base class for webservice clients
+ */
 abstract class Magento_Test_Webservice_Abstract
 {
     /** @var string */
@@ -33,15 +36,41 @@ abstract class Magento_Test_Webservice_Abstract
     /** @var Zend_Soap_Client */
     protected $_client = null;
 
+    /**
+     * Webservice client base init method
+     *
+     * @abstract
+     * @return void
+     */
     abstract public function init();
 
+    /**
+     * Webservice client base call method
+     *
+     * @abstract
+     * @param string $path
+     * @param array $params
+     * @return void
+     */
     abstract public function call($path, $params = array());
 
+    /**
+     * Login to API
+     *
+     * @param string $api
+     * @param string $key
+     * @return string
+     */
     public function login($api, $key)
     {
         return $this->_client->login($api, $key);
     }
 
+    /**
+     * Check if login to API was successful
+     *
+     * @return bool
+     */
     public function hasSession()
     {
         return !empty($this->_session);
