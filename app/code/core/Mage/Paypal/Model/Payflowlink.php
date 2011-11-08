@@ -267,7 +267,10 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
 
             $this->_addTransaction($payment, $txnId);
 
-            $payment->setReferenceTransactionId($payment->getAdditionalInformation('authorization_id'));
+            // Handle case when order is placed via 'Pay With PayPal' button of Payflowlink iFrame
+            if (!$payment->getAdditionalInformation('express_checkout_token')) {
+                $payment->setReferenceTransactionId($payment->getAdditionalInformation('authorization_id'));
+            }
         }
 
         $payment->setParentTransactionId($txnId);
