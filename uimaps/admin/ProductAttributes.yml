@@ -202,7 +202,7 @@ product_attribute:
 
 # Add New Product Attribute page from Product page
 new_product_attribute_from_product_page:
-    mca: "catalog_product_attribute/new/group/%tabId%/tab/group_%tabId%/store/0/%productParameters%/popup/1/"
+    mca: catalog_product_attribute/new/group/%tabId%/tab/group_%tabId%/store/0/set/%setId%/type/%productType%/popup/1/
     title: New Attribute / Manage Attributes / Attributes / Catalog / Magento Admin
     uimap:
         form: *newProductAttributeForm
@@ -213,7 +213,7 @@ new_product_attribute_from_product_page:
         messages: *productAttributeMessages
 
 saved_product_attribute_from_product_page:
-    mca: catalog_product/addAttribute/attribute/%id%/group/%tabId%/tab/group_%tabId%/store/0/%productParameters%/popup/1/
+    mca: catalog_product/addAttribute/attribute/%id%/group/%tabId%/tab/group_%tabId%/store/0/set/%setId%/type/%productType%/popup/1/
     title: Manage Products / Catalog / Magento Admin
     uimap:
         form: &savedProductAttributeFromProductPageForm

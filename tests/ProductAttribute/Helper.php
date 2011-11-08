@@ -115,6 +115,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
         $names = $this->getAllWindowNames();
         $this->waitForPopUp(end($names), '30000');
         $this->selectWindow("name=" . end($names));
+        $this->validatePage();
         $this->fillForm($attrData, 'properties');
         $this->clickControl('tab', 'manage_lables_options', FALSE);
         $this->fillForm($attrData, 'manage_lables_options');

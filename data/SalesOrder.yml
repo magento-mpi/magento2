@@ -265,7 +265,7 @@ simple_product_for_order:
 #<------------VIRTUAL------------>
 virtual_product_for_order:
     product_attribute_set: Default
-    general_name: Virtual Product For Oreder
+    general_name: Virtual Product For Order
     general_description: Description for Virtual Product
     general_short_description: Short Description for Virtual Product
     general_sku: virtual_sku_order
