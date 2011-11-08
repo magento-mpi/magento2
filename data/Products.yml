@@ -1272,3 +1272,37 @@ duplicate_downloadable:
         downloadable_links_purchased_separately: No
         downloadable_sample_1: *samplesDownloadable
         downloadable_link_1: *linksDownloadable
+
+
+
+frontend_simple_product_details_validation:
+    product_attribute_set: Default
+    general_name: Simple Product
+    general_description: Description for Simple Product
+    general_short_description: Short Description for Simple Product
+    general_sku: simple_sku
+    general_weight: 2.56
+    general_url_key: simple-product-url-key
+    general_status: Enabled
+    general_visibility: Catalog, Search
+#    general_in_feed: Yes
+    prices_price: 4.95
+    prices_special_price: 3.99
+    prices_special_price_from: 5/25/11
+    prices_special_price_to: 11/29/11
+    prices_tier_price_data: *tierPriceData
+    prices_tax_class: None
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 100
+    inventory_min_allowed_qty_default: No
+    inventory_min_allowed_qty: 2
+    inventory_max_allowed_qty_default: No
+    inventory_max_allowed_qty: 11
+    inventory_qty_uses_decimals: Yes
+    inventory_backorders_default: No
+    inventory_backorders: Allow Qty Below 0
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    custom_options_data: *customOptionsData
