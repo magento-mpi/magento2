@@ -459,14 +459,21 @@ abstract class Mage_Core_Controller_Varien_Action
         }
     }
 
+    /**
+     * Retrieve action method name
+     *
+     * @param string $action
+     * @return string
+     */
     public function getActionMethodName($action)
     {
-        $method = $action.'Action';
-        return $method;
+        return $action . 'Action';
     }
 
     /**
-     * Dispatches event before action
+     * Dispatch event before action
+     *
+     * @return null
      */
     public function preDispatch()
     {
@@ -500,7 +507,8 @@ abstract class Mage_Core_Controller_Varien_Action
         Mage::app()->loadArea($this->getLayout()->getArea());
 
         if ($this->getFlag('', self::FLAG_NO_COOKIES_REDIRECT)
-            && Mage::getStoreConfig('web/browser_capabilities/cookies')) {
+            && Mage::getStoreConfig('web/browser_capabilities/cookies')
+        ) {
             $this->_forward('noCookies', 'index', 'core');
             return;
         }
@@ -509,15 +517,12 @@ abstract class Mage_Core_Controller_Varien_Action
             return;
         }
 
-        Mage::dispatchEvent('controller_action_predispatch', array('controller_action'=>$this));
-        Mage::dispatchEvent(
-            'controller_action_predispatch_'.$this->getRequest()->getRouteName(),
-            array('controller_action'=>$this)
-        );
-        Mage::dispatchEvent(
-            'controller_action_predispatch_'.$this->getFullActionName(),
-            array('controller_action'=>$this)
-        );
+
+        Mage::dispatchEvent('controller_action_predispatch', array('controller_action' => $this));
+        Mage::dispatchEvent('controller_action_predispatch_' . $this->getRequest()->getRouteName(),
+            array('controller_action' => $this));
+        Mage::dispatchEvent('controller_action_predispatch_' . $this->getFullActionName(),
+            array('controller_action' => $this));
     }
 
     /**
@@ -750,6 +755,8 @@ abstract class Mage_Core_Controller_Varien_Action
         if ($url = $this->getRequest()->getParam(self::PARAM_NAME_URL_ENCODED)) {
             $refererUrl = Mage::helper('core')->urlDecode($url);
         }
+
+        $refererUrl = Mage::helper('core')->escapeUrl($refererUrl);
 
         if (!$this->_isUrlInternal($refererUrl)) {
             $refererUrl = Mage::app()->getStore()->getBaseUrl();

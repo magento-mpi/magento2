@@ -103,10 +103,19 @@
             <?php echo $this->__('Select $0 Auth if your credit card processor supports $0 Auth capability and Reference Transactions, or if you are unsure what to select.  This setting provides the best experience for shoppers.') ?>
         </li>
         <li>
-            <?php echo $this->__('Select $1 Auth if your credit card processor does not support $0 Auth, but does support Reference Transactions. This will provide a very good shopper experience, but might require you to pay a small additional authorization fee from your merchant account provider for any cart abandoned after payment details are entered.  If you select $0 Auth, but your credit card processor does not support $0 Auth, your transaction will run as a $1 Auth instead.') ?>
-        </li>
-        <li>
             <?php echo $this->__('Select Full Auth if you want to minimize your credit card processing fees, or if your credit card processor does not permit reference transactions.  Please note that in some cases, shoppers who abandon your cart late in the process may find that there is a payment authorization outstanding from your company, which will go away on its own in a few days/weeks. This authorization can be reversal by voiding it, however, there is no guarantee the card-issuing bank will accept this request.') ?>
         </li>
     </ul>
 </div>
+<script type="text/javascript">
+//<![CDATA[
+    document.observe("dom:loaded", function() {
+        $('row_paypal_payflow_link_authorization_amount').insert({after:'<tr id="PayFlowLinkLearnMoreRow"><td colspan="4"><tr>'});
+        $('PayFlowLinkLearnMoreRow').down().insert({top:$('PayFlowLinkLearnMoreText')});
+        $('PayFlowLinkLearnMore').observe('click', function(event){
+            $('PayFlowLinkLearnMoreText').toggle();
+            event.stop();
+        });
+    });
+//]]>
+</script>
