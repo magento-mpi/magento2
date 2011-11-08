@@ -26,7 +26,19 @@
 
 class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+    /**
+     * Process model
+     *
+     * @var Mage_Index_Model_Process
+     */
     protected $_processModel;
+
+    /**
+     * Mass-action block
+     *
+     * @var string
+     */
+    protected $_massactionBlockName = 'index/adminhtml_process_grid_massaction';
 
     /**
      * Class constructor
@@ -34,7 +46,7 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
     public function __construct()
     {
         parent::__construct();
-        $this->_processModel = Mage::getModel('index/process');
+        $this->_processModel = Mage::getSingleton('index/process');
         $this->setId('indexer_processes_grid');
         $this->_filterVisibility = false;
         $this->_pagerVisibility  = false;
@@ -113,6 +125,7 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
 
         $this->addColumn('update_required', array(
             'header'    => Mage::helper('index')->__('Update Required'),
+            'sortable'  => false,
             'width'     => '120',
             'align'     => 'left',
             'index'     => 'update_required',

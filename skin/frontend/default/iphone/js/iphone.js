@@ -36,6 +36,64 @@ document.observe("dom:loaded", function() {
         });
     });
     
+    if ( $('product-review-table') ) {
+        $('product-review-table').wrap('div', {'class' : 'review-table-wrap'}).on('click', 'input[type="radio"]', function (e) {
+        
+            $this = e.target;
+            
+            $this.up('tr').select('td').invoke('removeClassName', 'checked');
+            
+            $this.up().previousSiblings().each(function (td) {
+                if ( td.hasClassName('value') ) {
+                    td.addClassName('checked');
+                }
+            });
+            
+        });
+    }
+
+    Event.observe(window, 'orientationchange', function() {
+        var orientation,
+            page;
+            
+        switch(window.orientation){
+            case 0:
+            orientation = "portrait";
+            break;
+
+            case -90:
+            orientation = "landscape";
+            break;
+
+            case 90:
+            orientation = "landscape";
+            break;
+        }
+        
+        if ( $('nav-container') ) {
+        
+            $$("#nav-container ul").each(function(ul) {
+                ul.setStyle({'width' : document.body.offsetWidth + "px"});
+            });
+                    
+            page = Math.floor(Math.abs(sliderPosition/viewportWidth));
+            sliderPosition = (sliderPosition + viewportWidth*page) - document.body.offsetWidth*page;
+            viewportWidth = document.body.offsetWidth;
+            
+            $("nav-container").setStyle({"-webkit-transform" : "translate3d(" + sliderPosition + "px, 0, 0)"});
+
+            if ( upSellCarousel ) {
+                if (orientation === 'landscape') {
+                    upSellCarousel.resize(3);
+                } else {
+                    upSellCarousel.resize(2);
+                }
+            }
+        
+        }
+
+    });
+    
     var groupItems = Class.create({
         initialize: function (handle, removeHandle, photos, form) {
             this.handle = handle;
@@ -51,8 +109,8 @@ document.observe("dom:loaded", function() {
             this.handle.observe('gestureend', this.gestureEnd.bind(this));
         },
         removeAll: function () {
-            this.handle.select('input').each(function (input) {
-                    input.writeAttribute('value', 0);
+            this.handle.select('input[name*=qty]').each(function (input) {
+                input.writeAttribute('value', 0);
             });
             this.form.submit();
         },
@@ -76,9 +134,6 @@ document.observe("dom:loaded", function() {
                 } else {
                     photo.setStyle({'webkitTransform':'rotate(-' + (Math.floor(Math.random()*12) + 6) + 'deg)', 'zIndex' : i });
                 }
-                if ( i === (this.photos.size() - 1) ) {
-                    photo.setStyle({'webkitTransform':'rotate(0deg)', 'zIndex' : i });
-                }
             }, this);
         },
         unShuffle: function () {
@@ -97,45 +152,8 @@ document.observe("dom:loaded", function() {
     }
     
     if ( $$('.wishlist-wrap')[0] ) {
-        var wishlistGroup = new groupItems($$('.wishlist-wrap')[0], $('remove-all'), 'li > a', $('wishlist-view-form'));
+        var wishlistGroup = new groupItems($$('.wishlist-wrap')[0], $('remove-all-wishlist'), 'li > a', $('wishlist-view-form'));
     }
-
-    Event.observe(window, 'orientationchange', function() {
-        var orientation,
-            page;
-        switch(window.orientation){
-            case 0:
-            orientation = "portrait";
-            break;
-
-            case -90:
-            orientation = "landscape";
-            break;
-
-            case 90:
-            orientation = "landscape";
-            break;
-        }
-
-        $$("#nav-container ul").each(function(ul) {
-            ul.setStyle({'width' : document.body.offsetWidth + "px"});
-        });
-
-        page = Math.floor(Math.abs(sliderPosition/viewportWidth));
-        sliderPosition = (sliderPosition + viewportWidth*page) - document.body.offsetWidth*page;
-        viewportWidth = document.body.offsetWidth;
-
-        $("nav-container").setStyle({"-webkit-transform" : "translate3d(" + sliderPosition + "px, 0, 0)"});
-
-        if ( upSellCarousel ) {
-            if (orientation === 'landscape') {
-                upSellCarousel.resize(3);
-            } else {
-                upSellCarousel.resize(2);
-            }
-        }
-
-    });
 
     if ( $$('#remember-me-box a')[0] ) {
         $$('#remember-me-box a')[0].observe('click', function(e) {
@@ -147,18 +165,20 @@ document.observe("dom:loaded", function() {
     
     var homeLink = $('home-link');
 
-    if ($$('body')[0].hasClassName('cms-index-index')) {
-        $('home-link').addClassName('disabled');
-    }
+    if ( homeLink ) {
+        if ($$('body')[0].hasClassName('cms-index-index')) {
+            $('home-link').addClassName('disabled');
+        }
 
-    homeLink.observe('click', function (e) {
-        if ( cartDrag && cartDrag.visible ) {
-            cartDrag.cartHide();
-        }
-        if (homeLink.hasClassName('disabled')) {
-            e.preventDefault();
-        }
-    });
+        homeLink.observe('click', function (e) {
+            if ( cartDrag && cartDrag.visible ) {
+                cartDrag.cartHide();
+            }
+            if (homeLink.hasClassName('disabled')) {
+                e.preventDefault();
+            }
+        });
+    }
     
     // Home Page Slider
 
@@ -308,13 +328,15 @@ document.observe("dom:loaded", function() {
         });
     }
     
-    $('menu').select('dd').each(function (elem) {
-        elem.observe('webkitTransitionEnd', function (e) {
-            if ( !elem.previous().hasClassName('active') ) {
-                elem.setStyle({'visibility' : 'hidden'});
-            }
+    if ( $('menu') ) {
+        $('menu').select('dd').each(function (elem) {
+            elem.observe('webkitTransitionEnd', function (e) {
+                if ( !elem.previous().hasClassName('active') ) {
+                    elem.setStyle({'visibility' : 'hidden'});
+                }
+            });
         });
-    });
+    }
 
     //iPhone header menu switchers
     if( $$('#language-switcher li.selected a')[0] ) {
