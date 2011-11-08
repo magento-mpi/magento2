@@ -82,8 +82,8 @@ customer_account:
                             product_info: //div[*/a[text()='%productName%']]//a[text()='%tagName%']
                             view_all_tags: //a[text()='View All Tags']
         messages:
-            success_registration: //li[normalize-space(@class)='success-msg' and contains(.//span,'Thank you for registering with')]
-            success_saved: //li[normalize-space(@class)='success-msg' and contains(.//span,'The account information has been saved.')]
+            success_registration: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for registering with')]
+            success_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The account information has been saved.')]
 
 my_account_view_tag:
     mca: tag/customer/view/tagId/%id%

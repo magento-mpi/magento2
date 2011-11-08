@@ -70,8 +70,8 @@ my_wishlist:
                             #ex_price_as_low_as:  TODO - cannot add because of the current bug MAGE-4112
                             added_on: //tr[contains(.,'%productName%')]//span[@class='nobr']
         messages: &wishlistMessages
-            successfully_added_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'%productName% has been added to your wishlist.')]
-            successfully_shared_wishlist: //li[normalize-space(@class)='success-msg' and contains(.//span,'Your Wishlist has been shared.')]
+            successfully_added_product: //li[normalize-space(@class)='success-msg' and contains(.,'%productName% has been added to your wishlist.')]
+            successfully_shared_wishlist: //li[normalize-space(@class)='success-msg' and contains(.,'Your Wishlist has been shared.')]
             confirmation_for_delete: Are you sure you want to remove this product from your wishlist?
         links:
             back: //p[@class='back-link']/a[contains(.,'Back')]

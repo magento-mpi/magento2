@@ -30,7 +30,7 @@ home:
     mca: home
     title: Home page
     uimap: &homePage
-        form: &homePage
+        form:
             fieldsets:
                 -
                     frontend_header:
@@ -62,17 +62,10 @@ home:
                           compare: //button[@title='Compare']
 
         messages: &homeMessages
-            tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.//span,'%tagQty% tag(s) have been accepted for moderation.')]
+            tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagQty% tag(s) have been accepted for moderation.')]
             confirmation_for_removing_product_from_compare: Are you sure you would like to remove this item from the compare products?
 
-home_with_hidden_mca:
-    title: Home page
-    uimap:
-        form: *homePage
-        messages: *homeMessages
-
-
-home:
+home_page:
     mca:
     title: Home page
     uimap: *homePage

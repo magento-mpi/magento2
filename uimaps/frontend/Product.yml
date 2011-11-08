@@ -152,6 +152,6 @@ product_page:
                           compare: //button[@title='Compare']
 
         messages:
-            tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.//span,'%tagQty% tag(s) have been accepted for moderation.')]
-            product_added_to_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product %productName% has been added to comparison list.')]
+            tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagQty% tag(s) have been accepted for moderation.')]
+            product_added_to_comparison: //li[normalize-space(@class)='success-msg' and contains(.,'The product %productName% has been added to comparison list.')]
             confirmation_for_delete: Are you sure you would like to remove this item from the compare products?
