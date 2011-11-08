@@ -6,7 +6,7 @@
  * @package    Mage_Customer
  * @author     Magento Api Team <api-team@magento.com>
  */
-class Mage_Customer_Model_Example extends PHPUnit_Framework_TestCase
+class Mage_Customer_Model_ExampleTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test example

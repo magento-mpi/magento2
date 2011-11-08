@@ -17,7 +17,7 @@ class Mage_Customer_Model_AllTests
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('Magento API Customer Models');
-        $suite->addTestSuite('Mage_Customer_Model_Example');
+        $suite->addTestSuite('Mage_Customer_Model_ExampleTest');
         return $suite;
     }
 }
