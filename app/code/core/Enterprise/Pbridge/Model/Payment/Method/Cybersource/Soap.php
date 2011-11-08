@@ -205,6 +205,9 @@ class Enterprise_Pbridge_Model_Payment_Method_Cybersource_Soap extends Mage_Cybe
     {
         $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         $payment->addData((array)$response);
+        if (isset($response['ccAuthReply_forwardCode']) && $response['ccAuthReply_forwardCode']) {
+            $payment->setAdditionalInformation('ccAuthReply_forwardCode', $response['ccAuthReply_forwardCode']);
+        }
         return $this;
     }
 
