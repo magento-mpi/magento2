@@ -25,10 +25,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Magento_Test_Webservice extends PHPUnit_Framework_TestCase
+class Magento_Test_Webservice extends Magento_TestCase
 {
-
-    protected static $_ws = null;
+    /**
+     * Webservice adapter
+     *
+     * @var Magento_Test_Webservice_Abstract
+     */
+    protected static $_ws;
 
     /**
      * fixtures registry
@@ -43,6 +47,11 @@ class Magento_Test_Webservice extends PHPUnit_Framework_TestCase
         'xmlrpc'=>'Magento_Test_Webservice_XmlRpc'
     );
 
+    /**
+     * Get webservice adapter
+     *
+     * @return mixed
+     */
     public function getWebService()
     {
         if (null === self::$_ws) {
@@ -50,16 +59,21 @@ class Magento_Test_Webservice extends PHPUnit_Framework_TestCase
             self::$_ws = new $class();
             self::$_ws->init();
         }
-
         return self::$_ws;
     }
 
+    /**
+     * Call method to webservice
+     *
+     * @param string $path
+     * @param array $params
+     * @return string   Return result of request
+     */
     public function call($path, $params = array())
     {
-        if(is_null(self::$_ws)) {
+        if(null === self::$_ws) {
             $this->getWebService();
         }
-
         return self::$_ws->call($path, $params);
     }
 
@@ -88,7 +102,7 @@ class Magento_Test_Webservice extends PHPUnit_Framework_TestCase
         $result = array();
 
         $isTrimmed = false;
-        if (!is_null($keyTrimmer)){
+        if (null !== $keyTrimmer){
             $isTrimmed = true;
         }
 
@@ -110,7 +124,7 @@ class Magento_Test_Webservice extends PHPUnit_Framework_TestCase
                         $result[$arrKey][] = Magento_Test_Webservice::simpleXmlToArray($node_value, $keyTrimmer);
                     }
                 } else {
-                    $result[$arrKey] = (string)$node;
+                    $result[$arrKey] = (string) $node;
                 }
             }
         } else {
@@ -142,7 +156,6 @@ class Magento_Test_Webservice extends PHPUnit_Framework_TestCase
         if (array_key_exists($key, self::$_fixtures)) {
             return self::$_fixtures[$key];
         }
-
         return null;
     }
 }
