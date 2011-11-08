@@ -55,11 +55,10 @@ product_page:
                             price_special_excluding_tax: //div[@class='product-shop']//p[@class='special-price']/span[@class='price-excluding-tax']/span[normalize-space(text())='%price%']
                             price_special_inlcuding_tax: //div[@class='product-shop']//p[@class='special-price']/span[@class='price-including-tax']/span[normalize-space(text())='%price%']
                             as_low_as: //div[@class='product-shop']//p[@class='minimal-price']/span[normalize-space(text())='%price%']
-                            as_low_as_excl_tax: //div[@class='product-shop']//p[@class='minimal-price']/span[@class='price-excluding-tax']/span[normalize-space(text())='%price%']
-                            as_low_as_incl_tax: //div[@class='product-shop']//p[@class='minimal-price']/span[@class='price-including-tax']/span[normalize-space(text())='%price%']
                             qty: //input[@class='input-text qty'][@value='%price%']
                             availability: //*[@class='availability in-stock']/span
-                            short_description: //div[@class='short-description']//div[@class='std']
+                            availability_param: //*[@class='availability in-stock']/span[text()='%avail%']
+                            short_description: //div[@class='short-description']//div[@class='std' and contains(.,'%shortDescription%')]
                             ex_qty: //input[@class='input-text qty']
                             ex_price_regular: //div[@class='product-shop']//span[@class='regular-price']
                             ex_price_excluding_tax: //div[@class='product-shop' and not(*/p[@class='special-price'])]//div[@class='price-box']/span[@class='price-excluding-tax']/span[@class='price']
@@ -72,29 +71,18 @@ product_page:
                 -
                     product_custom_options:
                         xpath: //div[@id='product-options-wrapper']
-                        fields:
-                            custom_option_area: //textarea[@name='options[%optionIndex%]']
-                            custom_option_field: //input[@name='options[%optionIndex%]']
-                            custom_option_file: //input[@name='options_%optionIndex%_file']
-                        checkboxes:
-                            custom_option_checkbox: //input[@name='options[%optionIndex%][]' and @value='%optionOrder%']
-                        dropdowns:
-                            custom_option_date_month: //select[@name='options[%optionIndex%][month]']
-                            custom_option_date_day: //select[@name='options[%optionIndex%][day]']
-                            custom_option_date_year: //select[@name='options[%optionIndex%][year]']
-                            custom_option_date_hour: //select[@name='options[%optionIndex%][hour]']
-                            custom_option_date_minute: //select[@name='options[%optionIndex%][minute]']
-                            custom_option_date_day_part: //select[@name='options[%optionIndex%][day_part]']
-                            custom_option_dropdown: //select[@name='options[%optionIndex%]']
-                        multiselects:
-                            custom_option_multiselect: //select[@name='options[%optionIndex%][]' and @multiple='multiple']
-                        radiobuttons:
-                            custom_option_radio: //input[@type='radio' and @name='options[%optionIndex%]' and @value='%optionOrder%']
+                        pageelements:
+                            custom_option_non_select: //dt[./label[contains(normalize-space(text()),'%title%') and //span[normalize-space(text())='%price%']]]
+                            custom_option_non_select_wo_price: //dt[./label[contains(normalize-space(text()),'%title%')]]
+                            custom_option_select: //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//option[contains(normalize-space(text()),'%optionTitle% +$%optionPrice%')]
+                            custom_option_select_wo_price: //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//option[contains(normalize-space(text()),'%optionTitle%')]
+                            custom_option_check: //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//label[contains(normalize-space(text()),'%optionTitle%')]//span[contains(normalize-space(text()),'+')]/span[@class='price' and contains(normalize-space(text()),'$%optionPrice%')]
+                            custom_option_check_wo_price: //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//label[contains(normalize-space(text()),'%optionTitle%')]
                 -
                     details:
                         xpath: //div[h2[text()='Details']]
                         pageelements:
-                            descriprion: //div[@class='std']
+                            descriprion: //div[@class='box-collateral box-description']//div[@class='std' and contains(.,'%longDescription%')]
                 -
                     additional_info:
                         xpath: //div[h2[text()='Additional Information']]
