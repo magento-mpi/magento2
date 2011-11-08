@@ -44,7 +44,7 @@ class Enterprise_Staging_Helper_Website extends Mage_Core_Helper_Url
     /**
      * Check if a website can be shown
      *
-     * @TODO remove method usage
+     * @deprecated
      * @param  Enterprise_Staging_Model_Staging_Website|int $website
      * @return boolean
      */

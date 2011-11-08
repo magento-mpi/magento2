@@ -40,7 +40,7 @@ class Mage_SalesRule_Model_Resource_Coupon_Usage extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('salesrule_coupon_usage', '');
+        $this->_init('salesrule_coupon_usage', 'coupon_id');
     }
 
     /**

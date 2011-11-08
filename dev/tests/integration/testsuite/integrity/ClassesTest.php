@@ -535,6 +535,55 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Find usage of ->_init(.*, .*)
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitInternalInitFunction($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        $funcPatterns = array(
+             /** _init is used for setting table_names either */
+             array ("->_init", "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?['\"](\\s?,\\s?['\"].*['\"]\\))/Ui" ),
+        );
+        $skippedClassNamesByTablesIdKeys = array(
+            'id', '_id', 'code', 'serial_number', 'entity_pk_value', 'status', 'pk'
+        );
+
+
+        $patterns = array();
+        foreach ($funcPatterns as $funcPattern) {
+            list($function, $pattern) = $funcPattern;
+            $patterns[] = str_replace("{%function_name%}", $function, $pattern);
+        }
+
+        $result = array();
+        foreach ($patterns as $pattern) {
+            $matched = preg_match_all($pattern, $content, $matches);
+            if ($matched) {
+                $isClassNameShouldBeSkipped = false;
+                foreach($skippedClassNamesByTablesIdKeys as $key) {
+                    if (strpos($matches[2][0], $key) > 0 ) {
+                        $isClassNameShouldBeSkipped = true;
+                        break;
+                    }
+                }
+                if ($isClassNameShouldBeSkipped) {
+                    continue;
+                }
+                $result = array_merge($result, $matches[1]);
+            }
+        }
+        $result = array_unique($result);
+        return $result;
+    }
+
+    /**
      * Find usage model_names in other functions
      *
      * @param SplFileInfo $fileInfo
@@ -548,17 +597,18 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         }
 
         $funcPatterns = array(
-             /** _init is used for setting table_names either */
-            // array ("->_init", "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?['\"](\\s?,\\s?['\"].*['\"]\\))/Ui" ),
             array ("->_initLayoutMessages", "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
-            array ("->setAttributeModel", "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
-            array ("->setAttributeModel", "/{%function_name%}\\(['".'"]([\w\d\/\_]+)?["'."'](.*\\))/Ui" ),
-            array ("->setBackendModel", "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
-            array ("->setBackendModel", "/{%function_name%}\\(['".'"]([\w\d\/\_]+)?["'."'](.*\\))/Ui" ),
-            array ("->setFrontendModel", "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
-            array ("->setFrontendModel", "/{%function_name%}\\(['".'"]([\w\d\/\_]+)?["'."'](.*\\))/Ui" ),
-            array ("->setSourceModel", "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
-            array ("->setSourceModel", "/{%function_name%}\\(['".'"]([\w\d\/\_]+)?["'."'](.*\\))/Ui" ),
+            array ("->initLayoutMessages",  "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
+            array ("->setAttributeModel",   "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
+            array ("->setAttributeModel",   "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?['\"](.*\\))/Ui" ),
+            array ("->setBackendModel",     "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
+            array ("->setBackendModel",     "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?['\"](.*\\))/Ui" ),
+            array ("->setFrontendModel",    "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
+            array ("->setFrontendModel",    "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?['\"](.*\\))/Ui" ),
+            array ("->setSourceModel",      "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
+            array ("->setSourceModel",      "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?['\"](.*\\))/Ui" ),
+            array ("->setModel",            "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
+            array ("->setModel",            "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?['\"](.*\\))/Ui" ),
         );
 
         $patterns = array();
@@ -592,11 +642,11 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         }
 
         $skippedFiles = array(
-            "app".DS."etc".DS."config.xml",
-            "Enterprise".DS."Staging".DS."etc".DS."config.xml",
+            "app" . DS . "etc" . DS . "config.xml",
+            "Enterprise" . DS . "Staging" . DS . "etc" . DS . "config.xml",
             /** @TODO  path should be change after layout moved */
-            "app".DS."design".DS."adminhtml".
-                DS."default".DS."default".DS."layout".DS."enterprise".DS."customerbalance.xml",
+            "app" . DS . "design" . DS . "adminhtml" .
+                DS . "default" . DS . "default" . DS . "layout" . DS . "enterprise" . DS . "customerbalance.xml",
         );
 
         foreach ($skippedFiles as $skippedFile) {
@@ -623,7 +673,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $patterns = array();
         foreach ($_wordsToFind as $wordToFind) {
             foreach ($_patternsToFind as $patternToFind) {
-                $patterns[] = "/"."<".$wordToFind.$patternToFind.$wordToFind.">/Ui";
+                $patterns[] = "/<" . $wordToFind . $patternToFind . $wordToFind . ">/Ui";
             }
         }
 

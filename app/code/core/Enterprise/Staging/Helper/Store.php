@@ -44,7 +44,7 @@ class Enterprise_Staging_Helper_Store extends Mage_Core_Helper_Url
     /**
      * Check if a store can be shown
      *
-     * @TODO remove method usage
+     * @deprecated
      * @param  Enterprise_Staging_Model_Staging_Store|int $store
      * @return boolean
      */

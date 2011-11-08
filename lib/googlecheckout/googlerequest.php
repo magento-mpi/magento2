@@ -612,7 +612,7 @@
 
       if (Mage::getStoreConfig('google/checkout/debug')) {
             $file = "payment_googlecheckout.log";
-            $debug = Mage::getModel('core/log_adapter', $file);
+            $debug = Mage::getModel('Mage_Core_Model_Log_Adapter', $file);
             $debug->log(
                 array(
                     'url' => $url,

@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Mage_Adminhtml
         }
 
         $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Report_Bestsellers_Collection')
-            ->setModel('catalog/product')
+            ->setModel('Mage_Catalog_Model_Product')
             ->addStoreFilter($storeId)
         ;
 
