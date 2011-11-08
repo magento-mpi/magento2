@@ -26,20 +26,13 @@
  */
 
 /**
- * @magentoDataFixture Catalog/Category/_fixtures/category.php
+ * @ magentoDataFixture Catalog/Category/_fixtures/category.php
  */
 class Catalog_Category_CategoryTest extends Magento_Test_Webservice
 {
-    public function testLogin()
+    public function tearDown()
     {
-        $this->assertNotEmpty($this->getWebService()->login('api', 'apiapi'));
-    }
-
-    public function testCategoryInfo()
-    {
-        $category = $this->call('catalog_category.info', array(31));
-        $this->assertEquals('Category 31', $category['name']);
-        $this->assertEquals('1/2/31', $category['path']);
+        parent::tearDown();
     }
 
     public function testCategoryCRUD()
@@ -79,5 +72,70 @@ class Catalog_Category_CategoryTest extends Magento_Test_Webservice
         $categoryCreated = new Mage_Catalog_Model_Category();
         $categoryCreated->load($categoryId);
         $this->assertEmpty($categoryCreated->getData());
+    }
+
+    public function testCategoryUpdateAppliedOnFrontend()
+    {
+        $categoryFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/category.xml');
+        $data = self::simpleXmlToArray($categoryFixture->create);
+
+        $categoryId = $this->call('category.create', $data);
+
+        //create
+        $categoryCreated = new Mage_Catalog_Model_Category();
+        $categoryCreated->load($categoryId);
+
+        $this->assertEquals($categoryId,$categoryCreated->getId());
+        $this->assertEquals('1', $categoryCreated['is_active']);
+
+        //update
+        $categoryFixture->update->categoryId = $categoryId;
+        $categoryFixture->update->categoryData->is_active = '0';
+        $data = self::simpleXmlToArray($categoryFixture->update);
+
+        $resultUpdated = $this->call('category.update', $data);
+
+        $this->assertTrue($resultUpdated);
+        $categoryUpdated = new Mage_Catalog_Model_Category();
+        $categoryUpdated->load($categoryId);
+
+        $this->assertEquals('Category 1.1 Updated', $categoryUpdated['name']);
+
+        //read
+        $categoryRead = $this->call('catalog_category.info', array($categoryId));
+        $this->assertEquals('0', $categoryRead['is_active']);
+
+        //delete
+        $categoryDelete = $this->call('category.delete', array($categoryId));
+
+        $this->assertTrue($categoryDelete);
+        $categoryCreated = new Mage_Catalog_Model_Category();
+        $categoryCreated->load($categoryId);
+        $this->assertEmpty($categoryCreated->getData());
+    }
+
+    public function _testCategoryUpdateRealCategory()
+    {
+        $categoryId = 55;
+        $isActive = '1';
+
+        $data = array(
+            'categoryId'    => $categoryId,
+            'categoryData'  => array(
+                'is_active' => $isActive,
+                'name'      => 'sub category 01',
+                'default_sort_by'   => 'name',
+                'available_sort_by' => array(
+                    'sort_by'   => 'name'
+                )
+            )
+        );
+        $resultUpdated = $this->call('category.update', $data);
+        $this->assertTrue($resultUpdated);
+
+        $categoryUpdated = new Mage_Catalog_Model_Category();
+        $categoryUpdated->load($categoryId);
+
+        $this->assertEquals($isActive, $categoryUpdated['is_active']);
     }
 }
