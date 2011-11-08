@@ -595,7 +595,7 @@ class Mage_Core_Model_Design_Package
             $url = Mage::getBaseUrl($publicUrlType, $isSecure) . $url;
             return $url;
         }
-        throw new Exception("There is no public access to the file '$file'.");
+        throw new Exception("Cannot build URL for the file '$file' because it does not reside in a public directory.");
     }
 
     /**
