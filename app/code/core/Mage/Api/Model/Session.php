@@ -33,47 +33,98 @@
  */
 class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
 {
+    /**
+     * Started session IDs
+     *
+     * @var array
+     */
     public $sessionIds = array();
-    protected $_currentSessId = null;
 
-    public function start($sessionName=null)
+    /**
+     * Current session ID
+     *
+     * @var string
+     */
+    protected $_currentSessionId;
+
+    /**
+     * Start new session
+     *
+     * @param string|null $sessionName
+     * @return Mage_Api_Model_Session
+     */
+    public function start($sessionName = null)
     {
-//        parent::start($sessionName=null);
-        $this->_currentSessId = md5(time() . $sessionName);
+        if (null == $sessionName) {
+            $sessionName = rand(0, 10000);
+        }
+        $this->_currentSessionId = md5(time() . $sessionName);
         $this->sessionIds[] = $this->getSessionId();
         return $this;
     }
 
+    /**
+     * Init session
+     *
+     * @param string $namespace
+     * @param string $sessionName
+     * @return Mage_Api_Model_Session
+     */
     public function init($namespace, $sessionName=null)
     {
-        if (is_null($this->_currentSessId)) {
+        if (null === $this->_currentSessionId) {
             $this->start();
         }
         return $this;
     }
 
+    /**
+     * Retrieve session Id
+     *
+     * @return string
+     */
     public function getSessionId()
     {
-        return $this->_currentSessId;
+        return $this->_currentSessionId;
     }
 
-    public function setSessionId($sessId = null)
+    /**
+     * Specify session identifier
+     *
+     * @param   string|null $id
+     * @return  Mage_Api_Model_Session
+     */
+    public function setSessionId($id = null)
     {
-        if (!is_null($sessId)) {
-            $this->_currentSessId = $sessId;
+        if (null !== $id) {
+            $this->_currentSessionId = $id;
         }
         return $this;
     }
 
+    /**
+     * Revalidate cookie
+     *
+     * Unused method
+     *
+     * @deprecated
+     * @return Mage_Api_Model_Session
+     */
     public function revalidateCookie()
     {
-        // In api we don't use cookies
+        return $this;
     }
 
-    public function clear() {
-        if ($sessId = $this->getSessionId()) {
+    /**
+     * Logout user by session ID
+     *
+     * @return bool
+     */
+    public function clear()
+    {
+        if (false !== ($sessionId = $this->getSessionId())) {
             try {
-                Mage::getModel('api/user')->logoutBySessId($sessId);
+                Mage::getModel('api/user')->logoutBySessId($sessionId);
             } catch (Exception $e) {
                 return false;
             }
@@ -81,17 +132,26 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
         return true;
     }
 
+    /**
+     * Login with api credentials
+     *
+     * @param string $username
+     * @param string $apiKey
+     * @return Mage_Api_Model_User|null
+     * @throws Mage_Core_Exception
+     */
     public function login($username, $apiKey)
     {
         if (empty($username) || empty($apiKey)) {
-            return;
+            return null;
         }
 
-        $user = Mage::getModel('api/user')
-            ->setSessid($this->getSessionId())
+        /** @var $user Mage_Api_Model_User */
+        $user = Mage::getModel('api/user');
+        $user->setSessid($this->getSessionId())
             ->login($username, $apiKey);
 
-        if ( $user->getId() && $user->getIsActive() != '1' ) {
+        if ($user->getId() && $user->getIsActive() != '1') {
             Mage::throwException(Mage::helper('api')->__('Your account has been deactivated.'));
         } elseif (!Mage::getModel('api/user')->hasAssigned2Role($user->getId())) {
             Mage::throwException(Mage::helper('api')->__('Access denied.'));
@@ -107,9 +167,15 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
         return $user;
     }
 
-    public function refreshAcl($user=null)
+    /**
+     * Refresh ACL
+     *
+     * @param Mage_Api_Model_User|null $user
+     * @return Mage_Api_Model_Session
+     */
+    public function refreshAcl(Mage_Api_Model_User $user = null)
     {
-        if (is_null($user)) {
+        if (null === $user) {
             $user = $this->getUser();
         }
         if (!$user) {
@@ -127,7 +193,6 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
 
     /**
      * Check current user permission on resource and privilege
-     *
      *
      * @param   string $resource
      * @param   string $privilege
@@ -155,26 +220,32 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
     }
 
     /**
-     *  Check session expiration
+     * Check session expiration
      *
-     *  @return	  boolean
+     * @param Mage_Api_Model_User $user
+     * @return bool
      */
-    public function isSessionExpired ($user)
+    public function isSessionExpired(Mage_Api_Model_User $user)
     {
         if (!$user->getId()) {
             return true;
         }
-        $timeout = strtotime( now() ) - strtotime( $user->getLogdate() );
+        $timeout = strtotime(now()) - strtotime($user->getLogdate());
         return $timeout > Mage::getStoreConfig('api/config/session_timeout');
     }
 
-
-    public function isLoggedIn($sessId = false)
+    /**
+     * Check logged by session id
+     *
+     * @param bool $id
+     * @return bool
+     */
+    public function isLoggedIn($id = false)
     {
         $userExists = $this->getUser() && $this->getUser()->getId();
 
-        if (!$userExists && $sessId !== false) {
-            return $this->_renewBySessId($sessId);
+        if (!$userExists && $id !== false) {
+            return $this->_renewBySessId($id);
         }
 
         if ($userExists) {
@@ -184,19 +255,20 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
     }
 
     /**
-     *  Renew user by session ID if session not expired
+     * Renew user by session ID if session not expired
      *
-     *  @param    string $sessId
-     *  @return	  boolean
+     * @param    string $id
+     * @return   boolean
      */
-    protected function _renewBySessId ($sessId)
+    protected function _renewBySessId($id)
     {
-        $user = Mage::getModel('api/user')->loadBySessId($sessId);
+        /** @var $user Mage_Api_Model_User */
+        $user = Mage::getModel('api/user')->loadBySessId($id);
         if (!$user->getId() || !$user->getSessid()) {
             return false;
         }
 
-        if ($user->getSessid() == $sessId && !$this->isSessionExpired($user)) {
+        if ($user->getSessid() == $id && !$this->isSessionExpired($user)) {
             $this->setUser($user);
             $this->setAcl(Mage::getResourceModel('api/acl')->loadAcl());
 
@@ -208,4 +280,4 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
         return false;
     }
 
-} // Class Mage_Api_Model_Session End
+}
