@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -35,12 +36,13 @@
  */
 class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
 {
+
     /**
-     * Last validation result
+     * Current page
      *
-     * @var boolean
+     * @var string
      */
-    protected $_validationFailed = false;
+    protected $_currentPage = '';
 
     /**
      * Application helper instance
@@ -48,29 +50,6 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
      * @var Mage_Selenium_Helper_Application
      */
     protected $_applicationHelper = null;
-
-    /**
-     * Validates current page properties
-     *
-     * @return Mage_Selenium_Helper_Page
-     */
-    public function validateCurrentPage()
-    {
-        $this->_validationFailed = false;
-        // @TODO check for no fatal errors, notices, warning
-        // @TODO check title
-        return $this;
-    }
-
-    /**
-     * Returns true if the last page validation failed
-     *
-     * @return boolean
-     */
-    public function validationFailed()
-    {
-        return $this->_validationFailed;
-    }
 
     /**
      * Set Application helper instance to access application info
@@ -122,8 +101,7 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
 
         $pageData = $this->_config
                             ->getUimapHelper()
-                                ->getUimapPage($this->_applicationHelper->getArea(),
-                                               $page);
+                                ->getUimapPage($this->_applicationHelper->getArea(), $page);
 
         if (empty($pageData)) {
             throw new Mage_Selenium_Exception('Page data is not defined');
@@ -148,9 +126,27 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
 
         return $this->_config
                         ->getUimapHelper()
-                            ->getUimapPageByMca($this->_applicationHelper->getArea(),
-                                                $mca,
-                                                $paramsDecorator);
+                            ->getUimapPageByMca($this->_applicationHelper->getArea(), $mca, $paramsDecorator);
+    }
+
+    /**
+     * Returns PageID of current page
+     *
+     * @return string
+     */
+    public function getCurrentPage()
+    {
+        return $this->_currentPage;
+    }
+
+    /**
+     * Set PageID
+     *
+     * param string $page
+     */
+    public function setCurrentPage($page)
+    {
+        $this->_currentPage = $page;
     }
 
 }
