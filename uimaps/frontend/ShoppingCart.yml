@@ -39,7 +39,7 @@ shopping_cart:
                             continue_shopping: //button[span='Continue Shopping']
                             update_shopping_cart: //button[span='Update Shopping Cart']
                         checkboxes:
-                            move_to_wishlist: %productXpath%//input[@title='Move to Wishlist']
+                            move_to_wishlist: //tr[*//a[text()='%productName%']]//input[@title='Move to Wishlist']
                         links:
                             remove_item: //a[@title='Remove item']
                         fields:

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -124,8 +123,8 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
                         $values = array_map('trim', $values);
                         foreach ($values as $k => $v) {
                             if ($k % 2 != 0 && isset($values[$k - 1])) {
-                                $productValues['product_' . $i][$key . '_' . strtolower(preg_replace('#[^0-9a-z]+#i',
-                                                        '', $values[$k - 1]))] = $v;
+                                $productValues['product_' . $i][$key . '_'
+                                        . strtolower(preg_replace('#[^0-9a-z]+#i', '', $values[$k - 1]))] = $v;
                             }
                         }
                     } else {
@@ -329,6 +328,26 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
             $this->clickButton('update_shopping_cart');
         }
         $this->assertTrue($this->successMessage('shopping_cart_is_empty'), 'Shopping cart is not empty');
+    }
+
+    /**
+     * Moves products to the wishlist from Shopping Cart
+     *
+     * @param string|array $productNameSet Name or array of product names to move
+     */
+    public function moveToWishlistFromShoppingCart($productNameSet)
+    {
+        if (is_string($productNameSet))
+            $productNameSet = array($productNameSet);
+        foreach ($productNameSet as $productName) {
+            $this->addParameter('productName', $productName);
+            if ($this->controlIsPresent('checkbox', 'move_to_wishlist')) {
+                $this->fillForm(array('move_to_wishlist' => 'Yes'));
+            } else {
+                $this->fail('Product ' . $productName . ' is not in the shopping cart.');
+            }
+        }
+        $this->clickButton('update_shopping_cart');
     }
 
 }

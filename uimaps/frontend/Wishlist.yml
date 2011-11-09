@@ -73,6 +73,8 @@ my_wishlist:
             successfully_added_product: //li[normalize-space(@class)='success-msg' and contains(.,'%productName% has been added to your wishlist.')]
             successfully_shared_wishlist: //li[normalize-space(@class)='success-msg' and contains(.,'Your Wishlist has been shared.')]
             confirmation_for_delete: Are you sure you want to remove this product from your wishlist?
+            invalid_emails: //div[@class='validation-advice' and @id='advice-validate-emails-email_address']
+            required_emails: //div[@class='validation-advice' and @id='advice-required-entry-email_address' and text()='This is a required field.']
         links:
             back: //p[@class='back-link']/a[contains(.,'Back')]
 
@@ -97,6 +99,4 @@ share_wishlist:
                             message: //textarea[@name='message']
                         links:
                             back: //p[@class='back-link']/a[contains(.,'Back')]
-        messages:
-            invalid_emails: //div[@class='validation-advice' and @id='advice-validate-emails-email_address']
-            required_emails: //div[@class='validation-advice' and @id='advice-required-entry-email_address' and text()='This is a required field.']
+        messages: *wishlistMessages

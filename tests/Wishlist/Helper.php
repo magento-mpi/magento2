@@ -35,9 +35,6 @@
  */
 class Wishlist_Helper extends Mage_Selenium_TestCase
 {
-    // Add product to Wishlist from shopping cart
-    // @TODO: Add to ShoppingCart Helper
-
 
     /**
      * Adds product to wishlist from a specific catalog page.
@@ -47,10 +44,10 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
      */
     public function addProductToWishlistFromCatalogPage($productName, $category)
     {
-        $phelp = $this->_paramsHelper;
         $pageId = $this->categoryHelper()->frontSearchAndOpenPageWithProduct($productName, $category);
         if (!$pageId)
             $this->fail('Could not find the product');
+        $this->appendParamsDecorator($this->categoryHelper()->_paramsHelper);  //@TODO Temporary workaround
         $this->addParameter('productName', $productName);
         $this->clickControl('link', 'add_to_wishlist');
     }
@@ -64,8 +61,9 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
     public function addProductToWishlistFromProductPage($productName, $categoryPath = null)
     {
         $this->productHelper()->frontOpenProduct($productName, $categoryPath);
+        $this->appendParamsDecorator($this->productHelper()->_paramsHelper);  //@TODO Temporary workaround
         $this->addParameter('productName', $productName);
-        $this->clickButton('add_to_wishlist');
+        $this->clickControl('link', 'add_to_wishlist');
     }
 
     /**
@@ -96,7 +94,7 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
     public function frontRemoveProductFromWishlist($productName)
     {
         $this->addParameter('productName', $productName);
-        $this->clickButtonAndConfirm('remove_item', 'confirmation_for_delete');
+        $this->clickControlAndConfirm('link', 'remove_item', 'confirmation_for_delete');
     }
 
     /**
@@ -122,6 +120,26 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
         $this->clickButton('share_wishlist');
         $this->fillForm($shareData);
         $this->saveForm('share_wishlist');
+    }
+
+    /**
+     * Adds products to Shopping Cart from the wishlist
+     *
+     * @param string|array $productNameSet Name or array of product names to add
+     */
+    public function addToShoppingCartFromWishlist($productNameSet)
+    {
+        if (is_string($productNameSet))
+            $productNameSet = array($productNameSet);
+        foreach ($productNameSet as $productName) {
+            $this->addParameter('productName', $productName);
+            if ($this->buttonIsPresent('add_to_cart')) {
+                $this->clickButton('add_to_cart');
+                $this->navigate('my_wishlist');
+            } else {
+                $this->fail('Product ' . $productName . ' is not in the wishlist');
+            }
+        }
     }
 
 }

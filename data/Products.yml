@@ -426,19 +426,20 @@ simple_product_required:
     prices_tax_class: None
     inventory_qty: %noValue%
 
-# Simple product that has all needed fields set to be visible in other places.
+# Product that has all needed fields set to be visible in frontend.
 simple_product_visible:
     product_attribute_set: Default
-    general_name: Simple Product Required
-    general_description: Description for Simple Product Required
-    general_short_description: Short Description for Simple Product Required
-    general_sku: simple_sku.req
-    general_weight: 1.13
+    general_name: Simple Product Visible
+    general_description: Description for Simple Product Visible
+    general_short_description: Short Description for Simple Product Visible
+    general_sku: simple_visible_sku.req
+    general_weight: 1.14
     general_status: Enabled
     general_visibility: Catalog, Search
-    prices_price: 9.99
+    prices_price: 8.99
     prices_tax_class: None
-    inventory_qty: %noValue%
+    inventory_qty: 50
+    inventory_stock_availability: In Stock
     websites: Main Website
     categories: Default Category
 
@@ -581,6 +582,22 @@ virtual_product_required:
     prices_tax_class: None
     inventory_qty: %noValue%
 
+# Product that has all needed fields set to be visible in frontend.
+virtual_product_visible:
+    product_attribute_set: Default
+    general_name: Virtual Product Visible
+    general_description: Description for Virtual Product Visible
+    general_short_description: Short Description for Virtual Product Visible
+    general_sku: virtual_visible_sku.req
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 18.99
+    prices_tax_class: None
+    inventory_qty: 50
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+
 virtual_product:
     product_attribute_set: Default
     general_name: Virtual Product
@@ -717,6 +734,23 @@ dynamic_bundle_required:
     bundle_items_data:
         item_1: %noValue%
 
+# Product that has all needed fields set to be visible in frontend.
+dynamic_bundle_visible:
+    product_attribute_set: Default
+    general_name: Bundle(Dynamic) Product Visible
+    general_description: Description for Bundle(Dynamic) Product Visible
+    general_short_description: Short Description for Bundle(Dynamic) Product Visible
+    general_sku_type: Dynamic
+    general_sku: bundle_dynamic_visible_sku.req
+    general_weight_type: Dynamic
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    bundle_items_data:
+        item_1: %noValue%
+
 fixed_bundle_required: &bundle
     product_attribute_set: Default
     general_name: Bundle(Fixed) Product Required
@@ -735,6 +769,27 @@ fixed_bundle_required: &bundle
         item_1: %noValue%
 
 bundle_product_required: *bundle
+
+# Product that has all needed fields set to be visible in frontend.
+fixed_bundle_visible:
+    product_attribute_set: Default
+    general_name: Bundle(Fixed) Product Visible
+    general_description: Description for Bundle(Fixed) Product Visible
+    general_short_description: Short Description for Bundle(Fixed) Product Product Visible
+    general_sku_type: Fixed
+    general_sku: bundle_fixed_visible_sku.req
+    general_weight_type: Fixed
+    general_weight: 0.999
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price_type: Fixed
+    prices_price: 12.55
+    prices_tax_class: None
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    bundle_items_data:
+        item_1: %noValue%
 
 dynamic_bundle:
     product_attribute_set: Default
@@ -970,6 +1025,20 @@ grouped_product_required:
     general_visibility: Catalog, Search
     associated_grouped_data: *associatedProductsGroupedData
 
+# Product that has all needed fields set to be visible in frontend.
+grouped_product_visible:
+    product_attribute_set: Default
+    general_name: Grouped Product Visible
+    general_description: Description for Grouped Product Visible
+    general_short_description: Short Description for Grouped Product Visible
+    general_sku: grouped_visible_sku.req
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    associated_grouped_data: *associatedProductsGroupedData
+
 grouped_product:
     product_attribute_set: Default
     general_name: Grouped Product
@@ -1068,6 +1137,23 @@ configurable_product_required:
     general_visibility: Catalog, Search
     prices_price: 14.95
     prices_tax_class: None
+
+# Product that has all needed fields set to be visible in frontend.
+configurable_product_visible:
+    product_attribute_set: Default
+    configurable_attribute_title: %noValue%
+    general_name: Configurable Product Visible
+    general_description: Description for Configurable Product Visible
+    general_short_description: Short Description for Configurable Product Visible
+    general_sku: configurable_visible_sku.req
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 18.95
+    prices_tax_class: None
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    associated_configurable_data: %noValue%
 
 configurable_product:
     product_attribute_set: Default
@@ -1176,6 +1262,23 @@ downloadable_product_required:
     prices_tax_class: None
     inventory_qty: %noValue%
 
+# Product that has all needed fields set to be visible in frontend.
+downloadable_product_visible:
+    product_attribute_set: Default
+    general_name: Downloadable Product Visible
+    general_description: Description for Downloadable Product Visible
+    general_short_description: Short Description for Downloadable Product Visible
+    general_sku: downloadable_visible_sku.req
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 98.99
+    prices_tax_class: None
+    inventory_qty: 50
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    downloadable_information_data: *downloadableData
+
 downloadable_product:
     product_attribute_set: Default
     general_name: Downloadable Product
@@ -1272,7 +1375,6 @@ duplicate_downloadable:
         downloadable_links_purchased_separately: No
         downloadable_sample_1: *samplesDownloadable
         downloadable_link_1: *linksDownloadable
-
 
 
 frontend_simple_product_details_validation:
