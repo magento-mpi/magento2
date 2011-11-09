@@ -59,13 +59,8 @@ class Mage_ProductAlert_Helper_Data extends Mage_Core_Helper_Url
 
     public function createBlock($block)
     {
-        $error = Mage::helper('Mage_Core_Helper_Data')->__('Invalid block type: %s', $block);
         if (is_string($block)) {
-            if (strpos($block, '/') !== false) {
-                if (!$block = Mage::getConfig()->getBlockClassName($block)) {
-                    Mage::throwException($error);
-                }
-            }
+            $block = Mage::getConfig()->getBlockClassName($block);
             $fileName = mageFindClassFile($block);
             if ($fileName!==false) {
                 include_once ($fileName);
@@ -73,7 +68,7 @@ class Mage_ProductAlert_Helper_Data extends Mage_Core_Helper_Url
             }
         }
         if (!$block instanceof Mage_Core_Block_Abstract) {
-            Mage::throwException($error);
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block type: %s', $block));
         }
         return $block;
     }

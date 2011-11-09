@@ -161,7 +161,7 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
                         'input'              => 'select',
                         'sort_order'         => 100,
                         'position'           => 100,
-                        'source'             => 'eav/entity_attribute_source_table',
+                        'source'             => 'Mage_Eav_Model_Entity_Attribute_Source_Table',
                         'system'             => false,
                         'option'             => array('values' => array('Unopened', 'Opened', 'Damaged')),
                         'validate_rules'     => 'a:0:{}',

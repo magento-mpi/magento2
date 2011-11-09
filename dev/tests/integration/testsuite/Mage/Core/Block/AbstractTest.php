@@ -72,7 +72,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
         // setting second time, along with the layout
         $layout = Mage::app()->getLayout();
-        $layout->createBlock('core/template', $name);
+        $layout->createBlock('Mage_Core_Block_Template', $name);
         $block = $layout->getBlock($name);
         $this->assertInstanceOf('Mage_Core_Block_Abstract', $block);
         $block->setNameInLayout($name);
@@ -386,7 +386,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetHelper()
     {
         $this->_block->setLayout(new Mage_Core_Model_Layout);
-        $this->assertInstanceOf('Mage_Core_Block_Text', $this->_block->getHelper('core/text'));
+        $this->assertInstanceOf('Mage_Core_Block_Text', $this->_block->getHelper('Mage_Core_Block_Text'));
     }
 
     public function testHelper()

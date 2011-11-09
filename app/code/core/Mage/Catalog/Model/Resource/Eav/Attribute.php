@@ -336,7 +336,7 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
      */
     public function _getDefaultSourceModel()
     {
-        return 'eav/entity_attribute_source_table';
+        return 'Mage_Eav_Model_Entity_Attribute_Source_Table';
     }
 
     /**

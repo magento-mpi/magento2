@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Page_Head extends Mage_Page_Block_Html_Head
      */
     protected function _getUrlModelClass()
     {
-        return 'adminhtml/url';
+        return 'Mage_Adminhtml_Model_Url';
     }
 
     /**

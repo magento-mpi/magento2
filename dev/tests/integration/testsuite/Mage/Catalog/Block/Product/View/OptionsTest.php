@@ -97,10 +97,14 @@ class Mage_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_Test
     public function testGetOptionHtml()
     {
         $this->_block->addOptionRenderer(
-            'select', 'catalog/product_view_options_type_select', 'product/view/options/type/select.phtml'
+            'select',
+            'Mage_Catalog_Block_Product_View_Options_Type_Select',
+            'product/view/options/type/select.phtml'
         );
         $this->_block->addOptionRenderer(
-            'date', 'catalog/product_view_options_type_date', 'product/view/options/type/date.phtml'
+            'date',
+            'Mage_Catalog_Block_Product_View_Options_Type_Date',
+            'product/view/options/type/date.phtml'
         );
         $this->_block->setLayout(Mage::app()->getLayout());
         $html = false;

@@ -40,6 +40,6 @@ class Mage_SalesRule_Model_Resource_Rule_Product extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('Mage_SalesRule_Model_Rule_Product', 'product_rule_id');
+        $this->_init('salesrule/rule_product', 'product_rule_id');
     }
 }

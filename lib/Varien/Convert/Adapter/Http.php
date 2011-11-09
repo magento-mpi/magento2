@@ -79,10 +79,10 @@ File to upload: <input type="file" name="io_file"/> <input type="submit" value="
             $path = Mage::app()->getConfig()->getTempVarDir().'/import/';
             $uploader->save($path);
             if ($uploadFile = $uploader->getUploadedFileName()) {
-                $session = Mage::getModel('dataflow/session');
+                $session = Mage::getModel('Mage_Dataflow_Model_Session');
                 $session->setCreatedDate(date('Y-m-d H:i:s'));
                 $session->setDirection('import');
-                $session->setUserId(Mage::getSingleton('admin/session')->getUser()->getId());
+                $session->setUserId(Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId());
                 $session->save();
                 $sessionId = $session->getId();
                 $newFilename = 'import_'.$sessionId.'_'.$uploadFile;

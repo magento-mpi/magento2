@@ -41,7 +41,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Paypal extends Enter
      */
     protected function _getUrlModelClass()
     {
-        return 'adminhtml/url';
+        return 'Mage_Adminhtml_Model_Url';
     }
 
     /**
