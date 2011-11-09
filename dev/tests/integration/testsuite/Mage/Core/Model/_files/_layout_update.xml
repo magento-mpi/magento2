@@ -34,7 +34,7 @@
       </action>
    </reference>
     <reference name="notifications">
-       <block type="index/adminhtml_notifications" name="index_notifications" template="index/notifications.phtml" before="-"/>
-       <block class="index/adminhtml_notifications" name="index_notifications_copy" template="index/notifications.phtml" after="-"/>
+       <block type="Mage_Index_Block_Adminhtml_Notifications" name="index_notifications" template="index/notifications.phtml" before="-"/>
+       <block class="Mage_Index_Block_Adminhtml_Notifications" name="index_notifications_copy" template="index/notifications.phtml" after="-"/>
     </reference>
 </layout>
