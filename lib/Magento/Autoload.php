@@ -110,7 +110,10 @@ class Magento_Autoload
      */
     protected function _getClassFile($class)
     {
-        return str_replace(array('_', self::NS_SEPARATOR), DIRECTORY_SEPARATOR, $class) . '.php';
+        if (strpos($class, self::NS_SEPARATOR) !== false) {
+            $class = str_replace(self::NS_SEPARATOR, '_', ltrim($class, self::NS_SEPARATOR));
+        }
+        return str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
     }
 
     /**
