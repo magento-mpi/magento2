@@ -43,7 +43,7 @@
         <index>
             <indexer>
                 <targetrule>
-                    <model>Mage_Enterprise_TargetRule_Model_Index</model>
+                    <model>Enterprise_TargetRule_Model_Index</model>
                 </targetrule>
             </indexer>
         </index>
@@ -61,7 +61,7 @@
             <catalog_product_save_commit_after>
                 <observers>
                     <enterprise_targetrule>
-                        <class>nterprise_TargetRule_Model_Observer</class>
+                        <class>Enterprise_TargetRule_Model_Observer</class>
                         <method>catalogProductSaveCommitAfter</method>
                     </enterprise_targetrule>
                 </observers>

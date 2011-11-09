@@ -43,7 +43,7 @@
         <index>
             <indexer>
                 <catalogpermissions>
-                    <model>enterprise_catalogpermissions/permission_index</model>
+                    <model>Enterprise_CatalogPermissions_Model_Permission_Index</model>
                 </catalogpermissions>
             </indexer>
         </index>

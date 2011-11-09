@@ -161,10 +161,10 @@
 
     <xmlconnect_cart_index>
         <reference name="xmlconnect.cart">
-            <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/checkout_cart_item_renderer</block><template>Mage_Checkout::cart/item/default.phtml</template></action>
+            <action method="addItemRender"><type>giftcard</type><block>Enterprise_Giftcard_Block_Checkout_Cart_Item_Renderer</block><template>Mage_Checkout::cart/item/default.phtml</template></action>
         </reference>
         <reference name="xmlconnect.catalog.product.price">
-            <action method="addRenderer"><type>giftcard</type><renderer>enterprise_giftcard/catalog_product_price</renderer></action>
+            <action method="addRenderer"><type>giftcard</type><renderer>Enterprise_Giftcard_Block_Catalog_Product_Price</renderer></action>
         </reference>
     </xmlconnect_cart_index>
 

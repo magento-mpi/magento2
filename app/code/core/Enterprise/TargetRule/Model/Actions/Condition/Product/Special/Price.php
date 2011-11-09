@@ -41,7 +41,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_targetrule/actions_condition_product_special_price');
+        $this->setType('Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price');
         $this->setValue(100);
     }
 

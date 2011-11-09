@@ -288,7 +288,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
         $websites = Mage::app()->getWebsites();
 
         /** @var $indexer Mage_Index_Model_Indexer */
-        $indexer = Mage::getSingleton('index/indexer');
+        $indexer = Mage::getSingleton('Mage_Index_Model_Indexer');
 
         foreach ($websites as $website) {
             /* @var $website Mage_Core_Model_Website */
@@ -315,7 +315,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
      */
     public function getName()
     {
-        return Mage::helper('enterprise_targetrule')->__('Target Rules');
+        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Target Rules');
     }
 
     /**
@@ -391,7 +391,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
         // remove old matched product index
         $indexResource->removeProductIndex($product->getId());
 
-        $ruleCollection = Mage::getResourceModel('enterprise_targetrule/rule_collection')
+        $ruleCollection = Mage::getResourceModel('Enterprise_TargetRule_Model_Resource_Rule_Collection')
             ->addProductFilter($product->getId());
 
         foreach ($ruleCollection as $rule) {
