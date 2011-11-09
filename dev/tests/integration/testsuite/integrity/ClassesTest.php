@@ -216,9 +216,6 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         }
 
         $modules = $this->_getFuncStringArguments('Mage::getResourceHelper', $content);
-        if (!$modules) {
-            return array();
-        }
 
         $result = array();
         $dbSuffixes = array('Mysql4', 'Mssql', 'Oracle');
@@ -273,14 +270,10 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
         $result = array();
         $modules = $this->_getFuncStringArguments('helper', $content);
-        if ($modules) {
-            $result = array_merge($result, $modules);
-        }
+        $result = array_merge($result, $modules);
 
         $modules = $this->_getFuncStringArguments('setDataHelperName', $content);
-        if ($modules) {
-            $result = array_merge($result, $modules);
-        }
+        $result = array_merge($result, $modules);
 
         $combine = array();
         $matched = preg_match_all('/addProductConfigurationHelper\(.*,[\'"](.*)[\'"]\)/', $content, $matches);
@@ -477,8 +470,8 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             return array();
         }
 
-        $mathods = "addBlock|createBlock|getBlockClassName|getBlockSingleton";
-        if (preg_match_all("/(?:" . $mathods . ")\(['\"]([a-zA-Z0-9_\/]+)['\"][\),]/", $content, $matches)) {
+        $methods = "addBlock|createBlock|getBlockClassName|getBlockSingleton";
+        if (preg_match_all("/(?:" . $methods . ")\(['\"]([a-zA-Z0-9_\/]+)['\"][\),]/", $content, $matches)) {
             return array_unique($matches[1]);
         }
 
@@ -716,17 +709,14 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         );
 
         $expectedModels = array();
-        foreach($xpathes as $xpath) {
+        foreach ($xpathes as $xpath) {
             $expectedModels = array_merge($expectedModels, $xml->xpath($xpath));
-        }
-        if (empty($expectedModels))  {
-            return array();
         }
 
         $result = array();
         foreach ($expectedModels as $expectModelNode) {
             $expectedModel = (array) $expectModelNode;
-            foreach(array_keys($expectedModel) as $key) {
+            foreach (array_keys($expectedModel) as $key) {
                 if ($key == "@attributes") {
                     continue;
                 }
