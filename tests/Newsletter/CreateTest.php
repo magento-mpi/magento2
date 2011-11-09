@@ -305,6 +305,7 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
     /**
      * <p> Unsubscribe Subscriber</p>
      *
+     * 
      * <p> Steps:</p>
      * <p>1. Login to Frontend</p>
      * <p>2. Open created category</p>
