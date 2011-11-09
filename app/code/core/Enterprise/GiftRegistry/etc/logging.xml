@@ -51,7 +51,7 @@
     <enterprise_giftregistry_entity>
         <label>Gift Registry Entity</label>
         <expected_models>
-            <Enterprise_GiftRegistry_Model_Rntity/>
+            <Enterprise_GiftRegistry_Model_Entity/>
             <Enterprise_GiftRegistry_Model_Item/>
         </expected_models>
         <actions>

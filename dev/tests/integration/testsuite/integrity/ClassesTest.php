@@ -695,4 +695,46 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $result = array_unique($result);
         return $result;
     }
+
+    /**
+     * Finds usage expected_models in logging.xml files
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitModelsInLoggingXmlDefinitions($fileInfo, $content)
+    {
+        if ($fileInfo->getBasename() != 'logging.xml') {
+            return array();
+        }
+
+        $xml = new SimpleXMLElement($content);
+        $xpathes = array (
+            '//logging/*/expected_models',
+            '//logging/*/actions/*/expected_models'
+        );
+
+        $expectedModels = array();
+        foreach($xpathes as $xpath) {
+            $expectedModels = array_merge($expectedModels, $xml->xpath($xpath));
+        }
+        if (empty($expectedModels))  {
+            return array();
+        }
+
+        $result = array();
+        foreach ($expectedModels as $expectModelNode) {
+            $expectedModel = (array) $expectModelNode;
+            foreach(array_keys($expectedModel) as $key) {
+                if ($key == "@attributes") {
+                    continue;
+                }
+                $result[] = $key;
+            }
+        }
+
+        return array_unique($result);
+    }
+
 }
