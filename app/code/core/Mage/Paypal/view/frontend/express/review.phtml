@@ -170,11 +170,11 @@ if ($('update_shipping_method_submit')) {
                         }
                     }
                     $('review-please-wait').hide();
-                    alert('<?php echo $this->__('Unknown Error. Please try again later.'); ?>');
+                    alert('<?php echo $this->jsQuoteEscape($this->__('Unknown Error. Please try again later.')); ?>');
                     return;
                 },
                 onFailure: function(){
-                    alert('<?php echo $this->__('Server Error. Please try again.') ?>');
+                    alert('<?php echo $this->jsQuoteEscape($this->__('Server Error. Please try again.')) ?>');
                     $('review-please-wait').hide();
                 }
             });

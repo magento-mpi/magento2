@@ -106,6 +106,9 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
     {
         $model = $this->_initModel();
         $this->_initAction();
+        if ($formData = Mage::getSingleton('adminhtml/session')->getFormData()) {
+            $model->addData($formData);
+        }
         $this->_title(Mage::helper('enterprise_giftwrapping')->__('Edit Gift Wrapping "%s"', $model->getDesign()));
         $this->renderLayout();
     }
@@ -175,6 +178,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
                 }
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                $this->_getSession()->setFormData($wrappingRawData);
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             } catch (Exception $e) {

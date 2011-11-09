@@ -149,6 +149,7 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
          * Fix saving attribute in admin
          */
         Mage::getSingleton('eav/config')->clear();
+
         Mage::getSingleton('index/indexer')->processEntityAction(
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );
@@ -325,7 +326,8 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
                 }
             }
 
-            self::$_labels = Mage::app()->getTranslator()->getResource()->getTranslationArrayByStrings($attributeLabels, $storeId);
+            self::$_labels = Mage::app()->getTranslator()->getResource()
+                ->getTranslationArrayByStrings($attributeLabels, $storeId);
         }
     }
 
