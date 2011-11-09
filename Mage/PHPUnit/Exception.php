@@ -19,45 +19,18 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage
+ * @package     Mage_PHPUnit
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
-set_include_path(join(PATH_SEPARATOR, array(
-    UNIT_ROOT . '/tests',
-    UNIT_FRAMEWORK,
-    UNIT_FRAMEWORK . '/_stubs',
-    get_include_path()
-)));
-
-
-spl_autoload_register('mageAutoloader');
-
 /**
- * Unit auto class loader
+ * Exceptions class
  *
- * @param string $class
- * @return void
- * @throws Magento_Exception
+ * @category    Mage
+ * @package     Mage_PHPUnit
+ * @author      Magento Api Team <api-team@magento.com>
  */
-function mageAutoloader($class)
+class Mage_PHPUnit_Exception extends Exception
 {
-    static $paths;
-    if (null === $paths) {
-        $paths = explode(PATH_SEPARATOR, get_include_path());
-    }
-    $file = str_replace('_', '/', $class) . '.php';
-
-    foreach ($paths as $path) {
-        $filename = $path . DIRECTORY_SEPARATOR . $file;
-        if (file_exists($filename)) {
-            require_once $filename;
-            return;
-        }
-    }
-    throw new Mage_PHPUnit_Exception(
-        sprintf('Class does not exist in path "%s"', get_include_path()));
-
 }
