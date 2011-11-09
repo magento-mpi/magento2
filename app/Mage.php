@@ -506,6 +506,11 @@ final class Mage
      */
     public static function helper($name)
     {
+        /* Default helper class for a module */
+        if (strpos($name, '_Helper_') === false) {
+            $name .= '_Helper_Data';
+        }
+
         $registryKey = '_helper/' . $name;
         if (!self::registry($registryKey)) {
             $helperClass = self::getConfig()->getHelperClassName($name);

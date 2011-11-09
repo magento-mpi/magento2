@@ -1257,10 +1257,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getHelperClassName($helperClass)
     {
-        /* Default helper class for a module */
-        if (strpos($helperClass, '_Helper_') === false) {
-            $helperClass .= '_Helper_Data';
-        }
         return $this->getModelClassName($helperClass);
     }
 

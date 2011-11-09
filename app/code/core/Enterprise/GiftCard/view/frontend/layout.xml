@@ -128,7 +128,7 @@
 
     <wishlist_index_index>
         <reference name="customer.wishlist">
-            <action method="addOptionsRenderCfg"><type>giftcard</type><helper>Enterprise_Giftcard_Helper_Catalog_Product_Configuration</helper></action>
+            <action method="addOptionsRenderCfg"><type>giftcard</type><helper>Enterprise_GiftCard_Helper_Catalog_Product_Configuration</helper></action>
         </reference>
     </wishlist_index_index>
 
