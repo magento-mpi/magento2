@@ -499,8 +499,8 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             'http://localhost/js/calendar/calendar-blue.css',
         );
         $params = array(
-            'css/styles.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
-            'calendar/calendar-blue.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
+            'css/styles.css',
+            'calendar/calendar-blue.css',
         );
         $this->assertEquals($expected, $this->_model->getOptimalCssUrls($params));
     }
@@ -520,14 +520,11 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array(
-                    'css/styles.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
-                    'calendar/calendar-blue.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
-                ),
+                array('css/styles.css', 'calendar/calendar-blue.css'),
                 array('http://localhost/media/skin/_merged/5594035976651f0a40d65ed577700fb5.css')
             ),
             array(
-                array('css/styles.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,),
+                array('css/styles.css'),
                 array('http://localhost/media/skin/frontend/test/default/default/en_US/css/styles.css',)
             ),
         );
@@ -541,8 +538,8 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             'http://localhost/js/calendar/calendar.js',
         );
         $params = array(
-            'js/tabs.js' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
-            'calendar/calendar.js' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
+            'js/tabs.js',
+            'calendar/calendar.js',
         );
         $this->assertEquals($expected, $this->_model->getOptimalJsUrls($params));
     }
@@ -562,14 +559,11 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array(
-                    'js/tabs.js' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
-                    'calendar/calendar.js' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
-                ),
+                array('js/tabs.js', 'calendar/calendar.js'),
                 array('http://localhost/media/skin/_merged/c5a9f4afba4ff0ff979445892214fc8b.js',)
             ),
             array(
-                array('calendar/calendar.js' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,),
+                array('calendar/calendar.js'),
                 array('http://localhost/js/calendar/calendar.js',)
             ),
         );

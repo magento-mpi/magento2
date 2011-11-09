@@ -57,8 +57,8 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
     public function testMergeFilesException()
     {
         $this->_model->getOptimalCssUrls(array(
-            'css/exception.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
-            'css/file.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
+            'css/exception.css',
+            'css/file.css',
         ));
     }
 
@@ -101,8 +101,8 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
             array(
                 Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS,
                 array(
-                    'calendar/calendar-blue.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
-                    'css/file.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
+                    'calendar/calendar-blue.css',
+                    'css/file.css',
                 ),
                 'ba1ea83ef061c58d4ceef66018beb4f2.css',
                 array(
@@ -122,8 +122,8 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
             array(
                 Mage_Core_Model_Design_Package::CONTENT_TYPE_JS,
                 array(
-                    'calendar/calendar.js' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
-                    'scripts.js'  => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
+                    'calendar/calendar.js',
+                    'scripts.js',
                 ),
                 '916b1b8161a8f61422b432009f47f267.js',
             ),
@@ -137,8 +137,8 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
     public function testMergeFilesModification()
     {
         $files = array(
-            'calendar/calendar.js' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
-            'scripts.js'  => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
+            'calendar/calendar.js',
+            'scripts.js',
         );
 
         $resultingFile = "{$this->_pubMerged}/916b1b8161a8f61422b432009f47f267.js";
@@ -159,8 +159,8 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
         $this->assertFileNotExists($this->_pubMerged);
 
         $this->_model->getOptimalJsUrls(array(
-            'calendar/calendar.js' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
-            'scripts.js'  => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
+            'calendar/calendar.js',
+            'scripts.js',
         ));
         $this->assertFileExists($this->_pubMerged);
         $filesFound = false;

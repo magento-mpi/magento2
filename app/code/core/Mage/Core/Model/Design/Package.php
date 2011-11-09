@@ -39,9 +39,6 @@ class Mage_Core_Model_Design_Package
     const CONTENT_TYPE_CSS = 'css';
     const CONTENT_TYPE_JS  = 'js';
 
-    const STATIC_TYPE_LIB  = 'lib';
-    const STATIC_TYPE_SKIN = 'skin';
-
     /**
      * The name of the default skins in the context of a theme
      */
@@ -601,7 +598,7 @@ class Mage_Core_Model_Design_Package
     /**
      * Get URLs to CSS files optimized based on configuration settings
      *
-     * @param array $files files array (array($file => $fileType))
+     * @param array $files
      * @return array
      */
     public function getOptimalCssUrls($files)
@@ -616,7 +613,7 @@ class Mage_Core_Model_Design_Package
     /**
      * Get URLs to JS files optimized based on configuration settings
      *
-     * @param array $files files array (array($file => $fileType))
+     * @param array $files
      * @return array
      */
     public function getOptimalJsUrls($files)
@@ -643,12 +640,8 @@ class Mage_Core_Model_Design_Package
             $file = $this->_mergeFiles($files, $type);
             $urls[] = $this->_getPublicFileUrl($file);
         } else {
-            foreach ($files as $file => $fileType) {
-                if ($fileType == self::STATIC_TYPE_LIB) {
-                    $urls[] = $this->getStaticLibUrl($file);
-                } else {
-                    $urls[] = $this->getSkinUrl($file);
-                }
+            foreach ($files as $file) {
+                $urls[] = $this->getSkinUrl($file);
             }
         }
         return $urls;
@@ -663,7 +656,6 @@ class Mage_Core_Model_Design_Package
      */
     protected function _publishSkinFile($skinFile, $params)
     {
-        $isDuplicationAllowed = (string)Mage::getConfig()->getNode('default/design/theme/allow_skin_files_duplication');
         $skinFile = $this->_extractScope($skinFile, $params);
 
         $file = $this->getSkinFile($skinFile, $params);
@@ -675,6 +667,7 @@ class Mage_Core_Model_Design_Package
             return $file;
         }
 
+        $isDuplicationAllowed = (string)Mage::getConfig()->getNode('default/design/theme/allow_skin_files_duplication');
         $isCssFile = preg_match('/\.css$/', $skinFile);
         if ($isDuplicationAllowed || $isCssFile) {
             $publicFile = $this->_buildPublicSkinRedundantFilename($skinFile, $params);
@@ -908,16 +901,11 @@ class Mage_Core_Model_Design_Package
         $mergedFile = array();
         $jsDir = Mage::getBaseDir('js');
         $publicDir = $this->_buildPublicSkinFilename('');
-        foreach ($files as $file => $fileType) {
-            if ($fileType == self::STATIC_TYPE_LIB) {
-                $filesToMerge[$file] = $jsDir . DIRECTORY_SEPARATOR . $file;
-                $mergedFile[] = str_replace('\\', '/', str_replace($jsDir, '', $filesToMerge[$file]));
-            } else {
-                $params = array();
-                $this->_updateParamDefaults($params);
-                $filesToMerge[$file] = $this->_publishSkinFile($file, $params);
-                $mergedFile[] = str_replace('\\', '/', str_replace($publicDir, '', $filesToMerge[$file]));
-            }
+        foreach ($files as $file) {
+            $params = array();
+            $this->_updateParamDefaults($params);
+            $filesToMerge[$file] = $this->_publishSkinFile($file, $params);
+            $mergedFile[] = str_replace('\\', '/', str_replace(array($jsDir, $publicDir), '', $filesToMerge[$file]));
         }
         $mergedFile = self::PUBLIC_MERGE_DIR . DIRECTORY_SEPARATOR . md5(implode('|', $mergedFile)) . ".{$contentType}";
         $mergedFile = $this->_buildPublicSkinFilename($mergedFile);

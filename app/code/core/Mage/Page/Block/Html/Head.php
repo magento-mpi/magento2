@@ -172,7 +172,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
             }
             $group = $item['if'] . '|' . (empty($item['params']) ? '_' : $item['params']) . '|' . $contentType;
             $meta[$group] = array($item['if'], (string)$item['params'], $contentType);
-            $lines[$group][$item['name']] = $this->_mapToStaticType($item['type']);
+            $lines[$group][] = $item['name'];
         }
 
         $html   = '';
@@ -196,7 +196,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
                     }
                 break;
                 case 'link':
-                    foreach ($items as $file => $type) {
+                    foreach ($items as $file) {
                         $html .= sprintf('<link%s href="%s" />' . "\n", $params, $file);
                     }
                 break;
@@ -206,26 +206,6 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
             }
         }
         return $html;
-    }
-
-    /**
-     * Map block types to design model static types
-     *
-     * @param string $type
-     * @return string
-     */
-    protected function _mapToStaticType($type)
-    {
-        switch ($type) {
-            case 'js_css':
-            case 'js':
-                return Mage_Core_Model_Design_Package::STATIC_TYPE_LIB;
-            case 'skin_css':
-            case 'skin_js':
-                return Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN;
-            default:
-                return '';
-        }
     }
 
     /**
