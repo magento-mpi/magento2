@@ -78,40 +78,7 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
      */
     public function includeScript($file)
     {
-        return '<script type="text/javascript" src="'.$this->getJsUrl($file).'"></script>'."\n";
-    }
-
-    /**
-     * Retrieve
-     *
-     * @param   string $file
-     * @return  string
-     */
-    public function includeSkinScript($file)
-    {
-        return '<script type="text/javascript" src="'.$this->getJsSkinUrl($file).'"></script>';
-    }
-
-    /**
-     * Retrieve JS file url
-     *
-     * @param   string $file
-     * @return  string
-     */
-    public function getJsUrl($file)
-    {
-        return Mage::getBaseUrl('js').$file;
-    }
-
-    /**
-     * Retrieve skin JS file url
-     *
-     * @param   string $file
-     * @return  string
-     */
-    public function getJsSkinUrl($file)
-    {
-        return Mage::getDesign()->getSkinUrl($file, array());
+        return '<script type="text/javascript" src="'.Mage::getDesign()->getSkinUrl($file).'"></script>'."\n";
     }
 
     /**

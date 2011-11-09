@@ -644,11 +644,7 @@ class Mage_Core_Model_Design_Package
             $urls[] = $this->_getPublicFileUrl($file);
         } else {
             foreach ($files as $file => $fileType) {
-                if ($fileType == self::STATIC_TYPE_LIB) {
-                    $urls[] = $this->getStaticLibUrl($file);
-                } else {
-                    $urls[] = $this->getSkinUrl($file);
-                }
+                $urls[] = $this->getSkinUrl($file);
             }
         }
         return $urls;
@@ -841,19 +837,6 @@ class Mage_Core_Model_Design_Package
             }
         }
         return $this->_publishSkinFile($relativeSkinFile, $params);
-    }
-
-    /**
-     * Get URL for static library file.
-     * Usually it is javascript or supplementary file for javascript library.
-     *
-     * @param string|null $file
-     * @param bool|null $isSecure
-     * @return string
-     */
-    public function getStaticLibUrl($file = null, $isSecure = null)
-    {
-        return Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS, $isSecure) . $file;
     }
 
     /**

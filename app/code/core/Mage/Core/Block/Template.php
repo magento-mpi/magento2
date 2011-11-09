@@ -303,22 +303,6 @@ HTML;
     }
 
     /**
-     * Get url of base javascript file
-     *
-     * To get url of skin javascript file use getSkinUrl()
-     *
-     * @param string $fileName
-     * @return string
-     */
-    public function getJsUrl($fileName='')
-    {
-        if (!$this->_jsUrl) {
-            $this->_jsUrl = Mage::getBaseUrl('js');
-        }
-        return $this->_jsUrl.$fileName;
-    }
-
-    /**
      * Get data from specified object
      *
      * @param Varien_Object $object
