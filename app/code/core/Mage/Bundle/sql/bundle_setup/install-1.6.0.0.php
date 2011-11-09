@@ -608,7 +608,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'price_view', array
         'label'             => 'Price View',
         'input'             => 'select',
         'class'             => '',
-        'source'            => 'bundle/product_attribute_source_price_view',
+        'source'            => 'Mage_Bundle_Model_Product_Attribute_Source_Price_View',
         'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
         'visible'           => true,
         'required'          => true,
