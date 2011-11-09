@@ -50,11 +50,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
     {
         $conditions = array(
             array( // subconditions combo
-                'value' => 'enterprise_customersegment/segment_condition_combine',
+                'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Combine',
                 'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions Combination')),
 
             array( // customer address combo
-                'value' => 'enterprise_customersegment/segment_condition_customer_address',
+                'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address',
                 'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Address')),
 
             // customer attribute group
@@ -65,10 +65,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 
             array('value' => array(
                     array( // product list combo
-                        'value' => 'enterprise_customersegment/segment_condition_product_combine_list',
+                        'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List',
                         'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Product List')),
                     array( // product history combo
-                        'value' => 'enterprise_customersegment/segment_condition_product_combine_history',
+                        'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History',
                         'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Product History')),
                 ),
                 'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Products'),

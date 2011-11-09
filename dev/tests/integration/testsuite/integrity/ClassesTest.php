@@ -609,6 +609,11 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             array ("->setSourceModel",      "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?['\"](.*\\))/Ui" ),
             array ("->setModel",            "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
             array ("->setModel",            "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?['\"](.*\\))/Ui" ),
+            /** setType function could be used as test for manual checking,
+             * but globally function is used for different variables setting
+             */
+            // array ("->setType",            "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
+            // array ("->setType",            "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?['\"](.*\\))/Ui" ),
         );
 
         $patterns = array();

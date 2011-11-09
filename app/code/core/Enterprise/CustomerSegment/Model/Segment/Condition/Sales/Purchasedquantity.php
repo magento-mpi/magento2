@@ -33,7 +33,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_sales_purchasedquantity');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity');
         $this->setValue(null);
     }
 

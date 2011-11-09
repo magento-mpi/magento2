@@ -43,7 +43,7 @@ class Enterprise_CustomerSegment_Model_Observer
         $additional = $observer->getEvent()->getAdditional();
         $additional->setConditions(array(array(
             'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Segment'),
-            'value' => 'enterprise_customersegment/segment_condition_segment'
+            'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Segment'
         )));
     }
 

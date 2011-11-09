@@ -30,14 +30,14 @@ class Mage_CatalogRule_Model_Rule_Action_Collection extends Mage_Rule_Model_Acti
     public function __construct()
     {
         parent::__construct();
-        $this->setType('catalogrule/rule_action_collection');
+        $this->setType('Mage_CatalogRule_Model_Rule_Action_Collection');
     }
 
     public function getNewChildSelectOptions()
     {
         $actions = parent::getNewChildSelectOptions();
         $actions = array_merge_recursive($actions, array(
-            array('value'=>'catalogrule/rule_action_product', 'label'=>Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Update the Product'))
+            array('value'=>'Mage_CatalogRule_Model_Rule_Action_Product', 'label'=>Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Update the Product'))
         ));
         return $actions;
     }

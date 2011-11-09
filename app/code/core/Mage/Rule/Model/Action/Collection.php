@@ -31,7 +31,7 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
     {
         parent::__construct();
         $this->setActions(array());
-        $this->setType('rule/action_collection');
+        $this->setType('Mage_Rule_Model_Action_Collection');
     }
 
     /**

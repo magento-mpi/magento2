@@ -31,7 +31,7 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Subselect
     public function __construct()
     {
         parent::__construct();
-        $this->setType('salesrule/rule_condition_product_subselect')
+        $this->setType('Mage_SalesRule_Model_Rule_Condition_Product_Subselect')
             ->setValue(null);
     }
 

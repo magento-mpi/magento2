@@ -34,7 +34,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_sales_ordersnumber');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber');
         $this->setValue(null);
     }
 
