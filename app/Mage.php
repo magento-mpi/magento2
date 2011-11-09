@@ -24,32 +24,8 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-define('DS', DIRECTORY_SEPARATOR);
-define('PS', PATH_SEPARATOR);
-define('BP', dirname(dirname(__FILE__)));
-
-Mage::register('original_include_path', get_include_path());
-
-/**
- * Set include path
- */
-$paths[] = BP . DS . 'app' . DS . 'code' . DS . 'local';
-$paths[] = BP . DS . 'app' . DS . 'code' . DS . 'community';
-$paths[] = BP . DS . 'app' . DS . 'code' . DS . 'core';
-$paths[] = BP . DS . 'lib';
-
-$appPath = implode(PS, $paths);
-set_include_path($appPath . PS . Mage::registry('original_include_path'));
-include_once "Mage/Core/functions.php";
-include_once "Varien/Autoload.php";
-
-
-Varien_Autoload::register();
-
 /**
  * Main Mage hub class
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 final class Mage
 {

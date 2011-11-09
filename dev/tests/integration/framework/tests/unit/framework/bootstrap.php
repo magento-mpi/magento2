@@ -10,9 +10,10 @@
  */
 
 $rootDir = realpath(__DIR__ . '/../../../../../../../');
+require_once $rootDir . '/app/bootstrap.php';
+
 $codeDirs = array(
     $rootDir . '/lib/',
-    $rootDir . '/app/', // locate Mage.php
     $rootDir . '/app/code/core/',
     $rootDir . '/dev/tests/integration/framework/',
 );

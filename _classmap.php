@@ -18,49 +18,13 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Varien
- * @package    Varien_Autoload
+ * @category   Magento
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Classes source autoload
+ * Class files map
  */
-class Varien_Autoload
-{
-    static protected $_instance;
-
-    /**
-     * Singleton pattern implementation
-     *
-     * @return Varien_Autoload
-     */
-    static public function instance()
-    {
-        if (!self::$_instance) {
-            self::$_instance = new Varien_Autoload();
-        }
-        return self::$_instance;
-    }
-
-    /**
-     * Register SPL autoload function
-     */
-    static public function register()
-    {
-        spl_autoload_register(array(self::instance(), 'autoload'));
-    }
-
-    /**
-     * Load class source code
-     *
-     * @param string $class
-     */
-    public function autoload($class)
-    {
-        $classFile = str_replace(' ', DIRECTORY_SEPARATOR, ucwords(str_replace('_', ' ', $class))) . '.php';
-        //echo $classFile;die();
-        return include $classFile;
-    }
-}
+return array (
+);
