@@ -554,7 +554,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
              /** _init is used for setting table_names either */
              array ("->_init", "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?['\"](\\s?,\\s?['\"].*['\"]\\))/Ui" ),
         );
-        $skippedClassNamesByTablesIdKeys = array(
+        $skippedClassKeys = array(
             'id', '_id', 'code', 'serial_number', 'entity_pk_value', 'status', 'pk'
         );
 
@@ -569,14 +569,14 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         foreach ($patterns as $pattern) {
             $matched = preg_match_all($pattern, $content, $matches);
             if ($matched) {
-                $isClassNameShouldBeSkipped = false;
-                foreach($skippedClassNamesByTablesIdKeys as $key) {
+                $skipClassName = false;
+                foreach ($skippedClassKeys as $key) {
                     if (strpos($matches[2][0], $key) > 0 ) {
-                        $isClassNameShouldBeSkipped = true;
+                        $skipClassName = true;
                         break;
                     }
                 }
-                if ($isClassNameShouldBeSkipped) {
+                if ($skipClassName) {
                     continue;
                 }
                 $result = array_merge($result, $matches[1]);
