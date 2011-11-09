@@ -34,9 +34,11 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase {
+class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
+{
 
-    protected function assertPreConditions() {
+    protected function assertPreConditions()
+    {
         $this->addParameter('productUrl', '');
     }
 
@@ -46,7 +48,8 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase {
      *
      * @test
      */
-    public function createCustomer() {
+    public function createCustomer()
+    {
         //Data
         $userData = $this->loadData('customer_account_for_prices_validation', NULL, 'email');
         //Steps
@@ -55,7 +58,6 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase {
         $this->customerHelper()->createCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-
         return array('email' => $userData['email'], 'password' => $userData['password']);
     }
 
@@ -65,7 +67,8 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase {
      *
      * @test
      */
-    public function createCategory() {
+    public function createCategory()
+    {
         $this->loginAdminUser();
         $this->navigate('manage_categories');
         $this->categoryHelper()->checkCategoriesPage();
@@ -85,17 +88,21 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase {
      * @depends createCategory
      * @test
      */
-    public function createProduct($category) {
+    public function createProduct($category)
+    {
         $this->loginAdminUser();
         $this->navigate('manage_products');
-        $simpleProductData = $this->loadData('simple_product_for_prices_validation_front_1', array('categories' => $category), array('general_name', 'general_sku'));
+        $simpleProductData = $this->loadData('simple_product_for_prices_validation_front_1',
+                array('categories' => $category),
+                array('general_name', 'general_sku')
+        );
         $this->productHelper()->createProduct($simpleProductData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         return $simpleProductData['general_name'];
     }
 
     /**
-     * <p>With valid email</p>
+     * <p>With invalid email</p>
      *
      * <p>1. Login to Frontend</p>
      * <p>2. Open created category</p>
@@ -113,7 +120,8 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase {
      *
      * @test
      */
-    public function subscriberEmailVerificationInvalidAddress($customer, $category) {
+    public function subscriberEmailVerificationInvalidAddress($customer, $category)
+    {
         //Data
         $newSubscriberEmail = $this->generate('email', 15, 'invalid');
         //Preconditions
@@ -149,7 +157,8 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase {
      *
      * @test
      */
-    public function subscriberEmailVerificationValidAddress($newSubscriberEmail, $customer, $category) {
+    public function subscriberEmailVerificationValidAddress($newSubscriberEmail, $customer, $category)
+    {
         //Data
         $nodes = explode('/', $category);
         $category = end($nodes);
@@ -161,10 +170,14 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase {
         $this->assertTrue($this->successMessage('success_subscription'), $this->messages);
         $this->loginAdminUser();
         $this->navigate('newsletter_subscribers');
-        $this->assertNotEquals(NULL, $this->search(array('filter_email' => $newSubscriberEmail)));
+        $this->assertNotEquals(NULL, $this->search(array(
+            'filter_email' => $newSubscriberEmail,
+            'filter_status' => 'Subscribed')
+        ));
     }
 
-    public function newsletterData() {
+    public function newsletterData()
+    {
         return array(
             array($this->generate('email', 15, 'valid')),
             array($this->generate('email', 70, 'valid'))
@@ -190,7 +203,8 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase {
      *
      * @test
      */
-    public function subscriberEmailVerificationValidLong($customer, $category) {
+    public function subscriberEmailVerificationValidLong($customer, $category)
+    {
         //Data
         $newSubscriberEmail = $this->generate('email', 300, 'valid');
         $nodes = explode('/', $category);
@@ -225,9 +239,10 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase {
      *
      * @test
      */
-    public function subscriberEmailVerificationEmptyField($customer, $category) {
+    public function subscriberEmailVerificationEmptyField($customer, $category)
+    {
         //Data
-        $newSubscriberEmail = $this->generate('email', NULL, 'valid');
+        $newSubscriberEmail = NULL;
         $nodes = explode('/', $category);
         $category = end($nodes);
         //Preconditions
@@ -262,7 +277,8 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase {
      *
      * @test
      */
-    public function subscriberDelete($customer, $category) {
+    public function subscriberDelete($customer, $category)
+    {
         //Data
         $this->addParameter('qtyOfRecords', 1);
         $nodes = explode('/', $category);
@@ -283,6 +299,7 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase {
         $this->clickButton('submit');
         //Verification
         $this->assertTrue($this->successMessage('success_delete'), $this->messages);
+        $this->assertEquals(NULL, $this->search(array('filter_email' => $newSubscriberEmail)));
     }
 
     /**
@@ -309,7 +326,8 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase {
      *
      * @test
      */
-    public function subscriberUnsubscribe($customer, $category) {
+    public function subscriberUnsubscribe($customer, $category)
+    {
         //Data
         $this->addParameter('qtyOfRecords', 1);
         $nodes = explode('/', $category);
@@ -330,6 +348,11 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase {
         $this->clickButton('submit');
         //Verification
         $this->assertTrue($this->successMessage('success_update'), $this->messages);
+        $this->assertNotEquals(NULL, $this->search(
+                array(
+                        'filter_email' => $newSubscriberEmail,
+                        'filter_status' => 'Unsubscribed'))
+        );
     }
 
 }
