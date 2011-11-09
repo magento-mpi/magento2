@@ -53,7 +53,7 @@ class Mage_Paypal_HostedproController extends Mage_Core_Controller_Front_Action
         $gotoSection = $this->_cancelPayment();
         $redirectBlock = $this->_getIframeBlock()
             ->setGotoSection($gotoSection)
-            ->setTemplate('paypal/hss/redirect.phtml');
+            ->setTemplate('hss/redirect.phtml');
         //TODO: clarify return logic whether customer will be returned in iframe or in parent window
         $this->getResponse()->setBody($redirectBlock->toHtml());
     }

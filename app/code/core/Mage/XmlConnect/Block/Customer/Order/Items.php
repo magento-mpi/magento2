@@ -63,7 +63,7 @@ class Mage_XmlConnect_Block_Customer_Order_Items extends Mage_Sales_Block_Order_
 
     /**
      * Render XML for items
-     * (get from template: sales/order/items.phtml)
+     * (get from template: order/items.phtml)
      *
      * @param Mage_XmlConnect_Model_Simplexml_Element $orderXmlObj
      * @return null

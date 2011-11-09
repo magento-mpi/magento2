@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Paypal>
-            <version>1.6.0.1</version>
+            <version>1.6.0.2</version>
         </Mage_Paypal>
     </modules>
     <global>
@@ -96,8 +96,8 @@
         </translate>
         <layout>
             <updates>
-                <paypal>
-                    <file>paypal.xml</file>
+                <paypal module="Mage_Paypal">
+                    <file>layout.xml</file>
                 </paypal>
             </updates>
         </layout>
@@ -133,6 +133,13 @@
                 </Mage_Paypal>
             </modules>
         </translate>
+        <layout>
+            <updates>
+                <paypal module="Mage_Paypal">
+                    <file>layout.xml</file>
+                </paypal>
+            </updates>
+        </layout>
     </adminhtml>
     <default>
         <paypal>
@@ -222,12 +229,23 @@
             </paypal_billing_agreement>
             <payflow_link>
                 <model>Mage_Paypal_Model_Payflowlink</model>
-                <title>Payflow Link</title>
                 <payment_action>Authorization</payment_action>
                 <verbosity>HIGH</verbosity>
                 <pwd backend_model="adminhtml/system_config_backend_encrypted"/>
                 <group>paypal</group>
+                <title>Credit Card</title>
             </payflow_link>
+            <payflow_advanced>
+                <model>paypal/payflowadvanced</model>
+                <payment_action>Authorization</payment_action>
+                <verbosity>HIGH</verbosity>
+                <pwd backend_model="adminhtml/system_config_backend_encrypted"/>
+                <group>paypal</group>
+                <title>Credit Card</title>
+                <partner>PayPal</partner>
+                <vendor>PayPal</vendor>
+                <user>PayPal</user>
+            </payflow_advanced>
             <hosted_pro>
                 <model>Mage_Paypal_Model_Hostedpro</model>
                 <title>Payment by cards or by PayPal account</title>

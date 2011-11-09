@@ -58,8 +58,8 @@
         <template>
             <email>
                 <giftcard_email_template translate="label" module="Enterprise_GiftCard">
-                    <label>Gift Card Accounts Generated From Gift Card</label>
-                    <file>enterprise/giftcard_generated.html</file>
+                    <label>Gift Card(s) Purchase</label>
+                    <file>email/gift_information.html</file>
                     <type>html</type>
                 </giftcard_email_template>
             </email>
@@ -114,7 +114,7 @@
         <layout>
             <updates>
                 <enterprise_giftcard module="Enterprise_GiftCard">
-                    <file>giftcard.xml</file>
+                    <file>layout.xml</file>
                 </enterprise_giftcard>
             </updates>
         </layout>
@@ -149,8 +149,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_giftcard>
-                    <file>enterprise/giftcard.xml</file>
+                <enterprise_giftcard module="Enterprise_GiftCard">
+                    <file>layout.xml</file>
                 </enterprise_giftcard>
             </updates>
         </layout>

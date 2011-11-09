@@ -36,7 +36,7 @@ class Mage_Sales_Block_Order_Invoice extends Mage_Sales_Block_Order_Invoice_Item
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('sales/order/invoice.phtml');
+        $this->setTemplate('order/invoice.phtml');
     }
 
     protected function _prepareLayout()

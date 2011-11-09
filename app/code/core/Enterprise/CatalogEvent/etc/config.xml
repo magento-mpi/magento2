@@ -121,7 +121,7 @@
         <layout>
             <updates>
                 <enterprise_catalogevent module="Enterprise_CatalogEvent">
-                    <file>catalogevent.xml</file>
+                    <file>layout.xml</file>
                 </enterprise_catalogevent>
             </updates>
         </layout>
@@ -149,8 +149,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_catalogevent>
-                    <file>enterprise/catalogevent.xml</file>
+                <enterprise_catalogevent module="Enterprise_CatalogEvent">
+                    <file>layout.xml</file>
                 </enterprise_catalogevent>
             </updates>
         </layout>

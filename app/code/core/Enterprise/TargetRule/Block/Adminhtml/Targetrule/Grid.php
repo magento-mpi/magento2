@@ -95,6 +95,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid extends Mage_Adminht
             'header'    => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Rule Name'),
             'index'     => 'name',
             'type'      => 'text',
+            'escape'    => true
         ));
 
         $this->addColumn('from_date', array(

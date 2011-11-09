@@ -48,11 +48,11 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit extends Mage_Adminhtml_Block_Widget_
 
         $rule = Mage::registry('current_promo_quote_rule');
 
-        if (!$rule->isDeleteable()) {
+        if (!$rule || !$rule->isDeleteable()) {
             $this->_removeButton('delete');
         }
 
-        if ($rule->isReadonly()) {
+        if ($rule && $rule->isReadonly()) {
             $this->_removeButton('save');
             $this->_removeButton('reset');
         } else {

@@ -129,6 +129,13 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     protected $_customerGroupId;
 
     /**
+     * Whether index events should be processed immediately
+     *
+     * @var bool
+     */
+    protected $_processIndexEvents = true;
+
+    /**
      * Initialize resource model
      *
      */
@@ -786,9 +793,13 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     protected function _afterSave()
     {
         parent::_afterSave();
-        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
-            $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
-        );
+        /** @var $indexer Mage_Index_Model_Indexer */
+        $indexer = Mage::getSingleton('Mage_Index_Model_Indexer');
+        if ($this->_processIndexEvents) {
+            $indexer->processEntityAction($this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE);
+        } else {
+            $indexer->logEvent($this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE);
+        }
         return $this;
     }
 
@@ -884,6 +895,18 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if ($this->_productInstance) {
             $this->_productInstance = null;
         }
+        return $this;
+    }
+
+    /**
+     * Set whether index events should be processed immediately
+     *
+     * @param bool $process
+     * @return Mage_CatalogInventory_Model_Stock_Item
+     */
+    public function setProcessIndexEvents($process = true)
+    {
+        $this->_processIndexEvents = $process;
         return $this;
     }
 }

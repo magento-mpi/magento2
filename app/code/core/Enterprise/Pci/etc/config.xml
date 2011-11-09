@@ -67,8 +67,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_pci>
-                    <file>enterprise/pci.xml</file>
+                <enterprise_pci module="Enterprise_Pci">
+                    <file>layout.xml</file>
                 </enterprise_pci>
             </updates>
         </layout>

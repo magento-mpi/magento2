@@ -44,55 +44,11 @@ class Mage_Widget_Model_Widget_Config extends Varien_Object
     {
         $settings = array(
             'widget_plugin_src'   => Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentowidget/editor_plugin.js',
-            'widget_images_url'   => $this->getPlaceholderImagesBaseUrl(),
-            'widget_placeholders' => $this->getAvailablePlaceholderFilenames(),
+            'widget_placeholders' => Mage::getModel('widget/widget')->getPlaceholderImageUrls(),
             'widget_window_url'   => $this->getWidgetWindowUrl($config)
         );
 
         return $settings;
-    }
-
-    /**
-     * Return Widget placeholders images URL
-     *
-     * @return string
-     */
-    public function getPlaceholderImagesBaseUrl()
-    {
-        return Mage::getDesign()->getSkinUrl('images/widget/');
-    }
-
-    /**
-     * Return Widget placeholders images dir
-     *
-     * @return string
-     */
-    public function getPlaceholderImagesBaseDir()
-    {
-        return Mage::getDesign()->getSkinBaseDir() . DS . 'images' . DS . 'widget';
-    }
-
-    /**
-     * Return list of existing widget image placeholders
-     *
-     * @return array
-     */
-    public function getAvailablePlaceholderFilenames()
-    {
-        $result = array();
-        $targetDir = $this->getPlaceholderImagesBaseDir();
-        if (is_dir($targetDir) && is_readable($targetDir)) {
-            $collection = new Varien_Data_Collection_Filesystem();
-            $collection->addTargetDir($targetDir)
-                ->setCollectDirs(false)
-                ->setCollectFiles(true)
-                ->setCollectRecursively(false);
-            foreach ($collection as $file) {
-                $result[] = $file->getBasename();
-            }
-        }
-
-        return $result;
     }
 
     /**

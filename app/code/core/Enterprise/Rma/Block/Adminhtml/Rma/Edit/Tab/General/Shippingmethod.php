@@ -52,9 +52,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     public function _construct()
     {
         $buttonStatus       = Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_DISALLOWED;
-        if ((bool)($this->_getShippingAvailability() && $this->getRma()->isAvailableForPrintLabel())) {
+        if ($this->_getShippingAvailability() && $this->getRma() && $this->getRma()->isAvailableForPrintLabel()) {
             $buttonStatus   = Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_ALLOWED;
-        } elseif((bool)$this->getRma()->getButtonDisabledStatus()) {
+        } elseif($this->getRma() && $this->getRma()->getButtonDisabledStatus()) {
             $buttonStatus   = Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_DISABLED;
         }
 
@@ -81,7 +81,10 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
      */
     protected function _getShippingAvailability()
     {
-        $carriers = Mage::helper('Enterprise_Rma_Helper_Data')->getAllowedShippingCarriers($this->getRma()->getStoreId());
+        $carriers = array();
+        if ($this->getRma()) {
+            $carriers = Mage::helper('Enterprise_Rma_Helper_Data')->getAllowedShippingCarriers($this->getRma()->getStoreId());
+        }
         return !empty($carriers);
     }
 

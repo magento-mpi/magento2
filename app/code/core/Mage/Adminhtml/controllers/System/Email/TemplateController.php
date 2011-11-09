@@ -187,15 +187,18 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
     {
         $template = $this->_initTemplate('id');
         $templateCode = $this->getRequest()->getParam('code');
+        try {
+            $template->loadDefault($templateCode);
+            $template->setData('orig_template_code', $templateCode);
+            $template->setData('template_variables', Zend_Json::encode($template->getVariablesOptionArray(true)));
 
-        $template->loadDefault($templateCode, $this->getRequest()->getParam('locale'));
-        $template->setData('orig_template_code', $templateCode);
-        $template->setData('template_variables', Zend_Json::encode($template->getVariablesOptionArray(true)));
+            $templateBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Email_Template_Edit');
+            $template->setData('orig_template_used_default_for', $templateBlock->getUsedDefaultForPaths(false));
 
-        $templateBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Email_Template_Edit');
-        $template->setData('orig_template_used_default_for', $templateBlock->getUsedDefaultForPaths(false));
-
-        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($template->getData()));
+            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($template->getData()));
+        } catch (Exception $e) {
+            Mage::logException($e);
+        }
     }
 
     /**

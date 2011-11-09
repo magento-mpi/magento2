@@ -40,6 +40,13 @@
                 </setup>
             </enterprise_catalogpermissions_setup>
         </resources>
+        <index>
+            <indexer>
+                <catalogpermissions>
+                    <model>enterprise_catalogpermissions/permission_index</model>
+                </catalogpermissions>
+            </indexer>
+        </index>
     </global>
     <adminhtml>
         <events>
@@ -143,8 +150,8 @@
         </translate>
         <layout>
             <updates>
-                <enterprise_catalogpermissions>
-                    <file>enterprise/catalogpermissions.xml</file>
+                <enterprise_catalogpermissions module="Enterprise_CatalogPermissions">
+                    <file>layout.xml</file>
                 </enterprise_catalogpermissions>
             </updates>
         </layout>
@@ -298,8 +305,8 @@
         </events>
         <layout>
             <updates>
-                <enterprise_catalogpermissions>
-                    <file>catalogpermissions.xml</file>
+                <enterprise_catalogpermissions module="Enterprise_CatalogPermissions">
+                    <file>layout.xml</file>
                 </enterprise_catalogpermissions>
             </updates>
         </layout>

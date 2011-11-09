@@ -32,7 +32,7 @@
  */
 class Mage_Adminhtml_Block_Sales_Order_Create_Totals_Default extends Mage_Adminhtml_Block_Sales_Order_Create_Totals
 {
-    protected $_template = 'sales/order/create/totals/default.phtml';
+    protected $_template = 'Mage_Adminhtml::sales/order/create/totals/default.phtml';
 
     protected function _construct()
     {

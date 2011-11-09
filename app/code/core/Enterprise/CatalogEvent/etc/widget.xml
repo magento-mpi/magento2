@@ -29,6 +29,7 @@
     <event_lister type="Enterprise_CatalogEvent_Block_Widget_Lister" translate="name description" module="Enterprise_CatalogEvent">
         <name>Catalog Events Carousel</name>
         <description>List all open Catalog Events as a Paginated Carousel</description>
+        <placeholder_image>Enterprise_CatalogEvent::widget_lister.gif</placeholder_image>
         <parameters>
             <limit translate="label description">
                 <required>1</required>
@@ -54,10 +55,10 @@
             </width>
             <template>
                 <required>1</required>
-                <value>catalogevent/widget/lister.phtml</value>
+                <value>widget/lister.phtml</value>
                 <values>
                     <default translate="label">
-                        <value>catalogevent/widget/lister.phtml</value>
+                        <value>widget/lister.phtml</value>
                         <label>Catalog Events Carousel Default Template</label>
                     </default>
                 </values>

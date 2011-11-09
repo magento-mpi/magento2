@@ -219,11 +219,20 @@
             </core_copy_fieldset_sales_convert_quote_address_to_customer_address>
         </events>
     </global>
+    <frontend>
+        <layout>
+            <updates>
+                <enterprise_customer module="Enterprise_Customer">
+                    <file>layout.xml</file>
+                </enterprise_customer>
+            </updates>
+        </layout>
+    </frontend>
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_customer>
-                    <file>enterprise/customer.xml</file>
+                <enterprise_customer module="Enterprise_Customer">
+                    <file>layout.xml</file>
                 </enterprise_customer>
             </updates>
         </layout>
@@ -250,13 +259,4 @@
             </adminhtml>
         </routers>
     </admin>
-    <frontend>
-        <layout>
-            <updates>
-                <enterprise_customer module="Enterprise_Customer">
-                    <file>enterprise_customer.xml</file>
-                </enterprise_customer>
-            </updates>
-        </layout>
-    </frontend>
 </config>

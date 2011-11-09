@@ -35,7 +35,7 @@ class Mage_XmlConnect_Block_Customer_Order_Totals extends Mage_Sales_Block_Order
 {
     /**
      * Add order totals rendered to XML object
-     * (get from template: sales/order/totals.phtml)
+     * (get from template: order/totals.phtml)
      *
      * @param Mage_XmlConnect_Model_Simplexml_Element $orderXmlObj
      * @return null
@@ -51,12 +51,12 @@ class Mage_XmlConnect_Block_Customer_Order_Totals extends Mage_Sales_Block_Order
             'customerbalance'  => array(
                 'module'    => 'Enterprise_CustomerBalance',
                 'block'     => 'Mage_XmlConnect_Block_Customer_Order_Totals_Customerbalance',
-                'template'  => 'customerbalance/order/customerbalance.phtml'
+                'template'  => 'order/customerbalance.phtml'
             ),
             'customerbalance_total_refunded'  => array(
                 'module'    => 'Enterprise_CustomerBalance',
                 'block'     => 'Mage_XmlConnect_Block_Customer_Order_Totals_Customerbalance_Refunded',
-                'template'  => 'customerbalance/order/customerbalance_refunded.phtml',
+                'template'  => 'order/customerbalance_refunded.phtml',
                 'after'     => '-',
                 'action'    => array(
                     'method'    => 'setAfterTotal',
@@ -70,7 +70,7 @@ class Mage_XmlConnect_Block_Customer_Order_Totals extends Mage_Sales_Block_Order
             'giftcards'  => array(
                 'module'    => 'Enterprise_GiftCardAccount',
                 'block'     => 'Mage_XmlConnect_Block_Customer_Order_Totals_Giftcards',
-                'template'  => 'giftcardaccount/order/giftcards.phtml'
+                'template'  => 'order/giftcards.phtml'
             ),
         );
 

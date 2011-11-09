@@ -76,7 +76,7 @@ class Mage_Paypal_Block_Iframe extends Mage_Payment_Block_Form
         if (in_array($paymentCode, $this->helper('Mage_Paypal_Helper_Hss')->getHssMethods())) {
             $this->_paymentMethodCode = $paymentCode;
         }
-        $this->setTemplate('paypal/hss/iframe.phtml');
+        $this->setTemplate('hss/iframe.phtml');
     }
 
     /**
@@ -153,7 +153,7 @@ class Mage_Paypal_Block_Iframe extends Mage_Payment_Block_Form
     protected function _toHtml()
     {
         if ($this->_isAfterPaymentSave()) {
-            $this->setTemplate('paypal/hss/js.phtml');
+            $this->setTemplate('hss/js.phtml');
             return parent::_toHtml();
         }
         if (!$this->_shouldRender) {

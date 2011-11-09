@@ -186,10 +186,15 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
         }
 
         try {
-            $role->setName($this->getRequest()->getParam('rolename', false))
+            $roleName = Mage::helper('Mage_Adminhtml_Helper_Data')->stripTags($this->getRequest()->getParam('rolename', false));
+
+            $role->setName($roleName)
                  ->setPid($this->getRequest()->getParam('parent_id', false))
                  ->setRoleType('G');
-            Mage::dispatchEvent('admin_permissions_role_prepare_save', array('object' => $role, 'request' => $this->getRequest()));
+            Mage::dispatchEvent(
+                'admin_permissions_role_prepare_save',
+                array('object' => $role, 'request' => $this->getRequest())
+            );
             $role->save();
 
             Mage::getModel('Mage_Admin_Model_Rules')

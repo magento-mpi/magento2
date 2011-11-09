@@ -52,12 +52,13 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
         $this->_updateButton('save', 'label', Mage::helper('Mage_Customer_Helper_Data')->__('Save Customer'));
         $this->_updateButton('delete', 'label', Mage::helper('Mage_Customer_Helper_Data')->__('Delete Customer'));
 
-        if (Mage::registry('current_customer')->isReadonly()) {
+        $customer = Mage::registry('current_customer');
+        if ($customer && Mage::registry('current_customer')->isReadonly()) {
             $this->_removeButton('save');
             $this->_removeButton('reset');
         }
 
-        if (!Mage::registry('current_customer')->isDeleteable()) {
+        if (!$customer || !Mage::registry('current_customer')->isDeleteable()) {
             $this->_removeButton('delete');
         }
     }
@@ -69,7 +70,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
 
     public function getCustomerId()
     {
-        return Mage::registry('current_customer')->getId();
+        return Mage::registry('current_customer') ? Mage::registry('current_customer')->getId() : false;
     }
 
     public function getHeaderText()

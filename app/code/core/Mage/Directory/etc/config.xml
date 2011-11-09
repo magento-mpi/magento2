@@ -53,7 +53,7 @@
             <email>
                 <currency_import_error_email_template translate="label" module="Mage_Directory">
                     <label>Currency Update Warnings</label>
-                    <file>currency_update_warning.html</file>
+                    <file>email/currency_update_notification.html</file>
                     <type>text</type>
                 </currency_import_error_email_template>
             </email>
@@ -80,8 +80,8 @@
         </translate>
         <layout>
             <updates>
-                <directory>
-                    <file>directory.xml</file>
+                <directory module="Mage_Directory">
+                    <file>layout.xml</file>
                 </directory>
             </updates>
         </layout>

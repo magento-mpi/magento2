@@ -35,7 +35,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Form extends Mage_Adminhtml_Bl
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('enterprise/staging/log/view.phtml');
+        $this->setTemplate('log/view.phtml');
     }
 
     /**

@@ -41,7 +41,7 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
         parent::__construct();
 
         if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
-            $this->setTemplate('sales/order/history.phtml');
+            $this->setTemplate('order/history.phtml');
             $this->initOrders();
         }
 

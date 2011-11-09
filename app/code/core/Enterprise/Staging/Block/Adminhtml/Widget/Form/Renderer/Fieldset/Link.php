@@ -33,7 +33,7 @@ class Enterprise_Staging_Block_Adminhtml_Widget_Form_Renderer_Fieldset_Link exte
 {
     protected function _construct()
     {
-        $this->setTemplate('widget/form/renderer/fieldset/element.phtml');
+        $this->setTemplate('Mage_Adminhtml::widget/form/renderer/fieldset/element.phtml');
     }
 
     public function render(Varien_Data_Form_Element_Abstract $element)

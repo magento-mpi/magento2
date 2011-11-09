@@ -33,6 +33,13 @@ abstract class Mage_Index_Model_Indexer_Abstract extends Mage_Core_Model_Abstrac
     protected $_matchedEntities = array();
 
     /**
+     * Whether the indexer should be displayed on process/list page
+     *
+     * @var bool
+     */
+    protected $_isVisible = true;
+
+    /**
      * Get Indexer name
      *
      * @return string
@@ -44,7 +51,10 @@ abstract class Mage_Index_Model_Indexer_Abstract extends Mage_Core_Model_Abstrac
      *
      * @return string
      */
-    abstract public function getDescription();
+    public function getDescription()
+    {
+        return '';
+    }
 
     /**
      * Register indexer required data inside event object
@@ -141,9 +151,20 @@ abstract class Mage_Index_Model_Indexer_Abstract extends Mage_Core_Model_Abstrac
         }
         $method = str_replace(' ', '', ucwords(str_replace('_', ' ', $method)));
 
-        if (method_exists($this->_getResource(), $method)) {
-            $this->_getResource()->$method($event);
+        $resourceModel = $this->_getResource();
+        if (method_exists($resourceModel, $method)) {
+            $resourceModel->$method($event);
         }
         return $this;
+    }
+
+    /**
+     * Whether the indexer should be displayed on process/list page
+     *
+     * @return bool
+     */
+    public function isVisible()
+    {
+        return $this->_isVisible;
     }
 }

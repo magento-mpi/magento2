@@ -65,7 +65,7 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
             );
         }
 
-        $this->setTemplate('review/form.phtml')
+        $this->setTemplate('form.phtml')
             ->assign('data', $data)
             ->assign('messages', Mage::getSingleton('Mage_Review_Model_Session')->getMessages(true));
     }

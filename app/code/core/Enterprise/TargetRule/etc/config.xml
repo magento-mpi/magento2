@@ -40,6 +40,13 @@
                 </setup>
             </enterprise_targetrule_setup>
         </resources>
+        <index>
+            <indexer>
+                <targetrule>
+                    <model>Mage_Enterprise_TargetRule_Model_Index</model>
+                </targetrule>
+            </indexer>
+        </index>
     </global>
     <adminhtml>
         <events>
@@ -51,6 +58,14 @@
                     </enterprise_targetrule>
                 </observers>
             </catalog_product_save_after>
+            <catalog_product_save_commit_after>
+                <observers>
+                    <enterprise_targetrule>
+                        <class>nterprise_TargetRule_Model_Observer</class>
+                        <method>catalogProductSaveCommitAfter</method>
+                    </enterprise_targetrule>
+                </observers>
+            </catalog_product_save_commit_after>
         </events>
         <translate>
             <modules>
@@ -63,8 +78,8 @@
         </translate>
         <layout>
             <updates>
-                <enterprise_targetrule>
-                    <file>enterprise/targetrule.xml</file>
+                <enterprise_targetrule module="Enterprise_TargetRule">
+                    <file>layout.xml</file>
                 </enterprise_targetrule>
             </updates>
         </layout>
@@ -84,7 +99,7 @@
         <layout>
             <updates>
                 <enterprise_targetrule module="Enterprise_TargetRule">
-                    <file>targetrule.xml</file>
+                    <file>layout.xml</file>
                 </enterprise_targetrule>
             </updates>
         </layout>

@@ -93,11 +93,15 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
                 }
 
                 $permission->addData($data);
-                if ($permission->getGrantCatalogCategoryView() == Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY) {
-                    $permission->setGrantCatalogProductPrice(Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY);
+                $categoryViewPermission = $permission->getGrantCatalogCategoryView();
+                if (Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY == $categoryViewPermission) {
+                    $permission->setGrantCatalogProductPrice(
+                        Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY
+                    );
                 }
 
-                if ($permission->getGrantCatalogProductPrice() == Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY) {
+                $productPricePermission = $permission->getGrantCatalogProductPrice();
+                if (Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY == $productPricePermission) {
                     $permission->setGrantCheckoutItems(Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY);
                 }
                 $permission->setCategoryId($category->getId());
@@ -131,17 +135,37 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
     public function reindexPermissions()
     {
         if (!empty($this->_indexQueue)) {
+            /** @var $indexer Mage_Index_Model_Indexer */
+            $indexer = Mage::getSingleton('Mage_Index_Model_Indexer');
             foreach ($this->_indexQueue as $item) {
-                Mage::getSingleton('Enterprise_CatalogPermissions_Model_Permission_Index')->reindex($item);
+                $indexer->logEvent(
+                    new Varien_Object(array('id' => $item)),
+                    Enterprise_CatalogPermissions_Model_Permission_Index::ENTITY_CATEGORY,
+                    Enterprise_CatalogPermissions_Model_Permission_Index::EVENT_TYPE_REINDEX_PRODUCTS
+                );
             }
             $this->_indexQueue = array();
+            $indexer->indexEvents(
+                Enterprise_CatalogPermissions_Model_Permission_Index::ENTITY_CATEGORY,
+                Enterprise_CatalogPermissions_Model_Permission_Index::EVENT_TYPE_REINDEX_PRODUCTS
+            );
             Mage::app()->cleanCache(array(Mage_Catalog_Model_Category::CACHE_TAG));
         }
 
         if (!empty($this->_indexProductQueue)) {
+            /** @var $indexer Mage_Index_Model_Indexer */
+            $indexer = Mage::getSingleton('Mage_Index_Model_Indexer');
             foreach ($this->_indexProductQueue as $item) {
-                Mage::getSingleton('Enterprise_CatalogPermissions_Model_Permission_Index')->reindexProducts($item);
+                $indexer->logEvent(
+                    new Varien_Object(array('id' => $item)),
+                    Enterprise_CatalogPermissions_Model_Permission_Index::ENTITY_PRODUCT,
+                    Enterprise_CatalogPermissions_Model_Permission_Index::EVENT_TYPE_REINDEX_PRODUCTS
+                );
             }
+            $indexer->indexEvents(
+                Enterprise_CatalogPermissions_Model_Permission_Index::ENTITY_PRODUCT,
+                Enterprise_CatalogPermissions_Model_Permission_Index::EVENT_TYPE_REINDEX_PRODUCTS
+            );
             $this->_indexProductQueue = array();
         }
 
@@ -156,7 +180,11 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
     public function cleanCacheOnConfigChange()
     {
         Mage::app()->cleanCache(array(Mage_Catalog_Model_Category::CACHE_TAG));
-        Mage::getSingleton('Enterprise_CatalogPermissions_Model_Permission_Index')->reindexProductsStandalone();
+        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
+            new Varien_Object(),
+            Enterprise_CatalogPermissions_Model_Permission_Index::ENTITY_CONFIG,
+            Mage_Index_Model_Event::TYPE_SAVE
+        );
         return $this;
     }
 

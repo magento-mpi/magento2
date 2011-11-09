@@ -40,7 +40,7 @@ class Mage_Catalog_Block_Layer_State extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('catalog/layer/state.phtml');
+        $this->setTemplate('layer/state.phtml');
     }
 
     /**

@@ -36,7 +36,7 @@ class Social_Facebook_Block_Start extends Mage_Core_Block_Template
         }
         parent::_construct();
 
-        $this->setTemplate('social/facebook/empty.phtml');
+        $this->setTemplate('empty.phtml');
 
         $this->setShowSumm(Social_Facebook_Block_Start::FACEBOOK_BLOCK_NO_TEXT);
 

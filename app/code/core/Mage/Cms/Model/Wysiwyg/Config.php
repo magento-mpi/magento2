@@ -106,7 +106,7 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
      */
     public function getSkinImagePlaceholderUrl()
     {
-        return Mage::getDesign()->getSkinUrl('images/wysiwyg/skin_image.png');
+        return Mage::getDesign()->getSkinUrl('Mage_Cms::images/wysiwyg_skin_image.png');
     }
 
     /**

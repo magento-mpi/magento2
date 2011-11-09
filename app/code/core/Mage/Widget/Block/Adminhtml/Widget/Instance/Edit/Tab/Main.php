@@ -121,8 +121,8 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
 
         $this->_addElementTypes($fieldset);
 
-        $fieldset->addField('type', 'select', array(
-            'name'  => 'type',
+        $fieldset->addField('instance_type', 'select', array(
+            'name'  => 'instance_type',
             'label' => Mage::helper('Mage_Widget_Helper_Data')->__('Type'),
             'title' => Mage::helper('Mage_Widget_Helper_Data')->__('Type'),
             'class' => '',
@@ -130,12 +130,11 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
             'disabled' => true
         ));
 
-        $fieldset->addField('package_theme', 'select', array(
+        $fieldset->addField('package_theme', 'text', array(
             'name'  => 'package_theme',
             'label' => Mage::helper('Mage_Widget_Helper_Data')->__('Design Package/Theme'),
             'title' => Mage::helper('Mage_Widget_Helper_Data')->__('Design Package/Theme'),
             'required' => false,
-            'values'   => $this->getPackegeThemeOptionsArray(),
             'disabled' => true
         ));
 
@@ -189,17 +188,6 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
     public function getTypesOptionsArray()
     {
         return $this->getWidgetInstance()->getWidgetsOptionArray();
-    }
-
-    /**
-     * Retrieve design package/theme options array
-     *
-     * @return array
-     */
-    public function getPackegeThemeOptionsArray()
-    {
-        return Mage::getModel('Mage_Core_Model_Design_Source_Design')
-            ->setIsFullLabel(true)->getAllOptions(true);
     }
 
     /**

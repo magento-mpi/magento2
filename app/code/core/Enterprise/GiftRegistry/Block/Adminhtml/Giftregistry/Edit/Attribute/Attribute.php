@@ -38,7 +38,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('enterprise/giftregistry/edit/attributes.phtml');
+        $this->setTemplate('edit/attributes.phtml');
     }
 
     /**

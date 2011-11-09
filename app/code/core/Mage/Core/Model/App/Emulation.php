@@ -102,7 +102,7 @@ class Mage_Core_Model_App_Emulation extends Varien_Object
         if (is_null($storeId)) {
             $newTranslateInline = false;
         } else {
-            if ($area == Mage_Core_Model_App_Area::AREA_ADMINHTML) {
+            if ($area == Mage_Core_Model_App_Area::AREA_ADMIN) {
                 $newTranslateInline = Mage::getStoreConfigFlag('dev/translate_inline/active_admin', $storeId);
             } else {
                 $newTranslateInline = Mage::getStoreConfigFlag('dev/translate_inline/active', $storeId);
@@ -124,13 +124,23 @@ class Mage_Core_Model_App_Emulation extends Varien_Object
      */
     protected function _emulateDesign($storeId, $area = Mage_Core_Model_App_Area::AREA_FRONTEND)
     {
-        $initialDesign = Mage::getDesign()->setAllGetOld(array(
-            'package' => Mage::getStoreConfig('design/package/name', $storeId),
-            'store'   => $storeId,
-            'area'    => $area
-        ));
-        Mage::getDesign()->setTheme('');
-        Mage::getDesign()->setPackageName('');
+        $design = Mage::getDesign();
+        $initialDesign = array(
+            'area' => $design->getArea(),
+            'theme' => $design->getDesignTheme(),
+            'store' => Mage::app()->getStore()
+        );
+
+        $storeTheme = Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME, $storeId);
+        $design->setDesignTheme($storeTheme);
+
+        if ($area == Mage_Core_Model_App_Area::AREA_FRONTEND) {
+            $designChange = Mage::getSingleton('core/design')->loadChange($storeId);
+            if ($designChange->getData()) {
+                $design->setDesignTheme($designChange->getDesign());
+            }
+        }
+
         return $initialDesign;
     }
 
@@ -174,9 +184,8 @@ class Mage_Core_Model_App_Emulation extends Varien_Object
      */
     protected function _restoreInitialDesign(array $initialDesign)
     {
-        Mage::getDesign()->setAllGetOld($initialDesign);
-        Mage::getDesign()->setTheme('');
-        Mage::getDesign()->setPackageName('');
+        Mage::getDesign()->setArea($initialDesign['area']);
+        Mage::getDesign()->setDesignTheme($initialDesign['theme']);
         return $this;
     }
 
@@ -188,7 +197,7 @@ class Mage_Core_Model_App_Emulation extends Varien_Object
      *
      * @return Mage_Core_Model_App_Emulation
      */
-    protected function _restoreInitialLocale($initialLocaleCode, $initialArea = Mage_Core_Model_App_Area::AREA_ADMINHTML)
+    protected function _restoreInitialLocale($initialLocaleCode, $initialArea = Mage_Core_Model_App_Area::AREA_ADMIN)
     {
         Mage::app()->getLocale()->setLocaleCode($initialLocaleCode);
         Mage::getSingleton('Mage_Core_Model_Translate')->setLocale($initialLocaleCode)->init($initialArea, true);

@@ -35,7 +35,7 @@ class Enterprise_Logging_Block_Adminhtml_System_Config_Actions
      */
     protected function _construct()
     {
-        $this->setTemplate('enterprise/logging/system/config/actions.phtml');
+        $this->setTemplate('system/config/actions.phtml');
         return parent::_construct();
     }
 

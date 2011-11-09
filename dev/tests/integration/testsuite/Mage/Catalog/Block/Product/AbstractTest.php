@@ -112,7 +112,7 @@ class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testGetTierPriceTemplate()
     {
-        $this->assertEquals('catalog/product/view/tierprices.phtml', $this->_block->getTierPriceTemplate());
+        $this->assertEquals('product/view/tierprices.phtml', $this->_block->getTierPriceTemplate());
         $this->_block->setData('tier_price_template', 'test.phtml');
         $this->assertEquals('test.phtml', $this->_block->getTierPriceTemplate());
     }
@@ -176,7 +176,6 @@ class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testThumbnail()
     {
-        $this->markTestSkipped("Functionality not implemented in Magento 1.x. Implemented in Magento 2");
         $size = $this->_block->getThumbnailSize();
         $this->assertGreaterThan(1, $size);
         $this->assertContains('/'.$size, $this->_block->getThumbnailUrl($this->_product));
@@ -184,7 +183,6 @@ class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testThumbnailSidebar()
     {
-        $this->markTestSkipped("Functionality not implemented in Magento 1.x. Implemented in Magento 2");
         $size = $this->_block->getThumbnailSidebarSize();
         $this->assertGreaterThan(1, $size);
         $this->assertContains('/'.$size, $this->_block->getThumbnailSidebarUrl($this->_product));
@@ -192,7 +190,6 @@ class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testSmallImage()
     {
-        $this->markTestSkipped("Functionality not implemented in Magento 1.x. Implemented in Magento 2");
         $size = $this->_block->getSmallImageSize();
         $this->assertGreaterThan(1, $size);
         $this->assertContains('/'.$size, $this->_block->getSmallImageUrl($this->_product));
@@ -200,7 +197,6 @@ class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testSmallImageSidebar()
     {
-        $this->markTestSkipped("Functionality not implemented in Magento 1.x. Implemented in Magento 2");
         $size = $this->_block->getSmallImageSidebarSize();
         $this->assertGreaterThan(1, $size);
         $this->assertContains('/'.$size, $this->_block->getSmallImageSidebarUrl($this->_product));
@@ -208,7 +204,6 @@ class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testBaseImage()
     {
-        $this->markTestSkipped("Functionality not implemented in Magento 1.x. Implemented in Magento 2");
         $size = $this->_block->getBaseImageSize();
         $this->assertGreaterThan(1, $size);
         $this->assertContains('/'.$size, $this->_block->getBaseImageUrl($this->_product));
@@ -216,9 +211,9 @@ class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testBaseImageIcon()
     {
-        $this->markTestSkipped("Functionality not implemented in Magento 1.x. Implemented in Magento 2");
         $size = $this->_block->getBaseImageIconSize();
         $this->assertGreaterThan(1, $size);
         $this->assertContains('/'.$size, $this->_block->getBaseImageIconUrl($this->_product));
     }
 }
+

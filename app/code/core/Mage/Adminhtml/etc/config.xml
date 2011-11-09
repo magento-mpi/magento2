@@ -36,7 +36,7 @@
             <email>
                 <admin_emails_forgot_email_template translate="label" module="Mage_Adminhtml">
                     <label>Forgot Admin Password</label>
-                    <file>admin_password_reset_confirmation.html</file>
+                    <file>email/password_reset_confirmation.html</file>
                     <type>html</type>
                 </admin_emails_forgot_email_template>
             </email>
@@ -127,21 +127,45 @@
         </translate>
         <layout>
             <updates>
-                <adminhtml>
+                <admin module="Mage_Adminhtml">
+                    <file>admin.xml</file>
+                </admin>
+                <adminhtml module="Mage_Adminhtml">
                     <file>main.xml</file>
                 </adminhtml>
-                <report>
-                    <file>report.xml</file>
-                </report>
-                <catalog>
+                <adminnotification module="Mage_Adminhtml">
+                    <file>adminnotification.xml</file>
+                </adminnotification>
+                <catalog module="Mage_Adminhtml">
                     <file>catalog.xml</file>
                 </catalog>
-                <customer>
+                <catalogsearch module="Mage_Adminhtml">
+                    <file>catalogsearch.xml</file>
+                </catalogsearch>
+                <cms module="Mage_Adminhtml">
+                    <file>cms.xml</file>
+                </cms>
+                <customer module="Mage_Adminhtml">
                     <file>customer.xml</file>
                 </customer>
-                <promo>
+                <dataflow module="Mage_Adminhtml">
+                    <file>dataflow.xml</file>
+                </dataflow>
+                <newsletter module="Mage_Adminhtml">
+                    <file>newsletter.xml</file>
+                </newsletter>
+                <promo module="Mage_Adminhtml">
                     <file>promo.xml</file>
                 </promo>
+                <report module="Mage_Adminhtml">
+                    <file>report.xml</file>
+                </report>
+                <sales module="Mage_Adminhtml">
+                    <file>sales.xml</file>
+                </sales>
+                <tag module="Mage_Adminhtml">
+                    <file>tag.xml</file>
+                </tag>
             </updates>
         </layout>
         <sales>

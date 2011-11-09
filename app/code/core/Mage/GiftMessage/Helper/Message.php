@@ -56,26 +56,6 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
     protected $_innerCache = array();
 
     /**
-     * Retrive old stule edit button html for editing of giftmessage in popup
-     *
-     * @param string $type
-     * @param Varien_Object $entity
-     * @return string
-     */
-    public function getButton($type, Varien_Object $entity)
-    {
-        if (!$this->isMessagesAvailable($type, $entity)) {
-            return '&nbsp;';
-        }
-
-        return Mage::getSingleton('Mage_Core_Model_Layout')->createBlock('Mage_GiftMessage_Block_Message_Helper')
-            ->setId('giftmessage_button_' . $this->_nextId++)
-            ->setCanDisplayContainer(true)
-            ->setEntity($entity)
-            ->setType($type)->toHtml();
-    }
-
-    /**
      * Retrive inline giftmessage edit form for specified entity
      *
      * @param string $type

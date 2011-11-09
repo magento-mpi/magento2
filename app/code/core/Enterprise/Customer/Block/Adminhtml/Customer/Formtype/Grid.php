@@ -82,8 +82,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Ad
             'type'      => 'store'
         ));
 
-        $design = Mage::getModel('Mage_Core_Model_Design_Source_Design')
-            ->setIsFullLabel(true)->getAllOptions(false);
+        $design = Mage::getModel('Mage_Core_Model_Design_Source_Design')->getAllOptions(false);
         array_unshift($design, array(
             'value' => 'all',
             'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('All Themes')

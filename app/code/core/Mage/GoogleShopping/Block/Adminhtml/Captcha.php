@@ -38,7 +38,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Captcha extends Mage_Adminhtml_Block_T
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('googleshopping/captcha.phtml');
+        $this->setTemplate('captcha.phtml');
     }
 
     /**

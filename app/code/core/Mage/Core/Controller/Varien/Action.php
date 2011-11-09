@@ -127,6 +127,13 @@ abstract class Mage_Core_Controller_Varien_Action
     protected $_removeDefaultTitle = false;
 
     /**
+     * Custom design parameters for current area
+     *
+     * @var string
+     */
+    protected $_areaDesign = null;
+
+    /**
      * Constructor
      *
      * @param Zend_Controller_Request_Abstract $request
@@ -281,7 +288,7 @@ abstract class Mage_Core_Controller_Varien_Action
         // load theme handle
         $package = Mage::getSingleton('Mage_Core_Model_Design_Package');
         $update->addHandle(
-            'THEME_'.$package->getArea().'_'.$package->getPackageName().'_'.$package->getTheme('layout')
+            'THEME_'.$package->getArea().'_'.$package->getPackageName().'_'.$package->getTheme()
         );
 
         // load action handle
@@ -498,6 +505,16 @@ abstract class Mage_Core_Controller_Varien_Action
         }
 
         Mage::app()->loadArea($this->getLayout()->getArea());
+        $areaDesign = $this->_areaDesign ?: Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME);
+        $design = Mage::getDesign()->setDesignTheme($areaDesign, $this->getLayout()->getArea());
+
+        if ($this->_currentArea == Mage_Core_Model_App_Area::AREA_FRONTEND) {
+            if (!$this->_applyUserAgentDesignException($design)) {
+                Mage::getSingleton('core/design')
+                    ->loadChange(Mage::app()->getStore()->getStoreId())
+                    ->changeDesign($design);
+            }
+        }
 
         if ($this->getFlag('', self::FLAG_NO_COOKIES_REDIRECT)
             && Mage::getStoreConfig('web/browser_capabilities/cookies')) {
@@ -518,6 +535,35 @@ abstract class Mage_Core_Controller_Varien_Action
             'controller_action_predispatch_'.$this->getFullActionName(),
             array('controller_action'=>$this)
         );
+    }
+
+    /**
+     * Analyze user-agent information to override custom design settings
+     *
+     * @param Mage_Core_Model_Design_Package $design
+     * @return bool
+     */
+    protected function _applyUserAgentDesignException(Mage_Core_Model_Design_Package $design)
+    {
+        if (empty($_SERVER['HTTP_USER_AGENT'])) {
+            return false;
+        }
+        try {
+            $expressions = Mage::getStoreConfig('design/theme/ua_regexp');
+            if (!$expressions) {
+                return false;
+            }
+            $expressions = unserialize($expressions);
+            foreach ($expressions as $rule) {
+                if (preg_match($rule['regexp'], $_SERVER['HTTP_USER_AGENT'])) {
+                    $design->setDesignTheme($rule['value']);
+                    return true;
+                }
+            }
+        } catch (Exception $e) {
+            Mage::logException($e);
+        }
+        return false;
     }
 
     /**
@@ -542,11 +588,13 @@ abstract class Mage_Core_Controller_Varien_Action
 
     public function norouteAction($coreRoute = null)
     {
-        $status = ( $this->getRequest()->getParam('__status__') )
-            ? $this->getRequest()->getParam('__status__')
-            : new Varien_Object();
+        $status = $this->getRequest()->getParam('__status__');
+        if (!$status instanceof Varien_Object) {
+            $status = new Varien_Object();
+        }
 
         Mage::dispatchEvent('controller_action_noroute', array('action'=>$this, 'status'=>$status));
+
         if ($status->getLoaded() !== true
             || $status->getForwarded() === true
             || !is_null($coreRoute) ) {

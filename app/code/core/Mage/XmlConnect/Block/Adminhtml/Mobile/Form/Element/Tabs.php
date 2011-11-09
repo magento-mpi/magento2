@@ -49,7 +49,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Tabs
         $block = new $blockClassName;
         $device = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceType();
         if (array_key_exists($device, Mage::helper('Mage_XmlConnect_Helper_Data')->getSupportedDevices())) {
-            $template = 'xmlconnect/form/element/app_tabs_' . strtolower($device) . '.phtml';
+            $template = 'Mage_XmlConnect::form/element/app_tabs_' . strtolower($device) . '.phtml';
         } else {
             Mage::throwException(
                 $this->__('Device doesn\'t recognized. Unable to load a template.')

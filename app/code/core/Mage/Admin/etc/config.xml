@@ -49,13 +49,4 @@
             </emails>
         </admin>
     </default>
-    <adminhtml>
-        <layout>
-            <updates>
-                <admin>
-                    <file>admin.xml</file>
-                </admin>
-            </updates>
-        </layout>
-    </adminhtml>
 </config>

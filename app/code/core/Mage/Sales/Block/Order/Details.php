@@ -38,9 +38,13 @@ class Mage_Sales_Block_Order_Details extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('sales/order/details.phtml');
+        $this->setTemplate('order/details.phtml');
         $this->setOrder(Mage::getModel('Mage_Sales_Model_Order')->load($this->getRequest()->getParam('order_id')));
-        Mage::registry('action')->getLayout()->getBlock('root')->setHeaderTitle(Mage::helper('Mage_Sales_Helper_Data')->__('Order Details'));
+        if (Mage::registry('action')) {
+            Mage::registry('action')->getLayout()->getBlock('root')->setHeaderTitle(
+                Mage::helper('Mage_Sales_Helper_Data')->__('Order Details')
+            );
+        }
     }
 
     public function getBackUrl()

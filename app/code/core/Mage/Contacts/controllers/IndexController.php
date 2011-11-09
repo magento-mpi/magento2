@@ -93,7 +93,7 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
                 }
                 $mailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
                 /* @var $mailTemplate Mage_Core_Model_Email_Template */
-                $mailTemplate->setDesignConfig(array('area' => 'frontend'))
+                $mailTemplate->setDesignConfig(array('area' => 'frontend', 'store' => Mage::app()->getStore()->getId()))
                     ->setReplyTo($post['email'])
                     ->sendTransactional(
                         Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE),

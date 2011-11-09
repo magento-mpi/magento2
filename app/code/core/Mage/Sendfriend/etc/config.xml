@@ -43,8 +43,8 @@
         <template>
             <email>
                 <sendfriend_email_template translate="label" module="Mage_Sendfriend">
-                    <label>Send product to a friend</label>
-                    <file>product_share.html</file>
+                    <label>Send Product Link to Friend</label>
+                    <file>email/product_share.html</file>
                     <type>html</type>
                 </sendfriend_email_template>
             </email>
@@ -83,8 +83,8 @@
         </routers>
         <layout>
             <updates>
-                <sendfriend>
-                    <file>sendfriend.xml</file>
+                <sendfriend module="Mage_Sendfriend">
+                    <file>layout.xml</file>
                 </sendfriend>
             </updates>
         </layout>

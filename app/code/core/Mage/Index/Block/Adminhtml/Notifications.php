@@ -35,8 +35,11 @@ class Mage_Index_Block_Adminhtml_Notifications extends Mage_Adminhtml_Block_Temp
     {
         $res = array();
         $processes = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessesCollection();
+        /** @var $process Mage_Index_Model_Process */
         foreach ($processes as $process) {
-            if ($process->getStatus() == Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX) {
+            if ($process->getStatus() == Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX
+                && $process->getIndexer()->isVisible()
+            ) {
                 $res[] = $process->getIndexer()->getName();
             }
         }

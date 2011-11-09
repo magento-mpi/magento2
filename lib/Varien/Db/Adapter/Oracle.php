@@ -252,6 +252,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $this->_debugTimer();
             parent::commit();
             $this->_debugStat(self::DEBUG_TRANSACTION, 'COMMIT');
+        } elseif ($this->_transactionLevel === 0) {
+            throw new Exception('Asymmetric transaction commit.');
         }
         --$this->_transactionLevel;
 
@@ -269,6 +271,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $this->_debugTimer();
             parent::rollBack();
             $this->_debugStat(self::DEBUG_TRANSACTION, 'ROLLBACK');
+        } elseif ($this->_transactionLevel === 0) {
+            throw new Exception('Asymmetric transaction rollback.');
         }
         --$this->_transactionLevel;
 

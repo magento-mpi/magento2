@@ -45,7 +45,7 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
         $this->addItemRender(
             'default',
             'Mage_Checkout_Block_Cart_Item_Renderer',
-            'checkout/cart/sidebar/default.phtml'
+            'cart/sidebar/default.phtml'
         );
     }
 

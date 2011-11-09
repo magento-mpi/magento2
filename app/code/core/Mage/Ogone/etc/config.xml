@@ -92,8 +92,8 @@
     <frontend>
         <layout>
             <updates>
-                <ogone>
-                    <file>ogone.xml</file>
+                <ogone module="Mage_Ogone">
+                    <file>layout.xml</file>
                 </ogone>
             </updates>
         </layout>

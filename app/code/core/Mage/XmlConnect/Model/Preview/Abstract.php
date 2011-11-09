@@ -156,7 +156,7 @@ abstract class Mage_XmlConnect_Model_Preview_Abstract extends Varien_Object
             foreach ($tabs->getEnabledTabs() as $tab) {
                 $tab = (array) $tab;
                 $conf['tabBar'][$tab['action']]['label'] = $tab['label'];
-                $conf['tabBar'][$tab['action']]['image'] = $this->getPreviewImagesUrl($tab['image']);
+                $conf['tabBar'][$tab['action']]['image'] = $tab['image'];
             }
         }
         $this->setData('conf', $conf);

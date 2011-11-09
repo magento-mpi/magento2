@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<design>
+    <package code="default">
+        <title>Y</title>
+        <theme code="default" version="0.0.0.1">
+            <title>Y</title>
+            <requirements>
+                <magento_version from="0.0.0.1" to="0.0.0.1"/>
+            </requirements>
+        </theme>
+        <theme code="g" version="0.0.0.1">
+            <title>A</title>
+            <requirements>
+                <magento_version from="0.0.0.1" to="0.0.0.1"/>
+            </requirements>
+        </theme>
+    </package>
+</design>

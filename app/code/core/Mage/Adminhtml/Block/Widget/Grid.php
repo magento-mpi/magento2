@@ -213,7 +213,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     public function __construct($attributes=array())
     {
         parent::__construct($attributes);
-        $this->setTemplate('widget/grid.phtml');
+        $this->setTemplate('Mage_Adminhtml::widget/grid.phtml');
         $this->setRowClickCallback('openGridRow');
         $this->_emptyText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('No records found.');
     }

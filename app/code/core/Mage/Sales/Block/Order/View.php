@@ -36,7 +36,7 @@ class Mage_Sales_Block_Order_View extends Mage_Core_Block_Template
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('sales/order/view.phtml');
+        $this->setTemplate('order/view.phtml');
     }
 
     protected function _prepareLayout()

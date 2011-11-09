@@ -43,7 +43,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container
     {
         parent::__construct();
         $this->setShowGlobalIcon(true);
-        $this->setTemplate('xmlconnect/submission/container.phtml');
+        $this->setTemplate('submission/container.phtml');
     }
 
     /**

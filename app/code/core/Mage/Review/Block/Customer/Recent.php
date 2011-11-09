@@ -37,7 +37,7 @@ class Mage_Review_Block_Customer_Recent extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('review/customer/list.phtml');
+        $this->setTemplate('customer/list.phtml');
 
         $this->_collection = Mage::getModel('Mage_Review_Model_Review')->getProductCollection();
 

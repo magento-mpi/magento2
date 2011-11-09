@@ -39,7 +39,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle extends Mage_A
     {
         parent::__construct();
         $this->setSkipGenerateContent(true);
-        $this->setTemplate('bundle/product/edit/bundle.phtml');
+        $this->setTemplate('product/edit/bundle.phtml');
     }
 
     public function getTabUrl()

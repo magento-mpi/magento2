@@ -42,9 +42,9 @@
         </resources>
         <template>
             <email>
-                <checkout_payment_failed_template translate="label" module="Mage_Sales">
+                <checkout_payment_failed_template translate="label" module="Mage_Checkout">
                     <label>Payment Failed</label>
-                    <file>payment_failed.html</file>
+                    <file>email/failed_payment.html</file>
                     <type>html</type>
                 </checkout_payment_failed_template>
             </email>
@@ -111,8 +111,8 @@
         </translate>
         <layout>
             <updates>
-                <checkout>
-                    <file>checkout.xml</file>
+                <checkout module="Mage_Checkout">
+                    <file>layout.xml</file>
                 </checkout>
             </updates>
         </layout>

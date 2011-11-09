@@ -52,20 +52,11 @@
             </adminhtml>
         </routers>
     </admin>
-    <adminhtml>
-        <layout>
-            <updates>
-                <social_facebook>
-                    <file>facebook.xml</file>
-                </social_facebook>
-            </updates>
-        </layout>
-    </adminhtml>
     <frontend>
         <layout>
             <updates>
-                <social_facebook>
-                    <file>facebook.xml</file>
+                <social_facebook module="Social_Facebook">
+                    <file>layout.xml</file>
                 </social_facebook>
             </updates>
         </layout>

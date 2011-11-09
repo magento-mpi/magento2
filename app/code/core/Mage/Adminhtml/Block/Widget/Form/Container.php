@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
         parent::__construct();
 
         if (!$this->hasData('template')) {
-            $this->setTemplate('widget/form/container.phtml');
+            $this->setTemplate('Mage_Adminhtml::widget/form/container.phtml');
         }
 
         $this->_addButton('back', array(

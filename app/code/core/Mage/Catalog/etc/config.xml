@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>1.6.0.0.6</version>
+            <version>1.6.0.0.8</version>
         </Mage_Catalog>
     </modules>
     <global>
@@ -305,11 +305,11 @@
         </translate>
         <layout>
             <updates>
-                <catalog>
-                    <file>catalog.xml</file>
+                <catalog module="Mage_Catalog">
+                    <file>layout.xml</file>
                 </catalog>
-                <map>
-                    <file>catalog_msrp.xml</file>
+                <map module="Mage_Catalog">
+                    <file>msrp.xml</file>
                 </map>
             </updates>
         </layout>
@@ -419,7 +419,7 @@
                     <cron_expr>0 2 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Mage_Catalog_Model_Product_Indexer_Price::reindexAll</model>
+                    <model>Mage_Catalog_Model_Observer::reindexProductPrices</model>
                 </run>
             </catalog_product_index_price_reindex_all>
         </jobs>

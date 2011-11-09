@@ -62,7 +62,7 @@ class Mage_Paypal_PayflowController extends Mage_Paypal_Controller_Express_Abstr
         $gotoSection = $this->_cancelPayment();
         $redirectBlock = $this->_getIframeBlock()
             ->setGotoSection($gotoSection)
-            ->setTemplate('paypal/payflowlink/redirect.phtml');
+            ->setTemplate('payflowlink/redirect.phtml');
         $this->getResponse()->setBody($redirectBlock->toHtml());
     }
 
@@ -72,8 +72,7 @@ class Mage_Paypal_PayflowController extends Mage_Paypal_Controller_Express_Abstr
     public function returnUrlAction()
     {
         $errorMsg = '';
-        $session = $this->_getCheckout();
-        $quote = $session->getQuote();
+        $session = $this->_getCheckout();        $quote = $session->getQuote();
         /** @var $payment Mage_Sales_Model_Quote_Payment */
         $payment = $quote->getPayment();
         $gotoSection = 'payment';
@@ -92,7 +91,7 @@ class Mage_Paypal_PayflowController extends Mage_Paypal_Controller_Express_Abstr
         }
 
         $redirectBlock = $this->_getIframeBlock()
-            ->setTemplate('paypal/payflowlink/redirect.phtml');
+            ->setTemplate('payflowlink/redirect.phtml');
 
         $redirectBlock->setErrorMsg($errorMsg);
         $redirectBlock->setGotoSection($gotoSection);
