@@ -259,7 +259,7 @@ class Enterprise_Logging_Model_Processor
              */
             $additionalData = array_diff($additionalData, $skipData);
 
-            $className = Mage::getConfig()->getModelClassName(str_replace('__', '/', $expect));
+            $className = Mage::getConfig()->getModelClassName($expect);
             if ($model instanceof $className) {
                 $classMap = $this->_getCallbackFunction(trim($callback), $this->_modelsHandler,
                     sprintf('model%sAfter', ucfirst($action)));

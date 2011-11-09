@@ -29,7 +29,7 @@
     <enterprise_giftregistry_type translate="label">
         <label>Gift Registry Type</label>
         <expected_models>
-            <enterprise_giftregistry__type/>
+            <Enterprise_GiftRegistry_Model_Type/>
         </expected_models>
         <actions>
 
@@ -51,8 +51,8 @@
     <enterprise_giftregistry_entity>
         <label>Gift Registry Entity</label>
         <expected_models>
-            <enterprise_giftregistry__entity/>
-            <enterprise_giftregistry__item/>
+            <Enterprise_GiftRegistry_Model_Rntity/>
+            <Enterprise_GiftRegistry_Model_Item/>
         </expected_models>
         <actions>
 

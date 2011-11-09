@@ -29,7 +29,7 @@
     <enterprise_invitation translate="label">
         <label>Customer Invitations</label>
         <expected_models>
-            <enterprise_invitation__invitation/>
+            <Enterprise_Invitation_Model_Invitation/>
         </expected_models>
         <actions>
             <adminhtml_invitation_view>

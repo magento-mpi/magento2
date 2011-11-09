@@ -29,7 +29,7 @@
     <enterprise_staging translate="label">
         <label>Content Staging</label>
         <expected_models>
-            <enterprise_staging__staging/>
+            <Enterprise_Staging_Model_Staging/>
         </expected_models>
         <actions>
             <adminhtml_staging_manage_edit>
@@ -55,13 +55,13 @@
             <adminhtml_staging_backup_delete>
                 <action>delete</action>
                 <expected_models>
-                    <enterprise_staging__staging_action/>
+                    <Enterprise_Staging_Model_Staging_Action/>
                 </expected_models>
             </adminhtml_staging_backup_delete>
             <adminhtml_staging_backup_massDelete>
                 <action>massDelete</action>
                 <expected_models>
-                    <enterprise_staging__staging_action/>
+                    <Enterprise_Staging_Model_Staging_Action/>
                 </expected_models>
             </adminhtml_staging_backup_massDelete>
         </actions>
