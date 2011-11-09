@@ -32,7 +32,7 @@
  * Project root directory
  * @var sting
  */
-define('DEV_ROOT', dirname(dirname(__FILE__)));
+define('DEV_ROOT', realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..'));
 /**
  * Project libraries root directory
  * @var sting
