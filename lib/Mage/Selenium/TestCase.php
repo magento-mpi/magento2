@@ -1104,6 +1104,36 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Fill simple tab by source data
+     *
+     * @param array|string $tabData Array of data to filling or datasource name
+     * @param string $tabName Defines a specific Tab on a page
+     */
+    public function fillSimpleTab($tabData, $tabName)
+    {
+        if (is_string($tabData)) {
+            $tabData = $this->loadData($tabData);
+        }
+        if (!is_array($data)) {
+            throw new InvalidArgumentException('Argument "tabData" must be an array!!!');
+        }
+        $tabData = $this->arrayEmptyClear($tabData);
+        $waitAjax = false;
+        $tabXpath = $this->_getControlXpath('tab', $tabName);
+        $isTabOpened = $this->getAttribute($tabXpath . '/parent::*/@class');
+        if (!preg_match('/active/', $isTabOpened)) {
+            if (preg_match('/ajax/', $isTabOpened)) {
+                $waitAjax = true;
+            }
+            $this->clickControl('tab', $tabName, false);
+            if ($waitAjax) {
+                $this->pleaseWait();
+            }
+        }
+        $this->fillForm($data, $tabName);
+    }
+
+    /**
      * Fills any form by source data. Specific Tab can be filled only (if it defined)
      *
      * @param array|string $data Array of data to filling or datasource name
