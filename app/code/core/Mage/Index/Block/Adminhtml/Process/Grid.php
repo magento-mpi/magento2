@@ -112,7 +112,7 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('update_required', array(
-            'header'    => Mage::helper('index')->__('Update Required'),
+            'header'    => Mage::helper('Mage_Index_Helper_Data')->__('Update Required'),
             'width'     => '120',
             'align'     => 'left',
             'index'     => 'update_required',

@@ -236,7 +236,7 @@
                 <title>Credit Card</title>
             </payflow_link>
             <payflow_advanced>
-                <model>paypal/payflowadvanced</model>
+                <model>Mage_Paypal_Model_Payflowadvanced</model>
                 <payment_action>Authorization</payment_action>
                 <verbosity>HIGH</verbosity>
                 <pwd backend_model="adminhtml/system_config_backend_encrypted"/>

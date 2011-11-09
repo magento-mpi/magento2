@@ -21,7 +21,7 @@ class Mage_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_TestCa
     {
         Mage::getDesign()->setDesignTheme('default/default/default', 'adminhtml');
         $model = new Mage_Cms_Model_Wysiwyg_Images_Storage;
-        $baseDir = Mage::helper('cms/wysiwyg_images')->getCurrentPath() . __CLASS__;
+        $baseDir = Mage::helper('Mage_Cms_Helper_Wysiwyg_Images')->getCurrentPath() . __CLASS__;
         mkdir($baseDir, 0777);
         touch($baseDir . DIRECTORY_SEPARATOR . '1.swf');
         $collection = $model->getFilesCollection($baseDir, 'media');

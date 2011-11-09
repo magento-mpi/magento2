@@ -291,7 +291,7 @@
                         <ua_regexp translate="label comment tooltip">
                             <label>User-Agent Exceptions</label>
                             <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Regexceptions</frontend_model>
-                            <backend_model>Mage_Core_Design_Backend_Exceptions</backend_model>
+                            <backend_model>Mage_Core_Model_Design_Backend_Exceptions</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

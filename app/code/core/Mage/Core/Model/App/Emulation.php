@@ -135,7 +135,7 @@ class Mage_Core_Model_App_Emulation extends Varien_Object
         $design->setDesignTheme($storeTheme);
 
         if ($area == Mage_Core_Model_App_Area::AREA_FRONTEND) {
-            $designChange = Mage::getSingleton('core/design')->loadChange($storeId);
+            $designChange = Mage::getSingleton('Mage_Core_Model_Design')->loadChange($storeId);
             if ($designChange->getData()) {
                 $design->setDesignTheme($designChange->getDesign());
             }

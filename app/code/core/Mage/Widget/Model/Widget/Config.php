@@ -44,7 +44,7 @@ class Mage_Widget_Model_Widget_Config extends Varien_Object
     {
         $settings = array(
             'widget_plugin_src'   => Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentowidget/editor_plugin.js',
-            'widget_placeholders' => Mage::getModel('widget/widget')->getPlaceholderImageUrls(),
+            'widget_placeholders' => Mage::getModel('Mage_Widget_Model_Widget')->getPlaceholderImageUrls(),
             'widget_window_url'   => $this->getWidgetWindowUrl($config)
         );
 

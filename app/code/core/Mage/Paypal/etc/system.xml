@@ -1773,7 +1773,7 @@
                             <label>Countries Payment Applicable From</label>
                             <config_path>payment/payflow_advanced/specificcountry</config_path>
                             <frontend_type>multiselect</frontend_type>
-                            <source_model>Mage_Paypal_System_Config_Source_BuyerCountry</source_model>
+                            <source_model>Mage_Paypal_Model_System_Config_Source_BuyerCountry</source_model>
                             <sort_order>25</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

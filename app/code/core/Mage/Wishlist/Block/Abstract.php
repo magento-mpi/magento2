@@ -402,7 +402,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
      */
     public function getImageUrl($product)
     {
-        return (string) $this->helper('catalog/image')->init($product, 'small_image')->resize($this->getImageSize());
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'small_image')->resize($this->getImageSize());
     }
 
     /**

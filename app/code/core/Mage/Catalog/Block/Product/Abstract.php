@@ -577,7 +577,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      */
     public function getThumbnailUrl($product)
     {
-        return (string) $this->helper('catalog/image')->init($product, 'thumbnail')->resize($this->getThumbnailSize());
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')->resize($this->getThumbnailSize());
     }
 
     /**
@@ -598,7 +598,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      */
     public function getThumbnailSidebarUrl($product)
     {
-        return (string) $this->helper('catalog/image')->init($product, 'thumbnail')
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')
             ->resize($this->getThumbnailSidebarSize());
     }
 
@@ -620,7 +620,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      */
     public function getSmallImageUrl($product)
     {
-        return (string) $this->helper('catalog/image')->init($product, 'small_image')
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'small_image')
             ->resize($this->getSmallImageSize());
     }
 
@@ -642,7 +642,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      */
     public function getSmallImageSidebarUrl($product)
     {
-        return (string) $this->helper('catalog/image')->init($product, 'small_image')
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'small_image')
             ->resize($this->getSmallImageSidebarSize());
     }
 
@@ -664,7 +664,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      */
     public function getBaseImageUrl($product)
     {
-        return (string) $this->helper('catalog/image')->init($product, 'image')->resize($this->getBaseImageSize());
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'image')->resize($this->getBaseImageSize());
     }
 
     /**
@@ -685,7 +685,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      */
     public function getBaseImageIconUrl($product)
     {
-        return (string) $this->helper('catalog/image')->init($product, 'image')->resize($this->getBaseImageIconSize());
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'image')->resize($this->getBaseImageIconSize());
     }
 
     /**

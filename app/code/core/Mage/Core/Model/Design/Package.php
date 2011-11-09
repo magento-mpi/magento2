@@ -211,7 +211,7 @@ class Mage_Core_Model_Design_Package
         $parts = explode('/', $themePath);
         if (3 !== count($parts)) {
             Mage::throwException(
-                Mage::helper('core')->__('Invalid fully qualified design name: "%s".', $themePath)
+                Mage::helper('Mage_Core_Helper_Data')->__('Invalid fully qualified design name: "%s".', $themePath)
             );
         }
         list($package, $theme, $skin) = $parts;

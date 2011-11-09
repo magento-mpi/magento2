@@ -510,7 +510,7 @@ abstract class Mage_Core_Controller_Varien_Action
 
         if ($this->_currentArea == Mage_Core_Model_App_Area::AREA_FRONTEND) {
             if (!$this->_applyUserAgentDesignException($design)) {
-                Mage::getSingleton('core/design')
+                Mage::getSingleton('Mage_Core_Model_Design')
                     ->loadChange(Mage::app()->getStore()->getStoreId())
                     ->changeDesign($design);
             }

@@ -191,7 +191,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
     public function getPackageThemeOptionsArray()
     {
         $options = Mage::getModel('Mage_Core_Model_Design_Source_Design')->getThemeOptions();
-        array_unshift($options, array('value' => '', 'label' => Mage::helper('adminhtml')->__('-- Please Select --')));
+        array_unshift($options, array('value' => '', 'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('-- Please Select --')));
         return $options;
     }
 }

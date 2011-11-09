@@ -271,7 +271,7 @@ Product view
             </block>
         </reference>
         <reference name="before_body_end">
-            <block type="core/text" name="product_view_js_tabs">
+            <block type="Mage_Core_Block_Text" name="product_view_js_tabs">
                 <action method="addText">
                     <text><![CDATA[<script type="text/javascript">new Enterprise.Tabs('collateral-tabs')</script>]]></text>
                 </action>

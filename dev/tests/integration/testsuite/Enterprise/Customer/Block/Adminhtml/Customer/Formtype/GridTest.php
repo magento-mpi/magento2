@@ -17,7 +17,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_GridTest extends PHP
     public function testPrepareColumns()
     {
         /** @var Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid $block */
-        $block = Mage::app()->getLayout()->createBlock('enterprise_customer/adminhtml_customer_formtype_grid');
+        $block = Mage::app()->getLayout()->createBlock('Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid');
         // $block = new Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid;
         $block->toHtml();
         foreach (array('code', 'label', 'store_id', 'theme', 'is_system') as $key) {

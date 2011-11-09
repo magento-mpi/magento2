@@ -17,7 +17,7 @@ class Mage_XmlConnect_Model_TabsTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         if (Mage::registry('current_app') === null) {
-            $application = Mage::getModel('xmlconnect/application')->setType(
+            $application = Mage::getModel('Mage_XmlConnect_Model_Application')->setType(
                 Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE
             );
             Mage::register('current_app', $application);

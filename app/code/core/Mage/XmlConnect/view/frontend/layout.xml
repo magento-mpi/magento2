@@ -120,7 +120,7 @@
 
     <!-- Shopping Cart -->
     <xmlconnect_cart_index>
-        <block type="xmlconnect/cart" name="xmlconnect.cart" output="toHtml">
+        <block type="Mage_XmlConnect_Block_Cart" name="xmlconnect.cart" output="toHtml">
             <action method="addItemRender"><type>simple</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>cart/item/default.phtml</template></action>
             <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>cart/item/default.phtml</template></action>
             <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>cart/item/default.phtml</template></action>

@@ -52,7 +52,7 @@ class Mage_ProductAlert_Block_Email_Stock extends Mage_ProductAlert_Block_Email_
      */
     public function getThumbnailUrl($product)
     {
-        return (string) $this->helper('catalog/image')->init($product, 'thumbnail')->resize($this->getThumbnailSize());
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')->resize($this->getThumbnailSize());
     }
 
     /**

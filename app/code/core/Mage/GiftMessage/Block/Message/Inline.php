@@ -285,7 +285,7 @@ class Mage_GiftMessage_Block_Message_Inline extends Mage_Core_Block_Template
      */
     public function getThumbnailUrl($product)
     {
-        return (string) $this->helper('catalog/image')->init($product, 'thumbnail')->resize($this->getThumbnailSize());
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')->resize($this->getThumbnailSize());
     }
 
     /**

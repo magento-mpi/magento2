@@ -23,7 +23,7 @@ class Mage_Core_Model_Design_Source_Design extends Mage_Eav_Model_Entity_Attribu
     {
         $magentoVersion = Mage::getVersion();
         $isCompatible = Mage::getDesign()->isThemeCompatible('frontend', $package, $theme, $magentoVersion);
-        $text = $isCompatible ? $text : Mage::helper('core')->__('%s (incompatible version)', $text);
+        $text = $isCompatible ? $text : Mage::helper('Mage_Core_Helper_Data')->__('%s (incompatible version)', $text);
         return $text;
     }
 

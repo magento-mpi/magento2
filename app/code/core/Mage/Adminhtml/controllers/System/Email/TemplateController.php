@@ -193,7 +193,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
             $templateBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Email_Template_Edit');
             $template->setData('orig_template_used_default_for', $templateBlock->getUsedDefaultForPaths(false));
 
-            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($template->getData()));
+            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($template->getData()));
         } catch (Exception $e) {
             Mage::logException($e);
         }

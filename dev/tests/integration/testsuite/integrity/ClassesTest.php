@@ -55,6 +55,9 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             'Mage_Catalog_Block_Seo_Searchterm',
             'Mage_Giftcard_Block_Catalog_Product_Price_Giftcard',
             'Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Image',
+
+            'emph',
+            'Enterprise_Enterprise_Helper_Data',
         );
         if (in_array($className, $skippedClasses)) {
             $this->markTestSkipped('Task MAGETWO-586');

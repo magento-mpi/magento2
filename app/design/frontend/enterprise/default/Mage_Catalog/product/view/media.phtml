@@ -47,7 +47,7 @@
         <?php if ($_imgWidth > $_zoomSize+10 && $_imgHeight > $_zoomSize+10):?>
             <a class="product-image image-zoom" id="main-image" title="<?php echo $this->htmlEscape($_product->getImageLabel()); ?>" href="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image'); ?>">
                 <?php
-                    $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize($_zoomSize).'" height="'.$_zoomSize.'" width="'.$_zoomSize.'" alt="'.$this->htmlEscape($_product->getImageLabel()).'" title="'.$this->htmlEscape($_product->getImageLabel()).'" />';
+                    $_img = '<img src="'.$this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image')->resize($_zoomSize).'" height="'.$_zoomSize.'" width="'.$_zoomSize.'" alt="'.$this->htmlEscape($_product->getImageLabel()).'" title="'.$this->htmlEscape($_product->getImageLabel()).'" />';
                     echo $_helper->productAttribute($_product, $_img, 'image-thumb');
                 ?>
             </a>
@@ -71,7 +71,7 @@
         <?php else: ?>
             <p class="product-image">
                 <?php
-                    $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize($_zoomSize).'" height="'.$_zoomSize.'" width="'.$_zoomSize.'" alt="'.$this->htmlEscape($_product->getImageLabel()).'" title="'.$this->htmlEscape($_product->getImageLabel()).'" />';
+                    $_img = '<img src="'.$this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image')->resize($_zoomSize).'" height="'.$_zoomSize.'" width="'.$_zoomSize.'" alt="'.$this->htmlEscape($_product->getImageLabel()).'" title="'.$this->htmlEscape($_product->getImageLabel()).'" />';
                     echo $_helper->productAttribute($_product, $_img, 'image-thumb');
                 ?>
             </p>
@@ -80,7 +80,7 @@
     <?php else: ?>
         <p class="product-image">
             <?php
-                $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize($_zoomSize).'" alt="'.$this->htmlEscape($_product->getImageLabel()).'" title="'.$this->htmlEscape($_product->getImageLabel()).'" />';
+                $_img = '<img src="'.$this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image')->resize($_zoomSize).'" alt="'.$this->htmlEscape($_product->getImageLabel()).'" title="'.$this->htmlEscape($_product->getImageLabel()).'" />';
                 echo $_helper->productAttribute($_product, $_img, 'image');
             ?>
         </p>

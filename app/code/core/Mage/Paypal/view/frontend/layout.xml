@@ -207,8 +207,8 @@ Available logo types can be assigned with action="setLogoType":
     </paypal_payflow_link_iframe>
 
     <paypal_payflow_advanced_iframe>
-        <block type="paypal/payflow_advanced_iframe" name="payflow.advanced.iframe" template="payflowadvanced/form.phtml" />
-        <block type="paypal/payflow_advanced_info" name="payflow.advanced.info" template="payflowadvanced/info.phtml" />
+        <block type="Mage_Paypal_Block_Payflow_Advanced_Iframe" name="payflow.advanced.iframe" template="payflowadvanced/form.phtml" />
+        <block type="Mage_Paypal_Block_Payflow_Advanced_Info" name="payflow.advanced.info" template="payflowadvanced/info.phtml" />
     </paypal_payflow_advanced_iframe>
 
     <paypal_hosted_pro_iframe>

@@ -172,7 +172,7 @@
             <end_index_events_cataloginventory_stock_item_save>
                 <observers>
                     <cataloginventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>reindexProductsMassAction</method>
                     </cataloginventory>
                 </observers>
@@ -180,7 +180,7 @@
             <end_process_event_cataloginventory_stock_item_save>
                 <observers>
                     <cataloginventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>reindexProductsMassAction</method>
                     </cataloginventory>
                 </observers>

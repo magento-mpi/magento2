@@ -85,7 +85,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     protected function _getThumbnail()
     {
         if (is_null($this->_productThumbnail)) {
-            $thumbnail = $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail');
+            $thumbnail = $this->helper('Mage_Catalog_Helper_Image')->init($this->getProduct(), 'thumbnail');
         } else {
             $thumbnail =$this->_productThumbnail;
         }

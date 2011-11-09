@@ -149,7 +149,7 @@ Category layered navigation layout
         <label>Catalog Category (Without Subcategories)</label>
         <remove name="right.reports.product.viewed" />
         <reference name="right">
-            <block type="reports/product_viewed" before="right.permanent.callout" name="left.reports.product.viewed" template="product_viewed.phtml" />
+            <block type="Mage_Reports_Block_Product_Viewed" before="right.permanent.callout" name="left.reports.product.viewed" template="product_viewed.phtml" />
         </reference>
     </catalog_category_layered_nochildren>
 
@@ -303,7 +303,7 @@ Additional block dependant on product type
                     <label>Product Extra Info</label>
                 </block>
             </block>
-            <block type="catalog/product_view_type_grouped" name="product.info.grouped.grid" as="product_type_data_grid" template="product/view/type/grouped_grid.phtml">
+            <block type="Mage_Catalog_Block_Product_View_Type_Grouped" name="product.info.grouped.grid" as="product_type_data_grid" template="product/view/type/grouped_grid.phtml">
             </block>
         </reference>
     </PRODUCT_TYPE_grouped>

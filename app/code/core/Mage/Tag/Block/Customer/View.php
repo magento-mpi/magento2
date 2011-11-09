@@ -170,7 +170,7 @@ class Mage_Tag_Block_Customer_View extends Mage_Catalog_Block_Product_Abstract
      */
     public function getImageUrl($product)
     {
-        return (string) $this->helper('catalog/image')->init($product, 'small_image')->resize($this->getImageSize());
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'small_image')->resize($this->getImageSize());
     }
 
     /**

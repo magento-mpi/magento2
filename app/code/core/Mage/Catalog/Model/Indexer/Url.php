@@ -250,7 +250,7 @@ class Mage_Catalog_Model_Indexer_Url extends Mage_Index_Model_Indexer_Abstract
         $resourceModel = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Url');
         $resourceModel->beginTransaction();
         try {
-            Mage::getSingleton('catalog/url')->refreshRewrites();
+            Mage::getSingleton('Mage_Catalog_Model_Url')->refreshRewrites();
             $resourceModel->commit();
         } catch (Exception $e) {
             $resourceModel->rollBack();

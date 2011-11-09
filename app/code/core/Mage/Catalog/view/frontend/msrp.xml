@@ -79,7 +79,6 @@ Default layout, loads most of the pages
 
     <MAP_popup>
         <reference name="head">
-            <action method="addItem" ifconfig="sales/msrp/enabled"><type>skin_js</type><name>js/msrp.js</name></action>
             <action method="addItem" ifconfig="sales/msrp/enabled"><type>skin_js</type><name>Mage_Catalog::msrp.js</name></action>
         </reference>
         <reference name="content">

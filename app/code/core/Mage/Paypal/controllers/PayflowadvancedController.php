@@ -86,7 +86,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
 
         $checkToken = $this->getRequest()->getParam('TOKEN');
         if ($checkToken) {
-            Mage::getSingleton('paypal/session')->setExpressCheckoutToken($checkToken);
+            Mage::getSingleton('Mage_Paypal_Model_Session')->setExpressCheckoutToken($checkToken);
             $this->_redirect('*/*/review');
             return;
         }
@@ -121,13 +121,13 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
         $gotoSection = false;
         $session = $this->_getCheckout();
         if ($session->getLastRealOrderId()) {
-            $order = Mage::getModel('sales/order')->loadByIncrementId($session->getLastRealOrderId());
+            $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
             if ($order->getId()) {
                 //Cancel order
                 if ($order->getState() != Mage_Sales_Model_Order::STATE_CANCELED) {
                     $order->registerCancellation($errorMsg)->save();
                 }
-                $quote = Mage::getModel('sales/quote')
+                $quote = Mage::getModel('Mage_Sales_Model_Quote')
                     ->load($order->getQuoteId());
                 //Return quote
                 if ($quote->getId()) {
@@ -155,7 +155,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
         $payment = $quote->getPayment();
 
         try {
-            $method = Mage::helper('payment')->getMethodInstance($this->_configMethod);
+            $method = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance($this->_configMethod);
             $method->setData('info_instance', $payment);
             $method->initialize($method->getConfigData('payment_action'), new Varien_Object());
 
@@ -185,7 +185,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
         $data = $this->getRequest()->getPost();
         if (isset($data['INVNUM'])) {
             /** @var $paymentModel Mage_Paypal_Model_Payflowlink */
-            $paymentModel = Mage::getModel('paypal/payflowadvanced');
+            $paymentModel = Mage::getModel('Mage_Paypal_Model_Payflowadvanced');
             try {
                 $paymentModel->process($data);
             } catch (Exception $e) {
@@ -201,7 +201,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**
