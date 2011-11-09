@@ -48,6 +48,10 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         $this->setId('sales_order_view');
         $order = $this->getOrder();
 
+        if (!$order) {
+            return;
+        }
+
         if ($this->_isAllowedAction('edit') && $order->canEdit()) {
             $onclickJs = 'deleteConfirm(\''
                 . Mage::helper('Mage_Sales_Helper_Data')->__('Are you sure? This order will be canceled and a new one will be created instead')
@@ -195,7 +199,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
      */
     public function getOrderId()
     {
-        return $this->getOrder()->getId();
+        return $this->getOrder() ? $this->getOrder()->getId() : null;
     }
 
     public function getHeaderText()
@@ -284,7 +288,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
      */
     public function getBackUrl()
     {
-        if ($this->getOrder()->getBackUrl()) {
+        if ($this->getOrder() && $this->getOrder()->getBackUrl()) {
             return $this->getOrder()->getBackUrl();
         }
 

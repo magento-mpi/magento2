@@ -120,7 +120,7 @@
         <layout>
             <updates>
                 <payment module="Mage_Payment">
-                    <file>payment.xml</file>
+                    <file>layout.xml</file>
                 </payment>
             </updates>
         </layout>

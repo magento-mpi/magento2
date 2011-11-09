@@ -29,6 +29,9 @@ class Enterprise_Rma_Block_Return_Create extends Enterprise_Rma_Block_Form
     public function _construct()
     {
         $order = Mage::registry('current_order');
+        if (!$order) {
+            return;
+        }
         $this->setOrder($order);
 
         $items = Mage::helper('Enterprise_Rma_Helper_Data')->getOrderItems($order);

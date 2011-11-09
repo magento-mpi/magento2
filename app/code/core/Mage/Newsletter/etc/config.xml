@@ -42,18 +42,18 @@
         <template>
             <email>
                 <newsletter_subscription_confirm_email_template translate="label" module="Mage_Newsletter">
-                    <label>Newsletter subscription confirmation</label>
-                    <file>newsletter_subscr_confirm.html</file>
+                    <label>Subscription Confirmation</label>
+                    <file>email/subscr_confirm.html</file>
                     <type>html</type>
                 </newsletter_subscription_confirm_email_template>
                 <newsletter_subscription_success_email_template translate="label" module="Mage_Newsletter">
-                    <label>Newsletter subscription success</label>
-                    <file>newsletter_subscr_success.html</file>
+                    <label>Subscription Success</label>
+                    <file>email/subscr_success.html</file>
                     <type>html</type>
                 </newsletter_subscription_success_email_template>
                 <newsletter_subscription_un_email_template translate="label" module="Mage_Newsletter">
-                    <label>Newsletter unsubscription success</label>
-                    <file>newsletter_unsub_success.html</file>
+                    <label>Unsubscription Success</label>
+                    <file>email/unsub_success.html</file>
                     <type>html</type>
                 </newsletter_subscription_un_email_template>
             </email>
@@ -90,13 +90,6 @@
                 </Mage_Newsletter>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <newsletter>
-                    <file>newsletter.xml</file>
-                </newsletter>
-            </updates>
-        </layout>
     </adminhtml>
     <frontend>
         <events>
@@ -138,7 +131,7 @@
         <layout>
             <updates>
                 <newsletter module="Mage_Newsletter">
-                    <file>newsletter.xml</file>
+                    <file>layout.xml</file>
                 </newsletter>
             </updates>
         </layout>

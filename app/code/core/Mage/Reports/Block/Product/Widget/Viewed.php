@@ -49,7 +49,7 @@ class Mage_Reports_Block_Product_Widget_Viewed
         $this->addPriceBlockType(
             'bundle',
             'Mage_Bundle_Block_Catalog_Product_Price',
-            'bundle/catalog/product/price.phtml'
+            'catalog/product/price.phtml'
         );
     }
 }

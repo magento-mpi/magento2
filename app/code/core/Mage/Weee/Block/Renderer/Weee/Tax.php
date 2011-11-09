@@ -40,7 +40,7 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
 
     public function __construct()
     {
-        $this->setTemplate('weee/renderer/tax.phtml');
+        $this->setTemplate('renderer/tax.phtml');
     }
 
     public function getProduct()
@@ -98,7 +98,7 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
     {
         return !Mage::app()->isSingleStoreMode();
     }
-    
+
     public function getCountries()
     {
         if (is_null($this->_countries)) {

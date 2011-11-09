@@ -44,7 +44,7 @@
             <email>
                 <customer_enterprise_customerbalance_email_template translate="label" module="Enterprise_CustomerBalance">
                     <label>Store Credit Update</label>
-                    <file>enterprise/customerbalance_update.html</file>
+                    <file>email/update_notification.html</file>
                     <type>html</type>
                 </customer_enterprise_customerbalance_email_template>
             </email>
@@ -253,7 +253,7 @@
         <layout>
             <updates>
                 <enterprise_customerbalance module="Enterprise_CustomerBalance">
-                    <file>customerbalance.xml</file>
+                    <file>layout.xml</file>
                 </enterprise_customerbalance>
             </updates>
         </layout>
@@ -284,8 +284,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_customerbalance>
-                    <file>enterprise/customerbalance.xml</file>
+                <enterprise_customerbalance module="Enterprise_CustomerBalance">
+                    <file>layout.xml</file>
                 </enterprise_customerbalance>
             </updates>
         </layout>

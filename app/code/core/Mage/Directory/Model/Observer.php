@@ -76,15 +76,13 @@ class Mage_Directory_Model_Observer
 
             /* @var $mailTemplate Mage_Core_Model_Email_Template */
             $mailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
-            $mailTemplate->setDesignConfig(array(
-                'area'  => 'frontend',
-            ))->sendTransactional(
-                Mage::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE),
-                Mage::getStoreConfig(self::XML_PATH_ERROR_IDENTITY),
-                Mage::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT),
-                null,
-                array(
-                    'warnings'    => join("\n", $importWarnings),
+            $mailTemplate->setDesignConfig(array('area' => 'frontend', 'store' => Mage::app()->getStore()->getId()))
+                ->sendTransactional(
+                    Mage::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE),
+                    Mage::getStoreConfig(self::XML_PATH_ERROR_IDENTITY),
+                    Mage::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT),
+                    null,
+                    array('warnings'    => join("\n", $importWarnings),
                 )
             );
 

@@ -42,7 +42,7 @@ class Mage_GiftMessage_Block_Message_Inline extends Mage_Core_Block_Template
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('giftmessage/inline.phtml');
+        $this->setTemplate('inline.phtml');
     }
 
     /**
@@ -276,4 +276,26 @@ class Mage_GiftMessage_Block_Message_Inline extends Mage_Core_Block_Template
         $type = substr($this->getType(), 0, 5) == 'multi' ? 'address_item' : 'item';
         return Mage::helper('Mage_GiftMessage_Helper_Message')->isMessagesAvailable($type, $item);
     }
+
+    /**
+     * Product thumbnail image url getter
+     *
+     * @param Mage_Core_Model_Product $product
+     * @return string
+     */
+    public function getThumbnailUrl($product)
+    {
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')->resize($this->getThumbnailSize());
+    }
+
+    /**
+     * Thumbnail image size getter
+     *
+     * @return int
+     */
+    public function getThumbnailSize()
+    {
+        return $this->getVar('product_thumbnail_image_size', 'Mage_Catalog');
+    }
+
 }

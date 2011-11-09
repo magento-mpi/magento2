@@ -78,16 +78,58 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     }
 
     /**
-     * Get product thumbnail image
+     * Thumbnail image getter
+     *
+     * @return Mage_Catalog_Helper_Image
+     */
+    protected function _getThumbnail()
+    {
+        if (is_null($this->_productThumbnail)) {
+            $thumbnail = $this->helper('Mage_Catalog_Helper_Image')->init($this->getProduct(), 'thumbnail');
+        } else {
+            $thumbnail =$this->_productThumbnail;
+        }
+        return $thumbnail;
+    }
+
+    /**
+     * Get product thumbnail image url
      *
      * @return Mage_Catalog_Model_Product_Image
      */
-    public function getProductThumbnail()
+    public function getProductThumbnailUrl()
     {
-        if (!is_null($this->_productThumbnail)) {
-            return $this->_productThumbnail;
-        }
-        return $this->helper('Mage_Catalog_Helper_Image')->init($this->getProduct(), 'thumbnail');
+        return (string) $this->_getThumbnail()->resize($this->getThumbnailSize());
+    }
+
+    /**
+     * Product image thumbnail getter
+     *
+     * @return int
+     */
+    public function getThumbnailSize()
+    {
+        return $this->getVar('product_thumbnail_image_size', 'Mage_Catalog');
+    }
+
+    /**
+     * Get product thumbnail image url for sidebar
+     *
+     * @return Mage_Catalog_Model_Product_Image
+     */
+    public function getProductThumbnailSidebarUrl()
+    {
+        return (string) $this->_getThumbnail()->resize($this->getThumbnailSidebarSize())->setWatermarkSize('30x10');
+    }
+
+    /**
+     * Product image thumbnail getter
+     *
+     * @return int
+     */
+    public function getThumbnailSidebarSize()
+    {
+        return $this->getVar('product_thumbnail_image_sidebar_size', 'Mage_Catalog');
     }
 
     public function overrideProductUrl($productUrl)
@@ -357,7 +399,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     public function getMsrpHtml($item)
     {
         return $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Price')
-            ->setTemplate('catalog/product/price_msrp_item.phtml')
+            ->setTemplate('product/price_msrp_item.phtml')
             ->setProduct($item->getProduct())
             ->toHtml();
     }

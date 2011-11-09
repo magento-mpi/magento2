@@ -30,6 +30,18 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
         $this->assertNull($this->_model->getId());
     }
 
+    /**
+     * @magentoDataFixture Mage/Core/_files/design_change.php
+     */
+    public function testChangeDesign()
+    {
+        $designPackage = new Mage_Core_Model_Design_Package('frontend', 'default', 'default', 'default');
+        $storeId = Mage::app()->getAnyStoreView(); // fixture design_change
+        $design = new Mage_Core_Model_Design;
+        $design->loadChange($storeId)->changeDesign($designPackage);
+        $this->assertEquals('default/modern/default', $designPackage->getDesignTheme());
+    }
+
     public function testCRUD()
     {
         $this->_model->setData(
@@ -97,6 +109,7 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
         $cachedDesign = Mage::app()->loadCache($cacheId);
         $cachedDesign = unserialize($cachedDesign);
 
+        $this->assertInternalType('array', $cachedDesign);
         $this->assertArrayHasKey('design', $cachedDesign);
         $this->assertEquals($cachedDesign['design'], $design->getDesign());
 

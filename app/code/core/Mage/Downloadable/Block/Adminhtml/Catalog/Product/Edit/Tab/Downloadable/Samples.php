@@ -40,7 +40,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('downloadable/product/edit/downloadable/samples.phtml');
+        $this->setTemplate('product/edit/downloadable/samples.phtml');
     }
 
     /**

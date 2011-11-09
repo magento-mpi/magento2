@@ -97,7 +97,7 @@ class Mage_XmlConnect_Helper_Catalog_Category_Image extends Mage_Catalog_Helper_
     {
         if (!$this->_placeholder) {
             $attr = $this->_getModel()->getDestinationSubdir();
-            $this->_placeholder = 'images/xmlconnect/catalog/category/placeholder/' . $attr . '.jpg';
+            $this->_placeholder = 'Mage_XmlConnect::images/catalog/category/placeholder/' . $attr . '.jpg';
         }
         return $this->_placeholder;
     }

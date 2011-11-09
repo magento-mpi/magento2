@@ -35,7 +35,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit extends Mage_Adminhtml_Blo
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('enterprise/staging/staging/edit.phtml');
+        $this->setTemplate('staging/edit.phtml');
         $this->setId('enterprise_staging_edit');
 
         $this->setEditFormJsObject('enterpriseStagingForm');

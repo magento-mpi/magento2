@@ -112,7 +112,7 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
             $emulationModel = Mage::getModel('Mage_Core_Model_App_Emulation');
             // Emulate admin environment to disable using flat model - otherwise we won't get global stats
             // for all stores
-            $emulationModel->startEnvironmentEmulation(0, Mage_Core_Model_App_Area::AREA_ADMINHTML);
+            $emulationModel->startEnvironmentEmulation(0, Mage_Core_Model_App_Area::AREA_ADMIN);
         }
     }
 }

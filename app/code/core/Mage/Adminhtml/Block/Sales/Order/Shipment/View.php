@@ -44,6 +44,10 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View extends Mage_Adminhtml_Bloc
 
         $this->_removeButton('reset');
         $this->_removeButton('delete');
+        if (!$this->getShipment()) {
+            return;
+        }
+
         if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/order/actions/emails')) {
             $this->_updateButton('save', 'label', Mage::helper('Mage_Sales_Helper_Data')->__('Send Tracking Information'));
             $this->_updateButton('save',
@@ -89,7 +93,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View extends Mage_Adminhtml_Bloc
         return $this->getUrl(
             '*/sales_order/view',
             array(
-                'order_id'  => $this->getShipment()->getOrderId(),
+                'order_id'  => $this->getShipment() ? $this->getShipment()->getOrderId() : null,
                 'active_tab'=> 'order_shipments'
             ));
     }

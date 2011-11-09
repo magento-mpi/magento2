@@ -971,6 +971,28 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
+     * Go through all modules and find configuration files of active modules
+     *
+     * @param string $filename
+     * @return array
+     */
+    public function getModuleConfigurationFiles($filename)
+    {
+        $result = array();
+        $disableLocalModules = !$this->_canUseLocalModules();
+        $modules = $this->getNode('modules')->children();
+        foreach ($modules as $moduleName => $module) {
+            if ((!$module->is('active')) || $disableLocalModules && ('local' === (string)$module->codePool)) {
+                continue;
+            }
+            $file = $this->getModuleDir('etc', $moduleName) . DIRECTORY_SEPARATOR . $filename;
+            if (file_exists($file)) {
+                $result[] = $file;
+            }
+        }
+        return $result;
+    }
+    /**
      * Retrieve temporary directory path
      *
      * @return string
@@ -1121,22 +1143,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         switch ($type) {
             case 'etc':
-                $dir .= DS.'etc';
-                break;
-
             case 'controllers':
-                $dir .= DS.'controllers';
-                break;
-
             case 'sql':
-                $dir .= DS.'sql';
-                break;
             case 'data':
-                $dir .= DS.'data';
-                break;
-
             case 'locale':
-                $dir .= DS.'locale';
+            case 'view':
+                $dir .= DS . $type;
                 break;
         }
 
@@ -1245,10 +1257,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getHelperClassName($helperClass)
     {
-        /* Default helper class for a module */
-        if (strpos($helperClass, '_Helper_') === false) {
-            $helperClass .= '_Helper_Data';
-        }
         return $this->getModelClassName($helperClass);
     }
 

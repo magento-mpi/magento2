@@ -46,8 +46,8 @@
         </translate>
         <layout>
             <updates>
-                <rss>
-                    <file>rss.xml</file>
+                <rss module="Mage_Rss">
+                    <file>layout.xml</file>
                 </rss>
             </updates>
         </layout>
@@ -96,8 +96,8 @@
         </routers>
         <layout>
             <updates>
-                <rss>
-                    <file>rss.xml</file>
+                <rss module="Mage_Rss">
+                    <file>layout.xml</file>
                 </rss>
             </updates>
         </layout>

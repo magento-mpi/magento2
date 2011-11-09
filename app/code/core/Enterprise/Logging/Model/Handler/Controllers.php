@@ -242,7 +242,7 @@ class Enterprise_Logging_Model_Handler_Controllers
 
         //Need when in request data there are was no period info
         if ($filter) {
-            $filterData = Mage::app()->getHelper('adminhtml')->prepareFilterString($filter);
+            $filterData = Mage::app()->getHelper('Mage_Adminhtml_Helper_Data')->prepareFilterString($filter);
             $data = array_merge($data, (array)$filterData);
         }
 

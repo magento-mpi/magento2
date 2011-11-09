@@ -1,0 +1,24 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<script type="text/javascript">
+//<![CDATA[
+function setSettings(urlTemplate, typeElement, packageThemeElement) {
+    templateSyntax = /(^|.|\r|\n)({{(\w+)}})/;
+    var template = new Template(urlTemplate, templateSyntax);
+    typeElement = $F(typeElement).replace(/\//g, "-");
+    packageThemeElement = $F(packageThemeElement).replace(/\//g, "_");
+    setLocation(template.evaluate({instance_type:typeElement, package_theme:packageThemeElement}));
+}
+function saveAndContinueEdit(){
+    editForm.submit($('edit_form').action+'back/edit/');
+}
+//]]>
+</script>

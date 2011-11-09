@@ -66,7 +66,7 @@ class Mage_Log_Model_Cron extends Mage_Core_Model_Abstract
 
         $emailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
         /* @var $emailTemplate Mage_Core_Model_Email_Template */
-        $emailTemplate->setDesignConfig(array('area' => 'backend'))
+        $emailTemplate->setDesignConfig(array('area' => 'backend', 'store' => Mage::app()->getStore()->getId()))
             ->sendTransactional(
                 Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE),
                 Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_IDENTITY),

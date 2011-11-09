@@ -46,6 +46,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widge
 
         parent::__construct();
 
+        if (!$this->getRma()) {
+            return;
+        }
         $statusIsClosed = in_array(
             $this->getRma()->getStatus(),
             array(

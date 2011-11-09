@@ -29,7 +29,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Methods exten
     public function _construct()
     {
         parent::_construct();
-        $this->setShippingMethods(Mage::registry('current_rma')->getShippingMethods());
+        if (Mage::registry('current_rma')) {
+            $this->setShippingMethods(Mage::registry('current_rma')->getShippingMethods());
+        }
     }
 
     public function getShippingPrice($price)

@@ -38,7 +38,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Form_Renderer_Element
      */
     protected function _construct()
     {
-        $this->setTemplate('enterprise/giftwrapping/form/renderer/element.phtml');
+        $this->setTemplate('form/renderer/element.phtml');
     }
 
     /**

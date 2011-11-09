@@ -46,8 +46,31 @@
  * @package     Enterprise_CatalogPermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Core_Model_Abstract
+class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Index_Model_Indexer_Abstract
 {
+    const EVENT_TYPE_REINDEX_PRODUCTS = 'reindex_permissions';
+    const ENTITY_CATEGORY = 'catalogpermissions_category';
+    const ENTITY_PRODUCT = 'catalogpermissions_product';
+    const ENTITY_CONFIG = 'catalogpermissions_config';
+
+    /**
+     * Matched entities
+     *
+     * @var array
+     */
+    protected $_matchedEntities = array(
+        self::ENTITY_PRODUCT  => array(self::EVENT_TYPE_REINDEX_PRODUCTS),
+        self::ENTITY_CATEGORY => array(self::EVENT_TYPE_REINDEX_PRODUCTS),
+        self::ENTITY_CONFIG   => array(Mage_Index_Model_Event::TYPE_SAVE),
+    );
+
+    /**
+     * Disable visibility of the index
+     *
+     * @var bool
+     */
+    protected $_isVisible = false;
+
     protected function _construct()
     {
         $this->_init('Enterprise_CatalogPermissions_Model_Resource_Permission_Index');
@@ -190,5 +213,70 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Core_Mod
     public function getIndexForProduct($productId, $customerGroupId, $storeId)
     {
         return $this->getResource()->getIndexForProduct($productId, $customerGroupId, $storeId);
+    }
+
+    /**
+     * Get name of the index
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('Catalog Permissions');
+    }
+
+    /**
+     * Register indexer required data inside event object
+     *
+     * @param Mage_Index_Model_Event $event
+     */
+    protected function _registerEvent(Mage_Index_Model_Event $event)
+    {
+        switch ($event->getType()) {
+            case self::EVENT_TYPE_REINDEX_PRODUCTS:
+                switch ($event->getEntity()) {
+                    case self::ENTITY_PRODUCT:
+                        $event->addNewData('product_ids', $event->getDataObject()->getId());
+                        break;
+                    case self::ENTITY_CATEGORY:
+                        $event->addNewData('category_path', $event->getDataObject()->getId());
+                        break;
+                }
+                break;
+        }
+    }
+
+    /**
+     * Process event based on event state data
+     *
+     * @param Mage_Index_Model_Event $event
+     */
+    protected function _processEvent(Mage_Index_Model_Event $event)
+    {
+        switch ($event->getType()) {
+            case self::EVENT_TYPE_REINDEX_PRODUCTS:
+                switch ($event->getEntity()) {
+                    case self::ENTITY_PRODUCT:
+                        $data = $event->getNewData();
+                        if ($data['product_ids']) {
+                            $this->reindexProducts($data['product_ids']);
+                        }
+                        break;
+                    case self::ENTITY_CATEGORY:
+                        $data = $event->getNewData();
+                        if ($data['category_path']) {
+                            $this->reindex($data['category_path']);
+                        }
+                        break;
+                }
+                break;
+            case Mage_Index_Model_Event::TYPE_SAVE:
+                switch ($event->getEntity()) {
+                    case self::ENTITY_CONFIG:
+                        $this->reindexProductsStandalone();
+                        break;
+                }
+                break;
+        }
     }
 }

@@ -214,7 +214,7 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
             ->setId($this->_getFieldId($id))
             ->setValue($value)
             ->setClass('datetime-picker input-text' . $class)
-            ->setImage($this->getSkinUrl('images/calendar.gif'))
+            ->setImage($this->getSkinUrl('Mage_Core::calendar.gif'))
             ->setFormat(Mage::app()->getLocale()->getDateStrFormat($format));
         return $calendar->getHtml();
     }

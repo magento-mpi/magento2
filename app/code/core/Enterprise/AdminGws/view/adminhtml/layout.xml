@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+-->
+
+<layout>
+    <!-- add gws multiselect to admin roles edit page -->
+    <adminhtml_permissions_role_editrole>
+        <reference name="adminhtml.permissions.tab.rolesedit">
+            <block type="Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws" as="gws" template="permissions/rolesedit/gws.phtml"/>
+        </reference>
+    </adminhtml_permissions_role_editrole>
+
+    <!-- override roles grid to add website/store columns -->
+    <adminhtml_permissions_role_index>
+        <reference name="adminhtml.permission.role.index">
+            <action method="unsetChild"><alias>grid</alias></action>
+            <block type="Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role" name="adminhtml.permission.role.grid" as="grid"/>
+        </reference>
+    </adminhtml_permissions_role_index>
+    <adminhtml_permissions_role_rolegrid>
+        <block type="Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role" name="adminhtml.permission.role.grid"/>
+    </adminhtml_permissions_role_rolegrid>
+</layout>

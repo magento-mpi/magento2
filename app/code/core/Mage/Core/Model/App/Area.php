@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
@@ -34,11 +18,10 @@ class Mage_Core_Model_App_Area
     const AREA_GLOBAL   = 'global';
     const AREA_FRONTEND = 'frontend';
     const AREA_ADMIN    = 'admin';
-    const AREA_ADMINHTML = 'adminhtml';
 
     const PART_CONFIG   = 'config';
     const PART_EVENTS   = 'events';
-    const PART_TRANSLATE = 'translate';
+    const PART_TRANSLATE= 'translate';
     const PART_DESIGN   = 'design';
 
     /**
@@ -99,6 +82,76 @@ class Mage_Core_Model_App_Area
     }
 
     /**
+     * Detect and apply design for the area
+     *
+     * @param Zend_Controller_Request_Http $request
+     */
+    public function detectDesign($request = null)
+    {
+        if ($this->_code == self::AREA_FRONTEND) {
+            $areaDesign = Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME);
+            $this->_getDesign()->setDesignTheme($areaDesign, self::AREA_FRONTEND);
+            $designExceptionApplied = ($request && $this->_applyUserAgentDesignException($request));
+            if (!$designExceptionApplied) {
+                $this->_getDesignChange()
+                    ->loadChange(Mage::app()->getStore()->getId())
+                    ->changeDesign($this->_getDesign());
+            }
+        } else {
+            $areaDesign = (string)Mage::getConfig()->getNode(
+                $this->_code . '/' . Mage_Core_Model_Design_Package::XML_PATH_THEME
+            ) ?: 'default/default/default';
+            $this->_getDesign()->setDesignTheme($areaDesign, $this->_code);
+        }
+    }
+
+    /**
+     * Analyze user-agent information to override custom design settings
+     *
+     * @param Zend_Controller_Request_Http $request
+     * @return bool
+     */
+    protected function _applyUserAgentDesignException($request)
+    {
+        $userAgent = $request->getServer('HTTP_USER_AGENT');
+        if (empty($userAgent)) {
+            return false;
+        }
+        try {
+            $expressions = Mage::getStoreConfig('design/theme/ua_regexp');
+            if (!$expressions) {
+                return false;
+            }
+            $expressions = unserialize($expressions);
+            foreach ($expressions as $rule) {
+                if (preg_match($rule['regexp'], $userAgent)) {
+                    $this->_getDesign()->setDesignTheme($rule['value']);
+                    return true;
+                }
+            }
+        } catch (Exception $e) {
+            Mage::logException($e);
+        }
+        return false;
+    }
+
+    /**
+     * @return Mage_Core_Model_Design_Package
+     */
+    protected function _getDesign()
+    {
+        return Mage::getDesign();
+    }
+
+    /**
+     * @return Mage_Core_Model_Design
+     */
+    protected function _getDesignChange()
+    {
+        return Mage::getSingleton('Mage_Core_Model_Design');
+    }
+
+    /**
      * Loading part of area
      *
      * @param   string $part
@@ -150,20 +203,8 @@ class Mage_Core_Model_App_Area
     protected function _initDesign()
     {
         if (Mage::app()->getRequest()->isStraight()) {
-            return $this;
-        }
-        $designPackage = Mage::getSingleton('Mage_Core_Model_Design_Package');
-        if ($designPackage->getArea() != self::AREA_FRONTEND)
             return;
-
-        $currentStore = Mage::app()->getStore()->getStoreId();
-
-        $designChange = Mage::getSingleton('Mage_Core_Model_Design')
-            ->loadChange($currentStore);
-
-        if ($designChange->getData()) {
-            $designPackage->setPackageName($designChange->getPackage())
-                ->setTheme($designChange->getTheme());
         }
+        Mage::getDesign()->setDesignTheme('default/default/default', $this->_code);
     }
 }

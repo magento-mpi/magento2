@@ -60,9 +60,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
         $this->setId('source_wishlist');
         $this->setDefaultSort('added_at');
         $this->setData('open', true);
-        $this->setHeaderText(
-            Mage::helper('Enterprise_Checkout_Helper_Data')->__('Wishlist (%s)', $this->getItemsCount())
-        );
+        if ($this->_getStore()) {
+            $this->setHeaderText(
+                Mage::helper('Enterprise_Checkout_Helper_Data')->__('Wishlist (%s)', $this->getItemsCount())
+            );
+        }
     }
 
     /**

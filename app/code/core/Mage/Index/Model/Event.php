@@ -37,6 +37,7 @@
  * @method Mage_Index_Model_Event setCreatedAt(string $value)
  * @method Mage_Index_Model_Event setOldData(string $value)
  * @method Mage_Index_Model_Event setNewData(string $value)
+ * @method Varien_Object getDataObject()
  *
  * @category    Mage
  * @package     Mage_Index

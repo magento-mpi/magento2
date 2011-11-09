@@ -331,7 +331,8 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      *
      * @return Mage_Customer_Model_Session
      */
-    public function renewSession() {
+    public function renewSession()
+    {
         parent::renewSession();
         Mage::getSingleton('Mage_Core_Model_Session')->unsSessionHosts();
 

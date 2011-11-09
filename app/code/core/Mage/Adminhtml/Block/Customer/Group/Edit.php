@@ -44,7 +44,8 @@ class Mage_Adminhtml_Block_Customer_Group_Edit extends Mage_Adminhtml_Block_Widg
         $this->_updateButton('save', 'label', Mage::helper('Mage_Customer_Helper_Data')->__('Save Customer Group'));
         $this->_updateButton('delete', 'label', Mage::helper('Mage_Customer_Helper_Data')->__('Delete Customer Group'));
 
-        if(!Mage::registry('current_group')->getId() || Mage::registry('current_group')->usesAsDefault()) {
+        $group = Mage::registry('current_group');
+        if(!$group || !$group->getId() || $group->usesAsDefault()) {
             $this->_removeButton('delete');
         }
     }

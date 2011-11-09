@@ -41,7 +41,7 @@ class Mage_Sales_Model_Resource_Report_Refunded_Collection_Refunded
      */
     public function __construct()
     {
-        $this->setModel('adminhtml/report_item');
+        $this->setModel('Mage_Adminhtml_Model_Report_Item');
         $this->_resource = Mage::getResourceModel('Mage_Sales_Model_Resource_Report')
             ->init('sales_refunded_aggregated');
         $this->setConnection($this->getResource()->getReadConnection());

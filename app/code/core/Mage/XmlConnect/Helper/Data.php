@@ -144,7 +144,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
             case self::DEVICE_TYPE_IPHONE:
             case self::DEVICE_TYPE_IPAD:
             case self::DEVICE_TYPE_ANDROID:
-                $helper =  Mage::helper('Mage_Xmlconnect_Helper_' . ucfirst($deviceType));
+                $helper =  Mage::helper('Mage_XmlConnect_Helper_' . ucfirst($deviceType));
                 break;
             default:
                 Mage::throwException(

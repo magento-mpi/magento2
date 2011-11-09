@@ -55,6 +55,9 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             'Mage_Catalog_Block_Seo_Searchterm',
             'Mage_Giftcard_Block_Catalog_Product_Price_Giftcard',
             'Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Image',
+
+            'emph',
+            'Enterprise_Enterprise_Helper_Data',
         );
         if (in_array($className, $skippedClasses)) {
             $this->markTestSkipped('Task MAGETWO-586');
@@ -551,7 +554,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
              /** _init is used for setting table_names either */
              array ("->_init", "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?['\"](\\s?,\\s?['\"].*['\"]\\))/Ui" ),
         );
-        $skippedClassNamesByTablesIdKeys = array(
+        $skippedClassKeys = array(
             'id', '_id', 'code', 'serial_number', 'entity_pk_value', 'status', 'pk'
         );
 
@@ -566,14 +569,14 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         foreach ($patterns as $pattern) {
             $matched = preg_match_all($pattern, $content, $matches);
             if ($matched) {
-                $isClassNameShouldBeSkipped = false;
-                foreach($skippedClassNamesByTablesIdKeys as $key) {
+                $skipClassName = false;
+                foreach ($skippedClassKeys as $key) {
                     if (strpos($matches[2][0], $key) > 0 ) {
-                        $isClassNameShouldBeSkipped = true;
+                        $skipClassName = true;
                         break;
                     }
                 }
-                if ($isClassNameShouldBeSkipped) {
+                if ($skipClassName) {
                     continue;
                 }
                 $result = array_merge($result, $matches[1]);

@@ -44,7 +44,7 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
         $this->addOptionRenderer(
             'default',
             'Mage_Catalog_Block_Product_View_Options_Type_Default',
-            'catalog/product/view/options/type/default.phtml'
+            'product/view/options/type/default.phtml'
         );
     }
 

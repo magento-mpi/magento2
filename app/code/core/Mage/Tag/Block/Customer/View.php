@@ -161,4 +161,26 @@ class Mage_Tag_Block_Customer_View extends Mage_Catalog_Block_Product_Abstract
         }
         return $this->_collection;
     }
+
+    /**
+     * Product image url getter
+     *
+     * @param Mage_Core_Model_Product $product
+     * @return string
+     */
+    public function getImageUrl($product)
+    {
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'small_image')->resize($this->getImageSize());
+    }
+
+    /**
+     * Product image size getter
+     *
+     * @return int
+     */
+    public function getImageSize()
+    {
+        return $this->getVar('product_image_size', 'Mage_Tag');
+    }
+
 }

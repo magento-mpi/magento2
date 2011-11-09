@@ -95,8 +95,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <importexport>
-                    <file>importexport.xml</file>
+                <importexport module="Mage_ImportExport">
+                    <file>layout.xml</file>
                 </importexport>
             </updates>
         </layout>

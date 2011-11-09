@@ -62,7 +62,7 @@ class Mage_Tax_Model_Resource_Report_Collection extends Mage_Sales_Model_Resourc
     public function __construct()
     {
         parent::_construct();
-        $this->setModel('adminhtml/report_item');
+        $this->setModel('Mage_Adminhtml_Model_Report_Item');
         $this->_resource = Mage::getResourceModel('Mage_Sales_Model_Resource_Report')->init($this->_aggregationTable);
         $this->setConnection($this->getResource()->getReadConnection());
     }

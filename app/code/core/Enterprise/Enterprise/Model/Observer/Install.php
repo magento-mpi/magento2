@@ -38,6 +38,5 @@ class Enterprise_Enterprise_Model_Observer_Install
     public function setDesignTheme($observer)
     {
         Mage::getSingleton('Mage_Install_Model_Installer')->setHideIframe(true);
-        Mage::getDesign()->setTheme('enterprise');
     }
 }

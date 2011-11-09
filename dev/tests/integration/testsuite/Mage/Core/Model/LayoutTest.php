@@ -25,8 +25,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         Mage::getConfig()->setOptions(array(
             'design_dir' => __DIR__ . '/_files/design',
         ));
-        Mage::getDesign()->setPackageName('test')
-            ->setTheme('default');
+        Mage::getDesign()->setDesignTheme('test/default/default');
 
         /* Disable loading and saving layout cache */
         Mage::app()->getCacheInstance()->banUse('layout');
@@ -82,7 +81,9 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
             'cache_notifications',
             'notification_survey',
             'notification_security',
-            'messages'
+            'messages',
+            'index_notifications',
+            'index_notifications_copy'
         );
         $this->_model->generateBlocks();
 
@@ -205,5 +206,35 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $helper = $this->_model->helper('Mage_Core_Helper_Data');
         $this->assertInstanceOf('Mage_Core_Helper_Data', $helper);
         $this->assertSame($this->_model, $helper->getLayout());
+    }
+
+    /**
+     * @dataProvider findTranslationModuleNameDefaultsDataProvider
+     */
+    public function testFindTranslationModuleNameDefaults($node, $moduleName)
+    {
+        $this->markTestIncomplete('Method it self not finished as has commented out logic.');
+        $this->assertEquals($moduleName, Mage_Core_Model_Layout::findTranslationModuleName($node));
+    }
+
+    public function findTranslationModuleNameDefaultsDataProvider()
+    {
+        $layout = '<layout>
+            <catalogsearch_test>
+                <block type="test/test">
+                    <block type="child/test"></block>
+                </block>
+            </catalogsearch_test>
+        </layout>';
+        $layout = simplexml_load_string($layout, 'Varien_Simplexml_Element');
+        $block = $layout->xpath('catalogsearch_test/block/block');
+        $block = $block[0];
+        return array(
+            array(
+                simplexml_load_string('<node module="Notexisting_Module">test</node>', 'Varien_Simplexml_Element'),
+                'core'
+            ),
+            array($block, 'core'),
+        );
     }
 }

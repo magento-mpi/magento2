@@ -64,13 +64,14 @@ class Mage_Paypal_Model_Config
      * Payflow Pro Gateway
      * @var string
      */
-    const METHOD_PAYFLOWPRO   = 'verisign';
+    const METHOD_PAYFLOWPRO         = 'verisign';
 
-    const METHOD_PAYFLOWLINK  = 'payflow_link';
+    const METHOD_PAYFLOWLINK        = 'payflow_link';
+    const METHOD_PAYFLOWADVANCED    = 'payflow_advanced';
 
-    const METHOD_HOSTEDPRO  = 'hosted_pro';
+    const METHOD_HOSTEDPRO          = 'hosted_pro';
 
-    const METHOD_BILLING_AGREEMENT = 'paypal_billing_agreement';
+    const METHOD_BILLING_AGREEMENT  = 'paypal_billing_agreement';
 
     /**
      * Buttons and images
@@ -481,6 +482,7 @@ class Mage_Paypal_Model_Config
                 self::METHOD_WPP_PE_EXPRESS,
                 self::METHOD_PAYFLOWPRO,
                 self::METHOD_PAYFLOWLINK,
+                self::METHOD_PAYFLOWADVANCED,
             ),
             'CA' => array(
                 self::METHOD_WPS,
@@ -1004,6 +1006,7 @@ class Mage_Paypal_Model_Config
             case self::METHOD_WPP_PE_DIRECT:
             case self::METHOD_PAYFLOWPRO:
             case self::METHOD_PAYFLOWLINK:
+            case self::METHOD_PAYFLOWADVANCED:
             case self::METHOD_HOSTEDPRO:
                 return true;
         }

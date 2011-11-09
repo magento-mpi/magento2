@@ -69,8 +69,8 @@
         </events>
         <layout>
             <updates>
-                <googleanalytics>
-                    <file>googleanalytics.xml</file>
+                <googleanalytics module="Mage_GoogleAnalytics">
+                    <file>layout.xml</file>
                 </googleanalytics>
             </updates>
         </layout>

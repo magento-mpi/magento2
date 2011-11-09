@@ -40,8 +40,13 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
     {
         parent::__construct();
 
-        $model = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
-        $this->setTemplate('xmlconnect/form/element/themes.phtml');
+        try {
+            $model = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
+        } catch (Mage_Core_Exception $e) {
+            Mage::logException($e);
+            return;
+        }
+        $this->setTemplate('form/element/themes.phtml');
 
         $data = $model->getFormData();
         $this->setColorFieldset(array(

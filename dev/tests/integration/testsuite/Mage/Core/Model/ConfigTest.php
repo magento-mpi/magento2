@@ -176,6 +176,17 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Model_Config_Element', $config->getNode('acl'));
     }
 
+    public function testGetModuleConfigurationFiles()
+    {
+        $files = $this->_createModel(true)->getModuleConfigurationFiles('config.xml');
+        $this->assertInternalType('array', $files);
+        $this->assertNotEmpty($files);
+        foreach ($files as $file) {
+            $this->assertStringEndsWith(DIRECTORY_SEPARATOR . 'config.xml', $file);
+            $this->assertFileExists($file);
+        }
+    }
+
     public function testGetTempVarDir()
     {
         $this->assertTrue(is_dir($this->_createModel()->getTempVarDir()));

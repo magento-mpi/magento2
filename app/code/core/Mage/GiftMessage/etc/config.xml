@@ -126,8 +126,8 @@
         </events>
         <layout>
             <updates>
-                <giftmessage>
-                    <file>giftmessage.xml</file>
+                <giftmessage module="Mage_GiftMessage">
+                    <file>layout.xml</file>
                 </giftmessage>
             </updates>
         </layout>
@@ -207,12 +207,5 @@
                 </Mage_GiftMessage>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <giftmessage>
-                    <file>giftmessage.xml</file>
-                </giftmessage>
-            </updates>
-        </layout>
     </frontend>
 </config>

@@ -31,7 +31,7 @@
  * @package    Enterprise_License
  */
 
-class Enterprise_License_Block_Adminhtml_Checker extends Mage_Core_Block_Template
+class Enterprise_License_Block_Adminhtml_Checker extends Mage_Adminhtml_Block_Template
 {
     /**
      * Number of days until the expiration of license.
@@ -42,7 +42,7 @@ class Enterprise_License_Block_Adminhtml_Checker extends Mage_Core_Block_Templat
 
     /**
      * Сounts the number of days remaining until the expiration of license.
-     * 
+     *
      * @return void
      */
     public function _construct()
@@ -54,7 +54,7 @@ class Enterprise_License_Block_Adminhtml_Checker extends Mage_Core_Block_Templat
 
     /**
      * Decides it's time to show warning or not.
-     * 
+     *
      * @return bool
      */
     public function shouldDispalyNotification()
@@ -66,11 +66,11 @@ class Enterprise_License_Block_Adminhtml_Checker extends Mage_Core_Block_Templat
             return false;
         }
     }
-    
+
 
     /**
      * Getter: return counts of days remaining until the expiration of license.
-     * 
+     *
      * @return int
      */
     public function getDaysLeftBeforeExpired()
@@ -80,7 +80,7 @@ class Enterprise_License_Block_Adminhtml_Checker extends Mage_Core_Block_Templat
 
     /**
      * Returns the text to be displayed in the message.
-     * 
+     *
      * @return string
      */
     public function getMessage()

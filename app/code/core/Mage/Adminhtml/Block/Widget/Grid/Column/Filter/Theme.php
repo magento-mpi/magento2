@@ -64,8 +64,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Theme
     {
         $options = $this->getColumn()->getOptions();
         if (empty($options) || !is_array($options)) {
-            $options = Mage::getModel('Mage_Core_Model_Design_Source_Design')
-                ->setIsFullLabel(true)->getAllOptions(false);
+            $options = Mage::getModel('Mage_Core_Model_Design_Source_Design')->getThemeOptions(false);
         }
         return $options;
     }

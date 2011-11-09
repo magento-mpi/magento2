@@ -43,8 +43,8 @@
         </translate>
         <layout>
             <updates>
-                <enterprise_license>
-                    <file>enterprise/license.xml</file>
+                <enterprise_license module="Enterprise_License">
+                    <file>layout.xml</file>
                 </enterprise_license>
             </updates>
         </layout>

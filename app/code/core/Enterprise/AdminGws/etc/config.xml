@@ -62,8 +62,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_admingws>
-                    <file>enterprise/admingws.xml</file>
+                <enterprise_admingws module="Enterprise_AdminGws">
+                    <file>layout.xml</file>
                 </enterprise_admingws>
             </updates>
         </layout>

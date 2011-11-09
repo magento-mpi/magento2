@@ -36,7 +36,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
 {
     public function __construct()
     {
-        $this->setTemplate('googleshopping/types/edit/attributes.phtml');
+        $this->setTemplate('types/edit/attributes.phtml');
     }
 
     /**

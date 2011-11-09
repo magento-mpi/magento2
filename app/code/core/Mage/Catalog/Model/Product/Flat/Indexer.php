@@ -53,6 +53,9 @@
  */
 class Mage_Catalog_Model_Product_Flat_Indexer extends Mage_Core_Model_Abstract
 {
+    const ENTITY = 'catalog_product_flat';
+    const EVENT_TYPE_REBUILD = 'catalog_product_flat_rebuild';
+
     /**
      * Standart model resource initialization
      *
@@ -70,7 +73,16 @@ class Mage_Catalog_Model_Product_Flat_Indexer extends Mage_Core_Model_Abstract
      */
     public function rebuild($store = null)
     {
-        $this->_getResource()->rebuild($store);
+        if (is_null($store)) {
+            $this->_getResource()->prepareFlatTables();
+        } else {
+            $this->_getResource()->prepareFlatTable($store);
+        }
+        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
+            new Varien_Object(array('id' => $store)),
+            self::ENTITY,
+            self::EVENT_TYPE_REBUILD
+        );
         return $this;
     }
 
@@ -218,7 +230,7 @@ class Mage_Catalog_Model_Product_Flat_Indexer extends Mage_Core_Model_Abstract
             }
             return $this;
         }
-        
+
         $resource = $this->_getResource();
         $resource->beginTransaction();
         try {
@@ -264,6 +276,17 @@ class Mage_Catalog_Model_Product_Flat_Indexer extends Mage_Core_Model_Abstract
     public function deleteStore($store)
     {
         $this->_getResource()->deleteFlatTable($store);
+        return $this;
+    }
+
+    /**
+     * Rebuild Catalog Product Flat Data for all stores
+     *
+     * @return Mage_Catalog_Model_Product_Flat_Indexer
+     */
+    public function reindexAll()
+    {
+        $this->_getResource()->reindexAll();
         return $this;
     }
 }

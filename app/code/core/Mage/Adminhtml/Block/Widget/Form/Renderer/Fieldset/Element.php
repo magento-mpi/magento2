@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element extends Mage_Ad
 
     protected function _construct()
     {
-        $this->setTemplate('widget/form/renderer/fieldset/element.phtml');
+        $this->setTemplate('Mage_Adminhtml::widget/form/renderer/fieldset/element.phtml');
     }
 
     public function getElement()

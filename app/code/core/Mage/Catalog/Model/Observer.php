@@ -232,4 +232,17 @@ class Mage_Catalog_Model_Observer
         $result  = $observer->getEvent()->getData('result');
         $result->isAllowed = Mage::helper('Mage_Catalog_Helper_Data')->setStoreId($storeId)->isUsingStaticUrlsAllowed();
     }
+
+    /**
+     * Cron job method for product prices to reindex
+     *
+     * @param Mage_Cron_Model_Schedule $schedule
+     */
+    public function reindexProductPrices(Mage_Cron_Model_Schedule $schedule)
+    {
+        $indexProcess = Mage::getModel('Mage_Index_Model_Indexer')->getProcessByCode('catalog_product_price');
+        if ($indexProcess) {
+            $indexProcess->reindexAll();
+        }
+    }
 }

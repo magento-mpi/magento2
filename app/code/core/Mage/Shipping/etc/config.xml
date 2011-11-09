@@ -72,8 +72,8 @@
         </routers>
         <layout>
             <updates>
-                <shipping>
-                    <file>shipping.xml</file>
+                <shipping module="Mage_Shipping">
+                    <file>layout.xml</file>
                 </shipping>
             </updates>
         </layout>

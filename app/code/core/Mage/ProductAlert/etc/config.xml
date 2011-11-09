@@ -42,18 +42,18 @@
         <template>
             <email>
                 <catalog_productalert_email_stock_template translate="label" module="Mage_ProductAlert">
-                    <label>Product stock alert</label>
-                    <file>product_stock_alert.html</file>
+                    <label>Stock Alert</label>
+                    <file>email/stock_alert.html</file>
                     <type>html</type>
                 </catalog_productalert_email_stock_template>
                 <catalog_productalert_email_price_template translate="label" module="Mage_ProductAlert">
-                    <label>Product price alert</label>
-                    <file>product_price_alert.html</file>
+                    <label>Price Alert</label>
+                    <file>email/price_alert.html</file>
                     <type>html</type>
                 </catalog_productalert_email_price_template>
                 <catalog_productalert_cron_error_email_template translate="label" module="Mage_ProductAlert">
-                    <label>Product alerts Cron error</label>
-                    <file>product_alert_cron_error.html</file>
+                    <label>Cron Error Warning</label>
+                    <file>email/cron_error.html</file>
                     <type>html</type>
                 </catalog_productalert_cron_error_email_template>
             </email>
@@ -82,8 +82,8 @@
         </translate>
         <layout>
             <updates>
-                <productalert>
-                    <file>productalert.xml</file>
+                <productalert module="Mage_ProductAlert">
+                    <file>layout.xml</file>
                 </productalert>
             </updates>
         </layout>

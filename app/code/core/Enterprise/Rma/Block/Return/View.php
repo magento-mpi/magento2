@@ -35,6 +35,9 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
     public function _construct()
     {
         parent::_construct();
+        if (!Mage::registry('current_rma')) {
+            return;
+        }
         $this->setTemplate('rma/return/view.phtml');
 
         $this->setRma(Mage::registry('current_rma'));

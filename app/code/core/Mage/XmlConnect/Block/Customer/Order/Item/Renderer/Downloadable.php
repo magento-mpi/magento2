@@ -36,7 +36,7 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Downloadable
 {
     /**
      * Add item to XML object
-     * (get from template: downloadable/sales/order/items/renderer/downloadable.phtml)
+     * (get from template: Mage_Downloadable::sales/order/items/renderer/downloadable.phtml)
      *
      * @param Mage_XmlConnect_Model_Simplexml_Element $orderItemXmlObj
      * @return null

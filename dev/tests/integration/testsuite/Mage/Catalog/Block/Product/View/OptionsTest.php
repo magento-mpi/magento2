@@ -60,7 +60,7 @@ class Mage_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_Test
         $this->assertEquals(
             array(
                 'block'     => 'Mage_Catalog_Block_Product_View_Options_Type_Default',
-                'template'  => 'catalog/product/view/options/type/default.phtml',
+                'template'  => 'product/view/options/type/default.phtml',
                 'renderer'  => null,
             ),
             $this->_block->getOptionRender('not_exists')
@@ -99,12 +99,12 @@ class Mage_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_Test
         $this->_block->addOptionRenderer(
             'select',
             'Mage_Catalog_Block_Product_View_Options_Type_Select',
-            'catalog/product/view/options/type/select.phtml'
+            'product/view/options/type/select.phtml'
         );
         $this->_block->addOptionRenderer(
             'date',
             'Mage_Catalog_Block_Product_View_Options_Type_Date',
-            'catalog/product/view/options/type/date.phtml'
+            'product/view/options/type/date.phtml'
         );
         $this->_block->setLayout(Mage::app()->getLayout());
         $html = false;

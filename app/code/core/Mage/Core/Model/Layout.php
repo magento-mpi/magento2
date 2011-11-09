@@ -601,19 +601,23 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public static function findTranslationModuleName(Varien_Simplexml_Element $node)
     {
-        $result = $node->getAttribute('module');
+        // Commented out code uses not yet implemented functionality.
+        $result = (string) $node->getAttribute('module');
         if ($result) {
-            return (string)$result;
+            //return Mage::getConfig()->getModuleConfig($result) ? $result : 'core';
+            return $result;
         }
         foreach (array_reverse($node->xpath('ancestor::*[@module]')) as $element) {
-            $result = $element->getAttribute('module');
+            $result = (string) $element->getAttribute('module');
             if ($result) {
-                return (string)$result;
+                //return Mage::getConfig()->getModuleConfig($result) ? $result : 'core';
+                return $result;
             }
         }
         foreach ($node->xpath('ancestor-or-self::*[last()-1]') as $handle) {
             $name = Mage::getConfig()->determineOmittedNamespace($handle->getName());
             if ($name) {
+                //return Mage::getConfig()->getModuleConfig($name) ? $name : 'core';
                 return $name;
             }
         }

@@ -15,7 +15,7 @@
 class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Controller_Varien_Action
+     * @var Mage_Core_Controller_Varien_Action|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -141,5 +141,45 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($this->_model->getResponse()->getBody());
         $this->_model->noCookiesAction();
         $this->assertNotEmpty($this->_model->getResponse()->getBody());
+    }
+
+    public function preDispatchDetectDesignDataProvider()
+    {
+        return array(
+            'install'  => array('Mage_Install_Controller_Action',    'install',   'default/default/default'),
+            'backend'  => array('Mage_Adminhtml_Controller_Action',  'adminhtml', 'default/default/default'),
+            'frontend' => array('Mage_Core_Controller_Front_Action', 'frontend',  'default/iphone/default'),
+        );
+    }
+
+    /**
+     * @magentoConfigFixture               install/design/theme/full_name   default/default/default
+     * @magentoConfigFixture               adminhtml/design/theme/full_name default/default/default
+     * @magentoConfigFixture current_store design/theme/full_name           default/iphone/default
+     * @magentoAppIsolation  enabled
+     * @dataProvider         preDispatchDetectDesignDataProvider
+     */
+    public function testPreDispatchDetectDesign($controllerClass, $expectedArea, $expectedDesign)
+    {
+        /** @var $controller Mage_Core_Controller_Varien_Action */
+        $controller = new $controllerClass(new Magento_Test_Request(), new Magento_Test_Response());
+        $controller->preDispatch();
+        $this->assertEquals($expectedArea, Mage::getDesign()->getArea());
+        $this->assertEquals($expectedDesign, Mage::getDesign()->getDesignTheme());
+    }
+
+    public function testNoRouteAction()
+    {
+        $status = 'test';
+        $this->_model->getRequest()->setParam('__status__', $status);
+        $caughtException = false;
+        $message = '';
+        try {
+            $this->_model->norouteAction();
+        } catch (Exception $e) {
+            $caughtException = true;
+            $message = $e->getMessage();
+        }
+        $this->assertFalse($caughtException, $message);
     }
 }

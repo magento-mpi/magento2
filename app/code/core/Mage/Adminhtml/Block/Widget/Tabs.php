@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
 
     protected function _construct()
     {
-        $this->setTemplate('widget/tabs.phtml');
+        $this->setTemplate('Mage_Adminhtml::widget/tabs.phtml');
     }
 
     /**

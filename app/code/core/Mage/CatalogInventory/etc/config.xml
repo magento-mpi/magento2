@@ -169,6 +169,22 @@
                     </cataloginventory>
                 </observers>
             </prepare_catalog_product_index_select>
+            <end_index_events_cataloginventory_stock_item_save>
+                <observers>
+                    <cataloginventory>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
+                        <method>reindexProductsMassAction</method>
+                    </cataloginventory>
+                </observers>
+            </end_index_events_cataloginventory_stock_item_save>
+            <end_process_event_cataloginventory_stock_item_save>
+                <observers>
+                    <cataloginventory>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
+                        <method>reindexProductsMassAction</method>
+                    </cataloginventory>
+                </observers>
+            </end_process_event_cataloginventory_stock_item_save>
         </events>
         <catalog>
             <product>
@@ -209,8 +225,8 @@
     <frontend>
         <layout>
             <updates>
-                <cataloginventory>
-                    <file>cataloginventory.xml</file>
+                <cataloginventory module="Mage_CatalogInventory">
+                    <file>layout.xml</file>
                 </cataloginventory>
             </updates>
         </layout>

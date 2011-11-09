@@ -30,6 +30,7 @@
         <name>CMS Hierarchy Node Link</name>
         <description>Link to Specified CMS Hierarchy Node</description>
         <is_email_compatible>1</is_email_compatible>
+        <placeholder_image>Enterprise_Cms::widget_node.gif</placeholder_image>
         <parameters>
             <node_id translate="label">
                 <label>Node</label>
@@ -61,14 +62,14 @@
                 <label>Template</label>
                 <visible>1</visible>
                 <type>select</type>
-                <value>cms/hierarchy/widget/link/link_block.phtml</value>
+                <value>hierarchy/widget/link/link_block.phtml</value>
                 <values>
                     <default translate="label">
-                        <value>cms/hierarchy/widget/link/link_block.phtml</value>
+                        <value>hierarchy/widget/link/link_block.phtml</value>
                         <label>CMS Page Link Block Template</label>
                     </default>
                     <link_inline translate="label">
-                        <value>cms/hierarchy/widget/link/link_inline.phtml</value>
+                        <value>hierarchy/widget/link/link_inline.phtml</value>
                         <label>CMS Page Link Inline Template</label>
                     </link_inline>
                 </values>

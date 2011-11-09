@@ -47,10 +47,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
     {
         parent::__construct();
         $this->setId('source_rcompared');
-        $this->setHeaderText(
-            Mage::helper('Enterprise_Checkout_Helper_Data')->__('Recently Compared Products (%s)', $this->getItemsCount())
-        );
-
+        if ($this->_getStore()) {
+            $this->setHeaderText(
+                Mage::helper('Enterprise_Checkout_Helper_Data')->__('Recently Compared Products (%s)', $this->getItemsCount())
+            );
+        }
     }
 
     /**

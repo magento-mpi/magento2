@@ -30,8 +30,8 @@
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
+ * @method array getTemplateOptions()
  */
-
 class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Block_Widget
 {
 
@@ -152,6 +152,23 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Email_Template_Edit_Form')
         );
         return parent::_prepareLayout();
+    }
+
+    /**
+     * Collect, sort and set template options
+     *
+     * @return Mage_Adminhtml_Block_System_Email_Template_Edit
+     */
+    protected function _beforeToHtml()
+    {
+        $groupedOptions = array();
+        foreach (Mage_Core_Model_Email_Template::getDefaultTemplatesAsOptionsArray() as $option) {
+            $groupedOptions[$option['group']][] = $option;
+        }
+        ksort($groupedOptions);
+        $this->setData('template_options', $groupedOptions);
+
+        return parent::_beforeToHtml();
     }
 
     public function getBackButtonHtml()
@@ -278,21 +295,6 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
     public function getEmailTemplate()
     {
         return Mage::registry('current_email_template');
-    }
-
-    public function getLocaleOptions()
-    {
-        return Mage::app()->getLocale()->getOptionLocales();
-    }
-
-    public function getTemplateOptions()
-    {
-        return Mage_Core_Model_Email_Template::getDefaultTemplatesAsOptionsArray();
-    }
-
-    public function getCurrentLocale()
-    {
-        return Mage::app()->getLocale()->getLocaleCode();
     }
 
     /**

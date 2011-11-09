@@ -264,10 +264,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
     public function skinDirective($construction)
     {
         $params = $this->_getIncludeParameters($construction[2]);
-        $params['_absolute'] = $this->_useAbsoluteLinks;
-
         $url = Mage::getDesign()->getSkinUrl($params['url'], $params);
-
         return $url;
     }
 
@@ -318,7 +315,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
             unset($params['url']);
         }
 
-        return Mage::app()->getStore(Mage::getDesign()->getStore())->getUrl($path, $params);
+        return Mage::app()->getStore($this->getStoreId())->getUrl($path, $params);
     }
 
     /**

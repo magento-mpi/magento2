@@ -80,14 +80,12 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
             return false;
         }
 
-        $inRange = Mage::app()->getLocale()->isStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo());
+        $inRange = Mage::app()->getLocale()
+            ->isStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo());
 
         if ($page->getCustomTheme()) {
             if ($inRange) {
-                list($package, $theme) = explode('/', $page->getCustomTheme());
-                Mage::getSingleton('Mage_Core_Model_Design_Package')
-                    ->setPackageName($package)
-                    ->setTheme($theme);
+                Mage::getDesign()->setDesignTheme($page->getCustomTheme());
             }
         }
 
@@ -105,15 +103,16 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
 
         Mage::dispatchEvent('cms_page_render', array('page' => $page, 'controller_action' => $action));
 
-
         $action->loadLayoutUpdates();
-        $layoutUpdate = ($page->getCustomLayoutUpdateXml() && $inRange) ? $page->getCustomLayoutUpdateXml() : $page->getLayoutUpdateXml();
+        $layoutUpdate = ($page->getCustomLayoutUpdateXml() && $inRange)
+            ? $page->getCustomLayoutUpdateXml() : $page->getLayoutUpdateXml();
         $action->getLayout()->getUpdate()->addUpdate($layoutUpdate);
         $action->generateLayoutXml()->generateLayoutBlocks();
 
         $contentHeadingBlock = $action->getLayout()->getBlock('page_content_heading');
         if ($contentHeadingBlock) {
-            $contentHeadingBlock->setContentHeading($page->getContentHeading());
+            $contentHeading = $this->escapeHtml($page->getContentHeading());
+            $contentHeadingBlock->setContentHeading($contentHeading);
         }
 
         if ($page->getRootTemplate()) {

@@ -343,8 +343,11 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
         }
 
         if ($productId) {
-            Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Indexer_Price')
-                ->reindexProductIds(array($productId));
+            Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
+                new Varien_Object(array('id' => $productId)),
+                Mage_Catalog_Model_Product::ENTITY,
+                Mage_Catalog_Model_Product_Indexer_Price::EVENT_TYPE_REINDEX_PRICE
+            );
         }
     }
 

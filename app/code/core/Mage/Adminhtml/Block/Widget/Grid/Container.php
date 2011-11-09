@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Adminhtml_Block_Wi
 
         parent::__construct();
 
-        $this->setTemplate('widget/grid/container.phtml');
+        $this->setTemplate('Mage_Adminhtml::widget/grid/container.phtml');
 
         $this->_addButton('add', array(
             'label'     => $this->getAddButtonLabel(),

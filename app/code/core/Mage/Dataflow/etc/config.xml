@@ -40,13 +40,4 @@
             </dataflow_setup>
         </resources>
     </global>
-    <adminhtml>
-        <layout>
-            <updates>
-                <dataflow>
-                    <file>dataflow.xml</file>
-                </dataflow>
-            </updates>
-        </layout>
-    </adminhtml>
 </config>

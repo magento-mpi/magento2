@@ -108,8 +108,8 @@
         </translate>
         <layout>
             <updates>
-                <core>
-                    <file>core.xml</file>
+                <core module="Mage_Core">
+                    <file>layout.xml</file>
                 </core>
             </updates>
         </layout>
@@ -164,13 +164,10 @@
     </install>
     <default>
         <design>
-            <package>
-                <area>frontend</area>
-                <default_theme>default</default_theme>
-                <name>default</name>
-                <theme>default</theme>
-                <translate>default</translate>
-            </package>
+            <theme>
+                <full_name>default/default/default</full_name>
+                <allow_skin_files_duplication>1</allow_skin_files_duplication>
+            </theme>
             <pagination>
                 <list_allow_all>1</list_allow_all>
                 <pagination_frame>5</pagination_frame>

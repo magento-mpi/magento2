@@ -41,7 +41,7 @@ class Mage_Core_Block_Html_Link extends Mage_Core_Block_Template
      */
     protected function _construct()
     {
-        $this->setTemplate('core/link.phtml');
+        $this->setTemplate('Mage_Core::link.phtml');
         parent::_construct();
     }
     /**

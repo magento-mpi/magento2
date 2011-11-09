@@ -1,0 +1,1 @@
+/* localized modular fixture skin file located inside the nested skin of the custom theme */

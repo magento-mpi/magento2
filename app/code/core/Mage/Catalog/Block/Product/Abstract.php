@@ -43,9 +43,9 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      */
     protected $_block = 'Mage_Catalog_Block_Product_Price';
 
-    protected $_priceBlockDefaultTemplate = 'catalog/product/price.phtml';
+    protected $_priceBlockDefaultTemplate = 'product/price.phtml';
 
-    protected $_tierPriceDefaultTemplate  = 'catalog/product/view/tierprices.phtml';
+    protected $_tierPriceDefaultTemplate  = 'product/view/tierprices.phtml';
 
     protected $_priceBlockTypes = array();
 
@@ -567,5 +567,134 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
         }
 
         return $this;
+    }
+
+    /**
+     * Product thumbnail image url getter
+     *
+     * @param Mage_Core_Model_Product $product
+     * @return string
+     */
+    public function getThumbnailUrl($product)
+    {
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')->resize($this->getThumbnailSize());
+    }
+
+    /**
+     * Thumbnail image size getter
+     *
+     * @return int
+     */
+    public function getThumbnailSize()
+    {
+        return $this->getVar('product_thumbnail_image_size', 'Mage_Catalog');
+    }
+
+    /**
+     * Product thumbnail image sidebar url getter
+     *
+     * @param Mage_Core_Model_Product $product
+     * @return string
+     */
+    public function getThumbnailSidebarUrl($product)
+    {
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')
+            ->resize($this->getThumbnailSidebarSize());
+    }
+
+    /**
+     * Thumbnail image sidebar size getter
+     *
+     * @return int
+     */
+    public function getThumbnailSidebarSize()
+    {
+        return $this->getVar('product_thumbnail_image_sidebar_size', 'Mage_Catalog');
+    }
+
+    /**
+     * Product small image url getter
+     *
+     * @param Mage_Core_Model_Product $product
+     * @return string
+     */
+    public function getSmallImageUrl($product)
+    {
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'small_image')
+            ->resize($this->getSmallImageSize());
+    }
+
+    /**
+     * Small image size getter
+     *
+     * @return int
+     */
+    public function getSmallImageSize()
+    {
+        return $this->getVar('product_small_image_size', 'Mage_Catalog');
+    }
+
+    /**
+     * Product small image sidebar url getter
+     *
+     * @param Mage_Core_Model_Product $product
+     * @return string
+     */
+    public function getSmallImageSidebarUrl($product)
+    {
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'small_image')
+            ->resize($this->getSmallImageSidebarSize());
+    }
+
+    /**
+     * Small image sidebar size getter
+     *
+     * @return int
+     */
+    public function getSmallImageSidebarSize()
+    {
+        return $this->getVar('product_small_image_sidebar_size', 'Mage_Catalog');
+    }
+
+    /**
+     * Product base image url getter
+     *
+     * @param Mage_Core_Model_Product $product
+     * @return string
+     */
+    public function getBaseImageUrl($product)
+    {
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'image')->resize($this->getBaseImageSize());
+    }
+
+    /**
+     * Base image size getter
+     *
+     * @return int
+     */
+    public function getBaseImageSize()
+    {
+        return $this->getVar('product_base_image_size', 'Mage_Catalog');
+    }
+
+    /**
+     * Product base image icon url getter
+     *
+     * @param Mage_Core_Model_Product $product
+     * @return string
+     */
+    public function getBaseImageIconUrl($product)
+    {
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'image')->resize($this->getBaseImageIconSize());
+    }
+
+    /**
+     * Base image icon size getter
+     *
+     * @return int
+     */
+    public function getBaseImageIconSize()
+    {
+        return $this->getVar('product_base_image_icon_size', 'Mage_Catalog');
     }
 }

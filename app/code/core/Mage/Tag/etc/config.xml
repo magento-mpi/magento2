@@ -69,7 +69,7 @@
         <layout>
             <updates>
                 <tag module="Mage_Tag">
-                    <file>tag.xml</file>
+                    <file>layout.xml</file>
                 </tag>
             </updates>
         </layout>
@@ -116,12 +116,5 @@
                 </Mage_Tag>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <tag>
-                    <file>tag.xml</file>
-                </tag>
-            </updates>
-        </layout>
     </adminhtml>
 </config>
