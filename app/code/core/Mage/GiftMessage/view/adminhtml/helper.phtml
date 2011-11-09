@@ -25,7 +25,7 @@
  */
 ?>
 <?php if($this->getType()!== 'main' && !$this->getScriptIncluded() && $this->getCanDisplayContainer()): ?>
-<?php echo $this->helper('core/js')->includeSkinScript('Mage_Adminhtml::sales/order/create/giftmessage.js') ?>
+<?php echo $this->helper('core/js')->includeScript('Mage_Adminhtml::sales/order/create/giftmessage.js') ?>
 <?php $this->setScriptIncluded(true); ?>
 <?php endif; ?>
 <?php if($this->getCanDisplayContainer()): ?>

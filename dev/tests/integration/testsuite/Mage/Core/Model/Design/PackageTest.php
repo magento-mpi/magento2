@@ -569,15 +569,6 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetStaticLibUrl()
-    {
-        $this->assertEquals('http://localhost/js/', $this->_model->getStaticLibUrl(''));
-        $this->assertEquals(
-            'http://localhost/js/calendar/calendar.js',
-            $this->_model->getStaticLibUrl('calendar/calendar.js')
-        );
-    }
-
     public function testGetDesignEntitiesStructure()
     {
         $expectedResult = array(

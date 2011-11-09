@@ -360,17 +360,6 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertStringEndsWith('css/styles.css', $this->_block->getSkinUrl('css/styles.css'));
     }
 
-    public function testGetStaticLibUrl()
-    {
-        $this->markTestIncomplete('Should be fixed when static when we have static folder jslib implemented');
-        $this->assertEquals('http://localhost/pub/jslib/', $this->_block->getStaticLibUrl());
-        $this->assertEquals('http://localhost/pub/jslib/file.js', $this->_block->getStaticLibUrl('file.js'));
-        $this->assertEquals(
-            'http://localhost/pub/jslib/media/file.ext',
-            $this->_block->getStaticLibUrl('media/file.ext')
-        );
-    }
-
     public function testGetSetMessagesBlock()
     {
         // get one from layout

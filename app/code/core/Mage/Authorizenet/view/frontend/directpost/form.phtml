@@ -37,7 +37,7 @@ $_orderUrl = $this->helper('authorizenet')->getPlaceOrderFrontUrl();
 ?>
 <div class="buttons-set">
 <!-- IFRAME for request to Authorize.net -->
-<iframe id="directpost-iframe" allowtransparency="true" frameborder="0"  name="iframeDirectPost" style="display:none;width:100%;background-color:transparent" src="<?php echo $this->getJsUrl() ?>blank.html"></iframe>
+<iframe id="directpost-iframe" allowtransparency="true" frameborder="0"  name="iframeDirectPost" style="display:none;width:100%;background-color:transparent" src="<?php echo $this->getSkinUrl('blank.html') ?>"></iframe>
 
 <form id="co-directpost-form" action="#" method="post">
 <fieldset>
