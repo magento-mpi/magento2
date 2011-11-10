@@ -208,6 +208,7 @@ class Mage_Index_Model_Indexer
             if (in_array($code, $processed)) {
                 continue;
             }
+
             if ($process->getDepends()) {
                 foreach ($process->getDepends() as $processCode) {
                     $dependProcess = $this->getProcessByCode($processCode);
@@ -219,6 +220,7 @@ class Mage_Index_Model_Indexer
             }
 
             call_user_func_array(array($process, $method), $args);
+
             $processed[] = $code;
         }
     }
