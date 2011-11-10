@@ -163,9 +163,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
                 throw new Exception(Mage::helper('Mage_Paypal_Helper_Data')->__('Wrong Order ID (%s) specified.', $id));
             }
             $this->_order = $order;
-            //TODO: check it. Seems like it's deprecated in PBridge.
-            //$this->_config = Mage::getModel('Mage_Paypal_Model_Config', array($order->getPayment()->getMethod()));
-            //$this->_verifyOrder($order);
         }
         return $this->_order;
     }

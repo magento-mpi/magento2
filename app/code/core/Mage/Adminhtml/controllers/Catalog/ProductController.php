@@ -463,23 +463,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     }
 
     /**
-     * Deprecated since 1.2
-     *
-     */
-    public function bundlesAction()
-    {
-        $product = $this->_initProduct();
-        $this->getResponse()->setBody(
-            $this->getLayout()
-                ->createBlock(
-                    'Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle',
-                    'admin.product.bundle.items')
-                ->setProductId($product->getId())
-                ->toHtml()
-        );
-    }
-
-    /**
      * Validate product
      *
      */

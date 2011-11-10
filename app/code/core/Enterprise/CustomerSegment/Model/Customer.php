@@ -55,14 +55,6 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
     protected $_segmentMap = array();
 
     /**
-     * Array of segment ids per customer if
-     *
-     * @deprecated after 1.6.0 - please use $_customerWebsiteSegments
-     * @var array
-     */
-    protected $_customerSegments = array();
-
-    /**
      * Array of segment ids per customer id and website id
      *
      * @var array

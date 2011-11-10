@@ -158,7 +158,6 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
     /**
      * Refresh statistics for last 25 hours
      *
-     * @deprecated after 1.4.0.1
      * @return Mage_Adminhtml_Report_SalesController
      */
     public function refreshRecentAction()
@@ -169,7 +168,6 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
     /**
      * Refresh statistics for all period
      *
-     * @deprecated after 1.4.0.1
      * @return Mage_Adminhtml_Report_SalesController
      */
     public function refreshLifetimeAction()
@@ -414,9 +412,6 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
 
-    /**
-     * @deprecated after 1.4.0.1
-     */
     public function refreshStatisticsAction()
     {
         return $this->_forward('index', 'report_statistics');

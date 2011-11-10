@@ -38,11 +38,6 @@ class Enterprise_PageCache_Model_Processor
     const CACHE_SIZE_KEY                = 'FPC_CACHE_SIZE_CAHCE_KEY';
     const XML_PATH_CACHE_MAX_SIZE       = 'system/page_cache/max_cache_size';
 
-    /**
-     * @deprecated after 1.8.0.0 - moved to Enterprise_PageCache_Model_Container_Viewedproducts
-     */
-    const LAST_PRODUCT_COOKIE           = 'LAST_PRODUCT';
-
     const METADATA_CACHE_SUFFIX        = '_metadata';
 
     /**

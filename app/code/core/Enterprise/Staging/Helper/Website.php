@@ -42,18 +42,6 @@ class Enterprise_Staging_Helper_Website extends Mage_Core_Helper_Url
     protected $_stagingCodeSuffix = null;
 
     /**
-     * Check if a website can be shown
-     *
-     * @deprecated
-     * @param  Enterprise_Staging_Model_Staging_Website|int $website
-     * @return boolean
-     */
-    public function canShow($website, $where = 'frontend')
-    {
-        return false;
-    }
-
-    /**
      * Retrieve website code sufix
      *
      * @return string
