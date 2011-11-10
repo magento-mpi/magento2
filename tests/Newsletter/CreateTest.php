@@ -78,27 +78,7 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
         $this->categoryHelper()->checkCategoriesPage();
 
-        return $rootCat . '/' . $categoryData['name'];
-    }
-
-    /**
-     * <p>Preconditions</p>
-     * <p>Create Simple Products for tests</p>
-     *
-     * @depends createCategory
-     * @test
-     */
-    public function createProduct($category)
-    {
-        $this->loginAdminUser();
-        $this->navigate('manage_products');
-        $simpleProductData = $this->loadData('simple_product_for_prices_validation_front_1',
-                array('categories' => $category),
-                array('general_name', 'general_sku')
-        );
-        $this->productHelper()->createProduct($simpleProductData);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        return $simpleProductData['general_name'];
+        return $categoryData['name'];
     }
 
     /**
@@ -116,7 +96,6 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      *
      * @depends createCustomer
      * @depends createCategory
-     * @depends createProduct
      *
      * @test
      */
@@ -126,8 +105,6 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
         $newSubscriberEmail = $this->generate('email', 15, 'invalid');
         //Preconditions
         $this->customerHelper()->frontLoginCustomer($customer);
-        $nodes = explode('/', $category);
-        $category = end($nodes);
         $this->categoryHelper()->frontOpenCategory($category);
         $this->fillForm(array('sign_up_newsletter' => $newSubscriberEmail));
         $this->clickButton('subscribe', FALSE);
@@ -153,15 +130,11 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      * @dataProvider newsletterData
      * @depends createCustomer
      * @depends createCategory
-     * @depends createProduct
      *
      * @test
      */
     public function subscriberEmailVerificationValidAddress($newSubscriberEmail, $customer, $category)
     {
-        //Data
-        $nodes = explode('/', $category);
-        $category = end($nodes);
         //Preconditions
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->categoryHelper()->frontOpenCategory($category);
@@ -199,7 +172,6 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      *
      * @depends createCustomer
      * @depends createCategory
-     * @depends createProduct
      *
      * @test
      */
@@ -207,8 +179,6 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $newSubscriberEmail = $this->generate('email', 300, 'valid');
-        $nodes = explode('/', $category);
-        $category = end($nodes);
         //Preconditions
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->categoryHelper()->frontOpenCategory($category);
@@ -235,7 +205,6 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      *
      * @depends createCustomer
      * @depends createCategory
-     * @depends createProduct
      *
      * @test
      */
@@ -243,8 +212,6 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $newSubscriberEmail = NULL;
-        $nodes = explode('/', $category);
-        $category = end($nodes);
         //Preconditions
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->categoryHelper()->frontOpenCategory($category);
@@ -273,7 +240,6 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      *
      * @depends createCustomer
      * @depends createCategory
-     * @depends createProduct
      *
      * @test
      */
@@ -281,8 +247,6 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $this->addParameter('qtyOfRecords', 1);
-        $nodes = explode('/', $category);
-        $category = end($nodes);
         $newSubscriberEmail = $this->generate('email', 15, 'valid');
         //Steps
         $this->customerHelper()->frontLoginCustomer($customer);
@@ -322,7 +286,6 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      *
      * @depends createCustomer
      * @depends createCategory
-     * @depends createProduct
      *
      * @test
      */
@@ -330,8 +293,6 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $this->addParameter('qtyOfRecords', 1);
-        $nodes = explode('/', $category);
-        $category = end($nodes);
         $newSubscriberEmail = $this->generate('email', 15, 'valid');
         //Steps
         $this->customerHelper()->frontLoginCustomer($customer);
