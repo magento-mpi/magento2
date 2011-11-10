@@ -152,7 +152,7 @@ class Mage_PHPUnit_MockBuilder_Model_Model extends Mage_PHPUnit_MockBuilder_Mode
     {
         $modelClass = $this->getRealModelClass();
         $delegatorClass = $this->_generateMockDelegatorClassName($modelClass);
-        if (!class_exists($delegatorClass, false)) {
+        if (!class_exists($delegatorClass)) {
             $delegatorClassText =
             "class {$delegatorClass} extends {$modelClass}
             {

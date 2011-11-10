@@ -94,6 +94,10 @@ class Mage_PHPUnit_Helper_Model_ResourceModel extends Mage_PHPUnit_Helper_Model_
 
         list($module, $model) = $classArray;
         $moduleNode = Mage::getConfig()->getNode("global/models/{$module}");
+
+        //Mage::dump($module);
+        //Mage::dump(Mage::getConfig()->getNode("global/models/api")->asNiceXml()); exit;
+
         if (!$moduleNode) {
             return false;
         }

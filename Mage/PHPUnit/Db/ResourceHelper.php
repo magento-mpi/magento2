@@ -34,7 +34,5 @@
  */
 class Mage_PHPUnit_Db_ResourceHelper extends Mage_Core_Model_Resource_Helper_Abstract
 {
-    public function addLikeEscape($value, $options = array())
-    {
-    }
+
 }

@@ -26,813 +26,203 @@
 
 /**
  * Local DB adapter.
- * Needed to implement interface methods.
+ * Needed to implement abstract methods from parent abstract class.
  *
  * @category    Mage
  * @package     Mage_PHPUnit
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
-    implements Varien_Db_Adapter_Interface
+class Mage_PHPUnit_Db_Adapter extends Zend_Db_Adapter_Abstract
 {
     /**
-     * Empty method
+     * Default class name for a DB statement.
      *
-     * @param unknown_type $tableName
-     * @param unknown_type $schemaName
+     * @var string
+     */
+    protected $_defaultStmtClass = 'Mage_PHPUnit_Db_Statement';
+
+    /**
+     * Temporary Stub. Empty method.
+     *
+     * @param string $tableName
+     * @param string|null $schemaName
      */
     public function describeTable($tableName, $schemaName = null)
     {
-        // empty code
 
     }
+
     /**
-     * Empty method
-     *
-     * @param unknown_type $tableName
-     * @param unknown_type $schemaName
-     * @return Varien_Db_Ddl_Table
+     * Temporary Stub. Empty method.
      */
-    public function newTable($tableName = null, $schemaName = null)
+    public function listTables()
     {
-        // empty code
-
+        // TODO Auto-generated method stub
     }
 
     /**
-     * Empty method
-     *
-     * @param Varien_Db_Ddl_Table $table
-     * @return Zend_Db_Statement_Interface
+     * Initializes connection instance.
      */
-    public function createTable(Varien_Db_Ddl_Table $table)
+    protected function _connect()
     {
-        // empty code
-
+        $this->_connection = Mage_PHPUnit_Db_FixtureConnection::getInstance();
     }
 
     /**
-     * Empty method
+     * Is adapter connected.
      *
-     * @param unknown_type $tableName
-     * @param unknown_type $schemaName
+     * @return bool
      */
-    public function dropTable($tableName, $schemaName = null)
+    public function isConnected()
     {
-        // empty code
-
+        return !is_null($this->_connection);
     }
 
     /**
-     * Empty method
-     *
-     * @param unknown_type $tableName
-     * @param unknown_type $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * Closes connection.
      */
-    public function truncateTable($tableName, $schemaName = null)
+    public function closeConnection()
     {
-        // empty code
-
+        $this->_connection->reset();
+        $this->_connection = null;
     }
 
     /**
-     * Empty method
+     * Prepares statement
      *
-     * @param unknown_type $tableName
-     * @param unknown_type $schemaName
+     * @param mixed $sql
+     * @return Zend_Db_Statement
      */
-    public function isTableExists($tableName, $schemaName = null)
+    public function prepare($sql)
     {
-        // empty code
-
+        // TODO Auto-generated method stub
+        $class = $this->getStatementClass();
+        return new $class($this, $sql);
     }
 
     /**
-     * Empty method
+     * Runs SQL query. Implemented only for SELECT queries
      *
-     * @param unknown_type $tableName
-     * @param unknown_type $schemaName
+     * @param mixed $sql
+     * @param array $bind temporary isn't used
+     * @return Zend_Db_Statement
+     * @todo Implement for other queries like INSERT or DELETE, etc.
      */
-    public function showTableStatus($tableName, $schemaName = null)
+    public function query($sql, $bind = array())
     {
-        // empty code
+        $this->_connect();
+        $stmt = $this->prepare($sql);
+        if (is_string($sql)) {
+            $sql = trim($sql);
+            if (strtoupper(substr($sql, 0, 6)) == 'SELECT') {
+                if ($this->getConnection()->getLoadFromTable()) {
+                    $sqlObject = new Zend_Db_Select($this);
+                    $result = array();
+                    preg_match('/^SELECT.*[\\s\\r\\n\\t]+FROM[\\s\\r\\n\\t]+["\'`]?([0-9a-zA-Z_-]+)["\'`]?(?:(?:[\\s\\r\\n\\t]+.*)|$)/is', $sql, $result);
+                    if ($result[1]) {
+                        $sqlObject->from($result[1]);
+                        $sql = $sqlObject;
+                    }
+                } else {
+                    $result = $this->getConnection()->select($sql);
+                    $stmt->setResult($result);
+                    return $stmt;
+                }
+            }
+        }
+        if ($sql instanceof Zend_Db_Select) {
+            $result = $this->getConnection()->select($sql);
+            $stmt->setResult($result);
+        }
 
+        return $stmt;
     }
 
     /**
-     * Empty method
+     * Creates and returns a new Zend_Db_Select object for this adapter.
      *
-     * @param unknown_type $tableName
-     * @param unknown_type $newTableName
-     * @return Varien_Db_Ddl_Table
+     * @return Varien_Db_Select
      */
-    public function createTableByDdl($tableName, $newTableName)
+    public function select()
     {
-        // empty code
-
+        return new Varien_Db_Select($this);
     }
 
     /**
-     * Empty method
+     * Temporary Stub. Empty method.
      *
-     * @param unknown_type $tableName
-     * @param unknown_type $columnName
-     * @param unknown_type $definition
-     * @param unknown_type $flushData
-     * @param unknown_type $schemaName
-     * @return Varien_Db_Adapter_Pdo_Mysql
+     * @param string|null $tableName
+     * @param string|null $primaryKey
      */
-    public function modifyColumnByDdl($tableName, $columnName, $definition, $flushData = false, $schemaName = null)
+    public function lastInsertId($tableName = null, $primaryKey = null)
     {
-        // empty code
-
+        // TODO Auto-generated method stub
     }
 
     /**
-     * Empty method
-     *
-     * @param unknown_type $oldTableName
-     * @param unknown_type $newTableName
-     * @param unknown_type $schemaName
+     * Temporary Stub. Empty method.
      */
-    public function renameTable($oldTableName, $newTableName, $schemaName = null)
+    protected function _beginTransaction()
     {
-        // empty code
-
+        // TODO Auto-generated method stub
     }
 
     /**
-     * Empty method
-     *
-     * @param unknown_type $tableName
-     * @param unknown_type $columnName
-     * @param unknown_type $definition
-     * @param unknown_type $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * Temporary Stub. Empty method.
      */
-    public function addColumn($tableName, $columnName, $definition, $schemaName = null)
+    protected function _commit()
     {
-        // empty code
-
+        // TODO Auto-generated method stub
     }
 
     /**
-     * Empty method
-     *
-     * @param unknown_type $tableName
-     * @param unknown_type $oldColumnName
-     * @param unknown_type $newColumnName
-     * @param unknown_type $definition
-     * @param unknown_type $flushData
-     * @param unknown_type $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * Temporary Stub. Empty method.
      */
-    public function changeColumn($tableName, $oldColumnName, $newColumnName, $definition, $flushData = false, $schemaName = null)
+    protected function _rollBack()
     {
-        // empty code
-
+        // TODO Auto-generated method stub
     }
 
     /**
-     * Empty method
+     * Temporary Stub. Empty method.
      *
-     * @param unknown_type $tableName
-     * @param unknown_type $columnName
-     * @param unknown_type $definition
-     * @param unknown_type $flushData
-     * @param unknown_type $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @param string $mode
      */
-    public function modifyColumn($tableName, $columnName, $definition, $flushData = false, $schemaName = null)
+    public function setFetchMode($mode)
     {
-        // empty code
-
+        // TODO Auto-generated method stub
     }
 
     /**
-     * Empty method
+     * Temporary Stub. Empty method.
      *
-     * @param unknown_type $tableName
-     * @param unknown_type $columnName
-     * @param unknown_type $schemaName
+     * @param mixed $sql
+     * @param int $count
+     * @param int $offset
      */
-    public function dropColumn($tableName, $columnName, $schemaName = null)
+    public function limit($sql, $count, $offset = 0)
     {
-        // empty code
-
+        // TODO Auto-generated method stub
     }
 
     /**
-     * Empty method
+     * Temporary Stub. Empty method.
      *
-     * @param unknown_type $tableName
-     * @param unknown_type $columnName
-     * @param unknown_type $schemaName
+     * @param string $type
      */
-    public function tableColumnExists($tableName, $columnName, $schemaName = null)
+    public function supportsParameters($type)
     {
-        // empty code
-
+        // TODO Auto-generated method stub
     }
 
     /**
-     * Empty method
+     * Returns server version
      *
-     * @param unknown_type $tableName
-     * @param unknown_type $indexName
-     * @param unknown_type $fields
-     * @param unknown_type $indexType
-     * @param unknown_type $schemaName
-     * @return Varien_Db_Adapter_Interface
-     */
-    public function addIndex($tableName, $indexName, $fields, $indexType = self::INDEX_TYPE_INDEX, $schemaName = null)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $tableName
-     * @param unknown_type $keyName
-     * @param unknown_type $schemaName
-     * @return Varien_Db_Adapter_Interface
-     */
-    public function dropIndex($tableName, $keyName, $schemaName = null)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $tableName
-     * @param unknown_type $schemaName
-     */
-    public function getIndexList($tableName, $schemaName = null)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $fkName
-     * @param unknown_type $tableName
-     * @param unknown_type $columnName
-     * @param unknown_type $refTableName
-     * @param unknown_type $refColumnName
-     * @param unknown_type $onDelete
-     * @param unknown_type $onUpdate
-     * @param unknown_type $purge
-     * @param unknown_type $schemaName
-     * @param unknown_type $refSchemaName
-     * @return Varien_Db_Adapter_Interface
-     */
-    public function addForeignKey($fkName, $tableName, $columnName, $refTableName, $refColumnName, $onDelete = self::FK_ACTION_CASCADE, $onUpdate = self::FK_ACTION_CASCADE, $purge = false, $schemaName = null, $refSchemaName = null)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $tableName
-     * @param unknown_type $fkName
-     * @param unknown_type $schemaName
-     * @return Varien_Db_Adapter_Interface
-     */
-    public function dropForeignKey($tableName, $fkName, $schemaName = null)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $tableName
-     * @param unknown_type $schemaName
-     */
-    public function getForeignKeys($tableName, $schemaName = null)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $table
-     * @param array $data
-     * @param array $fields
-     */
-    public function insertOnDuplicate($table, array $data, array $fields = array())
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $table
-     * @param array $data
-     */
-    public function insertMultiple($table, array $data)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $table
-     * @param array $columns
-     * @param array $data
-     */
-    public function insertArray($table, array $columns, array $data)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $table
-     * @param array $bind
-     */
-    public function insertForce($table, array $bind)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $sql
-     * @return Varien_Db_Adapter_Interface
-     */
-    public function multiQuery($sql)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $date
-     * @param unknown_type $includeTime
-     */
-    public function formatDate($date, $includeTime = true)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @return Varien_Db_Adapter_Interface
-     */
-    public function startSetup()
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @return Varien_Db_Adapter_Interface
-     */
-    public function endSetup()
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $adapter
-     * @return Varien_Db_Adapter_Interface
-     */
-    public function setCacheAdapter($adapter)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @return Varien_Db_Adapter_Interface
-     */
-    public function allowDdlCache()
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @return Varien_Db_Adapter_Interface
-     */
-    public function disallowDdlCache()
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $tableName
-     * @param unknown_type $schemaName
-     * @return Varien_Db_Adapter_Interface
-     */
-    public function resetDdlCache($tableName = null, $schemaName = null)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $tableCacheKey
-     * @param unknown_type $ddlType
-     * @param unknown_type $data
-     * @return Varien_Db_Adapter_Interface
-     */
-    public function saveDdlCache($tableCacheKey, $ddlType, $data)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $tableCacheKey
-     * @param unknown_type $ddlType
-     */
-    public function loadDdlCache($tableCacheKey, $ddlType)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $fieldName
-     * @param unknown_type $condition
-     */
-    public function prepareSqlCondition($fieldName, $condition)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param array $column
-     * @param unknown_type $value
-     */
-    public function prepareColumnValue(array $column, $value)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $condition
-     * @param unknown_type $true
-     * @param unknown_type $false
-     * @return Zend_Db_Expr
-     */
-    public function getCheckSql($condition, $true, $false)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $expression
-     * @param unknown_type $value
-     * @return Zend_Db_Expr
-     */
-    public function getIfNullSql($expression, $value = 0)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param array $data
-     * @param unknown_type $separator
-     * @return Zend_Db_Expr
-     */
-    public function getConcatSql(array $data, $separator = null)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $string
-     * @return Zend_Db_Expr
-     */
-    public function getLengthSql($string)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param array $data
-     * @return Zend_Db_Expr
-     */
-    public function getLeastSql(array $data)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param array $data
-     * @return Zend_Db_Expr
-     */
-    public function getGreatestSql(array $data)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $date
-     * @param unknown_type $interval
-     * @param unknown_type $unit
-     * @return Zend_Db_Expr
-     */
-    public function getDateAddSql($date, $interval, $unit)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $date
-     * @param unknown_type $interval
-     * @param unknown_type $unit
-     * @return Zend_Db_Expr
-     */
-    public function getDateSubSql($date, $interval, $unit)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $date
-     * @param unknown_type $format
-     * @return Zend_Db_Expr
-     */
-    public function getDateFormatSql($date, $format)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $date
-     * @return Zend_Db_Expr
-     */
-    public function getDatePartSql($date)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $date
-     * @param unknown_type $unit
-     * @return Zend_Db_Expr
-     */
-    public function getDateExtractSql($date, $unit)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Returns table name
-     *
-     * @param string $tableName
      * @return string
      */
-    public function getTableName($tableName)
+    public function getServerVersion()
     {
-        return $tableName;
+        // TODO Auto-generated method stub
+        return '1.0';
     }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $tableName
-     * @param unknown_type $fields
-     * @param unknown_type $indexType
-     */
-    public function getIndexName($tableName, $fields, $indexType = '')
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $priTableName
-     * @param unknown_type $priColumnName
-     * @param unknown_type $refTableName
-     * @param unknown_type $refColumnName
-     */
-    public function getForeignKeyName($priTableName, $priColumnName, $refTableName, $refColumnName)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $tableName
-     * @param unknown_type $schemaName
-     * @return Varien_Db_Adapter_Interface
-     */
-    public function disableTableKeys($tableName, $schemaName = null)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $tableName
-     * @param unknown_type $schemaName
-     * @return Varien_Db_Adapter_Interface
-     */
-    public function enableTableKeys($tableName, $schemaName = null)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param Varien_Db_Select $select
-     * @param unknown_type $table
-     * @param array $fields
-     * @param unknown_type $mode
-     */
-    public function insertFromSelect(Varien_Db_Select $select, $table, array $fields = array(), $mode = false)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param Varien_Db_Select $select
-     * @param unknown_type $table
-     */
-    public function updateFromSelect(Varien_Db_Select $select, $table)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param Varien_Db_Select $select
-     * @param unknown_type $table
-     */
-    public function deleteFromSelect(Varien_Db_Select $select, $table)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $tableNames
-     * @param unknown_type $schemaName
-     */
-    public function getTablesChecksum($tableNames, $schemaName = null)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     */
-    public function supportStraightJoin()
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param Varien_Db_Select $select
-     * @param unknown_type $field
-     * @return Varien_Db_Adapter_Interface
-     */
-    public function orderRand(Varien_Db_Select $select, $field = null)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $sql
-     */
-    public function forUpdate($sql)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @param unknown_type $tableName
-     * @param unknown_type $schemaName
-     */
-    public function getPrimaryKeyName($tableName, $schemaName = null)
-    {
-        // empty code
-
-    }
-
-    /**
-     * Empty method
-     *
-     * @deprecated after 1.5.1.0
-     * @return string
-     */
-    public function getSuggestedZeroDate() {}
-
-    /**
-     * Empty method
-     *
-     * @param mixed $value
-     * @return mixed
-     */
-    public function decodeVarbinary($value) {}
 }
