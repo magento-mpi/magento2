@@ -32,13 +32,13 @@
             <action method="addJs" ifconfig="catalog/enterprise_catalogevent/enabled">
                 <file>Enterprise_CatalogEvent::ticker.js</file>
             </action>
+            <action method="addCss" ifconfig="catalog/enterprise_catalogevent/enabled">
+                <file>Enterprise_CatalogEvent::widgets.css</file>
+            </action>
+            <action method="addJs" ifconfig="catalog/enterprise_catalogevent/enabled">
+                <file>Enterprise_CatalogEvent::slider.js</file>
+            </action>
         </reference>
-        <action method="addCss" ifconfig="catalog/enterprise_catalogevent/enabled">
-            <file>Enterprise_CatalogEvent::widgets.css</file>
-        </action>
-        <action method="addJs" ifconfig="catalog/enterprise_catalogevent/enabled">
-            <file>Enterprise_CatalogEvent::slider.js</file>
-        </action>
     </default>
 
     <print>
