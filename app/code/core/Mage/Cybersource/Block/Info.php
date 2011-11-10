@@ -27,8 +27,6 @@
 
 class Mage_Cybersource_Block_Info extends Mage_Payment_Block_Info_Cc
 {
-    protected $_hasCcExpDate = false;
-
     protected function _construct()
     {
         parent::_construct();
