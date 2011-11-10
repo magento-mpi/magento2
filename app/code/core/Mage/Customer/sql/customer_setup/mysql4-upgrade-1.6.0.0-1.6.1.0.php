@@ -19,19 +19,30 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Sales
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @package     Mage_Customer
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Store credit API
- *
- * @category   Enterprise
- * @package    Enterprise_CustomerBalance
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Enterprise_CustomerBalance_Model_Api_V2 extends Enterprise_CustomerBalance_Model_Api
-{
+/* @var $installer Mage_Customer_Model_Entity_Setup */
+$installer = $this;
+$installer->startSetup();
 
-}
+// Add reset password link token attribute
+$installer->addAttribute('customer', 'rp_token', array(
+    'type'     => 'varchar',
+    'input'    => 'hidden',
+    'visible'  => false,
+    'required' => false
+));
+
+// Add reset password link token creation date attribute
+$installer->addAttribute('customer', 'rp_token_created_at', array(
+    'type'           => 'datetime',
+    'input'          => 'date',
+    'validate_rules' => 'a:1:{s:16:"input_validation";s:4:"date";}',
+    'visible'        => false,
+    'required'       => false
+));
+
+$installer->endSetup();

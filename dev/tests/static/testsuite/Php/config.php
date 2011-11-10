@@ -36,5 +36,6 @@ return array(
         "{$baseDir}/dev/tests/integration/testsuite/Mage/Core/Block/_files",
         "{$baseDir}/dev/tests/integration/testsuite/Integrity/modular/TemplateFilesTest.php",
         "{$baseDir}/dev/tests/integration/testsuite/Integrity/theme/TemplateFilesTest.php",
+        "{$baseDir}/dev/tests/integration/tmp",
     )
 );
