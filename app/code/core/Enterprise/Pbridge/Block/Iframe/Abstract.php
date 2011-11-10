@@ -60,7 +60,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
      *
      * @var string
      */
-    protected $_iframeTemplate = 'pbridge/iframe.phtml';
+    protected $_iframeTemplate = 'Enterprise_Pbridge::iframe.phtml';
 
     /**
      * Whether scrolling enabled for iframe element, auto or not
