@@ -203,7 +203,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
             }
             $this->unlock();
 
-            $unprocessedEvents = $eventResource->getUnProcessedEvents($this);
+            $unprocessedEvents = $eventResource->getUnprocessedEvents($this);
             if ($this->getMode() == self::MODE_MANUAL && (count($unprocessedEvents) > 0)) {
                 $this->_getResource()->updateStatus($this, self::STATUS_REQUIRE_REINDEX);
             } else {

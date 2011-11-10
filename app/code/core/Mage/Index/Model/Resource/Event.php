@@ -135,7 +135,7 @@ class Mage_Index_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abstra
      * @param Mage_Index_Model_Process $process
      * @return array
      */
-    public function getUnProcessedEvents($process)
+    public function getUnprocessedEvents($process)
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('index/process_event'))
