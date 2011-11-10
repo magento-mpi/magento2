@@ -1,0 +1,107 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+################################################################################
+#                                                                              #
+#                         Shopping Cart Price Rules                            #
+#                                                                              #
+################################################################################
+
+search_shopping_cart_rule:
+    filter_id: %noValue%
+    filter_rule_name: %noValue%
+    filter_coupon_code: %noValue%
+    filter_date_start_from: %noValue%
+    filter_date_start_to: %noValue%
+    filter_date_expire_from: %noValue%
+    filter_date_expire_to: %noValue%
+    filter_status: %noValue%
+    filter_priority: %noValue%
+
+test_shopping_cart_rule:
+    info:
+        rule_name: test_shopping_cart_rule
+        description: description for test shopping cart rule
+        status: Inactive
+        websites: Main Website
+        customer_groups: NOT LOGGED IN, General, Wholesale, Retailer
+        coupon: Specific Coupon
+        coupon_code: test_code
+        uses_per_coupon: 15
+        uses_per_customer: 15
+        from_date: 11/9/11
+        to_date: 11/9/12
+        priority: 10
+        public_in_rss_feed: No
+    conditions: %noValue%
+    actions:
+        apply: Buy X get Y free (discount amount is Y)
+        discount_amount: 15
+        maximum_qty_discount_is_applied_to: 100
+        discount_qty_step: 100
+        apply_to_shipping_amount: Yes
+        free_shipping: For shipment with matching items
+        stop_further_rules_processing: Yes
+        action_conditions: %noValue%
+    labels:
+        default_rule_label: default rule label(shop.cart)
+        store_view_labels:
+            Default Store View: rule label(shop.cart) for store view
+
+################################################################################
+#                                                                              #
+#                               Catalog Price Rules                            #
+#                                                                              #
+################################################################################
+
+search_catalog_rule:
+    filter_id: %noValue%
+    filter_rule_name: %noValue%
+    filter_date_start_from: %noValue%
+    filter_date_start_to: %noValue%
+    filter_date_expire_from: %noValue%
+    filter_date_expire_to: %noValue%
+    filter_status: %noValue%
+
+test_catalog_rule:
+    info:
+        rule_name: test_shopping_cart_rule
+        description: description for test shopping cart rule
+        status: Active
+        websites: Main Website
+        customer_groups: NOT LOGGED IN, General, Wholesale, Retailer
+        from_date: 11/9/11
+        to_date: 11/9/12
+        priority: 10
+    conditions: %noValue%
+    actions:
+        apply: To Percentage of the Original Price
+        discount_amount: 15
+        enable_discount_to_subproducts: Yes
+        sub_apply: By Fixed Amount
+        sub_discount_amount: 15
+        stop_further_rules_processing: Yes

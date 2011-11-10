@@ -33,7 +33,7 @@ manage_catalog_price_rules:
         form:
             fieldsets:
                 -
-                    catalog_price_rules_grid:
+                    rule_search_grid:
                         xpath: //div[@id='promo_catalog_grid']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
@@ -50,14 +50,19 @@ manage_catalog_price_rules:
                             filter_date_expired_from: //input[@name='to_date[from]']
                             filter_date_expired_to: //input[@name='to_date[to]']
                         pageelements:
-                            page_grid_head: //div[@id='promo_catalog_grid']//thead/tr[@class='headings']
-            buttons:
-                add_new_rule: //button[span='Add New Rule']
-                apply_rules: //button[span='Apply Rules']
-            messages:
-                successfully_saved_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been saved.')]
-                successfully_deleted_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The page has been deleted.')]
-                notification_message: //li[normalize-space(@class)='notice-msg' and contains(.,'There are rules that have been changed but were not applied. Please, click Apply Rules in order to see immediate effect in the catalog.')]
+                            grid_head: //div[@id='promo_catalog_grid']//tr[@class='headings']
+        buttons:
+            add_new_rule: //button[span='Add New Rule']
+            apply_rules: //button[span='Apply Rules']
+        messages: &catalogPriceRuleMessages
+            success_saved_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been saved.')]
+            success_deleted_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The page has been deleted.')]
+            notification_message: //li[normalize-space(@class)='notice-msg' and contains(.,'There are rules that have been changed but were not applied. Please, click Apply Rules in order to see immediate effect in the catalog.')]
+            invalid_url_key_with_numbers_only: //li[normalize-space(@class)='error-msg' and contains(.,'The page URL key cannot consist only of numbers.')]
+            invalid_rule_data: //li[normalize-space(@class)='error-msg' and contains(.,'An error occurred while saving the rule data. Please review the log and try again.')]
+            invalid_discount_amount: "//div[@id='advice-validate-not-negative-number-rule_discount_amount' and not(contains(@style,'display: none;'))]"
+            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            confirmation_for_delete: Are you sure you want to do this?
 
 add_new_rule:
     mca: promo_catalog/new/
@@ -67,7 +72,7 @@ add_new_rule:
             tabs:
                 -
                     rule_information:
-                        xpath: //a[@title='Rule Information']
+                        xpath: //a[@title='Rule Information']/span
                         fieldsets:
                             -
                                 rule_information_fieldset:
@@ -75,53 +80,52 @@ add_new_rule:
                                     fields:
                                         rule_name: //input[@name='name']
                                         description: //textarea[@name='description']
-                                        from_date: //input[@name='identifier']
-                                        to_date: //input[@name='from_date']
-                                        priority: //input[@name='to_date']
+                                        from_date: //input[@id='rule_from_date']
+                                        to_date: //input[@id='rule_to_date']
+                                        priority: //input[@id='rule_sort_order']
                                     dropdowns:
                                         status: //select[@name='is_active']
                                     multiselects:
                                         customer_groups: //select[@name='customer_group_ids[]']
+                                        websites: //select[@id='rule_website_ids']                                        
                 -
-                    conditions:
-                        xpath: //a[@title='Conditions']
+                    rule_conditions:
+                        xpath: //a[@title='Conditions']/span
                         fieldsets:
                             -
-                                conditions_fieldset:
-                                    xpath: //div[@id='promo_catalog_edit_tabs_conditions_section_content']
-                                    fields:
-                                    dropdowns:
-                                    links:
+                                apply_for_rule_conditions:
+                                    xpath: //*[@id='rule_conditions_fieldset']
                 -
-                    actions:
-                        xpath: //a[@title='Actions']
+                    rule_actions:
+                        xpath: //a[@title='Actions']/span
                         fieldsets:
                             -
                                 actions_fieldset:
                                     xpath: //div[@id='promo_catalog_edit_tabs_actions_section_content']
                                     fields:
                                         discount_amount: //input[@name='discount_amount']
+                                        sub_discount_amount: //input[@id='rule_sub_discount_amount']
                                     dropdowns:
                                         apply: //select[@name='simple_action']
+                                        sub_apply: //select[@id='rule_sub_simple_action']
                                         enable_discount_to_subproducts: //select[@name='sub_is_enable']
-                                        stop_further_rule_processing: //select[@name='stop_rules_processing']
-        buttons: &ruleButtons
+                                        stop_further_rules_processing: //select[@name='stop_rules_processing']
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save_rule: //button[span='Save Rule']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+        messages: *catalogPriceRuleMessages
+
+edit_rule_page:
+    mca: promo_catalog/edit/id/%id%/
+    title: %elementTitle% / Catalog Price Rules / Promotions / Magento Admin
+    uimap:
+        form: *addNewRule
+        buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_rule: //button[span='Save Rule']
             save_and_continue_edit: //button[span='Save and Continue Edit']
             delete_rule: //button[span='Delete Rule']
-        messages: &ruleMessages
-            invalid_url_key_with_numbers_only: //li[normalize-space(@class)='error-msg' and contains(.,'The page URL key cannot consist only of numbers.')]
-            invalid_rule_data: //li[normalize-space(@class)='error-msg' and contains(.,'An error occurred while saving the rule data. Please review the log and try again.')]
-            invalid_discount_amount: "//div[@id='advice-validate-not-negative-number-rule_discount_amount' and not(contains(@style,'display: none;'))]"
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
-            confirmation_for_delete: Are you sure you want to do this?
-
-edit_rule_page:
-    mca: promo_catalog/edit/id/%id%/
-    title: %ruleName% / Catalog Price Rules / Promotions / Magento Admin
-    uimap:
-        form: *addNewRule
-        buttons: *ruleButtons
-        messages: *ruleMessages
+        messages: *catalogPriceRuleMessages
