@@ -75,7 +75,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('enterprise_customersegment/customer');
+        $this->_init('Enterprise_CustomerSegment_Model_Resource_Customer');
     }
 
     /**
@@ -88,8 +88,8 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
     public function getActiveSegmentsForEvent($eventName, $websiteId)
     {
         if (!isset($this->_segmentMap[$eventName][$websiteId])) {
-            $this->_segmentMap[$eventName][$websiteId] = Mage::getResourceModel('enterprise_customersegment/segment_collection')
-                ->addEventFilter($eventName)
+            $resource = Mage::getResourceModel('Enterprise_CustomerSegment_Model_Resource_Segment_Collection');
+            $this->_segmentMap[$eventName][$websiteId] = $resource->addEventFilter($eventName)
                 ->addWebsiteFilter($websiteId)
                 ->addIsActiveFilter(1);
         }
@@ -143,7 +143,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
     public function processCustomer(Mage_Customer_Model_Customer $customer, $website)
     {
         $website = Mage::app()->getWebsite($website);
-        $segments = Mage::getResourceModel('enterprise_customersegment/segment_collection')
+        $segments = Mage::getResourceModel('Enterprise_CustomerSegment_Model_Resource_Segment_Collection')
             ->addWebsiteFilter($website)
             ->addIsActiveFilter(1);
 
@@ -171,8 +171,10 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function processCustomerEvent($eventName, $customerId)
     {
-        if (Mage::getSingleton('customer/config_share')->isWebsiteScope()) {
-            $websiteIds = Mage::getResourceSingleton('customer/customer')->getWebsiteId($customerId);
+        if (Mage::getSingleton('Mage_Customer_Model_Config_Share')->isWebsiteScope()) {
+            $websiteIds = Mage::getResourceSingleton('Mage_Customer_Model_Resource_Customer')
+                ->getWebsiteId($customerId);
+
             if ($websiteIds) {
                 $websiteIds = array($websiteIds);
             } else {

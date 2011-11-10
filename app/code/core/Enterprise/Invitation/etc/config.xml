@@ -32,25 +32,6 @@
         </Enterprise_Invitation>
     </modules>
     <global>
-        <models>
-            <enterprise_invitation>
-                <class>Enterprise_Invitation_Model</class>
-                <resourceModel>enterprise_invitation_resource</resourceModel>
-            </enterprise_invitation>
-            <enterprise_invitation_resource>
-                <class>Enterprise_Invitation_Model_Resource</class>
-            </enterprise_invitation_resource>
-        </models>
-        <helpers>
-            <enterprise_invitation>
-                <class>Enterprise_Invitation_Helper</class>
-            </enterprise_invitation>
-        </helpers>
-        <blocks>
-            <enterprise_invitation>
-                <class>Enterprise_Invitation_Block</class>
-            </enterprise_invitation>
-        </blocks>
         <resources>
             <enterprise_invitation_setup>
                 <setup>
@@ -60,7 +41,7 @@
         </resources>
         <template>
             <email>
-                <enterprise_invitation_email_template translate="label" module="enterprise_invitation">
+                <enterprise_invitation_email_template translate="label" module="Enterprise_Invitation">
                     <label>Customer Invitation</label>
                     <file>email/invitation.html</file>
                     <type>html</type>
@@ -137,7 +118,7 @@
             <customer_registration_is_allowed>
                 <observers>
                     <enterprise_invitation>
-                        <class>enterprise_invitation/observer</class>
+                        <class>Enterprise_Invitation_Model_Observer</class>
                         <method>restrictCustomerRegistration</method>
                     </enterprise_invitation>
                 </observers>

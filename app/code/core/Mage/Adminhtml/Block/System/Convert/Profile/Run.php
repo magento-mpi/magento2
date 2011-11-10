@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
             return $this;
         }
         $this->setShowFinished(true);
-        $batchModel = Mage::getSingleton('dataflow/batch');
+        $batchModel = Mage::getSingleton('Mage_Dataflow_Model_Batch');
         $this->_batchModel = $batchModel;
         if ($batchModel->getId()) {
             if ($batchModel->getAdapter()) {
@@ -120,7 +120,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
      */
     public function getBatchConfigJson()
     {
-        return Mage::helper('core')->jsonEncode(
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
             $this->getBatchConfig()
         );
     }
@@ -131,7 +131,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
      */
     public function jsonEncode($source)
     {
-        return Mage::helper('core')->jsonEncode($source);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($source);
     }
     /**
      * Get a profile
@@ -147,7 +147,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
      */
     public function getFormKey()
     {
-        return Mage::getSingleton('core/session')->getFormKey();
+        return Mage::getSingleton('Mage_Core_Model_Session')->getFormKey();
     }
     /**
      * Return batch model and initialize it if need

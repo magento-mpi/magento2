@@ -85,7 +85,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
         ));
 
         $attributesBlock = $this->getLayout()
-            ->createBlock('googlebase/adminhtml_types_edit_attributes')
+            ->createBlock('Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes')
             ->setTargetCountry($targetCountry);
         if ($itemType->getId()) {
             $attributesBlock->setAttributeSetId($itemType->getAttributeSetId())
@@ -135,7 +135,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
 
     protected function _getCountriesArray()
     {
-        $_allowed = Mage::getSingleton('googlebase/config')->getAllowedCountries();
+        $_allowed = Mage::getSingleton('Mage_GoogleBase_Model_Config')->getAllowedCountries();
         $result = array();
         foreach ($_allowed as $iso => $info) {
             $result[$iso] = $info['name'];
@@ -145,14 +145,14 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
 
     protected function _getAttributeSetsArray($targetCountry)
     {
-        $entityType = Mage::getModel('catalog/product')->getResource()->getEntityType();
-        $collection = Mage::getResourceModel('eav/entity_attribute_set_collection')
+        $entityType = Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getEntityType();
+        $collection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter($entityType->getId());
 
         $ids = array();
         $itemType = $this->getItemType();
         if ( !($itemType instanceof Varien_Object && $itemType->getId()) ) {
-            $typesCollection = Mage::getResourceModel('googlebase/type_collection')
+            $typesCollection = Mage::getResourceModel('Mage_GoogleBase_Model_Resource_Type_Collection')
                 ->addCountryFilter($targetCountry)
                 ->load();
             foreach ($typesCollection as $type) {
@@ -171,7 +171,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
 
     protected function _getGbaseItemTypesArray($targetCountry)
     {
-        $itemTypes = Mage::getModel('googlebase/service_feed')->getItemTypes($targetCountry);
+        $itemTypes = Mage::getModel('Mage_GoogleBase_Model_Service_Feed')->getItemTypes($targetCountry);
         $result = array('' => '');
         foreach ($itemTypes as $type) {
             $result[$type->getId()] = $type->getName();

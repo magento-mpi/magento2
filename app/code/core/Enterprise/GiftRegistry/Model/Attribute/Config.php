@@ -72,7 +72,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abs
     {
         return array(array(
             'value' => '',
-            'label' => Mage::helper('enterprise_giftregistry')->__('-- Please select --'))
+            'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('-- Please select --'))
         );
     }
 
@@ -85,11 +85,11 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abs
     {
         $options = array_merge($this->_getDefaultOption(), array(
             array(
-                'label' => Mage::helper('enterprise_giftregistry')->__('Custom Types'),
+                'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Custom Types'),
                 'value' => $this->getAttributeCustomTypesOptions()
             ),
             array(
-                'label' => Mage::helper('enterprise_giftregistry')->__('Static Types'),
+                'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Static Types'),
                 'value' => $this->getAttributeStaticTypesOptions()
             )
         ));

@@ -46,10 +46,10 @@ class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Catalog
     protected function _toHtml()
     {
         /** @var $homeXmlObj Mage_XmlConnect_Model_Simplexml_Element */
-        $homeXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<home></home>');
+        $homeXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<home></home>');
 
         $categoryCollection = array();
-        $helper = Mage::helper('catalog/category');
+        $helper = Mage::helper('Mage_Catalog_Helper_Category');
         $categoryCount = 0;
         foreach ($helper->getStoreCategories() as $child) {
             if ($child->getIsActive()) {
@@ -67,16 +67,16 @@ class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Catalog
 
         foreach ($categoryCollection as $item) {
             /** @var $item Mage_Catalog_Model_Category */
-            $item = Mage::getModel('catalog/category')->load($item->getId());
+            $item = Mage::getModel('Mage_Catalog_Model_Category')->load($item->getId());
             $itemXmlObj = $itemsXmlObj->addChild('item');
             $itemXmlObj->addChild('label', $homeXmlObj->xmlentities($item->getName()));
             $itemXmlObj->addChild('entity_id', $item->getId());
             $itemXmlObj->addChild('content_type', $item->hasChildren() ? 'categories' : 'products');
-            $icon = Mage::helper('xmlconnect/catalog_category_image')->initialize($item, 'thumbnail')
-                ->resize(Mage::helper('xmlconnect/image')->getImageSizeForContent('category'));
+            $icon = Mage::helper('Mage_XmlConnect_Helper_Catalog_Category_Image')->initialize($item, 'thumbnail')
+                ->resize(Mage::helper('Mage_XmlConnect_Helper_Image')->getImageSizeForContent('category'));
 
             $iconXml = $itemXmlObj->addChild('icon', $icon);
-            $file = Mage::helper('xmlconnect')->urlToPath($icon);
+            $file = Mage::helper('Mage_XmlConnect_Helper_Data')->urlToPath($icon);
             $iconXml->addAttribute('modification_time', filemtime($file));
         }
         $homeXmlObj->addChild('home_banner', '/current/media/catalog/category/banner_home.png');

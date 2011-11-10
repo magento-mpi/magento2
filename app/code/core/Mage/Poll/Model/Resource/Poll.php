@@ -52,7 +52,7 @@ class Mage_Poll_Model_Resource_Poll extends Mage_Core_Model_Resource_Db_Abstract
     {
         $this->_uniqueFields = array(array(
             'field' => 'poll_title',
-            'title' => Mage::helper('poll')->__('Poll with the same question')
+            'title' => Mage::helper('Mage_Poll_Helper_Data')->__('Poll with the same question')
         ));
         return $this;
     }
@@ -140,7 +140,7 @@ class Mage_Poll_Model_Resource_Poll extends Mage_Core_Model_Resource_Db_Abstract
     public function getVotedPollIdsByIp($ipAddress, $pollId = false)
     {
         // check if validation by ip is enabled
-        if (!Mage::getModel('poll/poll')->isValidationByIp()) {
+        if (!Mage::getModel('Mage_Poll_Model_Poll')->isValidationByIp()) {
             return array();
         }
 

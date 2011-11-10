@@ -38,7 +38,7 @@ class Enterprise_Enterprise_Model_Observer
      */
     public function setHideSurveyQuestion($observer)
     {
-        Mage::getSingleton('admin/session')->setHideSurveyQuestion(true);
+        Mage::getSingleton('Mage_Admin_Model_Session')->setHideSurveyQuestion(true);
         return $this;
     }
 }

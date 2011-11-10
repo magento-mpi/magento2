@@ -138,8 +138,8 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initAttributeSets()
     {
-        $productTypeId = Mage::getModel('catalog/product')->getResource()->getTypeId();
-        foreach (Mage::getResourceModel('eav/entity_attribute_set_collection')
+        $productTypeId = Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getTypeId();
+        foreach (Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
                 ->setEntityTypeFilter($productTypeId) as $attributeSet) {
             $this->_attrSetIdToName[$attributeSet->getId()] = $attributeSet->getAttributeSetName();
         }
@@ -153,7 +153,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initCategories()
     {
-        $collection = Mage::getResourceModel('catalog/category_collection')->addNameToResult();
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection')->addNameToResult();
         /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
         foreach ($collection as $category) {
             $structure = preg_split('#/+#', $category->getPath());
@@ -184,7 +184,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             }
             if (! $model instanceof Mage_ImportExport_Model_Export_Entity_Product_Type_Abstract) {
                 Mage::throwException(
-                    Mage::helper('importexport')->__('Entity type model must be an instance of Mage_ImportExport_Model_Export_Entity_Product_Type_Abstract')
+                    Mage::helper('Mage_ImportExport_Helper_Data')->__('Entity type model must be an instance of Mage_ImportExport_Model_Export_Entity_Product_Type_Abstract')
                 );
             }
             if ($model->isSuitable()) {
@@ -196,7 +196,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             }
         }
         if (!$this->_productTypeModels) {
-            Mage::throwException(Mage::helper('importexport')->__('There are no product types available for export'));
+            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('There are no product types available for export'));
         }
         $this->_disabledAttrs = array_unique($this->_disabledAttrs);
 
@@ -228,7 +228,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         if (empty($productIds)) {
             return array();
         }
-        $resource = Mage::getSingleton('core/resource');
+        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
         $select = $this->_connection->select()
             ->from($resource->getTableName('catalog_product_entity_tier_price'))
             ->where('entity_id IN(?)', $productIds);
@@ -261,7 +261,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         if (empty($productIds)) {
             return array();
         }
-        $resource = Mage::getSingleton('core/resource');
+        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
         $select = $this->_connection->select()
                 ->from(
                         array('mg' => $resource->getTableName('catalog_product_entity_media_gallery')),
@@ -304,7 +304,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             return array();
         }
         $select = $this->_connection->select()
-            ->from(Mage::getResourceModel('cataloginventory/stock_item')->getMainTable())
+            ->from(Mage::getResourceModel('Mage_CatalogInventory_Model_Resource_Stock_Item')->getMainTable())
             ->where('product_id IN (?)', $productIds);
 
         $stmt = $this->_connection->query($select);
@@ -331,7 +331,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         if (empty($productIds)) {
             return array();
         }
-        $resource = Mage::getSingleton('core/resource');
+        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
         $adapter = $this->_connection;
         $select = $adapter->select()
             ->from(
@@ -406,7 +406,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         if (empty($productIds)) {
             return array();
         }
-        $resource = Mage::getSingleton('core/resource');
+        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
         $select = $this->_connection->select()
             ->from(
                 array('cpsl' => $resource->getTableName('catalog_product_super_link')),
@@ -440,7 +440,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         if (empty($productIds)) {
             return array();
         }
-        $resource = Mage::getSingleton('core/resource');
+        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
         $select = $this->_connection->select()
             ->from(
                 array('cpsa' => $resource->getTableName('catalog_product_super_attribute')),
@@ -531,7 +531,9 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
 
             // prepare multi-store values and system columns values
             foreach ($this->_storeIdToCode as $storeId => &$storeCode) { // go through all stores
-                $collection = $this->_prepareEntityCollection(Mage::getResourceModel('catalog/product_collection'));
+                $collection = $this->_prepareEntityCollection(
+                    Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
+                );
                 $collection
                     ->setStoreId($storeId)
                     ->setPage($offsetProducts, $limitProducts);
@@ -624,7 +626,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                 Mage_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL => '_links_crosssell_',
                 Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED   => '_associated_'
             );
-            $configurableProductsCollection = Mage::getResourceModel('catalog/product_collection');
+            $configurableProductsCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
             $configurableProductsCollection->addAttributeToFilter(
                 'entity_id',
                 array(
@@ -664,7 +666,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             );
 
             foreach ($this->_storeIdToCode as $storeId => &$storeCode) {
-                $options = Mage::getResourceModel('catalog/product_option_collection')
+                $options = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Option_Collection')
                     ->reset()
                     ->addTitleToResult($storeId)
                     ->addPriceToResult($storeId)
@@ -954,7 +956,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
      */
     public function getAttributeCollection()
     {
-        return Mage::getResourceModel('catalog/product_attribute_collection');
+        return Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection');
     }
 
     /**

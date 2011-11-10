@@ -31,7 +31,7 @@
  * @see Mage_Review_Block_Product_View
  */
 ?>
-<?php $_helper = $this->helper('catalog/output'); ?>
+<?php $_helper = $this->helper('Mage_Catalog_Helper_Output'); ?>
 <?php $_product = $this->getProduct(); ?>
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
@@ -103,7 +103,7 @@
                 <script type="text/javascript">new Enterprise.Tabs('collateral-tabs')</script>
             <?php endif; ?>
             <?php if ($this->canEmailToFriend()): ?>
-                <p class="emailto-link"><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
+                <p class="emailto-link"><a href="<?php echo $this->helper('Mage_Catalog_Helper_Product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
             <?php endif; ?>
         </div>
         <div class="clearer"></div>

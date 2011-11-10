@@ -42,7 +42,7 @@ class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
     public function indexAction($coreRoute = null)
     {
         $pageId = Mage::getStoreConfig(Mage_Cms_Helper_Page::XML_PATH_HOME_PAGE);
-        if (!Mage::helper('cms/page')->renderPage($this, $pageId)) {
+        if (!Mage::helper('Mage_Cms_Helper_Page')->renderPage($this, $pageId)) {
             $this->_forward('defaultIndex');
         }
     }
@@ -72,7 +72,7 @@ class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
         $this->getResponse()->setHeader('Status','404 File not found');
 
         $pageId = Mage::getStoreConfig(Mage_Cms_Helper_Page::XML_PATH_NO_ROUTE_PAGE);
-        if (!Mage::helper('cms/page')->renderPage($this, $pageId)) {
+        if (!Mage::helper('Mage_Cms_Helper_Page')->renderPage($this, $pageId)) {
             $this->_forward('defaultNoRoute');
         }
     }
@@ -98,7 +98,7 @@ class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
     public function noCookiesAction()
     {
         $pageId = Mage::getStoreConfig(Mage_Cms_Helper_Page::XML_PATH_NO_COOKIES_PAGE);
-        if (!Mage::helper('cms/page')->renderPage($this, $pageId)) {
+        if (!Mage::helper('Mage_Cms_Helper_Page')->renderPage($this, $pageId)) {
             $this->_forward('defaultNoCookies');;
         }
     }

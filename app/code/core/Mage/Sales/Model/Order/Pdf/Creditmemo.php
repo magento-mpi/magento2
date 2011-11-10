@@ -65,7 +65,7 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
 
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
             $this->_setFontRegular($page);
-            $page->drawText(Mage::helper('sales')->__('Credit Memo # ') . $creditmemo->getIncrementId(), 35, 780, 'UTF-8');
+            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Credit Memo # ') . $creditmemo->getIncrementId(), 35, 780, 'UTF-8');
 
             /* Add table head */
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
@@ -110,29 +110,29 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
         $font = $page->getFont();
         $size = $page->getFontSize();
 
-        $page->drawText(Mage::helper('sales')->__('Products'), $x = 35, $this->y, 'UTF-8');
+        $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Products'), $x = 35, $this->y, 'UTF-8');
         $x += 220;
 
-        $page->drawText(Mage::helper('sales')->__('SKU'), $x, $this->y, 'UTF-8');
+        $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('SKU'), $x, $this->y, 'UTF-8');
         $x += 100;
 
-        $text = Mage::helper('sales')->__('Total (ex)');
+        $text = Mage::helper('Mage_Sales_Helper_Data')->__('Total (ex)');
         $page->drawText($text, $this->getAlignRight($text, $x, 50, $font, $size), $this->y, 'UTF-8');
         $x += 50;
 
-        $text = Mage::helper('sales')->__('Discount');
+        $text = Mage::helper('Mage_Sales_Helper_Data')->__('Discount');
         $page->drawText($text, $this->getAlignRight($text, $x, 50, $font, $size), $this->y, 'UTF-8');
         $x += 50;
 
-        $text = Mage::helper('sales')->__('Qty');
+        $text = Mage::helper('Mage_Sales_Helper_Data')->__('Qty');
         $page->drawText($text, $this->getAlignCenter($text, $x, 30, $font, $size), $this->y, 'UTF-8');
         $x += 30;
 
-        $text = Mage::helper('sales')->__('Tax');
+        $text = Mage::helper('Mage_Sales_Helper_Data')->__('Tax');
         $page->drawText($text, $this->getAlignRight($text, $x, 45, $font, $size, 10), $this->y, 'UTF-8');
         $x += 45;
 
-        $text = Mage::helper('sales')->__('Total (inc)');
+        $text = Mage::helper('Mage_Sales_Helper_Data')->__('Total (inc)');
         $page->drawText($text, $this->getAlignRight($text, $x, 570 - $x, $font, $size), $this->y, 'UTF-8');
     }
 

@@ -47,7 +47,7 @@ class Mage_Reports_Model_Resource_Wishlist_Collection extends Mage_Core_Model_Re
      */
     protected function _construct()
     {
-        $this->_init('wishlist/wishlist');
+        $this->_init('Mage_Wishlist_Model_Wishlist', 'Mage_Wishlist_Model_Resource_Wishlist');
         $this->setWishlistTable($this->getTable('wishlist'));
     }
     /**
@@ -80,7 +80,7 @@ class Mage_Reports_Model_Resource_Wishlist_Collection extends Mage_Core_Model_Re
     public function getWishlistCustomerCount()
     {
         /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
-        $collection = Mage::getResourceModel('customer/customer_collection');
+        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
         
         $customersSelect = $collection->getSelectCountSql();
 
@@ -107,7 +107,7 @@ class Mage_Reports_Model_Resource_Wishlist_Collection extends Mage_Core_Model_Re
     public function getSharedCount()
     {
         /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
-        $collection = Mage::getResourceModel('customer/customer_collection');
+        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
         $countSelect = $collection->getSelectCountSql();
         $countSelect->joinLeft(
                 array('wt' => $this->getWishlistTable()),

@@ -43,19 +43,19 @@ class Mage_Contacts_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getUserName()
     {
-        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
             return '';
         }
-        $customer = Mage::getSingleton('customer/session')->getCustomer();
+        $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
         return trim($customer->getName());
     }
 
     public function getUserEmail()
     {
-        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
             return '';
         }
-        $customer = Mage::getSingleton('customer/session')->getCustomer();
+        $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
         return $customer->getEmail();
     }
 }

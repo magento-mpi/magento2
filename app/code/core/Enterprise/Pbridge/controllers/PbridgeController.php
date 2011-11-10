@@ -69,7 +69,7 @@ class Enterprise_Pbridge_PbridgeController extends Mage_Core_Controller_Front_Ac
     {
         $methodCode = $this->getRequest()->getParam('method_code', null);
         if ($methodCode) {
-            $methodInstance = Mage::helper('payment')->getMethodInstance($methodCode);
+            $methodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
                 $block = $this->getLayout()->createBlock($methodInstance->getFormBlockType());
                 $block->setMethod($methodInstance);
@@ -78,7 +78,7 @@ class Enterprise_Pbridge_PbridgeController extends Mage_Core_Controller_Front_Ac
                 }
             }
         } else {
-            Mage::throwException(Mage::helper('enterprise_pbridge')->__('Payment Method Code is not passed.'));
+            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payment Method Code is not passed.'));
         }
     }
 

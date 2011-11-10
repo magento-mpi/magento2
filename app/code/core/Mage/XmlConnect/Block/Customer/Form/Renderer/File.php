@@ -67,7 +67,7 @@ class Mage_XmlConnect_Block_Customer_Form_Renderer_File extends Enterprise_Custo
             'label' => $this->getLabel(), 'name' => $this->getFieldName(), 'value' => $this->getEscapedValue()
         );
 
-        $attributes += Mage::helper('xmlconnect/customer_form_renderer')
+        $attributes += Mage::helper('Mage_XmlConnect_Helper_Customer_Form_Renderer')
             ->addTitleAndRequiredAttr($fieldsetXmlObj, $this);
 
         $fieldXmlObj = $fieldsetXmlObj->addField($this->getHtmlId(), $this->_filedType, $attributes);

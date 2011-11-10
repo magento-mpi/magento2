@@ -46,7 +46,7 @@ class Mage_Directory_Model_Country extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('directory/country');
+        $this->_init('Mage_Directory_Model_Resource_Country');
     }
 
     public function loadByCode($code)
@@ -69,7 +69,7 @@ class Mage_Directory_Model_Country extends Mage_Core_Model_Abstract
 
     public function getRegionCollection()
     {
-        $collection = Mage::getResourceModel('directory/region_collection');
+        $collection = Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection');
         $collection->addCountryFilter($this->getId());
         return $collection;
     }
@@ -120,7 +120,7 @@ T: {{telephone}}";
     public function getFormats()
     {
         if (!isset(self::$_format[$this->getId()]) && $this->getId()) {
-            self::$_format[$this->getId()] = Mage::getModel('directory/country_format')
+            self::$_format[$this->getId()] = Mage::getModel('Mage_Directory_Model_Country_Format')
                                                 ->getCollection()
                                                 ->setCountryFilter($this)
                                                 ->load();

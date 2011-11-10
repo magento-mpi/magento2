@@ -41,7 +41,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Collection extends Mage_Catalog
      */
     protected function _getQuery()
     {
-        return Mage::helper('catalogsearch')->getQuery();
+        return Mage::helper('Mage_CatalogSearch_Helper_Data')->getQuery();
     }
 
     /**
@@ -52,7 +52,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Collection extends Mage_Catalog
      */
     public function addSearchFilter($query)
     {
-        Mage::getSingleton('catalogsearch/fulltext')->prepareResult();
+        Mage::getSingleton('Mage_CatalogSearch_Model_Fulltext')->prepareResult();
 
         $this->getSelect()->joinInner(
             array('search_result' => $this->getTable('catalogsearch_result')),

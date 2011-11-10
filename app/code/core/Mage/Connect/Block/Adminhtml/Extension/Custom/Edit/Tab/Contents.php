@@ -41,7 +41,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Contents
      */
     public function getMageTargets()
     {
-        $targets = Mage::getModel('connect/extension')->getLabelTargets();
+        $targets = Mage::getModel('Mage_Connect_Model_Extension')->getLabelTargets();
         if (!is_array($targets)) {
             $targets = array();
         }
@@ -55,7 +55,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Contents
      */
     public function getTabLabel()
     {
-        return Mage::helper('connect')->__('Contents');
+        return Mage::helper('Mage_Connect_Helper_Data')->__('Contents');
     }
 
     /**
@@ -65,6 +65,6 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Contents
      */
     public function getTabTitle()
     {
-        return Mage::helper('connect')->__('Contents');
+        return Mage::helper('Mage_Connect_Helper_Data')->__('Contents');
     }
 }

@@ -107,7 +107,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('wishlist/item');
+        $this->_init('Mage_Wishlist_Model_Resource_Item');
     }
 
     /**
@@ -153,7 +153,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
             $this->_optionsByCode[$option->getCode()] = $option;
         }
         else {
-            Mage::throwException(Mage::helper('sales')->__('An item option with code %s already exists.', $option->getCode()));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('An item option with code %s already exists.', $option->getCode()));
         }
         return $this;
     }
@@ -231,10 +231,10 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
     public function validate()
     {
         if (!$this->getWishlistId()) {
-            Mage::throwException(Mage::helper('wishlist')->__('Cannot specify wishlist.'));
+            Mage::throwException(Mage::helper('Mage_Wishlist_Helper_Data')->__('Cannot specify wishlist.'));
         }
         if (!$this->getProductId()) {
-            Mage::throwException(Mage::helper('wishlist')->__('Cannot specify product.'));
+            Mage::throwException(Mage::helper('Mage_Wishlist_Helper_Data')->__('Cannot specify product.'));
         }
 
         return true;
@@ -259,7 +259,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
 
         // set current date if added at data is not defined
         if (is_null($this->getAddedAt())) {
-            $this->setAddedAt(Mage::getSingleton('core/date')->gmtDate());
+            $this->setAddedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
         }
 
         return $this;
@@ -276,7 +276,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
         $data = array();
         $data['product_id']  = $this->getProductId();
         $data['wishlist_id'] = $this->getWishlistId();
-        $data['added_at']    = $this->getAddedAt() ? $this->getAddedAt() : Mage::getSingleton('core/date')->gmtDate();
+        $data['added_at']    = $this->getAddedAt() ? $this->getAddedAt() : Mage::getSingleton('Mage_Core_Model_Date')->gmtDate();
         $data['description'] = $this->getDescription();
         $data['store_id']    = $this->getStoreId() ? $this->getStoreId() : Mage::app()->getStore()->getId();
 
@@ -311,10 +311,10 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
         $product = $this->_getData('product');
         if (is_null($product)) {
             if (!$this->getProductId()) {
-                Mage::throwException(Mage::helper('wishlist')->__('Cannot specify product.'));
+                Mage::throwException(Mage::helper('Mage_Wishlist_Helper_Data')->__('Cannot specify product.'));
             }
 
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStoreId($this->getStoreId())
                 ->load($this->getProductId());
 
@@ -354,7 +354,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
             if ($product->getStoreId() == $storeId) {
                 return false;
             }
-            $urlData = Mage::getResourceSingleton('catalog/url')
+            $urlData = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Url')
                 ->getRewriteByProductStore(array($product->getId() => $storeId));
             if (!isset($urlData[$product->getId()])) {
                 return false;
@@ -602,16 +602,16 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
     public function addOption($option)
     {
         if (is_array($option)) {
-            $option = Mage::getModel('wishlist/item_option')->setData($option)
+            $option = Mage::getModel('Mage_Wishlist_Model_Item_Option')->setData($option)
                 ->setItem($this);
         } else if ($option instanceof Mage_Wishlist_Model_Item_Option) {
             $option->setItem($this);
         } else if ($option instanceof Varien_Object) {
-            $option = Mage::getModel('wishlist/item_option')->setData($option->getData())
+            $option = Mage::getModel('Mage_Wishlist_Model_Item_Option')->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
         } else {
-            Mage::throwException(Mage::helper('sales')->__('Invalid item option format.'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Invalid item option format.'));
         }
 
         $exOption = $this->getOptionByCode($option->getCode());
@@ -712,7 +712,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $options = Mage::getResourceModel('wishlist/item_option_collection')
+        $options = Mage::getResourceModel('Mage_Wishlist_Model_Resource_Item_Option_Collection')
             ->addItemFilter($this);
         if ($optionsFilter) {
             $options->addFieldToFilter('code', $optionsFilter);

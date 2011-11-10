@@ -73,16 +73,16 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
     protected function _prepareLayout()
     {
         $this->setChild('store_switcher',
-            $this->getLayout()->createBlock('adminhtml/store_switcher')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher')
                 ->setUseConfirm(false)
                 ->setSwitchUrl($this->getUrl('*/*/*', array('store'=>null)))
                 ->setTemplate('report/store/switcher.phtml')
         );
 
         $this->setChild('refresh_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Refresh'),
+                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Refresh'),
                     'onclick'   => $this->getRefreshButtonCallback(),
                     'class'   => 'task'
                 ))
@@ -132,7 +132,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
             $this->_setFilterValues($this->_defaultFilter);
         }
         /** @var $collection Mage_Reports_Model_Resource_Report_Collection */
-        $collection = Mage::getResourceModel('reports/report_collection');
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Report_Collection');
 
         $collection->setPeriod($this->getFilter('report_period'));
 
@@ -147,7 +147,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 $collection->setInterval($from, $to);
             }
             catch (Exception $e) {
-                $this->_errors[] = Mage::helper('reports')->__('Invalid date specified.');
+                $this->_errors[] = Mage::helper('Mage_Reports_Helper_Data')->__('Invalid date specified.');
             }
         }
 
@@ -377,7 +377,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
         if ($to == '') {
             $to = $this->getFilter('report_to');
         }
-        $totalObj = Mage::getModel('reports/totals');
+        $totalObj = Mage::getModel('Mage_Reports_Model_Totals');
         $this->setTotals($totalObj->countTotals($this, $from, $to));
         $this->addGrandTotals($this->getTotals());
         return $this->getCollection()->getReport($from, $to);

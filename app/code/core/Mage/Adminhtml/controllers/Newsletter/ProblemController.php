@@ -43,16 +43,16 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
         }
 
         $this->getLayout()->getMessagesBlock()->setMessages(
-            Mage::getSingleton('adminhtml/session')->getMessages(true)
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages(true)
         );
         $this->loadLayout();
 
         $this->_setActiveMenu('newsletter/problem');
 
-        $this->_addBreadcrumb(Mage::helper('newsletter')->__('Newsletter Problem Reports'), Mage::helper('newsletter')->__('Newsletter Problem Reports'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Problem Reports'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Problem Reports'));
 
         $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/newsletter_problem', 'problem')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Problem', 'problem')
         );
 
         $this->renderLayout();
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
         if($this->getRequest()->getParam('_unsubscribe')) {
             $problems = (array) $this->getRequest()->getParam('problem', array());
             if (count($problems)>0) {
-                $collection = Mage::getResourceModel('newsletter/problem_collection');
+                $collection = Mage::getResourceModel('Mage_Newsletter_Model_Resource_Problem_Collection');
                 $collection
                     ->addSubscriberInfo()
                     ->addFieldToFilter($collection->getResource()->getIdFieldName(),
@@ -73,14 +73,14 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
                 $collection->walk('unsubscribe');
             }
 
-            Mage::getSingleton('adminhtml/session')
-                ->addSuccess(Mage::helper('newsletter')->__('Selected problem subscribers have been unsubscribed.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')
+                ->addSuccess(Mage::helper('Mage_Newsletter_Helper_Data')->__('Selected problem subscribers have been unsubscribed.'));
         }
 
         if($this->getRequest()->getParam('_delete')) {
             $problems = (array) $this->getRequest()->getParam('problem', array());
             if (count($problems)>0) {
-                $collection = Mage::getResourceModel('newsletter/problem_collection');
+                $collection = Mage::getResourceModel('Mage_Newsletter_Model_Resource_Problem_Collection');
                 $collection
                     ->addFieldToFilter($collection->getResource()->getIdFieldName(),
                                        array('in'=>$problems))
@@ -88,17 +88,17 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
                 $collection->walk('delete');
             }
 
-            Mage::getSingleton('adminhtml/session')
-                ->addSuccess(Mage::helper('newsletter')->__('Selected problems have been deleted.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')
+                ->addSuccess(Mage::helper('Mage_Newsletter_Helper_Data')->__('Selected problems have been deleted.'));
         }
-                $this->getLayout()->getMessagesBlock()->setMessages(Mage::getSingleton('adminhtml/session')->getMessages(true));
+                $this->getLayout()->getMessagesBlock()->setMessages(Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages(true));
 
-        $grid = $this->getLayout()->createBlock('adminhtml/newsletter_problem_grid');
+        $grid = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Problem_Grid');
         $this->getResponse()->setBody($grid->toHtml());
     }
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('newsletter/problem');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('newsletter/problem');
     }
 }

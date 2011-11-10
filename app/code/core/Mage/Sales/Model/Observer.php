@@ -56,7 +56,7 @@ class Mage_Sales_Model_Observer
             $lifetime *= 86400;
 
             /** @var $quotes Mage_Sales_Model_Resource_Quote_Collection */
-            $quotes = Mage::getModel('sales/quote')->getCollection();
+            $quotes = Mage::getModel('Mage_Sales_Model_Quote')->getCollection();
 
             $quotes->addFieldToFilter('store_id', $storeId);
             $quotes->addFieldToFilter('updated_at', array('to'=>date("Y-m-d", time()-$lifetime)));
@@ -103,7 +103,7 @@ class Mage_Sales_Model_Observer
     public function substractQtyFromQuotes($observer)
     {
         $product = $observer->getEvent()->getProduct();
-        Mage::getResourceSingleton('sales/quote')->substractProductFromQuotes($product);
+        Mage::getResourceSingleton('Mage_Sales_Model_Resource_Quote')->substractProductFromQuotes($product);
         return $this;
     }
 
@@ -115,7 +115,7 @@ class Mage_Sales_Model_Observer
      */
     public function markQuotesRecollectOnCatalogRules($observer)
     {
-        Mage::getResourceSingleton('sales/quote')->markQuotesRecollectOnCatalogRules();
+        Mage::getResourceSingleton('Mage_Sales_Model_Resource_Quote')->markQuotesRecollectOnCatalogRules();
         return $this;
     }
 
@@ -132,7 +132,7 @@ class Mage_Sales_Model_Observer
             return $this;
         }
 
-        Mage::getResourceSingleton('sales/quote')->markQuotesRecollect($product->getId());
+        Mage::getResourceSingleton('Mage_Sales_Model_Resource_Quote')->markQuotesRecollect($product->getId());
 
         return $this;
     }
@@ -150,7 +150,7 @@ class Mage_Sales_Model_Observer
             return $this;
         }
         $productId  = $observer->getEvent()->getProductId();
-        Mage::getResourceSingleton('sales/quote')->markQuotesRecollect($productId);
+        Mage::getResourceSingleton('Mage_Sales_Model_Resource_Quote')->markQuotesRecollect($productId);
 
         return $this;
     }
@@ -166,7 +166,7 @@ class Mage_Sales_Model_Observer
         Mage::app()->getLocale()->emulate(0);
         $currentDate = Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('sales/report_order')->aggregate($date);
+        Mage::getResourceModel('Mage_Sales_Model_Resource_Report_Order')->aggregate($date);
         Mage::app()->getLocale()->revert();
         return $this;
     }
@@ -182,7 +182,7 @@ class Mage_Sales_Model_Observer
         Mage::app()->getLocale()->emulate(0);
         $currentDate = Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('sales/report_shipping')->aggregate($date);
+        Mage::getResourceModel('Mage_Sales_Model_Resource_Report_Shipping')->aggregate($date);
         Mage::app()->getLocale()->revert();
         return $this;
     }
@@ -198,7 +198,7 @@ class Mage_Sales_Model_Observer
         Mage::app()->getLocale()->emulate(0);
         $currentDate = Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('sales/report_invoiced')->aggregate($date);
+        Mage::getResourceModel('Mage_Sales_Model_Resource_Report_Invoiced')->aggregate($date);
         Mage::app()->getLocale()->revert();
         return $this;
     }
@@ -214,7 +214,7 @@ class Mage_Sales_Model_Observer
         Mage::app()->getLocale()->emulate(0);
         $currentDate = Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('sales/report_refunded')->aggregate($date);
+        Mage::getResourceModel('Mage_Sales_Model_Resource_Report_Refunded')->aggregate($date);
         Mage::app()->getLocale()->revert();
         return $this;
     }
@@ -230,7 +230,7 @@ class Mage_Sales_Model_Observer
         Mage::app()->getLocale()->emulate(0);
         $currentDate = Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('sales/report_bestsellers')->aggregate($date);
+        Mage::getResourceModel('Mage_Sales_Model_Resource_Report_Bestsellers')->aggregate($date);
         Mage::app()->getLocale()->revert();
         return $this;
     }
@@ -244,13 +244,13 @@ class Mage_Sales_Model_Observer
     {
         // replace the element of recurring payment profile field with a form
         $profileElement = $observer->getEvent()->getProductElement();
-        $block = Mage::app()->getLayout()->createBlock('sales/adminhtml_recurring_profile_edit_form',
+        $block = Mage::app()->getLayout()->createBlock('Mage_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form',
             'adminhtml_recurring_profile_edit_form')->setParentElement($profileElement)
             ->setProductEntity($observer->getEvent()->getProduct());
         $observer->getEvent()->getResult()->output = $block->toHtml();
 
         // make the profile element dependent on is_recurring
-        $dependencies = Mage::app()->getLayout()->createBlock('adminhtml/widget_form_element_dependence',
+        $dependencies = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence',
             'adminhtml_recurring_profile_edit_form_dependence')->addFieldMap('is_recurring', 'product[is_recurring]')
             ->addFieldMap($profileElement->getHtmlId(), $profileElement->getName())
             ->addFieldDependence($profileElement->getName(), 'product[is_recurring]', '1')
@@ -269,7 +269,7 @@ class Mage_Sales_Model_Observer
         if (!($methodInstance instanceof Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract)) {
             return;
         }
-        if (!Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/use')) {
+        if (!Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/order/actions/use')) {
             $observer->getEvent()->getResult()->isAvailable = false;
         }
     }
@@ -290,12 +290,12 @@ class Mage_Sales_Model_Observer
              * It is needed to process customer's quotes for all websites
              * if customer accounts are shared between all of them
              */
-            $websites = (Mage::getSingleton('customer/config_share')->isWebsiteScope())
+            $websites = (Mage::getSingleton('Mage_Customer_Model_Config_Share')->isWebsiteScope())
                 ? array(Mage::app()->getWebsite($customer->getWebsiteId()))
                 : Mage::app()->getWebsites();
 
             /** @var $quote Mage_Sales_Model_Quote */
-            $quote = Mage::getSingleton('sales/quote');
+            $quote = Mage::getSingleton('Mage_Sales_Model_Quote');
 
             foreach ($websites as $website) {
                 $quote->setWebsite($website);
@@ -323,7 +323,7 @@ class Mage_Sales_Model_Observer
         $quote = $observer->getEvent()->getQuote();
 
         $canApplyMsrp = false;
-        if (Mage::helper('catalog')->isMsrpEnabled()) {
+        if (Mage::helper('Mage_Catalog_Helper_Data')->isMsrpEnabled()) {
             foreach ($quote->getAllAddresses() as $adddress) {
                 if ($adddress->getCanApplyMsrp()) {
                     $canApplyMsrp = true;

@@ -25,7 +25,7 @@
  */
 ?>
 <p style="font-size:12px; line-height:16px; margin:0 0 16px;">
-    <?php echo $this->__("RSS link to %s's wishlist",$this->helper('wishlist')->getCustomerName()) ?>
+    <?php echo $this->__("RSS link to %s's wishlist",$this->helper('Mage_Wishlist_Helper_Data')->getCustomerName()) ?>
     <br />
-    <a href="<?php echo $this->helper('wishlist')->getRssUrl(); ?>"><?php echo $this->helper('wishlist')->getRssUrl(); ?></a>
+    <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getRssUrl(); ?>"><?php echo $this->helper('Mage_Wishlist_Helper_Data')->getRssUrl(); ?></a>
 </p>

@@ -164,7 +164,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
          * Check if declared category ids in object data.
          */
         if ($object->hasCategoryIds()) {
-            $categoryIds = Mage::getResourceSingleton('catalog/category')->verifyIds(
+            $categoryIds = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category')->verifyIds(
                 $object->getCategoryIds()
             );
             $object->setCategoryIds($categoryIds);
@@ -317,7 +317,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
         $writeAdapter->delete($this->getTable('catalog_category_product_index'), $condition);
 
         /** @var $categoryObject Mage_Catalog_Model_Resource_Category */
-        $categoryObject = Mage::getResourceSingleton('catalog/category');
+        $categoryObject = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category');
         if (!empty($categoryIds)) {
             $categoriesSelect = $writeAdapter->select()
                 ->from($this->getTable('catalog_category_entity'))
@@ -386,7 +386,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
         $indexTable = $this->getTable('catalog_product_enabled_index');
         if (is_null($store) && is_null($product)) {
             Mage::throwException(
-                Mage::helper('catalog')->__('To reindex the enabled product(s), the store or product must be specified')
+                Mage::helper('Mage_Catalog_Helper_Data')->__('To reindex the enabled product(s), the store or product must be specified')
             );
         } elseif (is_null($product) || is_array($product)) {
             $storeId    = $store->getId();
@@ -500,7 +500,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
      */
     public function getCategoryCollection($product)
     {
-        $collection = Mage::getResourceModel('catalog/category_collection')
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection')
             ->joinField('product_id',
                 'catalog_category_product',
                 'product_id',
@@ -534,7 +534,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
      */
     public function getDefaultAttributeSourceModel()
     {
-        return 'eav/entity_attribute_source_table';
+        return 'Mage_Eav_Model_Entity_Attribute_Source_Table';
     }
 
     /**

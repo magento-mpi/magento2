@@ -42,9 +42,9 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
 
     protected function _prepareLayout()
     {
-        $this->setChild('delete_button', $this->getLayout()->createBlock('adminhtml/widget_button')
+        $this->setChild('delete_button', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->addData(array(
-                //'label' => $this->helper('enterprise_catalogpermissions')->__('Remove Permission'),
+                //'label' => $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('Remove Permission'),
                 'class' => 'delete' . ($this->isReadonly() ? ' disabled' : ''),
                 'disabled' => $this->isReadonly(),
                 'type'  => 'button',
@@ -88,9 +88,9 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     public function getGrants()
     {
         return array(
-            'grant_catalog_category_view' => $this->helper('enterprise_catalogpermissions')->__('Browsing Category'),
-            'grant_catalog_product_price' => $this->helper('enterprise_catalogpermissions')->__('Display Product Prices'),
-            'grant_checkout_items' => $this->helper('enterprise_catalogpermissions')->__('Add to Cart')
+            'grant_catalog_category_view' => $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('Browsing Category'),
+            'grant_catalog_product_price' => $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('Display Product Prices'),
+            'grant_checkout_items' => $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('Add to Cart')
         );
     }
 
@@ -113,7 +113,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     public function getWebsiteCollection()
     {
         if (!$this->hasData('website_collection')) {
-            $collection = Mage::getModel('core/website')->getCollection();
+            $collection = Mage::getModel('Mage_Core_Model_Website')->getCollection();
             $this->setData('website_collection', $collection);
         }
 
@@ -128,7 +128,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     public function getCustomerGroupCollection()
     {
         if (!$this->hasData('customer_group_collection')) {
-            $collection = Mage::getModel('customer/group')->getCollection();
+            $collection = Mage::getModel('Mage_Customer_Model_Group')->getCollection();
             $this->setData('customer_group_collection', $collection);
         }
 

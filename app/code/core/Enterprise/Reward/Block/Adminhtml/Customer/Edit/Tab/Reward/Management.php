@@ -52,12 +52,12 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management
     protected function _prepareLayout()
     {
         $total = $this->getLayout()
-            ->createBlock('enterprise_reward/adminhtml_customer_edit_tab_reward_management_balance');
+            ->createBlock('Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance');
 
         $this->setChild('balance', $total);
 
         $update = $this->getLayout()
-            ->createBlock('enterprise_reward/adminhtml_customer_edit_tab_reward_management_update');
+            ->createBlock('Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Update');
 
         $this->setChild('update', $update);
 

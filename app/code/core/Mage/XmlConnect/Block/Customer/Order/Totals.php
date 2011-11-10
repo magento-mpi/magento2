@@ -46,16 +46,16 @@ class Mage_XmlConnect_Block_Customer_Order_Totals extends Mage_Sales_Block_Order
         $enterpriseBlocks = array(
             'reward.sales.order.total'  => array(
                 'module'    => 'Enterprise_Reward',
-                'block'     => 'enterprise_reward/sales_order_total'
+                'block'     => 'Enterprise_Reward_Block_Sales_Order_Total'
             ),
             'customerbalance'  => array(
                 'module'    => 'Enterprise_CustomerBalance',
-                'block'     => 'xmlconnect/customer_order_totals_customerbalance',
+                'block'     => 'Mage_XmlConnect_Block_Customer_Order_Totals_Customerbalance',
                 'template'  => 'order/customerbalance.phtml'
             ),
             'customerbalance_total_refunded'  => array(
                 'module'    => 'Enterprise_CustomerBalance',
-                'block'     => 'xmlconnect/customer_order_totals_customerbalance_refunded',
+                'block'     => 'Mage_XmlConnect_Block_Customer_Order_Totals_Customerbalance_Refunded',
                 'template'  => 'order/customerbalance_refunded.phtml',
                 'after'     => '-',
                 'action'    => array(
@@ -65,11 +65,11 @@ class Mage_XmlConnect_Block_Customer_Order_Totals extends Mage_Sales_Block_Order
             ),
             'giftwrapping'  => array(
                 'module'    => 'Enterprise_GiftWrapping',
-                'block'     => 'enterprise_giftwrapping/sales_totals'
+                'block'     => 'Enterprise_GiftWrapping_Block_Sales_Totals'
             ),
             'giftcards'  => array(
                 'module'    => 'Enterprise_GiftCardAccount',
-                'block'     => 'xmlconnect/customer_order_totals_giftcards',
+                'block'     => 'Mage_XmlConnect_Block_Customer_Order_Totals_Giftcards',
                 'template'  => 'order/giftcards.phtml'
             ),
         );
@@ -133,7 +133,7 @@ class Mage_XmlConnect_Block_Customer_Order_Totals extends Mage_Sales_Block_Order
     protected function _formatPrice($total)
     {
         if (!$total->getIsFormated()) {
-            return Mage::helper('xmlconnect/customer_order')->formatPrice($this, $total->getValue());
+            return Mage::helper('Mage_XmlConnect_Helper_Customer_Order')->formatPrice($this, $total->getValue());
         }
         return $total->getValue();
     }

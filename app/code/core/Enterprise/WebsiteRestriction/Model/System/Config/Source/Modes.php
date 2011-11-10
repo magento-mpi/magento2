@@ -41,15 +41,15 @@ extends Varien_Object
         return array(
             array(
                 'value' => Enterprise_WebsiteRestriction_Model_Mode::ALLOW_NONE,
-                'label' => Mage::helper('enterprise_websiterestriction')->__('Website Closed'),
+                'label' => Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->__('Website Closed'),
             ),
             array(
                 'value' => Enterprise_WebsiteRestriction_Model_Mode::ALLOW_LOGIN,
-                'label' => Mage::helper('enterprise_websiterestriction')->__('Private Sales: Login Only'),
+                'label' => Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->__('Private Sales: Login Only'),
             ),
             array(
                 'value' => Enterprise_WebsiteRestriction_Model_Mode::ALLOW_REGISTER,
-                'label' => Mage::helper('enterprise_websiterestriction')->__('Private Sales: Login and Register'),
+                'label' => Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->__('Private Sales: Login and Register'),
             ),
         );
     }

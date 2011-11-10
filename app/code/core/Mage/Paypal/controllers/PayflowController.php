@@ -38,7 +38,7 @@ class Mage_Paypal_PayflowController extends Mage_Paypal_Controller_Express_Abstr
      *
      * @var string
      */
-    protected $_configType = 'paypal/config';
+    protected $_configType = 'Mage_Paypal_Model_Config';
 
     /**
      * Config method type
@@ -85,7 +85,7 @@ class Mage_Paypal_PayflowController extends Mage_Paypal_Controller_Express_Abstr
 
         $checkToken = $this->getRequest()->getParam('TOKEN');
         if ($checkToken) {
-            Mage::getSingleton('paypal/session')->setExpressCheckoutToken($checkToken);
+            Mage::getSingleton('Mage_Paypal_Model_Session')->setExpressCheckoutToken($checkToken);
             $this->_redirect('*/*/review');
             return;
         }
@@ -120,13 +120,13 @@ class Mage_Paypal_PayflowController extends Mage_Paypal_Controller_Express_Abstr
         $gotoSection = false;
         $session = $this->_getCheckout();
         if ($session->getLastRealOrderId()) {
-            $order = Mage::getModel('sales/order')->loadByIncrementId($session->getLastRealOrderId());
+            $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
             if ($order->getId()) {
                 //Cancel order
                 if ($order->getState() != Mage_Sales_Model_Order::STATE_CANCELED) {
                     $order->registerCancellation($errorMsg)->save();
                 }
-                $quote = Mage::getModel('sales/quote')
+                $quote = Mage::getModel('Mage_Sales_Model_Quote')
                     ->load($order->getQuoteId());
                 //Return quote
                 if ($quote->getId()) {
@@ -154,7 +154,8 @@ class Mage_Paypal_PayflowController extends Mage_Paypal_Controller_Express_Abstr
         $payment = $quote->getPayment();
 
         try {
-            $method = Mage::helper('payment')->getMethodInstance(Mage_Paypal_Model_Config::METHOD_PAYFLOWLINK);
+            $method = Mage::helper('Mage_Payment_Helper_Data')
+                ->getMethodInstance(Mage_Paypal_Model_Config::METHOD_PAYFLOWLINK);
             $method->setData('info_instance', $payment);
             $method->initialize($method->getConfigData('payment_action'), new Varien_Object());
 
@@ -184,7 +185,7 @@ class Mage_Paypal_PayflowController extends Mage_Paypal_Controller_Express_Abstr
         $data = $this->getRequest()->getPost();
         if (isset($data['INVNUM'])) {
             /** @var $paymentModel Mage_Paypal_Model_Payflowlink */
-            $paymentModel = Mage::getModel('paypal/payflowlink');
+            $paymentModel = Mage::getModel('Mage_Paypal_Model_Payflowlink');
             try {
                 $paymentModel->process($data);
             } catch (Exception $e) {
@@ -200,7 +201,7 @@ class Mage_Paypal_PayflowController extends Mage_Paypal_Controller_Express_Abstr
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**

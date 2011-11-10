@@ -33,25 +33,6 @@
         </Mage_XmlConnect>
     </modules>
     <global>
-        <models>
-            <xmlconnect>
-                <class>Mage_XmlConnect_Model</class>
-                <resourceModel>xmlconnect_resource</resourceModel>
-            </xmlconnect>
-            <xmlconnect_resource>
-                <class>Mage_XmlConnect_Model_Resource</class>
-            </xmlconnect_resource>
-        </models>
-        <blocks>
-            <xmlconnect>
-                <class>Mage_XmlConnect_Block</class>
-            </xmlconnect>
-        </blocks>
-        <helpers>
-            <xmlconnect>
-                <class>Mage_XmlConnect_Helper</class>
-            </xmlconnect>
-        </helpers>
         <resources>
             <xmlconnect_setup>
                 <setup>
@@ -69,7 +50,7 @@
             <websiterestriction_frontend>
                 <observers>
                     <xmlconnect>
-                        <class>xmlconnect/observer</class>
+                        <class>Mage_XmlConnect_Model_Observer</class>
                         <method>restrictWebsite</method>
                     </xmlconnect>
                 </observers>
@@ -77,7 +58,7 @@
         </events>
     </global>
     <admin>
-         <routers>
+        <routers>
             <adminhtml>
                 <args>
                     <modules>
@@ -108,7 +89,7 @@
             <core_config_data_save_after>
                 <observers>
                     <xmlconnect>
-                        <class>xmlconnect/observer</class>
+                        <class>Mage_XmlConnect_Model_Observer</class>
                         <method>changeUpdatedAtParamOnConfigSave</method>
                     </xmlconnect>
                 </observers>
@@ -116,7 +97,7 @@
             <before_save_message_queue>
                 <observers>
                     <xmlconnect>
-                        <class>xmlconnect/observer</class>
+                        <class>Mage_XmlConnect_Model_Observer</class>
                         <method>sendMessageImmediately</method>
                     </xmlconnect>
                 </observers>
@@ -154,14 +135,14 @@
         <payment>
             <paypal_mep>
                 <active>1</active>
-                <model>xmlconnect/payment_method_paypal_mep</model>
+                <model>Mage_XmlConnect_Model_Payment_Method_Paypal_Mep</model>
                 <title>PayPal Mobile Payments Library</title>
                 <allowspecific>0</allowspecific>
                 <group>paypal</group>
             </paypal_mep>
             <paypal_mecl>
                 <active>1</active>
-                <model>xmlconnect/payment_method_paypal_mecl</model>
+                <model>Mage_XmlConnect_Model_Payment_Method_Paypal_Mecl</model>
                 <title>PayPal Mobile Express Checkout Library</title>
                 <allowspecific>0</allowspecific>
                 <group>paypal</group>
@@ -433,7 +414,7 @@
         <jobs>
             <xmlconnect_notification_send_all>
                 <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
-                <run><model>xmlconnect/observer::scheduledSend</model></run>
+                <run><model>Mage_XmlConnect_Model_Observer::scheduledSend</model></run>
             </xmlconnect_notification_send_all>
         </jobs>
     </crontab>

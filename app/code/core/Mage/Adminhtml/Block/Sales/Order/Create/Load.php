@@ -39,15 +39,15 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Load extends Mage_Core_Block_Templ
         $result = array();
         foreach ($this->getSortedChildren() as $name) {
             if (!$block = $this->getChild($name)) {
-                $result[$name] = Mage::helper('sales')->__('Invalid block: %s.', $name);
+                $result[$name] = Mage::helper('Mage_Sales_Helper_Data')->__('Invalid block: %s.', $name);
             } else {
                 $result[$name] = $block->toHtml();
             }
         }
-        $resultJson = Mage::helper('core')->jsonEncode($result);
+        $resultJson = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
         $jsVarname = $this->getRequest()->getParam('as_js_varname');
         if ($jsVarname) {
-            return Mage::helper('adminhtml/js')->getScript(sprintf('var %s = %s', $jsVarname, $resultJson));
+            return Mage::helper('Mage_Adminhtml_Helper_Js')->getScript(sprintf('var %s = %s', $jsVarname, $resultJson));
         } else {
             return $resultJson;
         }

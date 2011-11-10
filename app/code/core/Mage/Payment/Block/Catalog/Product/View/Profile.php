@@ -64,7 +64,7 @@ class Mage_Payment_Block_Catalog_Product_View_Profile extends Mage_Core_Block_Te
             $this->setDateHtmlId('recurring_start_date');
             $format = Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
             $calendar = $this->getLayout()
-                ->createBlock('core/html_date')
+                ->createBlock('Mage_Core_Block_Html_Date')
                 ->setId('recurring_start_date')
                 ->setName(Mage_Payment_Model_Recurring_Profile::BUY_REQUEST_START_DATETIME)
                 ->setClass('datetime-picker input-text')
@@ -84,7 +84,7 @@ class Mage_Payment_Block_Catalog_Product_View_Profile extends Mage_Core_Block_Te
     {
         $product = Mage::registry('current_product');
         if ($product) {
-            $this->_profile = Mage::getModel('payment/recurring_profile')->importProduct($product);
+            $this->_profile = Mage::getModel('Mage_Payment_Model_Recurring_Profile')->importProduct($product);
         }
         return parent::_prepareLayout();
     }

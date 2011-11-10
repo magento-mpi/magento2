@@ -59,11 +59,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Adminhtml_B
 
     public function _beforeToHtml()
     {
-        $this->_currency = Mage::getModel('directory/currency')
+        $this->_currency = Mage::getModel('Mage_Directory_Model_Currency')
             ->load(Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE))
         ;
 
-        $this->_collection = Mage::getResourceModel('sales/sale_collection')
+        $this->_collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Sale_Collection')
             ->setCustomerFilter(Mage::registry('current_customer'))
             ->setOrderStateFilter(Mage_Sales_Model_Order::STATE_CANCELED, true)
             ->load()
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Adminhtml_B
                 $groupId    = 0;
                 $storeId    = 0;
 
-                $sale->setStoreName(Mage::helper('customer')->__('Deleted Stores'));
+                $sale->setStoreName(Mage::helper('Mage_Customer_Helper_Data')->__('Deleted Stores'));
             }
 
             $this->_groupedCollection[$websiteId][$groupId][$storeId] = $sale;

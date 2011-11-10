@@ -31,23 +31,6 @@
             <version>1.11.0.0</version>
         </Enterprise_Checkout>
     </modules>
-    <global>
-        <models>
-            <enterprise_checkout>
-                <class>Enterprise_Checkout_Model</class>
-            </enterprise_checkout>
-        </models>
-        <blocks>
-            <enterprise_checkout>
-                <class>Enterprise_Checkout_Block</class>
-            </enterprise_checkout>
-        </blocks>
-        <helpers>
-            <enterprise_checkout>
-                <class>Enterprise_Checkout_Helper</class>
-            </enterprise_checkout>
-        </helpers>
-    </global>
     <admin>
         <routers>
             <adminhtml>

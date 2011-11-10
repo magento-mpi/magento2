@@ -54,7 +54,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
      *
      * @var string
      */
-    protected $_iframeBlockType = 'adminhtml/template';
+    protected $_iframeBlockType = 'Mage_Adminhtml_Block_Template';
 
     /**
      * Adminhtml iframe template
@@ -70,7 +70,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
      */
     protected function _getUrlModelClass()
     {
-        return 'adminhtml/url';
+        return 'Mage_Adminhtml_Model_Url';
     }
 
     /**
@@ -80,7 +80,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
      */
     public function getRedirectUrl()
     {
-        return Mage::getModel('adminhtml/url')->getUrl('*/pbridge/result',
+        return Mage::getModel('Mage_Adminhtml_Model_Url')->getUrl('*/pbridge/result',
             array('store' => $this->getQuote()->getStoreId())
         );
     }
@@ -92,7 +92,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
      */
     public function getQuote()
     {
-        return Mage::getSingleton('adminhtml/session_quote')->getQuote();
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getQuote();
     }
 
     /**
@@ -122,8 +122,8 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
      */
     protected function _getCurrentCustomer()
     {
-        if (Mage::getSingleton('adminhtml/session_quote')->getCustomer() instanceof Mage_Customer_Model_Customer) {
-            return Mage::getSingleton('adminhtml/session_quote')->getCustomer();
+        if (Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getCustomer() instanceof Mage_Customer_Model_Customer) {
+            return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getCustomer();
         }
 
         return null;

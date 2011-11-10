@@ -45,14 +45,14 @@ class Mage_Adminhtml_Block_System_Config_Switcher extends Mage_Adminhtml_Block_T
         $curWebsite = $this->getRequest()->getParam('website');
         $curStore   = $this->getRequest()->getParam('store');
 
-        $storeModel = Mage::getSingleton('adminhtml/system_store');
+        $storeModel = Mage::getSingleton('Mage_Adminhtml_Model_System_Store');
         /* @var $storeModel Mage_Adminhtml_Model_System_Store */
 
-        $url = Mage::getModel('adminhtml/url');
+        $url = Mage::getModel('Mage_Adminhtml_Model_Url');
 
         $options = array();
         $options['default'] = array(
-            'label'    => Mage::helper('adminhtml')->__('Default Config'),
+            'label'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Default Config'),
             'url'      => $url->getUrl('*/*/*', array('section'=>$section)),
             'selected' => !$curWebsite && !$curStore,
             'style'    => 'background:#ccc; font-weight:bold;',

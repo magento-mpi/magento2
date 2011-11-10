@@ -80,7 +80,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
      */
     public function __construct()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
 
         parent::__construct(
             $resource->getConnection('catalog_write'),
@@ -266,7 +266,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
      */
     protected function _getIsActiveAttributeId()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
         if (is_null($this->_isActiveAttributeId)) {
             $bind = array(
                 'entity_type_code' => Mage_Catalog_Model_Category::ENTITY,
@@ -296,7 +296,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
         $attributeId = $this->_getIsActiveAttributeId();
 
         $conditionSql = $this->_conn->getCheckSql('c.value_id > 0', 'c.value', 'd.value');
-        $table = Mage::getSingleton('core/resource')->getTableName('catalog_category_entity_int');
+        $table = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('catalog_category_entity_int');
         $bind = array(
             'attribute_id' => $attributeId,
             'store_id'     => $storeId,
@@ -371,7 +371,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
     protected function _getDefaultCollection($sorted = false)
     {
         $this->_joinUrlRewriteIntoCollection = true;
-        $collection = Mage::getModel('catalog/category')->getCollection();
+        $collection = Mage::getModel('Mage_Catalog_Model_Category')->getCollection();
         /** @var $collection Mage_Catalog_Model_Resource_Category_Collection */
 
         $attributes = Mage::getConfig()->getNode('frontend/category/collection/attributes');
@@ -422,7 +422,8 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
     public function move($category, $newParent, $prevNode = null)
     {
         $this->_beforeMove($category, $newParent, $prevNode);
-        Mage::getResourceSingleton('catalog/category')->move($category->getId(), $newParent->getId());
+        Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category')
+            ->move($category->getId(), $newParent->getId());
         parent::move($category, $newParent, $prevNode);
 
         $this->_afterMove($category, $newParent, $prevNode);
@@ -585,9 +586,10 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
         if ($optionalAttributes) {
             $attributes = array_unique(array_merge($attributes, $optionalAttributes));
         }
+        $resource = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category');
         foreach ($attributes as $attributeCode) {
             /* @var $attribute Mage_Eav_Model_Entity_Attribute */
-            $attribute = Mage::getResourceSingleton('catalog/category')->getAttribute($attributeCode);
+            $attribute = $resource->getAttribute($attributeCode);
             // join non-static attribute table
             if (!$attribute->getBackend()->isStatic()) {
                 $tableDefault   = sprintf('d_%s', $attributeCode);
@@ -613,8 +615,8 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
         }
 
         // count children products qty plus self products qty
-        $categoriesTable         = Mage::getSingleton('core/resource')->getTableName('catalog_category_entity');
-        $categoriesProductsTable = Mage::getSingleton('core/resource')->getTableName('catalog_category_product');
+        $categoriesTable         = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('catalog_category_entity');
+        $categoriesProductsTable = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('catalog_category_product');
 
         $subConcat = $this->_conn->getConcatSql(array('e.path', $this->_conn->quote('/%')));
         $subSelect = $this->_conn->select()

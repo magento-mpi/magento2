@@ -105,7 +105,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         Mage::dispatchEvent('custom_quote_process', array('checkout_session' => $this));
 
         if ($this->_quote === null) {
-            $quote = Mage::getModel('sales/quote')
+            $quote = Mage::getModel('Mage_Sales_Model_Quote')
                 ->setStoreId(Mage::app()->getStore()->getId());
 
             /** @var $quote Mage_Sales_Model_Quote */
@@ -128,7 +128,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                          * We mast to create new quote object, because collectTotals()
                          * can to create links with other objects.
                          */
-                        $quote = Mage::getModel('sales/quote')->setStoreId(Mage::app()->getStore()->getId());
+                        $quote = Mage::getModel('Mage_Sales_Model_Quote')->setStoreId(Mage::app()->getStore()->getId());
                         $quote->load($this->getQuoteId());
                     }
                 } else {
@@ -136,7 +136,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                 }
             }
 
-            $customerSession = Mage::getSingleton('customer/session');
+            $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
 
             if (!$this->getQuoteId()) {
                 if ($customerSession->isLoggedIn() || $this->_customer) {
@@ -160,7 +160,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
             $this->_quote = $quote;
         }
 
-        if ($remoteAddr = Mage::helper('core/http')->getRemoteAddr()) {
+        if ($remoteAddr = Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr()) {
             $this->_quote->setRemoteIp($remoteAddr);
             $xForwardIp = Mage::app()->getRequest()->getServer('HTTP_X_FORWARDED_FOR');
             $this->_quote->setXForwardedFor($xForwardIp);
@@ -190,15 +190,15 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function loadCustomerQuote()
     {
-        if (!Mage::getSingleton('customer/session')->getCustomerId()) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId()) {
             return $this;
         }
 
         Mage::dispatchEvent('load_customer_quote_before', array('checkout_session' => $this));
 
-        $customerQuote = Mage::getModel('sales/quote')
+        $customerQuote = Mage::getModel('Mage_Sales_Model_Quote')
             ->setStoreId(Mage::app()->getStore()->getId())
-            ->loadByCustomer(Mage::getSingleton('customer/session')->getCustomerId());
+            ->loadByCustomer(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId());
 
         if ($customerQuote->getId() && $this->getQuoteId() != $customerQuote->getId()) {
             if ($this->getQuoteId()) {
@@ -216,7 +216,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         } else {
             $this->getQuote()->getBillingAddress();
             $this->getQuote()->getShippingAddress();
-            $this->getQuote()->setCustomer(Mage::getSingleton('customer/session')->getCustomer())
+            $this->getQuote()->setCustomer(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer())
                 ->setTotalsCollectedFlag(false)
                 ->collectTotals()
                 ->save();
@@ -320,7 +320,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
     {
         $allMessages = $this->getAdditionalMessages();
         if (!isset($allMessages[$itemKey])) {
-            $allMessages[$itemKey] = Mage::getModel('core/message_collection');
+            $allMessages[$itemKey] = Mage::getModel('Mage_Core_Model_Message_Collection');
         }
         $allMessages[$itemKey]->add($message);
         $this->setAdditionalMessages($allMessages);

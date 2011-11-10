@@ -180,7 +180,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
             $this->_getConditionSql('main_table.period', $this->getDateRange($range, $customStart, $customEnd))
         );
 
-        $statuses = Mage::getSingleton('sales/config')
+        $statuses = Mage::getSingleton('Mage_Sales_Model_Config')
             ->getOrderStatusesForState(Mage_Sales_Model_Order::STATE_CANCELED);
 
         if (empty($statuses)) {
@@ -248,7 +248,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
     {
         return str_replace(
             '{{attribute}}',
-            Mage::getResourceModel('sales/report_order')
+            Mage::getResourceModel('Mage_Sales_Model_Resource_Report_Order')
                     ->getStoreTZOffsetQuery($this->getMainTable(), $attribute, $from, $to),
             $this->_getRangeExpression($range)
         );
@@ -453,7 +453,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
             'quantity' => 'SUM(orders_count)',
         ));
 
-        $statuses = Mage::getSingleton('sales/config')
+        $statuses = Mage::getSingleton('Mage_Sales_Model_Config')
             ->getOrderStatusesForState(Mage_Sales_Model_Order::STATE_CANCELED);
 
         if (empty($statuses)) {
@@ -473,7 +473,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
      */
     public function calculateSales($isFilter = 0)
     {
-        $statuses = Mage::getSingleton('sales/config')
+        $statuses = Mage::getSingleton('Mage_Sales_Model_Config')
             ->getOrderStatusesForState(Mage_Sales_Model_Order::STATE_CANCELED);
 
         if (empty($statuses)) {

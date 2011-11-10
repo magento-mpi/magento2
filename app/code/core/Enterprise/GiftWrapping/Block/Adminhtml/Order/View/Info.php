@@ -58,7 +58,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Info
             } else {
                 $data['price'] = $this->_preparePrices($order->getGwBasePrice(), $order->getGwPrice());
             }
-            $wrapping = Mage::getModel('enterprise_giftwrapping/wrapping')->load($order->getGwId());
+            $wrapping = Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping')->load($order->getGwId());
             $data['path'] = $wrapping->getImageUrl();
             $data['design'] = $wrapping->getDesign();
         }
@@ -126,7 +126,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Info
      */
     public function getAllowPrintedCard()
     {
-        return Mage::helper('enterprise_giftwrapping')->allowPrintedCard($this->getStoreId());
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->allowPrintedCard($this->getStoreId());
     }
 
     /**
@@ -136,7 +136,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Info
      */
     public function getAllowGiftReceipt()
     {
-        return Mage::helper('enterprise_giftwrapping')->allowGiftReceipt($this->getStoreId());
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->allowGiftReceipt($this->getStoreId());
     }
 
     /**

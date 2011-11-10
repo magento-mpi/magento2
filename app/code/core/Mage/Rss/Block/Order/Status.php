@@ -44,9 +44,9 @@ class Mage_Rss_Block_Order_Status extends Mage_Core_Block_Template
 
     protected function _toHtml()
     {
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = Mage::getModel('Mage_Rss_Model_Rss');
         $order = Mage::registry('current_order');
-        $title = Mage::helper('rss')->__('Order # %s Notification(s)',$order->getIncrementId());
+        $title = Mage::helper('Mage_Rss_Helper_Data')->__('Order # %s Notification(s)',$order->getIncrementId());
         $newurl = Mage::getUrl('sales/order/view',array('order_id' => $order->getId()));
         $data = array('title' => $title,
                 'description' => $title,
@@ -54,7 +54,7 @@ class Mage_Rss_Block_Order_Status extends Mage_Core_Block_Template
                 'charset'     => 'UTF-8',
                 );
         $rssObj->_addHeader($data);
-        $resourceModel = Mage::getResourceModel('rss/order');
+        $resourceModel = Mage::getResourceModel('Mage_Rss_Model_Resource_Order');
         $results = $resourceModel->getAllCommentCollection($order->getId());
         if($results){
             foreach($results as $result){
@@ -63,12 +63,12 @@ class Mage_Rss_Block_Order_Status extends Mage_Core_Block_Template
                 if($type && $type!='order'){
                    $urlAppend = $type;
                 }
-                $type  = Mage::helper('rss')->__(ucwords($type));
-                $title = Mage::helper('rss')->__('Details for %s #%s', $type, $result['increment_id']);
+                $type  = Mage::helper('Mage_Rss_Helper_Data')->__(ucwords($type));
+                $title = Mage::helper('Mage_Rss_Helper_Data')->__('Details for %s #%s', $type, $result['increment_id']);
 
                 $description = '<p>'.
-                Mage::helper('rss')->__('Notified Date: %s<br/>',$this->formatDate($result['created_at'])).
-                Mage::helper('rss')->__('Comment: %s<br/>',$result['comment']).
+                Mage::helper('Mage_Rss_Helper_Data')->__('Notified Date: %s<br/>',$this->formatDate($result['created_at'])).
+                Mage::helper('Mage_Rss_Helper_Data')->__('Comment: %s<br/>',$result['comment']).
                 '</p>'
                 ;
                 $url = Mage::getUrl('sales/order/'.$urlAppend,array('order_id' => $order->getId()));
@@ -80,11 +80,11 @@ class Mage_Rss_Block_Order_Status extends Mage_Core_Block_Template
                 $rssObj->_addEntry($data);
             }
         }
-        $title = Mage::helper('rss')->__('Order #%s created at %s', $order->getIncrementId(), $this->formatDate($order->getCreatedAt()));
+        $title = Mage::helper('Mage_Rss_Helper_Data')->__('Order #%s created at %s', $order->getIncrementId(), $this->formatDate($order->getCreatedAt()));
         $url = Mage::getUrl('sales/order/view',array('order_id' => $order->getId()));
         $description = '<p>'.
-            Mage::helper('rss')->__('Current Status: %s<br/>',$order->getStatusLabel()).
-            Mage::helper('rss')->__('Total: %s<br/>',$order->formatPrice($order->getGrandTotal())).
+            Mage::helper('Mage_Rss_Helper_Data')->__('Current Status: %s<br/>',$order->getStatusLabel()).
+            Mage::helper('Mage_Rss_Helper_Data')->__('Total: %s<br/>',$order->formatPrice($order->getGrandTotal())).
             '</p>'
         ;
         $data = array(

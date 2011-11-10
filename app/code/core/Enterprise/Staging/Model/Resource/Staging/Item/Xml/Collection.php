@@ -57,7 +57,7 @@ class Enterprise_Staging_Model_Resource_Staging_Item_Xml_Collection extends Vari
     {
         $this->setExtendInfo($extendInfo);
 
-        foreach (Mage::getSingleton('enterprise_staging/staging_config')->getStagingItems() as $stagingItem) {
+        foreach (Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getStagingItems() as $stagingItem) {
             if ((int)$stagingItem->is_backend) {
                 continue;
             }
@@ -66,7 +66,7 @@ class Enterprise_Staging_Model_Resource_Staging_Item_Xml_Collection extends Vari
 
             if ($stagingItem->extends) {
                 foreach ($stagingItem->extends->children() as $extendItem) {
-                    if (!Mage::getSingleton('enterprise_staging/staging_config')->isItemModuleActive($extendItem)) {
+                    if (!Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->isItemModuleActive($extendItem)) {
                          continue;
                     }
                     $this->addStagingItemToCollection($extendItem);
@@ -89,7 +89,7 @@ class Enterprise_Staging_Model_Resource_Staging_Item_Xml_Collection extends Vari
 
         $_code = (string) $stagingItem->getName();
 
-        $item = Mage::getModel('enterprise_staging/staging_item')
+        $item = Mage::getModel('Enterprise_Staging_Model_Staging_Item')
             ->loadFromXmlStagingItem($stagingItem);
 
         $disabled = false;
@@ -103,7 +103,7 @@ class Enterprise_Staging_Model_Resource_Staging_Item_Xml_Collection extends Vari
                 $checked = false;
                 $availabilityText = $extendInfo[$_code]["reason"];
             } else {
-                $availabilityText = Mage::helper('enterprise_staging')->__('available');
+                $availabilityText = Mage::helper('Enterprise_Staging_Helper_Data')->__('available');
             }
         }
         $item->setData('id', $_code);

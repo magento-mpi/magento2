@@ -105,7 +105,7 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
 
         if (!in_array($alias, $this->getGridColumns())) {
             Mage::throwException(
-                Mage::helper('sales')->__('Please specify a valid grid column alias name that exists in grid table.')
+                Mage::helper('Mage_Sales_Helper_Data')->__('Please specify a valid grid column alias name that exists in grid table.')
             );
         }
 
@@ -374,7 +374,7 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
     {
         if ($this->_useIncrementId && !$object->getIncrementId()) {
             /* @var $entityType Mage_Eav_Model_Entity_Type */
-            $entityType = Mage::getModel('eav/entity_type')->loadByCode($this->_entityTypeForIncrementId);
+            $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode($this->_entityTypeForIncrementId);
             $object->setIncrementId($entityType->fetchNewIncrementId($object->getStoreId()));
         }
         parent::_beforeSave($object);

@@ -129,7 +129,7 @@ class Mage_Connect_Helper_Data extends Mage_Core_Helper_Data
 
         if (file_exists($xmlFile) && is_readable($xmlFile)) {
             $xml  = simplexml_load_file($xmlFile);
-            $data = Mage::helper('core')->xmlToAssoc($xml);
+            $data = Mage::helper('Mage_Core_Helper_Data')->xmlToAssoc($xml);
             if (!empty($data)) {
                 return $data;
             }

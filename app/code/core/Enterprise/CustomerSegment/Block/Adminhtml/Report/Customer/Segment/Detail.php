@@ -40,26 +40,26 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
      */
     public function __construct()
     {
-        $this->_blockGroup = 'enterprise_customersegment';
+        $this->_blockGroup = 'Enterprise_CustomerSegment';
         $this->_controller = 'adminhtml_report_customer_segment_detail';
         if ($this->getCustomerSegment() && $this->getCustomerSegment()->getName()) {
-            $this->_headerText = Mage::helper('enterprise_customersegment')->__(
+            $this->_headerText = Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__(
                 'Customer Segment Report \'%s\'',
                 $this->htmlEscape($this->getCustomerSegment()->getName())
             );
         } else {
-            $this->_headerText = Mage::helper('enterprise_customersegment')->__('Customer Segments Report');
+            $this->_headerText = Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Segments Report');
         }
 
         parent::__construct();
         $this->_removeButton('add');
         $this->addButton('back', array(
-            'label'     => Mage::helper('enterprise_customersegment')->__('Back'),
+            'label'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Back'),
             'onclick'   => 'setLocation(\'' . $this->getBackUrl() .'\')',
             'class'     => 'back',
         ));
         $this->addButton('refresh', array(
-            'label'     => Mage::helper('enterprise_customersegment')->__('Refresh Segment Data'),
+            'label'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Refresh Segment Data'),
             'onclick'   => 'setLocation(\'' . $this->getRefreshUrl() .'\')',
         ));
     }

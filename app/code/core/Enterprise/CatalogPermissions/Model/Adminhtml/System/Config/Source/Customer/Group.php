@@ -37,7 +37,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_System_Config_Source_Custome
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('customer/group_collection')
+            $this->_options = Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection')
                 ->loadData()->toOptionArray();
         }
         return $this->_options;

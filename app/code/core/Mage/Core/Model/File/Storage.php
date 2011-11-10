@@ -80,7 +80,7 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
      */
     public function getSyncFlag()
     {
-        return Mage::getSingleton('core/file_storage_flag')->loadSelf();
+        return Mage::getSingleton('Mage_Core_Model_File_Storage_Flag')->loadSelf();
     }
 
     /**
@@ -99,16 +99,16 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
     public function getStorageModel($storage = null, $params = array())
     {
         if (is_null($storage)) {
-            $storage = Mage::helper('core/file_storage')->getCurrentStorageCode();
+            $storage = Mage::helper('Mage_Core_Helper_File_Storage')->getCurrentStorageCode();
         }
 
         switch ($storage) {
             case self::STORAGE_MEDIA_FILE_SYSTEM:
-                $model = Mage::getModel('core/file_storage_file');
+                $model = Mage::getModel('Mage_Core_Model_File_Storage_File');
                 break;
             case self::STORAGE_MEDIA_DATABASE:
                 $connection = (isset($params['connection'])) ? $params['connection'] : null;
-                $model = Mage::getModel('core/file_storage_database', array('connection' => $connection));
+                $model = Mage::getModel('Mage_Core_Model_File_Storage_Database', array('connection' => $connection));
                 break;
             default:
                 return false;
@@ -136,7 +136,7 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
         if (is_array($storage) && isset($storage['type'])) {
             $storageDest    = (int) $storage['type'];
             $connection     = (isset($storage['connection'])) ? $storage['connection'] : null;
-            $helper         = Mage::helper('core/file_storage');
+            $helper         = Mage::helper('Mage_Core_Helper_File_Storage');
 
             // if unable to sync to internal storage from itself
             if ($storageDest == $helper->getCurrentStorageCode() && $helper->isInternalStorage()) {

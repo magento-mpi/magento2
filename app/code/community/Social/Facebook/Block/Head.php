@@ -27,7 +27,7 @@ class Social_Facebook_Block_Head extends Mage_Core_Block_Template
      */
     protected function _construct()
     {
-        $helper = Mage::helper('social_facebook');
+        $helper = Mage::helper('Social_Facebook_Helper_Data');
         if (!$helper->isEnabled()) {
             return;
         }
@@ -57,7 +57,7 @@ class Social_Facebook_Block_Head extends Mage_Core_Block_Template
             );
             $tags[] = array(
                 'property'  => 'og:image',
-                'content'   => $this->escapeHtml(Mage::helper('catalog/image')->init($product, 'image')->resize(256))
+                'content'   => $this->escapeHtml(Mage::helper('Mage_Catalog_Helper_Image')->init($product, 'image')->resize(256))
             );
             $tags[] = array(
                 'property'  => 'og:description',
@@ -65,7 +65,7 @@ class Social_Facebook_Block_Head extends Mage_Core_Block_Template
             );
             $tags[] = array(
                 'property'  => $helper->getAppName(). ':price',
-                'content'   => Mage::helper('core')->currency($product->getFinalPrice(), true, false)
+                'content'   => Mage::helper('Mage_Core_Helper_Data')->currency($product->getFinalPrice(), true, false)
             );
 
             $this->setMetaTags($tags);

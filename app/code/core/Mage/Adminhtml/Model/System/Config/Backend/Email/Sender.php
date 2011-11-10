@@ -38,7 +38,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Email_Sender extends Mage_Core_
     {
         $value = $this->getValue();
         if (!preg_match("/^[\S ]+$/", $value)) {
-            Mage::throwException(Mage::helper('adminhtml')->__('Invalid sender name "%s". Please use only visible characters and spaces.', $value));
+            Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Invalid sender name "%s". Please use only visible characters and spaces.', $value));
         }
         return $this;
     }

@@ -80,7 +80,7 @@ class Mage_XmlConnect_Block_Customer_Form_Renderer_Date extends Enterprise_Custo
             'value' => $this->_prepareValues()
         );
 
-        $attributes += Mage::helper('xmlconnect/customer_form_renderer')
+        $attributes += Mage::helper('Mage_XmlConnect_Helper_Customer_Form_Renderer')
             ->addTitleAndRequiredAttr($fieldsetXmlObj, $this);
         $fieldXmlObj = $fieldsetXmlObj->addField($this->getHtmlId('full'), $this->_filedType, $attributes);
         $validateRules = $this->getAttributeObject()->getValidateRules();

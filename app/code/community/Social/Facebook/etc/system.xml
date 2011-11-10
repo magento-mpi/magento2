@@ -27,13 +27,13 @@
 -->
 <config>
     <tabs>
-        <social translate="label" module="social_facebook">
+        <social translate="label" module="Social_Facebook">
             <label>Social</label>
             <sort_order>300</sort_order>
         </social>
     </tabs>
     <sections>
-        <facebook translate="label" module="social_facebook">
+        <facebook translate="label" module="Social_Facebook">
             <label>Facebook</label>
             <tab>social</tab>
             <sort_order>100</sort_order>
@@ -49,16 +49,16 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <enabled translate="label" module="social_facebook">
+                        <enabled translate="label" module="Social_Facebook">
                             <label>Enable Facebook on Frontend</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </enabled>
-                        <name translate="label" module="social_facebook">
+                        <name translate="label" module="Social_Facebook">
                             <label>App Namespace</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>30</sort_order>
@@ -66,7 +66,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </name>
-                        <id translate="label" module="social_facebook">
+                        <id translate="label" module="Social_Facebook">
                             <label>App ID</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>40</sort_order>
@@ -74,7 +74,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </id>
-                        <secret translate="label" module="social_facebook">
+                        <secret translate="label" module="Social_Facebook">
                             <label>App Secret</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>50</sort_order>
@@ -82,7 +82,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </secret>
-                        <otype translate="label" module="social_facebook">
+                        <otype translate="label" module="Social_Facebook">
                             <label>Object Type</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>60</sort_order>
@@ -92,8 +92,8 @@
                         </otype>
                         <action translate="comment">
                             <label>Actions Settings</label>
-                            <frontend_model>social_facebook/adminhtml_facebuttons</frontend_model>
-                            <backend_model>social_facebook/facebuttons</backend_model>
+                            <frontend_model>Social_Facebook_Block_Adminhtml_Facebuttons</frontend_model>
+                            <backend_model>Social_Facebook_Model_Facebuttons</backend_model>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

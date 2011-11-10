@@ -80,7 +80,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Admin_Page
     protected function _getUrlModel()
     {
         if (is_null($this->_url)) {
-            $this->_url = Mage::getModel('adminhtml/url');
+            $this->_url = Mage::getModel('Mage_Adminhtml_Model_Url');
         }
         return $this->_url;
     }
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Admin_Page
     protected function _buildMenuArray(Varien_Simplexml_Element $parent=null, $path='', $level=0)
     {
         if (is_null($parent)) {
-            $parent = Mage::getSingleton('admin/config')->getAdminhtmlConfig()->getNode('menu');
+            $parent = Mage::getSingleton('Mage_Admin_Model_Config')->getAdminhtmlConfig()->getNode('menu');
         }
 
         $parentArr = array();
@@ -154,7 +154,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Admin_Page
 
     protected function _getHelperValue(Varien_Simplexml_Element $child)
     {
-        $helperName         = 'adminhtml';
+        $helperName         = 'Mage_Adminhtml_Helper_Data';
         $titleNodeName      = 'title';
         $childAttributes    = $child->attributes();
         if (isset($childAttributes['module'])) {

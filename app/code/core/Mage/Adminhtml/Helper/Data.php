@@ -83,17 +83,17 @@ class Mage_Adminhtml_Helper_Data extends Mage_Core_Helper_Abstract
 
     public static function getUrl($route='', $params=array())
     {
-        return Mage::getModel('adminhtml/url')->getUrl($route, $params);
+        return Mage::getModel('Mage_Adminhtml_Model_Url')->getUrl($route, $params);
     }
 
 //    public function getCurrentUserId()
 //    {
-//        return Mage::getSingleton('admin/session')->getUser()->getId();
+//        return Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId();
 //    }
     public function getCurrentUserId()
     {
-        if (Mage::getSingleton('admin/session')->getUser()) {
-            return Mage::getSingleton('admin/session')->getUser()->getId();
+        if (Mage::getSingleton('Mage_Admin_Model_Session')->getUser()) {
+            return Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId();
         }
         return false;
     }

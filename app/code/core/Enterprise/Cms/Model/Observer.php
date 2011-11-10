@@ -45,7 +45,7 @@ class Enterprise_Cms_Model_Observer
      */
     public function __construct()
     {
-        $this->_config = Mage::getSingleton('enterprise_cms/config');
+        $this->_config = Mage::getSingleton('Enterprise_Cms_Model_Config');
     }
 
     /**
@@ -78,17 +78,17 @@ class Enterprise_Cms_Model_Observer
         if ($page) {
 
             $baseFieldset->addField('under_version_control', 'select', array(
-                'label'     => Mage::helper('enterprise_cms')->__('Under Version Control'),
-                'title'     => Mage::helper('enterprise_cms')->__('Under Version Control'),
+                'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Under Version Control'),
+                'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Under Version Control'),
                 'name'      => 'under_version_control',
-                'values'    => Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray()
+                'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray()
             ));
 
             if ($page->getPublishedRevisionId() && $page->getUnderVersionControl()) {
-                $userId = Mage::getSingleton('admin/session')->getUser()->getId();
-                $accessLevel = Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel();
+                $userId = Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId();
+                $accessLevel = Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel();
 
-                $revision = Mage::getModel('enterprise_cms/page_revision')
+                $revision = Mage::getModel('Enterprise_Cms_Model_Page_Revision')
                     ->loadWithRestrictions($accessLevel, $userId, $page->getPublishedRevisionId());
 
                 if ($revision->getId()) {
@@ -97,11 +97,11 @@ class Enterprise_Cms_Model_Observer
                     $versionLabel = $revision->getLabel();
 
                     $page->setPublishedRevisionLink(
-                        Mage::helper('enterprise_cms')->__('%s; rev #%s', $versionLabel, $revisionNumber));
+                        Mage::helper('Enterprise_Cms_Helper_Data')->__('%s; rev #%s', $versionLabel, $revisionNumber));
 
                     $baseFieldset->addField('published_revision_link', 'link', array(
-                            'label' => Mage::helper('enterprise_cms')->__('Currently Published Revision'),
-                            'href' => Mage::getModel('adminhtml/url')->getUrl('*/cms_page_revision/edit', array(
+                            'label' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Currently Published Revision'),
+                            'href' => Mage::getModel('Mage_Adminhtml_Model_Url')->getUrl('*/cms_page_revision/edit', array(
                                 'page_id' => $page->getId(),
                                 'revision_id' => $page->getPublishedRevisionId()
                                 )),
@@ -112,7 +112,7 @@ class Enterprise_Cms_Model_Observer
             }
         }
 
-        if ($revisionAvailable && !Mage::getSingleton('admin/session')->isAllowed('cms/page/save_revision')) {
+        if ($revisionAvailable && !Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/page/save_revision')) {
             foreach ($baseFieldset->getElements() as $element) {
                 $element->setDisabled(true);
             }
@@ -123,7 +123,7 @@ class Enterprise_Cms_Model_Observer
          */
         if (!$revisionAvailable && $page->getId() && $page->getUnderVersionControl()) {
             $baseFieldset->addField('published_revision_status', 'label', array('bold' => true));
-            $page->setPublishedRevisionStatus(Mage::helper('enterprise_cms')->__('Published Revision Unavailable'));
+            $page->setPublishedRevisionStatus(Mage::helper('Enterprise_Cms_Helper_Data')->__('Published Revision Unavailable'));
         }
 
         return $this;
@@ -138,7 +138,7 @@ class Enterprise_Cms_Model_Observer
     public function cmsControllerRouterMatchBefore(Varien_Event_Observer $observer)
     {
         /* @var $helper Enterprise_Cms_Helper_Hierarchy */
-        $helper = Mage::helper('enterprise_cms/hierarchy');
+        $helper = Mage::helper('Enterprise_Cms_Helper_Hierarchy');
         if (!$helper->isEnabled()) {
             return $this;
         }
@@ -149,7 +149,7 @@ class Enterprise_Cms_Model_Observer
          * Validate Request and modify router match condition
          */
         /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
-        $node = Mage::getModel('enterprise_cms/hierarchy_node');
+        $node = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
         $requestUrl = $condition->getIdentifier();
         $node->loadByRequestUrl($requestUrl);
 
@@ -162,7 +162,7 @@ class Enterprise_Cms_Model_Observer
 
         if (!$node->getPageId()) {
             /* @var $child Enterprise_Cms_Model_Hierarchy_Node */
-            $child = Mage::getModel('enterprise_cms/hierarchy_node');
+            $child = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
             $child->loadFirstChildByParent($node->getId());
             if (!$child->getId()) {
                 return $this;
@@ -198,7 +198,7 @@ class Enterprise_Cms_Model_Observer
         // Create new initial version & revision if it
         // is a new page or version control was turned on for this page.
         if ($page->getIsNewPage() || ($page->getUnderVersionControl() && $page->dataHasChangedFor('under_version_control'))) {
-            $version = Mage::getModel('enterprise_cms/page_version');
+            $version = Mage::getModel('Enterprise_Cms_Model_Page_Version');
 
             $revisionInitialData = $page->getData();
             $revisionInitialData['copied_from_original'] = true;
@@ -206,7 +206,7 @@ class Enterprise_Cms_Model_Observer
             $version->setLabel($page->getTitle())
                 ->setAccessLevel(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC)
                 ->setPageId($page->getId())
-                ->setUserId(Mage::getSingleton('admin/session')->getUser()->getId())
+                ->setUserId(Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId())
                 ->setInitialRevisionData($revisionInitialData)
                 ->save();
 
@@ -219,13 +219,13 @@ class Enterprise_Cms_Model_Observer
             }
         }
 
-        if (!Mage::helper('enterprise_cms/hierarchy')->isEnabled()) {
+        if (!Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isEnabled()) {
             return $this;
         }
 
         // rebuild URL rewrites if page has changed for identifier
         if ($page->dataHasChangedFor('identifier')) {
-            Mage::getSingleton('enterprise_cms/hierarchy_node')->updateRewriteUrls($page);
+            Mage::getSingleton('Enterprise_Cms_Model_Hierarchy_Node')->updateRewriteUrls($page);
         }
 
         /*
@@ -233,13 +233,14 @@ class Enterprise_Cms_Model_Observer
          * which are not specified in array. So should be called even array is empty!
          * Returns array of new ids for page nodes array( oldId => newId ).
          */
-        Mage::getSingleton('enterprise_cms/hierarchy_node')->appendPageToNodes($page, $page->getAppendToNodes());
+        Mage::getSingleton('Enterprise_Cms_Model_Hierarchy_Node')->appendPageToNodes($page, $page->getAppendToNodes());
 
         /*
          * Updating sort order for nodes in parent nodes which have current page as child
          */
+        $resource = Mage::getResourceSingleton('Enterprise_Cms_Model_Resource_Hierarchy_Node');
         foreach ($page->getNodesSortOrder() as $nodeId => $value) {
-            Mage::getResourceSingleton('enterprise_cms/hierarchy_node')->updateSortOrder($nodeId, $value);
+            $resource->updateSortOrder($nodeId, $value);
         }
 
         return $this;
@@ -278,7 +279,7 @@ class Enterprise_Cms_Model_Observer
         $sortOrder = array();
         if ($nodesData) {
             try{
-                $nodesData = Mage::helper('core')->jsonDecode($page->getNodesData());
+                $nodesData = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($page->getNodesData());
             } catch (Zend_Json_Exception $e) {
                 $nodesData=null;
             }
@@ -312,12 +313,12 @@ class Enterprise_Cms_Model_Observer
      */
     public function adminUserDeleteAfter(Varien_Event_Observer $observer)
     {
-        $version = Mage::getModel('enterprise_cms/page_version');
+        $version = Mage::getModel('Enterprise_Cms_Model_Page_Version');
         $collection = $version->getCollection()
             ->addAccessLevelFilter(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PRIVATE)
             ->addUserIdFilter();
 
-         Mage::getSingleton('core/resource_iterator')
+         Mage::getSingleton('Mage_Core_Model_Resource_Iterator')
             ->walk($collection->getSelect(), array(array($this, 'removeVersionCallback')), array('version'=> $version));
 
          return $this;
@@ -355,7 +356,7 @@ class Enterprise_Cms_Model_Observer
     public function modifyPageStatuses(Varien_Event_Observer $observer)
     {
         $statuses = $observer->getEvent()->getStatuses();
-        $statuses->setData(Mage_Cms_Model_Page::STATUS_ENABLED, Mage::helper('enterprise_cms')->__('Published'));
+        $statuses->setData(Mage_Cms_Model_Page::STATUS_ENABLED, Mage::helper('Enterprise_Cms_Helper_Data')->__('Published'));
 
         return $this;
     }
@@ -371,7 +372,7 @@ class Enterprise_Cms_Model_Observer
         /* @var $page Mage_Cms_Model_Page */
         $page = $observer->getEvent()->getObject();
 
-        Mage::getResourceSingleton('enterprise_cms/increment')
+        Mage::getResourceSingleton('Enterprise_Cms_Model_Resource_Increment')
             ->cleanIncrementRecord(Enterprise_Cms_Model_Increment::TYPE_PAGE,
                 $page->getId(),
                 Enterprise_Cms_Model_Increment::LEVEL_VERSION);
@@ -388,7 +389,7 @@ class Enterprise_Cms_Model_Observer
      */
     public function postDispatchCmsHierachyView($config, $eventModel)
     {
-        return $eventModel->setInfo(Mage::helper('enterprise_cms')->__('Tree Viewed'));
+        return $eventModel->setInfo(Mage::helper('Enterprise_Cms_Helper_Data')->__('Tree Viewed'));
     }
 
     /**
@@ -424,7 +425,7 @@ class Enterprise_Cms_Model_Observer
     public function affectCmsPageRender(Varien_Event_Observer $observer)
     {
         /* @var $helper Enterprise_Cms_Helper_Hierarchy */
-        $helper = Mage::helper('enterprise_cms/hierarchy');
+        $helper = Mage::helper('Enterprise_Cms_Helper_Hierarchy');
         if (!is_object(Mage::registry('current_cms_hierarchy_node')) || !$helper->isEnabled()) {
             return $this;
         }

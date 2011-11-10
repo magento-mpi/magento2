@@ -78,7 +78,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $website = $this->getRequest()->getParam('website');
         $store   = $this->getRequest()->getParam('store');
 
-        $configFields = Mage::getSingleton('adminhtml/config');
+        $configFields = Mage::getSingleton('Mage_Adminhtml_Model_Config');
 
         $sections     = $configFields->getSections($current);
         $section      = $sections->$current;
@@ -92,23 +92,23 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $this->_setActiveMenu('system/config');
         $this->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));
 
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('System'), Mage::helper('adminhtml')->__('System'),
+        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'),
             $this->getUrl('*/system'));
 
         $this->getLayout()->getBlock('left')
-            ->append($this->getLayout()->createBlock('adminhtml/system_config_tabs')->initTabs());
+            ->append($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Config_Tabs')->initTabs());
 
         if ($this->_isSectionAllowedFlag) {
-            $this->_addContent($this->getLayout()->createBlock('adminhtml/system_config_edit')->initForm());
+            $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Config_Edit')->initForm());
 
             $this->_addJs($this->getLayout()
-                ->createBlock('adminhtml/template')
+                ->createBlock('Mage_Adminhtml_Block_Template')
                 ->setTemplate('system/shipping/ups.phtml'));
             $this->_addJs($this->getLayout()
-                ->createBlock('adminhtml/template')
+                ->createBlock('Mage_Adminhtml_Block_Template')
                 ->setTemplate('system/config/js.phtml'));
             $this->_addJs($this->getLayout()
-                ->createBlock('adminhtml/template')
+                ->createBlock('Mage_Adminhtml_Block_Template')
                 ->setTemplate('system/shipping/applicable_country.phtml'));
 
             $this->renderLayout();
@@ -121,7 +121,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      */
     public function saveAction()
     {
-        $session = Mage::getSingleton('adminhtml/session');
+        $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
         /* @var $session Mage_Adminhtml_Model_Session */
 
         $groups = $this->getRequest()->getPost('groups');
@@ -144,7 +144,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
         try {
             if (!$this->_isSectionAllowed($this->getRequest()->getParam('section'))) {
-                throw new Exception(Mage::helper('adminhtml')->__('This section is not allowed.'));
+                throw new Exception(Mage::helper('Mage_Adminhtml_Helper_Data')->__('This section is not allowed.'));
             }
 
             // custom save logic
@@ -152,7 +152,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             $section = $this->getRequest()->getParam('section');
             $website = $this->getRequest()->getParam('website');
             $store   = $this->getRequest()->getParam('store');
-            Mage::getModel('adminhtml/config_data')
+            Mage::getModel('Mage_Adminhtml_Model_Config_Data')
                 ->setSection($section)
                 ->setWebsite($website)
                 ->setStore($store)
@@ -167,7 +167,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             Mage::dispatchEvent("admin_system_config_changed_section_{$section}",
                 array('website' => $website, 'store' => $store)
             );
-            $session->addSuccess(Mage::helper('adminhtml')->__('The configuration has been saved.'));
+            $session->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The configuration has been saved.'));
         }
         catch (Mage_Core_Exception $e) {
             foreach(explode("\n", $e->getMessage()) as $message) {
@@ -176,7 +176,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         }
         catch (Exception $e) {
             $session->addException($e,
-                Mage::helper('adminhtml')->__('An error occurred while saving this configuration:') . ' '
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while saving this configuration:') . ' '
                 . $e->getMessage());
         }
 
@@ -234,7 +234,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     {
         $fileName   = 'tablerates.csv';
         /** @var $gridBlock Mage_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid */
-        $gridBlock  = $this->getLayout()->createBlock('adminhtml/shipping_carrier_tablerate_grid');
+        $gridBlock  = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid');
         $website    = Mage::app()->getWebsite($this->getRequest()->getParam('website'));
         if ($this->getRequest()->getParam('conditionName')) {
             $conditionName = $this->getRequest()->getParam('conditionName');
@@ -253,7 +253,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/config');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/config');
     }
 
     /**
@@ -267,7 +267,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     protected function _isSectionAllowed($section)
     {
         try {
-            $session = Mage::getSingleton('admin/session');
+            $session = Mage::getSingleton('Mage_Admin_Model_Session');
             $resourceLookup = "admin/system/config/{$section}";
             if ($session->getData('acl') instanceof Mage_Admin_Model_Acl) {
                 $resourceId = $session->getData('acl')->get($resourceLookup)->getResourceId();
@@ -297,7 +297,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      */
     protected function _saveState($configState = array())
     {
-        $adminUser = Mage::getSingleton('admin/session')->getUser();
+        $adminUser = Mage::getSingleton('Mage_Admin_Model_Session')->getUser();
         if (is_array($configState)) {
             $extra = $adminUser->getExtra();
             if (!is_array($extra)) {

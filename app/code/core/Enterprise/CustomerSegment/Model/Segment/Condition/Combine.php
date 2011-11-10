@@ -38,7 +38,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_combine');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Combine');
     }
 
     /**
@@ -50,32 +50,32 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
     {
         $conditions = array(
             array( // subconditions combo
-                'value' => 'enterprise_customersegment/segment_condition_combine',
-                'label' => Mage::helper('enterprise_customersegment')->__('Conditions Combination')),
+                'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Combine',
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions Combination')),
 
             array( // customer address combo
-                'value' => 'enterprise_customersegment/segment_condition_customer_address',
-                'label' => Mage::helper('enterprise_customersegment')->__('Customer Address')),
+                'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address',
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Address')),
 
             // customer attribute group
-            Mage::getModel('enterprise_customersegment/segment_condition_customer')->getNewChildSelectOptions(),
+            Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Customer')->getNewChildSelectOptions(),
 
             // shopping cart group
-            Mage::getModel('enterprise_customersegment/segment_condition_shoppingcart')->getNewChildSelectOptions(),
+            Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart')->getNewChildSelectOptions(),
 
             array('value' => array(
                     array( // product list combo
-                        'value' => 'enterprise_customersegment/segment_condition_product_combine_list',
-                        'label' => Mage::helper('enterprise_customersegment')->__('Product List')),
+                        'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List',
+                        'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Product List')),
                     array( // product history combo
-                        'value' => 'enterprise_customersegment/segment_condition_product_combine_history',
-                        'label' => Mage::helper('enterprise_customersegment')->__('Product History')),
+                        'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History',
+                        'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Product History')),
                 ),
-                'label' => Mage::helper('enterprise_customersegment')->__('Products'),
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Products'),
             ),
 
             // sales group
-            Mage::getModel('enterprise_customersegment/segment_condition_sales')->getNewChildSelectOptions(),
+            Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Sales')->getNewChildSelectOptions(),
         );
 
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);

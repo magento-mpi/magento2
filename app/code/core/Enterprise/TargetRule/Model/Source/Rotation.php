@@ -36,9 +36,9 @@ class Enterprise_TargetRule_Model_Source_Rotation
     {
         return array(
             Enterprise_TargetRule_Model_Rule::ROTATION_NONE =>
-                Mage::helper('enterprise_targetrule')->__('Do not rotate'),
+                Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Do not rotate'),
             Enterprise_TargetRule_Model_Rule::ROTATION_SHUFFLE =>
-                Mage::helper('enterprise_targetrule')->__('Shuffle'),
+                Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Shuffle'),
         );
     }
 

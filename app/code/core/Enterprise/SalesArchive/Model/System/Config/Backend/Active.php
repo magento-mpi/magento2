@@ -43,7 +43,7 @@ class Enterprise_SalesArchive_Model_System_Config_Backend_Active
     {
         parent::_afterSave();
         if ($this->isValueChanged() && !$this->getValue()) {
-            Mage::getModel('enterprise_salesarchive/archive')->removeOrdersFromArchive();
+            Mage::getModel('Enterprise_SalesArchive_Model_Archive')->removeOrdersFromArchive();
         }
         return $this;
     }
@@ -57,9 +57,10 @@ class Enterprise_SalesArchive_Model_System_Config_Backend_Active
     public function getCommentText($element, $currentValue)
     {
         if ($currentValue) {
-            $ordersCount = Mage::getResourceSingleton('enterprise_salesarchive/order_collection')->getSize();
+            $ordersCount = Mage::getResourceSingleton('Enterprise_SalesArchive_Model_Resource_Order_Collection')
+                ->getSize();
             if ($ordersCount) {
-                return Mage::helper('enterprise_salesarchive')->__('There are %s orders in archive. All of them will be moved to regular table after archive is disabled.', $ordersCount);
+                return Mage::helper('Enterprise_SalesArchive_Helper_Data')->__('There are %s orders in archive. All of them will be moved to regular table after archive is disabled.', $ordersCount);
             }
         }
         return '';

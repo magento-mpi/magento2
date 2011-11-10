@@ -42,7 +42,9 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('enterprise_reward')->isEnabled() && $this->getRequest()->getActionName() != 'noroute') {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabled()
+            && $this->getRequest()->getActionName() != 'noroute'
+        ) {
             $this->_forward('noroute');
         }
         return $this;
@@ -57,10 +59,10 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
     {
         $this->loadLayout()
             ->_setActiveMenu('customer/reward_rates')
-            ->_addBreadcrumb(Mage::helper('enterprise_reward')->__('Customers'),
-                Mage::helper('enterprise_reward')->__('Customers'))
-            ->_addBreadcrumb(Mage::helper('enterprise_reward')->__('Manage Reward Exchange Rates'),
-                Mage::helper('enterprise_reward')->__('Manage Reward Exchange Rates'));
+            ->_addBreadcrumb(Mage::helper('Enterprise_Reward_Helper_Data')->__('Customers'),
+                Mage::helper('Enterprise_Reward_Helper_Data')->__('Customers'))
+            ->_addBreadcrumb(Mage::helper('Enterprise_Reward_Helper_Data')->__('Manage Reward Exchange Rates'),
+                Mage::helper('Enterprise_Reward_Helper_Data')->__('Manage Reward Exchange Rates'));
         return $this;
     }
 
@@ -74,7 +76,7 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
         $this->_title($this->__('Customers'))->_title($this->__('Reward Exchange Rates'));
 
         $rateId = $this->getRequest()->getParam('rate_id', 0);
-        $rate = Mage::getModel('enterprise_reward/reward_rate');
+        $rate = Mage::getModel('Enterprise_Reward_Model_Reward_Rate');
         if ($rateId) {
             $rate->load($rateId);
         }
@@ -133,7 +135,7 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
 
             try {
                 $rate->save();
-                $this->_getSession()->addSuccess(Mage::helper('enterprise_reward')->__('The rate has been saved.'));
+                $this->_getSession()->addSuccess(Mage::helper('Enterprise_Reward_Helper_Data')->__('The rate has been saved.'));
             } catch (Exception $e) {
                 Mage::logException($e);
                 $this->_getSession()->addError($this->__('Cannot save Rate.'));
@@ -153,7 +155,7 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
         if ($rate->getId()) {
             try {
                 $rate->delete();
-                $this->_getSession()->addSuccess(Mage::helper('enterprise_reward')->__('The rate has been deleted.'));
+                $this->_getSession()->addSuccess(Mage::helper('Enterprise_Reward_Helper_Data')->__('The rate has been deleted.'));
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/*', array('_current' => true));
@@ -209,7 +211,7 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
 
         if ($message) {
             $this->_getSession()->addError($message);
-            $this->_initLayoutMessages('adminhtml/session');
+            $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
@@ -224,6 +226,6 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/rates');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/rates');
     }
 }

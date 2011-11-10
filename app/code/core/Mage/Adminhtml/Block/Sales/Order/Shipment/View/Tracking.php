@@ -42,9 +42,9 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Admin
     {
         $onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '".$this->getSubmitUrl()."')";
         $this->setChild('save_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'   => Mage::helper('sales')->__('Add'),
+                    'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Add'),
                     'class'   => 'save',
                     'onclick' => $onclick
                 ))
@@ -116,10 +116,10 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Admin
     public function getCarriers()
     {
         $carriers = array();
-        $carrierInstances = Mage::getSingleton('shipping/config')->getAllCarriers(
+        $carrierInstances = Mage::getSingleton('Mage_Shipping_Model_Config')->getAllCarriers(
             $this->getShipment()->getStoreId()
         );
-        $carriers['custom'] = Mage::helper('sales')->__('Custom Value');
+        $carriers['custom'] = Mage::helper('Mage_Sales_Helper_Data')->__('Custom Value');
         foreach ($carrierInstances as $code => $carrier) {
             if ($carrier->isTrackingAvailable()) {
                 $carriers[$code] = $carrier->getConfigData('title');
@@ -130,11 +130,11 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Admin
 
     public function getCarrierTitle($code)
     {
-        if ($carrier = Mage::getSingleton('shipping/config')->getCarrierInstance($code)) {
+        if ($carrier = Mage::getSingleton('Mage_Shipping_Model_Config')->getCarrierInstance($code)) {
             return $carrier->getConfigData('title');
         }
         else {
-            return Mage::helper('sales')->__('Custom Value');
+            return Mage::helper('Mage_Sales_Helper_Data')->__('Custom Value');
         }
         return false;
     }

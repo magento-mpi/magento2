@@ -54,9 +54,9 @@ class Mage_Adminhtml_Block_Catalog_Form_Renderer_Attribute_Urlkey
 
         $storeId = $element->getForm()->getDataObject()->getStoreId();
         $data['html_id'] = $element->getHtmlId() . '_create_redirect';
-        $data['label'] = Mage::helper('catalog')->__('Create Permanent Redirect for old URL');
+        $data['label'] = Mage::helper('Mage_Catalog_Helper_Data')->__('Create Permanent Redirect for old URL');
         $data['value'] = $element->getValue();
-        $data['checked'] = Mage::helper('catalog')->shouldSaveUrlRewritesHistory($storeId);
+        $data['checked'] = Mage::helper('Mage_Catalog_Helper_Data')->shouldSaveUrlRewritesHistory($storeId);
         $checkbox = new Varien_Data_Form_Element_Checkbox($data);
         $checkbox->setForm($element->getForm());
 

@@ -40,10 +40,10 @@ class Enterprise_Invitation_Model_Source_Invitation_Status
     public function getOptions()
     {
         return array(
-            Enterprise_Invitation_Model_Invitation::STATUS_NEW  => Mage::helper('enterprise_invitation')->__('Not Sent'),
-            Enterprise_Invitation_Model_Invitation::STATUS_SENT => Mage::helper('enterprise_invitation')->__('Sent'),
-            Enterprise_Invitation_Model_Invitation::STATUS_ACCEPTED => Mage::helper('enterprise_invitation')->__('Accepted'),
-            Enterprise_Invitation_Model_Invitation::STATUS_CANCELED => Mage::helper('enterprise_invitation')->__('Discarded')
+            Enterprise_Invitation_Model_Invitation::STATUS_NEW  => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Not Sent'),
+            Enterprise_Invitation_Model_Invitation::STATUS_SENT => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Sent'),
+            Enterprise_Invitation_Model_Invitation::STATUS_ACCEPTED => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Accepted'),
+            Enterprise_Invitation_Model_Invitation::STATUS_CANCELED => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Discarded')
         );
     }
 

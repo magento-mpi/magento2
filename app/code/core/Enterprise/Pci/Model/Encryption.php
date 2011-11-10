@@ -269,7 +269,7 @@ class Enterprise_Pci_Model_Encryption extends Mage_Core_Model_Encryption
     public function validateKey($key)
     {
         if ((false !== strpos($key, '<![CDATA[')) || (false !== strpos($key, ']]>')) || preg_match('/\s/s', $key)) {
-            throw new Exception(Mage::helper('enterprise_pci')->__('Encryption key format is invalid.'));
+            throw new Exception(Mage::helper('Enterprise_Pci_Helper_Data')->__('Encryption key format is invalid.'));
         }
         return parent::validateKey($key);
     }

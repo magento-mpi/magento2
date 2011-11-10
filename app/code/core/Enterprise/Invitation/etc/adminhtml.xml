@@ -32,7 +32,7 @@
                 <children>
                     <customer>
                         <children>
-                             <enterprise_invitation translate="title" module="enterprise_invitation">
+                             <enterprise_invitation translate="title" module="Enterprise_Invitation">
                                 <title>Invitations</title>
                                 <sort_order>30</sort_order>
                             </enterprise_invitation>
@@ -40,19 +40,19 @@
                     </customer>
                     <report>
                         <children>
-                            <enterprise_invitation translate="title" module="enterprise_invitation">
+                            <enterprise_invitation translate="title" module="Enterprise_Invitation">
                                 <title>Invitations</title>
                                 <sort_order>40</sort_order>
                                 <children>
-                                    <general translate="title" module="enterprise_invitation">
+                                    <general translate="title" module="Enterprise_Invitation">
                                         <title>General</title>
                                         <sort_order>10</sort_order>
                                     </general>
-                                    <customer translate="title" module="enterprise_invitation">
+                                    <customer translate="title" module="Enterprise_Invitation">
                                         <title>Customers</title>
                                         <sort_order>20</sort_order>
                                     </customer>
-                                    <order translate="title" module="enterprise_invitation">
+                                    <order translate="title" module="Enterprise_Invitation">
                                         <title>Order Conversion Rate</title>
                                         <sort_order>30</sort_order>
                                     </order>
@@ -64,7 +64,7 @@
                         <children>
                             <config>
                                 <children>
-                                       <enterprise_invitation translate="title" module="enterprise_invitation">
+                                       <enterprise_invitation translate="title" module="Enterprise_Invitation">
                                            <title>Invitation Section</title>
                                        </enterprise_invitation>
                                 </children>
@@ -78,7 +78,7 @@
     <menu>
         <customer>
             <children>
-                <enterprise_invitation translate="title" module="enterprise_invitation">
+                <enterprise_invitation translate="title" module="Enterprise_Invitation">
                        <title>Invitations</title>
                        <action>adminhtml/invitation</action>
                        <sort_order>30</sort_order>
@@ -91,7 +91,7 @@
         </customer>
         <report>
             <children>
-                <enterprise_invitation translate="title" module="enterprise_invitation">
+                <enterprise_invitation translate="title" module="Enterprise_Invitation">
                        <title>Invitations</title>
                        <sort_order>30</sort_order>
                        <depends>
@@ -99,19 +99,19 @@
                            <config>enterprise_invitation/general/enabled</config>
                        </depends>
                        <children>
-                           <general translate="title" module="enterprise_invitation">
+                           <general translate="title" module="Enterprise_Invitation">
                                <title>General</title>
                                <action>adminhtml/report_invitation</action>
                                <resource>report/enterprise_invitation</resource>
                                <sort_order>10</sort_order>
                            </general>
-                           <customer translate="title" module="enterprise_invitation">
+                           <customer translate="title" module="Enterprise_Invitation">
                                <title>Customers</title>
                                <action>adminhtml/report_invitation/customer</action>
                                <resource>report/enterprise_invitation</resource>
                                <sort_order>20</sort_order>
                            </customer>
-                           <order translate="title" module="enterprise_invitation">
+                           <order translate="title" module="Enterprise_Invitation">
                                <title>Order Conversion Rate</title>
                                <action>adminhtml/report_invitation/order</action>
                                <resource>report/enterprise_invitation</resource>

@@ -62,7 +62,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
         $this->setData('open', true);
         if ($this->_getStore()) {
             $this->setHeaderText(
-                Mage::helper('enterprise_checkout')->__('Wishlist (%s)', $this->getItemsCount())
+                Mage::helper('Enterprise_Checkout_Helper_Data')->__('Wishlist (%s)', $this->getItemsCount())
             );
         }
     }
@@ -85,7 +85,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $wishlist = Mage::getModel('wishlist/wishlist')->loadByCustomer($this->_getCustomer())
+            $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->loadByCustomer($this->_getCustomer())
                 ->setStore($this->_getStore())
                 ->setSharedStoreIds($this->_getStore()->getWebsite()->getStoreIds());
             if ($wishlist->getId()) {
@@ -128,8 +128,8 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
 
         $this->addColumn('qty', array(
             'sortable'  => false,
-            'header'    => Mage::helper('enterprise_checkout')->__('Qty To Add'),
-            'renderer'  => 'enterprise_checkout/adminhtml_manage_grid_renderer_wishlist_qty',
+            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Qty To Add'),
+            'renderer'  => 'Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Wishlist_Qty',
             'name'      => 'qty',
             'inline_css'=> 'qty',
             'align'     => 'right',

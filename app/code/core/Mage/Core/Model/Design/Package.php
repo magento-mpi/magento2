@@ -211,7 +211,7 @@ class Mage_Core_Model_Design_Package
         $parts = explode('/', $themePath);
         if (3 !== count($parts)) {
             Mage::throwException(
-                Mage::helper('core')->__('Invalid fully qualified design name: "%s".', $themePath)
+                Mage::helper('Mage_Core_Helper_Data')->__('Invalid fully qualified design name: "%s".', $themePath)
             );
         }
         list($package, $theme, $skin) = $parts;
@@ -312,22 +312,27 @@ class Mage_Core_Model_Design_Package
     public function getFilename($file, array $params)
     {
         Magento_Profiler::start(__METHOD__);
-        $file = $this->_extractScope($file, $params);
-        $this->_updateParamDefaults($params);
+        try {
+            $file = $this->_extractScope($file, $params);
+            $this->_updateParamDefaults($params);
 
-        $dir = Mage::getBaseDir('design');
-        $dirs = array();
-        $area = $params['_area'];
-        $theme = $params['_theme'];
-        $module = $params['_module'];
+            $dir = Mage::getBaseDir('design');
+            $dirs = array();
+            $area = $params['_area'];
+            $theme = $params['_theme'];
+            $module = $params['_module'];
 
-        do {
-            $dirs[] = "{$dir}/{$area}/{$params['_package']}/{$theme}";
-            $theme = $this->_getInheritedTheme($theme);
-        } while ($theme);
+            do {
+                $dirs[] = "{$dir}/{$area}/{$params['_package']}/{$theme}";
+                $theme = $this->_getInheritedTheme($theme);
+            } while ($theme);
 
-        $moduleDir = $module ? array(Mage::getConfig()->getModuleDir('view', $module) . "/{$area}") : array();
-        Magento_Profiler::stop(__METHOD__);
+            $moduleDir = $module ? array(Mage::getConfig()->getModuleDir('view', $module) . "/{$area}") : array();
+            Magento_Profiler::stop(__METHOD__);
+        } catch (Exception $e) {
+            Magento_Profiler::stop(__METHOD__);
+            throw $e;
+        }
         return $this->_fallback($file, $dirs, $module, $moduleDir);
     }
 
@@ -497,7 +502,7 @@ class Mage_Core_Model_Design_Package
     {
         $dir = $this->_buildPublicSkinFilename(self::PUBLIC_MERGE_DIR);
         $result = Varien_Io_File::rmdirRecursive($dir);
-        $result = $result && Mage::helper('core/file_storage_database')->deleteFolder($dir);
+        $result = $result && Mage::helper('Mage_Core_Helper_File_Storage_Database')->deleteFolder($dir);
         return $result;
     }
 

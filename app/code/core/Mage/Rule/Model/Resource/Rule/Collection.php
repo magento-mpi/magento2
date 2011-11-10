@@ -47,7 +47,7 @@ class Mage_Rule_Model_Resource_Rule_Collection extends Mage_Core_Model_Resource_
      */
     protected function _construct()
     {
-        $this->_init('rule/rule');
+        $this->_init('Mage_Rule_Model_Rule', 'Mage_Rule_Model_Resource_Rule');
     }
 
     /**
@@ -70,7 +70,7 @@ class Mage_Rule_Model_Resource_Rule_Collection extends Mage_Core_Model_Resource_
     public function getEnv()
     {
         if (!$this->_env) {
-            $this->_env = Mage::getModel('core/rule_environment');
+            $this->_env = Mage::getModel('Mage_Rule_Model_Environment');
             $this->_env->collect();
         }
         return $this->_env;

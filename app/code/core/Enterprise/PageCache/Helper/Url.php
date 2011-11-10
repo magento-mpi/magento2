@@ -51,7 +51,7 @@ class Enterprise_PageCache_Helper_Url
             return false;
         }
         /** @var $session Mage_Core_Model_Session */
-        $session = Mage::getSingleton('core/session');
+        $session = Mage::getSingleton('Mage_Core_Model_Session');
         $replacementCount = 0;
         $content = str_replace(
             $session->getSessionIdQueryParam() . '=' . $session->getSessionId(),

@@ -48,7 +48,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Grid extends Mage_Adminhtml_Bloc
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('googleshopping/type_collection')->addItemsCount();
+        $collection = Mage::getResourceModel('Mage_GoogleShopping_Model_Resource_Type_Collection')->addItemsCount();
         $this->setCollection($collection);
         parent::_prepareCollection();
         return $this;
@@ -72,13 +72,13 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Grid extends Mage_Adminhtml_Bloc
                 'header'    => $this->__('Target Country'),
                 'width'     => '150px',
                 'index'     => 'target_country',
-                'renderer'  => 'googleshopping/adminhtml_types_renderer_country',
+                'renderer'  => 'Mage_GoogleShopping_Block_Adminhtml_Types_Renderer_Country',
                 'filter'    => false
         ));
 
         $this->addColumn('items_total',
             array(
-                'header'    => Mage::helper('catalog')->__('Total Qty Content Items'),
+                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Total Qty Content Items'),
                 'width'     => '150px',
                 'index'     => 'items_total',
                 'filter'    => false

@@ -39,7 +39,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
     protected function _initSegment($requestParam = 'id', $requireValidId = false)
     {
         $segmentId = $this->getRequest()->getParam($requestParam, 0);
-        $segment = Mage::getModel('enterprise_customersegment/segment');
+        $segment = Mage::getModel('Enterprise_CustomerSegment_Model_Segment');
         if ($segmentId || $requireValidId) {
             $segment->load($segmentId);
             if (!$segment->getId()) {
@@ -84,7 +84,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
             $model = $this->_initSegment();
         }
         catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
         }
@@ -92,14 +92,14 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
         $this->_title($model->getId() ? $model->getName() : $this->__('New Segment'));
 
         // set entered data if was error when we do save
-        $data = Mage::getSingleton('adminhtml/session')->getPageData(true);
+        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
 
         $model->getConditions()->setJsFormObject('segment_conditions_fieldset');
 
-        $block =  $this->getLayout()->createBlock('enterprise_customersegment/adminhtml_customersegment_edit')
+        $block =  $this->getLayout()->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit')
             ->setData('form_action_url', $this->getUrl('*/*/save'));
 
         $this->_initAction();
@@ -110,10 +110,11 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
 
         $this->_addBreadcrumb(
                 $model->getId() ? $this->__('Edit Segment') : $this->__('New Segment'),
-                $model->getId() ? $this->__('Edit Segment') : $this->__('New Segment'))
-            ->_addContent($block)
-            ->_addLeft($this->getLayout()->createBlock('enterprise_customersegment/adminhtml_customersegment_edit_tabs'))
-            ->renderLayout();
+                $model->getId() ? $this->__('Edit Segment') : $this->__('New Segment')
+            )->_addContent($block)
+            ->_addLeft(
+                $this->getLayout()->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs')
+            )->renderLayout();
     }
 
     /**
@@ -130,7 +131,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
             return;
         } catch (Exception $e) {
             $this->_getSession()->addException($e,
-                Mage::helper('enterprise_customersegment')->__('Segment Customers matching error.')
+                Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segment Customers matching error.')
             );
             $this->_redirect('*/*/');
             return;
@@ -147,7 +148,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
     {
         $this->loadLayout()
             ->_setActiveMenu('customer/customersegment')
-            ->_addBreadcrumb(Mage::helper('enterprise_customersegment')->__('Segments'), Mage::helper('enterprise_customersegment')->__('Segments'))
+            ->_addBreadcrumb(Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segments'), Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segments'))
         ;
         return $this;
     }
@@ -164,7 +165,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
         $model = Mage::getModel($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(Mage::getModel('enterprise_customersegment/segment'))
+            ->setRule(Mage::getModel('Enterprise_CustomerSegment_Model_Segment'))
             ->setPrefix('conditions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
@@ -193,12 +194,12 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
                 unset($data['rule']);
 
                 $model->loadPost($data);
-                Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setPageData($model->getData());
                 $model->save();
                 $model->matchCustomers();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The segment has been saved.'));
-                Mage::getSingleton('adminhtml/session')->setPageData(false);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The segment has been saved.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setPageData(false);
 
                 if ($redirectBack) {
                     $this->_redirect('*/*/edit', array(
@@ -209,12 +210,12 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
                 }
 
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                Mage::getSingleton('adminhtml/session')->setPageData($data);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('segment_id')));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($this->__('Unable to save the segment.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Unable to save the segment.'));
                 Mage::logException($e);
             }
         }
@@ -229,14 +230,14 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
         try {
             $model = $this->_initSegment('id', true);
             $model->delete();
-            Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The segment has been deleted.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The segment has been deleted.'));
         }
         catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
             return;
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($this->__('Unable to delete the segment.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Unable to delete the segment.'));
             Mage::logException($e);
         }
         $this->_redirect('*/*/');
@@ -249,8 +250,8 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/customersegment') &&
-            Mage::helper('enterprise_customersegment')->isEnabled();
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/customersegment') &&
+            Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled();
     }
 
     /**
@@ -258,7 +259,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
      */
     public function chooserDaterangeAction()
     {
-        $block = $this->getLayout()->createBlock('adminhtml/promo_widget_chooser_daterange');
+        $block = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Promo_Widget_Chooser_Daterange');
         if ($block) {
             // set block data from request
             $block->setTargetElementId($this->getRequest()->getParam('value_element_id'));

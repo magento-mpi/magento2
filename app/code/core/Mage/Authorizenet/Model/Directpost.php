@@ -34,8 +34,8 @@
 class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
 {
     protected $_code  = 'authorizenet_directpost';
-    protected $_formBlockType = 'directpost/form';
-    protected $_infoBlockType = 'payment/info';
+    protected $_formBlockType = 'Mage_Authorizenet_Block_Directpost_Form';
+    protected $_infoBlockType = 'Mage_Payment_Block_Info';
 
     /**
      * Availability options
@@ -86,7 +86,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     public function capture(Varien_Object $payment, $amount)
     {
         if ($amount <= 0) {
-            Mage::throwException(Mage::helper('paygate')->__('Invalid amount for capture.'));
+            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Invalid amount for capture.'));
         }
 
         $payment->setAmount($amount);
@@ -118,7 +118,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
             default:
-                Mage::throwException(Mage::helper('paygate')->__('Payment capturing error.'));
+                Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Payment capturing error.'));
         }
     }
 
@@ -153,7 +153,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     public function void(Varien_Object $payment)
     {
         if (!$payment->getParentTransactionId()) {
-            Mage::throwException(Mage::helper('paygate')->__('Invalid transaction ID.'));
+            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Invalid transaction ID.'));
         }
 
         $payment->setAnetTransType(self::REQUEST_TYPE_VOID);
@@ -179,7 +179,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
             default:
-                Mage::throwException(Mage::helper('paygate')->__('Payment voiding error.'));
+                Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Payment voiding error.'));
         }
     }
 
@@ -238,11 +238,11 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     protected function _refund(Varien_Object $payment, $amount)
     {
         if ($amount <= 0) {
-            Mage::throwException(Mage::helper('paygate')->__('Invalid amount for refund.'));
+            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Invalid amount for refund.'));
         }
 
         if (!$payment->getParentTransactionId()) {
-            Mage::throwException(Mage::helper('paygate')->__('Invalid transaction ID.'));
+            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Invalid transaction ID.'));
         }
 
         $payment->setAnetTransType(self::REQUEST_TYPE_CREDIT);
@@ -270,7 +270,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
             default:
-                Mage::throwException(Mage::helper('paygate')->__('Payment refunding error.'));
+                Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Payment refunding error.'));
         }
     }
 
@@ -308,7 +308,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      */
     protected function _getRequestModel()
     {
-        return Mage::getModel('authorizenet/directpost_request');
+        return Mage::getModel('Mage_Authorizenet_Model_Directpost_Request');
     }
 
     /**
@@ -318,7 +318,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      */
     public function getResponse()
     {
-        return Mage::getSingleton('authorizenet/directpost_response');
+        return Mage::getSingleton('Mage_Authorizenet_Model_Directpost_Response');
     }
 
     /**
@@ -393,7 +393,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             !$response->isValidHash($this->getConfigData('trans_md5'), $this->getConfigData('login'))
         ) {
             Mage::throwException(
-                Mage::helper('authorizenet')->__('Response hash validation failed. Transaction declined.')
+                Mage::helper('Mage_Authorizenet_Helper_Data')->__('Response hash validation failed. Transaction declined.')
             );
         }
         return true;
@@ -425,7 +425,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         $isError = false;
         if ($orderIncrementId) {
             /* @var $order Mage_Sales_Model_Order */
-            $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($orderIncrementId);
             if ($order->getId() &&  $order->getState() == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
                 //operate with order
                 $this->_authOrder($order);
@@ -440,7 +440,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             Mage::throwException(
                 ($responseText && !$response->isApproved()) ?
                 $responseText :
-                Mage::helper('authorizenet')->__('Payment error. Order was not found.')
+                Mage::helper('Mage_Authorizenet_Helper_Data')->__('Payment error. Order was not found.')
             );
         }
     }
@@ -479,7 +479,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($this->getResponse()->getXResponseReasonText()));
             default:
-                Mage::throwException(Mage::helper('authorizenet')->__('Payment authorization error.'));
+                Mage::throwException(Mage::helper('Mage_Authorizenet_Helper_Data')->__('Payment authorization error.'));
         }
     }
 
@@ -493,7 +493,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     {
         if (!$this->getResponse()->getXTransId()) {
             Mage::throwException(
-                Mage::helper('authorizenet')->__('Payment authorization error. Transacion id is empty.')
+                Mage::helper('Mage_Authorizenet_Helper_Data')->__('Payment authorization error. Transacion id is empty.')
             );
         }
         return true;
@@ -537,7 +537,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
 
         // Set transaction apporval message
-        $message = Mage::helper('authorizenet')->__(
+        $message = Mage::helper('Mage_Authorizenet_Helper_Data')->__(
             'Amount of %s approved by payment gateway. Transaction ID: "%s".',
             $order->getBaseCurrency()->formatTxt($payment->getBaseAmountAuthorized()),
             $response->getXTransId()
@@ -555,7 +555,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         //match amounts. should be equals for authorization.
         //decline the order if amount does not match.
         if (!$this->_matchAmount($payment->getBaseAmountAuthorized())) {
-            $message = Mage::helper('authorizenet')->__('Payment error. Paid amount doesn\'t match the order amount.');
+            $message = Mage::helper('Mage_Authorizenet_Helper_Data')->__('Payment error. Paid amount doesn\'t match the order amount.');
             $this->_declineOrder($order, $message, true);
             Mage::throwException($message);
         }
@@ -568,7 +568,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                 $order->sendNewOrderEmail();
             }
 
-            Mage::getModel('sales/quote')
+            Mage::getModel('Mage_Sales_Model_Quote')
                 ->load($order->getQuoteId())
                 ->setIsActive(false)
                 ->save();

@@ -41,8 +41,8 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
     public function _initAction()
     {
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))
-            ->_addBreadcrumb(Mage::helper('enterprise_invitation')->__('Invitations'), Mage::helper('enterprise_invitation')->__('Invitations'));
+            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Reports'), Mage::helper('Mage_Reports_Helper_Data')->__('Reports'))
+            ->_addBreadcrumb(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitations'), Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitations'));
         return $this;
     }
 
@@ -57,8 +57,10 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
 
         $this->_initAction()
             ->_setActiveMenu('report/enterprise_invitation/general')
-            ->_addBreadcrumb(Mage::helper('enterprise_invitation')->__('General Report'), Mage::helper('enterprise_invitation')->__('General Report'))
-            ->_addContent($this->getLayout()->createBlock('enterprise_invitation/adminhtml_report_invitation_general'))
+            ->_addBreadcrumb(Mage::helper('Enterprise_Invitation_Helper_Data')->__('General Report'), Mage::helper('Enterprise_Invitation_Helper_Data')->__('General Report'))
+            ->_addContent(
+                $this->getLayout()->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General')
+            )
             ->renderLayout();
     }
 
@@ -68,7 +70,8 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
     public function exportCsvAction()
     {
         $fileName   = 'invitation_general.csv';
-        $content    = $this->getLayout()->createBlock('enterprise_invitation/adminhtml_report_invitation_general_grid')
+        $content    = $this->getLayout()
+            ->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid')
             ->getCsv();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -80,7 +83,8 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
     public function exportExcelAction()
     {
         $fileName   = 'invitation_general.xml';
-        $content    = $this->getLayout()->createBlock('enterprise_invitation/adminhtml_report_invitation_general_grid')
+        $content    = $this->getLayout()
+            ->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid')
             ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -97,8 +101,10 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
 
         $this->_initAction()
             ->_setActiveMenu('report/enterprise_invitation/customer')
-            ->_addBreadcrumb(Mage::helper('enterprise_invitation')->__('Invitation Report by Customers'), Mage::helper('enterprise_invitation')->__('Invitation Report by Customers'))
-            ->_addContent($this->getLayout()->createBlock('enterprise_invitation/adminhtml_report_invitation_customer'))
+            ->_addBreadcrumb(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Customers'), Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Customers'))
+            ->_addContent(
+                $this->getLayout()->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Customer')
+            )
             ->renderLayout();
     }
 
@@ -108,7 +114,8 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
     public function exportCustomerCsvAction()
     {
         $fileName   = 'invitation_customer.csv';
-        $content    = $this->getLayout()->createBlock('enterprise_invitation/adminhtml_report_invitation_customer_grid')
+        $content    = $this->getLayout()
+            ->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Customer_Grid')
             ->getCsv();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -120,7 +127,8 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
     public function exportCustomerExcelAction()
     {
         $fileName   = 'invitation_customer.xml';
-        $content    = $this->getLayout()->createBlock('enterprise_invitation/adminhtml_report_invitation_customer_grid')
+        $content    = $this->getLayout()
+            ->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Customer_Grid')
             ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -137,8 +145,10 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
 
         $this->_initAction()
             ->_setActiveMenu('report/enterprise_invitation/order')
-            ->_addBreadcrumb(Mage::helper('enterprise_invitation')->__('Invitation Report by Customers'), Mage::helper('enterprise_invitation')->__('Invitation Report by Order Conversion Rate'))
-            ->_addContent($this->getLayout()->createBlock('enterprise_invitation/adminhtml_report_invitation_order'))
+            ->_addBreadcrumb(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Customers'), Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Order Conversion Rate'))
+            ->_addContent(
+                $this->getLayout()->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order')
+            )
             ->renderLayout();
     }
 
@@ -148,7 +158,8 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
     public function exportOrderCsvAction()
     {
         $fileName   = 'invitation_order.csv';
-        $content    = $this->getLayout()->createBlock('enterprise_invitation/adminhtml_report_invitation_order_grid')
+        $content    = $this->getLayout()
+            ->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order_Grid')
             ->getCsv();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -160,7 +171,8 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
     public function exportOrderExcelAction()
     {
         $fileName   = 'invitation_order.xml';
-        $content    = $this->getLayout()->createBlock('enterprise_invitation/adminhtml_report_invitation_order_grid')
+        $content    = $this->getLayout()
+            ->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order_Grid')
             ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -173,7 +185,7 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('enterprise_invitation/config')->isEnabled() &&
-               Mage::getSingleton('admin/session')->isAllowed('report/enterprise_invitation');
+        return Mage::getSingleton('Enterprise_Invitation_Model_Config')->isEnabled() &&
+               Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('report/enterprise_invitation');
     }
 }

@@ -53,16 +53,16 @@ class Mage_Tag_Block_Product_Result extends Mage_Catalog_Block_Product_Abstract
     public function setListOrders() {
         $this->getChild('search_result_list')
             ->setAvailableOrders(array(
-                'name' => Mage::helper('tag')->__('Name'),
-                'price'=>Mage::helper('tag')->__('Price'))
+                'name' => Mage::helper('Mage_Tag_Helper_Data')->__('Name'),
+                'price'=>Mage::helper('Mage_Tag_Helper_Data')->__('Price'))
             );
     }
 
     public function setListModes() {
         $this->getChild('search_result_list')
             ->setModes(array(
-                'grid' => Mage::helper('tag')->__('Grid'),
-                'list' => Mage::helper('tag')->__('List'))
+                'grid' => Mage::helper('Mage_Tag_Helper_Data')->__('Grid'),
+                'list' => Mage::helper('Mage_Tag_Helper_Data')->__('List'))
             );
     }
 
@@ -79,16 +79,16 @@ class Mage_Tag_Block_Product_Result extends Mage_Catalog_Block_Product_Abstract
     protected function _getProductCollection()
     {
         if(is_null($this->_productCollection)) {
-            $tagModel = Mage::getModel('tag/tag');
+            $tagModel = Mage::getModel('Mage_Tag_Model_Tag');
             $this->_productCollection = $tagModel->getEntityCollection()
-                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+                ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
                 ->addTagFilter($this->getTag()->getId())
                 ->addStoreFilter(Mage::app()->getStore()->getId())
                 ->addMinimalPrice()
                 ->addUrlRewrite()
                 ->setActiveFilter();
-            Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($this->_productCollection);
-            Mage::getSingleton('catalog/product_visibility')->addVisibleInSiteFilterToCollection($this->_productCollection);
+            Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($this->_productCollection);
+            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInSiteFilterToCollection($this->_productCollection);
         }
 
         return $this->_productCollection;
@@ -106,7 +106,7 @@ class Mage_Tag_Block_Product_Result extends Mage_Catalog_Block_Product_Abstract
     public function getHeaderText()
     {
         if( $this->getTag()->getName() ) {
-            return Mage::helper('tag')->__("Products tagged with '%s'", $this->htmlEscape($this->getTag()->getName()));
+            return Mage::helper('Mage_Tag_Helper_Data')->__("Products tagged with '%s'", $this->htmlEscape($this->getTag()->getName()));
         } else {
             return false;
         }
@@ -119,6 +119,6 @@ class Mage_Tag_Block_Product_Result extends Mage_Catalog_Block_Product_Abstract
 
     public function getNoResultText()
     {
-        return Mage::helper('tag')->__('No matches found.');
+        return Mage::helper('Mage_Tag_Helper_Data')->__('No matches found.');
     }
 }

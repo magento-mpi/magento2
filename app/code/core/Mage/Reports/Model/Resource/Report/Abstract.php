@@ -49,7 +49,7 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
     protected function _getFlag()
     {
         if ($this->_flag === null) {
-            $this->_flag = Mage::getModel('reports/flag');
+            $this->_flag = Mage::getModel('Mage_Reports_Model_Flag');
         }
         return $this->_flag;
     }

@@ -147,7 +147,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
      */
     public function getFlatHelper()
     {
-        return Mage::helper('catalog/product_flat');
+        return Mage::helper('Mage_Catalog_Helper_Product_Flat');
     }
 
     /**
@@ -195,7 +195,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
 
             $select->where(implode(' OR ', $whereCondition));
             $attributesData = $adapter->fetchAll($select, $bind);
-            Mage::getSingleton('eav/config')
+            Mage::getSingleton('Mage_Eav_Model_Config')
                 ->importAttributesData($this->getEntityType(), $attributesData);
 
             foreach ($attributesData as $data) {
@@ -225,7 +225,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
     public function getEntityTypeId()
     {
         if ($this->_entityTypeId === null) {
-            $this->_entityTypeId = Mage::getResourceModel('catalog/config')
+            $this->_entityTypeId = Mage::getResourceModel('Mage_Catalog_Model_Resource_Config')
                 ->getEntityTypeId();
         }
         return $this->_entityTypeId;
@@ -241,12 +241,12 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
         if ($this->_attributes === null) {
             $this->_attributes = array();
             $attributeCodes    = $this->getAttributeCodes();
-            $entity = Mage::getSingleton('eav/config')
+            $entity = Mage::getSingleton('Mage_Eav_Model_Config')
                 ->getEntityType($this->getEntityType())
                 ->getEntity();
 
             foreach ($attributeCodes as $attributeCode) {
-                $attribute = Mage::getSingleton('eav/config')
+                $attribute = Mage::getSingleton('Mage_Eav_Model_Config')
                     ->getAttribute($this->getEntityType(), $attributeCode)
                     ->setEntity($entity);
                 try {
@@ -275,12 +275,12 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
     {
         $attributes = $this->getAttributes();
         if (!isset($attributes[$attributeCode])) {
-            $attribute = Mage::getModel('catalog/resource_eav_attribute')
+            $attribute = Mage::getModel('Mage_Catalog_Model_Resource_Eav_Attribute')
                 ->loadByCode($this->getEntityTypeId(), $attributeCode);
             if (!$attribute->getId()) {
-                Mage::throwException(Mage::helper('catalog')->__('Invalid attribute %s', $attributeCode));
+                Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid attribute %s', $attributeCode));
             }
-            $entity = Mage::getSingleton('eav/config')
+            $entity = Mage::getSingleton('Mage_Eav_Model_Config')
                 ->getEntityType($this->getEntityType())
                 ->getEntity();
             $attribute->setEntity($entity);
@@ -415,7 +415,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
     public function getFlatColumns()
     {
         if ($this->_columns === null) {
-            if (Mage::helper('core')->useDbCompatibleMode()) {
+            if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
                 $this->_columns = $this->_getFlatColumnsOldDefinition();
             } else {
                 $this->_columns = $this->_getFlatColumnsDdlDefinition();
@@ -513,7 +513,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
      */
     protected function _compareColumnProperties($column, $describe)
     {
-        return Mage::getResourceHelper('catalog')->compareIndexColumnProperties($column, $describe);
+        return Mage::getResourceHelper('Mage_Catalog')->compareIndexColumnProperties($column, $describe);
     }
 
     /**
@@ -602,7 +602,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
      */
     public function getFkName($priTableName, $priColumnName, $refTableName, $refColumnName)
     {
-        return Mage::getSingleton('core/resource')
+        return Mage::getSingleton('Mage_Core_Model_Resource')
             ->getFkName($priTableName, $priColumnName, $refTableName, $refColumnName);
     }
 
@@ -623,10 +623,10 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
 
         // Extract columns we need to have in flat table
         $columns = $this->getFlatColumns();
-        if (Mage::helper('core')->useDbCompatibleMode()) {
+        if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
              /* Convert old format of flat columns to new MMDB format that uses DDL types and definitions */
             foreach ($columns as $key => $column) {
-                $columns[$key] = Mage::getResourceHelper('core')->convertOldColumnDefinition($column);
+                $columns[$key] = Mage::getResourceHelper('Mage_Core')->convertOldColumnDefinition($column);
             }
         }
 
@@ -635,7 +635,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
 
         $maxIndex = Mage::getConfig()->getNode(self::XML_NODE_MAX_INDEX_COUNT);
         if (count($indexesNeed) > $maxIndex) {
-            Mage::throwException(Mage::helper('catalog')->__("The Flat Catalog module has a limit of %2\$d filterable and/or sortable attributes. Currently there are %1\$d of them. Please reduce the number of filterable/sortable attributes in order to use this module", count($indexesNeed), $maxIndex));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__("The Flat Catalog module has a limit of %2\$d filterable and/or sortable attributes. Currently there are %1\$d of them. Please reduce the number of filterable/sortable attributes in order to use this module", count($indexesNeed), $maxIndex));
         }
 
         // Process indexes to create names for them in MMDB-style and reformat to common index definition
@@ -1055,7 +1055,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
 
             foreach (array_keys(Mage_Catalog_Model_Product_Type::getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);
-                $this->_productTypes[$typeId] = Mage::getSingleton('catalog/product_type')
+                $this->_productTypes[$typeId] = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
                     ->factory($productEmulator);
             }
         }

@@ -59,31 +59,31 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     protected function _prepareLayout()
     {
         // Load Wysiwyg on demand and Prepare layout
-        if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled() && ($block = $this->getLayout()->getBlock('head'))) {
+        if (Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->isEnabled() && ($block = $this->getLayout()->getBlock('head'))) {
             $block->setCanLoadTinyMce(true);
         }
 
         $this->setChild('back_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('newsletter')->__('Back'),
+                    'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Back'),
                     'onclick'   => "window.location.href = '" . $this->getUrl('*/*') . "'",
                     'class'     => 'back'
                 ))
         );
 
         $this->setChild('reset_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('newsletter')->__('Reset'),
+                    'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Reset'),
                     'onclick'   => 'window.location.href = window.location.href'
                 ))
         );
 
         $this->setChild('to_plain_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('newsletter')->__('Convert to Plain Text'),
+                    'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Convert to Plain Text'),
                     'onclick'   => 'templateControl.stripTags();',
                     'id'        => 'convert_button',
                     'class'     => 'task'
@@ -91,9 +91,9 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
         );
 
         $this->setChild('to_html_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('newsletter')->__('Return HTML Version'),
+                    'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Return HTML Version'),
                     'onclick'   => 'templateControl.unStripTags();',
                     'id'        => 'convert_button_back',
                     'style'     => 'display:none',
@@ -102,36 +102,36 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
         );
 
         $this->setChild('save_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('newsletter')->__('Save Template'),
+                    'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Save Template'),
                     'onclick'   => 'templateControl.save();',
                     'class'     => 'save'
                 ))
         );
 
         $this->setChild('save_as_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('newsletter')->__('Save As'),
+                    'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Save As'),
                     'onclick'   => 'templateControl.saveAs();',
                     'class'     => 'save'
                 ))
         );
 
         $this->setChild('preview_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('newsletter')->__('Preview Template'),
+                    'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Preview Template'),
                     'onclick'   => 'templateControl.preview();',
                     'class'     => 'task'
                 ))
         );
 
         $this->setChild('delete_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('newsletter')->__('Delete Template'),
+                    'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Delete Template'),
                     'onclick'   => 'templateControl.deleteTemplate();',
                     'class'     => 'delete'
                 ))
@@ -250,10 +250,10 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     public function getHeaderText()
     {
         if ($this->getEditMode()) {
-            return Mage::helper('newsletter')->__('Edit Newsletter Template');
+            return Mage::helper('Mage_Newsletter_Helper_Data')->__('Edit Newsletter Template');
         }
 
-        return  Mage::helper('newsletter')->__('New Newsletter Template');
+        return  Mage::helper('Mage_Newsletter_Helper_Data')->__('New Newsletter Template');
     }
 
     /**
@@ -264,7 +264,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     public function getForm()
     {
         return $this->getLayout()
-            ->createBlock('adminhtml/newsletter_template_edit_form')
+            ->createBlock('Mage_Adminhtml_Block_Newsletter_Template_Edit_Form')
             ->toHtml();
     }
 

@@ -29,7 +29,7 @@
     <menu>
         <catalog>
             <children>
-                <targetrule translate="title" module="enterprise_targetrule">
+                <targetrule translate="title" module="Enterprise_TargetRule">
                     <title>Rule-Based Product Relations</title>
                     <action>adminhtml/targetrule/</action>
                     <sort_order>35</sort_order>

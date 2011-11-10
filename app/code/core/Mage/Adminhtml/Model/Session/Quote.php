@@ -79,7 +79,7 @@ class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstrac
     public function getQuote()
     {
         if (is_null($this->_quote)) {
-            $this->_quote = Mage::getModel('sales/quote');
+            $this->_quote = Mage::getModel('Mage_Sales_Model_Quote');
             if ($this->getStoreId() && $this->getQuoteId()) {
                 $this->_quote->setStoreId($this->getStoreId())
                     ->load($this->getQuoteId());
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstrac
     public function getCustomer($forceReload=false, $useSetStore=false)
     {
         if (is_null($this->_customer) || $forceReload) {
-            $this->_customer = Mage::getModel('customer/customer');
+            $this->_customer = Mage::getModel('Mage_Customer_Model_Customer');
             if ($useSetStore && $this->getStore()->getId()) {
                 $this->_customer->setStore($this->getStore());
             }
@@ -154,7 +154,7 @@ class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstrac
     public function getOrder()
     {
         if (is_null($this->_order)) {
-            $this->_order = Mage::getModel('sales/order');
+            $this->_order = Mage::getModel('Mage_Sales_Model_Order');
             if ($this->getOrderId()) {
                 $this->_order->load($this->getOrderId());
             }

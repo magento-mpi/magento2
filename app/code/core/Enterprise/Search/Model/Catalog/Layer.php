@@ -40,7 +40,7 @@ class Enterprise_Search_Model_Catalog_Layer extends Mage_Catalog_Model_Layer
         if (isset($this->_productCollections[$this->getCurrentCategory()->getId()])) {
             $collection = $this->_productCollections[$this->getCurrentCategory()->getId()];
         } else {
-            $engine = Mage::helper('catalogsearch')->getEngine();
+            $engine = Mage::helper('Mage_CatalogSearch_Helper_Data')->getEngine();
             $collection = $engine->getResultCollection();
             $collection->setStoreId($this->getCurrentCategory()->getStoreId())
                 ->addCategoryFilter($this->getCurrentCategory())

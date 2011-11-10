@@ -50,7 +50,7 @@ class Mage_Paypal_Model_Resource_Cert extends Mage_Core_Model_Resource_Db_Abstra
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        $object->setUpdatedAt($this->formatDate(Mage::getSingleton('core/date')->gmtDate()));
+        $object->setUpdatedAt($this->formatDate(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate()));
         return parent::_beforeSave($object);
     }
 

@@ -52,9 +52,9 @@ class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
      */
     public function loadAcl()
     {
-        $acl = Mage::getModel('admin/acl');
+        $acl = Mage::getModel('Mage_Admin_Model_Acl');
 
-        Mage::getSingleton('admin/config')->loadAclResources($acl);
+        Mage::getSingleton('Mage_Admin_Model_Config')->loadAclResources($acl);
 
         $roleTable   = $this->getTable('admin_role');
         $ruleTable   = $this->getTable('admin_rule');
@@ -99,13 +99,13 @@ class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
             switch ($role['role_type']) {
                 case Mage_Admin_Model_Acl::ROLE_TYPE_GROUP:
                     $roleId = $role['role_type'] . $role['role_id'];
-                    $acl->addRole(Mage::getModel('admin/acl_role_group', $roleId), $parent);
+                    $acl->addRole(Mage::getModel('Mage_Admin_Model_Acl_Role_Group', $roleId), $parent);
                     break;
 
                 case Mage_Admin_Model_Acl::ROLE_TYPE_USER:
                     $roleId = $role['role_type'] . $role['user_id'];
                     if (!$acl->hasRole($roleId)) {
-                        $acl->addRole(Mage::getModel('admin/acl_role_user', $roleId), $parent);
+                        $acl->addRole(Mage::getModel('Mage_Admin_Model_Acl_Role_User', $roleId), $parent);
                     } else {
                         $acl->addRoleParent($roleId, $parent);
                     }
@@ -132,7 +132,7 @@ class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
 
             $assert = null;
             if (0 != $rule['assert_id']) {
-                $assertClass = Mage::getSingleton('admin/config')->getAclAssert($rule['assert_type'])->getClassName();
+                $assertClass = Mage::getSingleton('Mage_Admin_Model_Config')->getAclAssert($rule['assert_type'])->getClassName();
                 $assert = new $assertClass(unserialize($rule['assert_data']));
             }
             try {
@@ -149,7 +149,7 @@ class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
                 //if ( eregi("^Resource '(.*)' not found", $m) ) {
                     // Deleting non existent resource rule from rules table
                     //$cond = $this->_write->quoteInto('resource_id = ?', $resource);
-                    //$this->_write->delete(Mage::getSingleton('core/resource')->getTableName('admin_rule'), $cond);
+                    //$this->_write->delete(Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('admin_rule'), $cond);
                 //} else {
                     //TODO: We need to log such exceptions to somewhere like a system/errors.log
                 //}

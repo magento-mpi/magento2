@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
     protected function _construct()
     {
         $this->setId('system_config_tabs');
-        $this->setTitle(Mage::helper('adminhtml')->__('Configuration'));
+        $this->setTitle(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Configuration'));
         $this->setTemplate('system/config/tabs.phtml');
     }
 
@@ -75,9 +75,9 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         $websiteCode = $this->getRequest()->getParam('website');
         $storeCode = $this->getRequest()->getParam('store');
 
-        $url = Mage::getModel('adminhtml/url');
+        $url = Mage::getModel('Mage_Adminhtml_Model_Url');
 
-        $configFields = Mage::getSingleton('adminhtml/config');
+        $configFields = Mage::getSingleton('Mage_Adminhtml_Model_Config');
         $sections = $configFields->getSections($current);
         $tabs     = (array)$configFields->getTabs()->children();
        
@@ -147,7 +147,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
             }
         }
 
-        Mage::helper('adminhtml')->addPageHelpUrl($current.'/');
+        Mage::helper('Mage_Adminhtml_Helper_Data')->addPageHelpUrl($current.'/');
 
         return $this;
     }
@@ -205,14 +205,14 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         $curWebsite = $this->getRequest()->getParam('website');
         $curStore   = $this->getRequest()->getParam('store');
 
-        $storeModel = Mage::getSingleton('adminhtml/system_store');
+        $storeModel = Mage::getSingleton('Mage_Adminhtml_Model_System_Store');
         /* @var $storeModel Mage_Adminhtml_Model_System_Store */
 
-        $url = Mage::getModel('adminhtml/url');
+        $url = Mage::getModel('Mage_Adminhtml_Model_Url');
 
         $options = array();
         $options['default'] = array(
-            'label'    => Mage::helper('adminhtml')->__('Default Config'),
+            'label'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Default Config'),
             'url'      => $url->getUrl('*/*/*', array('section'=>$section)),
             'selected' => !$curWebsite && !$curStore,
             'style'    => 'background:#ccc; font-weight:bold;',
@@ -279,33 +279,33 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         $html = '';
 
         if (!$curWebsite && !$curStore) {
-            $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('New Website'),
+            $html .= $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Website'),
                 'onclick'   => "location.href='".$this->getUrl('*/system_website/new')."'",
                 'class'     => 'add',
             ))->toHtml();
         } elseif (!$curStore) {
-            $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('Edit Website'),
+            $html .= $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Edit Website'),
                 'onclick'   => "location.href='".$this->getUrl('*/system_website/edit', array('website'=>$curWebsite))."'",
             ))->toHtml();
-            $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('New Store View'),
+            $html .= $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Store View'),
                 'onclick'   => "location.href='".$this->getUrl('*/system_store/new', array('website'=>$curWebsite))."'",
                 'class'     => 'add',
             ))->toHtml();
-            $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('Delete Website'),
+            $html .= $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Delete Website'),
                 'onclick'   => "location.href='".$this->getUrl('*/system_website/delete', array('website'=>$curWebsite))."'",
                 'class'     => 'delete',
             ))->toHtml();
         } else {
-            $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('Edit Store View'),
+            $html .= $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Edit Store View'),
                 'onclick'   => "location.href='".$this->getUrl('*/system_store/edit', array('store'=>$curStore))."'",
             ))->toHtml();
-            $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('Delete Store View'),
+            $html .= $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Delete Store View'),
                 'onclick'   => "location.href='".$this->getUrl('*/system_store/delete', array('store'=>$curStore))."'",
                 'class'     => 'delete',
             ))->toHtml();
@@ -329,7 +329,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         }
 
         if (!$permissions) {
-            $permissions = Mage::getSingleton('admin/session');
+            $permissions = Mage::getSingleton('Mage_Admin_Model_Session');
         }
 
         $showTab = false;

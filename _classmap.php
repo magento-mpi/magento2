@@ -18,26 +18,13 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    Mage
- * @package     Mage_Adminhtml
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category   Magento
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
-class Mage_Adminhtml_Model_System_Config_Source_Language
-{
-    protected $_options;
-    
-    public function toOptionArray($isMultiselect)
-    {
-        if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('core/language_collection')->loadData()->toOptionArray();
-        }
-        $options = $this->_options;
-        if(!$isMultiselect){
-            array_unshift($options, array('value'=>'', 'label'=>''));
-        }
-        return $options;
-    }
-}
+/**
+ * Class files map
+ */
+return array (
+);

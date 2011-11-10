@@ -40,7 +40,7 @@ class Mage_Widget_Adminhtml_WidgetController extends Mage_Adminhtml_Controller_A
     {
         // save extra params for widgets insertion form
         $skipped = $this->getRequest()->getParam('skip_widgets');
-        $skipped = Mage::getSingleton('widget/widget_config')->decodeWidgetsFromQuery($skipped);
+        $skipped = Mage::getSingleton('Mage_Widget_Model_Widget_Config')->decodeWidgetsFromQuery($skipped);
 
         Mage::register('skip_widgets', $skipped);
 
@@ -55,7 +55,7 @@ class Mage_Widget_Adminhtml_WidgetController extends Mage_Adminhtml_Controller_A
         try {
             $this->loadLayout('empty');
             if ($paramsJson = $this->getRequest()->getParam('widget')) {
-                $request = Mage::helper('core')->jsonDecode($paramsJson);
+                $request = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($paramsJson);
                 if (is_array($request)) {
                     $optionsBlock = $this->getLayout()->getBlock('wysiwyg_widget.options');
                     if (isset($request['widget_type'])) {
@@ -69,7 +69,7 @@ class Mage_Widget_Adminhtml_WidgetController extends Mage_Adminhtml_Controller_A
             }
         } catch (Mage_Core_Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -81,7 +81,7 @@ class Mage_Widget_Adminhtml_WidgetController extends Mage_Adminhtml_Controller_A
         $type = $this->getRequest()->getPost('widget_type');
         $params = $this->getRequest()->getPost('parameters', array());
         $asIs = $this->getRequest()->getPost('as_is');
-        $html = Mage::getSingleton('widget/widget')->getWidgetDeclaration($type, $params, $asIs);
+        $html = Mage::getSingleton('Mage_Widget_Model_Widget')->getWidgetDeclaration($type, $params, $asIs);
         $this->getResponse()->setBody($html);
     }
 }

@@ -125,7 +125,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         if (!$object->getId()) {
-            $object->setCreatedAt(Mage::getSingleton('core/date')->gmtDate());
+            $object->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
         }
         if ($object->hasData('stores') && is_array($object->getStores())) {
             $stores = $object->getStores();
@@ -303,7 +303,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
             $object->load($object->getReviewId());
         }
 
-        $ratingModel    = Mage::getModel('rating/rating');
+        $ratingModel    = Mage::getModel('Mage_Rating_Model_Rating');
         $ratingSummaries= $ratingModel->getEntitySummary($object->getEntityPkValue(), false);
 
         foreach ($ratingSummaries as $ratingSummaryObject) {
@@ -386,7 +386,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
             $ratingIds = array((int)$ratingIds);
         }
         if ($ratingIds && $entityPkValue
-            && ($resource = Mage::getResourceSingleton('rating/rating_option'))
+            && ($resource = Mage::getResourceSingleton('Mage_Rating_Model_Resource_Rating_Option'))
             ) {
             foreach ($ratingIds as $ratingId) {
                 $resource->aggregateEntityByRatingId(

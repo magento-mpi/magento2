@@ -42,10 +42,10 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::getSingleton('customer/session')->authenticate($this)) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
-        if (!Mage::helper('enterprise_reward')->isEnabledOnFront()) {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
@@ -58,10 +58,10 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
     {
         Mage::register('current_reward', $this->_getReward());
         $this->loadLayout();
-        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('enterprise_reward')->__('Reward Points'));
+            $headBlock->setTitle(Mage::helper('Enterprise_Reward_Helper_Data')->__('Reward Points'));
         }
         $this->renderLayout();
     }
@@ -128,7 +128,7 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('customer/session');
+        return Mage::getSingleton('Mage_Customer_Model_Session');
     }
 
     /**
@@ -148,7 +148,7 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
      */
     protected function _getReward()
     {
-        $reward = Mage::getModel('enterprise_reward/reward')
+        $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
             ->setCustomer($this->_getCustomer())
             ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
             ->loadByCustomer();

@@ -40,14 +40,14 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function authFrontend()
     {
-        $session = Mage::getSingleton('rss/session');
+        $session = Mage::getSingleton('Mage_Rss_Model_Session');
         if ($session->isCustomerLoggedIn()) {
             return;
         }
         list($username, $password) = $this->authValidate();
-        $customer = Mage::getModel('customer/customer')->authenticate($username, $password);
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->authenticate($username, $password);
         if ($customer && $customer->getId()) {
-            Mage::getSingleton('rss/session')->settCustomer($customer);
+            Mage::getSingleton('Mage_Rss_Model_Session')->settCustomer($customer);
         } else {
             $this->authFailed();
         }
@@ -60,15 +60,15 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function authAdmin($path)
     {
-        $session = Mage::getSingleton('rss/session');
+        $session = Mage::getSingleton('Mage_Rss_Model_Session');
         if ($session->isAdminLoggedIn()) {
             return;
         }
         list($username, $password) = $this->authValidate();
-        Mage::getSingleton('adminhtml/url')->setNoSecret(true);
-        $adminSession = Mage::getSingleton('admin/session');
+        Mage::getSingleton('Mage_Adminhtml_Model_Url')->setNoSecret(true);
+        $adminSession = Mage::getSingleton('Mage_Admin_Model_Session');
         $user = $adminSession->login($username, $password);
-        //$user = Mage::getModel('admin/user')->login($username, $password);
+        //$user = Mage::getModel('Mage_Admin_Model_User')->login($username, $password);
         if($user && $user->getId() && $user->getIsActive() == '1' && $adminSession->isAllowed($path)){
             $session->setAdmin($user);
         } else {
@@ -84,7 +84,7 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function authValidate($headers=null)
     {
-        $userPass = Mage::helper('core/http')->authValidate($headers);
+        $userPass = Mage::helper('Mage_Core_Helper_Http')->authValidate($headers);
         return $userPass;
     }
 
@@ -94,7 +94,7 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function authFailed()
     {
-        Mage::helper('core/http')->authFailed();
+        Mage::helper('Mage_Core_Helper_Http')->authFailed();
     }
 
     /**
@@ -106,10 +106,10 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
     public function disableFlat()
     {
         /* @var $flatHelper Mage_Catalog_Helper_Product_Flat */
-        $flatHelper = Mage::helper('catalog/product_flat');
+        $flatHelper = Mage::helper('Mage_Catalog_Helper_Product_Flat');
         if ($flatHelper->isEnabled()) {
             /* @var $emulationModel Mage_Core_Model_App_Emulation */
-            $emulationModel = Mage::getModel('core/app_emulation');
+            $emulationModel = Mage::getModel('Mage_Core_Model_App_Emulation');
             // Emulate admin environment to disable using flat model - otherwise we won't get global stats
             // for all stores
             $emulationModel->startEnvironmentEmulation(0, Mage_Core_Model_App_Area::AREA_ADMIN);

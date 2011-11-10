@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Notification_Toolbar extends Mage_Adminhtml_Block_Tem
      */
     protected function _getHelper()
     {
-        return Mage::helper('adminnotification');
+        return Mage::helper('Mage_AdminNotification_Helper_Data');
     }
 
     /**

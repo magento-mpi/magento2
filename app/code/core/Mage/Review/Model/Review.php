@@ -71,17 +71,17 @@ class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('review/review');
+        $this->_init('Mage_Review_Model_Resource_Review');
     }
 
     public function getProductCollection()
     {
-        return Mage::getResourceModel('review/review_product_collection');
+        return Mage::getResourceModel('Mage_Review_Model_Resource_Review_Product_Collection');
     }
 
     public function getStatusCollection()
     {
-        return Mage::getResourceModel('review/review_status_collection');
+        return Mage::getResourceModel('Mage_Review_Model_Resource_Review_Status_Collection');
     }
 
     public function getTotalReviews($entityPkValue, $approvedOnly=false, $storeId=0)
@@ -97,7 +97,7 @@ class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
 
     public function getEntitySummary($product, $storeId=0)
     {
-        $summaryData = Mage::getModel('review/review_summary')
+        $summaryData = Mage::getModel('Mage_Review_Model_Review_Summary')
             ->setStoreId($storeId)
             ->load($product->getId());
         $summary = new Varien_Object();
@@ -119,7 +119,7 @@ class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
     {
         $errors = array();
 
-        $helper = Mage::helper('customer');
+        $helper = Mage::helper('Mage_Customer_Helper_Data');
 
         if (!Zend_Validate::is($this->getTitle(), 'NotEmpty')) {
             $errors[] = $helper->__('Review summary can\'t be empty');
@@ -167,7 +167,7 @@ class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $summaryData = Mage::getResourceModel('review/review_summary_collection')
+        $summaryData = Mage::getResourceModel('Mage_Review_Model_Resource_Review_Summary_Collection')
             ->addEntityFilter($entityIds)
             ->addStoreFilter(Mage::app()->getStore()->getId())
             ->load();

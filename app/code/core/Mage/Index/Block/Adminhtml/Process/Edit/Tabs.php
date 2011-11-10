@@ -32,6 +32,6 @@ class Mage_Index_Block_Adminhtml_Process_Edit_Tabs extends Mage_Adminhtml_Block_
         parent::__construct();
         $this->setId('process_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('index')->__('Index'));
+        $this->setTitle(Mage::helper('Mage_Index_Helper_Data')->__('Index'));
     }
 }

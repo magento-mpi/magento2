@@ -71,7 +71,7 @@ class Mage_Persistent_Model_Persistent_Config
         if (is_null($this->_xmlConfig)) {
             $filePath = $this->_configFilePath;
             if (!is_file($filePath) || !is_readable($filePath)) {
-                Mage::throwException(Mage::helper('persistent')->__('Cannot load configuration from file %s.', $filePath));
+                Mage::throwException(Mage::helper('Mage_Persistent_Helper_Data')->__('Cannot load configuration from file %s.', $filePath));
             }
             $xml = file_get_contents($filePath);
             $this->_xmlConfig = new Varien_Simplexml_Element($xml);
@@ -104,7 +104,7 @@ class Mage_Persistent_Model_Persistent_Config
             foreach ($elements as $info) {
                 switch ($type) {
                     case 'blocks':
-                        $this->fireOne($info, Mage::getSingleton('core/layout')->getBlock($info['name_in_layout']));
+                        $this->fireOne($info, Mage::getSingleton('Mage_Core_Model_Layout')->getBlock($info['name_in_layout']));
                         break;
                 }
             }

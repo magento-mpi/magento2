@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     protected function _prepareCollection()
     {
-        $model = Mage::getModel('review/review');
+        $model = Mage::getModel('Mage_Review_Model_Review');
         $collection = $model->getProductCollection();
 
         if ($this->getProductId() || $this->getRequest()->getParam('productId', false)) {
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     protected function _prepareColumns()
     {
-        $statuses = Mage::getModel('review/review')
+        $statuses = Mage::getModel('Mage_Review_Model_Review')
             ->getStatusCollection()
             ->load()
             ->toOptionArray();
@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $statuses = $tmpArr;
 
         $this->addColumn('review_id', array(
-            'header'        => Mage::helper('review')->__('ID'),
+            'header'        => Mage::helper('Mage_Review_Helper_Data')->__('ID'),
             'align'         => 'right',
             'width'         => '50px',
             'filter_index'  => 'rt.review_id',
@@ -89,7 +89,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('created_at', array(
-            'header'        => Mage::helper('review')->__('Created On'),
+            'header'        => Mage::helper('Mage_Review_Helper_Data')->__('Created On'),
             'align'         => 'left',
             'type'          => 'datetime',
             'width'         => '100px',
@@ -99,7 +99,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         if( !Mage::registry('usePendingFilter') ) {
             $this->addColumn('status', array(
-                'header'        => Mage::helper('review')->__('Status'),
+                'header'        => Mage::helper('Mage_Review_Helper_Data')->__('Status'),
                 'align'         => 'left',
                 'type'          => 'options',
                 'options'       => $statuses,
@@ -110,7 +110,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         }
 
         $this->addColumn('title', array(
-            'header'        => Mage::helper('review')->__('Title'),
+            'header'        => Mage::helper('Mage_Review_Helper_Data')->__('Title'),
             'align'         => 'left',
             'width'         => '100px',
             'filter_index'  => 'rdt.title',
@@ -121,7 +121,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('nickname', array(
-            'header'        => Mage::helper('review')->__('Nickname'),
+            'header'        => Mage::helper('Mage_Review_Helper_Data')->__('Nickname'),
             'align'         => 'left',
             'width'         => '100px',
             'filter_index'  => 'rdt.nickname',
@@ -132,7 +132,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('detail', array(
-            'header'        => Mage::helper('review')->__('Review'),
+            'header'        => Mage::helper('Mage_Review_Helper_Data')->__('Review'),
             'align'         => 'left',
             'index'         => 'detail',
             'filter_index'  => 'rdt.detail',
@@ -147,7 +147,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
          */
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
-                'header'    => Mage::helper('review')->__('Visible In'),
+                'header'    => Mage::helper('Mage_Review_Helper_Data')->__('Visible In'),
                 'index'     => 'stores',
                 'type'      => 'store',
                 'store_view' => true,
@@ -155,15 +155,15 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         }
 
         $this->addColumn('type', array(
-            'header'    => Mage::helper('review')->__('Type'),
+            'header'    => Mage::helper('Mage_Review_Helper_Data')->__('Type'),
             'type'      => 'select',
             'index'     => 'type',
-            'filter'    => 'adminhtml/review_grid_filter_type',
-            'renderer'  => 'adminhtml/review_grid_renderer_type'
+            'filter'    => 'Mage_Adminhtml_Block_Review_Grid_Filter_Type',
+            'renderer'  => 'Mage_Adminhtml_Block_Review_Grid_Renderer_Type'
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('review')->__('Product Name'),
+            'header'    => Mage::helper('Mage_Review_Helper_Data')->__('Product Name'),
             'align'     =>'left',
             'type'      => 'text',
             'index'     => 'name',
@@ -171,7 +171,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('review')->__('Product SKU'),
+            'header'    => Mage::helper('Mage_Review_Helper_Data')->__('Product SKU'),
             'align'     => 'right',
             'type'      => 'text',
             'width'     => '50px',
@@ -181,13 +181,13 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('adminhtml')->__('Action'),
+                'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Action'),
                 'width'     => '50px',
                 'type'      => 'action',
                 'getter'     => 'getReviewId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('adminhtml')->__('Edit'),
+                        'caption' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Edit'),
                         'url'     => array(
                             'base'=>'*/catalog_product_review/edit',
                             'params'=> array(
@@ -203,7 +203,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 'sortable'  => false
         ));
 
-        $this->addRssList('rss/catalog/review', Mage::helper('catalog')->__('Pending Reviews RSS'));
+        $this->addRssList('rss/catalog/review', Mage::helper('Mage_Catalog_Helper_Data')->__('Pending Reviews RSS'));
 
         return parent::_prepareColumns();
     }
@@ -215,25 +215,25 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->getMassactionBlock()->setFormFieldName('reviews');
 
         $this->getMassactionBlock()->addItem('delete', array(
-            'label'=> Mage::helper('review')->__('Delete'),
+            'label'=> Mage::helper('Mage_Review_Helper_Data')->__('Delete'),
             'url'  => $this->getUrl('*/*/massDelete', array('ret' => Mage::registry('usePendingFilter') ? 'pending' : 'index')),
-            'confirm' => Mage::helper('review')->__('Are you sure?')
+            'confirm' => Mage::helper('Mage_Review_Helper_Data')->__('Are you sure?')
         ));
 
-        $statuses = Mage::getModel('review/review')
+        $statuses = Mage::getModel('Mage_Review_Model_Review')
             ->getStatusCollection()
             ->load()
             ->toOptionArray();
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('update_status', array(
-            'label'         => Mage::helper('review')->__('Update Status'),
+            'label'         => Mage::helper('Mage_Review_Helper_Data')->__('Update Status'),
             'url'           => $this->getUrl('*/*/massUpdateStatus', array('ret' => Mage::registry('usePendingFilter') ? 'pending' : 'index')),
             'additional'    => array(
                 'status'    => array(
                     'name'      => 'status',
                     'type'      => 'select',
                     'class'     => 'required-entry',
-                    'label'     => Mage::helper('review')->__('Status'),
+                    'label'     => Mage::helper('Mage_Review_Helper_Data')->__('Status'),
                     'values'    => $statuses
                 )
             )

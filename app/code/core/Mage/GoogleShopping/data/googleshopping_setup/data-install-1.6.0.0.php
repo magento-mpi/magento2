@@ -27,7 +27,7 @@
 /** @var $this Mage_Core_Model_Resource_Setup */
 $installer = $this;
 
-if (Mage::helper('googleshopping')->isModuleEnabled('Mage_GoogleBase')) {
+if (Mage::helper('Mage_GoogleShopping_Helper_Data')->isModuleEnabled('Mage_GoogleBase')) {
     $typesInsert = $installer->getConnection()
         ->select()
         ->from(
@@ -58,7 +58,7 @@ if (Mage::helper('googleshopping')->isModuleEnabled('Mage_GoogleBase')) {
         ->insertFromSelect($installer->getTable('googleshopping_items'));
 
     $attributes = '';
-    foreach (Mage::getModel('googleshopping/config')->getAttributes() as $destAttribtues) {
+    foreach (Mage::getModel('Mage_GoogleShopping_Model_Config')->getAttributes() as $destAttribtues) {
         foreach ($destAttribtues as $code => $info) {
             $attributes .= "'$code',";
         }

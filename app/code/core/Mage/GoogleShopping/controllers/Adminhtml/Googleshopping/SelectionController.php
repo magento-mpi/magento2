@@ -40,7 +40,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_SelectionController extends M
     {
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('googleshopping/adminhtml_items_product')
+                ->createBlock('Mage_GoogleShopping_Block_Adminhtml_Items_Product')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->setFirstShow(true)
                 ->toHtml()
@@ -55,7 +55,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_SelectionController extends M
         $this->loadLayout();
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('googleshopping/adminhtml_items_product')
+                ->createBlock('Mage_GoogleShopping_Block_Adminhtml_Items_Product')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()
            );

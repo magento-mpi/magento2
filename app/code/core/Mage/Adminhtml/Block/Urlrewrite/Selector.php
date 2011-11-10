@@ -49,9 +49,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Selector extends Mage_Core_Block_Template
     {
         $this->setTemplate('urlrewrite/selector.phtml');
         $this->_modes = array(
-            'category' => Mage::helper('adminhtml')->__('For category'),
-            'product'  => Mage::helper('adminhtml')->__('For product'),
-            'id'       => Mage::helper('adminhtml')->__('Custom'),
+            'category' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('For category'),
+            'product'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('For product'),
+            'id'       => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Custom'),
         );
     }
 
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Selector extends Mage_Core_Block_Template
      */
     public function getSelectorLabel()
     {
-        return Mage::helper('adminhtml')->__('Create URL Rewrite:');
+        return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Create URL Rewrite:');
     }
 
     /**

@@ -34,10 +34,10 @@ class Enterprise_Rma_Block_Return_Create extends Enterprise_Rma_Block_Form
         }
         $this->setOrder($order);
 
-        $items = Mage::helper('enterprise_rma')->getOrderItems($order);
+        $items = Mage::helper('Enterprise_Rma_Helper_Data')->getOrderItems($order);
         $this->setItems($items);
 
-        $session = Mage::getSingleton('core/session');
+        $session = Mage::getSingleton('Mage_Core_Model_Session');
         $formData = $session->getRmaFormData(true);
         if (!empty($formData)) {
             $data = new Varien_Object();
@@ -83,10 +83,10 @@ class Enterprise_Rma_Block_Return_Create extends Enterprise_Rma_Block_Form
     public function getAttributes()
     {
         /* @var $itemModel  */
-        $itemModel = Mage::getModel('enterprise_rma/item');
+        $itemModel = Mage::getModel('Enterprise_Rma_Model_Item');
 
         /* @var $itemForm Enterprise_Rma_Model_Item_Form */
-        $itemForm   = Mage::getModel('enterprise_rma/item_form');
+        $itemForm   = Mage::getModel('Enterprise_Rma_Model_Item_Form');
         $itemForm->setFormCode('default')
             ->setStore($this->getStore())
             ->setEntity($itemModel);

@@ -39,7 +39,7 @@ class Mage_Adminhtml_Promo_WidgetController extends Mage_Adminhtml_Controller_Ac
         switch ($request->getParam('attribute')) {
             case 'sku':
                 $block = $this->getLayout()->createBlock(
-                    'adminhtml/promo_widget_chooser_sku', 'promo_widget_chooser_sku',
+                    'Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku', 'promo_widget_chooser_sku',
                     array('js_form_object' => $request->getParam('form'),
                 ));
                 break;
@@ -61,7 +61,7 @@ class Mage_Adminhtml_Promo_WidgetController extends Mage_Adminhtml_Controller_Ac
 
 
                 $block = $this->getLayout()->createBlock(
-                        'adminhtml/catalog_category_checkboxes_tree', 'promo_widget_chooser_category_ids',
+                        'Mage_Adminhtml_Block_Catalog_Category_Checkboxes_Tree', 'promo_widget_chooser_category_ids',
                         array('js_form_object' => $request->getParam('form'))
                     )
                     ->setCategoryIds($ids)
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Promo_WidgetController extends Mage_Adminhtml_Controller_Ac
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('promo/catalog');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('promo/catalog');
     }
 
     /**
@@ -95,7 +95,7 @@ class Mage_Adminhtml_Promo_WidgetController extends Mage_Adminhtml_Controller_Ac
                 return;
             }
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('adminhtml/catalog_category_tree')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Category_Tree')
                     ->getTreeJson($category)
             );
         }
@@ -111,7 +111,7 @@ class Mage_Adminhtml_Promo_WidgetController extends Mage_Adminhtml_Controller_Ac
         $categoryId = (int) $this->getRequest()->getParam('id',false);
         $storeId    = (int) $this->getRequest()->getParam('store');
 
-        $category   = Mage::getModel('catalog/category');
+        $category   = Mage::getModel('Mage_Catalog_Model_Category');
         $category->setStoreId($storeId);
 
         if ($categoryId) {

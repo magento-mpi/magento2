@@ -49,7 +49,7 @@ class Mage_Reports_Model_Resource_Review_Customer_Collection extends Mage_Review
         /** @var $adapter Varien_Db_Adapter_Interface */
         $adapter            = $this->getConnection();
         /** @var $customer Mage_Customer_Model_Resource_Customer */
-        $customer           = Mage::getResourceSingleton('customer/customer');
+        $customer           = Mage::getResourceSingleton('Mage_Customer_Model_Resource_Customer');
         /** @var $firstnameAttr Mage_Eav_Model_Entity_Attribute */
         $firstnameAttr      = $customer->getAttribute('firstname');
         /** @var $lastnameAttr Mage_Eav_Model_Entity_Attribute */

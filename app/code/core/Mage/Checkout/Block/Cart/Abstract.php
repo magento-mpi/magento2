@@ -43,7 +43,7 @@ abstract class Mage_Checkout_Block_Cart_Abstract extends Mage_Core_Block_Templat
     public function __construct()
     {
         parent::__construct();
-        $this->addItemRender('default', 'checkout/cart_item_renderer', 'cart/item/default.phtml');
+        $this->addItemRender('default', 'Mage_Checkout_Block_Cart_Item_Renderer', 'cart/item/default.phtml');
     }
 
     /**
@@ -121,7 +121,7 @@ abstract class Mage_Checkout_Block_Cart_Abstract extends Mage_Core_Block_Templat
     public function getCustomer()
     {
         if (null === $this->_customer) {
-            $this->_customer = Mage::getSingleton('customer/session')->getCustomer();
+            $this->_customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
         }
         return $this->_customer;
     }
@@ -134,7 +134,7 @@ abstract class Mage_Checkout_Block_Cart_Abstract extends Mage_Core_Block_Templat
     public function getCheckout()
     {
         if (null === $this->_checkout) {
-            $this->_checkout = Mage::getSingleton('checkout/session');
+            $this->_checkout = Mage::getSingleton('Mage_Checkout_Model_Session');
         }
         return $this->_checkout;
     }
@@ -194,7 +194,7 @@ abstract class Mage_Checkout_Block_Cart_Abstract extends Mage_Core_Block_Templat
      */
     public function canApplyMsrp()
     {
-        if (!$this->getQuote()->hasCanApplyMsrp() && Mage::helper('catalog')->isMsrpEnabled()) {
+        if (!$this->getQuote()->hasCanApplyMsrp() && Mage::helper('Mage_Catalog_Helper_Data')->isMsrpEnabled()) {
             $this->getQuote()->collectTotals();
         }
         return $this->getQuote()->getCanApplyMsrp();

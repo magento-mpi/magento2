@@ -32,15 +32,6 @@
         </Mage_Tax>
     </modules>
     <global>
-        <models>
-            <tax>
-                <class>Mage_Tax_Model</class>
-                <resourceModel>tax_resource</resourceModel>
-            </tax>
-            <tax_resource>
-                <class>Mage_Tax_Model_Resource</class>
-            </tax_resource>
-        </models>
         <resources>
             <tax_setup>
                 <setup>
@@ -53,7 +44,7 @@
             <sales_convert_quote_address_to_order>
                 <observers>
                     <tax>
-                        <class>tax/observer</class>
+                        <class>Mage_Tax_Model_Observer</class>
                         <method>salesEventConvertQuoteAddressToOrder</method>
                     </tax>
                 </observers>
@@ -61,7 +52,7 @@
             <sales_order_save_after>
                 <observers>
                     <tax>
-                        <class>tax/observer</class>
+                        <class>Mage_Tax_Model_Observer</class>
                         <method>salesEventOrderAfterSave</method>
                     </tax>
                 </observers>
@@ -69,7 +60,7 @@
             <catalog_product_collection_load_after>
                 <observers>
                     <tax>
-                        <class>tax/observer</class>
+                        <class>Mage_Tax_Model_Observer</class>
                         <method>addTaxPercentToProductCollection</method>
                     </tax>
                 </observers>
@@ -77,7 +68,7 @@
             <sales_quote_collect_totals_before>
                 <observers>
                     <tax>
-                        <class>tax/observer</class>
+                        <class>Mage_Tax_Model_Observer</class>
                         <method>quoteCollectTotalsBefore</method>
                     </tax>
                 </observers>
@@ -87,46 +78,46 @@
             <quote>
                 <totals>
                     <tax_subtotal>
-                        <class>tax/sales_total_quote_subtotal</class>
+                        <class>Mage_Tax_Model_Sales_Total_Quote_Subtotal</class>
                         <after>freeshipping</after>
                         <before>tax,discount</before>
                     </tax_subtotal>
                     <tax_shipping>
-                        <class>tax/sales_total_quote_shipping</class>
+                        <class>Mage_Tax_Model_Sales_Total_Quote_Shipping</class>
                         <after>shipping</after>
                         <before>tax,discount</before>
                     </tax_shipping>
                     <tax>
-                        <class>tax/sales_total_quote_tax</class>
+                        <class>Mage_Tax_Model_Sales_Total_Quote_Tax</class>
                         <after>subtotal,shipping</after>
                         <before>grand_total</before>
-                        <renderer>tax/checkout_tax</renderer>
-                        <admin_renderer>adminhtml/sales_order_create_totals_tax</admin_renderer>
+                        <renderer>Mage_Tax_Block_Checkout_Tax</renderer>
+                        <admin_renderer>Mage_Adminhtml_Block_Sales_Order_Create_Totals_Tax</admin_renderer>
                     </tax>
                     <subtotal>
-                        <renderer>tax/checkout_subtotal</renderer>
-                        <admin_renderer>adminhtml/sales_order_create_totals_subtotal</admin_renderer>
+                        <renderer>Mage_Tax_Block_Checkout_Subtotal</renderer>
+                        <admin_renderer>Mage_Adminhtml_Block_Sales_Order_Create_Totals_Subtotal</admin_renderer>
                     </subtotal>
                     <shipping>
-                        <renderer>tax/checkout_shipping</renderer>
-                        <admin_renderer>adminhtml/sales_order_create_totals_shipping</admin_renderer>
+                        <renderer>Mage_Tax_Block_Checkout_Shipping</renderer>
+                        <admin_renderer>Mage_Adminhtml_Block_Sales_Order_Create_Totals_Shipping</admin_renderer>
                     </shipping>
                     <discount>
-                        <renderer>tax/checkout_discount</renderer>
-                        <admin_renderer>adminhtml/sales_order_create_totals_discount</admin_renderer>
+                        <renderer>Mage_Tax_Block_Checkout_Discount</renderer>
+                        <admin_renderer>Mage_Adminhtml_Block_Sales_Order_Create_Totals_Discount</admin_renderer>
                     </discount>
                     <grand_total>
-                        <renderer>tax/checkout_grandtotal</renderer>
-                        <admin_renderer>adminhtml/sales_order_create_totals_grandtotal</admin_renderer>
+                        <renderer>Mage_Tax_Block_Checkout_Grandtotal</renderer>
+                        <admin_renderer>Mage_Adminhtml_Block_Sales_Order_Create_Totals_Grandtotal</admin_renderer>
                     </grand_total>
                 </totals>
                 <nominal_totals>
                     <nominal_tax_subtotal>
-                        <class>tax/sales_total_quote_nominal_subtotal</class>
+                        <class>Mage_Tax_Model_Sales_Total_Quote_Nominal_Subtotal</class>
                         <sort_order>500</sort_order>
                     </nominal_tax_subtotal>
                     <nominal_tax>
-                        <class>tax/sales_total_quote_nominal_tax</class>
+                        <class>Mage_Tax_Model_Sales_Total_Quote_Nominal_Tax</class>
                         <sort_order>750</sort_order>
                     </nominal_tax>
                 </nominal_totals>
@@ -135,18 +126,18 @@
         <pdf>
             <totals>
                 <subtotal>
-                    <model>tax/sales_pdf_subtotal</model>
+                    <model>Mage_Tax_Model_Sales_Pdf_Subtotal</model>
                 </subtotal>
                 <shipping>
-                    <model>tax/sales_pdf_shipping</model>
+                    <model>Mage_Tax_Model_Sales_Pdf_Shipping</model>
                 </shipping>
                 <grand_total>
-                    <model>tax/sales_pdf_grandtotal</model>
+                    <model>Mage_Tax_Model_Sales_Pdf_Grandtotal</model>
                 </grand_total>
                 <tax translate="title">
                     <title>Tax</title>
                     <source_field>tax_amount</source_field>
-                    <model>tax/sales_pdf_tax</model>
+                    <model>Mage_Tax_Model_Sales_Pdf_Tax</model>
                     <font_size>7</font_size>
                     <display_zero>0</display_zero>
                     <sort_order>300</sort_order>
@@ -227,7 +218,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>tax/observer::aggregateSalesReportTaxData</model>
+                    <model>Mage_Tax_Model_Observer::aggregateSalesReportTaxData</model>
                 </run>
             </aggregate_sales_report_tax_data>
         </jobs>

@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Review_Main extends Mage_Adminhtml_Block_Widget_Grid_
 {
     public function __construct()
     {
-        $this->_addButtonLabel = Mage::helper('review')->__('Add New Review');
+        $this->_addButtonLabel = Mage::helper('Mage_Review_Helper_Data')->__('Add New Review');
         parent::__construct();
 
         $this->_controller = 'review';
@@ -45,23 +45,23 @@ class Mage_Adminhtml_Block_Review_Main extends Mage_Adminhtml_Block_Widget_Grid_
         $customerId = $this->getRequest()->getParam('customerId', false);
         $customerName = '';
         if ($customerId) {
-            $customer = Mage::getModel('customer/customer')->load($customerId);
+            $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
             $customerName = $customer->getFirstname() . ' ' . $customer->getLastname();
             $customerName = $this->escapeHtml($customerName);
         }
 
         if( Mage::registry('usePendingFilter') === true ) {
             if ($customerName) {
-                $this->_headerText = Mage::helper('review')->__('Pending Reviews of Customer `%s`', $customerName);
+                $this->_headerText = Mage::helper('Mage_Review_Helper_Data')->__('Pending Reviews of Customer `%s`', $customerName);
             } else {
-                $this->_headerText = Mage::helper('review')->__('Pending Reviews');
+                $this->_headerText = Mage::helper('Mage_Review_Helper_Data')->__('Pending Reviews');
             }
             $this->_removeButton('add');
         } else {
             if ($customerName) {
-                $this->_headerText = Mage::helper('review')->__('All Reviews of Customer `%s`', $customerName);
+                $this->_headerText = Mage::helper('Mage_Review_Helper_Data')->__('All Reviews of Customer `%s`', $customerName);
             } else {
-                $this->_headerText = Mage::helper('review')->__('All Reviews');
+                $this->_headerText = Mage::helper('Mage_Review_Helper_Data')->__('All Reviews');
             }
         }
     }

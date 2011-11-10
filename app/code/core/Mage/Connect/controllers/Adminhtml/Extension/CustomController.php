@@ -68,7 +68,7 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
      */
     public function resetAction()
     {
-        Mage::getSingleton('connect/session')->unsCustomExtensionPackageFormData();
+        Mage::getSingleton('Mage_Connect_Model_Session')->unsCustomExtensionPackageFormData();
         $this->_redirect('*/*/edit');
     }
 
@@ -80,16 +80,16 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
     {
         $packageName = base64_decode(strtr($this->getRequest()->getParam('id'), '-_,', '+/='));
         if ($packageName) {
-            $session = Mage::getSingleton('connect/session');
+            $session = Mage::getSingleton('Mage_Connect_Model_Session');
             try {
-                $data = Mage::helper('connect')->loadLocalPackage($packageName);
+                $data = Mage::helper('Mage_Connect_Helper_Data')->loadLocalPackage($packageName);
                 if (!$data) {
-                    Mage::throwException(Mage::helper('connect')->__('Failed to load the package data.'));
+                    Mage::throwException(Mage::helper('Mage_Connect_Helper_Data')->__('Failed to load the package data.'));
                 }
                 $data = array_merge($data, array('file_name' => $packageName));
                 $session->setCustomExtensionPackageFormData($data);
                 $session->addSuccess(
-                    Mage::helper('connect')->__('The package %s data has been loaded.', $packageName)
+                    Mage::helper('Mage_Connect_Helper_Data')->__('The package %s data has been loaded.', $packageName)
                 );
             } catch (Exception $e) {
                 $session->addError($e->getMessage());
@@ -104,7 +104,7 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
      */
     public function saveAction()
     {
-        $session = Mage::getSingleton('connect/session');
+        $session = Mage::getSingleton('Mage_Connect_Model_Session');
         $p = $this->getRequest()->getPost();
 
         if (!empty($p['_create'])) {
@@ -118,13 +118,13 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
 
         $session->setCustomExtensionPackageFormData($p);
         try {
-            $ext = Mage::getModel('connect/extension');
+            $ext = Mage::getModel('Mage_Connect_Model_Extension');
             /** @var $ext Mage_Connect_Model_Extension */
             $ext->setData($p);
             if ($ext->savePackage()) {
-                $session->addSuccess(Mage::helper('connect')->__('The package data has been saved.'));
+                $session->addSuccess(Mage::helper('Mage_Connect_Helper_Data')->__('The package data has been saved.'));
             } else {
-                $session->addError(Mage::helper('connect')->__('There was a problem saving package data'));
+                $session->addError(Mage::helper('Mage_Connect_Helper_Data')->__('There was a problem saving package data'));
                 $this->_redirect('*/*/edit');
             }
             if (empty($create)) {
@@ -136,7 +136,7 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
             $session->addError($e->getMessage());
             $this->_redirect('*/*');
         } catch (Exception $e){
-            $session->addException($e, Mage::helper('connect')->__('Failed to save the package.'));
+            $session->addException($e, Mage::helper('Mage_Connect_Helper_Data')->__('Failed to save the package.'));
             $this->_redirect('*/*');
         }
     }
@@ -147,11 +147,11 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
      */
     public function createAction()
     {
-        $session = Mage::getSingleton('connect/session');
+        $session = Mage::getSingleton('Mage_Connect_Model_Session');
         try {
             $p = $this->getRequest()->getPost();
             $session->setCustomExtensionPackageFormData($p);
-            $ext = Mage::getModel('connect/extension');
+            $ext = Mage::getModel('Mage_Connect_Model_Extension');
             $ext->setData($p);
             $packageVersion = $this->getRequest()->getPost('version_ids');
             if (is_array($packageVersion)) {
@@ -167,7 +167,7 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
             $session->addError($e->getMessage());
             $this->_redirect('*/*');
         } catch(Exception $e){
-            $session->addException($e, Mage::helper('connect')->__('Failed to create the package.'));
+            $session->addException($e, Mage::helper('Mage_Connect_Helper_Data')->__('Failed to create the package.'));
             $this->_redirect('*/*');
         }
     }
@@ -199,6 +199,6 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/extensions/custom');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/extensions/custom');
     }
 }

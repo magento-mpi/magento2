@@ -66,19 +66,19 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Form extends Mage_Adminht
 
     protected function _prepareLayout()
     {
-//        $infoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_view_info')
+//        $infoBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_View_Info')
 //            ->setOrder($this->getShipment()->getOrder());
 //        $this->setChild('order_info', $infoBlock);
 
         $this->setChild(
             'items',
-            $this->getLayout()->createBlock('adminhtml/sales_order_shipment_create_items')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Items')
         );
         $this->setChild(
             'tracking',
-            $this->getLayout()->createBlock('adminhtml/sales_order_shipment_create_tracking')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Tracking')
         );
-//        $paymentInfoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_payment')
+//        $paymentInfoBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_Payment')
 //            ->setPayment($this->getShipment()->getOrder()->getPayment());
 //        $this->setChild('payment_info', $paymentInfoBlock);
 

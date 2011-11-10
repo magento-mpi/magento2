@@ -103,7 +103,7 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
                 'validate_types'    => array(),
                 'validate_filters'  => array(),
                 'filter_types'      => array(),
-                'source_model'      => 'eav/entity_attribute_source_table',
+                'source_model'      => 'Mage_Eav_Model_Entity_Attribute_Source_Table',
                 'backend_type'      => 'int',
                 'default_value'     => false,
             ),
@@ -189,17 +189,17 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
         }
 
         if (!isset($this->_attributeOptionValues[$storeId])) {
-            $optionCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+            $optionCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
                 ->setStoreFilter($storeId, $useDefaultValue);
 
             $optionCollection
                 ->getSelect()
                 ->join(
-                    array('ea' => Mage::getSingleton('core/resource')->getTableName('eav_attribute')),
+                    array('ea' => Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('eav_attribute')),
                     'main_table.attribute_id = ea.attribute_id',
                     array('attribute_code' => 'ea.attribute_code'))
                 ->join(
-                    array('eat' => Mage::getSingleton('core/resource')->getTableName('eav_entity_type')),
+                    array('eat' => Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('eav_entity_type')),
                     'ea.entity_type_id = eat.entity_type_id',
                     array(''))
                 ->where('eat.entity_type_code = ?', $this->_getEntityTypeCode());

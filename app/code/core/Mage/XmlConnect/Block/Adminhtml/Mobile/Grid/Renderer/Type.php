@@ -43,7 +43,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Grid_Renderer_Type
     public function render(Varien_Object $row)
     {
         $type = $row->getData($this->getColumn()->getIndex());
-        $devices = Mage::helper('xmlconnect')->getSupportedDevices();
+        $devices = Mage::helper('Mage_XmlConnect_Helper_Data')->getSupportedDevices();
         if (isset($devices[$type])) {
             return $devices[$type];
         } else {

@@ -31,17 +31,6 @@
             <version>1.6.0.0</version>
         </Mage_Media>
     </modules>
-    <global>
-        <models>
-            <media>
-                <class>Mage_Media_Model</class>
-                <resourceModel>media_resource</resourceModel>
-            </media>
-            <media_resource>
-                <class>Mage_Media_Model_File</class>
-            </media_resource>
-        </models>
-    </global>
     <adminhtml>
         <translate>
             <modules>

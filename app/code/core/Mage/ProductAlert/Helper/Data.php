@@ -41,7 +41,7 @@ class Mage_ProductAlert_Helper_Data extends Mage_Core_Helper_Url
 
     public function getCustomer()
     {
-        return Mage::getSingleton('customer/session');
+        return Mage::getSingleton('Mage_Customer_Model_Session');
     }
 
     public function getStore()
@@ -59,21 +59,14 @@ class Mage_ProductAlert_Helper_Data extends Mage_Core_Helper_Url
 
     public function createBlock($block)
     {
-        $error = Mage::helper('core')->__('Invalid block type: %s', $block);
         if (is_string($block)) {
-            if (strpos($block, '/') !== false) {
-                if (!$block = Mage::getConfig()->getBlockClassName($block)) {
-                    Mage::throwException($error);
-                }
-            }
-            $fileName = mageFindClassFile($block);
-            if ($fileName!==false) {
-                include_once ($fileName);
+            $block = Mage::getConfig()->getBlockClassName($block);
+            if (Magento_Autoload::getInstance()->classExists($block)) {
                 $block = new $block(array());
             }
         }
         if (!$block instanceof Mage_Core_Block_Abstract) {
-            Mage::throwException($error);
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block type: %s', $block));
         }
         return $block;
     }

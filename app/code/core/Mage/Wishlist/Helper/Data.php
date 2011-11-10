@@ -72,7 +72,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected function _getCustomerSession()
     {
-        return Mage::getSingleton('customer/session');
+        return Mage::getSingleton('Mage_Customer_Model_Session');
     }
 
     /**
@@ -110,7 +110,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
                 $this->_wishlist = Mage::registry('wishlist');
             }
             else {
-                $this->_wishlist = Mage::getModel('wishlist/wishlist');
+                $this->_wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist');
                 if ($this->_getCustomerSession()->isLoggedIn()) {
                     $this->_wishlist->loadByCustomer($this->_getCustomerSession()->getCustomer());
                 }
@@ -199,7 +199,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
             $this->_productCollection = $this->getWishlist()
                 ->getProductCollection();
 
-            Mage::getSingleton('catalog/product_visibility')
+            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
                 ->addVisibleInSiteFilterToCollection($this->_productCollection);
         }
         return $this->_productCollection;
@@ -329,7 +329,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAddToCartUrl($item)
     {
         $urlParamName = Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
-        $continueUrl  = Mage::helper('core')->urlEncode(
+        $continueUrl  = Mage::helper('Mage_Core_Helper_Data')->urlEncode(
             Mage::getUrl('*/*/*', array(
                 '_current'      => true,
                 '_use_rewrite'  => true,
@@ -353,7 +353,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getSharedAddToCartUrl($item)
     {
-        $continueUrl  = Mage::helper('core')->urlEncode(Mage::getUrl('*/*/*', array(
+        $continueUrl  = Mage::helper('Mage_Core_Helper_Data')->urlEncode(Mage::getUrl('*/*/*', array(
             '_current'      => true,
             '_use_rewrite'  => true,
             '_store_to_url' => true,
@@ -434,7 +434,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->_getUrl(
             'rss/index/wishlist',
             array(
-                'data' => Mage::helper('core')->urlEncode($key),
+                'data' => Mage::helper('Mage_Core_Helper_Data')->urlEncode($key),
                 '_secure' => false
             )
         );

@@ -49,7 +49,7 @@ class Mage_Catalog_Model_Product_Type_Configurable_Attribute extends Mage_Core_M
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_type_configurable_attribute');
+        $this->_init('Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute');
     }
 
     /**

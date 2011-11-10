@@ -20,15 +20,15 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Regexceptions extends Mage_A
     public function __construct()
     {
         $this->addColumn('search', array(
-            'label' => Mage::helper('adminhtml')->__('Search String'),
+            'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Search String'),
             'style' => 'width:120px',
         ));
         $this->addColumn('value', array(
-            'label' => Mage::helper('adminhtml')->__('Design Theme'),
+            'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Design Theme'),
             'style' => 'width:120px',
         ));
         $this->_addAfter = false;
-        $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add Exception');
+        $this->_addButtonLabel = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add Exception');
         parent::__construct();
     }
 
@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Regexceptions extends Mage_A
                 ->setForm($this->getForm())
                 ->setName($this->_getCellInputElementName($columnName))
                 ->setHtmlId($this->_getCellInputElementId('#{_id}', $columnName))
-                ->setValues(Mage::getModel('core/design_source_design')->getAllOptions(false));
+                ->setValues(Mage::getModel('Mage_Core_Model_Design_Source_Design')->getAllOptions(false));
             return str_replace("\n", '' , $element->getElementHtml());
         }
 

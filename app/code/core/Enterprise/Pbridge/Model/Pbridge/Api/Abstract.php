@@ -76,7 +76,7 @@ class Enterprise_Pbridge_Model_Pbridge_Api_Abstract extends Varien_Object
         if ($response) {
 
             $response = preg_split('/^\r?$/m', $response, 2);
-            $response = Mage::helper('core')->jsonDecode(trim($response[1]));
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonDecode(trim($response[1]));
 
             $debugData['result'] = $response;
             $this->_debug($debugData);
@@ -86,7 +86,7 @@ class Enterprise_Pbridge_Model_Pbridge_Api_Abstract extends Varien_Object
                     sprintf('Payment Bridge CURL connection error #%s: %s', $http->getErrno(), $http->getError())
                 ));
                 Mage::throwException(
-                    Mage::helper('enterprise_pbridge')->__('Unable to communicate with Payment Bridge service.')
+                    Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Unable to communicate with Payment Bridge service.')
                 );
             }
             if (isset($response['status']) && $response['status'] == 'Success') {
@@ -96,7 +96,7 @@ class Enterprise_Pbridge_Model_Pbridge_Api_Abstract extends Varien_Object
         } else {
             $response = array(
                 'status' => 'Fail',
-                'error' => Mage::helper('enterprise_pbridge')->__('Empty response received from Payment Bridge.')
+                'error' => Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Empty response received from Payment Bridge.')
             );
         }
         $this->_handleError($response);
@@ -116,7 +116,7 @@ class Enterprise_Pbridge_Model_Pbridge_Api_Abstract extends Varien_Object
         if (isset($response['status']) && $response['status'] == 'Fail' && isset($response['error'])) {
             Mage::throwException($response['error']);
         }
-        Mage::throwException(Mage::helper('enterprise_pbridge')->__('Payment gateway internal error.'));
+        Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payment gateway internal error.'));
     }
 
     /**
@@ -128,8 +128,8 @@ class Enterprise_Pbridge_Model_Pbridge_Api_Abstract extends Varien_Object
      */
     protected function _prepareRequestParams($request)
     {
-        $request = Mage::helper('enterprise_pbridge')->getRequestParams($request);
-        $request = array('data' => Mage::helper('enterprise_pbridge')->encrypt(json_encode($request)));
+        $request = Mage::helper('Enterprise_Pbridge_Helper_Data')->getRequestParams($request);
+        $request = array('data' => Mage::helper('Enterprise_Pbridge_Helper_Data')->encrypt(json_encode($request)));
         return http_build_query($request, '', '&');
     }
 
@@ -140,7 +140,7 @@ class Enterprise_Pbridge_Model_Pbridge_Api_Abstract extends Varien_Object
      */
     public function getPbridgeEndpoint()
     {
-        return Mage::helper('enterprise_pbridge')->getRequestUrl();
+        return Mage::helper('Enterprise_Pbridge_Helper_Data')->getRequestUrl();
     }
 
     /**

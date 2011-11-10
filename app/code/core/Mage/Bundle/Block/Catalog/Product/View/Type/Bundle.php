@@ -86,9 +86,9 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
         $selected     = array();
         $currentProduct = $this->getProduct();
         /* @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper   = Mage::helper('core');
+        $coreHelper   = Mage::helper('Mage_Core_Helper_Data');
         /* @var $bundlePriceModel Mage_Bundle_Model_Product_Price */
-        $bundlePriceModel = Mage::getModel('bundle/product_price');
+        $bundlePriceModel = Mage::getModel('Mage_Bundle_Model_Product_Price');
 
         if ($preConfiguredFlag = $currentProduct->hasPreconfiguredValues()) {
             $preConfiguredValues = $currentProduct->getPreconfiguredValues();
@@ -125,9 +125,6 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
                         $currentProduct->getQty(), $_selection->getQty(), false);
 
                 $canApplyMAP = false;
-
-                /* @var $taxHelper Mage_Tax_Helper_Data */
-                $taxHelper = Mage::helper('tax');
 
                 $_priceInclTax = $taxHelper->getPrice($_selection, $itemPrice, true);
                 $_priceExclTax = $taxHelper->getPrice($_selection, $itemPrice);
@@ -187,9 +184,9 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
             'basePrice'     => $coreHelper->currency($currentProduct->getPrice(), false, false),
             'priceType'     => $currentProduct->getPriceType(),
             'specialPrice'  => $currentProduct->getSpecialPrice(),
-            'includeTax'    => Mage::helper('tax')->priceIncludesTax() ? 'true' : 'false',
+            'includeTax'    => $taxHelper->priceIncludesTax() ? 'true' : 'false',
             'isFixedPrice'  => $this->getProduct()->getPriceType() == Mage_Bundle_Model_Product_Price::PRICE_TYPE_FIXED,
-            'isMAPAppliedDirectly' => Mage::helper('catalog')->canApplyMsrp($this->getProduct(), null, false)
+            'isMAPAppliedDirectly' => $catalogHelper->canApplyMsrp($this->getProduct(), null, false)
         );
 
         if ($preConfiguredFlag && !empty($defaultValues)) {

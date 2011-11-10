@@ -33,7 +33,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
     }
 
     /**
@@ -55,7 +55,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
     {
         Mage::dispatchEvent('adminhtml_cache_flush_all');
         Mage::app()->getCacheInstance()->flush();
-        $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__("The cache storage has been flushed."));
+        $this->_getSession()->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__("The cache storage has been flushed."));
         $this->_redirect('*/*');
     }
 
@@ -66,7 +66,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
     {
         Mage::app()->cleanCache();
         Mage::dispatchEvent('adminhtml_cache_flush_system');
-        $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__("The Magento cache storage has been flushed."));
+        $this->_getSession()->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__("The Magento cache storage has been flushed."));
         $this->_redirect('*/*');
     }
 
@@ -87,7 +87,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
         }
         if ($updatedTypes > 0) {
             Mage::app()->saveUseCache($allTypes);
-            $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__("%s cache type(s) enabled.", $updatedTypes));
+            $this->_getSession()->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) enabled.", $updatedTypes));
         }
         $this->_redirect('*/*');
     }
@@ -110,7 +110,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
         }
         if ($updatedTypes > 0) {
             Mage::app()->saveUseCache($allTypes);
-            $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__("%s cache type(s) disabled.", $updatedTypes));
+            $this->_getSession()->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) disabled.", $updatedTypes));
         }
         $this->_redirect('*/*');
     }
@@ -130,7 +130,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
             }
         }
         if ($updatedTypes > 0) {
-            $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__("%s cache type(s) refreshed.", $updatedTypes));
+            $this->_getSession()->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) refreshed.", $updatedTypes));
         }
         $this->_redirect('*/*');
     }
@@ -141,16 +141,16 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
     public function cleanMediaAction()
     {
         try {
-            Mage::getModel('core/design_package')->cleanMergedJsCss();
+            Mage::getModel('Mage_Core_Model_Design_Package')->cleanMergedJsCss();
             Mage::dispatchEvent('clean_media_cache_after');
             $this->_getSession()->addSuccess(
-                Mage::helper('adminhtml')->__('The JavaScript/CSS cache has been cleaned.')
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__('The JavaScript/CSS cache has been cleaned.')
             );
         }
         catch (Exception $e) {
             $this->_getSession()->addException(
                 $e,
-                Mage::helper('adminhtml')->__('An error occurred while clearing the JavaScript/CSS cache.')
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while clearing the JavaScript/CSS cache.')
             );
         }
         catch (Mage_Core_Exception $e) {
@@ -165,10 +165,10 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
     public function cleanImagesAction()
     {
         try {
-            Mage::getModel('catalog/product_image')->clearCache();
+            Mage::getModel('Mage_Catalog_Model_Product_Image')->clearCache();
             Mage::dispatchEvent('clean_catalog_images_cache_after');
             $this->_getSession()->addSuccess(
-                Mage::helper('adminhtml')->__('The image cache was cleaned.')
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__('The image cache was cleaned.')
             );
         }
         catch (Mage_Core_Exception $e) {
@@ -177,7 +177,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
         catch (Exception $e) {
             $this->_getSession()->addException(
                 $e,
-                Mage::helper('adminhtml')->__('An error occurred while clearing the image cache.')
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while clearing the image cache.')
             );
         }
         $this->_redirect('*/*');
@@ -190,6 +190,6 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/cache');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/cache');
     }
 }

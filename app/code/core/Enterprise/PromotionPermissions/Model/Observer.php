@@ -84,14 +84,13 @@ class Enterprise_PromotionPermissions_Model_Observer
     {
         $this->_request = Mage::app()->getRequest();
         // Set necessary flags
-        $this->_canEditCatalogRules = Mage::helper('enterprise_promotionpermissions')->getCanAdminEditCatalogRules();
-        $this->_canEditSalesRules = Mage::helper('enterprise_promotionpermissions')->getCanAdminEditSalesRules();
-        $this->_canEditReminderRules = Mage::helper('enterprise_promotionpermissions')->getCanAdminEditReminderRules();
+        $helper = Mage::helper('Enterprise_PromotionPermissions_Helper_Data');
+        $this->_canEditCatalogRules = $helper->getCanAdminEditCatalogRules();
+        $this->_canEditSalesRules = $helper->getCanAdminEditSalesRules();
+        $this->_canEditReminderRules = $helper->getCanAdminEditReminderRules();
 
-        $this->_isEnterpriseBannerEnabled = Mage::helper('enterprise_promotionpermissions')
-            ->isModuleEnabled('Enterprise_Banner');
-        $this->_isEnterpriseReminderEnabled = Mage::helper('enterprise_promotionpermissions')
-            ->isModuleEnabled('Enterprise_Reminder');
+        $this->_isEnterpriseBannerEnabled = $helper->isModuleEnabled('Enterprise_Banner');
+        $this->_isEnterpriseReminderEnabled = $helper->isModuleEnabled('Enterprise_Reminder');
     }
 
     /**
@@ -201,14 +200,14 @@ class Enterprise_PromotionPermissions_Model_Observer
             case 'related_catalogrule_banners_grid' :
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditCatalogRules) {
                     $block->getColumn('in_banners')
-                        ->setDisabledValues(Mage::getModel('enterprise_banner/banner')->getCollection()->getAllIds());
+                        ->setDisabledValues(Mage::getModel('Enterprise_Banner_Model_Banner')->getCollection()->getAllIds());
                     $block->getColumn('in_banners')->setDisabled(true);
                 }
                 break;
             case 'related_salesrule_banners_grid' :
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditSalesRules) {
                     $block->getColumn('in_banners')
-                        ->setDisabledValues(Mage::getModel('enterprise_banner/banner')->getCollection()->getAllIds());
+                        ->setDisabledValues(Mage::getModel('Enterprise_Banner_Model_Banner')->getCollection()->getAllIds());
                     $block->getColumn('in_banners')->setDisabled(true);
                 }
                 break;

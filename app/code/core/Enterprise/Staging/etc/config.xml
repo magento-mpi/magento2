@@ -32,15 +32,6 @@
         </Enterprise_Staging>
     </modules>
     <global>
-        <models>
-            <enterprise_staging>
-                <class>Enterprise_Staging_Model</class>
-                <resourceModel>enterprise_staging_resource</resourceModel>
-            </enterprise_staging>
-            <enterprise_staging_resource>
-                <class>Enterprise_Staging_Model_Resource</class>
-            </enterprise_staging_resource>
-        </models>
         <resources>
             <enterprise_staging_setup>
                 <setup>
@@ -49,16 +40,6 @@
                 </setup>
             </enterprise_staging_setup>
         </resources>
-        <blocks>
-            <enterprise_staging>
-                <class>Enterprise_Staging_Block</class>
-            </enterprise_staging>
-        </blocks>
-        <helpers>
-            <enterprise_staging>
-                <class>Enterprise_Staging_Helper</class>
-            </enterprise_staging>
-        </helpers>
         <enterprise>
             <staging>
                 <global_staging_table_prefix>s_</global_staging_table_prefix>
@@ -68,7 +49,7 @@
                         <module>Mage_Core</module>
                         <model>core</model>
                         <label>System Configuration</label>
-                        <resource_adapter>enterprise_staging/adapter_item_config</resource_adapter>
+                        <resource_adapter>Enterprise_Staging_Model_Resource_Adapter_Item_Config</resource_adapter>
                         <entities>
                             <config_data/>
                         </entities>
@@ -97,7 +78,7 @@
                         <module>Mage_Catalog</module>
                         <model>catalog</model>
                         <label>Catalog Categories</label>
-                        <resource_adapter>enterprise_staging/adapter_item_category</resource_adapter>
+                        <resource_adapter>Enterprise_Staging_Model_Resource_Adapter_Item_Category</resource_adapter>
                     </category>
                     <catalog_permissions translate="label">
                         <module>Enterprise_CatalogPermissions</module>
@@ -156,7 +137,7 @@
                         <entities>
                             <page_store/>
                         </entities>
-                        <resource_adapter>enterprise_staging/adapter_item_cms_page</resource_adapter>
+                        <resource_adapter>Enterprise_Staging_Model_Resource_Adapter_Item_Cms_Page</resource_adapter>
                     </cms_page>
                     <cms_block translate="label">
                         <module>Mage_Cms</module>
@@ -259,7 +240,7 @@
             <controller_front_init_before>
                 <observers>
                     <enterprise_staging>
-                        <class>enterprise_staging/observer</class>
+                        <class>Enterprise_Staging_Model_Observer</class>
                         <method>beforeFrontendInit</method>
                     </enterprise_staging>
                 </observers>
@@ -278,34 +259,31 @@
             <website_delete_commit_after>
                 <observers>
                     <enterprise_staging_delete_website>
-                        <class>enterprise_staging/observer</class>
+                        <class>Enterprise_Staging_Model_Observer</class>
                         <method>deleteWebsite</method>
                     </enterprise_staging_delete_website>
                 </observers>
             </website_delete_commit_after>
-
             <catalog_product_save_before>
                 <observers>
                     <enterprise_staging_remember_product_original_website_ids>
-                        <class>enterprise_staging/observer</class>
+                        <class>Enterprise_Staging_Model_Observer</class>
                         <method>rememberProductOriginalWebsiteIds</method>
                     </enterprise_staging_remember_product_original_website_ids>
                 </observers>
             </catalog_product_save_before>
-
             <catalog_product_save_after>
                 <observers>
                     <enterprise_staging_change_unlinked_product_website_association>
-                        <class>enterprise_staging/observer</class>
+                        <class>Enterprise_Staging_Model_Observer</class>
                         <method>changeUnlinkedProductWebsiteAssociation</method>
                     </enterprise_staging_change_unlinked_product_website_association>
                 </observers>
             </catalog_product_save_after>
-
             <catalog_product_website_update>
                 <observers>
                     <enterprise_staging_mass_product_website_update>
-                        <class>enterprise_staging/observer</class>
+                        <class>Enterprise_Staging_Model_Observer</class>
                         <method>massProductWebsiteUpdate</method>
                     </enterprise_staging_mass_product_website_update>
                 </observers>
@@ -335,7 +313,7 @@
             <resource_get_tablename>
                 <observers>
                     <enterprise_staging_get_table_name>
-                        <class>enterprise_staging/observer</class>
+                        <class>Enterprise_Staging_Model_Observer</class>
                         <method>getTableName</method>
                     </enterprise_staging_get_table_name>
                 </observers>
@@ -343,7 +321,7 @@
             <websiterestriction_frontend>
                 <observers>
                     <enterprise_staging>
-                        <class>enterprise_staging/observer</class>
+                        <class>Enterprise_Staging_Model_Observer</class>
                         <method>takeFrontendDown</method>
                     </enterprise_staging>
                 </observers>
@@ -377,7 +355,7 @@
                     <cron_expr>* * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>enterprise_staging/observer::automates</model>
+                    <model>Enterprise_Staging_Model_Observer::automates</model>
                 </run>
             </enterprise_staging_automates>
         </jobs>

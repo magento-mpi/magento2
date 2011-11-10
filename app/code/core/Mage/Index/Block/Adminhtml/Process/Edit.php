@@ -31,14 +31,14 @@ class Mage_Index_Block_Adminhtml_Process_Edit extends Mage_Adminhtml_Block_Widge
     {
         $this->_objectId = 'process_id';
         $this->_controller = 'adminhtml_process';
-        $this->_blockGroup = 'index';
+        $this->_blockGroup = 'Mage_Index';
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('cms')->__('Save Process'));
+        $this->_updateButton('save', 'label', Mage::helper('Mage_Cms_Helper_Data')->__('Save Process'));
         if (Mage::registry('current_index_process')) {
             $this->_addButton('reindex', array(
-                'label'     => Mage::helper('index')->__('Reindex Data'),
+                'label'     => Mage::helper('Mage_Index_Helper_Data')->__('Reindex Data'),
                 'onclick'   => "setLocation('{$this->getRunUrl()}')"
             ));
         }
@@ -77,7 +77,7 @@ class Mage_Index_Block_Adminhtml_Process_Edit extends Mage_Adminhtml_Block_Widge
     {
         $process = Mage::registry('current_index_process');
         if ($process && $process->getId()) {
-            return Mage::helper('index')->__("'%s' Index Process Information", $process->getIndexer()->getName());
+            return Mage::helper('Mage_Index_Helper_Data')->__("'%s' Index Process Information", $process->getIndexer()->getName());
         }
     }
 }

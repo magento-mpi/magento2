@@ -44,15 +44,6 @@
             <google2>Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)</google2>
             <google3>Googlebot/2.1 (+http://www.googlebot.com/bot.html)</google3>
         </ignore_user_agents>
-        <models>
-            <log>
-                <class>Mage_Log_Model</class>
-                <resourceModel>log_resource</resourceModel>
-            </log>
-            <log_resource>
-                <class>Mage_Log_Model_Resource</class>
-            </log_resource>
-        </models>
         <resources>
             <log_setup>
                 <setup>
@@ -62,7 +53,7 @@
         </resources>
         <template>
             <email>
-                <system_log_error_email_template translate="label" module="log">
+                <system_log_error_email_template translate="label" module="Mage_Log">
                     <label>Log Cleanup Warnings</label>
                     <file>email/cleanup_warning.html</file>
                     <type>text</type>
@@ -75,7 +66,7 @@
             <controller_action_predispatch>
                 <observers>
                     <log>
-                        <class>log/visitor</class>
+                        <class>Mage_Log_Model_Visitor</class>
                         <method>initByRequest</method>
                     </log>
                 </observers>
@@ -83,7 +74,7 @@
             <controller_action_postdispatch>
                 <observers>
                     <log>
-                        <class>log/visitor</class>
+                        <class>Mage_Log_Model_Visitor</class>
                         <method>saveByRequest</method>
                     </log>
                 </observers>
@@ -91,7 +82,7 @@
             <customer_login>
                 <observers>
                     <log>
-                        <class>log/visitor</class>
+                        <class>Mage_Log_Model_Visitor</class>
                         <method>bindCustomerLogin</method>
                     </log>
                 </observers>
@@ -99,7 +90,7 @@
             <customer_logout>
                 <observers>
                     <log>
-                        <class>log/visitor</class>
+                        <class>Mage_Log_Model_Visitor</class>
                         <method>bindCustomerLogout</method>
                     </log>
                 </observers>
@@ -107,7 +98,7 @@
             <sales_quote_save_after>
                 <observers>
                     <log>
-                        <class>log/visitor</class>
+                        <class>Mage_Log_Model_Visitor</class>
                         <method>bindQuoteCreate</method>
                     </log>
                 </observers>
@@ -115,7 +106,7 @@
             <checkout_quote_destroy>
                 <observers>
                     <log>
-                        <class>log/visitor</class>
+                        <class>Mage_Log_Model_Visitor</class>
                         <method>bindQuoteDestroy</method>
                     </log>
                 </observers>
@@ -155,7 +146,7 @@
         <jobs>
             <log_clean>
                 <run>
-                    <model>log/cron::logClean</model>
+                    <model>Mage_Log_Model_Cron::logClean</model>
                 </run>
             </log_clean>
         </jobs>

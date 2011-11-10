@@ -55,7 +55,7 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Edit_Form
         if (null !== Mage::registry('current_template')) {
             $templateModel = Mage::registry('current_template');
         } else {
-            $templateModel = Mage::getModel('xmlconnect/template')->load($model->getTemplateId());
+            $templateModel = Mage::getModel('Mage_XmlConnect_Model_Template')->load($model->getTemplateId());
         }
 
         $fieldset = $this->getForm()->addFieldset(
@@ -71,12 +71,12 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Edit_Form
         }
 
         // set exec_time for showing accordingly to locale datetime settings
-        $model->setExecTime(Mage::getSingleton('core/date')->date(null, $model->getExecTime()));
+        $model->setExecTime(Mage::getSingleton('Mage_Core_Model_Date')->date(null, $model->getExecTime()));
 
         /** @var $sovereignField Varien_Data_Form_Element_Abstract */
         $sovereignField = $fieldset->addField('type', 'select', array(
             'name'      => 'type',
-            'values'    => Mage::helper('xmlconnect')->getMessageTypeOptions(),
+            'values'    => Mage::helper('Mage_XmlConnect_Helper_Data')->getMessageTypeOptions(),
             'label'     => $this->__('Message Type'),
             'title'     => $this->__('Message Type'),
             'disabled'  => !$this->_fieldsEnabled,
@@ -99,7 +99,7 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Edit_Form
 
         // field dependencies
         if (isset($this->_dependentFields['message_title']) || isset($this->_dependentFields['content'])) {
-            $dependenceBlock = $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence');
+            $dependenceBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence');
 
             $dependenceBlock->addFieldMap(
                 $this->_dependentFields['message_title']->getHtmlId(),

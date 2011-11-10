@@ -56,8 +56,8 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('log/visitor');
-        $userAgent = Mage::helper('core/http')->getHttpUserAgent();
+        $this->_init('Mage_Log_Model_Resource_Visitor');
+        $userAgent = Mage::helper('Mage_Core_Helper_Http')->getHttpUserAgent();
         $ignoreAgents = Mage::getConfig()->getNode('global/ignore_user_agents');
         if ($ignoreAgents) {
             $ignoreAgents = $ignoreAgents->asArray();
@@ -74,7 +74,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('core/session');
+        return Mage::getSingleton('Mage_Core_Model_Session');
     }
 
     /**
@@ -85,7 +85,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
     public function initServerData()
     {
         /* @var $helper Mage_Core_Helper_Http */
-        $helper = Mage::helper('core/http');
+        $helper = Mage::helper('Mage_Core_Helper_Http');
 
         $this->addData(array(
             'server_addr'           => $helper->getServerAddr(true),
@@ -261,7 +261,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
         if( intval($customerId) <= 0 ) {
             return $this;
         }
-        $customerData = Mage::getModel('customer/customer')->load($customerId);
+        $customerData = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
         $newCustomerData = array();
         foreach( $customerData->getData() as $propName => $propValue ) {
             $newCustomerData['customer_' . $propName] = $propValue;
@@ -277,7 +277,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
         if( intval($quoteId) <= 0 ) {
             return $this;
         }
-        $data->setQuoteData(Mage::getModel('sales/quote')->load($quoteId));
+        $data->setQuoteData(Mage::getModel('Mage_Sales_Model_Quote')->load($quoteId));
         return $this;
     }
 

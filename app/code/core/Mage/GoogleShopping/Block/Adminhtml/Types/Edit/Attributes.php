@@ -47,18 +47,18 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
     protected function _prepareLayout()
     {
         $this->setChild('add_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('googleshopping')->__('Add New Attribute'),
+                    'label' => Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Add New Attribute'),
                     'class' => 'add',
                     'id'    => 'add_new_attribute',
                     'on_click' => 'gContentAttribute.add()'
                 ))
         );
         $this->setChild('delete_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('googleshopping')->__('Remove'),
+                    'label' => Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Remove'),
                     'class' => 'delete delete-product-option',
                     'on_click' => 'gContentAttribute.remove(event)'
                 ))
@@ -96,7 +96,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
     {
         $options[] = array('label' => $this->__('Custom attribute, no mapping'));
 
-        $attributesTree = Mage::getSingleton('googleshopping/config')
+        $attributesTree = Mage::getSingleton('Mage_GoogleShopping_Model_Config')
             ->getAttributesByCountry($this->getTargetCountry());
 
         foreach ($attributesTree as $destination => $attributes) {
@@ -116,7 +116,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
             );
         }
 
-        $select = $this->getLayout()->createBlock('googleshopping/adminhtml_types_edit_select')
+        $select = $this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Select')
             ->setId($this->getFieldId().'_{{index}}_gattribute')
             ->setName($this->getFieldName().'[{{index}}][gcontent_attribute]')
             ->setOptions($options);
@@ -132,7 +132,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
      */
     public function getAttributesSelectHtml($escapeJsQuotes = false)
     {
-        $select = $this->getLayout()->createBlock('adminhtml/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
             ->setId($this->getFieldId().'_{{index}}_attribute')
             ->setName($this->getFieldName().'[{{index}}][attribute_id]')
             ->setOptions($this->_getAttributes($this->getAttributeSetId(), $escapeJsQuotes));
@@ -169,7 +169,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
      */
     public function _getAttributes($setId, $escapeJsQuotes = false)
     {
-        $attributes = Mage::getModel('googleshopping/attribute')->getAllowedAttributes($setId);
+        $attributes = Mage::getModel('Mage_GoogleShopping_Model_Attribute')->getAllowedAttributes($setId);
         $result = array();
 
         foreach ($attributes as $attribute) {
@@ -189,7 +189,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
      */
     protected function _toJson($data)
     {
-        return Mage::helper('core')->jsonEncode($data);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
     }
 
     /**

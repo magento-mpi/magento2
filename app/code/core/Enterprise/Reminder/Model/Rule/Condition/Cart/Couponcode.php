@@ -33,7 +33,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_reminder/rule_condition_cart_couponcode');
+        $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode');
         $this->setValue(1);
     }
 
@@ -45,7 +45,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('enterprise_reminder')->__('Coupon Code'));
+            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Coupon Code'));
     }
 
     /**
@@ -56,7 +56,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Shopping cart %s a coupon applied',
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Shopping cart %s a coupon applied',
                 $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
@@ -79,8 +79,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            '1' => Mage::helper('enterprise_reminder')->__('has'),
-            '0' => Mage::helper('enterprise_reminder')->__('does not have')
+            '1' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('has'),
+            '0' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('does not have')
         ));
         return $this;
     }
@@ -106,7 +106,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode
             . "quote.coupon_code IS NOT NULL AND quote.coupon_code <> " . $select->getAdapter()->quote('') . ")");
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
 
-        Mage::getResourceHelper('enterprise_reminder')->setRuleLimit($select, 1);
+        Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
 
         return $select;
     }

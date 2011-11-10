@@ -40,15 +40,15 @@ class Enterprise_Staging_Model_System_Config_Source_Down extends Varien_Object
         return array(
             array(
                 'value' => 0,
-                'label' => Mage::helper('enterprise_staging')->__('No'),
+                'label' => Mage::helper('Enterprise_Staging_Helper_Data')->__('No'),
             ),
             array(
                 'value' => 1,
-                'label' => Mage::helper('enterprise_staging')->__('Close Entire Frontend'),
+                'label' => Mage::helper('Enterprise_Staging_Helper_Data')->__('Close Entire Frontend'),
             ),
             array(
                 'value' => 2,
-                'label' => Mage::helper('enterprise_staging')->__('Close only relevant websites'),
+                'label' => Mage::helper('Enterprise_Staging_Helper_Data')->__('Close only relevant websites'),
             ),
         );
     }

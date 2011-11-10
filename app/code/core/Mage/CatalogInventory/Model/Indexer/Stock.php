@@ -91,7 +91,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
      */
     protected function _construct()
     {
-        $this->_init('cataloginventory/indexer_stock');
+        $this->_init('Mage_CatalogInventory_Model_Resource_Indexer_Stock');
     }
 
     /**
@@ -111,7 +111,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
      */
     public function getName()
     {
-        return Mage::helper('cataloginventory')->__('Stock Status');
+        return Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Stock Status');
     }
 
     /**
@@ -121,7 +121,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
      */
     public function getDescription()
     {
-        return Mage::helper('cataloginventory')->__('Index Product Stock Status');
+        return Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Index Product Stock Status');
     }
 
     /**
@@ -202,9 +202,9 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
                 if ($event->getEntity() == Mage_Core_Model_Config_Data::ENTITY) {
                     $configData = $event->getDataObject();
                     if ($configData->getPath() == Mage_CatalogInventory_Helper_Data::XML_PATH_SHOW_OUT_OF_STOCK) {
-                        Mage::getSingleton('index/indexer')->getProcessByCode('catalog_product_price')
+                        Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_product_price')
                             ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
-                        Mage::getSingleton('index/indexer')->getProcessByCode('catalog_product_attribute')
+                        Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_product_attribute')
                             ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
                     }
                 }
@@ -266,7 +266,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
 
         // Saving stock item without product object
         // Register re-index price process if products out of stock hidden on Front-end
-        if (!Mage::helper('cataloginventory')->isShowOutOfStock() && !$object->getProduct()) {
+        if (!Mage::helper('Mage_CatalogInventory_Helper_Data')->isShowOutOfStock() && !$object->getProduct()) {
             $event->addNewData('force_reindex_required', 1);
         }
 

@@ -402,7 +402,7 @@ class Mage_Core_Model_App
             $options = array();
         }
         $options = array_merge($options, $cacheInitOptions);
-        $this->_cache = Mage::getModel('core/cache', $options);
+        $this->_cache = Mage::getModel('Mage_Core_Model_Cache', $options);
         $this->_isCacheLocked = false;
         return $this;
     }
@@ -503,7 +503,7 @@ class Mage_Core_Model_App
      */
     public function getCookie()
     {
-        return Mage::getSingleton('core/cookie');
+        return Mage::getSingleton('Mage_Core_Model_Cookie');
     }
 
     /**
@@ -608,17 +608,17 @@ class Mage_Core_Model_App
         $this->_websites = array();
 
         /** @var $websiteCollection Mage_Core_Model_Website */
-        $websiteCollection = Mage::getModel('core/website')->getCollection()
+        $websiteCollection = Mage::getModel('Mage_Core_Model_Website')->getCollection()
                 ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Website::CACHE_TAG))
                 ->setLoadDefault(true);
 
         /** @var $websiteCollection Mage_Core_Model_Store_Group */
-        $groupCollection = Mage::getModel('core/store_group')->getCollection()
+        $groupCollection = Mage::getModel('Mage_Core_Model_Store_Group')->getCollection()
                 ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Store_Group::CACHE_TAG))
                 ->setLoadDefault(true);
 
         /** @var $websiteCollection Mage_Core_Model_Store */
-        $storeCollection = Mage::getModel('core/store')->getCollection()
+        $storeCollection = Mage::getModel('Mage_Core_Model_Store')->getCollection()
             ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Store::CACHE_TAG))
             ->setLoadDefault(true);
 
@@ -831,7 +831,7 @@ class Mage_Core_Model_App
         }
 
         if (empty($this->_stores[$id])) {
-            $store = Mage::getModel('core/store');
+            $store = Mage::getModel('Mage_Core_Model_Store');
             /* @var $store Mage_Core_Model_Store */
             if (is_numeric($id)) {
                 $store->load($id);
@@ -865,7 +865,7 @@ class Mage_Core_Model_App
                 return new Varien_Object();
             }
             else {
-                Mage::throwException(Mage::helper('core')->__('Requested invalid store "%s"', $id));
+                Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Requested invalid store "%s"', $id));
             }
         }
     }
@@ -898,7 +898,7 @@ class Mage_Core_Model_App
     protected function _getDefaultStore()
     {
         if (empty($this->_store)) {
-            $this->_store = Mage::getModel('core/store')
+            $this->_store = Mage::getModel('Mage_Core_Model_Store')
                 ->setId(self::DISTRO_STORE_ID)
                 ->setCode(self::DISTRO_STORE_CODE);
         }
@@ -944,7 +944,7 @@ class Mage_Core_Model_App
         }
 
         if (empty($this->_websites[$id])) {
-            $website = Mage::getModel('core/website');
+            $website = Mage::getModel('Mage_Core_Model_Website');
             if (is_numeric($id)) {
                 $website->load($id);
                 if (!$website->hasWebsiteId()) {
@@ -996,7 +996,7 @@ class Mage_Core_Model_App
             return $id;
         }
         if (empty($this->_groups[$id])) {
-            $group = Mage::getModel('core/store_group');
+            $group = Mage::getModel('Mage_Core_Model_Store_Group');
             if (is_numeric($id)) {
                 $group->load($id);
                 if (!$group->hasGroupId()) {
@@ -1016,7 +1016,7 @@ class Mage_Core_Model_App
     public function getLocale()
     {
         if (!$this->_locale) {
-            $this->_locale = Mage::getSingleton('core/locale');
+            $this->_locale = Mage::getSingleton('Mage_Core_Model_Locale');
         }
         return $this->_locale;
     }
@@ -1032,7 +1032,7 @@ class Mage_Core_Model_App
             if ($this->getFrontController()->getAction()) {
                 $this->_layout = $this->getFrontController()->getAction()->getLayout();
             } else {
-                $this->_layout = Mage::getSingleton('core/layout');
+                $this->_layout = Mage::getSingleton('Mage_Core_Model_Layout');
             }
         }
         return $this->_layout;
@@ -1046,7 +1046,7 @@ class Mage_Core_Model_App
     public function getTranslator()
     {
         if (!$this->_translator) {
-            $this->_translator = Mage::getSingleton('core/translate');
+            $this->_translator = Mage::getSingleton('Mage_Core_Model_Translate');
         }
         return $this->_translator;
     }

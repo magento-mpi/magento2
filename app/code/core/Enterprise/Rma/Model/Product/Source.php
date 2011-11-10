@@ -55,15 +55,15 @@ class Enterprise_Rma_Model_Product_Source extends Mage_Eav_Model_Entity_Attribut
         if (!$this->_options) {
             $this->_options = array(
                 array(
-                    'label' => Mage::helper('enterprise_rma')->__('Yes'),
+                    'label' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Yes'),
                     'value' => self::ATTRIBUTE_ENABLE_RMA_YES
                 ),
                 array(
-                    'label' => Mage::helper('enterprise_rma')->__('No'),
+                    'label' => Mage::helper('Enterprise_Rma_Helper_Data')->__('No'),
                     'value' => self::ATTRIBUTE_ENABLE_RMA_NO
                 ),
                 array(
-                    'label' => Mage::helper('enterprise_rma')->__('Use config'),
+                    'label' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Use config'),
                     'value' => self::ATTRIBUTE_ENABLE_RMA_USE_CONFIG
                 )
             );

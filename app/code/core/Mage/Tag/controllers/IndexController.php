@@ -39,7 +39,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
      */
     public function saveAction()
     {
-        $customerSession = Mage::getSingleton('customer/session');
+        $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
         if(!$customerSession->authenticate($this)) {
             return;
         }
@@ -47,8 +47,8 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
         $productId  = (int)$this->getRequest()->getParam('product');
 
         if(strlen($tagName) && $productId) {
-            $session = Mage::getSingleton('catalog/session');
-            $product = Mage::getModel('catalog/product')
+            $session = Mage::getSingleton('Mage_Catalog_Model_Session');
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->load($productId);
             if(!$product->getId()){
                 $session->addError($this->__('Unable to save tag(s).'));
@@ -57,7 +57,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                     $customerId = $customerSession->getCustomerId();
                     $storeId = Mage::app()->getStore()->getId();
 
-                    $tagModel = Mage::getModel('tag/tag');
+                    $tagModel = Mage::getModel('Mage_Tag_Model_Tag');
 
                     // added tag relation statuses
                     $counter = array(
@@ -112,7 +112,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
      */
     protected function _cleanTags(array $tagNamesArr)
     {
-        $helper = Mage::helper('core');
+        $helper = Mage::helper('Mage_Core_Helper_Data');
         foreach( $tagNamesArr as $key => $tagName ) {
             $tagNamesArr[$key] = trim($tagNamesArr[$key], '\'');
             $tagNamesArr[$key] = trim($tagNamesArr[$key]);
@@ -132,7 +132,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
      */
     protected function _fillMessageBox($counter)
     {
-        $session = Mage::getSingleton('catalog/session');
+        $session = Mage::getSingleton('Mage_Catalog_Model_Session');
 
         if (count($counter[Mage_Tag_Model_Tag::ADD_STATUS_NEW])) {
             $session->addSuccess($this->__('%s tag(s) have been accepted for moderation.',

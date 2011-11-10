@@ -48,7 +48,7 @@
             <action method="addItem"><type>skin_js</type><name>js/bundle_product_view.js</name></action>
         </reference>
         <reference name="product.info">
-            <block type="enterprise_giftregistry/product_view" name="product.customize.button"/>
+            <block type="Enterprise_GiftRegistry_Block_Product_View" name="product.customize.button"/>
         </reference>
     </PRODUCT_TYPE_bundle>
 </layout>

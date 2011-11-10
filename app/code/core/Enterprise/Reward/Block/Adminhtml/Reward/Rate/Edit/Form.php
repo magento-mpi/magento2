@@ -58,40 +58,40 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Mage_Admin
         ));
         $form->setFieldNameSuffix('rate');
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => Mage::helper('enterprise_reward')->__('Reward Exchange Rate Information')
+            'legend' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Reward Exchange Rate Information')
         ));
 
         $fieldset->addField('website_id', 'select', array(
             'name'   => 'website_id',
-            'title'  => Mage::helper('enterprise_reward')->__('Website'),
-            'label'  => Mage::helper('enterprise_reward')->__('Website'),
-            'values' => Mage::getModel('enterprise_reward/source_website')->toOptionArray()
+            'title'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
+            'label'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
+            'values' => Mage::getModel('Enterprise_Reward_Model_Source_Website')->toOptionArray()
         ));
 
         $fieldset->addField('customer_group_id', 'select', array(
             'name'   => 'customer_group_id',
-            'title'  => Mage::helper('enterprise_reward')->__('Customer Group'),
-            'label'  => Mage::helper('enterprise_reward')->__('Customer Group'),
-            'values' => Mage::getModel('enterprise_reward/source_customer_groups')->toOptionArray()
+            'title'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Customer Group'),
+            'label'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Customer Group'),
+            'values' => Mage::getModel('Enterprise_Reward_Model_Source_Customer_Groups')->toOptionArray()
         ));
 
         $fieldset->addField('direction', 'select', array(
             'name'   => 'direction',
-            'title'  => Mage::helper('enterprise_reward')->__('Direction'),
-            'label'  => Mage::helper('enterprise_reward')->__('Direction'),
+            'title'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Direction'),
+            'label'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Direction'),
             'values' => $this->getRate()->getDirectionsOptionArray()
         ));
 
         $rateRenderer = $this->getLayout()
-            ->createBlock('enterprise_reward/adminhtml_reward_rate_edit_form_renderer_rate')
+            ->createBlock('Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form_Renderer_Rate')
             ->setRate($this->getRate());
         $fromIndex = $this->getRate()->getDirection() == Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
                    ? 'points' : 'currency_amount';
         $toIndex = $this->getRate()->getDirection() == Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
                  ? 'currency_amount' : 'points';
         $fieldset->addField('rate_to_currency', 'note', array(
-            'title'             => Mage::helper('enterprise_reward')->__('Rate'),
-            'label'             => Mage::helper('enterprise_reward')->__('Rate'),
+            'title'             => Mage::helper('Enterprise_Reward_Helper_Data')->__('Rate'),
+            'label'             => Mage::helper('Enterprise_Reward_Helper_Data')->__('Rate'),
             'value_index'       => $fromIndex,
             'equal_value_index' => $toIndex
         ))->setRenderer($rateRenderer);

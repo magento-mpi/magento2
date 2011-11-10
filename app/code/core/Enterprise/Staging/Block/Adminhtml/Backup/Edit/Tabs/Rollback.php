@@ -53,12 +53,14 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback extends Mage_
     {
         $this->setChild('website_store_form',
             $this->getLayout()
-                ->createBlock('enterprise_staging/adminhtml_backup_edit_tabs_rollback_store')
+                ->createBlock('Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback_Store')
         );
 
         $this->setChild('rollbackGrid',
-            $this->getLayout()->createBlock('enterprise_staging/adminhtml_backup_edit_tabs_rollback_items', 'staging.rollback.items')
-                ->setExtendInfo($this->getBackup()->getItemVersionCheck()));
+            $this->getLayout()->createBlock(
+                'Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback_Items',
+                'staging.rollback.items'
+            )->setExtendInfo($this->getBackup()->getItemVersionCheck()));
 
         return parent::_prepareLayout();
     }
@@ -139,7 +141,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback extends Mage_
         if (!$stores) {
             return '{}';
         } else {
-            return Mage::helper('core')->jsonEncode($stores);
+            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($stores);
         }
     }
 

@@ -35,11 +35,11 @@ class Enterprise_PageCache_Model_Container_Messages extends Enterprise_PageCache
      * @var array
      */
     protected $_messageStoreTypes = array(
-        'core/session',
-        'customer/session',
-        'catalog/session',
-        'checkout/session',
-        'tag/session'
+        'Mage_Core_Model_Session',
+        'Mage_Customer_Model_Session',
+        'Mage_Catalog_Model_Session',
+        'Mage_Checkout_Model_Session',
+        'Mage_Tag_Model_Session'
     );
 
     /**
@@ -74,7 +74,7 @@ class Enterprise_PageCache_Model_Container_Messages extends Enterprise_PageCache
      */
     protected function _renderBlock()
     {
-        Mage::getSingleton('core/cookie')->delete(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE);
+        Mage::getSingleton('Mage_Core_Model_Cookie')->delete(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE);
 
         $block = $this->_placeholder->getAttribute('block');
         $block = new $block;

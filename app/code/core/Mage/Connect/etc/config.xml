@@ -31,18 +31,6 @@
             <version>1.6.0.0</version>
         </Mage_Connect>
     </modules>
-    <global>
-        <models>
-            <connect>
-                <class>Mage_Connect_Model</class>
-            </connect>
-        </models>
-        <blocks>
-            <connect>
-                <class>Mage_Connect_Block</class>
-            </connect>
-        </blocks>
-    </global>
     <admin>
         <routers>
             <adminhtml>

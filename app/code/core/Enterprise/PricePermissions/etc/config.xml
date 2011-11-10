@@ -31,29 +31,12 @@
             <version>1.11.0.0</version>
         </Enterprise_PricePermissions>
     </modules>
-    <global>
-        <models>
-            <enterprise_pricepermissions>
-                <class>Enterprise_PricePermissions_Model</class>
-            </enterprise_pricepermissions>
-        </models>
-        <helpers>
-            <enterprise_pricepermissions>
-                <class>Enterprise_PricePermissions_Helper</class>
-            </enterprise_pricepermissions>
-        </helpers>
-        <blocks>
-            <enterprise_pricepermissions>
-                <class>Enterprise_PricePermissions_Block</class>
-            </enterprise_pricepermissions>
-        </blocks>
-    </global>
     <adminhtml>
         <events>
             <core_block_abstract_to_html_before>
                 <observers>
                     <enterprise_pricepermissions>
-                        <class>enterprise_pricepermissions/observer</class>
+                        <class>Enterprise_PricePermissions_Model_Observer</class>
                         <method>coreBlockAbstractToHtmlBefore</method>
                     </enterprise_pricepermissions>
                 </observers>
@@ -61,7 +44,7 @@
             <adminhtml_block_html_before>
                 <observers>
                     <enterprise_pricepermissions>
-                        <class>enterprise_pricepermissions/observer</class>
+                        <class>Enterprise_PricePermissions_Model_Observer</class>
                         <method>adminhtmlBlockHtmlBefore</method>
                     </enterprise_pricepermissions>
                 </observers>
@@ -69,7 +52,7 @@
             <catalog_product_load_after>
                 <observers>
                     <enterprise_pricepermissions>
-                        <class>enterprise_pricepermissions/observer</class>
+                        <class>Enterprise_PricePermissions_Model_Observer</class>
                         <method>catalogProductLoadAfter</method>
                     </enterprise_pricepermissions>
                 </observers>
@@ -77,7 +60,7 @@
             <adminhtml_catalog_product_edit_prepare_form>
                 <observers>
                     <enterprise_pricepermissions>
-                        <class>enterprise_pricepermissions/observer</class>
+                        <class>Enterprise_PricePermissions_Model_Observer</class>
                         <method>adminhtmlCatalogProductEditPrepareForm</method>
                     </enterprise_pricepermissions>
                 </observers>
@@ -85,7 +68,7 @@
             <catalog_product_save_before>
                 <observers>
                     <enterprise_pricepermissions>
-                        <class>enterprise_pricepermissions/observer</class>
+                        <class>Enterprise_PricePermissions_Model_Observer</class>
                         <method>catalogProductSaveBefore</method>
                     </enterprise_pricepermissions>
                 </observers>
@@ -93,7 +76,7 @@
             <catalog_product_prepare_save>
                 <observers>
                     <enterprise_pricepermissions>
-                        <class>enterprise_pricepermissions/observer</class>
+                        <class>Enterprise_PricePermissions_Model_Observer</class>
                         <method>catalogProductPrepareSave</method>
                     </enterprise_pricepermissions>
                 </observers>
@@ -101,7 +84,7 @@
             <adminhtml_catalog_product_form_prepare_excluded_field_list>
                 <observers>
                     <enterprise_pricepermissions>
-                        <class>enterprise_pricepermissions/observer</class>
+                        <class>Enterprise_PricePermissions_Model_Observer</class>
                         <method>adminhtmlCatalogProductFormPrepareExcludedFieldList</method>
                     </enterprise_pricepermissions>
                 </observers>
@@ -109,7 +92,7 @@
             <catalog_product_attribute_update_before>
                 <observers>
                     <enterprise_pricepermissions>
-                        <class>enterprise_pricepermissions/observer</class>
+                        <class>Enterprise_PricePermissions_Model_Observer</class>
                         <method>catalogProductAttributeUpdateBefore</method>
                     </enterprise_pricepermissions>
                 </observers>
@@ -117,7 +100,7 @@
             <controller_action_predispatch>
                 <observers>
                     <enterprise_pricepermissions>
-                        <class>enterprise_pricepermissions/observer</class>
+                        <class>Enterprise_PricePermissions_Model_Observer</class>
                         <method>adminControllerPredispatch</method>
                     </enterprise_pricepermissions>
                 </observers>

@@ -43,11 +43,11 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Detail_Grid extends Mage_Adminhtml
     protected function _prepareCollection()
     {
 
-        $collection = Mage::getResourceModel('reports/tag_product_collection');
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Tag_Product_Collection');
 
         $collection->addTagedCount()
             ->addProductFilter($this->getRequest()->getParam('id'))
-            ->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus())
+            ->addStatusFilter(Mage::getModel('Mage_Tag_Model_Tag')->getApprovedStatus())
             ->addStoresVisibility()
             ->setActiveFilter()
             ->addGroupByTag()
@@ -61,19 +61,19 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Detail_Grid extends Mage_Adminhtml
     {
 
         $this->addColumn('tag_name', array(
-            'header'    =>Mage::helper('reports')->__('Tag Name'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Tag Name'),
             'index'     =>'tag_name'
         ));
 
         $this->addColumn('taged', array(
-            'header'    =>Mage::helper('reports')->__('Tag Use'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Tag Use'),
             'index'     =>'taged',
             'align'     => 'right'
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('visible', array(
-                'header'    => Mage::helper('reports')->__('Visible In'),
+                'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Visible In'),
                 'sortable'  => false,
                 'index'     =>  'stores',
                 'type'      => 'store',
@@ -81,8 +81,8 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Detail_Grid extends Mage_Adminhtml
             ));
         }
 
-        $this->addExportType('*/*/exportProductDetailCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportProductDetailExcel', Mage::helper('reports')->__('Excel XML'));
+        $this->addExportType('*/*/exportProductDetailCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportProductDetailExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
 
         $this->setFilterVisibility(false);
 

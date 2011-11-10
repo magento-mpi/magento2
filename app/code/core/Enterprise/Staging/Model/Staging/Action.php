@@ -70,7 +70,7 @@ class Enterprise_Staging_Model_Staging_Action extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('enterprise_staging/staging_action');
+        $this->_init('Enterprise_Staging_Model_Resource_Staging_Action');
     }
 
     /**
@@ -93,7 +93,7 @@ class Enterprise_Staging_Model_Staging_Action extends Mage_Core_Model_Abstract
     public function getStaging()
     {
         if (!$this->_staging instanceof Enterprise_Staging_Model_Staging) {
-            $this->_staging = Mage::getModel('enterprise_staging/staging')->load($this->getStagingId());
+            $this->_staging = Mage::getModel('Enterprise_Staging_Model_Staging')->load($this->getStagingId());
         }
         return $this->_staging;
     }
@@ -111,8 +111,8 @@ class Enterprise_Staging_Model_Staging_Action extends Mage_Core_Model_Abstract
         if ($staging->getId()) {
             $name = $staging->getMasterWebsite()->getName();
 
-            $tablePrefix = Mage::getSingleton('enterprise_staging/staging_config')->getTablePrefix($staging)
-                . Mage::getSingleton('enterprise_staging/staging_config')->getStagingBackupTablePrefix()
+            $tablePrefix = Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getTablePrefix($staging)
+                . Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getStagingBackupTablePrefix()
                 . $log->getId() . "_";
 
             $this->setStagingId($staging->getId())
@@ -125,7 +125,7 @@ class Enterprise_Staging_Model_Staging_Action extends Mage_Core_Model_Abstract
                 ->setStagingTablePrefix($tablePrefix)
                 ->setMap($staging->getMapperInstance()->serialize())
                 ->setMageVersion(Mage::getVersion())
-                ->setMageModulesVersion(serialize(Mage::getSingleton('enterprise_staging/staging_config')->getCoreResourcesVersion()));
+                ->setMageModulesVersion(serialize(Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getCoreResourcesVersion()));
             $this->save();
 
         }
@@ -169,14 +169,14 @@ class Enterprise_Staging_Model_Staging_Action extends Mage_Core_Model_Abstract
             return false;
         }
         // get all current module version
-        $currentModuleVersion = Mage::getSingleton('enterprise_staging/staging_config')->getCoreResourcesVersion();
+        $currentModuleVersion = Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getCoreResourcesVersion();
 
         //get backup version list
         $backupModules = unserialize($this->getMageModulesVersion());
 
         $itemVersionCheck = array();
 
-        $stagingItems = Mage::getSingleton('enterprise_staging/staging_config')->getStagingItems();
+        $stagingItems = Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getStagingItems();
         foreach ($stagingItems as $stagingItem) {
             if ((int)$stagingItem->is_backend) {
                 continue;
@@ -184,7 +184,7 @@ class Enterprise_Staging_Model_Staging_Action extends Mage_Core_Model_Abstract
             $this->_addStagingItemVersionInfo($itemVersionCheck, $stagingItem, $currentModuleVersion, $backupModules);
             if ($stagingItem->extends) {
                 foreach ($stagingItem->extends->children() as $extendItem) {
-                    if (!Mage::getSingleton('enterprise_staging/staging_config')->isItemModuleActive($extendItem)) {
+                    if (!Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->isItemModuleActive($extendItem)) {
                          continue;
                     }
                     $this->_addStagingItemVersionInfo($itemVersionCheck, $extendItem, $currentModuleVersion, $backupModules);
@@ -219,21 +219,21 @@ class Enterprise_Staging_Model_Staging_Action extends Mage_Core_Model_Abstract
             $itemVersionCheck[$itemCode]["currentVersion"] =  $currentModuleVersion[$itemCheckModuleName];
             if ($backupModules[$itemCheckModuleName] == $currentModuleVersion[$itemCheckModuleName]) {
                 $itemVersionCheck[$itemCode]["disabled"] = false;
-                $itemVersionCheck[$itemCode]["note"] = Mage::helper('enterprise_staging')->__('ok');
+                $itemVersionCheck[$itemCode]["note"] = Mage::helper('Enterprise_Staging_Helper_Data')->__('ok');
             } else {
                 $itemVersionCheck[$itemCode]["disabled"] = true;
-                $itemVersionCheck[$itemCode]["reason"] = Mage::helper('enterprise_staging')->__('version mismatch');
+                $itemVersionCheck[$itemCode]["reason"] = Mage::helper('Enterprise_Staging_Helper_Data')->__('version mismatch');
                 $itemVersionCheck[$itemCode]["note"] =
-                    Mage::helper('enterprise_staging')->__('Backup version: ') . ' ' .
+                    Mage::helper('Enterprise_Staging_Helper_Data')->__('Backup version: ') . ' ' .
                     $backupModules[$itemCheckModuleName]. " ,".
-                    Mage::helper('enterprise_staging')->__('Current: ') .
+                    Mage::helper('Enterprise_Staging_Helper_Data')->__('Current: ') .
                     $currentModuleVersion[$itemCheckModuleName];
             }
         } else {
             $itemVersionCheck[$itemCode]["disabled"] = true;
-            $itemVersionCheck[$itemCode]["reason"] = Mage::helper('enterprise_staging')->__('unknown item');
+            $itemVersionCheck[$itemCode]["reason"] = Mage::helper('Enterprise_Staging_Helper_Data')->__('unknown item');
             $itemVersionCheck[$itemCode]["note"] =
-                Mage::helper('enterprise_staging')->__('Item model "%s" is not under backup', $itemModel);
+                Mage::helper('Enterprise_Staging_Helper_Data')->__('Item model "%s" is not under backup', $itemModel);
         }
 
         return $this;

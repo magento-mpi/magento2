@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Most extends Mage_Adminhtml_B
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('reports/order_collection');
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Order_Collection');
         /* @var $collection Mage_Reports_Model_Resource_Order_Collection */
         $collection
             ->groupByCustomer()

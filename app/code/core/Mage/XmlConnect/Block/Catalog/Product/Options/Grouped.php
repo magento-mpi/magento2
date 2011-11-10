@@ -42,7 +42,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Grouped extends Mage_XmlConn
      */
     public function getProductOptionsXml(Mage_Catalog_Model_Product $product, $isObject = false)
     {
-        $xmlModel = Mage::getModel('xmlconnect/simplexml_element', '<product></product>');
+        $xmlModel = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<product></product>');
         $optionsNode = $xmlModel->addChild('options');
 
         if (!$product->getId()) {
@@ -82,9 +82,9 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Grouped extends Mage_XmlConn
             }
 
             if ($productPrice != 0) {
-                $productPrice = Mage::helper('xmlconnect')->formatPriceForXml($productPrice);
-                $optionNode->addAttribute('price', Mage::helper('xmlconnect')->formatPriceForXml(
-                    Mage::helper('core')->currency($productPrice, false, false)
+                $productPrice = Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml($productPrice);
+                $optionNode->addAttribute('price', Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml(
+                    Mage::helper('Mage_Core_Helper_Data')->currency($productPrice, false, false)
                 ));
                 $optionNode->addAttribute('formated_price', $this->_formatPriceString($productPrice, $product));
             }

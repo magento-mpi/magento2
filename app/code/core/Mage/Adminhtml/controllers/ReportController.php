@@ -36,7 +36,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     public function _initAction()
     {
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Reports'), Mage::helper('adminhtml')->__('Reports'));
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Reports'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Reports'));
         return $this;
     }
 
@@ -46,8 +46,8 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initAction()
             ->_setActiveMenu('report/wishlist')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Wishlist Report'), Mage::helper('adminhtml')->__('Wishlist Report'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/report_wishlist'))
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wishlist Report'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wishlist Report'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Wishlist'))
             ->renderLayout();
     }
 
@@ -57,7 +57,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     public function exportWishlistCsvAction()
     {
         $fileName   = 'wishlist.csv';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_wishlist_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Wishlist_Grid')
             ->getCsvFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -69,7 +69,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     public function exportWishlistExcelAction()
     {
         $fileName   = 'wishlist.xml';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_wishlist_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Wishlist_Grid')
             ->getExcelFile($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -83,8 +83,8 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
 
         $this->_initAction()
             ->_setActiveMenu('report/search')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Search Terms'), Mage::helper('adminhtml')->__('Search Terms'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/report_search'))
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Search Terms'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Search Terms'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Search'))
             ->renderLayout();
     }
 
@@ -94,7 +94,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     public function exportSearchCsvAction()
     {
         $fileName   = 'search.csv';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_search_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Search_Grid')
             ->getCsvFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -106,7 +106,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     public function exportSearchExcelAction()
     {
         $fileName   = 'search.xml';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_search_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Search_Grid')
             ->getExcelFile($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -116,7 +116,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initAction()
             ->_setActiveMenu('report/orders')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Recent Orders'), Mage::helper('adminhtml')->__('Recent Orders'))
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Recent Orders'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Recent Orders'))
             ->renderLayout();
     }
 
@@ -124,7 +124,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initAction()
             ->_setActiveMenu('report/totals')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Order Totals'), Mage::helper('adminhtml')->__('Order Totals'))
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Order Totals'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Order Totals'))
             ->renderLayout();
     }
 */
@@ -133,15 +133,15 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         switch ($this->getRequest()->getActionName()) {
             case 'search':
-                return Mage::getSingleton('admin/session')->isAllowed('report/search');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('report/search');
                 break;
             /*
             case 'customers':
-                return Mage::getSingleton('admin/session')->isAllowed('report/shopcart');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('report/shopcart');
                 break;
             */
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('report');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('report');
                 break;
         }
     }

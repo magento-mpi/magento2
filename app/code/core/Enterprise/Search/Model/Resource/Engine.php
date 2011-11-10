@@ -289,7 +289,7 @@ class Enterprise_Search_Model_Resource_Engine
      */
     public function getResultCollection()
     {
-        return Mage::getResourceModel('enterprise_search/collection')->setEngine($this);
+        return Mage::getResourceModel('Enterprise_Search_Model_Resource_Collection')->setEngine($this);
     }
 
     /**
@@ -368,7 +368,7 @@ class Enterprise_Search_Model_Resource_Engine
      */
     public function addAdvancedIndex($index, $storeId, $productIds = null)
     {
-        return Mage::getResourceSingleton('enterprise_search/index')
+        return Mage::getResourceSingleton('Enterprise_Search_Model_Resource_Index')
             ->addAdvancedIndex($index, $storeId, $productIds);
     }
 
@@ -408,9 +408,9 @@ class Enterprise_Search_Model_Resource_Engine
             case 'solr':
             default:
                 if (extension_loaded('solr')) {
-                    $model = 'enterprise_search/adapter_phpExtension';
+                    $model = 'Enterprise_Search_Model_Adapter_PhpExtension';
                 } else {
-                    $model = 'enterprise_search/adapter_httpStream';
+                    $model = 'Enterprise_Search_Model_Adapter_HttpStream';
                 }
                 break;
         }
@@ -548,12 +548,12 @@ class Enterprise_Search_Model_Resource_Engine
     public function updateCategoryIndex($productIds, $categoryIds)
     {
         if (!is_array($productIds) || empty($productIds)) {
-            $productIds = Mage::getResourceSingleton('enterprise_search/index')
+            $productIds = Mage::getResourceSingleton('Enterprise_Search_Model_Resource_Index')
                 ->getMovedCategoryProductIds($categoryIds[0]);
         }
 
         if (!empty($productIds)) {
-            Mage::getResourceSingleton('catalogsearch/fulltext')->rebuildIndex(null, $productIds);
+            Mage::getResourceSingleton('Mage_CatalogSearch_Model_Resource_Fulltext')->rebuildIndex(null, $productIds);
         }
 
         return $this;

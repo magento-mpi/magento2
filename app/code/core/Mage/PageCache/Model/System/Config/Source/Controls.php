@@ -41,7 +41,7 @@ class Mage_PageCache_Model_System_Config_Source_Controls
     public function toOptionArray()
     {
         $options = array();
-        foreach (Mage::helper('pagecache')->getCacheControls() as $code => $type) {
+        foreach (Mage::helper('Mage_PageCache_Helper_Data')->getCacheControls() as $code => $type) {
             $options[] = array(
                 'value' => $code,
                 'label' => $type['label']

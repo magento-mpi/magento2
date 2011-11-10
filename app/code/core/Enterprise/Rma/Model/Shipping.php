@@ -64,7 +64,7 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('enterprise_rma/shipping');
+        $this->_init('Enterprise_Rma_Model_Resource_Shipping');
     }
 
     /**
@@ -90,24 +90,24 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
         $storeInfo          = new Varien_Object(Mage::getStoreConfig('general/store_information', $shipmentStoreId));
 
         /** @var $order Mage_Sales_Model_Order */
-        $order              = Mage::getModel('sales/order')->load($this->getRma()->getOrderId());
+        $order              = Mage::getModel('Mage_Sales_Model_Order')->load($this->getRma()->getOrderId());
         $shipperAddress     = $order->getShippingAddress();
-        $recipientAddress   = Mage::helper('enterprise_rma')->getReturnAddressModel($this->getRma()->getStoreId());
+        $recipientAddress   = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddressModel($this->getRma()->getStoreId());
 
         list($carrierCode, $shippingMethod) = explode('_', $this->getCode(), 2);
 
-        $shipmentCarrier    = Mage::helper('enterprise_rma')->getCarrier($this->getCode(), $shipmentStoreId);
+        $shipmentCarrier    = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($this->getCode(), $shipmentStoreId);
         $baseCurrencyCode   = Mage::app()->getStore($shipmentStoreId)->getBaseCurrencyCode();
 
         if (!$shipmentCarrier) {
-            Mage::throwException(Mage::helper('enterprise_rma')->__('Invalid carrier: %s.', $carrierCode));
+            Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Invalid carrier: %s.', $carrierCode));
         }
 
-        $shipperRegionCode  = Mage::getModel('directory/region')->load($shipperAddress->getRegionId())->getCode();
+        $shipperRegionCode  = Mage::getModel('Mage_Directory_Model_Region')->load($shipperAddress->getRegionId())->getCode();
 
         $recipientRegionCode= $recipientAddress->getRegionId();
 
-        $recipientContactName = Mage::helper('enterprise_rma')->getReturnContactName($this->getRma()->getStoreId());
+        $recipientContactName = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnContactName($this->getRma()->getStoreId());
 
         if (!$recipientContactName->getName()
             || !$recipientContactName->getLastName()
@@ -120,12 +120,12 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
             || !$recipientAddress->getCountryId()
         ) {
             Mage::throwException(
-                Mage::helper('enterprise_rma')->__('Insufficient information to create shipping label(s). Please verify your Store Information and Shipping Settings.')
+                Mage::helper('Enterprise_Rma_Helper_Data')->__('Insufficient information to create shipping label(s). Please verify your Store Information and Shipping Settings.')
             );
         }
 
         /** @var $request Mage_Shipping_Model_Shipment_Request */
-        $request = Mage::getModel('shipping/shipment_return');
+        $request = Mage::getModel('Mage_Shipping_Model_Shipment_Return');
         $request->setOrderShipment($this);
 
         $request->setShipperContactPersonName($order->getCustomerName());
@@ -181,7 +181,7 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
      */
     public function getNumberDetail()
     {
-        $carrierInstance = Mage::getSingleton('shipping/config')->getCarrierInstance($this->getCarrierCode());
+        $carrierInstance = Mage::getSingleton('Mage_Shipping_Model_Config')->getCarrierInstance($this->getCarrierCode());
         if (!$carrierInstance) {
             $custom = array();
             $custom['title']  = $this->getCarierTitle();
@@ -192,7 +192,7 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
         }
 
         if (!$trackingInfo = $carrierInstance->getTrackingInfo($this->getTrackNumber())) {
-            return Mage::helper('enterprise_rma')->__('No detail for number "%s"', $this->getTrackNumber());
+            return Mage::helper('Enterprise_Rma_Helper_Data')->__('No detail for number "%s"', $this->getTrackNumber());
         }
 
         return $trackingInfo;
@@ -206,7 +206,7 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
     public function getProtectCode()
     {
         if ($this->getRmaEntityId()) {
-            $rma = Mage::getModel('enterprise_rma/rma')->load($this->getRmaEntityId());
+            $rma = Mage::getModel('Enterprise_Rma_Model_Rma')->load($this->getRmaEntityId());
         }
 
         return (string)$rma->getProtectCode();

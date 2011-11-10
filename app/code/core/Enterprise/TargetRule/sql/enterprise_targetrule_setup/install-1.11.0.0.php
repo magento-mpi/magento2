@@ -32,50 +32,50 @@ $installer->startSetup();
 // add config attributes to catalog product
 $installer->addAttribute('catalog_product', 'related_tgtr_position_limit', array(
     'group'        => 'General',
-    'label'        => Mage::helper('enterprise_targetrule')->__('Related Target Rule Rule Based Positions'),
+    'label'        => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Related Target Rule Rule Based Positions'),
     'visible'      => false,
     'user_defined' => false,
     'required'     => false,
     'type'         => 'int',
     'global'       => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
     'input'        => 'text',
-    'backend'      => 'enterprise_targetrule/catalog_product_attribute_backend_rule',
+    'backend'      => 'Enterprise_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule',
 ));
 
 $installer->addAttribute('catalog_product', 'related_tgtr_position_behavior', array(
     'group'        => 'General',
-    'label'        => Mage::helper('enterprise_targetrule')->__('Related Target Rule Position Behavior'),
+    'label'        => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Related Target Rule Position Behavior'),
     'visible'      => false,
     'user_defined' => false,
     'required'     => false,
     'type'         => 'int',
     'global'       => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
     'input'        => 'text',
-    'backend'      => 'enterprise_targetrule/catalog_product_attribute_backend_rule',
+    'backend'      => 'Enterprise_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule',
 ));
 
 $installer->addAttribute('catalog_product', 'upsell_tgtr_position_limit', array(
     'group'        => 'General',
-    'label'        => Mage::helper('enterprise_targetrule')->__('Upsell Target Rule Rule Based Positions'),
+    'label'        => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Upsell Target Rule Rule Based Positions'),
     'visible'      => false,
     'user_defined' => false,
     'required'     => false,
     'type'         => 'int',
     'global'       => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
     'input'        => 'text',
-    'backend'      =>'enterprise_targetrule/catalog_product_attribute_backend_rule',
+    'backend'      =>'Enterprise_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule',
 ));
 
 $installer->addAttribute('catalog_product', 'upsell_tgtr_position_behavior', array(
     'group'        => 'General',
-    'label'        => Mage::helper('enterprise_targetrule')->__('Upsell Target Rule Position Behavior'),
+    'label'        => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Upsell Target Rule Position Behavior'),
     'visible'      => false,
     'user_defined' => false,
     'required'     => false,
     'type'         => 'int',
     'global'       => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
     'input'        => 'text',
-    'backend'      =>'enterprise_targetrule/catalog_product_attribute_backend_rule',
+    'backend'      =>'Enterprise_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule',
 ));
 
 /**

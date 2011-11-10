@@ -53,9 +53,9 @@ class Mage_Centinel_Adminhtml_Centinel_IndexController extends Mage_Adminhtml_Co
             $result['message'] = $e->getMessage();
         } catch (Exception $e) {
             Mage::logException($e);
-            $result['message'] = Mage::helper('centinel')->__('Validation failed.');
+            $result['message'] = Mage::helper('Mage_Centinel_Helper_Data')->__('Validation failed.');
         }
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**
@@ -100,7 +100,7 @@ class Mage_Centinel_Adminhtml_Centinel_IndexController extends Mage_Adminhtml_Co
      */
     private function _getPayment()
     {
-        $model = Mage::getSingleton('adminhtml/sales_order_create');
+        $model = Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create');
         return $model->getQuote()->getPayment();
     }
 

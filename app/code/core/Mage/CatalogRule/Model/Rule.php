@@ -109,7 +109,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('catalogrule/rule');
+        $this->_init('Mage_CatalogRule_Model_Resource_Rule');
         $this->setIdFieldName('rule_id');
     }
 
@@ -135,12 +135,12 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
 
     public function getConditionsInstance()
     {
-        return Mage::getModel('catalogrule/rule_condition_combine');
+        return Mage::getModel('Mage_CatalogRule_Model_Rule_Condition_Combine');
     }
 
     public function getActionsInstance()
     {
-        return Mage::getModel('catalogrule/rule_action_collection');
+        return Mage::getModel('Mage_CatalogRule_Model_Rule_Action_Collection');
     }
 
     public function getNow()
@@ -158,12 +158,12 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
 
     public function toString($format='')
     {
-        $str = Mage::helper('catalogrule')->__("Name: %s", $this->getName()) ."\n"
-             . Mage::helper('catalogrule')->__("Start at: %s", $this->getStartAt()) ."\n"
-             . Mage::helper('catalogrule')->__("Expire at: %s", $this->getExpireAt()) ."\n"
-             . Mage::helper('catalogrule')->__("Customer Registered: %s", $this->getCustomerRegistered()) ."\n"
-             . Mage::helper('catalogrule')->__("Customer is a New Buyer: %s", $this->getCustomerNewBuyer()) ."\n"
-             . Mage::helper('catalogrule')->__("Description: %s", $this->getDescription()) ."\n\n"
+        $str = Mage::helper('Mage_CatalogRule_Helper_Data')->__("Name: %s", $this->getName()) ."\n"
+             . Mage::helper('Mage_CatalogRule_Helper_Data')->__("Start at: %s", $this->getStartAt()) ."\n"
+             . Mage::helper('Mage_CatalogRule_Helper_Data')->__("Expire at: %s", $this->getExpireAt()) ."\n"
+             . Mage::helper('Mage_CatalogRule_Helper_Data')->__("Customer Registered: %s", $this->getCustomerRegistered()) ."\n"
+             . Mage::helper('Mage_CatalogRule_Helper_Data')->__("Customer is a New Buyer: %s", $this->getCustomerNewBuyer()) ."\n"
+             . Mage::helper('Mage_CatalogRule_Helper_Data')->__("Description: %s", $this->getDescription()) ."\n\n"
              . $this->getConditions()->toStringRecursive() ."\n\n"
              . $this->getActions()->toStringRecursive() ."\n\n";
         return $str;
@@ -232,7 +232,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
             }
 
             if ($websiteIds) {
-                $productCollection = Mage::getResourceModel('catalog/product_collection')
+                $productCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
                     ->addWebsiteFilter($websiteIds);
                 if ($this->_productsFilter) {
                     $productCollection->addIdFilter($this->_productsFilter);
@@ -240,12 +240,12 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
 
                 $this->getConditions()->collectValidatedAttributes($productCollection);
 
-                Mage::getSingleton('core/resource_iterator')->walk(
+                Mage::getSingleton('Mage_Core_Model_Resource_Iterator')->walk(
                     $productCollection->getSelect(),
                     array(array($this, 'callbackValidateProduct')),
                     array(
                         'attributes' => $this->getCollectedAttributes(),
-                        'product'    => Mage::getModel('catalog/product'),
+                        'product'    => Mage::getModel('Mage_Catalog_Model_Product'),
                     )
                 );
             }
@@ -280,7 +280,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     public function applyToProduct($product, $websiteIds=null)
     {
         if (is_numeric($product)) {
-            $product = Mage::getModel('catalog/product')->load($product);
+            $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product);
         }
         if (is_null($websiteIds)) {
             $websiteIds = explode(',', $this->getWebsiteIds());
@@ -301,7 +301,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
                 $ids = explode(',', $ids);
             }
 
-            $groupIds = Mage::getModel('customer/group')->getCollection()->getAllIds();
+            $groupIds = Mage::getModel('Mage_Customer_Model_Group')->getCollection()->getAllIds();
             $ids = array_intersect($ids, $groupIds);
             $this->setData('customer_group_ids', $ids);
             $this->setCustomerGroupChecked(true);
@@ -319,7 +319,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
         $this->getResourceCollection()->walk(array($this->_getResource(), 'updateRuleProductData'));
         $this->_getResource()->applyAllRulesForDateRange();
         $this->_invalidateCache();
-        $indexProcess = Mage::getSingleton('index/indexer')->getProcessByCode('catalog_product_price');
+        $indexProcess = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_product_price');
         if ($indexProcess) {
             $indexProcess->reindexAll();
         }
@@ -343,7 +343,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
         }
 
         if ($productId) {
-            Mage::getSingleton('index/indexer')->processEntityAction(
+            Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
                 new Varien_Object(array('id' => $productId)),
                 Mage_Catalog_Model_Product::ENTITY,
                 Mage_Catalog_Model_Product_Indexer_Price::EVENT_TYPE_REINDEX_PRICE
@@ -367,7 +367,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
         if ($product->hasCustomerGroupId()) {
             $customerGroupId = $product->getCustomerGroupId();
         } else {
-            $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
         }
         $dateTs     = Mage::app()->getLocale()->storeTimeStamp($storeId);
         $cacheKey   = date('Y-m-d', $dateTs) . "|$websiteId|$customerGroupId|$productId|$price";
@@ -378,7 +378,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
                 foreach ($rulesData as $ruleData) {
                     if ($product->getParentId()) {
                         if ($ruleData['sub_is_enable']) {
-                            $priceRules = Mage::helper('catalogrule')->calcPriceRule(
+                            $priceRules = Mage::helper('Mage_CatalogRule_Helper_Data')->calcPriceRule(
                                 $ruleData['sub_simple_action'],
                                 $ruleData['sub_discount_amount'],
                                 $priceRules ? $priceRules : $price
@@ -390,7 +390,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
                             break;
                         }
                     } else {
-                        $priceRules = Mage::helper('catalogrule')->calcPriceRule(
+                        $priceRules = Mage::helper('Mage_CatalogRule_Helper_Data')->calcPriceRule(
                             $ruleData['simple_action'],
                             $ruleData['discount_amount'],
                             $priceRules ? $priceRules :$price

@@ -65,7 +65,7 @@ class Enterprise_Rma_Block_Return_Tracking_Package extends Mage_Shipping_Block_T
     public function getContainerTypeByCode($code)
     {
         $carrierCode= $this->getPackageInfo()->getCarrierCode();
-        $carrier    = Mage::helper('enterprise_rma')->getCarrier($carrierCode, Mage::app()->getStore()->getId());
+        $carrier    = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($carrierCode, Mage::app()->getStore()->getId());
         if ($carrier) {
             $containerTypes = $carrier->getContainerTypes();
             $containerType = !empty($containerTypes[$code]) ? $containerTypes[$code] : '';

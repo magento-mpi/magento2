@@ -135,7 +135,7 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
         $this->_profilerBegin();
         $this->_loadData();
 
-        $collection = Mage::getModel('review/review')
+        $collection = Mage::getModel('Mage_Review_Model_Review')
             ->getCollection()
             ->load();
 
@@ -147,7 +147,7 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
                 $customerName = $customer->getFirstname() . ' ' . $customer->getLastname();
             }
             else {
-                $customerName = Mage::helper('loadtest')->__('Guest');
+                $customerName = Mage::helper('Mage_LoadTest_Helper_Data')->__('Guest');
             }
             $this->_review = array(
                 'id'            => $review->getId(),
@@ -184,7 +184,7 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
         $reviewTitle = trim($this->_reviewsData[array_rand($this->_reviewsData)]);
         $reviewDetail = $reviewTitle;
 
-        $review = Mage::getModel('review/review');
+        $review = Mage::getModel('Mage_Review_Model_Review');
         $review->setEntityId(1) // product
             ->setNickname($customerName)
             ->setTitle($reviewTitle)
@@ -205,7 +205,7 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
         }
 
         foreach ($ratings as $ratingId => $optionId) {
-            Mage::getModel('rating/rating')
+            Mage::getModel('Mage_Rating_Model_Rating')
                 ->setRatingId($ratingId)
                 ->setReviewId($review->getId())
                 ->setCustomerId($customer->getId())
@@ -238,12 +238,12 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
     protected function _loadData()
     {
         if (is_null($this->_ratings)) {
-            $collection = Mage::getModel('rating/rating')
+            $collection = Mage::getModel('Mage_Rating_Model_Rating')
                 ->getCollection()
                 ->load();
             $collection->addStoresToCollection();
             foreach ($collection as $rating) {
-                $optionsCollection = Mage::getModel('rating/rating_option')
+                $optionsCollection = Mage::getModel('Mage_Rating_Model_Rating_Option')
                     ->getCollection()
                     ->addRatingFilter($rating->getId())
                     ->load();
@@ -256,7 +256,7 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
             $this->_ratings = $collection;
         }
         if (is_null($this->_customers)) {
-            $collection = Mage::getModel('customer/customer')
+            $collection = Mage::getModel('Mage_Customer_Model_Customer')
                 ->getCollection()
                 ->addAttributeToSelect('firstname')
                 ->addAttributeToSelect('lastname')
@@ -268,11 +268,11 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
             unset($collection);
 
             if (count($this->_customers) == 0) {
-                Mage::throwException(Mage::helper('loadtest')->__('Customers not found, please create customer(s) first.'));
+                Mage::throwException(Mage::helper('Mage_LoadTest_Helper_Data')->__('Customers not found, please create customer(s) first.'));
             }
         }
         if (is_null($this->_products)) {
-            $collection = Mage::getModel('catalog/product')
+            $collection = Mage::getModel('Mage_Catalog_Model_Product')
                 ->getCollection()
                 ->addAttributeToSelect('name')
                 ->load();
@@ -283,13 +283,13 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
             unset($collection);
 
             if (count($this->_products) == 0) {
-                Mage::throwException(Mage::helper('loadtest')->__('Products not found, please create product(s) first.'));
+                Mage::throwException(Mage::helper('Mage_LoadTest_Helper_Data')->__('Products not found, please create product(s) first.'));
             }
         }
         if (is_null($this->_stores)) {
             $this->_stores = array();
             $this->_storeIds = array();
-            $collection = Mage::getModel('core/store')
+            $collection = Mage::getModel('Mage_Core_Model_Store')
                 ->getCollection();
             foreach ($collection as $item) {
                 $this->_stores[$item->getId()] = $item;

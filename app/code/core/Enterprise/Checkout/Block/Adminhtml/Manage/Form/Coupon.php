@@ -61,10 +61,10 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon extends Mage_Adminh
     public function getApplyButtonHtml()
     {
         return $this->getLayout()
-            ->createBlock('adminhtml/widget_button')
+            ->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'id'        => 'apply_coupon',
-                    'label'     => Mage::helper('enterprise_checkout')->__('Apply'),
+                    'label'     => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Apply'),
                     'onclick'   => "checkoutObj.applyCoupon($('coupon_code').value)",
                 ))
             ->toHtml();
@@ -75,7 +75,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon extends Mage_Adminh
      */
     protected function _toHtml()
     {
-        if (!Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/update')) {
+        if (!Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/enterprise_checkout/update')) {
             return '';
         }
         return parent::_toHtml();

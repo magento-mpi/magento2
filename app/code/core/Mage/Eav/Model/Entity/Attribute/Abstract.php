@@ -91,7 +91,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
      */
     protected function _construct()
     {
-        $this->_init('eav/entity_attribute');
+        $this->_init('Mage_Eav_Model_Resource_Entity_Attribute');
     }
 
     /**
@@ -107,13 +107,13 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
         if (is_numeric($entityType)) {
             $entityTypeId = $entityType;
         } elseif (is_string($entityType)) {
-            $entityType = Mage::getModel('eav/entity_type')->loadByCode($entityType);
+            $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode($entityType);
         }
         if ($entityType instanceof Mage_Eav_Model_Entity_Type) {
             $entityTypeId = $entityType->getId();
         }
         if (empty($entityTypeId)) {
-            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid entity supplied.'));
+            throw Mage::exception('Mage_Eav', Mage::helper('Mage_Eav_Helper_Data')->__('Invalid entity supplied.'));
         }
         $this->_getResource()->loadByCode($this, $entityTypeId, $code);
         $this->_afterLoad();
@@ -292,7 +292,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
      */
     public function getEntityType()
     {
-        return Mage::getSingleton('eav/config')->getEntityType($this->getEntityTypeId());
+        return Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType($this->getEntityTypeId());
     }
 
     /**
@@ -383,7 +383,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
             $source = Mage::getModel($this->getSourceModel());
             if (!$source) {
                 throw Mage::exception('Mage_Eav',
-                    Mage::helper('eav')->__('Source model "%s" not found for attribute "%s"',$this->getSourceModel(), $this->getAttributeCode())
+                    Mage::helper('Mage_Eav_Helper_Data')->__('Source model "%s" not found for attribute "%s"',$this->getSourceModel(), $this->getAttributeCode())
                 );
             }
             $this->_source = $source->setAttribute($this);
@@ -525,7 +525,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
             return $this->getSource()->getFlatColums();
         }
 
-        if (Mage::helper('core')->useDbCompatibleMode()) {
+        if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
             return $this->_getFlatColumnsOldDefinition();
         } else {
             return $this->_getFlatColumnsDdlDefinition();
@@ -539,7 +539,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
      */
     public function _getFlatColumnsDdlDefinition()
     {
-        $helper  = Mage::getResourceHelper('eav');
+        $helper  = Mage::getResourceHelper('Mage_Eav');
         $columns = array();
         switch ($this->getBackendType()) {
             case 'static':

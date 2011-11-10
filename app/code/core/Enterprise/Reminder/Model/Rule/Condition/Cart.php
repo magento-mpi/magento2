@@ -36,7 +36,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_reminder/rule_condition_cart');
+        $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart');
         $this->setValue(null);
     }
 
@@ -47,7 +47,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
      */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('enterprise_reminder/rule_condition_cart_combine')->getNewChildSelectOptions();
+        return Mage::getModel('Enterprise_Reminder_Model_Rule_Condition_Cart_Combine')->getNewChildSelectOptions();
     }
 
     /**
@@ -79,9 +79,9 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            '==' => Mage::helper('rule')->__('for'),
-            '>'  => Mage::helper('rule')->__('for greater than'),
-            '>=' => Mage::helper('rule')->__('for or greater than')
+            '==' => Mage::helper('Mage_Rule_Helper_Data')->__('for'),
+            '>'  => Mage::helper('Mage_Rule_Helper_Data')->__('for greater than'),
+            '>=' => Mage::helper('Mage_Rule_Helper_Data')->__('for or greater than')
         ));
         return $this;
     }
@@ -104,7 +104,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Shopping cart is not empty and abandoned %s %s days and %s of these conditions match:',
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Shopping cart is not empty and abandoned %s %s days and %s of these conditions match:',
                 $this->getOperatorElementHtml(),
                 $this->getValueElementHtml(),
                 $this->getAggregatorElement()->getHtml())
@@ -122,7 +122,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     {
         $conditionValue = (int) $this->getValue();
         if ($conditionValue < 0) {
-            Mage::throwException(Mage::helper('enterprise_reminder')->__('Root shopping cart condition should have days value at least 0.'));
+            Mage::throwException(Mage::helper('Enterprise_Reminder_Helper_Data')->__('Root shopping cart condition should have days value at least 0.'));
         }
 
         $table = $this->getResource()->getTable('sales_flat_quote');
@@ -133,8 +133,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
-        $currentTime = Mage::getModel('core/date')->gmtDate('Y-m-d');
-        $daysDiffSql = Mage::getResourceHelper('enterprise_reminder')
+        $currentTime = Mage::getModel('Mage_Core_Model_Date')->gmtDate('Y-m-d');
+        $daysDiffSql = Mage::getResourceHelper('Enterprise_Reminder')
             ->getDateDiff('quote.updated_at', $select->getAdapter()->formatDate($currentTime));
 
         if ($operator == '=') {
@@ -145,8 +145,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
                 if ($conditionValue > 0) {
                     $conditionValue--;
                 } else {
-                    $currentTime = Mage::getModel('core/date')->gmtDate();
-                    $daysDiffSql = Mage::getResourceHelper('enterprise_reminder')
+                    $currentTime = Mage::getModel('Mage_Core_Model_Date')->gmtDate();
+                    $daysDiffSql = Mage::getResourceHelper('Enterprise_Reminder')
                         ->getDateDiff('quote.updated_at', $select->getAdapter()->formatDate($currentTime));
                 }
             }
@@ -156,7 +156,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
         $select->where('quote.is_active = 1');
         $select->where('quote.items_count > 0');
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
-        Mage::getResourceHelper('enterprise_reminder')->setRuleLimit($select, 1);
+        Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
         return $select;
     }
 

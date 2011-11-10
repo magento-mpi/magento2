@@ -79,9 +79,9 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
     {
         $blockName = $this->_placeholder->getName();
         if ($blockName == self::BLOCK_NAME_RELATED) {
-            return 'enterprise_targetrule/catalog_product_list_related';
+            return 'Enterprise_TargetRule_Block_Catalog_Product_List_Related';
         } elseif ($blockName == self::BLOCK_NAME_UPSELL) {
-            return 'enterprise_targetrule/catalog_product_list_upsell';
+            return 'Enterprise_TargetRule_Block_Catalog_Product_List_Upsell';
         }
 
         return null;
@@ -193,7 +193,7 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
                 if ($parentBlock) {
                     $productId = $this->_getProductId();
                     if ($productId && !Mage::registry('product')) {
-                        $product = Mage::getModel('catalog/product')
+                        $product = Mage::getModel('Mage_Catalog_Model_Product')
                             ->setStoreId(Mage::app()->getStore()->getId())
                             ->load($productId);
                         if ($product) {
@@ -316,7 +316,7 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
             return '';
         }
 
-        $item = Mage::getModel('catalog/product')
+        $item = Mage::getModel('Mage_Catalog_Model_Product')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($itemId);
 

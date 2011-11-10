@@ -49,7 +49,7 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('eav/entity_attribute_set');
+        $this->_init('Mage_Eav_Model_Resource_Entity_Attribute_Set');
     }
 
     /**
@@ -60,7 +60,7 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
      */
     public function initFromSkeleton($skeletonId)
     {
-        $groups = Mage::getModel('eav/entity_attribute_group')
+        $groups = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Group')
             ->getResourceCollection()
             ->setAttributeSetFilter($skeletonId)
             ->load();
@@ -72,14 +72,14 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
                 ->setAttributeSetId($this->getId())
                 ->setDefaultId($group->getDefaultId());
 
-            $groupAttributesCollection = Mage::getModel('eav/entity_attribute')
+            $groupAttributesCollection = Mage::getModel('Mage_Eav_Model_Entity_Attribute')
                 ->getResourceCollection()
                 ->setAttributeGroupFilter($group->getId())
                 ->load();
 
             $newAttributes = array();
             foreach ($groupAttributesCollection as $attribute) {
-                $newAttribute = Mage::getModel('eav/entity_attribute')
+                $newAttribute = Mage::getModel('Mage_Eav_Model_Entity_Attribute')
                     ->setId($attribute->getId())
                     //->setAttributeGroupId($newGroup->getId())
                     ->setAttributeSetId($this->getId())
@@ -111,12 +111,12 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
             foreach ($data['attributes'] as $attribute) {
                 $ids[] = $attribute[0];
             }
-            $attributeIds = Mage::getResourceSingleton('eav/entity_attribute')
+            $attributeIds = Mage::getResourceSingleton('Mage_Eav_Model_Resource_Entity_Attribute')
                 ->getValidAttributeIds($ids);
         }
         if( $data['groups'] ) {
             foreach ($data['groups'] as $group) {
-                $modelGroup = Mage::getModel('eav/entity_attribute_group');
+                $modelGroup = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Group');
                 $modelGroup->setId(is_numeric($group[0]) && $group[0] > 0 ? $group[0] : null)
                     ->setAttributeGroupName($group[1])
                     ->setAttributeSetId($this->getId())
@@ -125,7 +125,7 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
                 if( $data['attributes'] ) {
                     foreach( $data['attributes'] as $attribute ) {
                         if( $attribute[1] == $group[0] && in_array($attribute[0], $attributeIds) ) {
-                            $modelAttribute = Mage::getModel('eav/entity_attribute');
+                            $modelAttribute = Mage::getModel('Mage_Eav_Model_Entity_Attribute');
                             $modelAttribute->setId($attribute[0])
                                 ->setAttributeGroupId($attribute[1])
                                 ->setAttributeSetId($this->getId())
@@ -146,7 +146,7 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
         if( $data['not_attributes'] ) {
             $modelAttributeArray = array();
             foreach( $data['not_attributes'] as $attributeId ) {
-                $modelAttribute = Mage::getModel('eav/entity_attribute');
+                $modelAttribute = Mage::getModel('Mage_Eav_Model_Entity_Attribute');
 
                 $modelAttribute->setEntityAttributeId($attributeId);
                 $modelAttributeArray[] = $modelAttribute;
@@ -157,7 +157,7 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
         if( $data['removeGroups'] ) {
             $modelGroupArray = array();
             foreach( $data['removeGroups'] as $groupId ) {
-                $modelGroup = Mage::getModel('eav/entity_attribute_group');
+                $modelGroup = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Group');
                 $modelGroup->setId($groupId);
 
                 $modelGroupArray[] = $modelGroup;
@@ -181,7 +181,7 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
     {
         if (!$this->_getResource()->validate($this, $this->getAttributeSetName())) {
             throw Mage::exception('Mage_Eav',
-                Mage::helper('eav')->__('Attribute set with the "%s" name already exists.', $this->getAttributeSetName())
+                Mage::helper('Mage_Eav_Helper_Data')->__('Attribute set with the "%s" name already exists.', $this->getAttributeSetName())
             );
         }
 
@@ -199,7 +199,7 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
     public function addSetInfo($entityType, array $attributes, $setId = null)
     {
         $attributeIds   = array();
-        $config         = Mage::getSingleton('eav/config');
+        $config         = Mage::getSingleton('Mage_Eav_Model_Config');
         $entityType     = $config->getEntityType($entityType);
         foreach ($attributes as $attribute) {
             $attribute = $config->getAttribute($entityType, $attribute);

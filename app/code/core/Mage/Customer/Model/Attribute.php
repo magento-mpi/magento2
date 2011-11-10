@@ -57,6 +57,6 @@ class Mage_Customer_Model_Attribute extends Mage_Eav_Model_Attribute
      */
     protected function _construct()
     {
-        $this->_init('customer/attribute');
+        $this->_init('Mage_Customer_Model_Resource_Attribute');
     }
 }

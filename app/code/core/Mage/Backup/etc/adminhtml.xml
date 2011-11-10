@@ -31,7 +31,7 @@
             <children>
                 <tools>
                     <children>
-                        <backup translate="title" module="backup">
+                        <backup translate="title" module="Mage_Backup">
                             <title>Backups</title>
                             <action>adminhtml/system_backup</action>
                         </backup>
@@ -48,7 +48,7 @@
                         <children>
                             <tools>
                                 <children>
-                                    <backup translate="title" module="backup">
+                                    <backup translate="title" module="Mage_Backup">
                                         <title>Backups</title>
                                     </backup>
                                 </children>

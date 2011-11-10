@@ -41,7 +41,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_targetrule/actions_condition_product_special');
+        $this->setType('Enterprise_TargetRule_Model_Actions_Condition_Product_Special');
         $this->setValue(null);
     }
 
@@ -54,14 +54,14 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special
     {
         $conditions = array(
             array(
-                'value' => 'enterprise_targetrule/actions_condition_product_special_price',
-                'label' => Mage::helper('enterprise_targetrule')->__('Price (percentage)')
+                'value' => 'Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price',
+                'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Price (percentage)')
             )
         );
 
         return array(
             'value' => $conditions,
-            'label' => Mage::helper('enterprise_targetrule')->__('Product Special')
+            'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Product Special')
         );
     }
 }

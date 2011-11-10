@@ -40,7 +40,7 @@ class Enterprise_Rma_Model_Resource_Item_Form_Attribute_Collection
      *
      * @var string
      */
-    protected $_moduleName = 'enterprise_rma';
+    protected $_moduleName = 'Enterprise_Rma';
 
     /**
      * Current EAV entity type code
@@ -55,7 +55,7 @@ class Enterprise_Rma_Model_Resource_Item_Form_Attribute_Collection
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('eav/attribute', 'enterprise_rma/item_form_attribute');
+        $this->_init('Mage_Eav_Model_Attribute', 'Enterprise_Rma_Model_Resource_Item_Form_Attribute');
     }
 
     /**

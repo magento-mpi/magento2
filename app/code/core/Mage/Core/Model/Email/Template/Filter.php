@@ -163,7 +163,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
             $type = $blockParameters['type'];
             $block = $layout->createBlock($type, null, $blockParameters);
         } elseif (isset($blockParameters['id'])) {
-            $block = $layout->createBlock('cms/block');
+            $block = $layout->createBlock('Mage_Cms_Block_Block');
             if ($block) {
                 $block->setBlockId($blockParameters['id']);
             }
@@ -202,7 +202,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
         $skipParams = array('handle', 'area');
 
         $params = $this->_getIncludeParameters($construction[2]);
-        $layout = Mage::getModel('core/layout');
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         /* @var $layout Mage_Core_Model_Layout */
         if (isset($params['area'])) {
             $layout->setArea($params['area']);
@@ -338,7 +338,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
             $allowedTags = preg_split('/\s*\,\s*/', $params['allowed_tags'], 0, PREG_SPLIT_NO_EMPTY);
         }
 
-        return Mage::helper('core')->htmlEscape($params['var'], $allowedTags);
+        return Mage::helper('Mage_Core_Helper_Data')->htmlEscape($params['var'], $allowedTags);
     }
 
     /**
@@ -475,7 +475,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
         $customVarValue = '';
         $params = $this->_getIncludeParameters($construction[2]);
         if (isset($params['code'])) {
-            $variable = Mage::getModel('core/variable')
+            $variable = Mage::getModel('Mage_Core_Model_Variable')
                 ->setStoreId($this->getStoreId())
                 ->loadByCode($params['code']);
             $mode = $this->getPlainTemplateMode()?Mage_Core_Model_Variable::TYPE_TEXT:Mage_Core_Model_Variable::TYPE_HTML;

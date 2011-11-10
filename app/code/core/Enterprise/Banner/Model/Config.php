@@ -41,13 +41,13 @@ class Enterprise_Banner_Model_Config
     {
         $result = array();
         foreach (Mage::getConfig()->getNode('global/enterprise/banner/types')->asCanonicalArray() as $type => $label) {
-            $result[$type] = Mage::helper('enterprise_banner')->__($label);
+            $result[$type] = Mage::helper('Enterprise_Banner_Helper_Data')->__($label);
         }
         if ($sorted) {
             asort($result);
         }
         if ($withEmpty) {
-            return array_merge(array('' => Mage::helper('enterprise_banner')->__('-- None --')), $result);
+            return array_merge(array('' => Mage::helper('Enterprise_Banner_Helper_Data')->__('-- None --')), $result);
         }
         return $result;
     }

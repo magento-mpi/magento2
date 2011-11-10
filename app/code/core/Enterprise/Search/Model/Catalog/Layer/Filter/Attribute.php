@@ -43,14 +43,14 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
         $attribute = $this->getAttributeModel();
         $this->_requestVar = $attribute->getAttributeCode();
 
-        $fieldName = Mage::helper('enterprise_search')->getAttributeSolrFieldName($attribute);
+        $fieldName = Mage::helper('Enterprise_Search_Helper_Data')->getAttributeSolrFieldName($attribute);
         $productCollection = $this->getLayer()->getProductCollection();
         $options = $productCollection->getFacetedData($fieldName);
         ksort($options);
 
         $data = array();
         foreach ($options as $label => $count) {
-            if (Mage::helper('core/string')->strlen($label)) {
+            if (Mage::helper('Mage_Core_Helper_String')->strlen($label)) {
                 // Check filter type
                 if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
                     if (!empty($count)) {
@@ -102,7 +102,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
      */
     public function addFacetCondition()
     {
-        $facetField = Mage::helper('enterprise_search')->getAttributeSolrFieldName($this->getAttributeModel());
+        $facetField = Mage::helper('Enterprise_Search_Helper_Data')->getAttributeSolrFieldName($this->getAttributeModel());
         $this->getLayer()->getProductCollection()->setFacetCondition($facetField);
 
         return $this;
@@ -125,7 +125,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
         $productCollection = $this->getLayer()->getProductCollection();
         $attribute  = $filter->getAttributeModel();
 
-        $param = Mage::helper('enterprise_search')->getSearchParam($productCollection, $attribute, $value);
+        $param = Mage::helper('Enterprise_Search_Helper_Data')->getSearchParam($productCollection, $attribute, $value);
         $productCollection->addFqFilter($param);
         return $this;
     }

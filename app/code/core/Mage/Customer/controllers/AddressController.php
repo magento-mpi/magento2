@@ -41,14 +41,14 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('customer/session');
+        return Mage::getSingleton('Mage_Customer_Model_Session');
     }
 
     public function preDispatch()
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('customer/session')->authenticate($this)) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }
@@ -60,8 +60,8 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     {
         if (count($this->_getSession()->getCustomer()->getAddresses())) {
             $this->loadLayout();
-            $this->_initLayoutMessages('customer/session');
-            $this->_initLayoutMessages('catalog/session');
+            $this->_initLayoutMessages('Mage_Customer_Model_Session');
+            $this->_initLayoutMessages('Mage_Catalog_Model_Session');
 
             $block = $this->getLayout()->getBlock('address_book');
             if ($block) {
@@ -89,7 +89,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     public function formAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {
             $navigationBlock->setActive('customer/address');
@@ -106,7 +106,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         if ($this->getRequest()->isPost()) {
             $customer = $this->_getSession()->getCustomer();
             /* @var $address Mage_Customer_Model_Address */
-            $address  = Mage::getModel('customer/address');
+            $address  = Mage::getModel('Mage_Customer_Model_Address');
             $addressId = $this->getRequest()->getParam('id');
             if ($addressId) {
                 $existsAddress = $customer->getAddressById($addressId);
@@ -118,7 +118,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $errors = array();
 
             /* @var $addressForm Mage_Customer_Model_Form */
-            $addressForm = Mage::getModel('customer/form');
+            $addressForm = Mage::getModel('Mage_Customer_Model_Form');
             $addressForm->setFormCode('customer_address_edit')
                 ->setEntity($address);
             $addressData    = $addressForm->extractData($this->getRequest());
@@ -166,7 +166,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         $addressId = $this->getRequest()->getParam('id', false);
 
         if ($addressId) {
-            $address = Mage::getModel('customer/address')->load($addressId);
+            $address = Mage::getModel('Mage_Customer_Model_Address')->load($addressId);
 
             // Validate address_id <=> customer_id
             if ($address->getCustomerId() != $this->_getSession()->getCustomerId()) {

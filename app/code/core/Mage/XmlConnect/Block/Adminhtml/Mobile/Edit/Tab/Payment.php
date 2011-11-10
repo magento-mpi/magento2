@@ -59,8 +59,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
 
         $this->setForm($form);
 
-        $data = Mage::helper('xmlconnect')->getApplication()->getFormData();
-        $yesNoValues = Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray();
+        $data = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getFormData();
+        $yesNoValues = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray();
 
         $fieldset = $form->addFieldset('onepage_checkout', array('legend' => $this->__('Standard Checkout')));
 
@@ -78,7 +78,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
             'value'     => $checkoutStatus
         ));
 
-        $deviceType = Mage::helper('xmlconnect')->getDeviceType();
+        $deviceType = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceType();
         switch ($deviceType) {
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE:
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPAD:
@@ -89,7 +89,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
                     'legend' => $this->__('PayPal Mobile Embedded Payment (MEP)')
                 ));
 
-                $paypalMepIsAvailable = Mage::getModel('xmlconnect/payment_method_paypal_mep')
+                $paypalMepIsAvailable = Mage::getModel('Mage_XmlConnect_Model_Payment_Method_Paypal_Mep')
                     ->isAvailable(null);
 
                 $paypalActive = 0;
@@ -145,7 +145,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
                         'value' => $paypalMepAllow
                 ));
 
-                $countries = Mage::getModel('adminhtml/system_config_source_country')->toOptionArray(true);
+                $countries = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Country')->toOptionArray(true);
 
                 if (empty($data['config_data[payment][paypalmep/allowspecific]'])) {
                     $countrySelected = array();
@@ -165,7 +165,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
 
                 // field dependencies
                 $this->setChild('form_after', $this->getLayout()
-                    ->createBlock('adminhtml/widget_form_element_dependence')
+                    ->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
                     ->addFieldMap($paypalMepAllowSpecific->getHtmlId(), $paypalMepAllowSpecific->getName())
                     ->addFieldMap($paypalMepApplicable->getHtmlId(), $paypalMepApplicable->getName())
                     ->addFieldMap($merchantlabelField->getHtmlId(), $merchantlabelField->getName())
@@ -196,8 +196,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
                 /**
                  * PayPal MECL management
                  */
-                if (Mage::app()->isSingleStoreMode() || Mage::helper('xmlconnect')->getApplication()->getId()) {
-                    $paypalMeclIsAvailable = Mage::getModel('xmlconnect/payment_method_paypal_mecl')
+                if (Mage::app()->isSingleStoreMode()
+                    || Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getId()
+                ) {
+                    $paypalMeclIsAvailable = Mage::getModel('Mage_XmlConnect_Model_Payment_Method_Paypal_Mecl')
                         ->isAvailable();
                     $activateMeclMethodNote = $this->__('You need to enable PayPal Express Checkout first from the Payment configuration before enabling PayPal MECL.');
                 } else {
@@ -273,7 +275,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
      */
     public function canShowTab()
     {
-        return (bool) !Mage::getSingleton('adminhtml/session')->getNewApplication();
+        return (bool) !Mage::getSingleton('Mage_Adminhtml_Model_Session')->getNewApplication();
     }
 
     /**

@@ -38,7 +38,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_reminder/rule_condition_combine');
+        $this->setType('Enterprise_Reminder_Model_Rule_Condition_Combine');
     }
 
     /**
@@ -50,12 +50,12 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine
     {
         $conditions = array(
             array( // customer wishlist combo
-                'value' => 'enterprise_reminder/rule_condition_wishlist',
-                'label' => Mage::helper('enterprise_reminder')->__('Wishlist')),
+                'value' => 'Enterprise_Reminder_Model_Rule_Condition_Wishlist',
+                'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Wishlist')),
 
             array( // customer shopping cart combo
-                'value' => 'enterprise_reminder/rule_condition_cart',
-                'label' => Mage::helper('enterprise_reminder')->__('Shopping Cart')),
+                'value' => 'Enterprise_Reminder_Model_Rule_Condition_Cart',
+                'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Shopping Cart')),
 
         );
 

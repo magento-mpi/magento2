@@ -76,10 +76,10 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
      */
     public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        $uniqId = Mage::helper('core')->uniqHash($element->getId());
+        $uniqId = Mage::helper('Mage_Core_Helper_Data')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/catalog_category_widget/chooser', array('uniq_id' => $uniqId, 'use_massaction' => false));
 
-        $chooser = $this->getLayout()->createBlock('widget/adminhtml_widget_chooser')
+        $chooser = $this->getLayout()->createBlock('Mage_Widget_Block_Adminhtml_Widget_Chooser')
             ->setElement($element)
             ->setTranslationHelper($this->getTranslationHelper())
             ->setConfig($this->getConfig())
@@ -94,7 +94,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
                 $categoryId = $value[1];
             }
             if ($categoryId) {
-                $label = Mage::getSingleton('catalog/category')->load($categoryId)->getName();
+                $label = Mage::getSingleton('Mage_Catalog_Model_Category')->load($categoryId)->getName();
                 $chooser->setLabel($label);
             }
         }

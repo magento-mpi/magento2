@@ -34,7 +34,7 @@
                         <children>
                             <config>
                                 <children>
-                                    <cataloginventory translate="title" module="cataloginventory">
+                                    <cataloginventory translate="title" module="Mage_CatalogInventory">
                                         <title>Inventory Section</title>
                                     </cataloginventory>
                                 </children>

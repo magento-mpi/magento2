@@ -45,14 +45,25 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
      */
     protected function _prepareLayout()
     {
-        $this->setChild('entity_items', $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_customer_edit_items'));
-        $this->setChild('cart_items', $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_customer_edit_cart'));
-        $this->setChild('sharing_form', $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_customer_edit_sharing'));
-        $this->setChild('update_button', $this->getLayout()->createBlock('adminhtml/widget_button')
-            ->addData(array(
-                'label' => $this->helper('enterprise_giftregistry')->__('Update Items and Qty\'s'),
-                'type'  => 'submit'
-            ))
+        $this->setChild(
+            'entity_items',
+            $this->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items')
+        );
+        $this->setChild(
+            'cart_items',
+            $this->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart')
+        );
+        $this->setChild(
+            'sharing_form',
+            $this->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing')
+        );
+        $this->setChild(
+            'update_button',
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+                ->addData(array(
+                    'label' => $this->helper('Enterprise_GiftRegistry_Helper_Data')->__('Update Items and Qty\'s'),
+                    'type'  => 'submit'
+                ))
         );
 
         return parent::_prepareLayout();
@@ -75,7 +86,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
      */
     public function getOwnerName()
     {
-        $customer = Mage::getModel('customer/customer')
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')
             ->load($this->getEntity()->getCustomerId());
 
         return $this->escapeHtml($customer->getName());
@@ -98,7 +109,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
      */
     public function getTypeName()
     {
-        $type = Mage::getModel('enterprise_giftregistry/type')
+        $type = Mage::getModel('Enterprise_GiftRegistry_Model_Type')
             ->load($this->getEntity()->getTypeId());
 
         return $this->escapeHtml($type->getLabel());

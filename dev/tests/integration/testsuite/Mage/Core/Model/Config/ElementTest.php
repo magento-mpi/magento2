@@ -34,10 +34,10 @@ class Mage_Core_Model_Config_ElementTest extends PHPUnit_Framework_TestCase
         <empty_text></empty_text>
     </is_test>
     <class_test>
-        <class>catalog/observer</class>
+        <class>Mage_Catalog_Model_Observer</class>
     </class_test>
     <model_test>
-        <model>catalog/observer</model>
+        <model>Mage_Catalog_Model_Observer</model>
     </model_test>
     <no_classname_test>
         <none/>

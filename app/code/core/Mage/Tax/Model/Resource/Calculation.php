@@ -203,7 +203,7 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
      */
     protected function _createSearchPostCodeTemplates($postcode)
     {
-        $len = Mage::helper('tax')->getPostCodeSubStringLength();
+        $len = Mage::helper('Mage_Tax_Helper_Data')->getPostCodeSubStringLength();
         $strlen = strlen($postcode);
         if ($strlen > $len) {
             $postcode = substr($postcode, 0, $len);

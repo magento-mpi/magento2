@@ -174,7 +174,7 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
         $children = array();
         $namespaces = $source->getNamespaces(true);
 
-        $isWsi = Mage::helper('api/data')->isComplianceWSI();
+        $isWsi = Mage::helper('Mage_Api_Helper_Data')->isComplianceWSI();
 
         foreach ($namespaces as $key => $value) {
             if ($key == '' || (!$isWsi && $key == 'wsdl')) {

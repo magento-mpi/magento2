@@ -36,6 +36,6 @@ class Mage_Tax_Model_Sales_Order_Tax_Item extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('tax/sales_order_tax_item');
+        $this->_init('Mage_Tax_Model_Resource_Sales_Order_Tax_Item');
     }
 }

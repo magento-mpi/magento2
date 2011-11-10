@@ -32,7 +32,7 @@
                 <children>
                     <promo>
                         <children>
-                            <enterprise_reminder translate="title" module="enterprise_reminder">
+                            <enterprise_reminder translate="title" module="Enterprise_Reminder">
                                 <title>Automated Email Reminder Rules</title>
                                 <sort_order>20</sort_order>
                             </enterprise_reminder>
@@ -42,7 +42,7 @@
                        <children>
                            <config>
                                <children>
-                                   <promo translate="title" module="enterprise_reminder">
+                                   <promo translate="title" module="Enterprise_Reminder">
                                        <title>Promo Section</title>
                                        <sort_order>10</sort_order>
                                    </promo>
@@ -57,7 +57,7 @@
     <menu>
         <promo>
             <children>
-                <reminder translate="title" module="enterprise_reminder">
+                <reminder translate="title" module="Enterprise_Reminder">
                     <title>Automated Email Reminder Rules</title>
                     <action>adminhtml/reminder</action>
                     <sort_order>20</sort_order>

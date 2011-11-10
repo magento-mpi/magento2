@@ -43,7 +43,7 @@ extends Mage_Core_Block_Template
      */
     protected function _getOrderCreateModel()
     {
-        return Mage::getSingleton('adminhtml/sales_order_create');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create');
     }
 
     /**
@@ -54,7 +54,7 @@ extends Mage_Core_Block_Template
      */
     public function formatPrice($value)
     {
-        return Mage::getSingleton('adminhtml/session_quote')->getStore()->formatPrice($value);
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getStore()->formatPrice($value);
     }
 
     /**
@@ -64,7 +64,7 @@ extends Mage_Core_Block_Template
      */
     public function getBalance()
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled() || !$this->_getBalanceInstance()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled() || !$this->_getBalanceInstance()) {
             return 0.0;
         }
         return $this->_getBalanceInstance()->getAmount();
@@ -117,7 +117,7 @@ extends Mage_Core_Block_Template
             }
 
             $store = Mage::app()->getStore($quote->getStoreId());
-            $this->_balanceInstance = Mage::getModel('enterprise_customerbalance/balance')
+            $this->_balanceInstance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                 ->setCustomerId($quote->getCustomerId())
                 ->setWebsiteId($store->getWebsiteId())
                 ->loadByCustomer();

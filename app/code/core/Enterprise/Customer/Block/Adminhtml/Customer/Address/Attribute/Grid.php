@@ -54,7 +54,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Grid
     protected function _prepareCollection()
     {
         /** @var $collection Mage_Customer_Model_Resource_Address_Attribute_Collection */
-        $collection = Mage::getResourceModel('customer/address_attribute_collection')
+        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Attribute_Collection')
             ->addSystemHiddenFilter()
             ->addExcludeHiddenFrontendFilter();
         $this->setCollection($collection);
@@ -72,19 +72,19 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Grid
         parent::_prepareColumns();
 
         $this->addColumn('is_visible', array(
-            'header'    => Mage::helper('enterprise_customer')->__('Visible on Frontend'),
+            'header'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('Visible on Frontend'),
             'sortable'  => true,
             'index'     => 'is_visible',
             'type'      => 'options',
             'options'   => array(
-                '0' => Mage::helper('enterprise_customer')->__('No'),
-                '1' => Mage::helper('enterprise_customer')->__('Yes'),
+                '0' => Mage::helper('Enterprise_Customer_Helper_Data')->__('No'),
+                '1' => Mage::helper('Enterprise_Customer_Helper_Data')->__('Yes'),
             ),
             'align'     => 'center',
         ));
 
         $this->addColumn('sort_order', array(
-            'header'    => Mage::helper('enterprise_customer')->__('Sort Order'),
+            'header'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('Sort Order'),
             'sortable'  => true,
             'align'     => 'center',
             'index'     => 'sort_order'

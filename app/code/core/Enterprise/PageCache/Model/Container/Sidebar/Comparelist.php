@@ -58,7 +58,7 @@ class Enterprise_PageCache_Model_Container_Sidebar_Comparelist extends Enterpris
     {
         $template = $this->_placeholder->getAttribute('template');
 
-        $block = Mage::app()->getLayout()->createBlock('catalog/product_compare_list');
+        $block = Mage::app()->getLayout()->createBlock('Mage_Catalog_Block_Product_Compare_List');
         $block->setTemplate($template);
         $block->setLayout(Mage::app()->getLayout());
 

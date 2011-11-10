@@ -40,11 +40,11 @@ class Enterprise_Pci_Model_System_Config_Source_Password extends Varien_Object
         return array(
             array(
                 'value' => 0,
-                'label' => Mage::helper('enterprise_pci')->__('Recommended'),
+                'label' => Mage::helper('Enterprise_Pci_Helper_Data')->__('Recommended'),
             ),
             array(
                 'value' => 1,
-                'label' => Mage::helper('enterprise_pci')->__('Forced'),
+                'label' => Mage::helper('Enterprise_Pci_Helper_Data')->__('Forced'),
             ),
         );
     }

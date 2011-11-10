@@ -47,7 +47,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Minsaleqty extends Mage_A
     {
         if (!$this->_groupRenderer) {
             $this->_groupRenderer = $this->getLayout()->createBlock(
-                'cataloginventory/adminhtml_form_field_customergroup', '',
+                'Mage_CatalogInventory_Block_Adminhtml_Form_Field_Customergroup', '',
                 array('is_render_to_js_template' => true)
             );
             $this->_groupRenderer->setClass('customer_group_select');
@@ -62,15 +62,15 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Minsaleqty extends Mage_A
     protected function _prepareToRender()
     {
         $this->addColumn('customer_group_id', array(
-            'label' => Mage::helper('customer')->__('Customer Group'),
+            'label' => Mage::helper('Mage_Customer_Helper_Data')->__('Customer Group'),
             'renderer' => $this->_getGroupRenderer(),
         ));
         $this->addColumn('min_sale_qty', array(
-            'label' => Mage::helper('cataloginventory')->__('Minimum Qty'),
+            'label' => Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Minimum Qty'),
             'style' => 'width:100px',
         ));
         $this->_addAfter = false;
-        $this->_addButtonLabel = Mage::helper('cataloginventory')->__('Add Minimum Qty');
+        $this->_addButtonLabel = Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Add Minimum Qty');
     }
 
     /**

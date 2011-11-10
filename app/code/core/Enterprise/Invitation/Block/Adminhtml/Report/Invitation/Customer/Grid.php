@@ -43,7 +43,8 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Customer_Grid
     protected function _prepareCollection()
     {
         parent::_prepareCollection();
-        $this->getCollection()->initReport('enterprise_invitation/report_invitation_customer_collection');
+        $this->getCollection()
+            ->initReport('Enterprise_Invitation_Model_Resource_Report_Invitation_Customer_Collection');
         return $this;
     }
 
@@ -55,40 +56,40 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Customer_Grid
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('ID'),
+            'header'    =>Mage::helper('Enterprise_Invitation_Helper_Data')->__('ID'),
             'index'     => 'entity_id'
         ));
 
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('Name'),
+            'header'    =>Mage::helper('Enterprise_Invitation_Helper_Data')->__('Name'),
             'index'     => 'name'
         ));
 
         $this->addColumn('email', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('Email'),
+            'header'    =>Mage::helper('Enterprise_Invitation_Helper_Data')->__('Email'),
             'index'     => 'email'
         ));
 
         $this->addColumn('group', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('Group'),
+            'header'    =>Mage::helper('Enterprise_Invitation_Helper_Data')->__('Group'),
             'index'     => 'group_name'
         ));
 
         $this->addColumn('sent', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('Invitations Sent'),
+            'header'    =>Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitations Sent'),
             'type'      =>'number',
             'index'     => 'sent'
         ));
 
 
         $this->addColumn('accepted', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('Invitations Accepted'),
+            'header'    =>Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitations Accepted'),
             'type'      =>'number',
             'index'     => 'accepted'
         ));
 
-        $this->addExportType('*/*/exportCustomerCsv', Mage::helper('enterprise_invitation')->__('CSV'));
-        $this->addExportType('*/*/exportCustomerExcel', Mage::helper('enterprise_invitation')->__('Excel XML'));
+        $this->addExportType('*/*/exportCustomerCsv', Mage::helper('Enterprise_Invitation_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportCustomerExcel', Mage::helper('Enterprise_Invitation_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

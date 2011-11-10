@@ -90,7 +90,7 @@ class Social_Facebook_Model_Resource_Facebook extends Mage_Core_Model_Resource_D
      */
     public function getCountByProduct($productId)
     {
-        $actions = Mage::helper('social_facebook')->getAllActions();
+        $actions = Mage::helper('Social_Facebook_Helper_Data')->getAllActions();
         $actionArray = array();
         foreach ($actions as $action) {
             $actionArray[] = $action['action'];
@@ -121,7 +121,7 @@ class Social_Facebook_Model_Resource_Facebook extends Mage_Core_Model_Resource_D
             ->where('facebook_action = ?', $facebookAction)
             ->where('item_id = ?', $productId)
             ->order(array('entity_id DESC'))
-            ->limit(Mage::helper('social_facebook')->getAppFriendCount($facebookAction))
+            ->limit(Mage::helper('Social_Facebook_Helper_Data')->getAppFriendCount($facebookAction))
             ->group('facebook_id');
 
         return $read->fetchPairs($select);

@@ -45,12 +45,12 @@ class Mage_Cms_Block_Block extends Mage_Core_Block_Abstract
         $html = '';
         if ($blockId) {
             $storeId = Mage::app()->getStore()->getId();
-            $block = Mage::getModel('cms/block')
+            $block = Mage::getModel('Mage_Cms_Model_Block')
                 ->setStoreId($storeId)
                 ->load($blockId);
             if ($block->getIsActive()) {
                 /* @var $helper Mage_Cms_Helper_Data */
-                $helper = Mage::helper('cms');
+                $helper = Mage::helper('Mage_Cms_Helper_Data');
                 $processor = $helper->getBlockTemplateProcessor();
                 $html = $processor->setStoreId($storeId)
                     ->filter($block->getContent());

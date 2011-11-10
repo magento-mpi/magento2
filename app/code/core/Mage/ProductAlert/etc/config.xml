@@ -32,20 +32,6 @@
         </Mage_ProductAlert>
     </modules>
     <global>
-        <models>
-            <productalert>
-                <class>Mage_ProductAlert_Model</class>
-                <resourceModel>productalert_resource</resourceModel>
-            </productalert>
-            <productalert_resource>
-                <class>Mage_ProductAlert_Model_Resource</class>
-            </productalert_resource>
-        </models>
-        <helpers>
-            <productalert>
-                <class>Mage_ProductAlert_Helper</class>
-            </productalert>
-        </helpers>
         <resources>
             <productalert_setup>
                 <setup>
@@ -53,24 +39,19 @@
                 </setup>
             </productalert_setup>
         </resources>
-        <blocks>
-            <productalert>
-                <class>Mage_ProductAlert_Block</class>
-            </productalert>
-        </blocks>
         <template>
             <email>
-                <catalog_productalert_email_stock_template translate="label" module="productalert">
+                <catalog_productalert_email_stock_template translate="label" module="Mage_ProductAlert">
                     <label>Stock Alert</label>
                     <file>email/stock_alert.html</file>
                     <type>html</type>
                 </catalog_productalert_email_stock_template>
-                <catalog_productalert_email_price_template translate="label" module="productalert">
+                <catalog_productalert_email_price_template translate="label" module="Mage_ProductAlert">
                     <label>Price Alert</label>
                     <file>email/price_alert.html</file>
                     <type>html</type>
                 </catalog_productalert_email_price_template>
-                <catalog_productalert_cron_error_email_template translate="label" module="productalert">
+                <catalog_productalert_cron_error_email_template translate="label" module="Mage_ProductAlert">
                     <label>Cron Error Warning</label>
                     <file>email/cron_error.html</file>
                     <type>html</type>
@@ -136,7 +117,7 @@
         <jobs>
             <catalog_product_alert>
                 <run>
-                    <model>productalert/observer::process</model>
+                    <model>Mage_ProductAlert_Model_Observer::process</model>
                 </run>
             </catalog_product_alert>
         </jobs>

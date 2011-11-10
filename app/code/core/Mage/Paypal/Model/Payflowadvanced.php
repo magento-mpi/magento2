@@ -46,14 +46,14 @@ class Mage_Paypal_Model_Payflowadvanced extends Mage_Paypal_Model_Payflowlink
      *
      * @var string
      */
-    protected $_formBlockType = 'paypal/payflow_advanced_form';
+    protected $_formBlockType = 'Mage_Paypal_Block_Payflow_Advanced_Form';
 
     /**
      * Type of block that displays method information
      *
      * @var string
      */
-    protected $_infoBlockType = 'paypal/payflow_advanced_info';
+    protected $_infoBlockType = 'Mage_Paypal_Block_Payflow_Advanced_Info';
 
     /**
      * Instantiate state and set it to state object

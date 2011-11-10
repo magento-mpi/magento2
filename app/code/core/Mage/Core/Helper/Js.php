@@ -45,7 +45,7 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
      */
     public function getTranslateJson()
     {
-        return Mage::helper('core')->jsonEncode($this->_getTranslateData());
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->_getTranslateData());
     }
 
     /**

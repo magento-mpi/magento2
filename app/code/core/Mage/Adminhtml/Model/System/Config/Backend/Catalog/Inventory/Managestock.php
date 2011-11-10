@@ -49,7 +49,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Catalog_Inventory_Managestock
             $this->getScopeId()
         );
         if ($newValue != $oldValue) {
-            Mage::getSingleton('cataloginventory/stock_status')->rebuild();
+            Mage::getSingleton('Mage_CatalogInventory_Model_Stock_Status')->rebuild();
         }
 
         return $this;

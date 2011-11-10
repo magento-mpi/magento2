@@ -30,33 +30,38 @@ class Mage_Adminhtml_Block_Api_Editroles extends Mage_Adminhtml_Block_Widget_Tab
         parent::__construct();
         $this->setId('role_info_tabs');
         $this->setDestElementId('role_edit_form');
-        $this->setTitle(Mage::helper('adminhtml')->__('Role Information'));
+        $this->setTitle(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Information'));
     }
 
     protected function _beforeToHtml()
     {
         $roleId = $this->getRequest()->getParam('rid', false);
-        $role = Mage::getModel("api/roles")
+        $role = Mage::getModel('Mage_Api_Model_Roles')
            ->load($roleId);
 
         $this->addTab('info', array(
-            'label'     => Mage::helper('adminhtml')->__('Role Info'),
-            'title'     => Mage::helper('adminhtml')->__('Role Info'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/api_tab_roleinfo')->setRole($role)->toHtml(),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Info'),
+            'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Info'),
+            'content'   => $this->getLayout()->createBlock(
+                'Mage_Adminhtml_Block_Api_Tab_Roleinfo'
+            )->setRole($role)->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('account', array(
-            'label'     => Mage::helper('adminhtml')->__('Role Resources'),
-            'title'     => Mage::helper('adminhtml')->__('Role Resources'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/api_tab_rolesedit')->toHtml(),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Resources'),
+            'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Resources'),
+            'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_Tab_Rolesedit')->toHtml(),
         ));
 
         if( intval($roleId) > 0 ) {
             $this->addTab('roles', array(
-                'label'     => Mage::helper('adminhtml')->__('Role Users'),
-                'title'     => Mage::helper('adminhtml')->__('Role Users'),
-                'content'   => $this->getLayout()->createBlock('adminhtml/api_tab_rolesusers', 'role.users.grid')->toHtml(),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Users'),
+                'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Users'),
+                'content'   => $this->getLayout()->createBlock(
+                    'Mage_Adminhtml_Block_Api_Tab_Rolesusers',
+                    'role.users.grid'
+                )->toHtml(),
             ));
         }
         return parent::_beforeToHtml();

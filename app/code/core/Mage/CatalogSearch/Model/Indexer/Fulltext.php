@@ -50,7 +50,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('catalogsearch/indexer_fulltext');
+        return Mage::getResourceSingleton('Mage_CatalogSearch_Model_Resource_Indexer_Fulltext');
     }
 
     /**
@@ -102,7 +102,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
      */
     protected function _getIndexer()
     {
-        return Mage::getSingleton('catalogsearch/fulltext');
+        return Mage::getSingleton('Mage_CatalogSearch_Model_Fulltext');
     }
 
     /**
@@ -112,7 +112,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
      */
     public function getName()
     {
-        return Mage::helper('catalogsearch')->__('Catalog Search Index');
+        return Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Catalog Search Index');
     }
 
     /**
@@ -122,7 +122,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
      */
     public function getDescription()
     {
-        return Mage::helper('catalogsearch')->__('Rebuild Catalog product fulltext search index');
+        return Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Rebuild Catalog product fulltext search index');
     }
 
     /**
@@ -320,7 +320,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
     {
         if (is_null($this->_searchableAttributes)) {
             /** @var $attributeCollection Mage_Catalog_Model_Resource_Product_Attribute_Collection */
-            $attributeCollection = Mage::getResourceModel('catalog/product_attribute_collection');
+            $attributeCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection');
             $attributeCollection->addIsSearchableFilter();
 
             foreach ($attributeCollection as $attribute) {
@@ -339,7 +339,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
      */
     protected function _isProductComposite($productId)
     {
-        $product = Mage::getModel('catalog/product')->load($productId);
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
         return $product->isComposite();
     }
 

@@ -71,7 +71,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
     {
         if (!$this->hasMethodInstance()) {
             if ($method = $this->getMethod()) {
-                if ($instance = Mage::helper('payment')->getMethodInstance($this->getMethod())) {
+                if ($instance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance($this->getMethod())) {
                     $instance->setInfoInstance($this);
                     $this->setMethodInstance($instance);
                     return $instance;
@@ -80,7 +80,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
         } else {
             return $this->_getData('method_instance');
         }
-        Mage::throwException(Mage::helper('payment')->__('Cannot retrieve payment method instance.'));
+        Mage::throwException(Mage::helper('Mage_Payment_Helper_Data')->__('Cannot retrieve payment method instance.'));
     }
 
     /**
@@ -92,7 +92,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
     public function encrypt($data)
     {
         if ($data) {
-            return Mage::helper('core')->encrypt($data);
+            return Mage::helper('Mage_Core_Helper_Data')->encrypt($data);
         }
         return $data;
     }
@@ -106,7 +106,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
     public function decrypt($data)
     {
         if ($data) {
-            return Mage::helper('core')->decrypt($data);
+            return Mage::helper('Mage_Core_Helper_Data')->decrypt($data);
         }
         return $data;
     }
@@ -124,7 +124,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
     public function setAdditionalInformation($key, $value = null)
     {
         if (is_object($value)) {
-            Mage::throwException(Mage::helper('sales')->__('Payment disallow storing objects.'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Payment disallow storing objects.'));
         }
         $this->_initAdditionalInformation();
         if (is_array($key) && is_null($value)) {

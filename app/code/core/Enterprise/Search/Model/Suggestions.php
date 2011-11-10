@@ -40,7 +40,7 @@ class Enterprise_Search_Model_Suggestions
      */
     public function getSearchSuggestions()
     {
-        return Mage::getSingleton('enterprise_search/search_layer')
+        return Mage::getSingleton('Enterprise_Search_Model_Search_Layer')
             ->getProductCollection()
             ->getSuggestionsData();
     }

@@ -32,15 +32,6 @@
         </Mage_Catalog>
     </modules>
     <global>
-        <models>
-            <catalog>
-                <class>Mage_Catalog_Model</class>
-                <resourceModel>catalog_resource</resourceModel>
-            </catalog>
-            <catalog_resource>
-                <class>Mage_Catalog_Model_Resource</class>
-            </catalog_resource>
-        </models>
         <resources>
             <catalog_setup>
                 <setup>
@@ -49,30 +40,25 @@
                 </setup>
             </catalog_setup>
         </resources>
-        <blocks>
-            <catalog>
-                <class>Mage_Catalog_Block</class>
-            </catalog>
-        </blocks>
         <index>
             <indexer>
                 <catalog_product_attribute>
-                    <model>catalog/product_indexer_eav</model>
+                    <model>Mage_Catalog_Model_Product_Indexer_Eav</model>
                 </catalog_product_attribute>
                 <catalog_product_price>
-                    <model>catalog/product_indexer_price</model>
+                    <model>Mage_Catalog_Model_Product_Indexer_Price</model>
                 </catalog_product_price>
                 <catalog_url>
-                    <model>catalog/indexer_url</model>
+                    <model>Mage_Catalog_Model_Indexer_Url</model>
                 </catalog_url>
                 <catalog_product_flat>
-                    <model>catalog/product_indexer_flat</model>
+                    <model>Mage_Catalog_Model_Product_Indexer_Flat</model>
                 </catalog_product_flat>
                 <catalog_category_flat>
-                    <model>catalog/category_indexer_flat</model>
+                    <model>Mage_Catalog_Model_Category_Indexer_Flat</model>
                 </catalog_category_flat>
                 <catalog_category_product>
-                    <model>catalog/category_indexer_product</model>
+                    <model>Mage_Catalog_Model_Category_Indexer_Product</model>
                 </catalog_category_product>
             </indexer>
         </index>
@@ -80,7 +66,7 @@
             <log_log_clean_after>
                 <observers>
                     <catalog_product_compare_item>
-                        <class>catalog/observer</class>
+                        <class>Mage_Catalog_Model_Observer</class>
                         <method>catalogProductCompareClean</method>
                     </catalog_product_compare_item>
                 </observers>
@@ -89,39 +75,39 @@
         <catalog>
             <product>
                 <type>
-                    <simple translate="label" module="catalog">
+                    <simple translate="label" module="Mage_Catalog">
                         <label>Simple Product</label>
-                        <model>catalog/product_type_simple</model>
+                        <model>Mage_Catalog_Model_Product_Type_Simple</model>
                         <composite>0</composite>
                         <index_priority>10</index_priority>
                     </simple>
-                    <grouped translate="label" module="catalog">
+                    <grouped translate="label" module="Mage_Catalog">
                         <label>Grouped Product</label>
-                        <model>catalog/product_type_grouped</model>
-                        <price_model>catalog/product_type_grouped_price</price_model>
+                        <model>Mage_Catalog_Model_Product_Type_Grouped</model>
+                        <price_model>Mage_Catalog_Model_Product_Type_Grouped_Price</price_model>
                         <composite>1</composite>
                         <allow_product_types>
                             <simple/>
                             <virtual/>
                         </allow_product_types>
                         <index_priority>50</index_priority>
-                        <price_indexer>catalog/product_indexer_price_grouped</price_indexer>
+                        <price_indexer>Mage_Catalog_Model_Resource_Product_Indexer_Price_Grouped</price_indexer>
                     </grouped>
-                    <configurable translate="label" module="catalog">
+                    <configurable translate="label" module="Mage_Catalog">
                         <label>Configurable Product</label>
-                        <model>catalog/product_type_configurable</model>
-                        <price_model>catalog/product_type_configurable_price</price_model>
+                        <model>Mage_Catalog_Model_Product_Type_Configurable</model>
+                        <price_model>Mage_Catalog_Model_Product_Type_Configurable_Price</price_model>
                         <composite>1</composite>
                         <allow_product_types>
                             <simple/>
                             <virtual/>
                         </allow_product_types>
                         <index_priority>30</index_priority>
-                        <price_indexer>catalog/product_indexer_price_configurable</price_indexer>
+                        <price_indexer>Mage_Catalog_Model_Resource_Product_Indexer_Price_Configurable</price_indexer>
                     </configurable>
-                    <virtual translate="label" module="catalog">
+                    <virtual translate="label" module="Mage_Catalog">
                         <label>Virtual Product</label>
-                        <model>catalog/product_type_virtual</model>
+                        <model>Mage_Catalog_Model_Product_Type_Virtual</model>
                         <composite>0</composite>
                         <index_priority>20</index_priority>
                     </virtual>
@@ -141,56 +127,56 @@
                 <options>
                     <custom>
                         <groups>
-                            <text translate="label" module="adminhtml">
+                            <text translate="label" module="Mage_Adminhtml">
                                 <label>Text</label>
-                                <render>adminhtml/catalog_product_edit_tab_options_type_text</render>
+                                <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Text</render>
                                 <types>
-                                    <field translate="label" module="adminhtml">
+                                    <field translate="label" module="Mage_Adminhtml">
                                         <label>Field</label>
                                     </field>
-                                    <area translate="label" module="adminhtml">
+                                    <area translate="label" module="Mage_Adminhtml">
                                         <label>Area</label>
                                     </area>
                                 </types>
                             </text>
-                            <file translate="label" module="adminhtml">
+                            <file translate="label" module="Mage_Adminhtml">
                                 <label>File</label>
-                                <render>adminhtml/catalog_product_edit_tab_options_type_file</render>
+                                <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_File</render>
                                 <types>
-                                    <file translate="label" module="adminhtml">
+                                    <file translate="label" module="Mage_Adminhtml">
                                         <label>File</label>
                                     </file>
                                 </types>
                             </file>
-                            <select translate="label" module="adminhtml">
+                            <select translate="label" module="Mage_Adminhtml">
                                 <label>Select</label>
-                                <render>adminhtml/catalog_product_edit_tab_options_type_select</render>
+                                <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select</render>
                                 <types>
-                                    <drop_down translate="label" module="adminhtml">
+                                    <drop_down translate="label" module="Mage_Adminhtml">
                                         <label>Drop-down</label>
                                     </drop_down>
-                                    <radio translate="label" module="adminhtml">
+                                    <radio translate="label" module="Mage_Adminhtml">
                                         <label>Radio Buttons</label>
                                     </radio>
-                                    <checkbox translate="label" module="adminhtml">
+                                    <checkbox translate="label" module="Mage_Adminhtml">
                                         <label>Checkbox</label>
                                     </checkbox>
-                                    <multiple translate="label" module="adminhtml">
+                                    <multiple translate="label" module="Mage_Adminhtml">
                                         <label>Multiple Select</label>
                                     </multiple>
                                 </types>
                             </select>
-                            <date translate="label" module="adminhtml">
+                            <date translate="label" module="Mage_Adminhtml">
                                 <label>Date</label>
-                                <render>adminhtml/catalog_product_edit_tab_options_type_date</render>
+                                <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Date</render>
                                 <types>
-                                    <date translate="label" module="adminhtml">
+                                    <date translate="label" module="Mage_Adminhtml">
                                         <label>Date</label>
                                     </date>
-                                    <date_time translate="label" module="adminhtml">
+                                    <date_time translate="label" module="Mage_Adminhtml">
                                         <label>Date &amp; Time</label>
                                     </date_time>
-                                    <time translate="label" module="adminhtml">
+                                    <time translate="label" module="Mage_Adminhtml">
                                         <label>Time</label>
                                     </time>
                                 </types>
@@ -208,7 +194,7 @@
                 </flat>
             </product>
             <content>
-                <tempate_filter>catalog/template_filter</tempate_filter>
+                <tempate_filter>Mage_Catalog_Model_Template_Filter</tempate_filter>
             </content>
         </catalog>
         <eav_attributes>
@@ -259,7 +245,7 @@
             <cms_wysiwyg_images_static_urls_allowed>
                 <observers>
                     <catalog_wysiwyg>
-                        <class>catalog/observer</class>
+                        <class>Mage_Catalog_Model_Observer</class>
                         <method>catalogCheckIsUsingStaticUrlsAllowed</method>
                     </catalog_wysiwyg>
                 </observers>
@@ -284,7 +270,7 @@
                 <observers>
                     <catalog>
                         <type>model</type>
-                        <class>catalog/product_compare_item</class>
+                        <class>Mage_Catalog_Model_Product_Compare_Item</class>
                         <method>bindCustomerLogin</method>
                     </catalog>
                 </observers>
@@ -293,7 +279,7 @@
                 <observers>
                     <catalog>
                         <type>model</type>
-                        <class>catalog/product_compare_item</class>
+                        <class>Mage_Catalog_Model_Product_Compare_Item</class>
                         <method>bindCustomerLogout</method>
                     </catalog>
                 </observers>
@@ -302,7 +288,7 @@
                 <observers>
                     <catalog>
                         <type>model</type>
-                        <class>catalog/product_option_observer</class>
+                        <class>Mage_Catalog_Model_Product_Option_Observer</class>
                         <method>copyQuoteFilesToOrderFiles</method>
                     </catalog>
                 </observers>
@@ -421,8 +407,8 @@
                 <enabled>0</enabled>
                 <apply_for_all>0</apply_for_all>
                 <display_price_type>1</display_price_type>
-                <explanation_message><![CDATA[Our price is lower than the manufacturer's "minimum advertised price."  As a result, we cannot show you the price in catalog or the product page. <br /><br /> You have no obligation to purchase the product once you know the price. You can simply remove the item from your cart.]]></explanation_message>
-                <explanation_message_whats_this><![CDATA[Our price is lower than the manufacturer's "minimum advertised price."  As a result, we cannot show you the price in catalog or the product page. <br /><br /> You have no obligation to purchase the product once you know the price. You can simply remove the item from your cart.]]></explanation_message_whats_this>
+                <explanation_message>Our price is lower than the manufacturer&apos;s &quot;minimum advertised price.&quot;  As a result, we cannot show you the price in catalog or the product page. &lt;br /&gt;&lt;br /&gt; You have no obligation to purchase the product once you know the price. You can simply remove the item from your cart.</explanation_message>
+                <explanation_message_whats_this>Our price is lower than the manufacturer&apos;s &quot;minimum advertised price.&quot;  As a result, we cannot show you the price in catalog or the product page. &lt;br /&gt;&lt;br /&gt; You have no obligation to purchase the product once you know the price. You can simply remove the item from your cart.</explanation_message_whats_this>
             </msrp>
         </sales>
     </default>
@@ -433,7 +419,7 @@
                     <cron_expr>0 2 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>catalog/observer::reindexProductPrices</model>
+                    <model>Mage_Catalog_Model_Observer::reindexProductPrices</model>
                 </run>
             </catalog_product_index_price_reindex_all>
         </jobs>

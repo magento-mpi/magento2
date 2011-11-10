@@ -73,7 +73,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('centinel/session');
+        return Mage::getSingleton('Mage_Centinel_Model_Session');
     }
 
     /**
@@ -84,7 +84,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
      */
     protected function _getConfig()
     {
-        $config = Mage::getSingleton('centinel/config');
+        $config = Mage::getSingleton('Mage_Centinel_Model_Config');
         return $config->setStore($this->getStore());
     }
 
@@ -116,11 +116,11 @@ class Mage_Centinel_Model_Service extends Varien_Object
         $params = array(
             '_secure'  => true,
             '_current' => $current,
-            'form_key' => Mage::getSingleton('core/session')->getFormKey(),
+            'form_key' => Mage::getSingleton('Mage_Core_Model_Session')->getFormKey(),
             'isIframe' => true
         );
         if (Mage::app()->getStore()->isAdmin()) {
-            return Mage::getSingleton('adminhtml/url')->getUrl('*/centinel_index/' . $suffix, $params);
+            return Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/centinel_index/' . $suffix, $params);
         } else {
             return Mage::getUrl('centinel/index/' . $suffix, $params);
         }
@@ -137,7 +137,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
             return $this->_api;
         }
 
-        $this->_api = Mage::getSingleton('centinel/api');
+        $this->_api = Mage::getSingleton('Mage_Centinel_Model_Api');
         $config = $this->_getConfig();
         $this->_api
            ->setProcessorId($config->getProcessorId())
@@ -285,12 +285,12 @@ class Mage_Centinel_Model_Service extends Varien_Object
         // check whether is authenticated before placing order
         if ($this->getIsPlaceOrder()) {
             if ($validationState->getChecksum() != $newChecksum) {
-                Mage::throwException(Mage::helper('centinel')->__('Payment information error. Please start over.'));
+                Mage::throwException(Mage::helper('Mage_Centinel_Helper_Data')->__('Payment information error. Please start over.'));
             }
             if ($validationState->isAuthenticateSuccessful()) {
                 return;
             }
-            Mage::throwException(Mage::helper('centinel')->__('Please verify the card with the issuer bank before placing the order.'));
+            Mage::throwException(Mage::helper('Mage_Centinel_Helper_Data')->__('Please verify the card with the issuer bank before placing the order.'));
         } else {
             if ($validationState->getChecksum() != $newChecksum || !$validationState->isLookupSuccessful()) {
                 $this->lookup($data);
@@ -299,7 +299,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
             if ($validationState->isLookupSuccessful()) {
                 return;
             }
-            Mage::throwException(Mage::helper('centinel')->__('This card has failed validation and cannot be used.'));
+            Mage::throwException(Mage::helper('Mage_Centinel_Helper_Data')->__('This card has failed validation and cannot be used.'));
         }
     }
 

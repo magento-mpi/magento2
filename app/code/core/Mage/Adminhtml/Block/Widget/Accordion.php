@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Widget_Accordion extends Mage_Adminhtml_Block_Widget
     
     public function addItem($itemId, $config)
     {
-        $this->_items[$itemId] = $this->getLayout()->createBlock('adminhtml/widget_accordion_item')
+        $this->_items[$itemId] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Accordion_Item')
             ->setData($config)
             ->setAccordion($this)
             ->setId($itemId);

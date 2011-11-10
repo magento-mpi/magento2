@@ -44,7 +44,7 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Invoice_Grid e
      */
     protected function _getCollectionClass()
     {
-        return 'enterprise_salesarchive/order_invoice_collection';
+        return 'Enterprise_SalesArchive_Model_Resource_Order_Invoice_Collection';
     }
 
     /**

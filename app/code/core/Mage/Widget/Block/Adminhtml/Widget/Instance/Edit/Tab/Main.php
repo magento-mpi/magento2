@@ -52,7 +52,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
      */
     public function getTabLabel()
     {
-        return Mage::helper('widget')->__('Frontend Properties');
+        return Mage::helper('Mage_Widget_Helper_Data')->__('Frontend Properties');
     }
 
     /**
@@ -62,7 +62,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
      */
     public function getTabTitle()
     {
-        return Mage::helper('widget')->__('Frontend Properties');
+        return Mage::helper('Mage_Widget_Helper_Data')->__('Frontend Properties');
     }
 
     /**
@@ -110,7 +110,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
         ));
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend' => Mage::helper('widget')->__('Frontend Properties'))
+            array('legend' => Mage::helper('Mage_Widget_Helper_Data')->__('Frontend Properties'))
         );
 
         if ($widgetInstance->getId()) {
@@ -123,8 +123,8 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
 
         $fieldset->addField('instance_type', 'select', array(
             'name'  => 'instance_type',
-            'label' => Mage::helper('widget')->__('Type'),
-            'title' => Mage::helper('widget')->__('Type'),
+            'label' => Mage::helper('Mage_Widget_Helper_Data')->__('Type'),
+            'title' => Mage::helper('Mage_Widget_Helper_Data')->__('Type'),
             'class' => '',
             'values' => $this->getTypesOptionsArray(),
             'disabled' => true
@@ -132,16 +132,16 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
 
         $fieldset->addField('package_theme', 'text', array(
             'name'  => 'package_theme',
-            'label' => Mage::helper('widget')->__('Design Package/Theme'),
-            'title' => Mage::helper('widget')->__('Design Package/Theme'),
+            'label' => Mage::helper('Mage_Widget_Helper_Data')->__('Design Package/Theme'),
+            'title' => Mage::helper('Mage_Widget_Helper_Data')->__('Design Package/Theme'),
             'required' => false,
             'disabled' => true
         ));
 
         $fieldset->addField('title', 'text', array(
             'name'  => 'title',
-            'label' => Mage::helper('widget')->__('Widget Instance Title'),
-            'title' => Mage::helper('widget')->__('Widget Instance Title'),
+            'label' => Mage::helper('Mage_Widget_Helper_Data')->__('Widget Instance Title'),
+            'title' => Mage::helper('Mage_Widget_Helper_Data')->__('Widget Instance Title'),
             'class' => '',
             'required' => true,
         ));
@@ -149,28 +149,28 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
         if (!Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('store_ids', 'multiselect', array(
                 'name'      => 'store_ids[]',
-                'label'     => Mage::helper('widget')->__('Assign to Store Views'),
-                'title'     => Mage::helper('widget')->__('Assign to Store Views'),
+                'label'     => Mage::helper('Mage_Widget_Helper_Data')->__('Assign to Store Views'),
+                'title'     => Mage::helper('Mage_Widget_Helper_Data')->__('Assign to Store Views'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
+                'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(false, true),
             ));
         }
 
         $fieldset->addField('sort_order', 'text', array(
             'name'  => 'sort_order',
-            'label' => Mage::helper('widget')->__('Sort Order'),
-            'title' => Mage::helper('widget')->__('Sort Order'),
+            'label' => Mage::helper('Mage_Widget_Helper_Data')->__('Sort Order'),
+            'title' => Mage::helper('Mage_Widget_Helper_Data')->__('Sort Order'),
             'class' => '',
             'required' => false,
-            'note' => Mage::helper('widget')->__('Sort Order of widget instances in the same block reference')
+            'note' => Mage::helper('Mage_Widget_Helper_Data')->__('Sort Order of widget instances in the same block reference')
         ));
 
         /* @var $layoutBlock Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout */
         $layoutBlock = $this->getLayout()
-            ->createBlock('widget/adminhtml_widget_instance_edit_tab_main_layout')
+            ->createBlock('Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout')
             ->setWidgetInstance($widgetInstance);
         $fieldset = $form->addFieldset('layout_updates_fieldset',
-            array('legend' => Mage::helper('widget')->__('Layout Updates'))
+            array('legend' => Mage::helper('Mage_Widget_Helper_Data')->__('Layout Updates'))
         );
         $fieldset->addField('layout_updates', 'note', array(
         ));

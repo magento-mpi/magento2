@@ -54,7 +54,7 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Edit_Form
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
+        if (Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->isEnabled()) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
     }
@@ -99,7 +99,7 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Edit_Form
             'label'     => $this->__('Application'),
             'title'     => $this->__('Application'),
             'disabled'  => $model->getId() || !$this->_fieldsEnabled ? true : false,
-            'values'    => Mage::helper('xmlconnect')->getApplicationOptions(),
+            'values'    => Mage::helper('Mage_XmlConnect_Helper_Data')->getApplicationOptions(),
             'note'      => $this->__('Creating a Template is allowed only for applications which have device type iPhone.'),
             'required'  => true,
         ));
@@ -135,7 +135,7 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Edit_Form
         ));
 
         $widgetFilters = array('is_email_compatible' => 1);
-        $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(array(
+        $wysiwygConfig = Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->getConfig(array(
 //            'add_widgets'       => true,
 //            'add_variables'     => true,
             'widget_filters'    => $widgetFilters

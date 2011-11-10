@@ -239,19 +239,19 @@ foreach ($entityAttributesCodes as $code => $type) {
 /**
  * Add gift wrapping attributes for catalog product entity
  */
-$types = Mage::getModel('catalog/product_type')->getOptionArray();
+$types = Mage::getModel('Mage_Catalog_Model_Product_Type')->getOptionArray();
 unset($types['virtual'], $types['downloadable'], $types['grouped']);
 $applyTo = join(',', array_keys($types));
 
-$installer = Mage::getResourceModel('catalog/setup', 'catalog_setup');
+$installer = Mage::getResourceModel('Mage_Catalog_Model_Resource_Setup', 'catalog_setup');
 
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_wrapping_available', array(
     'group'         => 'Gift Options',
-    'backend'       => 'catalog/product_attribute_backend_boolean',
+    'backend'       => 'Mage_Catalog_Model_Product_Attribute_Backend_Boolean',
     'frontend'      => '',
     'label'         => 'Allow Gift Wrapping',
     'input'         => 'select',
-    'source'        => 'eav/entity_attribute_source_boolean',
+    'source'        => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean',
     'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
     'visible'       => true,
     'required'      => false,
@@ -259,15 +259,15 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_wrapping_avai
     'default'       => '',
     'apply_to'      => $applyTo,
     'class'         => 'hidden-for-virtual',
-    'frontend_input_renderer' => 'enterprise_giftwrapping/adminhtml_product_helper_form_config',
-    'input_renderer'   => 'enterprise_giftwrapping/adminhtml_product_helper_form_config',
+    'frontend_input_renderer' => 'Enterprise_GiftWrapping_Block_Adminhtml_Product_Helper_Form_Config',
+    'input_renderer'   => 'Enterprise_GiftWrapping_Block_Adminhtml_Product_Helper_Form_Config',
     'visible_on_front' => false
 ));
 
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_wrapping_price', array(
     'group'         => 'Gift Options',
     'type'          => 'decimal',
-    'backend'       => 'catalog/product_attribute_backend_price',
+    'backend'       => 'Mage_Catalog_Model_Product_Attribute_Backend_Price',
     'frontend'      => '',
     'label'         => 'Price for Gift Wrapping',
     'input'         => 'price',

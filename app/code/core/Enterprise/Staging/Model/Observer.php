@@ -53,14 +53,14 @@ class Enterprise_Staging_Model_Observer
             $modelEntity = $observer->getEvent()->getModelEntity();
             $website     = Mage::app()->getWebsite();
             if ($website->getIsStaging()) {
-                $_tableName = Mage::getSingleton('enterprise_staging/staging_config')
+                $_tableName = Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')
                     ->getStagingFrontendTableName($tableName, $modelEntity, $website);
                 if ($_tableName) {
                     $resource->setMappedTableName($tableName, $_tableName);
                 }
             }
         } catch (Enterprise_Staging_Exception $e) {
-            Mage::throwException(Mage::helper('enterprise_staging')->__('Cannot run the staging website.'));
+            Mage::throwException(Mage::helper('Enterprise_Staging_Helper_Data')->__('Cannot run the staging website.'));
         }
     }
 
@@ -75,7 +75,7 @@ class Enterprise_Staging_Model_Observer
         }
         $website = Mage::app()->getWebsite();
         if ($website->getIsStaging()) {
-            $staging = Mage::getModel('enterprise_staging/staging');
+            $staging = Mage::getModel('Enterprise_Staging_Model_Staging');
             $staging->loadByStagingWebsiteId($website->getId());
 
             try {
@@ -133,7 +133,7 @@ class Enterprise_Staging_Model_Observer
             }
 
             $password   = $_SERVER['PHP_AUTH_PW'];
-            if (Mage::helper('core')->decrypt($website->getMasterPassword()) != $password) {
+            if (Mage::helper('Mage_Core_Helper_Data')->decrypt($website->getMasterPassword()) != $password) {
                 throw new Exception('Invalid password.');
             }
         } catch (Exception $e) {
@@ -150,8 +150,8 @@ class Enterprise_Staging_Model_Observer
     public function automates()
     {
         try {
-            $currentDate = Mage::getModel('core/date')->gmtDate();
-            $collection  = Mage::getResourceModel('enterprise_staging/staging_collection')
+            $currentDate = Mage::getModel('Mage_Core_Model_Date')->gmtDate();
+            $collection  = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging_Collection')
                 ->addIsSheduledToFilter();
 
             foreach ($collection as $staging) {
@@ -188,7 +188,7 @@ class Enterprise_Staging_Model_Observer
                 return $this;
             }
 
-            $collection = Mage::getResourceModel('enterprise_staging/staging_collection')
+            $collection = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging_Collection')
                 ->addStagingWebsiteToFilter($_website->getId());
 
             foreach ($collection as $staging) {
@@ -220,7 +220,7 @@ class Enterprise_Staging_Model_Observer
             $isNeedToDisable = false;
 
             if ((int)Mage::getStoreConfig('general/content_staging/block_frontend')===1) {
-                $eventProcessingSites = Mage::getResourceModel('enterprise_staging/staging')
+                $eventProcessingSites = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging')
                     ->getProcessingWebsites();
                 if (count($eventProcessingSites)>0){
                     $isNeedToDisable = true;
@@ -228,7 +228,7 @@ class Enterprise_Staging_Model_Observer
             }
 
             if ((int)Mage::getStoreConfig('general/content_staging/block_frontend')===2) {
-                 $isNeedToDisable = Mage::getResourceModel('enterprise_staging/staging')
+                 $isNeedToDisable = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging')
                     ->isWebsiteInProcessing($currentSiteId);
             }
 
@@ -263,7 +263,7 @@ class Enterprise_Staging_Model_Observer
 
         /* Website ids don't save at origData
          because they are not collected before request parameters are set to product model */
-        $origWebsiteIds = Mage::getModel('catalog/product')->setId($product->getId())->getWebsiteIds();
+        $origWebsiteIds = Mage::getModel('Mage_Catalog_Model_Product')->setId($product->getId())->getWebsiteIds();
         $product->setOrigData('website_ids', $origWebsiteIds);
     }
 
@@ -282,7 +282,7 @@ class Enterprise_Staging_Model_Observer
         $productOrigData    = $product->getOrigData();
         $oldWebsiteIds      = $productOrigData['website_ids'];
         unset($productOrigData);
-        $productUnlinkedSingleton = Mage::getSingleton('enterprise_staging/staging_product_unlinked');
+        $productUnlinkedSingleton = Mage::getSingleton('Enterprise_Staging_Model_Staging_Product_Unlinked');
 
         $unlinkedWebsiteIds = array_diff($oldWebsiteIds, $newWebsiteIds);
         $productUnlinkedSingleton->addProductsUnlinkAssociations($productId, $unlinkedWebsiteIds);
@@ -304,7 +304,7 @@ class Enterprise_Staging_Model_Observer
         $productIds = $observer->getEvent()->getProductIds();
         $action     = $observer->getEvent()->getAction();
 
-        $productUnlinkedSingleton = Mage::getSingleton('enterprise_staging/staging_product_unlinked');
+        $productUnlinkedSingleton = Mage::getSingleton('Enterprise_Staging_Model_Staging_Product_Unlinked');
 
         if ($action == 'add') {
             $productUnlinkedSingleton->removeProductsUnlinkAssociations($productIds, $websiteIds);

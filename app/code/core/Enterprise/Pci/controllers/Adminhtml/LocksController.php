@@ -52,7 +52,7 @@ class Enterprise_Pci_Adminhtml_LocksController extends Mage_Adminhtml_Controller
     public function gridAction()
     {
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('enterprise_pci/adminhtml_locks_grid')->toHtml()
+            $this->getLayout()->createBlock('Enterprise_Pci_Block_Adminhtml_Locks_Grid')->toHtml()
         );
     }
 
@@ -65,12 +65,14 @@ class Enterprise_Pci_Adminhtml_LocksController extends Mage_Adminhtml_Controller
             // unlock users
             $userIds = $this->getRequest()->getPost('unlock');
             if ($userIds && is_array($userIds)) {
-                $affectedUsers = Mage::getResourceSingleton('enterprise_pci/admin_user')->unlock($userIds);
-                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Unlocked %d user(s).', $affectedUsers));
+                $affectedUsers = Mage::getResourceSingleton('Enterprise_Pci_Model_Resource_Admin_User')
+                    ->unlock($userIds);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')
+                        ->addSuccess($this->__('Unlocked %d user(s).', $affectedUsers));
             }
         }
         catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
     }
@@ -82,6 +84,6 @@ class Enterprise_Pci_Adminhtml_LocksController extends Mage_Adminhtml_Controller
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/acl/locks');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/acl/locks');
     }
 }

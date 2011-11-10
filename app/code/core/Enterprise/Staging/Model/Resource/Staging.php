@@ -169,16 +169,16 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
      */
     public function createRun($staging, $event = null)
     {
-        Mage::getResourceModel('enterprise_staging/adapter_website')
+        Mage::getResourceModel('Enterprise_Staging_Model_Resource_Adapter_Website')
             ->createRun($staging, $event);
 
-        Mage::getResourceModel('enterprise_staging/adapter_group')
+        Mage::getResourceModel('Enterprise_Staging_Model_Resource_Adapter_Group')
             ->createRun($staging, $event);
 
-        Mage::getResourceModel('enterprise_staging/adapter_store')
+        Mage::getResourceModel('Enterprise_Staging_Model_Resource_Adapter_Store')
             ->createRun($staging, $event);
 
-        Mage::getResourceModel('enterprise_staging/adapter_item')
+        Mage::getResourceModel('Enterprise_Staging_Model_Resource_Adapter_Item')
             ->createRun($staging, $event);
 
         $this->_processStagingItemsCallback('createRun', $staging, $event);
@@ -195,7 +195,7 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
      */
     public function updateRun($staging, $event = null)
     {
-        Mage::getResourceModel('enterprise_staging/adapter_website')
+        Mage::getResourceModel('Enterprise_Staging_Model_Resource_Adapter_Website')
             ->updateRun($staging, $event);
 
         return $this;
@@ -212,7 +212,7 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
     {
         $this->_processStagingItemsCallback('backupRun', $staging, $event);
 
-        Mage::getModel('enterprise_staging/staging_action')->saveOnBackupRun($staging, $event);
+        Mage::getModel('Enterprise_Staging_Model_Staging_Action')->saveOnBackupRun($staging, $event);
 
         return $this;
     }
@@ -297,7 +297,7 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
         if (!Mage::registry('staging/frontend_checked_started')) {
             Mage::register('staging/frontend_checked_started', true);
 
-            $stagingItems = Mage::getSingleton('enterprise_staging/staging_config')->getStagingItems();
+            $stagingItems = Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getStagingItems();
             foreach ($stagingItems as $stagingItem) {
                 if (!$stagingItem->is_backend) {
                     continue;
@@ -321,7 +321,7 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
             }
 
             Mage::unregister('staging/frontend_checked_started');
-            Mage::getSingleton("core/session")->setData('staging_frontend_website_is_checked', true);
+            Mage::getSingleton('Mage_Core_Model_Session')->setData('staging_frontend_website_is_checked', true);
         }
         return $this;
     }
@@ -337,7 +337,7 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
         if ($itemXmlConfig) {
             $resourceAdapterName = (string) $itemXmlConfig->resource_adapter;
             if (!$resourceAdapterName) {
-                $resourceAdapterName = 'enterprise_staging/adapter_item_default';
+                $resourceAdapterName = 'Enterprise_Staging_Model_Resource_Adapter_Item_Default';
             }
             $resourceAdapter = Mage::getResourceModel($resourceAdapterName);
             if ($resourceAdapter) {
@@ -345,7 +345,7 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
                 return $resourceAdapter;
             }
         }
-        throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Wrong item resource adapter model.'));
+        throw new Enterprise_Staging_Exception(Mage::helper('Enterprise_Staging_Helper_Data')->__('Wrong item resource adapter model.'));
     }
 
     /**
@@ -368,7 +368,7 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
             }
             if ($stagingItem->extends) {
                 foreach ($stagingItem->extends->children() as $extendItem) {
-                    if (!Mage::getSingleton('enterprise_staging/staging_config')->isItemModuleActive($extendItem)) {
+                    if (!Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->isItemModuleActive($extendItem)) {
                          continue;
                     }
                     $adapter = $this->getItemAdapterInstanse($extendItem);

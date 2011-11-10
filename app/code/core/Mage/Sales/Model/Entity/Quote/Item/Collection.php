@@ -44,7 +44,7 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
 
     protected function _construct()
     {
-        $this->_init('sales/quote_item');
+        $this->_init('Mage_Sales_Model_Quote_Item', 'Mage_Sales_Model_Resource_Quote_Item');
     }
 
     public function getStoreId()
@@ -126,7 +126,7 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
             return false;
         }
 
-        $collection = Mage::getModel('catalog/product')->getCollection()
+        $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
             ->setStoreId($this->getStoreId())
             ->addIdFilter($productIds)
             ->addAttributeToSelect('*')

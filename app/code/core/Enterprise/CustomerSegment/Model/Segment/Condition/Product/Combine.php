@@ -33,7 +33,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_product_combine');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine');
     }
 
     /**
@@ -48,7 +48,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
             array(
                 array( // self
                     'value' => $this->getType(),
-                    'label' => Mage::helper('rule')->__('Conditions Combination')
+                    'label' => Mage::helper('Mage_Rule_Helper_Data')->__('Conditions Combination')
                 )
             )
         );
@@ -59,10 +59,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
                 array(
                     array(
                         'value' => array(
-                            Mage::getModel('enterprise_customersegment/segment_condition_uptodate')->getNewChildSelectOptions(),
-                            Mage::getModel('enterprise_customersegment/segment_condition_daterange')->getNewChildSelectOptions(),
+                            Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate')->getNewChildSelectOptions(),
+                            Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Daterange')->getNewChildSelectOptions(),
                         ),
-                        'label' => Mage::helper('enterprise_customersegment')->__('Date Ranges')
+                        'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Date Ranges')
                     )
                 )
             );
@@ -71,7 +71,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
         $children = array_merge_recursive(
             $children,
             array(
-                Mage::getModel('enterprise_customersegment/segment_condition_product_attributes')->getNewChildSelectOptions()
+                Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes')->getNewChildSelectOptions()
             )
         );
 

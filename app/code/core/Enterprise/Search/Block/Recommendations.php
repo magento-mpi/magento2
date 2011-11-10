@@ -40,14 +40,14 @@ class Enterprise_Search_Block_Recommendations extends Mage_Core_Block_Template
      */
     public function getRecommendations()
     {
-        $searchRecommendationsEnabled = (boolean)Mage::helper('enterprise_search')
+        $searchRecommendationsEnabled = (boolean)Mage::helper('Enterprise_Search_Helper_Data')
             ->getSearchConfigData('search_recommendations_enabled');
 
         if (!$searchRecommendationsEnabled) {
             return array();
         }
 
-        $recommendationsModel = Mage::getModel('enterprise_search/recommendations');
+        $recommendationsModel = Mage::getModel('Enterprise_Search_Model_Recommendations');
         $recommendations = $recommendationsModel->getSearchRecommendations();
 
         if (!count($recommendations)) {
@@ -71,7 +71,7 @@ class Enterprise_Search_Block_Recommendations extends Mage_Core_Block_Template
      */
     public function isCountResultsEnabled()
     {
-        return (boolean)Mage::helper('enterprise_search')
+        return (boolean)Mage::helper('Enterprise_Search_Helper_Data')
             ->getSearchConfigData('search_recommendations_count_results_enabled');
     }
 }

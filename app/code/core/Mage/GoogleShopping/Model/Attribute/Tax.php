@@ -43,14 +43,14 @@ class Mage_GoogleShopping_Model_Attribute_Tax extends Mage_GoogleShopping_Model_
     public function convertAttribute($product, $entry)
     {
         $entry->cleanTaxes();
-        if (Mage::helper('tax')->getConfig()->priceIncludesTax()) {
+        if (Mage::helper('Mage_Tax_Helper_Data')->getConfig()->priceIncludesTax()) {
             return $entry;
         }
 
-        $calc = Mage::helper('tax')->getCalculator();
+        $calc = Mage::helper('Mage_Tax_Helper_Data')->getCalculator();
         $customerTaxClass = $calc->getDefaultCustomerTaxClass($product->getStoreId());
         $rates = $calc->getRatesByCustomerAndProductTaxClasses($customerTaxClass, $product->getTaxClassId());
-        $targetCountry = Mage::getSingleton('googleshopping/config')->getTargetCountry($product->getStoreId());
+        $targetCountry = Mage::getSingleton('Mage_GoogleShopping_Model_Config')->getTargetCountry($product->getStoreId());
         foreach ($rates as $rate) {
             if ($targetCountry == $rate['country']) {
                 $entry->addTax(array(

@@ -52,7 +52,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Authorizenet extends Mage_Pa
     {
         $method = $this->getData('method');
         if (!$method) {
-            $method = Mage::getModel('paygate/authorizenet');
+            $method = Mage::getModel('Mage_Paygate_Model_Authorizenet');
             $this->setData('method', $method);
         }
 
@@ -67,7 +67,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Authorizenet extends Mage_Pa
      */
     public function addPaymentFormToXmlObj(Mage_XmlConnect_Model_Simplexml_Element $paymentItemXmlObj)
     {
-        $helper = Mage::helper('xmlconnect');
+        $helper = Mage::helper('Mage_XmlConnect_Helper_Data');
         $method = $this->getMethod();
         if (!$method) {
             return $paymentItemXmlObj;
@@ -122,7 +122,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Authorizenet extends Mage_Pa
     {$verification}
 </fieldset>
 EOT;
-        $fieldsetXmlObj = Mage::getModel('xmlconnect/simplexml_element', $xml);
+        $fieldsetXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', $xml);
         $formXmlObj->appendChild($fieldsetXmlObj);
     }
 }

@@ -52,10 +52,10 @@ class Mage_Core_Block_Store_Switcher extends Mage_Core_Block_Template
         }
 
         $websiteId = Mage::app()->getStore()->getWebsiteId();
-        $storeCollection = Mage::getModel('core/store')
+        $storeCollection = Mage::getModel('Mage_Core_Model_Store')
             ->getCollection()
             ->addWebsiteFilter($websiteId);
-        $groupCollection = Mage::getModel('core/store_group')
+        $groupCollection = Mage::getModel('Mage_Core_Model_Store_Group')
             ->getCollection()
             ->addWebsiteFilter($websiteId);
         foreach ($groupCollection as $group) {

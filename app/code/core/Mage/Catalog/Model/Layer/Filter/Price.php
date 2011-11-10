@@ -65,7 +65,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     protected function _getResource()
     {
         if (is_null($this->_resource)) {
-            $this->_resource = Mage::getResourceModel('catalog/layer_filter_price');
+            $this->_resource = Mage::getResourceModel('Mage_Catalog_Model_Resource_Layer_Filter_Price');
         }
         return $this->_resource;
     }
@@ -160,7 +160,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
         $fromPrice  = $store->formatPrice(($value-1)*$range);
         $toPrice    = $store->formatPrice($value*$range);
 
-        return Mage::helper('catalog')->__('%s - %s', $fromPrice, $toPrice);
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('%s - %s', $fromPrice, $toPrice);
     }
 
     /**
@@ -171,12 +171,12 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     protected function _getCacheKey()
     {
         $key = $this->getLayer()->getStateKey()
-            . '_PRICES_GRP_' . Mage::getSingleton('customer/session')->getCustomerGroupId()
+            . '_PRICES_GRP_' . Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId()
             . '_CURR_' . Mage::app()->getStore()->getCurrentCurrencyCode()
             . '_ATTR_' . $this->getAttributeModel()->getAttributeCode()
             . '_LOC_'
             ;
-        $taxReq = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false);
+        $taxReq = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest(false, false, false);
         $key.= implode('_', $taxReq->getData());
 
         return $key;
@@ -264,7 +264,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     {
         $customerGroupId = $this->_getData('customer_group_id');
         if (is_null($customerGroupId)) {
-            $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
         }
         return $customerGroupId;
     }

@@ -35,26 +35,26 @@ class Mage_Index_Block_Adminhtml_Process_Edit_Tab_Main
         $form->setHtmlIdPrefix('index_process_');
         $fieldset = $form->addFieldset(
             'base_fieldset',
-            array('legend'=>Mage::helper('index')->__('General'), 'class'=>'fieldset-wide')
+            array('legend'=>Mage::helper('Mage_Index_Helper_Data')->__('General'), 'class'=>'fieldset-wide')
         );
 
         $fieldset->addField('process_id', 'hidden', array('name' => 'process', 'value'=>$model->getId()));
 
         $fieldset->addField('name', 'note', array(
-            'label' => Mage::helper('index')->__('Index Name'),
-            'title' => Mage::helper('index')->__('Index Name'),
+            'label' => Mage::helper('Mage_Index_Helper_Data')->__('Index Name'),
+            'title' => Mage::helper('Mage_Index_Helper_Data')->__('Index Name'),
             'text'  => '<strong>'.$model->getIndexer()->getName().'</strong>'
         ));
 
         $fieldset->addField('description', 'note', array(
-            'label' => Mage::helper('index')->__('Index Description'),
-            'title' => Mage::helper('index')->__('Index Description'),
+            'label' => Mage::helper('Mage_Index_Helper_Data')->__('Index Description'),
+            'title' => Mage::helper('Mage_Index_Helper_Data')->__('Index Description'),
             'text'  => $model->getIndexer()->getDescription()
         ));
 
         $fieldset->addField('mode', 'select', array(
-            'label' => Mage::helper('index')->__('Index Mode'),
-            'title' => Mage::helper('index')->__('Index Mode'),
+            'label' => Mage::helper('Mage_Index_Helper_Data')->__('Index Mode'),
+            'title' => Mage::helper('Mage_Index_Helper_Data')->__('Index Mode'),
             'name'  => 'mode',
             'value' => $model->getMode(),
             'values'=> $model->getModesOptions()
@@ -72,7 +72,7 @@ class Mage_Index_Block_Adminhtml_Process_Edit_Tab_Main
      */
     public function getTabLabel()
     {
-        return Mage::helper('index')->__('Process Information');
+        return Mage::helper('Mage_Index_Helper_Data')->__('Process Information');
     }
 
     /**
@@ -82,7 +82,7 @@ class Mage_Index_Block_Adminhtml_Process_Edit_Tab_Main
      */
     public function getTabTitle()
     {
-        return Mage::helper('index')->__('Process Information');
+        return Mage::helper('Mage_Index_Helper_Data')->__('Process Information');
     }
 
     /**

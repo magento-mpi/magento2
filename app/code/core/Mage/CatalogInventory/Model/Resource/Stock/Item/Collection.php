@@ -40,7 +40,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage_Co
      */
     protected function _construct()
     {
-        $this->_init('cataloginventory/stock_item');
+        $this->_init('Mage_CatalogInventory_Model_Stock_Item', 'Mage_CatalogInventory_Model_Resource_Stock_Item');
     }
 
     /**
@@ -139,7 +139,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage_Co
         );
         if (!isset($methods[$comparsionMethod])) {
             Mage::throwException(
-                Mage::helper('cataloginventory')->__('%s is not a correct comparsion method.', $comparsionMethod)
+                Mage::helper('Mage_CatalogInventory_Helper_Data')->__('%s is not a correct comparsion method.', $comparsionMethod)
             );
         }
 

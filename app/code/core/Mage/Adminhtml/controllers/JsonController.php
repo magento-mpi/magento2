@@ -43,7 +43,7 @@ class Mage_Adminhtml_JsonController extends Mage_Adminhtml_Controller_Action
         $arrRes = array();
 
         $countryId = $this->getRequest()->getParam('parent');
-        $arrRegions = Mage::getResourceModel('directory/region_collection')
+        $arrRegions = Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection')
             ->addCountryFilter($countryId)
             ->load()
             ->toOptionArray();
@@ -54,6 +54,6 @@ class Mage_Adminhtml_JsonController extends Mage_Adminhtml_Controller_Action
             }
         }
 
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($arrRes));
+        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($arrRes));
     }
 }

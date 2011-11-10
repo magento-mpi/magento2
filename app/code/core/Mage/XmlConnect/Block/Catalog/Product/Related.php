@@ -42,7 +42,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Related extends Mage_XmlConnect_Bloc
     public function getRelatedProductsXmlObj()
     {
         /** @var $relatedXmlObj Mage_XmlConnect_Model_Simplexml_Element */
-        $relatedXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<related_products></related_products>');
+        $relatedXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<related_products></related_products>');
 
         $productObj = $this->getParentBlock()->getProduct();
 
@@ -50,7 +50,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Related extends Mage_XmlConnect_Bloc
             Mage::register('product', $productObj);
 
             $productBlock = $this->getLayout()->addBlock(
-                'enterprise_targetrule/catalog_product_list_related', 'relatedProducts'
+                'Enterprise_TargetRule_Block_Catalog_Product_List_Related', 'relatedProducts'
             );
 
             $collection = $productBlock->getItemCollection();
@@ -113,7 +113,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Related extends Mage_XmlConnect_Bloc
     {
         if (is_null($this->_productCollection)) {
             $collection = $this->getParentBlock()->getProduct()->getRelatedProductCollection();
-            Mage::getSingleton('catalog/layer')->prepareProductCollection($collection);
+            Mage::getSingleton('Mage_Catalog_Model_Layer')->prepareProductCollection($collection);
             /**
              * Add rating and review summary, image attribute, apply sort params
              */

@@ -45,7 +45,7 @@ class Enterprise_Pbridge_Adminhtml_PbridgeController extends Mage_Adminhtml_Cont
         $this->generateLayoutXml();
         $this->generateLayoutBlocks();
         $this->_isLayoutLoaded = true;
-        $this->_initLayoutMessages('adminhtml/session');
+        $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
         return $this;
     }
 
@@ -69,7 +69,7 @@ class Enterprise_Pbridge_Adminhtml_PbridgeController extends Mage_Adminhtml_Cont
     {
         $methodCode = $this->getRequest()->getParam('method_code', null);
         if ($methodCode) {
-            $methodInstance = Mage::helper('payment')->getMethodInstance($methodCode);
+            $methodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
                 $block = $this->getLayout()->createBlock($methodInstance->getFormBlockType());
                 $block->setMethod($methodInstance);
@@ -78,7 +78,7 @@ class Enterprise_Pbridge_Adminhtml_PbridgeController extends Mage_Adminhtml_Cont
                 }
             }
         } else {
-            Mage::throwException(Mage::helper('enterprise_pbridge')->__('Payment Method Code is not passed.'));
+            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payment Method Code is not passed.'));
         }
     }
 
@@ -90,7 +90,7 @@ class Enterprise_Pbridge_Adminhtml_PbridgeController extends Mage_Adminhtml_Cont
     public function resultAction()
     {
         if ($this->getRequest()->getParam('store')) {
-            Mage::helper('enterprise_pbridge')->setStoreId($this->getRequest()->getParam('store'));
+            Mage::helper('Enterprise_Pbridge_Helper_Data')->setStoreId($this->getRequest()->getParam('store'));
         }
         $this->_initActionLayout();
         $this->renderLayout();
@@ -103,6 +103,6 @@ class Enterprise_Pbridge_Adminhtml_PbridgeController extends Mage_Adminhtml_Cont
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/order');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/order');
     }
 }

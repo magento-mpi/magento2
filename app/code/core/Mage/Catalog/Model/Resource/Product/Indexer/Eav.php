@@ -59,8 +59,8 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav extends Mage_Catalog_Model
     {
         if (is_null($this->_types)) {
             $this->_types   = array(
-                'source'    => Mage::getResourceModel('catalog/product_indexer_eav_source'),
-                'decimal'   => Mage::getResourceModel('catalog/product_indexer_eav_decimal'),
+                'source'    => Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source'),
+                'decimal'   => Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Indexer_Eav_Decimal'),
             );
         }
 
@@ -77,7 +77,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav extends Mage_Catalog_Model
     {
         $indexers = $this->getIndexers();
         if (!isset($indexers[$type])) {
-            Mage::throwException(Mage::helper('catalog')->__('Unknown EAV indexer type "%s".', $type));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Unknown EAV indexer type "%s".', $type));
         }
         return $indexers[$type];
     }

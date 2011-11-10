@@ -45,7 +45,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared
         $this->setId('source_compared');
         if ($this->_getStore()) {
             $this->setHeaderText(
-                Mage::helper('enterprise_checkout')->__('Products in the Comparison List (%s)', $this->getItemsCount())
+                Mage::helper('Enterprise_Checkout_Helper_Data')->__('Products in the Comparison List (%s)', $this->getItemsCount())
             );
         }
     }
@@ -59,15 +59,15 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
-            $collection = Mage::getModel('catalog/product_compare_list')
+            $attributes = Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes();
+            $collection = Mage::getModel('Mage_Catalog_Model_Product_Compare_List')
                 ->getItemCollection()
                 ->useProductItem(true)
                 ->setStoreId($this->_getStore()->getId())
                 ->addStoreFilter($this->_getStore()->getId())
                 ->setCustomerId($this->_getCustomer()->getId())
                 ->addAttributeToSelect($attributes);
-            $collection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($collection);
+            $collection = Mage::helper('Mage_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($collection);
             $collection->addOptionsToResult();
             $this->setData('items_collection', $collection);
         }

@@ -148,7 +148,7 @@ class Mage_Core_Model_App_Area
      */
     protected function _getDesignChange()
     {
-        return Mage::getSingleton('core/design');
+        return Mage::getSingleton('Mage_Core_Model_Design');
     }
 
     /**

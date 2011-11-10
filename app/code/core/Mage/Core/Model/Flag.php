@@ -60,7 +60,7 @@ class Mage_Core_Model_Flag extends Mage_Core_Model_Abstract
         if ($this->hasData('flag_code')) {
             $this->_flagCode = $this->getData('flag_code');
         }
-        $this->_init('core/flag');
+        $this->_init('Mage_Core_Model_Resource_Flag');
     }
 
     /**
@@ -71,7 +71,7 @@ class Mage_Core_Model_Flag extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         if (is_null($this->_flagCode)) {
-            Mage::throwException(Mage::helper('core')->__('Please define flag code.'));
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Please define flag code.'));
         }
 
         $this->setFlagCode($this->_flagCode);
@@ -113,7 +113,7 @@ class Mage_Core_Model_Flag extends Mage_Core_Model_Abstract
     public function loadSelf()
     {
         if (is_null($this->_flagCode)) {
-            Mage::throwException(Mage::helper('core')->__('Please define flag code.'));
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Please define flag code.'));
         }
 
         return $this->load($this->_flagCode, 'flag_code');

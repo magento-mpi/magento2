@@ -48,16 +48,16 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
     protected function _prepareLayout()
     {
         $this->setChild('delete_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('eav')->__('Delete'),
+                    'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Delete'),
                     'class' => 'delete delete-option'
                 )));
 
         $this->setChild('add_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('eav')->__('Add Option'),
+                    'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Add Option'),
                     'class' => 'add',
                     'id'    => 'add_new_option_button'
                 )));
@@ -93,7 +93,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
     {
         $stores = $this->getData('stores');
         if (is_null($stores)) {
-            $stores = Mage::getModel('core/store')
+            $stores = Mage::getModel('Mage_Core_Model_Store')
                 ->getResourceCollection()
                 ->setLoadDefault(true)
                 ->load();
@@ -132,7 +132,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
         $values = $this->getData('option_values');
         if (is_null($values)) {
             $values = array();
-            $optionCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+            $optionCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
                 ->setAttributeFilter($this->getAttributeObject()->getId())
                 ->setPositionOrder('desc', true)
                 ->load();
@@ -199,7 +199,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
         $values = $this->getData('store_option_values_'.$storeId);
         if (is_null($values)) {
             $values = array();
-            $valuesCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+            $valuesCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
                 ->setAttributeFilter($this->getAttributeObject()->getId())
                 ->setStoreFilter($storeId, false)
                 ->load();

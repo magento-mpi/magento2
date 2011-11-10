@@ -48,7 +48,7 @@ class Mage_Poll_Model_Poll_Vote extends Mage_Core_Model_Abstract
 {
     protected function _construct()
     {
-        $this->_init('poll/poll_vote');
+        $this->_init('Mage_Poll_Model_Resource_Poll_Vote');
     }
 
     /**
@@ -59,7 +59,7 @@ class Mage_Poll_Model_Poll_Vote extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         if (!$this->getVoteTime()) {
-            $this->setVoteTime(Mage::getSingleton('core/date')->gmtDate());
+            $this->setVoteTime(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
         }
         return parent::_beforeSave();
     }

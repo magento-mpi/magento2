@@ -31,7 +31,7 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
     {
         parent::__construct();
         $this->setActions(array());
-        $this->setType('rule/action_collection');
+        $this->setType('Mage_Rule_Model_Action_Collection');
     }
 
     /**
@@ -99,7 +99,7 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
            'name'=>'rule[actions]['.$this->getId().'][new_child]',
            'values'=>$this->getNewChildSelectOptions(),
            'value_name'=>$this->getNewChildName(),
-       ))->setRenderer(Mage::getBlockSingleton('rule/newchild'));
+       ))->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Newchild'));
     }
 
     public function asHtmlRecursive()
@@ -114,7 +114,7 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
 
     public function asString($format='')
     {
-        $str = Mage::helper('rule')->__("Perform following actions");
+        $str = Mage::helper('Mage_Rule_Helper_Data')->__("Perform following actions");
         return $str;
     }
 

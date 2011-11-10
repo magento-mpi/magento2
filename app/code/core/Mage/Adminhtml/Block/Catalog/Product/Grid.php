@@ -55,13 +55,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
     protected function _prepareCollection()
     {
         $store = $this->_getStore();
-        $collection = Mage::getModel('catalog/product')->getCollection()
+        $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('attribute_set_id')
             ->addAttributeToSelect('type_id');
 
-        if (Mage::helper('catalog')->isModuleEnabled('Mage_CatalogInventory')) {
+        if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
             $collection->joinField('qty',
                 'cataloginventory_stock_item',
                 'qty',
@@ -146,14 +146,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
     {
         $this->addColumn('entity_id',
             array(
-                'header'=> Mage::helper('catalog')->__('ID'),
+                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('ID'),
                 'width' => '50px',
                 'type'  => 'number',
                 'index' => 'entity_id',
         ));
         $this->addColumn('name',
             array(
-                'header'=> Mage::helper('catalog')->__('Name'),
+                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Name'),
                 'index' => 'name',
         ));
 
@@ -161,28 +161,28 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         if ($store->getId()) {
             $this->addColumn('custom_name',
                 array(
-                    'header'=> Mage::helper('catalog')->__('Name in %s', $store->getName()),
+                    'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Name in %s', $store->getName()),
                     'index' => 'custom_name',
             ));
         }
 
         $this->addColumn('type',
             array(
-                'header'=> Mage::helper('catalog')->__('Type'),
+                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Type'),
                 'width' => '60px',
                 'index' => 'type_id',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('catalog/product_type')->getOptionArray(),
+                'options' => Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getOptionArray(),
         ));
 
-        $sets = Mage::getResourceModel('eav/entity_attribute_set_collection')
-            ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getTypeId())
+        $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+            ->setEntityTypeFilter(Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
         $this->addColumn('set_name',
             array(
-                'header'=> Mage::helper('catalog')->__('Attrib. Set Name'),
+                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Attrib. Set Name'),
                 'width' => '100px',
                 'index' => 'attribute_set_id',
                 'type'  => 'options',
@@ -191,7 +191,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         $this->addColumn('sku',
             array(
-                'header'=> Mage::helper('catalog')->__('SKU'),
+                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
                 'width' => '80px',
                 'index' => 'sku',
         ));
@@ -199,16 +199,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         $store = $this->_getStore();
         $this->addColumn('price',
             array(
-                'header'=> Mage::helper('catalog')->__('Price'),
+                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Price'),
                 'type'  => 'price',
                 'currency_code' => $store->getBaseCurrency()->getCode(),
                 'index' => 'price',
         ));
 
-        if (Mage::helper('catalog')->isModuleEnabled('Mage_CatalogInventory')) {
+        if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
             $this->addColumn('qty',
                 array(
-                    'header'=> Mage::helper('catalog')->__('Qty'),
+                    'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Qty'),
                     'width' => '100px',
                     'type'  => 'number',
                     'index' => 'qty',
@@ -217,43 +217,43 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         $this->addColumn('visibility',
             array(
-                'header'=> Mage::helper('catalog')->__('Visibility'),
+                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Visibility'),
                 'width' => '70px',
                 'index' => 'visibility',
                 'type'  => 'options',
-                'options' => Mage::getModel('catalog/product_visibility')->getOptionArray(),
+                'options' => Mage::getModel('Mage_Catalog_Model_Product_Visibility')->getOptionArray(),
         ));
 
         $this->addColumn('status',
             array(
-                'header'=> Mage::helper('catalog')->__('Status'),
+                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Status'),
                 'width' => '70px',
                 'index' => 'status',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('catalog/product_status')->getOptionArray(),
+                'options' => Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getOptionArray(),
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('websites',
                 array(
-                    'header'=> Mage::helper('catalog')->__('Websites'),
+                    'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Websites'),
                     'width' => '100px',
                     'sortable'  => false,
                     'index'     => 'websites',
                     'type'      => 'options',
-                    'options'   => Mage::getModel('core/website')->getCollection()->toOptionHash(),
+                    'options'   => Mage::getModel('Mage_Core_Model_Website')->getCollection()->toOptionHash(),
             ));
         }
 
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('catalog')->__('Action'),
+                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Action'),
                 'width'     => '50px',
                 'type'      => 'action',
                 'getter'     => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('catalog')->__('Edit'),
+                        'caption' => Mage::helper('Mage_Catalog_Helper_Data')->__('Edit'),
                         'url'     => array(
                             'base'=>'*/*/edit',
                             'params'=>array('store'=>$this->getRequest()->getParam('store'))
@@ -266,8 +266,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'index'     => 'stores',
         ));
 
-        if (Mage::helper('catalog')->isModuleEnabled('Mage_Rss')) {
-            $this->addRssList('rss/catalog/notifystock', Mage::helper('catalog')->__('Notify Low Stock RSS'));
+        if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_Rss')) {
+            $this->addRssList('rss/catalog/notifystock', Mage::helper('Mage_Catalog_Helper_Data')->__('Notify Low Stock RSS'));
         }
 
         return parent::_prepareColumns();
@@ -279,31 +279,31 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         $this->getMassactionBlock()->setFormFieldName('product');
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'=> Mage::helper('catalog')->__('Delete'),
+             'label'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Delete'),
              'url'  => $this->getUrl('*/*/massDelete'),
-             'confirm' => Mage::helper('catalog')->__('Are you sure?')
+             'confirm' => Mage::helper('Mage_Catalog_Helper_Data')->__('Are you sure?')
         ));
 
-        $statuses = Mage::getSingleton('catalog/product_status')->getOptionArray();
+        $statuses = Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getOptionArray();
 
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('status', array(
-             'label'=> Mage::helper('catalog')->__('Change status'),
+             'label'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Change status'),
              'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true)),
              'additional' => array(
                     'visibility' => array(
                          'name' => 'status',
                          'type' => 'select',
                          'class' => 'required-entry',
-                         'label' => Mage::helper('catalog')->__('Status'),
+                         'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Status'),
                          'values' => $statuses
                      )
              )
         ));
 
-        if (Mage::getSingleton('admin/session')->isAllowed('catalog/update_attributes')){
+        if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/update_attributes')){
             $this->getMassactionBlock()->addItem('attributes', array(
-                'label' => Mage::helper('catalog')->__('Update Attributes'),
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Update Attributes'),
                 'url'   => $this->getUrl('*/catalog_product_action_attribute/edit', array('_current'=>true))
             ));
         }

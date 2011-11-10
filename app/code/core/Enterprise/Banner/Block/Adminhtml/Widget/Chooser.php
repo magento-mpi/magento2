@@ -266,7 +266,7 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
         ));
 
         $this->addColumn('position', array(
-            'header'         => Mage::helper('enterprise_banner')->__('Position'),
+            'header'         => Mage::helper('Enterprise_Banner_Helper_Data')->__('Position'),
             'name'           => 'position',
             'type'           => 'number',
             'validate_class' => 'validate-number',

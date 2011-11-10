@@ -33,7 +33,7 @@
 class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
 {
     protected $_code  = Mage_Paypal_Model_Config::METHOD_WPP_DIRECT;
-    protected $_infoBlockType = 'paypal/payment_info';
+    protected $_infoBlockType = 'Mage_Paypal_Block_Payment_Info';
 
     /**
      * Availability options
@@ -64,7 +64,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      *
      * @var $_proType string
      */
-    protected $_proType = 'paypal/pro';
+    protected $_proType = 'Mage_Paypal_Model_Pro';
 
     public function __construct($params = array())
     {
@@ -335,7 +335,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
         }
 
         // add line items
-        $api->setPaypalCart(Mage::getModel('paypal/cart', array($order)))
+        $api->setPaypalCart(Mage::getModel('Mage_Paypal_Model_Cart', array($order)))
             ->setIsLineItemsEnabled($this->_pro->getConfig()->lineItemsEnabled)
         ;
 

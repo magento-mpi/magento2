@@ -62,7 +62,7 @@ class Mage_Downloadable_Helper_File extends Mage_Core_Helper_Abstract
                         $baseTmpPath, $basePath, $file[0]['file']
                     );
                 } catch (Exception $e) {
-                    Mage::throwException(Mage::helper('downloadable')->__('An error occurred while saving the file(s).'));
+                    Mage::throwException(Mage::helper('Mage_Downloadable_Helper_Data')->__('An error occurred while saving the file(s).'));
                 }
             }
             return $fileName;
@@ -96,7 +96,7 @@ class Mage_Downloadable_Helper_File extends Mage_Core_Helper_Abstract
         $destFile = dirname($file) . $ioObject->dirsep()
                   . Mage_Core_Model_File_Uploader::getNewFileName($this->getFilePath($basePath, $file));
 
-        Mage::helper('core/file_storage_database')->copyFile(
+        Mage::helper('Mage_Core_Helper_File_Storage_Database')->copyFile(
             $this->getFilePath($baseTmpPath, $file),
             $this->getFilePath($basePath, $destFile)
         );

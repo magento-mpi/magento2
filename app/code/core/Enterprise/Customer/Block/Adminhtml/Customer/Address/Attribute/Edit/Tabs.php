@@ -45,6 +45,6 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tabs
 
         $this->setId('enterprise_customer_address_attribute_edit_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('enterprise_customer')->__('Attribute Information'));
+        $this->setTitle(Mage::helper('Enterprise_Customer_Helper_Data')->__('Attribute Information'));
     }
 }

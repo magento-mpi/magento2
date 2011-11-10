@@ -48,7 +48,7 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
         if (null === self::$_shouldAskToCreateBillingAgreement) {
             self::$_shouldAskToCreateBillingAgreement = false;
             if ($customerId && $config->shouldAskToCreateBillingAgreement()) {
-                if (Mage::getModel('sales/billing_agreement')->needToCreateForCustomer($customerId)) {
+                if (Mage::getModel('Mage_Sales_Model_Billing_Agreement')->needToCreateForCustomer($customerId)) {
                     self::$_shouldAskToCreateBillingAgreement = true;
                 }
             }
@@ -74,6 +74,6 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
         if (isset($config['disable_for_countries'])) {
             $config['disable_for_countries'] = explode(',', str_replace(' ', '', $config['disable_for_countries']));
         }
-        return Mage::helper('core')->jsonEncode($config);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
     }
 }

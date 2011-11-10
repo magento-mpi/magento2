@@ -44,11 +44,11 @@ class Mage_Adminhtml_Model_System_Config_Source_Checktype
         return array(
             array(
                 'value' => Mage_Sendfriend_Helper_Data::CHECK_IP,
-                'label' => Mage::helper('adminhtml')->__('IP Address')
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('IP Address')
             ),
             array(
                 'value' => Mage_Sendfriend_Helper_Data::CHECK_COOKIE,
-                'label' => Mage::helper('adminhtml')->__('Cookie (unsafe)')
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Cookie (unsafe)')
             ),
         );
     }

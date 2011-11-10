@@ -168,7 +168,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
         if ($this->getType() == 'PRODUCT')
         {
             $this->_profilerBegin();
-            $collection = Mage::getModel('catalog/product')
+            $collection = Mage::getModel('Mage_Catalog_Model_Product')
                 ->getCollection()
                 ->addAttributeToSelect('name')
                 ->load();
@@ -185,7 +185,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
         }
         elseif ($this->getType() == 'CATEGORY') {
             $this->_profilerBegin();
-            $collection = Mage::getModel('catalog/category')
+            $collection = Mage::getModel('Mage_Catalog_Model_Category')
                 ->setStoreId(0)
                 ->getCollection()
                 ->addAttributeToSelect('name')
@@ -289,12 +289,12 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
 
         $this->_profilerOperationStart();
 
-        $categoryName = Mage::helper('loadtest')->__('Catalog %s', $mask);
-        $category = Mage::getModel('catalog/category');
+        $categoryName = Mage::helper('Mage_LoadTest_Helper_Data')->__('Catalog %s', $mask);
+        $category = Mage::getModel('Mage_Catalog_Model_Category');
 
         if (!$parentId) {
             foreach ($this->_stores as $store) {
-                $parentId = Mage::getModel('catalog/category')->load($store->getRootCategoryId())->getPath();
+                $parentId = Mage::getModel('Mage_Catalog_Model_Category')->load($store->getRootCategoryId())->getPath();
                 break;
             }
         }
@@ -325,18 +325,18 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
      */
     protected function _createAttributeSet()
     {
-        $entityTypeId = Mage::getModel('eav/entity')->setType('catalog_product')
+        $entityTypeId = Mage::getModel('Mage_Eav_Model_Entity')->setType('catalog_product')
             ->getTypeId();
-        $defaultSetId = Mage::getModel('catalog/product')->getResource()->getEntityType()->getDefaultAttributeSetId();
+        $defaultSetId = Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getEntityType()->getDefaultAttributeSetId();
 
         $setKey = '';
         $rand = array_merge(range('A', 'Z'), range('a', 'z'), range(0, 9));
         foreach (array_rand($rand, 4) as $v) {
             $setKey .= $rand[$v];
         }
-        $setName = Mage::helper('loadtest')->__('Attribute Set %s', $setKey);
+        $setName = Mage::helper('Mage_LoadTest_Helper_Data')->__('Attribute Set %s', $setKey);
 
-        $setModel = Mage::getModel('eav/entity_attribute_set')
+        $setModel = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
             ->setAttributeSetName($setName)
             ->setEntityTypeId($entityTypeId)
             ->save();
@@ -370,7 +370,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
         }
         $this->_attributeData['groups'][] = array(
             'ynode-245',
-            Mage::helper('loadtest')->__('Group %s', $setKey),
+            Mage::helper('Mage_LoadTest_Helper_Data')->__('Group %s', $setKey),
             count($this->_attributeData['groups']) + 1
         );
 
@@ -443,7 +443,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
                 $count = 0;
             }
             if ($type == 'multiselect') {
-                $backendModel = 'eav/entity_attribute_backend_array';
+                $backendModel = 'Mage_Eav_Model_Entity_Attribute_Backend_Array';
             }
         }
         else {
@@ -463,18 +463,15 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
             $attributeCode = $key . '_' . $type . '_' . $code;
             $attributeName = ucfirst($type) . ' ' . $code;
 
-            $model = Mage::getModel('eav/entity_attribute')
+            $model = Mage::getModel('Mage_Eav_Model_Entity_Attribute')
                 ->setEntityTypeId($this->_attributeSet->getEntityTypeId())
                 ->setAttributeCode($attributeCode)
-                ->setAttributeModel('')
                 ->setBackendModel($backendModel)
                 ->setBackendType($backendTypes[$type])
                 ->setBackendTable('')
-                ->setFrontendModel('')
                 ->setFrontendInput($type)
                 ->setFrontendLabel(array($attributeName))
                 ->setFrontendClass('')
-                ->setSourceModel('')
                 ->setIsGlobal(1)
                 ->setIsVisible(1)
                 ->setIsRequired(0)
@@ -527,7 +524,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
     protected function _createProduct($mask)
     {
         if (is_null($this->_categoryIds)) {
-            $collection = Mage::getModel('catalog/category')
+            $collection = Mage::getModel('Mage_Catalog_Model_Category')
                 ->getCollection()
                 ->load();
             $this->_categoryIds = array();
@@ -537,7 +534,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
             }
 
             if (count($this->_categoryIds) == 0) {
-                Mage::throwException(Mage::helper('loadtest')->__('Categories not found, please create category(ies) first'));
+                Mage::throwException(Mage::helper('Mage_LoadTest_Helper_Data')->__('Categories not found, please create category(ies) first'));
             }
         }
 
@@ -545,16 +542,16 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
             $this->_stores = $this->getStores($this->getStoreIds());
         }
         if (is_null($this->_tax_classes)) {
-            $this->_tax_classes = Mage::getModel('tax/class')
+            $this->_tax_classes = Mage::getModel('Mage_Tax_Model_Class')
                 ->getCollection()
                 ->setClassTypeFilter('PRODUCT');
         }
 
         $this->_profilerOperationStart();
 
-        $productName = Mage::helper('loadtest')->__('Product #%s', $mask);
-        $productDescription = Mage::helper('loadtest')->__('Description for Product #%s', $mask);
-        $productShortDescription = Mage::helper('loadtest')->__('Short description for Product #%s', $mask);
+        $productName = Mage::helper('Mage_LoadTest_Helper_Data')->__('Product #%s', $mask);
+        $productDescription = Mage::helper('Mage_LoadTest_Helper_Data')->__('Description for Product #%s', $mask);
+        $productShortDescription = Mage::helper('Mage_LoadTest_Helper_Data')->__('Short description for Product #%s', $mask);
         $productSku = $this->_getSku($mask);
         $productPrice = rand($this->getMinPrice(), $this->getMaxPrice());
         $stockData = array(
@@ -584,7 +581,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
             }
         }
 
-        $product = Mage::getModel('catalog/product')
+        $product = Mage::getModel('Mage_Catalog_Model_Product')
             ->setTypeId('simple')
             ->setStoreId(0)
             ->setName($productName)
@@ -646,21 +643,21 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
     protected function _fillAttribute(Mage_Catalog_Model_Product $product)
     {
         if (is_null($this->_productAttributes)) {
-            $entityType = Mage::getSingleton('eav/entity_type')
+            $entityType = Mage::getSingleton('Mage_Eav_Model_Entity_Type')
                 ->loadByCode('catalog_product');
             $entityTypeId = $entityType->getId();
 
-            $attributeSet = Mage::getSingleton('eav/entity_attribute_set')
+            $attributeSet = Mage::getSingleton('Mage_Eav_Model_Entity_Attribute_Set')
                 ->load($this->getAttributeSetId());
             /* @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
             if (!$attributeSet->getId() || $attributeSet->getEntityTypeId() != $entityTypeId) {
                 $this->setAttributeSetId($product->getResource()->getEntityType()->getDefaultAttributeSetId());
-                $attributeSet = Mage::getSingleton('eav/entity_attribute_set')
+                $attributeSet = Mage::getSingleton('Mage_Eav_Model_Entity_Attribute_Set')
                     ->load($this->getAttributeSetId());
             }
             $attributeSetId = $attributeSet->getId();
 
-            $collection = Mage::getModel('eav/entity_attribute')
+            $collection = Mage::getModel('Mage_Eav_Model_Entity_Attribute')
                 ->getCollection()
                 ->setAttributeSetFilter($attributeSetId)
                 ->load();
@@ -707,7 +704,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
 
                 $attributeType = $attribute->getFrontendInput();
                 if ($attributeType == 'multiselect' || $attributeType == 'select') {
-                    $optionCollection = Mage::getModel('eav/entity_attribute_option')
+                    $optionCollection = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Option')
                         ->getCollection()
                         ->setAttributeFilter($attribute->getId())
                         ->setPositionOrder('desc')

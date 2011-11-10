@@ -221,7 +221,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     public function getProductModel()
     {
         if (is_null($this->_productModel)) {
-            $productModel = Mage::getModel('catalog/product');
+            $productModel = Mage::getModel('Mage_Catalog_Model_Product');
             $this->_productModel = Mage::objects()->save($productModel);
         }
         return Mage::objects()->load($this->_productModel);
@@ -256,7 +256,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     {
         if (is_null($this->_productTypes)) {
             $this->_productTypes = array();
-            $options = Mage::getModel('catalog/product_type')
+            $options = Mage::getModel('Mage_Catalog_Model_Product_Type')
                 ->getOptionArray();
             foreach ($options as $k => $v) {
                 $this->_productTypes[$k] = $k;
@@ -275,7 +275,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     {
         $type = $product->getTypeId();
         if (!isset($this->_productTypeInstances[$type])) {
-            $this->_productTypeInstances[$type] = Mage::getSingleton('catalog/product_type')
+            $this->_productTypeInstances[$type] = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
                 ->factory($product, true);
         }
         $product->setTypeInstance($this->_productTypeInstances[$type], true);
@@ -292,10 +292,10 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         if (is_null($this->_productAttributeSets)) {
             $this->_productAttributeSets = array();
 
-            $entityTypeId = Mage::getModel('eav/entity')
+            $entityTypeId = Mage::getModel('Mage_Eav_Model_Entity')
                 ->setType('catalog_product')
                 ->getTypeId();
-            $collection = Mage::getResourceModel('eav/entity_attribute_set_collection')
+            $collection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
                 ->setEntityTypeFilter($entityTypeId);
             foreach ($collection as $set) {
                 $this->_productAttributeSets[$set->getAttributeSetName()] = $set->getId();
@@ -365,7 +365,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
     public function parse()
     {
-        $batchModel = Mage::getSingleton('dataflow/batch');
+        $batchModel = Mage::getSingleton('Mage_Dataflow_Model_Batch');
         /* @var $batchModel Mage_Dataflow_Model_Batch */
 
         $batchImportModel = $batchModel->getBatchImportModel();
@@ -416,25 +416,26 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             }
         }
 
-        $this->setVar('entity_type', 'catalog/product');
+        $this->setVar('entity_type', 'catalog/product')
+            ->setVar('entity_resource', 'Mage_Catalog_Model_Resource_Product');
         if (!Mage::registry('Object_Cache_Product')) {
-            $this->setProduct(Mage::getModel('catalog/product'));
+            $this->setProduct(Mage::getModel('Mage_Catalog_Model_Product'));
         }
 
         if (!Mage::registry('Object_Cache_StockItem')) {
-            $this->setStockItem(Mage::getModel('cataloginventory/stock_item'));
+            $this->setStockItem(Mage::getModel('Mage_CatalogInventory_Model_Stock_Item'));
         }
     }
 
     /**
      * Retrieve not loaded collection
      *
-     * @param string $entityType
+     * @param string $entityResource
      * @return Mage_Catalog_Model_Resource_Product_Collection
      */
-    protected function _getCollectionForLoad($entityType)
+    protected function _getCollectionForLoad($entityResource)
     {
-        $collection = parent::_getCollectionForLoad($entityType)
+        $collection = parent::_getCollectionForLoad($entityResource)
             ->setStoreId($this->getStoreId())
             ->addStoreFilter($this->getStoreId());
         return $collection;
@@ -475,18 +476,18 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             $collections = array($collections->getEntity()->getStoreId()=>$collections);
         } elseif (!is_array($collections)) {
             $this->addException(
-                Mage::helper('catalog')->__('No product collections found.'),
+                Mage::helper('Mage_Catalog_Helper_Data')->__('No product collections found.'),
                 Mage_Dataflow_Model_Convert_Exception::FATAL
             );
         }
 
         $stockItems = Mage::registry('current_imported_inventory');
         if ($collections) foreach ($collections as $storeId=>$collection) {
-            $this->addException(Mage::helper('catalog')->__('Records for "'.$stores[$storeId].'" store found.'));
+            $this->addException(Mage::helper('Mage_Catalog_Helper_Data')->__('Records for "'.$stores[$storeId].'" store found.'));
 
             if (!$collection instanceof Mage_Catalog_Model_Entity_Product_Collection) {
                 $this->addException(
-                    Mage::helper('catalog')->__('Product collection expected.'),
+                    Mage::helper('Mage_Catalog_Helper_Data')->__('Product collection expected.'),
                     Mage_Dataflow_Model_Convert_Exception::FATAL
                 );
             }
@@ -503,18 +504,17 @@ class Mage_Catalog_Model_Convert_Adapter_Product
                         // we duplicate product as default product with store_id -
                         if (0 !== $storeId ) {
                             $data = $model->getData();
-                            $default = Mage::getModel('catalog/product');
+                            $default = Mage::getModel('Mage_Catalog_Model_Product');
                             $default->setData($data);
                             $default->setStoreId(0);
                             $default->save();
                             unset($default);
                         } // end
 
-                        #Mage::getResourceSingleton('catalog_entity/convert')->addProductToStore($model->getId(), 0);
                     }
                     if (!$new || 0!==$storeId) {
                         if (0!==$storeId) {
-                            Mage::getResourceSingleton('catalog_entity/convert')->addProductToStore(
+                            Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Convert')->addProductToStore(
                                 $model->getId(),
                                 $storeId
                             );
@@ -523,7 +523,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
                     }
 
                     if (isset($stockItems[$model->getSku()]) && $stock = $stockItems[$model->getSku()]) {
-                        $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($model->getId());
+                        $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item')->loadByProduct($model->getId());
                         $stockItemId = $stockItem->getId();
 
                         if (!$stockItemId) {
@@ -559,11 +559,11 @@ class Mage_Catalog_Model_Convert_Adapter_Product
                     unset($model);
                     $i++;
                 }
-                $this->addException(Mage::helper('catalog')->__("Saved %d record(s)", $i));
+                $this->addException(Mage::helper('Mage_Catalog_Helper_Data')->__("Saved %d record(s)", $i));
             } catch (Exception $e) {
                 if (!$e instanceof Mage_Dataflow_Model_Convert_Exception) {
                     $this->addException(
-                        Mage::helper('catalog')->__(
+                        Mage::helper('Mage_Catalog_Helper_Data')->__(
                             'An error occurred while saving the collection, aborting. Error message: %s',
                             $e->getMessage()
                         ),
@@ -593,7 +593,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             if (!is_null($this->getBatchParams('store'))) {
                 $store = $this->getStoreById($this->getBatchParams('store'));
             } else {
-                $message = Mage::helper('catalog')->__(
+                $message = Mage::helper('Mage_Catalog_Helper_Data')->__(
                     'Skipping import row, required field "%s" is not defined.',
                     'store'
                 );
@@ -604,7 +604,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         }
 
         if ($store === false) {
-            $message = Mage::helper('catalog')->__(
+            $message = Mage::helper('Mage_Catalog_Helper_Data')->__(
                 'Skipping import row, store "%s" field does not exist.',
                 $importData['store']
             );
@@ -612,7 +612,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         }
 
         if (empty($importData['sku'])) {
-            $message = Mage::helper('catalog')->__('Skipping import row, required field "%s" is not defined.', 'sku');
+            $message = Mage::helper('Mage_Catalog_Helper_Data')->__('Skipping import row, required field "%s" is not defined.', 'sku');
             Mage::throwException($message);
         }
         $product->setStoreId($store->getId());
@@ -629,7 +629,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
              */
             if (empty($importData['type']) || !isset($productTypes[strtolower($importData['type'])])) {
                 $value = isset($importData['type']) ? $importData['type'] : '';
-                $message = Mage::helper('catalog')->__(
+                $message = Mage::helper('Mage_Catalog_Helper_Data')->__(
                     'Skip import row, is not valid value "%s" for field "%s"',
                     $value,
                     'type'
@@ -642,7 +642,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
              */
             if (empty($importData['attribute_set']) || !isset($productAttributeSets[$importData['attribute_set']])) {
                 $value = isset($importData['attribute_set']) ? $importData['attribute_set'] : '';
-                $message = Mage::helper('catalog')->__(
+                $message = Mage::helper('Mage_Catalog_Helper_Data')->__(
                     'Skip import row, the value "%s" is invalid for field "%s"',
                     $value,
                     'attribute_set'
@@ -654,7 +654,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             foreach ($this->_requiredFields as $field) {
                 $attribute = $this->getAttribute($field);
                 if (!isset($importData[$field]) && $attribute && $attribute->getIsRequired()) {
-                    $message = Mage::helper('catalog')->__(
+                    $message = Mage::helper('Mage_Catalog_Helper_Data')->__(
                         'Skipping import row, required field "%s" for new products is not defined.',
                         $field
                     );
@@ -857,7 +857,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         Mage::dispatchEvent($this->_eventPrefix . '_after', array());
 
         $entity = new Varien_Object();
-        Mage::getSingleton('index/indexer')->processEntityAction(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
             $entity, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );
     }

@@ -40,7 +40,7 @@ class Mage_PageCache_Adminhtml_PageCacheController extends Mage_Adminhtml_Contro
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
     }
 
     /**
@@ -51,10 +51,10 @@ class Mage_PageCache_Adminhtml_PageCacheController extends Mage_Adminhtml_Contro
     public function cleanAction()
     {
         try {
-            if (Mage::helper('pagecache')->isEnabled()) {
-                Mage::helper('pagecache')->getCacheControlInstance()->clean();
+            if (Mage::helper('Mage_PageCache_Helper_Data')->isEnabled()) {
+                Mage::helper('Mage_PageCache_Helper_Data')->getCacheControlInstance()->clean();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('pagecache')->__('The external full page cache has been cleaned.')
+                    Mage::helper('Mage_PageCache_Helper_Data')->__('The external full page cache has been cleaned.')
                 );
             }
         }
@@ -64,7 +64,7 @@ class Mage_PageCache_Adminhtml_PageCacheController extends Mage_Adminhtml_Contro
         catch (Exception $e) {
             $this->_getSession()->addException(
                 $e,
-                Mage::helper('pagecache')->__('An error occurred while clearing the external full page cache.')
+                Mage::helper('Mage_PageCache_Helper_Data')->__('An error occurred while clearing the external full page cache.')
             );
         }
         $this->_redirect('*/cache/index');
@@ -77,6 +77,6 @@ class Mage_PageCache_Adminhtml_PageCacheController extends Mage_Adminhtml_Contro
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('page_cache');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('page_cache');
     }
 }

@@ -32,9 +32,9 @@ class Mage_Tag_Helper_Data extends Mage_Core_Helper_Abstract
     public function getStatusesArray()
     {
         return array(
-            Mage_Tag_Model_Tag::STATUS_DISABLED => Mage::helper('tag')->__('Disabled'),
-            Mage_Tag_Model_Tag::STATUS_PENDING  => Mage::helper('tag')->__('Pending'),
-            Mage_Tag_Model_Tag::STATUS_APPROVED => Mage::helper('tag')->__('Approved')
+            Mage_Tag_Model_Tag::STATUS_DISABLED => Mage::helper('Mage_Tag_Helper_Data')->__('Disabled'),
+            Mage_Tag_Model_Tag::STATUS_PENDING  => Mage::helper('Mage_Tag_Helper_Data')->__('Pending'),
+            Mage_Tag_Model_Tag::STATUS_APPROVED => Mage::helper('Mage_Tag_Helper_Data')->__('Approved')
         );
     }
 
@@ -42,15 +42,15 @@ class Mage_Tag_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return array(
             array(
-                'label' => Mage::helper('tag')->__('Disabled'),
+                'label' => Mage::helper('Mage_Tag_Helper_Data')->__('Disabled'),
                 'value' => Mage_Tag_Model_Tag::STATUS_DISABLED
             ),
             array(
-                'label' => Mage::helper('tag')->__('Pending'),
+                'label' => Mage::helper('Mage_Tag_Helper_Data')->__('Pending'),
                 'value' => Mage_Tag_Model_Tag::STATUS_PENDING
             ),
             array(
-                'label' => Mage::helper('tag')->__('Approved'),
+                'label' => Mage::helper('Mage_Tag_Helper_Data')->__('Approved'),
                 'value' => Mage_Tag_Model_Tag::STATUS_APPROVED
             )
         );

@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Grid extends Mage_Adminhtml_Block_
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('sales/order_status_collection');
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Status_Collection');
         $collection->joinStates();
         $this->setCollection($collection);
         parent::_prepareCollection();
@@ -56,12 +56,12 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Grid extends Mage_Adminhtml_Block_
     protected function _prepareColumns()
     {
         $this->addColumn('label', array(
-            'header' => Mage::helper('sales')->__('Status'),
+            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Status'),
             'index' => 'label',
         ));
 
         $this->addColumn('status', array(
-            'header' => Mage::helper('sales')->__('Status Code'),
+            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Status Code'),
             'type'  => 'text',
             'index' => 'status',
             'filter_index' => 'main_table.status',
@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('is_default', array(
-            'header'    => Mage::helper('sales')->__('Default Status'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Default Status'),
             'index'     => 'is_default',
             'width'     => '100px',
             'type'      => 'options',
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('state', array(
-            'header'=> Mage::helper('sales')->__('State Code [State Title]'),
+            'header'=> Mage::helper('Mage_Sales_Helper_Data')->__('State Code [State Title]'),
             'type'  => 'text',
             'index' => 'state',
             'width'     => '250px',
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('unassign', array(
-            'header'    => Mage::helper('sales')->__('Action'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Action'),
             'index'     => 'unassign',
             'width'     => '100px',
             'type'      => 'text',
@@ -106,7 +106,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Grid extends Mage_Adminhtml_Block_
     public function decorateState($value, $row, $column, $isExport)
     {
         if ($value) {
-            $cell = $value . ' [' . Mage::getSingleton('sales/order_config')->getStateLabel($value) . ']';
+            $cell = $value . ' [' . Mage::getSingleton('Mage_Sales_Model_Order_Config')->getStateLabel($value) . ']';
         } else {
             $cell = $value;
         }
@@ -122,7 +122,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Grid extends Mage_Adminhtml_Block_
                 '*/*/unassign',
                 array('status' => $row->getStatus(), 'state' => $row->getState())
             );
-            $label = Mage::helper('sales')->__('Unassign');
+            $label = Mage::helper('Mage_Sales_Helper_Data')->__('Unassign');
             $cell = '<a href="' . $url . '">' . $label . '</a>';
         }
         return $cell;

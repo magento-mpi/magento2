@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Helper_Sortby_Default
 
 
         $html .= ' <label for="'.$htmlId.'" class="normal">'
-            . Mage::helper('adminhtml')->__('Use Config Settings').'</label>';
+            . Mage::helper('Mage_Adminhtml_Helper_Data')->__('Use Config Settings').'</label>';
         $html .= '<script type="text/javascript">toggleValueElements($(\''.$htmlId.'\'), $(\''.$htmlId.'\').parentNode);</script>';
 
         return $html;

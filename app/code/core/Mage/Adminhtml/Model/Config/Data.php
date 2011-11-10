@@ -56,14 +56,14 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
             return $this;
         }
 
-        $sections = Mage::getModel('adminhtml/config')->getSections();
+        $sections = Mage::getModel('Mage_Adminhtml_Model_Config')->getSections();
         /* @var $sections Mage_Core_Model_Config_Element */
 
         $oldConfig = $this->_getConfig(true);
 
-        $deleteTransaction = Mage::getModel('core/resource_transaction');
+        $deleteTransaction = Mage::getModel('Mage_Core_Model_Resource_Transaction');
         /* @var $deleteTransaction Mage_Core_Model_Resource_Transaction */
-        $saveTransaction = Mage::getModel('core/resource_transaction');
+        $saveTransaction = Mage::getModel('Mage_Core_Model_Resource_Transaction');
         /* @var $saveTransaction Mage_Core_Model_Resource_Transaction */
 
         // Extends for old config data
@@ -106,12 +106,12 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
                 /**
                  * Get field backend model
                  */
-                $backendClass = $sections->descend($section.'/groups/'.$group.'/fields/'.$field.'/backend_model');
+                $backendClass = (string)$sections->descend($section.'/groups/'.$group.'/fields/'.$field.'/backend_model');
                 if (!$backendClass && $clonedFields && isset($mappedFields[$field])) {
-                    $backendClass = $sections->descend($section.'/groups/'.$group.'/fields/'.$mappedFields[$field].'/backend_model');
+                    $backendClass = (string)$sections->descend($section.'/groups/'.$group.'/fields/'.$mappedFields[$field].'/backend_model');
                 }
                 if (!$backendClass) {
-                    $backendClass = 'core/config_data';
+                    $backendClass = 'Mage_Core_Model_Config_Data';
                 }
 
                 $dataObject = Mage::getModel($backendClass);
@@ -282,7 +282,7 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
      */
     protected function _getPathConfig($path, $full = true)
     {
-        $configDataCollection = Mage::getModel('core/config_data')
+        $configDataCollection = Mage::getModel('Mage_Core_Model_Config_Data')
             ->getCollection()
             ->addScopeFilter($this->getScope(), $this->getScopeId(), $path);
 

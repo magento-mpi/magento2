@@ -38,7 +38,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Info
      */
     public function getTabLabel()
     {
-        return Mage::helper('sales')->__('Profile Information');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Profile Information');
     }
 
     /**

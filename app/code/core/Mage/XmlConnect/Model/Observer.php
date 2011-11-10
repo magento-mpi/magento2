@@ -73,7 +73,7 @@ class Mage_XmlConnect_Model_Observer
         if ($configData && (int)$configData->isValueChanged()
             && in_array($configData->getPath(), $this->_appDependOnConfigFieldPathes)
         ) {
-            Mage::getModel('xmlconnect/application')->updateAllAppsUpdatedAtParameter();
+            Mage::getModel('Mage_XmlConnect_Model_Application')->updateAllAppsUpdatedAtParameter();
         }
     }
 
@@ -89,8 +89,8 @@ class Mage_XmlConnect_Model_Observer
         if ($message instanceof Mage_XmlConnect_Model_Queue && (strtolower($message->getExecTime()) == 'null'
             || !$message->getExecTime())
         ) {
-            $message->setExecTime(Mage::getSingleton('core/date')->gmtDate());
-            Mage::helper('xmlconnect')->sendBroadcastMessage($message);
+            $message->setExecTime(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
+            Mage::helper('Mage_XmlConnect_Helper_Data')->sendBroadcastMessage($message);
             return true;
         }
 
@@ -106,12 +106,12 @@ class Mage_XmlConnect_Model_Observer
     {
         $countOfQueue = Mage::getStoreConfig(Mage_XmlConnect_Model_Queue::XML_PATH_CRON_MESSAGES_COUNT);
 
-        $collection = Mage::getModel('xmlconnect/queue')->getCollection()->addOnlyForSendingFilter()
+        $collection = Mage::getModel('Mage_XmlConnect_Model_Queue')->getCollection()->addOnlyForSendingFilter()
             ->setPageSize($countOfQueue)->setCurPage(1)->load();
 
         foreach ($collection as $message) {
             if ($message->getId()) {
-                Mage::helper('xmlconnect')->sendBroadcastMessage($message);
+                Mage::helper('Mage_XmlConnect_Helper_Data')->sendBroadcastMessage($message);
                 $message->save();
             }
         }

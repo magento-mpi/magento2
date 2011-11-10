@@ -77,7 +77,7 @@ class Mage_Catalog_Model_Indexer_Url extends Mage_Index_Model_Indexer_Abstract
      */
     public function getName()
     {
-        return Mage::helper('catalog')->__('Catalog URL Rewrites');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog URL Rewrites');
     }
 
     /**
@@ -87,7 +87,7 @@ class Mage_Catalog_Model_Indexer_Url extends Mage_Index_Model_Indexer_Abstract
      */
     public function getDescription()
     {
-        return Mage::helper('catalog')->__('Index product and categories URL rewrites');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Index product and categories URL rewrites');
     }
 
     /**
@@ -219,7 +219,7 @@ class Mage_Catalog_Model_Indexer_Url extends Mage_Index_Model_Indexer_Abstract
             $this->reindexAll();
         }
 
-        $urlModel = Mage::getSingleton('catalog/url');
+        $urlModel = Mage::getSingleton('Mage_Catalog_Model_Url');
 
         // Force rewrites history saving
         $dataObject = $event->getDataObject();
@@ -247,10 +247,10 @@ class Mage_Catalog_Model_Indexer_Url extends Mage_Index_Model_Indexer_Abstract
     public function reindexAll()
     {
         /** @var $resourceModel Mage_Catalog_Model_Resource_Url */
-        $resourceModel = Mage::getResourceSingleton('catalog/url');
+        $resourceModel = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Url');
         $resourceModel->beginTransaction();
         try {
-            Mage::getSingleton('catalog/url')->refreshRewrites();
+            Mage::getSingleton('Mage_Catalog_Model_Url')->refreshRewrites();
             $resourceModel->commit();
         } catch (Exception $e) {
             $resourceModel->rollBack();

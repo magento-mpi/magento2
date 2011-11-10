@@ -36,7 +36,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_reminder/rule_condition_wishlist');
+        $this->setType('Enterprise_Reminder_Model_Rule_Condition_Wishlist');
         $this->setValue(null);
     }
 
@@ -47,7 +47,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
      */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('enterprise_reminder/rule_condition_wishlist_combine')->getNewChildSelectOptions();
+        return Mage::getModel('Enterprise_Reminder_Model_Rule_Condition_Wishlist_Combine')->getNewChildSelectOptions();
     }
 
     /**
@@ -79,9 +79,9 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            '==' => Mage::helper('rule')->__('for'),
-            '>'  => Mage::helper('rule')->__('for greater than'),
-            '>=' => Mage::helper('rule')->__('for or greater than')
+            '==' => Mage::helper('Mage_Rule_Helper_Data')->__('for'),
+            '>'  => Mage::helper('Mage_Rule_Helper_Data')->__('for greater than'),
+            '>=' => Mage::helper('Mage_Rule_Helper_Data')->__('for or greater than')
         ));
         return $this;
     }
@@ -104,7 +104,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Wishlist is not empty and abandoned %s %s days and %s of these conditions match:',
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Wishlist is not empty and abandoned %s %s days and %s of these conditions match:',
                 $this->getOperatorElementHtml(),
                 $this->getValueElementHtml(),
                 $this->getAggregatorElement()->getHtml())
@@ -122,7 +122,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     {
         $conditionValue = (int)$this->getValue();
         if ($conditionValue < 1) {
-            Mage::throwException(Mage::helper('enterprise_reminder')->__('Root wishlist condition should have days value at least 1.'));
+            Mage::throwException(Mage::helper('Enterprise_Reminder_Helper_Data')->__('Root wishlist condition should have days value at least 1.'));
         }
 
         $wishlistTable = $this->getResource()->getTable('wishlist');
@@ -140,12 +140,12 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
 
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
 
-        $currentTime = Mage::getModel('core/date')->gmtDate();
-        $daysDiffSql = Mage::getResourceHelper('enterprise_reminder')
+        $currentTime = Mage::getModel('Mage_Core_Model_Date')->gmtDate();
+        $daysDiffSql = Mage::getResourceHelper('Enterprise_Reminder')
             ->getDateDiff('list.updated_at', $select->getAdapter()->formatDate($currentTime));
         $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
-        Mage::getResourceHelper('enterprise_reminder')->setRuleLimit($select, 1);
+        Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
         return $select;
     }
 

@@ -69,7 +69,7 @@ class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
         /**
          * Check if parent node of the store still exists
          */
-        $category = Mage::getModel('catalog/category');
+        $category = Mage::getModel('Mage_Catalog_Model_Category');
         /* @var $category Mage_Catalog_Model_Category */
         if (!$category->checkId($parent)) {
             if ($asCollection) {
@@ -96,7 +96,7 @@ class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
         if ($category instanceof Mage_Catalog_Model_Category) {
             return $category->getUrl();
         }
-        return Mage::getModel('catalog/category')
+        return Mage::getModel('Mage_Catalog_Model_Category')
             ->setData($category->getData())
             ->getUrl();
     }
@@ -110,7 +110,7 @@ class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
     public function canShow($category)
     {
         if (is_int($category)) {
-            $category = Mage::getModel('catalog/category')->load($category);
+            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($category);
         }
 
         if (!$category->getId()) {

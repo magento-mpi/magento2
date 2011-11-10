@@ -49,7 +49,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Orders extends Mage_
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('sales/order_grid_collection');
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Grid_Collection');
         $collection->addBillingAgreementsFilter(Mage::registry('current_billing_agreement')->getId());
         $this->setCollection($collection);
         return Mage_Adminhtml_Block_Widget_Grid::_prepareCollection();

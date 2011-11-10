@@ -40,11 +40,11 @@ class Enterprise_Search_Block_Catalogsearch_Layer extends Mage_CatalogSearch_Blo
     {
         parent::_initBlocks();
 
-        if (Mage::helper('enterprise_search')->getIsEngineAvailableForNavigation(false)) {
-            $this->_categoryBlockName        = 'enterprise_search/catalog_layer_filter_category';
-            $this->_attributeFilterBlockName = 'enterprise_search/catalogsearch_layer_filter_attribute';
-            $this->_priceFilterBlockName     = 'enterprise_search/catalog_layer_filter_price';
-            $this->_decimalFilterBlockName   = 'enterprise_search/catalog_layer_filter_decimal';
+        if (Mage::helper('Enterprise_Search_Helper_Data')->getIsEngineAvailableForNavigation(false)) {
+            $this->_categoryBlockName        = 'Enterprise_Search_Block_Catalog_Layer_Filter_Category';
+            $this->_attributeFilterBlockName = 'Enterprise_Search_Block_Catalogsearch_Layer_Filter_Attribute';
+            $this->_priceFilterBlockName     = 'Enterprise_Search_Block_Catalog_Layer_Filter_Price';
+            $this->_decimalFilterBlockName   = 'Enterprise_Search_Block_Catalog_Layer_Filter_Decimal';
         }
     }
 
@@ -55,7 +55,7 @@ class Enterprise_Search_Block_Catalogsearch_Layer extends Mage_CatalogSearch_Blo
      */
     protected function _prepareLayout()
     {
-        $helper = Mage::helper('enterprise_search');
+        $helper = Mage::helper('Enterprise_Search_Helper_Data');
         if ($helper->isThirdPartSearchEngine() && $helper->getIsEngineAvailableForNavigation(false)) {
             $stateBlock = $this->getLayout()->createBlock($this->_stateBlockName)
                 ->setLayer($this->getLayer());
@@ -113,9 +113,9 @@ class Enterprise_Search_Block_Catalogsearch_Layer extends Mage_CatalogSearch_Blo
      */
     public function getLayer()
     {
-        $helper = Mage::helper('enterprise_search');
+        $helper = Mage::helper('Enterprise_Search_Helper_Data');
         if ($helper->isThirdPartSearchEngine() && $helper->isActiveEngine()) {
-            return Mage::getSingleton('enterprise_search/search_layer');
+            return Mage::getSingleton('Enterprise_Search_Model_Search_Layer');
         }
 
         return parent::getLayer();

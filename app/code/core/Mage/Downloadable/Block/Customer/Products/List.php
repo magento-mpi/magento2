@@ -40,8 +40,8 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
     public function __construct()
     {
         parent::__construct();
-        $session = Mage::getSingleton('customer/session');
-        $purchased = Mage::getResourceModel('downloadable/link_purchased_collection')
+        $session = Mage::getSingleton('Mage_Customer_Model_Session');
+        $purchased = Mage::getResourceModel('Mage_Downloadable_Model_Resource_Link_Purchased_Collection')
             ->addFieldToFilter('customer_id', $session->getCustomerId())
             ->addOrder('created_at', 'desc');
         $this->setPurchased($purchased);
@@ -52,7 +52,7 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
         if (empty($purchasedIds)) {
             $purchasedIds = array(null);
         }
-        $purchasedItems = Mage::getResourceModel('downloadable/link_purchased_item_collection')
+        $purchasedItems = Mage::getResourceModel('Mage_Downloadable_Model_Resource_Link_Purchased_Item_Collection')
             ->addFieldToFilter('purchased_id', array('in' => $purchasedIds))
             ->addFieldToFilter('status',
                 array(
@@ -75,7 +75,7 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
     {
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('page/html_pager', 'downloadable.customer.products.pager')
+        $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager', 'downloadable.customer.products.pager')
             ->setCollection($this->getItems());
         $this->setChild('pager', $pager);
         $this->getItems()->load();
@@ -120,7 +120,7 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
             $downloads = $item->getNumberOfDownloadsBought() - $item->getNumberOfDownloadsUsed();
             return $downloads;
         }
-        return Mage::helper('downloadable')->__('Unlimited');
+        return Mage::helper('Mage_Downloadable_Helper_Data')->__('Unlimited');
     }
 
     /**

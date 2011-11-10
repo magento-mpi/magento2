@@ -39,6 +39,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tabs extends Mage_Ad
         parent::__construct();
         $this->setId('page_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('enterprise_cms')->__('Revision Information'));
+        $this->setTitle(Mage::helper('Enterprise_Cms_Helper_Data')->__('Revision Information'));
     }
 }

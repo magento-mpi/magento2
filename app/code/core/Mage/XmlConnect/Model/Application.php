@@ -261,8 +261,8 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('xmlconnect/application');
-        $this->_configModel = Mage::getModel('xmlconnect/configData');
+        $this->_init('Mage_XmlConnect_Model_Resource_Application');
+        $this->_configModel = Mage::getModel('Mage_XmlConnect_Model_ConfigData');
         $this->_configModel->setDeleteOnUpdate($this->getDeleteOnUpdateConfig());
     }
 
@@ -285,7 +285,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     public function getFormData()
     {
         $data = $this->getData();
-        $data = Mage::helper('xmlconnect')->getDeviceHelper()->checkImages($data);
+        $data = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceHelper()->checkImages($data);
         return $this->_flatArray($data);
     }
 
@@ -348,7 +348,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     public function loadDefaultConfiguration()
     {
         $this->setCode($this->getCodePrefix());
-        $this->setConf(Mage::helper('xmlconnect')->getDeviceHelper()->getDefaultConfiguration());
+        $this->setConf(Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceHelper()->getDefaultConfiguration());
     }
 
     /**
@@ -391,7 +391,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     public function getRenderConf()
     {
-        $result = Mage::helper('xmlconnect')->getDeviceHelper()->getDefaultConfiguration();
+        $result = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceHelper()->getDefaultConfiguration();
         $result = $result['native'];
 
         if (isset($this->_data['conf'])) {
@@ -401,7 +401,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             if (isset($this->_data['conf']['extra'])) {
                 $extra = $this->_data['conf']['extra'];
                 if (isset($extra['tabs'])) {
-                    $tabs = Mage::getModel('xmlconnect/tabs', $extra['tabs']);
+                    $tabs = Mage::getModel('Mage_XmlConnect_Model_Tabs', $extra['tabs']);
                     $result['tabBar']['tabs'] = $tabs;
                 }
                 if (isset($extra['fontColors'])) {
@@ -429,7 +429,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         }
 
         /** @var $helperImage Mage_XmlConnect_Helper_Image */
-        $helperImage = Mage::helper('xmlconnect/image');
+        $helperImage = Mage::helper('Mage_XmlConnect_Helper_Image');
         $paths = $helperImage->getInterfaceImagesPathsConf();
 
         foreach ($paths as $confPath => $dataPath) {
@@ -473,13 +473,13 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         );
         $result['general']['xmlconnectVersion'] = Mage::getConfig()->getNode(self::XML_PATH_MODULE_VERSION);
 
-        $result['general']['isAllowedGuestCheckout'] = (int)Mage::getSingleton('checkout/session')
+        $result['general']['isAllowedGuestCheckout'] = (int)Mage::getSingleton('Mage_Checkout_Model_Session')
             ->getQuote()->isAllowedGuestCheckout();
 
         /**
          * Check is guest can post product reviews
          */
-        if (Mage::helper('review')->getIsGuestAllowToWrite()) {
+        if (Mage::helper('Mage_Review_Helper_Data')->getIsGuestAllowToWrite()) {
             $result['general']['isAllowedGuestReview'] = '1';
         } else {
             $result['general']['isAllowedGuestReview'] = '0';
@@ -524,17 +524,17 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         /**
          * PayPal configuration
          */
-        $result['paypal']['businessAccount'] = Mage::getModel('paypal/config')->businessAccount;
+        $result['paypal']['businessAccount'] = Mage::getModel('Mage_Paypal_Model_Config')->businessAccount;
         $result['paypal']['merchantLabel'] = $this->getData('conf/special/merchantLabel');
 
         $isActive = 0;
-        $paypalMepIsAvailable = Mage::getModel('xmlconnect/payment_method_paypal_mep')->isAvailable(null);
+        $paypalMepIsAvailable = Mage::getModel('Mage_XmlConnect_Model_Payment_Method_Paypal_Mep')->isAvailable(null);
         if ($paypalMepIsAvailable && isset($result['paypal']['isActive'])) {
             $isActive = (int) $result['paypal']['isActive'];
         }
         $result['paypal']['isActive'] = $isActive;
 
-        $paypalMeclIsAvailable = Mage::getModel('xmlconnect/payment_method_paypal_mecl')->isAvailable(null);
+        $paypalMeclIsAvailable = Mage::getModel('Mage_XmlConnect_Model_Payment_Method_Paypal_Mecl')->isAvailable(null);
 
         /**
          * PayPal Mobile Express Library Checkout
@@ -596,7 +596,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     public function setScreenSize($screenSize)
     {
-        $this->_data['screen_size'] = Mage::helper('xmlconnect/image')->filterScreenSize((string) $screenSize);
+        $this->_data['screen_size'] = Mage::helper('Mage_XmlConnect_Helper_Image')->filterScreenSize((string) $screenSize);
         return $this;
     }
 
@@ -608,7 +608,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     public function getEnabledTabsArray()
     {
         if ($this->getData('conf/extra/tabs')) {
-            return Mage::getModel('xmlconnect/tabs', $this->getData('conf/extra/tabs'))->getRenderTabs();
+            return Mage::getModel('Mage_XmlConnect_Model_Tabs', $this->getData('conf/extra/tabs'))->getRenderTabs();
         }
         return array();
     }
@@ -663,7 +663,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $this->setUpdatedAt(Mage::getSingleton('core/date')->gmtDate());
+        $this->setUpdatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
         return $this;
     }
 
@@ -798,7 +798,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             foreach ($values as $path => $value) {
                 if (preg_match('@[^\w\/]@', $path)) {
                     Mage::throwException(
-                        Mage::helper('xmlconnect')->__('Unsupported character in path: "%s"', $path)
+                        Mage::helper('Mage_XmlConnect_Helper_Data')->__('Unsupported character in path: "%s"', $path)
                     );
                 }
                 $keyArray = explode('/', $path);
@@ -841,7 +841,9 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                     $conf['submit_restore'] = array();
                 }
                 foreach ($params as $id => $value) {
-                    $deviceImages = Mage::helper('xmlconnect')->getDeviceHelper()->getSubmitImages();
+                    $deviceImages = Mage::helper('Mage_XmlConnect_Helper_Data')
+                        ->getDeviceHelper()
+                        ->getSubmitImages();
 
                     if (!in_array($id, $deviceImages)) {
                         $conf['submit_text'][$id] = $value;
@@ -865,7 +867,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     {
         $images = array();
         $params = $this->getLastParams();
-        $deviceImages = Mage::helper('xmlconnect')
+        $deviceImages = Mage::helper('Mage_XmlConnect_Helper_Data')
             ->getDeviceHelper()
             ->getSubmitImages();
 
@@ -888,7 +890,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             }
             if (!empty($basename)) {
                 $images['conf/submit/'.$id] = Mage::getBaseUrl('media') . 'xmlconnect/'
-                    . Mage::helper('xmlconnect/image')->getFileDefaultSizeSuffixAsUrl($basename);
+                    . Mage::helper('Mage_XmlConnect_Helper_Image')->getFileDefaultSizeSuffixAsUrl($basename);
             }
         }
         return $images;
@@ -902,7 +904,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     public function getLastParams()
     {
         if (!isset($this->_lastParams)) {
-            $this->_lastParams = Mage::getModel('xmlconnect/history')->getLastParams($this->getId());
+            $this->_lastParams = Mage::getModel('Mage_XmlConnect_Model_History')->getLastParams($this->getId());
         }
         return $this->_lastParams;
     }
@@ -922,7 +924,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         }
 
         if (!Zend_Validate::is($this->getName(), 'NotEmpty')) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please enter "App Title".');
+            $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Please enter "App Title".');
         }
 
         if (empty($errors)) {
@@ -945,7 +947,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $errors = $validateConf;
         }
 
-        $submitErrors = Mage::helper('xmlconnect')->getDeviceHelper($this)->validateSubmit($params);
+        $submitErrors = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceHelper($this)->validateSubmit($params);
 
         if (count($submitErrors)) {
             $errors = array_merge($errors, $submitErrors);
@@ -965,7 +967,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     {
         $conf   = $this->getConf();
         $native = isset($conf['native']) && is_array($conf['native']) ? $conf['native'] : false;
-        $errors = Mage::helper('xmlconnect')->getDeviceHelper($this)->validateConfig($native);
+        $errors = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceHelper($this)->validateConfig($native);
 
         foreach ($this->_socialNetValidationArray as $networkKey) {
             if (isset($native['socialNetworking'][$networkKey]['isActive'])
@@ -976,19 +978,19 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                     if (!isset($native['socialNetworking'][$networkKey]['apiKey'])
                         || !Zend_Validate::is($native['socialNetworking'][$networkKey]['apiKey'], 'NotEmpty')
                     ) {
-                        $errors[] = Mage::helper('xmlconnect')->__('%s API Key required.', $networkName);
+                        $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('%s API Key required.', $networkName);
                     }
                     if (!isset($native['socialNetworking'][$networkKey]['secretKey'])
                         || !Zend_Validate::is($native['socialNetworking'][$networkKey]['secretKey'], 'NotEmpty')
                     ) {
-                        $errors[] = Mage::helper('xmlconnect')->__('%s Secret Key required.', $networkName);
+                        $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('%s Secret Key required.', $networkName);
                     }
                 } else {
                     $networkName = ucfirst($networkKey);
                     if (!isset($native['socialNetworking'][$networkKey]['appID'])
                         || !Zend_Validate::is($native['socialNetworking'][$networkKey]['appID'], 'NotEmpty')
                     ) {
-                        $errors[] = Mage::helper('xmlconnect')->__('%s Application ID required.', $networkName);
+                        $errors[] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('%s Application ID required.', $networkName);
                     }
                 }
             }
@@ -1049,12 +1051,11 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                 $submitRestore = $this->_data['conf']['submit_restore'];
             }
 
-            $deviceImages = Mage::helper('xmlconnect')->getDeviceHelper()->getSubmitImages();
+            $deviceImages = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceHelper()->getSubmitImages();
 
             foreach ($deviceImages as $id) {
                 if (isset($submit[$id])) {
-                    $params[$id] = '@' . Mage::helper('xmlconnect/image')->getDefaultSizeUploadDir() . DS
-                        . $submit[$id];
+                    $params[$id] = '@' . $submit[$id];
                 } elseif (isset($submitRestore[$id])) {
                     $params[$id] = $submitRestore[$id];
                 }

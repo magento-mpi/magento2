@@ -51,7 +51,7 @@ class Mage_Xmlconnect_Block_Adminhtml_Mobile_Grid extends Mage_Adminhtml_Block_W
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('xmlconnect/application')->getCollection();
+        $collection = Mage::getModel('Mage_XmlConnect_Model_Application')->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -92,18 +92,18 @@ class Mage_Xmlconnect_Block_Adminhtml_Mobile_Grid extends Mage_Adminhtml_Block_W
             'type'      => 'text',
             'index'     => 'type',
             'align'     => 'center',
-            'filter'    => 'adminhtml/widget_grid_column_filter_select',
-            'options'   => Mage::helper('xmlconnect')->getSupportedDevices(),
-            'renderer'  => 'xmlconnect/adminhtml_mobile_grid_renderer_type',
+            'filter'    => 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select',
+            'options'   => Mage::helper('Mage_XmlConnect_Helper_Data')->getSupportedDevices(),
+            'renderer'  => 'Mage_XmlConnect_Block_Adminhtml_Mobile_Grid_Renderer_Type',
         ));
 
         $this->addColumn('status', array(
             'header'    => $this->__('Status'),
             'index'     => 'status',
-            'renderer'  => 'xmlconnect/adminhtml_mobile_grid_renderer_bool',
+            'renderer'  => 'Mage_XmlConnect_Block_Adminhtml_Mobile_Grid_Renderer_Bool',
             'align'     => 'center',
-            'filter'    => 'adminhtml/widget_grid_column_filter_select',
-            'options'   => Mage::helper('xmlconnect')->getStatusOptions(),
+            'filter'    => 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select',
+            'options'   => Mage::helper('Mage_XmlConnect_Helper_Data')->getStatusOptions(),
 
         ));
 

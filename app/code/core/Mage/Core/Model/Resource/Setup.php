@@ -138,12 +138,12 @@ class Mage_Core_Model_Resource_Setup
 
         $modName = (string)$this->_resourceConfig->setup->module;
         $this->_moduleConfig = $config->getModuleConfig($modName);
-        $connection = Mage::getSingleton('core/resource')->getConnection($this->_resourceName);
+        $connection = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection($this->_resourceName);
         /**
          * If module setup configuration wasn't loaded
          */
         if (!$connection) {
-            $connection = Mage::getSingleton('core/resource')->getConnection($this->_resourceName);
+            $connection = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection($this->_resourceName);
         }
         $this->_conn = $connection;
     }
@@ -181,7 +181,7 @@ class Mage_Core_Model_Resource_Setup
     {
         $cacheKey = $this->_getTableCacheName($tableName);
         if (!isset($this->_tables[$cacheKey])) {
-            $this->_tables[$cacheKey] = Mage::getSingleton('core/resource')->getTableName($tableName);
+            $this->_tables[$cacheKey] = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName($tableName);
         }
         return $this->_tables[$cacheKey];
     }
@@ -208,7 +208,7 @@ class Mage_Core_Model_Resource_Setup
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('core/resource');
+        return Mage::getResourceSingleton('Mage_Core_Model_Resource_Resource');
     }
 
     /**
@@ -305,7 +305,8 @@ class Mage_Core_Model_Resource_Setup
          * Hook queries in adapter, so that in MySQL compatibility mode extensions and custom modules will avoid
          * errors due to changes in database structure
          */
-        if (((string)$this->_moduleConfig->codePool != 'core') && Mage::helper('core')->useDbCompatibleMode()) {
+        $helper = Mage::helper('Mage_Core_Helper_Data');
+        if (((string)$this->_moduleConfig->codePool != 'core') && $helper->useDbCompatibleMode()) {
             $this->_hookQueries();
         }
 
@@ -375,7 +376,7 @@ class Mage_Core_Model_Resource_Setup
      */
     public function callbackQueryHook(&$sql, &$bind)
     {
-        Mage::getSingleton('core/resource_setup_query_modifier', array($this->getConnection()))
+        Mage::getSingleton('Mage_Core_Model_Resource_Setup_Query_Modifier', array($this->getConnection()))
             ->processQuery($sql, $bind);
         return $this;
     }
@@ -642,7 +643,7 @@ class Mage_Core_Model_Resource_Setup
                 }
             } catch (Exception $e) {
                 printf('<pre>%s</pre>', print_r($e, true));
-                throw Mage::exception('Mage_Core', Mage::helper('core')->__('Error in file: "%s" - %s', $fileName, $e->getMessage()));
+                throw Mage::exception('Mage_Core', Mage::helper('Mage_Core_Helper_Data')->__('Error in file: "%s" - %s', $fileName, $e->getMessage()));
             }
             $version = $file['toVersion'];
             $this->getConnection()->allowDdlCache();
@@ -951,7 +952,7 @@ class Mage_Core_Model_Resource_Setup
      */
     public function getIdxName($tableName, $fields, $indexType = '')
     {
-        return Mage::getSingleton('core/resource')->getIdxName($tableName, $fields, $indexType);
+        return Mage::getSingleton('Mage_Core_Model_Resource')->getIdxName($tableName, $fields, $indexType);
     }
 
     /**
@@ -965,7 +966,7 @@ class Mage_Core_Model_Resource_Setup
      */
     public function getFkName($priTableName, $priColumnName, $refTableName, $refColumnName)
     {
-        return Mage::getSingleton('core/resource')
+        return Mage::getSingleton('Mage_Core_Model_Resource')
             ->getFkName($priTableName, $priColumnName, $refTableName, $refColumnName);
     }
 

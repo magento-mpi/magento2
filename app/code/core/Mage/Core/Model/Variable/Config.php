@@ -49,7 +49,7 @@ class Mage_Core_Model_Variable_Config
         $variableWysiwygPlugin = array(array('name' => 'magentovariable',
             'src' => $this->getWysiwygJsPluginSrc(),
             'options' => array(
-                'title' => Mage::helper('adminhtml')->__('Insert Variable...'),
+                'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Insert Variable...'),
                 'url' => $this->getVariablesWysiwygActionUrl(),
                 'onclick' => $onclickParts,
                 'class'   => 'add-variable plugin'
@@ -76,6 +76,6 @@ class Mage_Core_Model_Variable_Config
      */
     public function getVariablesWysiwygActionUrl()
     {
-        return Mage::getSingleton('adminhtml/url')->getUrl('*/system_variable/wysiwygPlugin');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/system_variable/wysiwygPlugin');
     }
 }

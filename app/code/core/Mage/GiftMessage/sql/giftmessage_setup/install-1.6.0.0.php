@@ -80,23 +80,23 @@ foreach ($entities as $entity) {
  * Add 'gift_message_available' attributes for entities
  */
 $installer->addAttribute('order_item', 'gift_message_available', $options);
-Mage::getResourceModel('catalog/setup', 'catalog_setup')->addAttribute(
+Mage::getResourceModel('Mage_Catalog_Model_Resource_Setup', 'catalog_setup')->addAttribute(
     Mage_Catalog_Model_Product::ENTITY, 'gift_message_available',
     array(
         'group'         => 'Gift Options',
-        'backend'       => 'catalog/product_attribute_backend_boolean',
+        'backend'       => 'Mage_Catalog_Model_Product_Attribute_Backend_Boolean',
         'frontend'      => '',
         'label'         => 'Allow Gift Message',
         'input'         => 'select',
         'class'         => '',
-        'source'        => 'eav/entity_attribute_source_boolean',
+        'source'        => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean',
         'global'        => true,
         'visible'       => true,
         'required'      => false,
         'user_defined'  => false,
         'default'       => '',
         'apply_to'      => '',
-        'input_renderer'   => 'giftmessage/adminhtml_product_helper_form_config',
+        'input_renderer'   => 'Mage_GiftMessage_Block_Adminhtml_Product_Helper_Form_Config',
         'is_configurable'  => 0,
         'visible_on_front' => false
     )

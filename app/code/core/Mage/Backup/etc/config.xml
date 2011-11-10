@@ -32,15 +32,6 @@
         </Mage_Backup>
     </modules>
     <global>
-        <models>
-            <backup>
-                <class>Mage_Backup_Model</class>
-                <resourceModel>backup_resource</resourceModel>
-            </backup>
-            <backup_resource>
-                <class>Mage_Backup_Model_Resource</class>
-            </backup_resource>
-        </models>
         <resources>
             <backup_setup>
                 <setup>

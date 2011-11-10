@@ -34,10 +34,10 @@
                         <children>
                             <config>
                                 <children>
-                                    <payment translate="title" module="payment">
+                                    <payment translate="title" module="Mage_Payment">
                                         <title>Payment Methods Section</title>
                                     </payment>
-                                    <payment_services translate="title" module="payment">
+                                    <payment_services translate="title" module="Mage_Payment">
                                         <title>Payment Services</title>
                                     </payment_services>
                                 </children>

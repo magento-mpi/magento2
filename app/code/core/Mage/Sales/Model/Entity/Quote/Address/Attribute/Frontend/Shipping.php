@@ -32,7 +32,7 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Frontend_Shipping
     {
         $amount = $address->getShippingAmount();
         if ($amount != 0) {
-            $title = Mage::helper('sales')->__('Shipping & Handling');
+            $title = Mage::helper('Mage_Sales_Helper_Data')->__('Shipping & Handling');
             if ($address->getShippingDescription()) {
                 $title .= ' (' . $address->getShippingDescription() . ')';
             }

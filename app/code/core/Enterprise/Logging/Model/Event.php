@@ -38,7 +38,7 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
      */
     public function __construct()
     {
-        $this->_init('enterprise_logging/event');
+        $this->_init('Enterprise_Logging_Model_Resource_Event');
     }
 
     /**
@@ -51,7 +51,7 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
         if (!$this->getId()) {
             $this->setStatus($this->getIsSuccess() ? self::RESULT_SUCCESS : self::RESULT_FAILURE);
             if (!$this->getUser() && $id = $this->getUserId()) {
-                $this->setUser(Mage::getModel('admin/user')->load($id)->getUserName());
+                $this->setUser(Mage::getModel('Mage_Admin_Model_User')->load($id)->getUserName());
             }
             if (!$this->hasTime()) {
                 $this->setTime(time());

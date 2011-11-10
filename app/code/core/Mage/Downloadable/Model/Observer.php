@@ -70,25 +70,25 @@ class Mage_Downloadable_Model_Observer
         if ($product && $product->getTypeId() != Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
             return $this;
         }
-        if (Mage::getModel('downloadable/link_purchased')->load($orderItem->getId(), 'order_item_id')->getId()) {
+        if (Mage::getModel('Mage_Downloadable_Model_Link_Purchased')->load($orderItem->getId(), 'order_item_id')->getId()) {
             return $this;
         }
         if (!$product) {
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStoreId($orderItem->getOrder()->getStoreId())
                 ->load($orderItem->getProductId());
         }
         if ($product->getTypeId() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
             $links = $product->getTypeInstance(true)->getLinks($product);
             if ($linkIds = $orderItem->getProductOptionByCode('links')) {
-                $linkPurchased = Mage::getModel('downloadable/link_purchased');
-                Mage::helper('core')->copyFieldset(
+                $linkPurchased = Mage::getModel('Mage_Downloadable_Model_Link_Purchased');
+                Mage::helper('Mage_Core_Helper_Data')->copyFieldset(
                     'downloadable_sales_copy_order',
                     'to_downloadable',
                     $orderItem->getOrder(),
                     $linkPurchased
                 );
-                Mage::helper('core')->copyFieldset(
+                Mage::helper('Mage_Core_Helper_Data')->copyFieldset(
                     'downloadable_sales_copy_order_item',
                     'to_downloadable',
                     $orderItem,
@@ -102,11 +102,11 @@ class Mage_Downloadable_Model_Observer
                     ->save();
                 foreach ($linkIds as $linkId) {
                     if (isset($links[$linkId])) {
-                        $linkPurchasedItem = Mage::getModel('downloadable/link_purchased_item')
+                        $linkPurchasedItem = Mage::getModel('Mage_Downloadable_Model_Link_Purchased_Item')
                             ->setPurchasedId($linkPurchased->getId())
                             ->setOrderItemId($orderItem->getId());
 
-                        Mage::helper('core')->copyFieldset(
+                        Mage::helper('Mage_Core_Helper_Data')->copyFieldset(
                             'downloadable_sales_copy_link',
                             'to_purchased',
                             $links[$linkId],
@@ -137,7 +137,7 @@ class Mage_Downloadable_Model_Observer
      */
     public function setHasDownloadableProducts($observer)
     {
-        $session = Mage::getSingleton('checkout/session');
+        $session = Mage::getSingleton('Mage_Checkout_Model_Session');
         if (!$session->getHasDownloadableProducts()) {
             $order = $observer->getEvent()->getOrder();
             foreach ($order->getAllItems() as $item) {
@@ -232,7 +232,7 @@ class Mage_Downloadable_Model_Observer
         }
 
         if ($downloadableItemsStatuses) {
-            $linkPurchased = Mage::getResourceModel('downloadable/link_purchased_item_collection')
+            $linkPurchased = Mage::getResourceModel('Mage_Downloadable_Model_Resource_Link_Purchased_Item_Collection')
             ->addFieldToFilter('order_item_id', array('in' => array_keys($downloadableItemsStatuses)));
             foreach ($linkPurchased as $link) {
                 if ($link->getStatus() != $linkStatuses['expired']

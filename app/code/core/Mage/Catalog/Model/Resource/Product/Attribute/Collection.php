@@ -41,7 +41,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Collection
      */
     protected function _construct()
     {
-        $this->_init('catalog/resource_eav_attribute', 'eav/entity_attribute');
+        $this->_init('Mage_Catalog_Model_Resource_Eav_Attribute', 'Mage_Eav_Model_Resource_Entity_Attribute');
     }
 
     /**
@@ -51,14 +51,14 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Collection
      */
     protected function _initSelect()
     {
-        $entityTypeId = (int)Mage::getModel('eav/entity')->setType(Mage_Catalog_Model_Product::ENTITY)->getTypeId();
+        $entityTypeId = (int)Mage::getModel('Mage_Eav_Model_Entity')->setType(Mage_Catalog_Model_Product::ENTITY)->getTypeId();
         $columns = $this->getConnection()->describeTable($this->getResource()->getMainTable());
         unset($columns['attribute_id']);
         $retColumns = array();
         foreach ($columns as $labelColumn => $columnData) {
             $retColumns[$labelColumn] = $labelColumn;
             if ($columnData['DATA_TYPE'] == Varien_Db_Ddl_Table::TYPE_TEXT) {
-                $retColumns[$labelColumn] = Mage::getResourceHelper('core')->castField('main_table.'.$labelColumn);
+                $retColumns[$labelColumn] = Mage::getResourceHelper('Mage_Core')->castField('main_table.'.$labelColumn);
             }
         }
         $this->getSelect()

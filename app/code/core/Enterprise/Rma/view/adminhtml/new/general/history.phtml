@@ -27,16 +27,16 @@
 ?>
 <div class="entry-edit" id="rma-history-block">
     <div class="entry-edit-head">
-        <h4 class="icon-head head-shipping-method"><?php echo Mage::helper('enterprise_rma')->__('RMA History') ?></h4>
+        <h4 class="icon-head head-shipping-method"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA History') ?></h4>
     </div>
     <div class="fieldset">
         <div id="history_form" class="rma-history-form">
             <span class="field-row">
-                <label class="normal" for="history_comment"><?php echo Mage::helper('enterprise_rma')->__('Comment Text') ?></label>
+                <label class="normal" for="history_comment"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Comment Text') ?></label>
                 <textarea name="comment[comment]" rows="3" cols="5" style="height:6em; width:99%;" id="history_comment"></textarea>
             </span>
             <div class="f-left">
-                <input name="comment[is_visible_on_front]" type="checkbox" id="history_visible" value="1" /><label class="normal" for="history_visible"> <?php echo Mage::helper('enterprise_rma')->__('Visible on Frontend') ?></label>
+                <input name="comment[is_visible_on_front]" type="checkbox" id="history_visible" value="1" /><label class="normal" for="history_visible"> <?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Visible on Frontend') ?></label>
             </div>
             <div class="clear"></div>
         </div>

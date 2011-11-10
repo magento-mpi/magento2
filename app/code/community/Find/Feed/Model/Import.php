@@ -70,7 +70,7 @@ class Find_Feed_Model_Import extends Mage_Core_Model_Abstract
             $this->_deleteFtpFiles();
             $this->_sendFile($file);
             if (!$this->_deleteFile($file)) {
-                Mage::throwException(Mage::helper('find_feed')->__("FTP: Can't delete files"));
+                Mage::throwException(Mage::helper('Find_Feed_Helper_Data')->__("FTP: Can't delete files"));
             }
         }
     }
@@ -101,13 +101,13 @@ class Find_Feed_Model_Import extends Mage_Core_Model_Abstract
         $file->streamLock();
         $file->streamWriteCsv($headers, self::SEPARATOR, self::ENCLOSURE);
 
-        $productCollectionPrototype = Mage::getResourceModel('catalog/product_collection');
+        $productCollectionPrototype = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
         $productCollectionPrototype->setPageSize(self::COLLECTION_PAGE_SIZE);
         $pageNumbers = $productCollectionPrototype->getLastPageNumber();
         unset($productCollectionPrototype);
 
         for ($i = 1; $i <= $pageNumbers; $i++) {
-            $productCollection = Mage::getResourceModel('catalog/product_collection');
+            $productCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
             $productCollection->addAttributeToSelect($attributes);
             $productCollection->addAttributeToFilter('is_imported', 1);
             $productCollection->setPageSize(self::COLLECTION_PAGE_SIZE);
@@ -161,10 +161,10 @@ class Find_Feed_Model_Import extends Mage_Core_Model_Abstract
      */
     protected function _getImportAttributes()
     {
-        $attributes = Mage::getResourceModel('find_feed/codes_collection')
+        $attributes = Mage::getResourceModel('Find_Feed_Model_Resource_Codes_Collection')
           ->getImportAttributes();
 
-        if (!Mage::helper('find_feed')->checkRequired($attributes)) {
+        if (!Mage::helper('Find_Feed_Helper_Data')->checkRequired($attributes)) {
             return false;
         }
         return $attributes;

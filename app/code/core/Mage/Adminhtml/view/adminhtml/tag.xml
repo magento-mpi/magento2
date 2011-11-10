@@ -28,13 +28,13 @@
 <layout>
     <adminhtml_tag_edit>
         <reference name="content">
-            <block type="adminhtml/tag_edit" name="tag_edit" template="tag/edit/container.phtml"></block>
+            <block type="Mage_Adminhtml_Block_Tag_Edit" name="tag_edit" template="tag/edit/container.phtml"></block>
         </reference>
     </adminhtml_tag_edit>
     <adminhtml_tag_assigned>
             <remove name="root" />
-            <block type="adminhtml/tag_assigned_grid" name="tag_assigned_grid" output="toHtml" />
-            <block type="adminhtml/widget_grid_serializer" name="tag_grid_serializer" output="toHtml">
+            <block type="Mage_Adminhtml_Block_Tag_Assigned_Grid" name="tag_assigned_grid" output="toHtml" />
+            <block type="Mage_Adminhtml_Block_Widget_Grid_Serializer" name="tag_grid_serializer" output="toHtml">
                 <reference name="tag_grid_serializer">
                     <action method="initSerializerBlock">
                         <grid_block_name>tag_assigned_grid</grid_block_name>
@@ -47,6 +47,6 @@
     </adminhtml_tag_assigned>
     <adminhtml_tag_assignedgridonly>
         <remove name="root" />
-        <block type="adminhtml/tag_assigned_grid" name="assigned_grid" output="toHtml" />
+        <block type="Mage_Adminhtml_Block_Tag_Assigned_Grid" name="assigned_grid" output="toHtml" />
     </adminhtml_tag_assignedgridonly>
 </layout>

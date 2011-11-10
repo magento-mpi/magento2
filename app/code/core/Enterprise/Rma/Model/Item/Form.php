@@ -38,7 +38,7 @@ class Enterprise_Rma_Model_Item_Form extends Mage_Eav_Model_Form
      *
      * @var string
      */
-    protected $_moduleName = 'enterprise_rma';
+    protected $_moduleName = 'Enterprise_Rma';
 
     /**
      * Current EAV entity type code
@@ -54,7 +54,7 @@ class Enterprise_Rma_Model_Item_Form extends Mage_Eav_Model_Form
      */
     protected function _getFormAttributeCollection()
     {
-        return Mage::getResourceModel($this->_moduleName . '/item_form_attribute_collection');
+        return Mage::getResourceModel($this->_moduleName . '_Model_Resource_Item_Form_Attribute_Collection');
     }
 
     /**

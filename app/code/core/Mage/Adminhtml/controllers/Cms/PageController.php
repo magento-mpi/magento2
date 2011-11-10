@@ -45,8 +45,8 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         // load layout, set active menu and breadcrumbs
         $this->loadLayout()
             ->_setActiveMenu('cms/page')
-            ->_addBreadcrumb(Mage::helper('cms')->__('CMS'), Mage::helper('cms')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('cms')->__('Manage Pages'), Mage::helper('cms')->__('Manage Pages'))
+            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('CMS'), Mage::helper('Mage_Cms_Helper_Data')->__('CMS'))
+            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'), Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'))
         ;
         return $this;
     }
@@ -84,14 +84,14 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('page_id');
-        $model = Mage::getModel('cms/page');
+        $model = Mage::getModel('Mage_Cms_Model_Page');
 
         // 2. Initial checking
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError(
-                    Mage::helper('cms')->__('This page no longer exists.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
+                    Mage::helper('Mage_Cms_Helper_Data')->__('This page no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -100,7 +100,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         $this->_title($model->getId() ? $model->getTitle() : $this->__('New Page'));
 
         // 3. Set entered data if was error when we do save
-        $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
+        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true);
         if (! empty($data)) {
             $model->setData($data);
         }
@@ -111,10 +111,10 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         // 5. Build edit form
         $this->_initAction()
             ->_addBreadcrumb(
-                $id ? Mage::helper('cms')->__('Edit Page')
-                    : Mage::helper('cms')->__('New Page'),
-                $id ? Mage::helper('cms')->__('Edit Page')
-                    : Mage::helper('cms')->__('New Page'));
+                $id ? Mage::helper('Mage_Cms_Helper_Data')->__('Edit Page')
+                    : Mage::helper('Mage_Cms_Helper_Data')->__('New Page'),
+                $id ? Mage::helper('Mage_Cms_Helper_Data')->__('Edit Page')
+                    : Mage::helper('Mage_Cms_Helper_Data')->__('New Page'));
 
         $this->renderLayout();
     }
@@ -128,7 +128,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         if ($data = $this->getRequest()->getPost()) {
             $data = $this->_filterPostData($data);
             //init model and set data
-            $model = Mage::getModel('cms/page');
+            $model = Mage::getModel('Mage_Cms_Model_Page');
 
             if ($id = $this->getRequest()->getParam('page_id')) {
                 $model->load($id);
@@ -150,10 +150,10 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
                 $model->save();
 
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('cms')->__('The page has been saved.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
+                    Mage::helper('Mage_Cms_Helper_Data')->__('The page has been saved.'));
                 // clear previously saved data from session
-                Mage::getSingleton('adminhtml/session')->setFormData(false);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/edit', array('page_id' => $model->getId(), '_current'=>true));
@@ -168,7 +168,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
             }
             catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('cms')->__('An error occurred while saving the page.'));
+                    Mage::helper('Mage_Cms_Helper_Data')->__('An error occurred while saving the page.'));
             }
 
             $this->_getSession()->setFormData($data);
@@ -188,13 +188,13 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
             $title = "";
             try {
                 // init model and delete
-                $model = Mage::getModel('cms/page');
+                $model = Mage::getModel('Mage_Cms_Model_Page');
                 $model->load($id);
                 $title = $model->getTitle();
                 $model->delete();
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('cms')->__('The page has been deleted.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
+                    Mage::helper('Mage_Cms_Helper_Data')->__('The page has been deleted.'));
                 // go to grid
                 Mage::dispatchEvent('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'success'));
                 $this->_redirect('*/*/');
@@ -203,14 +203,14 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
             } catch (Exception $e) {
                 Mage::dispatchEvent('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'fail'));
                 // display error message
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                 // go back to edit form
                 $this->_redirect('*/*/edit', array('page_id' => $id));
                 return;
             }
         }
         // display error message
-        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('cms')->__('Unable to find a page to delete.'));
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Cms_Helper_Data')->__('Unable to find a page to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }
@@ -225,13 +225,13 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         switch ($this->getRequest()->getActionName()) {
             case 'new':
             case 'save':
-                return Mage::getSingleton('admin/session')->isAllowed('cms/page/save');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/page/save');
                 break;
             case 'delete':
-                return Mage::getSingleton('admin/session')->isAllowed('cms/page/delete');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/page/delete');
                 break;
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('cms/page');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/page');
                 break;
         }
     }
@@ -259,7 +259,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         $errorNo = true;
         if (!empty($data['layout_update_xml']) || !empty($data['custom_layout_update_xml'])) {
             /** @var $validatorCustomLayout Mage_Adminhtml_Model_LayoutUpdate_Validator */
-            $validatorCustomLayout = Mage::getModel('adminhtml/layoutUpdate_validator');
+            $validatorCustomLayout = Mage::getModel('Mage_Adminhtml_Model_LayoutUpdate_Validator');
             if (!empty($data['layout_update_xml']) && !$validatorCustomLayout->isValid($data['layout_update_xml'])) {
                 $errorNo = false;
             }

@@ -36,7 +36,7 @@ class Mage_Customer_Block_Account_Dashboard_Info extends Mage_Core_Block_Templat
 {
     public function getCustomer()
     {
-        return Mage::getSingleton('customer/session')->getCustomer();
+        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
     }
 
     public function getChangePasswordUrl()
@@ -52,7 +52,7 @@ class Mage_Customer_Block_Account_Dashboard_Info extends Mage_Core_Block_Templat
     public function getSubscriptionObject()
     {
         if(is_null($this->_subscription)) {
-            $this->_subscription = Mage::getModel('newsletter/subscriber')->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer());
+            $this->_subscription = Mage::getModel('Mage_Newsletter_Model_Subscriber')->loadByCustomer(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer());
         }
 
         return $this->_subscription;
@@ -75,6 +75,6 @@ class Mage_Customer_Block_Account_Dashboard_Info extends Mage_Core_Block_Templat
      */
     public function isNewsletterEnabled()
     {
-        return $this->getLayout()->getBlockSingleton('customer/form_register')->isNewsletterEnabled();
+        return $this->getLayout()->getBlockSingleton('Mage_Customer_Block_Form_Register')->isNewsletterEnabled();
     }
 }

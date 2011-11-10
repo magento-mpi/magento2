@@ -66,7 +66,7 @@ class Mage_Sales_Model_Order_Shipment_Track extends Mage_Sales_Model_Abstract
      */
     function _construct()
     {
-        $this->_init('sales/order_shipment_track');
+        $this->_init('Mage_Sales_Model_Resource_Order_Shipment_Track');
     }
 
     /**
@@ -110,7 +110,7 @@ class Mage_Sales_Model_Order_Shipment_Track extends Mage_Sales_Model_Abstract
     public function getShipment()
     {
         if (!($this->_shipment instanceof Mage_Sales_Model_Order_Shipment)) {
-            $this->_shipment = Mage::getModel('sales/order_shipment')->load($this->getParentId());
+            $this->_shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment')->load($this->getParentId());
         }
 
         return $this->_shipment;
@@ -138,7 +138,7 @@ class Mage_Sales_Model_Order_Shipment_Track extends Mage_Sales_Model_Abstract
      */
     public function getNumberDetail()
     {
-        $carrierInstance = Mage::getSingleton('shipping/config')->getCarrierInstance($this->getCarrierCode());
+        $carrierInstance = Mage::getSingleton('Mage_Shipping_Model_Config')->getCarrierInstance($this->getCarrierCode());
         if (!$carrierInstance) {
             $custom = array();
             $custom['title'] = $this->getTitle();
@@ -149,7 +149,7 @@ class Mage_Sales_Model_Order_Shipment_Track extends Mage_Sales_Model_Abstract
         }
 
         if (!$trackingInfo = $carrierInstance->getTrackingInfo($this->getNumber())) {
-            return Mage::helper('sales')->__('No detail for number "%s"', $this->getNumber());
+            return Mage::helper('Mage_Sales_Helper_Data')->__('No detail for number "%s"', $this->getNumber());
         }
 
         return $trackingInfo;

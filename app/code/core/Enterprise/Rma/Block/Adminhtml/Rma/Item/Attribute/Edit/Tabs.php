@@ -45,6 +45,6 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tabs
 
         $this->setId('rma_item_attribute_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('enterprise_rma')->__('Attribute Information'));
+        $this->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('Attribute Information'));
     }
 }

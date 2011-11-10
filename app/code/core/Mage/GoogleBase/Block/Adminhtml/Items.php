@@ -42,9 +42,18 @@ class Mage_GoogleBase_Block_Adminhtml_Items extends Mage_Adminhtml_Block_Widget_
 
     protected function _prepareLayout()
     {
-        $this->setChild('item', $this->getLayout()->createBlock('googlebase/adminhtml_items_item'));
-        $this->setChild('product', $this->getLayout()->createBlock('googlebase/adminhtml_items_product'));
-        $this->setChild('store_switcher', $this->getLayout()->createBlock('googlebase/adminhtml_store_switcher'));
+        $this->setChild(
+            'item',
+            $this->getLayout()->createBlock('Mage_GoogleBase_Block_Adminhtml_Items_Item')
+        );
+        $this->setChild(
+            'product',
+            $this->getLayout()->createBlock('Mage_GoogleBase_Block_Adminhtml_Items_Product')
+        );
+        $this->setChild(
+            'store_switcher',
+            $this->getLayout()->createBlock('Mage_GoogleBase_Block_Adminhtml_Store_Switcher')
+        );
     }
 
     public function getAddButtonHtml()
@@ -54,7 +63,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items extends Mage_Adminhtml_Block_Widget_
             'label' => $this->__('View Available Products'),
         );
         return $this->getLayout()
-            ->createBlock('adminhtml/widget_button')
+            ->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData($addButtonData)
             ->toHtml();
     }
@@ -66,7 +75,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items extends Mage_Adminhtml_Block_Widget_
 
     public function getCaptchaHtml()
     {
-        return $this->getLayout()->createBlock('googlebase/adminhtml_captcha')
+        return $this->getLayout()->createBlock('Mage_GoogleBase_Block_Adminhtml_Captcha')
             ->setGbaseCaptchaToken($this->getGbaseCaptchaToken())
             ->setGbaseCaptchaUrl($this->getGbaseCaptchaUrl())
             ->toHtml();

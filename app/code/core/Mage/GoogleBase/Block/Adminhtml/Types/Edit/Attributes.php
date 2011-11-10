@@ -41,18 +41,18 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
     protected function _prepareLayout()
     {
         $this->setChild('add_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('googlebase')->__('Add New Attribute'),
+                    'label' => Mage::helper('Mage_GoogleBase_Helper_Data')->__('Add New Attribute'),
                     'class' => 'add',
                     'id'    => 'add_new_attribute',
                     'on_click' => 'gBaseAttribute.add()'
                 ))
         );
         $this->setChild('delete_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label' => Mage::helper('googlebase')->__('Remove'),
+                    'label' => Mage::helper('Mage_GoogleBase_Helper_Data')->__('Remove'),
                     'class' => 'delete delete-product-option',
                     'on_click' => 'gBaseAttribute.remove(event)'
                 ))
@@ -75,13 +75,13 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
     {
         $options = array('' => $this->__('Custom attribute, no mapping'));
 
-        $attributes = Mage::getModel('googlebase/service_feed')
+        $attributes = Mage::getModel('Mage_GoogleBase_Model_Service_Feed')
             ->getAttributes($this->getGbaseItemtype(), $this->getTargetCountry());
         foreach ($attributes as $attr) {
             $options[$attr->getId()] = $attr->getName();
         }
 
-        $select = $this->getLayout()->createBlock('adminhtml/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
             ->setId($this->getFieldId() . '_{{index}}_gattribute')
             ->setName($this->getFieldName() . '[{{index}}][gbase_attribute]')
             ->setOptions($options);
@@ -96,7 +96,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
      */
     public function getAttributesSelectHtml($escapeJsQuotes = false)
     {
-        $select = $this->getLayout()->createBlock('adminhtml/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
             ->setId($this->getFieldId() . '_{{index}}_attribute')
             ->setName($this->getFieldName() . '[{{index}}][attribute_id]')
             ->setOptions($this->_getAttributes($this->getAttributeSetId(), $escapeJsQuotes));
@@ -123,7 +123,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
      */
     public function _getAttributes($setId, $escapeJsQuotes = false)
     {
-        $attributes = Mage::getModel('googlebase/attribute')->getAllowedAttributes($setId);
+        $attributes = Mage::getModel('Mage_GoogleBase_Model_Attribute')->getAllowedAttributes($setId);
         $result = array();
 
         foreach ($attributes as $attribute) {
@@ -135,6 +135,6 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
 
     protected function _toJson($data)
     {
-        return Mage::helper('core')->jsonEncode($data);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
     }
 }

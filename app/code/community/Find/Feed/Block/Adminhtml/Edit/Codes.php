@@ -40,7 +40,7 @@ class Find_Feed_Block_Adminhtml_Edit_Codes extends Mage_Adminhtml_Block_Widget_F
      */
     public function __construct()
     {
-        $this->_blockGroup = 'find_feed';
+        $this->_blockGroup = 'Find_Feed';
         $this->_controller = 'adminhtml_edit_codes';
 
         parent::__construct();
@@ -59,6 +59,6 @@ class Find_Feed_Block_Adminhtml_Edit_Codes extends Mage_Adminhtml_Block_Widget_F
      */
     public function getHeaderText()
     {
-        return Mage::helper('find_feed')->__('Import attribute map');
+        return Mage::helper('Find_Feed_Helper_Data')->__('Import attribute map');
     }
 }

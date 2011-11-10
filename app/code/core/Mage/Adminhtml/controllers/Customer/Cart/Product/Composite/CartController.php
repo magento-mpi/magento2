@@ -66,13 +66,13 @@ class Mage_Adminhtml_Customer_Cart_Product_Composite_CartController extends Mage
             Mage::throwException($this->__('No customer id defined.'));
         }
 
-        $this->_customer = Mage::getModel('customer/customer')
+        $this->_customer = Mage::getModel('Mage_Customer_Model_Customer')
             ->load($customerId);
 
         $quoteItemId = (int) $this->getRequest()->getParam('id');
         $websiteId = (int) $this->getRequest()->getParam('website_id');
 
-        $this->_quote = Mage::getModel('sales/quote')
+        $this->_quote = Mage::getModel('Mage_Sales_Model_Quote')
             ->setWebsite(Mage::app()->getWebsite($websiteId))
             ->loadByCustomer($this->_customer);
 
@@ -97,7 +97,7 @@ class Mage_Adminhtml_Customer_Cart_Product_Composite_CartController extends Mage
 
             $quoteItem = $this->_quoteItem;
 
-            $optionCollection = Mage::getModel('sales/quote_item_option')
+            $optionCollection = Mage::getModel('Mage_Sales_Model_Quote_Item_Option')
                 ->getCollection()
                 ->addItemFilter($quoteItem);
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
@@ -113,7 +113,7 @@ class Mage_Adminhtml_Customer_Cart_Product_Composite_CartController extends Mage
         }
 
         /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('adminhtml/catalog_product_composite');
+        $helper = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -142,7 +142,7 @@ class Mage_Adminhtml_Customer_Cart_Product_Composite_CartController extends Mage
         }
 
         $updateResult->setJsVarName($this->getRequest()->getParam('as_js_varname'));
-        Mage::getSingleton('adminhtml/session')->setCompositeProductResult($updateResult);
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->setCompositeProductResult($updateResult);
         $this->_redirect('*/catalog_product/showUpdateResult');
 
         return $this;
@@ -155,6 +155,6 @@ class Mage_Adminhtml_Customer_Cart_Product_Composite_CartController extends Mage
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/manage');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/manage');
     }
 }

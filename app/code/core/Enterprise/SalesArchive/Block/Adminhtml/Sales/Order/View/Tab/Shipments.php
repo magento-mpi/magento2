@@ -39,6 +39,6 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Shipments
      */
     protected function _getCollectionClass()
     {
-        return 'enterprise_salesarchive/order_shipment_collection';
+        return 'Enterprise_SalesArchive_Model_Resource_Order_Shipment_Collection';
     }
 }

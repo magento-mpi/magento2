@@ -52,7 +52,7 @@ class Mage_Directory_Model_Resource_Country_Format extends Mage_Core_Model_Resou
     {
         $this->_uniqueFields = array(array(
             'field' => array('country_id', 'type'),
-            'title' => Mage::helper('directory')->__('Country and Format Type combination should be unique')
+            'title' => Mage::helper('Mage_Directory_Helper_Data')->__('Country and Format Type combination should be unique')
         ));
         return $this;
     }

@@ -59,21 +59,23 @@ class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_
          * Append profiles block to content
          */
         $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/system_convert_gui', 'convert_profile')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Convert_Gui', 'convert_profile')
         );
 
         /**
          * Add breadcrumb item
          */
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Import/Export'), Mage::helper('adminhtml')->__('Import/Export'));
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Profiles'), Mage::helper('adminhtml')->__('Profiles'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Import/Export'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Import/Export'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Profiles'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Profiles'));
 
         $this->renderLayout();
     }
 
     public function gridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/system_convert_gui_grid')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Convert_Gui_Grid')->toHtml()
+        );
     }
 
     /**
@@ -87,7 +89,7 @@ class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_
         $profile = Mage::registry('current_convert_profile');
 
         // set entered data if was error when we do save
-        $data = Mage::getSingleton('adminhtml/session')->getConvertProfileData(true);
+        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getConvertProfileData(true);
 
         if (!empty($data)) {
             $profile->addData($data);
@@ -99,13 +101,13 @@ class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_
 
 
         $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/system_convert_gui_edit')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Convert_Gui_Edit')
         );
 
         /**
          * Append edit tabs to left block
          */
-        $this->_addLeft($this->getLayout()->createBlock('adminhtml/system_convert_gui_edit_tabs'));
+        $this->_addLeft($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tabs'));
 
         $this->renderLayout();
     }
@@ -149,6 +151,6 @@ class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_
 //                break;
 //        }
 
-        return Mage::getSingleton('admin/session')->isAllowed('admin/system/convert/gui');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/system/convert/gui');
     }
 }

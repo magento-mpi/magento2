@@ -49,7 +49,7 @@ class Enterprise_Invitation_Model_Invitation_History extends Mage_Core_Model_Abs
      */
     protected function _construct()
     {
-        $this->_init('enterprise_invitation/invitation_history');
+        $this->_init('Enterprise_Invitation_Model_Resource_Invitation_History');
     }
 
     /**
@@ -59,7 +59,7 @@ class Enterprise_Invitation_Model_Invitation_History extends Mage_Core_Model_Abs
      */
     public function getStatusText()
     {
-        return Mage::getSingleton('enterprise_invitation/source_invitation_status')->getOptionText(
+        return Mage::getSingleton('Enterprise_Invitation_Model_Source_Invitation_Status')->getOptionText(
             $this->getStatus()
         );
     }

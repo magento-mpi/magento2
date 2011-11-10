@@ -55,7 +55,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
 
         try {
             /*@var $quote Mage_Sales_Model_Quote*/
-            $quote = Mage::getModel('sales/quote');
+            $quote = Mage::getModel('Mage_Sales_Model_Quote');
             $quote->setStoreId($storeId)
                     ->setIsActive(false)
                     ->setIsMultiShipping(false)
@@ -79,7 +79,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
 
         if ($quote->getGiftMessageId() > 0) {
             $quote->setGiftMessage(
-                Mage::getSingleton('giftmessage/message')->load($quote->getGiftMessageId())->getMessage()
+                Mage::getSingleton('Mage_GiftMessage_Model_Message')->load($quote->getGiftMessageId())->getMessage()
             );
         }
 
@@ -91,7 +91,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
         foreach ($quote->getAllItems() as $item) {
             if ($item->getGiftMessageId() > 0) {
                 $item->setGiftMessage(
-                    Mage::getSingleton('giftmessage/message')->load($item->getGiftMessageId())->getMessage()
+                    Mage::getSingleton('Mage_GiftMessage_Model_Message')->load($item->getGiftMessageId())->getMessage()
                 );
             }
 
@@ -134,7 +134,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
      */
     public function createOrder($quoteId, $store = null, $agreements = null)
     {
-        $requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds();
+        $requiredAgreements = Mage::helper('Mage_Checkout_Helper_Data')->getRequiredAgreementIds();
         if (!empty($requiredAgreements)) {
             $diff = array_diff($agreements, $requiredAgreements);
             if (!empty($diff)) {
@@ -147,18 +147,18 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
             $this->_fault('invalid_checkout_type');
         }
         if ($quote->getCheckoutMethod() == Mage_Checkout_Model_Api_Resource_Customer::MODE_GUEST
-                && !Mage::helper('checkout')->isAllowedGuestCheckout($quote, $quote->getStoreId())) {
+                && !Mage::helper('Mage_Checkout_Helper_Data')->isAllowedGuestCheckout($quote, $quote->getStoreId())) {
             $this->_fault('guest_checkout_is_not_enabled');
         }
 
         /** @var $customerResource Mage_Checkout_Model_Api_Resource_Customer */
-        $customerResource = Mage::getModel("checkout/api_resource_customer");
+        $customerResource = Mage::getModel('Mage_Checkout_Model_Api_Resource_Customer');
         $isNewCustomer = $customerResource->prepareCustomerForQuote($quote);
 
         try {
             $quote->collectTotals();
             /** @var $service Mage_Sales_Model_Service_Quote */
-            $service = Mage::getModel('sales/service_quote', $quote);
+            $service = Mage::getModel('Mage_Sales_Model_Service_Quote', $quote);
             $service->submitAll();
 
             if ($isNewCustomer) {
@@ -204,7 +204,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
 
         $agreements = array();
         if (Mage::getStoreConfigFlag('checkout/options/enable_agreements')) {
-            $agreementsCollection = Mage::getModel('checkout/agreement')->getCollection()
+            $agreementsCollection = Mage::getModel('Mage_Checkout_Model_Agreement')->getCollection()
                     ->addStoreFilter($storeId)
                     ->addFieldToFilter('is_active', 1);
 

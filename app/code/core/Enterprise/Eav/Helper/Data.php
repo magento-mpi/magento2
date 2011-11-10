@@ -47,7 +47,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected function _getEntityTypeCode()
     {
-        Mage::throwException(Mage::helper('enterprise_eav')->__('Use helper with defined EAV entity'));
+        Mage::throwException(Mage::helper('Enterprise_Eav_Helper_Data')->__('Use helper with defined EAV entity'));
     }
 
     /**
@@ -59,7 +59,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return array(
             array(
-                'label' => Mage::helper('enterprise_eav')->__('Default EAV Form'),
+                'label' => Mage::helper('Enterprise_Eav_Helper_Data')->__('Default EAV Form'),
                 'value' => 'default'
             )
         );
@@ -75,7 +75,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $inputTypes = array(
             'text'          => array(
-                'label'             => Mage::helper('enterprise_eav')->__('Text Field'),
+                'label'             => Mage::helper('Enterprise_Eav_Helper_Data')->__('Text Field'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'min_text_length',
@@ -96,7 +96,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                 'default_value'     => 'text',
             ),
             'textarea'      => array(
-                'label'             => Mage::helper('enterprise_eav')->__('Text Area'),
+                'label'             => Mage::helper('Enterprise_Eav_Helper_Data')->__('Text Area'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'min_text_length',
@@ -111,7 +111,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                 'default_value'     => 'textarea',
             ),
             'multiline'     => array(
-                'label'             => Mage::helper('enterprise_eav')->__('Multiple Line'),
+                'label'             => Mage::helper('Enterprise_Eav_Helper_Data')->__('Multiple Line'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'min_text_length',
@@ -132,7 +132,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                 'default_value'     => 'text',
             ),
             'date'          => array(
-                'label'             => Mage::helper('enterprise_eav')->__('Date'),
+                'label'             => Mage::helper('Enterprise_Eav_Helper_Data')->__('Date'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'date_range_min',
@@ -144,45 +144,45 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                 'filter_types'      => array(
                     'date'
                 ),
-                'backend_model'     => 'eav/entity_attribute_backend_datetime',
+                'backend_model'     => 'Mage_Eav_Model_Entity_Attribute_Backend_Datetime',
                 'backend_type'      => 'datetime',
                 'default_value'     => 'date',
             ),
             'select'        => array(
-                'label'             => Mage::helper('enterprise_eav')->__('Dropdown'),
+                'label'             => Mage::helper('Enterprise_Eav_Helper_Data')->__('Dropdown'),
                 'manage_options'    => true,
                 'option_default'    => 'radio',
                 'validate_types'    => array(),
                 'validate_filters'  => array(),
                 'filter_types'      => array(),
-                'source_model'      => 'eav/entity_attribute_source_table',
+                'source_model'      => 'Mage_Eav_Model_Entity_Attribute_Source_Table',
                 'backend_type'      => 'int',
                 'default_value'     => false,
             ),
             'multiselect'   => array(
-                'label'             => Mage::helper('enterprise_eav')->__('Multiple Select'),
+                'label'             => Mage::helper('Enterprise_Eav_Helper_Data')->__('Multiple Select'),
                 'manage_options'    => true,
                 'option_default'    => 'checkbox',
                 'validate_types'    => array(),
                 'filter_types'      => array(),
                 'validate_filters'  => array(),
-                'backend_model'     => 'eav/entity_attribute_backend_array',
-                'source_model'      => 'eav/entity_attribute_source_table',
+                'backend_model'     => 'Mage_Eav_Model_Entity_Attribute_Backend_Array',
+                'source_model'      => 'Mage_Eav_Model_Entity_Attribute_Source_Table',
                 'backend_type'      => 'varchar',
                 'default_value'     => false,
             ),
             'boolean'       => array(
-                'label'             => Mage::helper('enterprise_eav')->__('Yes/No'),
+                'label'             => Mage::helper('Enterprise_Eav_Helper_Data')->__('Yes/No'),
                 'manage_options'    => false,
                 'validate_types'    => array(),
                 'validate_filters'  => array(),
                 'filter_types'      => array(),
-                'source_model'      => 'eav/entity_attribute_source_boolean',
+                'source_model'      => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean',
                 'backend_type'      => 'int',
                 'default_value'     => 'yesno',
             ),
             'file'          => array(
-                'label'             => Mage::helper('enterprise_eav')->__('File (attachment)'),
+                'label'             => Mage::helper('Enterprise_Eav_Helper_Data')->__('File (attachment)'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'max_file_size',
@@ -194,7 +194,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                 'default_value'     => false,
             ),
             'image'         => array(
-                'label'             => Mage::helper('enterprise_eav')->__('Image File'),
+                'label'             => Mage::helper('Enterprise_Eav_Helper_Data')->__('Image File'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'max_file_size',
@@ -243,12 +243,12 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAttributeValidateFilters()
     {
         return array(
-            'alphanumeric'  => Mage::helper('enterprise_eav')->__('Alphanumeric'),
-            'numeric'       => Mage::helper('enterprise_eav')->__('Numeric Only'),
-            'alpha'         => Mage::helper('enterprise_eav')->__('Alpha Only'),
-            'url'           => Mage::helper('enterprise_eav')->__('URL'),
-            'email'         => Mage::helper('enterprise_eav')->__('Email'),
-            'date'          => Mage::helper('enterprise_eav')->__('Date'),
+            'alphanumeric'  => Mage::helper('Enterprise_Eav_Helper_Data')->__('Alphanumeric'),
+            'numeric'       => Mage::helper('Enterprise_Eav_Helper_Data')->__('Numeric Only'),
+            'alpha'         => Mage::helper('Enterprise_Eav_Helper_Data')->__('Alpha Only'),
+            'url'           => Mage::helper('Enterprise_Eav_Helper_Data')->__('URL'),
+            'email'         => Mage::helper('Enterprise_Eav_Helper_Data')->__('Email'),
+            'date'          => Mage::helper('Enterprise_Eav_Helper_Data')->__('Date'),
         );
     }
 
@@ -260,9 +260,9 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAttributeFilterTypes()
     {
         return array(
-            'striptags'     => Mage::helper('enterprise_eav')->__('Strip HTML Tags'),
-            'escapehtml'    => Mage::helper('enterprise_eav')->__('Escape HTML Entities'),
-            'date'          => Mage::helper('enterprise_eav')->__('Normalize Date')
+            'striptags'     => Mage::helper('Enterprise_Eav_Helper_Data')->__('Strip HTML Tags'),
+            'escapehtml'    => Mage::helper('Enterprise_Eav_Helper_Data')->__('Escape HTML Entities'),
+            'date'          => Mage::helper('Enterprise_Eav_Helper_Data')->__('Normalize Date')
         );
     }
 
@@ -396,7 +396,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
         if (empty($this->_userDefinedAttributeCodes[$entityTypeCode])) {
             $this->_userDefinedAttributeCodes[$entityTypeCode] = array();
             /* @var $config Mage_Eav_Model_Config */
-            $config = Mage::getSingleton('eav/config');
+            $config = Mage::getSingleton('Mage_Eav_Model_Config');
             foreach ($config->getEntityAttributeCodes($entityTypeCode) as $attributeCode) {
                 $attribute = $config->getAttribute($entityTypeCode, $attributeCode);
                 if ($attribute && $attribute->getIsUserDefined()) {
@@ -463,7 +463,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
             if (isset($data['attribute_code'])) {
                 $validatorAttrCode = new Zend_Validate_Regex(array('pattern' => '/^[a-z_0-9]{1,255}$/'));
                 if (!$validatorAttrCode->isValid($data['attribute_code'])) {
-                    Mage::throwException(Mage::helper('enterprise_eav')->__('Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.'));
+                    Mage::throwException(Mage::helper('Enterprise_Eav_Helper_Data')->__('Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.'));
                 }
             }
         }

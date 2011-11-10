@@ -44,7 +44,7 @@ class Mage_Widget_Model_Widget_Config extends Varien_Object
     {
         $settings = array(
             'widget_plugin_src'   => Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentowidget/editor_plugin.js',
-            'widget_placeholders' => Mage::getModel('widget/widget')->getPlaceholderImageUrls(),
+            'widget_placeholders' => Mage::getModel('Mage_Widget_Model_Widget')->getPlaceholderImageUrls(),
             'widget_window_url'   => $this->getWidgetWindowUrl($config)
         );
 
@@ -63,8 +63,8 @@ class Mage_Widget_Model_Widget_Config extends Varien_Object
 
         $skipped = is_array($config->getData('skip_widgets')) ? $config->getData('skip_widgets') : array();
         if ($config->hasData('widget_filters')) {
-            $all = Mage::getModel('widget/widget')->getWidgetsXml();
-            $filtered = Mage::getModel('widget/widget')->getWidgetsXml($config->getData('widget_filters'));
+            $all = Mage::getModel('Mage_Widget_Model_Widget')->getWidgetsXml();
+            $filtered = Mage::getModel('Mage_Widget_Model_Widget')->getWidgetsXml($config->getData('widget_filters'));
             $reflection = new ReflectionObject($filtered);
             foreach ($all as $code => $widget) {
                 if (!$reflection->hasProperty($code)) {
@@ -76,7 +76,7 @@ class Mage_Widget_Model_Widget_Config extends Varien_Object
         if (count($skipped) > 0) {
             $params['skip_widgets'] = $this->encodeWidgetsToQuery($skipped);
         }
-        return Mage::getSingleton('adminhtml/url')->getUrl('*/widget/index', $params);
+        return Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/widget/index', $params);
     }
 
     /**
@@ -89,7 +89,7 @@ class Mage_Widget_Model_Widget_Config extends Varien_Object
     {
         $widgets = is_array($widgets) ? $widgets : array($widgets);
         $param = implode(',', $widgets);
-        return Mage::helper('core')->urlEncode($param);
+        return Mage::helper('Mage_Core_Helper_Data')->urlEncode($param);
     }
 
     /**
@@ -100,7 +100,7 @@ class Mage_Widget_Model_Widget_Config extends Varien_Object
      */
     public function decodeWidgetsFromQuery($queryParam)
     {
-        $param = Mage::helper('core')->urlDecode($queryParam);
+        $param = Mage::helper('Mage_Core_Helper_Data')->urlDecode($queryParam);
         return preg_split('/\s*\,\s*/', $param, 0, PREG_SPLIT_NO_EMPTY);
     }
 

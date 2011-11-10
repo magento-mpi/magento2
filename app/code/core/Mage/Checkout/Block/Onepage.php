@@ -54,7 +54,9 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
         return $this->isCustomerLoggedIn() ? 'billing' : 'login';
     }
 
-/*
+    /**
+     * @deprecated  all in comments below
+     *
     // ADDRESSES
 
     public function getAddressesHtmlSelect($address, $type)
@@ -80,7 +82,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
                 }
             }
 
-            $select = $this->getLayout()->createBlock('core/html_select')
+            $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
                 ->setName($type.'_address_id')
                 ->setId($type.'-address-select')
                 ->setExtraParams('onchange="'.$type.'.newAddress(!this.value)"')
@@ -96,10 +98,10 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
 
     public function getCountryHtmlSelect($address, $type)
     {
-        $select = $this->getLayout()->createBlock('core/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName($type.'[country_id]')
             ->setId($type.':country_id')
-            ->setTitle(Mage::helper('checkout')->__('Country'))
+            ->setTitle(Mage::helper('Mage_Checkout_Helper_Data')->__('Country'))
             ->setClass('validate-select')
             ->setValue($address->getCountryId())
             ->setOptions($this->getCountryCollection()->toOptionArray());
@@ -114,10 +116,10 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
 
     public function getRegionHtmlSelect($address, $type)
     {
-        $select = $this->getLayout()->createBlock('core/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName($type.'[region]')
             ->setId($type.':region')
-            ->setTitle(Mage::helper('checkout')->__('State/Province'))
+            ->setTitle(Mage::helper('Mage_Checkout_Helper_Data')->__('State/Province'))
             ->setClass('required-entry validate-state')
             ->setValue($address->getRegionId())
             ->setOptions($this->getRegionCollection()->toOptionArray());
@@ -129,7 +131,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
 
     public function getMessages()
     {
-        return Mage::getSingleton('customer/session')->getMessages(true);
+        return Mage::getSingleton('Mage_Customer_Model_Session')->getMessages(true);
     }
 
     public function getLoginPostAction()
@@ -163,7 +165,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
         if (!$this->isCustomerLoggedIn()) {
             return $this->getQuote()->getBillingAddress();
         } else {
-            return Mage::getModel('sales/quote_address');
+            return Mage::getModel('Mage_Sales_Model_Quote_Address');
         }
     }
 
@@ -174,7 +176,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
         if (!$this->isCustomerLoggedIn()) {
             return $this->getQuote()->getShippingAddress();
         } else {
-            return Mage::getModel('sales/quote_address');
+            return Mage::getModel('Mage_Sales_Model_Quote_Address');
         }
     }
 
@@ -184,7 +186,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
     {
         $payment = $this->getQuote()->getPayment();
         if (empty($payment)) {
-            $payment = Mage::getModel('sales/quote_payment');
+            $payment = Mage::getModel('Mage_Sales_Model_Quote_Payment');
         } else {
             $payment->setCcNumber(null)->setCcCid(null);
         }

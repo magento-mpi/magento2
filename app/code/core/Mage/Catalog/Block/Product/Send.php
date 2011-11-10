@@ -46,12 +46,12 @@ class Mage_Catalog_Block_Product_Send extends Mage_Catalog_Block_Product_Abstrac
 
     public function getUserName()
     {
-        return Mage::getSingleton('customer/session')->getCustomer()->getName();
+        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getName();
     }
 
     public function getEmail()
     {
-        return (string)Mage::getSingleton('customer/session')->getCustomer()->getEmail();
+        return (string)Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getEmail();
     }
 
     public function getProductId()

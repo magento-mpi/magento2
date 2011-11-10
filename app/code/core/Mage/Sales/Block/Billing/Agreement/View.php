@@ -60,10 +60,10 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
     public function getRelatedOrders()
     {
         if (is_null($this->_relatedOrders)) {
-            $this->_relatedOrders = Mage::getResourceModel('sales/order_collection')
+            $this->_relatedOrders = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection')
                 ->addFieldToSelect('*')
-                ->addFieldToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId())
-                ->addFieldToFilter('state', array('in' => Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates()))
+                ->addFieldToFilter('customer_id', Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getId())
+                ->addFieldToFilter('state', array('in' => Mage::getSingleton('Mage_Sales_Model_Order_Config')->getVisibleOnFrontStates()))
                 ->addBillingAgreementsFilter($this->_billingAgreementInstance->getAgreementId())
                 ->setOrder('created_at', 'desc');
         }
@@ -85,7 +85,7 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
                 $value = $order->getIncrementId();
                 break;
             case 'created_at':
-                $value = $this->helper('core')->formatDate($order->getCreatedAt(), 'short', true);
+                $value = $this->helper('Mage_Core_Helper_Data')->formatDate($order->getCreatedAt(), 'short', true);
                 break;
             case 'shipping_address':
                 $value = $order->getShippingAddress()
@@ -119,7 +119,7 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
         }
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('page/html_pager')
+        $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager')
             ->setCollection($this->getRelatedOrders())->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
         $this->getRelatedOrders()->load();
@@ -135,7 +135,7 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
     protected function _loadPaymentMethods()
     {
         if (!$this->_paymentMethods) {
-            foreach ($this->helper('payment')->getBillingAgreementMethods() as $paymentMethod) {
+            foreach ($this->helper('Mage_Payment_Helper_Data')->getBillingAgreementMethods() as $paymentMethod) {
                 $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }
         }
@@ -167,11 +167,11 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
             $createdAt = $this->_billingAgreementInstance->getCreatedAt();
             $updatedAt = $this->_billingAgreementInstance->getUpdatedAt();
             $this->setAgreementCreatedAt(
-                ($createdAt) ? $this->helper('core')->formatDate($createdAt, 'short', true) : $this->__('N/A')
+                ($createdAt) ? $this->helper('Mage_Core_Helper_Data')->formatDate($createdAt, 'short', true) : $this->__('N/A')
             );
             if ($updatedAt) {
                 $this->setAgreementUpdatedAt(
-                    $this->helper('core')->formatDate($updatedAt, 'short', true)
+                    $this->helper('Mage_Core_Helper_Data')->formatDate($updatedAt, 'short', true)
                 );
             }
             $this->setAgreementStatus($this->_billingAgreementInstance->getStatusLabel());

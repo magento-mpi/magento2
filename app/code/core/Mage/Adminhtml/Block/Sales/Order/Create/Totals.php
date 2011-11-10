@@ -35,7 +35,7 @@
 class Mage_Adminhtml_Block_Sales_Order_Create_Totals extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
     protected $_totalRenderers;
-    protected $_defaultRenderer = 'adminhtml/sales_order_create_totals_default';
+    protected $_defaultRenderer = 'Mage_Adminhtml_Block_Sales_Order_Create_Totals_Default';
 
     public function __construct()
     {
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Totals extends Mage_Adminhtml_Bloc
 
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Order Totals');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Order Totals');
     }
 
     public function getHeaderCssClass()
@@ -108,6 +108,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Totals extends Mage_Adminhtml_Bloc
 
     public function canSendNewOrderConfirmationEmail()
     {
-        return Mage::helper('sales')->canSendNewOrderConfirmationEmail($this->getQuote()->getStoreId());
+        return Mage::helper('Mage_Sales_Helper_Data')->canSendNewOrderConfirmationEmail($this->getQuote()->getStoreId());
     }
 }

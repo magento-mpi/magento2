@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Page_Head extends Mage_Page_Block_Html_Head
      */
     protected function _getUrlModelClass()
     {
-        return 'adminhtml/url';
+        return 'Mage_Adminhtml_Model_Url';
     }
 
     /**
@@ -58,6 +58,6 @@ class Mage_Adminhtml_Block_Page_Head extends Mage_Page_Block_Html_Head
      */
     public function getFormKey()
     {
-        return Mage::getSingleton('core/session')->getFormKey();
+        return Mage::getSingleton('Mage_Core_Model_Session')->getFormKey();
     }
 }

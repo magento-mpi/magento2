@@ -41,7 +41,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_targetrule/actions_condition_product_special_price');
+        $this->setType('Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price');
         $this->setValue(100);
     }
 
@@ -53,11 +53,11 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
     protected function _getOperatorOptionArray()
     {
         return array(
-            '==' => Mage::helper('enterprise_targetrule')->__('equal to'),
-            '>'  => Mage::helper('enterprise_targetrule')->__('more'),
-            '>=' => Mage::helper('enterprise_targetrule')->__('equals or greater than'),
-            '<'  => Mage::helper('enterprise_targetrule')->__('less'),
-            '<=' => Mage::helper('enterprise_targetrule')->__('equals or less than')
+            '==' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('equal to'),
+            '>'  => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('more'),
+            '>=' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('equals or greater than'),
+            '<'  => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('less'),
+            '<=' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('equals or less than')
         );
     }
 
@@ -81,7 +81,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_targetrule')->__('Product Price is %s %s%% of Matched Product(s) Price',
+            . Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Product Price is %s %s%% of Matched Product(s) Price',
                 $this->getOperatorElementHtml(),
                 $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();

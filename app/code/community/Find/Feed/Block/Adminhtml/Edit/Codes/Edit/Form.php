@@ -60,7 +60,7 @@ class Find_Feed_Block_Adminhtml_Edit_Codes_Edit_Form extends Mage_Adminhtml_Bloc
      */
     protected function _getCatalogEntityType()
     {
-        return Mage::getSingleton('eav/config')->getEntityType('catalog_product')->getId();
+        return Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('catalog_product')->getId();
     }
 
 
@@ -72,7 +72,7 @@ class Find_Feed_Block_Adminhtml_Edit_Codes_Edit_Form extends Mage_Adminhtml_Bloc
     protected function _getEavAttributeList()
     {
         $result     = array();
-        $collection = Mage::getResourceModel('catalog/product_attribute_collection');
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection');
         foreach ($collection as $model) {
             $result[$model->getAttributeCode()] = $model->getAttributeCode();
         }
@@ -92,26 +92,26 @@ class Find_Feed_Block_Adminhtml_Edit_Codes_Edit_Form extends Mage_Adminhtml_Bloc
         ));
 
         $fieldset = $form->addFieldset('generate_fieldset', array(
-            'legend' => Mage::helper('find_feed')->__('Item params')
+            'legend' => Mage::helper('Find_Feed_Helper_Data')->__('Item params')
         ));
         $fieldset->addField('import_code', 'select', array(
-            'label'     => Mage::helper('find_feed')->__('Import code'),
+            'label'     => Mage::helper('Find_Feed_Helper_Data')->__('Import code'),
             'name'      => 'import_code',
             'required'  => true,
             'options'   => $this->_getImportCodeList()
         ));
         $fieldset->addField('eav_code', 'select', array(
-            'label'     => Mage::helper('find_feed')->__('Eav code'),
+            'label'     => Mage::helper('Find_Feed_Helper_Data')->__('Eav code'),
             'name'      => 'eav_code',
             'required'  => true,
             'options'   => $this->_getEavAttributeList()
         ));
 
-        $source = Mage::getModel('eav/entity_attribute_source_boolean');
+        $source = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Source_Boolean');
         $isImportedOptions = $source->getOptionArray();
 
         $fieldset->addField('is_imported', 'select', array(
-            'label'     => Mage::helper('find_feed')->__('Is imported'),
+            'label'     => Mage::helper('Find_Feed_Helper_Data')->__('Is imported'),
             'name'      => 'is_imported',
             'value'     => 1,
             'options'   => $isImportedOptions

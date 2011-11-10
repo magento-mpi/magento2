@@ -29,7 +29,7 @@
 <layout>
     <adminhtml_catalog_product_giftcard>
         <reference name="product_tabs">
-            <action method="addTab"><name>giftcard_info</name><block>enterprise_giftcard/adminhtml_catalog_product_edit_tab_giftcard</block></action>
+            <action method="addTab"><name>giftcard_info</name><block>Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard</block></action>
         </reference>
     </adminhtml_catalog_product_giftcard>
 
@@ -37,7 +37,7 @@
         <reference name="order_items">
             <action method="addColumnRender">
                 <column>name</column>
-                <block>enterprise_giftcard/adminhtml_sales_items_column_name_giftcard</block>
+                <block>Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard</block>
                 <template>Mage_Adminhtml::sales/items/column/name.phtml</template>
                 <type>giftcard</type>
             </action>
@@ -48,7 +48,7 @@
         <reference name="order_items">
             <action method="addColumnRender">
                 <column>name</column>
-                <block>enterprise_giftcard/adminhtml_sales_items_column_name_giftcard</block>
+                <block>Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard</block>
                 <template>Mage_Adminhtml::sales/items/column/name.phtml</template>
                 <type>giftcard</type>
             </action>
@@ -59,7 +59,7 @@
         <reference name="order_items">
             <action method="addColumnRender">
                 <column>name</column>
-                <block>enterprise_giftcard/adminhtml_sales_items_column_name_giftcard</block>
+                <block>Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard</block>
                 <template>Mage_Adminhtml::sales/items/column/name.phtml</template>
                 <type>giftcard</type>
             </action>
@@ -70,7 +70,7 @@
         <reference name="order_items">
             <action method="addColumnRender">
                 <column>name</column>
-                <block>enterprise_giftcard/adminhtml_sales_items_column_name_giftcard</block>
+                <block>Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard</block>
                 <template>Mage_Adminhtml::sales/items/column/name.phtml</template>
                 <type>giftcard</type>
             </action>
@@ -81,7 +81,7 @@
         <reference name="order_items">
             <action method="addColumnRender">
                 <column>name</column>
-                <block>enterprise_giftcard/adminhtml_sales_items_column_name_giftcard</block>
+                <block>Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard</block>
                 <template>Mage_Adminhtml::sales/items/column/name.phtml</template>
                 <type>giftcard</type>
             </action>
@@ -92,7 +92,7 @@
         <reference name="order_items">
             <action method="addColumnRender">
                 <column>name</column>
-                <block>enterprise_giftcard/adminhtml_sales_items_column_name_giftcard</block>
+                <block>Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard</block>
                 <template>Mage_Adminhtml::sales/items/column/name.phtml</template>
                 <type>giftcard</type>
             </action>
@@ -103,24 +103,24 @@
         <reference name="order_items">
             <action method="addColumnRender">
                 <column>name</column>
-                <block>enterprise_giftcard/adminhtml_sales_items_column_name_giftcard</block>
+                <block>Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard</block>
                 <template>Mage_Adminhtml::sales/items/column/name.phtml</template>
                 <type>giftcard</type>
             </action>
         </reference>
     </adminhtml_sales_order_creditmemo_view>
-    
+
     <adminhtml_customer_wishlist>
         <reference name="customer.wishlist.edit.tab">
-            <action method="addProductConfigurationHelper"><type>giftcard</type><name>enterprise_giftcard/catalog_product_configuration</name></action>
+            <action method="addProductConfigurationHelper"><type>giftcard</type><name>Enterprise_GiftCard_Helper_Catalog_Product_Configuration</name></action>
         </reference>
     </adminhtml_customer_wishlist>
 
     <PRODUCT_TYPE_giftcard>
         <reference name="product.composite.fieldset">
             <remove name="product.composite.fieldset.qty"/>
-            <block type="enterprise_giftcard/adminhtml_catalog_product_composite_fieldset_giftcard" name="product.composite.fieldset.giftcard" before="product.composite.fieldset.options" template="catalog/product/composite/fieldset/giftcard.phtml">
-                <block type="adminhtml/catalog_product_composite_fieldset_qty" name="product.composite.giftcard.qty" template="Enterprise_GiftCard::catalog/product/composite/fieldset/qty.phtml"/>
+            <block type="Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Giftcard" name="product.composite.fieldset.giftcard" before="product.composite.fieldset.options" template="catalog/product/composite/fieldset/giftcard.phtml">
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Qty" name="product.composite.giftcard.qty" template="Enterprise_GiftCard::catalog/product/composite/fieldset/qty.phtml"/>
             </block>
         </reference>
     </PRODUCT_TYPE_giftcard>

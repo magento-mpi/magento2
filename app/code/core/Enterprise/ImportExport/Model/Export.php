@@ -80,7 +80,7 @@ class Enterprise_ImportExport_Model_Export extends Mage_ImportExport_Model_Expor
      */
     public function getScheduledFileName()
     {
-        return Mage::getModel('core/date')->date('Y-m-d_H-i-s') . '_' . $this->getOperationType()
+        return Mage::getModel('Mage_Core_Model_Date')->date('Y-m-d_H-i-s') . '_' . $this->getOperationType()
             . '_' . $this->getEntity();
     }
 }

@@ -44,7 +44,7 @@ class Mage_Newsletter_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getConfirmationUrl($subscriber)
     {
-        return Mage::getModel('core/url')
+        return Mage::getModel('Mage_Core_Model_Url')
             ->setStore($subscriber->getStoreId())
             ->getUrl('newsletter/subscriber/confirm', array(
                 'id'     => $subscriber->getId(),
@@ -61,7 +61,7 @@ class Mage_Newsletter_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getUnsubscribeUrl($subscriber)
     {
-        return Mage::getModel('core/url')
+        return Mage::getModel('Mage_Core_Model_Url')
             ->setStore($subscriber->getStoreId())
             ->getUrl('newsletter/subscriber/unsubscribe', array(
                 'id'     => $subscriber->getId(),

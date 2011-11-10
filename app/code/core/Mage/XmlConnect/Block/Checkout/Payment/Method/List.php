@@ -76,7 +76,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
      */
     public function getQuote()
     {
-        return Mage::getSingleton('checkout/session')->getQuote();
+        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
     }
 
     /**
@@ -88,7 +88,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
     {
         /** @var $customerBalanceBlock Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional */
         $customerBalanceBlock = $this->getLayout()
-            ->addBlock('enterprise_customerbalance/checkout_onepage_payment_additional', 'customer_balance');
+            ->addBlock('Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional', 'customer_balance');
         $storeCreditFlag = (int) Mage::getStoreConfig(Enterprise_CustomerBalance_Helper_Data::XML_PATH_ENABLED);
         if ($storeCreditFlag && $customerBalanceBlock->isDisplayContainer()) {
             $balance = $this->getQuote()->getStore()->formatPrice($customerBalanceBlock->getBalance(), false);
@@ -110,7 +110,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
     public function addGiftcardToXmlObj(Mage_XmlConnect_Model_Simplexml_Element $methodsXmlObj)
     {
         $giftcardInfoBlock = $this->getLayout()->addBlock(
-            'enterprise_giftcardaccount/checkout_onepage_payment_additional', 'giftcard_info'
+            'Enterprise_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional', 'giftcard_info'
         );
 
         if (intval($giftcardInfoBlock->getAppliedGiftCardAmount())) {
@@ -157,11 +157,15 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
          */
         if (is_object(Mage::getConfig()->getNode('modules/Enterprise_Pbridge'))) {
 
-            $pbBlockRenderer = 'xmlconnect/checkout_payment_method_';
+            $pbBlockRenderer = 'Mage_XmlConnect_Block_Checkout_Payment_Method_';
             $pbBlockName = 'xmlconnect.checkout.payment.method.';
 
             foreach ($this->_pbridgeMethodArray as $block) {
-                $currentBlockRenderer = $pbBlockRenderer . $block;
+                $blockParts = explode('_', $block);
+                foreach ($blockParts as $key => $part) {
+                    $blockParts[$key] = ucfirst($part);
+                }
+                $currentBlockRenderer = $pbBlockRenderer . implode('_', $blockParts);
                 $currentBlockName = $pbBlockName . $block;
                 $this->getLayout()->addBlock($currentBlockRenderer, $currentBlockName);
                 $this->setChild($block, $currentBlockName);
@@ -180,7 +184,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
     protected function _toHtml()
     {
         /** @var $methodsXmlObj Mage_XmlConnect_Model_Simplexml_Element */
-        $methodsXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<payment_methods></payment_methods>');
+        $methodsXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<payment_methods></payment_methods>');
 
         if (is_object(Mage::getConfig()->getNode('modules/Enterprise_GiftCardAccount'))) {
             $this->addGiftcardToXmlObj($methodsXmlObj);
@@ -199,7 +203,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
         /**
          * Receive available methods for checkout
          */
-        $allAvailableMethods  = Mage::helper('payment')->getStoreMethods(
+        $allAvailableMethods  = Mage::helper('Mage_Payment_Helper_Data')->getStoreMethods(
             Mage::app()->getStore(), $this->getQuote()
         );
 
@@ -248,7 +252,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
                         continue;
                     }
                     try {
-                        $method = Mage::helper('payment')->getMethodInstance($methodCode);
+                        $method = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance($methodCode);
                         if (!is_subclass_of($method, $methodModelClassName)) {
                             continue;
                         }

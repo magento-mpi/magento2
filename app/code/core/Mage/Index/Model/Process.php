@@ -87,7 +87,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('index/process');
+        $this->_init('Mage_Index_Model_Resource_Process');
     }
 
     /**
@@ -166,7 +166,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     public function reindexAll()
     {
         if ($this->isLocked()) {
-            Mage::throwException(Mage::helper('index')->__('%s Index process is working now. Please try run this process later.', $this->getIndexer()->getName()));
+            Mage::throwException(Mage::helper('Mage_Index_Helper_Data')->__('%s Index process is working now. Please try run this process later.', $this->getIndexer()->getName()));
         }
 
         $processStatus = $this->getStatus();
@@ -186,7 +186,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
                 }
             } else {
                 //Update existing events since we'll do reindexAll
-                Mage::getResourceSingleton('index/event')->updateProcessEvents($this);
+                Mage::getResourceSingleton('Mage_Index_Model_Resource_Event')->updateProcessEvents($this);
                 $this->getIndexer()->reindexAll();
             }
             $this->unlock();
@@ -212,7 +212,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         }
 
         if ($this->getDepends()) {
-            $indexer = Mage::getSingleton('index/indexer');
+            $indexer = Mage::getSingleton('Mage_Index_Model_Indexer');
             foreach ($this->getDepends() as $code) {
                 $process = $indexer->getProcessByCode($code);
                 if ($process) {
@@ -268,18 +268,18 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         if ($this->_indexer === null) {
             $code = $this->_getData('indexer_code');
             if (!$code) {
-                Mage::throwException(Mage::helper('index')->__('Indexer code is not defined.'));
+                Mage::throwException(Mage::helper('Mage_Index_Helper_Data')->__('Indexer code is not defined.'));
             }
             $xmlPath = self::XML_PATH_INDEXER_DATA . '/' . $code;
             $config = Mage::getConfig()->getNode($xmlPath);
             if (!$config || empty($config->model)) {
-                Mage::throwException(Mage::helper('index')->__('Indexer model is not defined.'));
+                Mage::throwException(Mage::helper('Mage_Index_Helper_Data')->__('Indexer model is not defined.'));
             }
             $model = Mage::getModel((string)$config->model);
             if ($model instanceof Mage_Index_Model_Indexer_Abstract) {
                 $this->_indexer = $model;
             } else {
-                Mage::throwException(Mage::helper('index')->__('Indexer model should extend Mage_Index_Model_Indexer_Abstract.'));
+                Mage::throwException(Mage::helper('Mage_Index_Helper_Data')->__('Indexer model should extend Mage_Index_Model_Indexer_Abstract.'));
             }
         }
         return $this->_indexer;
@@ -484,8 +484,8 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     public function getModesOptions()
     {
         return array(
-            self::MODE_REAL_TIME => Mage::helper('index')->__('Update on Save'),
-            self::MODE_MANUAL => Mage::helper('index')->__('Manual Update')
+            self::MODE_REAL_TIME => Mage::helper('Mage_Index_Helper_Data')->__('Update on Save'),
+            self::MODE_MANUAL => Mage::helper('Mage_Index_Helper_Data')->__('Manual Update')
         );
     }
 
@@ -497,9 +497,9 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     public function getStatusesOptions()
     {
         return array(
-            self::STATUS_PENDING            => Mage::helper('index')->__('Ready'),
-            self::STATUS_RUNNING            => Mage::helper('index')->__('Processing'),
-            self::STATUS_REQUIRE_REINDEX    => Mage::helper('index')->__('Reindex Required'),
+            self::STATUS_PENDING            => Mage::helper('Mage_Index_Helper_Data')->__('Ready'),
+            self::STATUS_RUNNING            => Mage::helper('Mage_Index_Helper_Data')->__('Processing'),
+            self::STATUS_REQUIRE_REINDEX    => Mage::helper('Mage_Index_Helper_Data')->__('Reindex Required'),
         );
     }
 
@@ -511,8 +511,8 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     public function getUpdateRequiredOptions()
     {
         return array(
-            0 => Mage::helper('index')->__('No'),
-            1 => Mage::helper('index')->__('Yes'),
+            0 => Mage::helper('Mage_Index_Helper_Data')->__('No'),
+            1 => Mage::helper('Mage_Index_Helper_Data')->__('Yes'),
         );
     }
 
@@ -574,7 +574,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     public function getUnprocessedEventsCollection()
     {
         /** @var $eventsCollection Mage_Index_Model_Resource_Event_Collection */
-        $eventsCollection = Mage::getResourceModel('index/event_collection');
+        $eventsCollection = Mage::getResourceModel('Mage_Index_Model_Resource_Event_Collection');
         $eventsCollection->addProcessFilter($this, self::EVENT_STATUS_NEW);
         return $eventsCollection;
     }

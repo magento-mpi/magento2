@@ -38,7 +38,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_reminder/rule_condition_cart_amount');
+        $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart_Amount');
         $this->setValue(null);
     }
 
@@ -50,7 +50,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('enterprise_reminder')->__('Total Amount'));
+            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Total Amount'));
     }
 
     /**
@@ -61,8 +61,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'subtotal' => Mage::helper('enterprise_reminder')->__('subtotal'),
-            'grand_total' => Mage::helper('enterprise_reminder')->__('grand total')
+            'subtotal' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('subtotal'),
+            'grand_total' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('grand total')
         ));
         return $this;
     }
@@ -75,7 +75,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Shopping cart %s amount %s %s:',
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Shopping cart %s amount %s %s:',
                 $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
@@ -103,14 +103,14 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
                 $field = 'quote.base_grand_total';
                 break;
             default:
-                Mage::throwException(Mage::helper('enterprise_reminder')->__('Unknown quote total specified'));
+                Mage::throwException(Mage::helper('Enterprise_Reminder_Helper_Data')->__('Unknown quote total specified'));
         }
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where('quote.is_active = 1');
         $select->where("{$field} {$operator} ?", $this->getValue());
         $select->where($this->_createCustomerFilter($customer, 'customer_id'));
-        Mage::getResourceHelper('enterprise_reminder')->setRuleLimit($select, 1);
+        Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
         return $select;
     }
 }

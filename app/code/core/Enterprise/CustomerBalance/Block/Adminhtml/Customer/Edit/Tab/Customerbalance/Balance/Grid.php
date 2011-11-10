@@ -38,7 +38,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('enterprise_customerbalance/balance')
+        $collection = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
             ->getCollection()
             ->addFieldToFilter('customer_id', $this->getRequest()->getParam('id'))
         ;
@@ -49,19 +49,19 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
     protected function _prepareColumns()
     {
         $this->addColumn('amount', array(
-            'header'   => Mage::helper('enterprise_customerbalance')->__('Balance'),
+            'header'   => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Balance'),
             'width'    => 50,
             'index'    => 'amount',
             'sortable' => false,
-            'renderer' => 'enterprise_customerbalance/adminhtml_widget_grid_column_renderer_currency',
+            'renderer' => 'Enterprise_CustomerBalance_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency',
         ));
 
         $this->addColumn('website_id', array(
-            'header'   => Mage::helper('enterprise_customerbalance')->__('Website'),
+            'header'   => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Website'),
             'index'    => 'website_id',
             'sortable' => false,
             'type'     => 'options',
-            'options'  => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(),
+            'options'  => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteOptionHash(),
         ));
 
         return parent::_prepareColumns();

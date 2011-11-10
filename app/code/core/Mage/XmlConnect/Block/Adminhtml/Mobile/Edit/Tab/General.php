@@ -43,7 +43,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General
      */
     protected function _prepareForm()
     {
-        $model = Mage::helper('xmlconnect')->getApplication();
+        $model = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
 
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('app_');
@@ -82,7 +82,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General
                 'label'     => $this->__('Store View'),
                 'title'     => $this->__('Store View'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, false),
+                'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(false, false),
             ));
         } else {
             $storeElement = $fieldset->addField('store_id', 'hidden', array(
@@ -112,7 +112,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General
                 'value' => $model->getType(),
         ));
 
-        $yesNoValues = Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray();
+        $yesNoValues = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray();
 
         $fieldset->addField('browsing_mode', 'select', array(
             'label'     => $this->__('Catalog Only App?'),
@@ -153,7 +153,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General
      */
     public function canShowTab()
     {
-        return (bool) !Mage::getSingleton('adminhtml/session')->getNewApplication();
+        return (bool) !Mage::getSingleton('Mage_Adminhtml_Model_Session')->getNewApplication();
     }
 
     /**

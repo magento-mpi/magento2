@@ -83,10 +83,10 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
      */
     public function getLocaleSelect()
     {
-        $html = $this->getLayout()->createBlock('core/html_select')
+        $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName('config[locale]')
             ->setId('locale')
-            ->setTitle(Mage::helper('install')->__('Locale'))
+            ->setTitle(Mage::helper('Mage_Install_Helper_Data')->__('Locale'))
             ->setClass('required-entry')
             ->setValue($this->getLocale()->__toString())
             ->setOptions(Mage::app()->getLocale()->getTranslatedOptionLocales())
@@ -101,10 +101,10 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
      */
     public function getTimezoneSelect()
     {
-        $html = $this->getLayout()->createBlock('core/html_select')
+        $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName('config[timezone]')
             ->setId('timezone')
-            ->setTitle(Mage::helper('install')->__('Time Zone'))
+            ->setTitle(Mage::helper('Mage_Install_Helper_Data')->__('Time Zone'))
             ->setClass('required-entry')
             ->setValue($this->getTimezone())
             ->setOptions(Mage::app()->getLocale()->getOptionTimezones())
@@ -119,8 +119,8 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
      */
     public function getTimezone()
     {
-        $timezone = Mage::getSingleton('install/session')->getTimezone()
-            ? Mage::getSingleton('install/session')->getTimezone()
+        $timezone = Mage::getSingleton('Mage_Install_Model_Session')->getTimezone()
+            ? Mage::getSingleton('Mage_Install_Model_Session')->getTimezone()
             : Mage::app()->getLocale()->getTimezone();
         if ($timezone == Mage_Core_Model_Locale::DEFAULT_TIMEZONE) {
             $timezone = 'America/Los_Angeles';
@@ -135,10 +135,10 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
      */
     public function getCurrencySelect()
     {
-        $html = $this->getLayout()->createBlock('core/html_select')
+        $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName('config[currency]')
             ->setId('currency')
-            ->setTitle(Mage::helper('install')->__('Default Currency'))
+            ->setTitle(Mage::helper('Mage_Install_Helper_Data')->__('Default Currency'))
             ->setClass('required-entry')
             ->setValue($this->getCurrency())
             ->setOptions(Mage::app()->getLocale()->getOptionCurrencies())
@@ -153,8 +153,8 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
      */
     public function getCurrency()
     {
-        return Mage::getSingleton('install/session')->getCurrency()
-            ? Mage::getSingleton('install/session')->getCurrency()
+        return Mage::getSingleton('Mage_Install_Model_Session')->getCurrency()
+            ? Mage::getSingleton('Mage_Install_Model_Session')->getCurrency()
             : Mage::app()->getLocale()->getCurrency();
     }
 

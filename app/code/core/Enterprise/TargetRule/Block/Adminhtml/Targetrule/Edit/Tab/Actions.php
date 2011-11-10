@@ -46,12 +46,12 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions extends 
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset   = $form->addFieldset('actions_fieldset', array(
-            'legend' => Mage::helper('enterprise_targetrule')->__('Product Result Conditions (leave blank for matching all products)'))
+            'legend' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Product Result Conditions (leave blank for matching all products)'))
         );
         $newCondUrl = $this->getUrl('*/targetrule/newActionsHtml/', array(
             'form'  => $fieldset->getHtmlId()
         ));
-        $renderer   = Mage::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
+        $renderer   = Mage::getBlockSingleton('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
             ->setTemplate('Enterprise_TargetRule::edit/conditions/fieldset.phtml')
             ->setNewChildUrl($newCondUrl);
         $fieldset->setRenderer($renderer);
@@ -61,7 +61,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions extends 
             'required'  => true
         ));
         $element->setRule($model);
-        $element->setRenderer(Mage::getBlockSingleton('enterprise_targetrule/adminhtml_actions_conditions'));
+        $element->setRenderer(Mage::getBlockSingleton('Enterprise_TargetRule_Block_Adminhtml_Actions_Conditions'));
 
         $model->getActions()->setJsFormObject($fieldset->getHtmlId());
         $form->setValues($model->getData());

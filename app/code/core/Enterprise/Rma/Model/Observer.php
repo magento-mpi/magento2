@@ -45,10 +45,10 @@ class Enterprise_Rma_Model_Observer
         /** @var $row Mage_Sales_Model_Order */
         $row = $observer->getEvent()->getRow();
 
-        if (Mage::helper('enterprise_rma')->canCreateRma($row, true)) {
+        if (Mage::helper('Enterprise_Rma_Helper_Data')->canCreateRma($row, true)) {
             $reorderAction = array(
                     '@' =>  array('href' => $renderer->getUrl('*/rma/new', array('order_id'=>$row->getId()))),
-                    '#' =>  Mage::helper('enterprise_rma')->__('Return')
+                    '#' =>  Mage::helper('Enterprise_Rma_Helper_Data')->__('Return')
             );
             $renderer->addToActions($reorderAction);
         }

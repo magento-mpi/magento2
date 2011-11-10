@@ -45,7 +45,7 @@ class Mage_Catalog_Model_Category_Attribute_Api extends Mage_Catalog_Model_Api_R
      */
     public function items()
     {
-        $attributes = Mage::getModel('catalog/category')->getAttributes();
+        $attributes = Mage::getModel('Mage_Catalog_Model_Category')->getAttributes();
         $result = array();
 
         foreach ($attributes as $attribute) {
@@ -81,7 +81,7 @@ class Mage_Catalog_Model_Category_Attribute_Api extends Mage_Catalog_Model_Api_R
      */
     public function options($attributeId, $store = null)
     {
-        $attribute = Mage::getModel('catalog/category')
+        $attribute = Mage::getModel('Mage_Catalog_Model_Category')
             ->setStoreId($this->_getStoreId($store))
             ->getResource()
             ->getAttribute($attributeId);

@@ -42,7 +42,7 @@ class Enterprise_PricePermissions_Block_Adminhtml_Catalog_Product_Price_Default
      */
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        if (!Mage::helper('enterprise_pricepermissions')->getCanAdminEditProductPrice()) {
+        if (!Mage::helper('Enterprise_PricePermissions_Helper_Data')->getCanAdminEditProductPrice()) {
             $element->setReadonly(true, true);
         }
         return parent::_getElementHtml($element);

@@ -28,29 +28,10 @@
 <config>
     <modules>
         <Enterprise_Search>
-             <version>1.11.0.0</version>
+            <version>1.11.0.0</version>
         </Enterprise_Search>
     </modules>
     <global>
-        <models>
-             <enterprise_search>
-                <class>Enterprise_Search_Model</class>
-                <resourceModel>enterprise_search_resource</resourceModel>
-             </enterprise_search>
-             <enterprise_search_resource>
-                 <class>Enterprise_Search_Model_Resource</class>
-             </enterprise_search_resource>
-        </models>
-        <helpers>
-            <enterprise_search>
-                <class>Enterprise_Search_Helper</class>
-            </enterprise_search>
-        </helpers>
-        <blocks>
-             <enterprise_search>
-                <class>Enterprise_Search_Block</class>
-             </enterprise_search>
-        </blocks>
         <!--  Example of manual addition locale code with language code to support new language -->
         <!--
         <enterprise_search>
@@ -69,9 +50,7 @@
                 </setup>
             </enterprise_search_setup>
         </resources>
-
     </global>
-
     <admin>
         <routers>
             <adminhtml>
@@ -83,7 +62,6 @@
             </adminhtml>
         </routers>
     </admin>
-
     <adminhtml>
         <layout>
             <updates>
@@ -96,88 +74,79 @@
             <adminhtml_catalog_product_attribute_edit_prepare_form>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>eavAttributeEditFormInit</method>
                     </enterprise_search>
                 </observers>
             </adminhtml_catalog_product_attribute_edit_prepare_form>
-
             <catalogsearch_index_process_start>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>holdCommit</method>
                     </enterprise_search>
                 </observers>
             </catalogsearch_index_process_start>
-
             <catalogsearch_index_process_complete>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>applyIndexChanges</method>
                     </enterprise_search>
                 </observers>
             </catalogsearch_index_process_complete>
-
             <catalogsearch_query_save_after>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>searchQueryEditFormAfterSave</method>
                     </enterprise_search>
                 </observers>
             </catalogsearch_query_save_after>
-
             <customer_group_save_after>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>customerGroupSaveAfter</method>
                     </enterprise_search>
                 </observers>
             </customer_group_save_after>
-
             <website_delete_before>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>saveStoreIdsBeforeScopeDelete</method>
                     </enterprise_search>
                 </observers>
             </website_delete_before>
-
             <store_group_delete_before>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>saveStoreIdsBeforeScopeDelete</method>
                     </enterprise_search>
                 </observers>
             </store_group_delete_before>
-
             <website_delete_after>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>clearIndexForStores</method>
                     </enterprise_search>
                 </observers>
             </website_delete_after>
-
             <store_group_delete_after>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>clearIndexForStores</method>
                     </enterprise_search>
                 </observers>
             </store_group_delete_after>
-
             <store_delete_after>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>clearIndexForStores</method>
                     </enterprise_search>
                 </observers>
@@ -186,14 +155,13 @@
         <translate>
             <modules>
                 <Enterprise_Search>
-                     <files>
-                          <default>Enterprise_Search.csv</default>
-                     </files>
+                    <files>
+                        <default>Enterprise_Search.csv</default>
+                    </files>
                 </Enterprise_Search>
             </modules>
         </translate>
     </adminhtml>
-
     <frontend>
         <layout>
             <updates>
@@ -202,47 +170,42 @@
                 </enterprise_search>
             </updates>
         </layout>
-
         <events>
             <controller_action_predispatch_catalog_category_view>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>resetCurrentCatalogLayer</method>
                     </enterprise_search>
                 </observers>
             </controller_action_predispatch_catalog_category_view>
-
             <controller_action_predispatch_catalogsearch_result_index>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>resetCurrentSearchLayer</method>
                     </enterprise_search>
                 </observers>
             </controller_action_predispatch_catalogsearch_result_index>
-
             <controller_action_predispatch_catalogsearch_advanced_result>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>resetCurrentSearchLayer</method>
                     </enterprise_search>
                 </observers>
             </controller_action_predispatch_catalogsearch_advanced_result>
         </events>
-
         <translate>
             <modules>
                 <Enterprise_Search>
-                     <files>
-                          <default>Enterprise_Search.csv</default>
-                     </files>
+                    <files>
+                        <default>Enterprise_Search.csv</default>
+                    </files>
                 </Enterprise_Search>
             </modules>
         </translate>
     </frontend>
-
     <default>
         <catalog>
             <search>
@@ -262,12 +225,15 @@
             </search>
         </catalog>
     </default>
-
     <crontab>
         <jobs>
             <enterprise_search_index_reindex_all>
-                <schedule><cron_expr>0 3 * * *</cron_expr></schedule>
-                <run><model>enterprise_search/indexer_indexer::reindexAll</model></run>
+                <schedule>
+                    <cron_expr>0 3 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>Enterprise_Search_Model_Indexer_Indexer::reindexAll</model>
+                </run>
             </enterprise_search_index_reindex_all>
         </jobs>
     </crontab>

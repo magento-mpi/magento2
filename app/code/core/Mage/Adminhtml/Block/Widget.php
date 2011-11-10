@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Widget extends Mage_Adminhtml_Block_Template
     public function getId()
     {
         if ($this->getData('id')===null) {
-            $this->setData('id', Mage::helper('core')->uniqHash('id_'));
+            $this->setData('id', Mage::helper('Mage_Core_Helper_Data')->uniqHash('id_'));
         }
         return $this->getData('id');
     }
@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Widget extends Mage_Adminhtml_Block_Template
      * @return string
      */
     public function getButtonHtml($label, $onclick, $class='', $id=null) {
-        return $this->getLayout()->createBlock('adminhtml/widget_button')
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'     => $label,
                 'onclick'   => $onclick,

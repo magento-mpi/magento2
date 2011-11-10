@@ -40,7 +40,7 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
 
         $this->loadLayout();
         $this->_setActiveMenu('system/account');
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/system_account_edit'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Account_Edit'));
         $this->renderLayout();
     }
 
@@ -49,10 +49,10 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
      */
     public function saveAction()
     {
-        $userId = Mage::getSingleton('admin/session')->getUser()->getId();
+        $userId = Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId();
         $pwd    = null;
 
-        $user = Mage::getModel("admin/user")->load($userId);
+        $user = Mage::getModel('Mage_Admin_Model_User')->load($userId);
 
         $user->setId($userId)
             ->setUsername($this->getRequest()->getParam('username', false))
@@ -70,7 +70,7 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
         $result = $user->validate();
         if (is_array($result)) {
             foreach($result as $error) {
-                Mage::getSingleton('adminhtml/session')->addError($error);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($error);
             }
             $this->getResponse()->setRedirect($this->getUrl("*/*/"));
             return;
@@ -78,19 +78,19 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
 
         try {
             $user->save();
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('The account has been saved.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The account has been saved.'));
         }
         catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
         }
         catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('An error occurred while saving account.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while saving account.'));
         }
         $this->getResponse()->setRedirect($this->getUrl("*/*/"));
     }
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/myaccount');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/myaccount');
     }
 }

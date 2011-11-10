@@ -33,7 +33,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_reminder/rule_condition_cart_sku');
+        $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart_Sku');
         $this->setValue(null);
     }
 
@@ -45,7 +45,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('enterprise_reminder')->__('SKU'));
+            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('SKU'));
     }
 
     /**
@@ -56,7 +56,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Item SKU %s %s ',
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Item SKU %s %s ',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
@@ -68,7 +68,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(Mage::getSingleton('adminhtml/system_store')->getStoreOptionHash());
+        $this->setValueOption(Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreOptionHash());
         return $this;
     }
 
@@ -98,7 +98,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
         $select->where('quote.is_active = 1');
         $select->where("item.sku {$operator} ?", $this->getValue());
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
-        Mage::getResourceHelper('enterprise_reminder')->setRuleLimit($select, 1);
+        Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
 
         return $select;
     }

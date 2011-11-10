@@ -34,7 +34,7 @@
                         <children>
                             <config>
                                 <children>
-                                    <persistent translate="title" module="persistent">
+                                    <persistent translate="title" module="Mage_Persistent">
                                         <title>Persistent Shopping Cart</title>
                                     </persistent>
                                 </children>

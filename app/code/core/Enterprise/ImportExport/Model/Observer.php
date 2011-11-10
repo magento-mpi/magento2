@@ -85,12 +85,12 @@ class Enterprise_ImportExport_Model_Observer
 
             if (!file_exists($logPath) || !is_dir($logPath)) {
                 if (!mkdir($logPath, 0777, true)) {
-                    Mage::throwException(Mage::helper('enterprise_importexport')->__('Unable to create directory "%s".', $logPath));
+                    Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unable to create directory "%s".', $logPath));
                 }
             }
 
             if (!is_dir($logPath) || !is_writable($logPath)) {
-                Mage::throwException(Mage::helper('enterprise_importexport')->__('Directory "%s" is not writable.', $logPath));
+                Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Directory "%s" is not writable.', $logPath));
             }
             $saveTime = (int) Mage::getStoreConfig(self::SAVE_LOG_TIME_PATH) + 1;
             $dateCompass = new DateTime('-' . $saveTime . ' days');
@@ -107,7 +107,7 @@ class Enterprise_ImportExport_Model_Observer
                     if (!$fs->rmdirRecursive($directory, true)) {
                         $directory = str_replace(Mage::getBaseDir() . DS, '', $directory);
                         Mage::throwException(
-                            Mage::helper('enterprise_importexport')->__('Unable to delete "%s". Directory is not writable.', $directory)
+                            Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unable to delete "%s". Directory is not writable.', $directory)
                         );
                     }
                 }
@@ -158,7 +158,7 @@ class Enterprise_ImportExport_Model_Observer
      */
     public function processScheduledOperation($schedule, $forceRun = false)
     {
-        $operation = Mage::getModel('enterprise_importexport/scheduled_operation')
+        $operation = Mage::getModel('Enterprise_ImportExport_Model_Scheduled_Operation')
             ->loadByJobCode($schedule->getJobCode());
 
         $result = false;
@@ -183,8 +183,8 @@ class Enterprise_ImportExport_Model_Observer
             return $this;
         }
 
-        $mailer = Mage::getSingleton('core/email_template_mailer');
-        $emailInfo = Mage::getModel('core/email_info');
+        $mailer = Mage::getSingleton('Mage_Core_Model_Email_Template_Mailer');
+        $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
         $emailInfo->addTo($receiverEmail);
 
         $mailer->addEmailInfo($emailInfo);

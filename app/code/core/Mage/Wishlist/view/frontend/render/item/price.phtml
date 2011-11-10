@@ -33,7 +33,7 @@
 <?php $finalPrice = $product->getFinalPrice(1); ?>
 <?php if ($product->canConfigure()): ?>
     <p class="configured-price">
-        <span class="price-label"><?php echo Mage::helper('wishlist')->__('Configured Price:') ?></span>
-        <span class="price"><?php echo Mage::helper('core')->currency($finalPrice, true, false); ?></span>
+        <span class="price-label"><?php echo Mage::helper('Mage_Wishlist_Helper_Data')->__('Configured Price:') ?></span>
+        <span class="price"><?php echo Mage::helper('Mage_Core_Helper_Data')->currency($finalPrice, true, false); ?></span>
     </p>
 <?php endif; ?>

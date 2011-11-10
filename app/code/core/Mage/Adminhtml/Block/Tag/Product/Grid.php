@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Tag_Product_Grid extends Mage_Adminhtml_Block_Widget_
     {
         $tagId = Mage::registry('current_tag')->getId();
         $storeId = Mage::registry('current_tag')->getStoreId();
-        $collection = Mage::getModel('tag/tag')
+        $collection = Mage::getModel('Mage_Tag_Model_Tag')
             ->getEntityCollection()
             ->addTagFilter($tagId)
             ->addCustomerFilter(array('null' => false))
@@ -78,19 +78,19 @@ class Mage_Adminhtml_Block_Tag_Product_Grid extends Mage_Adminhtml_Block_Widget_
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header'        => Mage::helper('tag')->__('ID'),
+            'header'        => Mage::helper('Mage_Tag_Helper_Data')->__('ID'),
             'width'         => '50px',
             'align'         => 'right',
             'index'         => 'entity_id',
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('tag')->__('Product Name'),
+            'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('Product Name'),
             'index'     => 'name',
         ));
 
         $this->addColumn('popularity', array(
-            'header'        => Mage::helper('tag')->__('# of Uses'),
+            'header'        => Mage::helper('Mage_Tag_Helper_Data')->__('# of Uses'),
             'width'         => '50px',
             'align'         => 'right',
             'index'         => 'popularity',
@@ -98,7 +98,7 @@ class Mage_Adminhtml_Block_Tag_Product_Grid extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('tag')->__('SKU'),
+            'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('SKU'),
             'filter'    => false,
             'sortable'  => false,
             'width'     => 50,

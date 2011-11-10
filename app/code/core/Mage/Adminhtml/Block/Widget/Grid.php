@@ -180,7 +180,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *
      * @var string
      */
-    protected $_massactionBlockName = 'adminhtml/widget_grid_massaction';
+    protected $_massactionBlockName = 'Mage_Adminhtml_Block_Widget_Grid_Massaction';
 
     /**
     * RSS list
@@ -215,30 +215,30 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         parent::__construct($attributes);
         $this->setTemplate('Mage_Adminhtml::widget/grid.phtml');
         $this->setRowClickCallback('openGridRow');
-        $this->_emptyText = Mage::helper('adminhtml')->__('No records found.');
+        $this->_emptyText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('No records found.');
     }
 
     protected function _prepareLayout()
     {
         $this->setChild('export_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Export'),
+                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Export'),
                     'onclick'   => $this->getJsObjectName().'.doExport()',
                     'class'   => 'task'
                 ))
         );
         $this->setChild('reset_filter_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Reset Filter'),
+                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Reset Filter'),
                     'onclick'   => $this->getJsObjectName().'.resetFilter()',
                 ))
         );
         $this->setChild('search_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Search'),
+                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Search'),
                     'onclick'   => $this->getJsObjectName().'.doFilter()',
                     'class'   => 'task'
                 ))
@@ -302,7 +302,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     public function addColumn($columnId, $column)
     {
         if (is_array($column)) {
-            $this->_columns[$columnId] = $this->getLayout()->createBlock('adminhtml/widget_grid_column')
+            $this->_columns[$columnId] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Grid_Column')
                 ->setData($column)
                 ->setGrid($this);
         }
@@ -310,7 +310,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             $this->_columns[$columnId] = $column;
         }*/
         else {
-            throw new Exception(Mage::helper('adminhtml')->__('Wrong column format.'));
+            throw new Exception(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong column format.'));
         }
 
         $this->_columns[$columnId]->setId($columnId);
@@ -506,7 +506,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             }
 
             if (is_string($filter)) {
-                $data = $this->helper('adminhtml')->prepareFilterString($filter);
+                $data = $this->helper('Mage_Adminhtml_Helper_Data')->prepareFilterString($filter);
                 $this->_setFilterValues($data);
             }
             else if ($filter && is_array($filter)) {
@@ -538,7 +538,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      */
     protected function _decodeFilter(&$value)
     {
-        $value = $this->helper('adminhtml')->decodeFilter($value);
+        $value = $this->helper('Mage_Adminhtml_Helper_Data')->decodeFilter($value);
     }
 
     protected function _preparePage()
@@ -587,7 +587,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected function _prepareMassactionColumn()
     {
         $columnId = 'massaction';
-        $massactionColumn = $this->getLayout()->createBlock('adminhtml/widget_grid_column')
+        $massactionColumn = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Grid_Column')
                 ->setData(array(
                     'index'     => $this->getMassactionIdField(),
                     'type'      => 'massaction',
@@ -837,7 +837,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      */
     protected function _getRssUrl($url)
     {
-        $urlModel = Mage::getModel('core/url');
+        $urlModel = Mage::getModel('Mage_Core_Model_Url');
         if (Mage::app()->getStore()->getStoreInUrl()) {
             // Url in 'admin' store view won't be accessible, so form it in default store view frontend
             $urlModel->setStore(Mage::app()->getDefaultStoreView());
@@ -1248,7 +1248,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      */
     public function getParam($paramName, $default=null)
     {
-        $session = Mage::getSingleton('adminhtml/session');
+        $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
         $sessionParamName = $this->getId().$paramName;
         if ($this->getRequest()->has($paramName)) {
             $param = $this->getRequest()->getParam($paramName);

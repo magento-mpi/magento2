@@ -118,16 +118,12 @@
  *
  */
 
-if (version_compare(phpversion(), '5.2.0', '<')===true) {
-    die('ERROR: Whoops, it looks like you have an invalid PHP version. Magento supports PHP 5.2.0 or newer.');
-}
-
-require 'app/Mage.php';
+require_once 'app/bootstrap.php';
 
 try {
     $app = Mage::app('default');
 
-    $installer = Mage::getSingleton('install/installer_console');
+    $installer = Mage::getSingleton('Mage_Install_Model_Installer_Console');
     /* @var $installer Mage_Install_Model_Installer_Console */
 
     if ($installer->init($app)          // initialize installer

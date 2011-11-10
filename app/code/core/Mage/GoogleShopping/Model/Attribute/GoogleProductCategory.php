@@ -42,9 +42,9 @@ class Mage_GoogleShopping_Model_Attribute_GoogleProductCategory extends Mage_Goo
      */
     public function convertAttribute($product, $entry)
     {
-        $targetCountry = Mage::getSingleton('googleshopping/config')
+        $targetCountry = Mage::getSingleton('Mage_GoogleShopping_Model_Config')
             ->getTargetCountry($product->getStoreId());
-        $value = Mage::getModel('googleshopping/type')
+        $value = Mage::getModel('Mage_GoogleShopping_Model_Type')
             ->loadByAttributeSetId($product->getAttributeSetId(), $targetCountry);
 
         $val = ($value->getCategory() == Mage_GoogleShopping_Helper_Category::CATEGORY_OTHER)

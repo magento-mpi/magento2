@@ -99,8 +99,8 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('enterprise_cms/page_revision');
-        $this->_config = Mage::getSingleton('enterprise_cms/config');
+        $this->_init('Enterprise_Cms_Model_Resource_Page_Revision');
+        $this->_config = Mage::getSingleton('Enterprise_Cms_Model_Config');
     }
 
     /**
@@ -130,9 +130,9 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
          */
         if ($this->_revisionedDataWasModified() || $this->getVersionId() != $this->getOrigData('version_id')) {
             $this->unsetData($this->getIdFieldName());
-            $this->setCreatedAt(Mage::getSingleton('core/date')->gmtDate());
+            $this->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
 
-            $incrementNumber = Mage::getModel('enterprise_cms/increment')
+            $incrementNumber = Mage::getModel('Enterprise_Cms_Model_Increment')
                 ->getNewIncrementId(Enterprise_Cms_Model_Increment::TYPE_PAGE,
                         $this->getVersionId(), Enterprise_Cms_Model_Increment::LEVEL_REVISION);
 
@@ -193,7 +193,7 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
         $this->_getResource()->beginTransaction();
         try {
             $data = $this->_prepareDataForPublish($this);
-            $object = Mage::getModel('enterprise_cms/page_revision')->setData($data);
+            $object = Mage::getModel('Enterprise_Cms_Model_Page_Revision')->setData($data);
             $this->_getResource()->publish($object, $this->getPageId());
             $this->_getResource()->commit();
         } catch (Exception $e){
@@ -215,7 +215,7 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
         /* @var $resource Enterprise_Cms_Model_Resource_Page_Revision */
         if ($resource->isRevisionPublished($this)) {
             Mage::throwException(
-                Mage::helper('enterprise_cms')->__('Revision #%s could not be removed because it is published.', $this->getRevisionNumber())
+                Mage::helper('Enterprise_Cms_Helper_Data')->__('Revision #%s could not be removed because it is published.', $this->getRevisionNumber())
             );
         }
     }

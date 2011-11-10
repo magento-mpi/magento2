@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Mage_Adminhtml
 
     protected function _prepareCollection()
     {
-        if (!Mage::helper('core')->isModuleEnabled('Mage_Sales')) {
+        if (!Mage::helper('Mage_Core_Helper_Data')->isModuleEnabled('Mage_Sales')) {
             return $this;
         }
         if ($this->getParam('website')) {
@@ -56,8 +56,8 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Mage_Adminhtml
             $storeId = (int)$this->getParam('store');
         }
 
-        $collection = Mage::getResourceModel('sales/report_bestsellers_collection')
-            ->setModel('catalog/product')
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Report_Bestsellers_Collection')
+            ->setModel('Mage_Catalog_Model_Product')
             ->addStoreFilter($storeId)
         ;
 
@@ -70,13 +70,13 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Mage_Adminhtml
     {
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('sales')->__('Product Name'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Product Name'),
             'sortable'  => false,
             'index'     => 'product_name'
         ));
 
         $this->addColumn('price', array(
-            'header'    => Mage::helper('sales')->__('Price'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Price'),
             'width'     => '120px',
             'type'      => 'currency',
             'currency_code' => (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
@@ -85,7 +85,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Mage_Adminhtml
         ));
 
         $this->addColumn('ordered_qty', array(
-            'header'    => Mage::helper('sales')->__('Quantity Ordered'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Quantity Ordered'),
             'width'     => '120px',
             'align'     => 'right',
             'sortable'  => false,

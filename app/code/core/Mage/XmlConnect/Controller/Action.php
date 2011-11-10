@@ -78,7 +78,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
         $screenSize = isset($_COOKIE[$screenSizeCookieName]) ? (string) $_COOKIE[$screenSizeCookieName] : '';
         if (!$appCode) {
             $this->_message(
-                Mage::helper('xmlconnect')->__('Specified invalid app code.'), self::MESSAGE_STATUS_ERROR
+                Mage::helper('Mage_XmlConnect_Helper_Data')->__('Specified invalid app code.'), self::MESSAGE_STATUS_ERROR
             );
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
@@ -90,23 +90,23 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
             && (int)Mage::getStoreConfig('general/restriction/mode') == 0
         ) {
             $this->_message(
-                Mage::helper('xmlconnect')->__('Website is offline.'), self::MESSAGE_STATUS_SUCCESS
+                Mage::helper('Mage_XmlConnect_Helper_Data')->__('Website is offline.'), self::MESSAGE_STATUS_SUCCESS
             );
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
         }
         /** @var $appModel Mage_XmlConnect_Model_Application */
-        $appModel = Mage::getModel('xmlconnect/application')->loadByCode($appCode);
+        $appModel = Mage::getModel('Mage_XmlConnect_Model_Application')->loadByCode($appCode);
         $appModel->setScreenSize($screenSize);
         if ($appModel && $appModel->getId()) {
             Mage::app()->setCurrentStore(
                 Mage::app()->getStore($appModel->getStoreId())->getCode()
             );
-            Mage::getSingleton('core/locale')->emulate($appModel->getStoreId());
+            Mage::getSingleton('Mage_Core_Model_Locale')->emulate($appModel->getStoreId());
             Mage::register('current_app', $appModel);
         } else {
             $this->_message(
-                Mage::helper('xmlconnect')->__('Specified invalid app code.'), self::MESSAGE_STATUS_ERROR
+                Mage::helper('Mage_XmlConnect_Helper_Data')->__('Specified invalid app code.'), self::MESSAGE_STATUS_ERROR
             );
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
@@ -124,7 +124,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
         $body = $this->getResponse()->getBody();
         if (empty($body)) {
             $this->_message(
-                Mage::helper('xmlconnect')->__('An error occurred while processing your request.'),
+                Mage::helper('Mage_XmlConnect_Helper_Data')->__('An error occurred while processing your request.'),
                 self::MESSAGE_STATUS_ERROR
             );
         }
@@ -141,7 +141,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
     protected function _message($text, $status, $children = array())
     {
         /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
-        $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+        $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
         $message->addCustomChild('status', $status);
         $message->addCustomChild('text', $text);
 

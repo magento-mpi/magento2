@@ -27,7 +27,7 @@
 -->
 
 <theme>
-    <manifest translate="label" module="xmlconnect">
+    <manifest translate="label" module="Mage_XmlConnect">
         <name>custom</name>
         <label>Custom Colors</label>
         <version>1.0</version>

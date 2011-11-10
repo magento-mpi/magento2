@@ -87,13 +87,13 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Wi
         $mainFieldsetHtmlId = 'options_fieldset' . md5($this->getWidgetType());
         $this->setMainFieldsetHtmlId($mainFieldsetHtmlId);
         $fieldset = $this->getForm()->addFieldset($mainFieldsetHtmlId, array(
-            'legend'    => $this->helper('widget')->__('Widget Options'),
+            'legend'    => $this->helper('Mage_Widget_Helper_Data')->__('Widget Options'),
             'class'     => 'fieldset-wide',
         ));
         $this->setData('main_fieldset', $fieldset);
 
         // add dependence javascript block
-        $block = $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence');
+        $block = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence');
         $this->setChild('form_after', $block);
 
         return $fieldset;
@@ -110,12 +110,12 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Wi
         if (!$this->getWidgetType()) {
             Mage::throwException($this->__('Widget Type is not specified'));
         }
-        $config = Mage::getSingleton('widget/widget')->getConfigAsObject($this->getWidgetType());
+        $config = Mage::getSingleton('Mage_Widget_Model_Widget')->getConfigAsObject($this->getWidgetType());
         if (!$config->getParameters()) {
             return $this;
         }
         $module = $config->getModule();
-        $this->_translationHelper = Mage::helper($module ? $module : 'widget');
+        $this->_translationHelper = Mage::helper($module ? $module : 'Mage_Widget_Helper_Data');
         foreach ($config->getParameters() as $parameter) {
             $this->_addField($parameter);
         }
@@ -179,7 +179,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Wi
             $fieldType = 'hidden';
         }
         // just an element renderer
-        elseif (false !== strpos($fieldType, '/')) {
+        elseif ($fieldType && class_exists($fieldType)) {
             $fieldRenderer = $this->getLayout()->createBlock($fieldType);
             $fieldType = $this->_defaultElementType;
         }

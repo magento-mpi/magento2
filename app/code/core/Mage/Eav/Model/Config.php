@@ -257,7 +257,7 @@ class Mage_Eav_Model_Config
             return $this;
         }
 
-        $entityTypesData = Mage::getModel('eav/entity_type')->getCollection()->getData();
+        $entityTypesData = Mage::getModel('Mage_Eav_Model_Entity_Type')->getCollection()->getData();
         $types           = array();
 
         /**
@@ -265,7 +265,7 @@ class Mage_Eav_Model_Config
          */
         foreach ($entityTypesData as $typeData) {
             if (!isset($typeData['attribute_model'])) {
-                $typeData['attribute_model'] = 'eav/entity_attribute';
+                $typeData['attribute_model'] = 'Mage_Eav_Model_Entity_Attribute';
             }
 
             $typeCode   = $typeData['entity_type_code'];
@@ -314,7 +314,7 @@ class Mage_Eav_Model_Config
         }
 
 
-        $entityType = Mage::getModel('eav/entity_type');
+        $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type');
         if (isset($this->_entityData[$code])) {
             $entityType->setData($this->_entityData[$code]);
         } else {
@@ -325,7 +325,7 @@ class Mage_Eav_Model_Config
             }
 
             if (!$entityType->getId()) {
-                Mage::throwException(Mage::helper('eav')->__('Invalid entity_type specified: %s', $code));
+                Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('Invalid entity_type specified: %s', $code));
             }
         }
         $this->_addEntityTypeReference($entityType->getId(), $entityType->getEntityTypeCode());

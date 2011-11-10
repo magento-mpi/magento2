@@ -71,7 +71,7 @@ class Mage_Customer_Model_Group extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('customer/group');
+        $this->_init('Mage_Customer_Model_Resource_Group');
     }
 
     /**
@@ -124,7 +124,7 @@ class Mage_Customer_Model_Group extends Mage_Core_Model_Abstract
     protected function _afterSave()
     {
         parent::_afterSave();
-        Mage::getSingleton('index/indexer')->processEntityAction(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );
         return $this;

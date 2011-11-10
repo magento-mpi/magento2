@@ -53,7 +53,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Grid extends Mage_Adminhtml_Bl
     protected function _prepareCollection()
     {
         /* @var $collection Mage_Widget_Model_Resource_Widget_Instance_Collection */
-        $collection = Mage::getModel('widget/widget_instance')->getCollection();
+        $collection = Mage::getModel('Mage_Widget_Model_Widget_Instance')->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -66,19 +66,19 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Grid extends Mage_Adminhtml_Bl
     protected function _prepareColumns()
     {
         $this->addColumn('instance_id', array(
-            'header'    => Mage::helper('widget')->__('Widget ID'),
+            'header'    => Mage::helper('Mage_Widget_Helper_Data')->__('Widget ID'),
             'align'     => 'left',
             'index'     => 'instance_id',
         ));
 
         $this->addColumn('title', array(
-            'header'    => Mage::helper('widget')->__('Widget Instance Title'),
+            'header'    => Mage::helper('Mage_Widget_Helper_Data')->__('Widget Instance Title'),
             'align'     => 'left',
             'index'     => 'title',
         ));
 
         $this->addColumn('type', array(
-            'header'    => Mage::helper('widget')->__('Type'),
+            'header'    => Mage::helper('Mage_Widget_Helper_Data')->__('Type'),
             'align'     => 'left',
             'index'     => 'instance_type',
             'type'      => 'options',
@@ -86,7 +86,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Grid extends Mage_Adminhtml_Bl
         ));
 
         $this->addColumn('package_theme', array(
-            'header'    => Mage::helper('widget')->__('Design Package/Theme'),
+            'header'    => Mage::helper('Mage_Widget_Helper_Data')->__('Design Package/Theme'),
             'align'     => 'left',
             'index'     => 'package_theme',
             'type'      => 'theme',
@@ -94,7 +94,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Grid extends Mage_Adminhtml_Bl
         ));
 
         $this->addColumn('sort_order', array(
-            'header'    => Mage::helper('widget')->__('Sort Order'),
+            'header'    => Mage::helper('Mage_Widget_Helper_Data')->__('Sort Order'),
             'width'     => '100',
             'align'     => 'center',
             'index'     => 'sort_order',
@@ -111,7 +111,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Grid extends Mage_Adminhtml_Bl
     public function getTypesOptionsArray()
     {
         $widgets = array();
-        $widgetsOptionsArr = Mage::getModel('widget/widget_instance')->getWidgetsOptionArray();
+        $widgetsOptionsArr = Mage::getModel('Mage_Widget_Model_Widget_Instance')->getWidgetsOptionArray();
         foreach ($widgetsOptionsArr as $widget) {
             $widgets[$widget['value']] = $widget['label'];
         }
@@ -126,7 +126,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Grid extends Mage_Adminhtml_Bl
     public function getPackageThemeOptionsArray()
     {
         $packageThemeArray = array();
-        $packageThemeOptions = Mage::getModel('core/design_source_design')->getAllOptions(false);
+        $packageThemeOptions = Mage::getModel('Mage_Core_Model_Design_Source_Design')->getAllOptions(false);
         foreach ($packageThemeOptions as $item) {
             if (is_array($item['value'])) {
                 foreach ($item['value'] as $valueItem) {

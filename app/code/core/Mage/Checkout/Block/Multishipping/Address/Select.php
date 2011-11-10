@@ -36,14 +36,14 @@ class Mage_Checkout_Block_Multishipping_Address_Select extends Mage_Checkout_Blo
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
-            $headBlock->setTitle(Mage::helper('checkout')->__('Change Billing Address') . ' - ' . $headBlock->getDefaultTitle());
+            $headBlock->setTitle(Mage::helper('Mage_Checkout_Helper_Data')->__('Change Billing Address') . ' - ' . $headBlock->getDefaultTitle());
         }
         return parent::_prepareLayout();
     }
     
     protected function _getCheckout()
     {
-        return Mage::getSingleton('checkout/type_multishipping');
+        return Mage::getSingleton('Mage_Checkout_Model_Type_Multishipping');
     }
     
     public function getAddressCollection()

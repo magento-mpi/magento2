@@ -36,11 +36,11 @@ class Mage_Payment_Model_Source_Invoice
         return array(
             array(
                 'value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
-                'label' => Mage::helper('core')->__('Yes')
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Yes')
             ),
             array(
                 'value' => '',
-                'label' => Mage::helper('core')->__('No')
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('No')
             ),
         );
     }

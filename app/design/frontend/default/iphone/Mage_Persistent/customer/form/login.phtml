@@ -61,7 +61,7 @@
             <div class="login-button">
                 <input type="submit" value="<?php echo $this->__('Log In') ?>" />
             </div>
-            <?php if (Mage::helper('checkout')->isContextCheckout()): ?>
+            <?php if (Mage::helper('Mage_Checkout_Helper_Data')->isContextCheckout()): ?>
                 <input name="context" type="hidden" value="checkout" />
             <?php endif; ?>
         </form>
@@ -69,7 +69,7 @@
     <div class="new-users">
         <div class="new-users-box">
             <h2><?php echo $this->__('New Customers') ?></h2>
-            <a href="<?php echo Mage::helper('persistent')->getCreateAccountUrl($this->getCreateAccountUrl()) ?>"><input type="submit" value="<?php echo $this->__('Create an Account') ?>" /></a>
+            <a href="<?php echo Mage::helper('Mage_Persistent_Helper_Data')->getCreateAccountUrl($this->getCreateAccountUrl()) ?>"><input type="submit" value="<?php echo $this->__('Create an Account') ?>" /></a>
             <p><?php echo $this->__('By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.') ?></p>
         </div>
     </div>

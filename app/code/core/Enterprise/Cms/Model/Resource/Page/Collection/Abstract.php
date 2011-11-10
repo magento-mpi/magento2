@@ -159,7 +159,7 @@ abstract class Enterprise_Cms_Model_Resource_Page_Collection_Abstract
                         $this->_usersHash[$username] = $username;
                     }
                 } else {
-                    $this->_usersHash['-1'] = Mage::helper('enterprise_cms')->__('[No Owner]');
+                    $this->_usersHash['-1'] = Mage::helper('Enterprise_Cms_Helper_Data')->__('[No Owner]');
                 }
             }
 

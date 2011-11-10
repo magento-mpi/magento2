@@ -43,16 +43,6 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Tab_Rma
     }
 
     /**
-     * Retrieve collection class
-     *
-     * @return string
-     */
-    protected function _getCollectionClass()
-    {
-        return 'enterprise_rma/rma_grid_collection';
-    }
-
-    /**
      * Configuring and setting collection
      *
      * @return Enterprise_Rma_Block_Adminhtml_Order_View_Tab_Rma
@@ -68,7 +58,7 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Tab_Rma
         }
         if ($orderId) {
             /** @var $collection Enterprise_Rma_Model_Resource_Rma_Grid_Collection */
-            $collection = Mage::getResourceModel('enterprise_rma/rma_grid_collection')
+            $collection = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Rma_Grid_Collection')
                 ->addFieldToFilter('order_id', $orderId);
             $this->setCollection($collection);
         }
@@ -128,7 +118,7 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Tab_Rma
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_rma')->__('RMA');
+        return Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA');
     }
 
     /**
@@ -138,7 +128,7 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Tab_Rma
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_rma')->__('RMA');
+        return Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA');
     }
 
     /**

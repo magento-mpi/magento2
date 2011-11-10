@@ -50,7 +50,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Website extends Enterprise_Stagi
             $masterWebsiteId = $website->getMasterWebsiteId();
             $masterWebsite   = Mage::app()->getWebsite($masterWebsiteId);
 
-            $stagingWebsite  = Mage::getModel('core/website');
+            $stagingWebsite  = Mage::getModel('Mage_Core_Model_Website');
 
             $stagingWebsite->setData('is_staging', 1);
             $stagingWebsite->setData('code', $website->getCode());
@@ -64,24 +64,24 @@ class Enterprise_Staging_Model_Resource_Adapter_Website extends Enterprise_Stagi
             $stagingWebsite->setData('master_login', $website->getMasterLogin());
             $password = trim($website->getMasterPassword());
             if ($password) {
-                 if(Mage::helper('core/string')->strlen($password)<6){
-                    throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('The password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
+                 if(Mage::helper('Mage_Core_Helper_String')->strlen($password)<6){
+                    throw new Enterprise_Staging_Exception(Mage::helper('Enterprise_Staging_Helper_Data')->__('The password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
                 }
-                $stagingWebsite->setData('master_password' , Mage::helper('core')->encrypt($password));
+                $stagingWebsite->setData('master_password' , Mage::helper('Mage_Core_Helper_Data')->encrypt($password));
             }
 
             if (!$stagingWebsite->getId()) {
-                $value = Mage::getModel('core/date')->gmtDate();
+                $value = Mage::getModel('Mage_Core_Model_Date')->gmtDate();
                 $stagingWebsite->setCreatedAt($value);
             } else {
-                $value = Mage::getModel('core/date')->gmtDate();
+                $value = Mage::getModel('Mage_Core_Model_Date')->gmtDate();
                 $stagingWebsite->setUpdatedAt($value);
             }
 
             $stagingWebsite->save();
 
             if (Mage::getStoreConfigFlag('general/content_staging/create_entry_point')) {
-                $entryPoint = Mage::getModel('enterprise_staging/entry')
+                $entryPoint = Mage::getModel('Enterprise_Staging_Model_Entry')
                     ->setWebsite($stagingWebsite)->save();
             } else {
                 $entryPoint = null;
@@ -136,10 +136,10 @@ class Enterprise_Staging_Model_Resource_Adapter_Website extends Enterprise_Stagi
             $stagingWebsite->setData('master_login', $website->getMasterLogin());
             $password = trim($website->getMasterPassword());
             if ($password) {
-                 if(Mage::helper('core/string')->strlen($password)<6){
-                    throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('The password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
+                 if(Mage::helper('Mage_Core_Helper_String')->strlen($password)<6){
+                    throw new Enterprise_Staging_Exception(Mage::helper('Enterprise_Staging_Helper_Data')->__('The password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
                 }
-                $stagingWebsite->setData('master_password' , Mage::helper('core')->encrypt($password));
+                $stagingWebsite->setData('master_password' , Mage::helper('Mage_Core_Helper_Data')->encrypt($password));
             }
 
             $stagingWebsite->save();
@@ -218,7 +218,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Website extends Enterprise_Stagi
                 }
             }
 
-            $config = Mage::getModel('core/config_data');
+            $config = Mage::getModel('Mage_Core_Model_Config_Data');
             $path = 'web/' . $mode . '/' . $nodeName;
             $config->setPath($path);
             $config->setScope('websites');

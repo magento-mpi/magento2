@@ -37,7 +37,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit extends Mage_Adminhtml_Block_Wi
     public function __construct()
     {
         parent::__construct();
-        $this->_blockGroup = 'googlebase';
+        $this->_blockGroup = 'Mage_GoogleBase';
         $this->_controller = 'adminhtml_types';
         $this->_mode = 'edit';
         $model = Mage::registry('current_item_type');

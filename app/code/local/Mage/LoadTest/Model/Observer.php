@@ -36,7 +36,7 @@ class Mage_LoadTest_Model_Observer
 {
     public function preDispatch(Varien_Event_Observer $observer)
     {
-        $session = Mage::getSingleton('loadtest/session');
+        $session = Mage::getSingleton('Mage_LoadTest_Model_Session');
         /* @var $session Mage_LoadTest_Model_Session */
         $controller = $observer->getEvent()->getControllerAction();
 
@@ -47,7 +47,7 @@ class Mage_LoadTest_Model_Observer
 
     public function postDispatch(Varien_Event_Observer $observer)
     {
-        $session = Mage::getSingleton('loadtest/session');
+        $session = Mage::getSingleton('Mage_LoadTest_Model_Session');
         /* @var $session Mage_LoadTest_Model_Session */
         $controller = $observer->getEvent()->getControllerAction();
 
@@ -59,7 +59,7 @@ class Mage_LoadTest_Model_Observer
 
     public function prepareLayoutBefore(Varien_Event_Observer $observer)
     {
-        $session = Mage::getSingleton('loadtest/session');
+        $session = Mage::getSingleton('Mage_LoadTest_Model_Session');
         /* @var $session Mage_LoadTest_Model_Session */
         $block = $observer->getEvent()->getBlock();
 
@@ -73,7 +73,7 @@ class Mage_LoadTest_Model_Observer
 
     public function prepareLayoutAfter(Varien_Event_Observer $observer)
     {
-        $session = Mage::getSingleton('loadtest/session');
+        $session = Mage::getSingleton('Mage_LoadTest_Model_Session');
         /* @var $session Mage_LoadTest_Model_Session */
         $block = $observer->getEvent()->getBlock();
 
@@ -85,7 +85,7 @@ class Mage_LoadTest_Model_Observer
 
     public function toHtmlBefore(Varien_Event_Observer $observer)
     {
-        $session = Mage::getSingleton('loadtest/session');
+        $session = Mage::getSingleton('Mage_LoadTest_Model_Session');
         /* @var $session Mage_LoadTest_Model_Session */
         $block = $observer->getEvent()->getBlock();
 
@@ -101,7 +101,7 @@ class Mage_LoadTest_Model_Observer
 
     public function toHtmlAfter(Varien_Event_Observer $observer)
     {
-        $session = Mage::getSingleton('loadtest/session');
+        $session = Mage::getSingleton('Mage_LoadTest_Model_Session');
         /* @var $session Mage_LoadTest_Model_Session */
         $block = $observer->getEvent()->getBlock();
 

@@ -55,7 +55,7 @@ class Mage_GoogleShopping_Model_Attribute_Default extends Mage_GoogleShopping_Mo
         if (is_null($this->getName())) {
             return $entry;
         }
-        $productAttribute = Mage::helper('googleshopping/product')
+        $productAttribute = Mage::helper('Mage_GoogleShopping_Helper_Product')
             ->getProductAttribute($product, $this->getAttributeId());
         $type = $this->getGcontentAttributeType($productAttribute);
         $value = $this->getProductAttributeValue($product);
@@ -78,7 +78,7 @@ class Mage_GoogleShopping_Model_Attribute_Default extends Mage_GoogleShopping_Mo
             return null;
         }
 
-        $productAttribute = Mage::helper('googleshopping/product')
+        $productAttribute = Mage::helper('Mage_GoogleShopping_Helper_Product')
             ->getProductAttribute($product, $this->getAttributeId());
         if (is_null($productAttribute)) {
             return null;
@@ -132,7 +132,7 @@ class Mage_GoogleShopping_Model_Attribute_Default extends Mage_GoogleShopping_Mo
     protected function _setAttribute($entry, $name, $type = self::ATTRIBUTE_TYPE_TEXT, $value = '', $unit = null)
     {
         if (is_object($value) || ((string)$value != $value)) {
-            Mage::throwException(Mage::helper('googleshopping')->__(
+            Mage::throwException(Mage::helper('Mage_GoogleShopping_Helper_Data')->__(
                 'The attribute "%s" has incorrect type for Google Shopping. The product with this attribute hasn\'t been updated in Google Content.',
                 $name
             ));

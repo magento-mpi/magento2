@@ -35,7 +35,7 @@ class Enterprise_GiftCardAccount_CustomerController extends Mage_Core_Controller
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('customer/session')->authenticate($this)) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }
@@ -50,24 +50,24 @@ class Enterprise_GiftCardAccount_CustomerController extends Mage_Core_Controller
         if (isset($data['giftcard_code'])) {
             $code = $data['giftcard_code'];
             try {
-                if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+                if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
                     Mage::throwException($this->__('Redemption functionality is disabled.'));
                 }
-                Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->loadByCode($code)
+                Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')->loadByCode($code)
                     ->setIsRedeemed(true)->redeem();
-                Mage::getSingleton('customer/session')->addSuccess(
-                    $this->__('Gift Card "%s" was redeemed.', Mage::helper('core')->htmlEscape($code))
+                Mage::getSingleton('Mage_Customer_Model_Session')->addSuccess(
+                    $this->__('Gift Card "%s" was redeemed.', Mage::helper('Mage_Core_Helper_Data')->htmlEscape($code))
                 );
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('customer/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Customer_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::getSingleton('customer/session')->addException($e, $this->__('Cannot redeem Gift Card.'));
+                Mage::getSingleton('Mage_Customer_Model_Session')->addException($e, $this->__('Cannot redeem Gift Card.'));
             }
             $this->_redirect('*/*/*');
             return;
         }
         $this->loadLayout();
-        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $this->loadLayoutUpdates();
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {

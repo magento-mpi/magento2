@@ -31,19 +31,19 @@
 <?php if ($this->includeTax() && $this->getTotalExclTax()>=0):?>
 <tr>
     <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
-        <strong><?php echo $this->helper('tax')->__('Grand Total Excl. Tax')?></strong>
+        <strong><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Grand Total Excl. Tax')?></strong>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        <strong><?php echo $this->helper('checkout')->formatPrice($this->getTotalExclTax()) ?></strong>
+        <strong><?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($this->getTotalExclTax()) ?></strong>
     </td>
 </tr>
 <?php echo $this->renderTotals('taxes', $this->getColspan()); ?>
 <tr>
     <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
-        <strong><?php echo $this->helper('tax')->__('Grand Total Incl. Tax')?></strong>
+        <strong><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Grand Total Incl. Tax')?></strong>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        <strong><?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?></strong>
+        <strong><?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($this->getTotal()->getValue()) ?></strong>
     </td>
 </tr>
 <?php else:?>
@@ -52,7 +52,7 @@
         <strong><?php echo $this->getTotal()->getTitle() ?></strong>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        <strong><?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?></strong>
+        <strong><?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($this->getTotal()->getValue()) ?></strong>
     </td>
 </tr>
 <?php endif;?>

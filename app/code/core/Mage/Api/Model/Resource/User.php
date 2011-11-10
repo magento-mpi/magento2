@@ -53,11 +53,11 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
         $this->_uniqueFields = array(
             array(
                 'field' => 'email',
-                'title' => Mage::helper('api')->__('Email')
+                'title' => Mage::helper('Mage_Api_Helper_Data')->__('Email')
             ),
             array(
                 'field' => 'username',
-                'title' => Mage::helper('api')->__('User Name')
+                'title' => Mage::helper('Mage_Api_Helper_Data')->__('User Name')
             ),
         );
         return $this;
@@ -351,7 +351,7 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
         }
 
         if ($user->getId() > 0) {
-            $role = Mage::getModel('api/role')->load($user->getRoleId());
+            $role = Mage::getModel('Mage_Api_Model_Role')->load($user->getRoleId());
         } else {
             $role = new Varien_Object(array('tree_level' => 0));
         }

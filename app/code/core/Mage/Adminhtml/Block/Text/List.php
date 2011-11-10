@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Text_List extends Mage_Core_Block_Text_List
      */
     protected function _getUrlModelClass()
     {
-        return 'adminhtml/url';
+        return 'Mage_Adminhtml_Model_Url';
     }
 
 }

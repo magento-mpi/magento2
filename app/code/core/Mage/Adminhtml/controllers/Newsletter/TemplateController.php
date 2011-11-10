@@ -39,7 +39,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
      */
     protected function _isAllowed ()
     {
-        return Mage::getSingleton('admin/session')
+        return Mage::getSingleton('Mage_Admin_Model_Session')
             ->isAllowed('newsletter/template');
     }
 
@@ -67,8 +67,8 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
         }
         $this->loadLayout();
         $this->_setActiveMenu('newsletter/template');
-        $this->_addBreadcrumb(Mage::helper('newsletter')->__('Newsletter Templates'), Mage::helper('newsletter')->__('Newsletter Templates'));
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/newsletter_template', 'template'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Templates'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Templates'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Template', 'template'));
         $this->renderLayout();
     }
 
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
     public function gridAction ()
     {
         $this->loadLayout();
-        $grid = $this->getLayout()->createBlock('adminhtml/newsletter_template_grid')
+        $grid = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Template_Grid')
             ->toHtml();
         $this->getResponse()->setBody($grid);
     }
@@ -101,7 +101,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
     {
         $this->_setTitle();
 
-        $model = Mage::getModel('newsletter/template');
+        $model = Mage::getModel('Mage_Newsletter_Model_Template');
         if ($id = $this->getRequest()->getParam('id')) {
             $model->load($id);
         }
@@ -112,12 +112,12 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
         $this->_setActiveMenu('newsletter/template');
 
         if ($model->getId()) {
-            $breadcrumbTitle = Mage::helper('newsletter')->__('Edit Template');
+            $breadcrumbTitle = Mage::helper('Mage_Newsletter_Helper_Data')->__('Edit Template');
             $breadcrumbLabel = $breadcrumbTitle;
         }
         else {
-            $breadcrumbTitle = Mage::helper('newsletter')->__('New Template');
-            $breadcrumbLabel = Mage::helper('newsletter')->__('Create Newsletter Template');
+            $breadcrumbTitle = Mage::helper('Mage_Newsletter_Helper_Data')->__('New Template');
+            $breadcrumbLabel = Mage::helper('Mage_Newsletter_Helper_Data')->__('Create Newsletter Template');
         }
 
         $this->_title($model->getId() ? $model->getTemplateCode() : $this->__('New Template'));
@@ -156,7 +156,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
         if (!$request->isPost()) {
             $this->getResponse()->setRedirect($this->getUrl('*/newsletter_template'));
         }
-        $template = Mage::getModel('newsletter/template');
+        $template = Mage::getModel('Mage_Newsletter_Model_Template');
 
         if ($id = (int)$request->getParam('id')) {
             $template->load($id);
@@ -170,7 +170,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
                 ->setTemplateSenderName($request->getParam('sender_name'))
                 ->setTemplateText($request->getParam('text'))
                 ->setTemplateStyles($request->getParam('styles'))
-                ->setModifiedAt(Mage::getSingleton('core/date')->gmtDate());
+                ->setModifiedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
 
             if (!$template->getId()) {
                 $template->setTemplateType(Mage_Newsletter_Model_Template::TYPE_HTML);
@@ -191,7 +191,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
                 $this->getRequest()->getParams());
         }
         catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('An error occurred while saving this template.'));
+            $this->_getSession()->addException($e, Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while saving this template.'));
             $this->_getSession()->setData('newsletter_template_form_data', $this->getRequest()->getParams());
         }
         $this->_forward('new');
@@ -203,7 +203,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
      */
     public function deleteAction ()
     {
-        $template = Mage::getModel('newsletter/template')
+        $template = Mage::getModel('Mage_Newsletter_Model_Template')
             ->load($this->getRequest()->getParam('id'));
         if ($template->getId()) {
             try {
@@ -213,7 +213,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
                 $this->_getSession()->addError($e->getMessage());
             }
             catch (Exception $e) {
-                $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('An error occurred while deleting this template.'));
+                $this->_getSession()->addException($e, Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while deleting this template.'));
             }
         }
         $this->_redirect('*/*');

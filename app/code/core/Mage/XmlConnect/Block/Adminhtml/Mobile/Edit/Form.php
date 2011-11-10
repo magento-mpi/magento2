@@ -42,7 +42,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Form extends Mage_Adminhtml_Bl
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form(array('id' => 'edit_form',
-            'action'  => Mage::getSingleton('adminhtml/session')->getNewApplication()
+            'action'  => Mage::getSingleton('Mage_Adminhtml_Model_Session')->getNewApplication()
                 ? $this->getUrl('*/mobile/edit', array('_current'  => true))
                 : $this->getUrl('*/mobile/save'),
             'method'  => 'post',

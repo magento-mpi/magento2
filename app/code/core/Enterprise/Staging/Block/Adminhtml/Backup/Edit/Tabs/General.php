@@ -57,35 +57,35 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_General extends Mage_A
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('staging_backup_general_fieldset',
-            array('legend' => Mage::helper('enterprise_staging')->__('Backup Main Information')));
+            array('legend' => Mage::helper('Enterprise_Staging_Helper_Data')->__('Backup Main Information')));
 
         $fieldset->addField('name', 'label', array(
-            'label'     => Mage::helper('enterprise_staging')->__('Backup Name'),
-            'title'     => Mage::helper('enterprise_staging')->__('Backup Name'),
+            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Backup Name'),
+            'title'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Backup Name'),
             'value'     => $this->getBackupName()
         ));
 
         $fieldset->addField('staging_name', 'label', array(
-            'label'     => Mage::helper('enterprise_staging')->__('Staging Website'),
-            'title'     => Mage::helper('enterprise_staging')->__('Staging Website'),
+            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Staging Website'),
+            'title'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Staging Website'),
             'value'     => $this->getStagingWebsiteName()
         ));
 
         $fieldset->addField('master_website', 'label', array(
-            'label'     => Mage::helper('enterprise_staging')->__('Master Website'),
-            'title'     => Mage::helper('enterprise_staging')->__('Master Website'),
+            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Master Website'),
+            'title'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Master Website'),
             'value'     => $this->getMasterWebsiteName()
         ));
 
         $fieldset->addField('backupCreateAt', 'label', array(
-            'label'     => Mage::helper('enterprise_staging')->__('Created Date'),
-            'title'     => Mage::helper('enterprise_staging')->__('Created Date'),
+            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Created Date'),
+            'title'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Created Date'),
             'value'     => $this->formatDate($this->getBackup()->getCreatedAt(), 'medium', true)
         ));
 
         $fieldset->addField('tablePrefix', 'label', array(
-            'label'     => Mage::helper('enterprise_staging')->__('Table Prefix'),
-            'title'     => Mage::helper('enterprise_staging')->__('Table Prefix'),
+            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Table Prefix'),
+            'title'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Table Prefix'),
             'value'     => $this->getBackup()->getStagingTablePrefix()
         ));
 
@@ -131,7 +131,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_General extends Mage_A
                 return $website->getName();
             }
         }
-        return Mage::helper('enterprise_staging')->__('No information');
+        return Mage::helper('Enterprise_Staging_Helper_Data')->__('No information');
     }
 
     /**

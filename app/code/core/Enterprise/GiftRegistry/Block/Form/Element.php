@@ -41,7 +41,7 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
     protected function _getCountryCollection()
     {
         if (!$this->_countryCollection) {
-            $this->_countryCollection = Mage::getSingleton('directory/country')->getResourceCollection()
+            $this->_countryCollection = Mage::getSingleton('Mage_Directory_Model_Country')->getResourceCollection()
                 ->loadByStore();
         }
         return $this->_countryCollection;
@@ -56,7 +56,7 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
     protected function _getRegionCollection($country = null)
     {
         if (!$this->_regionCollection) {
-            $this->_regionCollection = Mage::getModel('directory/region')->getResourceCollection()
+            $this->_regionCollection = Mage::getModel('Mage_Directory_Model_Region')->getResourceCollection()
                 ->addCountryFilter($country)
                 ->load();
         }
@@ -152,7 +152,7 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
      */
     public function getSelectHtml($name, $id, $options = array(), $value = null, $class = '')
     {
-        $select = $this->getLayout()->createBlock('core/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName($this->_getFieldName($name))
             ->setId($this->_getFieldId($id))
             ->setClass('select ' . $class)
@@ -209,7 +209,7 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
             $format = Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM;
         }
 
-        $calendar = $this->getLayout()->createBlock('core/html_date')
+        $calendar = $this->getLayout()->createBlock('Mage_Core_Block_Html_Date')
             ->setName($this->_getFieldName($name))
             ->setId($this->_getFieldId($id))
             ->setValue($value)
@@ -249,7 +249,7 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
     public function convertArrayToOptions($selectOptions, $withEmpty = false) {
         $options = array();
         if ($withEmpty) {
-            $options[] = array('value' => '', 'label' => Mage::helper('enterprise_giftregistry')->__('-- Please select --'));
+            $options[] = array('value' => '', 'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('-- Please select --'));
         }
         if (is_array($selectOptions)) {
             foreach ($selectOptions as $code => $option) {

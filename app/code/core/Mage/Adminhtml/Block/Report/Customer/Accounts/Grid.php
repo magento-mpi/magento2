@@ -43,20 +43,20 @@ class Mage_Adminhtml_Block_Report_Customer_Accounts_Grid extends Mage_Adminhtml_
     protected function _prepareCollection()
     {
         parent::_prepareCollection();
-        $this->getCollection()->initReport('reports/accounts_collection');
+        $this->getCollection()->initReport('Mage_Reports_Model_Resource_Accounts_Collection');
     }
 
     protected function _prepareColumns()
     {
         $this->addColumn('accounts', array(
-            'header'    =>Mage::helper('reports')->__('Number of New Accounts'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Number of New Accounts'),
             'index'     =>'accounts',
             'total'     =>'sum',
             'type'      =>'number'
         ));
 
-        $this->addExportType('*/*/exportAccountsCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportAccountsExcel', Mage::helper('reports')->__('Excel XML'));
+        $this->addExportType('*/*/exportAccountsCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportAccountsExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

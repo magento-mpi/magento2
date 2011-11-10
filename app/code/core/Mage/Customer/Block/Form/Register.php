@@ -40,7 +40,7 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
 
     protected function _prepareLayout()
     {
-        $this->getLayout()->getBlock('head')->setTitle(Mage::helper('customer')->__('Create New Customer Account'));
+        $this->getLayout()->getBlock('head')->setTitle(Mage::helper('Mage_Customer_Helper_Data')->__('Create New Customer Account'));
         return parent::_prepareLayout();
     }
 
@@ -51,7 +51,7 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
      */
     public function getPostActionUrl()
     {
-        return $this->helper('customer')->getRegisterPostUrl();
+        return $this->helper('Mage_Customer_Helper_Data')->getRegisterPostUrl();
     }
 
     /**
@@ -63,7 +63,7 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
     {
         $url = $this->getData('back_url');
         if (is_null($url)) {
-            $url = $this->helper('customer')->getLoginUrl();
+            $url = $this->helper('Mage_Customer_Helper_Data')->getLoginUrl();
         }
         return $url;
     }
@@ -77,7 +77,7 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $formData = Mage::getSingleton('customer/session')->getCustomerFormData(true);
+            $formData = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerFormData(true);
             $data = new Varien_Object();
             if ($formData) {
                 $data->addData($formData);
@@ -127,7 +127,7 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
      */
     public function isNewsletterEnabled()
     {
-        return Mage::helper('core')->isModuleOutputEnabled('Mage_Newsletter');
+        return Mage::helper('Mage_Core_Helper_Data')->isModuleOutputEnabled('Mage_Newsletter');
     }
 
     /**
@@ -138,7 +138,7 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
     public function getAddress()
     {
         if (is_null($this->_address)) {
-            $this->_address = Mage::getModel('customer/address');
+            $this->_address = Mage::getModel('Mage_Customer_Model_Address');
         }
 
         return $this->_address;

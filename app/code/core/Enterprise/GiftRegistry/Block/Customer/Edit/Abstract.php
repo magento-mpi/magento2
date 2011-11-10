@@ -114,7 +114,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
      */
     public function isAttributeStatic($code)
     {
-        $types = Mage::getSingleton('enterprise_giftregistry/attribute_config')->getStaticTypesCodes();
+        $types = Mage::getSingleton('Enterprise_GiftRegistry_Model_Attribute_Config')->getStaticTypesCodes();
         if (in_array($code, $types)) {
             return true;
         }
@@ -128,7 +128,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
      */
     public function getAttributeGroups()
     {
-        return Mage::getSingleton('enterprise_giftregistry/attribute_config')->getAttributeGroups();
+        return Mage::getSingleton('Enterprise_GiftRegistry_Model_Attribute_Config')->getAttributeGroups();
     }
 
     /**
@@ -140,7 +140,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
     public function getGroupLabel($groupId)
     {
         if ($this->_groups === null) {
-            $this->_groups = Mage::getSingleton('enterprise_giftregistry/attribute_config')->getAttributeGroups();
+            $this->_groups = Mage::getSingleton('Enterprise_GiftRegistry_Model_Attribute_Config')->getAttributeGroups();
         }
         if (is_array($this->_groups) && (!empty($this->_groups[$groupId]))
             && is_array($this->_groups[$groupId]) && !empty($this->_groups[$groupId]['label'])) {
@@ -169,7 +169,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
         }
 
         $calendar = $this->getLayout()
-            ->createBlock('enterprise_giftregistry/customer_date')
+            ->createBlock('Enterprise_GiftRegistry_Block_Customer_Date')
             ->setId($id)
             ->setName($name)
             ->setValue($this->formatDate($value, $format))
@@ -186,7 +186,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
      */
     public function getSelectHtml($options, $name, $id, $value = false, $class = '')
     {
-        $select = $this->getLayout()->createBlock('core/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setData(array(
                 'id'    => $id,
                 'class' => 'select global-scope '. $class

@@ -93,7 +93,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
             return $this->_quote;
         }
 
-        $this->_quote = Mage::getModel('sales/quote');
+        $this->_quote = Mage::getModel('Mage_Sales_Model_Quote');
 
         if ($this->getCustomer() !== null) {
             $this->_quote
@@ -218,13 +218,13 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
 
         if (!($product instanceof Mage_Catalog_Model_Product)) {
             $productId = $product;
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStore($this->getStore())
                 ->setStoreId($this->getStore()->getId())
                 ->load($product);
             if (!$product->getId()) {
                 Mage::throwException(
-                    Mage::helper('adminhtml')->__('Failed to add a product to cart by id "%s".', $productId)
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Failed to add a product to cart by id "%s".', $productId)
                 );
             }
         }
@@ -266,10 +266,10 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
     public function reorderItem(Mage_Sales_Model_Order_Item $orderItem, $qty = 1)
     {
         if (!$orderItem->getId()) {
-            Mage::throwException(Mage::helper('enterprise_checkout')->__('Failed to reorder item'));
+            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Failed to reorder item'));
         }
 
-        $product = Mage::getModel('catalog/product')
+        $product = Mage::getModel('Mage_Catalog_Model_Product')
             ->setStoreId($this->getStore()->getId())
             ->load($orderItem->getProductId());
 
@@ -302,7 +302,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
             return $item;
 
         } else {
-            Mage::throwException(Mage::helper('enterprise_checkout')->__('Failed to add a product of order item'));
+            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Failed to add a product of order item'));
         }
     }
 
@@ -441,7 +441,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         if ($item) {
             switch ($moveTo) {
                 case 'wishlist':
-                    $wishlist = Mage::getModel('wishlist/wishlist')->loadByCustomer($this->getCustomer(), true)
+                    $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->loadByCustomer($this->getCustomer(), true)
                         ->setStore($this->getStore())
                         ->setSharedStoreIds($this->getStore()->getWebsite()->getStoreIds());
                     if ($wishlist->getId() && $item->getProduct()->isVisibleInSiteVisibility()) {

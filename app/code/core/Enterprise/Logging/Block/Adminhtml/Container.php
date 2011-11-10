@@ -45,7 +45,7 @@ class Enterprise_Logging_Block_Adminhtml_Container extends Mage_Adminhtml_Block_
     public function __construct()
     {
         $action = Mage::app()->getRequest()->getActionName();
-        $this->_blockGroup = 'enterprise_logging';
+        $this->_blockGroup = 'Enterprise_Logging';
         $this->_controller = 'adminhtml_' . $action;
 
         parent::__construct();
@@ -59,7 +59,7 @@ class Enterprise_Logging_Block_Adminhtml_Container extends Mage_Adminhtml_Block_
      */
     public function getHeaderText()
     {
-        return Mage::helper('enterprise_logging')->__($this->getData('header_text'));
+        return Mage::helper('Enterprise_Logging_Helper_Data')->__($this->getData('header_text'));
     }
 
     /**

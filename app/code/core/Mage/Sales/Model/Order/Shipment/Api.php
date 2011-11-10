@@ -53,7 +53,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
     public function items($filters = null)
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('sales/order_shipment_collection')
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Shipment_Collection')
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('total_qty')
@@ -93,7 +93,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
      */
     public function info($shipmentIncrementId)
     {
-        $shipment = Mage::getModel('sales/order_shipment')->loadByIncrementId($shipmentIncrementId);
+        $shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment')->loadByIncrementId($shipmentIncrementId);
 
         /* @var $shipment Mage_Sales_Model_Order_Shipment */
 
@@ -133,7 +133,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
      */
     public function create($orderIncrementId, $itemsQty = array(), $comment = null, $email = false, $includeComment = false)
     {
-        $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
+        $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($orderIncrementId);
 
         /**
           * Check order existing
@@ -146,7 +146,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
          * Check shipment create availability
          */
         if (!$order->canShip()) {
-             $this->_fault('data_invalid', Mage::helper('sales')->__('Cannot do shipment for order.'));
+             $this->_fault('data_invalid', Mage::helper('Mage_Sales_Helper_Data')->__('Cannot do shipment for order.'));
         }
 
          /* @var $shipment Mage_Sales_Model_Order_Shipment */
@@ -159,7 +159,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
             }
             $shipment->getOrder()->setIsInProcess(true);
             try {
-                $transactionSave = Mage::getModel('core/resource_transaction')
+                $transactionSave = Mage::getModel('Mage_Core_Model_Resource_Transaction')
                     ->addObject($shipment)
                     ->addObject($shipment->getOrder())
                     ->save();
@@ -183,7 +183,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
      */
     public function addTrack($shipmentIncrementId, $carrier, $title, $trackNumber)
     {
-        $shipment = Mage::getModel('sales/order_shipment')->loadByIncrementId($shipmentIncrementId);
+        $shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment')->loadByIncrementId($shipmentIncrementId);
 
         /* @var $shipment Mage_Sales_Model_Order_Shipment */
 
@@ -194,10 +194,10 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
         $carriers = $this->_getCarriers($shipment);
 
         if (!isset($carriers[$carrier])) {
-            $this->_fault('data_invalid', Mage::helper('sales')->__('Invalid carrier specified.'));
+            $this->_fault('data_invalid', Mage::helper('Mage_Sales_Helper_Data')->__('Invalid carrier specified.'));
         }
 
-        $track = Mage::getModel('sales/order_shipment_track')
+        $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')
                     ->setNumber($trackNumber)
                     ->setCarrierCode($carrier)
                     ->setTitle($title);
@@ -223,7 +223,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
      */
     public function removeTrack($shipmentIncrementId, $trackId)
     {
-        $shipment = Mage::getModel('sales/order_shipment')->loadByIncrementId($shipmentIncrementId);
+        $shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment')->loadByIncrementId($shipmentIncrementId);
 
         /* @var $shipment Mage_Sales_Model_Order_Shipment */
 
@@ -253,7 +253,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
      */
     public function infoTrack($shipmentIncrementId, $trackId)
     {
-         $shipment = Mage::getModel('sales/order_shipment')->loadByIncrementId($shipmentIncrementId);
+         $shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment')->loadByIncrementId($shipmentIncrementId);
 
         /* @var $shipment Mage_Sales_Model_Order_Shipment */
 
@@ -286,7 +286,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
      */
     public function addComment($shipmentIncrementId, $comment, $email = false, $includeInEmail = false)
     {
-        $shipment = Mage::getModel('sales/order_shipment')->loadByIncrementId($shipmentIncrementId);
+        $shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment')->loadByIncrementId($shipmentIncrementId);
 
         /* @var $shipment Mage_Sales_Model_Order_Shipment */
 
@@ -314,7 +314,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
      */
     public function getCarriers($orderIncrementId)
     {
-        $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
+        $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($orderIncrementId);
 
         /**
           * Check order existing
@@ -335,11 +335,11 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
     protected function _getCarriers($object)
     {
         $carriers = array();
-        $carrierInstances = Mage::getSingleton('shipping/config')->getAllCarriers(
+        $carrierInstances = Mage::getSingleton('Mage_Shipping_Model_Config')->getAllCarriers(
             $object->getStoreId()
         );
 
-        $carriers['custom'] = Mage::helper('sales')->__('Custom Value');
+        $carriers['custom'] = Mage::helper('Mage_Sales_Helper_Data')->__('Custom Value');
         foreach ($carrierInstances as $code => $carrier) {
             if ($carrier->isTrackingAvailable()) {
                 $carriers[$code] = $carrier->getConfigData('title');

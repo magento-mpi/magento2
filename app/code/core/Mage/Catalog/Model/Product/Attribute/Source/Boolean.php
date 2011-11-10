@@ -43,15 +43,15 @@ class Mage_Catalog_Model_Product_Attribute_Source_Boolean extends Mage_Eav_Model
         if (!$this->_options) {
             $this->_options = array(
                 array(
-                    'label' => Mage::helper('catalog')->__('Yes'),
+                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Yes'),
                     'value' => 1
                 ),
                 array(
-                    'label' => Mage::helper('catalog')->__('No'),
+                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('No'),
                     'value' => 0
                 ),
                 array(
-                    'label' => Mage::helper('catalog')->__('Use config'),
+                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Use config'),
                     'value' => 2
                 )
             );

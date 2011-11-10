@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Adminhtml_Block_Te
         $this->setTemplate('newsletter/queue/edit.phtml');
 
         $this->setChild('form',
-            $this->getLayout()->createBlock('adminhtml/newsletter_queue_edit_form','form')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form','form')
         );
 
         return parent::_beforeToHtml();
@@ -81,50 +81,50 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Adminhtml_Block_Te
     protected function _prepareLayout()
     {
         // Load Wysiwyg on demand and Prepare layout
-        if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
+        if (Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->isEnabled()) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
 
         $this->setChild('preview_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('newsletter')->__('Preview Template'),
+                    'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Preview Template'),
                     'onclick'   => 'queueControl.preview();',
                     'class'     => 'task'
                 ))
         );
 
         $this->setChild('save_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('newsletter')->__('Save Newsletter'),
+                    'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Save Newsletter'),
                     'onclick'   => 'queueControl.save()',
                     'class'     => 'save'
                 ))
         );
 
         $this->setChild('save_and_resume',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('newsletter')->__('Save and Resume'),
+                    'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Save and Resume'),
                     'onclick'   => 'queueControl.resume()',
                     'class'     => 'save'
                 ))
         );
 
         $this->setChild('reset_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('newsletter')->__('Reset'),
+                    'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Reset'),
                     'onclick'   => 'window.location = window.location'
                 ))
         );
 
         $this->setChild('back_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
-                        'label'   => Mage::helper('newsletter')->__('Back'),
+                        'label'   => Mage::helper('Mage_Newsletter_Helper_Data')->__('Back'),
                         'onclick' => "window.location.href = '" . $this->getUrl((
                             $this->getTemplateId() ? '*/newsletter_template/' : '*/*')) . "'",
                         'class'   => 'back'
@@ -257,6 +257,6 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Adminhtml_Block_Te
      */
     public function getHeaderText()
     {
-        return ( $this->getIsPreview() ? Mage::helper('newsletter')->__('View Newsletter') : Mage::helper('newsletter')->__('Edit Newsletter'));
+        return ( $this->getIsPreview() ? Mage::helper('Mage_Newsletter_Helper_Data')->__('View Newsletter') : Mage::helper('Mage_Newsletter_Helper_Data')->__('Edit Newsletter'));
     }
 }

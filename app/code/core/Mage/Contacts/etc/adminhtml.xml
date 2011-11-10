@@ -34,7 +34,7 @@
                         <children>
                             <config>
                                 <children>
-                                    <contacts translate="title" module="contacts">
+                                    <contacts translate="title" module="Mage_Contacts">
                                         <title>Contacts Section</title>
                                     </contacts>
                                 </children>

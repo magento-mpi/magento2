@@ -57,7 +57,7 @@ class Mage_XmlConnect_Model_History extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('xmlconnect/history');
+        $this->_init('Mage_XmlConnect_Model_Resource_History');
     }
 
     /**

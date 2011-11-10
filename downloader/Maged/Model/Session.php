@@ -51,7 +51,7 @@ class Maged_Model_Session extends Maged_Model
         if (class_exists('Mage') && Mage::isInstalled()) {
             // initialize Magento Config
             Mage::app();
-            $this->_session = Mage::getSingleton('admin/session');
+            $this->_session = Mage::getSingleton('Mage_Admin_Model_Session');
         } else {
             session_start();
         }
@@ -219,6 +219,6 @@ class Maged_Model_Session extends Maged_Model
         if (!$this->_session || !$this->_session->isLoggedIn()) {
             return '';
         }
-        return Mage::getSingleton('adminhtml/url')->getUrl('adminhtml');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('adminhtml');
     }
 }

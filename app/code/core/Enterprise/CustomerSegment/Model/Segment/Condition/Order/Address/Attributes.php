@@ -43,7 +43,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_order_address_attributes');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes');
         $this->setValue(null);
     }
 
@@ -75,7 +75,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
 
         return array(
             'value' => $conditions,
-            'label' => Mage::helper('enterprise_customersegment')->__('Order Address Attributes')
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Order Address Attributes')
         );
     }
 
@@ -90,7 +90,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
             $this->_attributes  = array();
 
             /* @var $config Mage_Eav_Model_Config */
-            $config     = Mage::getSingleton('eav/config');
+            $config     = Mage::getSingleton('Mage_Eav_Model_Config');
             $attributes = array();
 
             foreach ($config->getEntityAttributeCodes('customer_address') as $attributeCode) {
@@ -122,12 +122,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = Mage::getModel('adminhtml/system_config_source_country')
+                    $options = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Country')
                         ->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = Mage::getModel('adminhtml/system_config_source_allregion')
+                    $options = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Allregion')
                         ->toOptionArray();
                     break;
 
@@ -186,7 +186,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
      */
     public function asHtml()
     {
-        return Mage::helper('enterprise_customersegment')->__('Order Address %s', parent::asHtml());
+        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Order Address %s', parent::asHtml());
     }
 
     /**

@@ -222,7 +222,7 @@ class Enterprise_Search_Model_Resource_Collection
         /**
          * @var Mage_CatalogSearch_Model_Query $query
          */
-        $query = Mage::helper('catalogsearch')->getQuery();
+        $query = Mage::helper('Mage_CatalogSearch_Helper_Data')->getQuery();
         $this->_searchQueryText = $queryText;
         $synonymFor = $query->getSynonymFor();
         if (!empty($synonymFor)) {
@@ -432,7 +432,7 @@ class Enterprise_Search_Model_Resource_Collection
             list($query, $params) = $this->_prepareBaseParams();
             $params['limit'] = 1;
 
-            $helper = Mage::helper('enterprise_search');
+            $helper = Mage::helper('Enterprise_Search_Helper_Data');
             $searchSuggestionsEnabled = ($this->_searchQueryParams != $this->_generalDefaultQuery
                     && $helper->getSolrConfigData('server_suggestion_enabled'));
             if ($searchSuggestionsEnabled) {

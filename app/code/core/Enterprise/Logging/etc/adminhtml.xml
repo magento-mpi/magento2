@@ -29,7 +29,7 @@
     <menu>
         <system>
             <children>
-                <enterprise_logging translate="title" module="enterprise_logging">
+                <enterprise_logging translate="title" module="Enterprise_Logging">
                     <title>Admin Actions Log</title>
                     <sort_order>71</sort_order>
                     <depends><module>Enterprise_Logging</module></depends>
@@ -59,12 +59,12 @@
                         <children>
                             <config>
                                 <children>
-                                    <logging translate="title" module="enterprise_logging">
+                                    <logging translate="title" module="Enterprise_Logging">
                                         <title>Logging</title>
                                     </logging>
                                 </children>
                             </config>
-                            <enterprise_logging translate="title" module="enterprise_logging">
+                            <enterprise_logging translate="title" module="Enterprise_Logging">
                                 <title>Admin Logging</title>
                                 <children>
                                     <events translate="title">

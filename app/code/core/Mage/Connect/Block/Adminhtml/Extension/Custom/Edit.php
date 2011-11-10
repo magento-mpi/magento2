@@ -41,7 +41,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit extends Mage_Adminhtml_
     public function __construct()
     {
         $this->_objectId    = 'id';
-        $this->_blockGroup  = 'connect';
+        $this->_blockGroup  = 'Mage_Connect';
         $this->_controller  = 'adminhtml_extension_custom';
 
         parent::__construct();
@@ -50,13 +50,13 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit extends Mage_Adminhtml_
         $this->_updateButton('reset', 'onclick', "resetPackage()");
 
         $this->_addButton('create', array(
-            'label'     => Mage::helper('connect')->__('Save Data and Create Package'),
+            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Save Data and Create Package'),
             'class'     => 'save',
             'onclick'   => "createPackage()",
         ));
         $this->_addButton('save_as', array(
-            'label'     => Mage::helper('connect')->__('Save As...'),
-            'title'     => Mage::helper('connect')->__('Save package with custom package file name'),
+            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Save As...'),
+            'title'     => Mage::helper('Mage_Connect_Helper_Data')->__('Save package with custom package file name'),
             'onclick'   => 'saveAsPackage()'
         ));
     }
@@ -68,7 +68,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit extends Mage_Adminhtml_
     */
     public function getHeaderText()
     {
-        return Mage::helper('connect')->__('New Extension');
+        return Mage::helper('Mage_Connect_Helper_Data')->__('New Extension');
     }
 
     /*

@@ -47,7 +47,7 @@ class Mage_Core_Model_Source_Email_Variables
      */
     public function __construct()
     {
-        $helper = Mage::helper('core');
+        $helper = Mage::helper('Mage_Core_Helper_Data');
         $this->_configVariables = array(
             array(
                 'value' => Mage_Core_Model_Url::XML_PATH_UNSECURE_URL,
@@ -116,12 +116,12 @@ class Mage_Core_Model_Source_Email_Variables
         foreach ($this->_configVariables as $variable) {
             $optionArray[] = array(
                 'value' => '{{config path="' . $variable['value'] . '"}}',
-                'label' => Mage::helper('core')->__('%s', $variable['label'])
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('%s', $variable['label'])
             );
         }
         if ($withGroup && $optionArray) {
             $optionArray = array(
-                'label' => Mage::helper('core')->__('Store Contact Information'),
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Store Contact Information'),
                 'value' => $optionArray
             );
         }

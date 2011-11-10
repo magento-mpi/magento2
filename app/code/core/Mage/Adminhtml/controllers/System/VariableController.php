@@ -42,7 +42,7 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
     {
         $this->loadLayout()
             ->_setActiveMenu('system/variable')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Custom Variables'), Mage::helper('adminhtml')->__('Custom Variables'));
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Custom Variables'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Custom Variables'));
         return $this;
     }
 
@@ -58,7 +58,7 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
         $variableId = $this->getRequest()->getParam('variable_id', null);
         $storeId = $this->getRequest()->getParam('store', 0);
         /* @var $emailVariable Mage_Core_Model_Variable */
-        $variable = Mage::getModel('core/variable');
+        $variable = Mage::getModel('Mage_Core_Model_Variable');
         if ($variableId) {
             $variable->setStoreId($storeId)
                 ->load($variableId);
@@ -76,7 +76,7 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
         $this->_title($this->__('System'))->_title($this->__('Custom Variables'));
 
         $this->_initLayout()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/system_variable'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Variable'))
             ->renderLayout();
     }
 
@@ -100,8 +100,10 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
         $this->_title($variable->getId() ? $variable->getCode() : $this->__('New Variable'));
 
         $this->_initLayout()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/system_variable_edit'))
-            ->_addJs($this->getLayout()->createBlock('core/template', '', array('template' => 'system/variable/js.phtml')))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Variable_Edit'))
+            ->_addJs($this->getLayout()
+                ->createBlock('Mage_Core_Block_Template', '', array('template' => 'system/variable/js.phtml'))
+            )
             ->renderLayout();
     }
 
@@ -117,7 +119,7 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
         $result = $variable->validate();
         if ($result !== true && is_string($result)) {
             $this->_getSession()->addError($result);
-            $this->_initLayoutMessages('adminhtml/session');
+            $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
@@ -139,7 +141,7 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
             try {
                 $variable->save();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('adminhtml')->__('The custom variable has been saved.')
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('The custom variable has been saved.')
                 );
                 if ($back) {
                     $this->_redirect('*/*/edit', array('_current' => true, 'variable_id' => $variable->getId()));
@@ -168,7 +170,7 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
             try {
                 $variable->delete();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('adminhtml')->__('The custom variable has been deleted.')
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('The custom variable has been deleted.')
                 );
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -186,8 +188,8 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
      */
     public function wysiwygPluginAction()
     {
-        $customVariables = Mage::getModel('core/variable')->getVariablesOptionArray(true);
-        $storeContactVariabls = Mage::getModel('core/source_email_variables')->toOptionArray(true);
+        $customVariables = Mage::getModel('Mage_Core_Model_Variable')->getVariablesOptionArray(true);
+        $storeContactVariabls = Mage::getModel('Mage_Core_Model_Source_Email_Variables')->toOptionArray(true);
         $variables = array($storeContactVariabls, $customVariables);
         $this->getResponse()->setBody(Zend_Json::encode($variables));
     }
@@ -199,6 +201,6 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/variable');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/variable');
     }
 }

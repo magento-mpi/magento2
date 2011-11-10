@@ -45,7 +45,7 @@
                     <div class="product-details">
                         <h3 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h3>
                         <?php echo $this->getPriceHtml($_item, true, '-related') ?>
-                        <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                        <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
                             <p><a href="<?php echo $this->getAddToWishlistUrl($_item) ?>"><?php echo $this->__('Add to Wishlist') ?></a></p>
                         <?php endif; ?>
                     </div>

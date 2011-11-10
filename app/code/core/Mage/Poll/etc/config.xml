@@ -70,15 +70,6 @@
         </translate>
     </adminhtml>
     <global>
-        <models>
-            <poll>
-                <class>Mage_Poll_Model</class>
-                <resourceModel>poll_resource</resourceModel>
-            </poll>
-            <poll_resource>
-                <class>Mage_Poll_Model_Resource</class>
-            </poll_resource>
-        </models>
         <resources>
             <poll_setup>
                 <setup>
@@ -86,10 +77,5 @@
                 </setup>
             </poll_setup>
         </resources>
-        <blocks>
-            <poll>
-                <class>Mage_Poll_Block</class>
-            </poll>
-        </blocks>
     </global>
 </config>

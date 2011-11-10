@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Sales_Transactions extends Mage_Adminhtml_Block_Widge
     public function __construct()
     {
         $this->_controller = 'sales_transactions';
-        $this->_headerText = Mage::helper('sales')->__('Transactions');
+        $this->_headerText = Mage::helper('Mage_Sales_Helper_Data')->__('Transactions');
         parent::__construct();
         $this->_removeButton('add');
     }

@@ -102,7 +102,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract
         if (in_array($this->getConfigField('input'), array('select','boolean'))) {
             $valueOption = $this->getOption($value);
             if (!$valueOption) {
-                $opt     = Mage::getModel('eav/entity_attribute_source_boolean');
+                $opt     = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Source_Boolean');
                 $options = $opt->getAllOptions();
                 if ($options) {
                     foreach ($options as $option) {

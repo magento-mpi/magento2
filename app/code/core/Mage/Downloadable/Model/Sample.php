@@ -54,7 +54,7 @@ class Mage_Downloadable_Model_Sample extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('downloadable/sample');
+        $this->_init('Mage_Downloadable_Model_Resource_Sample');
         parent::_construct();
     }
 

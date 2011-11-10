@@ -41,19 +41,19 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
         $defaultStore = Mage::app()->getStore(0);
 
         $fieldset = $form->addFieldset('rating_form', array(
-            'legend'=>Mage::helper('rating')->__('Rating Title')
+            'legend'=>Mage::helper('Mage_Rating_Helper_Data')->__('Rating Title')
         ));
 
         $fieldset->addField('rating_code', 'text', array(
             'name'      => 'rating_code',
-            'label'     => Mage::helper('rating')->__('Default Value'),
+            'label'     => Mage::helper('Mage_Rating_Helper_Data')->__('Default Value'),
             'class'     => 'required-entry',
             'required'  => true,
 
         ));
 
 //        if (!Mage::app()->isSingleStoreMode()) {
-            foreach(Mage::getSingleton('adminhtml/system_store')->getStoreCollection() as $store) {
+            foreach(Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreCollection() as $store) {
                 $fieldset->addField('rating_code_' . $store->getId(), 'text', array(
                     'label'     => $store->getName(),
                     'name'      => 'rating_codes['. $store->getId() .']',
@@ -61,13 +61,13 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
             }
 //        }
 
-        if (Mage::getSingleton('adminhtml/session')->getRatingData()) {
-            $form->setValues(Mage::getSingleton('adminhtml/session')->getRatingData());
-            $data = Mage::getSingleton('adminhtml/session')->getRatingData();
+        if (Mage::getSingleton('Mage_Adminhtml_Model_Session')->getRatingData()) {
+            $form->setValues(Mage::getSingleton('Mage_Adminhtml_Model_Session')->getRatingData());
+            $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getRatingData();
             if (isset($data['rating_codes'])) {
                $this->_setRatingCodes($data['rating_codes']);
             }
-            Mage::getSingleton('adminhtml/session')->setRatingData(null);
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setRatingData(null);
         }
         elseif (Mage::registry('rating_data')) {
             $form->setValues(Mage::registry('rating_data')->getData());
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
         }
 
         if (Mage::registry('rating_data')) {
-            $collection = Mage::getModel('rating/rating_option')
+            $collection = Mage::getModel('Mage_Rating_Model_Rating_Option')
                 ->getResourceCollection()
                 ->addRatingFilter(Mage::registry('rating_data')->getId())
                 ->load();
@@ -105,13 +105,13 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
 
 //        if (!Mage::app()->isSingleStoreMode()) {
             $fieldset = $form->addFieldset('visibility_form', array(
-                'legend'    => Mage::helper('rating')->__('Rating Visibility'))
+                'legend'    => Mage::helper('Mage_Rating_Helper_Data')->__('Rating Visibility'))
             );
             $fieldset->addField('stores', 'multiselect', array(
-                'label'     => Mage::helper('rating')->__('Visible In'),
+                'label'     => Mage::helper('Mage_Rating_Helper_Data')->__('Visible In'),
 //                'required'  => true,
                 'name'      => 'stores[]',
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
+                'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm()
             ));
 
             if (Mage::registry('rating_data')) {
@@ -147,7 +147,7 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
 <ul class="messages">
     <li class="notice-msg">
         <ul>
-            <li>'.Mage::helper('rating')->__('If you do not specify a rating title for a store, the default value will be used.').'</li>
+            <li>'.Mage::helper('Mage_Rating_Helper_Data')->__('If you do not specify a rating title for a store, the default value will be used.').'</li>
         </ul>
     </li>
 </ul>

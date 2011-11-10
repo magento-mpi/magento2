@@ -38,7 +38,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Messages extends Mage_Adminhtml
      */
     public function _prepareLayout()
     {
-        $this->addMessages(Mage::getSingleton('adminhtml/session')->getMessages(true));
+        $this->addMessages(Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages(true));
         parent::_prepareLayout();
     }
 }

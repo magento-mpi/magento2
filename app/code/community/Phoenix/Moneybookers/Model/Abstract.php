@@ -24,8 +24,8 @@ abstract class Phoenix_Moneybookers_Model_Abstract extends Mage_Payment_Model_Me
      */
     protected $_code = 'moneybookers_abstract';
 
-    protected $_formBlockType = 'moneybookers/form';
-    protected $_infoBlockType = 'moneybookers/info';
+    protected $_formBlockType = 'Phoenix_Moneybookers_Block_Form';
+    protected $_infoBlockType = 'Phoenix_Moneybookers_Block_Info';
 
     /**
      * Availability options
@@ -159,7 +159,7 @@ abstract class Phoenix_Moneybookers_Model_Abstract extends Mage_Payment_Model_Me
             'country'               => $billing->getCountryModel()->getIso3Code(),
             'pay_from_email'        => $email,
             'phone_number'          => $billing->getTelephone(),
-            'detail1_description'   => Mage::helper('phoenix_moneybookers')->__('Order ID'),
+            'detail1_description'   => Mage::helper('Phoenix_Moneybookers_Helper_Data')->__('Order ID'),
             'detail1_text'          => $order_id,
             'payment_methods'       => $this->_paymentMethod,
             'hide_login'            => $this->_hidelogin,

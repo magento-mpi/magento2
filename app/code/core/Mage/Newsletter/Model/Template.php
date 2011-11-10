@@ -76,7 +76,7 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Template
      */
     protected function _construct()
     {
-        $this->_init('newsletter/template');
+        $this->_init('Mage_Newsletter_Model_Resource_Template');
     }
 
     /**
@@ -196,7 +196,7 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Template
     public function getProcessedTemplate(array $variables = array(), $usePreprocess = false)
     {
         /* @var $processor Mage_Newsletter_Model_Template_Filter */
-        $processor = Mage::helper('newsletter')->getTemplateProcessor();
+        $processor = Mage::helper('Mage_Newsletter_Helper_Data')->getTemplateProcessor();
 
         if (!$this->_preprocessFlag) {
             $variables['this'] = $this;
@@ -246,7 +246,7 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Template
      */
     public function getInclude($templateCode, array $variables)
     {
-        return Mage::getModel('newsletter/template')
+        return Mage::getModel('Mage_Newsletter_Model_Template')
             ->loadByCode($templateCode)
             ->getProcessedTemplate($variables);
     }
@@ -324,7 +324,7 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Template
         catch (Exception $e) {
             if ($subscriber instanceof Mage_Newsletter_Model_Subscriber) {
                 // If letter sent for subscriber, we create a problem report entry
-                $problem = Mage::getModel('newsletter/problem');
+                $problem = Mage::getModel('Mage_Newsletter_Model_Problem');
                 $problem->addSubscriberData($subscriber);
                 if (!is_null($queue)) {
                     $problem->addQueueData($queue);
@@ -386,7 +386,7 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Template
     {
         if (!$this->getData('template_text') && !$this->getId()) {
             $this->setData('template_text',
-                Mage::helper('newsletter')->__('Follow this link to unsubscribe <!-- This tag is for unsubscribe link  --><a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}</a>')
+                Mage::helper('Mage_Newsletter_Helper_Data')->__('Follow this link to unsubscribe <!-- This tag is for unsubscribe link  --><a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}</a>')
             );
         }
 

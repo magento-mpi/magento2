@@ -32,15 +32,6 @@
         </Enterprise_Reward>
     </modules>
     <global>
-        <models>
-            <enterprise_reward>
-                <class>Enterprise_Reward_Model</class>
-                <resourceModel>enterprise_reward_resource</resourceModel>
-            </enterprise_reward>
-            <enterprise_reward_resource>
-                <class>Enterprise_Reward_Model_Resource</class>
-            </enterprise_reward_resource>
-        </models>
         <resources>
             <enterprise_reward_setup>
                 <setup>
@@ -49,24 +40,14 @@
                 </setup>
             </enterprise_reward_setup>
         </resources>
-        <blocks>
-            <enterprise_reward>
-                <class>Enterprise_Reward_Block</class>
-            </enterprise_reward>
-        </blocks>
-        <helpers>
-            <enterprise_reward>
-                <class>Enterprise_Reward_Helper</class>
-            </enterprise_reward>
-        </helpers>
         <template>
             <email>
-                <enterprise_reward_notification_balance_update_template translate="label" module="enterprise_reward">
+                <enterprise_reward_notification_balance_update_template translate="label" module="Enterprise_Reward">
                     <label>Balance Update</label>
                     <file>email/balance_update.html</file>
                     <type>html</type>
                 </enterprise_reward_notification_balance_update_template>
-                <enterprise_reward_notification_expiry_warning_template translate="label" module="enterprise_reward">
+                <enterprise_reward_notification_expiry_warning_template translate="label" module="Enterprise_Reward">
                     <label>Points Expiry Warning</label>
                     <file>email/expiry_warning.html</file>
                     <type>html</type>
@@ -77,24 +58,24 @@
             <quote>
                 <totals>
                     <reward>
-                        <class>enterprise_reward/total_quote_reward</class>
+                        <class>Enterprise_Reward_Model_Total_Quote_Reward</class>
                         <after>wee,discount,tax,tax_subtotal,grand_total</after>
                         <before>giftcardaccount,customerbalance</before>
-                        <renderer>enterprise_reward/checkout_total</renderer>
+                        <renderer>Enterprise_Reward_Block_Checkout_Total</renderer>
                     </reward>
                 </totals>
             </quote>
             <order_invoice>
                 <totals>
                     <reward>
-                        <class>enterprise_reward/total_invoice_reward</class>
+                        <class>Enterprise_Reward_Model_Total_Invoice_Reward</class>
                     </reward>
                 </totals>
             </order_invoice>
             <order_creditmemo>
                 <totals>
                     <reward>
-                        <class>enterprise_reward/total_creditmemo_reward</class>
+                        <class>Enterprise_Reward_Model_Total_Creditmemo_Reward</class>
                     </reward>
                 </totals>
             </order_creditmemo>
@@ -103,7 +84,7 @@
             <newsletter_subscriber_save_commit_after>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>customerSubscribed</method>
                     </enterprise_reward>
                 </observers>
@@ -111,7 +92,7 @@
             <paypal_prepare_line_items>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>addPaypalRewardItem</method>
                     </enterprise_reward>
                 </observers>
@@ -119,7 +100,7 @@
             <sales_order_save_after>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>orderCompleted</method>
                     </enterprise_reward>
                 </observers>
@@ -127,7 +108,7 @@
             <sales_quote_collect_totals_before>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>quoteCollectTotalsBefore</method>
                     </enterprise_reward>
                 </observers>
@@ -135,7 +116,7 @@
             <sales_quote_merge_after>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>quoteMergeAfter</method>
                     </enterprise_reward>
                 </observers>
@@ -143,7 +124,7 @@
             <sales_order_load_after>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>orderLoadAfter</method>
                     </enterprise_reward>
                 </observers>
@@ -151,7 +132,7 @@
             <sales_order_invoice_register>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>invoiceRegister</method>
                     </enterprise_reward>
                 </observers>
@@ -159,7 +140,7 @@
             <sales_order_invoice_pay>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>invoicePay</method>
                     </enterprise_reward>
                 </observers>
@@ -167,7 +148,7 @@
             <sales_order_invoice_save_commit_after>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>applyRewardSalesrulePoints</method>
                     </enterprise_reward>
                 </observers>
@@ -175,7 +156,7 @@
             <sales_order_creditmemo_refund>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>creditmemoRefund</method>
                     </enterprise_reward>
                 </observers>
@@ -183,7 +164,7 @@
             <sales_order_creditmemo_save_after>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>creditmemoSaveAfter</method>
                     </enterprise_reward>
                 </observers>
@@ -191,7 +172,7 @@
             <sales_model_service_quote_submit_before>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>processOrderPlace</method>
                     </enterprise_reward>
                 </observers>
@@ -199,7 +180,7 @@
             <sales_model_service_quote_submit_failure>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>revertRewardPoints</method>
                     </enterprise_reward>
                 </observers>
@@ -207,7 +188,7 @@
             <checkout_type_multishipping_create_orders_single>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>processOrderPlace</method>
                     </enterprise_reward>
                 </observers>
@@ -215,7 +196,7 @@
             <checkout_multishipping_refund_all>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>revertRewardPointsForAllOrders</method>
                     </enterprise_reward>
                 </observers>
@@ -266,7 +247,7 @@
             <core_layout_update_updates_get_after>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>disableLayout</method>
                     </enterprise_reward>
                 </observers>
@@ -274,7 +255,7 @@
             <adminhtml_customer_prepare_save>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>saveRewardNotifications</method>
                     </enterprise_reward>
                 </observers>
@@ -282,7 +263,7 @@
             <adminhtml_customer_save_after>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>saveRewardPoints</method>
                     </enterprise_reward>
                 </observers>
@@ -290,7 +271,7 @@
             <review_save_commit_after>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>reviewSubmit</method>
                     </enterprise_reward>
                 </observers>
@@ -298,7 +279,7 @@
             <tag_save_commit_after>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>tagSubmit</method>
                     </enterprise_reward>
                 </observers>
@@ -306,7 +287,7 @@
             <adminhtml_sales_order_create_process_data>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>processOrderCreationData</method>
                     </enterprise_reward>
                 </observers>
@@ -314,7 +295,7 @@
             <adminhtml_sales_order_creditmemo_register_before>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>setRewardPointsBalanceToRefund</method>
                     </enterprise_reward>
                 </observers>
@@ -322,7 +303,7 @@
             <website_delete_after>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>prepareCustomerOrphanPoints</method>
                     </enterprise_reward>
                 </observers>
@@ -330,7 +311,7 @@
             <adminhtml_block_salesrule_actions_prepareform>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>prepareSalesruleForm</method>
                     </enterprise_reward>
                 </observers>
@@ -338,7 +319,7 @@
             <salesrule_rule_load_after>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>loadRewardSalesruleData</method>
                     </enterprise_reward>
                 </observers>
@@ -346,7 +327,7 @@
             <salesrule_rule_save_after>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>saveRewardSalesruleData</method>
                     </enterprise_reward>
                 </observers>
@@ -354,7 +335,7 @@
             <order_cancel_after>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>returnRewardPoints</method>
                     </enterprise_reward>
                 </observers>
@@ -362,7 +343,7 @@
             <payment_method_is_active>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>preparePaymentMethod</method>
                     </enterprise_reward>
                 </observers>
@@ -399,7 +380,7 @@
             <customer_session_init>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>checkRates</method>
                     </enterprise_reward>
                 </observers>
@@ -407,7 +388,7 @@
             <customer_save_after>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>customerRegister</method>
                     </enterprise_reward>
                 </observers>
@@ -415,7 +396,7 @@
             <payment_method_is_active>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>preparePaymentMethod</method>
                     </enterprise_reward>
                 </observers>
@@ -423,7 +404,7 @@
             <sales_quote_payment_import_data_before>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>paymentDataImport</method>
                     </enterprise_reward>
                 </observers>
@@ -431,7 +412,7 @@
             <enterprise_invitation_save_commit_after>
                 <observers>
                     <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
+                        <class>Enterprise_Reward_Model_Observer</class>
                         <method>invitationToCustomer</method>
                     </enterprise_reward>
                 </observers>
@@ -467,7 +448,7 @@
                     <cron_expr>1 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>enterprise_reward/observer::scheduledBalanceExpireNotification</model>
+                    <model>Enterprise_Reward_Model_Observer::scheduledBalanceExpireNotification</model>
                 </run>
             </enterprise_reward_balance_warning_notification>
             <enterprise_reward_expire_points>
@@ -475,7 +456,7 @@
                     <cron_expr>1 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>enterprise_reward/observer::scheduledPointsExpiration</model>
+                    <model>Enterprise_Reward_Model_Observer::scheduledPointsExpiration</model>
                 </run>
             </enterprise_reward_expire_points>
         </jobs>

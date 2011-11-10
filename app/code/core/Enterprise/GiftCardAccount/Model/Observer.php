@@ -36,7 +36,7 @@ class Enterprise_GiftCardAccount_Model_Observer
     public function processOrderPlace(Varien_Event_Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
-        $cards = Mage::helper('enterprise_giftcardaccount')->getCards($order);
+        $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($order);
         if (is_array($cards)) {
             foreach ($cards as &$card) {
                 $args = array(
@@ -49,7 +49,7 @@ class Enterprise_GiftCardAccount_Model_Observer
                 $card['authorized'] = $card['ba'];
             }
 
-            $cards = Mage::helper('enterprise_giftcardaccount')->setCards($order, $cards);
+            $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->setCards($order, $cards);
         }
 
         return $this;
@@ -64,12 +64,12 @@ class Enterprise_GiftCardAccount_Model_Observer
     public function processOrderCreateBefore(Varien_Event_Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
-        $cards = Mage::helper('enterprise_giftcardaccount')->getCards($quote);
+        $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($quote);
 
         if (is_array($cards)) {
             foreach ($cards as $card) {
                 /** @var $giftCardAccount Enterprise_GiftCardAccount_Model_Giftcardaccount */
-                $giftCardAccount = Mage::getSingleton('enterprise_giftcardaccount/giftcardaccount')->load($card['i']);
+                $giftCardAccount = Mage::getSingleton('Enterprise_GiftCardAccount_Model_Giftcardaccount')->load($card['i']);
                 try {
                     $giftCardAccount->isValid(true, true, false, (float)$quote->getBaseGiftCardsAmountUsed());
                 } catch (Mage_Core_Exception $e) {
@@ -91,7 +91,7 @@ class Enterprise_GiftCardAccount_Model_Observer
         $id = $observer->getEvent()->getGiftcardaccountCode();
         $amount = $observer->getEvent()->getAmount();
 
-        Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
+        Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
             ->loadByCode($id)
             ->charge($amount)
             ->setOrder($observer->getEvent()->getOrder())
@@ -112,7 +112,7 @@ class Enterprise_GiftCardAccount_Model_Observer
         $id = $observer->getEvent()->getGiftcardaccountId();
         $amount = $observer->getEvent()->getAmount();
 
-        Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
+        Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
             ->load($id)
             ->charge($amount)
             ->setOrder($observer->getEvent()->getOrder())
@@ -173,7 +173,7 @@ class Enterprise_GiftCardAccount_Model_Observer
             $order = null;
         }
 
-        $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
+        $model = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
             ->setStatus(Enterprise_GiftCardAccount_Model_Giftcardaccount::STATUS_ENABLED)
             ->setWebsiteId($data->getWebsiteId())
             ->setBalance($data->getAmount())
@@ -199,7 +199,7 @@ class Enterprise_GiftCardAccount_Model_Observer
         $gca = $observer->getEvent()->getGiftcardaccount();
 
         if ($gca->hasHistoryAction()) {
-            Mage::getModel('enterprise_giftcardaccount/history')
+            Mage::getModel('Enterprise_GiftCardAccount_Model_History')
                 ->setGiftcardaccount($gca)
                 ->save();
         }
@@ -221,20 +221,20 @@ class Enterprise_GiftCardAccount_Model_Observer
         if (isset($request['giftcard_add'])) {
             $code = $request['giftcard_add'];
             try {
-                Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
+                Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
                     ->loadByCode($code)
                     ->addToCart(true, $quote);
                 /*
-                Mage::getSingleton('adminhtml/session_quote')->addSuccess(
-                    $this->__('Gift Card "%s" was added.', Mage::helper('core')->htmlEscape($code))
+                Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addSuccess(
+                    $this->__('Gift Card "%s" was added.', Mage::helper('Mage_Core_Helper_Data')->htmlEscape($code))
                 );
                 */
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('adminhtml/session_quote')->addError(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addError(
                     $e->getMessage()
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session_quote')->addException(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addException(
                     $e,
                     $this->__('Cannot apply Gift Card')
                 );
@@ -245,20 +245,20 @@ class Enterprise_GiftCardAccount_Model_Observer
             $code = $request['giftcard_remove'];
 
             try {
-                Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
+                Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
                     ->loadByCode($code)
                     ->removeFromCart(false, $quote);
                 /*
-                Mage::getSingleton('adminhtml/session_quote')->addSuccess(
-                    $this->__('Gift Card "%s" was removed.', Mage::helper('core')->htmlEscape($code))
+                Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addSuccess(
+                    $this->__('Gift Card "%s" was removed.', Mage::helper('Mage_Core_Helper_Data')->htmlEscape($code))
                 );
                 */
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('adminhtml/session_quote')->addError(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addError(
                     $e->getMessage()
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session_quote')->addException(
+                Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addException(
                     $e,
                     $this->__('Cannot remove Gift Card')
                 );
@@ -281,10 +281,10 @@ class Enterprise_GiftCardAccount_Model_Observer
             return $this;
         }
         /* Gift cards validation */
-        $cards = Mage::helper('enterprise_giftcardaccount')->getCards($quote);
+        $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($quote);
         $website = Mage::app()->getStore($quote->getStoreId())->getWebsite();
         foreach ($cards as $one) {
-            Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
+            Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
                 ->loadByCode($one['c'])
                 ->isValid(true, true, $website);
         }
@@ -466,7 +466,7 @@ class Enterprise_GiftCardAccount_Model_Observer
             $value = abs($salesEntity->getBaseGiftCardsAmount());
             if ($value > 0.0001) {
                 $paypalCart->updateTotal(Mage_Paypal_Model_Cart::TOTAL_DISCOUNT, $value,
-                    Mage::helper('enterprise_giftcardaccount')->__('Gift Card (%s)', Mage::app()->getStore()->convertPrice($value, true, false))
+                    Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card (%s)', Mage::app()->getStore()->convertPrice($value, true, false))
                 );
             }
         }
@@ -481,7 +481,7 @@ class Enterprise_GiftCardAccount_Model_Observer
      */
     protected function _revertById($id, $amount = 0)
     {
-        $giftCard = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->load($id);
+        $giftCard = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')->load($id);
 
         if ($giftCard) {
             $giftCard->revert($amount)
@@ -500,7 +500,7 @@ class Enterprise_GiftCardAccount_Model_Observer
      */
     protected function _revertGiftCardsForOrder(Mage_Sales_Model_Order $order)
     {
-        $cards = Mage::helper('enterprise_giftcardaccount')->getCards($order);
+        $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($order);
         if (is_array($cards)) {
             foreach ($cards as $card) {
                 if (isset($card['authorized'])) {
@@ -556,7 +556,7 @@ class Enterprise_GiftCardAccount_Model_Observer
         /** @var Mage_Sales_Model_Order $order */
         $order = $observer->getEvent()->getOrder();
 
-        $cards = Mage::helper('enterprise_giftcardaccount')->getCards($order);
+        $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($order);
         if (is_array($cards)) {
             $balance = 0;
             foreach ($cards as $card) {
@@ -564,7 +564,7 @@ class Enterprise_GiftCardAccount_Model_Observer
             }
 
             if ($balance > 0) {
-                Mage::getModel('enterprise_customerbalance/balance')
+                Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                     ->setCustomerId($order->getCustomerId())
                     ->setWebsiteId(Mage::app()->getStore($order->getStoreId())->getWebsiteId())
                     ->setAmountDelta($balance)

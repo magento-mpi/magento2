@@ -55,7 +55,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_Grid_Renderer_Website extends Mage_
             }
         }
         if ($deleted) {
-            $result .= ' ' . Mage::helper('enterprise_staging')->__('[deleted]');
+            $result .= ' ' . Mage::helper('Enterprise_Staging_Helper_Data')->__('[deleted]');
         }
         return $result;
     }

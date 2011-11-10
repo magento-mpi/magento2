@@ -47,9 +47,18 @@ class Mage_GoogleShopping_Block_Adminhtml_Items extends Mage_Adminhtml_Block_Wid
      */
     protected function _prepareLayout()
     {
-        $this->setChild('item', $this->getLayout()->createBlock('googleshopping/adminhtml_items_item'));
-        $this->setChild('product', $this->getLayout()->createBlock('googleshopping/adminhtml_items_product'));
-        $this->setChild('store_switcher', $this->getLayout()->createBlock('googleshopping/adminhtml_store_switcher'));
+        $this->setChild(
+            'item',
+            $this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Items_Item')
+        );
+        $this->setChild(
+            'product',
+            $this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Items_Product')
+        );
+        $this->setChild(
+            'store_switcher',
+            $this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Store_Switcher')
+        );
 
         return $this;
     }
@@ -66,7 +75,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Items extends Mage_Adminhtml_Block_Wid
             'label' => $this->__('View Available Products'),
         );
         return $this->getLayout()
-            ->createBlock('adminhtml/widget_button')
+            ->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData($addButtonData)
             ->toHtml();
     }
@@ -88,7 +97,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Items extends Mage_Adminhtml_Block_Wid
      */
     public function getCaptchaHtml()
     {
-        return $this->getLayout()->createBlock('googleshopping/adminhtml_captcha')
+        return $this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Captcha')
             ->setGcontentCaptchaToken($this->getGcontentCaptchaToken())
             ->setGcontentCaptchaUrl($this->getGcontentCaptchaUrl())
             ->toHtml();

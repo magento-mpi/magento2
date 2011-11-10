@@ -77,9 +77,9 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
     public function __construct()
     {
         $this->setCode('tax');
-        $this->_helper      = Mage::helper('tax');
-        $this->_calculator  = Mage::getSingleton('tax/calculation');
-        $this->_config      = Mage::getSingleton('tax/config');
+        $this->_helper      = Mage::helper('Mage_Tax_Helper_Data');
+        $this->_calculator  = Mage::getSingleton('Mage_Tax_Model_Calculation');
+        $this->_config      = Mage::getSingleton('Mage_Tax_Model_Config');
     }
 
     /**
@@ -794,7 +794,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
         if (($amount!=0) || ($this->_config->displayCartZeroTax($store))) {
             $address->addTotal(array(
                 'code'      => $this->getCode(),
-                'title'     => Mage::helper('tax')->__('Tax'),
+                'title'     => Mage::helper('Mage_Tax_Helper_Data')->__('Tax'),
                 'full_info' => $applied ? $applied : array(),
                 'value'     => $amount,
                 'area'      => $area
@@ -814,7 +814,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
 
             $address->addTotal(array(
                 'code'      => 'subtotal',
-                'title'     => Mage::helper('sales')->__('Subtotal'),
+                'title'     => Mage::helper('Mage_Sales_Helper_Data')->__('Subtotal'),
                 'value'     => $subtotalInclTax,
                 'value_incl_tax' => $subtotalInclTax,
                 'value_excl_tax' => $address->getSubtotal(),
@@ -853,6 +853,6 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
      */
     public function getLabel()
     {
-        return Mage::helper('tax')->__('Tax');
+        return Mage::helper('Mage_Tax_Helper_Data')->__('Tax');
     }
 }

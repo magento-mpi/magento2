@@ -51,7 +51,7 @@ class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
     protected function _getTemplateProcessor()
     {
         if (null === $this->_templateProcessor) {
-            $this->_templateProcessor = Mage::helper('catalog')->getPageTemplateProcessor();
+            $this->_templateProcessor = Mage::helper('Mage_Catalog_Helper_Data')->getPageTemplateProcessor();
         }
 
         return $this->_templateProcessor;
@@ -119,7 +119,7 @@ class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
      */
     public function productAttribute($product, $attributeHtml, $attributeName)
     {
-        $attribute = Mage::getSingleton('eav/config')->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeName);
+        $attribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeName);
         if ($attribute && $attribute->getId() && ($attribute->getFrontendInput() != 'media_image')
             && (!$attribute->getIsHtmlAllowedOnFront() && !$attribute->getIsWysiwygEnabled())) {
                 if ($attribute->getFrontendInput() != 'price') {
@@ -130,7 +130,7 @@ class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
                 }
         }
         if ($attribute->getIsHtmlAllowedOnFront() && $attribute->getIsWysiwygEnabled()) {
-            if (Mage::helper('catalog')->isUrlDirectivesParsingAllowed()) {
+            if (Mage::helper('Mage_Catalog_Helper_Data')->isUrlDirectivesParsingAllowed()) {
                 $attributeHtml = $this->_getTemplateProcessor()->filter($attributeHtml);
             }
         }
@@ -153,14 +153,14 @@ class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
      */
     public function categoryAttribute($category, $attributeHtml, $attributeName)
     {
-        $attribute = Mage::getSingleton('eav/config')->getAttribute(Mage_Catalog_Model_Category::ENTITY, $attributeName);
+        $attribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute(Mage_Catalog_Model_Category::ENTITY, $attributeName);
 
         if ($attribute && ($attribute->getFrontendInput() != 'image')
             && (!$attribute->getIsHtmlAllowedOnFront() && !$attribute->getIsWysiwygEnabled())) {
             $attributeHtml = $this->escapeHtml($attributeHtml);
         }
         if ($attribute->getIsHtmlAllowedOnFront() && $attribute->getIsWysiwygEnabled()) {
-            if (Mage::helper('catalog')->isUrlDirectivesParsingAllowed()) {
+            if (Mage::helper('Mage_Catalog_Helper_Data')->isUrlDirectivesParsingAllowed()) {
                 $attributeHtml = $this->_getTemplateProcessor()->filter($attributeHtml);
             }
         }

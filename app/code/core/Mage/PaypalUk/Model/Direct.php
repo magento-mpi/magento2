@@ -36,7 +36,7 @@ class Mage_PaypalUk_Model_Direct extends Mage_Paypal_Model_Direct
      *
      * @var string
      */
-    protected $_proType = 'paypaluk/pro';
+    protected $_proType = 'Mage_PaypalUk_Model_Pro';
 
     /**
      * Return available CC types for gateway based on merchant country
@@ -77,7 +77,7 @@ class Mage_PaypalUk_Model_Direct extends Mage_Paypal_Model_Direct
             ->setIsTransactionPending($api->getIsPaymentPending())
             ->setTransactionAdditionalInfo(Mage_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID, $api->getTransactionId())
             ;
-        $payment->setPreparedMessage(Mage::helper('paypaluk')->__('Payflow PNREF: #%s.', $api->getTransactionId()));
+        $payment->setPreparedMessage(Mage::helper('Mage_PaypalUk_Helper_Data')->__('Payflow PNREF: #%s.', $api->getTransactionId()));
         $this->_pro->importPaymentInfo($api, $payment);
     }
 

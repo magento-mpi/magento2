@@ -56,10 +56,10 @@ class Enterprise_ImportExport_Block_Adminhtml_System_Config_Clean extends Mage_A
         $url    = $this->getUrl('*/scheduled_operation/logClean', array(
             'section' => $this->getRequest()->getParam('section')
         ));
-        $button = $this->getLayout()->createBlock('adminhtml/widget_button')
+        $button = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'id'        => 'clean_now',
-                'label'     => $this->helper('enterprise_importexport')->__('Clean Now'),
+                'label'     => $this->helper('Enterprise_ImportExport_Helper_Data')->__('Clean Now'),
                 'onclick'   => 'setLocation(\'' . $url . '\')'
             ));
 

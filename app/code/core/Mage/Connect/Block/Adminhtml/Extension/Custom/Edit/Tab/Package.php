@@ -47,14 +47,14 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package
         $form->setHtmlIdPrefix('_package');
 
         $fieldset = $form->addFieldset('package_fieldset', array(
-            'legend'    => Mage::helper('connect')->__('Package')
+            'legend'    => Mage::helper('Mage_Connect_Helper_Data')->__('Package')
         ));
 
         if ($this->getData('name') != $this->getData('file_name')) {
             $this->setData('file_name_disabled', $this->getData('file_name'));
             $fieldset->addField('file_name_disabled', 'text', array(
                 'name'      => 'file_name_disabled',
-                'label'     => Mage::helper('connect')->__('Package File Name'),
+                'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Package File Name'),
                 'disabled'  => 'disabled',
             ));
         }
@@ -65,58 +65,58 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package
 
         $fieldset->addField('name', 'text', array(
             'name'      => 'name',
-            'label'     => Mage::helper('connect')->__('Name'),
+            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Name'),
             'required'  => true,
         ));
 
         $fieldset->addField('channel', 'text', array(
             'name'      => 'channel',
-            'label'     => Mage::helper('connect')->__('Channel'),
+            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Channel'),
             'required'  => true,
         ));
 
         $versionsInfo = array(
             array(
-                'label' => Mage::helper('connect')->__('1.5.0.0 & later'),
+                'label' => Mage::helper('Mage_Connect_Helper_Data')->__('1.5.0.0 & later'),
                 'value' => Mage_Connect_Package::PACKAGE_VERSION_2X
             ),
             array(
-                'label' => Mage::helper('connect')->__('Pre-1.5.0.0'),
+                'label' => Mage::helper('Mage_Connect_Helper_Data')->__('Pre-1.5.0.0'),
                 'value' => Mage_Connect_Package::PACKAGE_VERSION_1X
             )
         );
         $fieldset->addField('version_ids','multiselect',array(
                 'name'     => 'version_ids',
                 'required' => true,
-                'label'    => Mage::helper('connect')->__('Supported releases'),
+                'label'    => Mage::helper('Mage_Connect_Helper_Data')->__('Supported releases'),
                 'style'    => 'height: 45px;',
                 'values'   => $versionsInfo
         ));
 
         $fieldset->addField('summary', 'textarea', array(
             'name'      => 'summary',
-            'label'     => Mage::helper('connect')->__('Summary'),
+            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Summary'),
             'style'     => 'height:50px;',
             'required'  => true,
         ));
 
         $fieldset->addField('description', 'textarea', array(
             'name'      => 'description',
-            'label'     => Mage::helper('connect')->__('Description'),
+            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Description'),
             'style'     => 'height:200px;',
             'required'  => true,
         ));
 
         $fieldset->addField('license', 'text', array(
             'name'      => 'license',
-            'label'     => Mage::helper('connect')->__('License'),
+            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('License'),
             'required'  => true,
             'value'     => 'Open Software License (OSL 3.0)',
         ));
 
         $fieldset->addField('license_uri', 'text', array(
             'name'      => 'license_uri',
-            'label'     => Mage::helper('connect')->__('License URI'),
+            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('License URI'),
             'value'     => 'http://opensource.org/licenses/osl-3.0.php',
         ));
 
@@ -133,7 +133,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package
      */
     public function getTabLabel()
     {
-        return Mage::helper('connect')->__('Package Info');
+        return Mage::helper('Mage_Connect_Helper_Data')->__('Package Info');
     }
 
     /**
@@ -143,6 +143,6 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package
      */
     public function getTabTitle()
     {
-        return Mage::helper('connect')->__('Package Info');
+        return Mage::helper('Mage_Connect_Helper_Data')->__('Package Info');
     }
 }

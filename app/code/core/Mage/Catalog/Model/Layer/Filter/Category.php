@@ -93,7 +93,7 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
 
         Mage::register('current_category_filter', $this->getCategory(), true);
 
-        $this->_appliedCategory = Mage::getModel('catalog/category')
+        $this->_appliedCategory = Mage::getModel('Mage_Catalog_Model_Category')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($filter);
 
@@ -127,7 +127,7 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
      */
     public function getName()
     {
-        return Mage::helper('catalog')->__('Category');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Category');
     }
 
     /**
@@ -138,7 +138,7 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
     public function getCategory()
     {
         if (!is_null($this->_categoryId)) {
-            $category = Mage::getModel('catalog/category')
+            $category = Mage::getModel('Mage_Catalog_Model_Category')
                 ->load($this->_categoryId);
             if ($category->getId()) {
                 return $category;
@@ -165,7 +165,7 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
         foreach ($categories as $category) {
             if ($category->getIsActive() && $category->getProductCount()) {
                 $data[] = array(
-                    'label' => Mage::helper('core')->htmlEscape($category->getName()),
+                    'label' => Mage::helper('Mage_Core_Helper_Data')->htmlEscape($category->getName()),
                     'value' => $category->getId(),
                     'count' => $category->getProductCount(),
                 );

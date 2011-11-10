@@ -28,7 +28,7 @@
 <layout version="0.1.0">
     <default>
         <reference name="footer_links">
-            <action method="addLink" translate="label title" module="contacts" ifconfig="contacts/contacts/enabled"><label>Contact Us</label><url>contacts</url><title>Contact Us</title><prepare>true</prepare></action>
+            <action method="addLink" translate="label title" module="Mage_Contacts" ifconfig="contacts/contacts/enabled"><label>Contact Us</label><url>contacts</url><title>Contact Us</title><prepare>true</prepare></action>
         </reference>
     </default>
 
@@ -36,12 +36,12 @@
         <label>Contact Us Form</label>
         <reference name="root">
             <action method="setTemplate"><template>1column.phtml</template></action>
-            <action method="setHeaderTitle" translate="title" module="contacts"><title>Contact Us</title></action>
+            <action method="setHeaderTitle" translate="title" module="Mage_Contacts"><title>Contact Us</title></action>
         </reference>
         <reference name="content">
-            <block type="core/template" name="contactForm" template="Mage_Contacts::form.phtml"/>
-            <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-">
-                <action method="addCrumb" translate="crumbName" module="catalog">
+            <block type="Mage_Core_Block_Template" name="contactForm" template="Mage_Contacts::form.phtml"/>
+            <block type="Mage_Page_Block_Html_Breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-">
+                <action method="addCrumb" translate="crumbName" module="Mage_Catalog">
                     <crumbName>home</crumbName>
                     <crumbInfo>
                         <label>Home</label>
@@ -49,7 +49,7 @@
                         <link>/</link>
                     </crumbInfo>
                 </action>
-                <action method="addCrumb" translate="crumbName" module="catalog">
+                <action method="addCrumb" translate="crumbName" module="Mage_Catalog">
                     <crumbName>categories</crumbName>
                     <crumbInfo>
                         <label>Categories</label>

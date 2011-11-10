@@ -227,11 +227,11 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
              } elseif ($showMethod && (!$availableCountries || ($availableCountries
                  && !in_array($request->getDestCountryId(), $availableCountries)))
              ){
-                   $error = Mage::getModel('shipping/rate_result_error');
+                   $error = Mage::getModel('Mage_Shipping_Model_Rate_Result_Error');
                    $error->setCarrier($this->_code);
                    $error->setCarrierTitle($this->getConfigData('title'));
                    $errorMsg = $this->getConfigData('specificerrmsg');
-                   $error->setErrorMessage($errorMsg ? $errorMsg : Mage::helper('shipping')->__('The shipping module is not available for selected delivery country.'));
+                   $error->setErrorMessage($errorMsg ? $errorMsg : Mage::helper('Mage_Shipping_Helper_Data')->__('The shipping module is not available for selected delivery country.'));
                    return $error;
              } else {
                  /*
@@ -493,7 +493,7 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            Mage::getModel('core/log_adapter', 'shipping_' . $this->getCarrierCode() . '.log')
+            Mage::getModel('Mage_Core_Model_Log_Adapter', 'shipping_' . $this->getCarrierCode() . '.log')
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);
         }

@@ -136,7 +136,7 @@ class Enterprise_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid
      */
     public function getRelatedBannersByRule()
     {
-        return Mage::getModel('enterprise_banner/banner')->getRelatedBannersBySalesRuleId($this->_getRule()->getRuleId());
+        return Mage::getModel('Enterprise_Banner_Model_Banner')->getRelatedBannersBySalesRuleId($this->_getRule()->getRuleId());
     }
 
     /**

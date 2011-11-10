@@ -269,7 +269,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
             case '<=':
                 return $operator;
             default:
-                Mage::throwException(Mage::helper('enterprise_reminder')->__('Unknown operator specified.'));
+                Mage::throwException(Mage::helper('Enterprise_Reminder_Helper_Data')->__('Unknown operator specified.'));
         }
     }
 
@@ -453,7 +453,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
             'log_sent_at_min' => 'MIN(l.sent_at)'
         ));
 
-        $_helper = Mage::getResourceHelper('enterprise_reminder');
+        $_helper = Mage::getResourceHelper('Enterprise_Reminder');
         $findInSetSql = $adapter->prepareSqlCondition(
             'schedule',
             array('finset' => $_helper->getDateDiff('log_sent_at_min', $adapter->formatDate($currentDate)))

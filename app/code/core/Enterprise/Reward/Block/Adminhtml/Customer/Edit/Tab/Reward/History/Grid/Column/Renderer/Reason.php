@@ -41,7 +41,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid_Co
     {
         $expired = '';
         if ($row->getData('is_duplicate_of') !== null) {
-             $expired = '<em>' . Mage::helper('enterprise_reward')->__('Expired reward.') . '</em> ';
+             $expired = '<em>' . Mage::helper('Enterprise_Reward_Helper_Data')->__('Expired reward.') . '</em> ';
         }
         return $expired . (parent::_getValue($row));
     }

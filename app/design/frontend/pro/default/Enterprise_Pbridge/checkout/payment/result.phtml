@@ -70,7 +70,7 @@
             } catch (e) {}
         }
         var message = document.getElementById('payment-method-message');
-        message.innerHTML = '<?php echo Mage::helper('enterprise_pbridge')->__('Payment Bridge Selected') ?>';
+        message.innerHTML = '<?php echo Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payment Bridge Selected') ?>';
     }
     window.onload = setPaymentMethod;
 //]]>

@@ -45,7 +45,7 @@ class Enterprise_GiftWrapping_Block_Product_Info extends Mage_Core_Block_Templat
             ->getGwId();
 
         if ($wrappingId) {
-            return Mage::getModel('enterprise_giftwrapping/wrapping')->load($wrappingId);
+            return Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping')->load($wrappingId);
         }
         return false;
     }

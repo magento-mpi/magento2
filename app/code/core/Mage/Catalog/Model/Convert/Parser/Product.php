@@ -100,7 +100,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
     public function getResource()
     {
         if (!$this->_resource) {
-            $this->_resource = Mage::getResourceSingleton('catalog_entity/convert');
+            $this->_resource = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Convert');
                 #->loadStores()
                 #->loadProducts()
                 #->loadAttributeSets()
@@ -112,7 +112,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
     public function getCollection($storeId)
     {
         if (!isset($this->_collections[$storeId])) {
-            $this->_collections[$storeId] = Mage::getResourceModel('catalog/product_collection');
+            $this->_collections[$storeId] = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
             $this->_collections[$storeId]->getEntity()->setStore($storeId);
         }
         return $this->_collections[$storeId];
@@ -126,7 +126,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
     public function getProductTypes()
     {
         if (is_null($this->_productTypes)) {
-            $this->_productTypes = Mage::getSingleton('catalog/product_type')
+            $this->_productTypes = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
                 ->getOptionArray();
         }
         return $this->_productTypes;
@@ -170,7 +170,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
     public function getProductModel()
     {
         if (is_null($this->_productModel)) {
-            $productModel = Mage::getModel('catalog/product');
+            $productModel = Mage::getModel('Mage_Catalog_Model_Product');
             $this->_productModel = Mage::objects()->save($productModel);
         }
         return Mage::objects()->load($this->_productModel);
@@ -188,7 +188,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
                 $store = Mage::app()->getStore($this->getVar('store'));
             } catch (Exception $e) {
                 $this->addException(
-                    Mage::helper('catalog')->__('Invalid store specified'),
+                    Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid store specified'),
                     Varien_Convert_Exception::FATAL
                 );
                 throw $e;
@@ -221,7 +221,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
     {
         $type = $product->getTypeId();
         if (!isset($this->_productTypeInstances[$type])) {
-            $this->_productTypeInstances[$type] = Mage::getSingleton('catalog/product_type')
+            $this->_productTypeInstances[$type] = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
                 ->factory($product, true);
         }
         $product->setTypeInstance($this->_productTypeInstances[$type], true);
@@ -235,7 +235,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
 
         if (!isset($this->_setInstances[$productType][$attributeSetId])) {
             $this->_setInstances[$productType][$attributeSetId] =
-                Mage::getSingleton('catalog/product_type')->factory($this->getProductModel());
+                Mage::getSingleton('Mage_Catalog_Model_Product_Type')->factory($this->getProductModel());
         }
 
         return $this->_setInstances[$productType][$attributeSetId];
@@ -261,7 +261,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
     public function parse()
     {
         $data            = $this->getData();
-        $entityTypeId    = Mage::getSingleton('eav/config')->getEntityType(Mage_Catalog_Model_Product::ENTITY)->getId();
+        $entityTypeId    = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType(Mage_Catalog_Model_Product::ENTITY)->getId();
         $inventoryFields = array();
 
         foreach ($data as $i=>$row) {
@@ -270,7 +270,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
                 // validate SKU
                 if (empty($row['sku'])) {
                     $this->addException(
-                        Mage::helper('catalog')->__('Missing SKU, skipping the record.'),
+                        Mage::helper('Mage_Catalog_Helper_Data')->__('Missing SKU, skipping the record.'),
                         Mage_Dataflow_Model_Convert_Exception::ERROR
                     );
                     continue;
@@ -290,7 +290,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
                 $row['attribute_set_id'] = $this->getAttributeSetId($entityTypeId, $row['attribute_set']);
                 if (!$row['attribute_set_id']) {
                     $this->addException(
-                        Mage::helper('catalog')->__('Invalid attribute set specified, skipping the record.'),
+                        Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid attribute set specified, skipping the record.'),
                         Mage_Dataflow_Model_Convert_Exception::ERROR
                     );
                     continue;
@@ -303,7 +303,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
                 $row['type_id'] = $this->getProductTypeId($row['type']);
                 if (!$row['type_id']) {
                     $this->addException(
-                        Mage::helper('catalog')->__('Invalid product type specified, skipping the record.'),
+                        Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid product type specified, skipping the record.'),
                         Mage_Dataflow_Model_Convert_Exception::ERROR
                     );
                     continue;
@@ -313,7 +313,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
                 $storeIds = $this->getStoreIds(isset($row['store']) ? $row['store'] : $this->getVar('store'));
                 if (!$storeIds) {
                     $this->addException(
-                        Mage::helper('catalog')->__('Invalid store specified, skipping the record.'),
+                        Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid store specified, skipping the record.'),
                         Mage_Dataflow_Model_Convert_Exception::ERROR
                     );
                     continue;
@@ -325,7 +325,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
                     $collection = $this->getCollection($storeId);
                     $entity = $collection->getEntity();
 
-                    $model = Mage::getModel('catalog/product');
+                    $model = Mage::getModel('Mage_Catalog_Model_Product');
                     $model->setStoreId($storeId);
                     if (!empty($row['entity_id'])) {
                         $model->load($row['entity_id']);
@@ -341,7 +341,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
                             }
                             continue;
 //                            $this->addException(
-//                                Mage::helper('catalog')->__('Unknown attribute: %s.', $field),
+//                                Mage::helper('Mage_Catalog_Helper_Data')->__('Unknown attribute: %s.', $field),
 //                                Mage_Dataflow_Model_Convert_Exception::ERROR
 //                            );
                         }
@@ -351,7 +351,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
                             if (is_null($optionId)) {
                                 $rowError = true;
                                 $this->addException(
-                                    Mage::helper('catalog')->__('Invalid attribute option specified for attribute %s (%s), skipping the record.', $field, $value),
+                                    Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid attribute option specified for attribute %s (%s), skipping the record.', $field, $value),
                                     Mage_Dataflow_Model_Convert_Exception::ERROR
                                 );
                                 continue;
@@ -372,7 +372,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
             } catch (Exception $e) {
                 if (!$e instanceof Mage_Dataflow_Model_Convert_Exception) {
                     $this->addException(
-                        Mage::helper('catalog')->__('Error during retrieval of option value: %s', $e->getMessage()),
+                        Mage::helper('Mage_Catalog_Helper_Data')->__('Error during retrieval of option value: %s', $e->getMessage()),
                         Mage_Dataflow_Model_Convert_Exception::FATAL
                     );
                 }
@@ -415,7 +415,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
             $this->setProductTypeInstance($product);
             /* @var $product Mage_Catalog_Model_Product */
 
-            $position = Mage::helper('catalog')->__('Line %d, SKU: %s', ($i+1), $product->getSku());
+            $position = Mage::helper('Mage_Catalog_Helper_Data')->__('Line %d, SKU: %s', ($i+1), $product->getSku());
             $this->setPosition($position);
 
             $row = array(
@@ -455,7 +455,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
                     $option = $attribute->getSource()->getOptionText($value);
                     if ($value && empty($option) && $option != '0') {
                         $this->addException(
-                            Mage::helper('catalog')->__('Invalid option ID specified for %s (%s), skipping the record.', $field, $value),
+                            Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid option ID specified for %s (%s), skipping the record.', $field, $value),
                             Mage_Dataflow_Model_Convert_Exception::ERROR
                         );
                         continue;
@@ -507,7 +507,8 @@ class Mage_Catalog_Model_Convert_Parser_Product
      */
     public function getExternalAttributes()
     {
-        $productAttributes  = Mage::getResourceModel('catalog/product_attribute_collection')->load();
+        $productAttributes  = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
+            ->load();
         $attributes         = $this->_externalFields;
 
         foreach ($productAttributes as $attr) {

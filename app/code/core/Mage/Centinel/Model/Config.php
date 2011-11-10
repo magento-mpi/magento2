@@ -114,7 +114,7 @@ class Mage_Centinel_Model_Config
      */
     public function getTransactionPwd()
     {
-        return Mage::helper('core')->decrypt($this->_getServiceConfigValue('password'));
+        return Mage::helper('Mage_Core_Helper_Data')->decrypt($this->_getServiceConfigValue('password'));
     }
 
     /**

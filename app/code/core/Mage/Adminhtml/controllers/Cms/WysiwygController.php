@@ -41,15 +41,15 @@ class Mage_Adminhtml_Cms_WysiwygController extends Mage_Adminhtml_Controller_Act
     public function directiveAction()
     {
         $directive = $this->getRequest()->getParam('___directive');
-        $directive = Mage::helper('core')->urlDecode($directive);
-        $url = Mage::getModel('core/email_template_filter')->filter($directive);
+        $directive = Mage::helper('Mage_Core_Helper_Data')->urlDecode($directive);
+        $url = Mage::getModel('Mage_Core_Model_Email_Template_Filter')->filter($directive);
         try {
             $image = Varien_Image_Adapter::factory('GD2');
             $image->open($url);
             $image->display();
         } catch (Exception $e) {
             $image = Varien_Image_Adapter::factory('GD2');
-            $image->open(Mage::getSingleton('cms/wysiwyg_config')->getSkinImagePlaceholderUrl());
+            $image->open(Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->getSkinImagePlaceholderUrl());
             $image->display();
             /*
             $image = imagecreate(100, 100);

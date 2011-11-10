@@ -72,7 +72,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('enterprise_cms/hierarchy_node');
+        $this->_init('Enterprise_Cms_Model_Resource_Hierarchy_Node');
     }
 
     /**
@@ -107,7 +107,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
             foreach ($required as $field) {
                 if (!array_key_exists($field, $v)) {
                     Mage::throwException(
-                        Mage::helper('enterprise_cms')->__('Invalid node data.')
+                        Mage::helper('Enterprise_Cms_Helper_Data')->__('Invalid node data.')
                     );
                 }
             }
@@ -125,7 +125,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
                 'request_url'        => $v['identifier']
             );
 
-            $nodes[$parentNodeId][$v['node_id']] = Mage::helper('enterprise_cms/hierarchy')
+            $nodes[$parentNodeId][$v['node_id']] = Mage::helper('Enterprise_Cms_Helper_Hierarchy')
                 ->copyMetaData($v, $_node);
         }
 
@@ -338,7 +338,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     public function getMetaNodeByType($type)
     {
         if (!isset($this->_metaNodes[$type])) {
-            $model = Mage::getModel('enterprise_cms/hierarchy_node')
+            $model = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node')
                 ->setData($this->_getResource()->getMetaNodeDataByType($this, $type));
 
             $this->_metaNodes[$type] = $model;
@@ -400,7 +400,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
             ->setTreeIsBrief($this->_getData('tree_is_brief'))
             ->getTreeSlice($this, $up, $down);
 
-        $blankModel = Mage::getModel('enterprise_cms/hierarchy_node');
+        $blankModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
         foreach ($data as $parentId => $children) {
             foreach ($children as $childId => $child) {
                 $newModel = clone $blankModel;
@@ -417,7 +417,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     public function getParentNodeChildren()
     {
         $children = $this->_getResource()->getParentNodeChildren($this);
-        $blankModel = Mage::getModel('enterprise_cms/hierarchy_node');
+        $blankModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
         foreach ($children as $childId => $child) {
             $newModel = clone $blankModel;
             $children[$childId] = $newModel->setData($child);
@@ -562,7 +562,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
         if (!$layoutCode) {
             return null;
         }
-        $layout = Mage::getSingleton('enterprise_cms/hierarchy_config')->getContextMenuLayout($layoutCode);
+        $layout = Mage::getSingleton('Enterprise_Cms_Model_Hierarchy_Config')->getContextMenuLayout($layoutCode);
         return is_object($layout) ? $layout : null;
     }
 
@@ -575,7 +575,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     {
         parent::_afterSave();
         // we save to metadata table not only metadata :(
-        //if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) {
+        //if (Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled()) {
             $this->_getResource()->saveMetaData($this);
         //}
 

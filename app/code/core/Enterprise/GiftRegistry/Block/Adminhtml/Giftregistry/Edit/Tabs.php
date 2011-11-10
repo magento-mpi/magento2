@@ -37,7 +37,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs
         parent::__construct();
         $this->setId('enterprise_giftregistry_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('enterprise_giftregistry')->__('Gift Registry'));
+        $this->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry'));
     }
 
     /**
@@ -48,13 +48,17 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs
     protected function _beforeToHtml()
     {
         $this->addTab('general_section', array(
-            'label'   => Mage::helper('enterprise_giftregistry')->__('General Information'),
-            'content' => $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_giftregistry_edit_tab_general')->toHtml()
+            'label'   => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('General Information'),
+            'content' => $this->getLayout()->createBlock(
+                'Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General'
+            )->toHtml()
         ));
 
         $this->addTab('registry_attributes', array(
-            'label'   => Mage::helper('enterprise_giftregistry')->__('Attributes'),
-            'content' => $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_giftregistry_edit_tab_registry')->toHtml()
+            'label'   => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Attributes'),
+            'content' => $this->getLayout()->createBlock(
+                'Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_Registry'
+            )->toHtml()
         ));
 
         return parent::_beforeToHtml();

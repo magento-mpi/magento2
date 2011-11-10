@@ -61,7 +61,7 @@ class Mage_Reports_Model_Event extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('reports/event');
+        $this->_init('Mage_Reports_Model_Resource_Event');
     }
 
     /**
@@ -71,7 +71,7 @@ class Mage_Reports_Model_Event extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $this->setLoggedAt(Mage::getModel('core/date')->gmtDate());
+        $this->setLoggedAt(Mage::getModel('Mage_Core_Model_Date')->gmtDate());
         return parent::_beforeSave();
     }
 
@@ -87,7 +87,7 @@ class Mage_Reports_Model_Event extends Mage_Core_Model_Abstract
     {
         if (is_null($types)) {
             $types = array();
-            foreach (Mage::getModel('reports/event_type')->getCollection() as $eventType) {
+            foreach (Mage::getModel('Mage_Reports_Model_Event_Type')->getCollection() as $eventType) {
                 if ($eventType->getCustomerLogin()) {
                     $types[$eventType->getId()] = $eventType->getId();
                 }

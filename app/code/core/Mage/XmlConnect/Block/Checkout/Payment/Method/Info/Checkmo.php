@@ -49,12 +49,12 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Checkmo extends Mage_Pa
         if ($this->getInfo()->getAdditionalData()) {
             if ($this->getPayableTo()) {
                 $orderItemXmlObj->addCustomChild('item', $this->getPayableTo(), array(
-                    'label' => Mage::helper('sales')->__('Make Check payable to:')
+                    'label' => Mage::helper('Mage_Sales_Helper_Data')->__('Make Check payable to:')
                 ));
             }
             if ($this->getMailingAddress()) {
                 $orderItemXmlObj->addCustomChild('item', $this->getMailingAddress(), array(
-                    'label' => Mage::helper('payment')->__('Send Check to:')
+                    'label' => Mage::helper('Mage_Payment_Helper_Data')->__('Send Check to:')
                 ));
             }
         }

@@ -36,13 +36,13 @@ class Mage_Sales_Model_Entity_Order_Collection extends Mage_Eav_Model_Entity_Col
 {
     protected function _construct()
     {
-        $this->_init('sales/order');
+        $this->_init('Mage_Sales_Model_Order', 'Mage_Sales_Model_Resource_Order');
     }
 
     public function addItemCountExpr()
     {
         $orderTable = $this->getEntity()->getEntityTable();
-        $orderItemEntityTypeId = Mage::getResourceSingleton('sales/order_item')->getTypeId();
+        $orderItemEntityTypeId = Mage::getResourceSingleton('Mage_Sales_Model_Resource_Order_Item')->getTypeId();
         $this->getSelect()->join(
                 array('items'=>$orderTable),
                 'items.parent_id=e.entity_id and items.entity_type_id='.$orderItemEntityTypeId,

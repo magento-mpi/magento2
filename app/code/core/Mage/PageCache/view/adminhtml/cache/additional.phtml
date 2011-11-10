@@ -29,10 +29,10 @@
 <table class="form-list">
     <tr>
         <td class="scope-label">
-            <button onclick="setLocation('<?php echo $this->getCleanExternalCacheUrl()?>')" type="button" class="scalable"><span><?php echo Mage::helper('pagecache')->__('Flush External Page Cache') ?></span></button>
+            <button onclick="setLocation('<?php echo $this->getCleanExternalCacheUrl()?>')" type="button" class="scalable"><span><?php echo Mage::helper('Mage_PageCache_Helper_Data')->__('Flush External Page Cache') ?></span></button>
         </td>
         <td class="scope-label">
-            <?php echo Mage::helper('pagecache')->__('External full page cache.')?>
+            <?php echo Mage::helper('Mage_PageCache_Helper_Data')->__('External full page cache.')?>
         </td>
     </tr>
 </table>

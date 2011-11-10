@@ -191,7 +191,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $entityTypeId = $this->getEntityType($entityTypeId, 'entity_type_id');
         }
         if (!is_numeric($entityTypeId)) {
-            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Wrong entity ID'));
+            throw Mage::exception('Mage_Eav', Mage::helper('Mage_Eav_Helper_Data')->__('Wrong entity ID'));
         }
 
         return $entityTypeId;
@@ -315,7 +315,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $setId = $this->getAttributeSet($entityTypeId, $setId, 'attribute_set_id');
         }
         if (!is_numeric($setId)) {
-            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Wrong attribute set ID'));
+            throw Mage::exception('Mage_Eav', Mage::helper('Mage_Eav_Helper_Data')->__('Wrong attribute set ID'));
         }
 
         return $setId;
@@ -519,7 +519,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         }
 
         if (!is_numeric($groupId)) {
-            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Wrong attribute group ID'));
+            throw Mage::exception('Mage_Eav', Mage::helper('Mage_Eav_Helper_Data')->__('Wrong attribute group ID'));
         }
         return $groupId;
     }
@@ -628,7 +628,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
            !Zend_Validate::is($data['attribute_code'], 'StringLength', array('max' => $attributeCodeMaxLength)))
         {
             throw Mage::exception('Mage_Eav',
-                Mage::helper('eav')->__('Maximum length of attribute code must be less then %s symbols', $attributeCodeMaxLength)
+                Mage::helper('Mage_Eav_Helper_Data')->__('Maximum length of attribute code must be less then %s symbols', $attributeCodeMaxLength)
             );
         }
 
@@ -730,7 +730,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 
                 // Default value
                 if (!isset($values[0])) {
-                    Mage::throwException(Mage::helper('eav')->__('Default option value is not defined'));
+                    Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('Default option value is not defined'));
                 }
                 $condition = array('option_id =?' => $intOptionId);
                 $this->_conn->delete($optionValueTable, $condition);
@@ -1284,7 +1284,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         if (!empty($customTypes)) {
             foreach ($customTypes as $type => $fieldType) {
                 if (count($fieldType) != 2) {
-                    throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Wrong type definition for %s', $type));
+                    throw Mage::exception('Mage_Eav', Mage::helper('Mage_Eav_Helper_Data')->__('Wrong type definition for %s', $type));
                 }
                 $types[$type] = $fieldType;
             }
@@ -1360,7 +1360,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $connection->commit();
         } catch (Exception $e) {
            $connection->rollBack();
-           throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Can\'t create table: %s', $tableName));
+           throw Mage::exception('Mage_Eav', Mage::helper('Mage_Eav_Helper_Data')->__('Can\'t create table: %s', $tableName));
         }
 
         return $this;
