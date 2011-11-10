@@ -1114,7 +1114,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_string($tabData)) {
             $tabData = $this->loadData($tabData);
         }
-        if (!is_array($data)) {
+        if (!is_array($tabData)) {
             throw new InvalidArgumentException('Argument "tabData" must be an array!!!');
         }
         $tabData = $this->arrayEmptyClear($tabData);
@@ -1130,7 +1130,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $this->pleaseWait();
             }
         }
-        $this->fillForm($data, $tabName);
+        $this->fillForm($tabData, $tabName);
     }
 
     /**
@@ -1146,24 +1146,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_string($data)) {
             $data = $this->loadData($data);
         }
-
         if (!is_array($data)) {
             throw new InvalidArgumentException('FillForm argument "data" must be an array!!!');
         }
 
-        $page = $this->getCurrentUimapPage();
-        if (!$page) {
-            throw new OutOfRangeException("Can't find specified form in UIMap array '"
+        $formData = $this->getCurrentUimapPage()->getMainForm();
+
+        if (!$formData) {
+            throw new OutOfRangeException("Can't find main form in UIMap array '"
                     . $this->getLocation() . "', area['" . $this->getArea() . "']");
         }
 
-        $formData = $page->getMainForm();
-
-        if (!$formData) {
-            return $this;
-        }
-
-        $formData->assignParams($this->_paramsHelper);
         if ($tabId && $formData->getTab($tabId)) {
             $fieldsets = $formData->getTab($tabId)->getAllFieldsets();
         } else {
@@ -1236,8 +1229,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     foreach ($fieldsData as $uimapFieldName => $uimapFieldValue) {
                         if ($dataFieldName == $uimapFieldName) {
                             $parent = $fieldset->getXpath();
-                            if (!is_null($parent) && !$parent == '')
+                            if (!is_null($parent) && !$parent == '') {
                                 $uimapFieldValue = str_ireplace('css=', ' ', $uimapFieldValue);
+                            }
                             $dataMap[$dataFieldName] = array(
                                 'type'  => $fieldsType,
                                 'path'  => $parent . $uimapFieldValue,
@@ -2109,10 +2103,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param string $buttonName Name of the button, what intended to save (submit) form (from UIMap)
      * @param boolean $validate
-     * @param boolean $wait
      * @return Mage_Selenium_TestCase
      */
-    public function saveForm($buttonName, $validate = true, $wait = false)
+    public function saveForm($buttonName, $validate = true)
     {
         $this->messages = array();
         $this->_parseMessages();
@@ -2132,7 +2125,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 ${$message} .= $exclude;
             }
         }
-        $this->clickButton($buttonName, $wait);
+        $this->clickButton($buttonName, false);
         $this->waitForElement(array($success, $error, $validation));
         $this->addParameter('id', $this->defineIdFromUrl());
         if ($validate) {
@@ -2160,191 +2153,98 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             throw new InvalidArgumentException('FillForm argument "data" must be an array!!!');
         }
 
-        $page = $this->getCurrentUimapPage();
-        if (!$page) {
-            throw new OutOfRangeException("Can't find specified form in UIMap array '"
-                    . $this->getLocation() . "', area['" . $this->getArea() . "']");
-        }
+        $formData = $this->getCurrentUimapPage()->getMainForm();
 
-        $formData = $page->getMainForm();
         if (!$formData) {
             throw new OutOfRangeException("Can't find main form in UIMap array '"
                     . $this->getLocation() . "', area['" . $this->getArea() . "']");
         }
-        $formData->assignParams($this->_paramsHelper);
 
-        if ($tabName) {
+        if ($tabName && $formData->getTab($tabName)) {
             $fieldsets = $formData->getTab($tabName)->getAllFieldsets();
         } else {
             $fieldsets = $formData->getAllFieldsets();
         }
-
+        $fieldsets->assignParams($this->_paramsHelper);
+        // if we have got empty uimap but not empty dataset
         if (empty($fieldsets) && !empty($data)) {
             return false;
         }
 
+        $formDataMap = $this->_getFormDataMap($fieldsets, $data);
+
         $resultFlag = true;
-        foreach ($data as $d_key => $d_val) {
-
-            if (in_array($d_key, $skipElements) || $d_val == '%noValue%') {
-                continue;
-            }
-
-            foreach ($fieldsets as $fieldsetName => $fieldset) {
-                // Next fieldset flag
-                $stopFlag = false;
-
-                $baseXpath = $fieldset->getXPath();
-
-                // ----------------------------------------------------
-                $fields = $fieldset->getAllMultiselects();
-                if (!empty($fields)) {
-                    foreach ($fields as $fieldKey => $fieldXPath) {
-                        if ($fieldKey == $d_key) {
-
-                            $elemXPath = $baseXpath . $fieldXPath;
-                            if ($this->isElementPresent($elemXPath)) {
-                                $labels = array();
-                                $countSelected = $this->getXpathCount($elemXPath . '//option[@selected]');
-                                for ($i = 1; $i <= $countSelected; $i++) {
-                                    $labels[] = trim($this->getText($elemXPath . '//option[@selected]'));
-                                }
-//                                $labels = $this->getSelectedLabels($elemXPath);
-                                if (!in_array($d_val, $labels)) {
-                                    $this->messages['error'][] = "The stored value for '"
-                                            . $d_key . "' field is not equal to specified: ('$d_val' != '$labels')";
-                                    $resultFlag = false;
-                                }
-                            } else {
-                                $this->messages['error'][] = "Can't find '$d_key' field";
+        foreach ($formDataMap as $formFieldName => $formField) {
+            switch ($formField['type']) {
+                case self::FIELD_TYPE_INPUT:
+                    if ($this->isElementPresent($formField['path']) && $this->isEditable($formField['path'])) {
+                        $val = $this->getValue($formField['path']);
+                        if ($val != $formField['value']) {
+                            $this->messages['error'][] = 'The stored value is not equal to specified: (\''
+                                    . $formField['value'] . '\' != \'' . $val . '\')';
+                            $resultFlag = false;
+                        }
+                    } else {
+                        $this->messages['error'][] = 'Can not find field (xpath:' . $formField['path'] . ')';
+                        $resultFlag = false;
+                    }
+                    break;
+                case self::FIELD_TYPE_CHECKBOX:
+                case self::FIELD_TYPE_RADIOBUTTON:
+                    if ($this->isElementPresent($formField['path']) && $this->isEditable($formField['path'])) {
+                        $isChecked = $this->isChecked($formField['path']);
+                        $expectedVal = strtolower($formField['value']);
+                        if (($isChecked && $expectedVal != 'yes') ||
+                                (!$isChecked && !($expectedVal == 'no' || $expectedVal == ''))) {
+                            $printVal = ($isChecked) ? 'yes' : 'no';
+                            $this->messages['error'][] = 'The stored value is not equal to specified: (\''
+                                    . $expectedVal . '\' != \'' . $printVal . '\')';
+                            $resultFlag = false;
+                        }
+                    } else {
+                        $this->messages['error'][] = 'Can not find field (xpath:' . $formField['path'] . ')';
+                        $resultFlag = false;
+                    }
+                    break;
+                case self::FIELD_TYPE_DROPDOWN:
+                    if ($this->isElementPresent($formField['path']) && $this->isEditable($formField['path'])) {
+                        $label = $this->getSelectedLabel($formField['path']);
+                        if ($formField['value'] != $label) {
+                            $this->messages['error'][] = 'The stored value is not equal to specified: (\''
+                                    . $formField['value'] . '\' != \'' . $label . '\')';
+                            $resultFlag = false;
+                        }
+                    } else {
+                        $this->messages['error'][] = 'Can not find field (xpath:' . $formField['path'] . ')';
+                        $resultFlag = false;
+                    }
+                    break;
+                case self::FIELD_TYPE_MULTISELECT:
+                    if ($this->isElementPresent($formField['path']) && $this->isEditable($formField['path'])) {
+                        $selectedLabels = $this->getSelectedLabels($formField['path']);
+                        $expectedLabels = explode(',', $formField['value']);
+                        $expectedLabels = array_map('trim', $expectedLabels);
+                        foreach ($expectedLabels as $value) {
+                            if (!in_array($value, $selectedLabels)) {
+                                $this->messages['error'][] = 'The value \'' . $value
+                                        . '\' is not selected. (Selected values are: \''
+                                        . implode(', ', $selectedLabels) . "')";
                                 $resultFlag = false;
                             }
-
-                            break;
                         }
-                    }
-
-                    if ($stopFlag) {
-                        continue;
-                    }
-                }
-
-                // ----------------------------------------------------
-                $fields = $fieldset->getAllDropdowns();
-                if (!empty($fields)) {
-                    foreach ($fields as $fieldKey => $fieldXPath) {
-                        if ($fieldKey == $d_key) {
-
-                            $elemXPath = $baseXpath . $fieldXPath;
-                            if ($this->isElementPresent($elemXPath)) {
-                                $labels = $this->getSelectedLabels($elemXPath);
-                                if (!in_array($d_val, $labels)) {
-                                    $this->messages['error'][] = "The stored value for '"
-                                            . $d_key . "' field is not equal to specified: ('$d_val' != '"
-                                            . array_shift($labels) . "')";
-                                    $resultFlag = false;
-                                }
-                            } else {
-                                $this->messages['error'][] = "Can't find '$d_key' field";
-                                $resultFlag = false;
-                            }
-
-                            break;
+                        if (count($selectedLabels) != count($expectedLabels)) {
+                            $this->messages['error'][] = 'Amounts of the expected options are not equal to selected: (\''
+                                    . $formField['value'] . '\' != \'' . implode(', ', $selectedLabels) . '\')';
+                            $resultFlag = false;
                         }
+                    } else {
+                        $this->messages['error'][] = 'Can not find field (xpath:' . $formField['path'] . ')';
+                        $resultFlag = false;
                     }
-
-                    if ($stopFlag) {
-                        continue;
-                    }
-                }
-
-                // ----------------------------------------------------
-                $fields = $fieldset->getAllRadiobuttons();
-                if (!empty($fields)) {
-                    foreach ($fields as $fieldKey => $fieldXPath) {
-                        if ($fieldKey == $d_key) {
-
-                            $elemXPath = $baseXpath . $fieldXPath;
-                            if ($this->isElementPresent($elemXPath)) {
-                                $f_val = $this->getValue($elemXPath);
-                                if (($f_val == 'on' && strtolower($d_val) != 'yes') ||
-                                        ($f_val == 'off' && !(strtolower($d_val) == 'no' || $d_val == ''))) {
-                                    $printVal = ($f_val == 'on') ? 'yes' : 'no';
-                                    $this->messages['error'][] = "The stored value for '"
-                                            . $d_key . "' field is not equal to specified: ('$d_val' != '$printVal')";
-                                    $resultFlag = false;
-                                }
-                            } else {
-                                $this->messages['error'][] = "Can't find '$d_key' field";
-                                $resultFlag = false;
-                            }
-
-                            break;
-                        }
-                    }
-
-                    if ($stopFlag) {
-                        continue;
-                    }
-                }
-
-                // ----------------------------------------------------
-                $fields = $fieldset->getAllCheckboxes();
-                if (!empty($fields)) {
-                    foreach ($fields as $fieldKey => $fieldXPath) {
-                        if ($fieldKey == $d_key) {
-
-                            $elemXPath = $baseXpath . $fieldXPath;
-                            if ($this->isElementPresent($elemXPath)) {
-                                $f_val = $this->getValue($elemXPath);
-                                if (($f_val == 'on' && strtolower($d_val) != 'yes') ||
-                                        ($f_val == 'off' && !(strtolower($d_val) == 'no' || $d_val == ''))) {
-                                    $printVal = ($f_val == 'on') ? 'yes' : 'no';
-                                    $this->messages['error'][] = "The stored value for '"
-                                            . $d_key . "' field is not equal to specified: ('$d_val' != '$printVal')";
-                                    $resultFlag = false;
-                                }
-                            } else {
-                                $this->messages['error'][] = "Can't find '$d_key' field";
-                                $resultFlag = false;
-                            }
-
-                            break;
-                        }
-                    }
-
-                    if ($stopFlag) {
-                        continue;
-                    }
-                }
-
-                // ----------------------------------------------------
-                $fields = $fieldset->getAllFields();
-                if (!empty($fields)) {
-                    foreach ($fields as $fieldKey => $fieldXPath) {
-                        if ($fieldKey == $d_key) {
-                            $elemXPath = $baseXpath . $fieldXPath;
-                            if ($this->isElementPresent($elemXPath)) {
-                                $val = $this->getValue($elemXPath);
-                                if ($val != $d_val) {
-                                    $this->messages['error'][] = "The stored value for '"
-                                            . $d_key . "' field is not equal to specified: ('$d_val' != '"
-                                            . $val . "')";
-                                    $resultFlag = false;
-                                }
-                            } else {
-                                $this->messages['error'][] = "Can't find '$d_key' field";
-                                $resultFlag = false;
-                            }
-
-                            break;
-                        }
-                    }
-
-                    if ($stopFlag) {
-                        continue;
-                    }
-                }
+                    break;
+                default:
+                    $this->messages['error'][] = 'Unsupported field type';
+                    $resultFlag = false;
             }
         }
 
