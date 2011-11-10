@@ -51,10 +51,7 @@ class Mage_Payment_Block_Info_Cc extends Mage_Payment_Block_Info
      */
     public function hasCcExpDate()
     {
-        $month = $this->getInfo()->getCcExpMonth();
-        $year = $this->getInfo()->getCcExpYear();
-        $empty = $month == '00' || empty($year);
-        return !$empty;
+        return (int)$this->getInfo()->getCcExpMonth() || (int)$this->getInfo()->getCcExpYear();
     }
 
     /**
