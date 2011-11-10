@@ -42,13 +42,13 @@ Default layout, loads most of the pages
             </block>
         </reference>
         <reference name="head">
-            <action method="addCss"><stylesheet>Mage_Cms::widgets.css</stylesheet></action>
+            <action method="addCss"><file>Mage_Cms::widgets.css</file></action>
         </reference>
     </default>
 
     <print>
         <reference name="head">
-            <action method="addCss"><stylesheet>Mage_Cms::widgets.css</stylesheet></action>
+            <action method="addCss"><file>Mage_Cms::widgets.css</file></action>
         </reference>
     </print>
 

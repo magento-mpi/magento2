@@ -13,13 +13,13 @@
 
     <default>
         <reference name="head">
-            <action method="addCss"><stylesheet>Mage_Widget::widgets.css</stylesheet></action>
+            <action method="addCss"><file>Mage_Widget::widgets.css</file></action>
         </reference>
     </default>
 
     <print>
         <reference name="head">
-            <action method="addCss"><stylesheet>Mage_Widget::widgets.css</stylesheet></action>
+            <action method="addCss"><file>Mage_Widget::widgets.css</file></action>
         </reference>
     </print>
 

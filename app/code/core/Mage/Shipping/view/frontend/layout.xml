@@ -42,7 +42,7 @@
             <action method="setTemplate"><template>popup.phtml</template></action>
         </reference>
         <!--<reference name="head">
-            <action method="addJs"><script>scriptaculous/scriptaculous.js</script></action>
+            <action method="addJs"><file>scriptaculous/scriptaculous.js</file></action>
         </reference>-->
         <reference name="content">
             <block type="shipping/tracking_popup" name="shipping.tracking.popup" template="tracking/popup.phtml" />

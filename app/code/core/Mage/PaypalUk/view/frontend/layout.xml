@@ -63,7 +63,7 @@
             </block>
         </reference>
         <reference name="head">
-            <action method="addItem"><type>skin_js</type><name>Mage_Paypal::review.js</name></action>
+            <action method="addJs"><file>Mage_Paypal::review.js</file></action>
         </reference>
     </paypaluk_express_review>
 
