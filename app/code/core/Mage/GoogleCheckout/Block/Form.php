@@ -39,7 +39,7 @@ class Mage_GoogleCheckout_Block_Form extends Mage_Payment_Block_Form
      */
     protected function _construct()
     {
-        $this->setTemplate('googlecheckout/form.phtml');
+        $this->setTemplate('form.phtml');
         parent::_construct();
     }
 

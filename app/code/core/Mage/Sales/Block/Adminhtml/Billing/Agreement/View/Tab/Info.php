@@ -39,7 +39,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info extends Mage_Ad
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('sales/billing/agreement/view/tab/info.phtml');
+        $this->setTemplate('billing/agreement/view/tab/info.phtml');
     }
 
     /**

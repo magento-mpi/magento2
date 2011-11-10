@@ -37,7 +37,9 @@ class Mage_Adminhtml_Block_Tag_Customer_Grid extends Mage_Adminhtml_Block_Widget
     public function __construct()
     {
         parent::__construct();
-        $this->setId('tag_customer_grid' . Mage::registry('current_tag')->getId());
+        if (Mage::registry('current_tag')) {
+            $this->setId('tag_customer_grid' . Mage::registry('current_tag')->getId());
+        }
         $this->setDefaultSort('name');
         $this->setDefaultDir('ASC');
         $this->setUseAjax(true);

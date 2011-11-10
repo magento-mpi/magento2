@@ -52,7 +52,7 @@ abstract class Mage_Core_Model_Template extends Mage_Core_Model_Abstract
      */
     protected $_designConfig;
 
-            
+
     /**
      * Configuration of emulated desing package.
      *
@@ -109,11 +109,9 @@ abstract class Mage_Core_Model_Template extends Mage_Core_Model_Abstract
     protected function getDesignConfig()
     {
         if(is_null($this->_designConfig)) {
-            $store = Mage::getDesign()->getStore();
-            $storeId = is_object($store) ? $store->getId() : $store;
             $this->_designConfig = new Varien_Object(array(
                 'area' => Mage::getDesign()->getArea(),
-                'store' => $storeId
+                'store' => Mage::app()->getStore()->getId()
             ));
         }
         return $this->_designConfig;
@@ -127,6 +125,9 @@ abstract class Mage_Core_Model_Template extends Mage_Core_Model_Abstract
      */
     public function setDesignConfig(array $config)
     {
+        if (!isset($config['area']) || !isset($config['store'])) {
+            throw new Exception(Mage::helper('core')->__('Design config must have area and store.'));
+        }
         $this->getDesignConfig()->setData($config);
         return $this;
     }

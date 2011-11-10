@@ -40,6 +40,6 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Information
     public function _construct()
     {
         parent::_construct();
-        $this->setTemplate('enterprise/rma/edit/shipping/information.phtml');
+        $this->setTemplate('edit/shipping/information.phtml');
     }
 }

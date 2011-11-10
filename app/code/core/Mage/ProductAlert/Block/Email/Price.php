@@ -41,7 +41,7 @@ class Mage_ProductAlert_Block_Email_Price extends Mage_ProductAlert_Block_Email_
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('email/productalert/price.phtml');
+        $this->setTemplate('email/price.phtml');
     }
 
     /**

@@ -59,7 +59,12 @@ class Mage_Adminhtml_Block_Urlrewrite extends Mage_Adminhtml_Block_Widget_Grid_C
      */
     public function getCreateUrl()
     {
-        $modes = array_keys(Mage::getBlockSingleton('adminhtml/urlrewrite_selector')->getModes());
-        return $this->getUrl('*/*/edit') . array_shift($modes);
+        if (Mage::getBlockSingleton('adminhtml/urlrewrite_selector')) {
+            $modes = array_keys(Mage::getBlockSingleton('adminhtml/urlrewrite_selector')->getModes());
+            $url = $this->getUrl('*/*/edit') . array_shift($modes);
+        } else {
+            $url = $this->getUrl('*/*/edit');
+        }
+        return $url;
     }
 }

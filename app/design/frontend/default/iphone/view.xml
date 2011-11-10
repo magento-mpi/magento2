@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     modern_theme
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<view>
+    <vars module="Mage_Wishlist">
+        <var name="product_image_size">45</var>        <!-- Product image size used in wishlist -->
+    </vars>
+</view>

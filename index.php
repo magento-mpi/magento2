@@ -67,7 +67,6 @@ require_once $mageFilename;
 if (isset($_SERVER['MAGE_IS_DEVELOPER_MODE'])) {
     Mage::setIsDeveloperMode(true);
 }
-
 #ini_set('display_errors', 1);
 
 umask(0);

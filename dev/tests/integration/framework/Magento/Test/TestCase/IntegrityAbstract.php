@@ -63,8 +63,7 @@ abstract class Magento_Test_TestCase_IntegrityAbstract extends PHPUnit_Framework
     protected function _getDesignSkins()
     {
         $result = array();
-        $areas = array('adminhtml', 'frontend', 'install');
-        foreach ($areas as $area) {
+        foreach (array('adminhtml', 'frontend', 'install') as $area) {
             $entities = Mage::getDesign()->getDesignEntitiesStructure($area, false);
             foreach ($entities as $package => $themes) {
                 foreach ($themes as $theme => $skins) {
@@ -84,9 +83,8 @@ abstract class Magento_Test_TestCase_IntegrityAbstract extends PHPUnit_Framework
      */
     protected function _getDesignThemes()
     {
-        $skins = $this->_getDesignSkins();
         $result = array();
-        foreach ($skins as $skin) {
+        foreach ($this->_getDesignSkins() as $skin) {
             list ($area, $package, $theme) = explode('/', $skin);
             $view = "{$area}/{$package}/{$theme}";
             $result[$view] = $view;

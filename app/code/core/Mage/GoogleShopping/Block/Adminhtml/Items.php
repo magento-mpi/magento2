@@ -37,7 +37,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Items extends Mage_Adminhtml_Block_Wid
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('googleshopping/items.phtml');
+        $this->setTemplate('items.phtml');
     }
 
     /**

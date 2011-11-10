@@ -40,9 +40,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Returnaddress
      */
     public function _construct()
     {
-        if (Mage::registry('current_order')->getId()) {
+        if (Mage::registry('current_order') && Mage::registry('current_order')->getId()) {
             $this->setStoreId(Mage::registry('current_order')->getStoreId());
-        } elseif (Mage::registry('current_rma')->getId()) {
+        } elseif (Mage::registry('current_rma') && Mage::registry('current_rma')->getId()) {
             $this->setStoreId(Mage::registry('current_rma')->getStoreId());
         }
     }

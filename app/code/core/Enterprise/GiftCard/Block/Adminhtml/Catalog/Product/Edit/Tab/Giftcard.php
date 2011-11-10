@@ -31,7 +31,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
 
     protected function _construct()
     {
-        $this->setTemplate('enterprise/giftcard/catalog/product/edit/tab/giftcard.phtml');
+        $this->setTemplate('catalog/product/edit/tab/giftcard.phtml');
         parent::_construct();
     }
     /**

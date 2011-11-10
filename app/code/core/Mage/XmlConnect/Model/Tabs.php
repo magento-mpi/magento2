@@ -121,12 +121,6 @@ class Mage_XmlConnect_Model_Tabs
      */
     public function getRenderTabs()
     {
-        $result = array();
-        foreach ($this->_enabledTabs as $tab) {
-            $tab->image = Mage::getDesign()->getSkinUrl('images/xmlconnect/' . $tab->image);
-            $result[] = $tab;
-        }
-
-        return $result;
+        return $this->_enabledTabs;
     }
 }

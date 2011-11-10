@@ -25,8 +25,8 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             'locale_dir' => __DIR__ . '/_files/locale',
             'design_dir' => __DIR__ . '/_files/design',
         ));
-        Mage::getDesign()->setPackageName('test')
-            ->setArea('frontend');
+        Mage::getDesign()->setArea('frontend')
+            ->setDesignTheme('test/default/default');
     }
 
     public function setUp()

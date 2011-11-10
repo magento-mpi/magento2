@@ -41,7 +41,28 @@ class Mage_ProductAlert_Block_Email_Stock extends Mage_ProductAlert_Block_Email_
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('email/productalert/stock.phtml');
+        $this->setTemplate('email/stock.phtml');
+    }
+
+    /**
+     * Product thumbnail image url getter
+     *
+     * @param Mage_Core_Model_Product $product
+     * @return string
+     */
+    public function getThumbnailUrl($product)
+    {
+        return (string) $this->helper('catalog/image')->init($product, 'thumbnail')->resize($this->getThumbnailSize());
+    }
+
+    /**
+     * Thumbnail image size getter
+     *
+     * @return int
+     */
+    public function getThumbnailSize()
+    {
+        return $this->getVar('product_thumbnail_image_size', 'Mage_Catalog');
     }
 
     /**

@@ -31,7 +31,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_System_Config_Generate extends 
     {
         parent::__construct();
         if (!$this->getTemplate()) {
-            $this->setTemplate('enterprise/giftcardaccount/config/generate.phtml');
+            $this->setTemplate('config/generate.phtml');
         }
     }
 

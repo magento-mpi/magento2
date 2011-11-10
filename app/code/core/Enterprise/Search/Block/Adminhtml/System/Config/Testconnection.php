@@ -41,7 +41,7 @@ class Enterprise_Search_Block_Adminhtml_System_Config_Testconnection
     {
         parent::_prepareLayout();
         if (!$this->getTemplate()) {
-            $this->setTemplate('enterprise/search/system/config/testconnection.phtml');
+            $this->setTemplate('system/config/testconnection.phtml');
         }
         return $this;
     }

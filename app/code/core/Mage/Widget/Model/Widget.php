@@ -241,19 +241,45 @@ class Mage_Widget_Model_Widget extends Varien_Object
             return $directive;
         }
 
-        $config = Mage::getSingleton('widget/widget_config');
-        $imageName = str_replace('/', '__', $type) . '.gif';
-        if (is_file($config->getPlaceholderImagesBaseDir() . DS . $imageName)) {
-            $image = $config->getPlaceholderImagesBaseUrl() . $imageName;
-        } else {
-            $image = $config->getPlaceholderImagesBaseUrl() . 'default.gif';
-        }
         $html = sprintf('<img id="%s" src="%s" title="%s">',
             $this->_idEncode($directive),
-            $image,
+            $this->getPlaceholderImageUrl($type),
             Mage::helper('core')->urlEscape($directive)
         );
         return $html;
+    }
+
+    /**
+     * Get image URL of WYSIWYG placeholder image
+     *
+     * @param string $type
+     * @return string
+     */
+    public function getPlaceholderImageUrl($type)
+    {
+        $placeholder = (string)$this->getConfigAsXml($type)->placeholder_image;
+        if (!$placeholder || !Mage::getDesign()->getFilename($placeholder, array('_type' => 'skin'))) {
+            $placeholder = 'Mage_Widget::placeholder.gif';
+        }
+        return Mage::getDesign()->getSkinUrl($placeholder);
+    }
+
+    /**
+     * Get a list of URLs of WYSIWYG placeholder images
+     *
+     * array(<type> => <url>)
+     *
+     * @return array
+     */
+    public function getPlaceholderImageUrls()
+    {
+        $result = array();
+        /** @var Varien_Simplexml_Element $widget */
+        foreach ($this->getXmlConfig()->getNode() as $widget) {
+            $type = (string)$widget->getAttribute('type');
+            $result[$type] = $this->getPlaceholderImageUrl($type);
+        }
+        return $result;
     }
 
     /**

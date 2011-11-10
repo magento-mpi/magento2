@@ -66,7 +66,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
                 ));
         }
 
-        $isOwner = $config->isCurrentUserOwner($version->getUserId());
+        $isOwner = $version ? $config->isCurrentUserOwner($version->getUserId()) : false;
         $isPublisher = $config->canCurrentUserPublishRevision();
 
         // Only owner can remove version if he has such permissions
@@ -113,7 +113,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
     {
         return $this->getUrl('*/cms_page/edit',
              array(
-                'page_id' => Mage::registry('cms_page')->getPageId(),
+                'page_id' => Mage::registry('cms_page') ? Mage::registry('cms_page')->getPageId() : null,
                 'tab' => 'versions'
              ));
     }

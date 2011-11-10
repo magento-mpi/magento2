@@ -75,6 +75,9 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create extends Mage_Adminhtml_Blo
      */
     public function getBackUrl()
     {
-        return $this->getUrl('*/sales_order/view', array('order_id'=>$this->getInvoice()->getOrderId()));
+        return $this->getUrl(
+            '*/sales_order/view',
+            array('order_id' => $this->getInvoice() ? $this->getInvoice()->getOrderId() : null)
+        );
     }
 }

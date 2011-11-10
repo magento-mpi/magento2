@@ -44,7 +44,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit extends Mage_Adm
             'onclick' => 'editForm.submit(\'' . $this->getSaveUrl() . '\' + \'back/edit/\')',
         ), 3);
 
-        if (Mage::registry('current_giftwrapping_model')->getId()) {
+        if (Mage::registry('current_giftwrapping_model') && Mage::registry('current_giftwrapping_model')->getId()) {
             $confirmMessage = Mage::helper('enterprise_giftwrapping')->__('Are you sure you want to delete this gift wrapping?');
             $this->_updateButton('delete', 'onclick',
                 'deleteConfirm(\'' . $this->jsQuoteEscape($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
@@ -94,7 +94,12 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit extends Mage_Adm
     {
         $wrapping = Mage::registry('current_giftwrapping_model');
 
-        return $this->getUrl('*/*/save', array('id' => $wrapping->getId(), 'store' => $wrapping->getStoreId()));
+        if ($wrapping) {
+            $url = $this->getUrl('*/*/save', array('id' => $wrapping->getId(), 'store' => $wrapping->getStoreId()));
+        } else {
+            $url = $this->getUrl('*/*/save');
+        }
+        return $url;
     }
 
     /**
@@ -105,13 +110,14 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit extends Mage_Adm
     public function getUploadUrl()
     {
         $wrapping = Mage::registry('current_giftwrapping_model');
-
-        $params = array('store' => $wrapping->getStoreId());
-        $id = $wrapping->getId();
-
-        if (!is_null($id)) {
-            $params['id'] = $id;
+        $params = array();
+        if ($wrapping) {
+            $params['store'] = $wrapping->getStoreId();
+            if ($wrapping->getId()) {
+                $params['id'] = $wrapping->getId();
+            }
         }
+
         return $this->getUrl('*/*/upload', $params);
     }
 

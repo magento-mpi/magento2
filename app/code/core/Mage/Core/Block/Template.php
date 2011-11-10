@@ -121,7 +121,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     public function getTemplateFile()
     {
-        $params = array('_relative'=>true);
+        $params = array('_module' => $this->getModuleName());
         $area = $this->getArea();
         if ($area) {
             $params['_area'] = $area;
@@ -236,11 +236,13 @@ HTML;
         }
 
         try {
-            $includeFilePath = realpath($this->_viewDir . DS . $fileName);
-            if (strpos($includeFilePath, realpath($this->_viewDir)) === 0 || $this->_getAllowSymlinks()) {
-                include $includeFilePath;
+            $templateFile = realpath($fileName);
+            if (strpos($templateFile, Mage::getBaseDir('app')) === 0
+                || strpos($templateFile, realpath($this->_viewDir)) === 0 || $this->_getAllowSymlinks()
+            ) {
+                include $templateFile;
             } else {
-                Mage::log('Not valid template file:'.$fileName, Zend_Log::CRIT, null, null, true);
+                Mage::log("Invalid template file: '{$fileName}'", Zend_Log::CRIT, null, null, true);
             }
 
         } catch (Exception $e) {

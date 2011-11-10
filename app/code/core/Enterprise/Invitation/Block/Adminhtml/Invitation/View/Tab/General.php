@@ -39,7 +39,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
      */
     protected function _construct()
     {
-        $this->setTemplate('enterprise/invitation/view/tab/general.phtml');
+        $this->setTemplate('view/tab/general.phtml');
     }
 
     /**

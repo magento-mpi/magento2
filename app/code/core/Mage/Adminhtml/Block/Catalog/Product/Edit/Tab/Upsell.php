@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
         $this->setId('up_sell_product_grid');
         $this->setDefaultSort('entity_id');
         $this->setUseAjax(true);
-        if ($this->_getProduct()->getId()) {
+        if ($this->_getProduct() && $this->_getProduct()->getId()) {
             $this->setDefaultFilter(array('in_products'=>1));
         }
         if ($this->isReadonly()) {
@@ -96,7 +96,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
      */
     public function isReadonly()
     {
-        return $this->_getProduct()->getUpsellReadonly();
+        return $this->_getProduct() && $this->_getProduct()->getUpsellReadonly();
     }
 
     /**

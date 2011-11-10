@@ -41,10 +41,9 @@ class Mage_Adminhtml_Block_Poll_Answer_Edit extends Mage_Adminhtml_Block_Widget_
 
         $this->_objectId = 'id';
         $this->_controller = 'poll_answer';
-
+        $answerData = Mage::getModel('poll/poll_answer');
         if( $this->getRequest()->getParam($this->_objectId) ) {
-            $answerData = Mage::getModel('poll/poll_answer')
-                ->load($this->getRequest()->getParam($this->_objectId));
+            $answerData->load($this->getRequest()->getParam($this->_objectId));
             Mage::register('answer_data', $answerData);
         }
 

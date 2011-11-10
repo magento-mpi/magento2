@@ -46,7 +46,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
      */
     public function __construct()
     {
-        $this->setTemplate('bundle/product/edit/bundle/option.phtml');
+        $this->setTemplate('product/edit/bundle/option.phtml');
         $this->setCanReadPrice(true);
         $this->setCanEditPrice(true);
     }

@@ -95,7 +95,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $block = $this->getLayout()->createBlock('paypal/standard_form', $name)
             ->setMethod('paypal_standard')
             ->setPayment($this->getPayment())
-            ->setTemplate('paypal/standard/form.phtml');
+            ->setTemplate('standard/form.phtml');
 
         return $block;
     }

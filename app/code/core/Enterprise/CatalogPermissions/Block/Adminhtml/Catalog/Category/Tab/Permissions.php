@@ -37,7 +37,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('enterprise/catalogpermissions/catalog/category/tab/permissions.phtml');
+        $this->setTemplate('catalog/category/tab/permissions.phtml');
     }
 
     /**

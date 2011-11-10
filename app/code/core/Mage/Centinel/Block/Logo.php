@@ -32,7 +32,7 @@ class Mage_Centinel_Block_Logo extends Mage_Core_Block_Template
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('centinel/logo.phtml');
+        $this->setTemplate('logo.phtml');
     }
 
     /**

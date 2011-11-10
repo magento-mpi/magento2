@@ -39,7 +39,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
         $this->setUseAjax(true);
         $this->setSaveParametersInSession(true);
         $this->setVarNameFilter('related_catalogrule_filter');
-        if ($this->_getBanner()->getId()) {
+        if ($this->_getBanner() && $this->_getBanner()->getId()) {
             $this->setDefaultFilter(array('in_banner_catalogrule'=>1));
         }
     }

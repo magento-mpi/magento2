@@ -38,7 +38,7 @@ class Mage_GoogleBase_Block_Adminhtml_Captcha extends Mage_Adminhtml_Block_Templ
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('googlebase/captcha.phtml');
+        $this->setTemplate('captcha.phtml');
     }
 
     public function getConfirmButtonHtml()

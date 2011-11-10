@@ -159,7 +159,7 @@ abstract class Phoenix_Moneybookers_Model_Abstract extends Mage_Payment_Model_Me
             'country'               => $billing->getCountryModel()->getIso3Code(),
             'pay_from_email'        => $email,
             'phone_number'          => $billing->getTelephone(),
-            'detail1_description'   => Mage::helper('moneybookers')->__('Order ID'),
+            'detail1_description'   => Mage::helper('phoenix_moneybookers')->__('Order ID'),
             'detail1_text'          => $order_id,
             'payment_methods'       => $this->_paymentMethod,
             'hide_login'            => $this->_hidelogin,

@@ -90,8 +90,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <mage_xmlconnect>
-                    <file>xmlconnect.xml</file>
+                <mage_xmlconnect module="Mage_XmlConnect">
+                    <file>layout.xml</file>
                 </mage_xmlconnect>
             </updates>
         </layout>
@@ -135,8 +135,8 @@
         </routers>
         <layout>
             <updates>
-                <xmlconnect>
-                    <file>xmlconnect.xml</file>
+                <xmlconnect module="Mage_XmlConnect">
+                    <file>layout.xml</file>
                 </xmlconnect>
             </updates>
         </layout>

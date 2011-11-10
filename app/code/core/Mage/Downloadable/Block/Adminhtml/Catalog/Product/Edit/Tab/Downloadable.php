@@ -52,7 +52,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     {
         parent::__construct();
 //        $this->setSkipGenerateContent(true);
-        $this->setTemplate('downloadable/product/edit/downloadable.phtml');
+        $this->setTemplate('product/edit/downloadable.phtml');
     }
 
     /**

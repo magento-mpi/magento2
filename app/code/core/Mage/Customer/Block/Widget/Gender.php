@@ -39,7 +39,7 @@ class Mage_Customer_Block_Widget_Gender extends Mage_Customer_Block_Widget_Abstr
     public function _construct()
     {
         parent::_construct();
-        $this->setTemplate('customer/widget/gender.phtml');
+        $this->setTemplate('widget/gender.phtml');
     }
 
     /**

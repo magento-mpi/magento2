@@ -57,8 +57,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <connect>
-                    <file>connect.xml</file>
+                <connect module="Mage_Connect">
+                    <file>layout.xml</file>
                 </connect>
             </updates>
         </layout>

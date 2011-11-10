@@ -467,4 +467,4 @@ FormElementDependenceController.prototype = {
             $(idTo).up(this._config.levels_up).hide();
         }
     }
-}
+};

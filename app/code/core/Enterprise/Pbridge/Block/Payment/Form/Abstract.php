@@ -39,7 +39,7 @@ abstract class Enterprise_Pbridge_Block_Payment_Form_Abstract extends Enterprise
      *
      * @var string
      */
-    protected $_template = 'pbridge/checkout/payment/pbridge.phtml';
+    protected $_template = 'Enterprise_Pbridge::checkout/payment/pbridge.phtml';
 
     /**
      * Whether to include billing parameters in Payment Bridge source URL

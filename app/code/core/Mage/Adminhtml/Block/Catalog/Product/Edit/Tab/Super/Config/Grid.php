@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         $this->setUseAjax(true);
         $this->setId('super_product_links');
 
-        if ($this->_getProduct()->getId()) {
+        if ($this->_getProduct() && $this->_getProduct()->getId()) {
             $this->setDefaultFilter(array('in_products'=>1));
         }
     }

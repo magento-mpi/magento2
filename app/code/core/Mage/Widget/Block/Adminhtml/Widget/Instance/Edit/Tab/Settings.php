@@ -111,8 +111,8 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
 
         $this->_addElementTypes($fieldset);
 
-        $fieldset->addField('type', 'select', array(
-            'name'  => 'type',
+        $fieldset->addField('instance_type', 'select', array(
+            'name'  => 'instance_type',
             'label' => Mage::helper('widget')->__('Type'),
             'title' => Mage::helper('widget')->__('Type'),
             'class' => '',
@@ -124,13 +124,13 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
             'label' => Mage::helper('widget')->__('Design Package/Theme'),
             'title' => Mage::helper('widget')->__('Design Package/Theme'),
             'required' => false,
-            'values'   => $this->getPackegeThemeOptionsArray()
+            'values'   => $this->getPackageThemeOptionsArray()
         ));
         $continueButton = $this->getLayout()
             ->createBlock('adminhtml/widget_button')
             ->setData(array(
                 'label'     => Mage::helper('widget')->__('Continue'),
-                'onclick'   => "setSettings('".$this->getContinueUrl()."', 'type', 'package_theme')",
+                'onclick'   => "setSettings('" . $this->getContinueUrl() . "', 'instance_type', 'package_theme')",
                 'class'     => 'save'
             ));
         $fieldset->addField('continue_button', 'note', array(
@@ -150,10 +150,9 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
     public function getContinueUrl()
     {
         return $this->getUrl('*/*/*', array(
-            '_current'  => true,
-            'type'      => '{{type}}',
-            'package'   => '{{package}}',
-            'theme'     => '{{theme}}'
+            '_current' => true,
+            'instance_type' => '{{instance_type}}',
+            'package_theme' => '{{package_theme}}'
         ));
     }
 
@@ -189,9 +188,10 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
      *
      * @return array
      */
-    public function getPackegeThemeOptionsArray()
+    public function getPackageThemeOptionsArray()
     {
-        return Mage::getModel('core/design_source_design')
-            ->setIsFullLabel(true)->getAllOptions(true);
+        $options = Mage::getModel('core/design_source_design')->getThemeOptions();
+        array_unshift($options, array('value' => '', 'label' => Mage::helper('adminhtml')->__('-- Please Select --')));
+        return $options;
     }
 }

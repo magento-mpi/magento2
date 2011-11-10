@@ -391,7 +391,6 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
 
     public function testCheckProductConfiguration()
     {
-        $this->markTestIncomplete('Impossible to test because of fatal error. Already fixed in mage trunk.');
         $product = new Varien_Object;
         $buyRequest = new Varien_Object(array('qty' => 5));
         $this->_model->checkProductConfiguration($product, $buyRequest);

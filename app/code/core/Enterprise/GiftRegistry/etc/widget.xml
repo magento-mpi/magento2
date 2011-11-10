@@ -42,7 +42,7 @@
                 <values>
                     <default_template translate="label">
                         <label>Default Template</label>
-                        <value>giftregistry/search/widget/form.phtml</value>
+                        <value>search/widget/form.phtml</value>
                     </default_template>
                 </values>
             </template>

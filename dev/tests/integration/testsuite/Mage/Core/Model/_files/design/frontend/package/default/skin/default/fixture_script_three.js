@@ -1,0 +1,1 @@
+/* fixture skin file located inside the default skin of the default theme */

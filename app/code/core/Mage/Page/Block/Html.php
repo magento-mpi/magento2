@@ -143,17 +143,6 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
         return $this->getData('lang');
     }
 
-    public function setTheme($theme)
-    {
-        $arr = explode('/', $theme);
-        if (isset($arr[1])) {
-            Mage::getDesign()->setPackageName($arr[0])->setTheme($arr[1]);
-        } else {
-            Mage::getDesign()->setTheme($theme);
-        }
-        return $this;
-    }
-
     public function getBodyClass()
     {
         return $this->_getData('body_class');

@@ -56,7 +56,7 @@ class Mage_Core_Model_Resource_Layout extends Mage_Core_Model_Resource_Db_Abstra
             'store_id'  => Mage::app()->getStore()->getId(),
             'area'      => Mage::getSingleton('core/design_package')->getArea(),
             'package'   => Mage::getSingleton('core/design_package')->getPackageName(),
-            'theme'     => Mage::getSingleton('core/design_package')->getTheme('layout')
+            'theme'     => Mage::getSingleton('core/design_package')->getTheme()
         );
 
         foreach ($params as $key => $value) {

@@ -33,5 +33,5 @@ class Enterprise_CustomerBalance_Block_Checkout_Total extends Mage_Checkout_Bloc
     /**
      * @var string
      */
-    protected $_template = 'customerbalance/checkout/total.phtml';
+    protected $_template = 'Enterprise_CustomerBalance::checkout/total.phtml';
 }

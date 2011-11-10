@@ -73,7 +73,7 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
         //TODO: add full name logic
         $billingAliasName = 'billing_o_a';
         $shippingAliasName = 'shipping_o_a';
-        
+
         $collection = Mage::getModel("sales/order")->getCollection()
             ->addAttributeToSelect('*')
             ->addAddressFields()
@@ -99,7 +99,7 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
                     'CONCAT({{shipping_firstname}}, " ", {{shipping_lastname}})',
                     array('shipping_firstname'=>"$shippingAliasName.firstname", 'shipping_lastname'=>"$shippingAliasName.lastname")
             );
-        
+
         if (is_array($filters)) {
             try {
                 foreach ($filters as $field => $value) {
@@ -183,20 +183,8 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
 
 
         try {
-            if ($notify && $comment) {
-                $oldStore = Mage::getDesign()->getStore();
-                $oldArea = Mage::getDesign()->getArea();
-                Mage::getDesign()->setStore($order->getStoreId());
-                Mage::getDesign()->setArea('frontend');
-            }
-
             $order->save();
             $order->sendOrderUpdateEmail($notify, $comment);
-            if ($notify && $comment) {
-                Mage::getDesign()->setStore($oldStore);
-                Mage::getDesign()->setArea($oldArea);
-            }
-
         } catch (Mage_Core_Exception $e) {
             $this->_fault('status_not_changed', $e->getMessage());
         }

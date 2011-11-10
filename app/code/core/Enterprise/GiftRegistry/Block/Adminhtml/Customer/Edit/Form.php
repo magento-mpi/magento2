@@ -35,7 +35,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('enterprise/giftregistry/customer/form.phtml');
+        $this->setTemplate('customer/form.phtml');
     }
 
     /**

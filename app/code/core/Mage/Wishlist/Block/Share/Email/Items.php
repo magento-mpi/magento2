@@ -41,7 +41,7 @@ class Mage_Wishlist_Block_Share_Email_Items extends Mage_Wishlist_Block_Abstract
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('wishlist/email/items.phtml');
+        $this->setTemplate('email/items.phtml');
     }
 
     /**

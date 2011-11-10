@@ -35,7 +35,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback extends Mage_
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('enterprise/staging/backup/rollback.phtml');
+        $this->setTemplate('backup/rollback.phtml');
         $this->setId('staging_website_mapper');
         $this->setUseAjax(true);
 

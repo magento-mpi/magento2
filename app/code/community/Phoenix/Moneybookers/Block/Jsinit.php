@@ -28,7 +28,7 @@ class Phoenix_Moneybookers_Block_Jsinit extends Mage_Adminhtml_Block_Template
         if ($section == 'moneybookers') {
             $this->getLayout()
                 ->getBlock('head')
-                ->addJs('mage/adminhtml/moneybookers.js');
+                ->addItem('skin_js', 'Phoenix_Moneybookers::activation.js');
         }
         parent::_prepareLayout();
     }

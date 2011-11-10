@@ -49,6 +49,9 @@ class Mage_Adminhtml_Block_Sales_Transactions_Detail extends Mage_Adminhtml_Bloc
         parent::__construct();
 
         $this->_txn = Mage::registry('current_transaction');
+        if (!$this->_txn) {
+            return;
+        }
 
         $backUrl = ($this->_txn->getOrderUrl()) ? $this->_txn->getOrderUrl() : $this->getUrl('*/*/');
         $this->_addButton('back', array(

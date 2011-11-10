@@ -27,7 +27,7 @@
 
 class Enterprise_GiftCardAccount_Block_Checkout_Cart_Total extends Mage_Checkout_Block_Total_Default
 {
-    protected $_template = 'giftcardaccount/cart/total.phtml';
+    protected $_template = 'Enterprise_GiftCardAccount::cart/total.phtml';
 
     protected function _getQuote()
     {

@@ -221,6 +221,8 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             $this->_debugTimer();
             parent::commit();
             $this->_debugStat(self::DEBUG_TRANSACTION, 'COMMIT');
+        } elseif ($this->_transactionLevel === 0) {
+            throw new Exception('Asymmetric transaction commit.');
         }
         --$this->_transactionLevel;
         return $this;
@@ -237,6 +239,8 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             $this->_debugTimer();
             parent::rollback();
             $this->_debugStat(self::DEBUG_TRANSACTION, 'ROLLBACK');
+        } elseif ($this->_transactionLevel === 0) {
+            throw new Exception('Asymmetric transaction rollback.');
         }
         --$this->_transactionLevel;
         return $this;

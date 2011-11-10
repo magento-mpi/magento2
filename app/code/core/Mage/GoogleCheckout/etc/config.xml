@@ -94,8 +94,8 @@
         </routers>
         <layout>
             <updates>
-                <googlecheckout>
-                    <file>googlecheckout.xml</file>
+                <googlecheckout module="Mage_GoogleCheckout">
+                    <file>layout.xml</file>
                 </googlecheckout>
             </updates>
         </layout>

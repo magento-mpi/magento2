@@ -134,19 +134,10 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
      */
     public function preDispatch()
     {
-        // override admin store design settings via stores section
-        Mage::getDesign()
-            ->setArea($this->_currentArea)
-            ->setPackageName((string)Mage::getConfig()->getNode('stores/admin/design/package/name'))
-            ->setTheme((string)Mage::getConfig()->getNode('stores/admin/design/theme/default'))
-        ;
-        foreach (array('layout', 'template', 'skin', 'locale') as $type) {
-            if ($value = (string)Mage::getConfig()->getNode("stores/admin/design/theme/{$type}")) {
-                Mage::getDesign()->setTheme($type, $value);
-            }
-        }
-
         $this->getLayout()->setArea($this->_currentArea);
+        $this->_areaDesign = (string)Mage::getConfig()->getNode(
+            $this->_currentArea . '/' . Mage_Core_Model_Design_Package::XML_PATH_THEME
+        ) ?: 'default/default/default'; // always override frontend theme
 
         Mage::dispatchEvent('adminhtml_controller_action_predispatch_start', array());
         parent::preDispatch();

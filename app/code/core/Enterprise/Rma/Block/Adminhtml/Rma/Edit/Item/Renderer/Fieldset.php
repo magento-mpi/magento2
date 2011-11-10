@@ -37,6 +37,6 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Renderer_Fieldset
 {
     protected function _construct()
     {
-        $this->setTemplate('enterprise/rma/edit/item/renderer/fieldset.phtml');
+        $this->setTemplate('edit/item/renderer/fieldset.phtml');
     }
 }

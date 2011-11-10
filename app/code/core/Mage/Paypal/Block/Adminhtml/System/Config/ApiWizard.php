@@ -36,7 +36,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_ApiWizard extends Mage_Adminhtml
     {
         parent::_prepareLayout();
         if (!$this->getTemplate()) {
-            $this->setTemplate('paypal/system/config/api_wizard.phtml');
+            $this->setTemplate('system/config/api_wizard.phtml');
         }
         return $this;
     }

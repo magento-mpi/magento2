@@ -245,4 +245,4 @@ varienTabs.prototype = {
             varienGlobalEvents.fireEvent('hideTab', {tab:tab});
         }
     }
-}
+};

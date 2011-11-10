@@ -184,7 +184,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Core_Block_Template
                 $this->_availableMode = array('list' => $this->__('List'), 'grid' => $this->__('Grid'));
                 break;
         }
-        $this->setTemplate('catalog/product/list/toolbar.phtml');
+        $this->setTemplate('product/list/toolbar.phtml');
     }
 
     /**

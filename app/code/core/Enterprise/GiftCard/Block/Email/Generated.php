@@ -32,6 +32,6 @@ class Enterprise_GiftCard_Block_Email_Generated extends Mage_Core_Block_Template
 {
     protected function _construct()
     {
-        $this->setTemplate('giftcard/email/generated.phtml');
+        $this->setTemplate('Enterprise_GiftCard::email/generated.phtml');
     }
 }

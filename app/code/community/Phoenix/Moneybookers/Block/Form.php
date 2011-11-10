@@ -39,7 +39,7 @@ class Phoenix_Moneybookers_Block_Form extends Mage_Payment_Block_Form
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('moneybookers/form.phtml');
+        $this->setTemplate('form.phtml');
     }
 
     /**
@@ -53,16 +53,17 @@ class Phoenix_Moneybookers_Block_Form extends Mage_Payment_Block_Form
         if ($payment == 'moneybookers_obt') {
             $payment .= '_'.$this->getInfoLocale();
         }
-    
-        $imageFilename = Mage::getDesign()
-            ->getFilename('images' . DS . 'moneybookers' . DS . $payment, array('_type' => 'skin'));
 
-        if (file_exists($imageFilename . '.png')) {
-            return $this->getSkinUrl('images/moneybookers/' . $payment . '.png');
-        } else if (file_exists($imageFilename . '.gif')) {
-            return $this->getSkinUrl('images/moneybookers/' . $payment . '.gif');
+        $design = Mage::getDesign();
+        $images = array(
+            'Phoenix_Moneybookers::images/' . $payment . '.png',
+            'Phoenix_Moneybookers::images/' . $payment . '.gif'
+        );
+        foreach ($images as $image) {
+            if (file_exists($design->getSkinFile($image))) {
+                return $design->getSkinUrl($image);
+            }
         }
-
         return false;
     }
 

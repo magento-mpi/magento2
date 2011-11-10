@@ -28,13 +28,6 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->_block = new Mage_Core_Block_AbstractTestAbstract;
     }
 
-    public function testConstruct()
-    {
-        $data = array('test' => 'test');
-        $block = new Mage_Core_Block_AbstractTestAbstract($data);
-        $this->assertEquals($data, $block->getData());
-    }
-
     public function testGetRequest()
     {
         $this->assertInstanceOf('Mage_Core_Controller_Request_Http', $this->_block->getRequest());
@@ -363,9 +356,19 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testGetSkinUrl()
     {
-        //$this->assertStringStartsWith('http://localhost/pub/skin/frontend/', $this->_block->getSkinUrl());
-        $this->assertStringStartsWith('http://localhost/skin/frontend/', $this->_block->getSkinUrl());
+        $this->assertStringStartsWith('http://localhost/media/skin/frontend/', $this->_block->getSkinUrl());
         $this->assertStringEndsWith('css/styles.css', $this->_block->getSkinUrl('css/styles.css'));
+    }
+
+    public function testGetStaticLibUrl()
+    {
+        $this->markTestIncomplete('Should be fixed when static when we have static folder jslib implemented');
+        $this->assertEquals('http://localhost/pub/jslib/', $this->_block->getStaticLibUrl());
+        $this->assertEquals('http://localhost/pub/jslib/file.js', $this->_block->getStaticLibUrl('file.js'));
+        $this->assertEquals(
+            'http://localhost/pub/jslib/media/file.ext',
+            $this->_block->getStaticLibUrl('media/file.ext')
+        );
     }
 
     public function testGetSetMessagesBlock()
@@ -450,8 +453,8 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testJsQuoteEscape()
     {
-        $jsVar = "var s = 'text';";
-        $this->assertEquals('var s = \\\'text\\\';', $this->_block->jsQuoteEscape($jsVar));
+        $script = "var s = 'text';";
+        $this->assertEquals('var s = \\\'text\\\';', $this->_block->jsQuoteEscape($script));
     }
 
     public function testCountChildren()
@@ -502,6 +505,22 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertNull($this->_block->getCacheLifetime());
         $this->_block->setCacheLifetime(1800);
         $this->assertEquals(1800, $this->_block->getCacheLifetime());
+    }
+
+    /**
+     * App isolation is enabled, because config options object is affected
+     *
+     * @magentoAppIsolation enabled
+     */
+    public function testGetVar()
+    {
+        Mage::getConfig()->getOptions()->setDesignDir(dirname(__DIR__) . '/Model/_files/design');
+        Mage::getDesign()->setDesignTheme('test/default/default');
+        $this->assertEquals('Core Value1', $this->_block->getVar('var1'));
+        $this->assertEquals('value1', $this->_block->getVar('var1', 'Namespace_Module'));
+        $this->_block->setModuleName('Namespace_Module');
+        $this->assertEquals('value1', $this->_block->getVar('var1'));
+        $this->assertEquals(false, $this->_block->getVar('unknown_var'));
     }
 
     /**

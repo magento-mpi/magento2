@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
         parent::__construct();
         $this->setFilterVisibility(false);
         $this->setPagerVisibility(false);
-        $this->setTemplate('report/grid.phtml');
+        $this->setTemplate('Mage_Adminhtml::report/grid.phtml');
         $this->setUseAjax(false);
         $this->setCountTotals(true);
     }

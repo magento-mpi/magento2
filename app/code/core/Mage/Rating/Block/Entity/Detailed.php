@@ -36,7 +36,7 @@ class Mage_Rating_Block_Entity_Detailed extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('rating/detailed.phtml');
+        $this->setTemplate('detailed.phtml');
     }
 
     protected function _toHtml()
@@ -50,7 +50,7 @@ class Mage_Rating_Block_Entity_Detailed extends Mage_Core_Block_Template
             ->getTotalReviews($entityId, true);
         if ($reviewsCount == 0) {
             #return Mage::helper('rating')->__('Be the first to review this product');
-            $this->setTemplate('rating/empty.phtml');
+            $this->setTemplate('empty.phtml');
             return parent::_toHtml();
         }
 

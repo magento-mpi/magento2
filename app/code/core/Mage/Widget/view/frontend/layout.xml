@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_Widget
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+
+    <default>
+        <reference name="head">
+            <action method="addCss"><stylesheet>Mage_Widget::widgets.css</stylesheet></action>
+        </reference>
+    </default>
+
+    <print>
+        <reference name="head">
+            <action method="addCss"><stylesheet>Mage_Widget::widgets.css</stylesheet></action>
+        </reference>
+    </print>
+
+</layout>

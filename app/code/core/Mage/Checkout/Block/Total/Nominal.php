@@ -36,7 +36,7 @@ class Mage_Checkout_Block_Total_Nominal extends Mage_Checkout_Block_Total_Defaul
      *
      * @var string
      */
-    protected $_template = 'checkout/total/nominal.phtml';
+    protected $_template = 'total/nominal.phtml';
 
     /**
      * Getter for a quote item name

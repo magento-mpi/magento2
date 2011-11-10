@@ -32,7 +32,7 @@
 
 class Mage_Tax_Block_Checkout_Shipping extends Mage_Checkout_Block_Total_Default
 {
-    protected $_template = 'tax/checkout/shipping.phtml';
+    protected $_template = 'checkout/shipping.phtml';
 
     /**
      * Check if we need display shipping include and exlude tax

@@ -98,8 +98,8 @@
         </translate>
         <layout>
             <updates>
-                <googleoptimizer>
-                    <file>googleoptimizer.xml</file>
+                <googleoptimizer module="Mage_GoogleOptimizer">
+                    <file>layout.xml</file>
                 </googleoptimizer>
             </updates>
         </layout>
@@ -248,8 +248,8 @@
         </events>
         <layout>
             <updates>
-                <googleoptimizer>
-                    <file>googleoptimizer.xml</file>
+                <googleoptimizer module="Mage_GoogleOptimizer">
+                    <file>layout.xml</file>
                 </googleoptimizer>
             </updates>
         </layout>

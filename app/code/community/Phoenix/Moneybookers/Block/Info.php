@@ -25,7 +25,7 @@ class Phoenix_Moneybookers_Block_Info extends Mage_Payment_Block_Info
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('moneybookers/info.phtml');
+        $this->setTemplate('info.phtml');
     }
 
     /**
@@ -45,7 +45,7 @@ class Phoenix_Moneybookers_Block_Info extends Mage_Payment_Block_Info
      */
     public function toPdf()
     {
-        $this->setTemplate('moneybookers/pdf/info.phtml');
+        $this->setTemplate('pdf/info.phtml');
         return $this->toHtml();
     }
 }

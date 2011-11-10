@@ -41,7 +41,7 @@ class Mage_Rss_Block_Catalog_Abstract extends Mage_Rss_Block_Abstract
      * Default values for price block and template
      * @var string
      */
-    protected $_priceBlockDefaultTemplate = 'catalog/rss/product/price.phtml';
+    protected $_priceBlockDefaultTemplate = 'rss/product/price.phtml';
     protected $_priceBlockDefaultType = 'catalog/product_price';
 
     /**

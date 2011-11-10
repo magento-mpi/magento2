@@ -80,7 +80,7 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
         parent::_construct();
         $this->setData('show_amounts', true);
         $this->setData('use_container', true);
-        $this->setTemplate('page/html/pager.phtml');
+        $this->setTemplate('Mage_Page::html/pager.phtml');
     }
 
     public function getCurrentPage()

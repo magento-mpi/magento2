@@ -398,4 +398,4 @@ WysiwygWidget.chooser.prototype = {
     setElementLabel: function(value) {
         this.getElementLabel().innerHTML = value;
     }
-}
+};

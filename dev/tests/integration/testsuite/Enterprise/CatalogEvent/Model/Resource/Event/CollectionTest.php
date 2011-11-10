@@ -75,7 +75,9 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
                 'index' => 2,
                 'data' => array(
                     'category_id'   => 2,
-                    'display_state' => 3/*Enterprise_CatalogEvent_Model_Event::DISPLAY_*_PAGE*/,
+                    'display_state' => 3,
+                    /*Enterprise_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE,
+                        Enterprise_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE*/
                     'sort_order'    => 10,
                     'status'        => 'upcoming'/*Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING*/,
                 ),

@@ -278,28 +278,16 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
             }
         }
         if (!$file) {
+            $this->_isBaseFilePlaceholder = true;
             // check if placeholder defined in config
             $isConfigPlaceholder = Mage::getStoreConfig("catalog/placeholder/{$this->getDestinationSubdir()}_placeholder");
             $configPlaceholder   = '/placeholder/' . $isConfigPlaceholder;
             if ($isConfigPlaceholder && $this->_fileExists($baseDir . $configPlaceholder)) {
                 $file = $configPlaceholder;
+            } else {
+                $this->_newFile = true;
+                return $this;
             }
-            else {
-                // replace file with skin or default skin placeholder
-                $skinBaseDir     = Mage::getDesign()->getSkinBaseDir();
-                $skinPlaceholder = "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg";
-                $file = $skinPlaceholder;
-                if (file_exists($skinBaseDir . $file)) {
-                    $baseDir = $skinBaseDir;
-                }
-                else {
-                    $baseDir = Mage::getDesign()->getSkinBaseDir(array('_theme' => 'default'));
-                    if (!file_exists($baseDir . $file)) {
-                        $baseDir = Mage::getDesign()->getSkinBaseDir(array('_theme' => 'default', '_package' => 'base'));
-                    }
-                }
-            }
-            $this->_isBaseFilePlaceholder = true;
         }
 
         $baseFile = $baseDir . $file;
@@ -480,6 +468,9 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
      */
     public function saveFile()
     {
+        if ($this->_isBaseFilePlaceholder) {
+            return $this;
+        }
         $filename = $this->getNewFile();
         $this->getImageProcessor()->save($filename);
         Mage::helper('core/file_storage_database')->saveFile($filename);
@@ -491,9 +482,17 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
      */
     public function getUrl()
     {
-        $baseDir = Mage::getBaseDir('media');
-        $path = str_replace($baseDir . DS, "", $this->_newFile);
-        return Mage::getBaseUrl('media') . str_replace(DS, '/', $path);
+        if ($this->_newFile === true) {
+            $url = Mage::getDesign()->getSkinUrl(
+                "Mage_Catalog::images/product/placeholder/{$this->getDestinationSubdir()}.jpg"
+            );
+        } else {
+            $baseDir = Mage::getBaseDir('media');
+            $path = str_replace($baseDir . DS, "", $this->_newFile);
+            $url = Mage::getBaseUrl('media') . str_replace(DS, '/', $path);;
+        }
+
+        return $url;
     }
 
     public function push()
@@ -571,9 +570,9 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         } elseif ( $this->_fileExists($baseDir . '/watermark/' . $file) ) {
             $filePath = $baseDir . '/watermark/' . $file;
         } else {
-            $baseDir = Mage::getDesign()->getSkinBaseDir();
-            if( $this->_fileExists($baseDir . $file) ) {
-                $filePath = $baseDir . $file;
+            $skinFile = Mage::getDesign()->getSkinFile($file);
+            if (file_exists($skinFile)) {
+                $filePath = $skinFile;
             }
         }
 

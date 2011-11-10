@@ -39,7 +39,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Form_Renderer_Import
      */
     public function __construct()
     {
-        $this->setTemplate('googleoptimizer/catalog/form/renderer/import.phtml');
+        $this->setTemplate('catalog/form/renderer/import.phtml');
     }
 
     /**

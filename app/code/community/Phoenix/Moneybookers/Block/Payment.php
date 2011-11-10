@@ -27,13 +27,11 @@ class Phoenix_Moneybookers_Block_Payment extends Mage_Core_Block_Template
     public function getMoneybookersLogoSrc()
     {
         $locale = Mage::getModel('moneybookers/acc')->getLocale();
-        $logoFilename = Mage::getDesign()
-            ->getFilename('images' . DS . 'moneybookers' . DS . 'banner_120_' . $locale . '.gif', array('_type' => 'skin'));
-
-        if (file_exists($logoFilename)) {
-            return $this->getSkinUrl('images/moneybookers/banner_120_'.$locale.'.gif');
+        $file = "Phoenix_Moneybookers::images/banner_120_{$locale}.png";
+        if (file_exists(Mage::getDesign()->getSkinFile($file))) {
+            return Mage::getDesign()->getSkinUrl($file);
         }
 
-        return $this->getSkinUrl('images/moneybookers/banner_120_int.gif');
+        return $this->getSkinUrl('Phoenix_Moneybookers::images/banner_120_int.gif');
     }
 }

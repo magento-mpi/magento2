@@ -169,10 +169,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
      */
     public function getBackUrl()
     {
+        $page = Mage::registry('cms_page');
         return $this->getUrl('*/cms_page_version/edit',
              array(
-                'page_id' => Mage::registry('cms_page')->getPageId(),
-                'version_id' => Mage::registry('cms_page')->getVersionId()
+                'page_id' => $page ? $page->getPageId() : null,
+                'version_id' => $page ? $page->getVersionId() : null
              ));
     }
 

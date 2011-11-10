@@ -53,6 +53,10 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
         $this->_removeButton('reset');
         $this->_removeButton('delete');
 
+        if (!$this->getInvoice()) {
+            return;
+        }
+
         if ($this->_isAllowedAction('cancel') && $this->getInvoice()->canCancel()) {
             $this->_addButton('cancel', array(
                 'label'     => Mage::helper('sales')->__('Cancel'),
@@ -141,7 +145,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
         return $this->getUrl(
             '*/sales_order/view',
             array(
-                'order_id'  => $this->getInvoice()->getOrderId(),
+                'order_id'  => $this->getInvoice() ? $this->getInvoice()->getOrderId() : null,
                 'active_tab'=> 'order_invoices'
             ));
     }

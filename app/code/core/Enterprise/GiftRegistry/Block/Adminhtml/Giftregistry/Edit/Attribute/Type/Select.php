@@ -30,7 +30,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_S
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('enterprise/giftregistry/edit/type/select.phtml');
+        $this->setTemplate('edit/type/select.phtml');
     }
 
     /**

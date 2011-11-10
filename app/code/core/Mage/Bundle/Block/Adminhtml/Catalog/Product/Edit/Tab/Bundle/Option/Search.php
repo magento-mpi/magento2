@@ -37,7 +37,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search 
     protected function _construct()
     {
         $this->setId('bundle_option_selection_search');
-        $this->setTemplate('bundle/product/edit/bundle/option/search.phtml');
+        $this->setTemplate('product/edit/bundle/option/search.phtml');
     }
 
     public function getHeaderText()

@@ -83,8 +83,8 @@
         </translate>
         <layout>
             <updates>
-                <paypaluk>
-                    <file>paypaluk.xml</file>
+                <paypaluk module="Mage_PaypalUk">
+                    <file>layout.xml</file>
                 </paypaluk>
             </updates>
         </layout>

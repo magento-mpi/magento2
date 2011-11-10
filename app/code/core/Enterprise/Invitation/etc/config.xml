@@ -62,7 +62,7 @@
             <email>
                 <enterprise_invitation_email_template translate="label" module="enterprise_invitation">
                     <label>Customer Invitation</label>
-                    <file>enterprise/invitation.html</file>
+                    <file>email/invitation.html</file>
                     <type>html</type>
                 </enterprise_invitation_email_template>
             </email>
@@ -83,7 +83,7 @@
         <layout>
             <updates>
                 <enterprise_invitation module="Enterprise_Invitation">
-                    <file>enterprise/invitation.xml</file>
+                    <file>layout.xml</file>
                 </enterprise_invitation>
             </updates>
         </layout>
@@ -110,8 +110,8 @@
         </enterprise>
         <layout>
             <updates>
-                <enterprise_invitation>
-                    <file>invitation.xml</file>
+                <enterprise_invitation module="Enterprise_Invitation">
+                    <file>layout.xml</file>
                 </enterprise_invitation>
             </updates>
         </layout>

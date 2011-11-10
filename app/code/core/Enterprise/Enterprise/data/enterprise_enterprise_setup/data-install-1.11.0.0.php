@@ -58,12 +58,12 @@ if ($page) {
 
     $content = '<div class="col2-set">
 <div class="col-1">
-{{widget type="cms/widget_block" template="cms/widget/static_block/default.phtml" block_id="' . $createdBlocks['flaunt_yourself'] . '"}}
+{{widget type="cms/widget_block" template="Mage_Cms::widget/static_block/default.phtml" block_id="' . $createdBlocks['flaunt_yourself'] . '"}}
 </div>
 <div class="col-2">
-{{widget type="cms/widget_block" template="cms/widget/static_block/default.phtml" block_id="' . $createdBlocks['link_privatesales'] . '"}}
-{{widget type="cms/widget_block" template="cms/widget/static_block/default.phtml" block_id="' . $createdBlocks['link_giftcards'] . '"}}
-{{widget type="cms/widget_block" template="cms/widget/static_block/default.phtml" block_id="' . $createdBlocks['link_apparel_women_handbags'] . '"}}
+{{widget type="cms/widget_block" template="Mage_Cms::widget/static_block/default.phtml" block_id="' . $createdBlocks['link_privatesales'] . '"}}
+{{widget type="cms/widget_block" template="Mage_Cms::widget/static_block/default.phtml" block_id="' . $createdBlocks['link_giftcards'] . '"}}
+{{widget type="cms/widget_block" template="Mage_Cms::widget/static_block/default.phtml" block_id="' . $createdBlocks['link_apparel_women_handbags'] . '"}}
 </div>
 </div>
     ' . "\n\n\n\n<div style=\"display:none\"><!-- your previous content backup comes below -->\n\n\n " . $page['content'] . "\n\n\n</div>";

@@ -37,12 +37,6 @@ class Mage_Adminhtml_Block_Dashboard_Bar extends Mage_Adminhtml_Block_Dashboard_
     protected $_totals = array();
     protected $_currentCurrencyCode = null;
 
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('dashboard/bar.phtml');
-    }
-
     protected function getTotals()
     {
         return $this->_totals;

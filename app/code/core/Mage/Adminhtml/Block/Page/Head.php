@@ -34,6 +34,14 @@
 class Mage_Adminhtml_Block_Page_Head extends Mage_Page_Block_Html_Head
 {
     /**
+     * Initialize template
+     *
+     */
+    protected function _construct()
+    {
+        $this->setTemplate('page/head.phtml');
+    }
+    /**
      * Enter description here...
      *
      * @return string

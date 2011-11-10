@@ -35,7 +35,7 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Bundle extends Mage_Bun
 {
     /**
      * Add item to XML object
-     * (get from template: bundle/sales/order/items/renderer.phtml)
+     * (get from template: Mage_Bundle::sales/order/items/renderer.phtml)
      *
      * @param Mage_XmlConnect_Model_Simplexml_Element $orderItemXmlObj
      * @return null

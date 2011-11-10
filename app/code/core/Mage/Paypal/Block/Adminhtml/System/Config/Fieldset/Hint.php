@@ -33,7 +33,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
     extends Mage_Adminhtml_Block_Abstract
     implements Varien_Data_Form_Element_Renderer_Interface
 {
-    protected $_template = 'paypal/system/config/fieldset/hint.phtml';
+    protected $_template = 'Mage_Paypal::system/config/fieldset/hint.phtml';
 
     /**
      * Render fieldset html

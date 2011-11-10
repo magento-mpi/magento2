@@ -32,7 +32,7 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('paygate/form/cc.phtml');
+        $this->setTemplate('Mage_Paygate::form/cc.phtml');
     }
 
     /**

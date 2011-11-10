@@ -266,10 +266,8 @@ class Enterprise_PageCache_Model_Processor
         $designChange = $cacheInstance->load($this->getRequestCacheId() . self::DESIGN_CHANGE_CACHE_SUFFIX);
         if ($designChange) {
             $designChange = unserialize($designChange);
-            if (is_array($designChange) && isset($designChange['package']) && isset($designChange['theme'])) {
-                $designPackage = Mage::getSingleton('core/design_package');
-                $designPackage->setPackageName($designChange['package'])
-                    ->setTheme($designChange['theme']);
+            if (is_array($designChange) && isset($designChange['design'])) {
+                Mage::getDesign()->setDesignTheme($designChange['design']);
             }
         }
 

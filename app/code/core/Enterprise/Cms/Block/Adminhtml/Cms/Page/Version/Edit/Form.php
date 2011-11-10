@@ -41,7 +41,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mage_Adm
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('enterprise/cms/page/version/form.phtml');
+        $this->setTemplate('page/version/form.phtml');
     }
 
     /**

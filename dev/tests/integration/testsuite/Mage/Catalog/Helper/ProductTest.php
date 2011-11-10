@@ -54,7 +54,7 @@ class Mage_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     public function testGetImageUrl()
     {
         $product = new Mage_Catalog_Model_Product;
-        $this->assertStringEndsWith('images/no_image.jpg', $this->_helper->getImageUrl($product));
+        $this->assertStringEndsWith('placeholder/image.jpg', $this->_helper->getImageUrl($product));
 
         $product->setImage('test_image.png');
         $this->assertStringEndsWith('/test_image.png', $this->_helper->getImageUrl($product));
@@ -63,7 +63,7 @@ class Mage_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     public function testGetSmallImageUrl()
     {
         $product = new Mage_Catalog_Model_Product;
-        $this->assertStringEndsWith('images/no_image.jpg', $this->_helper->getSmallImageUrl($product));
+        $this->assertStringEndsWith('placeholder/small_image.jpg', $this->_helper->getSmallImageUrl($product));
 
         $product->setSmallImage('test_image.png');
         $this->assertStringEndsWith('/test_image.png', $this->_helper->getSmallImageUrl($product));

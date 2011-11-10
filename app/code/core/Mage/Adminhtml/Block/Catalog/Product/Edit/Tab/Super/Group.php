@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
         $this->setDefaultSort('entity_id');
         $this->setSkipGenerateContent(true);
         $this->setUseAjax(true);
-        if ($this->_getProduct()->getId()) {
+        if ($this->_getProduct() && $this->_getProduct()->getId()) {
             $this->setDefaultFilter(array('in_products'=>1));
         }
     }

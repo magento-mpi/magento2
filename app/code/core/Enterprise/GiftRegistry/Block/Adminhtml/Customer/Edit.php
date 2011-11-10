@@ -70,7 +70,10 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit
      */
     public function getBackUrl()
     {
-        $customerId = Mage::registry('current_giftregistry_entity')->getCustomerId();
+        $customerId = null;
+        if (Mage::registry('current_giftregistry_entity')) {
+            $customerId = Mage::registry('current_giftregistry_entity')->getCustomerId();
+        }
         return $this->getUrl('*/customer/edit', array('id' => $customerId, 'active_tab' => 'giftregistry'));
     }
 }

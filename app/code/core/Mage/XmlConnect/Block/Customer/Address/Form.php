@@ -374,7 +374,7 @@ class Mage_XmlConnect_Block_Customer_Address_Form extends Mage_Customer_Block_Ad
             $addressAttrBlock->setEntity($this->getAddress());
 
             foreach ($this->_customerFiledRenderer as $type => $rendererBlock) {
-                $addressAttrBlock->addRenderer($type, $rendererBlock, 'customer/form/renderer/text.phtml');
+                $addressAttrBlock->addRenderer($type, $rendererBlock, 'form/renderer/text.phtml');
             }
 
             if ($addressAttrBlock->hasUserDefinedAttributes()) {

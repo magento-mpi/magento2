@@ -48,7 +48,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('downloadable/product/edit/downloadable/links.phtml');
+        $this->setTemplate('product/edit/downloadable/links.phtml');
         $this->setCanEditPrice(true);
         $this->setCanReadPrice(true);
     }

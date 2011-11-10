@@ -32,7 +32,7 @@
  */
 class Mage_Checkout_Block_Total_Default extends Mage_Checkout_Block_Cart_Totals
 {
-    protected $_template = 'checkout/total/default.phtml';
+    protected $_template = 'Mage_Checkout::total/default.phtml';
     protected $_store;
 
     protected function _construct()

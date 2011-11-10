@@ -83,8 +83,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         } else {
             $data['username'] = null;
         }
-
-        $this->_outTemplate('login', $data);
+        $this->_outTemplate('admin/login', $data);
     }
 
     /**
@@ -158,14 +157,6 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
             ->assign('items', $items);
 
         $this->getResponse()->setBody($block->toHtml());
-    }
-
-    /**
-     * Example action
-     */
-    public function exampleAction()
-    {
-        $this->_outTemplate('example');
     }
 
     /**
@@ -267,7 +258,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         $data = array(
             'email' => $email
         );
-        $this->_outTemplate('forgotpassword', $data);
+        $this->_outTemplate('admin/forgotpassword', $data);
     }
 
     /**

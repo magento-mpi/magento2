@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
      */
     protected function _getTagId()
     {
-        return $this->_currentTagModel->getId();
+        return $this->_currentTagModel ? $this->_currentTagModel->getId() : null;
     }
 
     /**

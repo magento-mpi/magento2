@@ -58,6 +58,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New extends Mage_Adminhtml_Block_Widget
                     )
                 );
             }
+        } else {
+            return;
         }
 
         if (Mage::helper('enterprise_rma')->canCreateRma($orderId, true)) {

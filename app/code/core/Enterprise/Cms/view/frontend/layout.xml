@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Cms
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addCss"><stylesheet>Enterprise_Cms::widgets.css</stylesheet></action>
+        </reference>
+    </default>
+    <print>
+        <reference name="head">
+            <action method="addCss"><stylesheet>Enterprise_Cms::widgets.css</stylesheet></action>
+        </reference>
+    </print>
+</layout>

@@ -38,7 +38,7 @@ class Mage_Customer_Block_Newsletter extends Mage_Customer_Block_Account_Dashboa
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('customer/form/newsletter.phtml');
+        $this->setTemplate('form/newsletter.phtml');
     }
 
     public function getIsSubscribed()

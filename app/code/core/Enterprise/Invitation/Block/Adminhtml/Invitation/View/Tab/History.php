@@ -36,7 +36,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_History
 {
     protected function _construct()
     {
-        $this->setTemplate('enterprise/invitation/view/tab/history.phtml');
+        $this->setTemplate('view/tab/history.phtml');
     }
 
     public function getTabLabel()

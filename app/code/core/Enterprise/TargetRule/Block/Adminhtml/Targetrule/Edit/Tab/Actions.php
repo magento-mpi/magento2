@@ -52,7 +52,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions extends 
             'form'  => $fieldset->getHtmlId()
         ));
         $renderer   = Mage::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
-            ->setTemplate('enterprise/targetrule/edit/conditions/fieldset.phtml')
+            ->setTemplate('Enterprise_TargetRule::edit/conditions/fieldset.phtml')
             ->setNewChildUrl($newCondUrl);
         $fieldset->setRenderer($renderer);
 

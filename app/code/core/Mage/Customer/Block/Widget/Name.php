@@ -31,7 +31,7 @@ class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstrac
         parent::_construct();
 
         // default template location
-        $this->setTemplate('customer/widget/name.phtml');
+        $this->setTemplate('widget/name.phtml');
     }
 
     /**

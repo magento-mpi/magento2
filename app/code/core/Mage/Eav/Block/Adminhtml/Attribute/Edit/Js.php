@@ -36,6 +36,6 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Js extends Mage_Adminhtml_Block_Te
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('eav/attribute/edit/js.phtml');
+        $this->setTemplate('attribute/edit/js.phtml');
     }
 }

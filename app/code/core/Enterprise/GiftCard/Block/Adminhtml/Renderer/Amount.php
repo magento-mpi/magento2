@@ -33,7 +33,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
 
     public function __construct()
     {
-        $this->setTemplate('enterprise/giftcard/renderer/amount.phtml');
+        $this->setTemplate('renderer/amount.phtml');
     }
 
     public function getProduct()

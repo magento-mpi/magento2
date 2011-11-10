@@ -144,11 +144,11 @@ final class Mage
     public static function getVersionInfo()
     {
         return array(
-            'major'     => '1',
-            'minor'     => '4',
-            'revision'  => '2',
+            'major'     => '2',
+            'minor'     => '0',
+            'revision'  => '0',
             'patch'     => '0',
-            'stability' => 'rc',
+            'stability' => 'dev',
             'number'    => '1',
         );
     }

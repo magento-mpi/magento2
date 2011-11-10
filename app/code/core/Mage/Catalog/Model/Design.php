@@ -71,32 +71,14 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Apply package and theme
-     *
-     * @param string $package
-     * @param string $theme
-     */
-    protected function _apply($package, $theme)
-    {
-        Mage::getSingleton('core/design_package')
-            ->setPackageName($package)
-            ->setTheme($theme);
-    }
-
-    /**
      * Apply custom design
      *
      * @param string $design
      */
     public function applyCustomDesign($design)
     {
-        $designInfo = explode('/', $design);
-        if (count($designInfo) != 2) {
-            return false;
-        }
-        $package = $designInfo[0];
-        $theme   = $designInfo[1];
-        $this->_apply($package, $theme);
+        Mage::getDesign()->setDesignTheme($design);
+        return $this;
     }
 
     /**

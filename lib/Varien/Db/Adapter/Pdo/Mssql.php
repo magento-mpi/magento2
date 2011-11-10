@@ -386,6 +386,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $this->_debugTimer();
             parent::commit();
             $this->_debugStat(self::DEBUG_TRANSACTION, 'COMMIT');
+        } elseif ($this->_transactionLevel === 0) {
+            throw new Exception('Asymmetric transaction commit.');
         }
         --$this->_transactionLevel;
 
@@ -427,6 +429,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 throw $e;
             }
             $this->_debugStat(self::DEBUG_TRANSACTION, 'ROLLBACK');
+        } elseif ($this->_transactionLevel === 0) {
+            throw new Exception('Asymmetric transaction rollback.');
         }
         --$this->_transactionLevel;
 

@@ -38,7 +38,7 @@ class Mage_Install_Block_Begin extends Mage_Install_Block_Abstract
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('install/begin.phtml');
+        $this->setTemplate('begin.phtml');
     }
 
     /**

@@ -30,7 +30,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('enterprise/giftcardaccount/edit/tab/info.phtml');
+        $this->setTemplate('edit/tab/info.phtml');
     }
 
     public function initForm()

@@ -40,7 +40,7 @@
                 <values>
                     <default_template translate="label">
                         <label>Default Template</label>
-                        <value>sales/widget/guest/form.phtml</value>
+                        <value>widget/guest/form.phtml</value>
                     </default_template>
                 </values>
             </template>

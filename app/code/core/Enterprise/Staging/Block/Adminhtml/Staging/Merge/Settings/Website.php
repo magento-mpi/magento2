@@ -35,7 +35,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Merge_Settings_Website extends 
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('enterprise/staging/staging/merge/settings/website.phtml');
+        $this->setTemplate('staging/merge/settings/website.phtml');
         $this->setId('staging_website_mapper');
         $this->setUseAjax(true);
         $this->setRowInitCallback($this->getJsObjectName().'.stagingWebsiteMapperRowInit');

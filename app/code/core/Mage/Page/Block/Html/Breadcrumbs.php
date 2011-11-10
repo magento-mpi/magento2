@@ -53,7 +53,7 @@ class Mage_Page_Block_Html_Breadcrumbs extends Mage_Core_Block_Template
     function __construct()
     {
         parent::__construct();
-        $this->setTemplate('page/html/breadcrumbs.phtml');
+        $this->setTemplate('html/breadcrumbs.phtml');
     }
 
     function addCrumb($crumbName, $crumbInfo, $after = false)

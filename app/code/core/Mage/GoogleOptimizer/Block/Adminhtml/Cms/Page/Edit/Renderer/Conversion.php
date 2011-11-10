@@ -35,7 +35,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Renderer_Conversion ext
 {
     public function __construct()
     {
-        $this->setTemplate('googleoptimizer/cms/edit/renderer/conversion.phtml');
+        $this->setTemplate('cms/edit/renderer/conversion.phtml');
     }
 
     public function render(Varien_Data_Form_Element_Abstract $element)

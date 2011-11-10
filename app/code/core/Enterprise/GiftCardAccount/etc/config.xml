@@ -276,8 +276,8 @@
         <template>
             <email>
                 <giftcard_giftcardaccount_email_template translate="label" module="enterprise_giftcardaccount">
-                    <label>Gift Card Account Sent From Edit Page</label>
-                    <file>enterprise/giftcardaccount.html</file>
+                    <label>Gift Card Code/Balance</label>
+                    <file>email/card_information.html</file>
                     <type>html</type>
                 </giftcard_giftcardaccount_email_template>
             </email>
@@ -317,7 +317,7 @@
         <layout>
             <updates>
                 <enterprise_giftcardaccount module="Enterprise_GiftCardAccount">
-                    <file>giftcardaccount.xml</file>
+                    <file>layout.xml</file>
                 </enterprise_giftcardaccount>
             </updates>
         </layout>
@@ -346,8 +346,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_giftcardaccount>
-                    <file>enterprise/giftcardaccount.xml</file>
+                <enterprise_giftcardaccount module="Enterprise_GiftCardAccount">
+                    <file>layout.xml</file>
                 </enterprise_giftcardaccount>
             </updates>
         </layout>

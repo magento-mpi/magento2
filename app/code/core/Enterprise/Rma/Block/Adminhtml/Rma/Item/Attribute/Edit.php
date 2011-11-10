@@ -69,7 +69,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit
 
         $this->_updateButton('save', 'label', Mage::helper('enterprise_rma')->__('Save Attribute'));
 
-        if (!$this->_getAttribute()->getIsUserDefined()) {
+        if (!$this->_getAttribute() || !$this->_getAttribute()->getIsUserDefined()) {
             $this->_removeButton('delete');
         } else {
             $this->_updateButton('delete', 'label', Mage::helper('enterprise_rma')->__('Delete Attribute'));

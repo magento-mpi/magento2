@@ -39,7 +39,7 @@ class Mage_Sales_Block_Order_Info extends Mage_Core_Block_Template
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('sales/order/info.phtml');
+        $this->setTemplate('order/info.phtml');
     }
 
     protected function _prepareLayout()

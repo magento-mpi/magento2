@@ -58,7 +58,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit extends Mage_Adminhtml_Bloc
     public function getFormInitScripts()
     {
         return $this->getLayout()->createBlock('core/template')
-            ->setTemplate('googleshopping/types/edit.phtml')
+            ->setTemplate('Mage_GoogleShopping::types/edit.phtml')
             ->toHtml();
     }
 

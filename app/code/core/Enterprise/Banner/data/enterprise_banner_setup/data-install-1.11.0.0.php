@@ -45,7 +45,7 @@ foreach ($banners as $sortOrder => $bannerData) {
                     'for'           => 'all',
                     'layout_handle' => 'cms_index_index',
                     'block'         => $bannerData[0],
-                    'template'      => 'banner/widget/block.phtml'
+                    'template'      => 'widget/block.phtml'
             ))
         ))
         ->setData('store_ids', '0')
