@@ -155,6 +155,12 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testCreateBlockNotExists()
+    {
+        $this->assertFalse($this->_model->createBlock(''));
+        $this->assertFalse($this->_model->createBlock('block_not_exists'));
+    }
+
     /**
      * @covers Mage_Core_Model_Layout::addBlock
      * @covers Mage_Core_Model_Layout::addOutputBlock

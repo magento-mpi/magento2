@@ -63,7 +63,10 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('Task MAGETWO-586');
         }
 
-        $this->assertTrue(class_exists($className), 'Class ' . $className . ' does not exist');
+        $this->assertTrue(
+            Magento_Autoload::getInstance()->classExists($className),
+            'Class ' . $className . ' does not exist'
+        );
     }
 
     /**
@@ -216,9 +219,6 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         }
 
         $modules = $this->_getFuncStringArguments('Mage::getResourceHelper', $content);
-        if (!$modules) {
-            return array();
-        }
 
         $result = array();
         $dbSuffixes = array('Mysql4', 'Mssql', 'Oracle');
@@ -273,14 +273,10 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
         $result = array();
         $modules = $this->_getFuncStringArguments('helper', $content);
-        if ($modules) {
-            $result = array_merge($result, $modules);
-        }
+        $result = array_merge($result, $modules);
 
         $modules = $this->_getFuncStringArguments('setDataHelperName', $content);
-        if ($modules) {
-            $result = array_merge($result, $modules);
-        }
+        $result = array_merge($result, $modules);
 
         $combine = array();
         $matched = preg_match_all('/addProductConfigurationHelper\(.*,[\'"](.*)[\'"]\)/', $content, $matches);
@@ -477,8 +473,8 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             return array();
         }
 
-        $mathods = "addBlock|createBlock|getBlockClassName|getBlockSingleton";
-        if (preg_match_all("/(?:" . $mathods . ")\(['\"]([a-zA-Z0-9_\/]+)['\"][\),]/", $content, $matches)) {
+        $methods = "addBlock|createBlock|getBlockClassName|getBlockSingleton";
+        if (preg_match_all("/(?:" . $methods . ")\(['\"]([a-zA-Z0-9_\/]+)['\"][\),]/", $content, $matches)) {
             return array_unique($matches[1]);
         }
 
@@ -612,6 +608,11 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             array ("->setSourceModel",      "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?['\"](.*\\))/Ui" ),
             array ("->setModel",            "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
             array ("->setModel",            "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?['\"](.*\\))/Ui" ),
+            /** setType function could be used as test for manual checking,
+             * but globally function is used for different variables setting
+             */
+            // array ("->setType",            "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?[\"'](\\))/Ui" ),
+            // array ("->setType",            "/{%function_name%}\\(['\"]([\\w\\d\\/\\_]+)?['\"](.*\\))/Ui" ),
         );
 
         $patterns = array();
@@ -690,4 +691,43 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $result = array_unique($result);
         return $result;
     }
+
+    /**
+     * Finds usage expected_models in logging.xml files
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitModelsInLoggingXmlDefinitions($fileInfo, $content)
+    {
+        if ($fileInfo->getBasename() != 'logging.xml') {
+            return array();
+        }
+
+        $xml = new SimpleXMLElement($content);
+        $xpathes = array (
+            '//logging/*/expected_models',
+            '//logging/*/actions/*/expected_models'
+        );
+
+        $expectedModels = array();
+        foreach ($xpathes as $xpath) {
+            $expectedModels = array_merge($expectedModels, $xml->xpath($xpath));
+        }
+
+        $result = array();
+        foreach ($expectedModels as $expectModelNode) {
+            $expectedModel = (array) $expectModelNode;
+            foreach (array_keys($expectedModel) as $key) {
+                if ($key == "@attributes") {
+                    continue;
+                }
+                $result[] = $key;
+            }
+        }
+
+        return array_unique($result);
+    }
+
 }

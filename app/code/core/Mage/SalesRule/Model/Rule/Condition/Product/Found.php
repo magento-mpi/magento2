@@ -31,7 +31,7 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Found
     public function __construct()
     {
         parent::__construct();
-        $this->setType('salesrule/rule_condition_product_found');
+        $this->setType('Mage_SalesRule_Model_Rule_Condition_Product_Found');
     }
 
     /**

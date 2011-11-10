@@ -30,14 +30,14 @@ class Mage_SalesRule_Model_Rule_Action_Collection extends Mage_Rule_Model_Action
     public function __construct()
     {
         parent::__construct();
-        $this->setType('salesrule/rule_action_collection');
+        $this->setType('Mage_SalesRule_Model_Rule_Action_Collection');
     }
 
     public function getNewChildSelectOptions()
     {
         $actions = parent::getNewChildSelectOptions();
         $actions = array_merge_recursive($actions, array(
-            array('value'=>'salesrule/rule_action_product', 'label'=>Mage::helper('Mage_SalesRule_Helper_Data')->__('Update the Product')),
+            array('value'=>'Mage_SalesRule_Model_Rule_Action_Product', 'label'=>Mage::helper('Mage_SalesRule_Helper_Data')->__('Update the Product')),
         ));
         return $actions;
     }

@@ -105,5 +105,4 @@ class Enterprise_Pbridge_Adminhtml_PbridgeController extends Mage_Adminhtml_Cont
     {
         return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/order');
     }
-
 }

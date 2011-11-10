@@ -167,7 +167,7 @@
     </adminhtml_mobile_submission>
 
     <adminhtml_mobile_grid>
-        <block type="Mage_Xmlconnect_Block_Adminhtml_Mobile_Grid" name="mobile_grid" output="toHtml"/>
+        <block type="Mage_XmlConnect_Block_Adminhtml_Mobile_Grid" name="mobile_grid" output="toHtml"/>
     </adminhtml_mobile_grid>
 
     <adminhtml_mobile_history_grid>
