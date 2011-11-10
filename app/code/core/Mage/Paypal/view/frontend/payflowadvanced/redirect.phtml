@@ -78,7 +78,7 @@ try{
             window_top.location="<?php echo $this->getUrl('checkout/cart') ?>";
         <?php endif; ?>
     } else {
-        alert('<?php echo $this->__('Wrong configuration of Payment Method');?>');
+        alert('<?php echo $this->jsQuoteEscape($this->__('Wrong configuration of Payment Method'));?>');
     }
 <?php endif; ?>
 //]]>

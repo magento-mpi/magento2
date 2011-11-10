@@ -112,7 +112,7 @@
 
     <adminhtml_customer_wishlist>
         <reference name="customer.wishlist.edit.tab">
-            <action method="addProductConfigurationHelper"><type>giftcard</type><name>Enterprise_Giftcard_Helper_Catalog_Product_Configuration</name></action>
+            <action method="addProductConfigurationHelper"><type>giftcard</type><name>Enterprise_GiftCard_Helper_Catalog_Product_Configuration</name></action>
         </reference>
     </adminhtml_customer_wishlist>
 

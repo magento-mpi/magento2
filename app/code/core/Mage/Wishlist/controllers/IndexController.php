@@ -193,7 +193,9 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
 
             Mage::helper('Mage_Wishlist_Helper_Data')->calculate();
 
-            $message = $this->__('%1$s has been added to your wishlist. Click <a href="%2$s">here</a> to continue shopping', $product->getName(), $referer);
+            $message = $this->__('%1$s has been added to your wishlist. Click <a href="%2$s">here</a> to continue shopping',
+                $product->getName(), Mage::helper('Mage_Core_Helper_Data')->escapeUrl($referer)
+            );
             $session->addSuccess($message);
         }
         catch (Mage_Core_Exception $e) {
@@ -552,6 +554,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
             /* @var $emailModel Mage_Core_Model_Email_Template */
             $emailModel = Mage::getModel('Mage_Core_Model_Email_Template');
 
+            $sharingCode = $wishlist->getSharingCode();
             foreach($emails as $email) {
                 $emailModel->sendTransactional(
                     Mage::getStoreConfig('wishlist/email/email_template'),
@@ -562,8 +565,8 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
                         'customer'      => $customer,
                         'salable'       => $wishlist->isSalable() ? 'yes' : '',
                         'items'         => $wishlistBlock,
-                        'addAllLink'    => Mage::getUrl('*/shared/allcart', array('code' => $wishlist->getSharingCode())),
-                        'viewOnSiteLink'=> Mage::getUrl('*/shared/index', array('code' => $wishlist->getSharingCode())),
+                        'addAllLink'    => Mage::getUrl('*/shared/allcart', array('code' => $sharingCode)),
+                        'viewOnSiteLink'=> Mage::getUrl('*/shared/index', array('code' => $sharingCode)),
                         'message'       => $message
                     )
                 );

@@ -102,6 +102,31 @@
         <block type="Mage_Core_Block_Text_List" name="additional.product.info" />
     </paypal_payflow_review>
 
+    <paypal_payflowadvanced_review translate="label">
+        <label>Order Review Form</label>
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <reference name="root">
+            <action method="setTemplate"><template>1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="Mage_Paypal_Block_Payflow_Advanced_Review" name="paypal.express.review" template="express/review.phtml">
+                <block type="Mage_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" as="details" template="express/review/details.phtml">
+                    <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>onepage/review/item.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>onepage/review/item.phtml</template></action>
+                    <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>onepage/review/item.phtml</template></action>
+                    <block type="Mage_Checkout_Block_Cart_Totals" name="paypal.express.review.details.totals" as="totals" template="onepage/review/totals.phtml"/>
+                </block>
+                <block type="Mage_Checkout_Block_Agreements" name="paypal.express.review.details.agreements" as="agreements" template="onepage/agreements.phtml"/>
+            </block>
+        </reference>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>Mage_Paypal::review.js</name></action>
+        </reference>
+        <block type="Mage_Core_Block_Text_List" name="additional.product.info" />
+    </paypal_payflowadvanced_review>
+
 <!--
 Available logo types can be assigned with action="setLogoType":
  - wePrefer_150x60

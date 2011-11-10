@@ -36,7 +36,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_order_status');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status');
         $this->setValue(null);
     }
 

@@ -339,7 +339,9 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $html = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_View_Tab_History')->toHtml();
         /* @var $translate Mage_Core_Model_Translate_Inline */
         $translate = Mage::getModel('Mage_Core_Model_Translate_Inline');
-        $translate->isAllowed() && $translate->processResponseBody($html);
+        if ($translate->isAllowed()) {
+            $translate->processResponseBody($html);
+        }
         $this->getResponse()->setBody($html);
     }
 

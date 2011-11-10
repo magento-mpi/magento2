@@ -50,16 +50,16 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales
         return array(
             'value' => array(
                 array( // order address combo
-                    'value' => 'enterprise_customersegment/segment_condition_order_address',
+                    'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address',
                     'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Order Address')),
                 array(
-                    'value' => 'enterprise_customersegment/segment_condition_sales_salesamount',
+                    'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount',
                     'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Sales Amount')),
                 array(
-                    'value' => 'enterprise_customersegment/segment_condition_sales_ordersnumber',
+                    'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber',
                     'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Number of Orders')),
                 array(
-                    'value' => 'enterprise_customersegment/segment_condition_sales_purchasedquantity',
+                    'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity',
                     'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Purchased Quantity')),
              ),
             'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Sales')

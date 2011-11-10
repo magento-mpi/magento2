@@ -62,20 +62,9 @@ class Mage_Core_Model_ConfigFactoryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Mage_Core_Block_Template', $this->_model->getBlockClassName('Mage_Core_Block_Template'));
     }
 
-    /**
-     * @dataProvider getHelperClassNameDataProvider
-     */
-    public function testGetHelperClassName($inputClassName, $expectedClassName)
+    public function testGetHelperClassName()
     {
-        $this->assertEquals($expectedClassName, $this->_model->getHelperClassName($inputClassName));
-    }
-
-    public function getHelperClassNameDataProvider()
-    {
-        return array(
-            'class name'  => array('Mage_Core_Helper_Http', 'Mage_Core_Helper_Http'),
-            'module name' => array('Mage_Core',             'Mage_Core_Helper_Data'),
-        );
+        $this->assertEquals('Mage_Core_Helper_Http', $this->_model->getHelperClassName('Mage_Core_Helper_Http'));
     }
 
     public function testGetResourceHelper()

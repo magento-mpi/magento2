@@ -29,7 +29,7 @@
     <enterprise_customersegment translate="label">
         <label>Manage Segments</label>
         <expected_models>
-            <enterprise_customersegment__segment/>
+            <Enterprise_CustomerSegment_Model_Segment/>
         </expected_models>
         <actions>
             <adminhtml_customersegment_edit>

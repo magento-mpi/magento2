@@ -29,7 +29,7 @@
     <enterprise_reward_rate translate="label">
         <label>Reward Points Rates</label>
         <expected_models>
-            <enterprise_reward__reward_rate/>
+            <Enterprise_Reward_Model_Reward_Rate/>
         </expected_models>
         <actions>
             <adminhtml_reward_rate_edit>
@@ -48,7 +48,7 @@
         <actions>
             <adminhtml_customer_save>
                 <expected_models extends="merge">
-                    <enterprise_reward__reward_history>
+                    <Enterprise_Reward_Model_Reward_History>
                         <skip_data>
                             <history_id/>
                             <action/>
@@ -57,7 +57,7 @@
                             <created_at/>
                             <expired_at/>
                         </skip_data>
-                    </enterprise_reward__reward_history>
+                    </Enterprise_Reward_Model_Reward_History>
                 </expected_models>
             </adminhtml_customer_save>
         </actions>
@@ -65,7 +65,7 @@
     <!--enterprise_reward translate="label">
         <label>Reward Points balance</label>
         <expected_models>
-            <enterprise_reward__reward_history>
+            <Enterprise_Reward_Model_Reward_History>
                 <skip_data>
                     <new_password/>
                     <password/>
@@ -76,7 +76,7 @@
         <actions>
             <adminhtml_customer_save>
                 <expected_models extends="merge">
-                    <enterprise_reward__reward_history/>
+                    <Enterprise_Reward_Model_Reward_History/>
                 </expected_models>
             </adminhtml_customer_save>
         </actions>

@@ -54,7 +54,9 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
         return $this->isCustomerLoggedIn() ? 'billing' : 'login';
     }
 
-/*
+    /**
+     * @deprecated  all in comments below
+     *
     // ADDRESSES
 
     public function getAddressesHtmlSelect($address, $type)
