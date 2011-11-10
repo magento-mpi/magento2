@@ -25,12 +25,14 @@
  */
 
 /**
- * Enter description here ...
+ * Role item model
  *
  * @method Mage_Api_Model_Resource_Role _getResource()
  * @method Mage_Api_Model_Resource_Role getResource()
  * @method int getParentId()
  * @method Mage_Api_Model_Role setParentId(int $value)
+ * @method int getRolename()
+ * @method Mage_Api_Model_Role setRolename() setRolename(string $name)
  * @method int getTreeLevel()
  * @method Mage_Api_Model_Role setTreeLevel(int $value)
  * @method int getSortOrder()
@@ -48,8 +50,57 @@
  */
 class Mage_Api_Model_Role extends Mage_Core_Model_Abstract
 {
+    /**
+     * Filters
+     *
+     * @var array
+     */
+    protected $_filters = array(
+        'rolename' => array(array('zend' => 'StripTags')),
+    );
+
+    /**
+     * Initialize resource
+     */
     protected function _construct()
     {
         $this->_init('api/role');
+    }
+
+    /**
+     * Add filtering before set
+     *
+     * @param mixed $key
+     * @param mixed $value
+     * @return Mage_Api_Model_Role
+     */
+    public function setData($key, $value = null)
+    {
+        list($key, $value) = $this->_filter($key, $value);
+        return parent::setData($key, $value);
+    }
+
+    /**
+     * @param string|array $key
+     * @param mixed|null $value
+     * @return array
+     */
+    public function _filter($key, $value = null)
+    {
+        $isArray = false;
+        if (!is_array($key)) {
+            $data = array($key => $value);
+        } else {
+            $isArray = true;
+            $data = $key;
+        }
+
+        /** @var $filter Mage_Core_Model_Input_Filter */
+        $filter = Mage::getModel('core/input_filter');
+        $filter->setFilters($this->_filters);
+
+        $data = $filter->filter($data);
+
+        return ($isArray ? array($data, null) : array(array_shift($data), $value));
     }
 }
