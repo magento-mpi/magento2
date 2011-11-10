@@ -29,6 +29,8 @@
  */
 class Mage_Payment_Block_Info_Cc extends Mage_Payment_Block_Info
 {
+    protected $_hasCcExpDate = true;
+
     /**
      * Retrieve credit card type name
      *
@@ -42,6 +44,16 @@ class Mage_Payment_Block_Info_Cc extends Mage_Payment_Block_Info
             return $types[$ccType];
         }
         return (empty($ccType)) ? Mage::helper('payment')->__('N/A') : $ccType;
+    }
+
+    /**
+     * Whether current payment method has credit card expiration date field
+     *
+     * @return bool
+     */
+    public function hasCcExpDate()
+    {
+        return $this->_hasCcExpDate;
     }
 
     /**
