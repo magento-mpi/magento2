@@ -36,31 +36,11 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         }
 
         $skippedClasses = array(
-            'Enterprise_Staging_Block_Staging_Merge_Settings',
-            'Enterprise_Giftregistry_Block_Customer_View',
-            'Enterprise_Permissions_Block_System_Config_Switcher',
-            'Enterprise_Permissions_Block_Store_Switcher',
-            'Mage_Adminhtml_Block_Api_Tab_Useredit',
-            'Mage_Adminhtml_Block_Api_Grid_User',
-            'Mage_Adminhtml_Block_Sales_Grid',
-            'Mage_Adminhtml_Block_Tag_Grid_Column_Renderer_Tags',
-            'Mage_Adminhtml_Block_Tag_Tab_All',
-            'Mage_Adminhtml_Block_Customer_Config',
-            'Mage_Adminhtml_Block_Customer_Config_Tabs',
-            'Mage_Adminhtml_Block_Alert_Template_Preview',
-            'Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Product',
-            'Mage_Adminhtml_Block_Sales_Order_Totals_Subtotal',
-            'Mage_Core_Block_Profiler',
-            'Mage_Core_Block_List',
-            'Mage_Catalog_Block_Seo_Searchterm',
-            'Mage_Giftcard_Block_Catalog_Product_Price_Giftcard',
-            'Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Image',
-
             'emph',
             'Enterprise_Enterprise_Helper_Data',
         );
         if (in_array($className, $skippedClasses)) {
-            $this->markTestSkipped('Task MAGETWO-586');
+            $this->markTestSkipped('MAGETWO-605');
         }
 
         $this->assertTrue(
