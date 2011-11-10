@@ -29,14 +29,14 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         $this->_block = new Mage_Page_Block_Html_Head;
     }
 
-    public function testAddItem()
+    public function testAddCss()
     {
         $this->assertEmpty($this->_block->getItems());
-        $this->_block->addItem('skin_css', 'test.css');
-        $this->assertEquals(array('skin_css/test.css' => array(
-                'type'   => 'skin_css',
+        $this->_block->addCss('test.css');
+        $this->assertEquals(array('css/test.css' => array(
+                'type'   => 'css',
                 'name'   => 'test.css',
-                'params' => 'media="all"',
+                'params' => 'rel="stylesheet" type="text/css" media="all"',
                 'if'     => null,
                 'cond'   => null,
             )), $this->_block->getItems()
@@ -46,48 +46,39 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException Exception
      */
-    public function testAddItemException()
+    public function testAddCssException()
     {
-        $this->_block->addItem('skin_css', '');
+        $this->_block->addCss('');
     }
 
     public function testGetCssJsHtml()
     {
-        $this->_block->addItem('js', 'zero.js', null, null, 'nonexisting_condition')
-            ->addItem('js', 'varien/js.js')
-            ->addItem('skin_js', 'Mage_Bundle::bundle.js')
-            ->addItem('js_css', 'tiny_mce/themes/advanced/skins/default/ui.css')
-            ->addItem('skin_css', 'css/styles.css')
-            ->addItem('rss', 'http://example.com/feed.xml')
-            ->addItem('link_rel', 'http://example.com/page1.html', '   rel="next" ')
-            ->addItem('js', 'varien/form.js', null, 'ie6')
+        $this->_block->addJs('zero.js', '', null, 'nonexisting_condition')
+            ->addJs('varien/js.js')
+            ->addJs('Mage_Bundle::bundle.js')
+            ->addCss('tiny_mce/themes/advanced/skins/default/ui.css')
+            ->addCss('css/styles.css', '   media="print" ')
+            ->addRss('RSS Feed', 'http://example.com/feed.xml')
+            ->addLinkRel('next', 'http://example.com/page1.html')
+            ->addJs('varien/form.js', '', 'lt IE 7')
         ;
-        $package = Mage::getDesign()->getPackageName();
-
         $this->assertEquals(
             '<script type="text/javascript" src="http://localhost/js/varien/js.js"></script>' . "\n"
             . '<script type="text/javascript" '
-            . 'src="http://localhost/media/skin/frontend/' . $package . '/default/default/en_US/Mage_Bundle/bundle.js">'
+            . 'src="http://localhost/media/skin/frontend/default/default/default/en_US/Mage_Bundle/bundle.js">'
             . '</script>' . "\n"
-            . '<link media="all" rel="stylesheet" type="text/css"'
+            . '<link rel="stylesheet" type="text/css" media="all"'
             . ' href="http://localhost/js/tiny_mce/themes/advanced/skins/default/ui.css" />' . "\n"
-            . '<link media="all" rel="stylesheet" type="text/css" '
-                . 'href="http://localhost/media/skin/frontend/' . $package . '/default/default/en_US/css/styles.css" />'
+            . '<link rel="stylesheet" type="text/css" media="print" '
+                . 'href="http://localhost/media/skin/frontend/default/default/default/en_US/css/styles.css" />'
                 . "\n"
-            . '<link rel="alternate" type="application/rss+xml" href="http://example.com/feed.xml" />' . "\n"
+            . '<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="http://example.com/feed.xml" />'
+                . "\n"
             . '<link rel="next" href="http://example.com/page1.html" />' . "\n"
-            . '<!--[if ie6]>' . "\n"
+            . '<!--[if lt IE 7]>' . "\n"
             . '<script type="text/javascript" src="http://localhost/js/varien/form.js"></script>' . "\n"
             . '<![endif]-->' . "\n",
             $this->_block->getCssJsHtml()
         );
-    }
-
-    /**
-     * @expectedException Exception
-     */
-    public function testGetCssJsHtmlException()
-    {
-        $this->_block->addItem('unknown_type', 'test.css')->getCssJsHtml();
     }
 }

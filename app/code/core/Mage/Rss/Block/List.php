@@ -49,7 +49,7 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
         $feeds  = $this->getRssMiscFeeds();
         if ($head && !empty($feeds)) {
             foreach ($feeds as $feed) {
-                $head->addItem('rss', $feed['url'], 'title="'.$feed['label'].'"');
+                $head->addRss($feed['label'], $feed['url']);
             }
         }
         return parent::_prepareLayout();

@@ -58,7 +58,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
             */
             if ($this->IsRssCatalogEnable() && $this->IsTopCategory()) {
                 $title = $this->helper('rss')->__('%s RSS Feed',$this->getCurrentCategory()->getName());
-                $headBlock->addItem('rss', $this->getRssLink(), 'title="'.$title.'"');
+                $headBlock->addRss($title, $this->getRssLink());
             }
         }
 
