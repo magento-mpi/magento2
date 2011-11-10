@@ -40,13 +40,6 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Merge extends Mage_Adminhtml_Bl
     private $_mergeSettingsBlock = array();
 
     /**
-    * merge settings template
-    *
-    * @var string
-    */
-    private $_mergeSettingsBlockDefaultTemplate = 'merge/settings.phtml';
-
-    /**
      * merge settings block types
      *
      * @var array
@@ -67,39 +60,38 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Merge extends Mage_Adminhtml_Bl
     }
 
     /**
-     * get merge setting bclocks
+     * get merge setting blocks
      *
      * @param string $stagingType
-     * @return array
+     * @return mixed
      */
     protected function _getMergeSettingsBlock($stagingType)
     {
         if (!isset($this->_mergeSettingsBlock[$stagingType])) {
-            $block = 'Enterprise_Staging_Block_Staging_Merge_Settings';
-            if (isset($this->_mergeSettingsBlockTypes[$stagingType])) {
-                if ($this->_mergeSettingsBlockTypes[$stagingType]['block'] != '') {
+            if (isset($this->_mergeSettingsBlockTypes[$stagingType])
+                && $this->_mergeSettingsBlockTypes[$stagingType]['block'] != '') {
                     $block = $this->_mergeSettingsBlockTypes[$stagingType]['block'];
-                }
+                    $this->_mergeSettingsBlock[$stagingType] = $this->getLayout()->createBlock($block);
+            } else {
+                return false;
             }
-            $this->_mergeSettingsBlock[$stagingType] = $this->getLayout()->createBlock($block);
         }
         return $this->_mergeSettingsBlock[$stagingType];
     }
 
     /**
-     * get merge settinh block template
+     * get merge setting block template
      *
      * @param string $stagingType
-     * @return array
+     * @return mixed
      */
     protected function _getMergeSettingsBlockTemplate($stagingType)
     {
-        if (isset($this->_mergeSettingsBlockTypes[$stagingType])) {
-            if ($this->_mergeSettingsBlockTypes[$stagingType]['template'] != '') {
+        if (isset($this->_mergeSettingsBlockTypes[$stagingType])
+            && $this->_mergeSettingsBlockTypes[$stagingType]['template'] != '') {
                 return $this->_mergeSettingsBlockTypes[$stagingType]['template'];
-            }
         }
-        return $this->_mergeSettingsBlockTypes;
+        return false;
     }
 
     /**
@@ -116,11 +108,17 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Merge extends Mage_Adminhtml_Bl
         if (!$staging->getType()) {
             $staging->setType('website');
         }
-        return $this->_getMergeSettingsBlock($staging->getType())
-            ->setTemplate($this->_getMergeSettingsBlockTemplate($staging->getType()))
-            ->setStaging($staging)
-            ->setIdSuffix($idSuffix)
-            ->toHtml();
+        $block = $this->_getMergeSettingsBlock($staging->getType());
+        $template = $this->_getMergeSettingsBlockTemplate($staging->getType());
+        if ($block && $template) {
+            return $block
+                ->setTemplate($template)
+                ->setStaging($staging)
+                ->setIdSuffix($idSuffix)
+                ->toHtml();
+        }
+
+        return '';
     }
 
     /**
