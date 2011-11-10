@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -35,6 +36,7 @@
  */
 class Mage_Selenium_Uimap_Abstract
 {
+
     /**
      * XPath string
      * @var string
@@ -123,7 +125,7 @@ class Mage_Selenium_Uimap_Abstract
 
         foreach ($this->_elements as $elem) {
             if ($elem instanceof Mage_Selenium_Uimap_Abstract
-                || $elem instanceof Mage_Selenium_Uimap_ElementsCollection
+                    || $elem instanceof Mage_Selenium_Uimap_ElementsCollection
             ) {
                 $elem->assignParams($params);
             } else if ($elem instanceof ArrayObject) {
@@ -189,11 +191,11 @@ class Mage_Selenium_Uimap_Abstract
                 if (($elementsCollectionName == 'tabs'
                         && $elementsCollectionName == $elKey
                         && $elValue instanceof Mage_Selenium_Uimap_TabsCollection)
-                    || ($elementsCollectionName == 'fieldsets'
+                        || ($elementsCollectionName == 'fieldsets'
                         && $elementsCollectionName == $elKey
                         && $elValue instanceof Mage_Selenium_Uimap_FieldsetsCollection)
-                    || $elKey == $elementsCollectionName
-                    && $elValue instanceof Mage_Selenium_Uimap_ElementsCollection
+                        || $elKey == $elementsCollectionName
+                        && $elValue instanceof Mage_Selenium_Uimap_ElementsCollection
                 ) {
                     $cache = array_merge($cache, $elValue->getArrayCopy());
                 } else {
@@ -222,9 +224,10 @@ class Mage_Selenium_Uimap_Abstract
         if (empty($this->_elements_cache[$elementsCollectionName])) {
             $cache = array();
             $this->_elements_cache[$elementsCollectionName] = new Mage_Selenium_Uimap_ElementsCollection(
-                    $elementsCollectionName,
-                    $this->__getElementsRecursive($elementsCollectionName, $this->_elements, $cache, $paramsDecorator),
-                    $paramsDecorator);
+                            $elementsCollectionName,
+                            $this->__getElementsRecursive($elementsCollectionName, $this->_elements, $cache,
+                                    $paramsDecorator),
+                            $paramsDecorator);
         }
 
         return $this->_elements_cache[$elementsCollectionName];
@@ -254,13 +257,18 @@ class Mage_Selenium_Uimap_Abstract
                 $returnValue = $this->getAllElements($elementName,
                         $this->getParams(isset($arguments[1]) ? $arguments[1] : null));
             }
-        } elseif(preg_match('|^get(\w+)$|', $name)) {
+        } elseif (preg_match('|^get(\w+)$|', $name)) {
             $elementName = strtolower(substr($name, 3));
             if (!empty($elementName) && isset($this->_elements[$elementName])) {
                 $returnValue = $this->_elements[$elementName];
             }
-        } elseif(preg_match('|^find(\w+)$|', $name)) {
-            $elementName = strtolower(substr($name, 4)) . 's';
+        } elseif (preg_match('|^find(\w+)$|', $name)) {
+            $elementName = strtolower(substr($name, 4));
+            if ($elementName === 'checkbox') {
+                $elementName .= 'es';
+            } else {
+                $elementName .= 's';
+            }
             if (!empty($elementName) && !empty($arguments)) {
                 $elemetsColl = $this->getAllElements($elementName);
                 $returnValue = $elemetsColl->get($arguments[0],
@@ -274,4 +282,5 @@ class Mage_Selenium_Uimap_Abstract
 
         return $returnValue;
     }
+
 }
