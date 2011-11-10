@@ -1614,11 +1614,11 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
 /*********************** STATUSES ***************************/
 
     /**
-     * Enter description here...
+     * Return collection of order status history items.
      *
-     * @return Mage_Sales_Model_Entity_Order_Status_History_Collection
+     * @return Mage_Sales_Model_Resource_Order_Status_History_Collection
      */
-    public function getStatusHistoryCollection($reload=false)
+    public function getStatusHistoryCollection($reload = false)
     {
         if (is_null($this->_statusHistory) || $reload) {
             $this->_statusHistory = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Status_History_Collection')
@@ -1636,7 +1636,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     }
 
     /**
-     * Return collection of order status history items.
+     * Return array of order status history items without deleted.
      *
      * @return array
      */
