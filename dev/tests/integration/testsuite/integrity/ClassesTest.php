@@ -63,7 +63,10 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('Task MAGETWO-586');
         }
 
-        $this->assertTrue(class_exists($className), 'Class ' . $className . ' does not exist');
+        $this->assertTrue(
+            Magento_Autoload::getInstance()->classExists($className),
+            'Class ' . $className . ' does not exist'
+        );
     }
 
     /**

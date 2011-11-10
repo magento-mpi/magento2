@@ -111,11 +111,22 @@
                     <?php if ($index % 2): ?>
                     <tr>
                     <?php endif; ?>
-                        <td>
-                            <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>">
-                                <div class="wrap">
-                                    <div class="product-image">
-                                        <img src="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'small_image')->resize(65); ?>" width="65" height="65" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                        <div class="cell">
+                            <div class="position-wrap">
+                                <div class="cloned-wrap">
+                                    <div class="wrap">
+                                        <div class="product-image">
+                                            <img src="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'small_image')->resize(130); ?>" width="65" height="65" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                                        </div>
+                                        <div class="product-shop">
+                                            <header>
+                                                <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+                                                <?php echo $this->getPriceHtml($_product, true) ?>
+                                                <?php if(!$_product->isSaleable()): ?>
+                                                    <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                                                <?php endif; ?>
+                                            </header>
+                                        </div>
                                     </div>
                                     <div class="product-shop">
                                         <header>
@@ -125,6 +136,25 @@
                                                 <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
                                             <?php endif; ?>
                                         </header>
+                                    </div>
+                                    <div class="front">
+                                        <span class="i-flip"></span>
+                                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>">
+                                            <div class="wrap">
+                                                <div class="product-image">
+                                                    <img src="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'small_image')->resize(130); ?>" width="65" height="65" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                                                </div>
+                                                <div class="product-shop">
+                                                    <header>
+                                                        <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+                                                        <?php echo $this->getPriceHtml($_product, true) ?>
+                                                        <?php if(!$_product->isSaleable()): ?>
+                                                            <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                                                        <?php endif; ?>
+                                                    </header>
+                                                </div>
+                                            </div>
+                                        </a>
                                     </div>
                                 </div>
                             </a>

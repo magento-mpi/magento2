@@ -467,8 +467,8 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
                 $this->_select->order(new Zend_Db_Expr($field . ' ' . $direction));
              }
             $this->_isOrdersRendered = true;
-         }
-         return $this;
+        }
+        return $this;
     }
 
     /**
