@@ -42,6 +42,7 @@ shopping_cart:
                             move_to_wishlist: //tr[*//a[text()='%productName%']]//input[@title='Move to Wishlist']
                         links:
                             remove_item: //a[@title='Remove item']
+                            product_name: //h2[@class='product-name']/a[text()='%productName%']
                         fields:
                             product_qty: %productXpath%//input[@title='Qty']
                         pageelements:

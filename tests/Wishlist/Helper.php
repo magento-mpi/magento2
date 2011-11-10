@@ -42,7 +42,7 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
      * @param string $productName
      * @param string $category
      */
-    public function addProductToWishlistFromCatalogPage($productName, $category)
+    public function frontAddProductToWishlistFromCatalogPage($productName, $category)
     {
         $pageId = $this->categoryHelper()->frontSearchAndOpenPageWithProduct($productName, $category);
         if (!$pageId)
@@ -58,7 +58,7 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
      * @param string $productName
      * @param string $categoryPath
      */
-    public function addProductToWishlistFromProductPage($productName, $categoryPath = null)
+    public function frontAddProductToWishlistFromProductPage($productName, $categoryPath = null)
     {
         $this->productHelper()->frontOpenProduct($productName, $categoryPath);
         $this->appendParamsDecorator($this->productHelper()->_paramsHelper);  //@TODO Temporary workaround
@@ -70,31 +70,37 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
      * Finds the product in the wishlist.
      *
      * @param string|array $productNameSet Product name or array of product names to search for.
-     * @return boolean True if the product is in the wishlist, False otherwise.
+     * @return True|Array True if the products are all present.
+     *                    Otherwise returns an array of product names that are absent.
      */
     public function frontWishlistHasProducts($productNameSet)
     {
         if (is_string($productNameSet)) {
             $productNameSet = array($productNameSet);
         }
+        $absentProducts = array();
         foreach ($productNameSet as $productName) {
             $this->addParameter('productName', $productName);
             if (!$this->controlIsPresent('link', 'product_name')) {
-                return false;
+                $absentProducts[] = $productName;
             }
         }
-        return true;
+        return (empty($absentProducts)) ? true : $absentProducts;
     }
 
     /**
-     * Removes the product from the wishlist
+     * Removes the product(s) from the wishlist
      *
-     * @param string $productName
+     * @param string|array $productNameSet Product name (string) or array of product names to remove
      */
-    public function frontRemoveProductFromWishlist($productName)
+    public function frontRemoveProductsFromWishlist($productNameSet)
     {
-        $this->addParameter('productName', $productName);
-        $this->clickControlAndConfirm('link', 'remove_item', 'confirmation_for_delete');
+        if (is_string($productNameSet))
+            $productNameSet = array($productNameSet);
+        foreach ($productNameSet as $productName) {
+            $this->addParameter('productName', $productName);
+            $this->clickControlAndConfirm('link', 'remove_item', 'confirmation_for_delete');
+        }
     }
 
     /**
@@ -125,9 +131,9 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
     /**
      * Adds products to Shopping Cart from the wishlist
      *
-     * @param string|array $productNameSet Name or array of product names to add
+     * @param string|array $productNameSet Product name (string) or array of product names to add
      */
-    public function addToShoppingCartFromWishlist($productNameSet)
+    public function frontAddToShoppingCart($productNameSet)
     {
         if (is_string($productNameSet))
             $productNameSet = array($productNameSet);

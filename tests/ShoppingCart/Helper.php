@@ -335,7 +335,7 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
      *
      * @param string|array $productNameSet Name or array of product names to move
      */
-    public function moveToWishlistFromShoppingCart($productNameSet)
+    public function frontMoveToWishlist($productNameSet)
     {
         if (is_string($productNameSet))
             $productNameSet = array($productNameSet);
@@ -350,5 +350,25 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
         $this->clickButton('update_shopping_cart');
     }
 
-}
+    /**
+     * Verifies if the product(s) are in the Shopping Cart
+     *
+     * @param string|array $productNameSet Product name (string) or array of product names to check
+     * @return True|Array True if the products are all present.
+     *                    Otherwise returns an array of product names that are absent.
+     */
+    public function frontShoppingCartHasProducts($productNameSet)
+    {
+        if (is_string($productNameSet))
+            $productNameSet = array($productNameSet);
+        $absentProducts = array();
+        foreach ($productNameSet as $productName) {
+            $this->addParameter('productName', $productName);
+            if (!$this->controlIsPresent('link', 'product_name')) {
+                $absentProducts[] = $productName;
+            }
+        }
+        return (empty($absentProducts)) ? true : $absentProducts;
+    }
 
+}
