@@ -27,6 +27,7 @@
 /**
  * Sales order details block
  *
+ * @deprecated
  * @category   Mage
  * @package    Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
@@ -55,7 +56,7 @@ class Mage_Sales_Block_Order_Details extends Mage_Core_Block_Template
 
     public function getInvoices()
     {
-        $invoices = Mage::getResourceModel('Mage_Sales_Model_Entity_Order_Invoice_Collection')
+        $invoices = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Invoice_Collection')
             ->setOrderFilter($this->getOrder()->getId())->load();
         return $invoices;
     }

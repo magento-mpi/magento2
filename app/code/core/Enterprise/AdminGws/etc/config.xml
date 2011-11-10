@@ -321,7 +321,6 @@
                     <mage_cms_model_resource_block_collection>addStoreFilter</mage_cms_model_resource_block_collection>
                     <mage_poll_model_resource_poll_collection>addStoreFilterNoAdmin</mage_poll_model_resource_poll_collection>
                     <mage_sales_model_resource_order_collection>addStoreAttributeToFilter</mage_sales_model_resource_order_collection>
-                    <mage_sales_model_entity_order_collection>addStoreAttributeToFilter</mage_sales_model_entity_order_collection>
                     <mage_catalog_model_resource_product_collection>limitProducts</mage_catalog_model_resource_product_collection>
                     <mage_customer_model_resource_customer_collection>limitCustomers</mage_customer_model_resource_customer_collection>
                     <mage_review_model_resource_review_collection>limitReviews</mage_review_model_resource_review_collection>

@@ -28,7 +28,7 @@
  * Create aggregation tables for updated_at fields
  */
 
-/** @var $installer Mage_Sales_Model_Entity_Setup */
+/** @var $installer Mage_Sales_Model_Resource_Setup */
 $installer = $this;
 $connection = $installer->getConnection();
 $connection->createTable($connection->createTableByDdl(
