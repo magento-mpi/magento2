@@ -63,16 +63,6 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Adminhtml_Block_Widget_C
     }
 
     /**
-     * Deprecated since 1.3.2
-     *
-     * @return string
-     */
-    public function getAddNewButtonHtml()
-    {
-        return $this->getChildHtml('add_new_button');
-    }
-
-    /**
      * Render grid
      *
      * @return string

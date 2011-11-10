@@ -1275,16 +1275,6 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     }
 
     /**
-     * Deprecated since 1.1.7
-     *
-     * @return string
-     */
-    public function getRowId($row)
-    {
-        return $this->getRowUrl($row);
-    }
-
-    /**
      * Retrive massaction row identifier field
      *
      * @return string

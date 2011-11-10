@@ -42,18 +42,6 @@ class Enterprise_Staging_Helper_Store extends Mage_Core_Helper_Url
     protected $_stagingCodeSuffix = null;
 
     /**
-     * Check if a store can be shown
-     *
-     * @deprecated
-     * @param  Enterprise_Staging_Model_Staging_Store|int $store
-     * @return boolean
-     */
-    public function canShow($store, $where = 'frontend')
-    {
-        return false;
-    }
-
-    /**
      * Retrieve store code sufix
      *
      * @return string
