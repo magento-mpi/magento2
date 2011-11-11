@@ -81,4 +81,9 @@ abstract class Magento_Test_Webservice_Abstract
         $this->_session = $sessionId;
         return $this;
     }
+
+    public function getClient()
+    {
+        return $this->_client;
+    }
 }
