@@ -102,17 +102,13 @@ class LoginTest extends Magento_Test_Webservice
         if (TESTS_WEBSERVICE_TYPE!=self::SOAPV1) {
             return;
         }
-        
-        $client = new SoapClient(TESTS_WEBSERVICE_URL.'/api/soap/?wsdl=1', array('trace'=>true, 'exceptions'=>true));
-            $requestXml = file_get_contents(dirname(__FILE__) . '/_files/requestInvalid.xml');
-            $location = TESTS_WEBSERVICE_URL.'/index.php/api/soap/index/';
-            $action = 'urn:Mage_Api_Model_Server_HandlerAction';
-            $version = 1;
-        $responseXml = $client->__doRequest($requestXml, $location, $action, $version);
 
-        /*$doc = new DOMDocument;
-        $doc->loadXML($responseXml);
-        $sessionId = $doc->getElementsByTagName('loginReturn')->item(0)->textContent;*/
+        $requestXml = file_get_contents(dirname(__FILE__) . '/_files/requestInvalid.xml');
+        $location = TESTS_WEBSERVICE_URL.'/index.php/api/soap/index/';
+        $action = 'urn:Mage_Api_Model_Server_HandlerAction';
+        $version = 1;
+
+        $responseXml = $this->getWebService()->getClient()->_doRequest($this->getWebService()->getClient()->getSoapClient(), $requestXml, $location, $action, $version);
     }
 
     public function testLoginInvalidXmlNamespaces()
@@ -144,7 +140,6 @@ class LoginTest extends Magento_Test_Webservice
      */
     public function testUseInvalidSessionIdCategoryCreate()
     {
-
         $categoryFixture = simplexml_load_file(dirname(__FILE__) . '/Catalog/Category/_fixtures/category.xml');
         $data = self::simpleXmlToArray($categoryFixture->create);
 
