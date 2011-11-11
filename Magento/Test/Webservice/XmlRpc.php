@@ -32,7 +32,7 @@ class Magento_Test_Webservice_XmlRpc extends Magento_Test_Webservice_Abstract
         $this->_client = new Zend_XmlRpc_Client(TESTS_WEBSERVICE_URL.'/api/xmlrpc/');
         // 30 seconds wasn't enough for some crud tests, increased to timeout 60
         $this->_client->getHttpClient()->setConfig(array('timeout' => 60));
-        $this->_session = $this->_client->call('login',array(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY));
+        $this->setSession($this->_client->call('login',array(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY)));
     }
 
     public function login($api, $key)
