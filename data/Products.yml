@@ -117,12 +117,6 @@ custom_options_dropdown: &dropdown
         custom_options_price_type: Percent
         custom_options_sku: sku_drop_down_row_1
         custom_options_sort_order: 1
-    custom_option_row_2:
-        custom_options_title: Title 2
-        custom_options_price: 2.55
-        custom_options_price_type: Percent
-        custom_options_sku: sku_drop_down_row_2
-        custom_options_sort_order: 1
 
 custom_options_radiobutton:  &radiobutton
     custom_options_general_title: Custom Option Radio Buttons
@@ -135,8 +129,6 @@ custom_options_radiobutton:  &radiobutton
         custom_options_price_type: Percent
         custom_options_sku: sku_radio_row_1
         custom_options_sort_order: 1
-    custom_option_row_2:
-        custom_options_title: Title 2
 
 custom_options_checkbox: &checkbox
     custom_options_general_title: Custom Option Checkbox
@@ -149,9 +141,6 @@ custom_options_checkbox: &checkbox
         custom_options_price_type: Percent
         custom_options_sku: sku_checkbox_row_1
         custom_options_sort_order: 1
-    custom_option_row_2:
-        custom_options_title: Title 2
-        custom_options_price_type: Percent
 
 custom_options_multipleselect: &multipleselect
     custom_options_general_title: Custom Option Multiple Select
@@ -163,11 +152,6 @@ custom_options_multipleselect: &multipleselect
         custom_options_price: 2.56
         custom_options_price_type: Percent
         custom_options_sku: sku_multipleselect_row_1
-        custom_options_sort_order: 1
-    custom_option_row_1:
-        custom_options_title: Title 3
-        custom_options_price: 2.56
-        custom_options_price_type: Percent
         custom_options_sort_order: 1
 
 custom_options_data: &customOptionsData
