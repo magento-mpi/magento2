@@ -146,6 +146,7 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
             $this->addParameter('productName', $productName);
             if ($this->buttonIsPresent('add_to_cart')) {
                 $this->clickButton('add_to_cart');
+                // TODO: redirected to configure
                 $this->navigate('my_wishlist');
             } else {
                 $this->fail('Product ' . $productName . ' is not in the wishlist');

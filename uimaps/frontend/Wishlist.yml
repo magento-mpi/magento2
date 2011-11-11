@@ -77,6 +77,7 @@ my_wishlist:
             specify_product_options: //li[normalize-space(@class)='error-msg' and contains(.,'s option(s) for "%productName%".')]
             confirmation_for_delete: Are you sure you want to remove this product from your wishlist?
             invalid_emails: //li[@class='error-msg' and contains(.,'Please input a valid email address.')]
+            invalid_emails_js: //div[@class='validation-advice' and @id='advice-validate-emails-email_address' and contains(.,'Please enter a valid email addresses, separated by commas. For example johndoe@domain.com, johnsmith@domain.com.')]
             required_emails: //div[@class='validation-advice' and @id='advice-required-entry-email_address' and text()='This is a required field.']
         links:
             back: //p[@class='back-link']/a[contains(.,'Back')]
@@ -87,7 +88,7 @@ my_wishlist_index:
     uimap: *myWishlist
 
 wishlist_configure_product:
-    mca: ishlist/index/configure/id/%id%/
+    mca: wishlist/index/configure/id/%id%/
     title: %productName%
     uimap: #tbd
 
