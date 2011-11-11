@@ -56,8 +56,8 @@ product_page:
                             price_special_inlcuding_tax: //div[@class='product-shop']//p[@class='special-price']/span[@class='price-including-tax']/span[normalize-space(text())='%price%']
                             as_low_as: //div[@class='product-shop']//p[@class='minimal-price']/span[normalize-space(text())='%price%']
                             qty: //input[@class='input-text qty'][@value='%price%']
-                            availability: //*[@class='availability in-stock']/span
-                            availability_param: //*[@class='availability in-stock']/span[text()='%avail%']
+                            availability: //p[contains(text(), 'Availability:')]/span
+                            availability_param: //p[contains(text(), 'Availability:')]/span[text()='%avail%']
                             short_description: //div[@class='short-description']//div[@class='std' and contains(.,'%shortDescription%')]
                             ex_qty: //input[@class='input-text qty']
                             ex_price_regular: //div[@class='product-shop']//span[@class='regular-price']

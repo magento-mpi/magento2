@@ -41,9 +41,7 @@ class Product_TempTest extends Mage_Selenium_TestCase
      * <p>Log in to Backend.</p>
      */
     public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
+    {}
 
     /**
      * <p>Preconditions:</p>
@@ -51,29 +49,39 @@ class Product_TempTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('manage_products');
-//        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
     }
 
 
     /**
+     * @dataProvider dataProv
      * @test
      */
-    public function allFieldsInSimple()
+    public function allFieldsInSimple($productType, $availability)
     {
         //Data
-        $productData = $this->loadData('frontend_simple_product_details_validation',
-                NULL, array('general_name', 'general_sku'));
-        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        $productData = $this->loadData('frontend_' . $productType . '_product_details_validation',
+                array('inventory_stock_availability' => $availability), array('general_name', 'general_sku'));
         //Steps
-        $this->productHelper()->createProduct($productData);
+        $this->productHelper()->createProduct($productData, $productType);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Verifying
-        $xpathArray = $this->productHelper()->frontVerifyProductInfo($productData);
+        $this->productHelper()->frontVerifyProductInfo($productData);
 
+    }
+
+    public function dataProv()
+    {
+        return array(
+            array('simple', 'In Stock'),
+            array('simple', 'Out of Stock'),
+            array('virtual', 'In Stock'),
+            array('virtual', 'Out of Stock'),
+        );
     }
 
 }

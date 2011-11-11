@@ -996,7 +996,18 @@ class Product_Helper extends Mage_Selenium_TestCase
         $this->frontOpenProduct($productData['general_name']);
         $xpathArray = $this->getCustomOptionsXpathes($productData);
         foreach ($xpathArray as $key => $value) {
-            $this->assertTrue($this->isElementPresent($value), 'Could not find element ' . $value);
+            if (!preg_match('/custom_options/', $key)) {
+                $this->assertTrue($this->isElementPresent($value), 'Could not find element ' . $key);
+            } else {
+                foreach ($value as $k => $v) {
+                    if (array_key_exists('xpath', $v)) {
+                        $this->assertTrue($this->isElementPresent($v['xpath']),
+                                          'Could not find element type "' . $v['type'] .
+                                          '" and title "' . $v['title'] . '"');
+                    }
+                }
+            }
+
         }
     }
 
@@ -1009,12 +1020,11 @@ class Product_Helper extends Mage_Selenium_TestCase
     public function getCustomOptionsXpathes(array $productData)
     {
         $xpathArray = array();
-        $title = '';
-        $price = '';
         $date = strtotime(date("m/d/Y"));
-        $startDate = strtotime($productData['prices_special_price_from']);
-        $expirationDate = strtotime($productData['prices_special_price_to']);
-        $priceToCalc = '';
+        $startDate = isset($productData['prices_special_price_from'])
+                ? strtotime($productData['prices_special_price_from']) : 1;
+        $expirationDate = isset($productData['prices_special_price_to'])
+                ? strtotime($productData['prices_special_price_to']) : 1;
         if ($startDate <= $date && $expirationDate >= $date) {
             $priceToCalc = $productData['prices_special_price'];
         } else {
@@ -1027,27 +1037,29 @@ class Product_Helper extends Mage_Selenium_TestCase
         $shortDescription = (isset($productData['general_short_description'])) ?
                 $productData['general_short_description'] : NULL;
         $longDescription = (isset($productData['general_description'])) ? $productData['general_description'] : NULL;
-
-        $avail = ($avail == 'In Stock') ? 'In stock' : 'Out of stock';
-        $allowedQty = ($avail == NULL) ? '1' : $allowedQty;
-
-        $this->addParameter('avail', $avail);
-        $xpathArray[] = $this->_getControlXpath('pageelement', 'availability_param');
-
-        $this->addParameter('price', $allowedQty);
-        $xpathArray[] = $this->_getControlXpath('pageelement', 'qty');
-
         if ($shortDescription) {
             $this->addParameter('shortDescription', $shortDescription);
-            $xpathArray[] = $this->_getControlXpath('pageelement', 'short_description');
+            $xpathArray['Short Description'] = $this->_getControlXpath('pageelement', 'short_description');
         }
         if ($longDescription) {
             $this->addParameter('longDescription', $longDescription);
-            $xpathArray[] = $this->_getControlXpath('pageelement', 'descriprion');
+            $xpathArray['Description'] = $this->_getControlXpath('pageelement', 'descriprion');
         }
-
+        $avail = ($avail == 'In Stock') ? 'In stock' : 'Out of stock';
+        if ($avail == 'Out of stock') {
+            $this->addParameter('avail', $avail);
+            $xpathArray['Availability'] = $this->_getControlXpath('pageelement', 'availability_param');
+            return $xpathArray;
+        }
+        $allowedQty = ($allowedQty == NULL) ? '1' : $allowedQty;
+        $this->addParameter('price', $allowedQty);
+        $xpathArray['Quantity'] = $this->_getControlXpath('pageelement', 'qty');
+        $i=0;
         foreach ($productData['custom_options_data'] as $key => $value) {
             $title = $value['custom_options_general_title'];
+            $optionType = $value['custom_options_general_input_type'];
+            $xpathArray['custom_options']['option_' . $i]['title'] = $title;
+            $xpathArray['custom_options']['option_' . $i]['type'] = $optionType;
             $this->addParameter('title', $title);
             if ($value['custom_options_general_input_type'] == 'Drop-down' ||
                     $value['custom_options_general_input_type'] == 'Multiple Select') {
@@ -1055,16 +1067,23 @@ class Product_Helper extends Mage_Selenium_TestCase
                     if (preg_match('/^custom_option_row_/', $k)) {
                         $optionTitle = $v['custom_options_title'];
                         $this->addParameter('optionTitle', $optionTitle);
-                        if ($v['custom_options_price_type'] == 'Fixed' && isset($v['custom_options_price'])) {
-                            $optionPrice = number_format((float) $v['custom_options_price'], 2);
-                            $this->addParameter('optionPrice', $optionPrice);
-                            $xpathArray[] = $this->_getControlXpath('pageelement', 'custom_option_select');
-                        } elseif ($v['custom_options_price_type'] == 'Percent' && isset($v['custom_options_price'])) {
-                            $optionPrice = number_format(round($priceToCalc / 100 * $v['custom_options_price'], 2), 2);
-                            $this->addParameter('optionPrice', $optionPrice);
-                            $xpathArray[] = $this->_getControlXpath('pageelement', 'custom_option_select');
+                        if (array_key_exists('custom_options_price_type', $v)) {
+                            if ($v['custom_options_price_type'] == 'Fixed' && isset($v['custom_options_price'])) {
+                                $optionPrice = number_format((float) $v['custom_options_price'], 2);
+                                $this->addParameter('optionPrice', $optionPrice);
+                                $xpathArray['custom_options']['option_' . $i]['xpath'] =
+                                        $this->_getControlXpath('pageelement', 'custom_option_select');
+                            } elseif ($v['custom_options_price_type'] == 'Percent'
+                                      && isset($v['custom_options_price'])) {
+                                $optionPrice = number_format(round
+                                                             ($priceToCalc / 100 * $v['custom_options_price'], 2), 2);
+                                $this->addParameter('optionPrice', $optionPrice);
+                                $xpathArray['custom_options']['option_' . $i]['xpath'] =
+                                        $this->_getControlXpath('pageelement', 'custom_option_select');
+                            }
                         } else {
-                            $xpathArray[] = $this->_getControlXpath('pageelement', 'custom_option_select_wo_price');
+                            $xpathArray['custom_options']['option_' . $i]['xpath'] =
+                                    $this->_getControlXpath('pageelement', 'custom_option_select_wo_price');
                         }
                     }
                 }
@@ -1074,27 +1093,37 @@ class Product_Helper extends Mage_Selenium_TestCase
                     if ($value['custom_options_price_type'] == 'Fixed' && isset($value['custom_options_price'])) {
                         $price = '$' . number_format((float) $value['custom_options_price'], 2);
                         $this->addParameter('price', $price);
-                        $xpathArray[] = $this->_getControlXpath('pageelement', 'custom_option_non_select');
-                    } elseif($value['custom_options_price_type'] == 'Percent' && isset($value['custom_options_price'])) {
+                        $xpathArray['custom_options']['option_' . $i]['xpath'] =
+                                $this->_getControlXpath('pageelement', 'custom_option_non_select');
+                    } elseif($value['custom_options_price_type'] == 'Percent'
+                             && isset($value['custom_options_price'])) {
                         $price = '$' . number_format(round($priceToCalc / 100 * $value['custom_options_price'], 2), 2);
                         $this->addParameter('price', $price);
-                        $xpathArray[] = $this->_getControlXpath('pageelement', 'custom_option_non_select');
+                        $xpathArray['custom_options']['option_' . $i]['xpath'] =
+                                $this->_getControlXpath('pageelement', 'custom_option_non_select');
                     }
                 }
                 foreach ($value as $k => $v) {
                     if (preg_match('/^custom_option_row_/', $k)) {
                         $optionTitle = $v['custom_options_title'];
                         $this->addParameter('optionTitle', $optionTitle);
-                        if ($v['custom_options_price_type'] == 'Fixed' && isset($v['custom_options_price'])) {
-                            $optionPrice = number_format((float) $v['custom_options_price'], 2);
-                            $this->addParameter('optionPrice', $optionPrice);
-                            $xpathArray[] = $this->_getControlXpath('pageelement', 'custom_option_check');
-                        } elseif ($v['custom_options_price_type'] == 'Percent' && isset($v['custom_options_price'])) {
-                            $optionPrice = number_format(round($priceToCalc / 100 * $v['custom_options_price'], 2), 2);
-                            $this->addParameter('optionPrice', $optionPrice);
-                            $xpathArray[] = $this->_getControlXpath('pageelement', 'custom_option_check');
+                        if (array_key_exists('custom_options_price_type', $v)) {
+                            if ($v['custom_options_price_type'] == 'Fixed' && isset($v['custom_options_price'])) {
+                                $optionPrice = number_format((float) $v['custom_options_price'], 2);
+                                $this->addParameter('optionPrice', $optionPrice);
+                                $xpathArray['custom_options']['option_' . $i]['xpath'] =
+                                        $this->_getControlXpath('pageelement', 'custom_option_check');
+                            } elseif ($v['custom_options_price_type'] == 'Percent'
+                                      && isset($v['custom_options_price'])) {
+                                $optionPrice = number_format(round
+                                                             ($priceToCalc / 100 * $v['custom_options_price'], 2), 2);
+                                $this->addParameter('optionPrice', $optionPrice);
+                                $xpathArray['custom_options']['option_' . $i]['xpath'] =
+                                        $this->_getControlXpath('pageelement', 'custom_option_check');
+                            }
                         } else {
-                            $xpathArray[] = $this->_getControlXpath('pageelement', 'custom_option_check_wo_price');
+                            $xpathArray['custom_options']['option_' . $i]['xpath'] =
+                                    $this->_getControlXpath('pageelement', 'custom_option_check_wo_price');
                         }
                     }
                 }
@@ -1103,16 +1132,20 @@ class Product_Helper extends Mage_Selenium_TestCase
                     if ($value['custom_options_price_type'] == 'Fixed' && isset($value['custom_options_price'])) {
                         $price = '$' . number_format((float) $value['custom_options_price'], 2);
                         $this->addParameter('price', $price);
-                        $xpathArray[] = $this->_getControlXpath('pageelement', 'custom_option_non_select');
+                        $xpathArray['custom_options']['option_' . $i]['xpath'] =
+                                $this->_getControlXpath('pageelement', 'custom_option_non_select');
                     } elseif($value['custom_options_price_type'] == 'Percent' && isset($value['custom_options_price'])){
                         $price = '$' . number_format(round($priceToCalc / 100 * $value['custom_options_price'], 2), 2);
                         $this->addParameter('price', $price);
-                        $xpathArray[] = $this->_getControlXpath('pageelement', 'custom_option_non_select');
+                        $xpathArray['custom_options']['option_' . $i]['xpath'] =
+                                $this->_getControlXpath('pageelement', 'custom_option_non_select');
                     } else {
-                        $xpathArray[] = $this->_getControlXpath('pageelement', 'custom_option_non_select_wo_price');
+                        $xpathArray['custom_options']['option_' . $i]['xpath'] =
+                                $this->_getControlXpath('pageelement', 'custom_option_non_select_wo_price');
                     }
                 }
             }
+            $i++;
         }
         return $xpathArray;
     }
