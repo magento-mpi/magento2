@@ -75,4 +75,10 @@ abstract class Magento_Test_Webservice_Abstract
     {
         return !empty($this->_session);
     }
+
+    public function setSession($sessionId)
+    {
+        $this->_session = $sessionId;
+        return $this;
+    }
 }

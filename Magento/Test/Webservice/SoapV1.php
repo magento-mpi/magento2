@@ -30,7 +30,7 @@ class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
     public function init()
     {
         $this->_client = new Zend_Soap_Client(TESTS_WEBSERVICE_URL.'/api/soap/?wsdl=1');
-        $this->_session =  $this->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
+        $this->setSession($this->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY));
     }
 
     public function call($path, $params = array())
