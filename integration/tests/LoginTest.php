@@ -49,6 +49,10 @@ class LoginTest extends Magento_Test_Webservice
      */
     public function _testLoginDirect()
     {
+        if (TESTS_WEBSERVICE_TYPE!=self::SOAPV1) {
+            return;
+        }
+        
         $client = new SoapClient(TESTS_WEBSERVICE_URL.'/api/soap/?wsdl=1', array('trace'=>true, 'exceptions'=>false));
         $sessionId = $client->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
         $this->assertNotEmpty($sessionId);
@@ -77,6 +81,94 @@ class LoginTest extends Magento_Test_Webservice
         }
     }
 
+    /**
+     * @expectedException SoapFault
+     */
+    public function testLoginInvalidCredentials()
+    {
+        if (TESTS_WEBSERVICE_TYPE!=self::SOAPV1) {
+            return;
+        }
+        
+        $client = new SoapClient(TESTS_WEBSERVICE_URL.'/api/soap/?wsdl=1', array('trace'=>true, 'exceptions'=>true));
+        $sessionId = $client->login(TESTS_WEBSERVICE_USER, 'invalid_api_key');
+    }
+
+    /**
+     * @expectedException SoapFault
+     */
+    public function testLoginInvalidXmlStructure()
+    {
+        if (TESTS_WEBSERVICE_TYPE!=self::SOAPV1) {
+            return;
+        }
+        
+        $client = new SoapClient(TESTS_WEBSERVICE_URL.'/api/soap/?wsdl=1', array('trace'=>true, 'exceptions'=>true));
+            $requestXml = file_get_contents(dirname(__FILE__) . '/_files/requestInvalid.xml');
+            $location = TESTS_WEBSERVICE_URL.'/index.php/api/soap/index/';
+            $action = 'urn:Mage_Api_Model_Server_HandlerAction';
+            $version = 1;
+        $responseXml = $client->__doRequest($requestXml, $location, $action, $version);
+
+        /*$doc = new DOMDocument;
+        $doc->loadXML($responseXml);
+        $sessionId = $doc->getElementsByTagName('loginReturn')->item(0)->textContent;*/
+    }
+
+    public function testLoginInvalidXmlNamespaces()
+    {
+        if (TESTS_WEBSERVICE_TYPE!=self::SOAPV1) {
+            return;
+        }
+
+        $requestXml = file_get_contents(dirname(__FILE__) . '/_files/requestInvalidNamespace.xml');
+        $location = TESTS_WEBSERVICE_URL.'/index.php/api/soap/index/';
+        $action = 'urn:Mage_Api_Model_Server_HandlerAction';
+        $version = 1;
+        
+        $responseXml = $this->getWebService()->getClient()->_doRequest($this->getWebService()->getClient()->getSoapClient(), $requestXml, $location, $action, $version);
+
+
+        //$client = new SoapClient(TESTS_WEBSERVICE_URL.'/api/soap/?wsdl=1', array('trace'=>true, 'exceptions'=>true));
+        //$responseXml = $client->__doRequest($requestXml, $location, $action, $version);
+
+        $doc = new DOMDocument;
+        $doc->loadXML($responseXml);
+        $xpath = new DOMXpath($doc);
+        $element = $xpath->query('//env:Fault/env:Code/env:Value')->item(0);
+        $this->assertEquals('env:VersionMismatch', $element->textContent);
+    }
+
+    /**
+     * @expectedException SoapFault
+     */
+    public function testUseInvalidSessionIdCategoryUpdate()
+    {
+        $categoryId = 55;
+        $name = 'sub category 01 '.time();
+        $sessionId = '3e5f2c59cad5a08528461f6a9f4b727d';
+
+        $data = array(
+            'categoryId'    => $categoryId,
+            'categoryData'  => array(
+                'is_active' => '1',
+                'name'      => $name,
+                'default_sort_by'   => 'name',
+                'available_sort_by' => array(
+                    'sort_by'   => 'name'
+                )
+            )
+        );
+
+        $this->getWebService()->setSession($sessionId);
+        $this->call('category.update', $data);
+
+        $categoryUpdated = new Mage_Catalog_Model_Category();
+        $categoryUpdated->load($categoryId);
+
+        $this->assertEquals($name, $categoryUpdated['name']);
+    }
+    
     /**
      * Test vulnerability on session start
      */
