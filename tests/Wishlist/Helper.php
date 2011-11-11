@@ -92,14 +92,19 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
      * Removes the product(s) from the wishlist
      *
      * @param string|array $productNameSet Product name (string) or array of product names to remove
+     * @param boolean $validate If true, fails the test in case the removed product is not in the wishlist.
      */
-    public function frontRemoveProductsFromWishlist($productNameSet)
+    public function frontRemoveProductsFromWishlist($productNameSet, $validate=false)
     {
         if (is_string($productNameSet))
             $productNameSet = array($productNameSet);
         foreach ($productNameSet as $productName) {
             $this->addParameter('productName', $productName);
-            $this->clickControlAndConfirm('link', 'remove_item', 'confirmation_for_delete');
+            if ($this->controlIsPresent('link', 'remove_item')) {
+                $this->clickControlAndConfirm('link', 'remove_item', 'confirmation_for_delete');
+            } else if ($validate) {
+                $this->fail($productName . ' is not in the wishlist.');
+            }
         }
     }
 
@@ -133,7 +138,7 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
      *
      * @param string|array $productNameSet Product name (string) or array of product names to add
      */
-    public function frontAddToShoppingCart($productNameSet)
+    public function frontAddToShoppingCart($productNameSet) //todo: specify custom options
     {
         if (is_string($productNameSet))
             $productNameSet = array($productNameSet);

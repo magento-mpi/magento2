@@ -71,9 +71,12 @@ my_wishlist:
                             added_on: //tr[contains(.,'%productName%')]//span[@class='nobr']
         messages: &wishlistMessages
             successfully_added_product: //li[normalize-space(@class)='success-msg' and contains(.,'%productName% has been added to your wishlist.')]
+            successfully_added_products: //li[normalize-space(@class)='success-msg' and contains(.,'%productQty% product(s) have been added to shopping cart:')]
             successfully_shared_wishlist: //li[normalize-space(@class)='success-msg' and contains(.,'Your Wishlist has been shared.')]
+            specify_product_links: //li[normalize-space(@class)='error-msg' and contains(.,'Please specify product link(s) for "%productName%".')]
+            specify_product_options: //li[normalize-space(@class)='error-msg' and contains(.,'s option(s) for "%productName%".')]
             confirmation_for_delete: Are you sure you want to remove this product from your wishlist?
-            invalid_emails: //div[@class='validation-advice' and @id='advice-validate-emails-email_address']
+            invalid_emails: //li[@class='error-msg' and contains(.,'Please input a valid email address.')]
             required_emails: //div[@class='validation-advice' and @id='advice-required-entry-email_address' and text()='This is a required field.']
         links:
             back: //p[@class='back-link']/a[contains(.,'Back')]
@@ -82,6 +85,11 @@ my_wishlist_index:
     mca: wishlist/index/
     title: My Wishlist
     uimap: *myWishlist
+
+wishlist_configure_product:
+    mca: ishlist/index/configure/id/%id%/
+    title: %productName%
+    uimap: #tbd
 
 share_wishlist:
     mca: wishlist/index/share/
