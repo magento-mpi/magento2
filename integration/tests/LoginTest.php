@@ -35,7 +35,7 @@ class LoginTest extends Magento_Test_Webservice
      *
      * @return void
      */
-    public function _testLogin()
+    public function testLogin()
     {
         /** @var $client Magento_Test_Webservice_SoapV1|Magento_Test_Webservice_SoapV2|Magento_Test_Webservice_XmlRpc */
         $client = $this->getWebService();
