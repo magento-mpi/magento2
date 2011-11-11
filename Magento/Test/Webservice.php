@@ -41,7 +41,12 @@ class Magento_Test_Webservice extends Magento_TestCase
      */
     protected static $_fixtures = array();
 
-    private $_webServiceMap = array(
+    /**
+     * Clients class name list
+     *
+     * @var array
+     */
+    protected $_webServiceMap = array(
         'soapv1'=>'Magento_Test_Webservice_SoapV1',
         'soapv2'=>'Magento_Test_Webservice_SoapV2',
         'xmlrpc'=>'Magento_Test_Webservice_XmlRpc'
@@ -50,7 +55,7 @@ class Magento_Test_Webservice extends Magento_TestCase
     /**
      * Get webservice adapter
      *
-     * @return mixed
+     * @return Magento_Test_Webservice_Abstract
      */
     public function getWebService()
     {
@@ -71,13 +76,15 @@ class Magento_Test_Webservice extends Magento_TestCase
      */
     public function call($path, $params = array())
     {
-        if(null === self::$_ws) {
+        if (null === self::$_ws) {
             $this->getWebService();
         }
         return self::$_ws->call($path, $params);
     }
 
     /**
+     * Convert Simple XML to array
+     *
      * @param SimpleXMLObject $xml
      * @param String $keyTrimmer
      * @return array
