@@ -68,39 +68,32 @@ class Mage_Api_Model_Role extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Add filtering before set
+     * Filter data before save
      *
-     * @param mixed $key
-     * @param mixed $value
      * @return Mage_Api_Model_Role
      */
-    public function setData($key, $value = null)
+    protected function _beforeSave()
     {
-        list($key, $value) = $this->_filter($key, $value);
-        return parent::setData($key, $value);
+        $this->filter();
+        parent::_beforeSave();
+        return $this;
     }
 
     /**
-     * @param string|array $key
-     * @param mixed|null $value
-     * @return array
+     * Filter set data
+     *
+     * @return Mage_Api_Model_Role
      */
-    public function _filter($key, $value = null)
+    public function filter()
     {
-        $isArray = false;
-        if (!is_array($key)) {
-            $data = array($key => $value);
-        } else {
-            $isArray = true;
-            $data = $key;
+        $data = $this->getData();
+        if (!$this->_filters || !$data) {
+            return $this;
         }
-
         /** @var $filter Mage_Core_Model_Input_Filter */
         $filter = Mage::getModel('core/input_filter');
         $filter->setFilters($this->_filters);
-
-        $data = $filter->filter($data);
-
-        return ($isArray ? array($data, null) : array(array_shift($data), $value));
+        $this->setData($filter->filter($data));
+        return $this;
     }
 }
