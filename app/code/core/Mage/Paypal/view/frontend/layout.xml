@@ -122,7 +122,7 @@
             </block>
         </reference>
         <reference name="head">
-            <action method="addItem"><type>skin_js</type><name>Mage_Paypal::review.js</name></action>
+            <action method="addJs"><file>Mage_Paypal::review.js</file></action>
         </reference>
         <block type="Mage_Core_Block_Text_List" name="additional.product.info" />
     </paypal_payflowadvanced_review>
