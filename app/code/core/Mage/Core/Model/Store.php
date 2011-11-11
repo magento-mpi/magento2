@@ -76,7 +76,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     const URL_TYPE_LINK                   = 'link';
     const URL_TYPE_DIRECT_LINK            = 'direct_link';
     const URL_TYPE_WEB                    = 'web';
-    const URL_TYPE_SKIN                   = 'skin';
     const URL_TYPE_JS                     = 'js';
     const URL_TYPE_MEDIA                  = 'media';
 
@@ -543,10 +542,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                     $url = $this->_updatePathUseRewrites($url);
                     break;
 
-                case self::URL_TYPE_SKIN:
                 case self::URL_TYPE_JS:
                     $secure = is_null($secure) ? $this->isCurrentlySecure() : (bool) $secure;
-                    $url = $this->getConfig('web/' . ($secure ? 'secure' : 'unsecure') . '/base_' . $type . '_url');
+                    $url = $this->getConfig('web/' . ($secure ? 'secure' : 'unsecure') . '/base_js_url');
                     break;
 
                 case self::URL_TYPE_MEDIA:

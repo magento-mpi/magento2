@@ -87,7 +87,7 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
     {
         $this->dispatch('catalog/product/gallery/id/1');
 
-        $this->assertContains('http://localhost/media/catalog/product/', $this->getResponse()->getBody());
+        $this->assertContains('http://localhost/pub/media/catalog/product/', $this->getResponse()->getBody());
         $this->assertContains($this->_getProductImageFile(), $this->getResponse()->getBody());
     }
 

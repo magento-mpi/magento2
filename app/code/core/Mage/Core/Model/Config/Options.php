@@ -62,9 +62,9 @@ class Mage_Core_Model_Config_Options extends Varien_Object
         $this->_data['etc_dir']     = $appRoot . DIRECTORY_SEPARATOR . 'etc';
         $this->_data['lib_dir']     = $root . DIRECTORY_SEPARATOR . 'lib';
         $this->_data['locale_dir']  = $appRoot . DIRECTORY_SEPARATOR . 'locale';
-        $this->_data['js_dir']      = $root . DIRECTORY_SEPARATOR . 'js';
-        $this->_data['media_dir']   = $root . DIRECTORY_SEPARATOR . 'media';
-        $this->_data['skin_dir']    = $root . DIRECTORY_SEPARATOR . 'skin';
+        $this->_data['pub_dir']     = $root . DIRECTORY_SEPARATOR . 'pub';
+        $this->_data['js_dir']      = $this->_data['pub_dir'] . DIRECTORY_SEPARATOR . 'js';
+        $this->_data['media_dir']   = $this->_data['pub_dir'] . DIRECTORY_SEPARATOR . 'media';
         $this->_data['var_dir']     = $this->getVarDir();
         $this->_data['tmp_dir']     = $this->_data['var_dir'] . DIRECTORY_SEPARATOR . 'tmp';
         $this->_data['cache_dir']   = $this->_data['var_dir'] . DIRECTORY_SEPARATOR . 'cache';
@@ -159,6 +159,16 @@ class Mage_Core_Model_Config_Options extends Varien_Object
     public function getLocaleDir()
     {
         return $this->_data['locale_dir'];
+    }
+
+    /**
+     * Public folder paths getter
+     *
+     * @return string
+     */
+    public function getPubDir()
+    {
+        return $this->_data['pub_dir'];
     }
 
     /**
