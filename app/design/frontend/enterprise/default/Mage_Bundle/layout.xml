@@ -185,7 +185,7 @@ Additional block for bundle product type
     <PRODUCT_TYPE_bundle translate="label" module="bundle">
         <label>Catalog Product View (Bundle)</label>
         <reference name="head">
-            <action method="addItem"><type>skin_js</type><name>Mage_Bundle::bundle.js</name></action>
+            <action method="addJs"><file>Mage_Bundle::bundle.js</file></action>
         </reference>
         <reference name="product.info">
             <action method="setTemplate"><template>Mage_Bundle::catalog/product/view.phtml</template></action>

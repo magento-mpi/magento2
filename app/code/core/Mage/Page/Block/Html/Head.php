@@ -36,7 +36,6 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
 {
     /**
      * Initialize template
-     *
      */
     protected function _construct()
     {
@@ -48,12 +47,14 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      *
      * @param string $name
      * @param string $params
+     * @param string|null $if
+     * @param string|null $cond
      * @return Mage_Page_Block_Html_Head
      */
-    public function addCss($name, $params = "")
+    public function addCss($name, $params = '', $if = null, $cond = null)
     {
-        $this->addItem('skin_css', $name, $params);
-        return $this;
+        $params = 'rel="stylesheet" type="text/css"' . ($params ? ' ' . trim($params) : ' media="all"');
+        return $this->_addItem('css', $name, $params, $if, $cond);
     }
 
     /**
@@ -61,12 +62,13 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      *
      * @param string $name
      * @param string $params
+     * @param string|null $if
+     * @param string|null $cond
      * @return Mage_Page_Block_Html_Head
      */
-    public function addJs($name, $params = "")
+    public function addJs($name, $params = '', $if = null, $cond = null)
     {
-        $this->addItem('js', $name, $params);
-        return $this;
+        return $this->_addItem('js', $name, $params, $if, $cond);
     }
 
     /**
@@ -74,12 +76,12 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      *
      * @param string $name
      * @param string $params
+     * @param string|null $cond
      * @return Mage_Page_Block_Html_Head
      */
-    public function addCssIe($name, $params = "")
+    public function addCssIe($name, $params = '', $cond = null)
     {
-        $this->addItem('skin_css', $name, $params, 'IE');
-        return $this;
+        return $this->addCss($name, $params, 'IE', $cond);
     }
 
     /**
@@ -87,12 +89,24 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      *
      * @param string $name
      * @param string $params
+     * @param string|null $cond
      * @return Mage_Page_Block_Html_Head
      */
-    public function addJsIe($name, $params = "")
+    public function addJsIe($name, $params = '', $cond = null)
     {
-        $this->addItem('js', $name, $params, 'IE');
-        return $this;
+        return $this->addJs($name, $params, 'IE', $cond);
+    }
+
+    /**
+     * Add RSS element to HEAD entity
+     *
+     * @param string $title
+     * @param string $href
+     * @return Mage_Page_Block_Html_Head
+     */
+    public function addRss($title, $href)
+    {
+        return $this->_addItem('link', $href, 'rel="alternate" type="application/rss+xml" title="' . $title . '"');
     }
 
     /**
@@ -104,42 +118,31 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     public function addLinkRel($rel, $href)
     {
-        $this->addItem('link_rel', $href, 'rel="' . $rel . '"');
-        return $this;
+        return $this->_addItem('link', $href, 'rel="' . $rel . '"');
     }
 
     /**
      * Add HEAD Item
      *
-     * Allowed types:
-     *  - js
-     *  - js_css
-     *  - skin_js
-     *  - skin_css
-     *  - rss
-     *
      * @param string $type
      * @param string $name
      * @param string $params
-     * @param string $if
-     * @param string $cond
+     * @param string|null $if
+     * @param string|null $cond
      * @return Mage_Page_Block_Html_Head
      */
-    public function addItem($type, $name, $params=null, $if=null, $cond=null)
+    protected function _addItem($type, $name, $params = '', $if = null, $cond = null)
     {
         if (empty($name)) {
             throw new Exception('File name must be not empty.');
         }
-        if (empty($params) && in_array($type, array('skin_css', 'js_css'))) {
-            $params = 'media="all"';
-        }
-        $this->_data['items'][$type.'/'.$name] = array(
+        $this->_data['items'][$type . '/' . $name] = array(
             'type'   => $type,
             'name'   => $name,
-            'params' => $params,
+            'params' => trim($params),
             'if'     => $if,
             'cond'   => $cond,
-       );
+        );
         return $this;
     }
 
@@ -156,6 +159,11 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
         return $this;
     }
 
+    /**
+     * Render HTML for the added head items
+     *
+     * @return string
+     */
     public function getCssJsHtml()
     {
         $lines = array();
@@ -164,25 +172,20 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
             if (!is_null($item['cond']) && !$this->getData($item['cond'])) {
                 continue;
             }
-            $contentType = $this->_mapToContentType($item['type']);
-            if ($contentType == 'css') {
-                $item['params'] .= ' rel="stylesheet" type="text/css"';
-            } elseif ($item['type'] == 'rss') {
-                $item['params'] .= ' rel="alternate" type="application/rss+xml"';
-            }
+            $contentType = $item['type'];
             $group = $item['if'] . '|' . (empty($item['params']) ? '_' : $item['params']) . '|' . $contentType;
             $meta[$group] = array($item['if'], (string)$item['params'], $contentType);
-            $lines[$group][$item['name']] = $this->_mapToStaticType($item['type']);
+            $lines[$group][] = $item['name'];
         }
 
         $html   = '';
         foreach ($lines as $group => $items) {
             list($if, $params, $contentType) = $meta[$group];
             if (!empty($if)) {
-                $html .= '<!--[if ' . $if .']>'."\n";
+                $html .= '<!--[if ' . $if . ']>' . "\n";
             }
             if ($params) {
-                $params = ' ' . trim($params);
+                $params = ' ' . $params;
             }
             switch ($contentType) {
                 case 'css':
@@ -196,7 +199,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
                     }
                 break;
                 case 'link':
-                    foreach ($items as $file => $type) {
+                    foreach ($items as $file) {
                         $html .= sprintf('<link%s href="%s" />' . "\n", $params, $file);
                     }
                 break;
@@ -206,50 +209,6 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
             }
         }
         return $html;
-    }
-
-    /**
-     * Map block types to design model static types
-     *
-     * @param string $type
-     * @return string
-     */
-    protected function _mapToStaticType($type)
-    {
-        switch ($type) {
-            case 'js_css':
-            case 'js':
-                return Mage_Core_Model_Design_Package::STATIC_TYPE_LIB;
-            case 'skin_css':
-            case 'skin_js':
-                return Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN;
-            default:
-                return '';
-        }
-    }
-
-    /**
-     * Map block types to content types
-     *
-     * @param string $type
-     * @return string
-     * @throws Exception on unsupported type
-     */
-    protected function _mapToContentType($type)
-    {
-        switch ($type) {
-            case 'js_css':
-            case 'skin_css':
-                return 'css';
-            case 'js':
-            case 'skin_js':
-                return 'js';
-            case 'rss':
-            case 'link_rel':
-                return 'link';
-            default:
-                throw new Exception("Unknown type: '{$type}'.");
-        }
     }
 
     /**

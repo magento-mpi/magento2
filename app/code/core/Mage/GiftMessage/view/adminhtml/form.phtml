@@ -24,7 +24,7 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php echo $this->helper('core/js')->includeSkinScript('Mage_Adminhtml::sales/order/create/giftmessage.js') ?>
+<?php echo $this->helper('core/js')->includeScript('Mage_Adminhtml::sales/order/create/giftmessage.js') ?>
 <?php if(!$this->getSaveMode()): ?>
 <form action="<?php echo $this->getSaveUrl() ?>" id="message-form" method="post" class="a-left">
     <?php echo $this->getBlockHtml('formkey')?>

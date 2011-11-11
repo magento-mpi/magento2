@@ -148,9 +148,9 @@
 
     <calendar>
         <reference name="head">
-            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>
-            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>
-            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+            <action method="addCss"><file>calendar/calendar-win2k-1.css</file><params/></action>
+            <action method="addJs"><file>calendar/calendar.js</file></action>
+            <action method="addJs"><file>calendar/calendar-setup.js</file></action>
         </reference>
         <reference name="content">
             <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="Mage_Page::js/calendar.phtml"/>

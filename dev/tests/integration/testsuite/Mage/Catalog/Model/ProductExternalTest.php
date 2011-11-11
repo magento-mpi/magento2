@@ -301,6 +301,8 @@ class Mage_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(array(), $this->_model->getAvailableInCategories());
         $this->_model->load(1); // fixture
-        $this->assertEquals(array(2, 3, 4), $this->_model->getAvailableInCategories());
+        $actualCategoryIds = $this->_model->getAvailableInCategories();
+        sort($actualCategoryIds); // not depend on the order of items
+        $this->assertEquals(array(2, 3, 4), $actualCategoryIds);
     }
 }

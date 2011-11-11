@@ -60,6 +60,7 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
     public function getConfig($data = array())
     {
         $config = new Varien_Object();
+        $design = Mage::getDesign();
 
         $config->setData(array(
             'enabled'                       => $this->isEnabled(),
@@ -72,9 +73,9 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
             'encode_directives'             => true,
             'directives_url'                => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_wysiwyg/directive'),
             'popup_css'                     =>
-                Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css',
+                $design->getSkinUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css'),
             'content_css'                   =>
-                Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/content.css',
+                $design->getSkinUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/content.css'),
             'width'                         => '100%',
             'plugins'                       => array()
         ));

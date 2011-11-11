@@ -1,0 +1,9 @@
+// Files that are not published with Magento EE
+// ---------------------------------------------------
+app/design/adminhtml/default/default/skin/pro
+app/design/frontend/pro
+app/design/install/default/pro
+pub/error/pro
+LICENSE_PRO.txt
+LICENSE_PRO.html
+app/code/core/Mage/PageCache

@@ -31,7 +31,7 @@ Product view
 -->
     <catalog_product_view translate="label">
         <reference name="head">
-            <action method="addCss"><stylesheet>Social_Facebook::css/facebook.css</stylesheet></action>
+            <action method="addCss"><file>Social_Facebook::css/facebook.css</file></action>
         </reference>
         <reference name="product.info.extrahint">
             <block type="social_facebook/start" name="social_facebook_start" >
@@ -43,7 +43,7 @@ Product view
 
     <review_product_list translate="label">
         <reference name="head">
-            <action method="addCss"><stylesheet>Social_Facebook::css/facebook.css</stylesheet></action>
+            <action method="addCss"><file>Social_Facebook::css/facebook.css</file></action>
         </reference>
         <reference name="product.info.extrahint">
             <block type="social_facebook/start" name="social_facebook_start" >
