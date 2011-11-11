@@ -188,6 +188,7 @@ class Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest extends M
     public function fullCrediMemo($captureType, $refundType, $orderData)
     {
         //Steps and Verifying
+        $this->addParameter('invoice_id', 1);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);

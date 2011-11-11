@@ -68,6 +68,7 @@ class AdminUser_Helper extends Mage_Selenium_TestCase
         $this->waitForElement(array(self::$xpathAdminLogo,
                                     self::$xpathErrorMessage,
                                     self::$xpathValidationMessage));
+        $this->validatePage();
     }
 
     /**
@@ -83,6 +84,7 @@ class AdminUser_Helper extends Mage_Selenium_TestCase
         $this->waitForElement(array(self::$xpathSuccessMessage,
                                     self::$xpathErrorMessage,
                                     self::$xpathValidationMessage));
+         $this->validatePage();
     }
 
 }

@@ -560,6 +560,11 @@ new_configurable_product:
     title: New Product / Manage Products / Catalog / Magento Admin
     uimap: *newProduct
 
+duplicated_configurable_product:
+    mca: catalog_product/new/attributes/%attributesUrl%/id/%id%/
+    title: New Product / Manage Products / Catalog / Magento Admin
+    uimap: *newProduct
+
 # Edit Product page
 edit_product:
     mca: catalog_product/edit/id/%id%/

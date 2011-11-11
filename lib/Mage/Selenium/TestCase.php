@@ -975,7 +975,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $xpath = $uipage->$method($controlName);
         } catch (Exception $e) {
             $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
-                    . 'Current page "' . $this->_findCurrentPageFromUrl($this->getLocation()) . '": '
+                    . 'Current page "' . $this->getCurrentPage() . '": '
                     . $e->getMessage() . ' - "' . $controlName . '"';
             $this->fail($errorMessage);
         }
@@ -2171,13 +2171,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             return false;
         }
 
+        foreach ($data as $key => $value) {
+            if (in_array($key, $skipElements) || $value === '%noValue%')
+                unset ($data[$key]);
+        }
         $formDataMap = $this->_getFormDataMap($fieldsets, $data);
 
         $resultFlag = true;
         foreach ($formDataMap as $formFieldName => $formField) {
             switch ($formField['type']) {
                 case self::FIELD_TYPE_INPUT:
-                    if ($this->isElementPresent($formField['path']) && $this->isEditable($formField['path'])) {
+                    if ($this->isElementPresent($formField['path'])) {
                         $val = $this->getValue($formField['path']);
                         if ($val != $formField['value']) {
                             $this->messages['error'][] = 'The stored value is not equal to specified: (\''
@@ -2191,7 +2195,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     break;
                 case self::FIELD_TYPE_CHECKBOX:
                 case self::FIELD_TYPE_RADIOBUTTON:
-                    if ($this->isElementPresent($formField['path']) && $this->isEditable($formField['path'])) {
+                    if ($this->isElementPresent($formField['path'])) {
                         $isChecked = $this->isChecked($formField['path']);
                         $expectedVal = strtolower($formField['value']);
                         if (($isChecked && $expectedVal != 'yes') ||
@@ -2207,7 +2211,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     }
                     break;
                 case self::FIELD_TYPE_DROPDOWN:
-                    if ($this->isElementPresent($formField['path']) && $this->isEditable($formField['path'])) {
+                    if ($this->isElementPresent($formField['path'])) {
                         $label = $this->getSelectedLabel($formField['path']);
                         if ($formField['value'] != $label) {
                             $this->messages['error'][] = 'The stored value is not equal to specified: (\''
@@ -2220,7 +2224,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     }
                     break;
                 case self::FIELD_TYPE_MULTISELECT:
-                    if ($this->isElementPresent($formField['path']) && $this->isEditable($formField['path'])) {
+                    if ($this->isElementPresent($formField['path'])) {
                         $selectedLabels = $this->getSelectedLabels($formField['path']);
                         $expectedLabels = explode(',', $formField['value']);
                         $expectedLabels = array_map('trim', $expectedLabels);

@@ -48,7 +48,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         if (!$this->checkCurrentPage('log_in_to_admin') && $this->isElementPresent(self::$xpathLogOutAdmin)) {
             $this->logoutAdminUser();
         }
-        $this->assertTrue($this->checkCurrentPage('log_in_to_admin'), $this->messages);
+        $this->validatePage('log_in_to_admin');
         $this->addParameter('id', '0');
     }
 
