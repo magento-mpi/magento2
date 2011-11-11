@@ -1069,13 +1069,13 @@ class Product_Helper extends Mage_Selenium_TestCase
                         $this->addParameter('optionTitle', $optionTitle);
                         if (array_key_exists('custom_options_price_type', $v)) {
                             if ($v['custom_options_price_type'] == 'Fixed' && isset($v['custom_options_price'])) {
-                                $optionPrice = number_format((float) $v['custom_options_price'], 2);
+                                $optionPrice = '$' . number_format((float) $v['custom_options_price'], 2);
                                 $this->addParameter('optionPrice', $optionPrice);
                                 $xpathArray['custom_options']['option_' . $i]['xpath'] =
                                         $this->_getControlXpath('pageelement', 'custom_option_select');
                             } elseif ($v['custom_options_price_type'] == 'Percent'
                                       && isset($v['custom_options_price'])) {
-                                $optionPrice = number_format(round
+                                $optionPrice = '$' . number_format(round
                                                              ($priceToCalc / 100 * $v['custom_options_price'], 2), 2);
                                 $this->addParameter('optionPrice', $optionPrice);
                                 $xpathArray['custom_options']['option_' . $i]['xpath'] =
@@ -1109,13 +1109,13 @@ class Product_Helper extends Mage_Selenium_TestCase
                         $this->addParameter('optionTitle', $optionTitle);
                         if (array_key_exists('custom_options_price_type', $v)) {
                             if ($v['custom_options_price_type'] == 'Fixed' && isset($v['custom_options_price'])) {
-                                $optionPrice = number_format((float) $v['custom_options_price'], 2);
+                                $optionPrice = '$' . number_format((float) $v['custom_options_price'], 2);
                                 $this->addParameter('optionPrice', $optionPrice);
                                 $xpathArray['custom_options']['option_' . $i]['xpath'] =
                                         $this->_getControlXpath('pageelement', 'custom_option_check');
                             } elseif ($v['custom_options_price_type'] == 'Percent'
                                       && isset($v['custom_options_price'])) {
-                                $optionPrice = number_format(round
+                                $optionPrice = '$' . number_format(round
                                                              ($priceToCalc / 100 * $v['custom_options_price'], 2), 2);
                                 $this->addParameter('optionPrice', $optionPrice);
                                 $xpathArray['custom_options']['option_' . $i]['xpath'] =

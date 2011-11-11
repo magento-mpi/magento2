@@ -74,9 +74,9 @@ product_page:
                         pageelements:
                             custom_option_non_select: //dt[./label[contains(normalize-space(text()),'%title%') and //span[normalize-space(text())='%price%']]]
                             custom_option_non_select_wo_price: //dt[./label[contains(normalize-space(text()),'%title%')]]
-                            custom_option_select: //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//option[contains(normalize-space(text()),'%optionTitle% +$%optionPrice%')]
+                            custom_option_select: //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//option[contains(normalize-space(text()),'%optionTitle% +%optionPrice%')]
                             custom_option_select_wo_price: //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//option[contains(normalize-space(text()),'%optionTitle%')]
-                            custom_option_check: //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//label[contains(normalize-space(text()),'%optionTitle%')]//span[contains(normalize-space(text()),'+')]/span[@class='price' and contains(normalize-space(text()),'$%optionPrice%')]
+                            custom_option_check: //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//label[contains(normalize-space(text()),'%optionTitle%')]//span[contains(normalize-space(text()),'+')]/span[@class='price' and contains(normalize-space(text()),'%optionPrice%')]
                             custom_option_check_wo_price: //dt[./label[contains(normalize-space(text()),'%title%')]]/following-sibling::dd[1]//label[contains(normalize-space(text()),'%optionTitle%')]
                 -
                     details:
