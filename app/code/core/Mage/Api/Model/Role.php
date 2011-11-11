@@ -31,8 +31,6 @@
  * @method Mage_Api_Model_Resource_Role getResource()
  * @method int getParentId()
  * @method Mage_Api_Model_Role setParentId(int $value)
- * @method int getRolename()
- * @method Mage_Api_Model_Role setRolename() setRolename(string $name)
  * @method int getTreeLevel()
  * @method Mage_Api_Model_Role setTreeLevel(int $value)
  * @method int getSortOrder()
@@ -51,49 +49,10 @@
 class Mage_Api_Model_Role extends Mage_Core_Model_Abstract
 {
     /**
-     * Filters
-     *
-     * @var array
-     */
-    protected $_filters = array(
-        'rolename' => array(array('zend' => 'StripTags')),
-    );
-
-    /**
      * Initialize resource
      */
     protected function _construct()
     {
         $this->_init('api/role');
-    }
-
-    /**
-     * Filter data before save
-     *
-     * @return Mage_Api_Model_Role
-     */
-    protected function _beforeSave()
-    {
-        $this->filter();
-        parent::_beforeSave();
-        return $this;
-    }
-
-    /**
-     * Filter set data
-     *
-     * @return Mage_Api_Model_Role
-     */
-    public function filter()
-    {
-        $data = $this->getData();
-        if (!$this->_filters || !$data) {
-            return $this;
-        }
-        /** @var $filter Mage_Core_Model_Input_Filter */
-        $filter = Mage::getModel('core/input_filter');
-        $filter->setFilters($this->_filters);
-        $this->setData($filter->filter($data));
-        return $this;
     }
 }
