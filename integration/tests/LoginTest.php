@@ -142,31 +142,16 @@ class LoginTest extends Magento_Test_Webservice
     /**
      * @expectedException SoapFault
      */
-    public function testUseInvalidSessionIdCategoryUpdate()
+    public function testUseInvalidSessionIdCategoryCreate()
     {
-        $categoryId = 55;
-        $name = 'sub category 01 '.time();
+
+        $categoryFixture = simplexml_load_file(dirname(__FILE__) . '/Catalog/Category/_fixtures/category.xml');
+        $data = self::simpleXmlToArray($categoryFixture->create);
+
         $sessionId = '3e5f2c59cad5a08528461f6a9f4b727d';
-
-        $data = array(
-            'categoryId'    => $categoryId,
-            'categoryData'  => array(
-                'is_active' => '1',
-                'name'      => $name,
-                'default_sort_by'   => 'name',
-                'available_sort_by' => array(
-                    'sort_by'   => 'name'
-                )
-            )
-        );
-
+        
         $this->getWebService()->setSession($sessionId);
-        $this->call('category.update', $data);
-
-        $categoryUpdated = new Mage_Catalog_Model_Category();
-        $categoryUpdated->load($categoryId);
-
-        $this->assertEquals($name, $categoryUpdated['name']);
+        $categoryId = $this->call('category.create', $data);
     }
     
     /**
