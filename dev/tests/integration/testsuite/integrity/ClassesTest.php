@@ -40,7 +40,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             'Enterprise_Enterprise_Helper_Data',
         );
         if (in_array($className, $skippedClasses)) {
-            $this->markTestSkipped('MAGETWO-605');
+            $this->markTestIncomplete('MAGETWO-605');
         }
 
         $this->assertTrue(
