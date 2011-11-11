@@ -227,7 +227,7 @@ $testCases = array(
 
 // generate random data
 for ($i = 0; $i < 50; ++$i) {
-    $randomPrice       = mt_rand(1,1000000) / 100;
+    $randomPrice       = mt_rand(1, 1000000) / 100;
     $randomCount       = mt_rand(2, 300);
     $randomCount1      = $randomCount + 4;
     $randomPrice1      = round(
