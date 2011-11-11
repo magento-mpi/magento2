@@ -4,7 +4,7 @@
  *
  * @category   Mage
  * @package    Mage_Api
- * @author     Magento PaaS Team <paas-team@magentocommerce.com>
+ * @author     Magento Api Team <api-team@magento.com>
  */
 class Mage_Api_Model_SessionTest extends Mage_PHPUnit_TestCase
 {

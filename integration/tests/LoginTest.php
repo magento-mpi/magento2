@@ -76,4 +76,17 @@ class LoginTest extends Magento_Test_Webservice
             $this->assertStringNotMatchesFormat('%sDROP TABLE bbb%s', $query);
         }
     }
+
+    /**
+     * Test vulnerability on session start
+     */
+    public function testSessionStartVulnerability()
+    {
+        $session = $this->getWebService()->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
+        //try assert equals session id by old algorithm with real session id
+        $time = time();
+        $this->assertTrue(
+            md5($time) != $session,
+            'Session API starting has vulnerability.');
+    }
 }
