@@ -66,11 +66,13 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             '<script type="text/javascript" src="http://localhost/pub/js/one.js"></script>' . "\n"
             . '<script type="text/javascript" '
-            . 'src="http://localhost/pub/media/skin/frontend/' . $package . '/default/default/en_US/Mage_Bundle/bundle.js">'
+            . 'src="http://localhost/pub/media/skin/frontend/'
+            . $package . '/default/default/en_US/Mage_Bundle/bundle.js">'
             . '</script>' . "\n"
             . '<link media="all" rel="stylesheet" type="text/css" href="http://localhost/pub/js/three.css" />' . "\n"
             . '<link media="all" rel="stylesheet" type="text/css" '
-                . 'href="http://localhost/pub/media/skin/frontend/' . $package . '/default/default/en_US/css/styles.css" />'
+                . 'href="http://localhost/pub/media/skin/frontend/'
+                . $package . '/default/default/en_US/css/styles.css" />'
                 . "\n"
             . '<link rel="alternate" type="application/rss+xml" href="http://example.com/feed.xml" />' . "\n"
             . '<link rel="next" href="http://example.com/page1.html" />' . "\n"
