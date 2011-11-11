@@ -838,19 +838,6 @@ class Mage_Core_Model_Design_Package
     }
 
     /**
-     * Get URL for static library file.
-     * Usually it is javascript or supplementary file for javascript library.
-     *
-     * @param string|null $file
-     * @param bool|null $isSecure
-     * @return string
-     */
-    public function getStaticLibUrl($file = null, $isSecure = null)
-    {
-        return Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS, $isSecure) . $file;
-    }
-
-    /**
      * Canonize the specified filename
      *
      * Removes excessive "./" and "../" from the path.

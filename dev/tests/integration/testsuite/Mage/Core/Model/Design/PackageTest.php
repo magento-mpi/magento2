@@ -235,6 +235,10 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
                 'varien/product.js',
                 'http://localhost/js/varien/product.js',
             ),
+            'lib folder' => array(
+                'varien',
+                'http://localhost/js/varien',
+            )
         );
     }
 
