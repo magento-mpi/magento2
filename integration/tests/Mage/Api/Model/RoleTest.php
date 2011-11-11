@@ -30,8 +30,9 @@
  * @category    Mage
  * @package     Mage_Api
  * @author      Magento Api Team <api-team@magento.com>
+ * @todo        Move this test to unit tests
  */
-class Mage_Api_Model_RoleTest extends Mage_PHPUnit_TestCase
+class Mage_Api_Model_RoleTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test data filtering
@@ -44,9 +45,14 @@ class Mage_Api_Model_RoleTest extends Mage_PHPUnit_TestCase
         $input = 'test <script>alert(1)</script>';
         $expected = 'test alert(1)';
 
+        //test filter method
+        $model->setRolename($input)->filter();
+        $this->assertTrue($expected == $model->getRolename());
+
+        //test filtering after save
         $model->setData(array('rolename' => $input));
+        $model->save();
         $this->assertTrue($expected == $model->getRolename());
-        $model->setRolename($input);
-        $this->assertTrue($expected == $model->getRolename());
+        $model->delete();
     }
 }
