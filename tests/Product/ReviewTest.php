@@ -34,18 +34,14 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Product_TempTest extends Mage_Selenium_TestCase
+class Product_ReviewTest extends Mage_Selenium_TestCase
 {
 
-    /**
-     * <p>Log in to Backend.</p>
-     */
     public function setUpBeforeTests()
     {}
 
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Manage Products</p>
      */
     protected function assertPreConditions()
     {
@@ -54,24 +50,27 @@ class Product_TempTest extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
     }
 
-
     /**
+     * <p>Review product on frontend.</p>
+     * <p>Steps:</p>
+     * <p>1. Create simple and virtual products in stock and out of stock;</p>
+     * <p>2. Fill custom options for each product;</p>
+     * <p>3. Navigate to frontend;</p>
+     * <p>4. Validate the product details;</p>
+     * <p>Expected result:</p>
+     * <p>Products are created, Custom options are available for in stock product and disabled for out of stock;</p>
+     *
      * @dataProvider dataProv
      * @test
      */
     public function allFieldsInSimple($productType, $availability)
     {
-        //Data
         $productData = $this->loadData('frontend_' . $productType . '_product_details_validation',
                 array('inventory_stock_availability' => $availability), array('general_name', 'general_sku'));
-        //Steps
         $this->productHelper()->createProduct($productData, $productType);
-        //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        //Verifying
         $this->productHelper()->frontVerifyProductInfo($productData);
-
     }
 
     public function dataProv()
