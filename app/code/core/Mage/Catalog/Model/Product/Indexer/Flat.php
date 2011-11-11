@@ -25,6 +25,9 @@
  */
 class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_Abstract
 {
+    /**
+     * Data key for matching result to be saved in
+     */
     const EVENT_MATCH_RESULT_KEY = 'catalog_product_flat_match_result';
 
     /**

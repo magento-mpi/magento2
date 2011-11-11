@@ -175,6 +175,10 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         $this->lock();
         try {
             $eventsCollection = $this->getUnprocessedEventsCollection();
+
+            /** @var $eventResource Mage_Index_Model_Resource_Event */
+            $eventResource = Mage::getResourceSingleton('index/event');
+
             if ($eventsCollection->count() > 0 && $processStatus == self::STATUS_PENDING) {
                 $this->_getResource()->beginTransaction();
                 try {
@@ -186,11 +190,17 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
                 }
             } else {
                 //Update existing events since we'll do reindexAll
-                Mage::getResourceSingleton('index/event')->updateProcessEvents($this);
+                $eventResource->updateProcessEvents($this);
                 $this->getIndexer()->reindexAll();
             }
             $this->unlock();
-            $this->_getResource()->endProcess($this);
+
+            $unprocessedEvents = $eventResource->getUnprocessedEvents($this);
+            if ($this->getMode() == self::MODE_MANUAL && (count($unprocessedEvents) > 0)) {
+                $this->_getResource()->updateStatus($this, self::STATUS_REQUIRE_REINDEX);
+            } else {
+                $this->_getResource()->endProcess($this);
+            }
         } catch (Exception $e) {
             $this->unlock();
             $this->_getResource()->failProcess($this);
