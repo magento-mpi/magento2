@@ -1609,25 +1609,25 @@
         </actions>
     </google_sitemap>
 
-    <googlebase_types translate="label">
-        <label>Google Base</label>
+    <googleshopping_types translate="label">
+        <label>Google Shopping</label>
         <expected_models>
-            <Mage_GoogleBase_Model_Type/>
+            <Mage_GoogleShopping_Model_Type/>
         </expected_models>
         <actions>
-            <googlebase_types_edit translate="action">
+            <googleshopping_types_edit translate="action">
                 <action>edit</action>
-            </googlebase_types_edit>
+            </googleshopping_types_edit>
 
-            <googlebase_types_save translate="action">
+            <googleshopping_types_save translate="action">
                 <action>save</action>
-            </googlebase_types_save>
+            </googleshopping_types_save>
 
-            <googlebase_types_delete translate="action">
+            <googleshopping_types_delete translate="action">
                 <action>delete</action>
-            </googlebase_types_delete>
+            </googleshopping_types_delete>
         </actions>
-    </googlebase_types>
+    </googleshopping_types>
 
     <widget_instance translate="label">
         <label>Widget Instances</label>
