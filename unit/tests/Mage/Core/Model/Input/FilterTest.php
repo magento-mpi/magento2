@@ -33,6 +33,11 @@
  */
 class Mage_Core_Model_Input_FilterTest extends Mage_PHPUnit_TestCase
 {
+    /**
+     * Filter list which need to set to filter
+     *
+     * @var array
+     */
     protected $_filters = array(
         'list_values' => array(
             'children_filters' => array(
@@ -56,22 +61,13 @@ class Mage_Core_Model_Input_FilterTest extends Mage_PHPUnit_TestCase
                         'helper' => 'core',
                         'method' => 'stripTags',
                         'args' => array('<p> <div>', true))
-                ),
-                'deep_list' => array(
-                    'children_filters' => array(
-                        'sub1' => array(
-                            array(
-                                'zend' => 'StringToLower',
-                                'args' => array('encoding' => 'utf-8'))),
-                        'sub2' => array(array('zend' => 'Int'))
-                    )
                 )
             )
         )
     );
 
     /**
-     * Filter list which need to add in test
+     * Filter list which need to add to filter
      *
      * @var array
      */
@@ -92,52 +88,6 @@ class Mage_Core_Model_Input_FilterTest extends Mage_PHPUnit_TestCase
     );
 
     /**
-     * Filter data
-     *
-     * @var array
-     */
-    protected $_filterData = array(
-        'name1' => 'some <b>string</b>',
-        'name2' => '888 555',
-        'list_values' => array(
-            'some <b>string2</b>',
-            'some <p>string3</p>',
-        ),
-        'list_values_with_name' => array(
-            'item1' => 'some <b onclick="alert(\'2\')">string4</b>',
-            'item2' => 'some <b onclick="alert(\'1\')">string5</b>',
-            'item3' => 'some <p>string5</p> <b>bold</b> <div>div</div>',
-            'deep_list' => array(
-                'sub1' => 'toLowString',
-                'sub2' => '5 TO INT',
-            )
-        )
-    );
-
-    /**
-     * Expected data
-     *
-     * @var array
-     */
-    protected $_expectedData = array(
-        'name1' => 'SOME STRING',
-        'name2' => '888555',
-        'list_values' => array(
-            0 => 'SOME STRING2',
-            1 => 'SOME STRING3',
-        ),
-        'list_values_with_name' => array(
-            'item1' => 'SOME <B ONCLICK="ALERT(\'2\')">STRING4</B>',
-            'item2' => 'some <b >string5</b>',
-            'item3' => 'some &lt;p&gt;string5&lt;/p&gt; bold &lt;div&gt;div&lt;/div&gt;',
-            'deep_list' => array(
-                'sub1' => 'tolowstring',
-                'sub2' => 5,
-            )
-        ),
-    );
-
-    /**
      * Test filter data collector
      */
     public function testFilter()
@@ -153,7 +103,9 @@ class Mage_Core_Model_Input_FilterTest extends Mage_PHPUnit_TestCase
         $filter->addFilter('name1', array('zend' => 'StripTags'), Zend_Filter::CHAIN_PREPEND);
         $filter->addFilters($this->_filtersToAdd);
 
-        $data = $filter->filter($this->_filterData);
-        $this->assertTrue($data == $this->_expectedData);
+        $filterData = require_once dirname(__FILE__) . '/_fixtures/filterTestFilterData.php';
+        $expectedData = require_once dirname(__FILE__) . '/_fixtures/filterTestExpectedData.php';
+        $data = $filter->filter($filterData);
+        $this->assertTrue($data == $expectedData);
     }
 }
