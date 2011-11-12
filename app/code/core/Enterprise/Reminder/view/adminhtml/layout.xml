@@ -35,9 +35,9 @@
     </adminhtml_reminder_index>
     <adminhtml_reminder_edit>
         <reference name="head">
-            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
-            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
-            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
+            <action method="addJs"><file>mage/adminhtml/wysiwyg/widget.js</file></action>
+            <action method="addCss"><file>prototype/windows/themes/default.css</file></action>
+            <action method="addCss"><file>prototype/windows/themes/magento.css</file></action>
          </reference>
     </adminhtml_reminder_edit>
     <adminhtml_promo_quote_edit>

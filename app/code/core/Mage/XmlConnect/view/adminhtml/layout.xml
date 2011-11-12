@@ -29,7 +29,7 @@
 <layout>
     <default>
         <reference name="head">
-            <action method="addCss"><name>Mage_XmlConnect::css/boxes.css</name></action>
+            <action method="addCss"><file>Mage_XmlConnect::css/boxes.css</file></action>
         </reference>
     </default>
 
@@ -72,15 +72,15 @@
     <adminhtml_mobile_edittemplate>
          <reference name="head">
             <action method="setCanLoadExtJs"><flag>1</flag></action>
-            <action method="addItem"><type>skin_js</type><name>Mage_Adminhtml::variables.js</name></action>
-            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
-            <action method="addJs"><script>lib/flex.js</script></action>
-            <action method="addJs"><script>lib/FABridge.js</script></action>
-            <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
-            <action method="addJs"><script>mage/adminhtml/browser.js</script></action>
-            <action method="addJs"><script>prototype/window.js</script></action>
-            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
-            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
+            <action method="addJs"><file>Mage_Adminhtml::variables.js</file></action>
+            <action method="addJs"><file>mage/adminhtml/wysiwyg/widget.js</file></action>
+            <action method="addJs"><file>lib/flex.js</file></action>
+            <action method="addJs"><file>lib/FABridge.js</file></action>
+            <action method="addJs"><file>mage/adminhtml/flexuploader.js</file></action>
+            <action method="addJs"><file>mage/adminhtml/browser.js</file></action>
+            <action method="addJs"><file>prototype/window.js</file></action>
+            <action method="addCss"><file>prototype/windows/themes/default.css</file></action>
+            <action method="addCss"><file>prototype/windows/themes/magento.css</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_XmlConnect_Block_Adminhtml_Template_Edit" name="template_edit"/>
@@ -138,8 +138,8 @@
             <block type="Mage_XmlConnect_Block_Adminhtml_Mobile_Edit" name="mobile_edit_content"/>
         </reference>
         <reference name="head">
-            <action method="addCss"><name>Mage_XmlConnect::css/dropdown.css</name></action>
-            <action method="addCss"><name>Mage_XmlConnect::css/styles.css</name></action>
+            <action method="addCss"><file>Mage_XmlConnect::css/dropdown.css</file></action>
+            <action method="addCss"><file>Mage_XmlConnect::css/styles.css</file></action>
         </reference>
     </adminhtml_mobile_edit>
 
@@ -162,7 +162,7 @@
             <block type="Mage_XmlConnect_Block_Adminhtml_Mobile_Submission" name="mobile_submission_content"/>
         </reference>
         <reference name="head">
-            <action method="addCss"><name>Mage_XmlConnect::css/styles.css</name></action>
+            <action method="addCss"><file>Mage_XmlConnect::css/styles.css</file></action>
         </reference>
     </adminhtml_mobile_submission>
 

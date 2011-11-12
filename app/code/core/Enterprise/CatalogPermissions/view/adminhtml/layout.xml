@@ -28,15 +28,15 @@
 <layout version="0.1.0">
     <adminhtml_catalog_category_edit>
         <reference name="head">
-            <action method="addItem">
-                <type>skin_js</type><name>Enterprise_CatalogPermissions::category_edit.js</name>
+            <action method="addJs">
+                <file>Enterprise_CatalogPermissions::category_edit.js</file>
             </action>
         </reference>
     </adminhtml_catalog_category_edit>
     <adminhtml_system_config_edit>
          <reference name="head">
-            <action method="addItem">
-                <type>skin_js</type><name>Enterprise_CatalogPermissions::system_config.js</name>
+            <action method="addJs">
+                <file>Enterprise_CatalogPermissions::system_config.js</file>
             </action>
          </reference>
     </adminhtml_system_config_edit>

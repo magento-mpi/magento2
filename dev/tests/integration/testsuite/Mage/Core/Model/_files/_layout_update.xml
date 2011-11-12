@@ -5,13 +5,13 @@
             <title>Magento Admin</title>
          </action>
          <action method="addJs">
-            <script>prototype/prototype.js</script>
+            <file>prototype/prototype.js</file>
          </action>
          <action method="addJs">
-            <script>prototype/window.js</script>
+            <file>prototype/window.js</file>
          </action>
          <action method="addJs" ifconfig="dev/js/deprecation">
-            <script>prototype/deprecation.js</script>
+            <file>prototype/deprecation.js</file>
          </action>
          <block type="Mage_Core_Block_Html_Calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
       </block>
