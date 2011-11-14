@@ -67,15 +67,32 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
             $form->getElement('created_in')->setDisabled('disabled');
         } else {
             $fieldset->removeField('created_in');
-        }
+            $form->getElement('website_id')->addClass('validate-website-has-store');
 
-//        if (Mage::app()->isSingleStoreMode()) {
-//            $fieldset->removeField('website_id');
-//            $fieldset->addField('website_id', 'hidden', array(
-//                'name'      => 'website_id'
-//            ));
-//            $customer->setWebsiteId(Mage::app()->getStore(true)->getWebsiteId());
-//        }
+            $websites = array();
+            foreach (Mage::app()->getWebsites(true) as $website) {
+                $websites[$website->getId()] = !is_null($website->getDefaultStore());
+            }
+            $prefix = $form->getHtmlIdPrefix();
+
+            $form->getElement('website_id')->setAfterElementHtml(
+                '<script type="text/javascript">'
+                . "
+                var {$prefix}_websites = " . Mage::helper('core')->jsonEncode($websites) .";
+                Validation.add(
+                    'validate-website-has-store',
+                    '" . Mage::helper('customer')->__('Please select a website which contains store view') . "',
+                    function(v, elem){
+                        return {$prefix}_websites[elem.value] == true;
+                    }
+                );
+                Element.observe('{$prefix}website_id', 'change', function(){
+                    Validation.validate($('{$prefix}website_id'))
+                }.bind($('{$prefix}website_id')));
+                "
+                . '</script>'
+            );
+        }
 
         $customerStoreId = null;
         if ($customer->getId()) {
