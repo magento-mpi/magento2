@@ -42,6 +42,100 @@ search_shopping_cart_rule:
     filter_status: %noValue%
     filter_priority: %noValue%
 
+all_conditions: &allConditions
+    select_conditions_aggregator: ANY
+    select_conditions_value: 'FALSE'
+    condition_1:
+        select_condition_new_child: Subtotal
+        select_condition_operator: is not one of
+        type_condition_value: Subtotal Value
+    condition_2:
+        select_condition_new_child: Total Items Quantity
+        select_condition_operator: is not one of
+        type_condition_value: Total Items Quantity Value
+    condition_3:
+        select_condition_new_child: Total Weight
+        select_condition_operator: is not one of
+        type_condition_value: Total Weight Value
+    condition_4:
+        select_condition_new_child: Payment Method
+        select_condition_operator: is not
+        select_condition_value: Payflow Pro
+    condition_5:
+        select_condition_new_child: Shipping Method
+        select_condition_operator: is not
+        select_condition_value: '[flatrate] Fixed'
+    condition_6:
+        select_condition_new_child: Shipping Postcode
+        select_condition_operator: is not one of
+        type_condition_value: Shipping Postcode Value
+    condition_7:
+        select_condition_new_child: Shipping Region
+        select_condition_operator: is not one of
+        type_condition_value: Shipping Region Value
+    condition_8:
+        select_condition_new_child: Shipping State/Province
+        select_condition_operator: is not
+        select_condition_value: Alabama
+    condition_9:
+        select_condition_new_child: Shipping Country
+        select_condition_operator: is not
+        select_condition_value: United States
+    condition_10:
+        select_condition_new_child: Product attribute combination
+        select_condition_value: NOT FOUND
+        select_condition_aggregator: ANY
+        sub_condition_1:
+            select_condition_new_child: Price in cart
+            select_condition_operator: is not
+            type_condition_value: 150
+        sub_condition_2:
+            select_condition_new_child: Quantity in cart
+            select_condition_operator: is not
+            type_condition_value: 10
+        sub_condition_3:
+            select_condition_new_child: Row total in cart
+            select_condition_operator: is not
+            type_condition_value: 300
+        sub_condition_4:
+            select_condition_new_child: Attribute Set
+            select_condition_operator: is not
+            select_condition_value: Default
+#        sub_condition_5:
+#            select_condition_new_child: Category
+#            select_condition_operator: is not
+#            select_root_category: Default Category
+        sub_condition_6: &link
+            select_condition_new_child: Conditions Combination
+            select_condition_aggregator: ANY
+            select_condition_value: 'FALSE'
+            sub_condition_1:
+                select_condition_new_child: Price in cart
+                select_condition_operator: is not
+                type_condition_value: 100
+            sub_condition_2:
+                select_condition_new_child: Quantity in cart
+                select_condition_operator: is not
+                type_condition_value: 10
+            sub_condition_3:
+                select_condition_new_child: Row total in cart
+                select_condition_operator: is not
+                type_condition_value: 300
+            sub_condition_4:
+                select_condition_new_child: Attribute Set
+                select_condition_operator: is not
+                select_condition_value: Default
+    condition_11:
+        select_condition_new_child: Products subselection
+        select_condition_attribute: total amount
+        select_condition_operator: is not
+        type_condition_value: United States
+        select_condition_aggregator: ANY
+    condition_12:
+        select_condition_new_child: Conditions combination
+        select_condition_aggregator: ANY
+        select_condition_value: 'FALSE'
+
 test_shopping_cart_rule:
     info:
         rule_name: test_shopping_cart_rule
@@ -57,7 +151,7 @@ test_shopping_cart_rule:
         to_date: 11/9/12
         priority: 10
         public_in_rss_feed: No
-    conditions: %noValue%
+    conditions: *allConditions
     actions:
         apply: Buy X get Y free (discount amount is Y)
         discount_amount: 15
@@ -66,7 +160,7 @@ test_shopping_cart_rule:
         apply_to_shipping_amount: Yes
         free_shipping: For shipment with matching items
         stop_further_rules_processing: Yes
-        action_conditions: %noValue%
+        action_conditions: *link
     labels:
         default_rule_label: default rule label(shop.cart)
         store_view_labels:
