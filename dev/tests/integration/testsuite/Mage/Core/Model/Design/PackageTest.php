@@ -195,7 +195,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             'lib fallback' => array(
                 'varien/product.js',
                 array('_skin' => 'default'),
-                '%s/js/varien/product.js',
+                '%s/pub/js/varien/product.js',
             ),
         );
     }
@@ -233,11 +233,11 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             ),
             'lib file' => array(
                 'varien/product.js',
-                'http://localhost/js/varien/product.js',
+                'http://localhost/pub/js/varien/product.js',
             ),
             'lib folder' => array(
                 'varien',
-                'http://localhost/js/varien',
+                'http://localhost/pub/js/varien',
             )
         );
     }

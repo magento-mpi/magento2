@@ -444,6 +444,12 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             } elseif (strpos($sValue, '{{secure_base_url}}') !== false) {
                 $secureBaseUrl = $this->getConfig(self::XML_PATH_SECURE_BASE_URL);
                 $sValue = str_replace('{{secure_base_url}}', $secureBaseUrl, $sValue);
+            } elseif (strpos($sValue, '{{unsecure_public_url}}') !== false) {
+                $unsecurePublicUrl = $this->getConfig(self::XML_PATH_UNSECURE_BASE_URL) . 'pub/';
+                $sValue = str_replace('{{unsecure_public_url}}', $unsecurePublicUrl, $sValue);
+            } elseif (strpos($sValue, '{{secure_public_url}}') !== false) {
+                $securePublicUrl = $this->getConfig(self::XML_PATH_SECURE_BASE_URL);
+                $sValue = str_replace('{{secure_public_url}}', $securePublicUrl, $sValue) . 'pub/';
             } elseif (strpos($sValue, '{{base_url}}') !== false) {
                 $sValue = Mage::getConfig()->substDistroServerVars($sValue);
             }
@@ -544,7 +550,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
                 case self::URL_TYPE_JS:
                     $secure = is_null($secure) ? $this->isCurrentlySecure() : (bool) $secure;
-                    $url = $this->getConfig('web/' . ($secure ? 'secure' : 'unsecure') . '/base_js_url');
+                    $url = $this->getConfig('web/' . ($secure ? 'secure' : 'unsecure') . '/base_public_url') . 'js/';
                     break;
 
                 case self::URL_TYPE_MEDIA:
