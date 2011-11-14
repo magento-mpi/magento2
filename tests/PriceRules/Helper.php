@@ -37,6 +37,10 @@
 class PriceRules_Helper extends Mage_Selenium_TestCase
 {
 
+    protected static $optionsNesting = 1;
+    protected static $qtyOptionsNesting = 0;
+    protected static $optionsQty = 0;
+
     /**
      * Create new Rule
      *
@@ -90,7 +94,7 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
             unset($actionsData['action_conditions']);
         }
         $this->fillSimpleTab($actionsData, 'rule_actions');
-        $this->addConditions($conditionsData, 'apply_for_cart_items_rule_conditions');
+        $this->addConditions($conditionsData, 'rule_actions');
     }
 
     /**
@@ -128,13 +132,113 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Add Conditions
+     * Add rule conditions
      *
      * @param array $conditionsData
+     * @param string $tabId
      */
-    public function addConditions(array $conditionsData, $fieldSet = '')
+    public function addConditions(array $conditionsData, $tabId = '')
     {
-        
+//        @TODO (not work with selecting Category as condition)
+        $fillArray = array();
+        $isNested = false;
+        foreach ($conditionsData as $key => $value) {
+            if (!is_array($value)) {
+                if ($key == 'select_condition_new_child') {
+                    $isNested = true;
+                }
+                $fillArray[$key] = $value;
+                unset($conditionsData[$key]);
+            }
+        }
+        $returnOptionsNesting = self::$optionsNesting;
+        $returnQtyOptionsNesting = self::$qtyOptionsNesting;
+        $returnOptionsQty = self::$optionsQty;
+        if ($fillArray) {
+            $this->fillConditionFields($fillArray, $tabId = '', $isNested);
+        }
+
+        foreach ($conditionsData as $key => $value) {
+            if (is_array($value)) {
+                $this->addConditions($value, $tabId = '');
+            }
+        }
+        self::$optionsNesting = $returnOptionsNesting;
+        self::$qtyOptionsNesting = $returnQtyOptionsNesting;
+        self::$optionsQty = $returnOptionsQty;
+    }
+
+    /**
+     * Set conditions params
+     */
+    public function setConditionsParams()
+    {
+        $optionsNesting = self::$optionsNesting;
+        if (self::$qtyOptionsNesting > 0) {
+            for ($i = 1; $i < self::$qtyOptionsNesting; $i++) {
+                $optionsNesting = self::$optionsNesting . '--' . self::$optionsQty;
+            }
+            $this->addParameter('condition', $optionsNesting);
+            $xpath = $this->_getControlXpath('fieldset', 'rule_condition_item') . '/li';
+        } else {
+            $xpath = $this->_getControlXpath('fieldset', 'apply_for_rule_conditions') . '/ul/li';
+            $this->addParameter('condition', $optionsNesting);
+        }
+        self::$optionsNesting = $optionsNesting;
+        self::$optionsQty = $this->getXpathCount($xpath);
+        $this->addParameter('key', self::$optionsQty);
+    }
+
+    /**
+     * Fill data for one condition
+     *
+     * @param array $data
+     * @param string $tabId
+     */
+    public function fillConditionFields(array $data, $tabId = '', $isNested = false)
+    {
+        if ($isNested) {
+            self::$qtyOptionsNesting +=1;
+        }
+        $this->setConditionsParams();
+        $formData = $this->getCurrentUimapPage()->getMainForm();
+        if ($tabId && $formData->getTab($tabId)) {
+            $fieldsets = $formData->getTab($tabId)->getAllFieldsets();
+        } else {
+            $fieldsets = $formData->getAllFieldsets();
+        }
+        $fieldsets->assignParams($this->_paramsHelper);
+        $formDataMap = $this->_getFormDataMap($fieldsets, $data);
+
+        try {
+            foreach ($formDataMap as $formFieldName => $formField) {
+                $this->clickControl('link', preg_replace('/(^select_)|(^type_)/', '', $formFieldName), false);
+                switch ($formField['type']) {
+                    case self::FIELD_TYPE_INPUT:
+                        $this->_fillFormField($formField);
+                        break;
+                    case self::FIELD_TYPE_CHECKBOX:
+                        $this->_fillFormCheckbox($formField);
+                        break;
+                    case self::FIELD_TYPE_DROPDOWN:
+                        $this->_fillFormDropdown($formField);
+                        break;
+                    case self::FIELD_TYPE_RADIOBUTTON:
+                        $this->_fillFormRadiobutton($formField);
+                        break;
+                    case self::FIELD_TYPE_MULTISELECT:
+                        $this->_fillFormMultiselect($formField);
+                        break;
+                    default:
+                        throw new PHPUnit_Framework_Exception('Unsupported field type');
+                }
+            }
+        } catch (PHPUnit_Framework_Exception $e) {
+            $errorMessage = isset($formFieldName)
+                    ? 'Problem with field \'' . $formFieldName . '\': ' . $e->getMessage()
+                    : $e->getMessage();
+            $this->fail($errorMessage);
+        }
     }
 
     /**
