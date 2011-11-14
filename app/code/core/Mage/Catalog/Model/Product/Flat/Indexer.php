@@ -296,4 +296,14 @@ class Mage_Catalog_Model_Product_Flat_Indexer extends Mage_Core_Model_Abstract
         $this->_getResource()->reindexAll();
         return $this;
     }
+
+    /**
+     * Retrieve list of attribute codes for flat
+     *
+     * @return array
+     */
+    public function getAttributeCodes()
+    {
+        return $this->_getResource()->getAttributeCodes();
+    }
 }
