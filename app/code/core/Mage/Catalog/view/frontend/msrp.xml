@@ -79,7 +79,7 @@ Default layout, loads most of the pages
 
     <MAP_popup>
         <reference name="head">
-            <action method="addItem" ifconfig="sales/msrp/enabled"><type>skin_js</type><name>Mage_Catalog::msrp.js</name></action>
+            <action method="addJs" ifconfig="sales/msrp/enabled"><file>Mage_Catalog::msrp.js</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_Core_Block_Template" template="Mage_Catalog::msrp/popup.phtml" name="product.tooltip"></block>

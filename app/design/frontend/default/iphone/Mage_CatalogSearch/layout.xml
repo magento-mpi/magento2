@@ -81,9 +81,9 @@
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="head">
-            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
-            <action method="addItem"><type>js</type><name>calendar/calendar.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
-            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addCss"><file>calendar/calendar-win2k-1.css</file><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addJs"><file>calendar/calendar.js</file><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addJs"><file>calendar/calendar-setup.js</file><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
         </reference>
         <reference name="content">
             <block type="Mage_CatalogSearch_Block_Advanced_Form" name="catalogsearch_advanced_form" template="advanced/form.phtml"/>

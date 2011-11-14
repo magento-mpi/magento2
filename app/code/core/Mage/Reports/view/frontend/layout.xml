@@ -28,6 +28,9 @@
 -->
 <layout version="0.1.0">
     <default>
+        <reference name="head">
+            <action method="addCss"><file>Mage_Reports::widgets.css</file></action>
+        </reference>
         <!-- Mage_Reports -->
         <reference name="right">
             <block type="Mage_Reports_Block_Product_Viewed" before="right.permanent.callout" name="right.reports.product.viewed" template="product_viewed.phtml" />
@@ -37,7 +40,7 @@
 
     <print>
         <reference name="head">
-            <action method="addCss"><stylesheet>Mage_Reports::widgets.css</stylesheet></action>
+            <action method="addCss"><file>Mage_Reports::widgets.css</file></action>
         </reference>
     </print>
 

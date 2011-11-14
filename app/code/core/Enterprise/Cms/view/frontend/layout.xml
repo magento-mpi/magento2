@@ -12,12 +12,12 @@
 <layout version="0.1.0">
     <default>
         <reference name="head">
-            <action method="addCss"><stylesheet>Enterprise_Cms::widgets.css</stylesheet></action>
+            <action method="addCss"><file>Enterprise_Cms::widgets.css</file></action>
         </reference>
     </default>
     <print>
         <reference name="head">
-            <action method="addCss"><stylesheet>Enterprise_Cms::widgets.css</stylesheet></action>
+            <action method="addCss"><file>Enterprise_Cms::widgets.css</file></action>
         </reference>
     </print>
 </layout>

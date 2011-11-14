@@ -246,20 +246,20 @@ class Mage_Core_Model_Translate_Inline
             return;
         }
 
-        $baseJsUrl = Mage::getBaseUrl('js');
         $url_prefix = Mage::app()->getStore()->isAdmin() ? 'adminhtml' : 'core';
         $ajaxUrl = Mage::getUrl($url_prefix . '/ajax/translate',
             array('_secure'=>Mage::app()->getStore()->isCurrentlySecure()));
         $trigImg = Mage::getDesign()->getSkinUrl('Mage_Core::fam_book_open.png');
 
         ob_start();
+        $design = Mage::getDesign();
 ?>
-<script type="text/javascript" src="<?php echo $baseJsUrl ?>prototype/window.js"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo $baseJsUrl ?>prototype/windows/themes/default.css"/>
-<link rel="stylesheet" type="text/css" href="<?php echo $baseJsUrl ?>prototype/windows/themes/magento.css"/>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('prototype/window.js') ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('prototype/windows/themes/default.css') ?>"/>
+<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('prototype/windows/themes/magento.css') ?>"/>
 
-<script type="text/javascript" src="<?php echo $baseJsUrl ?>mage/translate_inline.js"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo $baseJsUrl ?>mage/translate_inline.css"/>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('mage/translate_inline.js') ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('mage/translate_inline.css') ?>"/>
 
 <div id="translate-inline-trig"><img src="<?php echo $trigImg ?>" alt="[TR]"/></div>
 <script type="text/javascript">
