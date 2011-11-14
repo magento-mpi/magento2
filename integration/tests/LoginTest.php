@@ -65,20 +65,22 @@ class LoginTest extends Magento_Test_Webservice
      */
     public function testLoginCleanOldSessionsTimeoutSqlInjection()
     {
+        $table = 'fake_table';
+
         $user = $this->getMock('Mage_Api_Model_User', array('getId'));
         $user->expects($this->any())->method('getId')->will($this->returnValue('fake_user'));
 
-        $userResource = $this->getMock('Mage_Api_Model_Mysql4_User', array('getTable'));
-        $userResource->expects($this->any())->method('getTable')->will($this->returnValue('fake_table'));
-        try {
-            $userResource->cleanOldSessions($user);
-        } catch (Exception $e) {
-            $trace = $e->getTrace();
-            $query = $trace[3]['args'][0];
+        //$config = Mage::getConfig()->getResourceConnectionConfig('core_write');
+        $config = array('dbname'=>'fake_db', 'password'=>'fake_password', 'username'=>'fake_username');
 
-            $this->assertStringMatchesFormat('%s3600%s', $query);
-            $this->assertStringNotMatchesFormat('%sDROP TABLE bbb%s', $query);
-        }
+        $adapter = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array('delete'), array((array)$config));
+        $adapter->expects($this->any())->method('delete')->with($this->equalTo($table), new Magento_Test_Constraint_Array(0, $this->logicalAnd($this->matches('%s3600%s'), $this->logicalNot($this->matches('%sDROP TABLE bbb%s')))));
+
+        $userResource = $this->getMock('Mage_Api_Model_Mysql4_User', array('getTable', '_getWriteAdapter'));
+        $userResource->expects($this->any())->method('_getWriteAdapter')->will($this->returnValue($adapter));
+        $userResource->expects($this->any())->method('getTable')->will($this->returnValue('fake_table'));
+
+        $userResource->cleanOldSessions($user);
     }
 
     /**
