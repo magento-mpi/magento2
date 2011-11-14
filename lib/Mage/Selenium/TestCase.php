@@ -1946,7 +1946,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public static function assertTrue($condition, $message = '')
     {
-        if (is_array($message)) {
+        if (is_array($message) && $message) {
             $message = implode("\n", call_user_func_array('array_merge', $message));
         }
 
@@ -1971,7 +1971,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public static function assertFalse($condition, $message = '')
     {
-        if (is_array($message)) {
+        if (is_array($message) && $message) {
             $message = implode("\n", call_user_func_array('array_merge', $message));
         }
 
