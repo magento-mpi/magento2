@@ -136,6 +136,9 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
             $this->getIndexer()->register($event);
             $event->addProcessId($this->getId());
             $this->_resetEventNamespace($event);
+            if ($this->getMode() == self::MODE_MANUAL) {
+                $this->_getResource()->updateStatus($this, self::STATUS_REQUIRE_REINDEX);
+            }
         }
         return $this;
 
