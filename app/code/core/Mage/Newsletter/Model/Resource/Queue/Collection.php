@@ -59,23 +59,6 @@ class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
     }
 
     /**
-     * Joines templates information
-     *
-     * @deprecated since 1.4.0.1
-     *
-     * @return Mage_Newsletter_Model_Resource_Queue_Collection
-     */
-    public function addTemplateInfo()
-    {
-        $this->getSelect()->joinLeft(array('template'=>$this->getTable('newsletter_template')),
-            'template.template_id=main_table.template_id',
-            array('template_subject','template_sender_name','template_sender_email')
-        );
-        $this->_joinedTables['template'] = true;
-        return $this;
-    }
-
-    /**
      * Adds subscribers info to selelect
      *
      * @return Mage_Newsletter_Model_Resource_Queue_Collection

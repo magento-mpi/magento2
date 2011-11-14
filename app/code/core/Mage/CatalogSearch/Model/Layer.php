@@ -61,10 +61,8 @@ class Mage_CatalogSearch_Model_Layer extends Mage_Catalog_Model_Layer
             ->addFinalPrice()
             ->addTaxPercents()
             ->addStoreFilter()
-            ->addUrlRewrite();
-
-        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addVisibleFilterToCollection($collection);
-        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInSearchFilterToCollection($collection);
+            ->addUrlRewrite()
+            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSearchIds());
 
         return $this;
     }

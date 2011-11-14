@@ -53,22 +53,10 @@ class Mage_Poll_Model_Resource_Poll_Collection extends Mage_Core_Model_Resource_
     public function addFieldToFilter($field, $condition = null)
     {
         if ($field == 'stores') {
-            return $this->addStoresFilter($condition);
+            return $this->addStoreFilter($condition);
         } else {
             return parent::addFieldToFilter($field, $condition);
         }
-    }
-
-    /**
-     * Add store filter
-     *
-     * @deprecated
-     * @param mixed $store
-     * @return Mage_Poll_Model_Resource_Poll_Collection
-     */
-    public function addStoresFilter($store)
-    {
-        return $this->addStoreFilter($store);
     }
 
     /**

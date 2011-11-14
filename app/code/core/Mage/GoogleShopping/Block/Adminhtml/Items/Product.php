@@ -78,7 +78,6 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Product extends Mage_Adminhtml_B
             $collection->addIdFilter($excludeIds, true);
         }
 
-        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($collection);
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

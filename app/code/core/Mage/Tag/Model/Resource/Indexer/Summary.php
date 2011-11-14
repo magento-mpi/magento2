@@ -169,10 +169,7 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Mage_Catalog_Model_Resourc
                                 'tp.base_popularity',
                                 '0'
                                 )
-                            . ')',
-                        'uses'              => new Zend_Db_Expr(0), // deprecated since 1.4.0.1
-                        'historical_uses'   => new Zend_Db_Expr(0), // deprecated since 1.4.0.1
-                        'base_popularity'   => new Zend_Db_Expr(0)  // deprecated since 1.4.0.1
+                            . ')'
                     )
                 )
                 ->joinInner(
@@ -225,9 +222,9 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Mage_Catalog_Model_Resourc
                     'customers',
                     'products',
                     'popularity',
-                    'uses',            // deprecated since 1.4.0.1
-                    'historical_uses', // deprecated since 1.4.0.1
-                    'base_popularity'  // deprecated since 1.4.0.1
+                    'uses',
+                    'historical_uses',
+                    'base_popularity'
                 ))
             );
 
@@ -237,10 +234,7 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Mage_Catalog_Model_Resourc
                 'store_id'          => new Zend_Db_Expr(0),
                 'customers'         => 'COUNT(DISTINCT customer_id)',
                 'products'          => 'COUNT(DISTINCT product_id)',
-                'popularity'        => 'COUNT(customer_id)',
-                'uses'              => new Zend_Db_Expr(0), // deprecated since 1.4.0.1
-                'historical_uses'   => new Zend_Db_Expr(0), // deprecated since 1.4.0.1
-                'base_popularity'   => new Zend_Db_Expr(0)  // deprecated since 1.4.0.1
+                'popularity'        => 'COUNT(customer_id)'
             );
 
             $agregateSelect = $writeAdapter->select();

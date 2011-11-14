@@ -171,11 +171,10 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
             ->getProductCollection()
             ->setStoreId(Mage::app()->getStore()->getId())
             ->addStoreFilter()
-            ->setPageSize($this->_maxItemCount);
+            ->setPageSize($this->_maxItemCount)
+            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
         $this->_addProductAttributesAndPrices($collection);
 
-        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($collection);
-        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInCatalogFilterToCollection($collection);
         Mage::getSingleton('Mage_CatalogInventory_Model_Stock')->addInStockFilterToCollection($collection);
 
         return $collection;

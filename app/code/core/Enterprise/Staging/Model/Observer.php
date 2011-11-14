@@ -37,7 +37,7 @@ class Enterprise_Staging_Model_Observer
      */
     public function getTableName($observer)
     {
-        if (!Mage::app()->isInstalled()) {
+        if (!Mage::isInstalled()) {
             return $this;
         }
         if (Mage::app()->getStore()->isAdmin()) {

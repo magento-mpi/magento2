@@ -197,12 +197,6 @@ class Mage_GoogleCheckout_Model_Api extends Varien_Object
     }
 
     /**
-     * @deprecated after 1.4.1.0
-     *
-     */
-    public function processBeacon(){}
-
-    /**
      * Log debug data to file
      *
      * @param mixed $debugData

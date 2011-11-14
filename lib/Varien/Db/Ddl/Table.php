@@ -51,18 +51,6 @@ class Varien_Db_Ddl_Table
     const TYPE_BLOB             = 'blob'; // Used for back compatibility, when query param can't use statement options
     const TYPE_VARBINARY        = 'varbinary'; // A real blob, stored as binary inside DB
 
-    // Deprecated column types, support is left only in MySQL adapter.
-    const TYPE_TINYINT          = 'tinyint';        // Internally converted to TYPE_SMALLINT
-    const TYPE_CHAR             = 'char';           // Internally converted to TYPE_TEXT
-    const TYPE_VARCHAR          = 'varchar';        // Internally converted to TYPE_TEXT
-    const TYPE_LONGVARCHAR      = 'longvarchar';    // Internally converted to TYPE_TEXT
-    const TYPE_CLOB             = 'cblob';          // Internally converted to TYPE_TEXT
-    const TYPE_DOUBLE           = 'double';         // Internally converted to TYPE_FLOAT
-    const TYPE_REAL             = 'real';           // Internally converted to TYPE_FLOAT
-    const TYPE_TIME             = 'time';           // Internally converted to TYPE_TIMESTAMP
-    const TYPE_BINARY           = 'binary';         // Internally converted to TYPE_BLOB
-    const TYPE_LONGVARBINARY    = 'longvarbinary';  // Internally converted to TYPE_BLOB
-
     /**
      * Default and maximal TEXT and BLOB columns sizes we can support for different DB systems.
      */
@@ -293,30 +281,6 @@ class Varien_Db_Ddl_Table
         $primary            = false;
         $primaryPosition    = 0;
         $identity           = false;
-
-        // Convert deprecated types
-        switch ($type) {
-            case self::TYPE_CHAR:
-            case self::TYPE_VARCHAR:
-            case self::TYPE_LONGVARCHAR:
-            case self::TYPE_CLOB:
-                $type = self::TYPE_TEXT;
-                break;
-            case self::TYPE_TINYINT:
-                $type = self::TYPE_SMALLINT;
-                break;
-            case self::TYPE_DOUBLE:
-            case self::TYPE_REAL:
-                $type = self::TYPE_FLOAT;
-                break;
-            case self::TYPE_TIME:
-                $type = self::TYPE_TIMESTAMP;
-                break;
-            case self::TYPE_BINARY:
-            case self::TYPE_LONGVARBINARY:
-                $type = self::TYPE_BLOB;
-                break;
-        }
 
         // Prepare different properties
         switch ($type) {

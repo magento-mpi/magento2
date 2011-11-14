@@ -64,7 +64,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
             $item->addChild('price_tier', implode(PHP_EOL, $tierPricesTextArray));
         }
 
-        list($_minimalPrice, $_maximalPrice) = $product->getPriceModel()->getPrices($product);
+        list($_minimalPrice, $_maximalPrice) = $product->getPriceModel()->getTotalPrices($product);
 
         $_weeeTaxAmount = 0;
         $_minimalPriceTax = $_taxHelper->getPrice($product, $_minimalPrice);

@@ -107,8 +107,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
             ))
             ->addAttributeToSelect('gift_message_available');
 
-        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($collection);
-
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

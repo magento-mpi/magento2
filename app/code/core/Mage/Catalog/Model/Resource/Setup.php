@@ -834,45 +834,6 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
     }
 
     /**
-     * Converts old tree to new
-     *
-     * @deprecated since 1.5.0.0
-     * @return Mage_Catalog_Model_Resource_Setup
-     */
-    public function convertOldTreeToNew()
-    {
-        if (!Mage::getModel('Mage_Catalog_Model_Category')->load(1)->getId()) {
-            Mage::getModel('Mage_Catalog_Model_Category')->setId(1)->setPath(1)->save();
-        }
-
-        $categories = array();
-
-        $select = $this->getConnection()->select();
-        $select->from($this->getTable('catalog_category_entity'));
-        $categories = $this->getConnection()->fetchAll($select);
-
-        if (is_array($categories)) {
-            foreach ($categories as $category) {
-                $path = $this->_getCategoryPath($category);
-                $path = array_reverse($path);
-                $path = implode('/', $path);
-                if ($category['entity_id'] != 1 && substr($path, 0, 2) != '1/') {
-                    $path = "1/{$path}";
-                }
-
-                $this
-                    ->getConnection()
-                    ->update(
-                        $this->getTable('catalog_category_entity'),
-                        array('path' => $path),
-                        array('entity_id = ?' => $category['entity_id'])
-                    );
-            }
-        }
-        return $this;
-    }
-
-    /**
      * Returns category entity row by category id
      *
      * @param int $entityId
@@ -907,30 +868,5 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
         }
 
         return $path;
-    }
-
-    /**
-     * Creates level values for categories and saves them
-     *
-     * @deprecated since 1.5.0.0
-     * @return Mage_Catalog_Model_Resource_Setup
-     */
-    public function rebuildCategoryLevels()
-    {
-        $adapter = $this->getConnection();
-        $select = $adapter->select()
-            ->from($this->getTable('catalog_category_entity'));
-
-        $categories = $adapter->fetchAll($select);
-
-        foreach ($categories as $category) {
-            $level = count(explode('/', $category['path']))-1;
-            $adapter->update(
-                $this->getTable('catalog_category_entity'),
-                array('level' => $level),
-                array('entity_id = ?' => $category['entity_id'])
-            );
-        }
-        return $this;
     }
 }

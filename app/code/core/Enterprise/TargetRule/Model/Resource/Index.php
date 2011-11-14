@@ -194,9 +194,8 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
         /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
             ->setStoreId($object->getStoreId())
-            ->addPriceData($object->getCustomerGroupId());
-        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
-            ->addVisibleInCatalogFilterToCollection($collection);
+            ->addPriceData($object->getCustomerGroupId())
+            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
 
         $actionSelect = $rule->getActionSelect();
         $actionBind   = $rule->getActionSelectBind();

@@ -59,19 +59,6 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
             Mage::getConfig()->loadModulesConfiguration('adminhtml.xml', $adminhtmlConfig);
             $this->_adminhtmlConfig = $adminhtmlConfig;
 
-            /**
-             * @deprecated after 1.4.0.0-alpha2
-             * support backwards compatibility with config.xml
-             */
-            $aclConfig  = Mage::getConfig()->getNode('adminhtml/acl');
-            if ($aclConfig) {
-                $adminhtmlConfig->getNode()->extendChild($aclConfig, true);
-            }
-            $menuConfig = Mage::getConfig()->getNode('adminhtml/menu');
-            if ($menuConfig) {
-                $adminhtmlConfig->getNode()->extendChild($menuConfig, true);
-            }
-
             if (Mage::app()->useCache('config')) {
                 Mage::app()->saveCache($adminhtmlConfig->getXmlString(), $this->getCacheId(),
                     array(Mage_Core_Model_Config::CACHE_TAG));

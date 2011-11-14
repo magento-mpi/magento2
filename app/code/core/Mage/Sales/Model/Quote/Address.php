@@ -913,17 +913,6 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     }
 
     /**
-     * Retrieve total models
-     *
-     * @deprecated
-     * @return array
-     */
-    public function getTotalModels()
-    {
-        return $this->getTotalCollector()->getRetrievers();
-    }
-
-    /**
      * Collect address totals
      *
      * @return Mage_Sales_Model_Quote_Address

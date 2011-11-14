@@ -247,16 +247,12 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
          * global - currency which is set for default in backend
          * base - currency which is set for current website. all attributes that
          *      have 'base_' prefix saved in this currency
-         * store - all the time it was currency of website and all attributes
-         *      with 'base_' were saved in this currency. From now on it is
-         *      deprecated and will be duplication of base currency code.
          * quote/order - currency which was selected by customer or configured by
          *      admin for current store. currency in which customer sees
          *      price thought all checkout.
          *
          * Rates:
-         *      store_to_base & store_to_quote/store_to_order - are deprecated
-         *      base_to_global & base_to_quote/base_to_order - must be used instead
+         *      base_to_global & base_to_quote/base_to_order
          */
 
         $globalCurrencyCode  = Mage::app()->getBaseCurrencyCode();
@@ -272,10 +268,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->setBaseCurrencyCode($baseCurrency->getCode());
         $this->setStoreCurrencyCode($baseCurrency->getCode());
         $this->setQuoteCurrencyCode($quoteCurrency->getCode());
-
-        //deprecated, read above
-        $this->setStoreToBaseRate($baseCurrency->getRate($globalCurrencyCode));
-        $this->setStoreToQuoteRate($baseCurrency->getRate($quoteCurrency));
 
         $this->setBaseToGlobalRate($baseCurrency->getRate($globalCurrencyCode));
         $this->setBaseToQuoteRate($baseCurrency->getRate($quoteCurrency));
@@ -1309,7 +1301,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
 
         $sortedTotals = array();
-        foreach ($this->getBillingAddress()->getTotalModels() as $total) {
+        foreach ($this->getBillingAddress()->getTotalCollector()->getRetrievers() as $total) {
             /* @var $total Mage_Sales_Model_Quote_Address_Total_Abstract */
             if (isset($totals[$total->getCode()])) {
                 $sortedTotals[$total->getCode()] = $totals[$total->getCode()];
@@ -1783,16 +1775,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     }
 
     /**
-     * @deprecated after 1.4 beta1 - one page checkout responsibility
-     */
-    const CHECKOUT_METHOD_REGISTER  = 'register';
-    const CHECKOUT_METHOD_GUEST     = 'guest';
-    const CHECKOUT_METHOD_LOGIN_IN  = 'login_in';
-
-    /**
      * Return quote checkout method code
      *
-     * @deprecated after 1.4 beta1 it is checkout module responsibility
      * @param boolean $originalMethod if true return defined method from begining
      * @return string
      */
@@ -1802,16 +1786,5 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             return self::CHECKOUT_METHOD_LOGIN_IN;
         }
         return $this->_getData('checkout_method');
-    }
-
-    /**
-     * Check is allow Guest Checkout
-     *
-     * @deprecated after 1.4 beta1 it is checkout module responsibility
-     * @return bool
-     */
-    public function isAllowedGuestCheckout()
-    {
-        return Mage::helper('Mage_Checkout_Helper_Data')->isAllowedGuestCheckout($this, $this->getStoreId());
     }
 }

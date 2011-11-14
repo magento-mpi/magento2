@@ -44,12 +44,10 @@ class Mage_Catalog_Block_Seo_Sitemap_Product extends Mage_Catalog_Block_Seo_Site
         $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection();
         /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
 
-        $collection->addAttributeToSelect('name');
-        $collection->addAttributeToSelect('url_key');
-        $collection->addStoreFilter();
-
-        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addVisibleFilterToCollection($collection);
-        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInCatalogFilterToCollection($collection);
+        $collection->addAttributeToSelect('name')
+            ->addAttributeToSelect('url_key')
+            ->addStoreFilter()
+            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
 
         $this->setCollection($collection);
 

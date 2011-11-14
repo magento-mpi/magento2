@@ -59,17 +59,6 @@ class Mage_Backup_Model_Resource_Db
     }
 
     /**
-     * Enter description here ...
-     *
-     * @deprecated after 1.4.0.0-alpha2
-     *
-     */
-    public function crear()
-    {
-        $this->clear();
-    }
-
-    /**
      * Clear data
      *
      */
@@ -159,20 +148,6 @@ class Mage_Backup_Model_Resource_Db
     }
 
     /**
-     * Quote Table Row
-     *
-     * @deprecated 
-     *
-     * @param string $tableName
-     * @param array $row
-     * @return string
-     */
-    protected function _quoteRow($tableName, array $row)
-    {
-        return $row;    
-    }
-
-    /**
      * Retrive table partical data SQL insert
      *
      * @param string $tableName
@@ -241,7 +216,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getFooter()
     {
-        return Mage::getResourceHelper('Mage_Backup')->getFooter();        
+        return Mage::getResourceHelper('Mage_Backup')->getFooter();
     }
 
     /**

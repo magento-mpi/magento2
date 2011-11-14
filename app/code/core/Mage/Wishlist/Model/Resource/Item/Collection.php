@@ -181,7 +181,9 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
             ->addUrlRewrite();
 
         if ($this->_productVisible) {
-            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInSiteFilterToCollection($productCollection);
+            $productCollection->setVisibility(
+                Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds()
+            );
         }
         if ($this->_productSalable) {
             $productCollection = Mage::helper('Mage_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($productCollection);
@@ -261,22 +263,6 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
     }
 
     /**
-     * Add wishlist sort order
-     *
-     * @deprecated after 1.6.0.0-rc2
-     * @see Varien_Data_Collection_Db::setOrder() is used instead
-     *
-     * @param string $attribute
-     * @param string $dir
-     * @return Mage_Wishlist_Model_Resource_Item_Collection
-     */
-    public function addWishListSortOrder($attribute = 'added_at', $dir = 'desc')
-    {
-        $this->setOrder($attribute, $dir);
-        return $this;
-    }
-
-    /**
      * Reset sort order
      *
      * @return Mage_Wishlist_Model_Resource_Item_Collection
@@ -322,35 +308,6 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
     public function setInStockFilter($flag = true)
     {
         $this->_productInStock = (bool)$flag;
-        return $this;
-    }
-
-    /**
-     * Set add days in whishlist
-     *
-     * This method appears in 1.5.0.0 in deprecated state, because:
-     * - we need it to make wishlist item collection interface as much as possible compatible with old
-     *   wishlist product collection
-     * - this method is useless because we can calculate days in php, and don't use MySQL for it
-     *
-     * @deprecated after 1.4.2.0
-     * @return Mage_Wishlist_Model_Resource_Item_Collection
-     */
-    public function addDaysInWishlist()
-    {
-        $this->_addDaysInWishlist = true;
-
-        $adapter = $this->getConnection();
-        $dateModel = Mage::getSingleton('Mage_Core_Model_Date');
-        $resHelper = Mage::getResourceHelper('Mage_Core');
-
-        $offsetFromDb = (int) $dateModel->getGmtOffset();
-        $startDate = $adapter->getDateAddSql('added_at', $offsetFromDb, Varien_Db_Adapter_Interface::INTERVAL_SECOND);
-
-        $nowDate = $dateModel->date();
-        $dateDiff = $resHelper->getDateDiff($startDate, $adapter->formatDate($nowDate));
-
-        $this->getSelect()->columns(array('days_in_wishlist' => $dateDiff));
         return $this;
     }
 

@@ -29,35 +29,7 @@ class Mage_SalesRule_Model_Observer
 {
     protected $_validator;
 
-    /**
-     * Get quote item validator/processor object
-     *
-     * @deprecated
-     * @param   Varien_Event $event
-     * @return  Mage_SalesRule_Model_Validator
-     */
-    public function getValidator($event)
-    {
-        if (!$this->_validator) {
-            $this->_validator = Mage::getModel('Mage_SalesRule_Model_Validator')
-                ->init($event->getWebsiteId(), $event->getCustomerGroupId(), $event->getCouponCode());
-        }
-        return $this->_validator;
-    }
-
-    /**
-     * Process quote item (apply discount to item)
-     *
-     * @deprecated process call movet to total model
-     * @param Varien_Event_Observer $observer
-     */
-    public function sales_quote_address_discount_item($observer)
-    {
-        $this->getValidator($observer->getEvent())
-            ->process($observer->getEvent()->getItem());
-    }
-
-    public function sales_order_afterPlace($observer)
+    public function salesOrderAfterPlace($observer)
     {
         $order = $observer->getEvent()->getOrder();
 

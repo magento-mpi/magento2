@@ -225,24 +225,6 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve Product collection
-     *
-     * @deprecated after 1.4.2.0
-     * @see Mage_Wishlist_Model_Wishlist::getItemCollection()
-     *
-     * @return Mage_Wishlist_Model_Resource_Product_Collection
-     */
-    public function getProductCollection()
-    {
-        $collection = $this->getData('product_collection');
-        if (is_null($collection)) {
-            $collection = Mage::getResourceModel('Mage_Wishlist_Model_Resource_Product_Collection');
-            $this->setData('product_collection', $collection);
-        }
-        return $collection;
-    }
-
-    /**
      * Adding item to wishlist
      *
      * @param   Mage_Wishlist_Model_Item $item

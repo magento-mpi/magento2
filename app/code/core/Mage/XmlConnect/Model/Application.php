@@ -473,8 +473,8 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         );
         $result['general']['xmlconnectVersion'] = Mage::getConfig()->getNode(self::XML_PATH_MODULE_VERSION);
 
-        $result['general']['isAllowedGuestCheckout'] = (int)Mage::getSingleton('Mage_Checkout_Model_Session')
-            ->getQuote()->isAllowedGuestCheckout();
+        $result['general']['isAllowedGuestCheckout'] = Mage::helper('Mage_Checkout_Helper_Data')
+                ->isAllowedGuestCheckout(Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote());
 
         /**
          * Check is guest can post product reviews

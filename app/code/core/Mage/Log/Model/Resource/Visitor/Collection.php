@@ -93,7 +93,7 @@ class Mage_Log_Model_Resource_Visitor_Collection extends Mage_Core_Model_Resourc
 
     /**
      * Online filter used flag
-     * 
+     *
      * @var bool
      */
     protected $_isOnlineFilterUsed = false;
@@ -138,56 +138,8 @@ class Mage_Log_Model_Resource_Visitor_Collection extends Mage_Core_Model_Resourc
         $this->getSelect()
             ->where('customer_table.customer_id > 0')
             ->group('customer_table.customer_id');
-        
+
         return $this;
-    }
-
-    /**
-     * Get GROUP BY date format
-     *
-     * @deprecated since 1.5.0.0
-     * @param string $type
-     * @return string
-     */
-    protected function _getGroupByDateFormat($type)
-    {
-        switch ($type) {
-            case 'day':
-                $format = '%Y-%m-%d';
-                break;
-            default:
-            case 'hour':
-                $format = '%Y-%m-%d %H';
-                break;
-        }
-        return $format;
-    }
-
-    /**
-     * Get range by type
-     *
-     * @deprecated since 1.5.0.0
-     * @param string $typeCode
-     * @return string
-     */
-    protected function _getRangeByType($typeCode)
-    {
-        switch ($typeCode)
-        {
-            case 'day':
-                $range = 'DAY';
-                break;
-            case 'hour':
-                $range = 'HOUR';
-                break;
-            case 'minute':
-            default:
-                $range = 'MINUTE';
-                break;
-
-        }
-
-        return $range;
     }
 
     /**

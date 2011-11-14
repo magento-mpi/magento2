@@ -385,17 +385,6 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
     }
 
     /**
-     * Load is used in configurable products flag
-     * @deprecated
-     *
-     * @return Mage_Eav_Model_Resource_Entity_Attribute_Collection
-     */
-    public function checkConfigurableProducts()
-    {
-        return $this;
-    }
-
-    /**
      * Specify collection attribute codes filter
      *
      * @param string || array $code

@@ -1000,7 +1000,6 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
 
     /**
      * Add status change information to history
-     * @deprecated after 1.4.0.0-alpha3
      *
      * @param  string $status
      * @param  string $comment
@@ -1763,17 +1762,6 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $this->_baseCurrency = Mage::getModel('Mage_Directory_Model_Currency')->load($this->getBaseCurrencyCode());
         }
         return $this->_baseCurrency;
-    }
-
-    /**
-     * Retrieve order website currency for working with base prices
-     * @deprecated  please use getBaseCurrency instead.
-     *
-     * @return Mage_Directory_Model_Currency
-     */
-    public function getStoreCurrency()
-    {
-        return $this->getData('store_currency');
     }
 
     public function formatBasePrice($price)

@@ -427,6 +427,9 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
 
     /**
      * Set capture transaction ID to invoice for informational purposes
+     *
+     * Candidate to be deprecated
+     *
      * @param Mage_Sales_Model_Order_Invoice $invoice
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Payment_Model_Method_Abstract
@@ -459,15 +462,11 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      * @param float $amount
      * @return  Mage_Payment_Model_Abstract
      */
-    //public function refund(Varien_Object $payment, $amount)
     public function refund(Varien_Object $payment, $amount)
     {
-
         if (!$this->canRefund()) {
             Mage::throwException($this->_getHelper()->__('Refund action is not available.'));
         }
-
-
         return $this;
     }
 
@@ -491,20 +490,6 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      */
     public function cancel(Varien_Object $payment)
     {
-        return $this;
-    }
-
-    /**
-     * @deprecated after 1.4.0.0-alpha3
-     * this method doesn't make sense, because invoice must not void entire authorization
-     * there should be method for invoice cancellation
-     * @param Mage_Sales_Model_Order_Invoice $invoice
-     * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Payment_Model_Method_Abstract
-     */
-    public function processBeforeVoid($invoice, $payment)
-    {
-        $payment->setVoidTransactionId($invoice->getTransactionId());
         return $this;
     }
 

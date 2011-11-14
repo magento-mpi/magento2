@@ -62,8 +62,9 @@ class Mage_Catalog_Block_Product_List_Related extends Mage_Catalog_Block_Product
                 );
             $this->_addProductAttributesAndPrices($this->_itemCollection);
         }
-//        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($this->_itemCollection);
-        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInCatalogFilterToCollection($this->_itemCollection);
+        $this->_itemCollection->setVisibility(
+            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds()
+        );
 
         $this->_itemCollection->load();
 

@@ -74,7 +74,6 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
                     array_keys(Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray())
                 )
                 ->addStoreFilter($this->_getStore());
-            Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($collection);
             $this->setData('items_collection', $collection);
         }
         return $this->getData('items_collection');

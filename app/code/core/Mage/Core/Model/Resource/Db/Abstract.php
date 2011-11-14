@@ -35,11 +35,6 @@
 abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Resource_Abstract
 {
     /**
-     * @deprecated since 1.5.0.0
-     */
-    const CHECKSUM_KEY_NAME= 'Checksum';
-
-    /**
      * Cached resources singleton
      *
      * @var Mage_Core_Model_Resource
@@ -422,34 +417,6 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
         }
 
         $this->unserializeFields($object);
-        $this->_afterSave($object);
-
-        return $this;
-    }
-
-    /**
-     * Forsed save object data
-     * forsed update If duplicate unique key data
-     *
-     * @deprecated
-     * @param Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Resource_Db_Abstract
-     */
-    public function forsedSave(Mage_Core_Model_Abstract $object)
-    {
-        $this->_beforeSave($object);
-        $bind = $this->_prepareDataForSave($object);
-        $adapter = $this->_getWriteAdapter();
-        // update
-        if (!is_null($object->getId()) && $this->_isPkAutoIncrement) {
-            unset($bind[$this->getIdFieldName()]);
-            $condition = $adapter->quoteInto($this->getIdFieldName().'=?', $object->getId());
-            $adapter->update($this->getMainTable(), $bind, $condition);
-        } else {
-            $adapter->insertOnDuplicate($this->getMainTable(), $bind, $this->_fieldsForUpdate);
-            $object->setId($adapter->lastInsertId($this->getMainTable()));
-        }
-
         $this->_afterSave($object);
 
         return $this;

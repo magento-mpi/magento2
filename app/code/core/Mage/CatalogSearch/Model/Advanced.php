@@ -125,20 +125,6 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Prepare search condition for attribute
-     *
-     * @deprecated after 1.4.1.0 - use Mage_CatalogSearch_Model_Resource_Advanced->_prepareCondition()
-     *
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
-     * @param string|array $value
-     * @return mixed
-     */
-    protected function _prepareCondition($attribute, $value)
-    {
-        return $this->_getResource()->prepareCondition($attribute, $value, $this->getProductCollection());
-    }
-
-    /**
      * Add advanced search filters to product collection
      *
      * @param   array $values
@@ -182,7 +168,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
                     }
                 }
             } else {
-                $condition = $this->_prepareCondition($attribute, $value);
+                $condition = $this->_getResource()->prepareCondition($attribute, $value, $this->getProductCollection());
                 if ($condition === false) {
                     continue;
                 }
@@ -286,7 +272,8 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
      *
      * @return Mage_CatalogSearch_Model_Resource_Advanced_Collection
      */
-    public function getProductCollection(){
+    public function getProductCollection()
+    {
         if (is_null($this->_productCollection)) {
             $collection = $this->_engine->getAdvancedResultCollection();
             $this->prepareProductCollection($collection);
@@ -311,10 +298,9 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
             ->setStore(Mage::app()->getStore())
             ->addMinimalPrice()
             ->addTaxPercents()
-            ->addStoreFilter();
+            ->addStoreFilter()
+            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSearchIds());
 
-        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addVisibleFilterToCollection($collection);
-        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInSearchFilterToCollection($collection);
         return $this;
     }
 }

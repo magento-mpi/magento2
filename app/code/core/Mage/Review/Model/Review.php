@@ -52,12 +52,6 @@ class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
     protected $_eventPrefix = 'review';
 
     /**
-     * @deprecated after 1.3.2.4
-     *
-     */
-    const ENTITY_PRODUCT = 1;
-
-    /**
      * Review entity codes
      *
      */

@@ -248,17 +248,6 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Send email with new user password
-     *
-     * @return Mage_Admin_Model_User
-     * @deprecated deprecated since version 1.6.1.0
-     */
-    public function sendNewPasswordEmail()
-    {
-        return $this;
-    }
-
-    /**
      * Send email with reset password confirmation link
      *
      * @return Mage_Admin_Model_User
@@ -457,18 +446,6 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
     public function hasAvailableResources()
     {
         return $this->_hasAvailableResources;
-    }
-
-    /**
-     * Find admin start page url
-     *
-     * @deprecated Please use getStartupPageUrl() method instead
-     * @see getStartupPageUrl()
-     * @return string
-     */
-    public function getStatrupPageUrl()
-    {
-        return $this->getStartupPageUrl();
     }
 
     /**

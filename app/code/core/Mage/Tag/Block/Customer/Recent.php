@@ -48,10 +48,8 @@ class Mage_Tag_Block_Customer_Recent extends Mage_Core_Block_Template
             ->setPageSize(5)
             ->setActiveFilter()
             ->load()
-            ->addProductTags();
-
-        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
-            ->addVisibleInSiteFilterToCollection($this->_collection);
+            ->addProductTags()
+            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
     }
 
     public function count()

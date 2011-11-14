@@ -162,12 +162,6 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    public function aggregate()
-    {
-        $this->_getResource()->aggregate($this);
-        return $this;
-    }
-
     public function productEventAggregate($observer)
     {
         $this->_getProductEventTagsCollection($observer)->walk('aggregate');
@@ -183,20 +177,6 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
     public function productDeleteEventAction($observer)
     {
         $this->_getResource()->decrementProducts($this->_getProductEventTagsCollection($observer)->getAllIds());
-        return $this;
-    }
-
-    /**
-     * Add summary data to current object
-     *
-     * @deprecated after 1.4.0.0
-     * @param int $storeId
-     * @return Mage_Tag_Model_Tag
-     */
-    public function addSummary($storeId)
-    {
-        $this->setStoreId($storeId);
-        $this->_getResource()->addSummary($this);
         return $this;
     }
 

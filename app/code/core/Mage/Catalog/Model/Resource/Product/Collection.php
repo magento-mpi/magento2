@@ -70,13 +70,6 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     protected $_urlRewriteCategory           = '';
 
     /**
-     * Is add minimal price to product collection flag
-     *
-     * @var bool
-     */
-    protected $_addMinimalPrice              = false;
-
-    /**
      * Is add final price to product collection flag
      *
      * @var unknown_type
@@ -1003,19 +996,6 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     }
 
     /**
-     * Add minimal price to product collection
-     *
-     * @deprecated sinse 1.3.2.2
-     * @see Mage_Catalog_Model_Resource_Product_Collection::addPriceData
-     *
-     * @return Mage_Catalog_Model_Resource_Product_Collection
-     */
-    protected function _addMinimalPrice()
-    {
-        return $this;
-    }
-
-    /**
      * Add price data for calculate final price
      *
      * @return Mage_Catalog_Model_Resource_Product_Collection
@@ -1207,27 +1187,6 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         return $this->_addTaxPercents;
     }
 
-    /**
-     * Enter description here ...
-     *
-     * @deprecated from 1.3.0
-     *
-     */
-    protected function _addTaxPercents()
-    {
-        $classToRate = array();
-        $request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest();
-        foreach ($this as &$item) {
-            if (null === $item->getTaxClassId()) {
-                $item->setTaxClassId($item->getMinimalTaxClassId());
-            }
-            if (!isset($classToRate[$item->getTaxClassId()])) {
-                $request->setProductClassId($item->getTaxClassId());
-                $classToRate[$item->getTaxClassId()] = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($request);
-            }
-            $item->setTaxPercent($classToRate[$item->getTaxClassId()]);
-        }
-    }
 
     /**
      * Adding product custom options to result collection

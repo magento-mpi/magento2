@@ -57,48 +57,6 @@ class Mage_Catalog_Model_Product_Visibility extends Varien_Object
     }
 
     /**
-     * Add visible in catalog filter to collection
-     *
-     * @deprecated
-     * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
-     * @return Mage_Catalog_Model_Product_Visibility
-     */
-    public function addVisibleInCatalogFilterToCollection(Mage_Eav_Model_Entity_Collection_Abstract $collection)
-    {
-        $collection->setVisibility($this->getVisibleInCatalogIds());
-//        $collection->addAttributeToFilter('visibility', array('in'=>$this->getVisibleInCatalogIds()));
-        return $this;
-    }
-
-    /**
-     * Add visibility in searchfilter to collection
-     *
-     * @deprecated
-     * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
-     * @return Mage_Catalog_Model_Product_Visibility
-     */
-    public function addVisibleInSearchFilterToCollection(Mage_Eav_Model_Entity_Collection_Abstract $collection)
-    {
-        $collection->setVisibility($this->getVisibleInSearchIds());
-        //$collection->addAttributeToFilter('visibility', array('in'=>$this->getVisibleInSearchIds()));
-        return $this;
-    }
-
-    /**
-     * Add visibility in site filter to collection
-     *
-     * @deprecated
-     * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
-     * @return Mage_Catalog_Model_Product_Visibility
-     */
-    public function addVisibleInSiteFilterToCollection(Mage_Eav_Model_Entity_Collection_Abstract $collection)
-    {
-        $collection->setVisibility($this->getVisibleInSiteIds());
-        //$collection->addAttributeToFilter('visibility', array('in'=>$this->getVisibleInSiteIds()));
-        return $this;
-    }
-
-    /**
      * Retrieve visible in catalog ids array
      *
      * @return array

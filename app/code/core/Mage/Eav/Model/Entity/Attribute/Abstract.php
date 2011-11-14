@@ -122,16 +122,6 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
     }
 
     /**
-     * Retrieve attribute configuration (deprecated)
-     *
-     * @return Mage_Eav_Model_Entity_Attribute_Abstract
-     */
-    public function getConfig()
-    {
-        return $this;
-    }
-
-    /**
      * Get attribute name
      *
      * @return string
@@ -244,17 +234,6 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
     {
         $this->setData('entity_type', $type);
         return $this;
-    }
-
-    /**
-     * Return is attribute global
-     *
-     * @deprecated moved to catalog attribute model
-     * @return integer
-     */
-    public function getIsGlobal()
-    {
-        return $this->_getData('is_global');
     }
 
     /**

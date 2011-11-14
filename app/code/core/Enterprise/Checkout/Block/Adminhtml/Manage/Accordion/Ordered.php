@@ -121,7 +121,6 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
                         )
                         ->addStoreFilter($this->_getStore())
                         ->addIdFilter($productIds);
-                     Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($products);
                      $products->addOptionsToResult();
 
                     // Set products to items

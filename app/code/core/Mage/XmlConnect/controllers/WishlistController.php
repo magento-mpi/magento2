@@ -304,9 +304,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
         } catch (Mage_Core_Exception $e) {
             if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
                 $this->_message($this->__('Product(s) currently out of stock.'), self::MESSAGE_STATUS_ERROR);
-            } else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS
-                || $e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_IS_GROUPED_PRODUCT
-            ) {
+            } else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                 $item->delete();
 
                 $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');

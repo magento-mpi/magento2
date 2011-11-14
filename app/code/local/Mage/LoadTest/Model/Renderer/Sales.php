@@ -294,7 +294,7 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
 
 	Magento_Profiler::start("order::save");
         $service = Mage::getModel('Mage_Sales_Model_Service_Quote', $quote);
-        $order = $service->submit();
+        $order = $service->submitOrder();
 
         /* @var $quote Mage_Sales_Model_Quote */
         //$quoteConvert = Mage::getModel('Mage_Sales_Model_Convert_Quote');

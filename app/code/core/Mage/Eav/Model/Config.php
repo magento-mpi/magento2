@@ -103,7 +103,6 @@ class Mage_Eav_Model_Config
     /**
      * Reset object state
      *
-     * @deprecated
      * @return Mage_Eav_Model_Config
      */
     public function clear()

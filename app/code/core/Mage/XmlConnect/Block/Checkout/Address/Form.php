@@ -50,7 +50,9 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
             $addressType = 'billing';
         }
 
-        $isAllowedGuestCheckout = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote()->isAllowedGuestCheckout();
+        $isAllowedGuestCheckout = Mage::helper('Mage_Checkout_Helper_Data')->isAllowedGuestCheckout(
+            Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote()
+        );
 
         $countries = $this->_getCountryOptions();
 

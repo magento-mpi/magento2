@@ -628,16 +628,6 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
     }
 
     /**
-     * @deprecated after 1.4.2.0
-     * @param  $object Mage_Catalog_Model_Product
-     * @return array
-     */
-    public function getParentProductIds($object)
-    {
-        return array();
-    }
-
-    /**
      * Retrieve product entities info
      *
      * @return array

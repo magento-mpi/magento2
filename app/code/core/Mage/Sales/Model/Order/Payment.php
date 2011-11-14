@@ -419,7 +419,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                 $message = $this->_appendTransactionToMessage($transaction, $message);
             }
             $order->setState($state, $status, $message);
-            $this->getMethodInstance()->processInvoice($invoice, $this); // should be deprecated
+            $this->getMethodInstance()->processInvoice($invoice, $this);
             return $this;
         }
         Mage::throwException(
@@ -1257,23 +1257,6 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                 $was = $this->getDataUsingMethod($key);
                 $this->setDataUsingMethod($key, $was + $amount);
             }
-        }
-    }
-
-    /**
-     * Prevent double processing of the same transaction by a payment notification
-     * Uses either specified txn_id or the transaction id that was set before
-     *
-     * @deprecated after 1.4.0.1
-     * @param string $txnId
-     * @throws Mage_Core_Exception
-     */
-    protected function _avoidDoubleTransactionProcessing($txnId = null)
-    {
-        if ($this->_isTransactionExists($txnId)) {
-            Mage::throwException(
-                Mage::helper('Mage_Sales_Helper_Data')->__('Transaction "%s" was already processed.', $txnId)
-            );
         }
     }
 

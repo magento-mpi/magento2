@@ -202,8 +202,9 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
                 $this->_itemCollection->setVisitorId(Mage::getSingleton('Mage_Log_Model_Visitor')->getId());
             }
 
-            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
-                ->addVisibleInSiteFilterToCollection($this->_itemCollection);
+            $this->_itemCollection->setVisibility(
+                Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds()
+            );
 
             /* Price data is added to consider item stock status using price index */
             $this->_itemCollection->addPriceData();
@@ -243,10 +244,8 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
             }
 
             /* Price data is added to consider item stock status using price index */
-            $collection->addPriceData();
-
-            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
-                ->addVisibleInSiteFilterToCollection($collection);
+            $collection->addPriceData()
+                ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
 
             $count = $collection->getSize();
         }

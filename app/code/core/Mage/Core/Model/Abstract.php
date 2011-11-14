@@ -303,7 +303,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
             throw $e;
         }
         if ($dataCommited) {
-            $this->_afterSaveCommit();
+            $this->afterCommitCallback();
         }
         return $this;
     }
@@ -317,18 +317,6 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     {
         Mage::dispatchEvent('model_save_commit_after', array('object'=>$this));
         Mage::dispatchEvent($this->_eventPrefix.'_save_commit_after', $this->_getEventData());
-        return $this;
-    }
-
-    /**
-     * Processing data save after transaction commit.
-     * When method is called we don't have garantee what transaction was really commited
-     *
-     * @deprecated after 1.4.0.0 - please use afterCommitCallback instead
-     * @return Mage_Core_Model_Abstract
-     */
-    protected function _afterSaveCommit()
-    {
         return $this;
     }
 

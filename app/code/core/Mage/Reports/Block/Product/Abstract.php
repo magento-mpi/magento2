@@ -138,10 +138,8 @@ abstract class Mage_Reports_Block_Product_Abstract extends Mage_Catalog_Block_Pr
             } else {
                 $this->_collection->addFilterByIds($ids);
             }
-            $this->_collection->setAddedAtOrder();
-
-            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
-                ->addVisibleInSiteFilterToCollection($this->_collection);
+            $this->_collection->setAddedAtOrder()
+                ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
         }
 
         return $this->_collection;

@@ -49,13 +49,6 @@ class Mage_GoogleCheckout_Model_Api_Xml_Checkout extends Mage_GoogleCheckout_Mod
     const CHECKOUT_SHOPPING_CART_XMLNS = 'http://checkout.google.com/schema/2';
 
     /**
-     * @deprecated after 0.8.16100
-     *
-     * @var string
-     */
-    protected $_currency;
-
-    /**
      * Define if shipping rates already calculated
      *
      * @var boolean

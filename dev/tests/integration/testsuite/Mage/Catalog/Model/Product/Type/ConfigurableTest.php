@@ -62,7 +62,7 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
 
     public function testGetEditableAttributes()
     {
-        $attributes = $this->_model->getEditableAttributes(); // $this->_product
+        $attributes = $this->_model->getEditableAttributes($this->_product);
 
         // applicable to all types
         $this->assertArrayHasKey('sku', $attributes);

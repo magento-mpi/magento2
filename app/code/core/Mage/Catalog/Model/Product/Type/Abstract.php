@@ -36,7 +36,6 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Product model instance
      *
-     * @deprecated if use as singleton
      * @var Mage_Catalog_Model_Product
      */
     protected $_product;
@@ -49,14 +48,6 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     protected $_typeId;
 
     /**
-     * @deprecated
-     *
-     * @var array
-     */
-    protected $_setAttributes;
-
-    /**
-     * @deprecated
      *
      * @var array
      */
@@ -82,13 +73,6 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * @var bool
      */
     protected $_canUseQtyDecimals  = true;
-
-    /**
-     * @deprecated
-     *
-     * @var int
-     */
-    protected $_storeFilter     = null;
 
     /**
      * File queue array
@@ -542,21 +526,6 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             'product' => $product
         ));
         return $transport->options;
-    }
-
-    /**
-     * Process product custom defined options for cart
-     *
-     * @deprecated after 1.4.2.0
-     * @see _prepareOptions()
-     *
-     * @param Varien_Object $buyRequest
-     * @param Mage_Catalog_Model_Product $product
-     * @return array
-     */
-    protected function _prepareOptionsForCart(Varien_Object $buyRequest, $product = null)
-    {
-        return $this->_prepareOptions($buyRequest, $product, self::PROCESS_MODE_FULL);
     }
 
     /**

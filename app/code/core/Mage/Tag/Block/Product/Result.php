@@ -86,9 +86,8 @@ class Mage_Tag_Block_Product_Result extends Mage_Catalog_Block_Product_Abstract
                 ->addStoreFilter(Mage::app()->getStore()->getId())
                 ->addMinimalPrice()
                 ->addUrlRewrite()
-                ->setActiveFilter();
-            Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($this->_productCollection);
-            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInSiteFilterToCollection($this->_productCollection);
+                ->setActiveFilter()
+                ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
         }
 
         return $this->_productCollection;

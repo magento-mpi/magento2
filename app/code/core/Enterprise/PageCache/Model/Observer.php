@@ -369,8 +369,9 @@ class Enterprise_PageCache_Model_Observer
             ->addIndexFilter()
             ->setAddedAtOrder()
             ->setPageSize($countLimit)
-            ->setCurPage(1);
-        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInSiteFilterToCollection($collection);
+            ->setCurPage(1)
+            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
+
         $productIds = $collection->load()->getLoadedIds();
         $productIds = implode(',', $productIds);
         Enterprise_PageCache_Model_Cookie::registerViewedProducts($productIds, $countLimit, false);

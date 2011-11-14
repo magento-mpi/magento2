@@ -85,15 +85,6 @@ class Mage_Tax_Model_Config
     const DISPLAY_TYPE_BOTH = 3;
 
     /**
-     * @deprecated
-     */
-    const CONFIG_XML_PATH_SHOW_IN_CATALOG = 'tax/display/show_in_catalog';
-    const CONFIG_XML_PATH_DEFAULT_PRODUCT_TAX_GROUP = 'catalog/product/default_tax_group';
-    const CONFIG_XML_PATH_DISPLAY_TAX_COLUMN    = 'tax/display/column_in_summary';
-    const CONFIG_XML_PATH_DISPLAY_FULL_SUMMARY  = 'tax/display/full_summary';
-    const CONFIG_XML_PATH_DISPLAY_ZERO_TAX      = 'tax/display/zero_tax';
-
-    /**
      * Flag which notify what we need use prices exclude tax for calculations
      *
      * @var bool
@@ -291,46 +282,6 @@ class Mage_Tax_Model_Config
         $this->_shippingPriceIncludeTax = $flag;
         return $this;
     }
-
-
-    /**
-     * Check if need display full tax summary information in totals block
-     *
-     * @deprecated please use displayCartFullSummary or displaySalesFullSummary
-     * @param   mixed $store
-     * @return  bool
-     */
-    public function displayFullSummary($store = null)
-    {
-        return $this->displayCartFullSummary($store);
-    }
-
-    /**
-     * Check if need display zero tax in subtotal
-     *
-     * @deprecated please use displayCartZeroTax or displaySalesZeroTax
-     * @param   mixed $store
-     * @return  bool
-     */
-    public function displayZeroTax($store = null)
-    {
-        return $this->displayCartZeroTax($store);
-    }
-
-    /**
-     * Get shopping cart prices display type
-     *
-     * @deprecated please use displayCartPrice or displaySalesZeroTax
-     * @param   mixed $store
-     * @return  bool
-     */
-    public function displayTaxColumn($store = null)
-    {
-        return (bool)Mage::getStoreConfig(self::CONFIG_XML_PATH_DISPLAY_TAX_COLUMN, $store);
-    }
-
-
-
 
     public function displayCartPricesInclTax($store = null)
     {

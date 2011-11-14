@@ -50,7 +50,6 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
 {
     const EXCEPTION_CODE_NOT_SALABLE            = 901;
     const EXCEPTION_CODE_HAS_REQUIRED_OPTIONS   = 902;
-    const EXCEPTION_CODE_IS_GROUPED_PRODUCT     = 903; // deprecated after 1.4.2.0, because we can store product configuration and add grouped products
 
     /**
      * Custom path to download attached file
@@ -59,10 +58,10 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
     protected $_customOptionDownloadUrl = 'wishlist/index/downloadCustomOption';
 
    /**
-     * Prefix of model events names
-     *
-     * @var string
-     */
+    * Prefix of model events names
+    *
+    * @var string
+    */
     protected $_eventPrefix = 'wishlist_item';
 
     /**
@@ -265,23 +264,6 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    /**
-     * Retrieve wishlist item data as array
-     *
-     * @deprecated since 1.4.0.0
-     * @return array
-     */
-    public function getDataForSave()
-    {
-        $data = array();
-        $data['product_id']  = $this->getProductId();
-        $data['wishlist_id'] = $this->getWishlistId();
-        $data['added_at']    = $this->getAddedAt() ? $this->getAddedAt() : Mage::getSingleton('Mage_Core_Model_Date')->gmtDate();
-        $data['description'] = $this->getDescription();
-        $data['store_id']    = $this->getStoreId() ? $this->getStoreId() : Mage::app()->getStore()->getId();
-
-        return $data;
-    }
 
     /**
      * Load item by product, wishlist and shared stores

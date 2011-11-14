@@ -244,7 +244,7 @@ class Mage_Core_Model_Layout_Update
     public function merge($handle)
     {
         $packageUpdatesStatus = $this->fetchPackageLayoutUpdates($handle);
-        if (Mage::app()->isInstalled()) {
+        if (Mage::isInstalled()) {
             $this->fetchDbLayoutUpdates($handle);
         }
 //        if (!$this->fetchPackageLayoutUpdates($handle)

@@ -814,29 +814,6 @@ class Mage_Core_Model_Resource_Setup
     }
 
     /**
-     * Update table data
-     *
-     * @param string $table
-     * @param Zend_Db_Expr $conditionExpr
-     * @param Zend_Db_Expr $valueExpr
-     * @return Mage_Core_Model_Resource_Setup
-     *
-     * @deprecated since 1.4.0.1
-     */
-    public function updateTable($table, $conditionExpr, $valueExpr)
-    {
-        $table = $this->getTable($table);
-        $query = sprintf('UPDATE %s SET %s WHERE %s',
-            $this->getConnection()->quoteIdentifier($table),
-            $conditionExpr,
-            $valueExpr);
-
-        $this->getConnection()->query($query);
-
-        return $this;
-    }
-
-    /**
      * Check is table exists
      *
      * @param string $table
@@ -849,21 +826,6 @@ class Mage_Core_Model_Resource_Setup
     }
 
 /******************* CONFIG *****************/
-
-    /**
-     * Undefined
-     *
-     * @param string $path
-     * @param string $label
-     * @param array $data
-     * @param string $default
-     * @return Mage_Core_Model_Resource_Setup
-     * @deprecated since 1.4.0.1
-     */
-    public function addConfigField($path, $label, array $data=array(), $default=null)
-    {
-        return $this;
-    }
 
     /**
      * Save configuration data

@@ -54,16 +54,6 @@ class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_D
     }
 
     /**
-     * deprecated after 1.4.0.1, use toOptionIdArray()
-     *
-     * @return array
-     */
-    public function toOptionArray()
-    {
-        return $this->_toOptionArray('identifier', 'title');
-    }
-
-    /**
      * Returns pairs identifier - title for unique identifiers
      * and pairs identifier|page_id - title for non-unique after first
      *

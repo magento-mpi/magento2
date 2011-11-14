@@ -88,14 +88,6 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     protected $_attributes;
 
     /**
-     * Customer addresses array
-     *
-     * @var array
-     * @deprecated after 1.4.0.0-rc1
-     */
-    protected $_addresses = null;
-
-    /**
      * Customer addresses collection
      *
      * @var Mage_Customer_Model_Resource_Address_Collection
@@ -246,8 +238,6 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     public function addAddress(Mage_Customer_Model_Address $address)
     {
         $this->getAddressesCollection()->addItem($address);
-        $this->getAddresses();
-        $this->_addresses[] = $address;
         return $this;
     }
 
@@ -310,8 +300,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function getAddresses()
     {
-        $this->_addresses = $this->getAddressesCollection()->getItems();
-        return $this->_addresses;
+        return $this->getAddressesCollection()->getItems();
     }
 
     /**
@@ -1022,7 +1011,6 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     function cleanAllAddresses() {
         $this->_addressesCollection = null;
-        $this->_addresses           = null;
     }
 
     /**

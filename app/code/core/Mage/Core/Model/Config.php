@@ -161,14 +161,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     protected $_isLocalConfigLoaded = false;
 
     /**
-     * Depricated properties
-     *
-     * @deprecated
-     */
-    protected $_baseDirCache = array();
-    protected $_customEtcDir = null;
-
-    /**
      * Flag which allow to use modules from local code pool
      *
      * @var bool
@@ -1091,21 +1083,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             }
         }
         return new $className($module);
-    }
-
-    /**
-     * Get base filesystem directory. depends on $type
-     *
-     * If $moduleName is specified retrieves specific value for the module.
-     *
-     * @deprecated in favor of Mage_Core_Model_Config_Options
-     * @todo get global dir config
-     * @param string $type
-     * @return string
-     */
-    public function getBaseDir($type='base')
-    {
-        return $this->getOptions()->getDir($type);
     }
 
     /**

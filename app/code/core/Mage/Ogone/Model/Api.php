@@ -201,17 +201,6 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * @deprecated after 1.4.1.0
-     *
-     * @param int storeId
-     * @return bool
-     */
-    public function getDebug($storeId=null)
-    {
-        return $this->getDebugFlag();
-    }
-
-    /**
      * Flag witch prevent automatic invoice creation
      *
      * @return bool

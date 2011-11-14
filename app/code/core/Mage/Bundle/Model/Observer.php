@@ -121,10 +121,8 @@ class Mage_Bundle_Model_Observer
             ->addStoreFilter()
             ->addMinimalPrice()
             ->addFinalPrice()
-            ->addTaxPercents();
-
-        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
-            ->addVisibleInCatalogFilterToCollection($bundleCollection);
+            ->addTaxPercents()
+            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
 
         if (!is_null($limit)) {
             $bundleCollection->setPageSize($limit);
@@ -255,24 +253,4 @@ class Mage_Bundle_Model_Observer
         }
         return $this;
     }
-
-    /**
-     * Add price index to bundle product after load
-     *
-     * @deprecated since 1.4.0.0
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Mage_Bundle_Model_Observer
-     */
-    public function catalogProductLoadAfter(Varien_Event_Observer $observer)
-    {
-        $product = $observer->getEvent()->getProduct();
-        if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
-            Mage::getSingleton('Mage_Bundle_Model_Price_Index')
-                ->addPriceIndexToProduct($product);
-        }
-
-        return $this;
-    }
-
 }

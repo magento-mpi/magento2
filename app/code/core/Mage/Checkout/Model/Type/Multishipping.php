@@ -602,19 +602,6 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
     }
 
     /**
-     * Function is deprecated. Moved into helper.
-     *
-     * Check if multishipping checkout is available.
-     * There should be a valid quote in checkout session. If not, only the config value will be returned.
-     *
-     * @return bool
-     */
-    public function isCheckoutAvailable()
-    {
-        return Mage::helper('Mage_Checkout_Helper_Data')->isMultishippingCheckoutAvailable();
-    }
-
-    /**
      * Get order IDs created during checkout
      *
      * @param bool $asAssoc

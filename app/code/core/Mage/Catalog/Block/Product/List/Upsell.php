@@ -66,8 +66,9 @@ class Mage_Catalog_Block_Product_List_Upsell extends Mage_Catalog_Block_Product_
 
             $this->_addProductAttributesAndPrices($this->_itemCollection);
         }
-//        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($this->_itemCollection);
-        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInCatalogFilterToCollection($this->_itemCollection);
+        $this->_itemCollection->setVisibility(
+            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds()
+        );
 
         if ($this->getItemLimit('upsell') > 0) {
             $this->_itemCollection->setPageSize($this->getItemLimit('upsell'));

@@ -35,14 +35,6 @@
 class Mage_Rating_Model_Resource_Rating_Option_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Rating options table
-     *
-     * @var string
-     * @deprecated since 1.5.0.0
-     */
-    protected $_ratingOptionTable;
-
-    /**
      * Rating votes table
      *
      * @var string
@@ -56,7 +48,6 @@ class Mage_Rating_Model_Resource_Rating_Option_Collection extends Mage_Core_Mode
     protected function _construct()
     {
         $this->_init('Mage_Rating_Model_Rating_Option', 'Mage_Rating_Model_Resource_Rating_Option');
-        $this->_ratingOptionTable   = $this->getTable('rating_option');
         $this->_ratingVoteTable     = $this->getTable('rating_option_vote');
     }
 

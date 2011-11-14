@@ -84,32 +84,6 @@ class Mage_Catalog_Model_Product_Status extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Add visible filter to Product Collection
-     *
-     * @deprecated remove on new builds
-     * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
-     * @return Mage_Catalog_Model_Product_Status
-     */
-    public function addVisibleFilterToCollection(Mage_Eav_Model_Entity_Collection_Abstract $collection)
-    {
-        //$collection->addAttributeToFilter('status', array('in'=>$this->getVisibleStatusIds()));
-        return $this;
-    }
-
-    /**
-     * Add saleable filter to Product Collection
-     *
-     * @deprecated remove on new builds
-     * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
-     * @return Mage_Catalog_Model_Product_Status
-     */
-    public function addSaleableFilterToCollection(Mage_Eav_Model_Entity_Collection_Abstract $collection)
-    {
-        //$collection->addAttributeToFilter('status', array('in'=>$this->getSaleableStatusIds()));
-        return $this;
-    }
-
-    /**
      * Retrieve Visible Status Ids
      *
      * @return array

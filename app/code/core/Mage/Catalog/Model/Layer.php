@@ -111,10 +111,8 @@ class Mage_Catalog_Model_Layer extends Varien_Object
             ->addFinalPrice()
             ->addTaxPercents()
             //->addStoreFilter()
-            ->addUrlRewrite($this->getCurrentCategory()->getId());
-
-        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addVisibleFilterToCollection($collection);
-        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInCatalogFilterToCollection($collection);
+            ->addUrlRewrite($this->getCurrentCategory()->getId())
+            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
 
         return $this;
     }

@@ -45,7 +45,7 @@
                 <observers>
                     <salesrule>
                         <class>Mage_SalesRule_Model_Observer</class>
-                        <method>sales_order_afterPlace</method>
+                        <method>salesOrderAfterPlace</method>
                     </salesrule>
                 </observers>
             </sales_order_place_after>

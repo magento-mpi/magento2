@@ -84,7 +84,7 @@ class Mage_GoogleShopping_Helper_Price
                     'website_id'        => $product->getWebsiteId(),
                     'customer_group_id' => $product->getCustomerGroupId())));
 
-                $minPrice = $product->getPriceModel()->getPricesDependingOnTax($product, 'min', $inclTax);
+                $minPrice = $product->getPriceModel()->getTotalPrices($product, 'min', $inclTax);
 
                 if ($store instanceof Mage_Core_Model_Store) {
                     Mage::app()->setCurrentStore($oldStore);

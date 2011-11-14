@@ -120,10 +120,8 @@ class Mage_Catalog_Block_Product_Compare_List extends Mage_Catalog_Block_Product
                 ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
                 ->loadComparableAttributes()
                 ->addMinimalPrice()
-                ->addTaxPercents();
-
-            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
-                ->addVisibleInSiteFilterToCollection($this->_items);
+                ->addTaxPercents()
+                ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
         }
 
         return $this->_items;

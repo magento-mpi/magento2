@@ -692,20 +692,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     }
 
     /**
-     * Delete index from a table if it exists
-     *
-     * @deprecated since 1.4.0.1
-     * @param string $tableName
-     * @param string $keyName
-     * @param string $schemaName
-     * @return bool|Zend_Db_Statement_Interface
-     */
-    public function dropKey($tableName, $keyName, $schemaName = null)
-    {
-        return $this->dropIndex($tableName, $keyName, $schemaName);
-    }
-
-    /**
      * Prepare table before add constraint foreign key
      *
      * @param string $tableName
@@ -741,28 +727,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         }
 
         return $this;
-    }
-
-    /**
-     * Add foreign key to table. If FK with same name exist - it will be deleted
-     *
-     * @deprecated since 1.4.0.1
-     * @param string $fkName foreign key name
-     * @param string $tableName main table name
-     * @param string $keyName main table field name
-     * @param string $refTableName refered table name
-     * @param string $refKeyName refered table field name
-     * @param string $onUpdate on update statement
-     * @param string $onDelete on delete statement
-     * @param bool $purge
-     * @return mixed
-     */
-    public function addConstraint($fkName, $tableName, $columnName,
-        $refTableName, $refColumnName, $onDelete = Varien_Db_Adapter_Interface::FK_ACTION_CASCADE,
-        $onUpdate = Varien_Db_Adapter_Interface::FK_ACTION_CASCADE, $purge = false)
-    {
-        return $this->addForeignKey($fkName, $tableName, $columnName, $refTableName, $refColumnName,
-            $onDelete, $onUpdate, $purge);
     }
 
     /**
@@ -955,26 +919,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         $query = sprintf('SHOW TABLE STATUS%s LIKE %s', $fromDbName,  $this->quote($tableName));
 
         return $this->raw_fetchRow($query);
-    }
-
-    /**
-     * Retrieve table index key list
-     *
-     * @deprecated use getIndexList(
-     * @param string $tableName
-     * @param string $schemaName
-     * @return array
-     */
-    public function getKeyList($tableName, $schemaName = null)
-    {
-        $keyList   = array();
-        $indexList = $this->getIndexList($tableName, $schemaName);
-
-        foreach ($indexList as $indexProp) {
-            $keyList[$indexProp['KEY_NAME']] = $indexProp['COLUMNS_LIST'];
-        }
-
-        return $keyList;
     }
 
     /**
@@ -1209,22 +1153,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         }
 
         return $ddl;
-    }
-
-    /**
-     * Add Index Key
-     *
-     * @deprecated since 1.5.0.0
-     * @param string $tableName
-     * @param string $indexName
-     * @param string|array $fields
-     * @param string $indexType
-     * @param string $schemaName
-     * @return Zend_Db_Statement_Interface
-     */
-    public function addKey($tableName, $indexName, $fields, $indexType = 'index', $schemaName = null)
-    {
-        return $this->addIndex($tableName, $indexName, $fields, $indexType, $schemaName);
     }
 
     /**
@@ -1761,19 +1689,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             case 'numeric':
                 return Varien_Db_Ddl_Table::TYPE_DECIMAL;
         }
-    }
-
-    /**
-     * Truncate table
-     *
-     * @deprecated since 1.4.0.1
-     * @param string $tableName
-     * @param string $schemaName
-     * @return Varien_Db_Adapter_Pdo_Mysql
-     */
-    public function truncate($tableName, $schemaName = null)
-    {
-        return $this->truncateTable($tableName, $schemaName);
     }
 
     /**
@@ -3577,41 +3492,5 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     public function decodeVarbinary($value)
     {
         return $value;
-    }
-
-
-
-
-
-    /**
-     * Returns date that fits into TYPE_DATETIME range and is suggested to act as default 'zero' value
-     * for a column for current RDBMS. Deprecated and left for compatibility only.
-     * In Magento at MySQL there was zero date used for datetime columns. However, zero date it is not supported across
-     * different RDBMS. Thus now it is recommended to use same default value equal for all RDBMS - either NULL
-     * or specific date supported by all RDBMS.
-     *
-     * @deprecated after 1.5.1.0
-     * @return string
-     */
-    public function getSuggestedZeroDate()
-    {
-        return '0000-00-00 00:00:00';
-    }
-
-    /**
-     * Retrieve Foreign Key name
-     *
-     * @deprecated after 1.6.0.0
-     *
-     * @param  string $fkName
-     * @return string
-     */
-    protected function _getForeignKeyName($fkName)
-    {
-        if (substr($fkName, 0, 3) != 'FK_') {
-            $fkName = 'FK_' . $fkName;
-        }
-
-        return $fkName;
     }
 }

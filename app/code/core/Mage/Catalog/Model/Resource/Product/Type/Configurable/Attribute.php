@@ -70,30 +70,6 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Ma
     }
 
     /**
-     * Load attribute labels
-     * @deprecated
-     *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @return Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute
-     */
-    public function loadLabel($attribute)
-    {
-        return $this;
-    }
-
-    /**
-     * Load prices
-     * @deprecated
-     *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @return Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute
-     */
-    public function loadPrices($attribute)
-    {
-        return $this;
-    }
-
-    /**
      * Save Custom labels for Attribute name
      *
      * @param Mage_Catalog_Model_Product_Type_Configurable_Attribute $attribute

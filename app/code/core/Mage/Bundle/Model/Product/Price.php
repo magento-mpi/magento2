@@ -110,7 +110,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
                 if ($selection->isSalable()) {
                     $selectionQty = $product->getCustomOption('selection_qty_' . $selection->getSelectionId());
                     if ($selectionQty) {
-                        $finalPrice += $this->getSelectionFinalPrice($product, $selection, $qty,
+                        $finalPrice += $this->getSelectionFinalTotalPrice($product, $selection, $qty,
                             $selectionQty->getValue());
                     }
                 }
@@ -134,38 +134,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getChildFinalPrice($product, $productQty, $childProduct, $childProductQty)
     {
-        return $this->getSelectionFinalPrice($product, $childProduct, $productQty, $childProductQty, false);
-    }
-
-    /**
-     * Retrieve Price
-     *
-     * @deprecated after 1.10.1.1
-     * @see Mage_Bundle_Model_Product_Price::getTotalPrices()
-     *
-     * @param  Mage_Catalog_Model_Product $product
-     * @param  string                     $which
-     * @return decimal|array
-     */
-    public function getPrices($product, $which = null)
-    {
-        return $this->getTotalPrices($product, $which);
-    }
-
-    /**
-     * Retrieve Prices depending on tax
-     *
-     * @deprecated after 1.10.1.1
-     * @see Mage_Bundle_Model_Product_Price::getTotalPrices()
-     *
-     * @param  Mage_Catalog_Model_Product $product
-     * @param  string                     $which
-     * @param  bool|null                  $includeTax
-     * @return decimal|array
-     */
-    public function getPricesDependingOnTax($product, $which = null, $includeTax = null)
-    {
-        return $this->getTotalPrices($product, $which, $includeTax);
+        return $this->getSelectionFinalTotalPrice($product, $childProduct, $productQty, $childProductQty, false);
     }
 
     /**
@@ -406,26 +375,6 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             $bundleProduct,
             $this->getSelectionPrice($bundleProduct, $selectionProduct, $qty)
         );
-    }
-
-    /**
-     * Calculate final price of selection
-     *
-     * @deprecated after 1.10.1.1
-     * @see Mage_Bundle_Model_Product_Price::getSelectionFinalTotalPrice()
-     *
-     * @param  Mage_Catalog_Model_Product $bundleProduct
-     * @param  Mage_Catalog_Model_Product $selectionProduct
-     * @param  decimal                    $bundleQty
-     * @param  decimal                    $selectionQty
-     * @param  bool                       $multiplyQty
-     * @return decimal
-     */
-    public function getSelectionFinalPrice($bundleProduct, $selectionProduct, $bundleQty, $selectionQty = null,
-       $multiplyQty = true)
-    {
-        return $this->getSelectionFinalTotalPrice($bundleProduct, $selectionProduct, $bundleQty, $selectionQty,
-            $multiplyQty);
     }
 
     /**

@@ -174,16 +174,6 @@ class Mage_Paypal_Model_Api_Standard extends Mage_Paypal_Model_Api_Abstract
     }
 
     /**
-     * @deprecated after 1.4.1.0
-     *
-     * @param array $request
-     */
-    public function debugRequest($request)
-    {
-        return;
-    }
-
-    /**
      * Add shipping total as a line item.
      * For some reason PayPal ignores shipping total variables exactly when line items is enabled
      * Note that $i = 1

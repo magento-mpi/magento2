@@ -221,8 +221,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
             ->setGroupBy();
         $this->_addProductAttributesAndPrices($collection);
 
-        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
-            ->addVisibleInSiteFilterToCollection($collection);
+        $collection->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
 
         Mage::getSingleton('Mage_CatalogInventory_Model_Stock_Status')
             ->addIsInStockFilterToCollection($collection);
@@ -279,8 +278,9 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
         $collection->addFieldToFilter('entity_id', array('in' => $productIds));
         $this->_addProductAttributesAndPrices($collection);
 
-        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
-            ->addVisibleInCatalogFilterToCollection($collection);
+        $collection->setVisibility(
+            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds()
+        );
 
         Mage::getSingleton('Mage_CatalogInventory_Model_Stock_Status')
             ->addIsInStockFilterToCollection($collection);

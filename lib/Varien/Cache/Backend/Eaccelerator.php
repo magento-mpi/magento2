@@ -149,19 +149,6 @@ class Varien_Cache_Backend_Eaccelerator extends Zend_Cache_Backend implements Ze
     }
 
     /**
-     * Return true if the automatic cleaning is available for the backend
-     *
-     * DEPRECATED : use getCapabilities() instead
-     *
-     * @deprecated
-     * @return boolean
-     */
-    public function isAutomaticCleaningAvailable()
-    {
-        return false;
-    }
-
-    /**
      * Return the filling percentage of the backend storage
      *
      * @throws Zend_Cache_Exception

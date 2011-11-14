@@ -439,17 +439,6 @@ class Varien_File_Uploader
         return in_array(strtolower($extension), $this->_allowedExtensions);
     }
 
-    /**
-     * @deprecated after 1.5.0.0-beta2
-     *
-     * @param string $extension
-     * @return boolean
-     */
-    public function chechAllowedExtension($extension)
-    {
-        return $this->checkAllowedExtension($extension);
-    }
-
     private function _getMimeType()
     {
         return $this->_file['type'];

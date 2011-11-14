@@ -628,7 +628,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
      */
     public function copyQuoteToOrder()
     {
-        $quoteOption = $this->getQuoteItemOption();
+        $quoteOption = $this->getConfigurationItemOption();
         try {
             $value = unserialize($quoteOption->getValue());
             if (!isset($value['quote_path'])) {

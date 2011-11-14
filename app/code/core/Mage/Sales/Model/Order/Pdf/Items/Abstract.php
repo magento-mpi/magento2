@@ -226,21 +226,6 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
         }
     }
 
-    /**
-     * @deprecated To be Removed on next release
-     *
-     * @return array
-     */
-    protected function _parseDescription()
-    {
-        $description = $this->getItem()->getDescription();
-        if (preg_match_all('/<li.*?>(.*?)<\/li>/i', $description, $matches)) {
-            return $matches[1];
-        }
-
-        return array($description);
-    }
-
     public function getItemOptions() {
         $result = array();
         if ($options = $this->getItem()->getOrderItem()->getProductOptions()) {

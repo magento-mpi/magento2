@@ -101,16 +101,6 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
         return Mage::helper('Mage_Sendfriend_Helper_Data');
     }
 
-    /**
-     * Retrieve Option Array
-     *
-     * @deprecated It Is a not Source model
-     * @return array
-     */
-    public function toOptionArray()
-    {        return array();
-    }
-
     public function send()
     {
         if ($this->isExceedLimit()){
@@ -389,27 +379,6 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
     }
 
     /**
-     * @deprecated after 1.3.2.4
-     * For get count sent letters use Mage_Sendfriend_Model_Sendfriend::getSentCount
-     * or Mage_Sendfriend_Model_Sendfriend::isExceedLimit
-     *
-     * @param int $ip
-     * @param int $startTime
-     * @return int
-     */
-    public function getSendCount($ip = null, $startTime = null)
-    {
-        if (is_null($ip)) {
-            $ip = $this->getRemoteAddr();
-        }
-        if (is_null($startTime)) {
-            $startTime = time() - $this->_getHelper()->getPeriod();
-        }
-
-        return $this->_getResource()->getSendCount($this, $ip, $startTime);
-    }
-
-    /**
      * Get max allowed uses of "Send to Friend" function per hour
      *
      * @return integer
@@ -567,27 +536,5 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
             Mage::register('send_to_friend_model', $this);
         }
         return $this;
-    }
-
-    /**
-     * @deprecated after 1.3.2.4
-     * use Mage_Sendfriend_Model_Sendfriend::_sentCountByCookies
-     *
-     * @return int
-     */
-    protected function _amountByCookies()
-    {
-        return $this->_sentCountByCookies(true);
-    }
-
-    /**
-     * @deprecated after 1.3.2.4
-     * use Mage_Sendfriend_Model_Sendfriend::_sentCountByIp
-     *
-     * @return int
-     */
-    protected function _amountByIp()
-    {
-        return $this->_sentCountByIp(true);
     }
 }

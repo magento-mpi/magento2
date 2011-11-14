@@ -165,8 +165,8 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Entity Id')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_DATETIME, null, array(
-        'nullable'  => false,
-        'default' => $installer->getConnection()->getSuggestedZeroDate()
+        'nullable'  => true,
+        'default' => null
         ), 'Value')
     ->addIndex(
         $installer->getIdxName(
@@ -461,8 +461,8 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Entity Id')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_DATETIME, null, array(
-        'nullable'  => false,
-        'default' => $installer->getConnection()->getSuggestedZeroDate()
+        'nullable'  => true,
+        'default' => null
         ), 'Value')
     ->addIndex(
         $installer->getIdxName(

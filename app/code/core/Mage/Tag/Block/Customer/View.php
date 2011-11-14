@@ -152,12 +152,8 @@ class Mage_Tag_Block_Customer_View extends Mage_Catalog_Block_Product_Abstract
                 ->addCustomerFilter(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
                 ->addStoreFilter(Mage::app()->getStore()->getId())
                 ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
-                ->setActiveFilter();
-
-            Mage::getSingleton('Mage_Catalog_Model_Product_Status')
-                ->addVisibleFilterToCollection($this->_collection);
-            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
-                ->addVisibleInSiteFilterToCollection($this->_collection);
+                ->setActiveFilter()
+                ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
         }
         return $this->_collection;
     }
