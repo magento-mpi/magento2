@@ -36,5 +36,86 @@
  */
 class PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
 {
+    /**
+     * <p>Login to backend</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
 
+    /**
+     * <p>Preconditions:</p>
+     * <p>Navigate to Catalog -> Manage Products</p>
+     */
+    protected function assertPreConditions()
+    {
+        $this->navigate('manage_shopping_cart_price_rules');
+        $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'), $this->messages);
+        $this->addParameter('id', '0');
+    }
+
+    /**
+     * @test
+     */
+    public function applyPercentWithCoupon()
+    {
+        $this->markTestSkipped('TODO');
+    }
+
+    /**
+     * @test
+     */
+    public function applyPercentWithoutCoupon()
+    {
+        $this->markTestSkipped('TODO');
+    }
+
+    /**
+     * @test
+     */
+    public function applyFixedWithoutCoupon()
+    {
+        $this->markTestSkipped('TODO');
+    }
+
+    /**
+     * @test
+     */
+    public function applyFixedWithCoupon()
+    {
+        $this->markTestSkipped('TODO');
+    }
+
+    /**
+     * @test
+     */
+    public function applyFixedForWholeCartWithCoupon()
+    {
+        $this->markTestSkipped('TODO');
+    }
+
+    /**
+     * @test
+     */
+    public function applyFixedForWholeCartWithoutCoupon()
+    {
+        $this->markTestSkipped('TODO');
+    }
+
+    /**
+     * @test
+     */
+    public function applyBuyXGetYFreeWithoutCoupon()
+    {
+        $this->markTestSkipped('TODO');
+    }
+
+    /**
+     * @test
+     */
+    public function applyBuyXGetYFreeWithCoupon()
+    {
+        $this->markTestSkipped('TODO');
+    }
 }

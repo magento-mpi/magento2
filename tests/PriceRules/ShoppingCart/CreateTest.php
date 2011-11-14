@@ -36,5 +36,110 @@
  */
 class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
 {
+    /**
+     * <p>Login to backend</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
 
+    /**
+     * <p>Preconditions:</p>
+     * <p>Navigate to Catalog -> Manage Products</p>
+     */
+    protected function assertPreConditions()
+    {
+        $this->navigate('manage_shopping_cart_price_rules');
+        $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'), $this->messages);
+        $this->addParameter('id', '0');
+    }
+
+    /**
+     * @test
+     */
+    public function createWithRequiredEmptyFields()
+    {
+        $this->markTestSkipped('TODO');
+    }
+
+    /**
+     * @test
+     */
+    public function createWithInvalidData()
+    {
+        $this->markTestSkipped('TODO');
+    }
+
+    /**
+     * @test
+     */
+    public function createWithRequiredFieldsWithSpecialSymbols()
+    {
+        $this->markTestSkipped('TODO');
+    }
+
+    /**
+     * @test
+     */
+    public function createWithRequiredFields()
+    {
+        $this->markTestSkipped('TODO');
+    }
+
+    /**
+     * @test
+     */
+    public function createWithAllFields()
+    {
+        $this->markTestSkipped('TODO');
+    }
+
+    /**
+     * @test
+     */
+    public function createWithoutCoupon()
+    {
+        $this->markTestSkipped('TODO');
+    }
+
+    /**
+     * @test
+     */
+    public function createWithCoupon()
+    {
+        $this->markTestSkipped('TODO');
+    }
+
+    /**
+     * @test
+     */
+    public function createPercentOfProductPriceDiscount()
+    {
+        $this->markTestSkipped('TODO');
+    }
+
+    /**
+     * @test
+     */
+    public function createFixedAmountDiscount()
+    {
+        $this->markTestSkipped('TODO');
+    }
+
+    /**
+     * @test
+     */
+    public function createFixedAmountDiscountForWholeCart()
+    {
+        $this->markTestSkipped('TODO');
+    }
+
+    /**
+     * @test
+     */
+    public function createBuyXGetYFree()
+    {
+        $this->markTestSkipped('TODO');
+    }
 }

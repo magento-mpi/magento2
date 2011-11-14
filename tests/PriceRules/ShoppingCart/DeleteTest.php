@@ -36,5 +36,30 @@
  */
 class PriceRules_ShoppingCart_DeleteTest extends Mage_Selenium_TestCase
 {
+    /**
+     * <p>Login to backend</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
 
+    /**
+     * <p>Preconditions:</p>
+     * <p>Navigate to Catalog -> Manage Products</p>
+     */
+    protected function assertPreConditions()
+    {
+        $this->navigate('manage_shopping_cart_price_rules');
+        $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'), $this->messages);
+        $this->addParameter('id', '0');
+    }
+
+    /**
+     * @test
+     */
+    public function deleteShoppingCartPriceRule()
+    {
+        $this->markTestSkipped('TODO');
+    }
 }
