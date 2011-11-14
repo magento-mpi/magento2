@@ -89,7 +89,7 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
                 break;
             case 'shipping_address':
                 $value = $order->getShippingAddress()
-                    ? $this->htmlEscape($order->getShippingAddress()->getName()) : $this->__('N/A');
+                    ? $this->escapeHtml($order->getShippingAddress()->getName()) : $this->__('N/A');
                 break;
             case 'order_total':
                 $value = $order->formatPrice($order->getGrandTotal());

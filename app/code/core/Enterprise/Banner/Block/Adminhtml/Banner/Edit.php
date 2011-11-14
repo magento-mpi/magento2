@@ -67,7 +67,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit extends Mage_Adminhtml_Block
     public function getHeaderText()
     {
         if (Mage::registry('current_banner')->getId()) {
-            return $this->htmlEscape(Mage::registry('current_banner')->getName());
+            return $this->escapeHtml(Mage::registry('current_banner')->getName());
         } else {
             return Mage::helper('Enterprise_Banner_Helper_Data')->__('New Banner');
         }

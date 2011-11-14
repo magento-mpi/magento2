@@ -86,6 +86,6 @@ class Mage_Catalog_Model_Product_Option_Type_Text extends Mage_Catalog_Model_Pro
      */
     public function getFormattedOptionValue($value)
     {
-        return Mage::helper('Mage_Core_Helper_Data')->htmlEscape($value);
+        return Mage::helper('Mage_Core_Helper_Data')->escapeHtml($value);
     }
 }

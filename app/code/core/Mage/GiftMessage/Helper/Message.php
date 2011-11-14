@@ -179,7 +179,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
     {
         $message = $this->getGiftMessageForEntity($entity);
         if ($message) {
-            return nl2br($this->htmlEscape($message->getMessage()));
+            return nl2br($this->escapeHtml($message->getMessage()));
         }
         return null;
     }

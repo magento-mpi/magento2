@@ -49,7 +49,7 @@
             <ul class="form-list">
                 <li>
                     <label for="email" class="required"><?php echo $this->__('Email Address') ?></label>
-                    <input type="email" name="login[username]" value="<?php echo $this->htmlEscape($this->getUsername()) ?>" id="email" class="input-text required-entry validate-email" title="<?php echo $this->__('Email Address') ?>" />
+                    <input type="email" name="login[username]" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" id="email" class="input-text required-entry validate-email" title="<?php echo $this->__('Email Address') ?>" />
                 </li>
                 <li>
                     <label for="pass" class="required"><?php echo $this->__('Password') ?></label>

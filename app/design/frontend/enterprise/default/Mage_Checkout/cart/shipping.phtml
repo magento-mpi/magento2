@@ -50,18 +50,18 @@
                        $('region_id').setAttribute('defaultValue',  "<?php echo $this->getEstimateRegionId() ?>");
                    //]]>
                    </script>
-                   <input type="text" id="region" name="region" value="<?php echo $this->htmlEscape($this->getEstimateRegion()) ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text" style="display:none;" />
+                   <input type="text" id="region" name="region" value="<?php echo $this->escapeHtml($this->getEstimateRegion()) ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text" style="display:none;" />
                 </li>
             <?php //endif; ?>
             <?php if($this->getCityActive()): ?>
                 <li>
                     <label for="city"<?php if ($this->isCityRequired()) echo ' class="required"' ?>><?php if ($this->isCityRequired()) echo '<em>*</em>' ?><?php echo $this->__('City') ?></label>
-                    <input class="input-text<?php if ($this->isCityRequired()):?> required-entry<?php endif;?>" id="city" type="text" name="estimate_city" value="<?php echo $this->htmlEscape($this->getEstimateCity()) ?>" />
+                    <input class="input-text<?php if ($this->isCityRequired()):?> required-entry<?php endif;?>" id="city" type="text" name="estimate_city" value="<?php echo $this->escapeHtml($this->getEstimateCity()) ?>" />
                 </li>
             <?php endif; ?>
                 <li>
                     <label for="postcode"<?php if ($this->isZipCodeRequired()) echo ' class="required"' ?>><?php if ($this->isZipCodeRequired()) echo '<em>*</em>' ?><?php echo $this->__('Zip/Postal Code') ?></label>
-                    <input class="input-text validate-postcode<?php if ($this->isZipCodeRequired()):?> required-entry<?php endif;?>" type="text" id="postcode" name="estimate_postcode" value="<?php echo $this->htmlEscape($this->getEstimatePostcode()) ?>" />
+                    <input class="input-text validate-postcode<?php if ($this->isZipCodeRequired()):?> required-entry<?php endif;?>" type="text" id="postcode" name="estimate_postcode" value="<?php echo $this->escapeHtml($this->getEstimatePostcode()) ?>" />
                 </li>
             </ul>
             <div class="buttons-set">
@@ -88,7 +88,7 @@
                            <?php if ($_rate->getErrorMessage()): ?>
                                 <?php echo $_rate->getErrorMessage() ?>
                            <?php else: ?>
-                                <input name="estimate_method" type="radio" value="<?php echo $this->htmlEscape($_rate->getCode()) ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> class="radio" />
+                                <input name="estimate_method" type="radio" value="<?php echo $this->escapeHtml($_rate->getCode()) ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> class="radio" />
                                 <label for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $_rate->getMethodTitle() ?>
                                 <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()); ?>
                                 <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>

@@ -43,6 +43,6 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee
             return '';
         }
         return '<a href="' . Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/customer/edit', array('id' => $row->getReferralId())) . '">'
-            . $this->htmlEscape($row->getData($this->getColumn()->getIndex())) . '</a>';
+            . $this->escapeHtml($row->getData($this->getColumn()->getIndex())) . '</a>';
     }
 }

@@ -380,7 +380,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         }
 
         $html.= '>'."\n";
-        $html.= '<a href="'.$this->getCategoryUrl($category).'"><span>'.$this->htmlEscape($category->getName()).'</span></a>'."\n";
+        $html.= '<a href="'.$this->getCategoryUrl($category).'"><span>'.$this->escapeHtml($category->getName()).'</span></a>'."\n";
 
         if (in_array($category->getId(), $this->getCurrentCategoryPath())){
             $children = $category->getChildren();

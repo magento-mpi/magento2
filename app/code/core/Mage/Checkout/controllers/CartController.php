@@ -198,7 +198,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
-                    $message = $this->__('%s was added to your shopping cart.', Mage::helper('Mage_Core_Helper_Data')->htmlEscape($product->getName()));
+                    $message = $this->__('%s was added to your shopping cart.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName()));
                     $this->_getSession()->addSuccess($message);
                 }
                 $this->_goBack();
@@ -338,7 +338,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             );
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
-                    $message = $this->__('%s was updated in your shopping cart.', Mage::helper('Mage_Core_Helper_Data')->htmlEscape($item->getProduct()->getName()));
+                    $message = $this->__('%s was updated in your shopping cart.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($item->getProduct()->getName()));
                     $this->_getSession()->addSuccess($message);
                 }
                 $this->_goBack();
@@ -484,12 +484,12 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             if (strlen($couponCode)) {
                 if ($couponCode == $this->_getQuote()->getCouponCode()) {
                     $this->_getSession()->addSuccess(
-                        $this->__('Coupon code "%s" was applied.', Mage::helper('Mage_Core_Helper_Data')->htmlEscape($couponCode))
+                        $this->__('Coupon code "%s" was applied.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($couponCode))
                     );
                 }
                 else {
                     $this->_getSession()->addError(
-                        $this->__('Coupon code "%s" is not valid.', Mage::helper('Mage_Core_Helper_Data')->htmlEscape($couponCode))
+                        $this->__('Coupon code "%s" is not valid.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($couponCode))
                     );
                 }
             } else {

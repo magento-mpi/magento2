@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
     public function getHeaderText()
     {
         if (Mage::registry('current_customer')->getId()) {
-            return $this->htmlEscape(Mage::registry('current_customer')->getName());
+            return $this->escapeHtml(Mage::registry('current_customer')->getName());
         }
         else {
             return Mage::helper('Mage_Customer_Helper_Data')->__('New Customer');

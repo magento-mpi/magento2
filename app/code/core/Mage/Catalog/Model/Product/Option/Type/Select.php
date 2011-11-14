@@ -86,7 +86,7 @@ class Mage_Catalog_Model_Product_Option_Type_Select extends Mage_Catalog_Model_P
     public function getFormattedOptionValue($optionValue)
     {
         if ($this->_formattedOptionValue === null) {
-            $this->_formattedOptionValue = Mage::helper('Mage_Core_Helper_Data')->htmlEscape(
+            $this->_formattedOptionValue = Mage::helper('Mage_Core_Helper_Data')->escapeHtml(
                 $this->getEditableOptionValue($optionValue)
             );
         }

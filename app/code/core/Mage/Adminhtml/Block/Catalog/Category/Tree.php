@@ -267,7 +267,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
      */
     public function buildNodeName($node)
     {
-        $result = $this->htmlEscape($node->getName());
+        $result = $this->escapeHtml($node->getName());
         if ($this->_withProductCount) {
              $result .= ' (' . $node->getProductCount() . ')';
         }

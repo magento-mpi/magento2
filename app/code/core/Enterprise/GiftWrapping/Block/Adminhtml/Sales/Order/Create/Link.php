@@ -53,7 +53,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Link extends Ma
         if ($this->getItem()->getGwId()) {
             $wrappingModel = Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping')->load($this->getItem()->getGwId());
             if ($wrappingModel->getId()) {
-                return $this->htmlEscape($wrappingModel->getDesign());
+                return $this->escapeHtml($wrappingModel->getDesign());
             }
         }
         return '';

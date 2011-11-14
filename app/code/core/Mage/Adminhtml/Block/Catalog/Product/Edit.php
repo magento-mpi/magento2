@@ -211,7 +211,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     {
         $header = '';
         if ($this->getProduct()->getId()) {
-            $header = $this->htmlEscape($this->getProduct()->getName());
+            $header = $this->escapeHtml($this->getProduct()->getName());
         }
         else {
             $header = Mage::helper('Mage_Catalog_Helper_Data')->__('New Product');

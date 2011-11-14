@@ -177,7 +177,7 @@ class Mage_Bundle_Block_Adminhtml_Sales_Order_Items_Renderer extends Mage_Adminh
 
     public function getValueHtml($item)
     {
-        $result = $this->htmlEscape($item->getName());
+        $result = $this->escapeHtml($item->getName());
         if (!$this->isShipmentSeparately($item)) {
             if ($attributes = $this->getSelectionAttributes($item)) {
                 $result =  sprintf('%d', $attributes['qty']) . ' x ' . $result;

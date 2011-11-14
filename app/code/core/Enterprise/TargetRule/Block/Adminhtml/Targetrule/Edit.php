@@ -55,7 +55,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit extends Mage_Adminht
     {
         $rule = Mage::registry('current_target_rule');
         if ($rule && $rule->getRuleId()) {
-            return Mage::helper('Enterprise_TargetRule_Helper_Data')->__("Edit Rule '%s'", $this->htmlEscape($rule->getName()));
+            return Mage::helper('Enterprise_TargetRule_Helper_Data')->__("Edit Rule '%s'", $this->escapeHtml($rule->getName()));
         }
         else {
             return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('New Rule');

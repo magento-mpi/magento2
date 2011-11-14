@@ -45,15 +45,33 @@ class Mage_Core_Helper_AbstractTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Core_Helper_Abstract::escapeHtml
-     * @covers Mage_Core_Helper_Abstract::htmlEscape
+     * @dataProvider escapeHtmlDataProvider
      */
-    public function testEscapeHtml()
+    public function testEscapeHtml($data, $expected)
     {
-        $data = array('one', '<two>three</two>');
-        $expected = array('one', '&lt;two&gt;three&lt;/two&gt;');
-        $this->assertEquals($expected, $this->_helper->escapeHtml($data));
-        $this->assertEquals($expected, $this->_helper->htmlEscape($data));
+        $actual = $this->_helper->escapeHtml($data);
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return array
+     */
+    public function escapeHtmlDataProvider()
+    {
+        return array(
+            'array data' => array(
+                'data' => array('one', '<two>three</two>'),
+                'expected' => array('one', '&lt;two&gt;three&lt;/two&gt;')
+            ),
+            'string data conversion' => array(
+                'data' => '<two>three</two>',
+                'expected' => '&lt;two&gt;three&lt;/two&gt;'
+            ),
+            'string data no conversion' => array(
+                'data' => 'one',
+                'expected' => 'one'
+            )
+        );
     }
 
     public function testStripTags()

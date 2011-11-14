@@ -40,7 +40,7 @@
             <ul class="form-list">
                 <li>
                     <label for="email"><?php echo $this->__('Enter your email') ?>:</label>
-                    <input type="email" class="required-entry validate-email" name="login[username]" id="email" value="<?php echo $this->htmlEscape($this->getUsername()) ?>" placeholder="<?php echo $this->__('Email Address') ?>" />
+                    <input type="email" class="required-entry validate-email" name="login[username]" id="email" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" placeholder="<?php echo $this->__('Email Address') ?>" />
                 </li>
                 <li>
                     <label for="pass"><?php echo $this->__('Enter your password') ?>:</label>

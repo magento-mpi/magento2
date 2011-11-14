@@ -33,11 +33,11 @@
         <?php endif ?>
             <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
                 <?php
-                    $_label = $this->htmlEscape($_product->getName());
+                    $_label = $this->escapeHtml($_product->getName());
                     $_size  = $this->getSmallImageSize();
                 ?>
                 <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_label ?>" class="product-image"><img src="<?php echo $this->getSmallImageUrl($_product) ?>" width="<?php echo $_size?>" height="<?php echo $_size?>" alt="<?php echo $_label ?>" /></a>
-                <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a></h3>
+                <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->escapeHtml($_product->getName()) ?>"><?php echo $this->escapeHtml($_product->getName()) ?></a></h3>
                 <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
                 <?php echo $this->getPriceHtml($_product, true, '-new') ?>
                 <div class="actions">

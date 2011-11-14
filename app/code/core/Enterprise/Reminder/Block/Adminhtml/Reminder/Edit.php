@@ -75,7 +75,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit extends Mage_Adminhtml_B
     {
         $rule = Mage::registry('current_reminder_rule');
         if ($rule->getRuleId()) {
-            return Mage::helper('Enterprise_Reminder_Helper_Data')->__("Edit Rule '%s'", $this->htmlEscape($rule->getName()));
+            return Mage::helper('Enterprise_Reminder_Helper_Data')->__("Edit Rule '%s'", $this->escapeHtml($rule->getName()));
         }
         else {
             return Mage::helper('Enterprise_Reminder_Helper_Data')->__('New Rule');

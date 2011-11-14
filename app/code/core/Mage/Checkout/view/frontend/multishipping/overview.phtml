@@ -51,8 +51,8 @@
                         <h3><?php echo $this->__('Payment Method') ?> <span class="separator">|</span> <a href="<?php echo $this->getEditBillingUrl() ?>"><?php echo $this->__('Change') ?></a></h3>
                     </div>
                     <div class="box-content">
-                        <input type="hidden" name="payment[cc_number]" value="<?php echo $this->htmlEscape($this->getPayment()->getCcNumber())?>" />
-                        <input type="hidden" name="payment[cc_cid]" value="<?php echo $this->htmlEscape($this->getPayment()->getCcCid())?>" />
+                        <input type="hidden" name="payment[cc_number]" value="<?php echo $this->escapeHtml($this->getPayment()->getCcNumber())?>" />
+                        <input type="hidden" name="payment[cc_cid]" value="<?php echo $this->escapeHtml($this->getPayment()->getCcCid())?>" />
                         <?php echo $this->getPaymentHtml() ?>
                     </div>
                 </div>

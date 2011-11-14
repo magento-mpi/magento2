@@ -209,11 +209,6 @@ class Enterprise_GiftCardAccount_Model_Observer
                 Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
                     ->loadByCode($code)
                     ->addToCart(true, $quote);
-                /*
-                Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addSuccess(
-                    $this->__('Gift Card "%s" was added.', Mage::helper('Mage_Core_Helper_Data')->htmlEscape($code))
-                );
-                */
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addError(
                     $e->getMessage()
@@ -233,11 +228,6 @@ class Enterprise_GiftCardAccount_Model_Observer
                 Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
                     ->loadByCode($code)
                     ->removeFromCart(false, $quote);
-                /*
-                Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addSuccess(
-                    $this->__('Gift Card "%s" was removed.', Mage::helper('Mage_Core_Helper_Data')->htmlEscape($code))
-                );
-                */
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addError(
                     $e->getMessage()

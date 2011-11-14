@@ -168,7 +168,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit extends Mage_Adminhtml_Bloc
      */
     public function getHeader()
     {
-        return $this->htmlEscape($this->getBackup()->getName());
+        return $this->escapeHtml($this->getBackup()->getName());
     }
 
     /**

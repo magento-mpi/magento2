@@ -42,7 +42,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid_Renderer_Event extends Mag
     public function render(Varien_Object $row)
     {
         $result = parent::render($row);
-        return '<a href="' . $this->getUrl('*/staging_log/view',array('id'=>$row->getLogId())) . '">' . $this->htmlEscape($result) . '</a>';
+        return '<a href="' . $this->getUrl('*/staging_log/view',array('id'=>$row->getLogId())) . '">' . $this->escapeHtml($result) . '</a>';
     }
 
 }

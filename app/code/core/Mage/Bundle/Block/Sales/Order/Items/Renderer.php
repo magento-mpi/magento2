@@ -116,10 +116,10 @@ class Mage_Bundle_Block_Sales_Order_Items_Renderer extends Mage_Sales_Block_Orde
     {
         if ($attributes = $this->getSelectionAttributes($item)) {
             return sprintf('%d', $attributes['qty']) . ' x ' .
-                $this->htmlEscape($item->getName()) .
+                $this->escapeHtml($item->getName()) .
                 " " . $this->getOrder()->formatPrice($attributes['price']);
         } else {
-            return $this->htmlEscape($item->getName());
+            return $this->escapeHtml($item->getName());
         }
     }
 

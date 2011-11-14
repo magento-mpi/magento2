@@ -45,7 +45,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
         if ($this->getCustomerSegment() && $this->getCustomerSegment()->getName()) {
             $this->_headerText = Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__(
                 'Customer Segment Report \'%s\'',
-                $this->htmlEscape($this->getCustomerSegment()->getName())
+                $this->escapeHtml($this->getCustomerSegment()->getName())
             );
         } else {
             $this->_headerText = Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Segments Report');

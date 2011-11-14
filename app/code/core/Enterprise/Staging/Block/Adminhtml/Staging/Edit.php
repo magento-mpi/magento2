@@ -266,7 +266,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit extends Mage_Adminhtml_Blo
     {
         $header = '';
         if ($this->getStaging()->getId()) {
-            $header = $this->htmlEscape($this->getStaging()->getName());
+            $header = $this->escapeHtml($this->getStaging()->getName());
         } else {
             $header = Mage::helper('Enterprise_Staging_Helper_Data')->__('Create New Staging Website');
         }

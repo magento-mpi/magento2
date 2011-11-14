@@ -433,10 +433,34 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($str, $this->_block->__($str));
     }
 
-    public function testEscapeHtml()
+    /**
+     * @dataProvider escapeHtmlDataProvider
+     */
+    public function testEscapeHtml($data, $expected)
     {
-        $str = '<p>text</p>';
-        $this->assertEquals('&lt;p&gt;text&lt;/p&gt;', $this->_block->escapeHtml($str));
+        $actual = $this->_block->escapeHtml($data);
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return array
+     */
+    public function escapeHtmlDataProvider()
+    {
+        return array(
+            'array data' => array(
+                'data' => array('one', '<two>three</two>'),
+                'expected' => array('one', '&lt;two&gt;three&lt;/two&gt;')
+            ),
+            'string data conversion' => array(
+                'data' => '<two>three</two>',
+                'expected' => '&lt;two&gt;three&lt;/two&gt;'
+            ),
+            'string data no conversion' => array(
+                'data' => 'one',
+                'expected' => 'one'
+            )
+        );
     }
 
     public function testStripTags()

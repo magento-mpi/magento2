@@ -138,10 +138,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
     public function getHeaderText()
     {
         $revisionNumber = Mage::registry('cms_page')->getRevisionNumber();
-        $title = $this->htmlEscape(Mage::registry('cms_page')->getTitle());
+        $title = $this->escapeHtml(Mage::registry('cms_page')->getTitle());
 
         if ($revisionNumber) {
-            return Mage::helper('Enterprise_Cms_Helper_Data')->__("Edit Page '%s' Revision #%s", $title, $this->htmlEscape($revisionNumber));
+            return Mage::helper('Enterprise_Cms_Helper_Data')->__("Edit Page '%s' Revision #%s", $title, $this->escapeHtml($revisionNumber));
         } else {
             return Mage::helper('Enterprise_Cms_Helper_Data')->__("Edit Page '%s' New Revision", $title);
         }

@@ -64,7 +64,7 @@
                     <option value=""><?php echo $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('-- Please Select --');?></option>
                     <option value="-1"><?php echo $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('All Websites');?></option>
                     <?php foreach ($this->getWebsiteCollection() as $_website): ?>
-                        <option value="<?php echo $_website->getId() ?>"><?php echo $this->htmlEscape($_website->getName()) ?></option>
+                        <option value="<?php echo $_website->getId() ?>"><?php echo $this->escapeHtml($_website->getName()) ?></option>
                     <?php endforeach; ?>
                  </select></td>
                  <?php endif; ?>
@@ -73,7 +73,7 @@
                         <option value=""><?php echo $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('-- Please Select --');?></option>
                         <option value="-1"><?php echo $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('All Customer Groups');?></option>
                         <?php foreach ($this->getCustomerGroupCollection() as $_customerGroup): ?>
-                            <option value="<?php echo $_customerGroup->getId() ?>"><?php echo $this->htmlEscape($_customerGroup->getCode()) ?></option>
+                            <option value="<?php echo $_customerGroup->getId() ?>"><?php echo $this->escapeHtml($_customerGroup->getCode()) ?></option>
                         <?php endforeach; ?>
                      </select>
                  </td>

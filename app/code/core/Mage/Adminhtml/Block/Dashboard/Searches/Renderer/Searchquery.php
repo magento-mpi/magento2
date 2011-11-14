@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Dashboard_Searches_Renderer_Searchquery extends Mage_
             $value = '<span title="' . $this->escapeHtml($value) . '">'
                 . $this->escapeHtml($stringHelper->truncate($value, 30)) . '</span>';
         } else {
-            $value = $this->htmlEscape($value);
+            $value = $this->escapeHtml($value);
         }
         return $value;
     }
