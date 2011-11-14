@@ -1063,29 +1063,15 @@ class Product_Helper extends Mage_Selenium_TestCase
             $this->addParameter('title', $title);
             if ($value['custom_options_general_input_type'] == 'Drop-down' ||
                     $value['custom_options_general_input_type'] == 'Multiple Select') {
-                $someArr = $this->_formXpathArray($value, $priceToCalc, $i, 'custom_option_select');
+                $someArr = $this->_formXpathForCustomOptionsRows($value, $priceToCalc, $i, 'custom_option_select');
                 $xpathArray = array_merge_recursive($xpathArray, $someArr);
             } elseif ($value['custom_options_general_input_type'] == 'Radio Buttons' ||
                     $value['custom_options_general_input_type'] == 'Checkbox') {
-                $someArr = $this->_formXpathArray($value, $priceToCalc, $i, 'custom_option_check');
+                $someArr = $this->_formXpathForCustomOptionsRows($value, $priceToCalc, $i, 'custom_option_check');
                 $xpathArray = array_merge_recursive($xpathArray, $someArr);
             } else {
-                if (array_key_exists('custom_options_price_type', $value)) {
-                    if ($value['custom_options_price_type'] == 'Fixed' && isset($value['custom_options_price'])) {
-                        $price = '$' . number_format((float) $value['custom_options_price'], 2);
-                        $this->addParameter('price', $price);
-                        $xpathArray['custom_options']['option_' . $i]['xpath'] =
-                                $this->_getControlXpath('pageelement', 'custom_option_non_select');
-                    } elseif($value['custom_options_price_type'] == 'Percent' && isset($value['custom_options_price'])){
-                        $price = '$' . number_format(round($priceToCalc / 100 * $value['custom_options_price'], 2), 2);
-                        $this->addParameter('price', $price);
-                        $xpathArray['custom_options']['option_' . $i]['xpath'] =
-                                $this->_getControlXpath('pageelement', 'custom_option_non_select');
-                    } else {
-                        $xpathArray['custom_options']['option_' . $i]['xpath'] =
-                                $this->_getControlXpath('pageelement', 'custom_option_non_select_wo_price');
-                    }
-                }
+                $someArr = $this->_formXpathesForFieldsArray($value, $i, $priceToCalc);
+                $xpathArray = array_merge_recursive($xpathArray, $someArr);
             }
             $i++;
         }
@@ -1093,17 +1079,86 @@ class Product_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Generates xpathes for validation
-     *
+     * @param array $value
+     * @param int $i
+     * @param string $priceToCalc
+     * @return array
+     */
+    private function _formXpathesForFieldsArray(array $value, $i, $priceToCalc)
+    {
+        $xpathArray = array();
+        if (array_key_exists('custom_options_price_type', $value)) {
+            if ($value['custom_options_price_type'] == 'Fixed' && isset($value['custom_options_price'])) {
+                $price = '$' . number_format((float) $value['custom_options_price'], 2);
+                $this->addParameter('price', $price);
+                $xpath = $this->_getControlXpath('pageelement', 'custom_option_non_select');
+                $someArr = $this->_defineXpathForAdditionalOptions($value, $i, $xpath);
+                $xpathArray = array_merge_recursive($xpathArray, $someArr);
+            } elseif($value['custom_options_price_type'] == 'Percent' && isset($value['custom_options_price'])){
+                $price = '$' . number_format(round($priceToCalc / 100 * $value['custom_options_price'], 2), 2);
+                $this->addParameter('price', $price);
+                $xpath = $this->_getControlXpath('pageelement', 'custom_option_non_select');
+                $someArr = $this->_defineXpathForAdditionalOptions($value, $i, $xpath);
+                $xpathArray = array_merge_recursive($xpathArray, $someArr);
+            } else {
+                $xpath = $this->_getControlXpath('pageelement', 'custom_option_non_select_wo_price');
+                $someArr = $this->_defineXpathForAdditionalOptions($value, $i, $xpath);
+                $xpathArray = array_merge_recursive($xpathArray, $someArr);
+
+            }
+        }
+        return $xpathArray;
+    }
+
+    /**
+     * @param array $value
+     * @param int $i
+     * @param string $xpath
+     * @return array
+     */
+    private function _defineXpathForAdditionalOptions(array $value, $i, $xpath)
+    {
+        $xpathArray = array();
+        $count = 0;
+        if (array_key_exists('custom_options_max_characters', $value)
+            || array_key_exists('custom_options_allowed_file_extension', $value)
+            || array_key_exists('custom_options_image_size_x', $value)
+            || array_key_exists('custom_options_image_size_y', $value)) {
+            if (array_key_exists('custom_options_max_characters', $value)) {
+                $this->addParameter('maxChars', $value['custom_options_max_characters']);
+                $xpathMax = $this->_getControlXpath('pageelement', 'custom_option_max_chars');
+                $xpathArray['custom_options']['option_' . $i]['xpath_' . $count++] = $xpath . $xpathMax;
+            }
+            if (array_key_exists('custom_options_allowed_file_extension', $value)) {
+                $this->addParameter('fileExt', $value['custom_options_allowed_file_extension']);
+                $xpathExt = $this->_getControlXpath('pageelement', 'custom_option_file_ext');
+                $xpathArray['custom_options']['option_' . $i]['xpath_' . $count++] = $xpath . $xpathExt;
+            }
+            if (array_key_exists('custom_options_image_size_x', $value)) {
+                $this->addParameter('fileExt', $value['custom_options_image_size_x'] . ' px.');
+                $xpathExt = $this->_getControlXpath('pageelement', 'custom_option_file_ext');
+                $xpathArray['custom_options']['option_' . $i]['xpath_' . $count++] = $xpath . $xpathExt;
+            }
+            if (array_key_exists('custom_options_image_size_y', $value)) {
+                $this->addParameter('fileExt', $value['custom_options_image_size_y'] . ' px.');
+                $xpathExt = $this->_getControlXpath('pageelement', 'custom_option_file_ext');
+                $xpathArray['custom_options']['option_' . $i]['xpath_' . $count++] = $xpath . $xpathExt;
+            }
+        } else {
+            $xpathArray['custom_options']['option_' . $i]['xpath_' . $count++] = $xpath;
+        }
+        return $xpathArray;
+    }
+    /**
      * @param array $options
      * @param string $priceToCalc
      * @param int $i
      * @param string $pageelement
      * @return 
      */
-    private function _formXpathArray(array $options, $priceToCalc, $i, $pageelement)
+    private function _formXpathForCustomOptionsRows(array $options, $priceToCalc, $i, $pageelement)
     {
-
+        $xpathArray = array();
         $count = 0;
         foreach ($options as $k => $v) {
             if (preg_match('/^custom_option_row_/', $k)) {
