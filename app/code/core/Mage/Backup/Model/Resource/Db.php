@@ -161,7 +161,7 @@ class Mage_Backup_Model_Resource_Db
     /**
      * Quote Table Row
      *
-     * @deprecated 
+     * @deprecated
      *
      * @param string $tableName
      * @param array $row
@@ -169,7 +169,7 @@ class Mage_Backup_Model_Resource_Db
      */
     protected function _quoteRow($tableName, array $row)
     {
-        return $row;    
+        return $row;
     }
 
     /**
@@ -241,7 +241,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getFooter()
     {
-        return Mage::getResourceHelper('backup')->getFooter();        
+        return Mage::getResourceHelper('backup')->getFooter();
     }
 
     /**
@@ -298,6 +298,17 @@ class Mage_Backup_Model_Resource_Db
     public function rollBackTransaction()
     {
         $this->_read->rollBack();
+        return $this;
+    }
+
+    /**
+     * Run sql code
+     *
+     * @param $command
+     * @return Mage_Backup_Model_Resource_Db
+     */
+    public function runCommand($command){
+        $this->_read->query($command);
         return $this;
     }
 }

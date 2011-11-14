@@ -326,6 +326,11 @@ final class Maged_Controller
         } else {
             $ignoreLocalModification = '';
         }
+
+        if (!empty($_GET['archive_type'])){
+            $this->_createBackup($_GET['archive_type']);
+        }
+
         $this->model('connect', true)->applyPackagesActions($actions, $ignoreLocalModification);
     }
 
@@ -359,6 +364,10 @@ final class Maged_Controller
             echo "INVALID POST DATA";
             return;
         }
+
+        if ($archiveType = $_GET['archive_type']){
+            $this->_createBackup($archiveType);
+        }
         $this->model('connect', true)->installPackage($_POST['install_package_id']);
     }
 
@@ -389,6 +398,10 @@ final class Maged_Controller
         if(false === $res) {
             echo "Error moving uploaded file";
             return;
+        }
+
+        if ($archiveType = $_GET['archive_type']){
+            $this->_createBackup($archiveType);
         }
 
         $this->model('connect', true)->installUploadedPackage($target);
@@ -973,5 +986,72 @@ final class Maged_Controller
             'stability' => 'rc',
             'number'    => '2',
         );
+    }
+
+
+    /**
+     * Create Backup
+     *
+     * @param string $archiveType
+     * @return void
+     */
+    protected function _createBackup($archiveType){
+        $this->model('connect', true)->connect()->runHtmlConsole('Creating backup data.');
+        echo "<br/>\n";
+
+        try {
+            $type = $this->_getBackupTypeByCode($archiveType);
+
+            $backupManager = Mage_Backup::getBackupInstance($type)
+                ->setBackupExtension(Mage::helper('backup')->getExtensionByType($type))
+                ->setTime(time())
+                ->setBackupsDir(Mage::helper('backup')->getBackupsDir());
+
+            Mage::register('backup_manager', $backupManager);
+
+            if ($type != Mage_Backup_Helper_Data::TYPE_DB) {
+                $backupManager->setRootDir(Mage::getBaseDir())
+                    ->addIgnorePaths(Mage::helper('backup')->getIgnorePaths());
+            }
+            $backupManager->create();
+            $this->model('connect', true)->connect()->runHtmlConsole('The backup has been created.');
+            echo "<br/>\n";
+        } catch (Mage_Backup_Exception_NotEnoughFreeSpace $e) {
+            $this->model('connect', true)->connect()->runHtmlConsole('Not enough free space to create backup.');
+            echo "<br/>\n";
+            Mage::logException($e);
+        } catch (Mage_Backup_Exception_NotEnoughPermissions $e) {
+            $this->model('connect', true)->connect()->runHtmlConsole('Not enough permissions to create backup.');
+            echo "<br/>\n";
+            Mage::logException($e);
+        } catch (Exception  $e) {
+            $this->model('connect', true)->connect()->runHtmlConsole('An error occurred while creating the backup.');
+            echo "<br/>\n";
+            Mage::logException($e);
+        }
+    }
+
+    /**
+     * Get Backup Type By Int Code
+     *
+     * @param $archiveType
+     * @return string
+     */
+    protected function _getBackupTypeByCode($archiveType){
+        $code = null;
+        switch($archiveType){
+            case 1: $code = Mage_Backup_Helper_Data::TYPE_DB;
+                break;
+            case 2: $code = Mage_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT;
+                break;
+
+            case 3: $code = Mage_Backup_Helper_Data::TYPE_MEDIA;
+                break;
+
+            default:
+                Mage::throwException("Unknown backup type");
+                break;
+        }
+        return $code;
     }
 }

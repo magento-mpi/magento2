@@ -34,11 +34,12 @@
 class Mage_Archive_Abstract
 {
     /**
-     * Write data to file. If file can't be opened,
+     * Write data to file. If file can't be opened - throw exception
      *
      * @param string $destination
      * @param string $data
      * @return boolean
+     * @throws Mage_Exception
      */
     protected function _writeFile($destination, $data)
     {
@@ -53,6 +54,7 @@ class Mage_Archive_Abstract
      *
      * @param string $source
      * @return string
+     * @throws Mage_Exception
      */
     protected function _readFile($source)
     {
@@ -80,5 +82,4 @@ class Mage_Archive_Abstract
         }
         return $file;
     }
-
 }

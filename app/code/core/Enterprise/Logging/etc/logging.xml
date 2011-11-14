@@ -1488,10 +1488,15 @@
                 <post_dispatch>postDispatchSystemBackupsCreate</post_dispatch>
             </adminhtml_system_backup_create>
 
-            <adminhtml_system_backup_delete translate="action">
-                <action>delete</action>
+            <adminhtml_system_backup_massDelete translate="action">
+                <action>massDelete</action>
                 <post_dispatch>postDispatchSystemBackupsDelete</post_dispatch>
-            </adminhtml_system_backup_delete>
+            </adminhtml_system_backup_massDelete>
+
+            <adminhtml_system_backup_rollback translate="action">
+                <action>rollback</action>
+                <post_dispatch>postDispatchSystemRollback</post_dispatch>
+            </adminhtml_system_backup_rollback>
         </actions>
     </adminhtml_system_backups>
 

@@ -20,7 +20,7 @@
  *
  * @category    Mage
  * @package     Mage_Archive
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -34,11 +34,12 @@
 class Mage_Archive_Abstract
 {
     /**
-     * Write data to file. If file can't be opened,
+     * Write data to file. If file can't be opened - throw exception
      *
      * @param string $destination
      * @param string $data
      * @return boolean
+     * @throws Mage_Exception
      */
     protected function _writeFile($destination, $data)
     {
@@ -53,6 +54,7 @@ class Mage_Archive_Abstract
      *
      * @param string $source
      * @return string
+     * @throws Mage_Exception
      */
     protected function _readFile($source)
     {
@@ -80,5 +82,4 @@ class Mage_Archive_Abstract
         }
         return $file;
     }
-
 }

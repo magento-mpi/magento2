@@ -52,6 +52,22 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
     }
 
     /**
+     * Prepare mass action controls
+     */
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('id');
+        $this->getMassactionBlock()->setFormFieldName('ids');
+
+        $this->getMassactionBlock()->addItem('delete', array(
+             'label'=> Mage::helper('adminhtml')->__('Delete'),
+             'url'  => $this->getUrl('*/*/massDelete')
+        ));
+
+        return $this;
+    }
+
+    /**
      * Configuration of grid
      */
     protected function _prepareColumns()
@@ -75,32 +91,35 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->addColumn('type', array(
             'header'    => Mage::helper('backup')->__('Type'),
             'type'      => 'options',
-            'options'   => array('db' => Mage::helper('backup')->__('DB')),
+            'options'   => Mage::helper('backup')->getBackupTypes(),
             'index'     =>'type'
         ));
 
         $this->addColumn('download', array(
             'header'    => Mage::helper('backup')->__('Download'),
-            'format'    => '<a href="' . $this->getUrl('*/*/download', array('time' => '$time', 'type' => '$type')) .'">gz</a> &nbsp; <small>('.$url7zip.')</small>',
+            'format'    => '<a href="' . $this->getUrl('*/*/download', array('time' => '$time', 'type' => '$type'))
+                . '">$extension</a> &nbsp; <small>('.$url7zip.')</small>',
             'index'     => 'type',
             'sortable'  => false,
             'filter'    => false
         ));
 
-        $this->addColumn('action', array(
-            'header'    => Mage::helper('backup')->__('Action'),
-            'type'      => 'action',
-            'width'     => '80px',
-            'filter'    => false,
-            'sortable'  => false,
-            'actions'   => array(array(
-                'url'       => $this->getUrl('*/*/delete', array('time' => '$time', 'type' => '$type')),
-                'caption'   => Mage::helper('adminhtml')->__('Delete'),
-                'confirm'   => Mage::helper('adminhtml')->__('Are you sure you want to do this?')
-            )),
-            'index'     => 'type',
-            'sortable'  => false
-        ));
+        if (Mage::helper('backup')->isRollbackAllowed()){
+            $this->addColumn('action', array(
+                    'header'   => Mage::helper('backup')->__('Action'),
+                    'type'     => 'action',
+                    'width'    => '80px',
+                    'filter'   => false,
+                    'sortable' => false,
+                    'actions'  => array(array(
+                        'url'     => '#',
+                        'caption' => Mage::helper('backup')->__('Rollback'),
+                        'onclick' => 'return backup.rollback(\'$type\', \'$time\');'
+                    )),
+                    'index'    => 'type',
+                    'sortable' => false
+            ));
+        }
 
         return $this;
     }
