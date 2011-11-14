@@ -138,7 +138,11 @@ class Mage_Log_Model_Resource_Visitor_Collection extends Mage_Core_Model_Resourc
         $this->getSelect()
             ->where('customer_table.customer_id > 0')
             ->group('customer_table.customer_id');
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 580
         return $this;
     }
 

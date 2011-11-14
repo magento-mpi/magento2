@@ -121,7 +121,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
             try {
                 $model = Mage::registry('tagModel');
                 $model->deactivate();
-                $tag = Mage::getModel('Mage_Tag_Model_Tag')->load($tagId)->aggregate();
+
                 Mage::getSingleton('Mage_Tag_Model_Session')->addSuccess(
                     Mage::helper('Mage_Tag_Helper_Data')->__('The tag has been deleted.')
                 );

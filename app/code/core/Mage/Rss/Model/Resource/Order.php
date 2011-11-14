@@ -34,17 +34,6 @@
  */
 class Mage_Rss_Model_Resource_Order
 {
-
-    /**
-     * Retrieve core resource model
-     *
-     * @return Mage_Core_Model_Resource
-     */
-    public function getCoreResource()
-    {
-        return Mage::getSingleton('Mage_Core_Model_Resource');
-    }
-
     /**
      * Retrieve order comments
      *
@@ -53,7 +42,8 @@ class Mage_Rss_Model_Resource_Order
      */
     public function getAllCommentCollection($orderId)
     {
-        $res = $this->getCoreResource();
+        /** @var $res Mage_Core_Model_Resource */
+        $res = Mage::getSingleton('Mage_Core_Model_Resource');
         $read = $res->getConnection('core_read');
 
         $fields = array(

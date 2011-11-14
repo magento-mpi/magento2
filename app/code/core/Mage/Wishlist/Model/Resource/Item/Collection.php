@@ -312,6 +312,35 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
     }
 
     /**
+     * Set add days in wishlist
+     *
+     * This method appears in 1.5.0.0 in deprecated state, because:
+     * - we need it to make wishlist item collection interface as much as possible compatible with old
+     *   wishlist product collection
+     * - this method is useless because we can calculate days in php, and don't use MySQL for it
+     *
+     * @deprecated after 1.4.2.0
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
+     */
+    public function addDaysInWishlist()
+    {
+        $this->_addDaysInWishlist = true;
+
+        $adapter = $this->getConnection();
+        $dateModel = Mage::getSingleton('Mage_Core_Model_Date');
+        $resHelper = Mage::getResourceHelper('Mage_Core');
+
+        $offsetFromDb = (int) $dateModel->getGmtOffset();
+        $startDate = $adapter->getDateAddSql('added_at', $offsetFromDb, Varien_Db_Adapter_Interface::INTERVAL_SECOND);
+
+        $nowDate = $dateModel->date();
+        $dateDiff = $resHelper->getDateDiff($startDate, $adapter->formatDate($nowDate));
+
+        $this->getSelect()->columns(array('days_in_wishlist' => $dateDiff));
+        return $this;
+    }
+
+    /**
      * Adds filter on days in wishlist
      *
      * $constraints may contain 'from' and 'to' indexes with number of days to look for items
