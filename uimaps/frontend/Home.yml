@@ -67,7 +67,9 @@ home:
             tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagQty% tag(s) have been accepted for moderation.')]
             confirmation_for_removing_product_from_compare: Are you sure you would like to remove this item from the compare products?
             confirmation_clear_all_from_compare: Are you sure you would like to remove all products from your comparison?
-            compare_list_cleared: //li[normalize-space(@class)='success-msg' and contains(.//span,'The comparison list was cleared.')]            
+            compare_list_cleared: //li[normalize-space(@class)='success-msg' and contains(.//span,'The comparison list was cleared.')] 
+            product_added_to_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product %productName% has been added to comparison list.')]
+            product_removed_from_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product %productName% has been removed from comparison list.')]            
 
 home_page:
     mca:

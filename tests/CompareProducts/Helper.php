@@ -207,27 +207,25 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
             $this->messages['error'][] = "Unxepected number of products on Compare popup:"
              . "expected " . count($productsData) . "; actual " . count($compareProductsData);
         //compare aarays
-        foreach ($productsData as $productData) {
-            $currentProduct = $productData['product_title'];
+        foreach ($compareProductsData as $compareProductName => $compareProductData) {
             //product exists on compare popup
-            if (key_exists($currentProduct, $compareProductsData)) {
-                $comparePageProduct = $compareProductsData[$currentProduct];
+            if (key_exists($compareProductName, $productsData)) {
+                $productToVerify = $productsData[$compareProductName];
                 //check product properties
-                foreach ($productData as $key => $value) {
-                    if ($key=='product_title') continue;
-                    if (key_exists($key, $comparePageProduct)) {
-                         if (strcmp((string)$value, $comparePageProduct[$key])!=0) {
+                foreach ($compareProductData as $key => $value) {
+                    if (key_exists($key, $productToVerify)) {
+                         if (strcmp((string)$value, $productToVerify[$key])!=0) {
                             $this->messages['error'][] =
-                                    "Values are not identical: $value and $comparePageProduct[$key]";
+                                    "Values are not identical: $value and $productToVerify[$key]";
                         }
                     }else {
                         $this->messages['error'][] =
-                                "There is no such property $key on Compare page for "  . $productData['product_title'];
+                                "There is no such property $key for "  . $compareProductName;
                     }
                 }
            }  else {
                  $this->messages['error'][] =
-                         "There is no such product " . $productData['product_title'] . " on Compare page";
+                         'There is unexpected product ' . $compareProductName . ' on Compare page';
            }
         }
         return $this->messages;
@@ -269,18 +267,24 @@ class CompareProducts_Helper extends Mage_Selenium_TestCase
     {
         $dataForVerify = array();
          foreach ($productsData as $key => $productData) {
-             $dataForVerify[$key]['product_title'] = $productData['general_name'];
              if (isset ($productData['prices_special_price'])) {
-                 $dataForVerify[$key]['verify_price_special'] = $productData['prices_special_price'];
-                 $dataForVerify[$key]['verify_ex_price_special'] = $productData['prices_special_price'];
+                 $dataForVerify[$productData['general_name']]['verify_price_special'] = $productData['prices_special_price'];
+                 $dataForVerify[$productData['general_name']]['verify_price_special_excluding_tax'] = $productData['prices_special_price'];
+                 $dataForVerify[$productData['general_name']]['verify_price_special_inlcuding_tax'] = $productData['prices_special_price'];
+                 $dataForVerify[$productData['general_name']]['verify_ex_price_special_excluding_tax'] = $productData['prices_special_price'];
+                 $dataForVerify[$productData['general_name']]['verify_ex_price_special_inlcuding_tax'] = $productData['prices_special_price'];
 
              }else {
-                 $dataForVerify[$key]['verify_price_regular'] = $productData['prices_price'];
-                 $dataForVerify[$key]['verify_ex_price_regular'] = $productData['prices_price'];
+                 $dataForVerify[$productData['general_name']]['verify_price_regular'] = $productData['prices_price'];
+                 $dataForVerify[$productData['general_name']]['verify_ex_price_regular'] = $productData['prices_price'];
+                 $dataForVerify[$productData['general_name']]['verify_ex_price_excluding_tax'] = $productData['prices_price'];
+                 $dataForVerify[$productData['general_name']]['verify_ex_price_including_tax'] = $productData['prices_price'];
+                 $dataForVerify[$productData['general_name']]['verify_price_excluding_tax'] = $productData['prices_price'];
+                 $dataForVerify[$productData['general_name']]['verify_price_including_tax'] = $productData['prices_price'];
              }
-             $dataForVerify[$key]['Description'] = $productData['general_description'];
-             $dataForVerify[$key]['Short Description'] = $productData['general_short_description'];
-             $dataForVerify[$key]['SKU'] = $productData['general_sku'];
+             $dataForVerify[$productData['general_name']]['Description'] = $productData['general_description'];
+             $dataForVerify[$productData['general_name']]['Short Description'] = $productData['general_short_description'];
+             $dataForVerify[$productData['general_name']]['SKU'] = $productData['general_sku'];
              //Add additional non-standart attributes
              #$dataForVerify[$key]['Weight'] = $productData['general_weight'];
         }

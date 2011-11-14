@@ -119,6 +119,7 @@ category_page:
             confirmation_for_removing_product_from_compare: Are you sure you would like to remove this item from the compare products?
             confirmation_clear_all_from_compare: Are you sure you would like to remove all products from your comparison?
             compare_list_cleared: //li[normalize-space(@class)='success-msg' and contains(.//span,'The comparison list was cleared.')]
+            product_removed_from_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product %productName% has been removed from comparison list.')]
 
 category_page_index:
     mca: %categoryUrl%.html%param%
