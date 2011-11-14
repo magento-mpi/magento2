@@ -58,13 +58,14 @@ class Magento_Test_Webservice extends Magento_TestCase
     /**
      * Get webservice adapter
      *
+     * @param array $options
      * @return Magento_Test_Webservice_Abstract
      */
-    public function getWebService()
+    public function getWebService($options=null)
     {
         if (null === self::$_ws) {
-            $class = $this->_webServiceMap[strtolower(TESTS_WEBSERVICE_TYPE)];
-            self::$_ws = new $class();
+            $class = $this->_webServiceMap[TESTS_WEBSERVICE_TYPE];
+            self::$_ws = new $class($options);
             self::$_ws->init();
         }
         return self::$_ws;
