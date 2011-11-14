@@ -32,13 +32,13 @@
             <block type="Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry" name="enterprise_giftregistry"/>
         </reference>
     </adminhtml_giftregistry_index>
-    
+
     <adminhtml_giftregistry_edit>
         <reference name="left">
             <block type="Mage_Adminhtml_Block_Store_Switcher" name="store_switcher" before="-"></block>
         </reference>
     </adminhtml_giftregistry_edit>
-    
+
    <adminhtml_customer_edit>
         <reference name="customer_edit_tabs">
             <action method="addTab">
@@ -47,17 +47,17 @@
             </action>
         </reference>
     </adminhtml_customer_edit>
-   
+
    <adminhtml_giftregistry_customer_edit>
         <reference name="content">
             <block type="Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit" name="giftregistry_customer_edit"></block>
-        </reference> 
+        </reference>
    </adminhtml_giftregistry_customer_edit>
-   
+
    <adminhtml_giftregistry_customer_grid>
         <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
             <block type="Enterprise_GiftRegistry_Block_Adminhtml_Customer_Grid" name="adminhtml.giftregistry.customer.grid"/>
         </block>
     </adminhtml_giftregistry_customer_grid>
-    
+
 </layout>
