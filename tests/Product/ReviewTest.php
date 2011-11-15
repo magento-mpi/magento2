@@ -63,7 +63,7 @@ class Product_ReviewTest extends Mage_Selenium_TestCase
      * @dataProvider dataProv
      * @test
      */
-    public function allFieldsInSimple($productType, $availability)
+    public function reviewInfoInProductDetails($productType, $availability)
     {
         $productData = $this->loadData('frontend_' . $productType . '_product_details_validation',
                 array('inventory_stock_availability' => $availability), array('general_name', 'general_sku'));

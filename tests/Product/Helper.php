@@ -990,24 +990,32 @@ class Product_Helper extends Mage_Selenium_TestCase
      */
     public function frontVerifyProductInfo(array $productData)
     {
+        $this->messages['error'] = array();
         $productData = $this->arrayEmptyClear($productData);
         $this->frontOpenProduct($productData['general_name']);
         $xpathArray = $this->getCustomOptionsXpathes($productData);
         foreach ($xpathArray as $key => $value) {
             if (!preg_match('/custom_options/', $key)) {
-                $this->assertTrue($this->isElementPresent($value), 'Could not find element ' . $key);
+                if (!$this->isElementPresent($value)){
+                    $this->messages['error'][] = 'Could not find element ' . $key;
+                }
             } else {
                 foreach ($value as $k => $v) {
                     foreach ($v as $x => $y) {
                         if (preg_match('/xpath/', $x)) {
-                            $this->assertTrue($this->isElementPresent($y),
-                                          'Could not find element type "' . $v['type'] .
-                                          '" and title "' . $v['title'] . '"');
+                            if(!$this->isElementPresent($y)) {
+                                $this->messages['error'][] = 'Could not find element type "' . $v['type'] .
+                                          '" and title "' . $v['title'] . '"';
+                            }
+
                         }
                     }
                 }
             }
 
+        }
+        if (!empty($this->messages['error'])) {
+            $this->fail(implode("\n", $this->messages['error']));
         }
     }
 
