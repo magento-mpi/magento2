@@ -50,7 +50,7 @@ class LoginTest extends Magento_Test_Webservice
      */
     public function _testLoginDirect()
     {
-        if (TESTS_WEBSERVICE_TYPE!=self::SOAPV1) {
+        if (TESTS_WEBSERVICE_TYPE != self::TYPE_SOAPV1) {
             return;
         }
         
@@ -101,11 +101,11 @@ class LoginTest extends Magento_Test_Webservice
      */
     public function testLoginInvalidCredentials()
     {
-        if (TESTS_WEBSERVICE_TYPE!=self::SOAPV1) {
+        if (TESTS_WEBSERVICE_TYPE != self::TYPE_SOAPV1) {
             return;
         }
         
-        $client = new SoapClient(TESTS_WEBSERVICE_URL.'/api/soap/?wsdl=1', array('trace'=>true, 'exceptions'=>true));
+        $client = new SoapClient(TESTS_WEBSERVICE_URL . '/api/soap/?wsdl=1', array('trace'=>true, 'exceptions'=>true));
         $sessionId = $client->login(TESTS_WEBSERVICE_USER, 'invalid_api_key');
     }
 
@@ -116,12 +116,12 @@ class LoginTest extends Magento_Test_Webservice
      */
     public function testLoginInvalidXmlStructure()
     {
-        if (TESTS_WEBSERVICE_TYPE!=self::SOAPV1) {
+        if (TESTS_WEBSERVICE_TYPE != self::TYPE_SOAPV1) {
             return;
         }
 
         $requestXml = file_get_contents(dirname(__FILE__) . '/_files/requestInvalidStructure.xml');
-        $location = TESTS_WEBSERVICE_URL.'/index.php/api/soap/index/';
+        $location = TESTS_WEBSERVICE_URL . '/index.php/api/soap/index/';
         $action = 'urn:Mage_Api_Model_Server_HandlerAction';
         $version = 1;
 
@@ -138,12 +138,12 @@ class LoginTest extends Magento_Test_Webservice
      */
     public function testLoginInvalidXmlNamespaces()
     {
-        if (TESTS_WEBSERVICE_TYPE!=self::SOAPV1) {
+        if (TESTS_WEBSERVICE_TYPE != self::TYPE_SOAPV1) {
             return;
         }
 
         $requestXml = file_get_contents(dirname(__FILE__) . '/_files/requestInvalidNamespace.xml');
-        $location = TESTS_WEBSERVICE_URL.'/index.php/api/soap/index/';
+        $location = TESTS_WEBSERVICE_URL . '/index.php/api/soap/index/';
         $action = 'urn:Mage_Api_Model_Server_HandlerAction';
         $version = 1;
         
