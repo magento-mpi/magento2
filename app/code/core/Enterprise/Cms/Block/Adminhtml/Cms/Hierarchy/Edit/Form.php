@@ -392,8 +392,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         $this->setData('use_default_scope', $nodeModel->getIsInherited());
         $nodeHeritageModel = $nodeModel->getHeritage();
         $nodes = $nodeHeritageModel->getNodesData();
-        $this->setData('echn_scope', $nodeHeritageModel->getScope());
-        $this->setData('echn_scope_id', $nodeHeritageModel->getScopeId());
         unset($nodeModel);
         unset($nodeHeritageModel);
 

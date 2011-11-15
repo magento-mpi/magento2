@@ -106,10 +106,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mage_Adm
      *
      * @return null|string
      */
-    public function getUniqueHash()
+    public function getUniqHash()
     {
-        if ($this->getUniqueId() !== null) {
-            $id = explode('_', $this->getUniqueId());
+        if ($this->getUniqId() !== null) {
+            $id = explode('_', $this->getUniqId());
             if (isset($id[1])) {
                 return $id[1];
             }

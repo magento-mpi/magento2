@@ -53,7 +53,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
             ->setSourceUrl($sourceUrl)
-            ->setUniqueId($uniqueId);
+            ->setUniqId($uniqueId);
 
 
         if ($element->getValue()) {
@@ -64,7 +64,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
         }
 
         $radioHtml = Mage::getBlockSingleton('enterprise_cms/adminhtml_cms_hierarchy_widget_radio')
-            ->setUniqueId($uniqueId)
+            ->setUniqId($uniqueId)
             ->toHtml();
 
         $element->setData('after_element_html', $chooser->toHtml() . $radioHtml);
