@@ -704,15 +704,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         }
 
         $xml = new SimpleXMLElement($content);
-        $expectedModels = array();
-        foreach (array(
-                '//logging/*/expected_models',
-                '//logging/*/actions/*/expected_models'
-            ) as $xpath
-        ) {
-            $expectedModels = array_merge($expectedModels, $xml->xpath($xpath));
-        }
-
+        $expectedModels = $xml->xpath('/logging/*/expected_models || /logging/*/actions/*/expected_models');
         $result = array();
         foreach ($expectedModels as $expectModelNode) {
             $expectedModel = (array) $expectModelNode;
@@ -737,21 +729,12 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     protected function _visitModelsInLayoutXmlDefinitions($fileInfo, $content)
     {
         $result = array();
-        $separator = DIRECTORY_SEPARATOR;
 
-        if ($this->_fileHasExtensions($fileInfo, 'xml')
-            && (false !== strpos($fileInfo->getPath(), "{$separator}view{$separator}")
-                || false !== strpos($fileInfo->getPath(), "{$separator}app{$separator}design{$separator}")
-            )
-        ) {
+        if ($this->_fileHasExtensions($fileInfo, 'xml')) {
             $xml = new SimpleXMLElement($content);
-            foreach (array(
-                    '//layout/*/block/action[@method="setEntityModelClass"]/code',
-                    '//layout/*/reference/block/action[@method="setEntityModelClass"]/code'
-                ) as $xpath
-            ) {
-                foreach ($xml->xpath($xpath) as $expectModelNode) {
-                    $result[] = (string) $expectModelNode;
+            if ($xml->getName() == 'layout') {
+                foreach ($xml->xpath('//action[@method="setEntityModelClass"]/code') as $expectModelNode) {
+                    $result[] = (string)$expectModelNode;
                 }
             }
         }
