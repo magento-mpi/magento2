@@ -25,16 +25,13 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Magento_Test_Request extends Mage_Core_Controller_Request_Http
+/**
+ * Test exception
+ *
+ * @category    Magento
+ * @package     Magento_Test
+ * @author      Magento Api Team <api-team@magento.com>
+ */
+class Magento_Test_Exception extends Exception
 {
-    /**
-     * Retrieve HTTP HOST
-     *
-     * @param bool $trimPort
-     * @return string
-     */
-    public function getHttpHost($trimPort = true)
-    {
-        return defined('TESTS_HTTP_HOST') ? TESTS_HTTP_HOST : 'localhost';
-    }
 }
