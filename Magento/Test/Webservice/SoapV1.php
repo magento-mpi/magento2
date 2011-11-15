@@ -27,6 +27,9 @@
 
 class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
 {
+    /** @const Class of exception web services client throws */
+    const EXCEPTION_CLASS = 'SoapFault';
+
     /**
      * Init
      *
@@ -49,5 +52,15 @@ class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
     public function call($path, $params = array())
     {
         return $this->_client->call($this->_session, $path, $params);
+    }
+
+    /**
+     * Give web service client exception class
+     *
+     * @return string
+     */
+    public function getExceptionClass()
+    {
+        return self::EXCEPTION_CLASS;
     }
 }

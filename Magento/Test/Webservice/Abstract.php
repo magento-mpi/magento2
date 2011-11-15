@@ -91,4 +91,6 @@ abstract class Magento_Test_Webservice_Abstract
     {
         return $this->getClient()->getSoapClient()->__getLastResponse();
     }
+
+    abstract public function getExceptionClass();
 }

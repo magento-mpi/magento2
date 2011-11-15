@@ -27,6 +27,9 @@
 
 class Magento_Test_Webservice_XmlRpc extends Magento_Test_Webservice_Abstract
 {
+    /** @const Class of exception web services client throws */
+    const EXCEPTION_CLASS = 'Zend_XmlRpc_Client_FaultException';
+
     public function init()
     {
         $this->_client = new Zend_XmlRpc_Client(TESTS_WEBSERVICE_URL.'/api/xmlrpc/');
@@ -44,5 +47,15 @@ class Magento_Test_Webservice_XmlRpc extends Magento_Test_Webservice_Abstract
     public function call($path, $params = array())
     {
         return $this->_client->call('call', array($this->_session, $path, $params));
+    }
+
+    /**
+     * Give web service client exception class
+     * 
+     * @return string
+     */
+    public function getExceptionClass()
+    {
+        return self::EXCEPTION_CLASS;
     }
 }
