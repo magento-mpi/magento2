@@ -74,7 +74,7 @@ class Catalog_Category_CategoryTest extends Magento_Test_Webservice
         $this->assertEmpty($categoryCreated->getData());
     }
 
-    public function testCategoryUpdateAppliedOnFrontend()
+    public function testCategoryUpdateAppliedToDb()
     {
         $categoryFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/category.xml');
         $data = self::simpleXmlToArray($categoryFixture->create);
