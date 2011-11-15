@@ -42,10 +42,9 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
-        $this->navigate('customer_login');
-        $this->assertTrue($this->checkCurrentPage('customer_login'), $this->messages);
+        $this->logoutCustomer();
+        $this->frontend('home');
+        $this->frontend('customer_login');
     }
 
     /**
