@@ -66,18 +66,6 @@ function destruct($object)
 }
 
 /**
- * Translator function
- *
- * @deprecated 1.3
- * @param string $text the text to translate
- * @param mixed optional parameters to use in sprintf
- */
-function __()
-{
-    return Mage::app()->getTranslator()->translate(func_get_args());
-}
-
-/**
  * Tiny function to enhance functionality of ucwords
  *
  * Will capitalize first letters and convert separators if needed
