@@ -648,9 +648,8 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $skippedFiles = array(
             "app" . DS . "etc" . DS . "config.xml",
             "Enterprise" . DS . "Staging" . DS . "etc" . DS . "config.xml",
-            /** @TODO  path should be change after layout moved */
-            "app" . DS . "design" . DS . "adminhtml" .
-                DS . "default" . DS . "default" . DS . "layout" . DS . "enterprise" . DS . "customerbalance.xml",
+            "app" . DS . "code" . DS . "core" .
+                DS . "Enterprise" . DS . "CustomerBalance" . DS . "view" . DS . "adminhtml" . DS . "layout.xml",
         );
 
         foreach ($skippedFiles as $skippedFile) {
@@ -730,4 +729,31 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         return array_unique($result);
     }
 
+    /**
+     * Finds usage action[@method="setEntityModelClass"]/code in layout.xml files
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitModelsInLayoutXmlDefinitions($fileInfo, $content)
+    {
+        if ($fileInfo->getBasename() != 'layout.xml') {
+            return array();
+        }
+
+        $xml = new SimpleXMLElement($content);
+        $xpathes = array (
+            '//layout/*/block/action[@method="setEntityModelClass"]/code',
+            '//layout/*/reference/block/action[@method="setEntityModelClass"]/code'
+        );
+
+        $result = array();
+        foreach ($xpathes as $xpath) {
+            foreach ($xml->xpath($xpath) as $expectModelNode) {
+                $result[] = (string) $expectModelNode;
+            }
+        }
+        return array_unique($result);
+    }
 }
