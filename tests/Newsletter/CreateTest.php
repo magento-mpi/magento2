@@ -44,25 +44,6 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Preconditions</p>
-     * <p>Create Customer for tests</p>
-     *
-     * @test
-     */
-    public function createCustomer()
-    {
-        //Data
-        $userData = $this->loadData('customer_account_for_prices_validation', NULL, 'email');
-        //Steps
-        $this->loginAdminUser();
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        //Verifying
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        return array('email' => $userData['email'], 'password' => $userData['password']);
-    }
-
-    /**
-     * <p>Preconditions</p>
      * <p>Creates Category to use during tests</p>
      *
      * @test
@@ -84,7 +65,7 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
     /**
      * <p>With invalid email</p>
      *
-     * <p>1. Login to Frontend</p>
+     * <p>1. Navigate to Frontend</p>
      * <p>2. Open created category</p>
      * <p>3. Enter valid email to subscribe</p>
      * <p>4. Check message</p>
@@ -94,17 +75,15 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      *
      * <p>Expected result: email is present into the subscribers list</p>
      *
-     * @depends createCustomer
      * @depends createCategory
      *
      * @test
      */
-    public function subscriberEmailVerificationInvalidAddress($customer, $category)
+    public function subscriberEmailVerificationInvalidAddress($category)
     {
         //Data
         $newSubscriberEmail = $this->generate('email', 15, 'invalid');
         //Preconditions
-        $this->customerHelper()->frontLoginCustomer($customer);
         $this->categoryHelper()->frontOpenCategory($category);
         $this->fillForm(array('sign_up_newsletter' => $newSubscriberEmail));
         $this->clickButton('subscribe', FALSE);
@@ -117,7 +96,7 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
     /**
      * <p>With valid email</p>
      *
-     * <p>1. Login to Frontend</p>
+     * <p>1. Navigate to Frontend</p>
      * <p>2. Open created category</p>
      * <p>3. Enter valid email to subscribe</p>
      * <p>4. Check message</p>
@@ -128,15 +107,13 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result: email is present into the subscribers list</p>
      *
      * @dataProvider newsletterData
-     * @depends createCustomer
      * @depends createCategory
      *
      * @test
      */
-    public function subscriberEmailVerificationValidAddress($newSubscriberEmail, $customer, $category)
+    public function subscriberEmailVerificationValidAddress($newSubscriberEmail, $category)
     {
         //Preconditions
-        $this->customerHelper()->frontLoginCustomer($customer);
         $this->categoryHelper()->frontOpenCategory($category);
         $this->fillForm(array('sign_up_newsletter' => $newSubscriberEmail));
         $this->clickButton('subscribe');
@@ -160,7 +137,7 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
     /**
      * <p>With long valid email (> 70 characters)</p>
      *
-     * <p>1. Login to Frontend</p>
+     * <p>1. Navigate to Frontend</p>
      * <p>2. Open created category</p>
      * <p>3. Enter valid email to subscribe</p>
      * <p>4. Check message</p>
@@ -170,17 +147,15 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      *
      * <p>Expected result: email is absent into the subscribers list</p>
      *
-     * @depends createCustomer
      * @depends createCategory
      *
      * @test
      */
-    public function subscriberEmailVerificationValidLong($customer, $category)
+    public function subscriberEmailVerificationValidLong($category)
     {
         //Data
         $newSubscriberEmail = $this->generate('email', 300, 'valid');
         //Preconditions
-        $this->customerHelper()->frontLoginCustomer($customer);
         $this->categoryHelper()->frontOpenCategory($category);
         $this->fillForm(array('sign_up_newsletter' => $newSubscriberEmail));
         $this->clickButton('subscribe');
@@ -193,7 +168,7 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
     /**
      * <p>With empty email field</p>
      *
-     * <p>1. Login to Frontend</p>
+     * <p>1. Navigate to Frontend</p>
      * <p>2. Open created category</p>
      * <p>3. Leave email field empty</p>
      * <p>4. Check validation message</p>
@@ -203,17 +178,15 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      *
      * <p>Expected result: email is absent into the subscribers list</p>
      *
-     * @depends createCustomer
      * @depends createCategory
      *
      * @test
      */
-    public function subscriberEmailVerificationEmptyField($customer, $category)
+    public function subscriberEmailVerificationEmptyField($category)
     {
         //Data
         $newSubscriberEmail = NULL;
         //Preconditions
-        $this->customerHelper()->frontLoginCustomer($customer);
         $this->categoryHelper()->frontOpenCategory($category);
         $this->fillForm(array('sign_up_newsletter' => $newSubscriberEmail));
         $this->clickButton('subscribe', FALSE);
@@ -224,7 +197,7 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p> Delete Subscriber</p>
      *
      * <p> Steps:</p>
-     * <p>1. Login to Frontend</p>
+     * <p>1. Navigate to Frontend</p>
      * <p>2. Open created category</p>
      * <p>3. Enter email to subscribe</p>
      * <p>4. Check message</p>
@@ -238,18 +211,16 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      *
      * <p>Expected result: Subscriber`s email removed from the list</p>
      *
-     * @depends createCustomer
      * @depends createCategory
      *
      * @test
      */
-    public function subscriberDelete($customer, $category)
+    public function subscriberDelete($category)
     {
         //Data
         $this->addParameter('qtyOfRecords', 1);
         $newSubscriberEmail = $this->generate('email', 15, 'valid');
         //Steps
-        $this->customerHelper()->frontLoginCustomer($customer);
         $this->categoryHelper()->frontOpenCategory($category);
         $this->fillForm(array('sign_up_newsletter' => $newSubscriberEmail));
         $this->clickButton('subscribe');
@@ -270,7 +241,7 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p> Unsubscribe Subscriber</p>
      *
      * <p> Steps:</p>
-     * <p>1. Login to Frontend</p>
+     * <p>1. Navigate to Frontend</p>
      * <p>2. Open created category</p>
      * <p>3. Enter email to subscribe</p>
      * <p>4. Check message</p>
@@ -284,18 +255,16 @@ class Newsletter_FrontendCreateTest extends Mage_Selenium_TestCase
      *
      * <p>Expected result: Subscriber`s email status changed</p>
      *
-     * @depends createCustomer
      * @depends createCategory
      *
      * @test
      */
-    public function subscriberUnsubscribe($customer, $category)
+    public function subscriberUnsubscribe($category)
     {
         //Data
         $this->addParameter('qtyOfRecords', 1);
         $newSubscriberEmail = $this->generate('email', 15, 'valid');
         //Steps
-        $this->customerHelper()->frontLoginCustomer($customer);
         $this->categoryHelper()->frontOpenCategory($category);
         $this->fillForm(array('sign_up_newsletter' => $newSubscriberEmail));
         $this->clickButton('subscribe');
