@@ -56,14 +56,30 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Create Shopping cart price rule with empty required fields.</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to Promotions->Shopping Cart Price Rules;</p>
+     * <p>2. Fill form for SCPR, but leave one required field empty (empty fields are listed in data provider);</p>
+     * <p>3. Try to save newly created SCPR with one empty required field;</p>
+     * <p>Expected results:</p>
+     * <p>Rule is not created; Message "This is required field" is shown under each empty required field;</p>
+     * 
      * @test
      */
-    public function createWithRequiredEmptyFields()
+    public function createWithEmptyRequiredFields()
     {
         $this->markTestSkipped('TODO');
     }
 
     /**
+     * <p>Create Shopping cart price rule with invalid data in fields.</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to Promotions->Shopping Cart Price Rules;</p>
+     * <p>2. Fill form for SCPR, but one field should be filled with incorrect data (e.g: literals in numeric fields; incorrect data is listed in data provider);</p>
+     * <p>3. Try to save newly created SCPR with one field filled with incorrect data;</p>
+     * <p>Expected results:</p>
+     * <p>Rule is not created; Appropriate message should appear;</p>
+     *
      * @test
      */
     public function createWithInvalidData()
@@ -72,6 +88,14 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Create Shopping cart price rule with special symbols in fields.</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to Promotions->Shopping Cart Price Rules;</p>
+     * <p>2. Fill form for SCPR, but one field should be filled with special symbols (fields are listed in data provider);</p>
+     * <p>3. Try to save newly created SCPR with one field filled with special symbols;</p>
+     * <p>Expected results:</p>
+     * <p>Rule is created where applicable;</p>
+     *
      * @test
      */
     public function createWithRequiredFieldsWithSpecialSymbols()
@@ -80,6 +104,14 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Create Shopping cart price rule with required fields only filled.</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to Promotions->Shopping Cart Price Rules;</p>
+     * <p>2. Fill form (only required fields) for SCPR;</p>
+     * <p>3. Save newly created SCPR;</p>
+     * <p>Expected results:</p>
+     * <p>Rule is created;</p>
+     *
      * @test
      */
     public function createWithRequiredFields()
@@ -88,6 +120,14 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Create Shopping cart price rule with all fields filled (except conditions).</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to Promotions->Shopping Cart Price Rules;</p>
+     * <p>2. Fill form (all fields) for SCPR;</p>
+     * <p>3. Save newly created SCPR;</p>
+     * <p>Expected results:</p>
+     * <p>Rule is created;</p>
+     * 
      * @test
      */
     public function createWithAllFields()
@@ -96,6 +136,14 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Create Shopping cart price rule with all fields filled (except conditions).</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to Promotions->Shopping Cart Price Rules;</p>
+     * <p>2. Fill form (all fields) for SCPR;</p>
+     * <p>3. Save newly created SCPR;</p>
+     * <p>Expected results:</p>
+     * <p>Rule is created;</p>
+     *
      * @test
      */
     public function createWithoutCoupon()
@@ -104,14 +152,18 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @test
-     */
-    public function createWithCoupon()
-    {
-        $this->markTestSkipped('TODO');
-    }
-
-    /**
+     * <p>Create Shopping cart price rule with Percent Of Product Price Discount and coupon.</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to Promotions->Shopping Cart Price Rules;</p>
+     * <p>2. Fill form for SCPR (Percent Of Product Price Discount in Actions->Apply section); Select specific category in conditions; Add coupon that should be applied;</p>
+     * <p>3. Save newly created SCPR;</p>
+     * <p>4. Navigate to frontend;</p>
+     * <p>5. Add product(s) for which rule should be applied to shopping cart;</p>
+     * <p>6. Apply coupon for the shopping cart;</p>
+     * <p>6. Verify prices for the product(s) in the totals of shopping cart;</p>
+     * <p>Expected results:</p>
+     * <p>Rule is created; Totals changed after applying coupon; Rule is discounting percent of each product;</p>
+     *
      * @test
      */
     public function createPercentOfProductPriceDiscount()
@@ -120,6 +172,18 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Create Shopping cart price rule with Fixed Amount Discount and coupon.</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to Promotions->Shopping Cart Price Rules;</p>
+     * <p>2. Fill form for SCPR (Fixed Amount Discount in Actions->Apply section); Select specific category in conditions; Add coupon that should be applied;</p>
+     * <p>3. Save newly created SCPR;</p>
+     * <p>4. Navigate to frontend;</p>
+     * <p>5. Add product(s) for which rule should be applied to shopping cart;</p>
+     * <p>6. Apply coupon for the shopping cart;</p>
+     * <p>6. Verify prices for the product(s) in the totals of shopping cart;</p>
+     * <p>Expected results:</p>
+     * <p>Rule is created; Totals changed after applying coupon; Rule is discounting fixed amount for each product in shopping cart;</p>
+     *
      * @test
      */
     public function createFixedAmountDiscount()
@@ -128,17 +192,21 @@ class PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Create Shopping cart price rule with Fixed Amount Discount For Whole Cart and coupon.</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to Promotions->Shopping Cart Price Rules;</p>
+     * <p>2. Fill form for SCPR (Fixed Amount Discount For Whole Cart in Actions->Apply section); Select specific category in conditions; Add coupon that should be applied;</p>
+     * <p>3. Save newly created SCPR;</p>
+     * <p>4. Navigate to frontend;</p>
+     * <p>5. Add product(s) for which rule should be applied to shopping cart;</p>
+     * <p>6. Apply coupon for the shopping cart;</p>
+     * <p>6. Verify prices for the product(s) in the totals of shopping cart;</p>
+     * <p>Expected results:</p>
+     * <p>Rule is created; Totals changed after applying coupon; Rule is discounting fixed amount for whole cart;</p>
+     *
      * @test
      */
     public function createFixedAmountDiscountForWholeCart()
-    {
-        $this->markTestSkipped('TODO');
-    }
-
-    /**
-     * @test
-     */
-    public function createBuyXGetYFree()
     {
         $this->markTestSkipped('TODO');
     }
