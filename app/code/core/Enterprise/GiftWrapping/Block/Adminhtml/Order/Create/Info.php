@@ -142,13 +142,4 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
     {
         return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForOrder($this->getStoreId());
     }
-
-    /**
-     * Get url for ajax to refresh Gift Wrapping block
-     *
-     * @return void
-     */
-    public function getRefreshWrappingUrl() {
-        return $this->getUrl('*/giftwrapping/orderOptions');
-    }
 }

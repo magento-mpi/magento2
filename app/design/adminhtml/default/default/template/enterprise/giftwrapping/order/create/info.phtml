@@ -133,7 +133,8 @@ var giftWrappingOrder = {
     },
 
     refresh: function(event) {
-        new Ajax.Updater('orderCreateGiftWrapping', '<?php echo $this->getRefreshWrappingUrl() ?>', {
+        var url = order.loadBaseUrl + 'block/giftwrapping';
+        new Ajax.Updater('orderCreateGiftWrapping', url, {
             onComplete: this.init.bind(this)
         })
     }
