@@ -182,8 +182,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getTableDataSql($tableName, $count = null, $offset = null)
     {
-        return Mage::getResourceHelper('backup')->getInsertSql($tableName);
-
+        return Mage::getResourceHelper('backup')->getPartInsertSql($tableName, $count, $offset);
     }
 
     /**
