@@ -58,7 +58,7 @@ product_page:
                             qty: //input[@class='input-text qty'][@value='%price%']
                             availability: //p[contains(text(), 'Availability:')]/span
                             availability_param: //p[contains(text(), 'Availability:')]/span[text()='%avail%']
-                            short_description: //div[@class='short-description']//div[@class='std' and contains(.,'%shortDescription%')]
+                            short_description: //div[@class='short-description']//div[@class='std' and text()='%shortDescription%']
                             ex_qty: //input[@class='input-text qty']
                             ex_price_regular: //div[@class='product-shop']//span[@class='regular-price']
                             ex_price_excluding_tax: //div[@class='product-shop' and not(*/p[@class='special-price'])]//div[@class='price-box']/span[@class='price-excluding-tax']/span[@class='price']
@@ -84,7 +84,7 @@ product_page:
                     details:
                         xpath: //div[h2[text()='Details']]
                         pageelements:
-                            descriprion: //div[@class='box-collateral box-description']//div[@class='std' and contains(.,'%longDescription%')]
+                            descriprion: //div[@class='box-collateral box-description']//div[@class='std' and normalize-space(text())=normalize-space('%longDescription%')]
                 -
                     additional_info:
                         xpath: //div[h2[text()='Additional Information']]
