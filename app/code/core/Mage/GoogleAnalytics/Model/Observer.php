@@ -80,7 +80,7 @@ class Mage_GoogleAnalytics_Model_Observer
     public function injectAnalyticsInGoogleCheckoutLink(Varien_Event_Observer $observer)
     {
         $block = $observer->getEvent()->getBlock();
-        if (!$block || !Mage::helper('googleanalytics')->isGoogleAnalyticsAvailable()) {
+        if (!$block || !Mage::helper('Mage_GoogleAnalytics_Helper_Data')->isGoogleAnalyticsAvailable()) {
             return;
         }
 

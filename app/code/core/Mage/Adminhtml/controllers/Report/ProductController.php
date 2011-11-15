@@ -45,8 +45,8 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
         if(!$act)
             $act = 'default';
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))
-            ->_addBreadcrumb(Mage::helper('reports')->__('Products'), Mage::helper('reports')->__('Products'));
+            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Reports'), Mage::helper('Mage_Reports_Helper_Data')->__('Reports'))
+            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Products'), Mage::helper('Mage_Reports_Helper_Data')->__('Products'));
         return $this;
     }
 
@@ -92,8 +92,8 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
 
         $this->_initAction()
             ->_setActiveMenu('report/product/sold')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Products Ordered'), Mage::helper('reports')->__('Products Ordered'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/report_product_sold'))
+            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Products Ordered'), Mage::helper('Mage_Reports_Helper_Data')->__('Products Ordered'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Product_Sold'))
             ->renderLayout();
     }
 
@@ -105,7 +105,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     {
         $fileName   = 'products_ordered.csv';
         $content    = $this->getLayout()
-            ->createBlock('adminhtml/report_product_sold_grid')
+            ->createBlock('Mage_Adminhtml_Block_Report_Product_Sold_Grid')
             ->getCsv();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     {
         $fileName   = 'products_ordered.xml';
         $content    = $this->getLayout()
-            ->createBlock('adminhtml/report_product_sold_grid')
+            ->createBlock('Mage_Adminhtml_Block_Report_Product_Sold_Grid')
             ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -137,8 +137,8 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
 
         $this->_initAction()
             ->_setActiveMenu('report/product/viewed')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Most Viewed'), Mage::helper('reports')->__('Most Viewed'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/report_product_viewed'))
+            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Most Viewed'), Mage::helper('Mage_Reports_Helper_Data')->__('Most Viewed'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Product_Viewed'))
             ->renderLayout();
     }
 
@@ -149,7 +149,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     public function exportViewedCsvAction()
     {
         $fileName   = 'products_mostviewed.csv';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_product_viewed_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Product_Viewed_Grid')
             ->getCsv();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -162,7 +162,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     public function exportViewedExcelAction()
     {
         $fileName   = 'products_mostviewed.xml';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_product_viewed_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Product_Viewed_Grid')
             ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -180,8 +180,8 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
 
         $this->_initAction()
             ->_setActiveMenu('report/product/lowstock')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Low Stock'), Mage::helper('reports')->__('Low Stock'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/report_product_lowstock'))
+            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Low Stock'), Mage::helper('Mage_Reports_Helper_Data')->__('Low Stock'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Product_Lowstock'))
             ->renderLayout();
     }
 
@@ -192,7 +192,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     public function exportLowstockCsvAction()
     {
         $fileName   = 'products_lowstock.csv';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_product_lowstock_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Product_Lowstock_Grid')
             ->setSaveParametersInSession(true)
             ->getCsv();
 
@@ -206,7 +206,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     public function exportLowstockExcelAction()
     {
         $fileName   = 'products_lowstock.xml';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_product_lowstock_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Product_Lowstock_Grid')
             ->setSaveParametersInSession(true)
             ->getExcel($fileName);
 
@@ -225,8 +225,8 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
 
         $this->_initAction()
             ->_setActiveMenu('report/product/downloads')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Downloads'), Mage::helper('reports')->__('Downloads'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/report_product_downloads'))
+            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Downloads'), Mage::helper('Mage_Reports_Helper_Data')->__('Downloads'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Product_Downloads'))
             ->renderLayout();
     }
 
@@ -237,7 +237,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     public function exportDownloadsCsvAction()
     {
         $fileName   = 'products_downloads.csv';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_product_downloads_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Product_Downloads_Grid')
             ->setSaveParametersInSession(true)
             ->getCsv();
 
@@ -251,7 +251,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     public function exportDownloadsExcelAction()
     {
         $fileName   = 'products_downloads.xml';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_product_downloads_grid')
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Product_Downloads_Grid')
             ->setSaveParametersInSession(true)
             ->getExcel($fileName);
 
@@ -267,16 +267,16 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     {
         switch ($this->getRequest()->getActionName()) {
             case 'viewed':
-                return Mage::getSingleton('admin/session')->isAllowed('report/products/viewed');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('report/products/viewed');
                 break;
             case 'sold':
-                return Mage::getSingleton('admin/session')->isAllowed('report/products/sold');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('report/products/sold');
                 break;
             case 'lowstock':
-                return Mage::getSingleton('admin/session')->isAllowed('report/products/lowstock');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('report/products/lowstock');
                 break;
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('report/products');
+                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('report/products');
                 break;
         }
     }

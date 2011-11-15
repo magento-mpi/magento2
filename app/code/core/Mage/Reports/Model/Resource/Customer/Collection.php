@@ -84,12 +84,13 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
     public function addCartInfo()
     {
         foreach ($this->getItems() as $item) {
-            $quote = Mage::getModel('sales/quote')->loadByCustomer($item->getId());
+            $quote = Mage::getModel('Mage_Sales_Model_Quote')->loadByCustomer($item->getId());
 
             if ($quote instanceof Mage_Sales_Model_Quote) {
                 $totals = $quote->getTotals();
                 $item->setTotal($totals['subtotal']->getValue());
-                $quoteItems = Mage::getResourceModel('sales/quote_item_collection')->setQuoteFilter($quote->getId());
+                $quoteItems = Mage::getResourceModel('Mage_Sales_Model_Resource_Quote_Item_Collection')
+                    ->setQuoteFilter($quote->getId());
                 $quoteItems->load();
                 $item->setItems($quoteItems->count());
             } else {
@@ -233,7 +234,7 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
             /*
              * Analytic functions usage
              */
-            $select = Mage::getResourceHelper('core')->getQueryUsingAnalyticFunction($select);
+            $select = Mage::getResourceHelper('Mage_Core')->getQueryUsingAnalyticFunction($select);
 
             foreach ($this->getConnection()->fetchAll($select) as $ordersInfo) {
                 $this->getItemById($ordersInfo['customer_id'])->addData($ordersInfo);

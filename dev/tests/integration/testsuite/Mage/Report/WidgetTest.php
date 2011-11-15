@@ -17,7 +17,7 @@ class Mage_Report_WidgetTest extends PHPUnit_Framework_TestCase
     public function testViewedProductsWidget()
     {
         $model = new Mage_Widget_Model_Widget_Instance;
-        $config = $model->setType('reports/product_widget_viewed')->getWidgetConfig();
+        $config = $model->setType('Mage_Reports_Block_Product_Widget_Viewed')->getWidgetConfig();
         $templates = $config->xpath('parameters/template/values');
         $templates = (array) $templates[0]->children();
         $this->assertArrayHasKey('default', $templates);
@@ -36,7 +36,7 @@ class Mage_Report_WidgetTest extends PHPUnit_Framework_TestCase
     public function testComparedProductsWidget()
     {
         $model = new Mage_Widget_Model_Widget_Instance;
-        $config = $model->setType('reports/product_widget_compared')->getWidgetConfig();
+        $config = $model->setType('Mage_Reports_Block_Product_Widget_Compared')->getWidgetConfig();
         $templates = $config->xpath('parameters/template/values');
         $templates = (array) $templates[0]->children();
         $this->assertArrayHasKey('default', $templates);

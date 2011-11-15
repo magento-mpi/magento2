@@ -42,7 +42,7 @@ class Mage_Authorizenet_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getAdminUrl($route, $params)
     {
-        return Mage::getModel('adminhtml/url')->getUrl($route, $params);
+        return Mage::getModel('Mage_Adminhtml_Model_Url')->getUrl($route, $params);
     }
 
     /**
@@ -156,7 +156,7 @@ class Mage_Authorizenet_Helper_Data extends Mage_Core_Helper_Abstract
             case 'sales_order_create':
             case 'sales_order_edit':
                 $route = 'adminhtml/sales_order/view';
-                $order = Mage::getModel('sales/order')->loadByIncrementId($params['x_invoice_num']);
+                $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($params['x_invoice_num']);
                 $param['order_id'] = $order->getId();
                 return $this->getAdminUrl($route, $param);
 

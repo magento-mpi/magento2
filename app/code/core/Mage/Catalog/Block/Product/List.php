@@ -39,7 +39,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
      *
      * @var string
      */
-    protected $_defaultToolbarBlock = 'catalog/product_list_toolbar';
+    protected $_defaultToolbarBlock = 'Mage_Catalog_Block_Product_List_Toolbar';
 
     /**
      * Product Collection
@@ -77,7 +77,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
 
             $origCategory = null;
             if ($this->getCategoryId()) {
-                $category = Mage::getModel('catalog/category')->load($this->getCategoryId());
+                $category = Mage::getModel('Mage_Catalog_Model_Category')->load($this->getCategoryId());
                 if ($category->getId()) {
                     $origCategory = $layer->getCurrentCategory();
                     $layer->setCurrentCategory($category);
@@ -106,7 +106,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
         if ($layer) {
             return $layer;
         }
-        return Mage::getSingleton('catalog/layer');
+        return Mage::getSingleton('Mage_Catalog_Model_Layer');
     }
 
     /**
@@ -227,7 +227,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('catalog/config');
+        return Mage::getSingleton('Mage_Catalog_Model_Config');
     }
 
     /**

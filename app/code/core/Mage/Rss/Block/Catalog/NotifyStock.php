@@ -65,10 +65,10 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Rss_Block_Abstract
     {
         $newUrl = Mage::getUrl('rss/catalog/notifystock');
         /* @var $helper Mage_Rss_Helper_Data */
-        $helper = Mage::helper('rss');
+        $helper = Mage::helper('Mage_Rss_Helper_Data');
         $title = $helper->__('Low Stock Products');
 
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = Mage::getModel('Mage_Rss_Model_Rss');
         $data = array(
             'title'       => $title,
             'description' => $title,
@@ -83,7 +83,7 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Rss_Block_Abstract
             Mage_CatalogInventory_Model_Stock_Item::XML_PATH_NOTIFY_STOCK_QTY);
         $helper->disableFlat();
         /* @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = $product->getCollection();
         $stockItemTable = $collection->getTable('cataloginventory_stock_item');
@@ -106,14 +106,14 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Rss_Block_Abstract
             ->setOrder('low_stock_date');
 
         $collection->addAttributeToFilter('status',
-            array('in' => Mage::getSingleton('catalog/product_status')->getVisibleStatusIds()));
+            array('in' => Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getVisibleStatusIds()));
         Mage::dispatchEvent('rss_catalog_notify_stock_collection_select', array('collection' => $collection));
 
         /*
         using resource iterator to load the data one by one
         instead of loading all at the same time. loading all data at the same time can cause the big memory allocation.
         */
-        Mage::getSingleton('core/resource_iterator')->walk(
+        Mage::getSingleton('Mage_Core_Model_Resource_Iterator')->walk(
             $collection->getSelect(),
             array(array($this, 'addNotifyItemXmlCallback')),
             array('rssObj'=> $rssObj, 'product'=>$product, 'globalQty' => $globalNotifyStockQty)
@@ -132,10 +132,10 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Rss_Block_Abstract
     {
         $product = $args['product'];
         $product->setData($args['row']);
-        $url = Mage::helper('adminhtml')->getUrl('adminhtml/catalog_product/edit/',
+        $url = Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('adminhtml/catalog_product/edit/',
             array('id' => $product->getId(), '_secure' => true, '_nosecret' => true));
         $qty = 1 * $product->getQty();
-        $description = Mage::helper('rss')->__('%s has reached a quantity of %s.', $product->getName(), $qty);
+        $description = Mage::helper('Mage_Rss_Helper_Data')->__('%s has reached a quantity of %s.', $product->getName(), $qty);
         $rssObj = $args['rssObj'];
         $data = array(
             'title'         => $product->getName(),

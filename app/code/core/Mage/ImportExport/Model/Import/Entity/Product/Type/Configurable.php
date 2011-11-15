@@ -230,7 +230,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Type_Configurable
                     ->getNode('global/catalog/product/type/configurable/allow_product_types')->children() as $type) {
                 $allowProductTypes[] = $type->getName();
             }
-            foreach (Mage::getResourceModel('catalog/product_collection')
+            foreach (Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
                         ->addFieldToFilter('type_id', $allowProductTypes)
                         ->addAttributeToSelect(array_keys($this->_superAttributes)) as $product) {
                 $attrSetName = $attrSetIdToName[$product->getAttributeSetId()];
@@ -257,8 +257,8 @@ class Mage_ImportExport_Model_Import_Entity_Product_Type_Configurable
     {
         if (!$this->_skuSuperData) {
             $connection = $this->_entityModel->getConnection();
-            $mainTable  = Mage::getSingleton('core/resource')->getTableName('catalog_product_super_attribute');
-            $priceTable = Mage::getSingleton('core/resource')->getTableName('catalog_product_super_attribute_pricing');
+            $mainTable  = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('catalog_product_super_attribute');
+            $priceTable = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('catalog_product_super_attribute_pricing');
             $select     = $connection->select()
                     ->from(array('m' => $mainTable), array('product_id', 'attribute_id', 'product_super_attribute_id'))
                     ->joinLeft(
@@ -348,16 +348,16 @@ class Mage_ImportExport_Model_Import_Entity_Product_Type_Configurable
     public function saveData()
     {
         $connection      = $this->_entityModel->getConnection();
-        $mainTable       = Mage::getSingleton('core/resource')->getTableName('catalog_product_super_attribute');
-        $labelTable      = Mage::getSingleton('core/resource')->getTableName('catalog_product_super_attribute_label');
-        $priceTable      = Mage::getSingleton('core/resource')->getTableName('catalog_product_super_attribute_pricing');
-        $linkTable       = Mage::getSingleton('core/resource')->getTableName('catalog_product_super_link');
-        $relationTable   = Mage::getSingleton('core/resource')->getTableName('catalog_product_relation');
+        $mainTable       = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('catalog_product_super_attribute');
+        $labelTable      = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('catalog_product_super_attribute_label');
+        $priceTable      = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('catalog_product_super_attribute_pricing');
+        $linkTable       = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('catalog_product_super_link');
+        $relationTable   = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('catalog_product_relation');
         $newSku          = $this->_entityModel->getNewSku();
         $oldSku          = $this->_entityModel->getOldSku();
         $productSuperData = array();
         $productData     = null;
-        $nextAttrId      = Mage::getResourceHelper('importexport')->getNextAutoincrement($mainTable);
+        $nextAttrId      = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($mainTable);
 
         if ($this->_entityModel->getBehavior() == Mage_ImportExport_Model_Import::BEHAVIOR_APPEND) {
             $this->_loadSkuSuperData();

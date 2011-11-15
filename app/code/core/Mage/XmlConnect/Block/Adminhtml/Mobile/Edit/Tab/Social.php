@@ -47,9 +47,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Social
 
         $this->setForm($form);
 
-        $data = Mage::helper('xmlconnect')->getApplication()->getFormData();
+        $data = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getFormData();
 
-        $yesNoValues = Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray();
+        $yesNoValues = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray();
 
         /**
          * Default values for social networks is DISABLED
@@ -245,7 +245,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Social
          * Set field dependencies
          */
         $this->setChild('form_after', $this->getLayout()
-            ->createBlock('adminhtml/widget_form_element_dependence')
+            ->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
             /**
              * Facebook field dependencies
              */
@@ -315,7 +315,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Social
      */
     public function canShowTab()
     {
-        return (bool) !Mage::getSingleton('adminhtml/session')->getNewApplication();
+        return (bool) !Mage::getSingleton('Mage_Adminhtml_Model_Session')->getNewApplication();
     }
 
     /**

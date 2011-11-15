@@ -54,6 +54,6 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_System_Config_Generate extends 
      */
     public function getUsage()
     {
-        return Mage::getModel('enterprise_giftcardaccount/pool')->getPoolUsageInfo();
+        return Mage::getModel('Enterprise_GiftCardAccount_Model_Pool')->getPoolUsageInfo();
     }
 }

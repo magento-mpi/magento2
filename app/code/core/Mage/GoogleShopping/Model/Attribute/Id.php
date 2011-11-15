@@ -42,7 +42,7 @@ class Mage_GoogleShopping_Model_Attribute_Id extends Mage_GoogleShopping_Model_A
      */
     public function convertAttribute($product, $entry)
     {
-        $value = Mage::helper('googleshopping')->buildContentProductId($product->getId(), $product->getStoreId());
+        $value = Mage::helper('Mage_GoogleShopping_Helper_Data')->buildContentProductId($product->getId(), $product->getStoreId());
         return $this->_setAttribute($entry, 'id', self::ATTRIBUTE_TYPE_TEXT, $value);
     }
 }

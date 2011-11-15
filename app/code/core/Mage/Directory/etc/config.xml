@@ -37,25 +37,11 @@
                 <services>
                     <webservicex>
                         <name>Webservicex</name>
-                        <model>directory/currency_import_webservicex</model>
+                        <model>Mage_Directory_Model_Currency_Import_Webservicex</model>
                     </webservicex>
                 </services>
             </import>
         </currency>
-        <blocks>
-            <directory>
-                <class>Mage_Directory_Block</class>
-            </directory>
-        </blocks>
-        <models>
-            <directory>
-                <class>Mage_Directory_Model</class>
-                <resourceModel>directory_resource</resourceModel>
-            </directory>
-            <directory_resource>
-                <class>Mage_Directory_Model_Resource</class>
-            </directory_resource>
-        </models>
         <resources>
             <directory_setup>
                 <setup>
@@ -65,7 +51,7 @@
         </resources>
         <template>
             <email>
-                <currency_import_error_email_template translate="label" module="directory">
+                <currency_import_error_email_template translate="label" module="Mage_Directory">
                     <label>Currency Update Warnings</label>
                     <file>email/currency_update_notification.html</file>
                     <type>text</type>
@@ -154,7 +140,7 @@
         <jobs>
             <currency_rates_update>
                 <run>
-                    <model>directory/observer::scheduledUpdateCurrencyRates</model>
+                    <model>Mage_Directory_Model_Observer::scheduledUpdateCurrencyRates</model>
                 </run>
             </currency_rates_update>
         </jobs>

@@ -42,7 +42,7 @@ class Mage_Shell_Indexer extends Mage_Shell_Abstract
      */
     protected function _getIndexer()
     {
-        return Mage::getSingleton('index/indexer');
+        return Mage::getSingleton('Mage_Index_Model_Indexer');
     }
 
     /**

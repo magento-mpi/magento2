@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Report_Review_Customer_Grid extends Mage_Adminhtml_Bl
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('reports/review_customer_collection')
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Review_Customer_Collection')
             ->joinCustomers();
 
         $this->setCollection($collection);
@@ -55,32 +55,32 @@ class Mage_Adminhtml_Block_Report_Review_Customer_Grid extends Mage_Adminhtml_Bl
     protected function _prepareColumns()
     {
         $this->addColumn('customer_name', array(
-            'header'    => Mage::helper('reports')->__('Customer Name'),
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Customer Name'),
             'index'     => 'customer_name',
-            'default'   => Mage::helper('reports')->__('Guest'),
+            'default'   => Mage::helper('Mage_Reports_Helper_Data')->__('Guest'),
         ));
 
         $this->addColumn('review_cnt', array(
-            'header'    => Mage::helper('reports')->__('Number Of Reviews'),
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Number Of Reviews'),
             'width'     => '40px',
             'align'     => 'right',
             'index'     => 'review_cnt'
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('reports')->__('Action'),
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Action'),
             'width'     => '100px',
             'align'     => 'center',
             'filter'    => false,
             'sortable'  => false,
-            'renderer'  => 'adminhtml/report_grid_column_renderer_customer',
+            'renderer'  => 'Mage_Adminhtml_Block_Report_Grid_Column_Renderer_Customer',
             'is_system' => true
         ));
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportCustomerCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportCustomerExcel', Mage::helper('reports')->__('Excel XML'));
+        $this->addExportType('*/*/exportCustomerCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportCustomerExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

@@ -37,7 +37,7 @@ class Mage_Tag_ProductController extends Mage_Core_Controller_Front_Action
     public function listAction()
     {
         $tagId = $this->getRequest()->getParam('tagId');
-        $tag = Mage::getModel('tag/tag')->load($tagId);
+        $tag = Mage::getModel('Mage_Tag_Model_Tag')->load($tagId);
 
         if(!$tag->getId() || !$tag->isAvailableInStore()) {
             $this->_forward('404');
@@ -46,8 +46,8 @@ class Mage_Tag_ProductController extends Mage_Core_Controller_Front_Action
         Mage::register('current_tag', $tag);
 
         $this->loadLayout();
-        $this->_initLayoutMessages('checkout/session');
-        $this->_initLayoutMessages('tag/session');
+        $this->_initLayoutMessages('Mage_Checkout_Model_Session');
+        $this->_initLayoutMessages('Mage_Tag_Model_Session');
         $this->renderLayout();
     }
 }

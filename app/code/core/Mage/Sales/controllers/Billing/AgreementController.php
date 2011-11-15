@@ -39,7 +39,7 @@ class Mage_Sales_Billing_AgreementController extends Mage_Core_Controller_Front_
     {
         $this->_title($this->__('Billing Agreements'));
         $this->loadLayout();
-        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $this->renderLayout();
     }
 
@@ -71,7 +71,7 @@ class Mage_Sales_Billing_AgreementController extends Mage_Core_Controller_Front_
         $this->_title($this->__('Billing Agreements'))
             ->_title($this->__('Billing Agreement # %s', $agreement->getReferenceId()));
         $this->loadLayout();
-        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {
             $navigationBlock->setActive('sales/billing_agreement/');
@@ -85,7 +85,7 @@ class Mage_Sales_Billing_AgreementController extends Mage_Core_Controller_Front_
      */
     public function startWizardAction()
     {
-        $agreement = Mage::getModel('sales/billing_agreement');
+        $agreement = Mage::getModel('Mage_Sales_Model_Billing_Agreement');
         $paymentCode = $this->getRequest()->getParam('payment_method');
         if ($paymentCode) {
             try {
@@ -112,7 +112,7 @@ class Mage_Sales_Billing_AgreementController extends Mage_Core_Controller_Front_
      */
     public function returnWizardAction()
     {
-        $agreement = Mage::getModel('sales/billing_agreement');
+        $agreement = Mage::getModel('Mage_Sales_Model_Billing_Agreement');
         $paymentCode = $this->getRequest()->getParam('payment_method');
         $token = $this->getRequest()->getParam('token');
         if ($token && $paymentCode) {
@@ -120,7 +120,7 @@ class Mage_Sales_Billing_AgreementController extends Mage_Core_Controller_Front_
                 $agreement->setStoreId(Mage::app()->getStore()->getId())
                     ->setToken($token)
                     ->setMethodCode($paymentCode)
-                    ->setCustomer(Mage::getSingleton('customer/session')->getCustomer())
+                    ->setCustomer(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer())
                     ->place();
                 $this->_getSession()->addSuccess(
                     $this->__('The billing agreement "%s" has been created.', $agreement->getReferenceId())
@@ -177,7 +177,7 @@ class Mage_Sales_Billing_AgreementController extends Mage_Core_Controller_Front_
     {
         $agreementId = $this->getRequest()->getParam('agreement');
         if ($agreementId) {
-            $billingAgreement = Mage::getModel('sales/billing_agreement')->load($agreementId);
+            $billingAgreement = Mage::getModel('Mage_Sales_Model_Billing_Agreement')->load($agreementId);
             if (!$billingAgreement->getAgreementId()) {
                 $this->_getSession()->addError($this->__('Wrong billing agreement ID specified.'));
                 $this->_redirect('*/*/');
@@ -195,6 +195,6 @@ class Mage_Sales_Billing_AgreementController extends Mage_Core_Controller_Front_
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('customer/session');
+        return Mage::getSingleton('Mage_Customer_Model_Session');
     }
 }

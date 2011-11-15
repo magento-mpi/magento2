@@ -87,7 +87,7 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Mage_Catalog_Model_Resourc
             return $this;
         }
 
-        $tagIds = Mage::getModel('tag/tag_relation')
+        $tagIds = Mage::getModel('Mage_Tag_Model_Tag_Relation')
             ->setProductId($event->getEntityPk())
             ->getRelatedTagIds();
 

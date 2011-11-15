@@ -38,7 +38,7 @@ class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mag
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
@@ -66,7 +66,9 @@ class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mag
         $this->_initCustomer();
         $this->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance_history_grid')->toHtml()
+            $this->getLayout()->createBlock(
+                'Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid'
+            )->toHtml()
         );
     }
 
@@ -76,7 +78,7 @@ class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mag
      */
     public function deleteOrphanBalancesAction()
     {
-        $balance = Mage::getSingleton('enterprise_customerbalance/balance')->deleteBalancesByCustomerId(
+        $balance = Mage::getSingleton('Enterprise_CustomerBalance_Model_Balance')->deleteBalancesByCustomerId(
             (int)$this->getRequest()->getParam('id')
         );
         $this->_redirect('*/customer/edit/', array('_current'=>true));
@@ -89,9 +91,9 @@ class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mag
      */
     protected function _initCustomer($idFieldName = 'id')
     {
-        $customer = Mage::getModel('customer/customer')->load((int)$this->getRequest()->getParam($idFieldName));
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load((int)$this->getRequest()->getParam($idFieldName));
         if (!$customer->getId()) {
-            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Failed to initialize customer'));
+            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Failed to initialize customer'));
         }
         Mage::register('current_customer', $customer);
     }
@@ -103,6 +105,6 @@ class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mag
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/manage');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/manage');
     }
 }

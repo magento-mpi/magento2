@@ -41,7 +41,7 @@ class Mage_Index_Model_Indexer
      */
     public function __construct()
     {
-        $this->_processesCollection = Mage::getResourceModel('index/process_collection');
+        $this->_processesCollection = Mage::getResourceModel('Mage_Index_Model_Resource_Process_Collection');
     }
 
     /**
@@ -53,6 +53,7 @@ class Mage_Index_Model_Indexer
     {
         return $this->_processesCollection;
     }
+
 
     /**
      * Get index process by specific id
@@ -98,7 +99,7 @@ class Mage_Index_Model_Indexer
     {
         Mage::dispatchEvent('start_index_events' . $this->_getEventTypeName($entity, $type));
         /** @var $resourceModel Mage_Index_Model_Resource_Process */
-        $resourceModel = Mage::getResourceSingleton('index/process');
+        $resourceModel = Mage::getResourceSingleton('Mage_Index_Model_Resource_Process');
         $resourceModel->beginTransaction();
         try {
             $this->_runAll('indexEvents', array($entity, $type));
@@ -145,7 +146,7 @@ class Mage_Index_Model_Indexer
      */
     public function logEvent(Varien_Object $entity, $entityType, $eventType, $doSave=true)
     {
-        $event = Mage::getModel('index/event')
+        $event = Mage::getModel('Mage_Index_Model_Event')
             ->setEntity($entityType)
             ->setType($eventType)
             ->setDataObject($entity)
@@ -176,7 +177,7 @@ class Mage_Index_Model_Indexer
         if ($event->getProcessIds()) {
             Mage::dispatchEvent('start_process_event' . $this->_getEventTypeName($entityType, $eventType));
             /** @var $resourceModel Mage_Index_Model_Resource_Process */
-            $resourceModel = Mage::getResourceSingleton('index/process');
+            $resourceModel = Mage::getResourceSingleton('Mage_Index_Model_Resource_Process');
             $resourceModel->beginTransaction();
             try {
                 $this->indexEvent($event);

@@ -333,7 +333,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             $superProductId = (int) $superProductConfig['product_id'];
             if ($superProductId) {
                 if (!$superProduct = Mage::registry('used_super_product_'.$superProductId)) {
-                    $superProduct = Mage::getModel('catalog/product')->load($superProductId);
+                    $superProduct = Mage::getModel('Mage_Catalog_Model_Product')->load($superProductId);
                     Mage::register('used_super_product_'.$superProductId, $superProduct);
                 }
                 if ($superProduct->getId()) {
@@ -443,7 +443,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                         $path = dirname($dst);
                         $io = new Varien_Io_File();
                         if (!$io->isWriteable($path) && !$io->mkdir($path, 0777, true)) {
-                            Mage::throwException(Mage::helper('catalog')->__("Cannot create writeable directory '%s'.", $path));
+                            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__("Cannot create writeable directory '%s'.", $path));
                         }
 
                         $uploader->setDestination($path);
@@ -455,15 +455,15 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                             if (isset($queueOptions['option'])) {
                                 $queueOptions['option']->setIsValid(false);
                             }
-                            Mage::throwException(Mage::helper('catalog')->__("File upload failed"));
+                            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__("File upload failed"));
                         }
-                        Mage::helper('core/file_storage_database')->saveFile($dst);
+                        Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFile($dst);
                         break;
                     case 'move_uploaded_file':
                         $src = $queueOptions['src_name'];
                         $dst = $queueOptions['dst_name'];
                         move_uploaded_file($src, $dst);
-                        Mage::helper('core/file_storage_database')->saveFile($dst);
+                        Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFile($dst);
                         break;
                     default:
                         break;
@@ -505,7 +505,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     public function getSpecifyOptionMessage()
     {
-        return Mage::helper('catalog')->__('Please specify the product\'s required option(s).');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the product\'s required option(s).');
     }
 
     /**
@@ -576,7 +576,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                     if (!$customOption || strlen($customOption->getValue()) == 0) {
                         $this->getProduct($product)->setSkipCheckRequiredOption(true);
                         Mage::throwException(
-                            Mage::helper('catalog')->__('The product has required options')
+                            Mage::helper('Mage_Catalog_Helper_Data')->__('The product has required options')
                         );
                     }
                 }
@@ -655,7 +655,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     protected function _removeNotApplicableAttributes($product = null)
     {
         $product    = $this->getProduct($product);
-        $eavConfig  = Mage::getSingleton('eav/config');
+        $eavConfig  = Mage::getSingleton('Mage_Eav_Model_Config');
         $entityType = $product->getResource()->getEntityType();
         foreach ($eavConfig->getEntityAttributeCodes($entityType, $product) as $attributeCode) {
             $attribute = $eavConfig->getAttribute($entityType, $attributeCode);
@@ -922,7 +922,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         $product    = $this->getProduct($product);
         $searchData = array();
         if ($product->getHasOptions()){
-            $searchData = Mage::getSingleton('catalog/product_option')
+            $searchData = Mage::getSingleton('Mage_Catalog_Model_Product_Option')
                 ->getSearchableData($product->getId(), $product->getStoreId());
         }
 
@@ -983,7 +983,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             $errors[] = $e->getMessages();
         } catch (Exception $e) {
             Mage::logException($e);
-            $errors[] = Mage::helper('catalog')->__('There was an error while request processing.');
+            $errors[] = Mage::helper('Mage_Catalog_Helper_Data')->__('There was an error while request processing.');
         }
 
         return $errors;

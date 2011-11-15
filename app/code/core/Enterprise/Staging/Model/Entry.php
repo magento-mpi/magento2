@@ -66,7 +66,7 @@ class Enterprise_Staging_Model_Entry
     public function getBaseFolder()
     {
         if (empty($this->_baseFolderName)) {
-            Mage::throwException(Mage::helper('enterprise_staging')->__('There is wrong value in configuration for entry points folder name.'));
+            Mage::throwException(Mage::helper('Enterprise_Staging_Helper_Data')->__('There is wrong value in configuration for entry points folder name.'));
         }
         return BP . DS . $this->_baseFolderName;
     }
@@ -145,8 +145,8 @@ class Enterprise_Staging_Model_Entry
                 mkdir(dirname($outputFile));
             }
             $result = str_replace(
-                array('include $', 'app/Mage.php'),
-                array('include \'../../\' . $', '../../app/Mage.php'),
+                array('include $', 'app/bootstrap.php'),
+                array('include \'../../\' . $', '../../app/bootstrap.php'),
                 $sample
             );
             $result = preg_replace('/Mage::run\(.*?\)/us', "Mage::run('{$this->_website->getCode()}', 'website')", $result);
@@ -187,7 +187,7 @@ REPLACE;
     protected function _ensureWebsite()
     {
         if ((!$this->_website) || (!$this->_website->getCode())) {
-            Mage::throwException(Mage::helper('enterprise_staging')->__('Website code is not defined.'));
+            Mage::throwException(Mage::helper('Enterprise_Staging_Helper_Data')->__('Website code is not defined.'));
         }
     }
 }

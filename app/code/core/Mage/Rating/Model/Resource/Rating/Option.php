@@ -123,9 +123,9 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
         );
 
         if (!$option->getDoUpdate()) {
-            $data['remote_ip']       = Mage::helper('core/http')->getRemoteAddr();
-            $data['remote_ip_long']  = Mage::helper('core/http')->getRemoteAddr(true);
-            $data['customer_id']     = Mage::getSingleton('customer/session')->getCustomerId();
+            $data['remote_ip']       = Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr();
+            $data['remote_ip_long']  = Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(true);
+            $data['customer_id']     = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
             $data['entity_pk_value'] = $option->getEntityPkValue();
             $data['rating_id']       = $option->getRatingId();
         }
@@ -159,7 +159,7 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
      */
     public function aggregate($option)
     {
-        $vote = Mage::getModel('rating/rating_option_vote')->load($option->getVoteId());
+        $vote = Mage::getModel('Mage_Rating_Model_Rating_Option_Vote')->load($option->getVoteId());
         $this->aggregateEntityByRatingId($vote->getRatingId(), $vote->getEntityPkValue());
     }
 

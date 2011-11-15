@@ -37,7 +37,7 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Collection extends Mage_Core_M
     /**
      * List of product IDs
      * Contains IDs of products related to items and their options
-     * 
+     *
      * @var array
      */
     protected $_productIds = array();
@@ -47,7 +47,7 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Collection extends Mage_Core_M
      */
     protected function _construct()
     {
-        $this->_init('enterprise_giftregistry_item', 'item_id');
+        $this->_init('Enterprise_GiftRegistry_Model_Item', 'Enterprise_GiftRegistry_Model_Resource_Item');
     }
 
     /**
@@ -90,7 +90,7 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Collection extends Mage_Core_M
     protected function _assignOptions()
     {
         $itemIds = array_keys($this->_items);
-        $optionCollection = Mage::getModel('enterprise_giftregistry/item_option')->getCollection()
+        $optionCollection = Mage::getModel('Enterprise_GiftRegistry_Model_Item_Option')->getCollection()
             ->addItemFilter($itemIds);
         foreach ($this as $item) {
             $item->setOptions($optionCollection->getOptionsByItem($item));
@@ -114,10 +114,10 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Collection extends Mage_Core_M
         }
         $this->_productIds = array_merge($this->_productIds, $productIds);
 
-        $productCollection = Mage::getModel('catalog/product')->getCollection()
+        $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
             ->setStoreId(Mage::app()->getStore()->getId())
             ->addIdFilter($this->_productIds)
-            ->addAttributeToSelect(Mage::getSingleton('sales/quote_config')->getProductAttributes())
+            ->addAttributeToSelect(Mage::getSingleton('Mage_Sales_Model_Quote_Config')->getProductAttributes())
             ->addStoreFilter()
             ->addUrlRewrite()
             ->addOptionsToResult();

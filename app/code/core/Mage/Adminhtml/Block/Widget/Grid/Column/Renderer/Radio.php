@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Radio
         if ($filter = $this->getColumn()->getFilter()) {
             $checked = $filter->getValue() ? 'checked' : '';
         }
-        return '<input type="checkbox" name="'.$this->getColumn()->getName().'" onclick="'.$this->getColumn()->getGrid()->getJsObjectName().'.checkCheckboxes(this)" class="checkbox" '.$checked.' title="'.Mage::helper('adminhtml')->__('Select All').'"/>';
+        return '<input type="checkbox" name="'.$this->getColumn()->getName().'" onclick="'.$this->getColumn()->getGrid()->getJsObjectName().'.checkCheckboxes(this)" class="checkbox" '.$checked.' title="'.Mage::helper('Mage_Adminhtml_Helper_Data')->__('Select All').'"/>';
     }
     */
 }

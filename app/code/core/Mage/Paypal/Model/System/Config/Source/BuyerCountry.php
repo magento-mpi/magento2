@@ -31,11 +31,11 @@ class Mage_Paypal_Model_System_Config_Source_BuyerCountry
 {
     public function toOptionArray($isMultiselect = false)
     {
-        $supported = Mage::getModel('paypal/config')->getSupportedBuyerCountryCodes();
-        $options = Mage::getResourceModel('directory/country_collection')
+        $supported = Mage::getModel('Mage_Paypal_Model_Config')->getSupportedBuyerCountryCodes();
+        $options = Mage::getResourceModel('Mage_Directory_Model_Resource_Country_Collection')
             ->addCountryCodeFilter($supported, 'iso2')
             ->loadData()
-            ->toOptionArray($isMultiselect ? false : Mage::helper('adminhtml')->__('--Please Select--'));
+            ->toOptionArray($isMultiselect ? false : Mage::helper('Mage_Adminhtml_Helper_Data')->__('--Please Select--'));
 
         return $options;
     }

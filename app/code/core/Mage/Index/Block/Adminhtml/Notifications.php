@@ -34,7 +34,7 @@ class Mage_Index_Block_Adminhtml_Notifications extends Mage_Adminhtml_Block_Temp
     public function getProcessesForReindex()
     {
         $res = array();
-        $processes = Mage::getSingleton('index/indexer')->getProcessesCollection()->addEventsStats();
+        $processes = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessesCollection()->addEventsStats();
         /** @var $process Mage_Index_Model_Process */
         foreach ($processes as $process) {
             if (($process->getStatus() == Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX
@@ -63,7 +63,7 @@ class Mage_Index_Block_Adminhtml_Notifications extends Mage_Adminhtml_Block_Temp
      */
     protected function _toHtml()
     {
-        if (Mage::getSingleton('admin/session')->isAllowed('system/index')) {
+        if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/index')) {
             return parent::_toHtml();
         }
         return '';

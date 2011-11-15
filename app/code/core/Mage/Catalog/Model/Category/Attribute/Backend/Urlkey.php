@@ -71,7 +71,7 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Urlkey extends Mage_Eav_Mode
          */
         /*if (!$object->getInitialSetupFlag() && $object->getLevel() > 1) {
             if ($object->dataHasChangedFor('url_key') || $object->getIsChangedProductList()) {
-                Mage::getSingleton('catalog/url')->refreshCategoryRewrite($object->getId());
+                Mage::getSingleton('Mage_Catalog_Model_Url')->refreshCategoryRewrite($object->getId());
             }
         }*/
     }

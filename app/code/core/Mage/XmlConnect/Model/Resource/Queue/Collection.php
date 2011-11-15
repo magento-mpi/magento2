@@ -40,7 +40,7 @@ class Mage_XmlConnect_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
      */
     protected function _construct()
     {
-        $this->_init('xmlconnect/queue');
+        $this->_init('Mage_XmlConnect_Model_Queue', 'Mage_XmlConnect_Model_Resource_Queue');
     }
 
     /**
@@ -105,7 +105,7 @@ class Mage_XmlConnect_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
     public function addOnlyForSendingFilter()
     {
         $this->getSelect()->where('main_table.status in (?)', array(Mage_XmlConnect_Model_Queue::STATUS_IN_QUEUE))
-             ->where('main_table.exec_time < ?', Mage::getSingleton('core/date')->gmtDate())
+             ->where('main_table.exec_time < ?', Mage::getSingleton('Mage_Core_Model_Date')->gmtDate())
              ->order(new Zend_Db_Expr('main_table.exec_time ' . Zend_Db_Select::SQL_ASC)
         );
         return $this;

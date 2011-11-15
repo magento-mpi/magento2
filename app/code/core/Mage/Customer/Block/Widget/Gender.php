@@ -69,6 +69,19 @@ class Mage_Customer_Block_Widget_Gender extends Mage_Customer_Block_Widget_Abstr
      */
     public function getCustomer()
     {
-        return Mage::getSingleton('customer/session')->getCustomer();
+        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+    }
+
+    /**
+     * Returns options from gender source model
+     *
+     * @return array
+     */
+    public function getGenderOptions()
+    {
+        return Mage::getResourceSingleton('Mage_Customer_Model_Resource_Customer')
+            ->getAttribute('gender')
+            ->getSource()
+            ->getAllOptions();
     }
 }

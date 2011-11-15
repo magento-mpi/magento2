@@ -45,7 +45,7 @@ class Enterprise_Cms_Block_Hierarchy_Head extends Mage_Core_Block_Abstract
         /* @var $head Mage_Page_Block_Html_Head */
         $head      = $this->getLayout()->getBlock('head');
 
-        if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled() && $node && $head) {
+        if (Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled() && $node && $head) {
             $treeMetaData = $node->getTreeMetaData();
             if (is_array($treeMetaData)) {
                 /* @var $linkNode Enterprise_Cms_Model_Hierarchy_Node */

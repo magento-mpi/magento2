@@ -53,8 +53,8 @@ class Mage_Customer_Block_Account_Dashboard_Sidebar extends Mage_Core_Block_Temp
     public function getCartItemsCount()
     {
         if( !$this->_cartItemsCount ) {
-            $this->_cartItemsCount = Mage::getModel('sales/quote')
-                ->setId(Mage::getModel('checkout/session')->getQuote()->getId())
+            $this->_cartItemsCount = Mage::getModel('Mage_Sales_Model_Quote')
+                ->setId(Mage::getModel('Mage_Checkout_Model_Session')->getQuote()->getId())
                 ->getItemsCollection()
                 ->getSize();
         }
@@ -65,8 +65,8 @@ class Mage_Customer_Block_Account_Dashboard_Sidebar extends Mage_Core_Block_Temp
     public function getWishlist()
     {
         if( !$this->_wishlist ) {
-            $this->_wishlist = Mage::getModel('wishlist/wishlist')
-                ->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer());
+            $this->_wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')
+                ->loadByCustomer(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer());
             $this->_wishlist->getItemCollection()
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
@@ -91,21 +91,22 @@ class Mage_Customer_Block_Account_Dashboard_Sidebar extends Mage_Core_Block_Temp
         return Mage::getUrl('wishlist/index/cart', array('item' => $wishlistItem->getId()));
     }
 
-     public function getCompareItems()
-     {
-         if( !$this->_compareItems ) {
-             $this->_compareItems = Mage::getResourceModel('catalog/product_compare_item_collection')
-                 ->setStoreId(Mage::app()->getStore()->getId());
-            $this->_compareItems->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
+    public function getCompareItems()
+    {
+        if( !$this->_compareItems ) {
+            $this->_compareItems =
+                Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Compare_Item_Collection')
+                    ->setStoreId(Mage::app()->getStore()->getId());
+            $this->_compareItems->setCustomerId(
+                Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId()
+            );
             $this->_compareItems
                 ->addAttributeToSelect('name')
                 ->useProductItem()
                 ->load();
-
-         }
-
-         return $this->_compareItems;
-     }
+        }
+        return $this->_compareItems;
+    }
 
      public function getCompareJsObjectName()
      {

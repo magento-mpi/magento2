@@ -55,7 +55,7 @@ $typesData = array(
 );
 
 foreach ($typesData as $data) {
-    Mage::getModel('enterprise_giftregistry/type')
+    Mage::getModel('Enterprise_GiftRegistry_Model_Type')
         ->addData($data)
         ->setStoreId($data['store_id'])
         ->save();

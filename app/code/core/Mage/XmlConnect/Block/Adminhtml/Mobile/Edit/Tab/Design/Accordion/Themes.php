@@ -67,9 +67,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Themes
         $this->_addElementTypes($fieldset);
         $fieldset->addField('theme', 'theme', array(
             'name'      => 'theme',
-            'themes'    => Mage::helper('xmlconnect/theme')->getAllThemes(),
+            'themes'    => Mage::helper('Mage_XmlConnect_Helper_Theme')->getAllThemes(),
         ));
-        $form->setValues(Mage::helper('xmlconnect')->getApplication()->getFormData());
+        $form->setValues(Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getFormData());
         $this->setForm($form);
 
         return parent::_prepareForm();

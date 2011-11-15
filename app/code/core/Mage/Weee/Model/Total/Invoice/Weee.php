@@ -49,7 +49,7 @@ class Mage_Weee_Model_Total_Invoice_Weee extends Mage_Sales_Model_Order_Invoice_
                 $item->setWeeeTaxAppliedRowAmount($weeeTaxAmount);
                 $item->setBaseWeeeTaxAppliedRowAmnt($baseWeeeTaxAmount);
                 $newApplied = array();
-                $applied = Mage::helper('weee')->getApplied($item);
+                $applied = Mage::helper('Mage_Weee_Helper_Data')->getApplied($item);
                 foreach ($applied as $one) {
                     $one['base_row_amount'] = $one['base_amount']*$item->getQty();
                     $one['row_amount'] = $one['amount']*$item->getQty();
@@ -58,7 +58,7 @@ class Mage_Weee_Model_Total_Invoice_Weee extends Mage_Sales_Model_Order_Invoice_
 
                     $newApplied[] = $one;
                 }
-                Mage::helper('weee')->setApplied($item, $newApplied);
+                Mage::helper('Mage_Weee_Helper_Data')->setApplied($item, $newApplied);
 
                 $item->setWeeeTaxRowDisposition($item->getWeeeTaxDisposition()*$item->getQty());
                 $item->setBaseWeeeTaxRowDisposition($item->getBaseWeeeTaxDisposition()*$item->getQty());
@@ -77,7 +77,7 @@ class Mage_Weee_Model_Total_Invoice_Weee extends Mage_Sales_Model_Order_Invoice_
          * it can happen that other collector will take some FPT value from shared subtotal/tax order value
          */
         $order = $invoice->getOrder();
-        if (Mage::helper('weee')->includeInSubtotal($store)) {
+        if (Mage::helper('Mage_Weee_Helper_Data')->includeInSubtotal($store)) {
             $allowedSubtotal = $order->getSubtotal() - $order->getSubtotalInvoiced() - $invoice->getSubtotal();
             $allowedBaseSubtotal = $order->getBaseSubtotal() -$order->getBaseSubtotalInvoiced() - $invoice->getBaseSubtotal();
             $totalTax = min($allowedSubtotal, $totalTax);

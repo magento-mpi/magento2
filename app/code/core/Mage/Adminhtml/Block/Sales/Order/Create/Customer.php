@@ -43,17 +43,17 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Customer extends Mage_Adminhtml_Bl
 
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Please Select a Customer');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Please Select a Customer');
     }
 
     public function getButtonsHtml()
     {
         $addButtonData = array(
-            'label'     => Mage::helper('sales')->__('Create New Customer'),
+            'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Create New Customer'),
             'onclick'   => 'order.setCustomerId(false)',
             'class'     => 'add',
         );
-        return $this->getLayout()->createBlock('adminhtml/widget_button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData($addButtonData)->toHtml();
     }
 
 }

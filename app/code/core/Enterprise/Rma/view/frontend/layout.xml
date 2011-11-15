@@ -27,8 +27,8 @@
 -->
 <layout version="0.1.0">
     <customer_account>
-        <block type="enterprise_rma/link" name="enterprise_rma_link_dashboard">
-            <action method="addDashboardLink" translate="label" module="enterprise_rma"><block>customer_account_navigation</block><name>return</name><path>rma/return/history/</path><label>My Returns</label></action>
+        <block type="Enterprise_Rma_Block_Link" name="enterprise_rma_link_dashboard">
+            <action method="addDashboardLink" translate="label" module="Enterprise_Rma"><block>customer_account_navigation</block><name>return</name><path>rma/return/history/</path><label>My Returns</label></action>
         </block>
     </customer_account>
 
@@ -39,12 +39,12 @@
             <action method="setActive"><path>rma/return/history/</path></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="enterprise_rma/return_history" name="rma.return.history">
-                <block type="core/text_list" name="rma.return.history.info" as="info" translate="label">
+            <block type="Enterprise_Rma_Block_Return_History" name="rma.return.history">
+                <block type="Mage_Core_Block_Text_List" name="rma.return.history.info" as="info" translate="label">
                     <label>Returns History Info</label>
                 </block>
             </block>
-            <block type="enterprise_rma/return_history" name="customer.account.link.back" template="Mage_Customer::account/link/back.phtml"/>
+            <block type="Enterprise_Rma_Block_Return_History" name="customer.account.link.back" template="Mage_Customer::account/link/back.phtml"/>
         </reference>
     </enterprise_rma_return_history>
 
@@ -55,7 +55,7 @@
             <action method="setActive"><path>rma/return/history/</path></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="enterprise_rma/return_create" as="create" name="rma.return.create" template="return/create.phtml">
+            <block type="Enterprise_Rma_Block_Return_Create" as="create" name="rma.return.create" template="return/create.phtml">
                 <action method="setFormCode"><code>default</code></action>
                 <action method="setEntityModelClass"><code>enterprise_rma/item</code></action>
             </block>
@@ -65,25 +65,25 @@
 
     <enterprise_rma_return_create_handle>
         <reference name="content">
-            <block name="enterprise_rma_item_form_template" type="enterprise_eav/form_template">
+            <block name="enterprise_rma_item_form_template" type="Enterprise_Eav_Block_Form_Template">
                 <action method="addRenderer">
                     <type>text</type>
-                    <renderer_block>enterprise_eav/form_renderer_text</renderer_block>
+                    <renderer_block>Enterprise_Eav_Block_Form_Renderer_Text</renderer_block>
                     <template>Enterprise_Rma::form/renderer/text.phtml</template>
                 </action>
                 <action method="addRenderer">
                     <type>textarea</type>
-                    <renderer_block>enterprise_eav/form_renderer_textarea</renderer_block>
+                    <renderer_block>Enterprise_Eav_Block_Form_Renderer_Textarea</renderer_block>
                     <template>Enterprise_Rma::form/renderer/textarea.phtml</template>
                 </action>
                 <action method="addRenderer">
                     <type>select</type>
-                    <renderer_block>enterprise_rma/form_renderer_select</renderer_block>
+                    <renderer_block>Enterprise_Rma_Block_Form_Renderer_Select</renderer_block>
                     <template>form/renderer/select.phtml</template>
                 </action>
                 <action method="addRenderer">
                     <type>image</type>
-                    <renderer_block>enterprise_rma/form_renderer_image</renderer_block>
+                    <renderer_block>Enterprise_Rma_Block_Form_Renderer_Image</renderer_block>
                     <template>form/renderer/image.phtml</template>
                 </action>
             </block>
@@ -97,23 +97,23 @@
         </reference>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="enterprise_rma/return_view" name="rma.return.history">
-                <block type="core/text_list" name="rma.return.history.info" as="info" translate="label">
+            <block type="Enterprise_Rma_Block_Return_View" name="rma.return.history">
+                <block type="Mage_Core_Block_Text_List" name="rma.return.history.info" as="info" translate="label">
                     <label>Customer My Account Return View</label>
                 </block>
             </block>
-            <block type="enterprise_rma/return_view" name="customer.account.link.back" template="Mage_Customer::account/link/back.phtml"/>
+            <block type="Enterprise_Rma_Block_Return_View" name="customer.account.link.back" template="Mage_Customer::account/link/back.phtml"/>
         </reference>
         <update handle="enterprise_rma_return_view_handle"/>
-        <block type="enterprise_rma/return_tracking" name="rma.return.tracking" as="tracking" />
+        <block type="Enterprise_Rma_Block_Return_Tracking" name="rma.return.tracking" as="tracking" />
     </enterprise_rma_return_view>
 
     <enterprise_rma_return_view_handle>
         <reference name="content">
-            <block name="enterprise_rma_item_form_template" type="enterprise_eav/form_template">
+            <block name="enterprise_rma_item_form_template" type="Enterprise_Eav_Block_Form_Template">
                 <action method="addRenderer">
                     <type>image</type>
-                    <renderer_block>enterprise_rma/form_renderer_image</renderer_block>
+                    <renderer_block>Enterprise_Rma_Block_Form_Renderer_Image</renderer_block>
                     <template>form/view/image.phtml</template>
                 </action>
             </block>
@@ -124,19 +124,19 @@
         <label>Customer My Account Order Returns View</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="sales/order_info" as="info" name="sales.order.info">
-                <block type="sales/order_info_buttons" as="buttons" name="sales.order.info.buttons">
-                    <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
+            <block type="Mage_Sales_Block_Order_Info" as="info" name="sales.order.info">
+                <block type="Mage_Sales_Block_Order_Info_Buttons" as="buttons" name="sales.order.info.buttons">
+                    <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml" />
                 </block>
             </block>
-            <block type="enterprise_rma/return_returns" name="rma.return.returns" />
+            <block type="Enterprise_Rma_Block_Return_Returns" name="rma.return.returns" />
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path>sales/order/view</path><label>Order Information</label></action>
-            <action method="addLink" translate="label" module="sales"><name>invoice</name><path>sales/order/invoice</path><label>Invoices</label></action>
-            <action method="addLink" translate="label" module="sales"><name>shipment</name><path>sales/order/shipment</path><label>Shipments</label></action>
-            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>sales/order/creditmemo</path><label>Refunds</label></action>
-            <action method="addLink" translate="label" module="sales"><name>returns</name><path></path><label>Returns</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>view</name><path>sales/order/view</path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>invoice</name><path>sales/order/invoice</path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>shipment</name><path>sales/order/shipment</path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>creditmemo</name><path>sales/order/creditmemo</path><label>Refunds</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>returns</name><path></path><label>Returns</label></action>
         </reference>
     </enterprise_rma_return_returns>
 
@@ -146,19 +146,19 @@
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="enterprise_rma/return_info" as="info" name="sales.order.info">
-                <block type="sales/order_info_buttons" as="buttons" name="sales.order.info.buttons">
-                    <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
+            <block type="Enterprise_Rma_Block_Return_Info" as="info" name="sales.order.info">
+                <block type="Mage_Sales_Block_Order_Info_Buttons" as="buttons" name="sales.order.info.buttons">
+                    <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml" />
                 </block>
             </block>
-            <block type="enterprise_rma/return_returns" name="rma.return.returns" />
+            <block type="Enterprise_Rma_Block_Return_Returns" name="rma.return.returns" />
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path>sales/guest/view</path><label>Order Information</label></action>
-            <action method="addLink" translate="label" module="sales"><name>invoice</name><path>sales/guest/invoice</path><label>Invoices</label></action>
-            <action method="addLink" translate="label" module="sales"><name>shipment</name><path>sales/guest/shipment</path><label>Shipments</label></action>
-            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>sales/guest/creditmemo</path><label>Refunds</label></action>
-            <action method="addLink" translate="label" module="sales"><name>returns</name><path></path><label>Returns</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>view</name><path>sales/guest/view</path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>invoice</name><path>sales/guest/invoice</path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>shipment</name><path>sales/guest/shipment</path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>creditmemo</name><path>sales/guest/creditmemo</path><label>Refunds</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>returns</name><path></path><label>Returns</label></action>
         </reference>
     </enterprise_rma_guest_returns>
 
@@ -172,27 +172,27 @@
         </reference-->
         <update handle="customer_account"/>
         <reference name="content">
-            <block type="enterprise_rma/return_info" as="info" name="sales.order.info">
-                <block type="sales/order_info_buttons" as="buttons" name="sales.order.info.buttons">
-                    <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
+            <block type="Enterprise_Rma_Block_Return_Info" as="info" name="sales.order.info">
+                <block type="Mage_Sales_Block_Order_Info_Buttons" as="buttons" name="sales.order.info.buttons">
+                    <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml" />
                 </block>
             </block>
-            <block type="enterprise_rma/return_view" name="rma.return.history">
-                <block type="core/text_list" name="rma.return.history.info" as="info" translate="label">
+            <block type="Enterprise_Rma_Block_Return_View" name="rma.return.history">
+                <block type="Mage_Core_Block_Text_List" name="rma.return.history.info" as="info" translate="label">
                     <label>View Return</label>
                 </block>
             </block>
-            <block type="enterprise_rma/return_view" name="customer.account.link.back" template="Mage_Customer::account/link/back.phtml"/>
+            <block type="Enterprise_Rma_Block_Return_View" name="customer.account.link.back" template="Mage_Customer::account/link/back.phtml"/>
         </reference>
         <update handle="enterprise_rma_return_view_handle"/>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path>sales/guest/view</path><label>Order Information</label></action>
-            <action method="addLink" translate="label" module="sales"><name>invoice</name><path>sales/guest/invoice</path><label>Invoices</label></action>
-            <action method="addLink" translate="label" module="sales"><name>shipment</name><path>sales/guest/shipment</path><label>Shipments</label></action>
-            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>sales/guest/creditmemo</path><label>Refunds</label></action>
-            <action method="addLink" translate="label" module="sales"><name>returns</name><path></path><label>Returns</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>view</name><path>sales/guest/view</path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>invoice</name><path>sales/guest/invoice</path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>shipment</name><path>sales/guest/shipment</path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>creditmemo</name><path>sales/guest/creditmemo</path><label>Refunds</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>returns</name><path></path><label>Returns</label></action>
         </reference>
-        <block type="enterprise_rma/return_tracking" name="rma.return.tracking" as="tracking" />
+        <block type="Enterprise_Rma_Block_Return_Tracking" name="rma.return.tracking" as="tracking" />
     </enterprise_rma_guest_view>
 
     <enterprise_rma_guest_create translate="label">
@@ -202,104 +202,104 @@
         </reference>
         <update handle="customer_account"/>
         <reference name="content">
-            <block type="enterprise_rma/return_info" as="info" name="sales.order.info" />
-            <block type="enterprise_rma/return_create" as="create" name="rma.return.create" template="return/create.phtml">
+            <block type="Enterprise_Rma_Block_Return_Info" as="info" name="sales.order.info" />
+            <block type="Enterprise_Rma_Block_Return_Create" as="create" name="rma.return.create" template="return/create.phtml">
                 <action method="setFormCode"><code>default</code></action>
                 <action method="setEntityModelClass"><code>enterprise_rma/item</code></action>
             </block>
         </reference>
         <update handle="enterprise_rma_return_create_handle"/>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path>sales/guest/view</path><label>Order Information</label></action>
-            <action method="addLink" translate="label" module="sales"><name>invoice</name><path>sales/guest/invoice</path><label>Invoices</label></action>
-            <action method="addLink" translate="label" module="sales"><name>shipment</name><path>sales/guest/shipment</path><label>Shipments</label></action>
-            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>sales/guest/creditmemo</path><label>Refunds</label></action>
-            <action method="addLink" translate="label" module="sales"><name>returns</name><path></path><label>Returns</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>view</name><path>sales/guest/view</path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>invoice</name><path>sales/guest/invoice</path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>shipment</name><path>sales/guest/shipment</path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>creditmemo</name><path>sales/guest/creditmemo</path><label>Refunds</label></action>
+            <action method="addLink" translate="label" module="Mage_Sales"><name>returns</name><path></path><label>Returns</label></action>
         </reference>
     </enterprise_rma_guest_create>
 
     <sales_order_view>
         <reference name="my.account.wrapper">
-            <block type="enterprise_rma/order_info" name="enterprise.rma.info" />
+            <block type="Enterprise_Rma_Block_Order_Info" name="enterprise.rma.info" />
         </reference>
         <reference name="sales.order.info.buttons">
-            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
+            <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_order_view>
     <sales_order_invoice>
          <reference name="my.account.wrapper">
-            <block type="enterprise_rma/order_info" name="enterprise.rma.info" />
+            <block type="Enterprise_Rma_Block_Order_Info" name="enterprise.rma.info" />
         </reference>
         <reference name="sales.order.info.buttons">
-            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
+            <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_order_invoice>
     <sales_order_shipment>
          <reference name="my.account.wrapper">
-            <block type="enterprise_rma/order_info" name="enterprise.rma.info" />
+            <block type="Enterprise_Rma_Block_Order_Info" name="enterprise.rma.info" />
         </reference>
         <reference name="sales.order.info.buttons">
-            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
+            <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_order_shipment>
     <sales_order_creditmemo>
         <reference name="my.account.wrapper">
-            <block type="enterprise_rma/order_info" name="enterprise.rma.info" />
+            <block type="Enterprise_Rma_Block_Order_Info" name="enterprise.rma.info" />
         </reference>
         <reference name="sales.order.info.buttons">
-            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
+            <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_order_creditmemo>
 
     <sales_guest_view translate="label">
          <reference name="my.account.wrapper">
-            <block type="enterprise_rma/order_guest" name="enterprise.rma.info" />
+            <block type="Enterprise_Rma_Block_Order_Guest" name="enterprise.rma.info" />
         </reference>
         <reference name="sales.order.info.buttons">
-            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
+            <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_guest_view>
     <sales_guest_invoice translate="label">
          <reference name="my.account.wrapper">
-            <block type="enterprise_rma/order_guest" name="enterprise.rma.info" />
+            <block type="Enterprise_Rma_Block_Order_Guest" name="enterprise.rma.info" />
         </reference>
         <reference name="sales.order.info.buttons">
-            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
+            <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_guest_invoice>
     <sales_guest_shipment translate="label">
          <reference name="my.account.wrapper">
-            <block type="enterprise_rma/order_guest" name="enterprise.rma.info" />
+            <block type="Enterprise_Rma_Block_Order_Guest" name="enterprise.rma.info" />
         </reference>
         <reference name="sales.order.info.buttons">
-            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
+            <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_guest_shipment>
     <sales_guest_creditmemo translate="label">
          <reference name="my.account.wrapper">
-            <block type="enterprise_rma/order_guest" name="enterprise.rma.info" />
+            <block type="Enterprise_Rma_Block_Order_Guest" name="enterprise.rma.info" />
         </reference>
         <reference name="sales.order.info.buttons">
-            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
+            <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_guest_creditmemo>
 
     <enterprise_rma_email_rma_items>
-        <block type="enterprise_rma/email_items" name="enterprise_rma_email_items" template="email/items.phtml" />
+        <block type="Enterprise_Rma_Block_Email_Items" name="enterprise_rma_email_items" template="email/items.phtml" />
     </enterprise_rma_email_rma_items>
 
     <enterprise_rma_return_addlabel>
-        <block type="enterprise_rma/return_tracking" name="enterprise_rma_return_tracking" template="return/tracking.phtml" />
+        <block type="Enterprise_Rma_Block_Return_Tracking" name="enterprise_rma_return_tracking" template="return/tracking.phtml" />
     </enterprise_rma_return_addlabel>
     <enterprise_rma_return_dellabel>
-        <block type="enterprise_rma/return_tracking" name="enterprise_rma_return_tracking" template="return/tracking.phtml" />
+        <block type="Enterprise_Rma_Block_Return_Tracking" name="enterprise_rma_return_tracking" template="return/tracking.phtml" />
     </enterprise_rma_return_dellabel>
 
     <enterprise_rma_guest_addlabel>
-        <block type="enterprise_rma/return_tracking" name="enterprise_rma_return_tracking" template="return/tracking.phtml" />
+        <block type="Enterprise_Rma_Block_Return_Tracking" name="enterprise_rma_return_tracking" template="return/tracking.phtml" />
     </enterprise_rma_guest_addlabel>
     <enterprise_rma_guest_dellabel>
-        <block type="enterprise_rma/return_tracking" name="enterprise_rma_return_tracking" template="return/tracking.phtml" />
+        <block type="Enterprise_Rma_Block_Return_Tracking" name="enterprise_rma_return_tracking" template="return/tracking.phtml" />
     </enterprise_rma_guest_dellabel>
 
     <enterprise_rma_tracking_popup translate="label">
@@ -308,7 +308,7 @@
             <action method="setTemplate"><template>popup.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="enterprise_rma/return_tracking_popup" name="rma.tracking.popup" template="Mage_Shipping::tracking/popup.phtml" />
+            <block type="Enterprise_Rma_Block_Return_Tracking_Popup" name="rma.tracking.popup" template="Mage_Shipping::tracking/popup.phtml" />
         </reference>
     </enterprise_rma_tracking_popup>
 
@@ -318,7 +318,7 @@
             <action method="setTemplate"><template>popup.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="enterprise_rma/return_tracking_package" name="rma.tracking.popup" template="return/popup/package.phtml" />
+            <block type="Enterprise_Rma_Block_Return_Tracking_Package" name="rma.tracking.popup" template="return/popup/package.phtml" />
         </reference>
     </enterprise_rma_tracking_package>
 
@@ -328,7 +328,7 @@
             <action method="setTemplate"><template>popup.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="enterprise_rma/return_tracking_package" name="rma.tracking.popup" template="return/popup/package.phtml" />
+            <block type="Enterprise_Rma_Block_Return_Tracking_Package" name="rma.tracking.popup" template="return/popup/package.phtml" />
         </reference>
     </enterprise_rma_tracking_packageprint>
 
@@ -338,7 +338,7 @@
             <action method="setTemplate"><template>popup.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="enterprise_rma/return_tracking_package" name="rma.tracking.popup" template="return/popup/package.phtml" />
+            <block type="Enterprise_Rma_Block_Return_Tracking_Package" name="rma.tracking.popup" template="return/popup/package.phtml" />
         </reference>
     </enterprise_rma_tracking_printlabel>
 

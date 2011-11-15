@@ -37,7 +37,7 @@ class Mage_Review_Model_Review_Status extends Mage_Core_Model_Abstract
 
     public function __construct()
     {
-        $this->_init('review/review_status');
+        $this->_init('Mage_Review_Model_Resource_Review_Status');
     }
     
 }

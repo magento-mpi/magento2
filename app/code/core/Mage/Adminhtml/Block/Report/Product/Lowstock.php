@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Report_Product_Lowstock extends Mage_Adminhtml_Block_
     public function __construct()
     {
         $this->_controller = 'report_product_lowstock';
-        $this->_headerText = Mage::helper('reports')->__('Low stock');
+        $this->_headerText = Mage::helper('Mage_Reports_Helper_Data')->__('Low stock');
         parent::__construct();
         $this->_removeButton('add');
     }
@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Report_Product_Lowstock extends Mage_Adminhtml_Block_
     protected function _prepareLayout()
     {
         $this->setChild('store_switcher',
-            $this->getLayout()->createBlock('adminhtml/store_switcher')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher')
                 ->setUseConfirm(false)
                 ->setSwitchUrl($this->getUrl('*/*/*', array('store'=>null)))
                 ->setTemplate('report/store/switcher.phtml')

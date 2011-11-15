@@ -54,12 +54,6 @@ class Mage_Catalog_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
     protected $_storeIdSessionField   = 'store_id';
 
     /**
-     * Name of resource model in ACL list
-     * @var string
-     */
-    protected $_resourceAttributeAclName = 'catalog/category/attributes/field_';
-
-    /**
      * Check is attribute allowed
      *
      * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
@@ -68,13 +62,6 @@ class Mage_Catalog_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
      */
     protected function _isAllowedAttribute($attribute, $attributes = null)
     {
-
-        if (Mage::getSingleton('api/server')->getApiName() == 'rest') {
-            if (!$this->_checkAttributeAcl($attribute)) {
-                return false;
-            }
-        }
-
         if (is_array($attributes)
             && !( in_array($attribute->getAttributeCode(), $attributes)
                   || in_array($attribute->getAttributeId(), $attributes))) {
@@ -118,10 +105,7 @@ class Mage_Catalog_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
      */
     protected function _getProduct($productId, $store = null, $identifierType = null)
     {
-        $product = Mage::helper('catalog/product')->getProduct($productId, $this->_getStoreId($store), $identifierType);
-        if (is_null($product->getId())) {
-            $this->_fault('product_not_exists');
-        }
+        $product = Mage::helper('Mage_Catalog_Helper_Product')->getProduct($productId, $this->_getStoreId($store), $identifierType);
         return $product;
     }
 

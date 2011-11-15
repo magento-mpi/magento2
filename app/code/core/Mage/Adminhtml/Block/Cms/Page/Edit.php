@@ -46,9 +46,9 @@ class Mage_Adminhtml_Block_Cms_Page_Edit extends Mage_Adminhtml_Block_Widget_For
         parent::__construct();
 
         if ($this->_isAllowedAction('save')) {
-            $this->_updateButton('save', 'label', Mage::helper('cms')->__('Save Page'));
+            $this->_updateButton('save', 'label', Mage::helper('Mage_Cms_Helper_Data')->__('Save Page'));
             $this->_addButton('saveandcontinue', array(
-                'label'     => Mage::helper('adminhtml')->__('Save and Continue Edit'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save and Continue Edit'),
                 'onclick'   => 'saveAndContinueEdit(\''.$this->_getSaveAndContinueUrl().'\')',
                 'class'     => 'save',
             ), -100);
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit extends Mage_Adminhtml_Block_Widget_For
         }
 
         if ($this->_isAllowedAction('delete')) {
-            $this->_updateButton('delete', 'label', Mage::helper('cms')->__('Delete Page'));
+            $this->_updateButton('delete', 'label', Mage::helper('Mage_Cms_Helper_Data')->__('Delete Page'));
         } else {
             $this->_removeButton('delete');
         }
@@ -71,10 +71,10 @@ class Mage_Adminhtml_Block_Cms_Page_Edit extends Mage_Adminhtml_Block_Widget_For
     public function getHeaderText()
     {
         if (Mage::registry('cms_page')->getId()) {
-            return Mage::helper('cms')->__("Edit Page '%s'", $this->htmlEscape(Mage::registry('cms_page')->getTitle()));
+            return Mage::helper('Mage_Cms_Helper_Data')->__("Edit Page '%s'", $this->htmlEscape(Mage::registry('cms_page')->getTitle()));
         }
         else {
-            return Mage::helper('cms')->__('New Page');
+            return Mage::helper('Mage_Cms_Helper_Data')->__('New Page');
         }
     }
 
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit extends Mage_Adminhtml_Block_Widget_For
      */
     protected function _isAllowedAction($action)
     {
-        return Mage::getSingleton('admin/session')->isAllowed('cms/page/' . $action);
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/page/' . $action);
     }
 
     /**

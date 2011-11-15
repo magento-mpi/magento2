@@ -53,7 +53,7 @@ class Find_Feed_Block_Adminhtml_List_Codes_Grid extends Mage_Adminhtml_Block_Wid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('find_feed/codes_collection');
+        $collection = Mage::getResourceModel('Find_Feed_Model_Resource_Codes_Collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -66,24 +66,24 @@ class Find_Feed_Block_Adminhtml_List_Codes_Grid extends Mage_Adminhtml_Block_Wid
     protected function _prepareColumns()
     {
         $this->addColumn('import_code', array(
-            'header'=> Mage::helper('find_feed')->__('Feed code'),
+            'header'=> Mage::helper('Find_Feed_Helper_Data')->__('Feed code'),
             'width' => '80px',
             'type'  => 'text',
             'index' => 'import_code'
         ));
 
         $this->addColumn('eav_code', array(
-            'header'=> Mage::helper('find_feed')->__('Eav code'),
+            'header'=> Mage::helper('Find_Feed_Helper_Data')->__('Eav code'),
             'width' => '80px',
             'type'  => 'text',
             'index' => 'eav_code'
         ));
 
-        $source = Mage::getModel('eav/entity_attribute_source_boolean');
+        $source = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Source_Boolean');
         $isImportedOptions = $source->getOptionArray();
 
         $this->addColumn('is_imported', array(
-            'header' => Mage::helper('find_feed')->__('In Feed'),
+            'header' => Mage::helper('Find_Feed_Helper_Data')->__('In Feed'),
             'width' => '100px',
             'index' => 'is_imported',
             'type'  => 'options',
@@ -103,16 +103,16 @@ class Find_Feed_Block_Adminhtml_List_Codes_Grid extends Mage_Adminhtml_Block_Wid
         $this->getMassactionBlock()->setFormFieldName('code_id');
 
         $this->getMassactionBlock()->addItem('enable', array(
-            'label'         => Mage::helper('find_feed')->__('Import'),
+            'label'         => Mage::helper('Find_Feed_Helper_Data')->__('Import'),
             'url'           => $this->getUrl('*/codes_grid/massEnable'),
             'selected'      => true,
         ));
         $this->getMassactionBlock()->addItem('disable', array(
-            'label'         => Mage::helper('find_feed')->__('Not import'),
+            'label'         => Mage::helper('Find_Feed_Helper_Data')->__('Not import'),
             'url'           => $this->getUrl('*/codes_grid/massDisable'),
         ));
         $this->getMassactionBlock()->addItem('delete', array(
-            'label'         => Mage::helper('find_feed')->__('Delete'),
+            'label'         => Mage::helper('Find_Feed_Helper_Data')->__('Delete'),
             'url'           => $this->getUrl('*/codes_grid/delete'),
         ));
 

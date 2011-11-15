@@ -57,7 +57,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
      */
     public function useCalendar()
     {
-        return Mage::getSingleton('catalog/product_option_type_date')->useCalendar();
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Option_Type_Date')->useCalendar();
     }
 
     /**
@@ -87,11 +87,11 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
         //$require = $this->getOption()->getIsRequire() ? ' required-entry' : '';
         $require = '';
 
-        $yearStart = Mage::getSingleton('catalog/product_option_type_date')->getYearStart();
-        $yearEnd = Mage::getSingleton('catalog/product_option_type_date')->getYearEnd();
+        $yearStart = Mage::getSingleton('Mage_Catalog_Model_Product_Option_Type_Date')->getYearStart();
+        $yearEnd = Mage::getSingleton('Mage_Catalog_Model_Product_Option_Type_Date')->getYearEnd();
 
         $calendar = $this->getLayout()
-            ->createBlock('core/html_date')
+            ->createBlock('Mage_Core_Block_Html_Date')
             ->setId('options_'.$this->getOption()->getId().'_date')
             ->setName('options['.$this->getOption()->getId().'][date]')
             ->setClass('product-custom-option datetime-picker input-text' . $require)
@@ -114,14 +114,14 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
     public function getDropDownsDateHtml()
     {
         $fieldsSeparator = '&nbsp;';
-        $fieldsOrder = Mage::getSingleton('catalog/product_option_type_date')->getConfigData('date_fields_order');
+        $fieldsOrder = Mage::getSingleton('Mage_Catalog_Model_Product_Option_Type_Date')->getConfigData('date_fields_order');
         $fieldsOrder = str_replace(',', $fieldsSeparator, $fieldsOrder);
 
         $monthsHtml = $this->_getSelectFromToHtml('month', 1, 12);
         $daysHtml = $this->_getSelectFromToHtml('day', 1, 31);
 
-        $yearStart = Mage::getSingleton('catalog/product_option_type_date')->getYearStart();
-        $yearEnd = Mage::getSingleton('catalog/product_option_type_date')->getYearEnd();
+        $yearStart = Mage::getSingleton('Mage_Catalog_Model_Product_Option_Type_Date')->getYearStart();
+        $yearEnd = Mage::getSingleton('Mage_Catalog_Model_Product_Option_Type_Date')->getYearEnd();
         $yearsHtml = $this->_getSelectFromToHtml('year', $yearStart, $yearEnd);
 
         $translations = array(
@@ -139,7 +139,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
      */
     public function getTimeHtml()
     {
-        if (Mage::getSingleton('catalog/product_option_type_date')->is24hTimeFormat()) {
+        if (Mage::getSingleton('Mage_Catalog_Model_Product_Option_Type_Date')->is24hTimeFormat()) {
             $hourStart = 0;
             $hourEnd = 23;
             $dayPartHtml = '';
@@ -148,8 +148,8 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
             $hourEnd = 12;
             $dayPartHtml = $this->_getHtmlSelect('day_part')
                 ->setOptions(array(
-                    'am' => Mage::helper('catalog')->__('AM'),
-                    'pm' => Mage::helper('catalog')->__('PM')
+                    'am' => Mage::helper('Mage_Catalog_Helper_Data')->__('AM'),
+                    'pm' => Mage::helper('Mage_Catalog_Helper_Data')->__('PM')
                 ))
                 ->getHtml();
         }
@@ -193,7 +193,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
 
         // $require = $this->getOption()->getIsRequire() ? ' required-entry' : '';
         $require = '';
-        $select = $this->getLayout()->createBlock('core/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setId('options_' . $this->getOption()->getId() . '_' . $name)
             ->setClass('product-custom-option datetime-picker' . $require)
             ->setExtraParams()

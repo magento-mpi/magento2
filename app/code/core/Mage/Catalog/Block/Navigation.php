@@ -70,7 +70,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             Mage::app()->getStore()->getId(),
             Mage::getDesign()->getPackageName(),
             Mage::getDesign()->getTheme(),
-            Mage::getSingleton('customer/session')->getCustomerGroupId(),
+            Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId(),
             'template' => $this->getTemplate(),
             'name' => $this->getNameInLayout(),
             $this->getCurrenCategoryKey()
@@ -113,7 +113,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      */
     public function getStoreCategories()
     {
-        $helper = Mage::helper('catalog/category');
+        $helper = Mage::helper('Mage_Catalog_Helper_Category');
         return $helper->getStoreCategories();
     }
 
@@ -124,11 +124,11 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      */
     public function getCurrentChildCategories()
     {
-        $layer = Mage::getSingleton('catalog/layer');
+        $layer = Mage::getSingleton('Mage_Catalog_Model_Layer');
         $category   = $layer->getCurrentCategory();
         /* @var $category Mage_Catalog_Model_Category */
         $categories = $category->getChildrenCategories();
-        $productCollection = Mage::getResourceModel('catalog/product_collection');
+        $productCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
         $layer->prepareProductCollection($productCollection);
         $productCollection->addCountToCategories($categories);
         return $categories;
@@ -151,7 +151,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     protected function _getCategoryInstance()
     {
         if (is_null($this->_categoryInstance)) {
-            $this->_categoryInstance = Mage::getModel('catalog/category');
+            $this->_categoryInstance = Mage::getModel('Mage_Catalog_Model_Category');
         }
         return $this->_categoryInstance;
     }
@@ -224,7 +224,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $html = array();
 
         // get all children
-        if (Mage::helper('catalog/category_flat')->isEnabled()) {
+        if (Mage::helper('Mage_Catalog_Helper_Category_Flat')->isEnabled()) {
             $children = (array)$category->getChildrenNodes();
             $childrenCount = count($children);
         } else {
@@ -342,8 +342,8 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      */
     public function getCurrentCategory()
     {
-        if (Mage::getSingleton('catalog/layer')) {
-            return Mage::getSingleton('catalog/layer')->getCurrentCategory();
+        if (Mage::getSingleton('Mage_Catalog_Model_Layer')) {
+            return Mage::getSingleton('Mage_Catalog_Model_Layer')->getCurrentCategory();
         }
         return false;
     }

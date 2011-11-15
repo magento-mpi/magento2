@@ -62,8 +62,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Shipping extends Mage_Sales_Model_Quote_A
     public function __construct()
     {
         $this->setCode('shipping');
-        $this->_calculator  = Mage::getSingleton('tax/calculation');
-        $this->_config      = Mage::getSingleton('tax/config');
+        $this->_calculator  = Mage::getSingleton('Mage_Tax_Model_Calculation');
+        $this->_config      = Mage::getSingleton('Mage_Tax_Model_Config');
     }
 
     /**

@@ -37,8 +37,8 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
     const PAYMENT_CODE = 'ogone';
 
     protected $_code  = self::PAYMENT_CODE;
-    protected $_formBlockType = 'ogone/form';
-    protected $_infoBlockType = 'ogone/info';
+    protected $_formBlockType = 'Mage_Ogone_Block_Form';
+    protected $_infoBlockType = 'Mage_Ogone_Block_Info';
     protected $_config = null;
 
      /**
@@ -186,7 +186,7 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
      */
     public function __construct()
     {
-        $this->_config = Mage::getSingleton('ogone/config');
+        $this->_config = Mage::getSingleton('Mage_Ogone_Model_Config');
         return $this;
     }
 
@@ -419,12 +419,12 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
                 continue;
             }
             //COM filed can only handle max 100
-            if (Mage::helper('core/string')->strlen($invoiceDesc.$item->getName()) > 100) {
+            if (Mage::helper('Mage_Core_Helper_String')->strlen($invoiceDesc.$item->getName()) > 100) {
                 break;
             }
             $invoiceDesc .= $item->getName() . ', ';
         }
-        return Mage::helper('core/string')->substr($invoiceDesc, 0, -2);
+        return Mage::helper('Mage_Core_Helper_String')->substr($invoiceDesc, 0, -2);
     }
 
     /**

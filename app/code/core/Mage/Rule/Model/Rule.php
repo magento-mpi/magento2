@@ -24,7 +24,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
+/**
+ * Abstract promotion rule model
+ *
+ * The class is supposed to have name "Mage_Rule_Model_RuleAbstract",
+ * but the old name has been retained for backwards compatibility purposes.
+ * Also the architecture of abstract model doesn't allow to make the _construct() method abstract
+ */
+abstract class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
 {
     protected $_conditions;
     protected $_actions;
@@ -44,20 +51,9 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
      */
     protected $_isReadonly = false;
 
-    /**
-     * Init resoirce
-     *
-     * @return unknown_type
-     */
-    protected function _construct()
-    {
-        $this->_init('rule/rule');
-        parent::_construct();
-    }
-
     public function getConditionsInstance()
     {
-        return Mage::getModel('rule/condition_combine');
+        return Mage::getModel('Mage_Rule_Model_Condition_Combine');
     }
 
     public function _resetConditions($conditions=null)
@@ -95,7 +91,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
      */
     public function getActionsInstance()
     {
-        return Mage::getModel('rule/action_collection');
+        return Mage::getModel('Mage_Rule_Model_Action_Collection');
     }
 
     /**
@@ -137,10 +133,10 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
 
     public function asString($format='')
     {
-        $str = Mage::helper('rule')->__("Name: %s", $this->getName()) ."\n"
-             . Mage::helper('rule')->__("Start at: %s", $this->getStartAt()) ."\n"
-             . Mage::helper('rule')->__("Expire at: %s", $this->getExpireAt()) ."\n"
-             . Mage::helper('rule')->__("Description: %s", $this->getDescription()) ."\n\n"
+        $str = Mage::helper('Mage_Rule_Helper_Data')->__("Name: %s", $this->getName()) ."\n"
+             . Mage::helper('Mage_Rule_Helper_Data')->__("Start at: %s", $this->getStartAt()) ."\n"
+             . Mage::helper('Mage_Rule_Helper_Data')->__("Expire at: %s", $this->getExpireAt()) ."\n"
+             . Mage::helper('Mage_Rule_Helper_Data')->__("Description: %s", $this->getDescription()) ."\n\n"
              . $this->getConditions()->asStringRecursive() ."\n\n"
              . $this->getActions()->asStringRecursive() ."\n\n";
         return $str;
@@ -148,10 +144,10 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
 
     public function asHtml()
     {
-        $str = Mage::helper('rule')->__("Name: %s", $this->getName()) ."<br/>"
-             . Mage::helper('rule')->__("Start at: %s", $this->getStartAt()) ."<br/>"
-             . Mage::helper('rule')->__("Expire at: %s", $this->getExpireAt()) ."<br/>"
-             . Mage::helper('rule')->__("Description: %s", $this->getDescription()) .'<br/>'
+        $str = Mage::helper('Mage_Rule_Helper_Data')->__("Name: %s", $this->getName()) ."<br/>"
+             . Mage::helper('Mage_Rule_Helper_Data')->__("Start at: %s", $this->getStartAt()) ."<br/>"
+             . Mage::helper('Mage_Rule_Helper_Data')->__("Expire at: %s", $this->getExpireAt()) ."<br/>"
+             . Mage::helper('Mage_Rule_Helper_Data')->__("Description: %s", $this->getDescription()) .'<br/>'
              . '<ul class="rule-conditions">'.$this->getConditions()->asHtmlRecursive().'</ul>'
              . '<ul class="rule-actions">'.$this->getActions()->asHtmlRecursive()."</ul>";
         return $str;
@@ -274,7 +270,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
     {
         // check if discount amount > 0
         if ((int)$this->getDiscountAmount() < 0) {
-            Mage::throwException(Mage::helper('rule')->__('Invalid discount amount.'));
+            Mage::throwException(Mage::helper('Mage_Rule_Helper_Data')->__('Invalid discount amount.'));
         }
 
 
@@ -366,7 +362,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
             $dateEnd = new Zend_Date($object->getData('to_date'), Varien_Date::DATE_INTERNAL_FORMAT);
 
             if ($dateStart->compare($dateEnd)===1) {
-                return array(Mage::helper('rule')->__("End Date should be greater than Start Date"));
+                return array(Mage::helper('Mage_Rule_Helper_Data')->__("End Date should be greater than Start Date"));
             }
         }
         return true;

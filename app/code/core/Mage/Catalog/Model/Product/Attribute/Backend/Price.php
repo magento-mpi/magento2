@@ -56,7 +56,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Price extends Mage_Eav_Model_
      */
     public function setScope($attribute)
     {
-        if (Mage::helper('catalog')->isPriceGlobal()) {
+        if (Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal()) {
             $attribute->setIsGlobal(Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL);
         }
         else {
@@ -94,7 +94,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Price extends Mage_Eav_Model_
                     if ($storeCurrency == $baseCurrency) {
                         continue;
                     }
-                    $rate = Mage::getModel('directory/currency')->load($baseCurrency)->getRate($storeCurrency);
+                    $rate = Mage::getModel('Mage_Directory_Model_Currency')->load($baseCurrency)->getRate($storeCurrency);
                     if (!$rate) {
                         $rate = 1;
                     }

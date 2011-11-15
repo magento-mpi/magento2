@@ -43,36 +43,36 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Adminhtml_Block_Template
     protected function _prepareLayout()
     {
         $this->setChild('lastOrders',
-                $this->getLayout()->createBlock('adminhtml/dashboard_orders_grid')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Dashboard_Orders_Grid')
         );
 
         $this->setChild('totals',
-                $this->getLayout()->createBlock('adminhtml/dashboard_totals')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Dashboard_Totals')
         );
 
         $this->setChild('sales',
-                $this->getLayout()->createBlock('adminhtml/dashboard_sales')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Dashboard_Sales')
         );
 
         $this->setChild('lastSearches',
-                $this->getLayout()->createBlock('adminhtml/dashboard_searches_last')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Dashboard_Searches_Last')
         );
 
         $this->setChild('topSearches',
-                $this->getLayout()->createBlock('adminhtml/dashboard_searches_top')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Dashboard_Searches_Top')
         );
 
         if (Mage::getStoreConfig(self::XML_PATH_ENABLE_CHARTS)) {
-            $block = $this->getLayout()->createBlock('adminhtml/dashboard_diagrams');
+            $block = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Dashboard_Diagrams');
         } else {
-            $block = $this->getLayout()->createBlock('adminhtml/template')
+            $block = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Template')
                 ->setTemplate('dashboard/graph/disabled.phtml')
                 ->setConfigUrl($this->getUrl('adminhtml/system_config/edit', array('section'=>'admin')));
         }
         $this->setChild('diagrams', $block);
 
         $this->setChild('grids',
-                $this->getLayout()->createBlock('adminhtml/dashboard_grids')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Dashboard_Grids')
         );
 
         parent::_prepareLayout();

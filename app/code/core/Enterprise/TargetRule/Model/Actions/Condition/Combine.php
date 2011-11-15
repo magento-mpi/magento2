@@ -34,7 +34,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Combine extends Mage_Rule_Mo
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_targetrule/actions_condition_combine');
+        $this->setType('Enterprise_TargetRule_Model_Actions_Condition_Combine');
     }
 
     /**
@@ -46,9 +46,9 @@ class Enterprise_TargetRule_Model_Actions_Condition_Combine extends Mage_Rule_Mo
     {
         $conditions = array(
             array('value'=>$this->getType(),
-                'label'=>Mage::helper('enterprise_targetrule')->__('Conditions Combination')),
-            Mage::getModel('enterprise_targetrule/actions_condition_product_attributes')->getNewChildSelectOptions(),
-            Mage::getModel('enterprise_targetrule/actions_condition_product_special')->getNewChildSelectOptions(),
+                'label'=>Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Conditions Combination')),
+            Mage::getModel('Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes')->getNewChildSelectOptions(),
+            Mage::getModel('Enterprise_TargetRule_Model_Actions_Condition_Product_Special')->getNewChildSelectOptions(),
         );
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);
         return $conditions;

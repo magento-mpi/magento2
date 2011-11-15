@@ -95,7 +95,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('catalog/product_link')->useRelatedLinks()
+        $collection = Mage::getModel('Mage_Catalog_Model_Product_Link')->useRelatedLinks()
             ->getProductCollection()
             ->setProduct($this->_getProduct())
             ->addAttributeToSelect('*');
@@ -141,32 +141,32 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         }
 
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('catalog')->__('ID'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('ID'),
             'sortable'  => true,
             'width'     => 60,
             'index'     => 'entity_id'
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('catalog')->__('Name'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Name'),
             'index'     => 'name'
         ));
 
         $this->addColumn('type', array(
-            'header'    => Mage::helper('catalog')->__('Type'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Type'),
             'width'     => 100,
             'index'     => 'type_id',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('catalog/product_type')->getOptionArray(),
+            'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getOptionArray(),
         ));
 
-        $sets = Mage::getResourceModel('eav/entity_attribute_set_collection')
-            ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getTypeId())
+        $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+            ->setEntityTypeFilter(Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
         $this->addColumn('set_name', array(
-            'header'    => Mage::helper('catalog')->__('Attrib. Set Name'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Attrib. Set Name'),
             'width'     => 130,
             'index'     => 'attribute_set_id',
             'type'      => 'options',
@@ -174,36 +174,36 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         ));
 
         $this->addColumn('status', array(
-            'header'    => Mage::helper('catalog')->__('Status'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Status'),
             'width'     => 90,
             'index'     => 'status',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('catalog/product_status')->getOptionArray(),
+            'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getOptionArray(),
         ));
 
         $this->addColumn('visibility', array(
-            'header'    => Mage::helper('catalog')->__('Visibility'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Visibility'),
             'width'     => 90,
             'index'     => 'visibility',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('catalog/product_visibility')->getOptionArray(),
+            'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getOptionArray(),
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('catalog')->__('SKU'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
             'width'     => 80,
             'index'     => 'sku'
         ));
 
         $this->addColumn('price', array(
-            'header'        => Mage::helper('catalog')->__('Price'),
+            'header'        => Mage::helper('Mage_Catalog_Helper_Data')->__('Price'),
             'type'          => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'         => 'price'
         ));
 
         $this->addColumn('position', array(
-            'header'            => Mage::helper('catalog')->__('Position'),
+            'header'            => Mage::helper('Mage_Catalog_Helper_Data')->__('Position'),
             'name'              => 'position',
             'type'              => 'number',
             'validate_class'    => 'validate-number',

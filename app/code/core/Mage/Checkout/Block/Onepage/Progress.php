@@ -58,7 +58,7 @@ class Mage_Checkout_Block_Onepage_Progress extends Mage_Checkout_Block_Onepage_A
         /*$amount = $this->getQuote()->getShippingAddress()->getShippingAmount();
         $filter = Mage::app()->getStore()->getPriceFilter();
         return $filter->filter($amount);*/
-        //return $this->helper('checkout')->formatPrice(
+        //return $this->helper('Mage_Checkout_Helper_Data')->formatPrice(
         //    $this->getQuote()->getShippingAddress()->getShippingAmount()
         //);
         return $this->getQuote()->getShippingAddress()->getShippingAmount();

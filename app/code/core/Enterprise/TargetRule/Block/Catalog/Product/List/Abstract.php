@@ -84,7 +84,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
 
             default:
                 Mage::throwException(
-                    Mage::helper('enterprise_targetrule')->__('Undefined Catalog Product List Type')
+                    Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Undefined Catalog Product List Type')
                 );
         }
         return $prefix;
@@ -98,7 +98,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
     protected function _getTargetRuleIndex()
     {
         if (is_null($this->_index)) {
-            $this->_index = Mage::getModel('enterprise_targetrule/index');
+            $this->_index = Mage::getModel('Enterprise_TargetRule_Model_Index');
         }
         return $this->_index;
     }
@@ -189,7 +189,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
 
             default:
                 Mage::throwException(
-                    Mage::helper('enterprise_targetrule')->__('Undefined Catalog Product List Type')
+                    Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Undefined Catalog Product List Type')
                 );
         }
 
@@ -198,7 +198,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
             $linkCollection->setPageSize($limit);
         }
 
-        Mage::getSingleton('catalog/product_visibility')
+        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
             ->addVisibleInCatalogFilterToCollection($linkCollection);
 
         $linkCollection->setFlag('do_not_use_category_id', true);
@@ -269,11 +269,11 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
         $items = array();
         if ($productIds) {
             /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
-            $collection = Mage::getResourceModel('catalog/product_collection');
+            $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
             $collection->addFieldToFilter('entity_id', array('in' => $productIds));
             $this->_addProductAttributesAndPrices($collection);
 
-            Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInCatalogFilterToCollection($collection);
             $collection->setPageSize($limit)->setFlag('do_not_use_category_id', true);
 
             foreach ($collection as $item) {

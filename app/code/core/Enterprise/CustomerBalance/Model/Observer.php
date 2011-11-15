@@ -37,7 +37,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function prepareCustomerBalanceSave($observer)
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return;
         }
         /* @var $customer Mage_Customer_Model_Customer */
@@ -56,12 +56,12 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function customerSaveAfter($observer)
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return;
         }
         if ($data = $observer->getCustomer()->getCustomerBalanceData()) {
             if (!empty($data['amount_delta'])) {
-                $balance = Mage::getModel('enterprise_customerbalance/balance')
+                $balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                     ->setCustomer($observer->getCustomer())
                     ->setWebsiteId(isset($data['website_id']) ? $data['website_id'] : $observer->getCustomer()->getWebsiteId())
                     ->setAmountDelta($data['amount_delta'])
@@ -82,7 +82,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function paymentDataImport(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return;
         }
 
@@ -102,19 +102,19 @@ class Enterprise_CustomerBalance_Model_Observer
         if ($order->getBaseCustomerBalanceAmount() > 0) {
             $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
 
-            $balance = Mage::getModel('enterprise_customerbalance/balance')
+            $balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($websiteId)
                 ->loadByCustomer()
                 ->getAmount();
 
             if (($order->getBaseCustomerBalanceAmount() - $balance) >= 0.0001) {
-                Mage::getSingleton('checkout/type_onepage')
+                Mage::getSingleton('Mage_Checkout_Model_Type_Onepage')
                     ->getCheckout()
                     ->setUpdateSection('payment-method')
                     ->setGotoSection('payment');
 
-                Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Not enough Store Credit Amount to complete this Order.'));
+                Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Not enough Store Credit Amount to complete this Order.'));
             }
         }
 
@@ -129,7 +129,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function processBeforeOrderPlace(Varien_Event_Observer $observer)
     {
-        if (Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             $order = $observer->getEvent()->getOrder();
             $this->_checkStoreCreditBalance($order);
         }
@@ -145,7 +145,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function processOrderPlace(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return $this;
         }
 
@@ -154,7 +154,7 @@ class Enterprise_CustomerBalance_Model_Observer
             $this->_checkStoreCreditBalance($order);
 
             $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
-            Mage::getModel('enterprise_customerbalance/balance')
+            Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($websiteId)
                 ->setAmountDelta(-$order->getBaseCustomerBalanceAmount())
@@ -178,7 +178,7 @@ class Enterprise_CustomerBalance_Model_Observer
             return $this;
         }
 
-        Mage::getModel('enterprise_customerbalance/balance')
+        Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
             ->setCustomerId($order->getCustomerId())
             ->setWebsiteId(Mage::app()->getStore($order->getStoreId())->getWebsiteId())
             ->setAmountDelta($order->getBaseCustomerBalanceAmount())
@@ -230,7 +230,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function disableLayout($observer)
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             unset($observer->getUpdates()->enterprise_customerbalance);
         }
     }
@@ -242,7 +242,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function processOrderCreationData(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return $this;
         }
         $quote = $observer->getEvent()->getOrderCreateModel()->getQuote();
@@ -268,7 +268,7 @@ class Enterprise_CustomerBalance_Model_Observer
         }
         $quote->setUseCustomerBalance($shouldUseBalance);
         if ($shouldUseBalance) {
-            $balance = Mage::getModel('enterprise_customerbalance/balance')
+            $balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                 ->setCustomerId($quote->getCustomerId())
                 ->setWebsiteId($store->getWebsiteId())
                 ->loadByCustomer();
@@ -293,7 +293,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function togglePaymentMethods($observer)
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return;
         }
         $quote = $observer->getEvent()->getQuote();
@@ -384,7 +384,7 @@ class Enterprise_CustomerBalance_Model_Observer
         $order = $creditmemo->getOrder();
 
         if ($creditmemo->getAutomaticallyCreated()) {
-            if (Mage::helper('enterprise_customerbalance')->isAutoRefundEnabled()) {
+            if (Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isAutoRefundEnabled()) {
                 $creditmemo->setCustomerBalanceRefundFlag(true)
                     ->setCustomerBalTotalRefunded($creditmemo->getCustomerBalanceAmount())
                     ->setBsCustomerBalTotalRefunded($creditmemo->getBaseCustomerBalanceAmount());
@@ -396,7 +396,7 @@ class Enterprise_CustomerBalance_Model_Observer
             $creditmemo->getCustomerBalanceReturnMax();
 
         if ((float)(string)$creditmemo->getCustomerBalTotalRefunded() > (float)(string)$customerBalanceReturnMax) {
-            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Store credit amount cannot exceed order amount.'));
+            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Store credit amount cannot exceed order amount.'));
         }
         //doing actual refund to customer balance if user have submitted refund form
         if ($creditmemo->getCustomerBalanceRefundFlag() && $creditmemo->getBsCustomerBalTotalRefunded()) {
@@ -405,7 +405,7 @@ class Enterprise_CustomerBalance_Model_Observer
 
             $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
 
-            $balance = Mage::getModel('enterprise_customerbalance/balance')
+            $balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($websiteId)
                 ->setAmountDelta($creditmemo->getBsCustomerBalTotalRefunded())
@@ -561,7 +561,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function setCustomersBalanceCurrencyToWebsiteBaseCurrency(Varien_Event_Observer $observer)
     {
-        Mage::getModel('enterprise_customerbalance/balance')->setCustomersBalanceCurrencyTo(
+        Mage::getModel('Enterprise_CustomerBalance_Model_Balance')->setCustomersBalanceCurrencyTo(
             $observer->getEvent()->getWebsite()->getWebsiteId(),
             $observer->getEvent()->getWebsite()->getBaseCurrencyCode()
         );
@@ -589,7 +589,7 @@ class Enterprise_CustomerBalance_Model_Observer
             $value = abs($salesEntity->getDataUsingMethod($balanceField));
             if ($value > 0.0001) {
                 $paypalCart->updateTotal(Mage_Paypal_Model_Cart::TOTAL_DISCOUNT, (float)$value,
-                    Mage::helper('enterprise_customerbalance')->__('Store Credit (%s)', Mage::app()->getStore()->convertPrice($value, true, false))
+                    Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Store Credit (%s)', Mage::app()->getStore()->convertPrice($value, true, false))
                 );
             }
         }

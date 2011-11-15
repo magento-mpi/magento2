@@ -36,9 +36,9 @@ $installer = $this;
  */
 $backupTablesList = array();
 
-$stagingCollection = Mage::getResourceModel('enterprise_staging/staging_collection');
+$stagingCollection = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging_Collection');
 while ($staging = $stagingCollection->fetchItem()) {
-    $logCollection = Mage::getResourceModel('enterprise_staging/staging_log_collection')
+    $logCollection = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging_Log_Collection')
         ->addFieldToFilter('action', Enterprise_Staging_Model_Staging_Config::ACTION_BACKUP)
         ->addFieldToFilter('status', Enterprise_Staging_Model_Staging_Config::STATUS_STARTED)
         ->addFieldToFilter('staging_id', $staging->getId());
@@ -52,8 +52,8 @@ while ($staging = $stagingCollection->fetchItem()) {
             continue;
         }
 
-        $tablePrefix = Mage::getSingleton('enterprise_staging/staging_config')->getTablePrefix($staging)
-            . Mage::getSingleton('enterprise_staging/staging_config')->getStagingBackupTablePrefix()
+        $tablePrefix = Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getTablePrefix($staging)
+            . Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getStagingBackupTablePrefix()
             . $log->getId() . '_';
 
         foreach ($backupTables as $backupTable) {

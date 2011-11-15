@@ -40,7 +40,7 @@ class Mage_Reports_Block_Product_Viewed extends Mage_Reports_Block_Product_Abstr
      *
      * @var string
      */
-    protected $_indexName       = 'reports/product_index_viewed';
+    protected $_indexName       = 'Mage_Reports_Model_Product_Index_Viewed';
 
     /**
      * Retrieve page size (count)

@@ -45,7 +45,7 @@ class Enterprise_Search_Model_Adminhtml_System_Config_Backend_Engine extends Mag
         parent::_afterSave();
 
         if ($this->isValueChanged()) {
-            Mage::getSingleton('index/indexer')->getProcessByCode('catalogsearch_fulltext')
+            Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext')
                 ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         }
 

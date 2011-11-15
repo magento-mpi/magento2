@@ -133,26 +133,32 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'named block' => array(
-                'core/text',
-                'some_block_name',
-                array('type' => 'core/text'),
-                '/^some_block_name$/'
+                'Mage_Core_Block_Template',
+                'some_block_name_full_class',
+                array('type' => 'Mage_Core_Block_Template'),
+                '/^some_block_name_full_class$/'
             ),
             'anonymous block' => array(
-                'core/text_list',
+                'Mage_Core_Block_Text_List',
                 '',
-                array('type' => 'core/text_list',
+                array('type' => 'Mage_Core_Block_Text_List',
                 'key1' => 'value1'),
                 '/^ANONYMOUS_.+/'
             ),
             'anonymous suffix' => array(
-                'core/template',
+                'Mage_Core_Block_Template',
                 '.some_anonymous_suffix',
-                array('type' => 'core/template'),
+                array('type' => 'Mage_Core_Block_Template'),
                 '/^ANONYMOUS_.+/',
                 'some_anonymous_suffix'
             )
         );
+    }
+
+    public function testCreateBlockNotExists()
+    {
+        $this->assertFalse($this->_model->createBlock(''));
+        $this->assertFalse($this->_model->createBlock('block_not_exists'));
     }
 
     /**
@@ -182,16 +188,28 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Block_Messages', $this->_model->getMessagesBlock());
     }
 
-    public function testGetBlockSingleton()
+    /**
+     * @param string $blockType
+     * @param string $expectedClassName
+     * @dataProvider getBlockSingletonDataProvider
+     */
+    public function testGetBlockSingleton($blockType, $expectedClassName)
     {
-        $block = $this->_model->getBlockSingleton('core/text');
-        $this->assertInstanceOf('Mage_Core_Block_Text', $block);
-        $this->assertSame($block, $this->_model->getBlockSingleton('core/text'));
+        $block = $this->_model->getBlockSingleton($blockType);
+        $this->assertInstanceOf($expectedClassName, $block);
+        $this->assertSame($block, $this->_model->getBlockSingleton($blockType));
+    }
+
+    public function getBlockSingletonDataProvider()
+    {
+        return array(
+            array('Mage_Core_Block_Text', 'Mage_Core_Block_Text')
+        );
     }
 
     public function testHelper()
     {
-        $helper = $this->_model->helper('core');
+        $helper = $this->_model->helper('Mage_Core_Helper_Data');
         $this->assertInstanceOf('Mage_Core_Helper_Data', $helper);
         $this->assertSame($this->_model, $helper->getLayout());
     }

@@ -54,18 +54,18 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     {
         if (!$this->getRequest()->getParam('popup')) {
             $this->setChild('back_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setData(array(
-                        'label'     => Mage::helper('catalog')->__('Back'),
+                        'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Back'),
                         'onclick'   => 'setLocation(\''.$this->getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
                         'class' => 'back'
                     ))
             );
         } else {
             $this->setChild('back_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setData(array(
-                        'label'     => Mage::helper('catalog')->__('Close Window'),
+                        'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Close Window'),
                         'onclick'   => 'window.close()',
                         'class' => 'cancel'
                     ))
@@ -74,17 +74,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
         if (!$this->getProduct()->isReadonly()) {
             $this->setChild('reset_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setData(array(
-                        'label'     => Mage::helper('catalog')->__('Reset'),
+                        'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Reset'),
                         'onclick'   => 'setLocation(\''.$this->getUrl('*/*/*', array('_current'=>true)).'\')'
                     ))
             );
 
             $this->setChild('save_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setData(array(
-                        'label'     => Mage::helper('catalog')->__('Save'),
+                        'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save'),
                         'onclick'   => 'productForm.submit()',
                         'class' => 'save'
                     ))
@@ -94,9 +94,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         if (!$this->getRequest()->getParam('popup')) {
             if (!$this->getProduct()->isReadonly()) {
                 $this->setChild('save_and_edit_button',
-                    $this->getLayout()->createBlock('adminhtml/widget_button')
+                    $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                         ->setData(array(
-                            'label'     => Mage::helper('catalog')->__('Save and Continue Edit'),
+                            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save and Continue Edit'),
                             'onclick'   => 'saveAndContinueEdit(\''.$this->getSaveAndContinueUrl().'\')',
                             'class' => 'save'
                         ))
@@ -104,10 +104,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             }
             if ($this->getProduct()->isDeleteable()) {
                 $this->setChild('delete_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                         ->setData(array(
-                            'label'     => Mage::helper('catalog')->__('Delete'),
-                            'onclick'   => 'confirmSetLocation(\''.Mage::helper('catalog')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
+                            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete'),
+                            'onclick'   => 'confirmSetLocation(\''.Mage::helper('Mage_Catalog_Helper_Data')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
                             'class'  => 'delete'
                         ))
                 );
@@ -115,9 +115,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
             if ($this->getProduct()->isDuplicable()) {
                 $this->setChild('duplicate_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setData(array(
-                        'label'     => Mage::helper('catalog')->__('Duplicate'),
+                        'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Duplicate'),
                         'onclick'   => 'setLocation(\'' . $this->getDuplicateUrl() . '\')',
                         'class'  => 'add'
                     ))
@@ -214,7 +214,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             $header = $this->htmlEscape($this->getProduct()->getName());
         }
         else {
-            $header = Mage::helper('catalog')->__('New Product');
+            $header = Mage::helper('Mage_Catalog_Helper_Data')->__('New Product');
         }
         if ($setName = $this->getAttributeSetName()) {
             $header.= ' (' . $setName . ')';
@@ -225,7 +225,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     public function getAttributeSetName()
     {
         if ($setId = $this->getProduct()->getAttributeSetId()) {
-            $set = Mage::getModel('eav/entity_attribute_set')
+            $set = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
                 ->load($setId);
             return $set->getAttributeSetName();
         }

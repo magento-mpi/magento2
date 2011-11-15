@@ -32,25 +32,6 @@
         </Enterprise_Customer>
     </modules>
     <global>
-        <models>
-            <enterprise_customer>
-                <class>Enterprise_Customer_Model</class>
-                <resourceModel>enterprise_customer_resource</resourceModel>
-            </enterprise_customer>
-            <enterprise_customer_resource>
-                <class>Enterprise_Customer_Model_Resource</class>
-            </enterprise_customer_resource>
-        </models>
-        <blocks>
-            <enterprise_customer>
-                <class>Enterprise_Customer_Block</class>
-            </enterprise_customer>
-        </blocks>
-        <helpers>
-            <enterprise_customer>
-                <class>Enterprise_Customer_Helper</class>
-            </enterprise_customer>
-        </helpers>
         <resources>
             <enterprise_customer_setup>
                 <setup>
@@ -63,7 +44,7 @@
             <sales_quote_load_after>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>salesQuoteAfterLoad</method>
                     </enterprise_customer>
                 </observers>
@@ -71,7 +52,7 @@
             <sales_quote_address_collection_load_after>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>salesQuoteAddressCollectionAfterLoad</method>
                     </enterprise_customer>
                 </observers>
@@ -79,7 +60,7 @@
             <sales_quote_save_after>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>salesQuoteAfterSave</method>
                     </enterprise_customer>
                 </observers>
@@ -87,7 +68,7 @@
             <sales_quote_address_save_after>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>salesQuoteAddressAfterSave</method>
                     </enterprise_customer>
                 </observers>
@@ -95,7 +76,7 @@
             <sales_order_load_after>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>salesOrderAfterLoad</method>
                     </enterprise_customer>
                 </observers>
@@ -103,7 +84,7 @@
             <sales_order_address_collection_load_after>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>salesOrderAddressCollectionAfterLoad</method>
                     </enterprise_customer>
                 </observers>
@@ -111,7 +92,7 @@
             <sales_order_save_after>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>salesOrderAfterSave</method>
                     </enterprise_customer>
                 </observers>
@@ -119,7 +100,7 @@
             <sales_order_address_save_after>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>salesOrderAddressAfterSave</method>
                     </enterprise_customer>
                 </observers>
@@ -127,7 +108,7 @@
             <enterprise_customer_attribute_before_save>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>enterpriseCustomerAttributeBeforeSave</method>
                     </enterprise_customer>
                 </observers>
@@ -135,7 +116,7 @@
             <enterprise_customer_attribute_save>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>enterpriseCustomerAttributeSave</method>
                     </enterprise_customer>
                 </observers>
@@ -143,7 +124,7 @@
             <enterprise_customer_attribute_delete>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>enterpriseCustomerAttributeDelete</method>
                     </enterprise_customer>
                 </observers>
@@ -151,7 +132,7 @@
             <enterprise_customer_address_attribute_save>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>enterpriseCustomerAddressAttributeSave</method>
                     </enterprise_customer>
                 </observers>
@@ -159,7 +140,7 @@
             <enterprise_customer_address_attribute_delete>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>enterpriseCustomerAddressAttributeDelete</method>
                     </enterprise_customer>
                 </observers>
@@ -167,7 +148,7 @@
             <core_copy_fieldset_sales_convert_quote_to_order>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>coreCopyFieldsetSalesConvertQuoteToOrder</method>
                     </enterprise_customer>
                 </observers>
@@ -175,7 +156,7 @@
             <core_copy_fieldset_sales_convert_quote_address_to_order_address>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>coreCopyFieldsetSalesConvertQuoteAddressToOrderAddress</method>
                     </enterprise_customer>
                 </observers>
@@ -183,7 +164,7 @@
             <core_copy_fieldset_sales_copy_order_to_edit>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>coreCopyFieldsetSalesCopyOrderToEdit</method>
                     </enterprise_customer>
                 </observers>
@@ -191,7 +172,7 @@
             <core_copy_fieldset_sales_copy_order_billing_address_to_order>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>coreCopyFieldsetSalesCopyOrderBillingAddressToOrder</method>
                     </enterprise_customer>
                 </observers>
@@ -199,7 +180,7 @@
             <core_copy_fieldset_sales_copy_order_shipping_address_to_order>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>coreCopyFieldsetSalesCopyOrderShippingAddressToOrder</method>
                     </enterprise_customer>
                 </observers>
@@ -207,7 +188,7 @@
             <core_copy_fieldset_customer_account_to_quote>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>coreCopyFieldsetCustomerAccountToQuote</method>
                     </enterprise_customer>
                 </observers>
@@ -215,7 +196,7 @@
             <core_copy_fieldset_customer_address_to_quote_address>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>coreCopyFieldsetCustomerAddressToQuoteAddress</method>
                     </enterprise_customer>
                 </observers>
@@ -223,7 +204,7 @@
             <core_copy_fieldset_checkout_onepage_quote_to_customer>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>coreCopyFieldsetCheckoutOnepageQuoteToCustomer</method>
                     </enterprise_customer>
                 </observers>
@@ -231,7 +212,7 @@
             <core_copy_fieldset_sales_convert_quote_address_to_customer_address>
                 <observers>
                     <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
+                        <class>Enterprise_Customer_Model_Observer</class>
                         <method>coreCopyFieldsetQuoteAddressToCustomerAddress</method>
                     </enterprise_customer>
                 </observers>

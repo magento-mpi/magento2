@@ -47,7 +47,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid extends Mage_Adminhtml_Blo
 
         $this->setColumnRenderers(
             array(
-                'action' => 'enterprise_staging/adminhtml_widget_grid_column_renderer_action'
+                'action' => 'Enterprise_Staging_Block_Adminhtml_Widget_Grid_Column_Renderer_Action'
         ));
     }
 
@@ -56,7 +56,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid extends Mage_Adminhtml_Blo
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('enterprise_staging/staging_collection')
+        $collection = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging_Collection')
             ->addWebsiteName()
             ->addLastLogComment();
 
@@ -89,14 +89,14 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    => Mage::helper('enterprise_staging')->__('Website Name'),
+            'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Website Name'),
             'index'     => 'name',
             'type'      => 'text',
         ));
 
         $this->addColumn('base_url', array(
             'width'     => 250,
-            'header'    => Mage::helper('enterprise_staging')->__('URL'),
+            'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('URL'),
             'index'     => 'base_url',
             'title'     => 'base_url',
             'length'    => '40',
@@ -108,38 +108,38 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid extends Mage_Adminhtml_Blo
 
         $this->addColumn('status', array(
             'width'     => 100,
-            'header'    => Mage::helper('enterprise_staging')->__('Status'),
+            'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Status'),
             'index'     => 'status',
             'type'      => 'options',
-            'options'   => array('started' => Mage::helper('enterprise_staging')->__('Processing'), 'completed' => Mage::helper('enterprise_staging')->__('Ready'))
+            'options'   => array('started' => Mage::helper('Enterprise_Staging_Helper_Data')->__('Processing'), 'completed' => Mage::helper('Enterprise_Staging_Helper_Data')->__('Ready'))
         ));
 
         $this->addColumn('last_event', array(
             'width'     => 250,
-            'header'    => Mage::helper('enterprise_staging')->__('Latest Event'),
+            'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Latest Event'),
             'index'     => 'action',
             'sortable' => false,
             'filter'   => false,
-            'renderer' => 'enterprise_staging/adminhtml_staging_grid_renderer_event',
-            'options'   => Mage::getSingleton('enterprise_staging/staging_config')->getActionLabelsArray()
+            'renderer' => 'Enterprise_Staging_Block_Adminhtml_Staging_Grid_Renderer_Event',
+            'options'   => Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')->getActionLabelsArray()
         ));
 
         $this->addColumn('created_at', array(
             'width'     => 100,
-            'header'    => Mage::helper('enterprise_staging')->__('Created At'),
+            'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Created At'),
             'index'     => 'created_at',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('updated_at', array(
             'width'     => 100,
-            'header'    => Mage::helper('enterprise_staging')->__('Updated At'),
+            'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Updated At'),
             'index'     => 'updated_at',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('enterprise_staging')->__('Action'),
+            'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Action'),
             'type'      => 'action',
             'getter'    => 'getId',
             'width'     => 80,
@@ -150,11 +150,11 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid extends Mage_Adminhtml_Blo
             'actions'   => array(
                 //array(
                 //    'url'       => $this->getUrl('*/*/edit', array('id' => '$staging_id')),
-                //    'caption'   => Mage::helper('enterprise_staging')->__('Edit')
+                //    'caption'   => Mage::helper('Enterprise_Staging_Helper_Data')->__('Edit')
                 //),
                 array(
                     'url'       => $this->getUrl('*/*/merge', array('id' => '$staging_id')),
-                    'caption'   => Mage::helper('enterprise_staging')->__('Merge'),
+                    'caption'   => Mage::helper('Enterprise_Staging_Helper_Data')->__('Merge'),
                     'validate'  => array(
                         '__method_callback' => array(
                             'method' => 'canMerge'
@@ -162,7 +162,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid extends Mage_Adminhtml_Blo
                 ),
                 array(
                     'url'       => $this->getUrl('*/*/unschedule', array('id' => '$staging_id')),
-                    'caption'   => Mage::helper('enterprise_staging')->__('Unschedule'),
+                    'caption'   => Mage::helper('Enterprise_Staging_Helper_Data')->__('Unschedule'),
                     'validate'  => array(
                         '__method_callback' => array(
                             'method' => 'canUnschedule'
@@ -170,7 +170,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid extends Mage_Adminhtml_Blo
                 ),
                 array(
                     'url'       => $this->getUrl('*/*/resetStatus', array('id' => '$staging_id')),
-                    'caption'   => Mage::helper('enterprise_staging')->__('Reset Status'),
+                    'caption'   => Mage::helper('Enterprise_Staging_Helper_Data')->__('Reset Status'),
                     'validate'  => array(
                         '__method_callback' => array(
                             'method' => 'canResetStatus'

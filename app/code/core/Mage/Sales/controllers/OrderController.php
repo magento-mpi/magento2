@@ -44,9 +44,9 @@ class Mage_Sales_OrderController extends Mage_Sales_Controller_Abstract
     {
         parent::preDispatch();
         $action = $this->getRequest()->getActionName();
-        $loginUrl = Mage::helper('customer')->getLoginUrl();
+        $loginUrl = Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl();
 
-        if (!Mage::getSingleton('customer/session')->authenticate($this, $loginUrl)) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
@@ -57,7 +57,7 @@ class Mage_Sales_OrderController extends Mage_Sales_Controller_Abstract
     public function historyAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
 
         $this->getLayout()->getBlock('head')->setTitle($this->__('My Orders'));
 

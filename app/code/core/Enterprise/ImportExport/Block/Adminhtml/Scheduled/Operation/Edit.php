@@ -42,12 +42,12 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit
      */
     protected function _construct()
     {
-        $this->_blockGroup = 'enterprise_importexport';
+        $this->_blockGroup = 'Enterprise_ImportExport';
         $this->_mode = 'edit';
         $this->_controller = 'adminhtml_scheduled_operation';
 
         $operationId = (int)$this->getRequest()->getParam($this->_objectId);
-        $operation = Mage::getModel('enterprise_importexport/scheduled_operation');
+        $operation = Mage::getModel('Enterprise_ImportExport_Model_Scheduled_Operation');
         if ($operationId) {
             $operation->load($operationId);
         } else {
@@ -66,18 +66,18 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit
     protected function _prepareLayout()
     {
         $operation = Mage::registry('current_operation');
-        $blockName = 'enterprise_importexport/adminhtml_scheduled_operation_edit_form_'
-            . $operation->getOperationType();
+        $blockName = 'Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_'
+            . ucfirst($operation->getOperationType());
         $formBlock = $this->getLayout()
             ->createBlock($blockName);
         if ($formBlock) {
             $this->setChild('form', $formBlock);
         } else {
-            Mage::throwException(Mage::helper('enterprise_importexport')->__('Invalid scheduled operation type'));
+            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Invalid scheduled operation type'));
         }
 
         $this->_updateButton('delete', 'onclick', 'deleteConfirm(\''
-            . Mage::helper('enterprise_importexport')->getConfirmationDeleteMessage($operation->getOperationType())
+            . Mage::helper('Enterprise_ImportExport_Helper_Data')->getConfirmationDeleteMessage($operation->getOperationType())
             .'\', \'' . $this->getDeleteUrl() . '\')'
         );
 
@@ -110,7 +110,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit
         } else {
             $action = 'new';
         }
-        return Mage::helper('enterprise_importexport')->getOperationHeaderText(
+        return Mage::helper('Enterprise_ImportExport_Helper_Data')->getOperationHeaderText(
             $operation->getOperationType(),
             $action
         );

@@ -42,7 +42,9 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminht
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('enterprise_reward')->isEnabled() && $this->getRequest()->getActionName() != 'noroute') {
+        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabled()
+            && $this->getRequest()->getActionName() != 'noroute'
+        ) {
             $this->_forward('noroute');
         }
         return $this;
@@ -55,7 +57,7 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminht
     {
         $customerId = $this->getRequest()->getParam('id', 0);
         $history = $this->getLayout()
-            ->createBlock('enterprise_reward/adminhtml_customer_edit_tab_reward_history', '',
+            ->createBlock('Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History', '',
                 array('customer_id' => $customerId));
         $this->getResponse()->setBody($history->toHtml());
     }
@@ -68,7 +70,7 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminht
     {
         $customerId = $this->getRequest()->getParam('id', 0);
         $history = $this->getLayout()
-            ->createBlock('enterprise_reward/adminhtml_customer_edit_tab_reward_history_grid', '',
+            ->createBlock('Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid', '',
                 array('customer_id' => $customerId));
         $this->getResponse()->setBody($history->toHtml());
     }
@@ -81,10 +83,10 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminht
         $customerId = $this->getRequest()->getParam('id', 0);
         if ($customerId) {
             try {
-                Mage::getModel('enterprise_reward/reward')
+                Mage::getModel('Enterprise_Reward_Model_Reward')
                     ->deleteOrphanPointsByCustomer($customerId);
                 $this->_getSession()
-                    ->addSuccess(Mage::helper('enterprise_reward')->__('The orphan points have been removed.'));
+                    ->addSuccess(Mage::helper('Enterprise_Reward_Helper_Data')->__('The orphan points have been removed.'));
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
@@ -99,7 +101,7 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminht
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')
+        return Mage::getSingleton('Mage_Admin_Model_Session')
             ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_BALANCE);
     }
 }

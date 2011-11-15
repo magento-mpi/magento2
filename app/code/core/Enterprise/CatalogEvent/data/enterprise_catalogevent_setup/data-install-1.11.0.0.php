@@ -28,9 +28,9 @@
 $cmsBlock = array(
     'title'         => 'Catalog Events Lister',
     'identifier'    => 'catalog_events_lister',
-    'content'       => '{{block type="enterprise_catalogevent/event_lister" name="catalog.event.lister" template="catalogevent/lister.phtml"}}',
+    'content'       => '{{block type="Enterprise_CatalogEvent_Block_Event_Lister" name="catalog.event.lister" template="catalogevent/lister.phtml"}}',
     'is_active'     => 1,
     'stores'        => 0,
 );
 
-Mage::getModel('cms/block')->setData($cmsBlock)->save();
+Mage::getModel('Mage_Cms_Model_Block')->setData($cmsBlock)->save();

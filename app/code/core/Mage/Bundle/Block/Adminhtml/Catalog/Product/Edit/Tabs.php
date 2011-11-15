@@ -33,14 +33,14 @@
  */
 class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs
 {
-    protected $_attributeTabBlock = 'bundle/adminhtml_catalog_product_edit_tab_attributes';
+    protected $_attributeTabBlock = 'Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes';
 
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
 
         $this->addTab('bundle_items', array(
-            'label'     => Mage::helper('bundle')->__('Bundle Items'),
+            'label'     => Mage::helper('Mage_Bundle_Helper_Data')->__('Bundle Items'),
             'url'   => $this->getUrl('*/*/bundles', array('_current' => true)),
             'class' => 'ajax',
         ));

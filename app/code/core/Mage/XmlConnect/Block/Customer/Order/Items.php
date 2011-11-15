@@ -39,7 +39,7 @@ class Mage_XmlConnect_Block_Customer_Order_Items extends Mage_Sales_Block_Order_
     protected function _construct()
     {
         parent::_construct();
-        $this->addItemRender('default', 'xmlconnect/customer_order_item_renderer_default', null);
+        $this->addItemRender('default', 'Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Default', null);
     }
 
     /**

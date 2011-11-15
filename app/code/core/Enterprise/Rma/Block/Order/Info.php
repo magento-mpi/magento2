@@ -29,10 +29,10 @@ class Enterprise_Rma_Block_Order_Info extends Mage_Core_Block_Template
     {
         parent::_construct();
 
-        if (Mage::helper('enterprise_rma')->isEnabled()) {
-            $returns = Mage::getResourceModel('enterprise_rma/rma_grid_collection')
+        if (Mage::helper('Enterprise_Rma_Helper_Data')->isEnabled()) {
+            $returns = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Rma_Grid_Collection')
                 ->addFieldToSelect('*')
-                ->addFieldToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId())
+                ->addFieldToFilter('customer_id', Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getId())
                 ->addFieldToFilter('order_id', Mage::registry('current_order')->getId())
                 ->count()
             ;

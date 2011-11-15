@@ -61,7 +61,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     {
         $product = $this->_getData('product');
         if (($product === null) && $this->getProductId()) {
-            $product = Mage::getModel('catalog/product')
+            $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStoreId($this->getQuote()->getStoreId())
                 ->load($this->getProductId());
             $this->setProduct($product);
@@ -255,7 +255,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setMessage($e->getMessage());
         } catch (Exception $e){
             $this->setHasError(true);
-            $this->setMessage(Mage::helper('sales')->__('Item qty declaration error.'));
+            $this->setMessage(Mage::helper('Mage_Sales_Helper_Data')->__('Item qty declaration error.'));
         }
 
         try {
@@ -265,13 +265,13 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setMessage($e->getMessage());
             $this->getQuote()->setHasError(true);
             $this->getQuote()->addMessage(
-                Mage::helper('sales')->__('Some of the products below do not have all the required options. Please edit them and configure all the required options.')
+                Mage::helper('Mage_Sales_Helper_Data')->__('Some of the products below do not have all the required options. Please edit them and configure all the required options.')
             );
         } catch (Exception $e) {
             $this->setHasError(true);
-            $this->setMessage(Mage::helper('sales')->__('Item options declaration error.'));
+            $this->setMessage(Mage::helper('Mage_Sales_Helper_Data')->__('Item options declaration error.'));
             $this->getQuote()->setHasError(true);
-            $this->getQuote()->addMessage(Mage::helper('sales')->__('Items options declaration error.'));
+            $this->getQuote()->addMessage(Mage::helper('Mage_Sales_Helper_Data')->__('Items options declaration error.'));
         }
 
         return $this;
@@ -611,8 +611,9 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     {
         $store = $this->getStore();
 
-        if (!Mage::helper('tax')->priceIncludesTax($store)) {
-            if (Mage::helper('tax')->applyTaxAfterDiscount($store)) {
+        $taxHelper = Mage::helper('Mage_Tax_Helper_Data');
+        if (!$taxHelper->priceIncludesTax($store)) {
+            if ($taxHelper->applyTaxAfterDiscount($store)) {
                 $rowTotal       = $this->getRowTotalWithDiscount();
                 $rowBaseTotal   = $this->getBaseRowTotalWithDiscount();
             } else {
@@ -630,7 +631,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setTaxBeforeDiscount($store->roundPrice($rowTotal * $taxPercent));
             $this->setBaseTaxBeforeDiscount($store->roundPrice($rowBaseTotal * $taxPercent));
         } else {
-            if (Mage::helper('tax')->applyTaxAfterDiscount($store)) {
+            if ($taxHelper->applyTaxAfterDiscount($store)) {
                 $totalBaseTax = $this->getBaseTaxAmount();
                 $totalTax = $this->getTaxAmount();
 
@@ -644,7 +645,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             }
         }
 
-        if (Mage::helper('tax')->discountTax($store) && !Mage::helper('tax')->applyTaxAfterDiscount($store)) {
+        if ($taxHelper->discountTax($store) && !$taxHelper->applyTaxAfterDiscount($store)) {
             if ($this->getDiscountPercent()) {
                 $baseTaxAmount =  $this->getBaseTaxBeforeDiscount();
                 $taxAmount = $this->getTaxBeforeDiscount();
@@ -693,7 +694,8 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     {
         $store = $this->getQuote()->getStore();
 
-        if (Mage::helper('tax')->priceIncludesTax($store)) {
+        $taxHelper = Mage::helper('Mage_Tax_Helper_Data');
+        if ($taxHelper->priceIncludesTax($store)) {
             $bAddress = $this->getQuote()->getBillingAddress();
             $sAddress = $this->getQuote()->getShippingAddress();
 
@@ -714,7 +716,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
                 $sAddress = $bAddress;
             }
 
-            $priceExcludingTax = Mage::helper('tax')->getPrice(
+            $priceExcludingTax = $taxHelper->getPrice(
                 $this->getProduct()->setTaxPercent(null),
                 $value,
                 false,
@@ -724,7 +726,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
                 $store
             );
 
-            $priceIncludingTax = Mage::helper('tax')->getPrice(
+            $priceIncludingTax = $taxHelper->getPrice(
                 $this->getProduct()->setTaxPercent(null),
                 $value,
                 true,
@@ -740,9 +742,9 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
                     $qty = $qty*$this->getParentItem()->getQty();
                 }
 
-                if (Mage::helper('tax')->displayCartPriceInclTax($store)) {
+                if ($taxHelper->displayCartPriceInclTax($store)) {
                     $rowTotal = $value*$qty;
-                    $rowTotalExcTax = Mage::helper('tax')->getPrice(
+                    $rowTotalExcTax = $taxHelper->getPrice(
                         $this->getProduct()->setTaxPercent(null),
                         $rowTotal,
                         false,
@@ -751,7 +753,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
                         $this->getQuote()->getCustomerTaxClassId(),
                         $store
                     );
-                    $rowTotalIncTax = Mage::helper('tax')->getPrice(
+                    $rowTotalIncTax = $taxHelper->getPrice(
                         $this->getProduct()->setTaxPercent(null),
                         $rowTotal,
                         true,

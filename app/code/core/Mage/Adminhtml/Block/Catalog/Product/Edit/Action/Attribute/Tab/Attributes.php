@@ -48,13 +48,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes
         Mage::dispatchEvent('adminhtml_catalog_product_form_prepare_excluded_field_list', array('object'=>$this));
 
         $form = new Varien_Data_Form();
-        $fieldset = $form->addFieldset('fields', array('legend'=>Mage::helper('catalog')->__('Attributes')));
+        $fieldset = $form->addFieldset('fields', array('legend'=>Mage::helper('Mage_Catalog_Helper_Data')->__('Attributes')));
         $attributes = $this->getAttributes();
         /**
          * Initialize product object as form property
          * for using it in elements generation
          */
-        $form->setDataObject(Mage::getModel('catalog/product'));
+        $form->setDataObject(Mage::getModel('Mage_Catalog_Model_Product'));
         $this->_setFieldset($attributes, $fieldset, $this->getFormExcludedFieldList());
         $form->setFieldNameSuffix('attributes');
         $this->setForm($form);
@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes
      */
     public function getAttributes()
     {
-        return $this->helper('adminhtml/catalog_product_edit_action_attribute')->getAttributes()->getItems();
+        return $this->helper('Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')->getAttributes()->getItems();
     }
 
     /**
@@ -78,9 +78,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'price' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_price'),
-            'image' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_image'),
-            'boolean' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_boolean')
+            'price' => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Price'),
+            'image' => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Image'),
+            'boolean' => Mage::getConfig()
+                ->getBlockClassName('Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean')
         );
     }
 
@@ -94,7 +95,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes
     {
         return '<span class="attribute-change-checkbox"><input type="checkbox" id="' . $element->getId()
              . '-checkbox" onclick="toogleFieldEditMode(this, \'' . $element->getId()
-             . '\')" /><label for="' . $element->getId() . '-checkbox">' . Mage::helper('catalog')->__('Change')
+             . '\')" /><label for="' . $element->getId() . '-checkbox">' . Mage::helper('Mage_Catalog_Helper_Data')->__('Change')
              . '</label></span>
                 <script type="text/javascript">initDisableFields(\''.$element->getId().'\')</script>';
     }
@@ -104,12 +105,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes
      */
     public function getTabLabel()
     {
-        return Mage::helper('catalog')->__('Attributes');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Attributes');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('catalog')->__('Attributes');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Attributes');
     }
 
     public function canShowTab()

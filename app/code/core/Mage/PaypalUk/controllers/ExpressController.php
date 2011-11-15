@@ -35,7 +35,7 @@ class Mage_PaypalUk_ExpressController extends Mage_Paypal_Controller_Express_Abs
      *
      * @var string
      */
-    protected $_configType = 'paypal/config';
+    protected $_configType = 'Mage_Paypal_Model_Config';
 
     /**
      * Config method type

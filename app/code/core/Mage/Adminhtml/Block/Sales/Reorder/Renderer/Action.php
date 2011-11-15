@@ -45,10 +45,10 @@ class Mage_Adminhtml_Block_Sales_Reorder_Renderer_Action
     public function render(Varien_Object $row)
     {
         $this->_actions = array();
-        if (Mage::helper('sales/reorder')->canReorder($row)) {
+        if (Mage::helper('Mage_Sales_Helper_Reorder')->canReorder($row)) {
             $reorderAction = array(
                 '@' => array('href' => $this->getUrl('*/sales_order_create/reorder', array('order_id'=>$row->getId()))),
-                '#' =>  Mage::helper('sales')->__('Reorder')
+                '#' =>  Mage::helper('Mage_Sales_Helper_Data')->__('Reorder')
             );
             $this->addToActions($reorderAction);
         }

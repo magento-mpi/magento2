@@ -96,7 +96,7 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_indexer_price');
+        $this->_init('Mage_Catalog_Model_Resource_Product_Indexer_Price');
     }
 
     /**
@@ -106,7 +106,7 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
      */
     public function getName()
     {
-        return Mage::helper('catalog')->__('Product Prices');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Product Prices');
     }
 
     /**
@@ -116,7 +116,7 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
      */
     public function getDescription()
     {
-        return Mage::helper('catalog')->__('Index product prices');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Index product prices');
     }
 
     /**

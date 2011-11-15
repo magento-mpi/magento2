@@ -29,14 +29,14 @@
     <menu>
         <catalog>
             <children>
-                <googleshopping translate="title" module="googleshopping">
+                <googleshopping translate="title" module="Mage_GoogleShopping">
                     <title>Google Content</title>
                     <children>
-                        <types translate="title" module="googleshopping">
+                        <types translate="title" module="Mage_GoogleShopping">
                             <title>Manage Attributes</title>
                             <action>adminhtml/googleshopping_types</action>
                         </types>
-                        <items translate="title" module="googleshopping">
+                        <items translate="title" module="Mage_GoogleShopping">
                             <title>Manage Items</title>
                             <action>adminhtml/googleshopping_items</action>
                         </items>
@@ -52,7 +52,7 @@
                 <children>
                     <catalog>
                         <children>
-                            <googleshopping translate="title" module="googleshopping">
+                            <googleshopping translate="title" module="Mage_GoogleShopping">
                                 <title>Google Content</title>
                                 <sort_order>500</sort_order>
                                 <children>

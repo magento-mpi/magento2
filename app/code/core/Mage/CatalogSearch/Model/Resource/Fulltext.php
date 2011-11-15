@@ -76,7 +76,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     protected function _construct()
     {
         $this->_init('catalogsearch_fulltext', 'product_id');
-        $this->_engine = Mage::helper('catalogsearch')->getEngine();
+        $this->_engine = Mage::helper('Mage_CatalogSearch_Helper_Data')->getEngine();
     }
 
     /**
@@ -153,8 +153,8 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
         // status and visibility filter
         $visibility     = $this->_getSearchableAttribute('visibility');
         $status         = $this->_getSearchableAttribute('status');
-        $visibilityVals = Mage::getSingleton('catalog/product_visibility')->getVisibleInSearchIds();
-        $statusVals     = Mage::getSingleton('catalog/product_status')->getVisibleStatusIds();
+        $visibilityVals = Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSearchIds();
+        $statusVals     = Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getVisibleStatusIds();
 
         $lastProductId = 0;
         while (true) {
@@ -330,7 +330,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
         if (!$query->getIsProcessed()) {
             $searchType = $object->getSearchType($query->getStoreId());
 
-            $preparedTerms = Mage::getResourceHelper('catalogsearch')
+            $preparedTerms = Mage::getResourceHelper('Mage_CatalogSearch')
                 ->prepareTerms($queryText, $query->getMaxQueryWords());
 
             $bind = array();
@@ -339,8 +339,8 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE
                 || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE
             ) {
-                $helper = Mage::getResourceHelper('core');
-                $words = Mage::helper('core/string')->splitWords($queryText, true, $query->getMaxQueryWords());
+                $helper = Mage::getResourceHelper('Mage_Core');
+                $words = Mage::helper('Mage_Core_Helper_String')->splitWords($queryText, true, $query->getMaxQueryWords());
                 foreach ($words as $word) {
                     $like[] = $helper->getCILike('s.data_index', $word, array('position' => 'any'));
                 }
@@ -363,7 +363,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_FULLTEXT
                 || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
                 $bind[':query'] = implode(' ', $preparedTerms[0]);
-                $where = Mage::getResourceHelper('catalogsearch')
+                $where = Mage::getResourceHelper('Mage_CatalogSearch')
                     ->chooseFulltext($this->getMainTable(), $mainTableAlias, $select);
             }
             if ($likeCond != '' && $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
@@ -396,7 +396,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
      */
     public function getEavConfig()
     {
-        return Mage::getSingleton('eav/config');
+        return Mage::getSingleton('Mage_Eav_Model_Config');
     }
 
     /**
@@ -413,7 +413,9 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             $entityType   = $this->getEavConfig()->getEntityType(Mage_Catalog_Model_Product::ENTITY);
             $entity       = $entityType->getEntity();
 
-            $productAttributeCollection = Mage::getResourceModel('catalog/product_attribute_collection')
+            $productAttributeCollection = Mage::getResourceModel(
+                    'Mage_Catalog_Model_Resource_Product_Attribute_Collection'
+                )
                 ->setEntityTypeFilter($entityType->getEntityTypeId());
             if ($this->_engine && $this->_engine->allowAdvancedIndex()) {
                 $productAttributeCollection->addToIndexFilter(true);
@@ -475,10 +477,10 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     protected function _unifyField($field, $backendType = 'varchar')
     {
         if ($backendType == 'datetime') {
-            $expr = Mage::getResourceHelper('catalogsearch')->castField(
+            $expr = Mage::getResourceHelper('Mage_CatalogSearch')->castField(
                 $this->_getReadAdapter()->getDateFormatSql($field, '%Y-%m-%d %H:%i:%s'));
         } else {
-            $expr = Mage::getResourceHelper('catalogsearch')->castField($field);
+            $expr = Mage::getResourceHelper('Mage_CatalogSearch')->castField($field);
         }
         return $expr;
     }
@@ -541,7 +543,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             $productEmulator = $this->_getProductEmulator();
             $productEmulator->setTypeId($typeId);
 
-            $this->_productTypes[$typeId] = Mage::getSingleton('catalog/product_type')
+            $this->_productTypes[$typeId] = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
                 ->factory($productEmulator);
         }
         return $this->_productTypes[$typeId];
@@ -662,7 +664,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             return $this->_engine->prepareEntityIndex($index, $this->_separator);
         }
 
-        return Mage::helper('catalogsearch')->prepareIndexdata($index, $this->_separator);
+        return Mage::helper('Mage_CatalogSearch_Helper_Data')->prepareIndexdata($index, $this->_separator);
     }
 
     /**

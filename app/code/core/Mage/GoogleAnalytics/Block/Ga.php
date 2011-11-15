@@ -108,7 +108,7 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
         if (empty($orderIds) || !is_array($orderIds)) {
             return;
         }
-        $collection = Mage::getResourceModel('sales/order_collection')
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection')
             ->addFieldToFilter('entity_id', array('in' => $orderIds))
         ;
         $result = array();
@@ -124,9 +124,9 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
                 $order->getBaseGrandTotal(),
                 $order->getBaseTaxAmount(),
                 $order->getBaseShippingAmount(),
-                $this->jsQuoteEscape(Mage::helper('core')->escapeHtml($address->getCity())),
-                $this->jsQuoteEscape(Mage::helper('core')->escapeHtml($address->getRegion())),
-                $this->jsQuoteEscape(Mage::helper('core')->escapeHtml($address->getCountry()))
+                $this->jsQuoteEscape(Mage::helper('Mage_Core_Helper_Data')->escapeHtml($address->getCity())),
+                $this->jsQuoteEscape(Mage::helper('Mage_Core_Helper_Data')->escapeHtml($address->getRegion())),
+                $this->jsQuoteEscape(Mage::helper('Mage_Core_Helper_Data')->escapeHtml($address->getCountry()))
             );
             foreach ($order->getAllVisibleItems() as $item) {
                 $result[] = sprintf("_gaq.push(['_addItem', '%s', '%s', '%s', '%s', '%s', '%s']);",
@@ -148,7 +148,7 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
      */
     protected function _toHtml()
     {
-        if (!Mage::helper('googleanalytics')->isGoogleAnalyticsAvailable()) {
+        if (!Mage::helper('Mage_GoogleAnalytics_Helper_Data')->isGoogleAnalyticsAvailable()) {
             return '';
         }
 

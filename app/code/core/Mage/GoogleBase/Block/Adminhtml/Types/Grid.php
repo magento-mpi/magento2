@@ -43,7 +43,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Grid extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('googlebase/type_collection')->addItemsCount();
+        $collection = Mage::getResourceModel('Mage_GoogleBase_Model_Resource_Type_Collection')->addItemsCount();
         $this->setCollection($collection);
         parent::_prepareCollection();
         return $this;
@@ -68,13 +68,13 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Grid extends Mage_Adminhtml_Block_Wi
                 'header'    => $this->__('Target Country'),
                 'width'     => '150px',
                 'index'     => 'target_country',
-                'renderer'  => 'googlebase/adminhtml_types_renderer_country',
+                'renderer'  => 'Mage_GoogleBase_Block_Adminhtml_Types_Renderer_Country',
                 'filter'    => false
         ));
 
         $this->addColumn('items_total',
             array(
-                'header'    => Mage::helper('catalog')->__('Total Qty Base Items'),
+                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Total Qty Base Items'),
                 'width'     => '150px',
                 'index'     => 'items_total',
                 'filter'    => false

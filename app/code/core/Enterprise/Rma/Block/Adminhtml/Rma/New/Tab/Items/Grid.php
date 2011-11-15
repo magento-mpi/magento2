@@ -83,7 +83,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     protected function _prepareCollection()
     {
         /** @var $collection Enterprise_Rma_Model_Resource_Item_Collection */
-        $collection = Mage::getResourceModel('enterprise_rma/item_collection');
+        $collection = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item_Collection');
         $collection->addAttributeToSelect('*');
         $collection->addAttributeToFilter('entity_id', NULL);
 
@@ -99,9 +99,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
      */
     protected function _prepareColumns()
     {
-        $statusManager = Mage::getSingleton('enterprise_rma/item_status');
+        $statusManager = Mage::getSingleton('Enterprise_Rma_Model_Item_Status');
         $this->addColumn('product_name', array(
-            'header'=> Mage::helper('enterprise_rma')->__('Product Name'),
+            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Product Name'),
             'width' => '80px',
             'type'  => 'text',
             'index' => 'product_name',
@@ -109,7 +109,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
         ));
 
         $this->addColumn('product_sku', array(
-            'header'=> Mage::helper('enterprise_rma')->__('SKU'),
+            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('SKU'),
             'width' => '80px',
             'type'  => 'text',
             'index' => 'product_sku',
@@ -118,61 +118,62 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
 
         //Renderer puts available quantity instead of order_item_id
         $this->addColumn('qty_ordered', array(
-            'header'=> Mage::helper('enterprise_rma')->__('Remaining Qty'),
+            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Remaining Qty'),
             'width' => '80px',
             'getter'   => array($this, 'getQtyOrdered'),
             'type'  => 'text',
             'index' => 'qty_ordered',
             'sortable' => false,
             'order_data' => $this->getOrderItemsData(),
-            'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_quantity',
+            'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity',
         ));
 
         $this->addColumn('qty_requested', array(
-            'header'=> Mage::helper('enterprise_rma')->__('Requested Qty'),
+            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Requested Qty'),
             'width' => '80px',
             'index' => 'qty_requested',
             'type'  => 'input',
             'sortable' => false
         ));
 
+        $eavHelper = Mage::helper('Enterprise_Rma_Helper_Eav');
         $this->addColumn('reason', array(
-            'header'=> Mage::helper('enterprise_rma')->__('Reason to Return'),
+            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Reason to Return'),
             'width' => '80px',
             'getter'   => array($this, 'getReasonOptionStringValue'),
             'type'  => 'select',
-            'options' => array(''=>'') + Mage::helper('enterprise_rma/eav')->getAttributeOptionValues('reason'),
+            'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('reason'),
             'index' => 'reason',
             'sortable' => false
         ));
 
         $this->addColumn('condition', array(
-            'header'=> Mage::helper('enterprise_rma')->__('Item Condition'),
+            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Item Condition'),
             'width' => '80px',
             'type'  => 'select',
-            'options' => array(''=>'') + Mage::helper('enterprise_rma/eav')->getAttributeOptionValues('condition'),
+            'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('condition'),
             'index' => 'condition',
             'sortable' => false
         ));
 
         $this->addColumn('resolution', array(
-            'header'=> Mage::helper('enterprise_rma')->__('Resolution'),
+            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Resolution'),
             'width' => '80px',
             'index' => 'resolution',
             'type'  => 'select',
-            'options' => array(''=>'') + Mage::helper('enterprise_rma/eav')->getAttributeOptionValues('resolution'),
+            'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('resolution'),
             'sortable' => false
         ));
 
         $actionsArray = array(
             array(
-                'caption'   => Mage::helper('enterprise_rma')->__('Delete'),
+                'caption'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Delete'),
                 'url'       => array('base'=> '*/*/delete'),
                 'field'     => 'id',
                 'onclick'  => 'alert(\'Delete\');return false;'
             ),
             array(
-                'caption'   => Mage::helper('enterprise_rma')->__('Add Details'),
+                'caption'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Add Details'),
                 'url'       => array('base'=> '*/*/edit'),
                 'field'     => 'id',
                 'onclick'  => 'alert(\'Details\');return false;'
@@ -181,9 +182,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
 
         $this->addColumn('action',
             array(
-                'header'    =>  Mage::helper('enterprise_rma')->__('Action'),
+                'header'    =>  Mage::helper('Enterprise_Rma_Helper_Data')->__('Action'),
                 'width'     => '100',
-                'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_action',
+                'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Action',
                 'actions'   => $actionsArray,
                 'sortable'  => false,
                 'is_system' => true,
@@ -266,7 +267,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     protected function _getAttributeOptionStringValue($value)
     {
         if (is_null($this->_attributeOptionValues)) {
-            $this->_attributeOptionValues = Mage::helper('enterprise_rma/eav')->getAttributeOptionStringValues();
+            $this->_attributeOptionValues = Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeOptionStringValues();
         }
         if (isset($this->_attributeOptionValues[$value])) {
             return $this->escapeHtml($this->_attributeOptionValues[$value]);

@@ -26,7 +26,7 @@
 
 //Product's Attribute is_returnable shouldn't be applied to grouped product
 //Because it has no sense
-$installer = Mage::getResourceModel('catalog/setup', 'catalog_setup');
+$installer = Mage::getResourceModel('Mage_Catalog_Model_Resource_Setup', 'catalog_setup');
 
 $applyTo = Mage_Catalog_Model_Product_Type::TYPE_SIMPLE . ',' .
     Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE . ',' .

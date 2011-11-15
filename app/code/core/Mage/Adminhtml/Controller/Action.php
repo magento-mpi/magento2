@@ -73,7 +73,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
     }
 
     /**
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
      */
     protected function _getHelper()
     {
-        return Mage::helper('adminhtml');
+        return Mage::helper('Mage_Adminhtml_Helper_Data');
     }
 
     /**
@@ -144,25 +144,25 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         $_isValidFormKey = true;
         $_isValidSecretKey = true;
         $_keyErrorMsg = '';
-        if (Mage::getSingleton('admin/session')->isLoggedIn()) {
+        if (Mage::getSingleton('Mage_Admin_Model_Session')->isLoggedIn()) {
             if ($this->getRequest()->isPost()) {
                 $_isValidFormKey = $this->_validateFormKey();
-                $_keyErrorMsg = Mage::helper('adminhtml')->__('Invalid Form Key. Please refresh the page.');
-            } elseif (Mage::getSingleton('adminhtml/url')->useSecretKey()) {
+                $_keyErrorMsg = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Invalid Form Key. Please refresh the page.');
+            } elseif (Mage::getSingleton('Mage_Adminhtml_Model_Url')->useSecretKey()) {
                 $_isValidSecretKey = $this->_validateSecretKey();
-                $_keyErrorMsg = Mage::helper('adminhtml')->__('Invalid Secret Key. Please refresh the page.');
+                $_keyErrorMsg = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Invalid Secret Key. Please refresh the page.');
             }
         }
         if (!$_isValidFormKey || !$_isValidSecretKey) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
             if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {
-                $this->getResponse()->setBody(Mage::helper('core')->jsonEncode(array(
+                $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                     'error' => true,
                     'message' => $_keyErrorMsg
                 )));
             } else {
-                $this->_redirect( Mage::getSingleton('admin/session')->getUser()->getStartupPageUrl() );
+                $this->_redirect( Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getStartupPageUrl() );
             }
             return $this;
         }
@@ -182,8 +182,8 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
             //$this->_checkUrlSettings();
             $this->setFlag('', self::FLAG_IS_URLS_CHECKED, true);
         }
-        if (is_null(Mage::getSingleton('adminhtml/session')->getLocale())) {
-            Mage::getSingleton('adminhtml/session')->setLocale(Mage::app()->getLocale()->getLocaleCode());
+        if (is_null(Mage::getSingleton('Mage_Adminhtml_Model_Session')->getLocale())) {
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setLocale(Mage::app()->getLocale()->getLocaleCode());
         }
 
         return $this;
@@ -202,7 +202,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
             return $this;
         }
 
-        $configData = Mage::getModel('core/config_data');
+        $configData = Mage::getModel('Mage_Core_Model_Config_Data');
 
         $defaultUnsecure= (string) Mage::getConfig()->getNode('default/'.Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL);
         $defaultSecure  = (string) Mage::getConfig()->getNode('default/'.Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL);
@@ -241,7 +241,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
     public function deniedAction()
     {
         $this->getResponse()->setHeader('HTTP/1.1','403 Forbidden');
-        if (!Mage::getSingleton('admin/session')->isLoggedIn()) {
+        if (!Mage::getSingleton('Mage_Admin_Model_Session')->isLoggedIn()) {
             $this->_redirect('*/index/login');
             return;
         }
@@ -252,7 +252,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
     public function loadLayout($ids=null, $generateBlocks=true, $generateXml=true)
     {
         parent::loadLayout($ids, $generateBlocks, $generateXml);
-        $this->_initLayoutMessages('adminhtml/session');
+        $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
         return $this;
     }
 
@@ -343,7 +343,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
      */
     public function getUrl($route='', $params=array())
     {
-        return Mage::helper('adminhtml')->getUrl($route, $params);
+        return Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl($route, $params);
     }
 
     /**
@@ -358,7 +358,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         }
 
         if (!($secretKey = $this->getRequest()->getParam(Mage_Adminhtml_Model_Url::SECRET_KEY_PARAM_NAME, null))
-            || $secretKey != Mage::getSingleton('adminhtml/url')->getSecretKey()) {
+            || $secretKey != Mage::getSingleton('Mage_Adminhtml_Model_Url')->getSecretKey()) {
             return false;
         }
         return true;

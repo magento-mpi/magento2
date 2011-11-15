@@ -40,7 +40,7 @@ class Mage_Adminhtml_Cms_Page_WidgetController extends Mage_Adminhtml_Controller
     public function chooserAction()
     {
         $uniqId = $this->getRequest()->getParam('uniq_id');
-        $pagesGrid = $this->getLayout()->createBlock('adminhtml/cms_page_widget_chooser', '', array(
+        $pagesGrid = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Cms_Page_Widget_Chooser', '', array(
             'id' => $uniqId,
         ));
         $this->getResponse()->setBody($pagesGrid->toHtml());

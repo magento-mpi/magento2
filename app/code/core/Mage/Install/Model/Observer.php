@@ -34,7 +34,7 @@ class Mage_Install_Model_Observer
     public function bindLocale($observer)
     {
         if ($locale=$observer->getEvent()->getLocale()) {
-            if ($choosedLocale = Mage::getSingleton('install/session')->getLocale()) {
+            if ($choosedLocale = Mage::getSingleton('Mage_Install_Model_Session')->getLocale()) {
                 $locale->setLocaleCode($choosedLocale);
             }
         }

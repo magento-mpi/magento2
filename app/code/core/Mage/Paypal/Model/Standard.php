@@ -33,8 +33,8 @@
 class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
 {
     protected $_code  = Mage_Paypal_Model_Config::METHOD_WPS;
-    protected $_formBlockType = 'paypal/standard_form';
-    protected $_infoBlockType = 'paypal/payment_info';
+    protected $_formBlockType = 'Mage_Paypal_Block_Standard_Form';
+    protected $_infoBlockType = 'Mage_Paypal_Block_Payment_Info';
     protected $_isInitializeNeeded      = true;
     protected $_canUseInternal          = false;
     protected $_canUseForMultishipping  = false;
@@ -63,7 +63,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function getSession()
     {
-        return Mage::getSingleton('paypal/session');
+        return Mage::getSingleton('Mage_Paypal_Model_Session');
     }
 
     /**
@@ -73,7 +73,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**
@@ -92,7 +92,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function createFormBlock($name)
     {
-        $block = $this->getLayout()->createBlock('paypal/standard_form', $name)
+        $block = $this->getLayout()->createBlock('Mage_Paypal_Block_Standard_Form', $name)
             ->setMethod('paypal_standard')
             ->setPayment($this->getPayment())
             ->setTemplate('standard/form.phtml');
@@ -118,9 +118,9 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
     public function getStandardCheckoutFormFields()
     {
         $orderIncrementId = $this->getCheckout()->getLastRealOrderId();
-        $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
+        $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($orderIncrementId);
         /* @var $api Mage_Paypal_Model_Api_Standard */
-        $api = Mage::getModel('paypal/api_standard')->setConfigObject($this->getConfig());
+        $api = Mage::getModel('Mage_Paypal_Model_Api_Standard')->setConfigObject($this->getConfig());
         $api->setOrderId($orderIncrementId)
             ->setCurrencyCode($order->getBaseCurrencyCode())
             //->setPaymentAction()
@@ -139,7 +139,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         }
 
         // add cart totals and line items
-        $api->setPaypalCart(Mage::getModel('paypal/cart', array($order)))
+        $api->setPaypalCart(Mage::getModel('Mage_Paypal_Model_Cart', array($order)))
             ->setIsLineItemsEnabled($this->_config->lineItemsEnabled)
         ;
         $api->setCartSummary($this->_getAggregatedCartSummary());
@@ -172,7 +172,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
             if ($store = $this->getStore()) {
                 $params[] = is_object($store) ? $store->getId() : $store;
             }
-            $this->_config = Mage::getModel('paypal/config', $params);
+            $this->_config = Mage::getModel('Mage_Paypal_Model_Config', $params);
         }
         return $this->_config;
     }

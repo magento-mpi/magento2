@@ -58,38 +58,38 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adm
         );
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => $this->helper('enterprise_invitation')->__('Invitations Information'),
+            'legend' => $this->helper('Enterprise_Invitation_Helper_Data')->__('Invitations Information'),
             'class' => 'fieldset-wide'
         ));
 
         $fieldset->addField('email', 'textarea', array(
-            'label' => $this->helper('enterprise_invitation')->__('Enter Each Email on New Line'),
+            'label' => $this->helper('Enterprise_Invitation_Helper_Data')->__('Enter Each Email on New Line'),
             'required' => true,
             'class' => 'validate-emails',
             'name' => 'email'
         ));
 
         $fieldset->addField('message', 'textarea', array(
-            'label' => $this->helper('enterprise_invitation')->__('Message'),
+            'label' => $this->helper('Enterprise_Invitation_Helper_Data')->__('Message'),
             'name' => 'message'
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('store_id', 'select', array(
-                'label' => $this->helper('enterprise_invitation')->__('Send From'),
+                'label' => $this->helper('Enterprise_Invitation_Helper_Data')->__('Send From'),
                 'required' => true,
                 'name' => 'store_id',
-                'values' => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
+                'values' => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm()
             ));
         }
 
-        $groups = Mage::getModel('customer/group')->getCollection()
+        $groups = Mage::getModel('Mage_Customer_Model_Group')->getCollection()
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();
 
         $fieldset->addField('group_id', 'select', array(
-            'label' => $this->helper('enterprise_invitation')->__('Invitee Group'),
+            'label' => $this->helper('Enterprise_Invitation_Helper_Data')->__('Invitee Group'),
             'required' => true,
             'name' => 'group_id',
             'values' => $groups
@@ -109,7 +109,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adm
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
     }
 
 }

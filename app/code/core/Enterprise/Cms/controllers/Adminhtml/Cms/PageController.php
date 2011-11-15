@@ -57,12 +57,12 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
             ->generateLayoutXml()
             ->generateLayoutBlocks();
 
-        $this->_initLayoutMessages('adminhtml/session');
+        $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
 
         //load layout, set active menu and breadcrumbs
         $this->_setActiveMenu('cms/page')
-            ->_addBreadcrumb(Mage::helper('cms')->__('CMS'), Mage::helper('cms')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('cms')->__('Manage Pages'), Mage::helper('cms')->__('Manage Pages'));
+            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('CMS'), Mage::helper('Mage_Cms_Helper_Data')->__('CMS'))
+            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'), Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'));
 
         $this->_isLayoutLoaded = true;
 
@@ -81,7 +81,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
         $this->_title($this->__('CMS'))->_title($this->__('Pages'));
 
         $pageId = (int) $this->getRequest()->getParam('page_id');
-        $page = Mage::getModel('cms/page');
+        $page = Mage::getModel('Mage_Cms_Model_Page');
 
         if ($pageId) {
             $page->load($pageId);
@@ -99,7 +99,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
     {
         $page = $this->_initPage();
 
-        $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
+        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true);
         if (! empty($data)) {
             $page->setData($data);
         }
@@ -109,16 +109,16 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
                 $this->_handles[] = 'adminhtml_cms_page_edit_changes';
             }
         } else if (!$page->hasUnderVersionControl()) {
-            $page->setUnderVersionControl((int)Mage::getSingleton('enterprise_cms/config')->getDefaultVersioningStatus());
+            $page->setUnderVersionControl((int)Mage::getSingleton('Enterprise_Cms_Model_Config')->getDefaultVersioningStatus());
         }
 
         $this->_title($page->getId() ? $page->getTitle() : $this->__('New Page'));
 
         $this->_initAction()
-            ->_addBreadcrumb($page->getId() ? Mage::helper('cms')->__('Edit Page')
-                    : Mage::helper('cms')->__('New Page'),
-                $page->getId() ? Mage::helper('cms')->__('Edit Page')
-                    : Mage::helper('cms')->__('New Page'));
+            ->_addBreadcrumb($page->getId() ? Mage::helper('Mage_Cms_Helper_Data')->__('Edit Page')
+                    : Mage::helper('Mage_Cms_Helper_Data')->__('New Page'),
+                $page->getId() ? Mage::helper('Mage_Cms_Helper_Data')->__('Edit Page')
+                    : Mage::helper('Mage_Cms_Helper_Data')->__('New Page'));
 
         $this->renderLayout();
     }
@@ -150,11 +150,11 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
         }
         else {
             try {
-                $userId = Mage::getSingleton('admin/session')->getUser()->getId();
-                $accessLevel = Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel();
+                $userId = Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId();
+                $accessLevel = Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel();
 
                 foreach ($ids as $id) {
-                    $version = Mage::getSingleton('enterprise_cms/page_version')
+                    $version = Mage::getSingleton('Enterprise_Cms_Model_Page_Version')
                         ->loadWithRestrictions($accessLevel, $userId, $id);
 
                     if ($version->getId()) {
@@ -168,7 +168,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
-                $this->_getSession()->addError(Mage::helper('enterprise_cms')->__('An error occurred while deleting versions.'));
+                $this->_getSession()->addError(Mage::helper('Enterprise_Cms_Helper_Data')->__('An error occurred while deleting versions.'));
             }
         }
         $this->_redirect('*/*/edit', array('_current' => true, 'tab' => 'versions'));
@@ -185,7 +185,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
     {
         switch ($this->getRequest()->getActionName()) {
             case 'massDeleteVersions':
-                return Mage::getSingleton('enterprise_cms/config')->canCurrentUserDeleteVersion();
+                return Mage::getSingleton('Enterprise_Cms_Model_Config')->canCurrentUserDeleteVersion();
                 break;
             default:
                 return parent::_isAllowed();

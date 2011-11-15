@@ -55,7 +55,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid extends M
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('enterprise_importexport/scheduled_operation_collection');
+        $collection = Mage::getResourceModel('Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Collection');
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -69,15 +69,15 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid extends M
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'        => Mage::helper('enterprise_importexport')->__('Name'),
+            'header'        => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Name'),
             'index'         => 'name',
             'type'          => 'text',
             'escape'        => true
         ));
 
-        $dataModel = Mage::getSingleton('enterprise_importexport/scheduled_operation_data');
+        $dataModel = Mage::getSingleton('Enterprise_ImportExport_Model_Scheduled_Operation_Data');
         $this->addColumn('operation_type', array(
-            'header'        => Mage::helper('enterprise_importexport')->__('Operation'),
+            'header'        => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Operation'),
             'width'         => '30px',
             'index'         => 'operation_type',
             'type'          => 'options',
@@ -85,20 +85,20 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid extends M
         ));
 
         $this->addColumn('entity_type', array(
-            'header'        => Mage::helper('enterprise_importexport')->__('Entity type'),
+            'header'        => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Entity type'),
             'index'         => 'entity_type',
             'type'          => 'options',
             'options'       => $dataModel->getEntitiesOptionArray()
         ));
 
         $this->addColumn('last_run_date', array(
-            'header'        => Mage::helper('enterprise_importexport')->__('Last Run Date'),
+            'header'        => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Last Run Date'),
             'index'         => 'last_run_date',
             'type'          => 'datetime'
         ));
 
         $this->addColumn('freq', array(
-            'header'        => Mage::helper('enterprise_importexport')->__('Frequency'),
+            'header'        => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Frequency'),
             'index'         => 'freq',
             'type'          => 'options',
             'options'       => $dataModel->getFrequencyOptionArray(),
@@ -106,14 +106,14 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid extends M
         ));
 
         $this->addColumn('status', array(
-            'header'        => Mage::helper('enterprise_importexport')->__('Status'),
+            'header'        => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Status'),
             'index'         => 'status',
             'type'          => 'options',
             'options'       => $dataModel->getStatusesOptionArray()
         ));
 
         $this->addColumn('is_success', array(
-            'header'        => Mage::helper('enterprise_importexport')->__('Last Outcome'),
+            'header'        => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Last Outcome'),
             'index'         => 'is_success',
             'type'          => 'options',
             'width'         => '200px',
@@ -121,20 +121,20 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid extends M
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('enterprise_importexport')->__('Action'),
+            'header'    => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Action'),
             'width'     => '50px',
             'type'      => 'action',
             'getter'    => 'getId',
             'actions'   => array(
                 array(
-                    'caption' => Mage::helper('enterprise_importexport')->__('Edit'),
+                    'caption' => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Edit'),
                     'url'     => array(
                         'base'=>'*/*/edit',
                     ),
                     'field'   => 'id'
                 ),
                 array(
-                    'caption' => Mage::helper('enterprise_importexport')->__('Run'),
+                    'caption' => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Run'),
                     'url'     => array(
                         'base'=> '*/scheduled_operation/cron',
                     ),
@@ -183,22 +183,22 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid extends M
         $this->getMassactionBlock()->setFormFieldName('operation');
 
         $this->getMassactionBlock()->addItem('delete', array(
-            'label'=> Mage::helper('enterprise_importexport')->__('Delete'),
+            'label'=> Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Delete'),
             'url'  => $this->getUrl('*/*/massDelete'),
-            'confirm' => Mage::helper('enterprise_importexport')->__('Are you sure you want to delete the selected scheduled imports/exports?')
+            'confirm' => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Are you sure you want to delete the selected scheduled imports/exports?')
         ));
 
-        $statuses = Mage::getSingleton('enterprise_importexport/scheduled_operation_data')
+        $statuses = Mage::getSingleton('Enterprise_ImportExport_Model_Scheduled_Operation_Data')
             ->getStatusesOptionArray();
         $this->getMassactionBlock()->addItem('status', array(
-            'label'=> Mage::helper('enterprise_importexport')->__('Change status'),
+            'label'=> Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Change status'),
             'url'  => $this->getUrl('*/*/massChangeStatus', array('_current' => true)),
             'additional' => array(
                'visibility' => array(
                     'name' => 'status',
                     'type' => 'select',
                     'class' => 'required-entry',
-                    'label' => Mage::helper('enterprise_importexport')->__('Status'),
+                    'label' => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Status'),
                     'values' => $statuses
                 )
              )

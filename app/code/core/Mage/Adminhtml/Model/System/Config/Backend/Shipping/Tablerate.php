@@ -36,6 +36,6 @@ class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extends Mage
 {
     public function _afterSave()
     {
-        Mage::getResourceModel('shipping/carrier_tablerate')->uploadAndImport($this);
+        Mage::getResourceModel('Mage_Shipping_Model_Resource_Carrier_Tablerate')->uploadAndImport($this);
     }
 }

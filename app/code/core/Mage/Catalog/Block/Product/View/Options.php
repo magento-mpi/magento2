@@ -43,7 +43,7 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
         parent::__construct();
         $this->addOptionRenderer(
             'default',
-            'catalog/product_view_options_type_default',
+            'Mage_Catalog_Block_Product_View_Options_Type_Default',
             'product/view/options/type/default.phtml'
         );
     }
@@ -59,7 +59,7 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
             if (Mage::registry('current_product')) {
                 $this->_product = Mage::registry('current_product');
             } else {
-                $this->_product = Mage::getSingleton('catalog/product');
+                $this->_product = Mage::getSingleton('Mage_Catalog_Model_Product');
             }
         }
         return $this->_product;
@@ -112,7 +112,7 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
 
     public function getGroupOfOption($type)
     {
-        $group = Mage::getSingleton('catalog/product_option')->getGroupByType($type);
+        $group = Mage::getSingleton('Mage_Catalog_Model_Product_Option')->getGroupByType($type);
 
         return $group == '' ? 'default' : $group;
     }
@@ -146,20 +146,16 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
                 $_tmpPriceValues = array();
                 foreach ($option->getValues() as $value) {
                     /* @var $value Mage_Catalog_Model_Product_Option_Value */
-                    $id = $value->getId();
-                   $_tmpPriceValues[$id]['price'] = Mage::helper('core')->currency($value->getPrice(true), false,
-                           false);
-                   $_tmpPriceValues[$id]['oldPrice'] = Mage::helper('core')->currency($value->getPrice(false), false,
-                           false);
+                   $_tmpPriceValues[$value->getId()] = Mage::helper('Mage_Core_Helper_Data')->currency($value->getPrice(true), false, false);
                 }
                 $priceValue = $_tmpPriceValues;
             } else {
-                $priceValue = Mage::helper('core')->currency($option->getPrice(true), false, false);
+                $priceValue = Mage::helper('Mage_Core_Helper_Data')->currency($option->getPrice(true), false, false);
             }
             $config[$option->getId()] = $priceValue;
         }
 
-        return Mage::helper('core')->jsonEncode($config);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
     }
 
     /**

@@ -40,7 +40,7 @@ class Mage_XmlConnect_Block_Checkout_Address_Shipping extends Mage_Checkout_Bloc
      */
     protected function _toHtml()
     {
-        $shippingXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<shipping></shipping>');
+        $shippingXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<shipping></shipping>');
 
         $addressId = $this->getAddress()->getId();
         $address = $this->getCustomer()->getPrimaryShippingAddress();

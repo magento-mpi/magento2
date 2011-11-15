@@ -116,7 +116,7 @@ class Mage_CatalogInventory_Helper_Minsaleqty
     {
         $result = array();
         foreach ($value as $groupId => $qty) {
-            $_id = Mage::helper('core')->uniqHash('_');
+            $_id = Mage::helper('Mage_Core_Helper_Data')->uniqHash('_');
             $result[$_id] = array(
                 'customer_group_id' => $groupId,
                 'min_sale_qty' => $this->_fixQty($qty),

@@ -32,15 +32,6 @@
         </Enterprise_TargetRule>
     </modules>
     <global>
-        <models>
-            <enterprise_targetrule>
-                <class>Enterprise_TargetRule_Model</class>
-                <resourceModel>enterprise_targetrule_resource</resourceModel>
-            </enterprise_targetrule>
-            <enterprise_targetrule_resource>
-                <class>Enterprise_TargetRule_Model_Resource</class>
-            </enterprise_targetrule_resource>
-        </models>
         <resources>
             <enterprise_targetrule_setup>
                 <setup>
@@ -49,20 +40,10 @@
                 </setup>
             </enterprise_targetrule_setup>
         </resources>
-        <blocks>
-            <enterprise_targetrule>
-                <class>Enterprise_TargetRule_Block</class>
-            </enterprise_targetrule>
-        </blocks>
-        <helpers>
-            <enterprise_targetrule>
-                <class>Enterprise_TargetRule_Helper</class>
-            </enterprise_targetrule>
-        </helpers>
         <index>
             <indexer>
                 <targetrule>
-                    <model>enterprise_targetrule/index</model>
+                    <model>Enterprise_TargetRule_Model_Index</model>
                 </targetrule>
             </indexer>
         </index>
@@ -72,7 +53,7 @@
             <catalog_product_save_after>
                 <observers>
                     <enterprise_targetrule>
-                        <class>enterprise_targetrule/observer</class>
+                        <class>Enterprise_TargetRule_Model_Observer</class>
                         <method>catalogProductAfterSave</method>
                     </enterprise_targetrule>
                 </observers>
@@ -80,7 +61,7 @@
             <catalog_product_save_commit_after>
                 <observers>
                     <enterprise_targetrule>
-                        <class>enterprise_targetrule/observer</class>
+                        <class>Enterprise_TargetRule_Model_Observer</class>
                         <method>catalogProductSaveCommitAfter</method>
                     </enterprise_targetrule>
                 </observers>
@@ -145,7 +126,7 @@
                     <cron_expr>0 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>enterprise_targetrule/index::cron</model>
+                    <model>Enterprise_TargetRule_Model_Index::cron</model>
                 </run>
             </enterprise_targetrule_index_reindex>
         </jobs>

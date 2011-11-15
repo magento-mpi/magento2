@@ -65,7 +65,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Group extends Enterprise_Staging
 
                 $rootCategory = (int) $realStoreGroup->getRootCategoryId();
 
-                $stagingGroup = Mage::getModel('core/store_group');
+                $stagingGroup = Mage::getModel('Mage_Core_Model_Store_Group');
                 $stagingGroup->setData('website_id', $website->getStagingWebsiteId());
                 $stagingGroup->setData('root_category_id', $rootCategory);
                 $stagingGroup->setData('name', $realStoreGroup->getName());

@@ -39,7 +39,7 @@ class Enterprise_Reminder_Block_Adminhtml_Widget_Grid_Column_Renderer_Id
     protected function _getValue(Varien_Object $row)
     {
         $customerId = $this->htmlEscape($row->getData($this->getColumn()->getIndex()));
-        return '<a href="' . Mage::getSingleton('adminhtml/url')->getUrl('*/customer/edit',
+        return '<a href="' . Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/customer/edit',
             array('id' => $customerId)) . '">' . $customerId . '</a>';
     }
 }

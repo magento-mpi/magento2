@@ -91,7 +91,7 @@ class Mage_Core_Model_Layout_Update
     public function getElementClass()
     {
         if (!$this->_elementClass) {
-            $this->_elementClass = Mage::getConfig()->getModelClassName('core/layout_element');
+            $this->_elementClass = Mage::getConfig()->getModelClassName('Mage_Core_Model_Layout_Element');
         }
         return $this->_elementClass;
     }
@@ -209,7 +209,7 @@ class Mage_Core_Model_Layout_Update
         if (is_string($handles)) {
             $handles = array($handles);
         } elseif (!is_array($handles)) {
-            throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid layout update handle'));
+            throw Mage::exception('Mage_Core', Mage::helper('Mage_Core_Helper_Data')->__('Invalid layout update handle'));
         }
 
         foreach ($handles as $handle) {
@@ -258,7 +258,7 @@ class Mage_Core_Model_Layout_Update
     {
         $storeId = Mage::app()->getStore()->getId();
         $elementClass = $this->getElementClass();
-        $design = Mage::getSingleton('core/design_package');
+        $design = Mage::getSingleton('Mage_Core_Model_Design_Package');
         $cacheKey = 'LAYOUT_'.$design->getArea().'_STORE'.$storeId.'_'.$design->getPackageName().'_'.$design->getTheme();
         $cacheTags = array(self::LAYOUT_GENERAL_CACHE_TAG);
         if (Mage::app()->useCache('layout') && ($layoutStr = Mage::app()->loadCache($cacheKey))) {
@@ -280,7 +280,7 @@ class Mage_Core_Model_Layout_Update
 
 //        $elementClass = $this->getElementClass();
 //
-//        $design = Mage::getSingleton('core/design_package');
+//        $design = Mage::getSingleton('Mage_Core_Model_Design_Package');
 //        $area = $design->getArea();
 //        $storeId = Mage::app()->getStore()->getId();
 //        $cacheKey = 'LAYOUT_'.$area.'_STORE'.$storeId.'_'.$design->getPackageName().'_'.$design->getTheme('layout');
@@ -358,7 +358,7 @@ class Mage_Core_Model_Layout_Update
     {
         $_profilerKey = 'layout_db_update:' . $handle;
         Magento_Profiler::start($_profilerKey);
-        $updateStr = Mage::getResourceModel('core/layout')->fetchUpdatesByHandle($handle);
+        $updateStr = Mage::getResourceModel('Mage_Core_Model_Resource_Layout')->fetchUpdatesByHandle($handle);
         if ($updateStr) {
             $updateStr = '<update_xml>' . $updateStr . '</update_xml>';
             $updateStr = str_replace($this->_subst['from'], $this->_subst['to'], $updateStr);
@@ -397,7 +397,7 @@ class Mage_Core_Model_Layout_Update
             $storeId = Mage::app()->getStore()->getId();
         }
         /* @var $design Mage_Core_Model_Design_Package */
-        $design = Mage::getSingleton('core/design_package');
+        $design = Mage::getSingleton('Mage_Core_Model_Design_Package');
 
         $layoutParams = array(
             '_area'    => $area,

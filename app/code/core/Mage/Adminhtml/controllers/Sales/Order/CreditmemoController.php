@@ -40,7 +40,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
     {
         $data = $this->getRequest()->getParam('creditmemo');
         if (!$data) {
-            $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
+            $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true);
         }
 
         if (isset($data['items'])) {
@@ -84,7 +84,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
     {
         $invoiceId = $this->getRequest()->getParam('invoice_id');
         if ($invoiceId) {
-            $invoice = Mage::getModel('sales/order_invoice')
+            $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')
                 ->load($invoiceId)
                 ->setOrder($order);
             if ($invoice->getId()) {
@@ -107,10 +107,10 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
         $creditmemoId = $this->getRequest()->getParam('creditmemo_id');
         $orderId = $this->getRequest()->getParam('order_id');
         if ($creditmemoId) {
-            $creditmemo = Mage::getModel('sales/order_creditmemo')->load($creditmemoId);
+            $creditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->load($creditmemoId);
         } elseif ($orderId) {
             $data   = $this->getRequest()->getParam('creditmemo');
-            $order  = Mage::getModel('sales/order')->load($orderId);
+            $order  = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             $invoice = $this->_initInvoice($order);
 
             if (!$this->_canCreditmemo($order)) {
@@ -131,7 +131,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             }
             $data['qtys'] = $qtys;
 
-            $service = Mage::getModel('sales/service_order', $order);
+            $service = Mage::getModel('Mage_Sales_Model_Service_Order', $order);
             if ($invoice) {
                 $creditmemo = $service->prepareInvoiceCreditmemo($invoice, $data);
             } else {
@@ -149,7 +149,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                 } elseif ($orderItem->getParentItem() && isset($backToStock[$parentId]) && $backToStock[$parentId]) {
                     $creditmemoItem->setBackToStock(true);
                 } elseif (empty($savedData)) {
-                    $creditmemoItem->setBackToStock(Mage::helper('cataloginventory')->isAutoReturnEnabled());
+                    $creditmemoItem->setBackToStock(Mage::helper('Mage_CatalogInventory_Helper_Data')->isAutoReturnEnabled());
                 } else {
                     $creditmemoItem->setBackToStock(false);
                 }
@@ -169,7 +169,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
      */
     protected function _saveCreditmemo($creditmemo)
     {
-        $transactionSave = Mage::getModel('core/resource_transaction')
+        $transactionSave = Mage::getModel('Mage_Core_Model_Resource_Transaction')
             ->addObject($creditmemo)
             ->addObject($creditmemo->getOrder());
         if ($creditmemo->getInvoice()) {
@@ -226,7 +226,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                 $this->_title($this->__("New Memo"));
             }
 
-            if ($comment = Mage::getSingleton('adminhtml/session')->getCommentText(true)) {
+            if ($comment = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getCommentText(true)) {
                 $creditmemo->setCommentText($comment);
             }
 
@@ -252,13 +252,13 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         } catch (Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $this->__('Cannot update the item\'s quantity.')
             );
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -271,7 +271,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
     {
         $data = $this->getRequest()->getPost('creditmemo');
         if (!empty($data['comment_text'])) {
-            Mage::getSingleton('adminhtml/session')->setCommentText($data['comment_text']);
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setCommentText($data['comment_text']);
         }
 
         try {
@@ -311,7 +311,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                 $this->_saveCreditmemo($creditmemo);
                 $creditmemo->sendEmail(!empty($data['send_email']), $comment);
                 $this->_getSession()->addSuccess($this->__('The credit memo has been created.'));
-                Mage::getSingleton('adminhtml/session')->getCommentText(true);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->getCommentText(true);
                 $this->_redirect('*/sales_order/view', array('order_id' => $creditmemo->getOrderId()));
                 return;
             } else {
@@ -320,7 +320,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            Mage::getSingleton('adminhtml/session')->setFormData($data);
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setFormData($data);
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()->addError($this->__('Cannot save the credit memo.'));
@@ -402,13 +402,13 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         } catch (Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $this->__('Cannot add new comment.')
             );
-            $response = Mage::helper('core')->jsonEncode($response);
+            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }

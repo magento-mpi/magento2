@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Tree extends Mage_Adminhtml_Block_
      */
     public function getTreeJson()
     {
-        $helper = Mage::helper('cms/wysiwyg_images');
+        $helper = Mage::helper('Mage_Cms_Helper_Wysiwyg_Images');
         $storageRoot = $helper->getStorageRoot();
         $collection = Mage::registry('storage')->getDirsCollection($helper->getCurrentPath());
         $jsonArray = array();
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Tree extends Mage_Adminhtml_Block_
      */
     public function getRootNodeName()
     {
-        return $this->helper('cms')->__('Storage Root');
+        return $this->helper('Mage_Cms_Helper_Data')->__('Storage Root');
     }
 
     /**
@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Tree extends Mage_Adminhtml_Block_
     {
         $treePath = '/root';
         if ($path = Mage::registry('storage')->getSession()->getCurrentPath()) {
-            $helper = Mage::helper('cms/wysiwyg_images');
+            $helper = Mage::helper('Mage_Cms_Helper_Wysiwyg_Images');
             $path = str_replace($helper->getStorageRoot(), '', $path);
             $relative = '';
             foreach (explode(DS, $path) as $dirName) {

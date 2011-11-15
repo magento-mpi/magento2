@@ -29,15 +29,15 @@ class Enterprise_Rma_Block_Return_Returns extends Mage_Core_Block_Template
     public function _construct()
     {
         parent::_construct();
-        if (Mage::helper('enterprise_rma')->isEnabled()) {
+        if (Mage::helper('Enterprise_Rma_Helper_Data')->isEnabled()) {
             $this->setTemplate('rma/return/returns.phtml');
 
-            $returns = Mage::getResourceModel('enterprise_rma/rma_grid_collection')
+            $returns = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Rma_Grid_Collection')
                 ->addFieldToSelect('*')
                 ->addFieldToFilter('order_id', Mage::registry('current_order')->getId())
                 ->setOrder('date_requested', 'desc');
 
-            $customerSession = Mage::getSingleton('customer/session');
+            $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
             if ($customerSession->isLoggedIn()) {
                 $returns->addFieldToFilter('customer_id', $customerSession->getCustomer()->getId());
             }
@@ -51,7 +51,7 @@ class Enterprise_Rma_Block_Return_Returns extends Mage_Core_Block_Template
         parent::_prepareLayout();
 
         $pager = $this->getLayout()
-            ->createBlock('page/html_pager', 'sales.order.history.pager')
+            ->createBlock('Mage_Page_Block_Html_Pager', 'sales.order.history.pager')
             ->setCollection($this->getReturns());
         $this->setChild('pager', $pager);
         $this->getReturns()->load();

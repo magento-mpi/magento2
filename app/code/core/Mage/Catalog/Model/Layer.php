@@ -58,7 +58,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         if ($this->_stateKey === null) {
             $this->_stateKey = 'STORE_'.Mage::app()->getStore()->getId()
                 . '_CAT_' . $this->getCurrentCategory()->getId()
-                . '_CUSTGROUP_' . Mage::getSingleton('customer/session')->getCustomerGroupId();
+                . '_CUSTGROUP_' . Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
         }
 
         return $this->_stateKey;
@@ -106,15 +106,15 @@ class Mage_Catalog_Model_Layer extends Varien_Object
     public function prepareProductCollection($collection)
     {
         $collection
-            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+            ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()
             //->addStoreFilter()
             ->addUrlRewrite($this->getCurrentCategory()->getId());
 
-        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+        Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addVisibleFilterToCollection($collection);
+        Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInCatalogFilterToCollection($collection);
 
         return $this;
     }
@@ -155,7 +155,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
                 $this->setData('current_category', $category);
             }
             else {
-                $category = Mage::getModel('catalog/category')->load($this->getCurrentStore()->getRootCategoryId());
+                $category = Mage::getModel('Mage_Catalog_Model_Category')->load($this->getCurrentStore()->getRootCategoryId());
                 $this->setData('current_category', $category);
             }
         }
@@ -172,13 +172,13 @@ class Mage_Catalog_Model_Layer extends Varien_Object
     public function setCurrentCategory($category)
     {
         if (is_numeric($category)) {
-            $category = Mage::getModel('catalog/category')->load($category);
+            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($category);
         }
         if (!$category instanceof Mage_Catalog_Model_Category) {
-            Mage::throwException(Mage::helper('catalog')->__('Category must be an instance of Mage_Catalog_Model_Category.'));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Category must be an instance of Mage_Catalog_Model_Category.'));
         }
         if (!$category->getId()) {
-            Mage::throwException(Mage::helper('catalog')->__('Invalid category.'));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid category.'));
         }
 
         if ($category->getId() != $this->getCurrentCategory()->getId()) {
@@ -205,7 +205,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
      */
     public function getFilterableAttributes()
     {
-//        $entity = Mage::getSingleton('eav/config')
+//        $entity = Mage::getSingleton('Mage_Eav_Model_Config')
 //            ->getEntityType('catalog_product');
 
         $setIds = $this->_getSetIds();
@@ -213,9 +213,9 @@ class Mage_Catalog_Model_Layer extends Varien_Object
             return array();
         }
         /** @var $collection Mage_Catalog_Model_Resource_Product_Attribute_Collection */
-        $collection = Mage::getResourceModel('catalog/product_attribute_collection');
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection');
         $collection
-            ->setItemObjectClass('catalog/resource_eav_attribute')
+            ->setItemObjectClass('Mage_Catalog_Model_Resource_Eav_Attribute')
             ->setAttributeSetFilter($setIds)
             ->addStoreLabel(Mage::app()->getStore()->getId())
             ->setOrder('position', 'ASC');
@@ -233,7 +233,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
      */
     protected function _prepareAttribute($attribute)
     {
-        Mage::getResourceSingleton('catalog/product')->getAttribute($attribute);
+        Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product')->getAttribute($attribute);
         return $attribute;
     }
 
@@ -259,7 +259,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         $state = $this->getData('state');
         if (is_null($state)) {
             Magento_Profiler::start(__METHOD__);
-            $state = Mage::getModel('catalog/layer_state');
+            $state = Mage::getModel('Mage_Catalog_Model_Layer_State');
             $this->setData('state', $state);
             Magento_Profiler::stop(__METHOD__);
         }

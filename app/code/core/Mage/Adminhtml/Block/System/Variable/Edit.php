@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_System_Variable_Edit extends Mage_Adminhtml_Block_Wid
     protected function _preparelayout()
     {
         $this->_addButton('save_and_edit', array(
-            'label'     => Mage::helper('adminhtml')->__('Save and Continue Edit'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save and Continue Edit'),
             'class'     => 'save',
             'onclick'   => 'editForm.submit(\'' . $this->getSaveAndContinueUrl() . '\');'
         ), 100);
@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_System_Variable_Edit extends Mage_Adminhtml_Block_Wid
         $formHtml = parent::getFormHtml();
         if (!Mage::app()->isSingleStoreMode() && $this->getVariable()->getId()) {
             $storeSwitcher = $this->getLayout()
-                ->createBlock('adminhtml/store_switcher')->toHtml();
+                ->createBlock('Mage_Adminhtml_Block_Store_Switcher')->toHtml();
             $formHtml = $storeSwitcher.$formHtml;
         }
         return $formHtml;
@@ -98,10 +98,10 @@ class Mage_Adminhtml_Block_System_Variable_Edit extends Mage_Adminhtml_Block_Wid
     public function getHeaderText()
     {
         if ($this->getVariable()->getId()) {
-            return Mage::helper('adminhtml')->__('Custom Variable "%s"', $this->htmlEscape($this->getVariable()->getName()));
+            return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Custom Variable "%s"', $this->htmlEscape($this->getVariable()->getName()));
         }
         else {
-            return Mage::helper('adminhtml')->__('New Custom Variable');
+            return Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Custom Variable');
         }
     }
 

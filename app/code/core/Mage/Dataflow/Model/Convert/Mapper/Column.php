@@ -63,7 +63,7 @@ class Mage_Dataflow_Model_Convert_Mapper_Column extends Mage_Dataflow_Model_Conv
     public function getBatchModel()
     {
         if (is_null($this->_batch)) {
-            $this->_batch = Mage::getSingleton('dataflow/batch');
+            $this->_batch = Mage::getSingleton('Mage_Dataflow_Model_Batch');
         }
         return $this->_batch;
     }
@@ -76,7 +76,7 @@ class Mage_Dataflow_Model_Convert_Mapper_Column extends Mage_Dataflow_Model_Conv
     public function getBatchExportModel()
     {
         if (is_null($this->_batchExport)) {
-            $object = Mage::getModel('dataflow/batch_export');
+            $object = Mage::getModel('Mage_Dataflow_Model_Batch_Export');
             $this->_batchExport = Varien_Object_Cache::singleton()->save($object);
         }
         return Varien_Object_Cache::singleton()->load($this->_batchExport);
@@ -90,7 +90,7 @@ class Mage_Dataflow_Model_Convert_Mapper_Column extends Mage_Dataflow_Model_Conv
     public function getBatchImportModel()
     {
         if (is_null($this->_batchImport)) {
-            $object = Mage::getModel('dataflow/batch_import');
+            $object = Mage::getModel('Mage_Dataflow_Model_Batch_Import');
             $this->_batchImport = Varien_Object_Cache::singleton()->save($object);
         }
         return Varien_Object_Cache::singleton()->load($this->_batchImport);
@@ -128,7 +128,7 @@ class Mage_Dataflow_Model_Convert_Mapper_Column extends Mage_Dataflow_Model_Conv
                 ->setBatchId($this->getBatchModel()->getId())
                 ->deleteCollection();
 
-            throw new Exception(Mage::helper('dataflow')->__('Error in field mapping: field list for mapping is not defined.'));
+            throw new Exception(Mage::helper('Mage_Dataflow_Helper_Data')->__('Error in field mapping: field list for mapping is not defined.'));
         }
 
         foreach ($batchExportIds as $batchExportId) {

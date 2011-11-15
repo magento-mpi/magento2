@@ -39,7 +39,7 @@ class Enterprise_Customer_Model_Resource_Sales_Quote extends Enterprise_Customer
      *
      * @var string
      */
-    protected $_parentResourceModelName = 'sales/quote';
+    protected $_parentResourceModelName = 'Mage_Sales_Model_Resource_Quote';
 
     /**
      * Initialize resource

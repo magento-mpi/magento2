@@ -111,7 +111,7 @@ class Mage_Sales_Model_Order_Invoice_Item extends Mage_Core_Model_Abstract
      */
     function _construct()
     {
-        $this->_init('sales/order_invoice_item');
+        $this->_init('Mage_Sales_Model_Resource_Order_Invoice_Item');
     }
 
     /**
@@ -161,7 +161,7 @@ class Mage_Sales_Model_Order_Invoice_Item extends Mage_Core_Model_Abstract
                 $this->_orderItem = $this->getInvoice()->getOrder()->getItemById($this->getOrderItemId());
             }
             else {
-                $this->_orderItem = Mage::getModel('sales/order_item')
+                $this->_orderItem = Mage::getModel('Mage_Sales_Model_Order_Item')
                     ->load($this->getOrderItemId());
             }
         }
@@ -193,7 +193,7 @@ class Mage_Sales_Model_Order_Invoice_Item extends Mage_Core_Model_Abstract
         }
         else {
             Mage::throwException(
-                Mage::helper('sales')->__('Invalid qty to invoice item "%s"', $this->getName())
+                Mage::helper('Mage_Sales_Helper_Data')->__('Invalid qty to invoice item "%s"', $this->getName())
             );
         }
         return $this;

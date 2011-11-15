@@ -53,11 +53,11 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
         $this->_uniqueFields = array(
             array(
                 'field' => 'email',
-                'title' => Mage::helper('adminhtml')->__('Email')
+                'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Email')
             ),
             array(
                 'field' => 'username',
-                'title' => Mage::helper('adminhtml')->__('User Name')
+                'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Name')
             ),
         );
         return $this;
@@ -151,7 +151,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
      */
     private function _encryptPassword($pwStr)
     {
-        return Mage::helper('core')->getHash($pwStr, 2);
+        return Mage::helper('Mage_Core_Helper_Data')->getHash($pwStr, 2);
     }
 
     /**
@@ -255,7 +255,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
             foreach ($rolesIds as $rid) {
                 $rid = intval($rid);
                 if ($rid > 0) {
-                    $row = Mage::getModel('admin/role')->load($rid)->getData();
+                    $row = Mage::getModel('Mage_Admin_Model_Role')->load($rid)->getData();
                 } else {
                     $row = array('tree_level' => 0);
                 }
@@ -341,7 +341,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
         }
 
         if ($user->getId() > 0) {
-            $role = Mage::getModel('admin/role')->load($user->getRoleId());
+            $role = Mage::getModel('Mage_Admin_Model_Role')->load($user->getRoleId());
         } else {
             $role = new Varien_Object();
             $role->setTreeLevel(0);

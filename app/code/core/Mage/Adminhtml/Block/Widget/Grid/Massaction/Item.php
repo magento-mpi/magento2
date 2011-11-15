@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Massaction_Item extends Mage_Adminhtml_Bl
         $type = isset($config['type']) ? $config['type'] : 'default';
         switch($type) {
             default:
-                $blockClass = 'adminhtml/widget_grid_massaction_item_additional_default';
+                $blockClass = 'Mage_Adminhtml_Block_Widget_Grid_Massaction_Item_Additional_Default';
                 break;
         }
 

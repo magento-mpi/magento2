@@ -38,7 +38,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
      *
      * @var string
      */
-    protected $_configType = 'xmlconnect/payment_method_paypal_config';
+    protected $_configType = 'Mage_XmlConnect_Model_Payment_Method_Paypal_Config';
 
     /**
      * Config method type
@@ -52,7 +52,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
      *
      * @var string
      */
-    protected $_checkoutType = 'xmlconnect/paypal_mecl_checkout';
+    protected $_checkoutType = 'Mage_XmlConnect_Model_Paypal_Mecl_Checkout';
 
     /**
      * Paypal Mobile Express Checkout Library
@@ -92,8 +92,8 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::getSingleton('customer/session')->isLoggedIn()
-            && !Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout()
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
+            && !Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote()->isAllowedGuestCheckout()
         ) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->_message($this->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR,
@@ -111,7 +111,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
         try {
             $this->_initCheckout();
 
-            $customer = Mage::getSingleton('customer/session')->getCustomer();
+            $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
             if ($customer && $customer->getId()) {
                 $this->_checkout->setCustomerWithAddressChange(
                     $customer, null, $this->_getQuote()->getShippingAddress()
@@ -123,7 +123,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
             if ($token) {
                 $this->_initToken($token);
                 /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
-                $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+                $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
                 $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
                 $message->addChild('token', $token);
                 $this->getResponse()->setBody($message->asNiceXml());
@@ -166,7 +166,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
             $this->_initCheckout();
             $this->_checkout->prepareOrderReview($this->_initToken());
             $this->loadLayout(false);
-            $this->_initLayoutMessages('paypal/session');
+            $this->_initLayoutMessages('Mage_Paypal_Model_Session');
 
             $messages = $this->_getSession()->getMessages(true);
             $messageArray = array();
@@ -275,7 +275,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
             $this->_initToken(false); // no need in token anymore
 
             /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
-            $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+            $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
             $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
 
             $text = $this->__('Thank you for your purchase! ');
@@ -302,7 +302,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
             $this->_initToken(false);
             // if there is an order - cancel it
             $orderId = $this->_getCheckoutSession()->getLastOrderId();
-            $order = ($orderId) ? Mage::getModel('sales/order')->load($orderId) : false;
+            $order = ($orderId) ? Mage::getModel('Mage_Sales_Model_Order')->load($orderId) : false;
 
             if ($order && $order->getId() && $order->getQuoteId() == $this->_getCheckoutSession()->getQuoteId()) {
                 $order->cancel()->save();
@@ -349,7 +349,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
      */
     protected function _getCheckoutSession()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**
@@ -405,6 +405,6 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
      */
     private function _getSession()
     {
-        return Mage::getSingleton('paypal/session');
+        return Mage::getSingleton('Mage_Paypal_Model_Session');
     }
 }

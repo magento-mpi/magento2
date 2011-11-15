@@ -40,13 +40,13 @@ class Mage_XmlConnect_Block_Cart_Crosssell extends Mage_Checkout_Block_Cart_Cros
     protected function _toHtml()
     {
         if (is_object(Mage::getConfig()->getNode('modules/Enterprise_TargetRule'))) {
-            $blockRenderer = 'enterprise_targetrule/checkout_cart_crosssell';
+            $blockRenderer = 'Enterprise_TargetRule_Block_Checkout_Cart_Crosssell';
             $blockName = 'targetrule.checkout.cart.crosssell';
             $this->getLayout()->createBlock($blockRenderer, $blockName);
             $this->setItems($this->getLayout()->getBlock($blockName)->getItemCollection());
         }
 
-        $crossSellXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<crosssell></crosssell>');
+        $crossSellXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<crosssell></crosssell>');
         if (!$this->getItemCount()) {
             return $crossSellXmlObj->asNiceXml();
         }
@@ -55,12 +55,12 @@ class Mage_XmlConnect_Block_Cart_Crosssell extends Mage_Checkout_Block_Cart_Cros
         foreach ($this->getItems() as $product) {
             $itemXmlObj = $crossSellXmlObj->addChild('item');
             $itemXmlObj->addChild('name', $crossSellXmlObj->xmlentities($product->getName()));
-            $icon = $this->helper('catalog/image')->init($product, 'thumbnail')
-                ->resize(Mage::helper('xmlconnect/image')->getImageSizeForContent('product_small'));
+            $icon = $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')
+                ->resize(Mage::helper('Mage_XmlConnect_Helper_Image')->getImageSizeForContent('product_small'));
 
             $iconXml = $itemXmlObj->addChild('icon', $icon);
 
-            $file = Mage::helper('xmlconnect')->urlToPath($icon);
+            $file = Mage::helper('Mage_XmlConnect_Helper_Data')->urlToPath($icon);
             $iconXml->addAttribute('modification_time', filemtime($file));
 
             $itemXmlObj->addChild('entity_id', $product->getId());
@@ -87,7 +87,7 @@ class Mage_XmlConnect_Block_Cart_Crosssell extends Mage_Checkout_Block_Cart_Cros
             }
 
             if (!$product->getRatingSummary()) {
-                Mage::getModel('review/review')->getEntitySummary($product, Mage::app()->getStore()->getId());
+                Mage::getModel('Mage_Review_Model_Review')->getEntitySummary($product, Mage::app()->getStore()->getId());
             }
 
             $itemXmlObj->addChild('rating_summary', round((int)$product->getRatingSummary()->getRatingSummary() / 10));

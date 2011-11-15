@@ -58,7 +58,7 @@ class Mage_Cron_Model_Schedule extends Mage_Core_Model_Abstract
 
     public function _construct()
     {
-        $this->_init('cron/schedule');
+        $this->_init('Mage_Cron_Model_Resource_Schedule');
     }
 
     public function setCronExpr($expr)
@@ -90,7 +90,7 @@ class Mage_Cron_Model_Schedule extends Mage_Core_Model_Abstract
             $time = strtotime($time);
         }
 
-        $d = getdate(Mage::getSingleton('core/date')->timestamp($time));
+        $d = getdate(Mage::getSingleton('Mage_Core_Model_Date')->timestamp($time));
 
         $match = $this->matchCronExpression($e[0], $d['minutes'])
             && $this->matchCronExpression($e[1], $d['hours'])

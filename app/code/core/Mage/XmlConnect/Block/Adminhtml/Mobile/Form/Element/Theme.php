@@ -42,7 +42,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Theme
     public function getHtml()
     {
         $blockClassName = Mage::getConfig()
-            ->getBlockClassName('xmlconnect/adminhtml_mobile_edit_tab_design_themes');
+            ->getBlockClassName('Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes');
         $block = new $blockClassName;
         $block->setThemes($this->getThemes());
         $block->setName($this->getName());

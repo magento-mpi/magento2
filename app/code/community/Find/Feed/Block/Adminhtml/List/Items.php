@@ -40,9 +40,9 @@ class Find_Feed_Block_Adminhtml_List_Items extends Mage_Adminhtml_Block_Widget_G
      */
     public function __construct()
     {
-        $this->_blockGroup = 'find_feed';
+        $this->_blockGroup = 'Find_Feed';
         $this->_controller = 'adminhtml_list_items';
-        $this->_headerText = Mage::helper('find_feed')->__('Product import');
+        $this->_headerText = Mage::helper('Find_Feed_Helper_Data')->__('Product import');
 
         parent::__construct();
 

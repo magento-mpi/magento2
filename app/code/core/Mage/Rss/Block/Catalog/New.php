@@ -47,10 +47,10 @@ class Mage_Rss_Block_Catalog_New extends Mage_Rss_Block_Catalog_Abstract
         $storeId = $this->_getStoreId();
 
         $newurl = Mage::getUrl('rss/catalog/new/store_id/' . $storeId);
-        $title = Mage::helper('rss')->__('New Products from %s',Mage::app()->getStore()->getGroup()->getName());
+        $title = Mage::helper('Mage_Rss_Helper_Data')->__('New Products from %s',Mage::app()->getStore()->getGroup()->getName());
         $lang = Mage::getStoreConfig('general/locale/code');
 
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = Mage::getModel('Mage_Rss_Model_Rss');
         $data = array('title' => $title,
                 'description' => $title,
                 'link'        => $newurl,
@@ -64,7 +64,7 @@ special price - getSpecialPrice()
 getFinalPrice() - used in shopping cart calculations
 */
 
-        $product = Mage::getModel('catalog/product');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $todayDate = $product->getResource()->formatDate(time());
 
         $products = $product->getCollection()
@@ -92,14 +92,14 @@ getFinalPrice() - used in shopping cart calculations
             ->applyFrontendPriceLimitations()
         ;
 
-        $products->setVisibility(Mage::getSingleton('catalog/product_visibility')->getVisibleInCatalogIds());
+        $products->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
 
         /*
         using resource iterator to load the data one by one
         instead of loading all at the same time. loading all data at the same time can cause the big memory allocation.
         */
 
-        Mage::getSingleton('core/resource_iterator')->walk(
+        Mage::getSingleton('Mage_Core_Model_Resource_Iterator')->walk(
                 $products->getSelect(),
                 array(array($this, 'addNewItemXmlCallback')),
                 array('rssObj'=> $rssObj, 'product'=>$product)
@@ -132,7 +132,7 @@ getFinalPrice() - used in shopping cart calculations
         $product->setData($args['row']);
         $description = '<table><tr>'
             . '<td><a href="'.$product->getProductUrl().'"><img src="'
-            . $this->helper('catalog/image')->init($product, 'thumbnail')->resize(75, 75)
+            . $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75)
             .'" border="0" align="left" height="75" width="75"></a></td>'.
             '<td  style="text-decoration:none;">'.$product->getDescription();
 

@@ -37,7 +37,7 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        Mage::getSingleton('catalog/session')->unsLastViewedProductId();
+        Mage::getSingleton('Mage_Catalog_Model_Session')->unsLastViewedProductId();
     }
 
     public function testInitProductLayout()
@@ -62,7 +62,7 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     {
         $this->_helper->prepareAndRender(10, $this->_controller);
         $this->assertNotEmpty($this->_controller->getResponse()->getBody());
-        $this->assertEquals(10, Mage::getSingleton('catalog/session')->getLastViewedProductId());
+        $this->assertEquals(10, Mage::getSingleton('Mage_Catalog_Model_Session')->getLastViewedProductId());
     }
 
     /**

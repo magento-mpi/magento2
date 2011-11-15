@@ -59,7 +59,7 @@ class Mage_Catalog_Helper_Category_Flat extends Mage_Core_Helper_Abstract
      */
     public function isRebuilt()
     {
-        return Mage::getResourceSingleton('catalog/category_flat')->isRebuilt();
+        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category_Flat')->isRebuilt();
     }
 
     /**

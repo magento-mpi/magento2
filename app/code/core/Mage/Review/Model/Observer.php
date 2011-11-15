@@ -43,7 +43,7 @@ class Mage_Review_Model_Observer
     public function tagProductCollectionLoadAfter(Varien_Event_Observer $observer)
     {
         $collection = $observer->getEvent()->getCollection();
-        Mage::getSingleton('review/review')
+        Mage::getSingleton('Mage_Review_Model_Review')
             ->appendSummary($collection);
 
         return $this;
@@ -59,7 +59,8 @@ class Mage_Review_Model_Observer
     {
         $eventProduct = $observer->getEvent()->getProduct();
         if ($eventProduct && $eventProduct->getId()) {
-            Mage::getResourceSingleton('review/review')->deleteReviewsByProductId($eventProduct->getId());
+            Mage::getResourceSingleton('Mage_Review_Model_Resource_Review')
+                ->deleteReviewsByProductId($eventProduct->getId());
         }
 
         return $this;
@@ -76,7 +77,7 @@ class Mage_Review_Model_Observer
         $productCollection = $observer->getEvent()->getCollection();
         if ($productCollection instanceof Varien_Data_Collection) {
             $productCollection->load();
-            Mage::getModel('review/review')->appendSummary($productCollection);
+            Mage::getModel('Mage_Review_Model_Review')->appendSummary($productCollection);
         }
 
         return $this;

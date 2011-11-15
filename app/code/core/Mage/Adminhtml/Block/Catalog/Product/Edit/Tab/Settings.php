@@ -36,9 +36,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Settings extends Mage_Adminh
     protected function _prepareLayout()
     {
         $this->setChild('continue_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Continue'),
+                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Continue'),
                     'onclick'   => "setSettings('".$this->getContinueUrl()."','attribute_set_id','product_type')",
                     'class'     => 'save'
                     ))
@@ -49,27 +49,27 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Settings extends Mage_Adminh
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
-        $fieldset = $form->addFieldset('settings', array('legend'=>Mage::helper('catalog')->__('Create Product Settings')));
+        $fieldset = $form->addFieldset('settings', array('legend'=>Mage::helper('Mage_Catalog_Helper_Data')->__('Create Product Settings')));
 
         $entityType = Mage::registry('product')->getResource()->getEntityType();
 
         $fieldset->addField('attribute_set_id', 'select', array(
-            'label' => Mage::helper('catalog')->__('Attribute Set'),
-            'title' => Mage::helper('catalog')->__('Attribute Set'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute Set'),
+            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute Set'),
             'name'  => 'set',
             'value' => $entityType->getDefaultAttributeSetId(),
-            'values'=> Mage::getResourceModel('eav/entity_attribute_set_collection')
+            'values'=> Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
                 ->setEntityTypeFilter($entityType->getId())
                 ->load()
                 ->toOptionArray()
         ));
 
         $fieldset->addField('product_type', 'select', array(
-            'label' => Mage::helper('catalog')->__('Product Type'),
-            'title' => Mage::helper('catalog')->__('Product Type'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Type'),
+            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Type'),
             'name'  => 'type',
             'value' => '',
-            'values'=> Mage::getModel('catalog/product_type')->getOptionArray()
+            'values'=> Mage::getModel('Mage_Catalog_Model_Product_Type')->getOptionArray()
         ));
 
         $fieldset->addField('continue_button', 'note', array(

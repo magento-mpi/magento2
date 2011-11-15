@@ -70,7 +70,7 @@ class Mage_LoadTest_Model_Renderer_Sales_Item_Type_Bundle extends Mage_LoadTest_
 		$this->_filteredOptions[$productId][$selection->getOptionId()][] = $selection->getSelectionId();
 
 		if(!isset($this->_productCounts[$selection->getSelectionId()])) {
-		    $product = Mage::getModel('catalog/product')->load($selection->getProductId());
+		    $product = Mage::getModel('Mage_Catalog_Model_Product')->load($selection->getProductId());
 		    $this->_productCounts[$selection->getSelectionId()] = $product->getStockItem()->getQty();
 		}
 	    }

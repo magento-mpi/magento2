@@ -39,22 +39,13 @@
                 </setup>
             </cron_setup>
         </resources>
-        <models>
-            <cron>
-                <class>Mage_Cron_Model</class>
-                <resourceModel>cron_resource</resourceModel>
-            </cron>
-            <cron_resource>
-                <class>Mage_Cron_Model_Resource</class>
-            </cron_resource>
-        </models>
     </global>
     <crontab>
         <events>
             <default>
                 <observers>
                     <cron_observer>
-                        <class>cron/observer</class>
+                        <class>Mage_Cron_Model_Observer</class>
                         <method>dispatch</method>
                     </cron_observer>
                 </observers>

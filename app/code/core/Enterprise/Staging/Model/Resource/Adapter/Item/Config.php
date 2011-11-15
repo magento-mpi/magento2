@@ -61,7 +61,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Config
                 foreach ($itemXmlConfig->ignore_nodes->children() as $node) {
                     $path = (string) $node->path;
                     /* $helper Mage_Core_Model_Resource_Helper_Abstract */
-                    $helper = Mage::getResourceHelper('core');
+                    $helper = Mage::getResourceHelper('Mage_Core');
                     $_where[] = 'path NOT LIKE ' . $helper->addLikeEscape($path, $likeOptions);
                 }
             }

@@ -43,13 +43,13 @@ class Mage_Adminhtml_Block_Widget_View_Container extends Mage_Adminhtml_Block_Wi
         $this->setTemplate('widget/view/container.phtml');
 
         $this->_addButton('back', array(
-            'label'     => Mage::helper('adminhtml')->__('Back'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Back'),
             'onclick'   => 'window.location.href=\'' . $this->getUrl('*/*/') . '\'',
             'class'     => 'back',
         ));
 
         $this->_addButton('edit', array(
-            'label'     => Mage::helper('adminhtml')->__('Edit'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Edit'),
             'class'     => 'edit',
             'onclick'   => 'window.location.href=\'' . $this->getEditUrl() . '\'',
         ));
@@ -58,7 +58,10 @@ class Mage_Adminhtml_Block_Widget_View_Container extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareLayout()
     {
-        $this->setChild('plane', $this->getLayout()->createBlock('adminhtml/' . $this->_controller . '_view_plane'));
+        $this->setChild('plane', $this->getLayout()->createBlock(
+            'Mage_Adminhtml_Block_'
+            . str_replace(' ', '_', ucwords(str_replace('_', ' ', $this->_controller)))
+            . '_View_Plane'));
         return parent::_prepareLayout();
     }
 

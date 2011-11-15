@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Mage_Adminhtml
     protected function _prepareColumns()
     {
         $this->addColumn('key', array(
-            'header'    => Mage::helper('sales')->__('Key'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Key'),
             'index'     => 'key',
             'sortable'  => false,
             'type'      => 'text',
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('value', array(
-            'header'    => Mage::helper('sales')->__('Value'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Value'),
             'index'     => 'value',
             'sortable'  => false,
             'type'      => 'text',

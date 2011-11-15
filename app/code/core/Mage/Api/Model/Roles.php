@@ -50,7 +50,7 @@ class Mage_Api_Model_Roles extends Mage_Core_Model_Abstract
 {
     protected function _construct()
     {
-        $this->_init('api/roles');
+        $this->_init('Mage_Api_Model_Resource_Roles');
     }
 
     public function update()
@@ -61,7 +61,7 @@ class Mage_Api_Model_Roles extends Mage_Core_Model_Abstract
 
     public function getUsersCollection()
     {
-        return Mage::getResourceModel('api/roles_user_collection');
+        return Mage::getResourceModel('Mage_Api_Model_Resource_Roles_User_Collection');
     }
 
     public function getResourcesTree()
@@ -84,12 +84,12 @@ class Mage_Api_Model_Roles extends Mage_Core_Model_Abstract
         return $this->getResource()->getRoleUsers($this);
     }
 
-    protected function _buildResourcesArray(Varien_Simplexml_Element $resource=null, $parentName=null, $level=0, $represent2Darray=null, $rawNodes = false, $module = 'adminhtml')
+    protected function _buildResourcesArray(Varien_Simplexml_Element $resource=null, $parentName=null, $level=0, $represent2Darray=null, $rawNodes = false, $module = 'Mage_Adminhtml')
     {
         static $result;
 
         if (is_null($resource)) {
-            $resource = Mage::getSingleton('api/config')->getNode('acl/resources');
+            $resource = Mage::getSingleton('Mage_Api_Model_Config')->getNode('acl/resources');
             $resourceName = null;
             $level = -1;
         } else {

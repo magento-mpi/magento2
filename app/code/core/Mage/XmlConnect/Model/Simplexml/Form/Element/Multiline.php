@@ -57,7 +57,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_Multiline
     {
         if (!isset($attributes['line_count'])) {
             Mage::throwException(
-                Mage::helper('xmlconnect')->__('"line_count" attribute is required for "multiline" element.')
+                Mage::helper('Mage_XmlConnect_Helper_Data')->__('"line_count" attribute is required for "multiline" element.')
             );
         }
         parent::__construct($attributes);

@@ -36,7 +36,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Form exten
     {
         parent::__construct();
         $this->setId('enterprise_customersegment_segment_form');
-        $this->setTitle(Mage::helper('enterprise_customersegment')->__('Segment Information'));
+        $this->setTitle(Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segment Information'));
     }
 
     /**

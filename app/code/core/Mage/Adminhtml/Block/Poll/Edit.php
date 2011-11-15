@@ -41,8 +41,8 @@ class Mage_Adminhtml_Block_Poll_Edit extends Mage_Adminhtml_Block_Widget_Form_Co
         $this->_objectId = 'id';
         $this->_controller = 'poll';
 
-        $this->_updateButton('save', 'label', Mage::helper('poll')->__('Save Poll'));
-        $this->_updateButton('delete', 'label', Mage::helper('poll')->__('Delete Poll'));
+        $this->_updateButton('save', 'label', Mage::helper('Mage_Poll_Helper_Data')->__('Save Poll'));
+        $this->_updateButton('delete', 'label', Mage::helper('Mage_Poll_Helper_Data')->__('Delete Poll'));
 
         $this->setValidationUrl($this->getUrl('*/*/validate', array('id' => $this->getRequest()->getParam($this->_objectId))));
     }
@@ -50,9 +50,9 @@ class Mage_Adminhtml_Block_Poll_Edit extends Mage_Adminhtml_Block_Widget_Form_Co
     public function getHeaderText()
     {
         if( Mage::registry('poll_data') && Mage::registry('poll_data')->getId() ) {
-            return Mage::helper('poll')->__("Edit Poll '%s'", $this->htmlEscape(Mage::registry('poll_data')->getPollTitle()));
+            return Mage::helper('Mage_Poll_Helper_Data')->__("Edit Poll '%s'", $this->htmlEscape(Mage::registry('poll_data')->getPollTitle()));
         } else {
-            return Mage::helper('poll')->__('New Poll');
+            return Mage::helper('Mage_Poll_Helper_Data')->__('New Poll');
         }
     }
 }

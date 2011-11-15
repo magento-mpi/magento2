@@ -78,12 +78,12 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('enterprise_staging/staging');
+        $this->_init('Enterprise_Staging_Model_Resource_Staging');
     }
 
     public function getTablePrefix()
     {
-        $prefix = Mage::getSingleton('enterprise_staging/staging_config')
+        $prefix = Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')
             ->getTablePrefix();
         if ($this->getId()) {
             $prefix .= $this->getId();
@@ -183,7 +183,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     public function getItemsCollection()
     {
         if (is_null($this->_items)) {
-            $this->_items = Mage::getResourceModel('enterprise_staging/staging_item_collection')
+            $this->_items = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging_Item_Collection')
                 ->setStagingFilter($this->getId());
 
             if ($this->getId()) {
@@ -202,7 +202,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function checkCoreFlag()
     {
-        $process = Mage::getSingleton('index/indexer')->getProcessByCode('catalog_category_product');
+        $process = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_category_product');
         if ($process->isLocked()) {
             return false;
         } else {
@@ -217,7 +217,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function setCoreFlag()
     {
-        $process = Mage::getSingleton('index/indexer')->getProcessByCode('catalog_category_product');
+        $process = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_category_product');
         $process->lock();
         return $this;
     }
@@ -229,7 +229,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function releaseCoreFlag()
     {
-        $process = Mage::getSingleton('index/indexer')->getProcessByCode('catalog_category_product');
+        $process = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_category_product');
         if ($process->isLocked()) {
             $process->unlock();
         }
@@ -260,7 +260,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function stagingProcessRun($process)
     {
-        $logBefore = Mage::getModel('enterprise_staging/staging_log')
+        $logBefore = Mage::getModel('Enterprise_Staging_Model_Staging_Log')
             ->saveOnProcessRun($this, $process, 'before');
 
         $method = $process.'Run';
@@ -271,7 +271,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 
             $this->_getResource()->{$method}($this, $logBefore);
 
-            $logAfter = Mage::getModel('enterprise_staging/staging_log');
+            $logAfter = Mage::getModel('Enterprise_Staging_Model_Staging_Log');
 
             $this->_afterStagingProcessRun($process, $logAfter);
 
@@ -328,16 +328,17 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 
         // rebuild flat tables after rollback
         if ($process == 'rollback') {
-            if (Mage::helper('catalog/category_flat')->isBuilt()) {
-                Mage::getResourceModel('catalog/category_flat')->rebuild();
+            if (Mage::helper('Mage_Catalog_Helper_Category_Flat')->isBuilt()) {
+                Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Flat')->rebuild();
             }
 
             $stores = $this->getMapperInstance()->getStores();
             if (!empty($stores)) {
                 foreach ($stores as $storeIds) {
                     if (isset($storeIds[0]) && $storeIds[0]) {
-                        if (Mage::helper('catalog/product_flat')->isBuilt()) {
-                            Mage::getResourceModel('catalog/product_flat_indexer')->rebuild($storeIds[0]);
+                        if (Mage::helper('Mage_Catalog_Helper_Product_Flat')->isBuilt()) {
+                            Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Flat_Indexer')
+                                ->rebuild($storeIds[0]);
                         }
                     }
                 }
@@ -357,11 +358,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 //                break;
 //        }
 //        if ($needToRebuiltFlat) {
-//            if (Mage::helper('catalog/category_flat')->isRebuilt()) {
-//                Mage::getResourceModel('catalog/category_flat')->rebuild();
+//            if (Mage::helper('Mage_Catalog_Helper_Category_Flat')->isRebuilt()) {
+//                Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Flat')->rebuild();
 //            }
-//            if (Mage::helper('catalog/product_flat')->isBuilt()) {
-//                Mage::getResourceModel('catalog/product_flat_indexer')->rebuild();
+//            if (Mage::helper('Mage_Catalog_Helper_Product_Flat')->isBuilt()) {
+//                Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Flat_Indexer')->rebuild();
 //            }
 //        }
         $this->releaseCoreFlag();
@@ -497,7 +498,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     public function getLogCollection($reload=false)
     {
         if (is_null($this->_logCollection) || $reload) {
-            $this->_logCollection = Mage::getResourceModel('enterprise_staging/staging_log_collection')
+            $this->_logCollection = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging_Log_Collection')
                 ->setStagingFilter($this->getId())
                 ->setOrder('created_at', 'desc')
                 ->setOrder('log_id', 'desc');
@@ -519,7 +520,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     public function getMapperInstance()
     {
         if ($this->_mapperInstance === null) {
-            $this->_mapperInstance = Mage::getSingleton('enterprise_staging/staging_mapper_website');
+            $this->_mapperInstance = Mage::getSingleton('Enterprise_Staging_Model_Staging_Mapper_Website');
         }
         return $this->_mapperInstance;
     }

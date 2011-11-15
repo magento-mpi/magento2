@@ -57,7 +57,7 @@ class Mage_ImportExport_Block_Adminhtml_Export_Edit extends Mage_Adminhtml_Block
         parent::_construct();
 
         $this->_objectId   = 'export_id';
-        $this->_blockGroup = 'importexport';
+        $this->_blockGroup = 'Mage_ImportExport';
         $this->_controller = 'adminhtml_export';
     }
 
@@ -68,6 +68,6 @@ class Mage_ImportExport_Block_Adminhtml_Export_Edit extends Mage_Adminhtml_Block
      */
     public function getHeaderText()
     {
-        return Mage::helper('importexport')->__('Export');
+        return Mage::helper('Mage_ImportExport_Helper_Data')->__('Export');
     }
 }

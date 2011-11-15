@@ -85,7 +85,7 @@ class Enterprise_Staging_Model_Resource_Staging_Action extends Mage_Core_Model_R
     {
         if ($object->getIsDeleteTables() === true) {
             $stagingTablePrefix = $object->getStagingTablePrefix();
-            $tables = Mage::getResourceHelper('enterprise_staging')->getTableNamesByPrefix($stagingTablePrefix);
+            $tables = Mage::getResourceHelper('Enterprise_Staging')->getTableNamesByPrefix($stagingTablePrefix);
             $connection = $this->_getWriteAdapter();
 
             foreach ($tables AS $table) {
@@ -105,6 +105,6 @@ class Enterprise_Staging_Model_Resource_Staging_Action extends Mage_Core_Model_R
      */
     public function getBackupTables($stagingTablePrefix)
     {
-        return Mage::getResourceHelper('enterprise_staging')->getTableNamesByPrefix($stagingTablePrefix);
+        return Mage::getResourceHelper('Enterprise_Staging')->getTableNamesByPrefix($stagingTablePrefix);
     }
 }

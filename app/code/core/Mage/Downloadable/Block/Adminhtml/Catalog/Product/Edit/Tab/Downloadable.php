@@ -102,7 +102,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getTabLabel()
     {
-        return Mage::helper('downloadable')->__('Downloadable Information');
+        return Mage::helper('Mage_Downloadable_Helper_Data')->__('Downloadable Information');
     }
 
     /**
@@ -112,7 +112,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getTabTitle()
     {
-        return Mage::helper('downloadable')->__('Downloadable Information');
+        return Mage::helper('Mage_Downloadable_Helper_Data')->__('Downloadable Information');
     }
 
     /**
@@ -142,20 +142,21 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     protected function _toHtml()
     {
-        $accordion = $this->getLayout()->createBlock('adminhtml/widget_accordion')
+        $accordion = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Accordion')
             ->setId('downloadableInfo');
 
         $accordion->addItem('samples', array(
-            'title'   => Mage::helper('adminhtml')->__('Samples'),
+            'title'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Samples'),
             'content' => $this->getLayout()
-                ->createBlock('downloadable/adminhtml_catalog_product_edit_tab_downloadable_samples')->toHtml(),
+                ->createBlock('Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples')
+                ->toHtml(),
             'open'    => false,
         ));
 
         $accordion->addItem('links', array(
-            'title'   => Mage::helper('adminhtml')->__('Links'),
+            'title'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Links'),
             'content' => $this->getLayout()->createBlock(
-                'downloadable/adminhtml_catalog_product_edit_tab_downloadable_links',
+                'Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links',
                 'catalog.product.edit.tab.downloadable.links')->toHtml(),
             'open'    => true,
         ));

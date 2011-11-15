@@ -87,7 +87,7 @@ class Enterprise_Rma_Model_Item_Status extends Varien_Object
             : array();
         return
             array_intersect_key(
-                Mage::getSingleton('enterprise_rma/item_attribute_source_status')->getAllOptionsForGrid(),
+                Mage::getSingleton('Enterprise_Rma_Model_Item_Attribute_Source_Status')->getAllOptionsForGrid(),
                 array_flip($boundingArray)
             );
     }

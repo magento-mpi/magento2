@@ -124,7 +124,7 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
 
             $select->having('orders_count > 0');
 
-            $helper        = Mage::getResourceHelper('core');
+            $helper        = Mage::getResourceHelper('Mage_Core');
             $insertQuery   = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
             $adapter->query($insertQuery);
 
@@ -241,7 +241,7 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
                 'order_table.shipping_description'
             ));
 
-            $helper        = Mage::getResourceHelper('core');
+            $helper        = Mage::getResourceHelper('Mage_Core');
             $insertQuery   = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
             $adapter->query($insertQuery);
 

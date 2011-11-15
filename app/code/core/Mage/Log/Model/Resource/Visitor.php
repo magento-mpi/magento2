@@ -70,8 +70,8 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
     {
         $adapter    = $this->_getWriteAdapter();
         $data       = new Varien_Object(array(
-            'url'    => Mage::helper('core/string')->substr($visitor->getUrl(), 0, 250),
-            'referer'=> Mage::helper('core/string')->substr($visitor->getHttpReferer(), 0, 250)
+            'url'    => Mage::helper('Mage_Core_Helper_String')->substr($visitor->getUrl(), 0, 250),
+            'referer'=> Mage::helper('Mage_Core_Helper_String')->substr($visitor->getHttpReferer(), 0, 250)
         ));
         $bind = $this->_prepareDataForTable($data, $this->getTable('log_url_info'));
 
@@ -128,7 +128,7 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
     protected function _saveVisitorInfo($visitor)
     {
         /* @var $stringHelper Mage_Core_Helper_String */
-        $stringHelper = Mage::helper('core/string');
+        $stringHelper = Mage::helper('Mage_Core_Helper_String');
 
         $referer    = $stringHelper->cleanString($visitor->getHttpReferer());
         $referer    = $stringHelper->substr($referer, 0, 255);
@@ -166,7 +166,7 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
         $data = new Varien_Object(array(
             'url_id'        => $visitor->getLastUrlId(),
             'visitor_id'    => $visitor->getId(),
-            'visit_time'    => Mage::getSingleton('core/date')->gmtDate()
+            'visit_time'    => Mage::getSingleton('Mage_Core_Model_Date')->gmtDate()
         ));
         $bind = $this->_prepareDataForTable($data, $this->getTable('log_url'));
 
@@ -188,7 +188,7 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
             $data = new Varien_Object(array(
                 'visitor_id'    => $visitor->getVisitorId(),
                 'customer_id'   => $visitor->getCustomerId(),
-                'login_at'      => Mage::getSingleton('core/date')->gmtDate(),
+                'login_at'      => Mage::getSingleton('Mage_Core_Model_Date')->gmtDate(),
                 'store_id'      => Mage::app()->getStore()->getId()
             ));
             $bind = $this->_prepareDataForTable($data, $this->getTable('log_customer'));
@@ -200,7 +200,7 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
 
         if ($visitor->getDoCustomerLogout() && $logId = $visitor->getCustomerLogId()) {
             $data = new Varien_Object(array(
-                'logout_at' => Mage::getSingleton('core/date')->gmtDate(),
+                'logout_at' => Mage::getSingleton('Mage_Core_Model_Date')->gmtDate(),
                 'store_id'  => (int)Mage::app()->getStore()->getId(),
             ));
 
@@ -233,7 +233,7 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
             $data = new Varien_Object(array(
                 'quote_id'      => (int) $visitor->getQuoteId(),
                 'visitor_id'    => (int) $visitor->getId(),
-                'created_at'    => Mage::getSingleton('core/date')->gmtDate()
+                'created_at'    => Mage::getSingleton('Mage_Core_Model_Date')->gmtDate()
             ));
 
             $bind = $this->_prepareDataForTable($data, $this->getTable('log_quote'));

@@ -69,7 +69,11 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     protected function _construct()
     {
         parent::_construct();
-        $this->addItemPriceBlockType('default', 'wishlist/render_item_price', 'render/item/price.phtml');
+        $this->addItemPriceBlockType(
+            'default',
+            'Mage_Wishlist_Block_Render_Item_Price',
+            'render/item/price.phtml'
+        );
     }
 
     /**
@@ -79,7 +83,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
      */
     protected function _getHelper()
     {
-        return Mage::helper('wishlist');
+        return Mage::helper('Mage_Wishlist_Helper_Data');
     }
 
     /**
@@ -89,7 +93,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
      */
     protected function _getCustomerSession()
     {
-        return Mage::getSingleton('customer/session');
+        return Mage::getSingleton('Mage_Customer_Model_Session');
     }
 
     /**
@@ -345,7 +349,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     public function getPriceHtml($product, $displayMinimalPrice = false, $idSuffix = '')
     {
         $type_id = $product->getTypeId();
-        if (Mage::helper('catalog')->canApplyMsrp($product)) {
+        if (Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($product)) {
             $realPriceHtml = $this->_preparePriceRenderer($type_id)
                 ->setProduct($product)
                 ->setDisplayMinimalPrice($displayMinimalPrice)
@@ -382,7 +386,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
         if (is_object($buyRequest)) {
             $config = $buyRequest->getSuperProductConfig();
             if ($config && !empty($config['product_id'])) {
-                $product = Mage::getModel('catalog/product')
+                $product = Mage::getModel('Mage_Catalog_Model_Product')
                     ->setStoreId(Mage::app()->getStore()->getStoreId())
                     ->load($config['product_id']);
             }
@@ -398,7 +402,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
      */
     public function getImageUrl($product)
     {
-        return (string) $this->helper('catalog/image')->init($product, 'small_image')->resize($this->getImageSize());
+        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'small_image')->resize($this->getImageSize());
     }
 
     /**

@@ -227,7 +227,7 @@ class Mage_Catalog_Helper_Product_Configuration extends Mage_Core_Helper_Abstrac
             $_default = array('value' => $optionValue);
             if (isset($optionInfo['option_type'])) {
                 try {
-                    $group = Mage::getModel('catalog/product_option')->groupFactory($optionInfo['option_type']);
+                    $group = Mage::getModel('Mage_Catalog_Model_Product_Option')->groupFactory($optionInfo['option_type']);
                     return array('value' => $group->getCustomizedView($optionInfo));
                 } catch (Exception $e) {
                     return $_default;
@@ -244,7 +244,7 @@ class Mage_Catalog_Helper_Product_Configuration extends Mage_Core_Helper_Abstrac
             return array('value' => $_truncatedValue);
         } else {
             if ($maxLength) {
-                $_truncatedValue = Mage::helper('core/string')->truncate($optionValue, $maxLength, '');
+                $_truncatedValue = Mage::helper('Mage_Core_Helper_String')->truncate($optionValue, $maxLength, '');
             } else {
                 $_truncatedValue = $optionValue;
             }
@@ -253,7 +253,7 @@ class Mage_Catalog_Helper_Product_Configuration extends Mage_Core_Helper_Abstrac
 
         $result = array('value' => $_truncatedValue);
 
-        if ($maxLength && (Mage::helper('core/string')->strlen($optionValue) > $maxLength)) {
+        if ($maxLength && (Mage::helper('Mage_Core_Helper_String')->strlen($optionValue) > $maxLength)) {
             $result['value'] = $result['value'] . $cutReplacer;
             $optionValue = nl2br($optionValue);
             $result['full_view'] = $optionValue;

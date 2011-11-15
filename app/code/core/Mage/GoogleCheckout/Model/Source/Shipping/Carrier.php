@@ -29,7 +29,7 @@ class Mage_GoogleCheckout_Model_Source_Shipping_Carrier
 {
     public function toOptionArray()
     {
-        $hlp = Mage::helper('googlecheckout');
+        $hlp = Mage::helper('Mage_GoogleCheckout_Helper_Data');
         return array(
             array('label' => $hlp->__('FedEx'), 'value' => array(
                 array('label' => $hlp->__('Ground'), 'value' => 'FedEx/Ground'),

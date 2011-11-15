@@ -43,17 +43,17 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search extends Mage_Adminhtml_Bloc
 
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Please Select Products to Add');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Please Select Products to Add');
     }
 
     public function getButtonsHtml()
     {
         $addButtonData = array(
-            'label' => Mage::helper('sales')->__('Add Selected Product(s) to Order'),
+            'label' => Mage::helper('Mage_Sales_Helper_Data')->__('Add Selected Product(s) to Order'),
             'onclick' => 'order.productGridAddSelected()',
             'class' => 'add',
         );
-        return $this->getLayout()->createBlock('adminhtml/widget_button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData($addButtonData)->toHtml();
     }
 
     public function getHeaderCssClass()

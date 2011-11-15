@@ -59,7 +59,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Urlkey extends Mage_Eav_Model
          */
         /*if (!$object->getExcludeUrlRewrite() &&
             ($object->dataHasChangedFor('url_key') || $object->getIsChangedCategories() || $object->getIsChangedWebsites())) {
-            Mage::getSingleton('catalog/url')->refreshProductRewrite($object->getId());
+            Mage::getSingleton('Mage_Catalog_Model_Url')->refreshProductRewrite($object->getId());
         }*/
         return $this;
     }

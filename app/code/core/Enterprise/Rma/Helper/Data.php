@@ -99,7 +99,8 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
             Mage::throwException($this->__('It isn\'t valid order'));
         }
         if (is_null($this->_orderItems) || !isset($this->_orderItems[$orderId])) {
-            $this->_orderItems[$orderId] = Mage::getResourceModel('enterprise_rma/item')->getOrderItems($orderId);
+            $this->_orderItems[$orderId] = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item')
+                ->getOrderItems($orderId);
         }
 
         if ($onlyParents) {
@@ -125,7 +126,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getReturnCreateUrl($order)
     {
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
             return Mage::getUrl('rma/return/create', array('order_id' => $order->getId()));
         } else {
             return Mage::getUrl('rma/guest/create', array('order_id' => $order->getId()));
@@ -173,7 +174,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $contactName = new Varien_Object();
         if (Mage::getStoreConfigFlag(Enterprise_Rma_Model_Rma::XML_PATH_USE_STORE_ADDRESS, $storeId)) {
-            $admin = Mage::getSingleton('admin/session')->getUser();
+            $admin = Mage::getSingleton('Mage_Admin_Model_Session')->getUser();
             $contactName->setFirstName($admin->getFirstname());
             $contactName->setLastName($admin->getLastname());
             $contactName->setName($admin->getName());
@@ -194,7 +195,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getReturnAddressModel($storeId = null)
     {
-        $addressModel = Mage::getModel('sales/quote_address');
+        $addressModel = Mage::getModel('Mage_Sales_Model_Quote_Address');
         $addressModel->setData($this->_getAddressData($storeId));
         $addressModel->setCountryId($addressModel->getData('countryId'));
         $addressModel->setStreet($addressModel->getData('street1')."\n".$addressModel->getData('street2'));
@@ -235,7 +236,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         $data['country']    = $this->_getCountryModel()->loadByCode($data['countryId'])->getName();
-        $region             = Mage::getModel('directory/region')->load($data['region_id']);
+        $region             = Mage::getModel('Mage_Directory_Model_Region')->load($data['region_id']);
         $data['region_id']  = $region->getCode();
         $data['region']     = $region->getName();
         $data['company']    = Mage::getStoreConfig(Mage_Core_Model_Store::XML_PATH_STORE_STORE_NAME, $store);
@@ -252,7 +253,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
     protected function _getCountryModel()
     {
         if (is_null($this->_countryModel)) {
-            $this->_countryModel = Mage::getModel('directory/country');
+            $this->_countryModel = Mage::getModel('Mage_Directory_Model_Country');
         }
         return $this->_countryModel;
     }
@@ -338,7 +339,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
         $key    = 'rma_id';
         $method = 'getId';
         $param = array(
-             'hash' => Mage::helper('core')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
+             'hash' => Mage::helper('Mage_Core_Helper_Data')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
         );
 
          $storeId = is_object($model) ? $model->getStoreId() : null;
@@ -372,7 +373,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
     protected function _getTrackingUrl($key, $model, $method = 'getId')
     {
          $param = array(
-             'hash' => Mage::helper('core')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
+             'hash' => Mage::helper('Mage_Core_Helper_Data')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
          );
 
          $storeId = is_object($model) ? $model->getStoreId() : null;
@@ -388,7 +389,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function decodeTrackingHash($hash)
     {
-        $hash = explode(':', Mage::helper('core')->urlDecode($hash));
+        $hash = explode(':', Mage::helper('Mage_Core_Helper_Data')->urlDecode($hash));
         if (count($hash) === 3 && in_array($hash[0], $this->_allowedHashKeys)) {
             return array('key' => $hash[0], 'id' => (int)$hash[1], 'hash' => $hash[2]);
         }
@@ -430,8 +431,8 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
         $storeDate = Mage::app()->getLocale()
             ->storeDate(Mage::app()->getStore(), Varien_Date::toTimestamp($date), true);
 
-        return Mage::helper('core')
-            ->formatDate($storeDate, Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        return Mage::helper('Mage_Core_Helper_Data')
+            ->formatDateRespectTimezone($storeDate, Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
     }
 
     /**

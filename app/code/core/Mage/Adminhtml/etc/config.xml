@@ -32,23 +32,9 @@
         </Mage_Adminhtml>
     </modules>
     <global>
-        <models>
-            <adminhtml>
-                <class>Mage_Adminhtml_Model</class>
-                <resourceModel>adminhtml_resource</resourceModel>
-            </adminhtml>
-            <adminhtml_resource>
-                <class>Mage_Adminhtml_Model_Resource</class>
-            </adminhtml_resource>
-        </models>
-        <blocks>
-            <adminhtml>
-                <class>Mage_Adminhtml_Block</class>
-            </adminhtml>
-        </blocks>
         <template>
             <email>
-                <admin_emails_forgot_email_template translate="label" module="adminhtml">
+                <admin_emails_forgot_email_template translate="label" module="Mage_Adminhtml">
                     <label>Forgot Admin Password</label>
                     <file>email/password_reset_confirmation.html</file>
                     <type>html</type>
@@ -59,11 +45,11 @@
             <adminhtml_controller_action_predispatch_start>
                 <observers>
                     <store>
-                        <class>adminhtml/observer</class>
+                        <class>Mage_Adminhtml_Model_Observer</class>
                         <method>bindStore</method>
                     </store>
                     <massaction>
-                        <class>adminhtml/observer</class>
+                        <class>Mage_Adminhtml_Model_Observer</class>
                         <method>massactionPrepareKey</method>
                     </massaction>
                 </observers>
@@ -71,7 +57,7 @@
             <admin_user_authenticate_after>
                 <observers>
                     <configuration_files_access_level_verification>
-                        <class>adminhtml/observer</class>
+                        <class>Mage_Adminhtml_Model_Observer</class>
                         <method>clearCacheConfigurationFilesAccessLevelVerification</method>
                     </configuration_files_access_level_verification>
                 </observers>
@@ -94,7 +80,7 @@
             <controller_action_predispatch>
                 <observers>
                     <auth>
-                        <class>admin/observer</class>
+                        <class>Mage_Admin_Model_Observer</class>
                         <method>actionPreDispatchAdmin</method>
                     </auth>
                 </observers>
@@ -102,7 +88,7 @@
             <core_locale_set_locale>
                 <observers>
                     <bind_locale>
-                        <class>adminhtml/observer</class>
+                        <class>Mage_Adminhtml_Model_Observer</class>
                         <method>bindLocale</method>
                     </bind_locale>
                 </observers>
@@ -110,7 +96,7 @@
             <admin_system_config_changed_section_admin>
                 <observers>
                     <bind_locale>
-                        <class>adminhtml/system_config_backend_admin_observer</class>
+                        <class>Mage_Adminhtml_Model_System_Config_Backend_Admin_Observer</class>
                         <method>afterCustomUrlChanged</method>
                     </bind_locale>
                 </observers>
@@ -118,15 +104,15 @@
         </events>
         <global_search>
             <products>
-                <class>adminhtml/search_catalog</class>
+                <class>Mage_Adminhtml_Model_Search_Catalog</class>
                 <acl>catalog</acl>
             </products>
             <customers>
-                <class>adminhtml/search_customer</class>
+                <class>Mage_Adminhtml_Model_Search_Customer</class>
                 <acl>customer</acl>
             </customers>
             <sales>
-                <class>adminhtml/search_order</class>
+                <class>Mage_Adminhtml_Model_Search_Order</class>
                 <acl>sales</acl>
             </sales>
         </global_search>
@@ -208,7 +194,6 @@
         <general>
             <file>
                 <sitemap_generate_valid_paths>
-                    <!-- This data should be merged with public_files_valid_paths -->
                     <available>
                         <any_path>/*/sitemap.xml</any_path>
                     </available>

@@ -31,7 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Customer_GiftcardCheck extends Enterprise_GiftCardAccount_Block_Check
+class Mage_XmlConnect_Block_Customer_GiftcardCheck extends Mage_Core_Block_Template
 {
     /**
      * Render gift card info xml
@@ -40,12 +40,13 @@ class Mage_XmlConnect_Block_Customer_GiftcardCheck extends Enterprise_GiftCardAc
      */
     protected function _toHtml()
     {
-        $card = $this->getCard();
-        if ($card->getId()) {
+        /** @var $card Enterprise_GiftCardAccount_Model_Giftcardaccount */
+        $card = Mage::registry('current_giftcardaccount');
+        if ($card && $card->getId()) {
             /** @var $xmlModel Mage_XmlConnect_Model_Simplexml_Element */
-            $xmlModel = Mage::getModel('xmlconnect/simplexml_element', '<gift_card_account></gift_card_account>');
+            $xmlModel = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<gift_card_account></gift_card_account>');
 
-            $balance = Mage::helper('core')->currency($card->getBalance(), true, false);
+            $balance = Mage::helper('Mage_Core_Helper_Data')->currency($card->getBalance(), true, false);
 
             $result[] = $this->__("Gift Card: %s", $card->getCode());
             $result[] = $this->__('Current Balance: %s', $balance);
@@ -55,7 +56,7 @@ class Mage_XmlConnect_Block_Customer_GiftcardCheck extends Enterprise_GiftCardAc
             }
             $xmlModel->addCustomChild('info', implode(PHP_EOL, $result));
         } else {
-            $xmlModel = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+            $xmlModel = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
             $xmlModel->addCustomChild('status', Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_ERROR);
             $xmlModel->addCustomChild('text', $this->__('Wrong or expired Gift Card Code.'));
         }

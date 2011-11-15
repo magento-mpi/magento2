@@ -95,7 +95,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('newsletter/subscriber');
+        $this->_init('Mage_Newsletter_Model_Resource_Subscriber');
     }
 
     /**
@@ -134,7 +134,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
      * @return string
      */
     public function getConfirmationLink() {
-        return Mage::helper('newsletter')->getConfirmationUrl($this);
+        return Mage::helper('Mage_Newsletter_Helper_Data')->getConfirmationUrl($this);
     }
 
     /**
@@ -143,7 +143,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
      * @return string
      */
     public function getUnsubscriptionLink() {
-        return Mage::helper('newsletter')->getUnsubscribeUrl($this);
+        return Mage::helper('Mage_Newsletter_Helper_Data')->getUnsubscribeUrl($this);
     }
 
     /**
@@ -307,7 +307,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
     public function subscribe($email)
     {
         $this->loadByEmail($email);
-        $customerSession = Mage::getSingleton('customer/session');
+        $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
 
         if(!$this->getId()) {
             $this->setSubscriberConfirmCode($this->randomSequence());
@@ -315,7 +315,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
 
         $isConfirmNeed   = (Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG) == 1) ? true : false;
         $isOwnSubscribes = false;
-        $ownerId = Mage::getModel('customer/customer')
+        $ownerId = Mage::getModel('Mage_Customer_Model_Customer')
             ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
             ->loadByEmail($email)
             ->getId();
@@ -371,7 +371,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
     public function unsubscribe()
     {
         if ($this->hasCheckCode() && $this->getCode() != $this->getCheckCode()) {
-            Mage::throwException(Mage::helper('newsletter')->__('Invalid subscription confirmation code.'));
+            Mage::throwException(Mage::helper('Mage_Newsletter_Helper_Data')->__('Invalid subscription confirmation code.'));
         }
 
         $this->setSubscriberStatus(self::STATUS_UNSUBSCRIBED)
@@ -507,11 +507,11 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        $email = Mage::getModel('core/email_template');
+        $email = Mage::getModel('Mage_Core_Model_Email_Template');
 
         $email->sendTransactional(
             Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_TEMPLATE),
@@ -543,11 +543,11 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        $email = Mage::getModel('core/email_template');
+        $email = Mage::getModel('Mage_Core_Model_Email_Template');
 
         $email->sendTransactional(
             Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_TEMPLATE),
@@ -578,11 +578,11 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        $email = Mage::getModel('core/email_template');
+        $email = Mage::getModel('Mage_Core_Model_Email_Template');
 
         $email->sendTransactional(
             Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE),

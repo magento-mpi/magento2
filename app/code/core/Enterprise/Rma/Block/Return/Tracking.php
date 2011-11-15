@@ -70,8 +70,8 @@ class Enterprise_Rma_Block_Return_Tracking extends Mage_Core_Block_Template
      */
     public function getErrorMessage()
     {
-        $message = Mage::getSingleton('core/session')->getErrorMessage();
-        Mage::getSingleton('core/session')->unsErrorMessage();
+        $message = Mage::getSingleton('Mage_Core_Model_Session')->getErrorMessage();
+        Mage::getSingleton('Mage_Core_Model_Session')->unsErrorMessage();
         return $message;
     }
 

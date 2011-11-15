@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesusers extends Mage_Adminhtml_Blo
 
         $roleId = $this->getRequest()->getParam('rid', false);
 
-        $users = Mage::getModel("admin/user")->getCollection()->load();
+        $users = Mage::getModel('Mage_Admin_Model_User')->getCollection()->load();
         $this->setTemplate('permissions/rolesusers.phtml')
             ->assign('users', $users->getItems())
             ->assign('roleId', $roleId);
@@ -40,7 +40,10 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesusers extends Mage_Adminhtml_Blo
 
     protected function _prepareLayout()
     {
-        $this->setChild('userGrid', $this->getLayout()->createBlock('adminhtml/permissions_role_grid_user', 'roleUsersGrid'));
+        $this->setChild(
+            'userGrid',
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Permissions_Role_Grid_User', 'roleUsersGrid')
+        );
         return parent::_prepareLayout();
     }
 

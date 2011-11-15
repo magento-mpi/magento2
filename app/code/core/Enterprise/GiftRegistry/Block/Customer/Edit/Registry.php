@@ -56,7 +56,7 @@ class Enterprise_GiftRegistry_Block_Customer_Edit_Registry extends  Enterprise_G
      */
     public function getIsPublicHtml()
     {
-        $options[''] = Mage::helper('enterprise_giftregistry')->__('Please Select');
+        $options[''] = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please Select');
         $options += $this->getEntity()->getOptionsIsPublic();
         $value = $this->getEntity()->getIsPublic();
         return $this->getSelectHtml($options, 'is_public', 'is_public', $value, 'required-entry');

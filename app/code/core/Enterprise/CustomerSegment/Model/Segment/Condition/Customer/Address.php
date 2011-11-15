@@ -36,7 +36,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_customer_address');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address');
     }
 
     /**
@@ -46,14 +46,14 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'enterprise_customersegment/segment_condition_customer_address_';
+        $prefix = 'Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_';
         $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
             array(
                 'value' => $this->getType(),
-                'label' => Mage::helper('enterprise_customersegment')->__('Conditions Combination')
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions Combination')
             ),
-            Mage::getModel($prefix.'default')->getNewChildSelectOptions(),
-            Mage::getModel($prefix.'attributes')->getNewChildSelectOptions(),
+            Mage::getModel($prefix.'Default')->getNewChildSelectOptions(),
+            Mage::getModel($prefix.'Attributes')->getNewChildSelectOptions(),
         ));
         return $result;
     }
@@ -66,7 +66,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('If Customer Addresses match %s of these Conditions:',
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Customer Addresses match %s of these Conditions:',
                 $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
@@ -92,14 +92,14 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
     {
         $resource = $this->getResource();
         $select = $resource->createSelect();
-        $addressEntityType = Mage::getSingleton('eav/config')->getEntityType('customer_address');
+        $addressEntityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer_address');
         $addressTable = $resource->getTable($addressEntityType->getEntityTable());
 
         $select->from(array('customer_address' => $addressTable), array(new Zend_Db_Expr(1)));
         $select->where('customer_address.entity_type_id = ?', $addressEntityType->getId());
         $select->where($this->_createCustomerFilter($customer, 'customer_address.parent_id'));
 
-        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
 
         return $select;
     }

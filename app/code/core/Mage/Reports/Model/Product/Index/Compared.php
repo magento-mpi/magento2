@@ -57,7 +57,7 @@ class Mage_Reports_Model_Product_Index_Compared extends Mage_Reports_Model_Produ
      */
     protected function _construct()
     {
-        $this->_init('reports/product_index_compared');
+        $this->_init('Mage_Reports_Model_Resource_Product_Index_Compared');
     }
 
     /**
@@ -70,7 +70,7 @@ class Mage_Reports_Model_Product_Index_Compared extends Mage_Reports_Model_Produ
         $productIds = array();
 
         /* @var $helper Mage_Catalog_Helper_Product_Compare */
-        $helper = Mage::helper('catalog/product_compare');
+        $helper = Mage::helper('Mage_Catalog_Helper_Product_Compare');
 
         if ($helper->hasItems()) {
             foreach ($helper->getItemCollection() as $_item) {

@@ -45,7 +45,7 @@ class Mage_Customer_Model_Resource_Address_Attribute_Backend_Region
     {
         $region = $object->getData('region');
         if (is_numeric($region)) {
-            $regionModel = Mage::getModel('directory/region')->load($region);
+            $regionModel = Mage::getModel('Mage_Directory_Model_Region')->load($region);
             if ($regionModel->getId() && $object->getCountryId() == $regionModel->getCountryId()) {
                 $object->setRegionId($regionModel->getId())
                     ->setRegion($regionModel->getName());

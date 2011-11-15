@@ -66,7 +66,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
                 $this->_getQuote()->removeAllAddresses();
             }
 
-            $customer = Mage::getSingleton('customer/session')->getCustomer();
+            $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
             if ($customer && $customer->getId()) {
                 $this->_checkout->setCustomerWithAddressChange(
                     $customer, null, $this->_getQuote()->getShippingAddress()
@@ -110,7 +110,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     {
         try {
             $quoteId = $this->getRequest()->getParam('quote_id');
-            $this->_quote = Mage::getModel('sales/quote')->load($quoteId);
+            $this->_quote = Mage::getModel('Mage_Sales_Model_Quote')->load($quoteId);
             $this->_initCheckout();
             $response = $this->_checkout->getShippingOptionsCallbackResponse($this->getRequest()->getParams());
             $this->getResponse()->setBody($response);
@@ -129,7 +129,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             // TODO verify if this logic of order cancelation is deprecated
             // if there is an order - cancel it
             $orderId = $this->_getCheckoutSession()->getLastOrderId();
-            $order = ($orderId) ? Mage::getModel('sales/order')->load($orderId) : false;
+            $order = ($orderId) ? Mage::getModel('Mage_Sales_Model_Order')->load($orderId) : false;
             if ($order && $order->getId() && $order->getQuoteId() == $this->_getCheckoutSession()->getQuoteId()) {
                 $order->cancel()->save();
                 $this->_getCheckoutSession()
@@ -164,10 +164,10 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             return;
         }
         catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('checkout/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Checkout_Model_Session')->addError($e->getMessage());
         }
         catch (Exception $e) {
-            Mage::getSingleton('checkout/session')->addError($this->__('Unable to process Express Checkout approval.'));
+            Mage::getSingleton('Mage_Checkout_Model_Session')->addError($this->__('Unable to process Express Checkout approval.'));
             Mage::logException($e);
         }
         $this->_redirect('checkout/cart');
@@ -182,7 +182,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             $this->_initCheckout();
             $this->_checkout->prepareOrderReview($this->_initToken());
             $this->loadLayout();
-            $this->_initLayoutMessages('paypal/session');
+            $this->_initLayoutMessages('Mage_Paypal_Model_Session');
             $this->getLayout()->getBlock('paypal.express.review')
                 ->setQuote($this->_getQuote())
                 ->getChild('details')->setQuote($this->_getQuote())
@@ -191,10 +191,10 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             return;
         }
         catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('checkout/session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Checkout_Model_Session')->addError($e->getMessage());
         }
         catch (Exception $e) {
-            Mage::getSingleton('checkout/session')->addError(
+            Mage::getSingleton('Mage_Checkout_Model_Session')->addError(
                 $this->__('Unable to initialize Express Checkout review.')
             );
             Mage::logException($e);
@@ -254,11 +254,11 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     public function placeOrderAction()
     {
         try {
-            $requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds();
+            $requiredAgreements = Mage::helper('Mage_Checkout_Helper_Data')->getRequiredAgreementIds();
             if ($requiredAgreements) {
                 $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
                 if (array_diff($requiredAgreements, $postedAgreements)) {
-                    Mage::throwException(Mage::helper('paypal')->__('Please agree to all the terms and conditions before placing the order.'));
+                    Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Please agree to all the terms and conditions before placing the order.'));
                 }
             }
 
@@ -324,7 +324,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
         $quote = $this->_getQuote();
         if (!$quote->hasItems() || $quote->getHasError()) {
             $this->getResponse()->setHeader('HTTP/1.1','403 Forbidden');
-            Mage::throwException(Mage::helper('paypal')->__('Unable to initialize Express Checkout.'));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Unable to initialize Express Checkout.'));
         }
         $this->_checkout = Mage::getSingleton($this->_checkoutType, array(
             'config' => $this->_config,
@@ -370,7 +370,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
      */
     private function _getSession()
     {
-        return Mage::getSingleton('paypal/session');
+        return Mage::getSingleton('Mage_Paypal_Model_Session');
     }
 
     /**
@@ -380,7 +380,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
      */
     private function _getCheckoutSession()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**
@@ -404,8 +404,8 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     {
         $this->setFlag('', 'no-dispatch', true);
         $this->getResponse()->setRedirect(
-            Mage::helper('core/url')->addRequestParam(
-                Mage::helper('customer')->getLoginUrl(),
+            Mage::helper('Mage_Core_Helper_Url')->addRequestParam(
+                Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl(),
                 array('context' => 'checkout')
             )
         );

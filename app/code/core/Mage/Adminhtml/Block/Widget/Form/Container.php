@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
     protected $_formScripts = array();
     protected $_formInitScripts = array();
     protected $_mode = 'edit';
-    protected $_blockGroup = 'adminhtml';
+    protected $_blockGroup = 'Mage_Adminhtml';
 
     public function __construct()
     {
@@ -49,12 +49,12 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
         }
 
         $this->_addButton('back', array(
-            'label'     => Mage::helper('adminhtml')->__('Back'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Back'),
             'onclick'   => 'setLocation(\'' . $this->getBackUrl() . '\')',
             'class'     => 'back',
         ), -1);
         $this->_addButton('reset', array(
-            'label'     => Mage::helper('adminhtml')->__('Reset'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Reset'),
             'onclick'   => 'setLocation(window.location.href)',
         ), -1);
 
@@ -62,15 +62,15 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
 
         if (! empty($objId)) {
             $this->_addButton('delete', array(
-                'label'     => Mage::helper('adminhtml')->__('Delete'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Delete'),
                 'class'     => 'delete',
-                'onclick'   => 'deleteConfirm(\''. Mage::helper('adminhtml')->__('Are you sure you want to do this?')
+                'onclick'   => 'deleteConfirm(\''. Mage::helper('Mage_Adminhtml_Helper_Data')->__('Are you sure you want to do this?')
                     .'\', \'' . $this->getDeleteUrl() . '\')',
             ));
         }
 
         $this->_addButton('save', array(
-            'label'     => Mage::helper('adminhtml')->__('Save'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save'),
             'onclick'   => 'editForm.submit();',
             'class'     => 'save',
         ), 1);
@@ -79,7 +79,14 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
     protected function _prepareLayout()
     {
         if ($this->_blockGroup && $this->_controller && $this->_mode) {
-            $this->setChild('form', $this->getLayout()->createBlock($this->_blockGroup . '/' . $this->_controller . '_' . $this->_mode . '_form'));
+            $this->setChild(
+                'form',
+                $this->getLayout()->createBlock($this->_blockGroup
+                    . '_Block_'
+                    . str_replace(' ', '_', ucwords(str_replace('_', ' ', $this->_controller . '_' . $this->_mode)))
+                    . '_Form'
+                )
+            );
         }
         return parent::_prepareLayout();
     }

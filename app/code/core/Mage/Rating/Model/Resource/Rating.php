@@ -52,7 +52,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
     {
         $this->_uniqueFields = array(array(
             'field' => 'rating_code',
-            'title' => /* Mage::helper('rating')->__('Rating with the same title')*/ ''
+            'title' => /* Mage::helper('Mage_Rating_Helper_Data')->__('Rating with the same title')*/ ''
         ));
         return $this;
     }
@@ -228,7 +228,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
     protected function _afterDelete(Mage_Core_Model_Abstract $object)
     {
         parent::_afterDelete($object);
-        if (!Mage::helper('rating')->isModuleEnabled('Mage_Review')) {
+        if (!Mage::helper('Mage_Rating_Helper_Data')->isModuleEnabled('Mage_Review')) {
             return $this;
         }
         $data = $this->_getEntitySummaryData($object);
@@ -238,7 +238,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
             $clone->addData($row);
             $summary[$clone->getStoreId()][$clone->getEntityPkValue()] = $clone;
         }
-        Mage::getResourceModel('review/review_summary')->reAggregate($summary);
+        Mage::getResourceModel('Mage_Review_Model_Resource_Review_Summary')->reAggregate($summary);
         return $this;
     }
 
@@ -265,7 +265,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
         $result = array();
 
         //$stores = Mage::app()->getStore()->getResourceCollection()->load();
-        $stores = Mage::getModel('core/store')->getResourceCollection()->load();
+        $stores = Mage::getModel('Mage_Core_Model_Store')->getResourceCollection()->load();
 
         foreach ($data as $row) {
             $clone = clone $object;

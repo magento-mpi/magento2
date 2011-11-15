@@ -36,20 +36,20 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('catalog/session');
+        return Mage::getSingleton('Mage_Catalog_Model_Session');
     }
     /**
      * Display search result
      */
     public function indexAction()
     {
-        $query = Mage::helper('catalogsearch')->getQuery();
+        $query = Mage::helper('Mage_CatalogSearch_Helper_Data')->getQuery();
         /* @var $query Mage_CatalogSearch_Model_Query */
 
         $query->setStoreId(Mage::app()->getStore()->getId());
 
         if ($query->getQueryText()) {
-            if (Mage::helper('catalogsearch')->isMinQueryLength()) {
+            if (Mage::helper('Mage_CatalogSearch_Helper_Data')->isMinQueryLength()) {
                 $query->setId(0)
                     ->setIsActive(1)
                     ->setIsProcessed(1);
@@ -72,14 +72,14 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
                 }
             }
 
-            Mage::helper('catalogsearch')->checkNotes();
+            Mage::helper('Mage_CatalogSearch_Helper_Data')->checkNotes();
 
             $this->loadLayout();
-            $this->_initLayoutMessages('catalog/session');
-            $this->_initLayoutMessages('checkout/session');
+            $this->_initLayoutMessages('Mage_Catalog_Model_Session');
+            $this->_initLayoutMessages('Mage_Checkout_Model_Session');
             $this->renderLayout();
 
-            if (!Mage::helper('catalogsearch')->isMinQueryLength()) {
+            if (!Mage::helper('Mage_CatalogSearch_Helper_Data')->isMinQueryLength()) {
                 $query->save();
             }
         }

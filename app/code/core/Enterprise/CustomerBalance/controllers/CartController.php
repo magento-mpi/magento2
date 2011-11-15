@@ -39,7 +39,7 @@ class Enterprise_CustomerBalance_CartController extends Mage_Core_Controller_Fro
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('customer/session')->authenticate($this)) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }
@@ -50,19 +50,19 @@ class Enterprise_CustomerBalance_CartController extends Mage_Core_Controller_Fro
      */
     public function removeAction()
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             $this->_redirect('customer/account/');
             return;
         }
 
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
+        $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
         if ($quote->getUseCustomerBalance()) {
-            Mage::getSingleton('checkout/session')->addSuccess(
+            Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
                 $this->__('The store credit payment has been removed from shopping cart.')
             );
             $quote->setUseCustomerBalance(false)->collectTotals()->save();
         } else {
-            Mage::getSingleton('checkout/session')->addError(
+            Mage::getSingleton('Mage_Checkout_Model_Session')->addError(
                 $this->__('Store Credit payment is not being used in your shopping cart.')
             );
         }

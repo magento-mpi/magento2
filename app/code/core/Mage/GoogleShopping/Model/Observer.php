@@ -45,10 +45,10 @@ class Mage_GoogleShopping_Model_Observer
         $items = $this->_getItemsCollection($product);
 
         try {
-            Mage::getModel('googleshopping/massOperations')
+            Mage::getModel('Mage_GoogleShopping_Model_MassOperations')
                 ->synchronizeItems($items);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
-            Mage::getSingleton('adminhtml/session')
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')
                 ->addError('Cannot update Google Content Item. Google requires CAPTCHA.');
         }
 
@@ -67,10 +67,10 @@ class Mage_GoogleShopping_Model_Observer
         $items = $this->_getItemsCollection($product);
 
         try {
-            Mage::getModel('googleshopping/massOperations')
+            Mage::getModel('Mage_GoogleShopping_Model_MassOperations')
                 ->deleteItems($items);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
-            Mage::getSingleton('adminhtml/session')
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')
                 ->addError('Cannot delete Google Content Item. Google requires CAPTCHA.');
         }
 
@@ -85,7 +85,7 @@ class Mage_GoogleShopping_Model_Observer
      */
     protected function _getItemsCollection($product)
     {
-        $items = Mage::getResourceModel('googleshopping/item_collection')
+        $items = Mage::getResourceModel('Mage_GoogleShopping_Model_Resource_Item_Collection')
             ->addProductFilterId($product->getId());
         if ($product->getStoreId()) {
             $items->addStoreFilter($product->getStoreId());

@@ -86,7 +86,7 @@ class Mage_GoogleShopping_Model_Config extends Varien_Object
      */
     public function getAccountPassword($storeId = null)
     {
-        return Mage::helper('core')->decrypt($this->getConfigData('password', $storeId));
+        return Mage::helper('Mage_Core_Helper_Data')->decrypt($this->getConfigData('password', $storeId));
     }
 
     /**

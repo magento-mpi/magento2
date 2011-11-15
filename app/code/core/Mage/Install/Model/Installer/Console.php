@@ -230,7 +230,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     protected function _getDataModel()
     {
         if (is_null($this->_dataModel)) {
-            $this->_dataModel = Mage::getModel('install/installer_data');
+            $this->_dataModel = Mage::getModel('Mage_Install_Model_Installer_Data');
         }
         return $this->_dataModel;
     }

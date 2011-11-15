@@ -40,10 +40,10 @@ class Mage_Sales_Block_Order_History extends Mage_Core_Block_Template
         parent::__construct();
         $this->setTemplate('order/history.phtml');
 
-        $orders = Mage::getResourceModel('sales/order_collection')
+        $orders = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection')
             ->addFieldToSelect('*')
-            ->addFieldToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId())
-            ->addFieldToFilter('state', array('in' => Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates()))
+            ->addFieldToFilter('customer_id', Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getId())
+            ->addFieldToFilter('state', array('in' => Mage::getSingleton('Mage_Sales_Model_Order_Config')->getVisibleOnFrontStates()))
             ->setOrder('created_at', 'desc')
         ;
 
@@ -51,7 +51,7 @@ class Mage_Sales_Block_Order_History extends Mage_Core_Block_Template
 
         if (Mage::app()->getFrontController()->getAction()) {
             Mage::app()->getFrontController()->getAction()->getLayout()->getBlock('root')->setHeaderTitle(
-                Mage::helper('sales')->__('My Orders')
+                Mage::helper('Mage_Sales_Helper_Data')->__('My Orders')
             );
         }
     }
@@ -60,7 +60,7 @@ class Mage_Sales_Block_Order_History extends Mage_Core_Block_Template
     {
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('page/html_pager', 'sales.order.history.pager')
+        $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager', 'sales.order.history.pager')
             ->setCollection($this->getOrders());
         $this->setChild('pager', $pager);
         $this->getOrders()->load();

@@ -38,7 +38,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Combine
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_reminder/rule_condition_wishlist_combine');
+        $this->setType('Enterprise_Reminder_Model_Rule_Condition_Wishlist_Combine');
     }
 
     /**
@@ -48,16 +48,14 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Combine
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'enterprise_reminder/rule_condition_wishlist_';
-
         return array_merge_recursive(
             parent::getNewChildSelectOptions(), array(
                 $this->_getRecursiveChildSelectOption(),
-                Mage::getModel("{$prefix}sharing")->getNewChildSelectOptions(),
-                Mage::getModel("{$prefix}quantity")->getNewChildSelectOptions(),
+                Mage::getModel("Enterprise_Reminder_Model_Rule_Condition_Wishlist_Sharing")->getNewChildSelectOptions(),
+                Mage::getModel("Enterprise_Reminder_Model_Rule_Condition_Wishlist_Quantity")->getNewChildSelectOptions(),
                 array( // subselection combo
-                    'value' => 'enterprise_reminder/rule_condition_wishlist_subselection',
-                    'label' => Mage::helper('enterprise_reminder')->__('Items Subselection')
+                    'value' => 'Enterprise_Reminder_Model_Rule_Condition_Wishlist_Subselection',
+                    'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Items Subselection')
                 )
             )
         );

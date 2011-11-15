@@ -54,7 +54,7 @@ class Enterprise_GiftRegistry_Block_Search_Advanced extends Enterprise_GiftRegis
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = Mage::getSingleton('customer/session')->getRegistrySearchData();
+            $this->_formData = Mage::getSingleton('Mage_Customer_Model_Session')->getRegistrySearchData();
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;
@@ -71,7 +71,7 @@ class Enterprise_GiftRegistry_Block_Search_Advanced extends Enterprise_GiftRegis
     {
         if (is_null($this->_attributes)) {
             $type = Mage::registry('current_giftregistry_type');
-            $config = Mage::getSingleton('enterprise_giftregistry/attribute_config');
+            $config = Mage::getSingleton('Enterprise_GiftRegistry_Model_Attribute_Config');
             $staticTypes = $config->getStaticTypesCodes();
 
             $attributes = array();

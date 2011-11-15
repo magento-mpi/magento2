@@ -79,13 +79,13 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
              ->_title($this->__('Rule-based Product Relations'));
 
         /* @var $model Enterprise_TargetRule_Model_Rule */
-        $model  = Mage::getModel('enterprise_targetrule/rule');
+        $model  = Mage::getModel('Enterprise_TargetRule_Model_Rule');
         $ruleId = $this->getRequest()->getParam('id', null);
 
         if ($ruleId) {
             $model->load($ruleId);
             if (!$model->getId()) {
-                $this->_getSession()->addError(Mage::helper('enterprise_targetrule')->__('This rule no longer exists'));
+                $this->_getSession()->addError(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('This rule no longer exists'));
                 $this->_redirect('*/*');
                 return;
             }
@@ -93,14 +93,14 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
 
         $this->_title($model->getId() ? $model->getName() : $this->__('New Rule'));
 
-        $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
+        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
 
         Mage::register('current_target_rule', $model);
 
-        $block = $this->getLayout()->createBlock('enterprise_targetrule/adminhtml_targetrule_edit');
+        $block = $this->getLayout()->createBlock('Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit');
         $this->_initAction();
 
         $this->getLayout()->getBlock('head')
@@ -109,7 +109,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
 
         $this
             ->_addContent($block)
-            ->_addLeft($this->getLayout()->createBlock('enterprise_targetrule/adminhtml_targetrule_edit_tabs'))
+            ->_addLeft($this->getLayout()->createBlock('Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tabs'))
             ->renderLayout();
     }
 
@@ -140,7 +140,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
 
         if ($this->getRequest()->isPost() && $data) {
             /* @var $model Enterprise_TargetRule_Model_Rule */
-            $model          = Mage::getModel('enterprise_targetrule/rule');
+            $model          = Mage::getModel('Enterprise_TargetRule_Model_Rule');
             $redirectBack   = $this->getRequest()->getParam('back', false);
             $hasError       = false;
 
@@ -149,7 +149,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
                 if ($ruleId) {
                     $model->load($ruleId);
                     if ($ruleId != $model->getId()) {
-                        Mage::throwException(Mage::helper('enterprise_targetrule')->__('Wrong rule specified.'));
+                        Mage::throwException(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Wrong rule specified.'));
                     }
                 }
 
@@ -172,7 +172,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
                 $model->save();
 
                 $this->_getSession()->addSuccess(
-                    Mage::helper('enterprise_targetrule')->__('The rule has been saved.')
+                    Mage::helper('Enterprise_TargetRule_Helper_Data')->__('The rule has been saved.')
                 );
 
                 if ($redirectBack) {
@@ -187,11 +187,11 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
                 $hasError = true;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_targetrule')->__('An error occurred while saving Product Rule.')
+                    Mage::helper('Enterprise_TargetRule_Helper_Data')->__('An error occurred while saving Product Rule.')
                 );
 
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                Mage::getSingleton('adminhtml/session')->setPageData($data);
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
@@ -215,22 +215,22 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
     {
         if ($id = $this->getRequest()->getParam('id')) {
             try {
-                $model = Mage::getModel('enterprise_targetrule/rule');
+                $model = Mage::getModel('Enterprise_TargetRule_Model_Rule');
                 $model->load($id);
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')
-                    ->addSuccess(Mage::helper('enterprise_targetrule')->__('The rule has been deleted.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')
+                    ->addSuccess(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('The rule has been deleted.'));
                 $this->_redirect('*/*/');
                 return;
             }
             catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        Mage::getSingleton('adminhtml/session')
-            ->addError(Mage::helper('enterprise_targetrule')->__('Unable to find a page to delete'));
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')
+            ->addError(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Unable to find a page to delete'));
         $this->_redirect('*/*/');
     }
 
@@ -248,7 +248,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
         $model = Mage::getModel($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(Mage::getModel('enterprise_targetrule/rule'))
+            ->setRule(Mage::getModel('Enterprise_TargetRule_Model_Rule'))
             ->setPrefix($prefix);
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
@@ -270,7 +270,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/targetrule');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog/targetrule');
     }
 
 }

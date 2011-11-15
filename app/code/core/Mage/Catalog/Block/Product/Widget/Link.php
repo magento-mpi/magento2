@@ -41,6 +41,6 @@ class Mage_Catalog_Block_Product_Widget_Link
     protected function _construct()
     {
         parent::_construct();
-        $this->_entityResource = Mage::getResourceSingleton('catalog/product');
+        $this->_entityResource = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product');
     }
 }

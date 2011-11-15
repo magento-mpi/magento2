@@ -77,12 +77,12 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
      */
     public function __construct($params = array())
     {
-        $this->_checkoutSession = Mage::getSingleton('checkout/session');
+        $this->_checkoutSession = Mage::getSingleton('Mage_Checkout_Model_Session');
         if (isset($params['quote']) && $params['quote'] instanceof Mage_Sales_Model_Quote) {
             $this->_quote = $params['quote'];
         } else {
             Mage::throwException(
-                Mage::helper('xmlconnect')->__('Quote instance is required.')
+                Mage::helper('Mage_XmlConnect_Helper_Data')->__('Quote instance is required.')
             );
         }
     }
@@ -109,12 +109,12 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
         * want to load the correct customer information by assigning to address
         * instead of just loading from sales/quote_address
         */
-        $customer = Mage::getSingleton('customer/session')->getCustomer();
+        $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
         if ($customer) {
             $this->_quote->assignCustomer($customer);
         }
-        if (!Mage::getSingleton('customer/session')->isLoggedIn()
-            && Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout()
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
+            && Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote()->isAllowedGuestCheckout()
         ) {
             $this->_prepareGuestQuote();
         }
@@ -130,14 +130,14 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
     public function saveShipping($data)
     {
         if (empty($data)) {
-            return array('error' => 1, 'message' => Mage::helper('xmlconnect')->__('Invalid data.'));
+            return array('error' => 1, 'message' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Invalid data.'));
         }
 
         $address = $this->_quote->getBillingAddress();
 
         $this->_applyCountryWorkarounds($data);
         /** @var $model Mage_XmlConnect_Model_Application */
-        $model = Mage::helper('xmlconnect')->getApplication();
+        $model = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
 
         $paypalMepAllowSpecific = $model->getData('config_data[payment:paypalmep/allowspecific]');
         if ($paypalMepAllowSpecific !== null) {
@@ -147,20 +147,20 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
                 if (!in_array(trim($data['country_id']), $allowedCountries)) {
                     return array(
                         'error' => 1,
-                        'message' => Mage::helper('xmlconnect')->__('Buyer country is not allowed by store.')
+                        'message' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Buyer country is not allowed by store.')
                     );
                 }
             }
         }
 
         if (empty($data['firstname']) && empty($data['lastname'])) {
-            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-                $customer = Mage::getSingleton('customer/session')->getCustomer();
+            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+                $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
                 $data['firstname'] = $customer->getFirstname();
                 $data['lastname'] = $customer->getLastname();
             } else {
-                $data['firstname'] = Mage::helper('xmlconnect')->__('Guest');
-                $data['lastname'] = Mage::helper('xmlconnect')->__('Guest');
+                $data['firstname'] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Guest');
+                $data['lastname'] = Mage::helper('Mage_XmlConnect_Helper_Data')->__('Guest');
             }
         }
 
@@ -192,12 +192,12 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
     public function saveShippingMethod($shippingMethod)
     {
         if (empty($shippingMethod)) {
-            return array('error' => 1, 'message' => Mage::helper('xmlconnect')->__('Invalid shipping method.'));
+            return array('error' => 1, 'message' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Invalid shipping method.'));
         }
 
         $rate = $this->_quote->getShippingAddress()->getShippingRateByCode($shippingMethod);
         if (!$rate) {
-            return array('error' => 1, 'message' => Mage::helper('xmlconnect')->__('Invalid shipping method.'));
+            return array('error' => 1, 'message' => Mage::helper('Mage_XmlConnect_Helper_Data')->__('Invalid shipping method.'));
         }
 
         $shippingAddress = $this->_quote->getShippingAddress();
@@ -252,7 +252,7 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
     {
         $this->_ignoreAddressValidation();
 
-        $order = Mage::getModel('sales/service_quote', $this->_quote)->submit();
+        $order = Mage::getModel('Mage_Sales_Model_Service_Quote', $this->_quote)->submit();
         $this->_quote->save();
 
         $this->_getCheckoutSession()->clear();
@@ -265,7 +265,7 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
             ->setLastOrderId($order->getId())->setLastRealOrderId($order->getIncrementId());
 
         if ($order->getState() == Mage_Sales_Model_Order::STATE_PROCESSING
-            && Mage::getSingleton('customer/session')->isLoggedIn()
+            && Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
         ) {
             try {
                 $order->sendNewOrderEmail();
@@ -287,7 +287,7 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
         $lastId  = $this->_getCheckoutSession()->getLastOrderId();
         $orderId = false;
         if ($lastId) {
-            $order = Mage::getModel('sales/order');
+            $order = Mage::getModel('Mage_Sales_Model_Order');
             $order->load($lastId);
             $orderId = $order->getIncrementId();
         }

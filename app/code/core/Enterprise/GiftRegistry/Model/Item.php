@@ -73,7 +73,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
     protected $_flagOptionsSaved = null;
 
     function _construct() {
-        $this->_init('enterprise_giftregistry/item');
+        $this->_init('Enterprise_GiftRegistry_Model_Resource_Item');
     }
 
     /**
@@ -117,7 +117,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
             if ($product->getStoreId() == $storeId) {
                 return false;
             }
-            $urlData = Mage::getResourceSingleton('catalog/url')
+            $urlData = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Url')
                 ->getRewriteByProductStore(array($product->getId() => $storeId));
             if (!isset($urlData[$product->getId()])) {
                 return false;
@@ -131,7 +131,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
 
         if (!$product->isSalable()) {
             Mage::throwException(
-                Mage::helper('enterprise_giftregistry')->__('This product(s) is currently out of stock.'));
+                Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('This product(s) is currently out of stock.'));
         }
 
         $product->setGiftregistryItemId($this->getId());
@@ -229,10 +229,10 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
     protected function _getProduct()
     {
         if (!$this->_getData('product')) {
-            $product = Mage::getModel('catalog/product')->load($this->getProductId());
+            $product = Mage::getModel('Mage_Catalog_Model_Product')->load($this->getProductId());
             if (!$product->getId()) {
                 Mage::throwException(
-                    Mage::helper('enterprise_giftregistry')->__('Invalid product for adding item to quote.'));
+                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Invalid product for adding item to quote.'));
             }
             $this->setProduct($product);
         }
@@ -371,24 +371,24 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
     public function addOption($option)
     {
         if (is_array($option)) {
-            $option = Mage::getModel('enterprise_giftregistry/item_option')->setData($option)
+            $option = Mage::getModel('Enterprise_GiftRegistry_Model_Item_Option')->setData($option)
                 ->setItem($this);
         } elseif ($option instanceof Mage_Sales_Model_Quote_Item_Option) {
             // import data from existing quote item option
-            $option = Mage::getModel('enterprise_giftregistry/item_option')->setProduct($option->getProduct())
+            $option = Mage::getModel('Enterprise_GiftRegistry_Model_Item_Option')->setProduct($option->getProduct())
                ->setCode($option->getCode())
                ->setValue($option->getValue())
                ->setItem($this);
         } elseif (($option instanceof Varien_Object)
             && !($option instanceof Enterprise_GiftRegistry_Model_Item_Option)
         ) {
-            $option = Mage::getModel('enterprise_giftregistry/item_option')->setData($option->getData())
+            $option = Mage::getModel('Enterprise_GiftRegistry_Model_Item_Option')->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
         } elseif($option instanceof Enterprise_GiftRegistry_Model_Item_Option) {
             $option->setItem($this);
         } else {
-            Mage::throwException(Mage::helper('enterprise_giftregistry')->__('Invalid item option format.'));
+            Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Invalid item option format.'));
         }
 
         $exOption = $this->getOptionByCode($option->getCode());
@@ -413,7 +413,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
         if (!isset($this->_optionsByCode[$option->getCode()])) {
             $this->_optionsByCode[$option->getCode()] = $option;
         } else {
-            Mage::throwException(Mage::helper('enterprise_giftregistry')->__('An item option with code %s already exists.', $option->getCode()));
+            Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('An item option with code %s already exists.', $option->getCode()));
         }
         return $this;
     }
@@ -500,7 +500,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
         }
 
         if (!$isQtyValid) {
-            Mage::throwException(Mage::helper('enterprise_giftregistry')->__('Invalid quantity specified'));
+            Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Invalid quantity specified'));
         }
 
         return $this->setData('qty', $quantity);

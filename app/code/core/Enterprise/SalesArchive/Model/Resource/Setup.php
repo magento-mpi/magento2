@@ -197,7 +197,7 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
      */
     public function changeColumnPosition($table, $column, $after = false, $first = false)
     {
-        $helper = Mage::getResourceHelper('enterprise_salesarchive');
+        $helper = Mage::getResourceHelper('Enterprise_SalesArchive');
         $helper->changeColumnPosition($table, $column, $after, $first);
 
         return $this;

@@ -48,8 +48,10 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Mage_Adminht
     public function getFiles()
     {
         if (! $this->_filesCollection) {
-            $this->_filesCollection = Mage::getSingleton('cms/wysiwyg_images_storage')->getFilesCollection(Mage::helper('cms/wysiwyg_images')->getCurrentPath(), $this->_getMediaType());
-
+            $this->_filesCollection = Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Images_Storage')
+                ->getFilesCollection(
+                    Mage::helper('Mage_Cms_Helper_Wysiwyg_Images')->getCurrentPath(), $this->_getMediaType()
+                );
         }
 
         return $this->_filesCollection;
@@ -133,12 +135,12 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Mage_Adminht
 
     public function getImagesWidth()
     {
-        return Mage::getSingleton('cms/wysiwyg_images_storage')->getConfigData('resize_width');
+        return Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Images_Storage')->getConfigData('resize_width');
     }
 
     public function getImagesHeight()
     {
-        return Mage::getSingleton('cms/wysiwyg_images_storage')->getConfigData('resize_height');
+        return Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Images_Storage')->getConfigData('resize_height');
     }
 
     /**

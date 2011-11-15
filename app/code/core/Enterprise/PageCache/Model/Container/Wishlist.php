@@ -64,7 +64,7 @@ class Enterprise_PageCache_Model_Container_Wishlist extends Enterprise_PageCache
         $block->setTemplate($template);
 
         $blockPrice = new Mage_Catalog_Block_Product_Price_Template();
-        $blockPrice->addPriceBlockType('msrp','catalog/product_price','catalog/product/price_msrp.phtml');
+        $blockPrice->addPriceBlockType('msrp','Mage_Catalog_Block_Product_Price','catalog/product/price_msrp.phtml');
 
         $layout = Mage::app()->getLayout();
         $layout->addBlock($blockPrice,'catalog_product_price_template');

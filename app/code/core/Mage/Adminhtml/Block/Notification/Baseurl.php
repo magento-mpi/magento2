@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Notification_Baseurl extends Mage_Adminhtml_Block_Tem
             return $this->getUrl('adminhtml/system_config/edit', array('section'=>'web'));
         }
 
-        $configData = Mage::getModel('core/config_data');
+        $configData = Mage::getModel('Mage_Core_Model_Config_Data');
         $dataCollection = $configData->getCollection()
             ->addValueFilter('{{base_url}}');
 

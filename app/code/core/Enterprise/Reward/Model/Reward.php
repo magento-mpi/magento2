@@ -80,20 +80,20 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('enterprise_reward/reward');
+        $this->_init('Enterprise_Reward_Model_Resource_Reward');
         self::$_actionModelClasses = self::$_actionModelClasses + array(
-            self::REWARD_ACTION_ADMIN               => 'enterprise_reward/action_admin',
-            self::REWARD_ACTION_ORDER               => 'enterprise_reward/action_order',
-            self::REWARD_ACTION_REGISTER            => 'enterprise_reward/action_register',
-            self::REWARD_ACTION_NEWSLETTER          => 'enterprise_reward/action_newsletter',
-            self::REWARD_ACTION_INVITATION_CUSTOMER => 'enterprise_reward/action_invitationCustomer',
-            self::REWARD_ACTION_INVITATION_ORDER    => 'enterprise_reward/action_invitationOrder',
-            self::REWARD_ACTION_REVIEW              => 'enterprise_reward/action_review',
-            self::REWARD_ACTION_TAG                 => 'enterprise_reward/action_tag',
-            self::REWARD_ACTION_ORDER_EXTRA         => 'enterprise_reward/action_orderExtra',
-            self::REWARD_ACTION_CREDITMEMO          => 'enterprise_reward/action_creditmemo',
-            self::REWARD_ACTION_SALESRULE           => 'enterprise_reward/action_salesrule',
-            self::REWARD_ACTION_REVERT              => 'enterprise_reward/action_orderRevert'
+            self::REWARD_ACTION_ADMIN               => 'Enterprise_Reward_Model_Action_Admin',
+            self::REWARD_ACTION_ORDER               => 'Enterprise_Reward_Model_Action_Order',
+            self::REWARD_ACTION_REGISTER            => 'Enterprise_Reward_Model_Action_Register',
+            self::REWARD_ACTION_NEWSLETTER          => 'Enterprise_Reward_Model_Action_Newsletter',
+            self::REWARD_ACTION_INVITATION_CUSTOMER => 'Enterprise_Reward_Model_Action_InvitationCustomer',
+            self::REWARD_ACTION_INVITATION_ORDER    => 'Enterprise_Reward_Model_Action_InvitationOrder',
+            self::REWARD_ACTION_REVIEW              => 'Enterprise_Reward_Model_Action_Review',
+            self::REWARD_ACTION_TAG                 => 'Enterprise_Reward_Model_Action_Tag',
+            self::REWARD_ACTION_ORDER_EXTRA         => 'Enterprise_Reward_Model_Action_OrderExtra',
+            self::REWARD_ACTION_CREDITMEMO          => 'Enterprise_Reward_Model_Action_Creditmemo',
+            self::REWARD_ACTION_SALESRULE           => 'Enterprise_Reward_Model_Action_Salesrule',
+            self::REWARD_ACTION_REVERT              => 'Enterprise_Reward_Model_Action_OrderRevert'
         );
     }
 
@@ -107,7 +107,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     public static function setActionModelClass($actionId, $actionModelClass)
     {
         if (!is_int($actionId)) {
-            Mage::throwException(Mage::helper('enterprise_reward')->__('Given action ID has to be an integer value.'));
+            Mage::throwException(Mage::helper('Enterprise_Reward_Helper_Data')->__('Given action ID has to be an integer value.'));
         }
         self::$_actionModelClasses[$actionId] = $actionModelClass;
     }
@@ -241,7 +241,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     public function getCustomer()
     {
         if (!$this->_getData('customer') && $this->getCustomerId()) {
-            $customer = Mage::getModel('customer/customer')->load($this->getCustomerId());
+            $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->getCustomerId());
             $this->setCustomer($customer);
         }
         return $this->_getData('customer');
@@ -357,7 +357,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     public function getHistory()
     {
         if (!$this->_getData('history')) {
-            $this->setData('history', Mage::getModel('enterprise_reward/reward_history'));
+            $this->setData('history', Mage::getModel('Enterprise_Reward_Model_Reward_History'));
             $this->getHistory()->setReward($this);
         }
         return $this->_getData('history');
@@ -372,7 +372,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     protected function _getRateByDirection($direction)
     {
         if (!isset($this->_rates[$direction])) {
-            $this->_rates[$direction] = Mage::getModel('enterprise_reward/reward_rate')
+            $this->_rates[$direction] = Mage::getModel('Enterprise_Reward_Model_Reward_Rate')
                 ->fetch($this->getCustomerGroupId(), $this->getWebsiteId(), $direction);
         }
         return $this->_rates[$direction];
@@ -453,7 +453,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     {
         $websiteId = $this->getWebsiteId();
         $uncappedPts = (int)$action->getPoints($websiteId);
-        $max = (int)Mage::helper('enterprise_reward')->getGeneralConfig('max_points_balance', $websiteId);
+        $max = (int)Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig('max_points_balance', $websiteId);
         if ($max > 0) {
             return min(max($max - (int)$this->getPointsBalance(), 0), $uncappedPts);
         }
@@ -514,7 +514,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         }
         $pointsBalance = 0;
         $pointsBalance = (int)$this->getPointsBalance() + $points;
-        $maxPointsBalance = (int)(Mage::helper('enterprise_reward')
+        $maxPointsBalance = (int)(Mage::helper('Enterprise_Reward_Helper_Data')
             ->getGeneralConfig('max_points_balance', $this->getWebsiteId()));
         if ($maxPointsBalance != 0 && ($pointsBalance > $maxPointsBalance)) {
             $pointsBalance = $maxPointsBalance;
@@ -617,19 +617,19 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         }
         $history = $this->getHistory();
         $store = Mage::app()->getStore($this->getStore());
-        $mail  = Mage::getModel('core/email_template');
+        $mail  = Mage::getModel('Mage_Core_Model_Email_Template');
         /* @var $mail Mage_Core_Model_Email_Template */
         $mail->setDesignConfig(array('area' => 'frontend', 'store' => $store->getId()));
         $templateVars = array(
             'store' => $store,
             'customer' => $this->getCustomer(),
-            'unsubscription_url' => Mage::helper('enterprise_reward/customer')
+            'unsubscription_url' => Mage::helper('Enterprise_Reward_Helper_Customer')
                 ->getUnsubscribeUrl('update', $store->getId()),
             'points_balance' => $this->getPointsBalance(),
-            'reward_amount_was' => Mage::helper('enterprise_reward')->formatAmount(
+            'reward_amount_was' => Mage::helper('Enterprise_Reward_Helper_Data')->formatAmount(
                 $this->getCurrencyAmount() - $history->getCurrencyDelta()
                 , true, $store->getStoreId()),
-            'reward_amount_now' => Mage::helper('enterprise_reward')->formatAmount(
+            'reward_amount_now' => Mage::helper('Enterprise_Reward_Helper_Data')->formatAmount(
                 $this->getCurrencyAmount()
                 , true, $store->getStoreId()),
             'reward_pts_was' => ($this->getPointsBalance() - $delta),
@@ -660,21 +660,22 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     public function sendBalanceWarningNotification($item, $websiteId)
     {
-        $mail  = Mage::getModel('core/email_template');
+        $mail  = Mage::getModel('Mage_Core_Model_Email_Template');
         /* @var $mail Mage_Core_Model_Email_Template */
         $mail->setDesignConfig(array('area' => 'frontend', 'store' => $item->getStoreId()));
         $store = Mage::app()->getStore($item->getStoreId());
-        $amount = Mage::helper('enterprise_reward')
+        $helper = Mage::helper('Enterprise_Reward_Helper_Data');
+        $amount = $helper
             ->getRateFromRatesArray($item->getPointsBalanceTotal(),$websiteId, $item->getCustomerGroupId());
-        $action = Mage::getSingleton('enterprise_reward/reward')->getActionInstance($item->getAction());
+        $action = Mage::getSingleton('Enterprise_Reward_Model_Reward')->getActionInstance($item->getAction());
         $templateVars = array(
             'store' => $store,
             'customer_name' => $item->getCustomerFirstname().' '.$item->getCustomerLastname(),
-            'unsubscription_url' => Mage::helper('enterprise_reward/customer')->getUnsubscribeUrl('warning'),
+            'unsubscription_url' => Mage::helper('Enterprise_Reward_Helper_Customer')->getUnsubscribeUrl('warning'),
             'remaining_days' => $store->getConfig('enterprise_reward/notification/expiry_day_before'),
             'points_balance' => $item->getPointsBalanceTotal(),
             'points_expiring' => $item->getTotalExpired(),
-            'reward_amount_now' => Mage::helper('enterprise_reward')->formatAmount($amount, true, $item->getStoreId()),
+            'reward_amount_now' => $helper->formatAmount($amount, true, $item->getStoreId()),
             'update_message' => ($action !== null ? $action->getHistoryMessage($item->getAdditionalData()) : '')
         );
         $mail->sendTransactional(

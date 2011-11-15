@@ -41,6 +41,6 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Product_Helper_Form_Config
      */
     protected function _getValueFromConfig()
     {
-        return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForItems();
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->isGiftWrappingAvailableForItems();
     }
 }

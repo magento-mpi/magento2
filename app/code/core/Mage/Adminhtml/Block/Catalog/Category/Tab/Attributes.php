@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Mage_Adminhtm
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
+        if (Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->isEnabled()) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
     }
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Mage_Adminhtm
         $form->setDataObject($this->getCategory());
 
         $fieldset = $form->addFieldset('fieldset_group_' . $group->getId(), array(
-            'legend'    => Mage::helper('catalog')->__($group->getAttributeGroupName()),
+            'legend'    => Mage::helper('Mage_Catalog_Helper_Data')->__($group->getAttributeGroupName()),
             'class'     => 'fieldset-wide',
         ));
 
@@ -123,7 +123,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Mage_Adminhtm
                     ));
                 } else {
                     $form->getElement('url_key')->setRenderer(
-                        $this->getLayout()->createBlock('adminhtml/catalog_form_renderer_attribute_urlkey')
+                        $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Form_Renderer_Attribute_Urlkey')
                     );
                 }
             }
@@ -172,8 +172,8 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Mage_Adminhtm
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'image' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_category_helper_image'),
-            'textarea' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_helper_form_wysiwyg')
+            'image' => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_Catalog_Category_Helper_Image'),
+            'textarea' => Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg')
         );
     }
 }

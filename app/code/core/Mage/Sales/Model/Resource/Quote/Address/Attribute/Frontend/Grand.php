@@ -45,7 +45,7 @@ class Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Grand
     {
         $address->addTotal(array(
             'code'  => 'grand_total',
-            'title' => Mage::helper('sales')->__('Grand Total'),
+            'title' => Mage::helper('Mage_Sales_Helper_Data')->__('Grand Total'),
             'value' => $address->getGrandTotal(),
             'area'  => 'footer',
         ));

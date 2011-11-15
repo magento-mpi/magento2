@@ -35,7 +35,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_product_attributes');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes');
         $this->setValue(null);
     }
 
@@ -92,7 +92,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
 
         return array(
             'value' => $conditions,
-            'label' => Mage::helper('enterprise_customersegment')->__('Product Attributes')
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Product Attributes')
         );
     }
 
@@ -103,7 +103,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
      */
     public function asHtml()
     {
-        return Mage::helper('enterprise_customersegment')->__('Product %s', parent::asHtml());
+        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Product %s', parent::asHtml());
     }
 
     /**
@@ -113,7 +113,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('eav/config')->getAttribute('catalog_product', $this->getAttribute());
+        return Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('catalog_product', $this->getAttribute());
     }
 
     /**
@@ -123,7 +123,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('enterprise_customersegment/segment');
+        return Mage::getResourceSingleton('Enterprise_CustomerSegment_Model_Resource_Segment');
     }
 
     /**

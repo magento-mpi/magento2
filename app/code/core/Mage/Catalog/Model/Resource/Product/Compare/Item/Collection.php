@@ -61,7 +61,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_compare_item', 'catalog/product');
+        $this->_init('Mage_Catalog_Model_Product_Compare_Item', 'Mage_Catalog_Model_Resource_Product');
         $this->_initTables();
     }
 
@@ -242,10 +242,10 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection
                 $attributesData = $this->getConnection()->fetchAll($select);
                 if ($attributesData) {
                     $entityType = Mage_Catalog_Model_Product::ENTITY;
-                    Mage::getSingleton('eav/config')
+                    Mage::getSingleton('Mage_Eav_Model_Config')
                         ->importAttributesData($entityType, $attributesData);
                     foreach ($attributesData as $data) {
-                        $attribute = Mage::getSingleton('eav/config')
+                        $attribute = Mage::getSingleton('Mage_Eav_Model_Config')
                             ->getAttribute($entityType, $data['attribute_code']);
                         $this->_comparableAttributes[$attribute->getAttributeCode()] = $attribute;
                     }
@@ -280,7 +280,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection
      */
     public function useProductItem()
     {
-        $this->setObject('catalog/product');
+        $this->setObject('Mage_Catalog_Model_Product');
 
         $this->setFlag('url_data_object', true);
         $this->setFlag('do_not_use_category_id', true);
@@ -310,7 +310,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection
      */
     public function clear()
     {
-        Mage::getResourceSingleton('catalog/product_compare_item')
+        Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Compare_Item')
             ->clearItems($this->getVisitorId(), $this->getCustomerId());
         Mage::dispatchEvent('catalog_product_compare_item_collection_clear');
 
@@ -325,7 +325,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection
      */
     public function isEnabledFlat()
     {
-        if (!Mage::helper('catalog/product_compare')->getAllowUsedFlat()) {
+        if (!Mage::helper('Mage_Catalog_Helper_Product_Compare')->getAllowUsedFlat()) {
             return false;
         }
         return parent::isEnabledFlat();

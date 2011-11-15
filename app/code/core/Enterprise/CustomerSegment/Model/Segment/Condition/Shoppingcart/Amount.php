@@ -38,7 +38,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_shoppingcart_amount');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount');
         $this->setValue(null);
     }
 
@@ -60,7 +60,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label'=>Mage::helper('enterprise_customersegment')->__('Shopping Cart Total'));
+            'label'=>Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shopping Cart Total'));
     }
 
     /**
@@ -71,12 +71,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'subtotal'  => Mage::helper('enterprise_customersegment')->__('Subtotal'),
-            'grand_total'  => Mage::helper('enterprise_customersegment')->__('Grand Total'),
-            'tax'  => Mage::helper('enterprise_customersegment')->__('Tax'),
-            'shipping'  => Mage::helper('enterprise_customersegment')->__('Shipping'),
-            'store_credit'  => Mage::helper('enterprise_customersegment')->__('Store Credit'),
-            'gift_card'  => Mage::helper('enterprise_customersegment')->__('Gift Card'),
+            'subtotal'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Subtotal'),
+            'grand_total'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Grand Total'),
+            'tax'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Tax'),
+            'shipping'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shipping'),
+            'store_credit'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Store Credit'),
+            'gift_card'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Gift Card'),
         ));
         return $this;
     }
@@ -89,7 +89,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('Shopping Cart %s Amount %s %s:',
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shopping Cart %s Amount %s %s:',
                 $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
@@ -111,7 +111,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
         $select->from(array('quote'=>$table), array(new Zend_Db_Expr(1)))
             ->where('quote.is_active=1');
 
-        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
         $joinAddress = false;
@@ -137,7 +137,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
                 $field = 'quote.base_gift_cards_amount_used';
                 break;
             default:
-                Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown quote total specified.'));
+                Mage::throwException(Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Unknown quote total specified.'));
         }
 
         if ($joinAddress) {

@@ -144,7 +144,7 @@ class Mage_Newsletter_Model_Resource_Subscriber extends Mage_Core_Model_Resource
      */
     protected function _generateRandomCode()
     {
-        return Mage::helper('core')->uniqHash();
+        return Mage::helper('Mage_Core_Helper_Data')->uniqHash();
     }
 
     /**
@@ -158,7 +158,7 @@ class Mage_Newsletter_Model_Resource_Subscriber extends Mage_Core_Model_Resource
     {
         $this->_write->beginTransaction();
         try {
-            $data['letter_sent_at'] = Mage::getSingleton('core/date')->gmtDate();
+            $data['letter_sent_at'] = Mage::getSingleton('Mage_Core_Model_Date')->gmtDate();
             $this->_write->update($this->_subscriberLinkTable, $data, array(
                 'subscriber_id = ?' => $subscriber->getId(),
                 'queue_id = ?' => $queue->getId()
@@ -167,7 +167,7 @@ class Mage_Newsletter_Model_Resource_Subscriber extends Mage_Core_Model_Resource
         }
         catch (Exception $e) {
             $this->_write->rollBack();
-            Mage::throwException(Mage::helper('newsletter')->__('Cannot mark as received subscriber.'));
+            Mage::throwException(Mage::helper('Mage_Newsletter_Helper_Data')->__('Cannot mark as received subscriber.'));
         }
         return $this;
     }

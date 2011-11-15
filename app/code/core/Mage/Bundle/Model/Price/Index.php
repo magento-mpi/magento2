@@ -52,7 +52,7 @@ class Mage_Bundle_Model_Price_Index extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('bundle/price_index');
+        $this->_init('Mage_Bundle_Model_Resource_Price_Index');
     }
 
     /**
@@ -109,7 +109,7 @@ class Mage_Bundle_Model_Price_Index extends Mage_Core_Model_Abstract
         }
         $websiteId  = Mage::app()->getStore($collection->getStoreId())
             ->getWebsiteId();
-        $groupId    = Mage::getSingleton('customer/session')
+        $groupId    = Mage::getSingleton('Mage_Customer_Model_Session')
             ->getCustomerGroupId();
 
         $addOptionsToResult = false;
@@ -142,7 +142,7 @@ class Mage_Bundle_Model_Price_Index extends Mage_Core_Model_Abstract
     public function addPriceIndexToProduct($product)
     {
         $websiteId  = $product->getStore()->getWebsiteId();
-        $groupId    = Mage::getSingleton('customer/session')
+        $groupId    = Mage::getSingleton('Mage_Customer_Model_Session')
             ->getCustomerGroupId();
         $prices = $this->_getResource()
             ->loadPriceIndex($product->getId(), $websiteId, $groupId);

@@ -52,7 +52,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Ad
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('eav/form_type')
+        $collection = Mage::getModel('Mage_Eav_Model_Form_Type')
             ->getCollection();
 
         $this->setCollection($collection);
@@ -67,42 +67,42 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Ad
     protected function _prepareColumns()
     {
         $this->addColumn('code', array(
-            'header'    => Mage::helper('enterprise_customer')->__('Form Type Code'),
+            'header'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('Form Type Code'),
             'index'     => 'code',
         ));
 
         $this->addColumn('label', array(
-            'header'    => Mage::helper('enterprise_customer')->__('Label'),
+            'header'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('Label'),
             'index'     => 'label',
         ));
 
         $this->addColumn('store_id', array(
-            'header'    => Mage::helper('enterprise_customer')->__('Store View'),
+            'header'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('Store View'),
             'index'     => 'store_id',
             'type'      => 'store'
         ));
 
-        $design = Mage::getModel('core/design_source_design')->getAllOptions(false);
+        $design = Mage::getModel('Mage_Core_Model_Design_Source_Design')->getAllOptions(false);
         array_unshift($design, array(
             'value' => 'all',
-            'label' => Mage::helper('enterprise_customer')->__('All Themes')
+            'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('All Themes')
         ));
         $this->addColumn('theme', array(
-            'header'     => Mage::helper('enterprise_customer')->__('For Theme'),
+            'header'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('For Theme'),
             'type'       => 'theme',
             'index'      => 'theme',
             'options'    => $design,
             'with_empty' => true,
-            'default'    => Mage::helper('enterprise_customer')->__('All Themes')
+            'default'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('All Themes')
         ));
 
         $this->addColumn('is_system', array(
-            'header'    => Mage::helper('enterprise_customer')->__('System'),
+            'header'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('System'),
             'index'     => 'is_system',
             'type'      => 'options',
             'options'   => array(
-                0 => Mage::helper('enterprise_customer')->__('No'),
-                1 => Mage::helper('enterprise_customer')->__('Yes'),
+                0 => Mage::helper('Enterprise_Customer_Helper_Data')->__('No'),
+                1 => Mage::helper('Enterprise_Customer_Helper_Data')->__('Yes'),
             )
         ));
 

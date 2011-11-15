@@ -41,9 +41,9 @@ class Mage_Checkout_Block_Links extends Mage_Core_Block_Template
     public function addCartLink()
     {
         $parentBlock = $this->getParentBlock();
-        if ($parentBlock && Mage::helper('core')->isModuleOutputEnabled('Mage_Checkout')) {
+        if ($parentBlock && Mage::helper('Mage_Core_Helper_Data')->isModuleOutputEnabled('Mage_Checkout')) {
             $count = $this->getSummaryQty() ? $this->getSummaryQty()
-                : $this->helper('checkout/cart')->getSummaryCount();
+                : $this->helper('Mage_Checkout_Helper_Cart')->getSummaryCount();
             if ($count == 1) {
                 $text = $this->__('My Cart (%s item)', $count);
             } elseif ($count > 0) {
@@ -65,12 +65,12 @@ class Mage_Checkout_Block_Links extends Mage_Core_Block_Template
      */
     public function addCheckoutLink()
     {
-        if (!$this->helper('checkout')->canOnepageCheckout()) {
+        if (!$this->helper('Mage_Checkout_Helper_Data')->canOnepageCheckout()) {
             return $this;
         }
 
         $parentBlock = $this->getParentBlock();
-        if ($parentBlock && Mage::helper('core')->isModuleOutputEnabled('Mage_Checkout')) {
+        if ($parentBlock && Mage::helper('Mage_Core_Helper_Data')->isModuleOutputEnabled('Mage_Checkout')) {
             $text = $this->__('Checkout');
             $parentBlock->addLink($text, 'checkout', $text, true, array(), 60, null, 'class="top-link-checkout"');
         }

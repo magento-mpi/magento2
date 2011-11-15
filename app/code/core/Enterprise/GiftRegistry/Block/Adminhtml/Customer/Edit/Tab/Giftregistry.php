@@ -35,7 +35,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry
     {
         parent::__construct();
         $this->setId('gifregustry');
-        $this->setTitle(Mage::helper('enterprise_giftregistry')->__('Gift Registry'));
+        $this->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry'));
     }
 
     /**
@@ -67,8 +67,8 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry
     {
         $customer = Mage::registry('current_customer');
         return $customer->getId()
-           && Mage::helper('enterprise_giftregistry')->isEnabled()
-           && Mage::getSingleton('admin/session')->isAllowed('customer/enterprise_giftregistry');
+           && Mage::helper('Enterprise_GiftRegistry_Helper_Data')->isEnabled()
+           && Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/enterprise_giftregistry');
     }
 
     /**

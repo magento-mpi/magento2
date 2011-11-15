@@ -72,8 +72,14 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
      * @var mixed
      */
     protected $_flatTables     = array(
-        'catalog_category_flat' => true,
-        'catalog_product_flat'  => true
+        'catalog/category_flat' => array(
+            'helper' => 'Mage_Catalog_Helper_Category_Flat',
+            'resource_model' => 'Mage_Catalog_Model_Resource_Category_Flat'
+        ),
+        'catalog/product_flat'  => array(
+            'helper' => 'Mage_Catalog_Helper_Product_Flat',
+            'resource_model' => 'Mage_Catalog_Model_Resource_Product_Flat'
+        )
     );
 
     /**
@@ -337,7 +343,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
         try {
             $this->_getWriteAdapter()->createTable($newTable);
         } catch (Exception $e) {
-            $message = Mage::helper('enterprise_staging')->__('An exception occurred while performing an SQL query: %s. ', $e->getMessage());
+            $message = Mage::helper('Enterprise_Staging_Helper_Data')->__('An exception occurred while performing an SQL query: %s. ', $e->getMessage());
             throw new Enterprise_Staging_Exception($message);
         }
         return $this;
@@ -358,7 +364,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
 
         $diff = array_diff_key($sourceDesc['fields'], $targetDesc['fields']);
         if ($diff) {
-            $message = Mage::helper('enterprise_staging')->__('Staging Table "%s" and Master Tables "%s" has different fields', $targetTableName, $sourceTableName);
+            $message = Mage::helper('Enterprise_Staging_Helper_Data')->__('Staging Table "%s" and Master Tables "%s" has different fields', $targetTableName, $sourceTableName);
             throw new Enterprise_Staging_Exception($message);
         }
 
@@ -372,7 +378,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
             $this->_getWriteAdapter()->query($sql);
         }
         catch (Zend_Db_Exception $e) {
-            $message = Mage::helper('enterprise_staging')->__('An exception occurred while performing an SQL query: %s. Query: %s', $e->getMessage(), $sql);
+            $message = Mage::helper('Enterprise_Staging_Helper_Data')->__('An exception occurred while performing an SQL query: %s. Query: %s', $e->getMessage(), $sql);
             throw new Enterprise_Staging_Exception($message);
         }
 
@@ -624,7 +630,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
 
         if (!$this->tableExists($table)) {
             if ($strongRestrict) {
-                throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Staging Table %s does not exist', $table));
+                throw new Enterprise_Staging_Exception(Mage::helper('Enterprise_Staging_Helper_Data')->__('Staging Table %s does not exist', $table));
             }
             return false;
         }
@@ -795,7 +801,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
     public function getStagingTableName($table, $internalPrefix = '')
     {
         if ($internalPrefix) {
-            $tablePrefix = Mage::getSingleton('enterprise_staging/staging_config')
+            $tablePrefix = Mage::getSingleton('Enterprise_Staging_Model_Staging_Config')
                 ->getTablePrefix($this->getStaging(), $internalPrefix);
             $table = $tablePrefix . substr($table, strlen(Mage::getConfig()->getTablePrefix()));
             return $this->_getWriteAdapter()->getTableName($table);

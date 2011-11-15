@@ -48,6 +48,6 @@ class Mage_Api_Controller_Action extends Mage_Core_Controller_Front_Action
      */
     protected function _getServer()
     {
-        return Mage::getSingleton('api/server');
+        return Mage::getSingleton('Mage_Api_Model_Server');
     }
 }

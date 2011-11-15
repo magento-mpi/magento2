@@ -37,7 +37,7 @@ class Mage_Customer_Block_Account_Dashboard extends Mage_Core_Block_Template
 
     public function getCustomer()
     {
-        return Mage::getSingleton('customer/session')->getCustomer();
+        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
     }
 
     public function getAccountUrl()
@@ -78,7 +78,7 @@ class Mage_Customer_Block_Account_Dashboard extends Mage_Core_Block_Template
     public function getSubscriptionObject()
     {
         if(is_null($this->_subscription)) {
-            $this->_subscription = Mage::getModel('newsletter/subscriber')->loadByCustomer($this->getCustomer());
+            $this->_subscription = Mage::getModel('Mage_Newsletter_Model_Subscriber')->loadByCustomer($this->getCustomer());
         }
 
         return $this->_subscription;
@@ -92,10 +92,10 @@ class Mage_Customer_Block_Account_Dashboard extends Mage_Core_Block_Template
     public function getSubscriptionText()
     {
         if($this->getSubscriptionObject()->isSubscribed()) {
-            return Mage::helper('customer')->__('You are currently subscribed to our newsletter.');
+            return Mage::helper('Mage_Customer_Helper_Data')->__('You are currently subscribed to our newsletter.');
         }
 
-        return Mage::helper('customer')->__('You are currently not subscribed to our newsletter.');
+        return Mage::helper('Mage_Customer_Helper_Data')->__('You are currently not subscribed to our newsletter.');
     }
 
     public function getPrimaryAddresses()

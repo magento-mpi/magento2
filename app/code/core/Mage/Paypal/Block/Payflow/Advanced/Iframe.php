@@ -50,7 +50,7 @@ class Mage_Paypal_Block_Payflow_Advanced_Iframe extends Mage_Paypal_Block_Payflo
      */
     public function isTestMode()
     {
-        $mode = Mage::helper('payment')
+        $mode = Mage::helper('Mage_Payment_Helper_Data')
             ->getMethodInstance(Mage_Paypal_Model_Config::METHOD_PAYFLOWADVANCED)
             ->getConfigData('sandbox_flag');
         return (bool) $mode;

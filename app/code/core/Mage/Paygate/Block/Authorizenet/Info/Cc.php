@@ -93,12 +93,12 @@ class Mage_Paygate_Block_Authorizenet_Info_Cc extends Mage_Payment_Block_Info_Cc
             foreach ($cardsData as $cardInfo) {
                 $data = array();
                 if ($cardInfo->getProcessedAmount()) {
-                    $amount = Mage::helper('core')->currency($cardInfo->getProcessedAmount(), true, false);
-                    $data[Mage::helper('paygate')->__('Processed Amount')] = $amount;
+                    $amount = Mage::helper('Mage_Core_Helper_Data')->currency($cardInfo->getProcessedAmount(), true, false);
+                    $data[Mage::helper('Mage_Paygate_Helper_Data')->__('Processed Amount')] = $amount;
                 }
                 if ($cardInfo->getBalanceOnCard() && is_numeric($cardInfo->getBalanceOnCard())) {
-                    $balance = Mage::helper('core')->currency($cardInfo->getBalanceOnCard(), true, false);
-                    $data[Mage::helper('paygate')->__('Remaining Balance')] = $balance;
+                    $balance = Mage::helper('Mage_Core_Helper_Data')->currency($cardInfo->getBalanceOnCard(), true, false);
+                    $data[Mage::helper('Mage_Paygate_Helper_Data')->__('Remaining Balance')] = $balance;
                 }
                 $this->setCardInfoObject($cardInfo);
                 $cards[] = array_merge($this->getSpecificInformation(), $data);

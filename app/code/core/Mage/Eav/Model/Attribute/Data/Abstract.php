@@ -105,7 +105,7 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
     public function getAttribute()
     {
         if (!$this->_attribite) {
-            Mage::throwException(Mage::helper('eav')->__('Attribute object is undefined'));
+            Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('Attribute object is undefined'));
         }
         return $this->_attribite;
     }
@@ -155,7 +155,7 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
     public function getEntity()
     {
         if (!$this->_entity) {
-            Mage::throwException(Mage::helper('eav')->__('Entity object is undefined'));
+            Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('Entity object is undefined'));
         }
         return $this->_entity;
     }
@@ -290,15 +290,15 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
                 case 'alphanumeric':
                     $validator = new Zend_Validate_Alnum(true);
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" invalid type entered.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" invalid type entered.', $label),
                         Zend_Validate_Alnum::INVALID
                     );
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" has not only alphabetic and digit characters.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" has not only alphabetic and digit characters.', $label),
                         Zend_Validate_Alnum::NOT_ALNUM
                     );
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" is an empty string.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is an empty string.', $label),
                         Zend_Validate_Alnum::STRING_EMPTY
                     );
                     if (!$validator->isValid($value)) {
@@ -308,15 +308,15 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
                 case 'numeric':
                     $validator = new Zend_Validate_Digits();
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" invalid type entered.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" invalid type entered.', $label),
                         Zend_Validate_Digits::INVALID
                     );
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" contains not only digit characters.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" contains not only digit characters.', $label),
                         Zend_Validate_Digits::NOT_DIGITS
                     );
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" is an empty string.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is an empty string.', $label),
                         Zend_Validate_Digits::STRING_EMPTY
                     );
                     if (!$validator->isValid($value)) {
@@ -326,15 +326,15 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
                 case 'alpha':
                     $validator = new Zend_Validate_Alpha(true);
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" invalid type entered.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" invalid type entered.', $label),
                         Zend_Validate_Alpha::INVALID
                     );
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" has not only alphabetic characters.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" has not only alphabetic characters.', $label),
                         Zend_Validate_Alpha::NOT_ALPHA
                     );
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" is an empty string.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is an empty string.', $label),
                         Zend_Validate_Alpha::STRING_EMPTY
                     );
                     if (!$validator->isValid($value)) {
@@ -357,71 +357,71 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
         */
                     $validator = new Zend_Validate_EmailAddress();
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" invalid type entered.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" invalid type entered.', $label),
                         Zend_Validate_EmailAddress::INVALID
                     );
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" is not a valid email address.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is not a valid email address.', $label),
                         Zend_Validate_EmailAddress::INVALID_FORMAT
                     );
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" is not a valid hostname.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is not a valid hostname.', $label),
                         Zend_Validate_EmailAddress::INVALID_HOSTNAME
                     );
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" is not a valid hostname.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is not a valid hostname.', $label),
                         Zend_Validate_EmailAddress::INVALID_MX_RECORD
                     );
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" is not a valid hostname.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is not a valid hostname.', $label),
                         Zend_Validate_EmailAddress::INVALID_MX_RECORD
                     );
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" is not a valid email address.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is not a valid email address.', $label),
                         Zend_Validate_EmailAddress::DOT_ATOM
                     );
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" is not a valid email address.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is not a valid email address.', $label),
                         Zend_Validate_EmailAddress::QUOTED_STRING
                     );
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" is not a valid email address.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is not a valid email address.', $label),
                         Zend_Validate_EmailAddress::INVALID_LOCAL_PART
                     );
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" exceeds the allowed length.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" exceeds the allowed length.', $label),
                         Zend_Validate_EmailAddress::LENGTH_EXCEEDED
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__("'%value%' appears to be an IP address, but IP addresses are not allowed"),
+                        Mage::helper('Mage_Customer_Helper_Data')->__("'%value%' appears to be an IP address, but IP addresses are not allowed"),
                         Zend_Validate_Hostname::IP_ADDRESS_NOT_ALLOWED
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__("'%value%' appears to be a DNS hostname but cannot match TLD against known list"),
+                        Mage::helper('Mage_Customer_Helper_Data')->__("'%value%' appears to be a DNS hostname but cannot match TLD against known list"),
                         Zend_Validate_Hostname::UNKNOWN_TLD
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__("'%value%' appears to be a DNS hostname but contains a dash in an invalid position"),
+                        Mage::helper('Mage_Customer_Helper_Data')->__("'%value%' appears to be a DNS hostname but contains a dash in an invalid position"),
                         Zend_Validate_Hostname::INVALID_DASH
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__("'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'"),
+                        Mage::helper('Mage_Customer_Helper_Data')->__("'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'"),
                         Zend_Validate_Hostname::INVALID_HOSTNAME_SCHEMA
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__("'%value%' appears to be a DNS hostname but cannot extract TLD part"),
+                        Mage::helper('Mage_Customer_Helper_Data')->__("'%value%' appears to be a DNS hostname but cannot extract TLD part"),
                         Zend_Validate_Hostname::UNDECIPHERABLE_TLD
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__("'%value%' does not appear to be a valid local network name"),
+                        Mage::helper('Mage_Customer_Helper_Data')->__("'%value%' does not appear to be a valid local network name"),
                         Zend_Validate_Hostname::INVALID_LOCAL_NAME
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__("'%value%' appears to be a local network name but local network names are not allowed"),
+                        Mage::helper('Mage_Customer_Helper_Data')->__("'%value%' appears to be a local network name but local network names are not allowed"),
                         Zend_Validate_Hostname::LOCAL_NAME_NOT_ALLOWED
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__("'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded"),
+                        Mage::helper('Mage_Customer_Helper_Data')->__("'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded"),
                         Zend_Validate_Hostname::CANNOT_DECODE_PUNYCODE
                     );
                     if (!$validator->isValid($value)) {
@@ -431,25 +431,25 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
                 case 'url':
                     $parsedUrl = parse_url($value);
                     if ($parsedUrl === false || empty($parsedUrl['scheme']) || empty($parsedUrl['host'])) {
-                        return array(Mage::helper('eav')->__('"%s" is not a valid URL.', $label));
+                        return array(Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is not a valid URL.', $label));
                     }
                     $validator = new Zend_Validate_Hostname();
                     if (!$validator->isValid($parsedUrl['host'])) {
-                        return array(Mage::helper('eav')->__('"%s" is not a valid URL.', $label));
+                        return array(Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is not a valid URL.', $label));
                     }
                     break;
                 case 'date':
                     $validator = new Zend_Validate_Date(Varien_Date::DATE_INTERNAL_FORMAT);
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" invalid type entered.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" invalid type entered.', $label),
                         Zend_Validate_Date::INVALID
                     );
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" is not a valid date.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is not a valid date.', $label),
                         Zend_Validate_Date::INVALID_DATE
                     );
                     $validator->setMessage(
-                        Mage::helper('eav')->__('"%s" does not fit the entered date format.', $label),
+                        Mage::helper('Mage_Eav_Helper_Data')->__('"%s" does not fit the entered date format.', $label),
                         Zend_Validate_Date::FALSEFORMAT
                     );
                     if (!$validator->isValid($value)) {

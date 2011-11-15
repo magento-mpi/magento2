@@ -56,7 +56,7 @@ abstract class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
     public function __construct()
     {
         parent::__construct();
-        $this->setData(Mage::getSingleton('connect/session')->getCustomExtensionPackageFormData());
+        $this->setData(Mage::getSingleton('Mage_Connect_Model_Session')->getCustomExtensionPackageFormData());
     }
 
     /**
@@ -99,7 +99,7 @@ abstract class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
     {
         if (!isset($this->_addRowButtonHtml[$container])) {
             $this->_addRowButtonHtml[$container] = $this->getLayout()
-                ->createBlock('adminhtml/widget_button')
+                ->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setType('button')
                     ->setClass('add')
                     ->setLabel($this->__($title))
@@ -116,7 +116,7 @@ abstract class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
     {
         if (!$this->_removeRowButtonHtml) {
             $this->_removeRowButtonHtml = $this->getLayout()
-                ->createBlock('adminhtml/widget_button')
+                ->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setType('button')
                     ->setClass('delete')
                     ->setLabel($this->__('Remove'))
@@ -130,7 +130,7 @@ abstract class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
     {
         if (!$this->_addFileDepButtonHtml) {
             $this->_addFileDepButtonHtml = $this->getLayout()
-                ->createBlock('adminhtml/widget_button')
+                ->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setType('button')
                     ->setClass('add')
                     ->setLabel($this->__('Add files'))
@@ -148,7 +148,7 @@ abstract class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
      */
     public function getTabLabel()
     {
-        return Mage::helper('connect')->__('');
+        return Mage::helper('Mage_Connect_Helper_Data')->__('');
     }
 
     /**
@@ -158,7 +158,7 @@ abstract class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
      */
     public function getTabTitle()
     {
-        return Mage::helper('connect')->__('');
+        return Mage::helper('Mage_Connect_Helper_Data')->__('');
     }
 
     public function canShowTab()

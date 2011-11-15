@@ -116,11 +116,11 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     protected function _construct()
     {
-        if (Mage::helper('catalog/category_flat')->isEnabled()) {
-            $this->_init('catalog/category_flat');
+        if (Mage::helper('Mage_Catalog_Helper_Category_Flat')->isEnabled()) {
+            $this->_init('Mage_Catalog_Model_Resource_Category_Flat');
             $this->_useFlatResource = true;
         } else {
-            $this->_init('catalog/category');
+            $this->_init('Mage_Catalog_Model_Resource_Category');
         }
     }
 
@@ -132,7 +132,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function getUrlInstance()
     {
         if (!self::$_url) {
-            self::$_url = Mage::getModel('core/url');
+            self::$_url = Mage::getModel('Mage_Core_Model_Url');
         }
         return self::$_url;
     }
@@ -145,7 +145,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function getUrlRewrite()
     {
         if (!self::$_urlRewrite) {
-            self::$_urlRewrite = Mage::getModel('core/url_rewrite');
+            self::$_urlRewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite');
         }
         return self::$_urlRewrite;
     }
@@ -157,7 +157,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function getTreeModel()
     {
-        return Mage::getResourceModel('catalog/category_tree');
+        return Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Tree');
     }
 
     /**
@@ -168,7 +168,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function getTreeModelInstance()
     {
         if (is_null($this->_treeModel)) {
-            $this->_treeModel = Mage::getResourceSingleton('catalog/category_tree');
+            $this->_treeModel = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category_Tree');
         }
         return $this->_treeModel;
     }
@@ -186,23 +186,23 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
          * Validate new parent category id. (category model is used for backward
          * compatibility in event params)
          */
-        $parent = Mage::getModel('catalog/category')
+        $parent = Mage::getModel('Mage_Catalog_Model_Category')
             ->setStoreId($this->getStoreId())
             ->load($parentId);
 
         if (!$parent->getId()) {
             Mage::throwException(
-                Mage::helper('catalog')->__('Category move operation is not possible: the new parent category was not found.')
+                Mage::helper('Mage_Catalog_Helper_Data')->__('Category move operation is not possible: the new parent category was not found.')
             );
         }
 
         if (!$this->getId()) {
             Mage::throwException(
-                Mage::helper('catalog')->__('Category move operation is not possible: the current category was not found.')
+                Mage::helper('Mage_Catalog_Helper_Data')->__('Category move operation is not possible: the current category was not found.')
             );
         } elseif ($parent->getId() == $this->getId()) {
             Mage::throwException(
-                Mage::helper('catalog')->__('Category move operation is not possible: parent category is equal to child category.')
+                Mage::helper('Mage_Catalog_Helper_Data')->__('Category move operation is not possible: parent category is equal to child category.')
             );
         }
 
@@ -245,7 +245,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         }
         if ($moveComplete) {
             Mage::dispatchEvent('category_move', $eventParams);
-            Mage::getSingleton('index/indexer')->processEntityAction(
+            Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
                 $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
             );
             Mage::app()->cleanCache(array(self::CACHE_TAG));
@@ -271,7 +271,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function getProductCollection()
     {
-        $collection = Mage::getResourceModel('catalog/product_collection')
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
             ->setStoreId($this->getStoreId())
             ->addCategoryFilter($this);
         return $collection;
@@ -346,7 +346,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         }
 
         $storeIds = array();
-        $storeCollection = Mage::getModel('core/store')->getCollection()->loadByCategoryIds($nodes);
+        $storeCollection = Mage::getModel('Mage_Core_Model_Store')->getCollection()->loadByCategoryIds($nodes);
         foreach ($storeCollection as $store) {
             $storeIds[$store->getId()] = $store->getId();
         }
@@ -474,7 +474,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function formatUrlKey($str)
     {
-        $str = Mage::helper('core')->removeAccents($str);
+        $str = Mage::helper('Mage_Core_Helper_Data')->removeAccents($str);
         $urlKey = preg_replace('#[^0-9a-z]+#i', '-', $str);
         $urlKey = strtolower($urlKey);
         $urlKey = trim($urlKey, '-');
@@ -510,7 +510,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         $path = $this->getUrlKey();
 
         if ($this->getParentId()) {
-            $parentPath = Mage::getModel('catalog/category')->load($this->getParentId())->getCategoryPath();
+            $parentPath = Mage::getModel('Mage_Catalog_Model_Category')->load($this->getParentId())->getCategoryPath();
             $path = $parentPath.'/'.$path;
         }
 
@@ -527,7 +527,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function getParentCategory()
     {
         if (!$this->hasData('parent_category')) {
-            $this->setData('parent_category', Mage::getModel('catalog/category')->load($this->getParentId()));
+            $this->setData('parent_category', Mage::getModel('Mage_Catalog_Model_Category')->load($this->getParentId()));
         }
         return $this->_getData('parent_category');
     }
@@ -593,7 +593,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
             $attribute = $this->getResource()->getAttribute($attributeCode);
         }
         else {
-            $attribute = Mage::getSingleton('catalog/config')
+            $attribute = Mage::getSingleton('Mage_Catalog_Model_Config')
                 ->getAttribute(self::ENTITY, $attributeCode);
         }
         return $attribute;
@@ -884,7 +884,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function getAvailableSortByOptions() {
         $availableSortBy = array();
-        $defaultSortBy   = Mage::getSingleton('catalog/config')
+        $defaultSortBy   = Mage::getSingleton('Mage_Catalog_Model_Config')
             ->getAttributeUsedForSortByArray();
         if ($this->getAvailableSortBy()) {
             foreach ($this->getAvailableSortBy() as $sortBy) {
@@ -908,7 +908,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function getDefaultSortBy() {
         if (!$sortBy = $this->getData('default_sort_by')) {
-            $sortBy = Mage::getSingleton('catalog/config')
+            $sortBy = Mage::getSingleton('Mage_Catalog_Model_Config')
                 ->getProductListDefaultSortBy($this->getStoreId());
         }
         $available = $this->getAvailableSortByOptions();
@@ -939,7 +939,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     protected function _afterSave()
     {
         $result = parent::_afterSave();
-        Mage::getSingleton('index/indexer')->processEntityAction(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );
         return $result;

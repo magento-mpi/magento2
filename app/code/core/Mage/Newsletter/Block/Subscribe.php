@@ -36,13 +36,13 @@ class Mage_Newsletter_Block_Subscribe extends Mage_Core_Block_Template
 {
     public function getSuccessMessage()
     {
-        $message = Mage::getSingleton('newsletter/session')->getSuccess();
+        $message = Mage::getSingleton('Mage_Newsletter_Model_Session')->getSuccess();
         return $message;
     }
 
     public function getErrorMessage()
     {
-        $message = Mage::getSingleton('newsletter/session')->getError();
+        $message = Mage::getSingleton('Mage_Newsletter_Model_Session')->getError();
         return $message;
     }
 

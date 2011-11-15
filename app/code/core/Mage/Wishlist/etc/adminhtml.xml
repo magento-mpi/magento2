@@ -34,7 +34,7 @@
                         <children>
                             <config>
                                 <children>
-                                    <wishlist translate="title" module="wishlist">
+                                    <wishlist translate="title" module="Mage_Wishlist">
                                         <title>Wishlist Section</title>
                                     </wishlist>
                                 </children>

@@ -31,9 +31,9 @@ class Mage_Adminhtml_Block_Api_Tab_Rolesedit extends Mage_Adminhtml_Block_Widget
 
         $rid = Mage::app()->getRequest()->getParam('rid', false);
 
-        $resources = Mage::getModel('api/roles')->getResourcesList();
+        $resources = Mage::getModel('Mage_Api_Model_Roles')->getResourcesList();
 
-        $rules_set = Mage::getResourceModel('api/rules_collection')->getByRoles($rid)->load();
+        $rules_set = Mage::getResourceModel('Mage_Api_Model_Resource_Rules_Collection')->getByRoles($rid)->load();
 
         $selrids = array();
 
@@ -61,11 +61,11 @@ class Mage_Adminhtml_Block_Api_Tab_Rolesedit extends Mage_Adminhtml_Block_Widget
     public function getResTreeJson()
     {
         $rid = Mage::app()->getRequest()->getParam('rid', false);
-        $resources = Mage::getModel('api/roles')->getResourcesTree();
+        $resources = Mage::getModel('Mage_Api_Model_Roles')->getResourcesTree();
 
         $rootArray = $this->_getNodeJson($resources,1);
 
-        $json = Mage::helper('core')->jsonEncode(isset($rootArray['children']) ? $rootArray['children'] : array());
+        $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(isset($rootArray['children']) ? $rootArray['children'] : array());
 
         return $json;
     }

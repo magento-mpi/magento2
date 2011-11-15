@@ -179,7 +179,7 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
             . "/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;\n"
             . "/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;\n"
             . "/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;\n"
-            . "\n-- Dump completed on " . Mage::getSingleton('core/date')->gmtDate() . " GMT";
+            . "\n-- Dump completed on " . Mage::getSingleton('Mage_Core_Model_Date')->gmtDate() . " GMT";
 
         return $footer;
     }

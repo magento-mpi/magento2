@@ -32,25 +32,6 @@
         </Enterprise_ImportExport>
     </modules>
     <global>
-        <models>
-            <enterprise_importexport>
-                <class>Enterprise_ImportExport_Model</class>
-                <resourceModel>enterprise_importexport_resource</resourceModel>
-            </enterprise_importexport>
-            <enterprise_importexport_resource>
-                <class>Enterprise_ImportExport_Model_Resource</class>
-            </enterprise_importexport_resource>
-        </models>
-        <blocks>
-            <enterprise_importexport>
-                <class>Enterprise_ImportExport_Block</class>
-            </enterprise_importexport>
-        </blocks>
-        <helpers>
-            <enterprise_importexport>
-                <class>Enterprise_ImportExport_Helper</class>
-            </enterprise_importexport>
-        </helpers>
         <resources>
             <enterprise_importexport_setup>
                 <setup>
@@ -60,17 +41,17 @@
         </resources>
         <template>
             <email>
-                <enterprise_importexport_import_failed translate="label" module="enterprise_importexport">
+                <enterprise_importexport_import_failed translate="label" module="Enterprise_ImportExport">
                     <label>Import Failed</label>
                     <file>email/import_failed.html</file>
                     <type>html</type>
                 </enterprise_importexport_import_failed>
-                <enterprise_importexport_export_failed translate="label" module="enterprise_importexport">
+                <enterprise_importexport_export_failed translate="label" module="Enterprise_ImportExport">
                     <label>Export Failed</label>
                     <file>email/export_failed.html</file>
                     <type>html</type>
                 </enterprise_importexport_export_failed>
-                <system_enterprise_import_export_log_error_email_template translate="label" module="enterprise_importexport">
+                <system_enterprise_import_export_log_error_email_template translate="label" module="Enterprise_ImportExport">
                     <label>File History Clean Failed</label>
                     <file>email/file_history_clean_failed.html</file>
                     <type>html</type>
@@ -109,7 +90,7 @@
             <jobs>
                 <enterprise_import_export_log_clean>
                     <run>
-                        <model>enterprise_importexport/observer::scheduledLogClean</model>
+                        <model>Enterprise_ImportExport_Model_Observer::scheduledLogClean</model>
                     </run>
                 </enterprise_import_export_log_clean>
             </jobs>

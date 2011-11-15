@@ -34,7 +34,7 @@
                         <children>
                             <config>
                                 <children>
-                                    <google translate="title" module="googleanalytics">
+                                    <google translate="title" module="Mage_GoogleAnalytics">
                                         <title>Google API</title>
                                     </google>
                                 </children>

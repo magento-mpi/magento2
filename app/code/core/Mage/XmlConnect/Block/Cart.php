@@ -43,13 +43,14 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
         $cartMessages   = $this->getMessages();
         $quote          = $this->getQuote();
         /** @var $xmlObject Mage_XmlConnect_Model_Simplexml_Element */
-        $xmlObject      = Mage::getModel('xmlconnect/simplexml_element', '<cart></cart>');
-        $xmlObject->addAttribute('is_virtual', (int)$this->helper('checkout/cart')->getIsVirtualQuote());
-        $xmlObject->addAttribute('summary_qty', (int)$this->helper('checkout/cart')->getSummaryCount());
+        $xmlObject      = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<cart></cart>');
+        $xmlObject->addAttribute('is_virtual', (int)$this->helper('Mage_Checkout_Helper_Cart')->getIsVirtualQuote());
+        $xmlObject->addAttribute('summary_qty', (int)$this->helper('Mage_Checkout_Helper_Cart')->getSummaryCount());
         if (strlen($quote->getCouponCode())) {
             $xmlObject->addAttribute('has_coupon_code', 1);
         }
         $products = $xmlObject->addChild('products');
+        $taxHelper = $this->helper('Mage_Tax_Helper_Data');
          /* @var $item Mage_Sales_Model_Quote_Item */
         foreach ($this->getItems() as $item) {
             $type = $item->getProductType();
@@ -65,17 +66,17 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
             $itemXml->addChild('code', 'cart[' . $item->getId() . '][qty]');
             $itemXml->addChild('qty', $renderer->getQty());
             $icon = $renderer->getProductThumbnail()->resize(
-                Mage::helper('xmlconnect/image')->getImageSizeForContent('product_small')
+                Mage::helper('Mage_XmlConnect_Helper_Image')->getImageSizeForContent('product_small')
             );
             $iconXml = $itemXml->addChild('icon', $icon);
-            $file = Mage::helper('xmlconnect')->urlToPath($icon);
+            $file = Mage::helper('Mage_XmlConnect_Helper_Data')->urlToPath($icon);
             $iconXml->addAttribute('modification_time', filemtime($file));
             /**
              * Price
              */
             $exclPrice = $inclPrice = 0;
-            if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()) {
-                if (Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales')
+            if ($taxHelper->displayCartPriceExclTax() || $taxHelper->displayCartBothPrices()) {
+                if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($item, array(0, 1, 4), 'sales')
                     && $item->getWeeeTaxAppliedAmount()
                 ) {
                     $exclPrice = $item->getCalculationPrice() + $item->getWeeeTaxAppliedAmount()
@@ -84,9 +85,9 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
                     $exclPrice = $item->getCalculationPrice();
                 }
             }
-            if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()) {
-                $_incl = $this->helper('checkout')->getPriceInclTax($item);
-                if (Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales')
+            if ($taxHelper->displayCartPriceInclTax() || $taxHelper->displayCartBothPrices()) {
+                $_incl = $this->helper('Mage_Checkout_Helper_Data')->getPriceInclTax($item);
+                if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($item, array(0, 1, 4), 'sales')
                     && $item->getWeeeTaxAppliedAmount()
                 ) {
                     $inclPrice = $_incl + $item->getWeeeTaxAppliedAmount();
@@ -94,27 +95,27 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
                     $inclPrice = $_incl - $item->getWeeeTaxDisposition();
                 }
             }
-            $exclPrice = Mage::helper('xmlconnect')->formatPriceForXml($exclPrice);
-            $paypalPrice = Mage::helper('xmlconnect')->formatPriceForXml($item->getCalculationPrice());
+            $exclPrice = Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml($exclPrice);
+            $paypalPrice = Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml($item->getCalculationPrice());
             $formattedExclPrice = $quote->getStore()->formatPrice($exclPrice, false);
-            $inclPrice = Mage::helper('xmlconnect')->formatPriceForXml($inclPrice);
+            $inclPrice = Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml($inclPrice);
             $formattedInclPrice = $quote->getStore()->formatPrice($inclPrice, false);
 
             $priceXmlObj = $itemXml->addChild('price');
             $formattedPriceXmlObj = $itemXml->addChild('formated_price');
 
-            if ($this->helper('tax')->displayCartBothPrices()) {
+            if ($taxHelper->displayCartBothPrices()) {
                 $priceXmlObj->addAttribute('excluding_tax', $exclPrice);
                 $priceXmlObj->addAttribute('including_tax', $inclPrice);
 
                 $formattedPriceXmlObj->addAttribute('excluding_tax', $formattedExclPrice);
                 $formattedPriceXmlObj->addAttribute('including_tax', $formattedInclPrice);
             } else {
-                if ($this->helper('tax')->displayCartPriceExclTax()) {
+                if ($taxHelper->displayCartPriceExclTax()) {
                     $priceXmlObj->addAttribute('regular', $exclPrice);
                     $formattedPriceXmlObj->addAttribute('regular', $formattedExclPrice);
                 }
-                if ($this->helper('tax')->displayCartPriceInclTax()) {
+                if ($taxHelper->displayCartPriceInclTax()) {
                     $priceXmlObj->addAttribute('regular', $inclPrice);
                     $formattedPriceXmlObj->addAttribute('regular', $formattedInclPrice);
                 }
@@ -123,16 +124,17 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
             /**
              * Info for paypal MEP if it's enabled
              */
-            $appConfig = Mage::helper('xmlconnect')->getApplication()->loadConfiguration()->getRenderConf();
+            $appConfig = Mage::helper('Mage_XmlConnect_Helper_Data')
+                ->getApplication()->loadConfiguration()->getRenderConf();
 
             $isMepActive = $appConfig['paypal']['isActive'];
 
-            $paypalMepIsAvailable = Mage::getModel('xmlconnect/payment_method_paypal_mep')->isAvailable(null);
+            $paypalMepIsAvailable = Mage::getModel('Mage_XmlConnect_Model_Payment_Method_Paypal_Mep')->isAvailable(null);
             if ($paypalMepIsAvailable && $isMepActive) {
                 $paypalPriceXmlObj = $itemXml->addChild('paypal_price');
                 $paypalPriceXmlObj->addAttribute('regular', $paypalPrice);
                 $paypalPriceXmlObj->addAttribute(
-                    'subtotal', Mage::helper('xmlconnect')->formatPriceForXml($item->getRowTotal())
+                    'subtotal', Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml($item->getRowTotal())
                 );
             }
 
@@ -140,8 +142,8 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
              * Subtotal
              */
             $exclPrice = $inclPrice = 0;
-            if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()) {
-                if (Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales')
+            if ($taxHelper->displayCartPriceExclTax() || $taxHelper->displayCartBothPrices()) {
+                if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($item, array(0, 1, 4), 'sales')
                     && $item->getWeeeTaxAppliedAmount()
                 ) {
                     $exclPrice = $item->getRowTotal() + $item->getWeeeTaxAppliedRowAmount()
@@ -150,9 +152,9 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
                      $exclPrice = $item->getRowTotal();
                 }
             }
-            if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()) {
-                $_incl = $this->helper('checkout')->getSubtotalInclTax($item);
-                if (Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales')
+            if ($taxHelper->displayCartPriceInclTax() || $taxHelper->displayCartBothPrices()) {
+                $_incl = $this->helper('Mage_Checkout_Helper_Data')->getSubtotalInclTax($item);
+                if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($item, array(0, 1, 4), 'sales')
                     && $item->getWeeeTaxAppliedAmount()
                 ) {
                     $inclPrice = $_incl + $item->getWeeeTaxAppliedRowAmount();
@@ -161,27 +163,27 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
                 }
             }
 
-            $exclPrice = Mage::helper('xmlconnect')->formatPriceForXml($exclPrice);
+            $exclPrice = Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml($exclPrice);
             $formattedExclPrice = $quote->getStore()->formatPrice($exclPrice, false);
 
-            $inclPrice = Mage::helper('xmlconnect')->formatPriceForXml($inclPrice);
+            $inclPrice = Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml($inclPrice);
             $formattedInclPrice = $quote->getStore()->formatPrice($inclPrice, false);
 
             $subtotalPriceXmlObj = $itemXml->addChild('subtotal');
             $subtotalFormattedPriceXmlObj = $itemXml->addChild('formated_subtotal');
 
-            if ($this->helper('tax')->displayCartBothPrices()) {
+            if ($taxHelper->displayCartBothPrices()) {
                 $subtotalPriceXmlObj->addAttribute('excluding_tax', $exclPrice);
                 $subtotalPriceXmlObj->addAttribute('including_tax', $inclPrice);
 
                 $subtotalFormattedPriceXmlObj->addAttribute('excluding_tax', $formattedExclPrice);
                 $subtotalFormattedPriceXmlObj->addAttribute('including_tax', $formattedInclPrice);
             } else {
-                if ($this->helper('tax')->displayCartPriceExclTax()) {
+                if ($taxHelper->displayCartPriceExclTax()) {
                     $subtotalPriceXmlObj->addAttribute('regular', $exclPrice);
                     $subtotalFormattedPriceXmlObj->addAttribute('regular', $formattedExclPrice);
                 }
-                if ($this->helper('tax')->displayCartPriceInclTax()) {
+                if ($taxHelper->displayCartPriceInclTax()) {
                     $subtotalPriceXmlObj->addAttribute('regular', $inclPrice);
                     $subtotalFormattedPriceXmlObj->addAttribute('regular', $formattedInclPrice);
                 }
@@ -238,7 +240,7 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
             $crossellXml = '<crosssell></crosssell>';
         }
 
-        $crossSellXmlObj = Mage::getModel('xmlconnect/simplexml_element', $crossellXml);
+        $crossSellXmlObj = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', $crossellXml);
         $xmlObject->appendChild($crossSellXmlObj);
 
         return $xmlObject->asNiceXml();

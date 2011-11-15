@@ -32,20 +32,6 @@
         </Mage_Checkout>
     </modules>
     <global>
-        <blocks>
-            <checkout>
-                <class>Mage_Checkout_Block</class>
-            </checkout>
-        </blocks>
-        <models>
-            <checkout>
-                <class>Mage_Checkout_Model</class>
-                <resourceModel>checkout_resource</resourceModel>
-            </checkout>
-            <checkout_resource>
-                <class>Mage_Checkout_Model_Resource</class>
-            </checkout_resource>
-        </models>
         <resources>
             <checkout_setup>
                 <setup>
@@ -56,7 +42,7 @@
         </resources>
         <template>
             <email>
-                <checkout_payment_failed_template translate="label" module="checkout">
+                <checkout_payment_failed_template translate="label" module="Mage_Checkout">
                     <label>Payment Failed</label>
                     <file>email/failed_payment.html</file>
                     <type>html</type>
@@ -67,7 +53,7 @@
             <quote>
                 <totals>
                     <nominal>
-                        <renderer>checkout/total_nominal</renderer>
+                        <renderer>Mage_Checkout_Block_Total_Nominal</renderer>
                     </nominal>
                 </totals>
             </quote>
@@ -83,7 +69,7 @@
             <customer_login>
                 <observers>
                     <loadCustomerQuote>
-                        <class>checkout/observer</class>
+                        <class>Mage_Checkout_Model_Observer</class>
                         <method>loadCustomerQuote</method>
                     </loadCustomerQuote>
                 </observers>
@@ -91,7 +77,7 @@
             <customer_logout>
                 <observers>
                     <unsetAll>
-                        <class>checkout/observer</class>
+                        <class>Mage_Checkout_Model_Observer</class>
                         <method>unsetAll</method>
                     </unsetAll>
                 </observers>
@@ -99,7 +85,7 @@
             <sales_quote_save_after>
                 <observers>
                     <set_checkout_quote_id>
-                        <class>checkout/observer</class>
+                        <class>Mage_Checkout_Model_Observer</class>
                         <method>salesQuoteSaveAfter</method>
                     </set_checkout_quote_id>
                 </observers>

@@ -40,7 +40,7 @@ class Mage_Catalog_Model_Product_Action extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_action');
+        $this->_init('Mage_Catalog_Model_Resource_Product_Action');
     }
 
     /**
@@ -77,7 +77,7 @@ class Mage_Catalog_Model_Product_Action extends Mage_Core_Model_Abstract
         ));
 
         // register mass action indexer event
-        Mage::getSingleton('index/indexer')->processEntityAction(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
             $this, Mage_Catalog_Model_Product::ENTITY, Mage_Index_Model_Event::TYPE_MASS_ACTION
         );
         return $this;
@@ -103,9 +103,9 @@ class Mage_Catalog_Model_Product_Action extends Mage_Core_Model_Abstract
         ));
 
         if ($type == 'add') {
-            Mage::getModel('catalog/product_website')->addProducts($websiteIds, $productIds);
+            Mage::getModel('Mage_Catalog_Model_Product_Website')->addProducts($websiteIds, $productIds);
         } else if ($type == 'remove') {
-            Mage::getModel('catalog/product_website')->removeProducts($websiteIds, $productIds);
+            Mage::getModel('Mage_Catalog_Model_Product_Website')->removeProducts($websiteIds, $productIds);
         }
 
         $this->setData(array(
@@ -115,7 +115,7 @@ class Mage_Catalog_Model_Product_Action extends Mage_Core_Model_Abstract
         ));
 
         // register mass action indexer event
-        Mage::getSingleton('index/indexer')->processEntityAction(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
             $this, Mage_Catalog_Model_Product::ENTITY, Mage_Index_Model_Event::TYPE_MASS_ACTION
         );
 

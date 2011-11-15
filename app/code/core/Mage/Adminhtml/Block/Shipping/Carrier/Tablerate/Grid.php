@@ -115,7 +115,7 @@ class Mage_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid extends Mage_Adminhtm
     protected function _prepareCollection()
     {
         /** @var $collection Mage_Shipping_Model_Resource_Carrier_Tablerate_Collection */
-        $collection = Mage::getResourceModel('shipping/carrier_tablerate_collection');
+        $collection = Mage::getResourceModel('Mage_Shipping_Model_Resource_Carrier_Tablerate_Collection');
         $collection->setConditionFilter($this->getConditionName())
             ->setWebsiteFilter($this->getWebsiteId());
 
@@ -132,24 +132,24 @@ class Mage_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid extends Mage_Adminhtm
     protected function _prepareColumns()
     {
         $this->addColumn('dest_country', array(
-            'header'    => Mage::helper('adminhtml')->__('Country'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Country'),
             'index'     => 'dest_country',
             'default'   => '*',
         ));
 
         $this->addColumn('dest_region', array(
-            'header'    => Mage::helper('adminhtml')->__('Region/State'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Region/State'),
             'index'     => 'dest_region',
             'default'   => '*',
         ));
 
         $this->addColumn('dest_zip', array(
-            'header'    => Mage::helper('adminhtml')->__('Zip/Postal Code'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Zip/Postal Code'),
             'index'     => 'dest_zip',
             'default'   => '*',
         ));
 
-        $label = Mage::getSingleton('shipping/carrier_tablerate')
+        $label = Mage::getSingleton('Mage_Shipping_Model_Carrier_Tablerate')
             ->getCode('condition_name_short', $this->getConditionName());
         $this->addColumn('condition_value', array(
             'header'    => $label,
@@ -157,7 +157,7 @@ class Mage_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid extends Mage_Adminhtm
         ));
 
         $this->addColumn('price', array(
-            'header'    => Mage::helper('adminhtml')->__('Shipping Price'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Shipping Price'),
             'index'     => 'price',
         ));
 

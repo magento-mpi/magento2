@@ -45,7 +45,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_product_combine_list');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List');
         $this->setValue(self::CART);
     }
 
@@ -74,7 +74,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
      */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('enterprise_customersegment/segment_condition_product_combine')
+        return Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine')
             ->setDateConditions(true)
             ->getNewChildSelectOptions();
     }
@@ -87,8 +87,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            self::CART      => Mage::helper('enterprise_customersegment')->__('Shopping Cart'),
-            self::WISHLIST  => Mage::helper('enterprise_customersegment')->__('Wishlist'),
+            self::CART      => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shopping Cart'),
+            self::WISHLIST  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Wishlist'),
         ));
         return $this;
     }
@@ -112,8 +112,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '=='  => Mage::helper('rule')->__('found'),
-            '!='  => Mage::helper('rule')->__('not found')
+            '=='  => Mage::helper('Mage_Rule_Helper_Data')->__('found'),
+            '!='  => Mage::helper('Mage_Rule_Helper_Data')->__('not found')
         ));
         return $this;
     }
@@ -126,7 +126,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('If Product is %s in the %s with %s of these Conditions match:',
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Product is %s in the %s with %s of these Conditions match:',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
@@ -173,7 +173,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
         }
 
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
-        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
 
         return $select;
     }

@@ -27,7 +27,7 @@
 -->
 
 <theme>
-    <manifest translate="label" module="xmlconnect">
+    <manifest translate="label" module="Mage_XmlConnect">
             <name>default</name>
             <label>Default Theme</label>
             <version>1.0</version>

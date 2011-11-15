@@ -51,7 +51,7 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     public function applyEventStatus()
     {
-        $collection = Mage::getModel('enterprise_catalogevent/event')->getCollection();
+        $collection = Mage::getModel('Enterprise_CatalogEvent_Model_Event')->getCollection();
         // We should check only not closed events.
         $collection->addFieldToFilter('status',
             array(
@@ -82,7 +82,7 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     public function applyEventToCategory(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogevent')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CatalogEvent_Helper_Data')->isEnabled()) {
             return $this;
         }
 
@@ -102,7 +102,7 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     public function applyEventToCategoryCollection(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogevent')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CatalogEvent_Helper_Data')->isEnabled()) {
             return $this;
         }
 
@@ -133,7 +133,7 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     public function applyEventToProduct(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogevent')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CatalogEvent_Helper_Data')->isEnabled()) {
             return $this;
         }
 
@@ -185,7 +185,7 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     public function applyEventOnQuoteItemSetProduct(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogevent')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CatalogEvent_Helper_Data')->isEnabled()) {
             return $this;
         }
 
@@ -213,7 +213,7 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     public function applyEventOnQuoteItemSetQty(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogevent')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CatalogEvent_Helper_Data')->isEnabled()) {
             return $this;
         }
 
@@ -228,11 +228,11 @@ class Enterprise_CatalogEvent_Model_Observer
                 if ($event->getStatus() !== Enterprise_CatalogEvent_Model_Event::STATUS_OPEN) {
                     $item->setHasError(true)
                         ->setMessage(
-                            Mage::helper('enterprise_catalogevent')->__('Sale was closed for this product.')
+                            Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Sale was closed for this product.')
                         );
                     $item->getQuote()->setHasError(true)
                         ->addMessage(
-                            Mage::helper('enterprise_catalogevent')->__('Some products are not salable anymore.')
+                            Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Some products are not salable anymore.')
                         );
                 }
             } else {
@@ -254,7 +254,7 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     public function applyEventToProductCollection(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogevent')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CatalogEvent_Helper_Data')->isEnabled()) {
             return $this;
         }
 
@@ -320,7 +320,7 @@ class Enterprise_CatalogEvent_Model_Observer
         }
 
         if ($this->_eventsToCategories === null) {
-            $this->_eventsToCategories = Mage::getModel('enterprise_catalogevent/event')->getCategoryIdsWithEvent(
+            $this->_eventsToCategories = Mage::getModel('Enterprise_CatalogEvent_Model_Event')->getCategoryIdsWithEvent(
                 Mage::app()->getStore()->getId()
             );
 
@@ -348,7 +348,7 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     protected function _getEventCollection(array $categoryIds = null)
     {
-        $collection = Mage::getModel('enterprise_catalogevent/event')->getCollection();
+        $collection = Mage::getModel('Enterprise_CatalogEvent_Model_Event')->getCollection();
         if ($categoryIds !== null) {
             $collection->addFieldToFilter('category_id',
                 array(

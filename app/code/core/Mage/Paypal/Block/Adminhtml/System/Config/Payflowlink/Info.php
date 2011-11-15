@@ -62,7 +62,7 @@
     public function getFrontendUrl($routePath)
     {
         if ($this->getRequest()->getParam('website')) {
-            $website = Mage::getModel('core/website')->load($this->getRequest()->getParam('website'));
+            $website = Mage::getModel('Mage_Core_Model_Website')->load($this->getRequest()->getParam('website'));
             $secure = Mage::getStoreConfigFlag(
                 Mage_Core_Model_Url::XML_PATH_SECURE_IN_FRONT,
                 $website->getDefaultStore()

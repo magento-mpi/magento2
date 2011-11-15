@@ -41,20 +41,6 @@
                 </item>
             </quote>
         </sales>
-        <models>
-            <googlecheckout>
-                <class>Mage_GoogleCheckout_Model</class>
-                <resourceModel>googlecheckout_resource</resourceModel>
-            </googlecheckout>
-            <googlecheckout_resource>
-                <class>Mage_GoogleCheckout_Model_Resource</class>
-            </googlecheckout_resource>
-        </models>
-        <helpers>
-            <googlecheckout>
-                <class>Mage_GoogleCheckout_Helper</class>
-            </googlecheckout>
-        </helpers>
         <resources>
             <googlecheckout_setup>
                 <setup>
@@ -63,11 +49,6 @@
                 </setup>
             </googlecheckout_setup>
         </resources>
-        <blocks>
-            <googlecheckout>
-                <class>Mage_GoogleCheckout_Block</class>
-            </googlecheckout>
-        </blocks>
     </global>
     <frontend>
         <secure_url>
@@ -115,7 +96,7 @@
                 <observers>
                     <googlecheckout>
                         <type>model</type>
-                        <class>googlecheckout/observer</class>
+                        <class>Mage_GoogleCheckout_Model_Observer</class>
                         <method>salesOrderShipmentTrackSaveAfter</method>
                     </googlecheckout>
                 </observers>
@@ -124,7 +105,7 @@
                 <observers>
                     <googlecheckout>
                         <type>model</type>
-                        <class>googlecheckout/observer</class>
+                        <class>Mage_GoogleCheckout_Model_Observer</class>
                         <method>salesOrderShipmentSaveAfter</method>
                     </googlecheckout>
                 </observers>
@@ -135,19 +116,19 @@
         <carriers>
             <googlecheckout>
                 <active>1</active>
-                <model>googlecheckout/shipping</model>
+                <model>Mage_GoogleCheckout_Model_Shipping</model>
             </googlecheckout>
         </carriers>
         <payment>
             <googlecheckout>
                 <active>1</active>
-                <model>googlecheckout/payment</model>
+                <model>Mage_GoogleCheckout_Model_Payment</model>
             </googlecheckout>
         </payment>
         <google>
             <checkout>
-                <merchant_id backend_model="adminhtml/system_config_backend_encrypted"/>
-                <merchant_key backend_model="adminhtml/system_config_backend_encrypted"/>
+                <merchant_id backend_model="Mage_Adminhtml_Model_System_Config_Backend_Encrypted"/>
+                <merchant_key backend_model="Mage_Adminhtml_Model_System_Config_Backend_Encrypted"/>
                 <use_secure_callback_url>0</use_secure_callback_url>
                 <disable_default_tax_tables>0</disable_default_tax_tables>
                 <hide_cart_contents>1</hide_cart_contents>

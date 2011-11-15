@@ -44,7 +44,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_customer_address_region');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region');
         $this->setValue(1);
     }
 
@@ -55,7 +55,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
      */
     public function getMatchedEvents()
     {
-        return Mage::getModel('enterprise_customersegment/segment_condition_customer_address_attributes')
+        return Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attributes')
             ->getMatchedEvents();
     }
 
@@ -68,7 +68,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     {
         return array(array(
             'value' => $this->getType(),
-            'label' => Mage::helper('enterprise_customersegment')->__('Has State/Province')
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Has State/Province')
         ));
     }
 
@@ -81,7 +81,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     {
         $element = $this->getValueElementHtml();
         return $this->getTypeElementHtml()
-            .Mage::helper('enterprise_customersegment')->__('If Customer Address %s State/Province specified', $element)
+            .Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Customer Address %s State/Province specified', $element)
             .$this->getRemoveLinkHtml();
     }
 
@@ -103,8 +103,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            '1' => Mage::helper('enterprise_customersegment')->__('has'),
-            '0' => Mage::helper('enterprise_customersegment')->__('does not have'),
+            '1' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('has'),
+            '0' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('does not have'),
         ));
         return $this;
     }
@@ -120,7 +120,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     public function getConditionsSql($customer, $website)
     {
         $inversion = ((int)$this->getValue() ? '' : ' NOT ');
-        $attribute = Mage::getSingleton('eav/config')->getAttribute('customer_address', 'region');
+        $attribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer_address', 'region');
         $select = $this->getResource()->createSelect();
 
         $ifnull = $this->getResource()->getReadConnection()
@@ -129,7 +129,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
         $select->where('caev.attribute_id = ?', $attribute->getId())
             ->where("caev.entity_id = customer_address.entity_id");
 
-        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
 
         return $select;
     }

@@ -120,7 +120,9 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     protected function _getAllStoreGroups()
     {
         if (null === $this->_storeGroupCollection) {
-            $this->_storeGroupCollection = Mage::getResourceSingleton('core/store_group_collection');
+            $this->_storeGroupCollection = Mage::getResourceSingleton(
+                    'Mage_Core_Model_Resource_Store_Group_Collection'
+                );
         }
         return $this->_storeGroupCollection;
     }
@@ -140,13 +142,13 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         // validate specified data
         if ($object->getGwsIsAll() == 0 && empty($websiteIds) && empty($storeGroupIds)) {
             Mage::throwException(
-                Mage::helper('enterprise_admingws')->__('Please specify at least one website or one store group.')
+                Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Please specify at least one website or one store group.')
             );
         }
         if (!$this->_role->getIsAll()) {
             if ($object->getGwsIsAll()) {
                 Mage::throwException(
-                    Mage::helper('enterprise_admingws')->__('Not enough permissions to set All Scopes to a Role.')
+                    Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Not enough permissions to set All Scopes to a Role.')
                 );
             }
         }
@@ -161,12 +163,12 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
             $allWebsiteIds = array_keys(Mage::app()->getWebsites());
             foreach ($websiteIds as $websiteId) {
                 if (!in_array($websiteId, $allWebsiteIds)) {
-                    Mage::throwException(Mage::helper('enterprise_admingws')->__('Wrong website ID: %d', $websiteId));
+                    Mage::throwException(Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Wrong website ID: %d', $websiteId));
                 }
                 // prevent granting disallowed websites
                 if (!$this->_role->getIsAll()) {
                     if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
-                        Mage::throwException(Mage::helper('enterprise_admingws')->__(
+                        Mage::throwException(Mage::helper('Enterprise_AdminGws_Helper_Data')->__(
                              'Website "%s" is not allowed in your current permission scope.',
                              Mage::app()->getWebsite($websiteId)->getName())
                         );
@@ -187,12 +189,12 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
             }
             foreach ($storeGroupIds as $storeGroupId) {
                 if (!array($storeGroupId, $allStoreGroups)) {
-                    Mage::throwException(Mage::helper('enterprise_admingws')->__('Wrong store ID: %d', $storeGroupId));
+                    Mage::throwException(Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Wrong store ID: %d', $storeGroupId));
                 }
                 // prevent granting disallowed store group
                 if (count(array_diff($storeGroupIds, $this->_role->getStoreGroupIds()))) {
                     Mage::throwException(
-                        Mage::helper('enterprise_admingws')
+                        Mage::helper('Enterprise_AdminGws_Helper_Data')
                             ->__('Not enough permissions to save specified Combination of Store Scopes.')
                     );
                 }
@@ -236,7 +238,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     {
         $oldWebsiteId = (string)$observer->getEvent()->getOldWebsiteId();
         $newWebsiteId = (string)$observer->getEvent()->getNewWebsiteId();
-        $roles = Mage::getResourceSingleton('admin/roles_collection');
+        $roles = Mage::getResourceSingleton('Mage_Admin_Model_Resource_Roles_Collection');
         foreach ($roles as $role) {
             $shouldRoleBeUpdated = false;
             $roleWebsites = explode(',', $role->getGwsWebsites());
@@ -261,7 +263,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     public function adminControllerPredispatch($observer)
     {
         /* @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('admin/session');
+        $session = Mage::getSingleton('Mage_Admin_Model_Session');
 
         if ($session->isLoggedIn()) {
             // load role with true websites and store groups
@@ -280,7 +282,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
                     $this->_denyAclLevelRules(self::ACL_STORE_LEVEL);
                 }
                 // cleanup dropdowns for forms/grids that are supposed to be built in future
-                Mage::getSingleton('adminhtml/system_store')->setIsAdminScopeAllowed(false)->reload();
+                Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->setIsAdminScopeAllowed(false)->reload();
             }
 
             // inject into request predispatch to block disallowed actions
@@ -322,7 +324,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     protected function _denyAclLevelRules($level)
     {
          /* @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('admin/session');
+        $session = Mage::getSingleton('Mage_Admin_Model_Session');
 
         foreach (Mage::getConfig()->getNode(self::XML_PATH_ACL_DENY_RULES . '/' . $level)->children() as $rule) {
             $session->getAcl()->deny($session->getUser()->getAclRole(), $rule);
@@ -344,7 +346,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         if (!$callback = $this->_pickCallback('collection_load_before', $collection)) {
             return;
         }
-        $this->_invokeCallback($callback, 'enterprise_admingws/collections', $collection);
+        $this->_invokeCallback($callback, 'Enterprise_AdminGws_Model_Collections', $collection);
     }
 
     /**
@@ -361,7 +363,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         if (!$callback = $this->_pickCallback('model_save_before', $model)) {
             return;
         }
-        $this->_invokeCallback($callback, 'enterprise_admingws/models', $model);
+        $this->_invokeCallback($callback, 'Enterprise_AdminGws_Model_Models', $model);
     }
 
     /**
@@ -379,7 +381,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         if (!$callback = $this->_pickCallback('model_load_after', $model)) {
             return;
         }
-        $this->_invokeCallback($callback, 'enterprise_admingws/models', $model);
+        $this->_invokeCallback($callback, 'Enterprise_AdminGws_Model_Models', $model);
     }
 
     /**
@@ -398,7 +400,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         if (!$callback = $this->_pickCallback('model_delete_before', $model)) {
             return;
         }
-        $this->_invokeCallback($callback, 'enterprise_admingws/models', $model);
+        $this->_invokeCallback($callback, 'Enterprise_AdminGws_Model_Models', $model);
     }
 
     /**
@@ -449,7 +451,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         if ($callback) {
             $this->_invokeCallback(
                 $callback,
-                'enterprise_admingws/controllers',
+                'Enterprise_AdminGws_Model_Controllers',
                 $observer->getEvent()->getControllerAction()
             );
         }
@@ -472,7 +474,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
             return;
         }
         /* the $observer is used intentionally */
-        $this->_invokeCallback($callback, 'enterprise_admingws/blocks', $observer);
+        $this->_invokeCallback($callback, 'Enterprise_AdminGws_Model_Blocks', $observer);
     }
 
     /**
@@ -493,15 +495,10 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
             $this->_callbacks[$callbackGroup] = array();
             $callbacks = (array)Mage::getConfig()->getNode(self::XML_PATH_VALIDATE_CALLBACK . $callbackGroup);
             foreach ($callbacks as $className => $callback) {
-                $factoryClassName = str_replace('__', '/', $className);
+                $factoryClassName = uc_words($className);
                 switch ($callbackGroup) {
                     case 'collection_load_before':
-                        if (0 === strpos($factoryClassName, '_', 0)) {
-                            $className = Mage::getConfig()->getModelClassName(substr($factoryClassName, 1));
-                        }
-                        else {
-                            $className = Mage::getConfig()->getResourceModelClassName($factoryClassName);
-                        }
+                        $className = Mage::getConfig()->getResourceModelClassName($factoryClassName);
                         break;
                     case 'block_html_before':
                         $className = Mage::getConfig()->getBlockClassName($factoryClassName);

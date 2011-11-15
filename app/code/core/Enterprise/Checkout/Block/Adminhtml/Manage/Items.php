@@ -65,8 +65,8 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
      */
     public function displayTotalsIncludeTax()
     {
-        $res = Mage::getSingleton('tax/config')->displayCartSubtotalInclTax($this->getStore())
-            || Mage::getSingleton('tax/config')->displayCartSubtotalBoth($this->getStore());
+        $res = Mage::getSingleton('Mage_Tax_Model_Config')->displayCartSubtotalInclTax($this->getStore())
+            || Mage::getSingleton('Mage_Tax_Model_Config')->displayCartSubtotalBoth($this->getStore());
 
         return $res;
     }
@@ -141,7 +141,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
      */
     public function isAllowedActionColumn()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/update');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/enterprise_checkout/update');
     }
 
     /**
@@ -191,7 +191,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
             $addAttributes = 'disabled="disabled"';
         }
         return sprintf('<button type="button" class="scalable %s" %s><span>%s</span></button>',
-            $class, $addAttributes, Mage::helper('sales')->__('Configure'));
+            $class, $addAttributes, Mage::helper('Mage_Sales_Helper_Data')->__('Configure'));
     }
 
     /**

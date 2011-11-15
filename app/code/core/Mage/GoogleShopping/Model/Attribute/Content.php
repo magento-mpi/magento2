@@ -55,7 +55,7 @@ class Mage_GoogleShopping_Model_Attribute_Content extends Mage_GoogleShopping_Mo
         } else {
             $descrText = 'no description';
         }
-        $descrText = Mage::helper('googleshopping')->cleanAtomAttribute($descrText);
+        $descrText = Mage::helper('Mage_GoogleShopping_Helper_Data')->cleanAtomAttribute($descrText);
         $entry->setContent($entry->getService()->newContent()->setText($descrText));
 
         return $entry;

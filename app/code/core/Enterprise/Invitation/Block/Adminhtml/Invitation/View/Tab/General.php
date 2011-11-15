@@ -49,7 +49,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_invitation')->__('General');
+        return Mage::helper('Enterprise_Invitation_Helper_Data')->__('General');
     }
 
     /**
@@ -138,7 +138,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
     {
         if (!$this->hasData('referral')) {
             if ($this->getInvitation()->getReferralId()) {
-                $referral = Mage::getModel('customer/customer')->load(
+                $referral = Mage::getModel('Mage_Customer_Model_Customer')->load(
                     $this->getInvitation()->getReferralId()
                 );
             } else {
@@ -160,7 +160,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
     {
         if (!$this->hasData('customer')) {
             if ($this->getInvitation()->getCustomerId()) {
-                $customer = Mage::getModel('customer/customer')->load(
+                $customer = Mage::getModel('Mage_Customer_Model_Customer')->load(
                     $this->getInvitation()->getCustomerId()
                 );
             } else {
@@ -181,7 +181,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
     public function getCustomerGroupCollection()
     {
         if (!$this->hasData('customer_groups_collection')) {
-            $groups = Mage::getModel('customer/group')->getCollection()
+            $groups = Mage::getModel('Mage_Customer_Model_Group')->getCollection()
                 ->addFieldToFilter('customer_group_id', array('gt'=> 0))
                 ->load();
             $this->setData('customer_groups_collection', $groups);
@@ -206,9 +206,9 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
             return $group->getCustomerGroupCode();
         } else {
             if ($configUsed) {
-                return $this->helper('enterprise_invitation')->__('Default from System Configuration');
+                return $this->helper('Enterprise_Invitation_Helper_Data')->__('Default from System Configuration');
             } else {
-                return $this->helper('enterprise_invitation')->__('N/A');
+                return $this->helper('Enterprise_Invitation_Helper_Data')->__('N/A');
             }
         }
     }
@@ -246,7 +246,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
             Mage::app()->getStore($this->getInvitation()->getStoreId())->getWebsiteId())) {
             return false;
         }
-        return Mage::helper('enterprise_invitation')->getInvitationUrl($this->getInvitation());
+        return Mage::helper('Enterprise_Invitation_Helper_Data')->getInvitationUrl($this->getInvitation());
     }
 
     /**
@@ -267,6 +267,6 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
      */
     public function canShowReferralLink()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/manage');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/manage');
     }
 }

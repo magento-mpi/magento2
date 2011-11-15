@@ -33,7 +33,7 @@ class Enterprise_GiftRegistry_Block_Cart_Product_Mark extends Mage_Core_Block_Te
      */
     public function getEnabled()
     {
-        return  Mage::helper('enterprise_giftregistry')->isEnabled();
+        return  Mage::helper('Enterprise_GiftRegistry_Helper_Data')->isEnabled();
     }
 
     /**
@@ -77,7 +77,7 @@ class Enterprise_GiftRegistry_Block_Cart_Product_Mark extends Mage_Core_Block_Te
 
         if ($newItem->getGiftregistryItemId()) {
             $this->setData('item', $newItem);
-            $entity = Mage::getModel('enterprise_giftregistry/entity')->loadByEntityItem($newItem->getGiftregistryItemId());
+            $entity = Mage::getModel('Enterprise_GiftRegistry_Model_Entity')->loadByEntityItem($newItem->getGiftregistryItemId());
             $this->setEntity($entity);
         }
 

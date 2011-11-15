@@ -35,39 +35,25 @@
         <customer>
             <address>
                 <formats>
-                    <text translate="title" module="customer">
+                    <text translate="title" module="Mage_Customer">
                         <title>Text</title>
                     </text>
-                    <oneline translate="title" module="customer">
+                    <oneline translate="title" module="Mage_Customer">
                         <title>Text One Line</title>
                     </oneline>
-                    <html translate="title" module="customer">
+                    <html translate="title" module="Mage_Customer">
                         <title>HTML</title>
                         <htmlEscape>true</htmlEscape>
                     </html>
-                    <pdf translate="title" module="customer">
+                    <pdf translate="title" module="Mage_Customer">
                         <title>PDF</title>
                     </pdf>
-                    <js_template template="title" module="customer">
+                    <js_template template="title" module="Mage_Customer">
                         <title>JavaScript Template</title>
                     </js_template>
                 </formats>
             </address>
         </customer>
-        <blocks>
-            <customer>
-                <class>Mage_Customer_Block</class>
-            </customer>
-        </blocks>
-        <models>
-            <customer>
-                <class>Mage_Customer_Model</class>
-                <resourceModel>customer_resource</resourceModel>
-            </customer>
-            <customer_resource>
-                <class>Mage_Customer_Model_Resource</class>
-            </customer_resource>
-        </models>
         <resources>
             <customer_setup>
                 <setup>
@@ -78,27 +64,27 @@
         </resources>
         <template>
             <email>
-                <customer_create_account_email_template translate="label" module="customer">
+                <customer_create_account_email_template translate="label" module="Mage_Customer">
                     <label>New Account</label>
                     <file>email/account_new.html</file>
                     <type>html</type>
                 </customer_create_account_email_template>
-                <customer_create_account_email_confirmation_template translate="label" module="customer">
+                <customer_create_account_email_confirmation_template translate="label" module="Mage_Customer">
                     <label>New Account Confirmation Key</label>
                     <file>email/account_new_confirmation.html</file>
                     <type>html</type>
                 </customer_create_account_email_confirmation_template>
-                <customer_create_account_email_confirmed_template translate="label" module="customer">
+                <customer_create_account_email_confirmed_template translate="label" module="Mage_Customer">
                     <label>New Account Confirmed</label>
                     <file>email/account_new_confirmed.html</file>
                     <type>html</type>
                 </customer_create_account_email_confirmed_template>
-                <customer_password_forgot_email_template translate="label" module="customer">
+                <customer_password_forgot_email_template translate="label" module="Mage_Customer">
                     <label>Forgot Password</label>
                     <file>email/password_reset_confirmation.html</file>
                     <type>html</type>
                 </customer_password_forgot_email_template>
-                <customer_password_remind_email_template translate="label" module="customer">
+                <customer_password_remind_email_template translate="label" module="Mage_Customer">
                     <label>Remind Password</label>
                     <file>email/password_new.html</file>
                     <type>html</type>
@@ -125,7 +111,7 @@
             <controller_action_layout_load_before>
                 <observers>
                     <customer_is_logged_in_observer>
-                        <class>customer/observer</class>
+                        <class>Mage_Customer_Model_Observer</class>
                         <method>beforeLoadLayout</method>
                     </customer_is_logged_in_observer>
                 </observers>

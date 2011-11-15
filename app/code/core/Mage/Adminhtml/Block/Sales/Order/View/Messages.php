@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Messages extends Mage_Adminhtml_Bloc
         /**
          * Check customer existing
          */
-        $customer = Mage::getModel('customer/customer')->load($this->_getOrder()->getCustomerId());
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->_getOrder()->getCustomerId());
 
         /**
          * Check Item products existing

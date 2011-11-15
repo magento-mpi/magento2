@@ -67,8 +67,8 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
      */
     protected function _construct()
     {
-        $this->addColumnRender('qty', 'adminhtml/sales_items_column_qty', 'sales/items/column/qty.phtml');
-        $this->addColumnRender('name', 'adminhtml/sales_items_column_name', 'sales/items/column/name.phtml');
+        $this->addColumnRender('qty', 'Mage_Adminhtml_Block_Sales_Items_Column_Qty', 'sales/items/column/qty.phtml');
+        $this->addColumnRender('name', 'Mage_Adminhtml_Block_Sales_Items_Column_Name', 'sales/items/column/name.phtml');
         parent::_construct();
     }
 
@@ -258,7 +258,7 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
             return $this->getItem()->getOrder();
         }
 
-        Mage::throwException(Mage::helper('sales')->__('Cannot get order instance'));
+        Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Cannot get order instance'));
     }
 
     /**
@@ -486,7 +486,7 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
 
     public function canCapture()
     {
-        if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/capture')) {
+        if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/order/actions/capture')) {
             return $this->getInvoice()->canCapture();
         }
         return false;
@@ -539,7 +539,7 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
         $canReturnToStock = Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT);
         if (!is_null($item)) {
             if (!$item->hasCanReturnToStock()) {
-                $product = Mage::getModel('catalog/product')->load($item->getOrderItem()->getProductId());
+                $product = Mage::getModel('Mage_Catalog_Model_Product')->load($item->getOrderItem()->getProductId());
                 if ( $product->getId() && $product->getStockItem()->getManageStock() ) {
                     $item->setCanReturnToStock(true);
                 }

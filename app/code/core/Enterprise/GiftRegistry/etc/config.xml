@@ -32,25 +32,6 @@
         </Enterprise_GiftRegistry>
     </modules>
     <global>
-        <models>
-            <enterprise_giftregistry>
-                <class>Enterprise_GiftRegistry_Model</class>
-                <resourceModel>enterprise_giftregistry_resource</resourceModel>
-            </enterprise_giftregistry>
-            <enterprise_giftregistry_resource>
-                <class>Enterprise_GiftRegistry_Model_Resource</class>
-            </enterprise_giftregistry_resource>
-        </models>
-        <helpers>
-            <enterprise_giftregistry>
-                <class>Enterprise_GiftRegistry_Helper</class>
-            </enterprise_giftregistry>
-        </helpers>
-        <blocks>
-            <enterprise_giftregistry>
-                <class>Enterprise_GiftRegistry_Block</class>
-            </enterprise_giftregistry>
-        </blocks>
         <resources>
             <enterprise_giftregistry_setup>
                 <setup>
@@ -61,17 +42,17 @@
         </resources>
         <template>
             <email>
-                <enterprise_giftregistry_owner_email_template translate="label" module="enterprise_giftregistry">
+                <enterprise_giftregistry_owner_email_template translate="label" module="Enterprise_GiftRegistry">
                     <label>New Registry</label>
                     <file>email/owner.html</file>
                     <type>html</type>
                 </enterprise_giftregistry_owner_email_template>
-                <enterprise_giftregistry_sharing_email_template translate="label" module="enterprise_giftregistry">
+                <enterprise_giftregistry_sharing_email_template translate="label" module="Enterprise_GiftRegistry">
                     <label>Registry Sharing</label>
                     <file>email/sharing.html</file>
                     <type>html</type>
                 </enterprise_giftregistry_sharing_email_template>
-                <enterprise_giftregistry_update_email_template translate="label" module="enterprise_giftregistry">
+                <enterprise_giftregistry_update_email_template translate="label" module="Enterprise_GiftRegistry">
                     <label>Registry Update</label>
                     <file>email/update.html</file>
                     <type>html</type>
@@ -82,7 +63,7 @@
             <customer_address_load_before>
                 <observers>
                     <enterprise_giftregistry>
-                        <class>enterprise_giftregistry/observer</class>
+                        <class>Enterprise_GiftRegistry_Model_Observer</class>
                         <method>addressDataBeforeLoad</method>
                     </enterprise_giftregistry>
                 </observers>
@@ -90,7 +71,7 @@
             <customer_address_load_after>
                 <observers>
                     <enterprise_giftregistry>
-                        <class>enterprise_giftregistry/observer</class>
+                        <class>Enterprise_GiftRegistry_Model_Observer</class>
                         <method>addressDataAfterLoad</method>
                     </enterprise_giftregistry>
                 </observers>
@@ -98,7 +79,7 @@
             <sales_convert_quote_item_to_order_item>
                 <observers>
                     <enterprise_giftregistry>
-                        <class>enterprise_giftregistry/observer</class>
+                        <class>Enterprise_GiftRegistry_Model_Observer</class>
                         <method>convertItems</method>
                     </enterprise_giftregistry>
                 </observers>
@@ -106,7 +87,7 @@
             <sales_order_place_after>
                 <observers>
                     <enterprise_giftregistry>
-                        <class>enterprise_giftregistry/observer</class>
+                        <class>Enterprise_GiftRegistry_Model_Observer</class>
                         <method>orderPlaced</method>
                     </enterprise_giftregistry>
                 </observers>
@@ -145,7 +126,7 @@
             <customer_address_format>
                 <observers>
                     <enterprise_giftregistry>
-                        <class>enterprise_giftregistry/observer</class>
+                        <class>Enterprise_GiftRegistry_Model_Observer</class>
                         <method>addressFormatAdmin</method>
                     </enterprise_giftregistry>
                 </observers>
@@ -182,7 +163,7 @@
             <checkout_cart_product_add_after>
                 <observers>
                     <enterprise_giftregistry>
-                        <class>enterprise_giftregistry/observer</class>
+                        <class>Enterprise_GiftRegistry_Model_Observer</class>
                         <method>addGiftRegistryQuoteFlag</method>
                     </enterprise_giftregistry>
                 </observers>
@@ -190,7 +171,7 @@
             <customer_address_format>
                 <observers>
                     <enterprise_giftregistry>
-                        <class>enterprise_giftregistry/observer</class>
+                        <class>Enterprise_GiftRegistry_Model_Observer</class>
                         <method>addressFormatFront</method>
                     </enterprise_giftregistry>
                 </observers>

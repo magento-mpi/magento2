@@ -52,7 +52,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     protected function _prepareCollection()
     {
         /* var $collection Enterprise_Cms_Model_Resource_Revision_Collection */
-        $collection = Mage::getModel('enterprise_cms/page_revision')->getCollection()
+        $collection = Mage::getModel('Enterprise_Cms_Model_Page_Revision')->getCollection()
             ->addPageFilter($this->getPage())
             ->addVersionFilter($this->getVersion())
             ->addUserColumn()
@@ -61,8 +61,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
             // Commented this bc now revision are shown in scope of version and not page.
             // So if user has permission to load this version he
             // has permission to see all its versions
-            //->addVisibilityFilter(Mage::getSingleton('admin/session')->getUser()->getId(),
-            //    Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
+            //->addVisibilityFilter(Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId(),
+            //    Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel());
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -91,38 +91,38 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     {
 /*
         $this->addColumn('version_number', array(
-            'header' => Mage::helper('enterprise_cms')->__('Version #'),
+            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Version #'),
             'width' => 100,
             'index' => 'version_number',
             'type' => 'options',
-            'options' => Mage::helper('enterprise_cms')->getVersionsArray($this->getPage())
+            'options' => Mage::helper('Enterprise_Cms_Helper_Data')->getVersionsArray($this->getPage())
         ));
 
         $this->addColumn('label', array(
-            'header' => Mage::helper('enterprise_cms')->__('Version Label'),
+            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Version Label'),
             'index' => 'label',
             'type' => 'options',
-            'options' => Mage::helper('enterprise_cms')
+            'options' => Mage::helper('Enterprise_Cms_Helper_Data')
                                 ->getVersionsArray('label', 'label', $this->getPage())
         ));
 
         $this->addColumn('access_level', array(
-            'header' => Mage::helper('enterprise_cms')->__('Access Level'),
+            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Access Level'),
             'index' => 'access_level',
             'type' => 'options',
             'width' => 100,
-            'options' => Mage::helper('enterprise_cms')->getVersionAccessLevels()
+            'options' => Mage::helper('Enterprise_Cms_Helper_Data')->getVersionAccessLevels()
         ));
 */
         $this->addColumn('revision_number', array(
-            'header' => Mage::helper('enterprise_cms')->__('Revision #'),
+            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Revision #'),
             'width' => 200,
             'type' => 'number',
             'index' => 'revision_number'
         ));
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('enterprise_cms')->__('Created'),
+            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Created'),
             'index' => 'created_at',
             'type' => 'datetime',
             'filter_time' => true,
@@ -130,7 +130,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
         ));
 
         $this->addColumn('author', array(
-            'header' => Mage::helper('enterprise_cms')->__('Author'),
+            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Author'),
             'index' => 'user',
             'type' => 'options',
             'options' => $this->getCollection()->getUsersArray()
@@ -187,14 +187,14 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
      */
     protected function _prepareMassaction()
     {
-        if (Mage::getSingleton('enterprise_cms/config')->canCurrentUserDeleteRevision()) {
+        if (Mage::getSingleton('Enterprise_Cms_Model_Config')->canCurrentUserDeleteRevision()) {
             $this->setMassactionIdField('revision_id');
             $this->getMassactionBlock()->setFormFieldName('revision');
 
             $this->getMassactionBlock()->addItem('delete', array(
-                 'label'=> Mage::helper('enterprise_cms')->__('Delete'),
+                 'label'=> Mage::helper('Enterprise_Cms_Helper_Data')->__('Delete'),
                  'url'  => $this->getUrl('*/*/massDeleteRevisions', array('_current' => true)),
-                 'confirm' => Mage::helper('enterprise_cms')->__('Are you sure?')
+                 'confirm' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Are you sure?')
             ));
         }
         return $this;

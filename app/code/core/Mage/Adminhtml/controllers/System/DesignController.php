@@ -33,13 +33,15 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
 
         $this->loadLayout();
         $this->_setActiveMenu('system');
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/system_design'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Design'));
         $this->renderLayout();
     }
 
     public function gridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/system_design_grid')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Design_Grid')->toHtml()
+        );
     }
 
     public function newAction()
@@ -56,7 +58,7 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $id  = (int) $this->getRequest()->getParam('id');
-        $design    = Mage::getModel('core/design');
+        $design    = Mage::getModel('Mage_Core_Model_Design');
 
         if ($id) {
             $design->load($id);
@@ -66,8 +68,8 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
 
         Mage::register('design', $design);
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/system_design_edit'));
-        $this->_addLeft($this->getLayout()->createBlock('adminhtml/system_design_edit_tabs', 'design_tabs'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Design_Edit'));
+        $this->_addLeft($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Design_Edit_Tabs', 'design_tabs'));
 
         $this->renderLayout();
     }
@@ -77,7 +79,7 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
         if ($data = $this->getRequest()->getPost()) {
             $id = (int) $this->getRequest()->getParam('id');
 
-            $design = Mage::getModel('core/design');
+            $design = Mage::getModel('Mage_Core_Model_Design');
             if ($id) {
                 $design->load($id);
             }
@@ -89,9 +91,9 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
             try {
                 $design->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The design change has been saved.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The design change has been saved.'));
             } catch (Exception $e){
-                Mage::getSingleton('adminhtml/session')
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')
                     ->addError($e->getMessage())
                     ->setDesignData($data);
                 $this->_redirect('*/*/edit', array('id'=>$design->getId()));
@@ -105,18 +107,18 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
     public function deleteAction()
     {
         if ($id = $this->getRequest()->getParam('id')) {
-            $design = Mage::getModel('core/design')->load($id);
+            $design = Mage::getModel('Mage_Core_Model_Design')->load($id);
 
             try {
                 $design->delete();
 
-                Mage::getSingleton('adminhtml/session')
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')
                     ->addSuccess($this->__('The design change has been deleted.'));
             } catch (Mage_Exception $e) {
-                Mage::getSingleton('adminhtml/session')
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')
                     ->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')
                     ->addException($e, $this->__("Cannot delete the design change."));
             }
         }
@@ -125,6 +127,6 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/design');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/design');
     }
 }

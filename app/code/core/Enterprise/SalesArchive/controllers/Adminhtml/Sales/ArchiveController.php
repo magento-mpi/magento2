@@ -124,7 +124,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
         $orderIds = $this->getRequest()->getPost('order_ids', array());
         $countCancelOrder = 0;
         foreach ($orderIds as $orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             if ($order->canCancel()) {
                 $order->cancel()
                     ->save();
@@ -148,7 +148,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
         $orderIds = $this->getRequest()->getPost('order_ids', array());
         $countHoldOrder = 0;
         foreach ($orderIds as $orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             if ($order->canHold()) {
                 $order->hold()
                     ->save();
@@ -172,7 +172,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
         $orderIds = $this->getRequest()->getPost('order_ids', array());
         $countUnholdOrder = 0;
         foreach ($orderIds as $orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             if ($order->canUnhold()) {
                 $order->unhold()
                     ->save();
@@ -195,7 +195,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     public function massRemoveAction()
     {
         $orderIds = $this->getRequest()->getPost('order_ids', array());
-        $removedFromArchive = Mage::getSingleton('enterprise_salesarchive/archive')
+        $removedFromArchive = Mage::getSingleton('Enterprise_SalesArchive_Model_Archive')
             ->removeOrdersFromArchiveById($orderIds);
 
         $removedFromArchiveCount = count($removedFromArchive);
@@ -215,7 +215,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     public function massAddAction()
     {
         $orderIds = $this->getRequest()->getPost('order_ids', array());
-        $archivedIds = Mage::getSingleton('enterprise_salesarchive/archive')
+        $archivedIds = Mage::getSingleton('Enterprise_SalesArchive_Model_Archive')
             ->archiveOrdersById($orderIds);
 
         $archivedCount = count($archivedIds);
@@ -234,7 +234,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     {
         $orderId = $this->getRequest()->getParam('order_id');
         if ($orderId) {
-            $archivedIds = Mage::getSingleton('enterprise_salesarchive/archive')
+            $archivedIds = Mage::getSingleton('Enterprise_SalesArchive_Model_Archive')
                 ->archiveOrdersById($orderId);
             $this->_getSession()->addSuccess($this->__('The order has been archived.'));
             $this->_redirect('*/sales_order/view', array('order_id'=>$orderId));
@@ -251,7 +251,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     {
         $orderId = $this->getRequest()->getParam('order_id');
         if ($orderId) {
-            $orderIds = Mage::getSingleton('enterprise_salesarchive/archive')
+            $orderIds = Mage::getSingleton('Enterprise_SalesArchive_Model_Archive')
                 ->removeOrdersFromArchiveById($orderId);
             $this->_getSession()->addSuccess($this->__('The order has been removed from the archive.'));
             $this->_redirect('*/sales_order/view', array('order_id'=>$orderId));
@@ -267,7 +267,8 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     public function exportCsvAction()
     {
         $fileName   = 'orders_archive.csv';
-        $grid       = $this->getLayout()->createBlock('enterprise_salesarchive/adminhtml_sales_archive_order_grid');
+        $grid       = $this->getLayout()
+            ->createBlock('Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Grid');
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
 
@@ -277,7 +278,8 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     public function exportExcelAction()
     {
         $fileName   = 'orders_archive.xml';
-        $grid       = $this->getLayout()->createBlock('enterprise_salesarchive/adminhtml_sales_archive_order_grid');
+        $grid       = $this->getLayout()
+            ->createBlock('Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Grid');
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
 
@@ -324,6 +326,6 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
                 break;
         }
 
-        return Mage::getSingleton('admin/session')->isAllowed($acl);
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($acl);
     }
 }

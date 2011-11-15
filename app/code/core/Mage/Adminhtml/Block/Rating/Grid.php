@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Rating_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('rating/rating')
+        $collection = Mage::getModel('Mage_Rating_Model_Rating')
             ->getResourceCollection()
             ->addEntityFilter(Mage::registry('entityId'));
         $this->setCollection($collection);
@@ -55,14 +55,14 @@ class Mage_Adminhtml_Block_Rating_Grid extends Mage_Adminhtml_Block_Widget_Grid
     protected function _prepareColumns()
     {
         $this->addColumn('rating_id', array(
-            'header'    => Mage::helper('rating')->__('ID'),
+            'header'    => Mage::helper('Mage_Rating_Helper_Data')->__('ID'),
             'align'     =>'right',
             'width'     => '50px',
             'index'     => 'rating_id',
         ));
 
         $this->addColumn('rating_code', array(
-            'header'    => Mage::helper('rating')->__('Rating Name'),
+            'header'    => Mage::helper('Mage_Rating_Helper_Data')->__('Rating Name'),
             'align'     =>'left',
             'index'     => 'rating_code',
         ));

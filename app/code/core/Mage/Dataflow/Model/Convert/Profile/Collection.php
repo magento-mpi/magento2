@@ -185,7 +185,7 @@ class Mage_Dataflow_Model_Convert_Profile_Collection
                          * Get state name by iso for US
                          */
                         /** @var $region Mage_Directory_Model_Region */
-                        $region = Mage::getModel('directory/region');
+                        $region = Mage::getModel('Mage_Directory_Model_Region');
 
                         $state = $region->loadByCode($value, $country)->getDefaultName();
                         if ($state) {

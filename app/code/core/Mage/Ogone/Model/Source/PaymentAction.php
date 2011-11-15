@@ -37,9 +37,9 @@ class Mage_Ogone_Model_Source_PaymentAction
     public function toOptionArray()
     {
         return array(
-            array('value' => '', 'label' => Mage::helper('ogone')->__('Ogone Default Operation')),
-            array('value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE, 'label' => Mage::helper('ogone')->__('Authorization')),
-            array('value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE, 'label' => Mage::helper('ogone')->__('Direct Sale')),
+            array('value' => '', 'label' => Mage::helper('Mage_Ogone_Helper_Data')->__('Ogone Default Operation')),
+            array('value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE, 'label' => Mage::helper('Mage_Ogone_Helper_Data')->__('Authorization')),
+            array('value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE, 'label' => Mage::helper('Mage_Ogone_Helper_Data')->__('Direct Sale')),
         );
     }
 }

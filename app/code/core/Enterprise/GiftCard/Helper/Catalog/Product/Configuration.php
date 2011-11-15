@@ -105,7 +105,7 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Mage_Core
     {
         return array_merge(
             $this->getGiftcardOptions($item),
-            Mage::helper('catalog/product_configuration')->getCustomOptions($item)
+            Mage::helper('Mage_Catalog_Helper_Product_Configuration')->getCustomOptions($item)
         );
     }
 }

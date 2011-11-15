@@ -76,7 +76,7 @@ class Mage_XmlConnect_Model_Resource_History extends Mage_Core_Model_Resource_Db
     public function getLastParams($id)
     {
         $paramArray = array();
-        $idFieldName = Mage::getModel('xmlconnect/application')->getIdFieldName();
+        $idFieldName = Mage::getModel('Mage_XmlConnect_Model_Application')->getIdFieldName();
         $select = $this->_getReadAdapter()->select()->from($this->getMainTable(), 'params')
             ->where($idFieldName . '=?', $id)->order(array('created_at ' . Zend_Db_Select::SQL_DESC));
 

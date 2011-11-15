@@ -68,7 +68,7 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
      */
     protected function _construct()
     {
-        $this->_init('catalog/config');
+        $this->_init('Mage_Catalog_Model_Resource_Config');
     }
 
     /**
@@ -102,7 +102,7 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
             return $this;
         }
 
-        $attributeSetCollection = Mage::getResourceModel('eav/entity_attribute_set_collection')
+        $attributeSetCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->load();
 
         $this->_attributeSetsById = array();
@@ -149,7 +149,7 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
             return $this;
         }
 
-        $attributeSetCollection = Mage::getResourceModel('eav/entity_attribute_group_collection')
+        $attributeSetCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection')
             ->load();
 
         $this->_attributeGroupsById = array();
@@ -198,17 +198,12 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
             return $this;
         }
 
-        /*
-        $productTypeCollection = Mage::getResourceModel('catalog/product_type_collection')
-            ->load();
-        */
-        $productTypeCollection = Mage::getModel('catalog/product_type')
+        $productTypeCollection = Mage::getModel('Mage_Catalog_Model_Product_Type')
             ->getOptionArray();
 
         $this->_productTypesById = array();
         $this->_productTypesByName = array();
         foreach ($productTypeCollection as $id=>$type) {
-            //$name = $type->getCode();
             $name = $type;
             $this->_productTypesById[$id] = $name;
             $this->_productTypesByName[strtolower($name)] = $id;
@@ -282,7 +277,7 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
      */
     protected function _getResource()
     {
-        return Mage::getResourceModel('catalog/config');
+        return Mage::getResourceModel('Mage_Catalog_Model_Resource_Config');
     }
 
     /**
@@ -297,11 +292,11 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
             $attributesData = $this->_getResource()
                 ->setStoreId($this->getStoreId())
                 ->getAttributesUsedInListing();
-            Mage::getSingleton('eav/config')
+            Mage::getSingleton('Mage_Eav_Model_Config')
                 ->importAttributesData($entityType, $attributesData);
             foreach ($attributesData as $attributeData) {
                 $attributeCode = $attributeData['attribute_code'];
-                $this->_usedInProductListing[$attributeCode] = Mage::getSingleton('eav/config')
+                $this->_usedInProductListing[$attributeCode] = Mage::getSingleton('Mage_Eav_Model_Config')
                     ->getAttribute($entityType, $attributeCode);
             }
         }
@@ -319,11 +314,11 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
             $entityType     = Mage_Catalog_Model_Product::ENTITY;
             $attributesData = $this->_getResource()
                 ->getAttributesUsedForSortBy();
-            Mage::getSingleton('eav/config')
+            Mage::getSingleton('Mage_Eav_Model_Config')
                 ->importAttributesData($entityType, $attributesData);
             foreach ($attributesData as $attributeData) {
                 $attributeCode = $attributeData['attribute_code'];
-                $this->_usedForSortBy[$attributeCode] = Mage::getSingleton('eav/config')
+                $this->_usedForSortBy[$attributeCode] = Mage::getSingleton('Mage_Eav_Model_Config')
                     ->getAttribute($entityType, $attributeCode);
             }
         }
@@ -339,7 +334,7 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
     public function getAttributeUsedForSortByArray()
     {
         $options = array(
-            'position'  => Mage::helper('catalog')->__('Position')
+            'position'  => Mage::helper('Mage_Catalog_Helper_Data')->__('Position')
         );
         foreach ($this->getAttributesUsedForSortBy() as $attribute) {
             /* @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */

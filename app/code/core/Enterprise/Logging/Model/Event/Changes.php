@@ -83,7 +83,7 @@ class Enterprise_Logging_Model_Event_Changes extends Mage_Core_Model_Abstract
         $this->_globalSkipFields = array_map('trim', array_filter(explode(',',
             (string)Mage::getConfig()->getNode(self::XML_PATH_SKIP_GLOBAL_FIELDS))));
 
-        $this->_init('enterprise_logging/event_changes');
+        $this->_init('Enterprise_Logging_Model_Resource_Event_Changes');
     }
 
     /**

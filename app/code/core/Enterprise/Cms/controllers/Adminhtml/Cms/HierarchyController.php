@@ -41,7 +41,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('enterprise_cms/hierarchy')->isEnabled()) {
+        if (!Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
@@ -58,10 +58,10 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
     {
         $this->loadLayout()
             ->_setActiveMenu('cms/hierarchy')
-            ->_addBreadcrumb(Mage::helper('enterprise_cms')->__('CMS'),
-                Mage::helper('enterprise_cms')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('enterprise_cms')->__('CMS Page Trees'),
-                Mage::helper('enterprise_cms')->__('CMS Page Trees'));
+            ->_addBreadcrumb(Mage::helper('Enterprise_Cms_Helper_Data')->__('CMS'),
+                Mage::helper('Enterprise_Cms_Helper_Data')->__('CMS'))
+            ->_addBreadcrumb(Mage::helper('Enterprise_Cms_Helper_Data')->__('CMS Page Trees'),
+                Mage::helper('Enterprise_Cms_Helper_Data')->__('CMS Page Trees'));
         return $this;
     }
 
@@ -79,17 +79,17 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
 
         if ($this->_getLockModel()->isLockedByMe()) {
             $this->_getSession()->addNotice(
-                Mage::helper('enterprise_cms')->__('This Page is locked by you.')
+                Mage::helper('Enterprise_Cms_Helper_Data')->__('This Page is locked by you.')
             );
         }
 
         if ($this->_getLockModel()->isLockedByOther()) {
             $this->_getSession()->addNotice(
-                Mage::helper('enterprise_cms')->__("This Page is locked by '%s'.", $this->_getLockModel()->getUserName())
+                Mage::helper('Enterprise_Cms_Helper_Data')->__("This Page is locked by '%s'.", $this->_getLockModel()->getUserName())
             );
         }
 
-        $node = Mage::getModel('enterprise_cms/hierarchy_node');
+        $node = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
 
         $data = $this->_getSession()->getFormData(true);
         if (!empty($data)) {
@@ -118,23 +118,23 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
     public function saveAction()
     {
         if ($this->getRequest()->isPost()) {
-            if (Mage::getModel('enterprise_cms/hierarchy_lock')->isLockedByOther()) {
+            if (Mage::getModel('Enterprise_Cms_Model_Hierarchy_Lock')->isLockedByOther()) {
                 $this->_getSession()->addError(
-                    Mage::helper('enterprise_cms')->__('This page is currently locked.')
+                    Mage::helper('Enterprise_Cms_Helper_Data')->__('This page is currently locked.')
                 );
                 $this->_redirect('*/*/');
                 return $this;
             }
 
             /** @var $node Enterprise_Cms_Model_Hierarchy_Node */
-            $node       = Mage::getModel('enterprise_cms/hierarchy_node');
+            $node       = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
             $data       = $this->getRequest()->getPost();
             $hasError   = true;
 
             try {
                 if (!empty($data['nodes_data'])) {
                     try{
-                        $nodesData = Mage::helper('core')->jsonDecode($data['nodes_data']);
+                        $nodesData = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($data['nodes_data']);
                     }catch (Zend_Json_Exception $e){
                         $nodesData = array();
                     }
@@ -166,14 +166,14 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
 
                 $hasError = false;
                 $this->_getSession()->addSuccess(
-                    Mage::helper('enterprise_cms')->__('The hierarchy has been saved.')
+                    Mage::helper('Enterprise_Cms_Helper_Data')->__('The hierarchy has been saved.')
                 );
             }
             catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_cms')->__('Error in saving hierarchy.')
+                    Mage::helper('Enterprise_Cms_Helper_Data')->__('Error in saving hierarchy.')
                 );
                 Mage::logException($e);
             }
@@ -204,7 +204,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
      */
     protected function _getLockModel()
     {
-        return Mage::getSingleton('enterprise_cms/hierarchy_lock');
+        return Mage::getSingleton('Enterprise_Cms_Model_Hierarchy_Lock');
     }
 
     /**
@@ -214,6 +214,6 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('cms/hierarchy');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/hierarchy');
     }
 }

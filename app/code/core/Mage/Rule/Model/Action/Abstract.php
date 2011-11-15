@@ -106,8 +106,8 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            '=' => Mage::helper('rule')->__('to'),
-            '+=' => Mage::helper('rule')->__('by'),
+            '=' => Mage::helper('Mage_Rule_Helper_Data')->__('to'),
+            '+=' => Mage::helper('Mage_Rule_Helper_Data')->__('by'),
         ));
         return $this;
     }
@@ -150,7 +150,7 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
     public function getNewChildSelectOptions()
     {
         return array(
-            array('value'=>'', 'label'=>Mage::helper('rule')->__('Please choose an action to add...')),
+            array('value'=>'', 'label'=>Mage::helper('Mage_Rule_Helper_Data')->__('Please choose an action to add...')),
         );
     }
 
@@ -186,7 +186,7 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
             'values'=>$this->getAttributeSelectOptions(),
             'value'=>$this->getAttribute(),
             'value_name'=>$this->getAttributeName(),
-        ))->setRenderer(Mage::getBlockSingleton('rule/editable'));
+        ))->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Editable'));
     }
 
     public function getOperatorElement()
@@ -196,7 +196,7 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
             'values'=>$this->getOperatorSelectOptions(),
             'value'=>$this->getOperator(),
             'value_name'=>$this->getOperatorName(),
-        ))->setRenderer(Mage::getBlockSingleton('rule/editable'));
+        ))->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Editable'));
     }
 
     public function getValueElement()
@@ -205,7 +205,7 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
             'name'=>'rule[actions]['.$this->getId().'][value]',
             'value'=>$this->getValue(),
             'value_name'=>$this->getValueName(),
-        ))->setRenderer(Mage::getBlockSingleton('rule/editable'));
+        ))->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Editable'));
     }
 
     public function getAddLinkHtml()

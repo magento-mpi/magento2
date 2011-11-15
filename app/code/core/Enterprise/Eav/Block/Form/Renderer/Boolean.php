@@ -48,11 +48,11 @@ class Enterprise_Eav_Block_Form_Renderer_Boolean extends Enterprise_Eav_Block_Fo
             ),
             array(
                 'value' => '0',
-                'label' => Mage::helper('enterprise_eav')->__('No')
+                'label' => Mage::helper('Enterprise_Eav_Helper_Data')->__('No')
             ),
             array(
                 'value' => '1',
-                'label' => Mage::helper('enterprise_eav')->__('Yes')
+                'label' => Mage::helper('Enterprise_Eav_Helper_Data')->__('Yes')
             ),
         );
     }

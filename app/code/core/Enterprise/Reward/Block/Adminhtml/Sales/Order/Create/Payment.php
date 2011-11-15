@@ -41,7 +41,7 @@ class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_
      */
     protected function _getOrderCreateModel()
     {
-        return Mage::getSingleton('adminhtml/sales_order_create');
+        return Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create');
     }
 
     /**
@@ -68,8 +68,8 @@ class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_
         );
 
         return $this->getReward()->getPointsBalance() >= $minPointsBalance
-            && Mage::helper('enterprise_reward')->isEnabledOnFront($websiteId)
-            && Mage::getSingleton('admin/session')
+            && Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($websiteId)
+            && Mage::getSingleton('Mage_Admin_Model_Session')
                 ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_AFFECT)
             && (float)$this->getCurrencyAmount();
     }
@@ -84,7 +84,7 @@ class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_
     {
         if (!$this->_getData('reward')) {
             /* @var $reward Enterprise_Reward_Model_Reward */
-            $reward = Mage::getModel('enterprise_reward/reward')
+            $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
                 ->setCustomer($this->getQuote()->getCustomer())
                 ->setStore($this->getQuote()->getStore())
                 ->loadByCustomer();
@@ -102,7 +102,7 @@ class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_
     {
         $points = $this->getReward()->getPointsBalance();
         $amount = $this->getReward()->getCurrencyAmount();
-        $rewardFormatted = Mage::helper('enterprise_reward')
+        $rewardFormatted = Mage::helper('Enterprise_Reward_Helper_Data')
             ->formatReward($points, $amount, $this->getQuote()->getStore()->getId());
         $this->setPointsBalance($points)->setCurrencyAmount($amount)
             ->setUseLabel($this->__('Use my reward points, %s are available.', $rewardFormatted))

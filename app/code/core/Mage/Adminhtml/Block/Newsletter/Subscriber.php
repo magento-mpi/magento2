@@ -58,7 +58,10 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber extends Mage_Adminhtml_Block_Te
      */
     protected function _beforeToHtml()
     {
-        $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/newsletter_subscriber_grid','grid'));
+        $this->setChild(
+            'grid',
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Subscriber_Grid','grid')
+        );
         return parent::_beforeToHtml();
     }
 
@@ -70,7 +73,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber extends Mage_Adminhtml_Block_Te
     public function getQueueCollection()
     {
         if(is_null($this->_queueCollection)) {
-            $this->_queueCollection = Mage::getResourceSingleton('newsletter/queue_collection')
+            $this->_queueCollection = Mage::getResourceSingleton('Mage_Newsletter_Model_Resource_Queue_Collection')
                 ->addTemplateInfo()
                 ->addOnlyUnsentFilter()
                 ->load();

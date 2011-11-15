@@ -81,7 +81,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
     public function getCustomerModel()
     {
         if (is_null($this->_customerModel)) {
-            $object = Mage::getModel('customer/customer');
+            $object = Mage::getModel('Mage_Customer_Model_Customer');
             $this->_customerModel = Mage::objects()->save($object);
         }
         return Mage::objects()->load($this->_customerModel);
@@ -95,7 +95,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
     public function getBillingAddressModel()
     {
         if (is_null($this->_billingAddressModel)) {
-            $object = Mage::getModel('customer/address');
+            $object = Mage::getModel('Mage_Customer_Model_Address');
             $this->_billingAddressModel = Mage::objects()->save($object);
         }
         return Mage::objects()->load($this->_billingAddressModel);
@@ -109,7 +109,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
     public function getShippingAddressModel()
     {
         if (is_null($this->_shippingAddressModel)) {
-            $object = Mage::getModel('customer/address');
+            $object = Mage::getModel('Mage_Customer_Model_Address');
             $this->_shippingAddressModel = Mage::objects()->save($object);
         }
         return Mage::objects()->load($this->_shippingAddressModel);
@@ -175,7 +175,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         if (is_null($this->_regions)) {
             $this->_regions = array();
 
-            $collection = Mage::getModel('directory/region')
+            $collection = Mage::getModel('Mage_Directory_Model_Region')
                 ->getCollection();
             foreach ($collection as $region) {
                 if (!isset($this->_regions[$region->getCountryId()])) {
@@ -202,7 +202,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
     {
         if (is_null($this->_customerGroups)) {
             $this->_customerGroups = array();
-            $collection = Mage::getModel('customer/group')
+            $collection = Mage::getModel('Mage_Customer_Model_Group')
                 ->getCollection()
                 ->addFieldToFilter('customer_group_id', array('gt'=> 0));
             foreach ($collection as $group) {
@@ -224,12 +224,12 @@ class Mage_Customer_Model_Convert_Adapter_Customer
 
     public function __construct()
     {
-        $this->setVar('entity_type', 'customer/customer');
+        $this->setVar('entity_type', 'customer/customer')
+            ->setVar('entity_resource', 'Mage_Customer_Model_Resource_Customer');
 
         if (!Mage::registry('Object_Cache_Customer')) {
-            $this->setCustomer(Mage::getModel('customer/customer'));
+            $this->setCustomer(Mage::getModel('Mage_Customer_Model_Customer'));
         }
-        //$this->setAddress(Mage::getModel('catalog/'))
 
         foreach (Mage::getConfig()->getFieldset('customer_dataflow', 'admin') as $code=>$node) {
             if ($node->is('ignore')) {
@@ -333,7 +333,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
      */
     public function parse()
     {
-        $batchModel = Mage::getSingleton('dataflow/batch');
+        $batchModel = Mage::getSingleton('Mage_Dataflow_Model_Batch');
         /* @var $batchModel Mage_Dataflow_Model_Batch */
 
         $batchImportModel = $batchModel->getBatchImportModel();
@@ -369,14 +369,14 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         if ($collections instanceof Mage_Customer_Model_Resource_Customer_Collection) {
             $collections = array($collections->getEntity()->getStoreId()=>$collections);
         } elseif (!is_array($collections)) {
-            $this->addException(Mage::helper('customer')->__('No customer collections found'), Mage_Dataflow_Model_Convert_Exception::FATAL);
+            $this->addException(Mage::helper('Mage_Customer_Helper_Data')->__('No customer collections found'), Mage_Dataflow_Model_Convert_Exception::FATAL);
         }
 
         foreach ($collections as $storeId=>$collection) {
-            $this->addException(Mage::helper('customer')->__('Records for %s store found.', $stores[$storeId]));
+            $this->addException(Mage::helper('Mage_Customer_Helper_Data')->__('Records for %s store found.', $stores[$storeId]));
 
             if (!$collection instanceof Mage_Customer_Model_Resource_Customer_Collection) {
-                $this->addException(Mage::helper('customer')->__('Customer collection expected.'), Mage_Dataflow_Model_Convert_Exception::FATAL);
+                $this->addException(Mage::helper('Mage_Customer_Helper_Data')->__('Customer collection expected.'), Mage_Dataflow_Model_Convert_Exception::FATAL);
             }
             try {
                 $i = 0;
@@ -386,22 +386,16 @@ class Mage_Customer_Model_Convert_Adapter_Customer
                     if (!$model->getId()) {
                         $new = true;
                         $model->save();
-                        #Mage::getResourceSingleton('catalog_entity/convert')->addProductToStore($model->getId(), 0);
                     }
                     if (!$new || 0!==$storeId) {
-
-//                        if (0!==$storeId) {
-//                            Mage::getResourceSingleton('catalog_entity/convert')->addProductToStore($model->getId(), $storeId);
-//                        }
-
                         $model->save();
                     }
                     $i++;
                 }
-                $this->addException(Mage::helper('customer')->__("Saved %d record(s)", $i));
+                $this->addException(Mage::helper('Mage_Customer_Helper_Data')->__("Saved %d record(s)", $i));
             } catch (Exception $e) {
                 if (!$e instanceof Mage_Dataflow_Model_Convert_Exception) {
-                    $this->addException(Mage::helper('customer')->__('An error occurred while saving the collection, aborting. Error: %s', $e->getMessage()),
+                    $this->addException(Mage::helper('Mage_Customer_Helper_Data')->__('An error occurred while saving the collection, aborting. Error: %s', $e->getMessage()),
                         Mage_Dataflow_Model_Convert_Exception::FATAL);
                 }
             }
@@ -421,18 +415,18 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         $customer->setId(null);
 
         if (empty($importData['website'])) {
-            $message = Mage::helper('customer')->__('Skipping import row, required field "%s" is not defined.', 'website');
+            $message = Mage::helper('Mage_Customer_Helper_Data')->__('Skipping import row, required field "%s" is not defined.', 'website');
             Mage::throwException($message);
         }
 
         $website = $this->getWebsiteByCode($importData['website']);
 
         if ($website === false) {
-            $message = Mage::helper('customer')->__('Skipping import row, website "%s" field does not exist.', $importData['website']);
+            $message = Mage::helper('Mage_Customer_Helper_Data')->__('Skipping import row, website "%s" field does not exist.', $importData['website']);
             Mage::throwException($message);
         }
         if (empty($importData['email'])) {
-            $message = Mage::helper('customer')->__('Skipping import row, required field "%s" is not defined.', 'email');
+            $message = Mage::helper('Mage_Customer_Helper_Data')->__('Skipping import row, required field "%s" is not defined.', 'email');
             Mage::throwException($message);
         }
 
@@ -445,14 +439,14 @@ class Mage_Customer_Model_Convert_Adapter_Customer
              */
             if (empty($importData['group']) || !isset($customerGroups[$importData['group']])) {
                 $value = isset($importData['group']) ? $importData['group'] : '';
-                $message = Mage::helper('catalog')->__('Skipping import row, the value "%s" is not valid for the "%s" field.', $value, 'group');
+                $message = Mage::helper('Mage_Catalog_Helper_Data')->__('Skipping import row, the value "%s" is not valid for the "%s" field.', $value, 'group');
                 Mage::throwException($message);
             }
             $customer->setGroupId($customerGroups[$importData['group']]);
 
             foreach ($this->_requiredFields as $field) {
                 if (!isset($importData[$field])) {
-                    $message = Mage::helper('catalog')->__('Skip import row, required field "%s" for the new customer is not defined.', $field);
+                    $message = Mage::helper('Mage_Catalog_Helper_Data')->__('Skip import row, required field "%s" for the new customer is not defined.', $field);
                     Mage::throwException($message);
                 }
             }
@@ -595,7 +589,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
             }
 
             foreach ($this->_billingFields as $field) {
-                $cleanField = Mage::helper('core/string')->substr($field, 8);
+                $cleanField = Mage::helper('Mage_Core_Helper_String')->substr($field, 8);
 
                 if (isset($importData[$field])) {
                     $billingAddress->setDataUsingMethod($cleanField, $importData[$field]);
@@ -650,7 +644,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
             }
 
             foreach ($this->_shippingFields as $field) {
-                $cleanField = Mage::helper('core/string')->substr($field, 9);
+                $cleanField = Mage::helper('Mage_Core_Helper_String')->substr($field, 9);
 
                 if (isset($importData[$field])) {
                     $shippingAddress->setDataUsingMethod($cleanField, $importData[$field]);

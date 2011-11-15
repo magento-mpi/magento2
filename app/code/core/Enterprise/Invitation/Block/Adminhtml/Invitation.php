@@ -41,9 +41,9 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation extends Mage_Adminhtml_Bl
     public function __construct()
     {
         $this->_controller = 'adminhtml_invitation';
-        $this->_blockGroup = 'enterprise_invitation';
-        $this->_headerText = Mage::helper('enterprise_invitation')->__('Manage Invitations');
-        $this->_addButtonLabel = Mage::helper('enterprise_invitation')->__('Add Invitations');
+        $this->_blockGroup = 'Enterprise_Invitation';
+        $this->_headerText = Mage::helper('Enterprise_Invitation_Helper_Data')->__('Manage Invitations');
+        $this->_addButtonLabel = Mage::helper('Enterprise_Invitation_Helper_Data')->__('Add Invitations');
         parent::__construct();
     }
 

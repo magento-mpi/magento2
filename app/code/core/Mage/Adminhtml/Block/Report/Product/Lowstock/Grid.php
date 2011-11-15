@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Report_Product_Lowstock_Grid extends Mage_Adminhtml_B
         }
 
         /** @var $collection Mage_Reports_Model_Resource_Product_Lowstock_Collection  */
-        $collection = Mage::getResourceModel('reports/product_lowstock_collection')
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Product_Lowstock_Collection')
             ->addAttributeToSelect('*')
             ->setStoreId($storeId)
             ->filterByIsQtyProductTypes()
@@ -77,29 +77,29 @@ class Mage_Adminhtml_Block_Report_Product_Lowstock_Grid extends Mage_Adminhtml_B
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('reports')->__('Product Name'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Product Name'),
             'sortable'  =>false,
             'index'     =>'name'
         ));
 
         $this->addColumn('sku', array(
-            'header'    =>Mage::helper('reports')->__('Product SKU'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Product SKU'),
             'sortable'  =>false,
             'index'     =>'sku'
         ));
 
         $this->addColumn('qty', array(
-            'header'    =>Mage::helper('reports')->__('Stock Qty'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Stock Qty'),
             'width'     =>'215px',
             'align'     =>'right',
             'sortable'  =>false,
-            'filter'    =>'adminhtml/widget_grid_column_filter_range',
+            'filter'    =>'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Range',
             'index'     =>'qty',
             'type'      =>'number'
         ));
 
-        $this->addExportType('*/*/exportLowstockCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportLowstockExcel', Mage::helper('reports')->__('Excel XML'));
+        $this->addExportType('*/*/exportLowstockCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportLowstockExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

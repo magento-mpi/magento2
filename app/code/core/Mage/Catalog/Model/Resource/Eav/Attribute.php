@@ -104,7 +104,7 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
 
     protected function _construct()
     {
-        $this->_init('catalog/attribute');
+        $this->_init('Mage_Catalog_Model_Resource_Attribute');
     }
 
     /**
@@ -122,12 +122,12 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
             }
             if (($this->_data['is_global'] != $this->_origData['is_global'])
                 && $this->_getResource()->isUsedBySuperProducts($this)) {
-                Mage::throwException(Mage::helper('catalog')->__('Scope must not be changed, because the attribute is used in configurable products.'));
+                Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Scope must not be changed, because the attribute is used in configurable products.'));
             }
         }
         if ($this->getFrontendInput() == 'price') {
             if (!$this->getBackendModel()) {
-                $this->setBackendModel('catalog/product_attribute_backend_price');
+                $this->setBackendModel('Mage_Catalog_Model_Product_Attribute_Backend_Price');
             }
         }
         if ($this->getFrontendInput() == 'textarea') {
@@ -148,9 +148,8 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
         /**
          * Fix saving attribute in admin
          */
-        Mage::getSingleton('eav/config')->clear();
-
-        Mage::getSingleton('index/indexer')->processEntityAction(
+        Mage::getSingleton('Mage_Eav_Model_Config')->clear();
+        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );
         return parent::_afterSave();
@@ -164,9 +163,9 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
     protected function _beforeDelete()
     {
         if ($this->_getResource()->isUsedBySuperProducts($this)) {
-            Mage::throwException(Mage::helper('catalog')->__('This attribute is used in configurable products.'));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('This attribute is used in configurable products.'));
         }
-        Mage::getSingleton('index/indexer')->logEvent(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->logEvent(
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE
         );
         return parent::_beforeDelete();
@@ -180,7 +179,7 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
     protected function _afterDeleteCommit()
     {
         parent::_afterDeleteCommit();
-        Mage::getSingleton('index/indexer')->indexEvents(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->indexEvents(
             self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE
         );
         return $this;
@@ -319,7 +318,7 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
                 $storeId = Mage::app()->getStore()->getId();
             }
             $attributeLabels = array();
-            $attributes = Mage::getResourceSingleton('catalog/product')->getAttributesByCode();
+            $attributes = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product')->getAttributesByCode();
             foreach ($attributes as $attribute) {
                 if (strlen($attribute->getData('frontend_label')) > 0) {
                     $attributeLabels[] = $attribute->getData('frontend_label');
@@ -338,7 +337,7 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
      */
     public function _getDefaultSourceModel()
     {
-        return 'eav/entity_attribute_source_table';
+        return 'Mage_Eav_Model_Entity_Attribute_Source_Table';
     }
 
     /**

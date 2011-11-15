@@ -302,7 +302,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _deleteProducts()
     {
-        $productEntityTable = Mage::getModel('importexport/import_proxy_product_resource')->getEntityTable();
+        $productEntityTable = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')->getEntityTable();
 
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             $idToDelete = array();
@@ -353,7 +353,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initAttributeSets()
     {
-        foreach (Mage::getResourceModel('eav/entity_attribute_set_collection')
+        foreach (Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
                 ->setEntityTypeFilter($this->_entityTypeId) as $attributeSet) {
             $this->_attrSetNameToId[$attributeSet->getAttributeSetName()] = $attributeSet->getId();
             $this->_attrSetIdToName[$attributeSet->getId()] = $attributeSet->getAttributeSetName();
@@ -368,7 +368,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initCategories()
     {
-        $collection = Mage::getResourceModel('catalog/category_collection')->addNameToResult();
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection')->addNameToResult();
         /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
         foreach ($collection as $category) {
             $structure = explode('/', $category->getPath());
@@ -391,7 +391,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initCustomerGroups()
     {
-        foreach (Mage::getResourceModel('customer/group_collection') as $customerGroup) {
+        foreach (Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection') as $customerGroup) {
             $this->_customerGroups[$customerGroup->getId()] = true;
         }
         return $this;
@@ -405,7 +405,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     protected function _initSkus()
     {
         $columns = array('entity_id', 'type_id', 'attribute_set_id', 'sku');
-        foreach (Mage::getModel('catalog/product')->getProductEntitiesInfo($columns) as $info) {
+        foreach (Mage::getModel('Mage_Catalog_Model_Product')->getProductEntitiesInfo($columns) as $info) {
             $typeId = $info['type_id'];
             $sku = $info['sku'];
             $this->_oldSku[$sku] = array(
@@ -447,7 +447,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
             }
             if (! $model instanceof Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract) {
                 Mage::throwException(
-                    Mage::helper('importexport')->__('Entity type model must be an instance of Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract')
+                    Mage::helper('Mage_ImportExport_Helper_Data')->__('Entity type model must be an instance of Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract')
                 );
             }
             if ($model->isSuitable()) {
@@ -602,16 +602,23 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _saveCustomOptions()
     {
-        $productTable   = Mage::getSingleton('core/resource')->getTableName('catalog_product_entity');
-        $optionTable    = Mage::getSingleton('core/resource')->getTableName('catalog_product_option');
-        $priceTable     = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_price');
-        $titleTable     = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_title');
-        $typePriceTable = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_type_price');
-        $typeTitleTable = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_type_title');
-        $typeValueTable = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_type_value');
-        $nextOptionId   = Mage::getResourceHelper('importexport')->getNextAutoincrement($optionTable);
-        $nextValueId    = Mage::getResourceHelper('importexport')->getNextAutoincrement($typeValueTable);
-        $priceIsGlobal  = Mage::helper('catalog')->isPriceGlobal();
+        $productTable   = Mage::getSingleton('Mage_Core_Model_Resource')
+                ->getTableName('catalog_product_entity');
+        $optionTable    = Mage::getSingleton('Mage_Core_Model_Resource')
+                ->getTableName('catalog_product_option');
+        $priceTable     = Mage::getSingleton('Mage_Core_Model_Resource')
+                ->getTableName('catalog_product_option_price');
+        $titleTable     = Mage::getSingleton('Mage_Core_Model_Resource')
+                ->getTableName('catalog_product_option_title');
+        $typePriceTable = Mage::getSingleton('Mage_Core_Model_Resource')
+                ->getTableName('catalog_product_option_type_price');
+        $typeTitleTable = Mage::getSingleton('Mage_Core_Model_Resource')
+                ->getTableName('catalog_product_option_type_title');
+        $typeValueTable = Mage::getSingleton('Mage_Core_Model_Resource')
+                ->getTableName('catalog_product_option_type_value');
+        $nextOptionId   = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($optionTable);
+        $nextValueId    = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($typeValueTable);
+        $priceIsGlobal  = Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal();
         $type           = null;
         $typeSpecific   = array(
             'date'      => array('price', 'sku'),
@@ -858,10 +865,10 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _saveLinks()
     {
-        $resource       = Mage::getResourceModel('catalog/product_link');
+        $resource       = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Link');
         $mainTable      = $resource->getMainTable();
         $positionAttrId = array();
-        $nextLinkId     = Mage::getResourceHelper('importexport')->getNextAutoincrement($mainTable);
+        $nextLinkId     = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($mainTable);
         $adapter = $this->_connection;
 
         // pre-load 'position' attributes ID for each link type once
@@ -991,7 +998,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         static $tableName = null;
 
         if (!$tableName) {
-            $tableName = Mage::getModel('importexport/import_proxy_product_resource')->getProductCategoryTable();
+            $tableName = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')->getProductCategoryTable();
         }
         if ($categoriesData) {
             $categoriesIn = array();
@@ -1030,7 +1037,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         static $entityTable = null;
 
         if (!$entityTable) {
-            $entityTable = Mage::getModel('importexport/import_proxy_product_resource')->getEntityTable();
+            $entityTable = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')->getEntityTable();
         }
         if ($entityRowsUp) {
             $this->_connection->insertOnDuplicate(
@@ -1061,8 +1068,8 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     protected function _saveProducts()
     {
         /** @var $resource Mage_ImportExport_Model_Import_Proxy_Product_Resource */
-        $resource       = Mage::getModel('importexport/import_proxy_product_resource');
-        $priceIsGlobal  = Mage::helper('catalog')->isPriceGlobal();
+        $resource       = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource');
+        $priceIsGlobal  = Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal();
         $strftimeFormat = Varien_Date::convertZendToStrftime(Varien_Date::DATETIME_INTERNAL_FORMAT, true, true);
         $productLimit   = null;
         $productsQty    = null;
@@ -1175,7 +1182,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                     }
                 }
                 $rowData      = $this->_productTypeModels[$productType]->prepareAttributesForSave($rowData);
-                $product      = Mage::getModel('importexport/import_proxy_product', $rowData);
+                $product      = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product', $rowData);
 
                 foreach ($rowData as $attrCode => $attrValue) {
                     $attribute = $resource->getAttribute($attrCode);
@@ -1240,7 +1247,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         static $tableName = null;
 
         if (!$tableName) {
-            $tableName = Mage::getModel('importexport/import_proxy_product_resource')
+            $tableName = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')
                     ->getTable('catalog_product_entity_tier_price');
         }
         if ($tierPriceData) {
@@ -1328,12 +1335,12 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         static $productId = null;
 
         if (!$mediaGalleryTableName) {
-            $mediaGalleryTableName = Mage::getModel('importexport/import_proxy_product_resource')
+            $mediaGalleryTableName = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')
                     ->getTable('catalog_product_entity_media_gallery');
         }
 
         if (!$mediaValueTableName) {
-            $mediaValueTableName = Mage::getModel('importexport/import_proxy_product_resource')
+            $mediaValueTableName = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')
                     ->getTable('catalog_product_entity_media_gallery_value');
         }
 
@@ -1405,7 +1412,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         static $tableName = null;
 
         if (!$tableName) {
-            $tableName = Mage::getModel('importexport/import_proxy_product_resource')->getProductWebsiteTable();
+            $tableName = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource')->getProductWebsiteTable();
         }
         if ($websiteData) {
             $websitesData = array();
@@ -1466,8 +1473,8 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
             'stock_status_changed_auto'          => 0
         );
 
-        $entityTable = Mage::getResourceModel('cataloginventory/stock_item')->getMainTable();
-        $helper      = Mage::helper('catalogInventory');
+        $entityTable = Mage::getResourceModel('Mage_CatalogInventory_Model_Resource_Stock_Item')->getMainTable();
+        $helper      = Mage::helper('Mage_CatalogInventory_Helper_Data');
 
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             $stockData = array();
@@ -1489,7 +1496,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                 $row['product_id'] = $this->_newSku[$rowData[self::COL_SKU]]['entity_id'];
                 $row['stock_id'] = 1;
                 /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-                $stockItem = Mage::getModel('cataloginventory/stock_item', $row);
+                $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item', $row);
 
                 if ($helper->isQty($this->_newSku[$rowData[self::COL_SKU]]['type_id'])) {
                     if ($stockItem->verifyNotification()) {

@@ -33,10 +33,10 @@ class Enterprise_Staging_Block_Adminhtml_Staging extends Mage_Adminhtml_Block_Wi
 {
     public function __construct()
     {
-        $this->_blockGroup = 'enterprise_staging';
+        $this->_blockGroup = 'Enterprise_Staging';
         $this->_controller = 'adminhtml_staging';
-        $this->_headerText = Mage::helper('enterprise_staging')->__('Staging Websites');
-        $this->_addButtonLabel = Mage::helper('enterprise_staging')->__('Add Staging Website');
+        $this->_headerText = Mage::helper('Enterprise_Staging_Helper_Data')->__('Staging Websites');
+        $this->_addButtonLabel = Mage::helper('Enterprise_Staging_Helper_Data')->__('Add Staging Website');
         parent::__construct();
     }
 

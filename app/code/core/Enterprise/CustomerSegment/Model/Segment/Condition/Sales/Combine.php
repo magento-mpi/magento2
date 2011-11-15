@@ -35,7 +35,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_sales_combine');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine');
     }
 
     /**
@@ -46,14 +46,14 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
     public function getNewChildSelectOptions()
     {
         return array_merge_recursive(parent::getNewChildSelectOptions(), array(
-            Mage::getModel('enterprise_customersegment/segment_condition_order_status')->getNewChildSelectOptions(),
+            Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status')->getNewChildSelectOptions(),
             // date ranges
             array(
                 'value' => array(
-                    Mage::getModel('enterprise_customersegment/segment_condition_uptodate')->getNewChildSelectOptions(),
-                    Mage::getModel('enterprise_customersegment/segment_condition_daterange')->getNewChildSelectOptions(),
+                    Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate')->getNewChildSelectOptions(),
+                    Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Daterange')->getNewChildSelectOptions(),
                 ),
-                'label' => Mage::helper('enterprise_customersegment')->__('Date Ranges')
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Date Ranges')
             ),
         ));
     }
@@ -66,8 +66,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'total'   => Mage::helper('enterprise_customersegment')->__('Total'),
-            'average' => Mage::helper('enterprise_customersegment')->__('Average'),
+            'total'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Total'),
+            'average' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Average'),
         ));
         return $this;
     }

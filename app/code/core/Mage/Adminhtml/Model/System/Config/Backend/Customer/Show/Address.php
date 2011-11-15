@@ -42,7 +42,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Customer_Show_Address
     protected function _getAttributeObjects()
     {
         $result = parent::_getAttributeObjects();
-        $result[] = Mage::getSingleton('eav/config')->getAttribute('customer_address', $this->_getAttributeCode());
+        $result[] = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer_address', $this->_getAttributeCode());
         return $result;
     }
 }

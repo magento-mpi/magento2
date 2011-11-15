@@ -45,11 +45,6 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
         self::$_tmpDir         = realpath(__DIR__ . '/../../../../../../tmp');
     }
 
-    public static function tearDownAfterClass()
-    {
-        Magento_Test_Bootstrap::resetShutdownAction();
-    }
-
     protected function setUp()
     {
         $this->_db = $this->getMock(
@@ -71,6 +66,7 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
                 '_instantiateDb',
                 '_isInstalled',
                 '_emulateEnvironment',
+                '_ensureDirExists',
                 '_install',
                 '_cleanupFilesystem',
             ),
@@ -92,15 +88,18 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
      * Explicitly call the constructor method of the underlying bootstrap object
      *
      * @param string|null $localXmlFile
+     * @param string $cleanupAction
      */
-    protected function _callBootstrapConstructor($localXmlFile = null)
-    {
+    protected function _callBootstrapConstructor(
+        $localXmlFile = null, $cleanupAction = Magento_Test_Bootstrap::CLEANUP_NONE
+    ) {
         $this->_bootstrap->__construct(
             self::$_magentoDir,
             ($localXmlFile ? $localXmlFile : self::$_localXmlFile),
             self::$_globalEtcFiles,
             self::$_moduleEtcFiles,
-            self::$_tmpDir
+            self::$_tmpDir,
+            $cleanupAction
         );
     }
 
@@ -112,6 +111,9 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
         Magento_Test_Bootstrap::getInstance();
     }
 
+    /**
+     * @depends testGetInstance
+     */
     public function testSetGetInstance()
     {
         Magento_Test_Bootstrap::setInstance($this->_bootstrap);
@@ -182,6 +184,57 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
         $this->_callBootstrapConstructor();
     }
 
+    public function testConstructorDestructorCleanupNone()
+    {
+        $this->_db
+            ->expects($this->never())
+            ->method('restoreBackup')
+        ;
+        $this->_db
+            ->expects($this->never())
+            ->method('cleanup')
+        ;
+        $this->_bootstrap
+            ->expects($this->never())
+            ->method('_cleanupFilesystem')
+        ;
+        $this->_callBootstrapConstructor(null, Magento_Test_Bootstrap::CLEANUP_NONE);
+        $this->_bootstrap->__destruct();
+    }
+
+    public function testConstructorDestructorCleanupUninstall()
+    {
+        $this->_db
+            ->expects($this->exactly(2))
+            ->method('cleanup')
+        ;
+        $this->_bootstrap
+            ->expects($this->exactly(2))
+            ->method('_cleanupFilesystem')
+        ;
+        $this->_callBootstrapConstructor(null, Magento_Test_Bootstrap::CLEANUP_UNINSTALL);
+        $this->_bootstrap->__destruct();
+    }
+
+    public function testConstructorDestructorCleanupRestoreDb()
+    {
+        $this->_db
+            ->expects($this->exactly(2))
+            ->method('restoreBackup')
+            ->with(Magento_Test_Bootstrap::DB_BACKUP_NAME)
+        ;
+        $this->_callBootstrapConstructor(null, Magento_Test_Bootstrap::CLEANUP_RESTORE_DB);
+        $this->_bootstrap->__destruct();
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testConstructorCleanupException()
+    {
+        $this->_callBootstrapConstructor(null, 'invalidCleanupAction');
+    }
+
     /**
      * @dataProvider constructorExceptionDataProvider
      * @expectedException Exception
@@ -236,48 +289,5 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
             array('media_dir'),
             array('static_dir')
         );
-    }
-
-    public function testSetShutdownActionUninstall()
-    {
-        $this->_db
-            ->expects($this->once())
-            ->method('cleanup')
-        ;
-        $this->_bootstrap
-            ->expects($this->once())
-            ->method('_cleanupFilesystem')
-        ;
-        $this->_bootstrap->setShutdownAction('uninstall');
-        $this->_bootstrap->__destruct();
-    }
-
-    public function testSetShutdownActionRestoreDatabase()
-    {
-        $this->_db
-            ->expects($this->once())
-            ->method('restoreBackup')
-            ->with(Magento_Test_Bootstrap::DB_BACKUP_NAME)
-        ;
-        $this->_bootstrap->setShutdownAction('restoreDatabase');
-        $this->_bootstrap->__destruct();
-    }
-
-    /**
-     * @expectedException Exception
-     */
-    public function testSetShutdownActionException()
-    {
-        $this->_bootstrap->setShutdownAction('someInvalidAction');
-    }
-
-    public function testResetShutdownAction()
-    {
-        $this->_db
-            ->expects($this->never())
-            ->method('restoreBackup');
-        $this->_bootstrap->setShutdownAction('restoreDatabase');
-        $this->_bootstrap->resetShutdownAction();
-        $this->_bootstrap->__destruct();
     }
 }

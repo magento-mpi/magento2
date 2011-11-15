@@ -44,7 +44,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function __construct()
     {
-        $this->_processor = Mage::getSingleton('enterprise_logging/processor');
+        $this->_processor = Mage::getSingleton('Enterprise_Logging_Model_Processor');
     }
 
     /**
@@ -152,7 +152,7 @@ class Enterprise_Logging_Model_Observer
         if (class_exists('Enterprise_Pci_Model_Observer', false) && $eventModel) {
             $exception = $observer->getException();
             if ($exception->getCode() == Enterprise_Pci_Model_Observer::ADMIN_USER_LOCKED) {
-                $eventModel->setInfo(Mage::helper('enterprise_logging')->__('User is locked'))->save();
+                $eventModel->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('User is locked'))->save();
             }
         }
     }
@@ -167,16 +167,16 @@ class Enterprise_Logging_Model_Observer
     protected function _logAdminLogin($username, $userId = null)
     {
         $eventCode = 'admin_login';
-        if (!Mage::getSingleton('enterprise_logging/config')->isActive($eventCode, true)) {
+        if (!Mage::getSingleton('Enterprise_Logging_Model_Config')->isActive($eventCode, true)) {
             return;
         }
         $success = (bool)$userId;
         if (!$userId) {
-            $userId = Mage::getSingleton('admin/user')->loadByUsername($username)->getId();
+            $userId = Mage::getSingleton('Mage_Admin_Model_User')->loadByUsername($username)->getId();
         }
         $request = Mage::app()->getRequest();
-        return Mage::getSingleton('enterprise_logging/event')->setData(array(
-            'ip'         => Mage::helper('core/http')->getRemoteAddr(),
+        return Mage::getSingleton('Enterprise_Logging_Model_Event')->setData(array(
+            'ip'         => Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(),
             'user'       => $username,
             'user_id'    => $userId,
             'is_success' => $success,
@@ -191,11 +191,11 @@ class Enterprise_Logging_Model_Observer
      */
     public function rotateLogs()
     {
-        $lastRotationFlag = Mage::getModel('enterprise_logging/flag')->loadSelf();
+        $lastRotationFlag = Mage::getModel('Enterprise_Logging_Model_Flag')->loadSelf();
         $lastRotationTime = $lastRotationFlag->getFlagData();
         $rotationFrequency = 3600 * 24 * (int)Mage::getConfig()->getNode('default/system/rotation/frequency');
         if (!$lastRotationTime || ($lastRotationTime < time() - $rotationFrequency)) {
-            Mage::getResourceModel('enterprise_logging/event')->rotate(
+            Mage::getResourceModel('Enterprise_Logging_Model_Resource_Event')->rotate(
                 3600 * 24 *(int)Mage::getConfig()->getNode('default/system/rotation/lifetime')
             );
         }

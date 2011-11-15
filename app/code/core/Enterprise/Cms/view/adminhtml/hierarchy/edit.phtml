@@ -178,7 +178,7 @@
 
             var isTreeNode = (node.parentNode.id == '_root');
 
-            <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) : ?>
+            <?php if (Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled()) : ?>
             if (isTreeNode) {
                 $('field_meta_first_last').show();
                 $('field_meta_next_previous').show();
@@ -313,7 +313,7 @@
         save: function(){
             this.saveNodePage();
             //if (this.dataModification) {
-            //    if (!confirm('<?php echo Mage::helper('enterprise_cms')->__('There are unsaved node data. Are you sure you want to proceed?') ?>')) {
+            //    if (!confirm('<?php echo Mage::helper('Enterprise_Cms_Helper_Data')->__('There are unsaved node data. Are you sure you want to proceed?') ?>')) {
             //        return;
             //    }
             //}
@@ -375,7 +375,7 @@
             //this.tree.getSelectionModel().clearSelections();
 
             var selectedNode = this.tree.getSelectionModel().getSelectedNode();
-            <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) : ?>
+            <?php if (Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled()) : ?>
             if (selectedNode.id == '_root') {
                 $('field_meta_first_last').show();
                 $('field_meta_next_previous').show();

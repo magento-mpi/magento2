@@ -41,7 +41,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
      */
     protected function _getHelper()
     {
-        return Mage::helper('catalog/product_flat');
+        return Mage::helper('Mage_Catalog_Helper_Product_Flat');
     }
 
     /**
@@ -50,7 +50,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
      * @return Mage_Catalog_Model_Product_Flat_Indexer
      */
     protected function _getIndexer() {
-        return Mage::getSingleton('catalog/product_flat_indexer');
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Flat_Indexer');
     }
 
     /**

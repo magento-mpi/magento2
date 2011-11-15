@@ -42,7 +42,7 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getMaxInvitationsPerSend()
     {
-        return Mage::getSingleton('enterprise_invitation/config')->getMaxInvitationsPerSend();
+        return Mage::getSingleton('Enterprise_Invitation_Model_Config')->getMaxInvitationsPerSend();
     }
 
     /**
@@ -53,7 +53,7 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getInvitationRequired()
     {
-        return Mage::getSingleton('enterprise_invitation/config')->getInvitationRequired();
+        return Mage::getSingleton('Enterprise_Invitation_Model_Config')->getInvitationRequired();
     }
 
 
@@ -65,7 +65,7 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getUseInviterGroup()
     {
-        return Mage::getSingleton('enterprise_invitation/config')->getUseInviterGroup();
+        return Mage::getSingleton('Enterprise_Invitation_Model_Config')->getUseInviterGroup();
     }
 
     /**
@@ -76,7 +76,7 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isInvitationMessageAllowed()
     {
-        return Mage::getSingleton('enterprise_invitation/config')->isInvitationMessageAllowed();
+        return Mage::getSingleton('Enterprise_Invitation_Model_Config')->isInvitationMessageAllowed();
     }
 
     /**
@@ -87,7 +87,7 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getInvitationStatusText($invitation)
     {
-        return Mage::getSingleton('enterprise_invitation/source_invitation_status')->getOptionText($invitation->getStatus());
+        return Mage::getSingleton('Enterprise_Invitation_Model_Source_Invitation_Status')->getOptionText($invitation->getStatus());
     }
 
     /**
@@ -98,9 +98,9 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getInvitationUrl($invitation)
     {
-        return Mage::getModel('core/url')->setStore($invitation->getStoreId())
+        return Mage::getModel('Mage_Core_Model_Url')->setStore($invitation->getStoreId())
             ->getUrl('enterprise_invitation/customer_account/create', array(
-                'invitation' => Mage::helper('core')->urlEncode($invitation->getInvitationCode()),
+                'invitation' => Mage::helper('Mage_Core_Helper_Data')->urlEncode($invitation->getInvitationCode()),
                 '_store_to_url' => true,
                 '_nosid' => true
             ));
@@ -135,7 +135,7 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
     public function isRegistrationAllowed($isAllowed = null)
     {
         if ($isAllowed === null && $this->_isRegistrationAllowed === null) {
-            $result = Mage::helper('customer')->isRegistrationAllowed();
+            $result = Mage::helper('Mage_Customer_Helper_Data')->isRegistrationAllowed();
             if ($this->_isRegistrationAllowed === null) {
                 $this->_isRegistrationAllowed = $result;
             }
@@ -154,6 +154,6 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isEnabled()
     {
-        return Mage::getSingleton('enterprise_invitation/config')->isEnabled();
+        return Mage::getSingleton('Enterprise_Invitation_Model_Config')->isEnabled();
     }
 }

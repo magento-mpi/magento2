@@ -47,7 +47,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
      *
      * @var string
      */
-    protected $_defaultIndexer   = 'cataloginventory/indexer_stock_default';
+    protected $_defaultIndexer   = 'Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default';
 
     /**
      * Initialize connection and define main table
@@ -80,7 +80,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
                 'force_reindex_required'   => 1
             ));
             $massObject->setProductIds(array($productId));
-            Mage::getSingleton('index/indexer')->logEvent(
+            Mage::getSingleton('Mage_Index_Model_Indexer')->logEvent(
                 $massObject, Mage_Catalog_Model_Product::ENTITY, Mage_Index_Model_Event::TYPE_MASS_ACTION
             );
         }
@@ -277,7 +277,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
     {
         if (is_null($this->_indexers)) {
             $this->_indexers = array();
-            $types = Mage::getSingleton('catalog/product_type')->getTypesByPriority();
+            $types = Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getTypesByPriority();
             foreach ($types as $typeId => $typeInfo) {
                 if (isset($typeInfo['stock_indexer'])) {
                     $modelName = $typeInfo['stock_indexer'];
@@ -305,7 +305,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
     {
         $types = $this->_getTypeIndexers();
         if (!isset($types[$productTypeId])) {
-            Mage::throwException(Mage::helper('catalog')->__('Unsupported product type "%s".', $productTypeId));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Unsupported product type "%s".', $productTypeId));
         }
         return $types[$productTypeId];
     }

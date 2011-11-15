@@ -39,7 +39,7 @@ class Enterprise_CustomerBalance_InfoController extends Mage_Core_Controller_Fro
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('customer/session')->authenticate($this)) {
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }
@@ -50,16 +50,16 @@ class Enterprise_CustomerBalance_InfoController extends Mage_Core_Controller_Fro
      */
     public function indexAction()
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             $this->_redirect('customer/account/');
             return;
         }
         $this->loadLayout();
-        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $this->loadLayoutUpdates();
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('enterprise_customerbalance')->__('Store Credit'));
+            $headBlock->setTitle(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Store Credit'));
         }
         $this->renderLayout();
     }

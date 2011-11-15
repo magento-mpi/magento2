@@ -39,7 +39,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
     {
         parent::__construct();
         $this->setId('customerbalance');
-        $this->setTitle(Mage::helper('enterprise_customerbalance')->__('Store Credit'));
+        $this->setTitle(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Store Credit'));
     }
 
     /**

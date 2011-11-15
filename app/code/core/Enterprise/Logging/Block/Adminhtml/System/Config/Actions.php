@@ -46,7 +46,7 @@ class Enterprise_Logging_Block_Adminhtml_System_Config_Actions
      */
     public function getLabels()
     {
-        return Mage::getSingleton('enterprise_logging/config')->getLabels();
+        return Mage::getSingleton('Enterprise_Logging_Model_Config')->getLabels();
     }
 
     /**
@@ -57,7 +57,7 @@ class Enterprise_Logging_Block_Adminhtml_System_Config_Actions
      */
     public function getIsChecked($key)
     {
-        return Mage::getSingleton('enterprise_logging/config')->isActive($key, true);
+        return Mage::getSingleton('Enterprise_Logging_Model_Config')->isActive($key, true);
     }
 
     /**

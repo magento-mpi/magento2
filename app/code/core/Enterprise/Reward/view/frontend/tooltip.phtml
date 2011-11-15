@@ -32,11 +32,11 @@
 <div class="reward-message <?php echo $this->getWrapperClass()?>">
     <div class="reward">
     <?php if ($this->hasRewardMessage()):?>
-        <p><?php echo $this->__($this->getRewardMessage(), Mage::helper('enterprise_reward')->formatReward($this->getRewardPoints(), $this->getRewardAmount(), null, '<strong>%s</strong>'))?></p>
+        <p><?php echo $this->__($this->getRewardMessage(), Mage::helper('Enterprise_Reward_Helper_Data')->formatReward($this->getRewardPoints(), $this->getRewardAmount(), null, '<strong>%s</strong>'))?></p>
     <?php endif;?>
     <?php if ($this->hasPointsBalance() && !$this->hasHideBalance()):?>
     <p class="balance">
-        <?php echo $this->__('Your current balance is %s.', Mage::helper('enterprise_reward')->formatReward($this->getPointsBalance(), null, null, '<strong>%s</strong>'))?>
+        <?php echo $this->__('Your current balance is %s.', Mage::helper('Enterprise_Reward_Helper_Data')->formatReward($this->getPointsBalance(), null, null, '<strong>%s</strong>'))?>
     </p>
     <?php endif;?>
     <?php if (!$this->hasHideLink()):?>

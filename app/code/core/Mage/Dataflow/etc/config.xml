@@ -32,15 +32,6 @@
         </Mage_Dataflow>
     </modules>
     <global>
-        <models>
-            <dataflow>
-                <class>Mage_Dataflow_Model</class>
-                <resourceModel>dataflow_resource</resourceModel>
-            </dataflow>
-            <dataflow_resource>
-                <class>Mage_Dataflow_Model_Resource</class>
-            </dataflow_resource>
-        </models>
         <resources>
             <dataflow_setup>
                 <setup>

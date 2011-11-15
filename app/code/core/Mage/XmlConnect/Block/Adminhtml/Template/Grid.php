@@ -52,7 +52,7 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Grid extends Mage_Adminhtml_Block
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('xmlconnect/template')->getCollection();
+        $collection = Mage::getModel('Mage_XmlConnect_Model_Template')->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -75,7 +75,7 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Grid extends Mage_Adminhtml_Block
             'header'    => $this->__('Template Name'),
             'align'     => 'left',
             'index'     => 'main_table.name',
-            'renderer'  => 'xmlconnect/adminhtml_template_grid_renderer_name',
+            'renderer'  => 'Mage_XmlConnect_Block_Adminhtml_Template_Grid_Renderer_Name',
             'escape'    => true
         ));
 
@@ -98,8 +98,8 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Grid extends Mage_Adminhtml_Block
             'index'     => 'app.code',
             'type'      => 'options',
             'align'     => 'left',
-            'options'   => Mage::helper('xmlconnect')->getApplications(),
-            'renderer'  => 'xmlconnect/adminhtml_template_grid_renderer_application',
+            'options'   => Mage::helper('Mage_XmlConnect_Helper_Data')->getApplications(),
+            'renderer'  => 'Mage_XmlConnect_Block_Adminhtml_Template_Grid_Renderer_Application',
             'escape'    => true
         ));
 

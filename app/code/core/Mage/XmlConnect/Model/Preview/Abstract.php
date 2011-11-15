@@ -74,7 +74,7 @@ abstract class Mage_XmlConnect_Model_Preview_Abstract extends Varien_Object
     protected function setApplicationModel()
     {
         if ($this->_appModel === null) {
-            $this->_appModel = Mage::helper('xmlconnect')->getApplication();
+            $this->_appModel = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication();
         }
         return $this;
     }
@@ -131,7 +131,7 @@ abstract class Mage_XmlConnect_Model_Preview_Abstract extends Varien_Object
                 break;
             }
             $items[$tab->action] = array(
-                'label' => Mage::helper('xmlconnect')->getTabLabel($tab->action),
+                'label' => Mage::helper('Mage_XmlConnect_Helper_Data')->getTabLabel($tab->action),
                 'image' => $tab->image,
                 'action' => $tab->action,
                 'active' => strtolower($tab->action) == strtolower($this->_activeTab),
@@ -170,7 +170,7 @@ abstract class Mage_XmlConnect_Model_Preview_Abstract extends Varien_Object
     */
     public function getPreviewImagesUrl($name = '')
     {
-        return Mage::helper('xmlconnect/image')->getSkinImagesUrl('mobile_preview/' . $name);
+        return Mage::helper('Mage_XmlConnect_Helper_Image')->getSkinImagesUrl('mobile_preview/' . $name);
     }
 
     /**

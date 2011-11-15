@@ -32,24 +32,7 @@
         </Enterprise_Pci>
     </modules>
     <global>
-        <models>
-            <enterprise_pci>
-                <class>Enterprise_Pci_Model</class>
-                <resourceModel>enterprise_pci_resource</resourceModel>
-            </enterprise_pci>
-            <enterprise_pci_resource>
-                <class>Enterprise_Pci_Model_Resource</class>
-            </enterprise_pci_resource>
-        </models>
-        <blocks>
-            <enterprise_pci>
-                <class>Enterprise_Pci_Block</class>
-            </enterprise_pci>
-        </blocks>
         <helpers>
-            <enterprise_pci>
-                <class>Enterprise_Pci_Helper</class>
-            </enterprise_pci>
             <core>
                 <encryption_model>Enterprise_Pci_Model_Encryption</encryption_model>
             </core>
@@ -66,7 +49,7 @@
             <admin_user_save_before>
                 <observers>
                     <enterprise_pci>
-                        <class>enterprise_pci/observer</class>
+                        <class>Enterprise_Pci_Model_Observer</class>
                         <method>checkAdminPasswordChange</method>
                     </enterprise_pci>
                 </observers>
@@ -74,7 +57,7 @@
             <admin_user_save_after>
                 <observers>
                     <enterprise_pci>
-                        <class>enterprise_pci/observer</class>
+                        <class>Enterprise_Pci_Model_Observer</class>
                         <method>trackAdminNewPassword</method>
                     </enterprise_pci>
                 </observers>
@@ -93,7 +76,7 @@
             <admin_user_authenticate_after>
                 <observers>
                     <enterprise_pci>
-                        <class>enterprise_pci/observer</class>
+                        <class>Enterprise_Pci_Model_Observer</class>
                         <method>adminAuthenticate</method>
                     </enterprise_pci>
                 </observers>
@@ -101,7 +84,7 @@
             <api_user_authenticated>
                 <observers>
                     <enterprise_pci>
-                        <class>enterprise_pci/observer</class>
+                        <class>Enterprise_Pci_Model_Observer</class>
                         <method>upgradeApiKey</method>
                     </enterprise_pci>
                 </observers>
@@ -109,7 +92,7 @@
             <controller_action_predispatch>
                 <observers>
                     <enterprise_pci>
-                        <class>enterprise_pci/observer</class>
+                        <class>Enterprise_Pci_Model_Observer</class>
                         <method>forceAdminPasswordChange</method>
                     </enterprise_pci>
                 </observers>
@@ -141,7 +124,7 @@
             <customer_customer_authenticated>
                 <observers>
                     <enterprise_pci>
-                        <class>enterprise_pci/observer</class>
+                        <class>Enterprise_Pci_Model_Observer</class>
                         <method>upgradeCustomerPassword</method>
                     </enterprise_pci>
                 </observers>

@@ -268,7 +268,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
         /**
          * Join default price and websites prices to result
          */
-        $priceAttr  = Mage::getSingleton('eav/config')->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'price');
+        $priceAttr  = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'price');
         $priceTable = $priceAttr->getBackend()->getTable();
         $attributeId= $priceAttr->getId();
 
@@ -460,7 +460,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
 
             $write->delete($this->getTable('catalogrule_group_website'), array());
 
-            $timestamp = Mage::getModel('core/date')->gmtTimestamp();
+            $timestamp = Mage::getModel('Mage_Core_Model_Date')->gmtTimestamp();
 
             $select = $write->select()
                 ->distinct(true)
@@ -475,7 +475,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
             throw $e;
         }
 
-        $productCondition = Mage::getModel('catalog/product_condition')
+        $productCondition = Mage::getModel('Mage_Catalog_Model_Product_Condition')
             ->setTable($this->getTable('catalogrule_affected_product'))
             ->setPkFieldName('product_id');
         Mage::dispatchEvent('catalogrule_after_apply', array(
@@ -507,7 +507,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
             }
         }
 
-        $productPrice = Mage::helper('catalogrule')->calcPriceRule(
+        $productPrice = Mage::helper('Mage_CatalogRule_Helper_Data')->calcPriceRule(
             $ruleData['action_operator'],
             $ruleData['action_amount'],
             $productPrice);

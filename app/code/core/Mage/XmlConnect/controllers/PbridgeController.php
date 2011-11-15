@@ -110,7 +110,7 @@ class Mage_XmlConnect_PbridgeController extends Mage_Core_Controller_Front_Actio
         $ccType  = $this->getRequest()->getParam('cc_type', false);
 
         if ($originalPaymentMethod && $token && $ccLast4 && $ccType) {
-            $message = Mage::helper('enterprise_pbridge')->__('Payment Bridge Selected');
+            $message = Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payment Bridge Selected');
             $methodName = 'payment[pbridge_data][original_payment_method]';
             $inputType = '<input type="hidden"';
             $body = <<<EOT
@@ -131,6 +131,6 @@ EOT;
 EOT;
         }
 
-        $this->getResponse()->setBody(html_entity_decode(Mage::helper('xmlconnect')->htmlize($body)));
+        $this->getResponse()->setBody(html_entity_decode(Mage::helper('Mage_XmlConnect_Helper_Data')->htmlize($body)));
     }
 }

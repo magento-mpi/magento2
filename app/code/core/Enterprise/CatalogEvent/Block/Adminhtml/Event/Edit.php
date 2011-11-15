@@ -35,7 +35,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
     extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     protected $_objectId = 'id';
-    protected $_blockGroup = 'enterprise_catalogevent';
+    protected $_blockGroup = 'Enterprise_CatalogEvent';
     protected $_controller = 'adminhtml_event';
 
     /**
@@ -52,7 +52,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
             $this->_addButton(
                 'save_and_continue',
                 array(
-                    'label' => $this->helper('enterprise_catalogevent')->__('Save and Continue Edit'),
+                    'label' => $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Save and Continue Edit'),
                     'class' => 'save',
                     'onclick'   => 'saveAndContinue()',
                 ),
@@ -74,11 +74,18 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
         parent::_prepareLayout();
 
         if (!$this->getEvent()->getId() && !$this->getEvent()->getCategoryId()) {
-            $this->setChild('form', $this->getLayout()->createBlock($this->_blockGroup . '/' . $this->_controller . '_' . $this->_mode . '_category'));
+            $this->setChild(
+                'form',
+                $this->getLayout()->createBlock($this->_blockGroup
+                    . '_Block_'
+                    . str_replace(' ', '_', ucwords(str_replace('_', ' ', $this->_controller . '_' . $this->_mode)))
+                    . '_Category'
+                )
+            );
         }
 
         if ($this->getRequest()->getParam('category')) {
-            $this->_updateButton('back', 'label', $this->helper('enterprise_catalogevent')->__('Back to Category'));
+            $this->_updateButton('back', 'label', $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Back to Category'));
         }
 
         if ($this->getEvent()->isReadonly() && $this->getEvent()->getImageReadonly()) {
@@ -126,10 +133,10 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
     public function getHeaderText()
     {
         if ($this->getEvent()->getId()) {
-            return Mage::helper('enterprise_catalogevent')->__('Edit Catalog Event');
+            return Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Edit Catalog Event');
         }
         else {
-            return Mage::helper('enterprise_catalogevent')->__('Add Catalog Event');
+            return Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Add Catalog Event');
         }
     }
 

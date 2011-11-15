@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Report_Tag_Popular extends Mage_Adminhtml_Block_Widge
     public function __construct()
     {
         $this->_controller = 'report_tag_popular';
-        $this->_headerText = Mage::helper('reports')->__('Popular Tags');
+        $this->_headerText = Mage::helper('Mage_Reports_Helper_Data')->__('Popular Tags');
         parent::__construct();
         $this->_removeButton('add');
     }
@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Report_Tag_Popular extends Mage_Adminhtml_Block_Widge
     protected function _prepareLayout()
     {
         $this->setChild('store_switcher',
-            $this->getLayout()->createBlock('adminhtml/store_switcher')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher')
                 ->setUseConfirm(false)
                 ->setSwitchUrl($this->getUrl('*/*/*', array('store'=>null)))
                 ->setTemplate('report/store/switcher.phtml')

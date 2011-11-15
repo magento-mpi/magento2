@@ -34,9 +34,9 @@
 ?>
 <?php
     /** @var $_coreHelper Mage_Core_Helper_Data */
-    $_coreHelper = $this->helper('core');
+    $_coreHelper = $this->helper('Mage_Core_Helper_Data');
     /** @var $_catalogHelper Mage_Catalog_Helper_Data */
-    $_catalogHelper = $this->helper('catalog');
+    $_catalogHelper = $this->helper('Mage_Catalog_Helper_Data');
 
     /** @var $_product Mage_Catalog_Model_Product */
     $_product = $this->getProduct();
@@ -45,7 +45,7 @@
     $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElementIdPrefix() : 'product-price-';
 ?>
     <div class="price-box map-info">
-    <?php $_price = $this->helper('tax')->getPrice($_product, $_product->getMsrp()) ?>
+    <?php $_price = $this->helper('Mage_Tax_Helper_Data')->getPrice($_product, $_product->getMsrp()) ?>
         <?php if($_product->getMsrp()): ?>
             <?php $_msrpPrice = $_coreHelper->currency($_product->getMsrp(),true,true) ?>
             <span class="old-price" ><?php echo $_msrpPrice ?></span>

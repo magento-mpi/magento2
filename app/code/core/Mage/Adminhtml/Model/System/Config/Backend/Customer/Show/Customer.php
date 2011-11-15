@@ -51,7 +51,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Customer_Show_Customer extends 
     protected function _getAttributeObjects()
     {
         return array(
-            Mage::getSingleton('eav/config')->getAttribute('customer', $this->_getAttributeCode())
+            Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer', $this->_getAttributeCode())
         );
     }
 

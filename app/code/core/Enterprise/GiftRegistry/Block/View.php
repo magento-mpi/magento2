@@ -62,7 +62,7 @@ class Enterprise_GiftRegistry_Block_View extends Enterprise_GiftRegistry_Block_C
     public function getCountryName($countryCode)
     {
         if ($countryCode) {
-            $country = Mage::getModel('directory/country')->loadByCode($countryCode);
+            $country = Mage::getModel('Mage_Directory_Model_Country')->loadByCode($countryCode);
             return $country->getName();
         }
         return '';
@@ -99,7 +99,7 @@ class Enterprise_GiftRegistry_Block_View extends Enterprise_GiftRegistry_Block_C
     public function getAttributesToDisplay()
     {
         $typeId = $this->getEntity()->getTypeId();
-        $type = Mage::getModel('enterprise_giftregistry/type')->load($typeId);
+        $type = Mage::getModel('Enterprise_GiftRegistry_Model_Type')->load($typeId);
 
         $attributes = array_merge(
             array(

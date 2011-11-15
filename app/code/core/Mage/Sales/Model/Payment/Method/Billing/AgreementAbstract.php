@@ -38,8 +38,8 @@ abstract class Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract extends
     const TRANSPORT_BILLING_AGREEMENT_ID = 'ba_agreement_id';
     const PAYMENT_INFO_REFERENCE_ID      = 'ba_reference_id';
 
-    protected $_infoBlockType = 'sales/payment_info_billing_agreement';
-    protected $_formBlockType = 'sales/payment_form_billing_agreement';
+    protected $_infoBlockType = 'Mage_Sales_Block_Payment_Info_Billing_Agreement';
+    protected $_formBlockType = 'Mage_Sales_Block_Payment_Form_Billing_Agreement';
 
     /**
      * Is method instance available
@@ -58,7 +58,7 @@ abstract class Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract extends
     {
         if (is_null($this->_isAvailable)) {
             if (is_object($quote) && $quote->getCustomer()) {
-                $availableBA = Mage::getModel('sales/billing_agreement')->getAvailableCustomerBillingAgreements(
+                $availableBA = Mage::getModel('Mage_Sales_Model_Billing_Agreement')->getAvailableCustomerBillingAgreements(
                     $quote->getCustomer()->getId()
                 );
                 $isAvailableBA = count($availableBA) > 0;
@@ -90,7 +90,7 @@ abstract class Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract extends
         }
         if ($id) {
             $info = $this->getInfoInstance();
-            $ba = Mage::getModel('sales/billing_agreement')->load($id);
+            $ba = Mage::getModel('Mage_Sales_Model_Billing_Agreement')->load($id);
             if ($ba->getId() && $ba->getCustomerId() == $info->getQuote()->getCustomer()->getId()) {
                 $info->setAdditionalInformation($key, $id)
                     ->setAdditionalInformation(self::PAYMENT_INFO_REFERENCE_ID, $ba->getReferenceId());

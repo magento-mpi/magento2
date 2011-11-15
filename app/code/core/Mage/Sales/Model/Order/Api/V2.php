@@ -45,7 +45,7 @@ class Mage_Sales_Model_Order_Api_V2 extends Mage_Sales_Model_Order_Api
         $billingAliasName = 'billing_o_a';
         $shippingAliasName = 'shipping_o_a';
 
-        $collection = Mage::getModel("sales/order")->getCollection()
+        $collection = Mage::getModel('Mage_Sales_Model_Order')->getCollection()
             ->addAttributeToSelect('*')
             ->addAddressFields()
             ->addExpressionFieldToSelect(

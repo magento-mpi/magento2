@@ -152,7 +152,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
      */
     protected function _toHtml()
     {
-        $selectBlock = $this->getLayout()->createBlock('core/html_select')
+        $selectBlock = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName('block')
             ->setClass('required-entry select')
             ->setExtraParams('onchange="WidgetInstance.loadSelectBoxByType(\'block_template\', this.up(\'div.group_container\'), this.value)"')
@@ -170,7 +170,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
     {
         if (empty($this->_blocks)) {
             /* @var $update Mage_Core_Model_Layout_Update */
-            $update = Mage::getModel('core/layout')->getUpdate();
+            $update = Mage::getModel('Mage_Core_Model_Layout')->getUpdate();
             /* @var $layoutHandles Mage_Core_Model_Layout_Element */
             $this->_layoutHandlesXml = $update->getFileLayoutUpdatesXml(
                 $this->getArea(),
@@ -180,7 +180,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
             $this->_collectBlocks();
             array_unshift($this->_blocks, array(
                 'value' => '',
-                'label' => Mage::helper('widget')->__('-- Please Select --')
+                'label' => Mage::helper('Mage_Widget_Helper_Data')->__('-- Please Select --')
             ));
         }
         return $this->_blocks;

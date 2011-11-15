@@ -49,17 +49,17 @@ class Mage_Adminhtml_Block_Customer_Online_Filter extends Mage_Adminhtml_Block_W
                     'onchange' => 'this.form.submit()',
                     'values' => array(
                         array(
-                            'label' => Mage::helper('customer')->__('All'),
+                            'label' => Mage::helper('Mage_Customer_Helper_Data')->__('All'),
                             'value' => '',
                         ),
 
                         array(
-                            'label' => Mage::helper('customer')->__('Customers Only'),
+                            'label' => Mage::helper('Mage_Customer_Helper_Data')->__('Customers Only'),
                             'value' => 'filterCustomers',
                         ),
 
                         array(
-                            'label' => Mage::helper('customer')->__('Visitors Only'),
+                            'label' => Mage::helper('Mage_Customer_Helper_Data')->__('Visitors Only'),
                             'value' => 'filterGuests',
                         )
                     ),

@@ -131,7 +131,7 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
         }
         if ($all && $this->_isAdminScopeAllowed) {
             $options[] = array(
-                'label' => Mage::helper('adminhtml')->__('All Store Views'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Store Views'),
                 'value' => 0
             );
         }
@@ -193,7 +193,7 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
         if ($isAll) {
             $out[] = array(
                 'value' => 0,
-                'label' => Mage::helper('adminhtml')->__('All Store Views')
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Store Views')
             );
         }
 
@@ -253,13 +253,13 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
         $options = array();
         if ($empty) {
             $options[] = array(
-                'label' => Mage::helper('adminhtml')->__('-- Please Select --'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('-- Please Select --'),
                 'value' => ''
             );
         }
         if ($all && $this->_isAdminScopeAllowed) {
             $options[] = array(
-                'label' => Mage::helper('adminhtml')->__('Admin'),
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Admin'),
                 'value' => 0
             );
         }

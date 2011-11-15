@@ -35,7 +35,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_order_address');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address');
     }
 
     /**
@@ -55,7 +55,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
      */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('enterprise_customersegment/segment_condition_order_address_combine')
+        return Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Combine')
             ->getNewChildSelectOptions();
     }
 
@@ -67,7 +67,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('If Order Addresses match %s of these Conditions:',
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Order Addresses match %s of these Conditions:',
                 $this->getAggregatorElement()->getHtml()) . $this->getRemoveLinkHtml();
     }
 
@@ -109,7 +109,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
                 array())
             ->where($this->_createCustomerFilter($customer, 'order_address_order.customer_id'));
 
-        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
 
         $this->_limitByStoreWebsite($select, $website, 'order_address_order.store_id');
 

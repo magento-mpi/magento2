@@ -39,7 +39,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Collection extends Mage_Core_Mo
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_option');
+        $this->_init('Mage_Catalog_Model_Product_Option', 'Mage_Catalog_Model_Resource_Product_Option');
     }
 
     /**
@@ -132,7 +132,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Collection extends Mage_Core_Mo
         }
         if (!empty($optionIds)) {
             /** @var $values Mage_Catalog_Model_Option_Value_Collection */
-            $values = Mage::getModel('catalog/product_option_value')
+            $values = Mage::getModel('Mage_Catalog_Model_Product_Option_Value')
                 ->getCollection()
                 ->addTitleToResult($storeId)
                 ->addPriceToResult($storeId)

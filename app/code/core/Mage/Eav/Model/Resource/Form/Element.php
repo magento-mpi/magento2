@@ -42,7 +42,7 @@ class Mage_Eav_Model_Resource_Form_Element extends Mage_Core_Model_Resource_Db_A
         $this->_init('eav_form_element', 'element_id');
         $this->addUniqueField(array(
             'field' => array('type_id', 'attribute_id'),
-            'title' => Mage::helper('eav')->__('Form Element with the same attribute')
+            'title' => Mage::helper('Mage_Eav_Helper_Data')->__('Form Element with the same attribute')
         ));
     }
 

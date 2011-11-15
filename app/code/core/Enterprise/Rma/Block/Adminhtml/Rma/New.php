@@ -34,11 +34,11 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New extends Mage_Adminhtml_Block_Widget
     {
         $this->_objectId = 'id';
         $this->_controller = 'adminhtml_rma';
-        $this->_blockGroup = 'enterprise_rma';
+        $this->_blockGroup = 'Enterprise_Rma';
 
         parent::__construct();
 
-        $this->_updateButton('reset', 'label', Mage::helper('enterprise_rma')->__('Cancel'));
+        $this->_updateButton('reset', 'label', Mage::helper('Enterprise_Rma_Helper_Data')->__('Cancel'));
         $this->_updateButton('reset', 'class', 'cancel');
 
         $orderId    = false;
@@ -62,9 +62,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New extends Mage_Adminhtml_Block_Widget
             return;
         }
 
-        if (Mage::helper('enterprise_rma')->canCreateRma($orderId, true)) {
+        if (Mage::helper('Enterprise_Rma_Helper_Data')->canCreateRma($orderId, true)) {
             $this->_updateButton('reset', 'onclick', "setLocation('" . $link . "')");
-            $this->_updateButton('save', 'label', Mage::helper('enterprise_rma')->__('Submit RMA'));
+            $this->_updateButton('save', 'label', Mage::helper('Enterprise_Rma_Helper_Data')->__('Submit RMA'));
         } else {
             $this->_updateButton('reset', 'onclick', "setLocation('" . $link . "')");
             $this->_removeButton('save');
@@ -78,7 +78,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New extends Mage_Adminhtml_Block_Widget
      */
     public function getHeaderText()
     {
-        return $this->getLayout()->createBlock('enterprise_rma/adminhtml_rma_create_header')->toHtml();
+        return $this->getLayout()->createBlock('Enterprise_Rma_Block_Adminhtml_Rma_Create_Header')->toHtml();
     }
 
     /**

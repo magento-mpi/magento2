@@ -41,7 +41,7 @@ class Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator extends 
     {
         //set data haystack
         /** @var $helper Mage_Eav_Helper_Data */
-        $helper = Mage::helper('eav');
+        $helper = Mage::helper('Mage_Eav_Helper_Data');
         $haystack = $helper->getInputTypesValidatorData();
 
         //reset message template and set custom
@@ -65,7 +65,7 @@ class Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator extends 
         if (!$this->_messageTemplates) {
             $this->_messageTemplates = array(
                 self::NOT_IN_ARRAY =>
-                    Mage::helper('core')->__('Input type "%value%" not found in the input types list.'),
+                    Mage::helper('Mage_Core_Helper_Data')->__('Input type "%value%" not found in the input types list.'),
             );
         }
         return $this;

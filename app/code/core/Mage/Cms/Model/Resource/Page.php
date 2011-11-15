@@ -87,23 +87,23 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
         }
 
         if (!$this->getIsUniquePageToStores($object)) {
-            Mage::throwException(Mage::helper('cms')->__('A page URL key for specified store already exists.'));
+            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('A page URL key for specified store already exists.'));
         }
 
         if (!$this->isValidPageIdentifier($object)) {
-            Mage::throwException(Mage::helper('cms')->__('The page URL key contains capital letters or disallowed symbols.'));
+            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('The page URL key contains capital letters or disallowed symbols.'));
         }
 
         if ($this->isNumericPageIdentifier($object)) {
-            Mage::throwException(Mage::helper('cms')->__('The page URL key cannot consist only of numbers.'));
+            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('The page URL key cannot consist only of numbers.'));
         }
 
         // modify create / update dates
         if ($object->isObjectNew() && !$object->hasCreationTime()) {
-            $object->setCreationTime(Mage::getSingleton('core/date')->gmtDate());
+            $object->setCreationTime(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
         }
 
-        $object->setUpdateTime(Mage::getSingleton('core/date')->gmtDate());
+        $object->setUpdateTime(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
 
         return parent::_beforeSave($object);
     }

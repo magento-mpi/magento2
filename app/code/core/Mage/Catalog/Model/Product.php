@@ -114,7 +114,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('catalog/product');
+        $this->_init('Mage_Catalog_Model_Resource_Product');
     }
 
     /**
@@ -138,7 +138,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getResourceCollection()
     {
         if (empty($this->_resourceCollectionName)) {
-            Mage::throwException(Mage::helper('catalog')->__('The model collection resource name is not defined.'));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('The model collection resource name is not defined.'));
         }
         $collection = Mage::getResourceModel($this->_resourceCollectionName);
         $collection->setStoreId($this->getStoreId());
@@ -153,7 +153,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getUrlModel()
     {
         if ($this->_urlModel === null) {
-            $this->_urlModel = Mage::getSingleton('catalog/product_url');
+            $this->_urlModel = Mage::getSingleton('Mage_Catalog_Model_Product_Url');
         }
         return $this->_urlModel;
     }
@@ -248,14 +248,14 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         if ($singleton === true) {
             if (is_null($this->_typeInstanceSingleton)) {
-                $this->_typeInstanceSingleton = Mage::getSingleton('catalog/product_type')
+                $this->_typeInstanceSingleton = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
                     ->factory($this, true);
             }
             return $this->_typeInstanceSingleton;
         }
 
         if ($this->_typeInstance === null) {
-            $this->_typeInstance = Mage::getSingleton('catalog/product_type')
+            $this->_typeInstance = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
                 ->factory($this);
         }
         return $this->_typeInstance;
@@ -286,7 +286,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getLinkInstance()
     {
         if (!$this->_linkInstance) {
-            $this->_linkInstance = Mage::getSingleton('catalog/product_link');
+            $this->_linkInstance = Mage::getSingleton('Mage_Catalog_Model_Product_Link');
         }
         return $this->_linkInstance;
     }
@@ -324,7 +324,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         $category = $this->getData('category');
         if (is_null($category) && $this->getCategoryId()) {
-            $category = Mage::getModel('catalog/category')->load($this->getCategoryId());
+            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($this->getCategoryId());
             $this->setCategory($category);
         }
         return $category;
@@ -341,7 +341,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (is_string($ids)) {
             $ids = explode(',', $ids);
         } elseif (!is_array($ids)) {
-            Mage::throwException(Mage::helper('catalog')->__('Invalid category IDs.'));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid category IDs.'));
         }
         foreach ($ids as $i => $v) {
             if (empty($v)) {
@@ -535,7 +535,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
         $result = parent::_afterSave();
 
-        Mage::getSingleton('index/indexer')->processEntityAction(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );
         return $result;
@@ -551,7 +551,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         $this->_protectFromNonAdmin();
         $this->cleanCache();
-        Mage::getSingleton('index/indexer')->logEvent(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->logEvent(
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE
         );
         return parent::_beforeDelete();
@@ -565,7 +565,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     protected function _afterDeleteCommit()
     {
         parent::_afterDeleteCommit();
-        Mage::getSingleton('index/indexer')->indexEvents(
+        Mage::getSingleton('Mage_Index_Model_Indexer')->indexEvents(
             self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE
         );
     }
@@ -618,7 +618,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getPriceModel()
     {
-        return Mage::getSingleton('catalog/product_type')->priceFactory($this->getTypeId());
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Type')->priceFactory($this->getTypeId());
     }
 
     /**
@@ -1032,7 +1032,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getMediaConfig()
     {
-        return Mage::getSingleton('catalog/product_media_config');
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config');
     }
 
     /**
@@ -1045,7 +1045,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $this->getWebsiteIds();
         $this->getCategoryIds();
 
-        $newProduct = Mage::getModel('catalog/product')->setData($this->getData())
+        $newProduct = Mage::getModel('Mage_Catalog_Model_Product')->setData($this->getData())
             ->setIsDuplicate(true)
             ->setOriginalId($this->getId())
             ->setSku(null)
@@ -1203,7 +1203,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getVisibleInCatalogStatuses()
     {
-        return Mage::getSingleton('catalog/product_status')->getVisibleStatusIds();
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getVisibleStatusIds();
     }
 
     /**
@@ -1213,7 +1213,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getVisibleStatuses()
     {
-        return Mage::getSingleton('catalog/product_status')->getVisibleStatusIds();
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getVisibleStatusIds();
     }
 
     /**
@@ -1233,7 +1233,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getVisibleInSiteVisibilities()
     {
-        return Mage::getSingleton('catalog/product_visibility')->getVisibleInSiteIds();
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds();
     }
 
     /**
@@ -1480,8 +1480,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function fromArray($data)
     {
         if (isset($data['stock_item'])) {
-            if (Mage::helper('catalog')->isModuleEnabled('Mage_CatalogInventory')) {
-                $stockItem = Mage::getModel('cataloginventory/stock_item')
+            if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
+                $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item')
                     ->setData($data['stock_item'])
                     ->setProduct($this);
                 $this->setStockItem($stockItem);
@@ -1592,7 +1592,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getOptionInstance()
     {
         if (!$this->_optionInstance) {
-            $this->_optionInstance = Mage::getSingleton('catalog/product_option');
+            $this->_optionInstance = Mage::getSingleton('Mage_Catalog_Model_Product_Option');
         }
         return $this->_optionInstance;
     }
@@ -1668,7 +1668,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function addCustomOption($code, $value, $product=null)
     {
         $product = $product ? $product : $this;
-        $option = Mage::getModel('catalog/product_configuration_item_option')
+        $option = Mage::getModel('Mage_Catalog_Model_Product_Configuration_Item_Option')
             ->addData(array(
                 'product_id'=> $product->getId(),
                 'product'   => $product,
@@ -1766,7 +1766,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     protected function _getImageHelper()
     {
-        return Mage::helper('catalog/image');
+        return Mage::helper('Mage_Catalog_Helper_Image');
     }
 
     /**

@@ -78,25 +78,25 @@ class Mage_Cron_Model_Observer
             }
             try {
                 $errorStatus = Mage_Cron_Model_Schedule::STATUS_ERROR;
-                $errorMessage = Mage::helper('cron')->__('Unknown error.');
+                $errorMessage = Mage::helper('Mage_Cron_Helper_Data')->__('Unknown error.');
 
                 if ($time < $now - $scheduleLifetime) {
                     $errorStatus = Mage_Cron_Model_Schedule::STATUS_MISSED;
-                    Mage::throwException(Mage::helper('cron')->__('Too late for the schedule.'));
+                    Mage::throwException(Mage::helper('Mage_Cron_Helper_Data')->__('Too late for the schedule.'));
                 }
 
                 if ($runConfig->model) {
                     if (!preg_match(self::REGEX_RUN_MODEL, (string)$runConfig->model, $run)) {
-                        Mage::throwException(Mage::helper('cron')->__('Invalid model/method definition, expecting "model/class::method".'));
+                        Mage::throwException(Mage::helper('Mage_Cron_Helper_Data')->__('Invalid model/method definition, expecting "model/class::method".'));
                     }
                     if (!($model = Mage::getModel($run[1])) || !method_exists($model, $run[2])) {
-                        Mage::throwException(Mage::helper('cron')->__('Invalid callback: %s::%s does not exist', $run[1], $run[2]));
+                        Mage::throwException(Mage::helper('Mage_Cron_Helper_Data')->__('Invalid callback: %s::%s does not exist', $run[1], $run[2]));
                     }
                     $callback = array($model, $run[2]);
                     $arguments = array($schedule);
                 }
                 if (empty($callback)) {
-                    Mage::throwException(Mage::helper('cron')->__('No callbacks found'));
+                    Mage::throwException(Mage::helper('Mage_Cron_Helper_Data')->__('No callbacks found'));
                 }
 
                 if (!$schedule->tryLockJob()) {
@@ -132,7 +132,7 @@ class Mage_Cron_Model_Observer
     public function getPendingSchedules()
     {
         if (!$this->_pendingSchedules) {
-            $this->_pendingSchedules = Mage::getModel('cron/schedule')->getCollection()
+            $this->_pendingSchedules = Mage::getModel('Mage_Cron_Model_Schedule')->getCollection()
                 ->addFieldToFilter('status', Mage_Cron_Model_Schedule::STATUS_PENDING)
                 ->load();
         }
@@ -194,7 +194,7 @@ class Mage_Cron_Model_Observer
     protected function _generateJobs($jobs, $exists)
     {
         $scheduleAheadFor = Mage::getStoreConfig(self::XML_PATH_SCHEDULE_AHEAD_FOR)*60;
-        $schedule = Mage::getModel('cron/schedule');
+        $schedule = Mage::getModel('Mage_Cron_Model_Schedule');
 
         foreach ($jobs as $jobCode => $jobConfig) {
             $cronExpr = null;
@@ -238,7 +238,7 @@ class Mage_Cron_Model_Observer
             return $this;
         }
 
-        $history = Mage::getModel('cron/schedule')->getCollection()
+        $history = Mage::getModel('Mage_Cron_Model_Schedule')->getCollection()
             ->addFieldToFilter('status', array('in'=>array(
                 Mage_Cron_Model_Schedule::STATUS_SUCCESS,
                 Mage_Cron_Model_Schedule::STATUS_MISSED,

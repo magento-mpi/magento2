@@ -37,8 +37,8 @@ class Mage_LoadTest_Model_Source_Enabledisable
     public function toOptionArray()
     {
         return array(
-            array('value'=>1, 'label'=>Mage::helper('loadtest')->__('Enable')),
-            array('value'=>0, 'label'=>Mage::helper('loadtest')->__('Disable')),
+            array('value'=>1, 'label'=>Mage::helper('Mage_LoadTest_Helper_Data')->__('Enable')),
+            array('value'=>0, 'label'=>Mage::helper('Mage_LoadTest_Helper_Data')->__('Disable')),
         );
     }
 }

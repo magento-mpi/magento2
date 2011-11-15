@@ -39,11 +39,11 @@ class Mage_Review_Block_Customer_Recent extends Mage_Core_Block_Template
         parent::__construct();
         $this->setTemplate('customer/list.phtml');
 
-        $this->_collection = Mage::getModel('review/review')->getProductCollection();
+        $this->_collection = Mage::getModel('Mage_Review_Model_Review')->getProductCollection();
 
         $this->_collection
             ->addStoreFilter(Mage::app()->getStore()->getId())
-            ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
+            ->addCustomerFilter(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
             ->setDateOrder()
             ->setPageSize(5)
             ->load()

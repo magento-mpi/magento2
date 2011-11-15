@@ -78,12 +78,12 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
     public function getAttributeObject()
     {
         try {
-            $obj = Mage::getSingleton('eav/config')
+            $obj = Mage::getSingleton('Mage_Eav_Model_Config')
                 ->getAttribute(Mage_Catalog_Model_Product::ENTITY, $this->getAttribute());
         }
         catch (Exception $e) {
             $obj = new Varien_Object();
-            $obj->setEntity(Mage::getResourceSingleton('catalog/product'))
+            $obj->setEntity(Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product'))
                 ->setFrontendInput('text');
         }
         return $obj;
@@ -96,8 +96,8 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
      */
     protected function _addSpecialAttributes(array &$attributes)
     {
-        $attributes['attribute_set_id'] = Mage::helper('catalogrule')->__('Attribute Set');
-        $attributes['category_ids'] = Mage::helper('catalogrule')->__('Category');
+        $attributes['attribute_set_id'] = Mage::helper('Mage_CatalogRule_Helper_Data')->__('Attribute Set');
+        $attributes['category_ids'] = Mage::helper('Mage_CatalogRule_Helper_Data')->__('Category');
     }
 
     /**
@@ -107,7 +107,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = Mage::getResourceSingleton('catalog/product')
+        $productAttributes = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product')
             ->loadAllAttributes()
             ->getAttributesByCode();
 
@@ -150,9 +150,9 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         // Get array of select options. It will be used as source for hashed options
         $selectOptions = null;
         if ($this->getAttribute() === 'attribute_set_id') {
-            $entityTypeId = Mage::getSingleton('eav/config')
+            $entityTypeId = Mage::getSingleton('Mage_Eav_Model_Config')
                 ->getEntityType(Mage_Catalog_Model_Product::ENTITY)->getId();
-            $selectOptions = Mage::getResourceModel('eav/entity_attribute_set_collection')
+            $selectOptions = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
                 ->setEntityTypeFilter($entityTypeId)
                 ->load()
                 ->toOptionArray();
@@ -228,7 +228,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         }
 
         if (!empty($image)) {
-            $html = '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="' . $image . '" alt="" class="v-middle rule-chooser-trigger" title="' . Mage::helper('rule')->__('Open Chooser') . '" /></a>';
+            $html = '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="' . $image . '" alt="" class="v-middle rule-chooser-trigger" title="' . Mage::helper('Mage_Rule_Helper_Data')->__('Open Chooser') . '" /></a>';
         }
         return $html;
     }
@@ -367,7 +367,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
                 }
                 break;
         }
-        return $url!==false ? Mage::helper('adminhtml')->getUrl($url) : '';
+        return $url!==false ? Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl($url) : '';
     }
 
     /**

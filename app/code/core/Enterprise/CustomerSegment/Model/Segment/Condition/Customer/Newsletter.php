@@ -38,7 +38,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_customer_newsletter');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter');
         $this->setValue(1);
     }
 
@@ -79,7 +79,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
     public function getNewChildSelectOptions()
     {
         return array(array('value' => $this->getType(),
-            'label'=>Mage::helper('enterprise_customersegment')->__('Newsletter Subscription')));
+            'label'=>Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Newsletter Subscription')));
     }
 
     /**
@@ -92,7 +92,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
         $operator = $this->getOperatorElementHtml();
         $element = $this->getValueElementHtml();
         return $this->getTypeElementHtml()
-            .Mage::helper('enterprise_customersegment')->__('Customer is %s to newsletter.', $element)
+            .Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer is %s to newsletter.', $element)
             .$this->getRemoveLinkHtml();
     }
 
@@ -114,8 +114,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            '1'  => Mage::helper('enterprise_customersegment')->__('subscribed'),
-            '0' => Mage::helper('enterprise_customersegment')->__('not subscribed'),
+            '1'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('subscribed'),
+            '0' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('not subscribed'),
         ));
         return $this;
     }
@@ -137,7 +137,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
             ->where($this->_createCustomerFilter($customer, 'main.customer_id'))
             ->where('main.subscriber_status = ?', Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
 
-        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
 
         $this->_limitByStoreWebsite($select, $website, 'main.store_id');
         if (!$value) {

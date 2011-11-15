@@ -690,7 +690,7 @@ $installer->installEntities();
 $installer->installForms();
 
 //Add Product's Attribute
-$installer = Mage::getResourceModel('catalog/setup', 'catalog_setup');
+$installer = Mage::getResourceModel('Mage_Catalog_Model_Resource_Setup', 'catalog_setup');
 
 /**
  * Prepare database before module installation
@@ -700,12 +700,12 @@ $installer->startSetup();
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'is_returnable', array(
     'group'             => 'General',
     'type'              => 'int',
-    'backend'           => 'enterprise_rma/product_backend',
+    'backend'           => '',
     'frontend'          => '',
     'label'             => 'Enable RMA',
     'input'             => 'select',
     'class'             => '',
-    'source'            => 'eav/entity_attribute_source_boolean',
+    'source'            => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean',
     'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
     'visible'           => true,
     'required'          => false,
@@ -722,7 +722,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'is_returnable', ar
         Mage_Catalog_Model_Product_Type::TYPE_GROUPED . ',' .
         Mage_Catalog_Model_Product_Type::TYPE_BUNDLE,
     'is_configurable'   => false,
-    'input_renderer'    => 'enterprise_rma/adminhtml_product_renderer',
+    'input_renderer'    => 'Enterprise_Rma_Block_Adminhtml_Product_Renderer',
 ));
 
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'use_config_is_returnable', array(

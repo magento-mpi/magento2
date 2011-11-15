@@ -76,7 +76,7 @@ class Mage_Catalog_Block_Widget_Link
             $href = "";
             if ($this->getData('id_path')) {
                 /* @var $urlRewriteResource Mage_Core_Model_Resource_Url_Rewrite */
-                $urlRewriteResource = Mage::getResourceSingleton('core/url_rewrite');
+                $urlRewriteResource = Mage::getResourceSingleton('Mage_Core_Model_Resource_Url_Rewrite');
                 $href = $urlRewriteResource->getRequestPathByIdPath($this->getData('id_path'), $store);
                 if (!$href) {
                     return false;

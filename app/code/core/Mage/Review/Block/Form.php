@@ -35,11 +35,11 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
 {
     public function __construct()
     {
-        $customerSession = Mage::getSingleton('customer/session');
+        $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
 
         parent::__construct();
 
-        $data =  Mage::getSingleton('review/session')->getFormData(true);
+        $data =  Mage::getSingleton('Mage_Review_Model_Session')->getFormData(true);
         $data = new Varien_Object($data);
 
         // add logged in customer name as nickname
@@ -50,26 +50,29 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
             }
         }
 
-        $this->setAllowWriteReviewFlag($customerSession->isLoggedIn() || Mage::helper('review')->getIsGuestAllowToWrite());
+        $this->setAllowWriteReviewFlag(
+            $customerSession->isLoggedIn() || Mage::helper('Mage_Review_Helper_Data')->getIsGuestAllowToWrite()
+        );
         if (!$this->getAllowWriteReviewFlag) {
-            $this->setLoginLink(
-                Mage::getUrl('customer/account/login/', array(
-                    Mage_Customer_Helper_Data::REFERER_QUERY_PARAM_NAME => Mage::helper('core')->urlEncode(
-                        Mage::getUrl('*/*/*', array('_current' => true)) .
-                        '#review-form')
-                    )
+            $queryParam = Mage::helper('Mage_Core_Helper_Data')->urlEncode(
+                Mage::getUrl('*/*/*', array('_current' => true)) .
+                '#review-form'
+            );
+            $this->setLoginLink(Mage::getUrl(
+                    'customer/account/login/',
+                    array(Mage_Customer_Helper_Data::REFERER_QUERY_PARAM_NAME => $queryParam)
                 )
             );
         }
 
         $this->setTemplate('form.phtml')
             ->assign('data', $data)
-            ->assign('messages', Mage::getSingleton('review/session')->getMessages(true));
+            ->assign('messages', Mage::getSingleton('Mage_Review_Model_Session')->getMessages(true));
     }
 
     public function getProductInfo()
     {
-        $product = Mage::getModel('catalog/product');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         return $product->load($this->getRequest()->getParam('id'));
     }
 
@@ -81,7 +84,7 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
 
     public function getRatings()
     {
-        $ratingCollection = Mage::getModel('rating/rating')
+        $ratingCollection = Mage::getModel('Mage_Rating_Model_Rating')
             ->getResourceCollection()
             ->addEntityFilter('product')
             ->setPositionOrder()

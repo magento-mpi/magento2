@@ -47,13 +47,13 @@ class Enterprise_Staging_Model_Staging_Item extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('enterprise_staging/staging_item');
+        $this->_init('Enterprise_Staging_Model_Resource_Staging_Item');
     }
 
     public function loadFromXmlStagingItem($xmlItem)
     {
         $this->setData('code', (string) $xmlItem->getName());
-        $name = Mage::helper('enterprise_staging')->__((string) $xmlItem->label);
+        $name = Mage::helper('Enterprise_Staging_Helper_Data')->__((string) $xmlItem->label);
         $this->setData('name', $name);
         return $this;
     }

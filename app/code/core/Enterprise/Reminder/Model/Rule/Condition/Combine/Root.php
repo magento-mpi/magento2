@@ -36,7 +36,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine_Root
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_reminder/rule_condition_combine_root');
+        $this->setType('Enterprise_Reminder_Model_Rule_Condition_Combine_Root');
     }
 
     /**
@@ -61,7 +61,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine_Root
         );
 
         if ($customer === null) {
-            if (Mage::getSingleton('customer/config_share')->isWebsiteScope()) {
+            if (Mage::getSingleton('Mage_Customer_Model_Config_Share')->isWebsiteScope()) {
                 $select->where('website_id=?', $website);
             }
         }

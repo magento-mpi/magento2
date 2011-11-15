@@ -81,9 +81,9 @@ class Enterprise_CustomerBalance_Model_Quote_Api extends Mage_Checkout_Model_Api
         $quote->setUseCustomerBalance($shouldUseCustomerBalance);
         $payment = $quote->getPayment();
         /** @var $saveTransaction Mage_Core_Model_Resource_Transaction */
-        $saveTransaction = Mage::getModel('core/resource_transaction');
+        $saveTransaction = Mage::getModel('Mage_Core_Model_Resource_Transaction');
         if ($shouldUseCustomerBalance) {
-            $balance = Mage::getModel('enterprise_customerbalance/balance')
+            $balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                     ->setCustomerId($quote->getCustomerId())
                     ->setWebsiteId(Mage::app()->getStore($quote->getStoreId())->getWebsiteId())
                     ->loadByCustomer();

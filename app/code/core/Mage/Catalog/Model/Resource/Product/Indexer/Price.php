@@ -39,7 +39,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
      *
      * @var string
      */
-    protected $_defaultPriceIndexer    = 'catalog/product_indexer_price_default';
+    protected $_defaultPriceIndexer    = 'Mage_Catalog_Model_Resource_Product_Indexer_Price_Default';
 
     /**
      * Product Type Price indexer resource models
@@ -325,7 +325,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
     {
         $types = $this->getTypeIndexers();
         if (!isset($types[$productTypeId])) {
-            Mage::throwException(Mage::helper('catalog')->__('Unsupported product type "%s".', $productTypeId));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Unsupported product type "%s".', $productTypeId));
         }
         return $types[$productTypeId];
     }
@@ -339,7 +339,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
     {
         if (is_null($this->_indexers)) {
             $this->_indexers = array();
-            $types = Mage::getSingleton('catalog/product_type')->getTypesByPriority();
+            $types = Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getTypesByPriority();
             foreach ($types as $typeId => $typeInfo) {
                 if (isset($typeInfo['price_indexer'])) {
                     $modelName = $typeInfo['price_indexer'];
@@ -509,7 +509,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
             $website = Mage::app()->getWebsite($item['website_id']);
 
             if ($website->getBaseCurrencyCode() != $baseCurrency) {
-                $rate = Mage::getModel('directory/currency')
+                $rate = Mage::getModel('Mage_Directory_Model_Currency')
                     ->load($baseCurrency)
                     ->getRate($website->getBaseCurrencyCode());
                 if (!$rate) {

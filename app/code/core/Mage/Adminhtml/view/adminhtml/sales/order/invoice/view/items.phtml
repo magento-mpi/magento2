@@ -36,13 +36,13 @@
         <col width="1" />
         <thead>
             <tr class="headings">
-                <th><?php echo $this->helper('sales')->__('Product') ?></th>
-                <th><?php echo $this->helper('sales')->__('Price') ?></th>
-                <th class="a-center"><?php echo $this->helper('sales')->__('Qty') ?></th>
-                <th><?php echo $this->helper('sales')->__('Subtotal') ?></th>
-                <th><span class="nobr"><?php echo $this->helper('sales')->__('Tax Amount') ?></span></th>
-                <th><span class="nobr"><?php echo $this->helper('sales')->__('Discount Amount') ?></span></th>
-                <th class="last"><span class="nobr"><?php echo $this->helper('sales')->__('Row Total') ?></span></th>
+                <th><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Product') ?></th>
+                <th><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Price') ?></th>
+                <th class="a-center"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Qty') ?></th>
+                <th><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Subtotal') ?></th>
+                <th><span class="nobr"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Tax Amount') ?></span></th>
+                <th><span class="nobr"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Discount Amount') ?></span></th>
+                <th class="last"><span class="nobr"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Row Total') ?></span></th>
             </tr>
         </thead>
         <?php $_items = $this->getInvoice()->getAllItems() ?>

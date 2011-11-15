@@ -59,7 +59,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('enterprise_customersegment/segment');
+        $this->_init('Enterprise_CustomerSegment_Model_Resource_Segment');
     }
 
     /**
@@ -69,7 +69,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
      */
     public function getConditionsInstance()
     {
-        return Mage::getModel('enterprise_customersegment/segment_condition_combine_root');
+        return Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root');
     }
 
     /**

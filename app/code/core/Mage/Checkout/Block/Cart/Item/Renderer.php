@@ -85,7 +85,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     protected function _getThumbnail()
     {
         if (is_null($this->_productThumbnail)) {
-            $thumbnail = $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail');
+            $thumbnail = $this->helper('Mage_Catalog_Helper_Image')->init($this->getProduct(), 'thumbnail');
         } else {
             $thumbnail =$this->_productThumbnail;
         }
@@ -211,7 +211,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     public function getProductOptions()
     {
         /* @var $helper Mage_Catalog_Helper_Product_Configuration */
-        $helper = Mage::helper('catalog/product_configuration');
+        $helper = Mage::helper('Mage_Catalog_Helper_Product_Configuration');
         return $helper->getCustomOptions($this->getItem());
     }
 
@@ -245,11 +245,12 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
      */
     public function getDeleteUrl()
     {
+        $encodedUrl = $this->helper('Mage_Core_Helper_Url')->getEncodedUrl();
         return $this->getUrl(
             'checkout/cart/delete',
             array(
                 'id'=>$this->getItem()->getId(),
-                Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->helper('core/url')->getEncodedUrl()
+                Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $encodedUrl
             )
         );
     }
@@ -288,7 +289,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     public function getCheckoutSession()
     {
         if (null === $this->_checkoutSession) {
-            $this->_checkoutSession = Mage::getSingleton('checkout/session');
+            $this->_checkoutSession = Mage::getSingleton('Mage_Checkout_Model_Session');
         }
         return $this->_checkoutSession;
     }
@@ -361,7 +362,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     public function getFormatedOptionValue($optionValue)
     {
         /* @var $helper Mage_Catalog_Helper_Product_Configuration */
-        $helper = Mage::helper('catalog/product_configuration');
+        $helper = Mage::helper('Mage_Catalog_Helper_Product_Configuration');
         $params = array(
             'max_length' => 55,
             'cut_replacer' => ' <a href="#" class="dots" onclick="return false">...</a>'
@@ -397,7 +398,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
      */
     public function getMsrpHtml($item)
     {
-        return $this->getLayout()->createBlock('catalog/product_price')
+        return $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Price')
             ->setTemplate('product/price_msrp_item.phtml')
             ->setProduct($item->getProduct())
             ->toHtml();

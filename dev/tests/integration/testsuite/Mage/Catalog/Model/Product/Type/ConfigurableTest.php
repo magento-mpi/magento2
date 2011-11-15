@@ -363,7 +363,7 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
      */
     protected function _getAttributeByCode($code)
     {
-        return Mage::getSingleton('eav/config')->getAttribute('catalog_product', $code);
+        return Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('catalog_product', $code);
     }
 
     /**

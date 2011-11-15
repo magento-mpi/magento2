@@ -41,11 +41,11 @@ extends Varien_Object
         return array(
             array(
                 'value' => Enterprise_WebsiteRestriction_Model_Mode::HTTP_503,
-                'label' => Mage::helper('enterprise_websiterestriction')->__('503 Service Unavailable'),
+                'label' => Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->__('503 Service Unavailable'),
             ),
             array(
                 'value' => Enterprise_WebsiteRestriction_Model_Mode::HTTP_200,
-                'label' => Mage::helper('enterprise_websiterestriction')->__('200 OK'),
+                'label' => Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->__('200 OK'),
             ),
         );
     }

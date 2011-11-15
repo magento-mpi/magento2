@@ -32,7 +32,7 @@
 ?>
 <div class="entry-edit">
     <div class="entry-edit-head">
-        <h4 class="icon-head head-shipping-method"><?php echo Mage::helper('enterprise_rma')->__('Shipping Method') ?></h4>
+        <h4 class="icon-head head-shipping-method"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Shipping Method') ?></h4>
     </div>
     <div class="fieldset">
         <div class="hor-scroll">
@@ -44,9 +44,9 @@
             <?php endif; ?>
             <div class="a-center" style="margin: 0 0 10px 0;">
             <?php if ($this->getIsPsl() == Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_ALLOWED): ?>
-                <button class="scalable save" type="button" id="get-shipping-method-and-rates"><span><?php echo Mage::helper('enterprise_rma')->__('Create Shipping Label') ?></span></button>
+                <button class="scalable save" type="button" id="get-shipping-method-and-rates"><span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Create Shipping Label') ?></span></button>
             <?php elseif ($this->getIsPsl() == Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_DISABLED): ?>
-                <button class="scalable save disabled" type="button" title="<?php echo Mage::helper('enterprise_rma')->__('Enabled when authorized items require a new shipment'); ?>"><span><?php echo Mage::helper('enterprise_rma')->__('Create Shipping Label') ?></span></button>
+                <button class="scalable save disabled" type="button" title="<?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Enabled when authorized items require a new shipment'); ?>"><span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Create Shipping Label') ?></span></button>
             <?php endif; ?>
             <?php if ($this->getShipment()->getShippingLabel()): ?>
                 <?php echo $this->getPrintLabelButton() ?>
@@ -65,14 +65,14 @@
 <div id="packed_window" style="display:none;" class="packed-window">
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head fieldset-legend"><?php echo Mage::helper('enterprise_rma')->__('Packages') ?></h4>
+            <h4 class="icon-head fieldset-legend"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Packages') ?></h4>
         </div>
         <div class="packed-content">
             <?php foreach ($this->getPackages() as $packageId => $package): ?>
                 <div class="package">
                     <?php $package = new Varien_Object($package) ?>
                     <?php $params = new Varien_Object($package->getParams()) ?>
-                    <h4><?php echo Mage::helper('sales')->__('Package') . ' ' . $packageId ?></h4>
+                    <h4><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Package') . ' ' . $packageId ?></h4>
                     <div class="package-info">
                         <table class="package-options" cellspacing="0">
                             <colgroup>
@@ -85,18 +85,18 @@
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    <th><?php echo Mage::helper('enterprise_rma')->__('Type') ?></th>
+                                    <th><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Type') ?></th>
                                     <td><?php echo $this->getContainerTypeByCode($params->getContainer()) ?></td>
-                                    <th><?php echo Mage::helper('enterprise_rma')->__('Length') ?></th>
+                                    <th><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Length') ?></th>
                                     <td>
                                         <?php if ($params->getLength() != null): ?>
-                                            <?php echo $params->getLength() .' '. Mage::helper('usa')->getMeasureDimensionName($params->getDimensionUnits()) ?>
+                                            <?php echo $params->getLength() .' '. Mage::helper('Mage_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits()) ?>
                                         <?php else: ?>
                                             --
                                         <?php endif; ?>
                                     </td>
                                     <?php if ($params->getDeliveryConfirmation() != null): ?>
-                                        <th><?php echo Mage::helper('sales')->__('Signature Confirmation') ?></th>
+                                        <th><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Signature Confirmation') ?></th>
                                         <td><?php echo $this->getDeliveryConfirmationTypeByCode($params->getDeliveryConfirmation()) ?></td>
                                     <?php else: ?>
                                         <th>&nbsp;</th>
@@ -105,22 +105,22 @@
                                 </tr>
                                 <tr>
                                     <?php if ($this->displayCustomsValue()): ?>
-                                        <th><?php echo Mage::helper('enterprise_rma')->__('Customs Value') ?></th>
+                                        <th><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Customs Value') ?></th>
                                         <td><?php echo $this->displayPrice($params->getCustomsValue()) ?></td>
                                     <?php else: ?>
-                                        <th><?php echo Mage::helper('enterprise_rma')->__('Total Weight') ?></th>
-                                        <td><?php echo $params->getWeight() .' '. Mage::helper('usa')->getMeasureWeightName($params->getWeightUnits()) ?></td>
+                                        <th><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Total Weight') ?></th>
+                                        <td><?php echo $params->getWeight() .' '. Mage::helper('Mage_Usa_Helper_Data')->getMeasureWeightName($params->getWeightUnits()) ?></td>
                                     <?php endif; ?>
-                                    <th><?php echo Mage::helper('enterprise_rma')->__('Width') ?></th>
+                                    <th><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Width') ?></th>
                                     <td>
                                         <?php if ($params->getWidth() != null): ?>
-                                            <?php echo $params->getWidth() .' '. Mage::helper('usa')->getMeasureDimensionName($params->getDimensionUnits()) ?>
+                                            <?php echo $params->getWidth() .' '. Mage::helper('Mage_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits()) ?>
                                         <?php else: ?>
                                             --
                                         <?php endif; ?>
                                     </td>
                                     <?php if ($params->getContentType() != null): ?>
-                                        <th><?php echo Mage::helper('enterprise_rma')->__('Contents') ?></th>
+                                        <th><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Contents') ?></th>
                                         <?php if ($params->getContentType() == 'OTHER'): ?>
                                             <td><?php echo $params->getContentTypeOther() ?></td>
                                         <?php else: ?>
@@ -133,16 +133,16 @@
                                 </tr>
                                 <tr>
                                     <?php if ($this->displayCustomsValue()): ?>
-                                        <th><?php echo Mage::helper('enterprise_rma')->__('Total Weight') ?></th>
-                                        <td><?php echo $params->getWeight() .' '. Mage::helper('usa')->getMeasureWeightName($params->getWeightUnits()) ?></td>
+                                        <th><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Total Weight') ?></th>
+                                        <td><?php echo $params->getWeight() .' '. Mage::helper('Mage_Usa_Helper_Data')->getMeasureWeightName($params->getWeightUnits()) ?></td>
                                     <?php else: ?>
                                         <th>&nbsp;</th>
                                         <td>&nbsp;</td>
                                     <?php endif; ?>
-                                    <th><?php echo Mage::helper('enterprise_rma')->__('Height') ?></th>
+                                    <th><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Height') ?></th>
                                     <td>
                                         <?php if ($params->getHeight() != null): ?>
-                                            <?php echo $params->getHeight() .' '. Mage::helper('usa')->getMeasureDimensionName($params->getDimensionUnits()) ?>
+                                            <?php echo $params->getHeight() .' '. Mage::helper('Mage_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits()) ?>
                                         <?php else: ?>
                                             --
                                         <?php endif; ?>
@@ -152,15 +152,15 @@
                                 </tr>
                                 <tr>
                                     <?php if ($params->getSize()): ?>
-                                        <th><?php echo Mage::helper('enterprise_rma')->__('Size') ?></th>
+                                        <th><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Size') ?></th>
                                         <td><?php echo ucfirst(strtolower($params->getSize())) ?></td>
                                     <?php else: ?>
                                         <th>&nbsp;</th>
                                         <td>&nbsp;</td>
                                     <?php endif; ?>
                                     <?php if ($params->getGirth()): ?>
-                                        <th><?php echo Mage::helper('enterprise_rma')->__('Girth') ?></th>
-                                        <td><?php echo $params->getGirth() .' '. Mage::helper('usa')->getMeasureDimensionName($params->getGirthDimensionUnits()) ?></td>
+                                        <th><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Girth') ?></th>
+                                        <td><?php echo $params->getGirth() .' '. Mage::helper('Mage_Usa_Helper_Data')->getMeasureDimensionName($params->getGirthDimensionUnits()) ?></td>
                                     <?php else: ?>
                                         <th>&nbsp;</th>
                                         <td>&nbsp;</td>
@@ -171,7 +171,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <strong><?php echo Mage::helper('enterprise_rma')->__('Items in the Package') ?></strong>
+                    <strong><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Items in the Package') ?></strong>
                     <div class="grid">
                         <div class="hor-scroll">
                             <table cellspacing="0" class="data">
@@ -186,13 +186,13 @@
                                 </colgroup>
                                 <thead>
                                 <tr class="headings">
-                                    <th class=" no-link"><span class="nobr"><?php echo Mage::helper('enterprise_rma')->__('Product') ?></span></th>
-                                    <th class=" no-link"><span class="nobr"><?php echo Mage::helper('enterprise_rma')->__('Weight') ?></span></th>
+                                    <th class=" no-link"><span class="nobr"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Product') ?></span></th>
+                                    <th class=" no-link"><span class="nobr"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Weight') ?></span></th>
                                     <?php if ($this->displayCustomsValue()): ?>
-                                        <th class=" no-link"><span class="nobr"><?php echo Mage::helper('enterprise_rma')->__('Customs Value') ?></span></th>
+                                        <th class=" no-link"><span class="nobr"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Customs Value') ?></span></th>
                                     <?php endif; ?>
-                                    <th class=" no-link"><span class="nobr"><?php echo Mage::helper('enterprise_rma')->__('Qty Ordered') ?></span></th>
-                                    <th class=" no-link last"><span class="nobr"><?php echo Mage::helper('enterprise_rma')->__('Qty') ?></span></th>
+                                    <th class=" no-link"><span class="nobr"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Qty Ordered') ?></span></th>
+                                    <th class=" no-link last"><span class="nobr"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Qty') ?></span></th>
                                 </tr>
                                 </thead>
 
@@ -226,8 +226,8 @@
         </div>
         <div class="buttons-set a-right">
             <?php echo $this->getPrintButton() ?>
-            <button type="button" class="scalable SavePackagesBtn save" onclick="hidePackedWindow();" title="<?php echo Mage::helper('sales')->__('Products should be added to package(s)')?>">
-                <span><?php echo Mage::helper('enterprise_rma')->__('OK') ?></span>
+            <button type="button" class="scalable SavePackagesBtn save" onclick="hidePackedWindow();" title="<?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Products should be added to package(s)')?>">
+                <span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('OK') ?></span>
             </button>
         </div>
     </div>

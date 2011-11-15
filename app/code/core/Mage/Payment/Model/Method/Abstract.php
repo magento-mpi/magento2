@@ -43,8 +43,8 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     const STATUS_SUCCESS    = 'SUCCESS';
 
     protected $_code;
-    protected $_formBlockType = 'payment/form';
-    protected $_infoBlockType = 'payment/info';
+    protected $_formBlockType = 'Mage_Payment_Block_Form';
+    protected $_infoBlockType = 'Mage_Payment_Block_Info';
 
     /**
      * Payment Method features
@@ -307,7 +307,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      */
     protected function _getHelper()
     {
-        return Mage::helper('payment');
+        return Mage::helper('Mage_Payment_Helper_Data');
     }
 
     /**
@@ -544,7 +544,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function acceptPayment(Mage_Payment_Model_Info $payment)
     {
         if (!$this->canReviewPayment($payment)) {
-            Mage::throwException(Mage::helper('payment')->__('The payment review action is unavailable.'));
+            Mage::throwException(Mage::helper('Mage_Payment_Helper_Data')->__('The payment review action is unavailable.'));
         }
         return false;
     }
@@ -559,7 +559,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function denyPayment(Mage_Payment_Model_Info $payment)
     {
         if (!$this->canReviewPayment($payment)) {
-            Mage::throwException(Mage::helper('payment')->__('The payment review action is unavailable.'));
+            Mage::throwException(Mage::helper('Mage_Payment_Helper_Data')->__('The payment review action is unavailable.'));
         }
         return false;
     }
@@ -674,7 +674,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            Mage::getModel('core/log_adapter', 'payment_' . $this->getCode() . '.log')
+            Mage::getModel('Mage_Core_Model_Log_Adapter', 'payment_' . $this->getCode() . '.log')
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);
         }

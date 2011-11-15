@@ -80,7 +80,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('catalog/product_option');
+        $this->_init('Mage_Catalog_Model_Resource_Product_Option');
     }
 
     /**
@@ -123,7 +123,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
     public function getValueInstance()
     {
         if (!$this->_valueInstance) {
-            $this->_valueInstance = Mage::getSingleton('catalog/product_option_value');
+            $this->_valueInstance = Mage::getSingleton('Mage_Catalog_Model_Product_Option_Value');
         }
         return $this->_valueInstance;
     }
@@ -232,9 +232,9 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
     {
         $group = $this->getGroupByType($type);
         if (!empty($group)) {
-            return Mage::getModel('catalog/product_option_type_' . $group);
+            return Mage::getModel('Mage_Catalog_Model_Product_Option_Type_' . uc_words($group));
         }
-        Mage::throwException(Mage::helper('catalog')->__('Wrong option type to get group instance.'));
+        Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Wrong option type to get group instance.'));
     }
 
     /**
@@ -313,7 +313,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
             $this->getValueInstance()->setOption($this)
                 ->saveValues();
         } elseif ($this->getGroupByType($this->getType()) == self::OPTION_GROUP_SELECT) {
-            Mage::throwException(Mage::helper('catalog')->__('Select type options required values rows.'));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Select type options required values rows.'));
         }
 
         return parent::_afterSave();
@@ -401,7 +401,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
      */
     public function getOptionValuesByOptionId($optionIds, $store_id)
     {
-        $collection = Mage::getModel('catalog/product_option_value')
+        $collection = Mage::getModel('Mage_Catalog_Model_Product_Option_Value')
             ->getValuesByOption($optionIds, $this->getId(), $store_id);
 
         return $collection;

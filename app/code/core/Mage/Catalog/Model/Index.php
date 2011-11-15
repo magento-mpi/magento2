@@ -41,10 +41,10 @@ class Mage_Catalog_Model_Index
      */
     public function rebuild()
     {
-        Mage::getResourceSingleton('catalog/category')
+        Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category')
             ->refreshProductIndex();
         foreach (Mage::app()->getStores() as $store) {
-            Mage::getResourceSingleton('catalog/product')
+            Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product')
                 ->refreshEnabledIndex($store);
         }
         return $this;

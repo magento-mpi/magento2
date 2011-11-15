@@ -31,9 +31,9 @@
  * @see Mage_Customer_Block_Form_Login
  */
 ?>
-<div class="account-login<?php if (!$this->helper('customer')->isRegistrationAllowed()) echo ' login-only' ?>">
+<div class="account-login<?php if (!$this->helper('Mage_Customer_Helper_Data')->isRegistrationAllowed()) echo ' login-only' ?>">
     <div class="page-title">
-        <h1><?php if ($this->helper('customer')->isRegistrationAllowed()): ?>
+        <h1><?php if ($this->helper('Mage_Customer_Helper_Data')->isRegistrationAllowed()): ?>
             <?php echo $this->__('Login or Create an Account') ?>
             <?php else: ?>
             <?php echo $this->__('Login'); ?>
@@ -66,7 +66,7 @@
                     </div>
                     <p class="required"><?php echo $this->__('* Required Fields') ?></p>
                 </div>
-                <?php if ($this->helper('customer')->isRegistrationAllowed()): ?>
+                <?php if ($this->helper('Mage_Customer_Helper_Data')->isRegistrationAllowed()): ?>
                 <div class="col-2 new-users">
                     <h2 class="legend"><?php echo $this->__('New Customers') ?></h2>
                     <p><?php echo $this->__('By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.') ?></p>

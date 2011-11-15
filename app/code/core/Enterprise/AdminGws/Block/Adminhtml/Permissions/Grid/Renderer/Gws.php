@@ -54,7 +54,7 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws extends 
 
         // lookup websites and store groups in system
         if (!self::$websites) {
-            foreach (Mage::getResourceSingleton('core/store_group_collection') as $storeGroup) {
+            foreach (Mage::getResourceSingleton('Mage_Core_Model_Resource_Store_Group_Collection') as $storeGroup) {
                 /* @var $storeGroup Mage_Core_Model_Store_Group */
                 $website = $storeGroup->getWebsite();
                 $websiteId = (string)$storeGroup->getWebsiteId();

@@ -94,18 +94,18 @@ class Mage_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
 
             $storeId = null;
             if (!is_null($website)) {
-                $storeId = Mage::getModel('core/website')
+                $storeId = Mage::getModel('Mage_Core_Model_Website')
                     ->load($website, 'code')
                     ->getDefaultGroup()
                     ->getDefaultStoreId();
             } elseif (!is_null($store)) {
-                $storeId = Mage::getModel('core/store')
+                $storeId = Mage::getModel('Mage_Core_Model_Store')
                     ->load($store, 'code')
                     ->getId();
             }
 
             $methods = array();
-            $carriers = Mage::getSingleton('shipping/config')->getActiveCarriers($storeId);
+            $carriers = Mage::getSingleton('Mage_Shipping_Model_Config')->getActiveCarriers($storeId);
             foreach ($carriers as $carrierCode=>$carrierModel) {
                 if (!$carrierModel->isActive()) {
                     continue;
@@ -148,7 +148,7 @@ class Mage_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
     protected function _getAddRowButtonHtml($container, $template, $title='Add')
     {
         if (!isset($this->_addRowButtonHtml[$container])) {
-            $this->_addRowButtonHtml[$container] = $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->_addRowButtonHtml[$container] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setType('button')
                     ->setClass('add ' . $this->_getDisabled())
                     ->setLabel($this->__($title))
@@ -163,7 +163,7 @@ class Mage_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
     protected function _getRemoveRowButtonHtml($selector = 'li', $title = 'Remove')
     {
         if (!$this->_removeRowButtonHtml) {
-            $this->_removeRowButtonHtml = $this->getLayout()->createBlock('adminhtml/widget_button')
+            $this->_removeRowButtonHtml = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setType('button')
                     ->setClass('delete v-middle ' . $this->_getDisabled())
                     ->setLabel($this->__($title))

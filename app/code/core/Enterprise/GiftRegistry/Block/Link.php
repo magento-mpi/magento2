@@ -41,7 +41,7 @@ class Enterprise_GiftRegistry_Block_Link extends Mage_Core_Block_Template
      */
     public function addDashboardLink($block, $name, $path, $label, $urlParams = array())
     {
-        if (Mage::helper('enterprise_giftregistry')->isEnabled()) {
+        if (Mage::helper('Enterprise_GiftRegistry_Helper_Data')->isEnabled()) {
             $blockInstance = $this->getLayout()->getBlock($block);
             if ($blockInstance) {
                 $blockInstance->addLink($name, $path, $label, $urlParams);

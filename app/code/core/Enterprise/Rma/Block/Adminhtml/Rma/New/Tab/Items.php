@@ -52,11 +52,11 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
     public function getAddButtonHtml()
     {
         $addButtonData = array(
-            'label' => Mage::helper('enterprise_rma')->__('Add Products'),
+            'label' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Add Products'),
             'onclick' => "rma.addProduct()",
             'class' => 'add',
         );
-        return $this->getLayout()->createBlock('adminhtml/widget_button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData($addButtonData)->toHtml();
     }
 
     /**
@@ -67,11 +67,11 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
     public function getAddProductButtonHtml()
     {
         $addButtonData = array(
-            'label' => Mage::helper('enterprise_rma')->__('Add Selected Product(s) to RMA'),
+            'label' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Add Selected Product(s) to RMA'),
             'onclick' => "rma.addSelectedProduct()",
             'class' => 'add',
         );
-        return $this->getLayout()->createBlock('adminhtml/widget_button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData($addButtonData)->toHtml();
     }
 
     /**
@@ -90,33 +90,33 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
         $fieldset = $form->addFieldset('rma_item_fields', array());
 
         $fieldset->addField('product_name', 'text', array(
-            'label'=> Mage::helper('enterprise_rma')->__('Product Name'),
+            'label'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Product Name'),
             'name' => 'product_name',
             'required'  => false
         ));
 
         $fieldset->addField('product_sku', 'text', array(
-            'label'=> Mage::helper('enterprise_rma')->__('SKU'),
+            'label'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('SKU'),
             'name' => 'product_sku',
             'required'  => false
         ));
 
         //Renderer puts available quantity instead of order_item_id
         $fieldset->addField('qty_ordered', 'text', array(
-            'label'=> Mage::helper('enterprise_rma')->__('Remaining Qty'),
+            'label'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Remaining Qty'),
             'name' => 'qty_ordered',
             'required'  => false,
         ));
 
         $fieldset->addField('qty_requested', 'text', array(
-            'label'=> Mage::helper('enterprise_rma')->__('Requested Qty'),
+            'label'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Requested Qty'),
             'name' => 'qty_requested',
             'required' => false,
             'class' => 'validate-greater-than-zero'
         ));
 
         $reasonOtherAttribute =
-            Mage::getModel('enterprise_rma/item_form')->setFormCode('default')->getAttribute('reason_other');
+            Mage::getModel('Enterprise_Rma_Model_Item_Form')->setFormCode('default')->getAttribute('reason_other');
 
         $fieldset->addField('reason_other', 'text', array(
             'label'=> $reasonOtherAttribute->getStoreLabel(),
@@ -124,41 +124,42 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
             'required' => false
         ));
 
+        $eavHelper = Mage::helper('Enterprise_Rma_Helper_Eav');
         $fieldset->addField('reason', 'select', array(
-            'label'=> Mage::helper('enterprise_rma')->__('Reason to Return'),
+            'label'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Reason to Return'),
             'options' => array(''=>'')
-                + Mage::helper('enterprise_rma/eav')->getAttributeOptionValues('reason')
+                + $eavHelper->getAttributeOptionValues('reason')
                 + array('other' => $reasonOtherAttribute->getStoreLabel()),
             'name' => 'reason',
             'required' => false
         ))->setRenderer(
-            $this->getLayout()->createBlock('enterprise_rma/adminhtml_rma_new_tab_items_renderer_reason')
+            $this->getLayout()->createBlock('Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Renderer_Reason')
         );
 
         $fieldset->addField('condition', 'select', array(
-            'label'=> Mage::helper('enterprise_rma')->__('Item Condition'),
-            'options' => array(''=>'') + Mage::helper('enterprise_rma/eav')->getAttributeOptionValues('condition'),
+            'label'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Item Condition'),
+            'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('condition'),
             'name' => 'condition',
             'required' => false,
             'class' => 'action-select'
         ));
 
         $fieldset->addField('resolution', 'select', array(
-            'label'=> Mage::helper('enterprise_rma')->__('Resolution'),
-            'options' => array(''=>'') + Mage::helper('enterprise_rma/eav')->getAttributeOptionValues('resolution'),
+            'label'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Resolution'),
+            'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('resolution'),
             'name' => 'resolution',
             'required' => false,
             'class' => 'action-select'
         ));
 
         $fieldset->addField('delete_link', 'label', array(
-            'label'=> Mage::helper('enterprise_rma')->__('Delete'),
+            'label'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Delete'),
             'name' => 'delete_link',
             'required' => false
         ));
 
         $fieldset->addField('add_details_link', 'label', array(
-            'label'=> Mage::helper('enterprise_rma')->__('Add Details'),
+            'label'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Add Details'),
             'name' => 'add_details_link',
             'required' => false
         ));
@@ -175,7 +176,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
      */
     public function getHeaderText()
     {
-        return Mage::helper('enterprise_rma')->__('Items');
+        return Mage::helper('Enterprise_Rma_Helper_Data')->__('Items');
     }
 
     /**
@@ -185,7 +186,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_rma')->__('RMA Items');
+        return Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA Items');
     }
 
     /**

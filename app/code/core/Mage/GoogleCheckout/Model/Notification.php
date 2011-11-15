@@ -51,7 +51,7 @@ class Mage_GoogleCheckout_Model_Notification extends Mage_Core_Model_Abstract
      */
     function _construct()
     {
-        $this->_init('googlecheckout/notification');
+        $this->_init('Mage_GoogleCheckout_Model_Resource_Notification');
     }
 
     /**

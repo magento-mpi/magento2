@@ -55,8 +55,8 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::getSingleton('customer/session')->isLoggedIn()
-            && !Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout()
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
+            && !Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote()->isAllowedGuestCheckout()
         ) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->_message(
@@ -76,7 +76,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
         try {
             if (is_object(Mage::getConfig()->getNode('modules/Enterprise_GiftCardAccount'))) {
                 $giftcardInfoBlock = $this->getLayout()->addBlock(
-                    'enterprise_giftcardaccount/checkout_onepage_payment_additional', 'giftcard_info'
+                    'Enterprise_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional', 'giftcard_info'
                 );
 
                 if (intval($giftcardInfoBlock->getAppliedGiftCardAmount())) {
@@ -119,7 +119,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
             array_walk_recursive($data, create_function('&$val', '$val = trim($val);'));
 
             if (!empty($data['region']) && isset($data['country_id'])) {
-                $region = Mage::getModel('directory/region')->loadByCode($data['region'], $data['country_id']);
+                $region = Mage::getModel('Mage_Directory_Model_Region')->loadByCode($data['region'], $data['country_id']);
                 if ($region && $region->getId()) {
                     $data['region_id'] = $region->getId();
                 }
@@ -185,7 +185,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
 
             if (!isset($result['error'])) {
                 /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
-                $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+                $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
                 $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
                 $message->addChild('text', $this->__('Shipping method has been set.'));
                 if ($this->_getQuote()->isVirtual()) {
@@ -193,8 +193,8 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
                 } else {
                     $quoteAddress = $this->_getQuote()->getShippingAddress();
                 }
-                $taxAmount = Mage::helper('core')->currency($quoteAddress->getBaseTaxAmount(), false, false);
-                $message->addChild('tax_amount', Mage::helper('xmlconnect')->formatPriceForXml($taxAmount));
+                $taxAmount = Mage::helper('Mage_Core_Helper_Data')->currency($quoteAddress->getBaseTaxAmount(), false, false);
+                $message->addChild('tax_amount', Mage::helper('Mage_XmlConnect_Helper_Data')->formatPriceForXml($taxAmount));
                 $this->_getQuote()->collectTotals()->save();
                 $this->getResponse()->setBody($message->asNiceXml());
             } else {
@@ -254,8 +254,8 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
              */
             $data = $this->getRequest()->getPost('payment', array());
 
-            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-                $data['payer'] = Mage::getSingleton('customer/session')->getCustomer()->getEmail();
+            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+                $data['payer'] = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getEmail();
             }
 
             $this->_checkout->savePayment($data);
@@ -269,7 +269,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
              * Format success report
              */
             /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
-            $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
+            $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
             $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
 
             $orderId = $this->_checkout->getLastOrderId();
@@ -309,7 +309,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
         }
         $this->_getCheckoutSession()->setCartWasUpdated(false);
 
-        $this->_checkout = Mage::getSingleton('xmlconnect/paypal_mep_checkout', array('quote'  => $quote));
+        $this->_checkout = Mage::getSingleton('Mage_XmlConnect_Model_Paypal_Mep_Checkout', array('quote'  => $quote));
     }
 
     /**
@@ -319,7 +319,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
      */
     protected function _getCheckoutSession()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**

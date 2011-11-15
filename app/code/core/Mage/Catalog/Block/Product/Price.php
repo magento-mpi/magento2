@@ -89,16 +89,16 @@ class Mage_Catalog_Block_Product_Price extends Mage_Core_Block_Template
                     $price['savePercent'] = ceil(100 - (( 100/$productPrice ) * $price['price'] ));
 
                     $tierPrice = Mage::app()->getStore()->convertPrice(
-                        Mage::helper('tax')->getPrice($product, $price['website_price'])
+                        Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $price['website_price'])
                     );
                     $price['formated_price'] = Mage::app()->getStore()->formatPrice($tierPrice);
                     $price['formated_price_incl_tax'] = Mage::app()->getStore()->formatPrice(
                         Mage::app()->getStore()->convertPrice(
-                            Mage::helper('tax')->getPrice($product, $price['website_price'], true)
+                            Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $price['website_price'], true)
                         )
                     );
 
-                    if (Mage::helper('catalog')->canApplyMsrp($product)) {
+                    if (Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($product)) {
                         $oldPrice = $product->getFinalPrice();
                         $product->setPriceCalculation(false);
                         $product->setPrice($tierPrice);
@@ -128,7 +128,7 @@ class Mage_Catalog_Block_Product_Price extends Mage_Core_Block_Template
      */
     public function getAddToCartUrl($product, $additional = array())
     {
-        return $this->helper('checkout/cart')->getAddUrl($product, $additional);
+        return $this->helper('Mage_Checkout_Helper_Cart')->getAddUrl($product, $additional);
     }
 
     /**
@@ -153,6 +153,6 @@ class Mage_Catalog_Block_Product_Price extends Mage_Core_Block_Template
     public function getRealPriceJs($product)
     {
         $html = $this->hasRealPriceHtml() ? $this->getRealPriceHtml() : $product->getRealPriceHtml();
-        return Mage::helper('core')->jsonEncode($html);
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($html);
     }
 }

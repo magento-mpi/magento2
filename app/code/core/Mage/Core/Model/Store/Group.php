@@ -110,7 +110,7 @@ class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('core/store_group');
+        $this->_init('Mage_Core_Model_Resource_Store_Group');
     }
 
     /**
@@ -159,7 +159,7 @@ class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
      */
     public function getStoreCollection()
     {
-        return Mage::getModel('core/store')
+        return Mage::getModel('Mage_Core_Model_Store')
             ->getCollection()
             ->addGroupFilter($this->getId());
     }

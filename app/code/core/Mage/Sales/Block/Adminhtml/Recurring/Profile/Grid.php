@@ -47,7 +47,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Mage_Adminhtml_B
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('sales/recurring_profile_collection');
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Recurring_Profile_Collection');
         $this->setCollection($collection);
         if (!$this->getParam($this->getVarNameSort())) {
             $collection->setOrder('profile_id', 'desc');
@@ -62,7 +62,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Mage_Adminhtml_B
      */
     protected function _prepareColumns()
     {
-        $profile = Mage::getModel('sales/recurring_profile');
+        $profile = Mage::getModel('Mage_Sales_Model_Recurring_Profile');
 
         $this->addColumn('reference_id', array(
             'header' => $profile->getFieldLabel('reference_id'),
@@ -73,7 +73,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Mage_Adminhtml_B
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'     => Mage::helper('adminhtml')->__('Store'),
+                'header'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Store'),
                 'index'      => 'store_id',
                 'type'       => 'store',
                 'store_view' => true,
@@ -107,7 +107,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Mage_Adminhtml_B
         ));
 
         $methods = array();
-        foreach (Mage::helper('payment')->getRecurringProfileMethods() as $method) {
+        foreach (Mage::helper('Mage_Payment_Helper_Data')->getRecurringProfileMethods() as $method) {
             $methods[$method->getCode()] = $method->getTitle();
         }
         $this->addColumn('method_code', array(

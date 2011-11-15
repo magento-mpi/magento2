@@ -64,8 +64,8 @@ class Mage_XmlConnect_Helper_Customer_Order extends Mage_Core_Helper_Abstract
             $nodeName = 'including_tax';
             $nodeLabel = $renderer->__('Incl. Tax');
 
-            $inclPrice      = $renderer->helper('checkout')->getPriceInclTax($item);
-            $inclSubtotal   = $renderer->helper('checkout')->getSubtotalInclTax($item);
+            $inclPrice      = $renderer->helper('Mage_Checkout_Helper_Data')->getPriceInclTax($item);
+            $inclSubtotal   = $renderer->helper('Mage_Checkout_Helper_Data')->getSubtotalInclTax($item);
 
             if ($typesOfDisplay[self::PRICE_DISPLAY_TYPE_14]) {
                 $price      = $inclPrice + $renderer->getWeeeTaxAppliedAmount();
@@ -93,7 +93,7 @@ class Mage_XmlConnect_Helper_Customer_Order extends Mage_Core_Helper_Abstract
         $configNode = array(
             'value' => $this->formatPrice($renderer, $price)
         );
-        if ($renderer->helper('tax')->displaySalesBothPrices()) {
+        if ($renderer->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices()) {
             $configNode['label'] = $nodeLabel;
         }
 
@@ -203,7 +203,7 @@ class Mage_XmlConnect_Helper_Customer_Order extends Mage_Core_Helper_Abstract
             $weeeXml->addCustomChild(
                 'total',
                 $this->formatPrice($renderer, $total),
-                array('label' => $renderer->helper('weee')->__('Total'))
+                array('label' => $renderer->helper('Mage_Weee_Helper_Data')->__('Total'))
             );
         }
     }

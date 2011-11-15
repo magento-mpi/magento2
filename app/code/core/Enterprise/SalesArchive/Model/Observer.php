@@ -44,8 +44,8 @@ class Enterprise_SalesArchive_Model_Observer
 
     public function __construct()
     {
-        $this->_archive = Mage::getModel('enterprise_salesarchive/archive');
-        $this->_config  = Mage::getSingleton('enterprise_salesarchive/config');
+        $this->_archive = Mage::getModel('Enterprise_SalesArchive_Model_Archive');
+        $this->_config  = Mage::getSingleton('Enterprise_SalesArchive_Model_Config');
     }
 
     /**
@@ -84,7 +84,7 @@ class Enterprise_SalesArchive_Model_Observer
 
         if ($object->getIsArchived()) {
             $object->setBackUrl(
-                Mage::helper('adminhtml')->getUrl('adminhtml/sales_archive/' . $archiveEntity . 's')
+                Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('adminhtml/sales_archive/' . $archiveEntity . 's')
             );
         } elseif ($object->getIsMoveable() !== false) {
             $object->setIsMoveable(
@@ -151,7 +151,7 @@ class Enterprise_SalesArchive_Model_Observer
         $collectionSelect = $collection->getSelect();
         $cloneSelect = clone $collectionSelect;
 
-        $union = Mage::getResourceModel('enterprise_salesarchive/order_collection')
+        $union = Mage::getResourceModel('Enterprise_SalesArchive_Model_Resource_Order_Collection')
             ->getOrderGridArchiveSelect($cloneSelect);
 
         $unionParts = array($cloneSelect, $union);

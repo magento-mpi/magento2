@@ -238,14 +238,14 @@ class Mage_Core_Model_Date
             }
         }
         if (!$isSupportedFormatFound) {
-            Mage::throwException(Mage::helper('core')->__('Date/time format "%s" is not supported.', $dateTimeFormat));
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Date/time format "%s" is not supported.', $dateTimeFormat));
         }
 
         // apply reg rule to found format
         $regex = array_shift($regRule);
         $mask  = array_shift($regRule);
         if (!preg_match($regex, $dateTimeString, $matches)) {
-            Mage::throwException(Mage::helper('core')->__('Specified date/time "%1$s" do not match format "%2$s".', $dateTimeString, $dateTimeFormat));
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Specified date/time "%1$s" do not match format "%2$s".', $dateTimeString, $dateTimeFormat));
         }
 
         // make result

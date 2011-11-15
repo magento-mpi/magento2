@@ -36,7 +36,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_customer_attributes');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes');
         $this->setValue(null);
     }
 
@@ -73,7 +73,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('eav/config')->getAttribute('customer', $this->getAttribute());
+        return Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer', $this->getAttribute());
     }
 
     /**
@@ -83,7 +83,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = Mage::getResourceSingleton('customer/customer')
+        $productAttributes = Mage::getResourceSingleton('Mage_Customer_Model_Resource_Customer')
             ->loadAllAttributes()
             ->getAttributesByCode();
 
@@ -266,11 +266,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         return array(
             array(
                 'value' => 'is_exists',
-                'label' => Mage::helper('enterprise_customersegment')->__('exists')
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('exists')
             ),
             array(
                 'value' => 'is_not_exists',
-                'label' => Mage::helper('enterprise_customersegment')->__('does not exist')
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('does not exist')
             ),
         );
     }
@@ -282,7 +282,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      */
     public function asHtml()
     {
-        return Mage::helper('enterprise_customersegment')->__('Customer %s', parent::asHtml());
+        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer %s', parent::asHtml());
     }
 
     /**
@@ -335,7 +335,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         $select->from(array('main'=>$table), array(new Zend_Db_Expr(1)));
 
         $select->where($this->_createCustomerFilter($customer, 'main.entity_id'));
-        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
 
         if (!in_array($attribute->getAttributeCode(), array('default_billing', 'default_shipping')) ) {
             $value    = $this->getValue();

@@ -130,11 +130,11 @@ class Social_Facebook_Model_Api extends Varien_Object
             $response   = $client->request();
             $result     = json_decode($response->getBody());
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('social_facebook')->__('Facebook Request API Error'));
+            Mage::throwException(Mage::helper('Social_Facebook_Helper_Data')->__('Facebook Request API Error'));
         }
 
         if (!empty($result) && (!empty($result->error) || !empty($result->error->message))) {
-            Mage::throwException(Mage::helper('social_facebook')->__('Facebook error: ') . $result->error->message);
+            Mage::throwException(Mage::helper('Social_Facebook_Helper_Data')->__('Facebook error: ') . $result->error->message);
         }
 
         return $client->request();
@@ -153,9 +153,9 @@ class Social_Facebook_Model_Api extends Varien_Object
 
         $response = $this->makeFacebookRequest(
             array(
-                'client_id'     => Mage::helper('social_facebook')->getAppId(),
+                'client_id'     => Mage::helper('Social_Facebook_Helper_Data')->getAppId(),
                 'redirect_uri'  => $this->_productUrl,
-                'client_secret' => Mage::helper('social_facebook')->getAppSecret(),
+                'client_secret' => Mage::helper('Social_Facebook_Helper_Data')->getAppSecret(),
                 'code'          => $this->_facebookCode
             ),
             Social_Facebook_Model_Api::URL_GRAPH_OAUTH_ACCESS_TOKEN,
@@ -210,8 +210,8 @@ class Social_Facebook_Model_Api extends Varien_Object
             $this->getAccessToken();
         }
 
-        $appName    = Mage::helper('social_facebook')->getAppName();
-        $objectType = Mage::helper('social_facebook')->getObjectType();
+        $appName    = Mage::helper('Social_Facebook_Helper_Data')->getAppName();
+        $objectType = Mage::helper('Social_Facebook_Helper_Data')->getObjectType();
 
         if (empty($this->_accessToken) || empty($this->_productOgUrl) || empty($appName) || empty($objectType)) {
             return false;

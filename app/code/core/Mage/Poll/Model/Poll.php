@@ -60,7 +60,7 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('poll/poll');
+        $this->_init('Mage_Poll_Model_Resource_Poll');
     }
 
     /**
@@ -138,7 +138,7 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
         }
 
         // check by ip
-        if (count($this->_getResource()->getVotedPollIdsByIp(Mage::helper('core/http')->getRemoteAddr(), $pollId))) {
+        if (count($this->_getResource()->getVotedPollIdsByIp(Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(), $pollId))) {
             return true;
         }
 
@@ -217,14 +217,14 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
             $pattern = '#^' . preg_quote($this->_pollCookieDefaultName, '#') . '(\d+)$#';
             $match   = array();
             if (preg_match($pattern, $cookieName, $match)) {
-                if ($match[1] != Mage::getSingleton('core/session')->getJustVotedPoll()) {
+                if ($match[1] != Mage::getSingleton('Mage_Core_Model_Session')->getJustVotedPoll()) {
                     $idsArray[$match[1]] = $match[1];
                 }
             }
         }
 
         // load from db for this ip
-        foreach ($this->_getResource()->getVotedPollIdsByIp(Mage::helper('core/http')->getRemoteAddr()) as $pollId) {
+        foreach ($this->_getResource()->getVotedPollIdsByIp(Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr()) as $pollId) {
             $idsArray[$pollId] = $pollId;
         }
 

@@ -43,8 +43,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Image
     {
         if ($this->getValue()) {
             if (strpos($this->getValue(), '://') === false) {
-                $url = Mage::helper('xmlconnect/image')->getFileDefaultSizeSuffixAsUrl($this->getValue());
-                $url = Mage::helper('xmlconnect/image')->getMediaUrl($url);
+                $url = Mage::helper('Mage_XmlConnect_Helper_Image')->getFileDefaultSizeSuffixAsUrl($this->getValue());
+                $url = Mage::helper('Mage_XmlConnect_Helper_Image')->getMediaUrl($url);
             } else {
                 $url = $this->getValue();
             }

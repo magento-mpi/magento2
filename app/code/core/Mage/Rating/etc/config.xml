@@ -32,15 +32,6 @@
         </Mage_Rating>
     </modules>
     <global>
-        <models>
-            <rating>
-                <class>Mage_Rating_Model</class>
-                <resourceModel>rating_resource</resourceModel>
-            </rating>
-            <rating_resource>
-                <class>Mage_Rating_Model_Resource</class>
-            </rating_resource>
-        </models>
         <resources>
             <rating_setup>
                 <setup>
@@ -48,11 +39,6 @@
                 </setup>
             </rating_setup>
         </resources>
-        <blocks>
-            <rating>
-                <class>Mage_Rating_Block</class>
-            </rating>
-        </blocks>
     </global>
     <frontend>
         <translate>
@@ -79,7 +65,7 @@
             <catalog_product_delete_after_done>
                 <observers>
                     <rating>
-                        <class>rating/observer</class>
+                        <class>Mage_Rating_Model_Observer</class>
                         <method>processProductAfterDeleteEvent</method>
                     </rating>
                 </observers>

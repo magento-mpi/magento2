@@ -43,8 +43,8 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
     public function getStatusesOptionArray()
     {
         return array(
-            1 => Mage::helper('enterprise_importexport')->__('Enabled'),
-            0 => Mage::helper('enterprise_importexport')->__('Disabled'),
+            1 => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Enabled'),
+            0 => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Disabled'),
         );
     }
 
@@ -56,8 +56,8 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
     public function getOperationsOptionArray()
     {
         return array(
-            'import' => Mage::helper('enterprise_importexport')->__('Import'),
-            'export' => Mage::helper('enterprise_importexport')->__('Export')
+            'import' => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Import'),
+            'export' => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Export')
         );
     }
 
@@ -69,9 +69,9 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
     public function getFrequencyOptionArray()
     {
         return array(
-            Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_DAILY   => Mage::helper('enterprise_importexport')->__('Daily'),
-            Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_WEEKLY  => Mage::helper('enterprise_importexport')->__('Weekly'),
-            Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_MONTHLY => Mage::helper('enterprise_importexport')->__('Monthly'),
+            Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_DAILY   => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Daily'),
+            Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_WEEKLY  => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Weekly'),
+            Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_MONTHLY => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Monthly'),
         );
     }
 
@@ -83,8 +83,8 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
     public function getServerTypesOptionArray()
     {
         return array(
-            'file'  => Mage::helper('enterprise_importexport')->__('Local Server'),
-            'ftp'   => Mage::helper('enterprise_importexport')->__('Remote FTP')
+            'file'  => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Local Server'),
+            'ftp'   => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Remote FTP')
         );
     }
 
@@ -96,8 +96,8 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
     public function getFileModesOptionArray()
     {
         return array(
-            FTP_BINARY  => Mage::helper('enterprise_importexport')->__('Binary'),
-            FTP_ASCII   => Mage::helper('enterprise_importexport')->__('ASCII'),
+            FTP_BINARY  => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Binary'),
+            FTP_ASCII   => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('ASCII'),
         );
     }
 
@@ -109,8 +109,8 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
     public function getForcedImportOptionArray()
     {
         return array(
-            0 => Mage::helper('enterprise_importexport')->__('Stop Import'),
-            1 => Mage::helper('enterprise_importexport')->__('Continue Processing'),
+            0 => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Stop Import'),
+            1 => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Continue Processing'),
         );
     }
 
@@ -122,9 +122,9 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
     public function getResultOptionArray()
     {
         return array(
-            0  => Mage::helper('enterprise_importexport')->__('Failed'),
-            1  => Mage::helper('enterprise_importexport')->__('Successful'),
-            self::STATUS_PENDING  => Mage::helper('enterprise_importexport')->__('Pending')
+            0  => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Failed'),
+            1  => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Successful'),
+            self::STATUS_PENDING  => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Pending')
         );
     }
 

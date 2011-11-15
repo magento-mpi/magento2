@@ -47,10 +47,10 @@ class Social_Facebook_IndexController extends Mage_Core_Controller_Front_Action
      */
     private function _facebookRedirect()
     {
-        $session    = Mage::getSingleton('core/session');
+        $session    = Mage::getSingleton('Mage_Core_Model_Session');
         $action     = $this->getRequest()->getParam('action');
         $productId  = $this->getRequest()->getParam('productId');
-        $product    = Mage::getModel('catalog/product')->load($productId);
+        $product    = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
         $productUrl = $product->getUrlModel()->getUrlInStore($product);
 
         $session->setData('product_id', $productId);
@@ -63,7 +63,7 @@ class Social_Facebook_IndexController extends Mage_Core_Controller_Front_Action
             return;
         }
 
-        return Mage::helper('social_facebook')->getRedirectUrl($product);
+        return Mage::helper('Social_Facebook_Helper_Data')->getRedirectUrl($product);
     }
 
     /**
@@ -73,7 +73,7 @@ class Social_Facebook_IndexController extends Mage_Core_Controller_Front_Action
      */
     protected function _checkAnswer()
     {
-        if (Mage::getSingleton('social_facebook/facebook')->getFacebookUser()) {
+        if (Mage::getSingleton('Social_Facebook_Model_Facebook')->getFacebookUser()) {
             return true;
         }
 
@@ -87,14 +87,14 @@ class Social_Facebook_IndexController extends Mage_Core_Controller_Front_Action
     {
         $productId = (int)$this->getRequest()->getParam('id');
         if ($productId) {
-            $product = Mage::getModel('catalog/product')->load($productId);
+            $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
 
             if ($product->getId()) {
                 Mage::register('product', $product);
             }
 
             $this->loadLayout();
-            $response = $this->getLayout()->createBlock('social_facebook/head')->toHtml();
+            $response = $this->getLayout()->createBlock('Social_Facebook_Block_Head')->toHtml();
             $this->getResponse()->setBody($response);
         }
     }

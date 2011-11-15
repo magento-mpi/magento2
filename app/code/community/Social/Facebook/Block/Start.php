@@ -31,7 +31,7 @@ class Social_Facebook_Block_Start extends Mage_Core_Block_Template
      */
     protected function _construct()
     {
-        if (!Mage::helper('social_facebook')->isEnabled()) {
+        if (!Mage::helper('Social_Facebook_Helper_Data')->isEnabled()) {
             return;
         }
         parent::_construct();
@@ -42,7 +42,7 @@ class Social_Facebook_Block_Start extends Mage_Core_Block_Template
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::registry('product');
-        $session = Mage::getSingleton('core/session');
+        $session = Mage::getSingleton('Mage_Core_Model_Session');
         $session->setData('product_id', $product->getId());
         $session->setData('product_url', $product->getUrlModel()->getUrlInStore($product));
 
@@ -50,19 +50,19 @@ class Social_Facebook_Block_Start extends Mage_Core_Block_Template
         $facebookId  = $session->getData('facebook_id');
 
         $this->setPeopleCount(
-            Mage::getModel('social_facebook/facebook')->getCountByProduct($product->getId())
+            Mage::getModel('Social_Facebook_Model_Facebook')->getCountByProduct($product->getId())
         );
 
         if (!$accessToken) {
             $this->setShowSumm(Social_Facebook_Block_Start::FACEBOOK_BLOCK_START_CONNECT);
-            $this->setConnectUrl(Mage::helper('social_facebook')->getRedirectUrl($product));
+            $this->setConnectUrl(Mage::helper('Social_Facebook_Helper_Data')->getRedirectUrl($product));
             $session->unsetData('facebook_action');
             $session->setData('no_boxes', 1);
         } else {
-            $actions = Mage::helper('social_facebook')->getAllActions();
+            $actions = Mage::helper('Social_Facebook_Helper_Data')->getAllActions();
             $users  = array();
             foreach ($actions as $action) {
-                $data = Mage::getModel('social_facebook/facebook')->getLinkedFriends($facebookId, $product->getId(),
+                $data = Mage::getModel('Social_Facebook_Model_Facebook')->getLinkedFriends($facebookId, $product->getId(),
                     $action['action']);
                 if (!empty($data)) {
                     break;

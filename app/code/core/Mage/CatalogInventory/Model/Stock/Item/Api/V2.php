@@ -35,7 +35,7 @@ class Mage_CatalogInventory_Model_Stock_Item_Api_V2 extends Mage_CatalogInventor
 {
     public function update($productId, $data)
     {
-        $product = Mage::getModel('catalog/product');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
 
         if ($newId = $product->getIdBySku($productId)) {
             $productId = $newId;

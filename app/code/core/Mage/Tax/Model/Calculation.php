@@ -52,7 +52,7 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('tax/calculation');
+        $this->_init('Mage_Tax_Model_Resource_Calculation');
     }
 
     /**
@@ -71,7 +71,7 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
     {
         if ($this->_defaultCustomerTaxClass === null) {
             $defaultCustomerGroup = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID, $store);
-            $this->_defaultCustomerTaxClass = Mage::getModel('customer/group')->getTaxClassId($defaultCustomerGroup);
+            $this->_defaultCustomerTaxClass = Mage::getModel('Mage_Customer_Model_Group')->getTaxClassId($defaultCustomerGroup);
         }
         return $this->_defaultCustomerTaxClass;
     }
@@ -84,11 +84,11 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
     public function getCustomer()
     {
         if ($this->_customer === null) {
-            $session = Mage::getSingleton('customer/session');
+            $session = Mage::getSingleton('Mage_Customer_Model_Session');
             if ($session->isLoggedIn()) {
                 $this->_customer = $session->getCustomer();
             } elseif ($session->getCustomerId()) {
-                $this->_customer = Mage::getModel('customer/customer')->load($session->getCustomerId());
+                $this->_customer = Mage::getModel('Mage_Customer_Model_Customer')->load($session->getCustomerId());
             } else {
                 $this->_customer = false;
             }
@@ -404,7 +404,7 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
     protected function _getRates($request, $fieldName, $type)
     {
         $result = array();
-        $classes = Mage::getModel('tax/class')->getCollection()
+        $classes = Mage::getModel('Mage_Tax_Model_Class')->getCollection()
             ->addFieldToFilter('class_type', $type)
             ->load();
         foreach ($classes as $class) {

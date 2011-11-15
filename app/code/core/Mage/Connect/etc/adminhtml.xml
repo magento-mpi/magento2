@@ -29,7 +29,7 @@
     <menu>
         <system>
             <children>
-                <extensions translate="title" module="connect">
+                <extensions translate="title" module="Mage_Connect">
                     <title>Magento Connect</title>
                     <sort_order>80</sort_order>
                     <children>

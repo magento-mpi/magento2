@@ -32,20 +32,6 @@
         </Mage_Wishlist>
     </modules>
     <global>
-        <blocks>
-            <wishlist>
-                <class>Mage_Wishlist_Block</class>
-            </wishlist>
-        </blocks>
-        <models>
-            <wishlist>
-                <class>Mage_Wishlist_Model</class>
-                <resourceModel>wishlist_resource</resourceModel>
-            </wishlist>
-            <wishlist_resource>
-                <class>Mage_Wishlist_Model_Resource</class>
-            </wishlist_resource>
-        </models>
         <resources>
             <wishlist_setup>
                 <setup>
@@ -55,7 +41,7 @@
         </resources>
         <template>
             <email>
-                <wishlist_email_email_template translate="label" module="wishlist">
+                <wishlist_email_email_template translate="label" module="Mage_Wishlist">
                     <label>Wishlist Sharing</label>
                     <file>email/share_notification.html</file>
                     <type>html</type>
@@ -66,7 +52,7 @@
             <checkout_cart_update_items_before>
                 <observers>
                     <wishlist>
-                        <class>wishlist/observer</class>
+                        <class>Mage_Wishlist_Model_Observer</class>
                         <method>processCartUpdateBefore</method>
                     </wishlist>
                 </observers>
@@ -74,7 +60,7 @@
             <checkout_cart_add_product_complete>
                 <observers>
                     <wishlist>
-                        <class>wishlist/observer</class>
+                        <class>Mage_Wishlist_Model_Observer</class>
                         <method>processAddToCart</method>
                     </wishlist>
                 </observers>
@@ -120,7 +106,7 @@
             <customer_login>
                 <observers>
                     <wishlist>
-                        <class>wishlist/observer</class>
+                        <class>Mage_Wishlist_Model_Observer</class>
                         <method>customerLogin</method>
                     </wishlist>
                 </observers>
@@ -128,7 +114,7 @@
             <customer_logout>
                 <observers>
                     <wishlist>
-                        <class>wishlist/observer</class>
+                        <class>Mage_Wishlist_Model_Observer</class>
                         <method>customerLogout</method>
                     </wishlist>
                 </observers>

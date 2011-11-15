@@ -36,20 +36,20 @@ class Mage_Adminhtml_Media_UploaderController extends Mage_Adminhtml_Controller_
 
     public function uploadAction()
     {
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($_REQUEST));
+        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($_REQUEST));
     }
 
     public function indexAction()
     {
         $this->loadLayout();
         $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/media_uploader')
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Media_Uploader')
         );
         $this->renderLayout();
     }
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('media');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('media');
     }
 }

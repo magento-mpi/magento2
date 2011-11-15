@@ -95,7 +95,7 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
       */
     protected function _initOrder()
     {
-        $order = Mage::getModel('sales/order')->load($this->getOrderId());
+        $order = Mage::getModel('Mage_Sales_Model_Order')->load($this->getOrderId());
 
         if (!$order->getId() || $this->getProtectCode() != $order->getProtectCode()) {
             return false;
@@ -112,7 +112,7 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
      */
     protected function _initShipment()
     {
-        $ship = Mage::getModel('sales/order_shipment')->load($this->getShipId());
+        $ship = Mage::getModel('Mage_Sales_Model_Order_Shipment')->load($this->getShipId());
 
         if (!$ship->getEntityId() || $this->getProtectCode() != $ship->getProtectCode()) {
             return false;
@@ -191,7 +191,7 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
      */
     public function getTrackingInfoByTrackId()
     {
-        $track = Mage::getModel('sales/order_shipment_track')->load($this->getTrackId());
+        $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')->load($this->getTrackId());
         if ($this->getProtectCode() == $track->getProtectCode()) {
             return array(array($track->getNumberDetail()));
         }

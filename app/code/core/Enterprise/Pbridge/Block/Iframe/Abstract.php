@@ -143,7 +143,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
         }
         $shouldMergeCss = Mage::getStoreConfigFlag('dev/css/merge_css_files');
         if (!is_object($this->getLayout()->getBlock('head'))) {
-            return Mage::getSingleton('enterprise_pbridge/session')->getCssUrl();
+            return Mage::getSingleton('Enterprise_Pbridge_Model_Session')->getCssUrl();
         }
         $items = $this->getLayout()->getBlock('head')->getData('items');
         $lines  = array();
@@ -167,7 +167,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
                 $shouldMergeCss ? array(Mage::getDesign(), 'getMergedCssUrl') : null
             );
         }
-        Mage::getSingleton('enterprise_pbridge/session')->setCssUrl($url);
+        Mage::getSingleton('Enterprise_Pbridge_Model_Session')->setCssUrl($url);
         return $url;
     }
 
@@ -234,7 +234,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
     {
         $customer = $this->_getCurrentCustomer();
         if ($customer && $customer->getEmail()) {
-            return Mage::helper('enterprise_pbridge')->getCustomerIdentifierByEmail($customer->getEmail());
+            return Mage::helper('Enterprise_Pbridge_Helper_Data')->getCustomerIdentifierByEmail($customer->getEmail());
         }
         return null;
     }
@@ -246,8 +246,8 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
      */
     protected function _getCurrentCustomer()
     {
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            return Mage::getSingleton('customer/session')->getCustomer();
+        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+            return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
         }
 
         return null;

@@ -56,8 +56,9 @@ class Mage_Sales_Model_Resource_Report_Shipping_Collection_Order
     public function __construct()
     {
         parent::_construct();
-        $this->setModel('adminhtml/report_item');
-        $this->_resource = Mage::getResourceModel('sales/report')->init('sales_shipping_aggregated_order');
+        $this->setModel('Mage_Adminhtml_Model_Report_Item');
+        $this->_resource = Mage::getResourceModel('Mage_Sales_Model_Resource_Report')
+            ->init('sales_shipping_aggregated_order');
         $this->setConnection($this->getResource()->getReadConnection());
     }
 
@@ -106,7 +107,7 @@ class Mage_Sales_Model_Resource_Report_Shipping_Collection_Order
     protected function _initSelect()
     {
         $this->getSelect()->from(
-            $this->getResource()->getMainTable() , 
+            $this->getResource()->getMainTable() ,
             $this->_getSelectedColumns()
         );
 

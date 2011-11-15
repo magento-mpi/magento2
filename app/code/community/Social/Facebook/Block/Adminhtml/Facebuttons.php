@@ -34,7 +34,7 @@ class Social_Facebook_Block_Adminhtml_Facebuttons extends Mage_Adminhtml_Block_S
     {
         if (!$this->_selectRenderer) {
             $this->_selectRenderer = $this->getLayout()->createBlock(
-                'social_facebook/adminhtml_select', '',
+                'Social_Facebook_Block_Adminhtml_Select', '',
                 array('is_render_to_js_template' => true)
             );
             $this->_selectRenderer->setClass('customer_group_select');
@@ -49,24 +49,24 @@ class Social_Facebook_Block_Adminhtml_Facebuttons extends Mage_Adminhtml_Block_S
     protected function _prepareToRender()
     {
         $this->addColumn('action', array(
-            'label' => Mage::helper('social_facebook')->__('Action'),
+            'label' => Mage::helper('Social_Facebook_Helper_Data')->__('Action'),
             'style' => 'width:120px',
         ));
         $this->addColumn('title', array(
-            'label' => Mage::helper('social_facebook')->__('Button Title'),
+            'label' => Mage::helper('Social_Facebook_Helper_Data')->__('Button Title'),
             'style' => 'width:120px',
         ));
         $this->addColumn('box', array(
-            'label'     => Mage::helper('social_facebook')->__('Enable FriendBox'),
+            'label'     => Mage::helper('Social_Facebook_Helper_Data')->__('Enable FriendBox'),
             'renderer'  => $this->_selectRenderer(),
         ));
         $this->addColumn('count', array(
-            'label' => Mage::helper('social_facebook')->__('Count in FriendBox'),
+            'label' => Mage::helper('Social_Facebook_Helper_Data')->__('Count in FriendBox'),
             'style' => 'width:120px',
         ));
 
         $this->_addAfter = false;
-        $this->_addButtonLabel = Mage::helper('social_facebook')->__('Add Action Button');
+        $this->_addButtonLabel = Mage::helper('Social_Facebook_Helper_Data')->__('Add Action Button');
     }
 
     /**

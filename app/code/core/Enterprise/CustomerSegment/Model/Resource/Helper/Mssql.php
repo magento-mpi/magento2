@@ -43,10 +43,10 @@ class Enterprise_CustomerSegment_Model_Resource_Helper_Mssql extends Mage_Core_M
     public function getSqlOperator($operator)
     {
         /*
-            '{}'  => Mage::helper('rule')->__('contains'),
-            '!{}' => Mage::helper('rule')->__('does not contain'),
-            '()'  => Mage::helper('rule')->__('is one of'),
-            '!()' => Mage::helper('rule')->__('is not one of'),
+            '{}'  => Mage::helper('Mage_Rule_Helper_Data')->__('contains'),
+            '!{}' => Mage::helper('Mage_Rule_Helper_Data')->__('does not contain'),
+            '()'  => Mage::helper('Mage_Rule_Helper_Data')->__('is one of'),
+            '!()' => Mage::helper('Mage_Rule_Helper_Data')->__('is not one of'),
             requires custom selects
         */
 
@@ -75,7 +75,7 @@ class Enterprise_CustomerSegment_Model_Resource_Helper_Mssql extends Mage_Core_M
             case '<=':
                 return $operator;
             default:
-                Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown operator specified.'));
+                Mage::throwException(Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Unknown operator specified.'));
         }
     }
 

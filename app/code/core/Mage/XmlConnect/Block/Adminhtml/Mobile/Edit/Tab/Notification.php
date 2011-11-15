@@ -57,9 +57,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Notification
 
         $this->setForm($form);
 
-        $data = Mage::helper('xmlconnect')->getApplication()->getFormData();
+        $data = Mage::helper('Mage_XmlConnect_Helper_Data')->getApplication()->getFormData();
 
-        $yesNoValues = Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray();
+        $yesNoValues = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray();
 
         $fieldset = $form->addFieldset('notifications', array(
             'legend'    => $this->__('Urban Airship Push Notification'),
@@ -133,28 +133,30 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Notification
         ));
 
         // field dependencies
-        $this->setChild('form_after', $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence')
-            ->addFieldMap($applicationKey->getHtmlId(), $applicationKey->getName())
-            ->addFieldMap($applicationSecret->getHtmlId(), $applicationSecret->getName())
-            ->addFieldMap($applicationMasterSecret->getHtmlId(), $applicationMasterSecret->getName())
-            ->addFieldMap($mailboxTitle->getHtmlId(), $mailboxTitle->getName())
-            ->addFieldMap($notificationEnabled->getHtmlId(), $notificationEnabled->getName())
-            ->addFieldDependence(
-                $applicationKey->getName(),
-                $notificationEnabled->getName(),
-                1)
-            ->addFieldDependence(
-                $applicationSecret->getName(),
-                $notificationEnabled->getName(),
-                1)
-            ->addFieldDependence(
-                $applicationMasterSecret->getName(),
-                $notificationEnabled->getName(),
-                1)
-            ->addFieldDependence(
-                $mailboxTitle->getName(),
-                $notificationEnabled->getName(),
-                1)
+        $this->setChild(
+            'form_after',
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
+                ->addFieldMap($applicationKey->getHtmlId(), $applicationKey->getName())
+                ->addFieldMap($applicationSecret->getHtmlId(), $applicationSecret->getName())
+                ->addFieldMap($applicationMasterSecret->getHtmlId(), $applicationMasterSecret->getName())
+                ->addFieldMap($mailboxTitle->getHtmlId(), $mailboxTitle->getName())
+                ->addFieldMap($notificationEnabled->getHtmlId(), $notificationEnabled->getName())
+                ->addFieldDependence(
+                    $applicationKey->getName(),
+                    $notificationEnabled->getName(),
+                    1)
+                ->addFieldDependence(
+                    $applicationSecret->getName(),
+                    $notificationEnabled->getName(),
+                    1)
+                ->addFieldDependence(
+                    $applicationMasterSecret->getName(),
+                    $notificationEnabled->getName(),
+                    1)
+                ->addFieldDependence(
+                    $mailboxTitle->getName(),
+                    $notificationEnabled->getName(),
+                    1)
             );
         return parent::_prepareForm();
     }
@@ -186,8 +188,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Notification
      */
     public function canShowTab()
     {
-        return (bool) !Mage::getSingleton('adminhtml/session')->getNewApplication()
-            && Mage::helper('xmlconnect')->isNotificationsAllowed();
+        return (bool) !Mage::getSingleton('Mage_Adminhtml_Model_Session')->getNewApplication()
+            && Mage::helper('Mage_XmlConnect_Helper_Data')->isNotificationsAllowed();
     }
 
     /**

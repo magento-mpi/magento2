@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Address
      */
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Shipping Address');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Shipping Address');
     }
 
     /**

@@ -43,8 +43,8 @@ class Mage_Catalog_Model_Product_Type
     const TYPE_VIRTUAL      = 'virtual';
 
     const DEFAULT_TYPE      = 'simple';
-    const DEFAULT_TYPE_MODEL    = 'catalog/product_type_simple';
-    const DEFAULT_PRICE_MODEL   = 'catalog/product_type_price';
+    const DEFAULT_TYPE_MODEL    = 'Mage_Catalog_Model_Product_Type_Simple';
+    const DEFAULT_PRICE_MODEL   = 'Mage_Catalog_Model_Product_Type_Price';
 
     static protected $_types;
     static protected $_compositeTypes;
@@ -109,7 +109,7 @@ class Mage_Catalog_Model_Product_Type
     {
         $options = array();
         foreach(self::getTypes() as $typeId=>$type) {
-            $options[$typeId] = Mage::helper('catalog')->__($type['label']);
+            $options[$typeId] = Mage::helper('Mage_Catalog_Helper_Data')->__($type['label']);
         }
 
         return $options;
@@ -158,7 +158,7 @@ class Mage_Catalog_Model_Product_Type
         if (is_null(self::$_types)) {
             $productTypes = Mage::getConfig()->getNode('global/catalog/product/type')->asArray();
             foreach ($productTypes as $productKey => $productConfig) {
-                $moduleName = 'catalog';
+                $moduleName = 'Mage_Catalog_Helper_Data';
                 if (isset($productConfig['@']['module'])) {
                     $moduleName = $productConfig['@']['module'];
                 }

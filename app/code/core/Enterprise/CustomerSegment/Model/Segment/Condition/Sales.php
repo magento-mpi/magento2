@@ -36,7 +36,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_sales');
+        $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Sales');
         $this->setValue(null);
     }
 
@@ -50,19 +50,19 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales
         return array(
             'value' => array(
                 array( // order address combo
-                    'value' => 'enterprise_customersegment/segment_condition_order_address',
-                    'label' => Mage::helper('enterprise_customersegment')->__('Order Address')),
+                    'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address',
+                    'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Order Address')),
                 array(
-                    'value' => 'enterprise_customersegment/segment_condition_sales_salesamount',
-                    'label' => Mage::helper('enterprise_customersegment')->__('Sales Amount')),
+                    'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount',
+                    'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Sales Amount')),
                 array(
-                    'value' => 'enterprise_customersegment/segment_condition_sales_ordersnumber',
-                    'label' => Mage::helper('enterprise_customersegment')->__('Number of Orders')),
+                    'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber',
+                    'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Number of Orders')),
                 array(
-                    'value' => 'enterprise_customersegment/segment_condition_sales_purchasedquantity',
-                    'label' => Mage::helper('enterprise_customersegment')->__('Purchased Quantity')),
+                    'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity',
+                    'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Purchased Quantity')),
              ),
-            'label' => Mage::helper('enterprise_customersegment')->__('Sales')
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Sales')
         );
     }
 }

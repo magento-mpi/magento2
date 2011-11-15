@@ -48,12 +48,12 @@ class Mage_Sales_Block_Adminhtml_Report_Filter_Form extends Mage_Adminhtml_Block
 
         if (is_object($fieldset) && $fieldset instanceof Varien_Data_Form_Element_Fieldset) {
 
-            $statuses = Mage::getModel('sales/order_config')->getStatuses();
+            $statuses = Mage::getModel('Mage_Sales_Model_Order_Config')->getStatuses();
             $values = array();
             foreach ($statuses as $code => $label) {
                 if (false === strpos($code, 'pending')) {
                     $values[] = array(
-                        'label' => Mage::helper('reports')->__($label),
+                        'label' => Mage::helper('Mage_Reports_Helper_Data')->__($label),
                         'value' => $code
                     );
                 }
@@ -61,12 +61,12 @@ class Mage_Sales_Block_Adminhtml_Report_Filter_Form extends Mage_Adminhtml_Block
 
             $fieldset->addField('show_order_statuses', 'select', array(
                 'name'      => 'show_order_statuses',
-                'label'     => Mage::helper('reports')->__('Order Status'),
+                'label'     => Mage::helper('Mage_Reports_Helper_Data')->__('Order Status'),
                 'options'   => array(
-                        '0' => Mage::helper('reports')->__('Any'),
-                        '1' => Mage::helper('reports')->__('Specified'),
+                        '0' => Mage::helper('Mage_Reports_Helper_Data')->__('Any'),
+                        '1' => Mage::helper('Mage_Reports_Helper_Data')->__('Specified'),
                     ),
-                'note'      => Mage::helper('reports')->__('Applies to Any of the Specified Order Statuses'),
+                'note'      => Mage::helper('Mage_Reports_Helper_Data')->__('Applies to Any of the Specified Order Statuses'),
             ), 'to');
 
             $fieldset->addField('order_statuses', 'multiselect', array(
@@ -77,10 +77,12 @@ class Mage_Sales_Block_Adminhtml_Report_Filter_Form extends Mage_Adminhtml_Block
 
             // define field dependencies
             if ($this->getFieldVisibility('show_order_statuses') && $this->getFieldVisibility('order_statuses')) {
-                $this->setChild('form_after', $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence')
-                    ->addFieldMap("{$htmlIdPrefix}show_order_statuses", 'show_order_statuses')
-                    ->addFieldMap("{$htmlIdPrefix}order_statuses", 'order_statuses')
-                    ->addFieldDependence('order_statuses', 'show_order_statuses', '1')
+                $this->setChild(
+                    'form_after',
+                    $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
+                        ->addFieldMap("{$htmlIdPrefix}show_order_statuses", 'show_order_statuses')
+                        ->addFieldMap("{$htmlIdPrefix}order_statuses", 'order_statuses')
+                        ->addFieldDependence('order_statuses', 'show_order_statuses', '1')
                 );
             }
         }

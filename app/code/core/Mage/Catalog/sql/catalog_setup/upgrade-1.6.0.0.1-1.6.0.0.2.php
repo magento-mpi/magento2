@@ -33,7 +33,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'country_of_manufac
     'label'             => 'Country of Manufacture',
     'input'             => 'select',
     'class'             => '',
-    'source'            => 'catalog/product_attribute_source_countryofmanufacture',
+    'source'            => 'Mage_Catalog_Model_Product_Attribute_Source_Countryofmanufacture',
     'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
     'visible'           => true,
     'required'          => false,

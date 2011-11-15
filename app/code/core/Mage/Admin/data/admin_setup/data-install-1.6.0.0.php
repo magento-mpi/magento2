@@ -27,7 +27,7 @@
 /**
  * Save administrators group role and rules
  */
-$admGroupRole = Mage::getModel('admin/role')->setData(array(
+$admGroupRole = Mage::getModel('Mage_Admin_Model_Role')->setData(array(
     'parent_id'     => 0,
     'tree_level'    => 1,
     'sort_order'    => 1,
@@ -37,7 +37,7 @@ $admGroupRole = Mage::getModel('admin/role')->setData(array(
     ))
     ->save();
 
-Mage::getModel('admin/rules')->setData(array(
+Mage::getModel('Mage_Admin_Model_Rules')->setData(array(
     'role_id'       => $admGroupRole->getId(),
     'resource_id'   => 'all',
     'privileges'    => null,

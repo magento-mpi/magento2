@@ -42,7 +42,7 @@ class Mage_Persistent_Block_Form_Remember extends Mage_Core_Block_Template
     protected function _toHtml()
     {
         /** @var $helper Mage_Persistent_Helper_Data */
-        $helper = Mage::helper('persistent');
+        $helper = Mage::helper('Mage_Persistent_Helper_Data');
         return ($helper->isEnabled() && $helper->isRememberMeEnabled()) ? parent::_toHtml() : '';
     }
 
@@ -54,7 +54,7 @@ class Mage_Persistent_Block_Form_Remember extends Mage_Core_Block_Template
     public function isRememberMeChecked()
     {
         /** @var $helper Mage_Persistent_Helper_Data */
-        $helper = Mage::helper('persistent');
+        $helper = Mage::helper('Mage_Persistent_Helper_Data');
         return $helper->isEnabled() && $helper->isRememberMeEnabled() && $helper->isRememberMeCheckedDefault();
     }
 }

@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Api_Tab_Rolesusers extends Mage_Adminhtml_Block_Widge
 
         $roleId = $this->getRequest()->getParam('rid', false);
 
-        $users = Mage::getModel("api/user")->getCollection()->load();
+        $users = Mage::getModel('Mage_Api_Model_User')->getCollection()->load();
         $this->setTemplate('api/rolesusers.phtml')
             ->assign('users', $users->getItems())
             ->assign('roleId', $roleId);
@@ -40,7 +40,10 @@ class Mage_Adminhtml_Block_Api_Tab_Rolesusers extends Mage_Adminhtml_Block_Widge
 
     protected function _prepareLayout()
     {
-        $this->setChild('userGrid', $this->getLayout()->createBlock('adminhtml/api_role_grid_user', 'roleUsersGrid'));
+        $this->setChild(
+            'userGrid',
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_Role_Grid_User', 'roleUsersGrid')
+        );
         return parent::_prepareLayout();
     }
 

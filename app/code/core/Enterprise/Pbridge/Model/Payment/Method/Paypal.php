@@ -39,14 +39,14 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Mage_Paypal_Model_D
      *
      * @var string
      */
-    protected $_formBlockType = 'enterprise_pbridge/checkout_payment_paypal';
+    protected $_formBlockType = 'Enterprise_Pbridge_Block_Checkout_Payment_Paypal';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = 'enterprise_pbridge/adminhtml_sales_order_create_paypal';
+    protected $_backendFormBlockType = 'Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Paypal';
 
     /**
      * Payment Bridge Payment Method Instance
@@ -60,7 +60,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Mage_Paypal_Model_D
      *
      * @var $_proType string
      */
-    protected $_proType = 'enterprise_pbridge/payment_method_paypal_pro';
+    protected $_proType = 'Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro';
 
     public function __construct($params = array())
     {
@@ -86,7 +86,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Mage_Paypal_Model_D
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('payment')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
         }
         return $this->_pbridgeMethodInstance;
@@ -240,7 +240,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Mage_Paypal_Model_D
     public function setStore($store)
     {
         $this->setData('store', $store);
-        Mage::helper('enterprise_pbridge')->setStoreId(is_object($store) ? $store->getId() : $store);
+        Mage::helper('Enterprise_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
         parent::setStore($store);
         return $this;
     }

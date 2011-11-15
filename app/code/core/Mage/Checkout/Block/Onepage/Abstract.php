@@ -46,7 +46,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     public function getCustomer()
     {
         if (empty($this->_customer)) {
-            $this->_customer = Mage::getSingleton('customer/session')->getCustomer();
+            $this->_customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
         }
         return $this->_customer;
     }
@@ -59,7 +59,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     public function getCheckout()
     {
         if (empty($this->_checkout)) {
-            $this->_checkout = Mage::getSingleton('checkout/session');
+            $this->_checkout = Mage::getSingleton('Mage_Checkout_Model_Session');
         }
         return $this->_checkout;
     }
@@ -79,13 +79,13 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
 
     public function isCustomerLoggedIn()
     {
-        return Mage::getSingleton('customer/session')->isLoggedIn();
+        return Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn();
     }
 
     public function getCountryCollection()
     {
         if (!$this->_countryCollection) {
-            $this->_countryCollection = Mage::getSingleton('directory/country')->getResourceCollection()
+            $this->_countryCollection = Mage::getSingleton('Mage_Directory_Model_Country')->getResourceCollection()
                 ->loadByStore();
         }
         return $this->_countryCollection;
@@ -94,7 +94,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     public function getRegionCollection()
     {
         if (!$this->_regionCollection) {
-            $this->_regionCollection = Mage::getModel('directory/region')->getResourceCollection()
+            $this->_regionCollection = Mage::getModel('Mage_Directory_Model_Region')->getResourceCollection()
                 ->addCountryFilter($this->getAddress()->getCountryId())
                 ->load();
         }
@@ -130,7 +130,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
                 }
             }
 
-            $select = $this->getLayout()->createBlock('core/html_select')
+            $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
                 ->setName($type.'_address_id')
                 ->setId($type.'-address-select')
                 ->setClass('address-select')
@@ -138,7 +138,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
                 ->setValue($addressId)
                 ->setOptions($options);
 
-            $select->addOption('', Mage::helper('checkout')->__('New Address'));
+            $select->addOption('', Mage::helper('Mage_Checkout_Helper_Data')->__('New Address'));
 
             return $select->getHtml();
         }
@@ -149,12 +149,12 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     {
         $countryId = $this->getAddress()->getCountryId();
         if (is_null($countryId)) {
-            $countryId = Mage::helper('core')->getDefaultCountry();
+            $countryId = Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry();
         }
-        $select = $this->getLayout()->createBlock('core/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName($type.'[country_id]')
             ->setId($type.':country_id')
-            ->setTitle(Mage::helper('checkout')->__('Country'))
+            ->setTitle(Mage::helper('Mage_Checkout_Helper_Data')->__('Country'))
             ->setClass('validate-select')
             ->setValue($countryId)
             ->setOptions($this->getCountryOptions());
@@ -168,10 +168,10 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
 
     public function getRegionHtmlSelect($type)
     {
-        $select = $this->getLayout()->createBlock('core/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName($type.'[region]')
             ->setId($type.':region')
-            ->setTitle(Mage::helper('checkout')->__('State/Province'))
+            ->setTitle(Mage::helper('Mage_Checkout_Helper_Data')->__('State/Province'))
             ->setClass('required-entry validate-state')
             ->setValue($this->getAddress()->getRegionId())
             ->setOptions($this->getRegionCollection()->toOptionArray());

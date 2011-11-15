@@ -27,26 +27,26 @@
 -->
 <config>
     <menu>
-        <xmlconnect translate="title" module="xmlconnect">
+        <xmlconnect translate="title" module="Mage_XmlConnect">
             <title>Mobile</title>
             <sort_order>35</sort_order>
             <children>
-                <mobile translate="title" module="xmlconnect">
+                <mobile translate="title" module="Mage_XmlConnect">
                     <title>Manage Apps</title>
                     <sort_order>10</sort_order>
                     <action>adminhtml/mobile</action>
                 </mobile>
-                <history translate="title" module="xmlconnect">
+                <history translate="title" module="Mage_XmlConnect">
                     <title>Submission History</title>
                     <sort_order>20</sort_order>
                     <action>adminhtml/mobile/history</action>
                 </history>
-                <templates translate="title" module="xmlconnect">
+                <templates translate="title" module="Mage_XmlConnect">
                     <title>Message Templates</title>
                     <sort_order>30</sort_order>
                     <action>adminhtml/mobile/template</action>
                 </templates>
-                <queue translate="title" module="xmlconnect">
+                <queue translate="title" module="Mage_XmlConnect">
                     <title>Message Queue</title>
                     <sort_order>40</sort_order>
                     <action>adminhtml/mobile/queue</action>
@@ -56,25 +56,25 @@
     </menu>
     <acl>
         <resources>
-            <admin translate="title" module="xmlconnect">
+            <admin translate="title" module="Mage_XmlConnect">
                 <children>
-                    <xmlconnect translate="title" module="xmlconnect">
+                    <xmlconnect translate="title" module="Mage_XmlConnect">
                         <title>Mobile</title>
                         <sort_order>100</sort_order>
                         <children>
-                            <mobile translate="title" module="xmlconnect">
+                            <mobile translate="title" module="Mage_XmlConnect">
                                 <title>Manage Apps</title>
                                 <sort_order>10</sort_order>
                             </mobile>
-                            <history translate="title" module="xmlconnect">
+                            <history translate="title" module="Mage_XmlConnect">
                                 <title>Submission History</title>
                                 <sort_order>20</sort_order>
                             </history>
-                            <templates translate="title" module="xmlconnect">
+                            <templates translate="title" module="Mage_XmlConnect">
                                 <title>Message Templates</title>
                                 <sort_order>30</sort_order>
                             </templates>
-                            <queue translate="title" module="xmlconnect">
+                            <queue translate="title" module="Mage_XmlConnect">
                                 <title>Message Queue</title>
                                 <sort_order>40</sort_order>
                             </queue>

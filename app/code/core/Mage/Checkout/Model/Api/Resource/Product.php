@@ -46,7 +46,7 @@ class Mage_Checkout_Model_Api_Resource_Product extends Mage_Checkout_Model_Api_R
      */
     protected function _getProduct($productId, $store = null, $identifierType = null)
     {
-        $product = Mage::helper('catalog/product')->getProduct($productId,
+        $product = Mage::helper('Mage_Catalog_Helper_Product')->getProduct($productId,
                         $this->_getStoreId($store),
                         $identifierType
         );
@@ -120,7 +120,7 @@ class Mage_Checkout_Model_Api_Resource_Product extends Mage_Checkout_Model_Api_R
         }
 
         if (is_null($item)) {
-            $item = Mage::getModel("sales/quote_item");
+            $item = Mage::getModel('Mage_Sales_Model_Quote_Item');
         }
 
         return $item;

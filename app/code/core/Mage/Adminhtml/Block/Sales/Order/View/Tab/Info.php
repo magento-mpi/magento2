@@ -122,12 +122,12 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info
      */
     public function getTabLabel()
     {
-        return Mage::helper('sales')->__('Information');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Information');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('sales')->__('Order Information');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Order Information');
     }
 
     public function canShowTab()

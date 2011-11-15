@@ -58,7 +58,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
             return $product->getProductUrl();
         }
         elseif (is_numeric($product)) {
-            return Mage::getModel('catalog/product')->load($product)->getProductUrl();
+            return Mage::getModel('Mage_Catalog_Model_Product')->load($product)->getProductUrl();
         }
         return false;
     }
@@ -144,7 +144,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     public function getStatuses()
     {
         if(is_null($this->_statuses)) {
-            $this->_statuses = array();//Mage::getModel('catalog/product_status')->getResourceCollection()->load();
+            $this->_statuses = array();//Mage::getModel('Mage_Catalog_Model_Product_Status')->getResourceCollection()->load();
         }
 
         return $this->_statuses;
@@ -159,7 +159,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     public function canShow($product, $where = 'catalog')
     {
         if (is_int($product)) {
-            $product = Mage::getModel('catalog/product')->load($product);
+            $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product);
         }
 
         /* @var $product Mage_Catalog_Model_Product */
@@ -215,10 +215,10 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         */
         $inputTypes = array(
             'multiselect'   => array(
-                'backend_model'     => 'eav/entity_attribute_backend_array'
+                'backend_model'     => 'Mage_Eav_Model_Entity_Attribute_Backend_Array'
             ),
             'boolean'       => array(
-                'source_model'      => 'eav/entity_attribute_source_boolean'
+                'source_model'      => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean'
             )
         );
 
@@ -289,7 +289,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
             return false;
         }
 
-        $product = Mage::getModel('catalog/product')
+        $product = Mage::getModel('Mage_Catalog_Model_Product')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($productId);
 
@@ -303,14 +303,14 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         // Load product current category
         $categoryId = $params->getCategoryId();
         if (!$categoryId && ($categoryId !== false)) {
-            $lastId = Mage::getSingleton('catalog/session')->getLastVisitedCategoryId();
+            $lastId = Mage::getSingleton('Mage_Catalog_Model_Session')->getLastVisitedCategoryId();
             if ($product->canBeShowInCategory($lastId)) {
                 $categoryId = $lastId;
             }
         }
 
         if ($categoryId) {
-            $category = Mage::getModel('catalog/category')->load($categoryId);
+            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
             $product->setCategory($category);
             Mage::register('current_category', $category);
         }
@@ -410,7 +410,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     public function getProduct($productId, $store, $identifierType = null)
     {
         /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product')->setStoreId(Mage::app()->getStore($store)->getId());
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId(Mage::app()->getStore($store)->getId());
 
         $expectedIdType = false;
         if ($identifierType === null) {

@@ -42,10 +42,10 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
     {
         $this->loadLayout()
             ->_setActiveMenu('customer/formtype')
-            ->_addBreadcrumb(Mage::helper('enterprise_customer')->__('Customer'),
-                Mage::helper('enterprise_customer')->__('Customer'))
-            ->_addBreadcrumb(Mage::helper('enterprise_customer')->__('Manage Form Types'),
-                Mage::helper('enterprise_customer')->__('Manage Form Types'));
+            ->_addBreadcrumb(Mage::helper('Enterprise_Customer_Helper_Data')->__('Customer'),
+                Mage::helper('Enterprise_Customer_Helper_Data')->__('Customer'))
+            ->_addBreadcrumb(Mage::helper('Enterprise_Customer_Helper_Data')->__('Manage Form Types'),
+                Mage::helper('Enterprise_Customer_Helper_Data')->__('Manage Form Types'));
         return $this;
     }
 
@@ -66,7 +66,7 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
      */
     protected function _initFormType()
     {
-        $model  = Mage::getModel('eav/form_type');
+        $model  = Mage::getModel('Mage_Eav_Model_Form_Type');
         $typeId = $this->getRequest()->getParam('type_id');
         if (is_numeric($typeId)) {
             $model->load($typeId);
@@ -102,7 +102,7 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
         if ($skeleton->getId()) {
             try {
                 $hasError = false;
-                $formType = Mage::getModel('eav/form_type');
+                $formType = Mage::getModel('Mage_Eav_Model_Form_Type');
                 $formType->addData(array(
                     'code'          => $skeleton->getCode(),
                     'label'         => $this->getRequest()->getPost('label'),
@@ -121,7 +121,7 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
             catch (Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_customer')->__('An error occurred while saving the form type.'));
+                    Mage::helper('Enterprise_Customer_Helper_Data')->__('An error occurred while saving the form type.'));
             }
             if ($hasError) {
                 $this->_getSession()->setFormData($this->getRequest()->getPost());
@@ -154,10 +154,10 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
      */
     protected function _saveTreeData($formType, array $data)
     {
-        $fieldsetCollection = Mage::getModel('eav/form_fieldset')->getCollection()
+        $fieldsetCollection = Mage::getModel('Mage_Eav_Model_Form_Fieldset')->getCollection()
             ->addTypeFilter($formType)
             ->setSortOrder();
-        $elementCollection = Mage::getModel('eav/form_element')->getCollection()
+        $elementCollection = Mage::getModel('Mage_Eav_Model_Form_Element')->getCollection()
             ->addTypeFilter($formType)
             ->setSortOrder();
 
@@ -196,7 +196,7 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
         // insert new fieldsets
         $fsMap = array();
         foreach ($fsInsert as $fsData) {
-            $fieldset = Mage::getModel('eav/form_fieldset');
+            $fieldset = Mage::getModel('Mage_Eav_Model_Form_Fieldset');
             $fieldset->setTypeId($formType->getId())
                 ->setCode($fsData['code'])
                 ->setLabels($fsData['labels'])
@@ -247,7 +247,7 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
                 $formType->setLabel($request->getPost('label'));
                 $formType->save();
 
-                $treeData = Mage::helper('core')->jsonDecode($request->getPost('form_type_data'));
+                $treeData = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($request->getPost('form_type_data'));
                 if (!empty($treeData) && is_array($treeData)) {
                     $this->_saveTreeData($formType, $treeData);
                 }
@@ -259,7 +259,7 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
             catch (Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_customer')->__('An error occurred while saving the form type.'));
+                    Mage::helper('Enterprise_Customer_Helper_Data')->__('An error occurred while saving the form type.'));
             }
 
             if ($hasError) {
@@ -281,19 +281,19 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
         $formType = $this->_initFormType();
         if ($this->getRequest()->isPost() && $formType->getId()) {
             if ($formType->getIsSystem()) {
-                $message = Mage::helper('enterprise_customer')->__('System form type cannot be deleted.');
+                $message = Mage::helper('Enterprise_Customer_Helper_Data')->__('System form type cannot be deleted.');
                 $this->_getSession()->addError($message);
             } else {
                 try {
                     $formType->delete();
-                    $message = Mage::helper('enterprise_customer')->__('Form type has been deleted.');
+                    $message = Mage::helper('Enterprise_Customer_Helper_Data')->__('Form type has been deleted.');
                     $this->_getSession()->addSuccess($message);
                 }
                 catch (Mage_Core_Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                 }
                 catch (Exception $e) {
-                    $message = Mage::helper('enterprise_customer')->__('An error occurred while deleting the form type.');
+                    $message = Mage::helper('Enterprise_Customer_Helper_Data')->__('An error occurred while deleting the form type.');
                     $this->_getSession()->addException($e, $message);
                 }
             }
@@ -308,6 +308,6 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/form_type');
+        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/form_type');
     }
 }

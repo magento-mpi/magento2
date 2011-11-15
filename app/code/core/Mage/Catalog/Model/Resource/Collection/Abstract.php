@@ -143,7 +143,7 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
     {
         $storeId = $this->getStoreId();
         if ($storeId) {
-            $helper = Mage::getResourceHelper('eav');
+            $helper = Mage::getResourceHelper('Mage_Eav');
             $adapter        = $this->getConnection();
             $valueExpr      = $adapter->getCheckSql(
                 't_s.value_id IS NULL',

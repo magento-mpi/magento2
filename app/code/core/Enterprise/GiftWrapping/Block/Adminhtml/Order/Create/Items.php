@@ -41,7 +41,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Items
      */
     public function getDesignSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('core/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setData(array(
                 'id'    => 'giftwrapping_design_item',
                 'class' => 'select'
@@ -112,6 +112,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Items
     public function getDisplayGiftWrappingForItem($item)
     {
         $allowed = $item->getProduct()->getGiftWrappingAvailable();
-        return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForProduct($allowed, $this->getStoreId());
+        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')
+            ->isGiftWrappingAvailableForProduct($allowed, $this->getStoreId());
     }
 }

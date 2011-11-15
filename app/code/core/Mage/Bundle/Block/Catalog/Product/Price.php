@@ -36,13 +36,13 @@ class Mage_Bundle_Block_Catalog_Product_Price extends Mage_Catalog_Block_Product
 
     public function isRatesGraterThenZero()
     {
-        $_request = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false);
+        $_request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest(false, false, false);
         $_request->setProductClassId($this->getProduct()->getTaxClassId());
-        $defaultTax = Mage::getSingleton('tax/calculation')->getRate($_request);
+        $defaultTax = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($_request);
 
-        $_request = Mage::getSingleton('tax/calculation')->getRateRequest();
+        $_request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest();
         $_request->setProductClassId($this->getProduct()->getTaxClassId());
-        $currentTax = Mage::getSingleton('tax/calculation')->getRate($_request);
+        $currentTax = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($_request);
 
         return (floatval($defaultTax) > 0 || floatval($currentTax) > 0);
     }
@@ -60,7 +60,7 @@ class Mage_Bundle_Block_Catalog_Product_Price extends Mage_Catalog_Block_Product
             $product->getPriceModel()->getIsPricesCalculatedByIndex() !== false) {
             return false;
         }
-        return $this->helper('tax')->displayBothPrices();
+        return $this->helper('Mage_Tax_Helper_Data')->displayBothPrices();
     }
 
     /**
@@ -71,11 +71,11 @@ class Mage_Bundle_Block_Catalog_Product_Price extends Mage_Catalog_Block_Product
     protected function _toHtml()
     {
         $product = $this->getProduct();
-        if ($this->getMAPTemplate() && Mage::helper('catalog')->canApplyMsrp($product)
+        if ($this->getMAPTemplate() && Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($product)
                 && $product->getPriceType() != Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC
         ) {
             $hiddenPriceHtml = parent::_toHtml();
-            if (Mage::helper('catalog')->isShowPriceOnGesture($product)) {
+            if (Mage::helper('Mage_Catalog_Helper_Data')->isShowPriceOnGesture($product)) {
                 $this->setWithoutPrice(true);
             }
             $realPriceHtml = parent::_toHtml();
@@ -83,7 +83,7 @@ class Mage_Bundle_Block_Catalog_Product_Price extends Mage_Catalog_Block_Product
             $addToCartUrl  = $this->getLayout()->getBlock('product.info.bundle')->getAddToCartUrl($product);
             $product->setAddToCartUrl($addToCartUrl);
             $html = $this->getLayout()
-                ->createBlock('catalog/product_price')
+                ->createBlock('Mage_Catalog_Block_Product_Price')
                 ->setTemplate($this->getMAPTemplate())
                 ->setRealPriceHtml($hiddenPriceHtml)
                 ->setPriceElementIdPrefix('bundle-price-')

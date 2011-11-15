@@ -104,7 +104,7 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
      */
     public function prepareForProductsInCarts()
     {
-        $productEntity          = Mage::getResourceSingleton('catalog/product_collection');
+        $productEntity          = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Collection');
         $productAttrName        = $productEntity->getAttribute('name');
         $productAttrNameId      = (int) $productAttrName->getAttributeId();
         $productAttrNameTable   = $productAttrName->getBackend()->getTable();
@@ -174,7 +174,7 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
      */
     public function addCustomerData($filter = null)
     {
-        $customerEntity         = Mage::getResourceSingleton('customer/customer');
+        $customerEntity         = Mage::getResourceSingleton('Mage_Customer_Model_Resource_Customer');
         $attrFirstname          = $customerEntity->getAttribute('firstname');
         $attrFirstnameId        = (int) $attrFirstname->getAttributeId();
         $attrFirstnameTableName = $attrFirstname->getBackend()->getTable();

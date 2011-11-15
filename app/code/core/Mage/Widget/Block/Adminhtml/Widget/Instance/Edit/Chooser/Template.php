@@ -42,13 +42,13 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Template
     protected function _toHtml()
     {
         if (!$this->getWidgetTemplates()) {
-            $html = '<p class="nm"><small>' . Mage::helper('widget')->__('Please Select Block Reference First') . '</small></p>';
+            $html = '<p class="nm"><small>' . Mage::helper('Mage_Widget_Helper_Data')->__('Please Select Block Reference First') . '</small></p>';
         } elseif (count($this->getWidgetTemplates()) == 1) {
             $widgetTemplate = current($this->getWidgetTemplates());
             $html = '<input type="hidden" name="template" value="' . $widgetTemplate['value'] . '" />';
             $html .= $widgetTemplate['label'];
         } else {
-            $html = $this->getLayout()->createBlock('core/html_select')
+            $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
                 ->setName('template')
                 ->setClass('select')
                 ->setOptions($this->getWidgetTemplates())

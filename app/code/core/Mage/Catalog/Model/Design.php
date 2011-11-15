@@ -61,7 +61,7 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        if (Mage::helper('catalog/category_flat')->isEnabled()) {
+        if (Mage::helper('Mage_Catalog_Helper_Category_Flat')->isEnabled()) {
             $this->_applyDesign($object, $calledFrom);
         } else {
             $this->_inheritDesign($object, $calledFrom);

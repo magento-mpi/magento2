@@ -50,7 +50,7 @@
         <div class="summary-collapse"><?php echo $this->escapeHtml($this->getItemName($item)); ?></div>
     </td>
     <td class="a-right">
-        <?php echo $this->helper('checkout')->formatPrice($this->getItemRowTotal($item)) ?>
+        <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($this->getItemRowTotal($item)) ?>
     </td>
 </tr>
 <?php endforeach; ?>

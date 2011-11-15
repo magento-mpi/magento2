@@ -79,7 +79,7 @@ class Mage_Sales_Model_Service_Quote
     public function __construct(Mage_Sales_Model_Quote $quote)
     {
         $this->_quote       = $quote;
-        $this->_convertor   = Mage::getModel('sales/convert_quote');
+        $this->_convertor   = Mage::getModel('Mage_Sales_Model_Convert_Quote');
     }
 
     /**
@@ -138,7 +138,7 @@ class Mage_Sales_Model_Service_Quote
         $quote = $this->_quote;
         $isVirtual = $quote->isVirtual();
 
-        $transaction = Mage::getModel('core/resource_transaction');
+        $transaction = Mage::getModel('Mage_Core_Model_Resource_Transaction');
         if ($quote->getCustomerId()) {
             $transaction->addObject($quote->getCustomer());
         }
@@ -191,7 +191,7 @@ class Mage_Sales_Model_Service_Quote
             Mage::dispatchEvent('sales_model_service_quote_submit_success', array('order'=>$order, 'quote'=>$quote));
         } catch (Exception $e) {
 
-            if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+            if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
                 // reset customer ID's on exception, because customer not saved
                 $quote->getCustomer()->setId(null);
             }
@@ -289,7 +289,7 @@ class Mage_Sales_Model_Service_Quote
      */
     protected function _validate()
     {
-        $helper = Mage::helper('sales');
+        $helper = Mage::helper('Mage_Sales_Helper_Data');
         if (!$this->getQuote()->isVirtual()) {
             $address = $this->getQuote()->getShippingAddress();
             $addressValidation = $address->validate();

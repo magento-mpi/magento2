@@ -41,14 +41,14 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Tabs
      */
     public function getHtml()
     {
-        if ((bool)Mage::getSingleton('adminhtml/session')->getNewApplication()) {
+        if ((bool)Mage::getSingleton('Mage_Adminhtml_Model_Session')->getNewApplication()) {
             return '';
         }
 
-        $blockClassName = Mage::getConfig()->getBlockClassName('adminhtml/template');
+        $blockClassName = Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_Template');
         $block = new $blockClassName;
-        $device = Mage::helper('xmlconnect')->getDeviceType();
-        if (array_key_exists($device, Mage::helper('xmlconnect')->getSupportedDevices())) {
+        $device = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceType();
+        if (array_key_exists($device, Mage::helper('Mage_XmlConnect_Helper_Data')->getSupportedDevices())) {
             $template = 'Mage_XmlConnect::form/element/app_tabs_' . strtolower($device) . '.phtml';
         } else {
             Mage::throwException(
@@ -57,7 +57,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Tabs
         }
 
         $block->setTemplate($template);
-        $tabs = Mage::getModel('xmlconnect/tabs', $this->getValue());
+        $tabs = Mage::getModel('Mage_XmlConnect_Model_Tabs', $this->getValue());
         $block->setTabs($tabs);
         $block->setName($this->getName());
         return $block->toHtml();

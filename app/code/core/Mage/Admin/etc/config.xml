@@ -32,20 +32,6 @@
         </Mage_Admin>
     </modules>
     <global>
-        <models>
-            <admin>
-                <class>Mage_Admin_Model</class>
-                <resourceModel>admin_resource</resourceModel>
-            </admin>
-            <admin_resource>
-                <class>Mage_Admin_Model_Resource</class>
-            </admin_resource>
-        </models>
-        <helpers>
-            <admin>
-                <class>Mage_Admin_Helper</class>
-            </admin>
-        </helpers>
         <resources>
             <admin_setup>
                 <setup>
@@ -53,11 +39,6 @@
                 </setup>
             </admin_setup>
         </resources>
-        <blocks>
-            <admin>
-                <class>Mage_Admin_Block</class>
-            </admin>
-        </blocks>
     </global>
     <default>
         <admin>

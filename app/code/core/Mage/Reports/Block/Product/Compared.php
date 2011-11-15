@@ -40,7 +40,7 @@ class Mage_Reports_Block_Product_Compared extends Mage_Reports_Block_Product_Abs
      *
      * @var string
      */
-    protected $_indexName       = 'reports/product_index_compared';
+    protected $_indexName       = 'Mage_Reports_Model_Product_Index_Compared';
 
     /**
      * Retrieve page size (count)
