@@ -97,28 +97,27 @@ class LoginTest extends Magento_Test_Webservice
     /**
      * Test login with invalid credentials should throw exception
      *
-     * @expectedException SoapFault
      */
     public function testLoginInvalidCredentials()
     {
-        if (TESTS_WEBSERVICE_TYPE != self::TYPE_SOAPV1) {
-            return;
-        }
-        
-        $client = new SoapClient(TESTS_WEBSERVICE_URL . '/api/soap/?wsdl=1', array('trace'=>true, 'exceptions'=>true));
+        $client = $this->getWebService();
+        $client->setSession(null);
+        $this->setExpectedException($client->getExceptionClass());
         $sessionId = $client->login(TESTS_WEBSERVICE_USER, 'invalid_api_key');
     }
 
     /**
-     * Test login with invalid request xml structure
+     * Test login with invalid request xml structure.
+     * Open issue APIA-17, when fixed test will be passed.
      *
-     * @expectedException SoapFault
      */
     public function testLoginInvalidXmlStructure()
     {
         if (TESTS_WEBSERVICE_TYPE != self::TYPE_SOAPV1) {
             return;
         }
+
+        $this->setExpectedException('SoapFault');
 
         $requestXml = file_get_contents(dirname(__FILE__) . '/_files/requestInvalidStructure.xml');
         $location = TESTS_WEBSERVICE_URL . '/index.php/api/soap/index/';
@@ -162,17 +161,19 @@ class LoginTest extends Magento_Test_Webservice
     /**
      * Test using API with arbitrary session id
      *
-     * @expectedException SoapFault
      */
     public function testUseInvalidSessionIdCategoryCreate()
     {
+        $sessionId = '3e5f2c59cad5a08528461f6a9f4b727d';
+
+        $client = $this->getWebService();
+        $this->setExpectedException($client->getExceptionClass());
+
         $categoryFixture = simplexml_load_file(dirname(__FILE__) . '/Catalog/Category/_fixtures/category.xml');
         $data = self::simpleXmlToArray($categoryFixture->create);
-
-        $sessionId = '3e5f2c59cad5a08528461f6a9f4b727d';
         
-        $this->getWebService()->setSession($sessionId);
-        $categoryId = $this->call('category.create', $data);
+        $client->setSession($sessionId);
+        $categoryId =$client->call('category.create', $data);
     }
     
     /**
