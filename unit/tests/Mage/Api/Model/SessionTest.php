@@ -19,9 +19,7 @@ class Mage_Api_Model_SessionTest extends Mage_PHPUnit_TestCase
         //call start with empty session name
         $model->start();
         //try assert equals session id by old algorithm with real session id
-        $this->assertTrue(
-            md5(time()) != $model->getSessionId(),
-            'Session API starting has vulnerability.');
+        $this->assertNotEquals(md5(time()), $model->getSessionId(), 'Session API starting has vulnerability.');
 
         return $this;
     }
