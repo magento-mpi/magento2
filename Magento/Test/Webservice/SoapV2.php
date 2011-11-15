@@ -30,11 +30,11 @@ class Magento_Test_Webservice_SoapV2 extends Magento_Test_Webservice_Abstract
     private $_configFunction;
     private $_configAlias;
 
-    public function init()
+    public function init($options = null)
     {
-        $this->_client = new Zend_Soap_Client(TESTS_WEBSERVICE_URL . '/api/v2_soap/?wsdl=1');
+        $this->_client = new Zend_Soap_Client(TESTS_WEBSERVICE_URL . '/api/v2_soap/?wsdl=1', $options);
         $this->_client->setSoapVersion(SOAP_1_1);
-        $this->setSession($this->_client->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY));
+        $this->setSession($this->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY));
         $this->_configFunction = Mage::getSingleton('api/config')->getNode('v2/resources_function_prefix')->children();
         $this->_configAlias    = Mage::getSingleton('api/config')->getNode('resources_alias')->children();
     }
