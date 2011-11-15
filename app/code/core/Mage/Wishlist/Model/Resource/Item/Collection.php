@@ -314,12 +314,11 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
     /**
      * Set add days in wishlist
      *
-     * This method appears in 1.5.0.0 in deprecated state, because:
-     * - we need it to make wishlist item collection interface as much as possible compatible with old
-     *   wishlist product collection
-     * - this method is useless because we can calculate days in php, and don't use MySQL for it
+     * @TODO This method should be refactored. It appears in 1.5.0.0 in deprecated state, because:
+     * @TODO - we need it to make wishlist item collection interface as much as possible compatible with old
+     * @TODO  wishlist product collection
+     * @TODO - this method is useless because we can calculate days in php, and don't use MySQL for it
      *
-     * @deprecated after 1.4.2.0
      * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
     public function addDaysInWishlist()
