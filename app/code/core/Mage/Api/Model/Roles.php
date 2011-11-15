@@ -55,9 +55,7 @@ class Mage_Api_Model_Roles extends Mage_Core_Model_Abstract
      *
      * @var array
      */
-    protected $_filters = array(
-        'name' => array(array('zend' => 'StripTags')),
-    );
+    protected $_filters;
 
 
     protected function _construct()

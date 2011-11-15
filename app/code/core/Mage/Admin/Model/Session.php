@@ -31,6 +31,7 @@
  * @category    Mage
  * @package     Mage_Admin
  * @author      Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Admin_Model_User getUser() getUser()
  */
 class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
 {
