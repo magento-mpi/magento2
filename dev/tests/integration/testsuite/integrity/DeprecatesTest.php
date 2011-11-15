@@ -70,7 +70,7 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
     }
 
     /**
-     * Finds usage of htmlEscape function
+     * Finds usage of htmlEscape method
      *
      * @param SplFileInfo $fileInfo
      * @param string $content
@@ -88,6 +88,31 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
                 'description' => 'removed method',
                 'needle' => 'htmlEscape()',
                 'suggestion' => 'change to escapeHtml()'
+            );
+        }
+
+        return $result;
+    }
+
+    /**
+     * Finds usage of urlEscape method
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitUrlEscape($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        $result = array();
+        if (strpos($content, 'urlEscape(') !== false) {
+            $result[] = array(
+                'description' => 'removed method',
+                'needle' => 'urlEscape()',
+                'suggestion' => 'change to escapeUrl()'
             );
         }
 
