@@ -35,51 +35,6 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_isRegistrationAllowed = null;
 
     /**
-     * Return max Invitation amount per send by config.
-     * Depricated. Config model 'enterprise_invitation/config' should be used directly.
-     *
-     * @return int
-     */
-    public function getMaxInvitationsPerSend()
-    {
-        return Mage::getSingleton('Enterprise_Invitation_Model_Config')->getMaxInvitationsPerSend();
-    }
-
-    /**
-     * Return config value for required cutomer registration by invitation
-     * Depricated. Config model 'enterprise_invitation/config' should be used directly.
-     *
-     * @return boolean
-     */
-    public function getInvitationRequired()
-    {
-        return Mage::getSingleton('Enterprise_Invitation_Model_Config')->getInvitationRequired();
-    }
-
-
-    /**
-     * Return config value for use same group as inviter
-     * Depricated. Config model 'enterprise_invitation/config' should be used directly.
-     *
-     * @return boolean
-     */
-    public function getUseInviterGroup()
-    {
-        return Mage::getSingleton('Enterprise_Invitation_Model_Config')->getUseInviterGroup();
-    }
-
-    /**
-     * Check whether invitations allow to set custom message
-     * Depricated. Config model 'enterprise_invitation/config' should be used directly.
-     *
-     * @return bool
-     */
-    public function isInvitationMessageAllowed()
-    {
-        return Mage::getSingleton('Enterprise_Invitation_Model_Config')->isInvitationMessageAllowed();
-    }
-
-    /**
      * Return text for invetation status
      *
      * @return Enterprise_Invitation_Model_Invitation $invitation
@@ -144,16 +99,5 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return $this->_isRegistrationAllowed;
-    }
-
-    /**
-     * Retrieve configuration for availability of invitations
-     * Depricated. Config model 'enterprise_invitation/config' should be used directly.
-     *
-     * @return boolean
-     */
-    public function isEnabled()
-    {
-        return Mage::getSingleton('Enterprise_Invitation_Model_Config')->isEnabled();
     }
 }

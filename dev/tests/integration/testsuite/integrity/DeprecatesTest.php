@@ -62,7 +62,7 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
 
         $filePath = substr($fileInfo, strlen(Mage::getRoot()) - 3); // 3 - length of 'app' prefix
         foreach ($result as $key => $value) {
-            $result[$key] = 'Deprecated ' . $value['description'] . ' "' . $value['needle'] . '" is found in '
+            $result[$key] = 'Found deprecated and removed ' . $value['description'] . ' "' . $value['needle'] . '" in '
                 . $filePath . ', suggested: ' . $value['suggestion'];
         }
 
@@ -85,7 +85,7 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
         $result = array();
         if (strpos($content, 'htmlEscape(') !== false) {
             $result[] = array(
-                'description' => 'removed method',
+                'description' => 'method',
                 'needle' => 'htmlEscape()',
                 'suggestion' => 'change to escapeHtml()'
             );
@@ -110,7 +110,7 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
         $result = array();
         if (strpos($content, 'urlEscape(') !== false) {
             $result[] = array(
-                'description' => 'removed method',
+                'description' => 'method',
                 'needle' => 'urlEscape()',
                 'suggestion' => 'change to escapeUrl()'
             );
@@ -144,9 +144,51 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
                 continue;
             }
             $result[] = array(
-                'description' => 'removed method',
+                'description' => 'method',
                 'needle' => $needle . ')',
                 'suggestion' => 'use getTrackingPopupUrlBySalesModel()'
+            );
+        }
+
+        return $result;
+    }
+
+    /**
+     * Finds usage of deprecated methods that duplicates invitation config model
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitInvitationHelperMethods($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        // Optimization to not use regexps where not needed
+        if (strpos($content, 'Enterprise_Invitation_Helper_Data') === false) {
+            return array();
+        }
+
+        $methods = array(
+            'getMaxInvitationsPerSend',
+            'getInvitationRequired',
+            'getUseInviterGroup',
+            'isInvitationMessageAllowed',
+            'isEnabled'
+        );
+
+        $result = array();
+        foreach ($methods as $method) {
+            $pattern = '/Enterprise_Invitation_Helper_Data[^;(]+' . $method . '\(/';
+            if (!preg_match($pattern, $content)) {
+                continue;
+            }
+            $result[] = array(
+                'description' => 'invitation helper method',
+                'needle' => $method . '()',
+                'suggestion' => "use Mage::getSingleton('Enterprise_Invitation_Model_Config')->{$method}()"
             );
         }
 
