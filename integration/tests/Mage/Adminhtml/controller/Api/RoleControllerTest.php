@@ -25,34 +25,46 @@
  */
 
 /**
- * Test model api role
+ * Test model admin api role controller
  *
  * @category    Mage
- * @package     Mage_Api
+ * @package     Mage_Adminhtml
  * @author      Magento Api Team <api-team@magento.com>
- * @todo        Move this test to unit tests
  */
-class Mage_Api_Model_RolesTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Api_RoleControllerTest extends Magento_Test_ControllerTestCaseAbstract
 {
     /**
-     * Test data filtering
+     * Test data filtering on render edit role page
      */
-    public function testFilterData()
+    public function testExistXssOnEdit()
     {
+        //generate test item
         /** @var $model Mage_Api_Model_Roles */
         $model = Mage::getModel('api/roles');
+        $input = 'testXss <script>alert(1)</script>';
+        $model->setName($input)->save();
 
-        $input = 'test <script>alert(1)</script>';
-        $expected = 'test alert(1)';
+        try {
+            //testing
+            $this->getRequest()->setParam('rid', $model->getId());
+            $this->loginToAdmin();
+            $this->dispatch('admin/api_role/editRole');
+        } catch (Exception $e) {
+            //remove added item
+            $model->delete();
+            throw $e;
+        }
 
-        //test filter method
-        $model->setRolename($input)->filter();
-        $this->assertTrue($expected == $model->getName());
-
-        //test filtering after save
-        $model->setData(array('name' => $input));
-        $model->save();
-        $this->assertTrue($expected == $model->getName());
+        //remove added item
         $model->delete();
+
+
+        /** @var $helper Mage_Core_Helper_Data */
+        $helper = Mage::helper('core');
+        $expected = $helper->escapeHtml($input);
+
+        $html = $this->getResponse()->getBody();
+
+        $this->assertTrue((bool) strpos($html, $expected), 'Role name has vulnerability.');
     }
 }
