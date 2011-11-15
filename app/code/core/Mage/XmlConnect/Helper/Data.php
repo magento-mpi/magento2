@@ -422,7 +422,6 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $w3cUrl = 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd';
         return <<<EOT
-&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;$w3cUrl&quot;&gt;
 &lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot; lang=&quot;en&quot;&gt;
 &lt;head&gt;
