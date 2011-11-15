@@ -35,7 +35,6 @@
 abstract class Varien_Convert_Container_Abstract
 {
     protected $_vars;
-//    protected $_profile;
     protected $_data;
     protected $_position;
 
@@ -62,30 +61,13 @@ abstract class Varien_Convert_Container_Abstract
         return $this;
     }
 
-//    public function getProfile()
-//    {
-//        return $this->_profile;
-//    }
-//
-//    public function setProfile(Varien_Convert_Profile_Abstract $profile)
-//    {
-//        $this->_profile = $profile;
-//        return $this;
-//    }
-//
     public function getData()
     {
-//        if (is_null($this->_data) && $this->getProfile()) {
-//            $this->_data = $this->getProfile()->getContainer()->getData();
-//        }
         return $this->_data;
     }
 
     public function setData($data)
     {
-//        if ($this->getProfile()) {
-//            $this->getProfile()->getContainer()->setData($data);
-//        }
         $this->_data = $data;
         return $this;
     }
@@ -101,17 +83,6 @@ abstract class Varien_Convert_Container_Abstract
         return true;
     }
 
-//    public function validateDataArray($data=null)
-//    {
-//        if (is_null($data)) {
-//            $data = $this->getData();
-//        }
-//        if (!is_array($data)) {
-//            $this->addException("Invalid data type, expecting array.", Varien_Convert_Exception::FATAL);
-//        }
-//        return true;
-//    }
-//
     public function validateDataGrid($data=null)
     {
         if (is_null($data)) {
@@ -145,10 +116,6 @@ abstract class Varien_Convert_Container_Abstract
         $e->setLevel(!is_null($level) ? $level : Varien_Convert_Exception::NOTICE);
         $e->setContainer($this);
         $e->setPosition($this->getPosition());
-
-//        if ($this->getProfile()) {
-//            $this->getProfile()->addException($e);
-//        }
 
         return $e;
     }
