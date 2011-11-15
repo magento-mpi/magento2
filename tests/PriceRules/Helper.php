@@ -78,7 +78,7 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
     public function fillConditionsTab(array $conditionsData)
     {
         $this->openTab('rule_conditions');
-        $this->addConditions($conditionsData, 'apply_for_rule_conditions');
+        $this->addConditions($conditionsData, 'rule_conditions');
     }
 
     /**
@@ -155,12 +155,12 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
         $returnQtyOptionsNesting = self::$qtyOptionsNesting;
         $returnOptionsQty = self::$optionsQty;
         if ($fillArray) {
-            $this->fillConditionFields($fillArray, $tabId = '', $isNested);
+            $this->fillConditionFields($fillArray, $tabId, $isNested);
         }
 
         foreach ($conditionsData as $key => $value) {
             if (is_array($value)) {
-                $this->addConditions($value, $tabId = '');
+                $this->addConditions($value, $tabId);
             }
         }
         self::$optionsNesting = $returnOptionsNesting;
@@ -171,7 +171,7 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
     /**
      * Set conditions params
      */
-    public function setConditionsParams()
+    public function setConditionsParams($type)
     {
         $optionsNesting = self::$optionsNesting;
         if (self::$qtyOptionsNesting > 0) {
@@ -179,9 +179,9 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
                 $optionsNesting = self::$optionsNesting . '--' . self::$optionsQty;
             }
             $this->addParameter('condition', $optionsNesting);
-            $xpath = $this->_getControlXpath('fieldset', 'rule_condition_item') . '/li';
+            $xpath = $this->_getControlXpath('fieldset', 'rule_' . $type . '_item') . '/li';
         } else {
-            $xpath = $this->_getControlXpath('fieldset', 'apply_for_rule_conditions') . '/ul/li';
+            $xpath = $this->_getControlXpath('fieldset', 'apply_for_rule_' . $type) . '/ul/li';
             $this->addParameter('condition', $optionsNesting);
         }
         self::$optionsNesting = $optionsNesting;
@@ -200,7 +200,8 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
         if ($isNested) {
             self::$qtyOptionsNesting +=1;
         }
-        $this->setConditionsParams();
+        $type = preg_replace('/(^rule_)|(s$)/', '', $tabId);
+        $this->setConditionsParams($type);
         $formData = $this->getCurrentUimapPage()->getMainForm();
         if ($tabId && $formData->getTab($tabId)) {
             $fieldsets = $formData->getTab($tabId)->getAllFieldsets();

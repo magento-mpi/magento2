@@ -96,7 +96,7 @@ create_shopping_cart_price_rule:
                         xpath: //a[@title='Conditions']/span
                         fieldsets:
                             -
-                                apply_for_rule_conditions:
+                                apply_for_rule_condition:
                                     xpath: //*[@id='rule_conditions_fieldset']
                                     links:
                                         conditions_aggregator: //*[@id='rule_conditions_fieldset']/span[.//select[contains(@name,'aggregator')]]/a
@@ -145,35 +145,35 @@ create_shopping_cart_price_rule:
                                         free_shipping: //select[@name='simple_free_shipping']
                                         stop_further_rules_processing: //select[@name='stop_rules_processing']
                             -
-                                apply_for_cart_items_rule_conditions:
+                                apply_for_rule_action:
                                     xpath: //*[@id='rule_actions_fieldset']
                                     links:
-                                        conditions_aggregator: //*[@id='rule_actions_fieldset']/span[.//select[contains(@name,'aggregator')]]/a
-                                        conditions_value: //*[@id='rule_actions_fieldset']/span[.//select[contains(@name,'value')]]/a
+                                        actions_aggregator: //*[@id='rule_actions_fieldset']/span[.//select[contains(@name,'aggregator')]]/a
+                                        actions_value: //*[@id='rule_actions_fieldset']/span[.//select[contains(@name,'value')]]/a
                                     dropdowns:
-                                        select_conditions_aggregator: //select[@name='rule[actions][1][aggregator]']
-                                        select_conditions_value: //select[@name='rule[actions][1][value]']
+                                        select_actions_aggregator: //select[@name='rule[actions][1][aggregator]']
+                                        select_actions_value: //select[@name='rule[actions][1][value]']
                             -
-                                rule_condition_item:
+                                rule_action_item:
                                     xpath: //ul[@id='actions__%condition%__children']
                                     links:
-                                        condition_new_child: //ul[@id='actions__%condition%__children']/li[%key%]//img[contains(@src,'rule_component_add')]
-                                        condition_operator: //ul[@id='actions__%condition%__children']/li[%key%]//span[contains(.//@name,'operator')]/a
-                                        condition_value: //ul[@id='actions__%condition%__children']/li[%key%]/span[contains(.//@name,'value')]/a
-                                        condition_aggregator: //ul[@id='actions__%condition%__children']/li[%key%]/span[.//select[contains(@name,'aggregator')]]/a
-                                        condition_attribute: //ul[@id='actions__%condition%__children']/li[%key%]/span[.//select[contains(@name,'attribute')]]/a
+                                        action_new_child: //ul[@id='actions__%condition%__children']/li[%key%]//img[contains(@src,'rule_component_add')]
+                                        action_operator: //ul[@id='actions__%condition%__children']/li[%key%]//span[contains(.//@name,'operator')]/a
+                                        action_value: //ul[@id='actions__%condition%__children']/li[%key%]/span[contains(.//@name,'value')]/a
+                                        action_aggregator: //ul[@id='actions__%condition%__children']/li[%key%]/span[.//select[contains(@name,'aggregator')]]/a
+                                        action_attribute: //ul[@id='actions__%condition%__children']/li[%key%]/span[.//select[contains(@name,'attribute')]]/a
                                         open_chosser: //ul[@id='actions__%condition%__children']/li[%key%]//img[contains(@src,'rule_chooser_trigger')]
                                         confirm_choise: //ul[@id='actions__%condition%__children']/li[%key%]//img[contains(@src,'rule_component_apply')]
                                     dropdowns:
-                                        select_condition_new_child: /li[%key%]//span[contains(.//@src,'rule_component_add')]//select
-                                        select_condition_operator: /li[%key%]/span[contains(.//@name,'operator')]//select
-                                        select_condition_value: /li[%key%]/span[contains(.//@name,'value')]//select
-                                        select_condition_aggregator: /li[%key%]/span[.//select[contains(@name,'aggregator')]]//select
-                                        select_condition_attribute: /li[%key%]/span[.//select[contains(@name,'attribute')]]//select
+                                        select_action_new_child: /li[%key%]//span[contains(.//@src,'rule_component_add')]//select
+                                        select_action_operator: /li[%key%]/span[contains(.//@name,'operator')]//select
+                                        select_action_value: /li[%key%]/span[contains(.//@name,'value')]//select
+                                        select_action_aggregator: /li[%key%]/span[.//select[contains(@name,'aggregator')]]//select
+                                        select_action_attribute: /li[%key%]/span[.//select[contains(@name,'attribute')]]//select
                                     fields:
-                                        type_condition_value: /li[%key%]/span[contains(.//@name,'value')]//input
+                                        type_action_value: /li[%key%]/span[contains(.//@name,'value')]//input
                                     buttons:
-                                        delete_rule_condition_item: /li[%key%]//img[contains(@src,'rule_component_remove')]
+                                        delete_rule_action_item: /li[%key%]//img[contains(@src,'rule_component_remove')]
                                     checkboxes:
                                         select_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]//input
                                         select_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
