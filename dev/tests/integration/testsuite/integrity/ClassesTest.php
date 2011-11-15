@@ -150,6 +150,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     /**
      * Checks whether file path has required extension
      *
+     * @param SplFileInfo $fileInfo
      * @param string|array $extensions
      * @return bool
      */
@@ -703,13 +704,12 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         }
 
         $xml = new SimpleXMLElement($content);
-        $xpathes = array (
-            '//logging/*/expected_models',
-            '//logging/*/actions/*/expected_models'
-        );
-
         $expectedModels = array();
-        foreach ($xpathes as $xpath) {
+        foreach (array(
+                '//logging/*/expected_models',
+                '//logging/*/actions/*/expected_models'
+            ) as $xpath
+        ) {
             $expectedModels = array_merge($expectedModels, $xml->xpath($xpath));
         }
 
@@ -721,6 +721,38 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
                     continue;
                 }
                 $result[] = $key;
+            }
+        }
+
+        return array_unique($result);
+    }
+
+    /**
+     * Finds usage action[@method="setEntityModelClass"]/code in layout.xml files
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitModelsInLayoutXmlDefinitions($fileInfo, $content)
+    {
+        $result = array();
+        $separator = DIRECTORY_SEPARATOR;
+
+        if ($this->_fileHasExtensions($fileInfo, 'xml')
+            && (false !== strpos($fileInfo->getPath(), "{$separator}view{$separator}")
+                || false !== strpos($fileInfo->getPath(), "{$separator}app{$separator}design{$separator}")
+            )
+        ) {
+            $xml = new SimpleXMLElement($content);
+            foreach (array(
+                    '//layout/*/block/action[@method="setEntityModelClass"]/code',
+                    '//layout/*/reference/block/action[@method="setEntityModelClass"]/code'
+                ) as $xpath
+            ) {
+                foreach ($xml->xpath($xpath) as $expectModelNode) {
+                    $result[] = (string) $expectModelNode;
+                }
             }
         }
 
