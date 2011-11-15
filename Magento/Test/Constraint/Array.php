@@ -1,24 +1,26 @@
 <?php
 
 /**
- *
+ * Custom constraint to access and check array keys
  */
 class Magento_Test_Constraint_Array extends PHPUnit_Framework_Constraint
 {
-    protected $arrayKey;
+    protected $_arrayKey;
 
-    protected $constraint;
+    protected $_constraint;
 
-    protected $value;
+    protected $_value;
 
     /**
+     * Constructor
+     *
      * @param PHPUnit_Framework_Constraint $constraint
      * @param string                       $arrayKey
      */
     public function __construct($arrayKey, PHPUnit_Framework_Constraint $constraint)
     {
-        $this->constraint  = $constraint;
-        $this->arrayKey    = $arrayKey;
+        $this->_constraint  = $constraint;
+        $this->_arrayKey    = $arrayKey;
     }
 
 
@@ -31,16 +33,20 @@ class Magento_Test_Constraint_Array extends PHPUnit_Framework_Constraint
      */
     public function evaluate($other)
     {
-        if (!array_key_exists($this->arrayKey, $other)) {
+        if (!array_key_exists($this->_arrayKey, $other)) {
             return false;
         }
 
-        $this->value = $other[$this->arrayKey];
+        $this->_value = $other[$this->_arrayKey];
 
-        return $this->constraint->evaluate($other[$this->arrayKey]);
+        return $this->_constraint->evaluate($other[$this->_arrayKey]);
     }
 
     /**
+     * Creates the appropriate exception for the constraint which can be caught
+     * by the unit test system. This can be called if a call to evaluate()
+     * fails.
+     * 
      * @param   mixed   $other The value passed to evaluate() which failed the
      *                         constraint check.
      * @param   string  $description A string with extra description of what was
@@ -50,7 +56,7 @@ class Magento_Test_Constraint_Array extends PHPUnit_Framework_Constraint
      */
     public function fail($other, $description, $not = FALSE)
     {
-        parent::fail($other[$this->arrayKey], $description, $not);
+        parent::fail($other[$this->_arrayKey], $description, $not);
     }
 
 
@@ -61,7 +67,7 @@ class Magento_Test_Constraint_Array extends PHPUnit_Framework_Constraint
      */
     public function toString()
     {
-        return 'the value of key "' . $this->arrayKey . '"(' . $this->value . ') ' .  $this->constraint->toString();
+        return 'the value of key "' . $this->_arrayKey . '"(' . $this->_value . ') ' .  $this->_constraint->toString();
     }
 
 
@@ -72,11 +78,18 @@ class Magento_Test_Constraint_Array extends PHPUnit_Framework_Constraint
      */
     public function count()
     {
-        return count($this->constraint) + 1;
+        return count($this->_constraint) + 1;
     }
 
-
-    protected function customFailureDescription ($other, $description, $not)
+    /**
+     * Build custom failure description
+     *
+     * @param mixed $other
+     * @param string $description
+     * @param boolean $not
+     * @return string
+     */
+    protected function customFailureDescription($other, $description, $not)
     {
         return sprintf('Failed asserting that %s.', $this->toString());
     }
