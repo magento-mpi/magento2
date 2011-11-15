@@ -1390,7 +1390,6 @@ frontend_simple_product_details_validation:
     prices_special_price: 3.99
     prices_special_price_from: 5/25/11
     prices_special_price_to: 11/29/11
-    prices_tier_price_data: *tierPriceData
     prices_tax_class: None
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
@@ -1420,7 +1419,6 @@ frontend_virtual_product_details_validation:
     prices_special_price: 13.99
     prices_special_price_from: 5/5/11
     prices_special_price_to: 9/9/12
-    prices_tier_price_data: *tierPriceData
     prices_tax_class: None
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
