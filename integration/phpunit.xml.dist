@@ -62,6 +62,12 @@
     <!-- PHP INI settings and constants definition -->
     <php>
         <ini name="date.timezone" value="America/Los_Angeles"/>
+        <!-- HTTP Host-->
+        <const name="TESTS_HTTP_HOST" value="mydomain.com"/>
+        <!-- Admin User -->
+        <const name="TESTS_ADMIN_USERNAME" value="admin"/>
+        <!-- Admin Password -->
+        <const name="TESTS_ADMIN_PASSWORD" value="123123q"/>
         <!-- DB vendor, optional. Possible values: mysql (default), oracle, mssql -->
         <!--<const name="TESTS_DB_VENDOR" value="mysql"/>-->
         <!-- Environment cleanup, optional. Possible values: uninstall, restoreDatabase -->
