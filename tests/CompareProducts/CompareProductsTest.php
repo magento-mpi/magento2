@@ -122,7 +122,6 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
         //Setup
         $this->compareProductsHelper()->frontAddProductToCompareFromProductPage(
                 $productsData[0]['general_name']);
-        $this->appendParamsDecorator($this->compareProductsHelper()->_paramsHelper); //@TODO Temporary workaround
         $this->assertTrue($this->successMessage('product_added_to_comparison'), $this->messages);
         $this->assertTrue($this->controlIsPresent('link', 'product_link'),
                 'Product is not available in Compare widget');
@@ -155,7 +154,6 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
         foreach ($productsData as $product) {
             $this->compareProductsHelper()->frontAddProductToCompareFromProductPage(
                     $product['general_name']);
-            $this->appendParamsDecorator($this->compareProductsHelper()->_paramsHelper);  //@TODO Temporary workaround
             $this->assertTrue($this->successMessage('product_added_to_comparison'), $this->messages);
             $this->assertTrue($this->controlIsPresent('link', 'product_link'),
                     'Product is not available in Compare widget');
@@ -191,7 +189,6 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
         //Setup
         $this->compareProductsHelper()->frontAddProductToCompareFromProductPage(
                 $productsData[0]['general_name']);
-        $this->appendParamsDecorator($this->compareProductsHelper()->_paramsHelper);        //@TODO Temporary workaround
         $this->assertTrue($this->successMessage('product_added_to_comparison'), $this->messages);
         $this->assertTrue($this->controlIsPresent('link', 'product_link'),
                 'Product is not available in Compare widget');
@@ -225,7 +222,6 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
         foreach ($productsData as $product) {
             $this->compareProductsHelper()->frontAddProductToCompareFromCatalogPage(
                     $product['general_name'], $categoryData['name']);
-            $this->appendParamsDecorator($this->compareProductsHelper()->_paramsHelper);   //@TODO Temporary workaround
             $this->assertTrue($this->successMessage('product_added_to_comparison'), $this->messages);
             $this->assertTrue($this->controlIsPresent('link', 'product_link'),
                     'Product is not available in Compare widget');
