@@ -43,7 +43,7 @@ class Magento_Convert_ExcelTest extends PHPUnit_Framework_TestCase
     {
         $data = array();
         foreach ($row as $value) {
-           $data[] =  $value.'_TRUE_';
+            $data[] =  $value.'_TRUE_';
         }
         return $data;
     }
@@ -81,15 +81,15 @@ class Magento_Convert_ExcelTest extends PHPUnit_Framework_TestCase
      */
     protected function _writeFile($callback = false)
     {
-        $io = new Varien_Io_File();
+        $ioFile = new Varien_Io_File();
 
         $path = TESTS_TEMP_DIR;
         $name = md5(microtime());
         $file = $path . DIRECTORY_SEPARATOR . $name . '.xml';
 
-        $io->open(array('path' => $path));
-        $io->streamOpen($file, 'w+');
-        $io->streamLock(true);
+        $ioFile->open(array('path' => $path));
+        $ioFile->streamOpen($file, 'w+');
+        $ioFile->streamLock(true);
 
         if (!$callback) {
             $convert = new Magento_Convert_Excel(new ArrayIterator($this->_testData));
@@ -97,9 +97,9 @@ class Magento_Convert_ExcelTest extends PHPUnit_Framework_TestCase
             $convert = new Magento_Convert_Excel(new ArrayIterator($this->_testData), array($this, 'callbackMethod'));
         }
 
-        $convert->write($io);
-        $io->streamUnlock();
-        $io->streamClose();
+        $convert->write($ioFile);
+        $ioFile->streamUnlock();
+        $ioFile->streamClose();
 
         return $file;
     }
