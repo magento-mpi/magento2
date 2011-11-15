@@ -27,9 +27,11 @@
 
 class Magento_Test_Webservice extends Magento_TestCase
 {
-    const SOAPV1 = 'soapv1';
-    const SOAPV2 = 'soapv2';
-    const XMLRPC = 'xmlrpc';
+    /**  */
+    const TYPE_SOAPV1 = 'soapv1';
+    const TYPE_SOAPV2 = 'soapv2';
+    const TYPE_XMLRPC = 'xmlrpc';
+
     /**
      * Webservice adapter
      *
@@ -50,9 +52,9 @@ class Magento_Test_Webservice extends Magento_TestCase
      * @var array
      */
     protected $_webServiceMap = array(
-        self::SOAPV1   =>'Magento_Test_Webservice_SoapV1',
-        self::SOAPV2   =>'Magento_Test_Webservice_SoapV2',
-        self::XMLRPC    =>'Magento_Test_Webservice_XmlRpc'
+        self::TYPE_SOAPV1   =>'Magento_Test_Webservice_SoapV1',
+        self::TYPE_SOAPV2   =>'Magento_Test_Webservice_SoapV2',
+        self::TYPE_XMLRPC    =>'Magento_Test_Webservice_XmlRpc'
     );
 
     /**
