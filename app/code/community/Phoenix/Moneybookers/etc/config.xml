@@ -35,7 +35,7 @@
         </resources>
         <template>
             <email>
-                <moneybookers_activateemail translate="label" module="phoenix_moneybookers">
+                <moneybookers_activateemail translate="label" module="Phoenix_Moneybookers">
                     <label>Activation of Payment Configuration</label>
                     <file>email/activation.html</file>
                     <type>html</type>
