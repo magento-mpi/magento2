@@ -139,12 +139,11 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
      */
     public function addConditions(array $conditionsData, $tabId = '')
     {
-//        @TODO (not work with selecting Category as condition)
         $fillArray = array();
         $isNested = false;
         foreach ($conditionsData as $key => $value) {
             if (!is_array($value)) {
-                if ($key == 'select_condition_new_child') {
+                if ($key == 'select_' . preg_replace('/(^rule_)|(s$)/', '', $tabId) . '_new_child') {
                     $isNested = true;
                 }
                 $fillArray[$key] = $value;
@@ -202,17 +201,28 @@ class PriceRules_Helper extends Mage_Selenium_TestCase
         }
         $type = preg_replace('/(^rule_)|(s$)/', '', $tabId);
         $this->setConditionsParams($type);
-        $formData = $this->getCurrentUimapPage()->getMainForm();
-        if ($tabId && $formData->getTab($tabId)) {
-            $fieldsets = $formData->getTab($tabId)->getAllFieldsets();
-        } else {
-            $fieldsets = $formData->getAllFieldsets();
+        $uimapData = $this->getCurrentUimapPage()->getMainForm();
+        if ($tabId && $uimapData->getTab($tabId)) {
+            $uimapData = $uimapData->getTab($tabId);
         }
+        $fieldsets = $uimapData->getAllFieldsets();
         $fieldsets->assignParams($this->_paramsHelper);
         $formDataMap = $this->_getFormDataMap($fieldsets, $data);
 
         try {
             foreach ($formDataMap as $formFieldName => $formField) {
+                if ($formFieldName === 'category') {
+                    $this->click($uimapData->findLink(preg_replace('/(^rule_)|(s$)/', '', $tabId) . '_value'));
+                    $this->click($uimapData->findLink('open_chosser'));
+                    $this->pleaseWait();
+                    $categories = explode(',', $formField['value']);
+                    $categories = array_map('trim', $categories);
+                    foreach ($categories as $value) {
+                        $this->categoryHelper()->selectCategory($value);
+                    }
+                    $this->click($uimapData->findLink('confirm_choise'));
+                    continue;
+                }
                 $this->clickControl('link', preg_replace('/(^select_)|(^type_)/', '', $formFieldName), false);
                 switch ($formField['type']) {
                     case self::FIELD_TYPE_INPUT:

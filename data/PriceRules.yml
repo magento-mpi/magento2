@@ -101,10 +101,10 @@ all_conditions: &allConditions
             select_condition_new_child: Attribute Set
             select_condition_operator: is not
             select_condition_value: Default
-#        sub_condition_5:
-#            select_condition_new_child: Category
-#            select_condition_operator: is not
-#            select_root_category: Default Category
+        sub_condition_5:
+            select_condition_new_child: Category
+            select_condition_operator: is not
+            category: Default Category
         sub_condition_6:
             select_condition_new_child: Conditions Combination
             select_condition_aggregator: ANY
@@ -167,22 +167,22 @@ test_shopping_cart_rule:
                 select_action_new_child: Conditions Combination
                 select_action_aggregator: ANY
                 select_action_value: 'FALSE'
-            action_2:
-                select_action_new_child: Price in cart
-                select_action_operator: is not
-                type_action_value: 150
-            action_3:
-                select_action_new_child: Quantity in cart
-                select_action_operator: is not
-                type_action_value: 10
-            action_4:
-                select_action_new_child: Row total in cart
-                select_action_operator: is not
-                type_action_value: 300
-            action_5:
-                select_action_new_child: Attribute Set
-                select_action_operator: is not
-                select_action_value: Default
+                sub_action_1:
+                    select_action_new_child: Price in cart
+                    select_action_operator: is not
+                    type_action_value: 150
+                sub_action_2:
+                    select_action_new_child: Quantity in cart
+                    select_action_operator: is not
+                    type_action_value: 10
+                sub_action_3:
+                    select_action_new_child: Row total in cart
+                    select_action_operator: is not
+                    type_action_value: 300
+                sub_action_4:
+                    select_action_new_child: Attribute Set
+                    select_action_operator: is not
+                    select_action_value: Default
     labels:
         default_rule_label: default rule label(shop.cart)
         store_view_labels:
