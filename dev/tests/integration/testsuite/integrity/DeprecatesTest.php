@@ -118,4 +118,38 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
 
         return $result;
     }
+
+    /**
+     * Finds usage of deprecated methods that compose shipping tracking urls
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitTrackingPopUpUrl($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        $search = array(
+            'getTrackingPopUpUrlByOrderId(',
+            'getTrackingPopUpUrlByShipId(',
+            'getTrackingPopUpUrlByTrackId('
+        );
+
+        $result = array();
+        foreach ($search as $needle) {
+            if (strpos($content, $needle) === false) {
+                continue;
+            }
+            $result[] = array(
+                'description' => 'removed method',
+                'needle' => $needle . ')',
+                'suggestion' => 'use getTrackingPopupUrlBySalesModel()'
+            );
+        }
+
+        return $result;
+    }
 }
