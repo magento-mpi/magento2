@@ -94,7 +94,7 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
             //Data
             $productData = $this->loadData('compare_products_simple_product', null,
                     array('general_name', 'general_sku'));
-            $productData["categories"] = $categoryData['path'];
+            $productData['categories'] = $categoryData['path'];
             //Steps
             $this->productHelper()->createProduct($productData);
             //Verifying
