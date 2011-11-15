@@ -1473,7 +1473,7 @@
                             <label>Time of Day</label>
                             <config_path>paypal/fetch_reports/time</config_path>
                             <frontend_type>time</frontend_type>
-                            <!-- backend_model>paypal/system_config_backend_cron</backend_model -->
+                            <!-- backend_model>Mage_Paypal_Model_System_Config_Backend_Cron</backend_model -->
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                         </settlement_reports_time>
@@ -1726,7 +1726,7 @@
                     <show_in_store>1</show_in_store>
                     <fields>
                         <payflowlink_info>
-                            <frontend_model>paypal/adminhtml_system_config_payflowlink_advanced</frontend_model>
+                            <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Payflowlink_Advanced</frontend_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>

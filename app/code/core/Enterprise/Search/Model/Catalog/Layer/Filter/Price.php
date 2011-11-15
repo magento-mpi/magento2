@@ -163,7 +163,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         if (!$cachedData) {
             $prices = $this->getLayer()->getProductCollection()->getFieldData($this->_getFilterField());
             /** @var $algorithmModel Mage_Catalog_Model_Layer_Filter_Price_Algorithm */
-            $algorithmModel = Mage::getSingleton('catalog/layer_filter_price_algorithm');
+            $algorithmModel = Mage::getSingleton('Mage_Catalog_Model_Layer_Filter_Price_Algorithm');
             $algorithmModel->setPrices($prices);
 
             $cachedData = array();

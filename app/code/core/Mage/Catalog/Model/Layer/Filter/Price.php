@@ -181,11 +181,11 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
         $store      = Mage::app()->getStore();
         $formattedFromPrice  = $store->formatPrice($fromPrice);
         if (empty($toPrice)) {
-            return Mage::helper('catalog')->__('%s and above', $formattedFromPrice);
+            return Mage::helper('Mage_Catalog_Helper_Data')->__('%s and above', $formattedFromPrice);
         } elseif ($fromPrice == $toPrice) {
             return $formattedFromPrice;
         } else {
-            return Mage::helper('catalog')->__('%s - %s', $formattedFromPrice, $store->formatPrice($toPrice - .01));
+            return Mage::helper('Mage_Catalog_Helper_Data')->__('%s - %s', $formattedFromPrice, $store->formatPrice($toPrice - .01));
         }
     }
 
@@ -221,7 +221,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
         }
 
         /** @var $algorithmModel Mage_Catalog_Model_Layer_Filter_Price_Algorithm */
-        $algorithmModel = Mage::getSingleton('catalog/layer_filter_price_algorithm');
+        $algorithmModel = Mage::getSingleton('Mage_Catalog_Model_Layer_Filter_Price_Algorithm');
         $this->_getResource()->loadAllPrices($algorithmModel, $this);
 
         $items = array();

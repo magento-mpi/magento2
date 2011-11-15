@@ -657,37 +657,35 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             }
         }
 
-        $_wordsToFind = array(
-            "class",
-            "model",
-            "backend_model",
-            "source_model",
-            "price_model",
-            "model_token",
-            "attribute_model",
-            "writer_model"
-        );
-        $_patternsToFind = array(
-            ">([\\w\\d\\/\\_]+)?(<\\/)",
-            ">([\\w\\d\\/\\_]+)?(::[\\w\\d\\_]+<\\/)"
-        );
-
-        $patterns = array();
-        foreach ($_wordsToFind as $wordToFind) {
-            foreach ($_patternsToFind as $patternToFind) {
-                $patterns[] = "/<" . $wordToFind . $patternToFind . $wordToFind . ">/Ui";
-            }
-        }
-
         $result = array();
-        foreach ($patterns as $pattern) {
-            $matched = preg_match_all($pattern, $content, $matches);
-            if ($matched) {
-                $result = array_merge($result, $matches[1]);
+        $xml = new SimpleXMLElement($content);
+        $nodes = $xml->xpath('//class | //model | //backend_model | //source_model | //price_model | //model_token'
+            . ' | //attribute_model | //writer_model | //clone_model | //frontend_model'
+        );
+        if ($nodes) {
+            /** @var SimpleXMLElement $node */
+            foreach ($nodes as $node) {
+                $value = trim($node);
+                if (!$value || !preg_match('/^([\w\d_\/]+)(::[\w\d_\/]+)?$/i', $value, $matches)) {
+                    continue;
+                }
+                if (isset($matches[2])) {
+                    $value = $matches[1];
+                }
+                $result[] = $value;
             }
         }
-        $result = array_unique($result);
-        return $result;
+
+        $nodes = $xml->xpath('//@backend_model');
+        if ($nodes) {
+            /** @var SimpleXMLElement $node */
+            foreach ($nodes as $node) {
+                $node = (array)$node;
+                $result[] = (string)$node['@attributes']['backend_model'];
+            }
+        }
+
+        return array_unique($result);
     }
 
     /**
@@ -704,7 +702,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         }
 
         $xml = new SimpleXMLElement($content);
-        $expectedModels = $xml->xpath('/logging/*/expected_models || /logging/*/actions/*/expected_models');
+        $expectedModels = $xml->xpath('/logging/*/expected_models | /logging/*/actions/*/expected_models');
         $result = array();
         foreach ($expectedModels as $expectModelNode) {
             $expectedModel = (array) $expectModelNode;
