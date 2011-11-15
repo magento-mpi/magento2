@@ -32,7 +32,8 @@
  * @package    Varien_Convert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Varien_Convert_Mapper_Column extends Varien_Convert_Mapper_Abstract
+class Varien_Convert_Mapper_Column extends Varien_Convert_Container_Abstract
+    implements Varien_Convert_Mapper_Interface
 {
 	public function map()
     {

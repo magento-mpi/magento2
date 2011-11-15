@@ -1090,26 +1090,20 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     }
 
     /**
-     * Write item data to Excel 2003 XML export file
+     *  Get a row data of the particular columns
      *
-     * @param Varien_Object $item
-     * @param Varien_Io_File $adapter
-     * @param Varien_Convert_Parser_Xml_Excel $parser
+     * @param Varien_Object $data
+     * @return array
      */
-    protected function _exportExcelItem(Varien_Object $item, Varien_Io_File $adapter, $parser = null)
+    public function getRowRecord(Varien_Object $data)
     {
-        if (is_null($parser)) {
-            $parser = new Varien_Convert_Parser_Xml_Excel();
-        }
-
         $row = array();
         foreach ($this->_columns as $column) {
             if (!$column->getIsSystem()) {
-                $row[] = $column->getRowFieldExport($item);
+                $row[] = $column->getRowFieldExport($data);
             }
         }
-        $data = $parser->getRowXml($row);
-        $adapter->streamWrite($data);
+        return $row;
     }
 
     /**
@@ -1124,8 +1118,8 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $this->_isExport = true;
         $this->_prepareGrid();
 
-        $parser = new Varien_Convert_Parser_Xml_Excel();
-        $io     = new Varien_Io_File();
+        $convert    = new Magento_Convert_Excel($this->getCollection()->getIterator(), array($this, 'getRowRecord'));
+        $io      = new Varien_Io_File();
 
         $path = Mage::getBaseDir('var') . DS . 'export' . DS;
         $name = md5(microtime());
@@ -1135,16 +1129,13 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $io->open(array('path' => $path));
         $io->streamOpen($file, 'w+');
         $io->streamLock(true);
-        $io->streamWrite($parser->getHeaderXml($sheetName));
-        $io->streamWrite($parser->getRowXml($this->_getExportHeaders()));
 
-        $this->_exportIterateCollection('_exportExcelItem', array($io, $parser));
-
+        $convert->setDataHeader($this->_getExportHeaders());
         if ($this->getCountTotals()) {
-            $io->streamWrite($parser->getRowXml($this->_getExportTotals()));
+            $convert->setDataFooter($this->_getExportTotals());
         }
 
-        $io->streamWrite($parser->getFooterXml());
+        $convert->write($io, $sheetName);
         $io->streamUnlock();
         $io->streamClose();
 
@@ -1199,12 +1190,8 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             $data[] = $row;
         }
 
-        $xmlObj = new Varien_Convert_Parser_Xml_Excel();
-        $xmlObj->setVar('single_sheet', $filename);
-        $xmlObj->setData($data);
-        $xmlObj->unparse();
-
-        return $xmlObj->getData();
+        $convert = new Magento_Convert_Excel(new ArrayIterator($data));
+        return $convert->convert('single_sheet');
     }
 
     public function canDisplayContainer()

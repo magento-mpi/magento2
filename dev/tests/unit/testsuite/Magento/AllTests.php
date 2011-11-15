@@ -19,6 +19,7 @@ class Magento_AllTests
         $suite->addTestSuite('Magento_ProfilerTest');
         $suite->addTest(Magento_Config_AllTests::suite());
         $suite->addTest(Magento_Profiler_AllTests::suite());
+        $suite->addTest(Magento_Convert_AllTests::suite());
         return $suite;
     }
 }

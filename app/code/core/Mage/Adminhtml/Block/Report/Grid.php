@@ -538,12 +538,8 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
             $data[] = $row;
         }
 
-        $xmlObj = new Varien_Convert_Parser_Xml_Excel();
-        $xmlObj->setVar('single_sheet', $filename);
-        $xmlObj->setData($data);
-        $xmlObj->unparse();
-
-        return $xmlObj->getData();
+        $convert = new Magento_Convert_Excel(new ArrayIterator($data));
+        return $convert->convert('single_sheet');
     }
 
     public function getSubtotalText()
