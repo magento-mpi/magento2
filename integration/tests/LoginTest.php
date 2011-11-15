@@ -26,6 +26,7 @@
  */
 
 /**
+ * Test API login method
  *
  */
 class LoginTest extends Magento_Test_Webservice
@@ -37,7 +38,7 @@ class LoginTest extends Magento_Test_Webservice
      */
     public function testLogin()
     {
-        /** @var $client Magento_Test_Webservice_SoapV1|Magento_Test_Webservice_SoapV2|Magento_Test_Webservice_XmlRpc */
+        /** @var $client Magento_Test_Webservice_Abstract */
         $client = $this->getWebService();
         $this->assertTrue($client->hasSession());
     }
@@ -70,11 +71,21 @@ class LoginTest extends Magento_Test_Webservice
         $user = $this->getMock('Mage_Api_Model_User', array('getId'));
         $user->expects($this->any())->method('getId')->will($this->returnValue('fake_user'));
 
-        //$config = Mage::getConfig()->getResourceConnectionConfig('core_write');
         $config = array('dbname'=>'fake_db', 'password'=>'fake_password', 'username'=>'fake_username');
 
         $adapter = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array('delete'), array((array)$config));
-        $adapter->expects($this->any())->method('delete')->with($this->equalTo($table), new Magento_Test_Constraint_Array(0, $this->logicalAnd($this->matches('%s3600%s'), $this->logicalNot($this->matches('%sDROP TABLE bbb%s')))));
+        $adapter
+            ->expects($this->any())
+            ->method('delete')
+            ->with(
+                $this->equalTo($table),
+                new Magento_Test_Constraint_Array(0,
+                    $this->logicalAnd(
+                        $this->matches('%s3600%s'),
+                        $this->logicalNot($this->matches('%sDROP TABLE bbb%s'))
+                    )
+                )
+        );
 
         $userResource = $this->getMock('Mage_Api_Model_Mysql4_User', array('getTable', '_getWriteAdapter'));
         $userResource->expects($this->any())->method('_getWriteAdapter')->will($this->returnValue($adapter));
@@ -84,6 +95,8 @@ class LoginTest extends Magento_Test_Webservice
     }
 
     /**
+     * Test login with invalid credentials should throw exception
+     *
      * @expectedException SoapFault
      */
     public function testLoginInvalidCredentials()
@@ -97,6 +110,8 @@ class LoginTest extends Magento_Test_Webservice
     }
 
     /**
+     * Test login with invalid request xml structure
+     *
      * @expectedException SoapFault
      */
     public function testLoginInvalidXmlStructure()
@@ -105,14 +120,22 @@ class LoginTest extends Magento_Test_Webservice
             return;
         }
 
-        $requestXml = file_get_contents(dirname(__FILE__) . '/_files/requestInvalid.xml');
+        $requestXml = file_get_contents(dirname(__FILE__) . '/_files/requestInvalidStructure.xml');
         $location = TESTS_WEBSERVICE_URL.'/index.php/api/soap/index/';
         $action = 'urn:Mage_Api_Model_Server_HandlerAction';
         $version = 1;
 
-        $responseXml = $this->getWebService()->getClient()->_doRequest($this->getWebService()->getClient()->getSoapClient(), $requestXml, $location, $action, $version);
+        $responseXml = $this->getWebService()->getClient()->_doRequest(
+            $this->getWebService()->getClient()->getSoapClient(),
+            $requestXml, $location, $action, $version
+        );
     }
 
+    /**
+     * Test login with custom request made without namespaces properly defined
+     *
+     * @return
+     */
     public function testLoginInvalidXmlNamespaces()
     {
         if (TESTS_WEBSERVICE_TYPE!=self::SOAPV1) {
@@ -124,11 +147,10 @@ class LoginTest extends Magento_Test_Webservice
         $action = 'urn:Mage_Api_Model_Server_HandlerAction';
         $version = 1;
         
-        $responseXml = $this->getWebService()->getClient()->_doRequest($this->getWebService()->getClient()->getSoapClient(), $requestXml, $location, $action, $version);
-
-
-        //$client = new SoapClient(TESTS_WEBSERVICE_URL.'/api/soap/?wsdl=1', array('trace'=>true, 'exceptions'=>true));
-        //$responseXml = $client->__doRequest($requestXml, $location, $action, $version);
+        $responseXml = $this->getWebService()->getClient()->_doRequest(
+            $this->getWebService()->getClient()->getSoapClient(),
+            $requestXml, $location, $action, $version
+        );
 
         $doc = new DOMDocument;
         $doc->loadXML($responseXml);
@@ -138,6 +160,8 @@ class LoginTest extends Magento_Test_Webservice
     }
 
     /**
+     * Test using API with arbitrary session id
+     *
      * @expectedException SoapFault
      */
     public function testUseInvalidSessionIdCategoryCreate()
