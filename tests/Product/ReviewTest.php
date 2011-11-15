@@ -70,9 +70,7 @@ class Product_ReviewTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, $productType);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->navigate('index_management');
         $this->reindexInvalidedData();
-        $this->navigate('cache_storage_management');
         $this->clearInvalidedCache();
         $this->productHelper()->frontVerifyProductInfo($productData);
     }
