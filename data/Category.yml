@@ -81,3 +81,5 @@ root_category_required:
     available_product_listing_config: No
     available_product_listing: Best Value, Name, Price
 
+default_category:
+    name: Default Category

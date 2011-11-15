@@ -42,7 +42,6 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
     public function setUpBeforeTests()
     {
         $this->logoutCustomer();
-        $this->loginAdminUser();
     }
 
     /**
@@ -82,7 +81,8 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_categories');
         $this->categoryHelper()->checkCategoriesPage();
-        $rootCat = 'Default Category';
+        $rootCat = $this->loadData('default_category');
+        $rootCat = $rootCat['name'];
         $categoryData = $this->loadData('sub_category_required', null, 'name');
         $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
@@ -191,7 +191,6 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         $allProducts = array('simple' => $productSimple, 'virtual' => $productVirtual,
             'downloadable' => $productDownloadable, 'grouped' => $productGrouped,
             'configurable' => $productConfigurable, 'bundle' => $productBundle);
-        $this->productsWithoutCustomOptions = $allProducts;
         return $allProducts;
     }
 
@@ -239,7 +238,6 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         $allProducts = array('simple' => $productSimple, 'virtual' => $productVirtual,
             'downloadable' => $productDownloadable, 'grouped' => $productGrouped,
             'configurable' => $productConfigurable, 'bundle' => $productBundle);
-        $this->productsWithCustomOptions = $allProducts;
         return $allProducts;
     }
 
@@ -326,7 +324,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
         $lastProductName = end($productNameSet);
         array_pop($productNameSet);
         foreach ($productNameSet as $productName) {
-            $this->wishlistHelper()->frontRemoveProductsFromWishlist($productName, true); // Remove all but last
+            $this->wishlistHelper()->frontRemoveProductsFromWishlist($productName); // Remove all but last
             //Verify
             $this->assertTrue(is_array($this->wishlistHelper()->frontWishlistHasProducts($productName)),
                     'Product ' . $productName . ' is in the wishlist, but should be removed.');
@@ -506,7 +504,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Adds products to Shopping Cart from Wishlist. For all product types with custom options except 'grouped'</p>
+     * <p>Adds products to Shopping Cart from Wishlist. For all product types with custom options</p>
      * <p>Steps:</p>
      * <p>1. Empty the shopping cart</p>
      * <p>2. Add products to the wishlist</p>
@@ -570,6 +568,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
     }
 
     /**
+     * Groupped product is added as several simple products to the shopping cart
      * @test
      */
     public function addGroupedProductToShoppingCartFromWishlist()
@@ -660,6 +659,7 @@ class Wishlist_Wishlist extends Mage_Selenium_TestCase
      * @depends createCustomer
      * @depends createProductSimple
      * @param string $emails
+     * @param string $errorMessage
      * @param array $customer
      * @param string $simpleProductName
      *

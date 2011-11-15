@@ -94,7 +94,7 @@ class Wishlist_Helper extends Mage_Selenium_TestCase
      * @param string|array $productNameSet Product name (string) or array of product names to remove
      * @param boolean $validate If true, fails the test in case the removed product is not in the wishlist.
      */
-    public function frontRemoveProductsFromWishlist($productNameSet, $validate=false)
+    public function frontRemoveProductsFromWishlist($productNameSet, $validate = true)
     {
         if (is_string($productNameSet))
             $productNameSet = array($productNameSet);
