@@ -110,7 +110,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      */
     protected function _findClassNamesInFile($fileInfo)
     {
-        $content = file_get_contents((string) $fileInfo);
+        $content = file_get_contents((string)$fileInfo);
 
         $result = array();
         $visitorMethods = $this->_getVisitorMethods();
@@ -648,9 +648,6 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $skippedFiles = array(
             "app" . DS . "etc" . DS . "config.xml",
             "Enterprise" . DS . "Staging" . DS . "etc" . DS . "config.xml",
-            /** @TODO  path should be change after layout moved */
-            "app" . DS . "design" . DS . "adminhtml" .
-                DS . "default" . DS . "default" . DS . "layout" . DS . "enterprise" . DS . "customerbalance.xml",
         );
 
         foreach ($skippedFiles as $skippedFile) {
@@ -729,5 +726,4 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
         return array_unique($result);
     }
-
 }
