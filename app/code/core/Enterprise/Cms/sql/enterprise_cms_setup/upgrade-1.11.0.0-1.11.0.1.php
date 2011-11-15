@@ -24,37 +24,29 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/* @var $installer Enterprise_Cms_Model_Resource_Setup */
+$installer = $this;
+$installer->startSetup();
 
-/**
- * Admihtml Widget Controller for Hierarchy Node Link plugin
- *
- * @category   Enterprise
- * @package    Enterprise_Cms
- */
-class Enterprise_Cms_Adminhtml_Cms_Hierarchy_WidgetController extends Mage_Adminhtml_Controller_Action
-{
-    /**
-     * Chooser Source action
-     */
-    public function chooserAction()
-    {
-        $this->getResponse()->setBody(
-            $this->_getTreeBlock()
-                ->setScope($this->getRequest()->getParam('scope'))
-                ->setScopeId((int)$this->getRequest()->getParam('scope_id'))
-                ->getTreeHtml()
-        );
-    }
+$nodeTableName = $installer->getTable('enterprise_cms/hierarchy_node');
 
-    /**
-     * Tree block instance
-     *
-     * @return Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser
-     */
-    protected function _getTreeBlock()
-    {
-        return $this->getLayout()->createBlock('enterprise_cms/adminhtml_cms_hierarchy_widget_chooser', '', array(
-            'id' => $this->getRequest()->getParam('uniq_id')
-        ));
-    }
-}
+$installer
+    ->getConnection()
+    ->addColumn($nodeTableName, 'scope', array(
+        'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+        'length'    => '8',
+        'comment'   => 'Scope: default|website|store',
+        'nullable'  => false,
+        'default'   => 'default',
+    ));
+$installer
+    ->getConnection()
+    ->addColumn($nodeTableName, 'scope_id', array(
+        'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
+        'comment'   => 'Scope Id',
+        'nullable'  => false,
+        'default'   => '0',
+        'UNSIGNED'  => true,
+    ));
+
+$installer->endSetup();

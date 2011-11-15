@@ -1491,6 +1491,9 @@ ul.super-product-attributes { padding-left:15px; }
 .cms-hierarchy .col-right .form-list td.label { width:120px; }
 .cms-hierarchy .col-right .form-list td.label label { width:105px; }
 .cms-hierarchy .cms-tree { height:400px; }
+.cms-hierarchy .copy-to-label { display: block; float: left; margin: 5px 10px 0 0; }
+.cms-hierarchy .copy-to-select { width:280px; margin: 5px 10px 0 0; }
+.cms-hierarchy .copy-submit { margin: 0 0 5px 340px; }
 
 /* CMS Widgets Instance */
 .options-box .option-box { border:1px solid #cddddd; padding:1em; background:#e7efef; margin:1.5em 0; }

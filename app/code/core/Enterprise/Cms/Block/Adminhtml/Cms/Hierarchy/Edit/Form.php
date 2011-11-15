@@ -30,6 +30,7 @@
  *
  * @category   Enterprise
  * @package    Enterprise_Cms
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
@@ -72,6 +73,25 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         $fieldset->addField('nodes_data', 'hidden', array(
             'name'      => 'nodes_data'
         ));
+
+        $fieldset->addField('use_default_scope_property', 'hidden', array(
+            'name'      => 'use_default_scope_property'
+        ));
+
+        $currentWebsite = $this->getRequest()->getParam('website');
+        $currentStore   = $this->getRequest()->getParam('store');
+        if ($currentWebsite) {
+            $fieldset->addField('website', 'hidden', array(
+                'name'   => 'website',
+                'value' => $currentWebsite,
+            ));
+            if ($currentStore) {
+                $fieldset->addField('store', 'hidden', array(
+                    'name'   => 'store',
+                    'value' => $currentStore,
+                ));
+            }
+        }
 
         $fieldset->addField('removed_nodes', 'hidden', array(
             'name'      => 'removed_nodes'
@@ -364,52 +384,28 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function getNodesJson()
     {
-        $nodes = array();
-        /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
+        /** @var $nodeModel Enterprise_Cms_Model_Hierarchy_Node */
         $nodeModel = Mage::registry('current_hierarchy_node');
-        // restore data is exists
-        try{
-            $data = Mage::helper('core')->jsonDecode($nodeModel->getNodesData());
-        }catch (Zend_Json_Exception $e){
-            $data = null;
-        }
-        if (is_array($data)) {
-            foreach ($data as $v) {
-                $node = array(
-                    'node_id'               => $v['node_id'],
-                    'parent_node_id'        => $v['parent_node_id'],
-                    'label'                 => $v['label'],
-                    'identifier'            => $v['identifier'],
-                    'page_id'               => empty($v['page_id']) ? null : $v['page_id']
-                );
-                $nodes[] = Mage::helper('enterprise_cms/hierarchy')->copyMetaData($v, $node);
-            }
-        } else {
-            $collection = $nodeModel->getCollection()
-                ->joinCmsPage()
-                ->addCmsPageInStoresColumn()
-                ->joinMetaData()
-                ->setOrderByLevel();
+        $this->setData('current_scope', $nodeModel->getScope());
+        $this->setData('current_scope_id', $nodeModel->getScopeId());
 
-            foreach ($collection as $item) {
-                /* @var $item Enterprise_Cms_Model_Hierarchy_Node */
-                $node = array(
-                    'node_id'               => $item->getId(),
-                    'parent_node_id'        => $item->getParentNodeId(),
-                    'label'                 => $item->getLabel(),
-                    'identifier'            => $item->getIdentifier(),
-                    'page_id'               => $item->getPageId(),
-                    'assigned_to_store'     => $this->isNodeAvailableForStore($item, $this->_currentStore)
-                );
-                $nodes[] = Mage::helper('enterprise_cms/hierarchy')->copyMetaData($item->getData(), $node);
-            }
+        $this->setData('use_default_scope', $nodeModel->getIsInherited());
+        $nodeHeritageModel = $nodeModel->getHeritage();
+        $nodes = $nodeHeritageModel->getNodesData();
+        $this->setData('echn_scope', $nodeHeritageModel->getScope());
+        $this->setData('echn_scope_id', $nodeHeritageModel->getScopeId());
+        unset($nodeModel);
+        unset($nodeHeritageModel);
+
+        foreach ($nodes as &$node) {
+            $node['assigned_to_store'] = !$this->getData('use_default_scope');
         }
 
         // fill in custom meta_chapter_section field
         $c = count($nodes);
         for ($i = 0; $i < $c; $i++) {
             if (isset($nodes[$i]['meta_chapter']) && isset($nodes[$i]['meta_section'])
-                && $nodes[$i]['meta_chapter'] && $nodes[$i]['meta_section']) 
+                && $nodes[$i]['meta_chapter'] && $nodes[$i]['meta_section'])
             {
                 $nodes[$i]['meta_chapter_section'] = 'both';
             } elseif (isset($nodes[$i]['meta_chapter']) && $nodes[$i]['meta_chapter']) {
@@ -545,9 +541,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function getStoreSwitcherHtml()
     {
-        return $this->getLayout()->getBlock('store_switcher')
-            ->setUseConfirm(false)
-            ->toHtml();
+        return $this->getLayout()->getBlock('scope_switcher')->toHtml();
     }
 
     /**

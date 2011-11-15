@@ -23,38 +23,32 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
+/** @var $installer Enterprise_Cms_Model_Resource_Setup */
+$installer = $this;
+$installer->startSetup();
 
+$nodeTableName = $installer->getTable('enterprise_cms/hierarchy_node');
 
-/**
- * Admihtml Widget Controller for Hierarchy Node Link plugin
- *
- * @category   Enterprise
- * @package    Enterprise_Cms
- */
-class Enterprise_Cms_Adminhtml_Cms_Hierarchy_WidgetController extends Mage_Adminhtml_Controller_Action
-{
-    /**
-     * Chooser Source action
-     */
-    public function chooserAction()
-    {
-        $this->getResponse()->setBody(
-            $this->_getTreeBlock()
-                ->setScope($this->getRequest()->getParam('scope'))
-                ->setScopeId((int)$this->getRequest()->getParam('scope_id'))
-                ->getTreeHtml()
-        );
-    }
+$installer
+    ->getConnection()
+    ->dropIndex($nodeTableName, $installer->getIdxName(
+        'enterprise_cms/hierarchy_node',
+        array('request_url'),
+        Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE)
+    );
 
-    /**
-     * Tree block instance
-     *
-     * @return Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser
-     */
-    protected function _getTreeBlock()
-    {
-        return $this->getLayout()->createBlock('enterprise_cms/adminhtml_cms_hierarchy_widget_chooser', '', array(
-            'id' => $this->getRequest()->getParam('uniq_id')
-        ));
-    }
-}
+$keyFieldsList = array('request_url', 'scope', 'scope_id');
+$installer
+    ->getConnection()
+    ->addIndex(
+        $nodeTableName,
+        $installer->getIdxName(
+            'enterprise_cms/hierarchy_node',
+            $keyFieldsList,
+            Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+        ),
+        $keyFieldsList,
+        Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+    );
+
+$installer->endSetup();

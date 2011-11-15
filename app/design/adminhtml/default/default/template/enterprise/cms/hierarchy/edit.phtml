@@ -27,6 +27,7 @@
 <?php
 /* @var $this Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Edit_Form */
 ?>
+<?php $treeNodes = $this->getNodesJson(); ?>
 <div class="cms-hierarchy">
     <?php echo $this->getStoreSwitcherHtml() ?>
     <table cellspacing="0" width="100%">
@@ -34,6 +35,13 @@
         <col width="50%" />
         <tr>
             <td class="col-left">
+                <?php echo $this->getParentBlock()->getChildHtml('hierarchy_copy') ?>
+                <?php if ($this->getData('current_scope') != Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT): ?>
+                <span style="float:right; line-height:18px; margin:0 0 -18px; position:relative;">
+                    <input type="checkbox" name="use_default_scope" id="use_default_scope" <?php echo $this->getData('use_default_scope') ? 'checked="checked"' : '' ?> onchange="hierarchyNodes.useDefaultScope()" />
+                    <label for="use_default_scope"><?php echo Mage::helper('enterprise_cms')->__('Use Default Value') ?></label>
+                </span>
+                <?php endif; ?>
                 <div id="tree-container" class="cms-tree tree x-tree"></div>
             </td>
             <td class="col-right">
@@ -58,7 +66,7 @@
         return ee.target ? Event.element(ee) : null;
     };
     hierarchyNodes = {
-        nodes: <?php echo $this->getNodesJson()?>,
+        nodes: <?php echo $treeNodes ?>,
         removedNodes: $A(),
         initialize: function(){
             this.increment = 0;
@@ -91,6 +99,68 @@
 
             $('node_label').removeClassName('required-entry');
             $('node_identifier').removeClassName('required-entry');
+            this.useDefaultScope();
+        },
+
+        treeNodesDisabler: function (node){
+            if (hierarchyNodes.isDefaultScope()) {
+                if (node.attributes.cls.indexOf(' disallowed') == -1) {
+                    node.attributes.cls += ' disallowed';
+                }
+            } else {
+                if( node.id.indexOf('_') == -1 && <?php echo $this->getData('use_default_scope') ? '1' : '0' ?>) {
+                    hierarchyNodes.tree.unregisterNode(node);
+                    node.id = '_' + hierarchyNodes.increment;
+                    hierarchyNodes.tree.registerNode(node);
+                    hierarchyNodes.increment++;
+                }
+                node.attributes.cls = node.attributes.cls.replace(' disallowed', '');
+            }
+            node.childNodes.each(function (nod) { hierarchyNodes.treeNodesDisabler(nod)});
+        },
+
+        isDefaultScope: function(){
+            if ($('use_default_scope') !== null && $('use_default_scope').checked) {
+                return 1;
+            }
+            return 0;
+        },
+
+        useDefaultScope: function(){
+            // Disable tree nodes, that wasn't shown yet
+            this.treeRoot.childNodes.each(function (node) {
+                hierarchyNodes.treeNodesDisabler(node);
+            });
+            // Buttons that should be disabled
+            var buttons = new Array('new_node_button', 'delete_node_button', 'cancel_node_button',
+                                    'save_node_button', 'add_cms_pages'
+                                );
+
+            if (this.isDefaultScope()) {
+                // Disabling visible tree nodes
+                $$('.x-tree-node-el').each(function (item) {
+                    item.addClassName('disallowed');
+                });
+                buttons.each(function (name) {
+                    $(name).addClassName('disabled');
+                })
+                // Disabling all inputs, that is placed in form
+                $('<?php echo $this->getForm()->getId() ?>').getElements('input').each(function (item) {
+                    item.disabled = 'disabled';
+                });
+            } else {
+                // Enable visible tree nodes
+                $$('.x-tree-node-el').each(function (item) {
+                    item.removeClassName('disallowed');
+                });
+                buttons.each(function (name) {
+                    $(name).removeClassName('disabled');
+                })
+                // Enabling all inputs, that is placed in form
+                $('<?php echo $this->getForm()->getId() ?>').getElements('input').each(function (item) {
+                    item.disabled = false;
+                });
+            }
         },
 
         createNodes: function(){
@@ -254,6 +324,9 @@
         },
 
         pageGridAddSelected: function(){
+            if ($('add_cms_pages').hasClassName('disabled')) {
+                return false;
+            }
             var rows = $$('#cms_page_grid .grid table tbody tr');
             rows.each(function(tr){
                 var checkbox = tr.down('.checkbox');
@@ -311,6 +384,11 @@
         },
 
         save: function(){
+            $('use_default_scope_property').value = parseInt(this.isDefaultScope());
+            if (this.isDefaultScope()) {
+                $('use_default_scope').checked = false;
+                this.useDefaultScope();
+            }
             this.saveNodePage();
             //if (this.dataModification) {
             //    if (!confirm('<?php echo Mage::helper('enterprise_cms')->__('There are unsaved node data. Are you sure you want to proceed?') ?>')) {
@@ -366,6 +444,9 @@
         },
 
         newNodePage: function(){
+            if ($('new_node_button').hasClassName('disabled')) {
+                return false;
+            }
             this.saveNodePage();
             this.nodePropReset();
             $('node_id').value = '';
@@ -402,6 +483,9 @@
         },
 
         cancelNodePage: function(){
+            if ($('cancel_node_button').hasClassName('disabled')) {
+                return false;
+            }
             this.saveButton(false);
             var selectedNode = this.tree.getSelectionModel().getSelectedNode();
             if (selectedNode && selectedNode.id != '_root') {
@@ -414,6 +498,9 @@
         },
 
         saveNodePage: function(){
+            if ($('save_node_button').hasClassName('disabled')) {
+                return false;
+            }
             if (!this.dataModification) {
                 return;
             }
@@ -479,6 +566,9 @@
         },
 
         deleteNodePage: function(){
+            if ($('delete_node_button').hasClassName('disabled')) {
+                return false;
+            }
             if (!$('node_id').value) {
                 return;
             }
