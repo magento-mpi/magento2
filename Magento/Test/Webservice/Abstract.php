@@ -86,4 +86,9 @@ abstract class Magento_Test_Webservice_Abstract
     {
         return $this->_client;
     }
+
+    public function getLastResponse()
+    {
+        return $this->getClient()->getSoapClient()->__getLastResponse();
+    }
 }

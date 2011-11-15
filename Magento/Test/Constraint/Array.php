@@ -59,7 +59,7 @@ class Magento_Test_Constraint_Array extends PHPUnit_Framework_Constraint
      *
      * @return string
      */
-    public function toString ()
+    public function toString()
     {
         return 'the value of key "' . $this->arrayKey . '"(' . $this->value . ') ' .  $this->constraint->toString();
     }
@@ -70,7 +70,7 @@ class Magento_Test_Constraint_Array extends PHPUnit_Framework_Constraint
      *
      * @return integer
      */
-    public function count ()
+    public function count()
     {
         return count($this->constraint) + 1;
     }

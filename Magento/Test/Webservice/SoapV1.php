@@ -37,9 +37,4 @@ class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
     {
         return $this->_client->call($this->_session, $path, $params);
     }
-
-    public function getLastResponse()
-    {
-        return $this->getClient()->getSoapClient()->__getLastResponse();
-    }
 }
