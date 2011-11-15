@@ -1120,15 +1120,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
-     * @deprecated after 1.4.0.0-rc1
-     * @see self::escapeUrl()
-     */
-    public function urlEscape($data)
-    {
-        return $this->escapeUrl($data);
-    }
-
-    /**
      * Escape html entities in url
      *
      * @param string $data

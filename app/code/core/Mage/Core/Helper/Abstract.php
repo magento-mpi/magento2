@@ -233,15 +233,6 @@ abstract class Mage_Core_Helper_Abstract
     }
 
     /**
-     * @deprecated after 1.4.0.0-rc1
-     * @see self::escapeHtml()
-     */
-    public function urlEscape($data)
-    {
-        return $this->escapeUrl($data);
-    }
-
-    /**
      * Escape html entities in url
      *
      * @param string $data

@@ -244,7 +244,7 @@ class Mage_Widget_Model_Widget extends Varien_Object
         $html = sprintf('<img id="%s" src="%s" title="%s">',
             $this->_idEncode($directive),
             $this->getPlaceholderImageUrl($type),
-            Mage::helper('Mage_Core_Helper_Data')->urlEscape($directive)
+            Mage::helper('Mage_Core_Helper_Data')->escapeUrl($directive)
         );
         return $html;
     }
