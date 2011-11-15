@@ -39,6 +39,14 @@ class Mage_Core_Model_Config_Options extends Varien_Object
      * @var string
      */
     const VAR_DIRECTORY = 'var';
+
+    /**
+     * Public directory
+     *
+     * @var string
+     */
+    const PUB_DIRECTORY = 'pub';
+
     /**
      * Flag cache for existing or already created directories
      *

@@ -107,6 +107,21 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetBaseUrlInPub()
+    {
+        $this->_model->load('default');
+        $_SERVER['SCRIPT_FILENAME'] = 'test/pub/index.php';
+
+        $this->assertEquals(
+            'http://localhost/js/',
+            $this->_model->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS)
+        );
+        $this->assertEquals(
+            'http://localhost/media/',
+            $this->_model->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)
+        );
+    }
+
     public function testGetDefaultCurrency()
     {
         /* currency operations require store to be loaded */
