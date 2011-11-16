@@ -83,10 +83,6 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
 
     public function login($username, $apiKey)
     {
-        if (empty($username) || empty($apiKey)) {
-            return;
-        }
-
         $user = Mage::getModel('api/user')
             ->setSessid($this->getSessionId())
             ->login($username, $apiKey);

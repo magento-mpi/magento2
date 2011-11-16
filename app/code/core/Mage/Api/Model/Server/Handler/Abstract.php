@@ -212,8 +212,12 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
      */
     public function login($username, $apiKey)
     {
-        $this->_startSession();
+        if (empty($username) || empty($apiKey)) {
+            return $this->_fault('invalid_request_param');
+        }
+        
         try {
+            $this->_startSession();
             $this->_getSession()->login($username, $apiKey);
         } catch (Exception $e) {
             return $this->_fault('access_denied');
