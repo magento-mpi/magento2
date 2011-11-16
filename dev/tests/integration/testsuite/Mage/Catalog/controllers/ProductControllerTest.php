@@ -104,27 +104,4 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
 
         $this->assert404NotFound();
     }
-
-    /**
-     * @magentoDataFixture Mage/Catalog/controllers/_files/products.php
-     */
-    public function testImageAction()
-    {
-        ob_start();
-        /* Preceding slash in URL is required in this case */
-        $this->dispatch('/catalog/product/image' . $this->_getProductImageFile());
-        $imageContent = ob_get_clean();
-        /**
-         * Check against PNG file signature.
-         * @link http://www.libpng.org/pub/png/spec/1.2/PNG-Rationale.html#R.PNG-file-signature
-         */
-        $this->assertStringStartsWith(sprintf("%cPNG\r\n%c\n", 137, 26), $imageContent);
-    }
-
-    public function testImageActionNoImage()
-    {
-        $this->dispatch('catalog/product/image/');
-
-        $this->assert404NotFound();
-    }
 }
