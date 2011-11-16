@@ -161,41 +161,4 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         $this->renderLayout();
     }
-
-    /**
-     * Display product image action
-     *
-     * @deprecated
-     */
-    public function imageAction()
-    {
-        $size = (string) $this->getRequest()->getParam('size');
-        if ($size) {
-            $imageFile = preg_replace("#.*/catalog/product/image/size/[0-9]*x[0-9]*#", '',
-                $this->getRequest()->getRequestUri());
-        } else {
-            $imageFile = preg_replace("#.*/catalog/product/image#", '',
-                $this->getRequest()->getRequestUri());
-        }
-
-        if (!strstr($imageFile, '.')) {
-            $this->_forward('noRoute');
-            return;
-        }
-
-        try {
-            $imageModel = Mage::getModel('Mage_Catalog_Model_Product_Image');
-            $imageModel->setSize($size)
-                ->setBaseFile($imageFile)
-                /**
-                 * Resizing has been commented because this one method are deprecated
-                 */
-                //->resize()
-                ->setWatermark( Mage::getStoreConfig('catalog/watermark/image') )
-                ->saveFile()
-                ->push();
-        } catch( Exception $e ) {
-            $this->_forward('noRoute');
-        }
-    }
 }

@@ -284,4 +284,30 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
         }
         return $result;
     }
+
+    /**
+     * Finds usage of deprecated image resizing action
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitCatalogImageResizingAction($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml'))) {
+            return array();
+        }
+
+        if (strpos($content, '/catalog/product/image') === false) {
+            return array();
+        }
+
+        return array(
+            array(
+                'description' => 'controller action',
+                'needle' => '/catalog/product/image/',
+                'suggestion' => 'do not resize image on client request, otherwise you may be DOS-attacked'
+            )
+        );
+    }
 }
