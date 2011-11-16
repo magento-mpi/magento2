@@ -280,6 +280,8 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
+        $this->addParameter('optionId', '1');
+        $this->addFieldIdToMessage('field', 'custom_options_price');
         $this->assertTrue($this->validationMessage($validationMessage), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
@@ -287,19 +289,19 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     public function dataInvalidPrice()
     {
         return array(
-            array('custom_options_field', $this->generate('string', 9, ':punct:'), 'invalid_custom_option_price'),
-            array('custom_options_field', $this->generate('string', 9, ':alpha:'), 'invalid_custom_option_price'),
-            array('custom_options_field', 'g3648GJHghj', 'invalid_custom_option_price'),
-            array('custom_options_file', $this->generate('string', 9, ':punct:'), 'invalid_custom_option_price_negative'),
-            array('custom_options_file', $this->generate('string', 9, ':alpha:'), 'invalid_custom_option_price_negative'),
-            array('custom_options_file', 'g3648GJHghj', 'invalid_custom_option_price_negative'),
-            array('custom_options_file', '-123', 'invalid_custom_option_price_negative'),
-            array('custom_options_dropdown', $this->generate('string', 9, ':punct:'), 'invalid_custom_option_price'),
-            array('custom_options_dropdown', $this->generate('string', 9, ':alpha:'), 'invalid_custom_option_price'),
-            array('custom_options_dropdown', 'g3648GJHghj', 'invalid_custom_option_price'),
-            array('custom_options_date', $this->generate('string', 9, ':punct:'), 'invalid_custom_option_price'),
-            array('custom_options_date', $this->generate('string', 9, ':alpha:'), 'invalid_custom_option_price'),
-            array('custom_options_date', 'g3648GJHghj', 'invalid_custom_option_price'),
+            array('custom_options_field', $this->generate('string', 9, ':punct:'), 'enter_valid_number'),
+            array('custom_options_field', $this->generate('string', 9, ':alpha:'), 'enter_valid_number'),
+            array('custom_options_field', 'g3648GJHghj', 'enter_valid_number'),
+            array('custom_options_file', $this->generate('string', 9, ':punct:'), 'enter_zero_or_greater'),
+            array('custom_options_file', $this->generate('string', 9, ':alpha:'), 'enter_zero_or_greater'),
+            array('custom_options_file', 'g3648GJHghj', 'enter_zero_or_greater'),
+            array('custom_options_file', '-123', 'enter_zero_or_greater'),
+            array('custom_options_dropdown', $this->generate('string', 9, ':punct:'), 'enter_valid_number'),
+            array('custom_options_dropdown', $this->generate('string', 9, ':alpha:'), 'enter_valid_number'),
+            array('custom_options_dropdown', 'g3648GJHghj', 'enter_valid_number'),
+            array('custom_options_date', $this->generate('string', 9, ':punct:'), 'enter_valid_number'),
+            array('custom_options_date', $this->generate('string', 9, ':alpha:'), 'enter_valid_number'),
+            array('custom_options_date', 'g3648GJHghj', 'enter_valid_number'),
         );
     }
 
