@@ -46,7 +46,7 @@ class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
 
 //    /**
 //     * <p>Preconditions:</p>
-//     * <p>Navigate to Catalog -> Manage Products</p>
+//     * <p>Navigate to Promotions -> Catalog Price Rules</p>
 //     */
 //    protected function assertPreConditions()
 //    {
