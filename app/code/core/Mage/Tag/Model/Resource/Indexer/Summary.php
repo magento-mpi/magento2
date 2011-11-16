@@ -221,10 +221,7 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Mage_Catalog_Model_Resourc
                     'store_id',
                     'customers',
                     'products',
-                    'popularity',
-                    'uses',
-                    'historical_uses',
-                    'base_popularity'
+                    'popularity'
                 ))
             );
 
