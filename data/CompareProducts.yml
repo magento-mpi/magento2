@@ -39,7 +39,7 @@ compare_products_simple_product:
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 9.99
-    #prices_special_price: 9.98
+    prices_special_price: 9.98
     prices_tax_class: None
     #inventory_qty: %noValue%
     inventory_qty: 120
@@ -52,3 +52,23 @@ compare_sub_category_required:
     is_active: Yes
     available_product_listing_config: No
     available_product_listing: Best Value, Name, Price
+    
+additional_product_data:
+    verify_price_regular: 9.99
+    verify_product_price_as_low_as: 9.99
+    verify_price_old: 9.99
+    verify_price_special: 9.98
+    verify_price_excluding_tax: 9.99
+    verify_price_including_tax: 9.99
+    verify_price_special_excluding_tax: 9.98
+    verify_price_special_inlcuding_tax: 9.98
+    verify_ex_price_regular: 9.99
+    verify_ex_product_price_as_low_as: 9.99
+    verify_ex_price_old: 9.99
+    verify_ex_price_special: 9.98
+    verify_ex_price_excluding_tax: 9.99
+    verify_ex_price_including_tax: 9.99
+    verify_ex_price_special_excluding_tax: 9.98
+    verify_ex_price_special_inlcuding_tax: 9.98
+    #Additional product attribute like 'Color'
+    #color: Red
