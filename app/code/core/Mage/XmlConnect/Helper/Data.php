@@ -635,8 +635,6 @@ EOT;
                 return;
             }
 
-            $userpwd = $app->getUserpwd();
-
             $sendType = $queue->getData('type');
             switch ($sendType) {
                 case Mage_XmlConnect_Model_Queue::MESSAGE_TYPE_AIRMAIL:
@@ -659,21 +657,22 @@ EOT;
             curl_setopt($curlHandler, CURLOPT_HTTPHEADER, $httpHeaders);
             curl_setopt($curlHandler, CURLOPT_POSTFIELDS, $params);
             curl_setopt($curlHandler, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($curlHandler, CURLOPT_USERPWD, $userpwd);
+            curl_setopt($curlHandler, CURLOPT_USERPWD, $app->getUserpwd());
             curl_setopt($curlHandler, CURLOPT_TIMEOUT, 60);
 
             // Execute the request.
-            $result     = curl_exec($curlHandler);
-            $succeeded  = curl_errno($curlHandler) == 0 ? true : false;
+            curl_exec($curlHandler);
+            $succeeded  = curl_errno($curlHandler) == 0;
+            $responseCode = curl_getinfo($curlHandler, CURLINFO_HTTP_CODE) == 200;
 
             // close cURL resource, and free up system resources
             curl_close($curlHandler);
 
-            if ($succeeded && (is_null($result) || strtolower($result) == 'null')) {
+            if ($succeeded && $responseCode) {
                 $queue->setStatus(Mage_XmlConnect_Model_Queue::STATUS_COMPLETED);
             }
             $queue->setIsSent(true);
-
+            $queue->save();
             return;
         } catch (Exception $e) {
             Mage::logException($e);
@@ -684,12 +683,11 @@ EOT;
     /**
      * Get headers for broadcast message
      *
-     * @return string
+     * @return array
      */
     public function getHttpHeaders()
     {
-        $httpHeaders = array('Content-Type: application/json');
-        return $httpHeaders;
+        return array('Content-Type: application/json');
     }
 
     /**

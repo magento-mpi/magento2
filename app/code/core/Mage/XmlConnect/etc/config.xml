@@ -29,7 +29,7 @@
     <modules>
         <Mage_XmlConnect>
             <version>1.6.0.0</version>
-            <innerVersion>22.0</innerVersion>
+            <innerVersion>22.1</innerVersion>
         </Mage_XmlConnect>
     </modules>
     <global>
