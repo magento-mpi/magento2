@@ -60,6 +60,9 @@ manage_shopping_cart_price_rules:
         messages: &ruleMessages
             success_deleted_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been deleted.')]
             success_saved_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been saved.')]
+            error_coupon_code_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Coupon with the same code already exists.')]
+            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            enter_valid_number: "//div[@id='advice-validate-not-negative-number-%fieldId%' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
 
 create_shopping_cart_price_rule:
