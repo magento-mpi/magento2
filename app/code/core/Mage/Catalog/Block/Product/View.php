@@ -173,11 +173,6 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             'productOldPrice'     => Mage::helper('Mage_Core_Helper_Data')->currency($_regularPrice, false, false),
             'priceInclTax'        => Mage::helper('Mage_Core_Helper_Data')->currency($_priceInclTax, false, false),
             'priceExclTax'        => Mage::helper('Mage_Core_Helper_Data')->currency($_priceExclTax, false, false),
-            /**
-             * @var skipCalculate
-             * @deprecated after 1.5.1.0
-             */
-            'skipCalculate'       => ($_priceExclTax != $_priceInclTax ? 0 : 1),
             'defaultTax'          => $defaultTax,
             'currentTax'          => $currentTax,
             'idSuffix'            => '_clone',

@@ -63,7 +63,7 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
     {
         $directory  = new RecursiveDirectoryIterator(Mage::getRoot());
         $iterator = new RecursiveIteratorIterator($directory);
-        $regexIterator = new RegexIterator($iterator, '/(\.php|\.phtml|\.xml)$/');
+        $regexIterator = new RegexIterator($iterator, '/(\.php|\.phtml|\.xml|\.js)$/');
 
         $result = array();
         foreach ($regexIterator as $fileInfo) {
@@ -320,5 +320,37 @@ class Integrity_DeprecatesTest extends Magento_Test_TestCase_VisitorAbstract
                 'suggestion' => 'resize image at server size, do not resize it on client request'
             )
         );
+    }
+
+    /**
+     * Finds usage of deprecated property skipCalculate
+     *
+     * @param SplFileInfo $fileInfo
+     * @param string $content
+     * @return array
+     */
+    protected function _visitSkipCalculate($fileInfo, $content)
+    {
+        if (!$this->_fileHasExtensions($fileInfo, array('php', 'phtml', 'js'))) {
+            return array();
+        }
+
+        if ($this->_fileHasExtensions($fileInfo, 'js')) {
+            $needle = '.skipCalculate';
+        } else {
+            $needle = "'skipCalculate'";
+        }
+
+        $result = array();
+        if (strpos($content, $needle) !== false) {
+            $result = array(
+                array(
+                    'description' => 'deprecated configuration property',
+                    'needle' => 'skipCalculate',
+                    'suggestion' => 'remove it'
+                )
+            );
+        }
+        return $result;
     }
 }
