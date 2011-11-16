@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -109,7 +108,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
         $productData['custom_options_data'][] = $this->loadData('custom_options_empty',
-                array($emptyCustomField => "%noValue%"));
+                array($emptyCustomField => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -269,8 +268,10 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      *
      * @dataProvider dataInvalidPrice
      * @test
+     *
+     * <p>NOTE: custom_options_date cases fail because of Fails because of MAGE-4621</p>
      */
-    public function invalidPriceInCustomOptions($optionDataName, $invalidPrice)
+    public function invalidPriceInCustomOptions($optionDataName, $invalidPrice, $validationMessage)
     {
         //Data
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
@@ -279,25 +280,26 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->assertTrue($this->validationMessage('invalid_custom_option_price'), $this->messages);
+        $this->assertTrue($this->validationMessage($validationMessage), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
     public function dataInvalidPrice()
     {
         return array(
-            array('custom_options_field', $this->generate('string', 9, ':punct:')),
-            array('custom_options_field', $this->generate('string', 9, ':alpha:')),
-            array('custom_options_field', 'g3648GJHghj'),
-            array('custom_options_file', $this->generate('string', 9, ':punct:')), // Fails because of MAGE-4609
-            array('custom_options_file', $this->generate('string', 9, ':alpha:')), // Fails because of MAGE-4609
-            array('custom_options_file', 'g3648GJHghj'),                           // Fails because of MAGE-4609
-            array('custom_options_dropdown', $this->generate('string', 9, ':punct:')),
-            array('custom_options_dropdown', $this->generate('string', 9, ':alpha:')),
-            array('custom_options_dropdown', 'g3648GJHghj'),
-            array('custom_options_date', $this->generate('string', 9, ':punct:')),
-            array('custom_options_date', $this->generate('string', 9, ':alpha:')),
-            array('custom_options_date', 'g3648GJHghj'),
+            array('custom_options_field', $this->generate('string', 9, ':punct:'), 'invalid_custom_option_price'),
+            array('custom_options_field', $this->generate('string', 9, ':alpha:'), 'invalid_custom_option_price'),
+            array('custom_options_field', 'g3648GJHghj', 'invalid_custom_option_price'),
+            array('custom_options_file', $this->generate('string', 9, ':punct:'), 'invalid_custom_option_price_negative'),
+            array('custom_options_file', $this->generate('string', 9, ':alpha:'), 'invalid_custom_option_price_negative'),
+            array('custom_options_file', 'g3648GJHghj', 'invalid_custom_option_price_negative'),
+            array('custom_options_file', '-123', 'invalid_custom_option_price_negative'),
+            array('custom_options_dropdown', $this->generate('string', 9, ':punct:'), 'invalid_custom_option_price'),
+            array('custom_options_dropdown', $this->generate('string', 9, ':alpha:'), 'invalid_custom_option_price'),
+            array('custom_options_dropdown', 'g3648GJHghj', 'invalid_custom_option_price'),
+            array('custom_options_date', $this->generate('string', 9, ':punct:'), 'invalid_custom_option_price'),
+            array('custom_options_date', $this->generate('string', 9, ':alpha:'), 'invalid_custom_option_price'),
+            array('custom_options_date', 'g3648GJHghj', 'invalid_custom_option_price'),
         );
     }
 
@@ -318,6 +320,8 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      *
      * @dataProvider dataNegativePrice
      * @test
+     *
+     * <p>NOTE: custom_options_date case fails because of Fails because of MAGE-4621</p>
      */
     public function negativePriceInCustomOptions($optionDataName)
     {
@@ -339,9 +343,8 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     {
         return array(
             array('custom_options_field'),
-            array('custom_options_file'),
             array('custom_options_dropdown'),
-            array('custom_options_date') // Fails because of MAGE-4621
+            array('custom_options_date')
         );
     }
 
