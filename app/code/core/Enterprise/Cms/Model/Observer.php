@@ -158,6 +158,17 @@ class Enterprise_Cms_Model_Observer
 
         if ($node->checkIdentifier($requestUrl, Mage::app()->getStore())) {
             $condition->setContinue(false);
+            if (!$node->getId()) {
+                $collection = $node->getNodesCollection();
+                foreach ($collection as $item) {
+                    if ($item->getPageIdentifier() == $requestUrl) {
+                        $url = Mage::getUrl('', array('_direct' => $item->getRequestUrl()));
+                        $condition->setRedirectUrl($url);
+                        break;
+                    }
+                }
+
+            }
         }
         if (!$node->getId()) {
             return $this;
