@@ -305,7 +305,11 @@ class Mage_Index_Model_Indexer
                             $hasLocks = true;
                         } else {
                             call_user_func_array(array($dependProcess, $method), $args);
-                            $processed[] = $processCode;
+                            if ($checkLocks && $dependProcess->getMode() == Mage_Index_Model_Process::MODE_MANUAL) {
+                                $hasLocks = true;
+                            } else {
+                                $processed[] = $processCode;
+                            }
                         }
                     }
                 }
