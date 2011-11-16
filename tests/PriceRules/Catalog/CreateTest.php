@@ -28,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Catalog Price Rule creation
  *
  * @package     selenium
  * @subpackage  tests
@@ -36,5 +36,158 @@
  */
 class PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
 {
+    /**
+     * <p>Login to backend</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
+
+    /**
+     * <p>Preconditions:</p>
+     * <p>Navigate to Catalog -> Manage Products</p>
+     */
+    protected function assertPreConditions()
+    {
+        $this->navigate('manage_catalog_price_rules');
+        $this->assertTrue($this->checkCurrentPage('manage_catalog_price_rules'), $this->messages);
+    }
+
+    /**
+     * <p>Create catalog price rule</p>
+     *
+     * <p>Steps</p>
+     * <p>1. Click "Add New Rule"</p>
+     * <p>2. Fill in fields in all tab</p>
+     * <p>3. Click "Save Rule" button</p>
+     *
+     * <p>Expected result: New rule created, success message appears</p>
+     *
+     * @test
+     */
+    public function createCatalogPriceRuleRequiredFields()
+    {
+        //Data
+        $priceRuleData = $this->loadData('test_catalog_rule', array('customer_groups' => 'General'), 'rule_name');
+        //Steps
+        $this->priceRulesHelper()->createRule($priceRuleData);
+        //Verification
+        $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
+        $this->assertTrue($this->successMessage('notification_message'), $this->messages);
+        $this->verifyMessagesCount(2);
+        $this->search(array('filter_rule_name' => $priceRuleData['info']['rule_name']));
+        return $priceRuleData['info']['rule_name'];
+    }
+
+    /**
+     * <p>Empty Fields validation</p>
+     *
+     * <p>Steps</p>
+     * <p>1. Click "Add New Rule"</p>
+     * <p>2. Leave required fields empty</p>
+     * <p>3. Click "Save Rule" button</p>
+     *
+     * <p>Expected result: Validation message appears</p>
+     *
+     * @dataProvider dataEmptyField
+     * @test
+     */
+    public function createCatalogPriceRuleEmptyFields($emptyField, $fieldType)
+    {
+        //Data
+        $priceRuleData = $this->loadData('test_catalog_rule', array($emptyField => '%noValue%'), 'rule_name');
+        //Steps
+        $this->priceRulesHelper()->createRule($priceRuleData);
+        //Verification
+        if($emptyField == 'discount_amount'){
+            $this->assertTrue($this->validationMessage('invalid_discount_amount'), $this->messages);
+            $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        } else{
+            $this->addFieldIdToMessage($fieldType, $emptyField);
+            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+            $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        }
+    }
+
+    public function dataEmptyField()
+    {
+        return array(
+            array('rule_name', 'field'),
+            array('customer_groups', 'multiselect'),
+            array('discount_amount', 'field'),
+            array('sub_discount_amount', 'field')
+        );
+    }
+
+    /**
+     * <p>Discount Amount field validation</p>
+     *
+     * <p>Steps</p>
+     * <p>1. Click "Add New Rule"</p>
+     * <p>2. Fill in "General Information" tab</p>
+     * <p>3. Specify "Conditions"</p>
+     * <p>4. Enter invalid data into "Discount Amount" and "Sub Discount Amount" fields</p>
+     *
+     * <p>Expected result: Validation messages appears</p>
+     *
+     * @dataProvider dataInvalidDiscount
+     * @test
+     */
+    public function createCatalogPriceRuleInvalidDiscountAmount($invalidDiscountData)
+    {
+        //Data
+        $priceRuleData = $this->loadData('test_catalog_rule', array(
+                        'sub_discount_amount'   => $invalidDiscountData,
+                        'discount_amount'       => $invalidDiscountData),
+                        'rule_name');
+        //Steps
+        $this->priceRulesHelper()->createRule($priceRuleData);
+        //Verification
+        $this->assertTrue($this->validationMessage('invalid_discount_amount'), $this->messages);
+        $this->assertTrue($this->validationMessage('invalid_sub_discount_amount'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
+    }
+
+    public function dataInvalidDiscount()
+    {
+        return array(
+            array($this->generate('string', 9, ':punct:')),
+            array($this->generate('string', 9, ':alpha:')),
+            array('g3648GJHghj'),
+            array('-128')
+        );
+    }
+
+    /**
+     * <p>Create catalog price rule - editing created rule</p>
+     *
+     * <p>Steps</p>
+     * <p>1. Select created rule from the grid and open it</p>
+     * <p>2. Make some changes into the rule</p>
+     * <p>3. Click "Save Rule" button</p>
+     *
+     * <p>Expected result: New rule created, success message appears</p>
+     *
+     * @depends createCatalogPriceRuleRequiredFields
+     * @test
+     */
+    public function editRule($createdRuleData)
+    {
+        //Data
+        $editRuleData = $this->loadData('test_catalog_rule', array(
+                        'rule_name'           => 'edited_rule_name',
+                        'status'              => 'Inactive',
+                        'customer_groups'     => 'General',
+                        'discount_amount'     => '25',
+                        'sub_discount_amount' => '35')
+        );
+        //Steps
+        $this->search(array('filter_rule_name' => $createdRuleData));
+        $this->priceRulesHelper()->createRule($editRuleData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
+        $this->search(array('filter_rule_name' => $editRuleData['info']['rule_name'], 'status' => 'Inactive'));
+    }
 
 }

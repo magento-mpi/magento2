@@ -56,11 +56,12 @@ manage_catalog_price_rules:
             apply_rules: //button[span='Apply Rules']
         messages: &catalogPriceRuleMessages
             success_saved_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been saved.')]
-            success_deleted_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The page has been deleted.')]
+            success_deleted_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been deleted.')]
             notification_message: //li[normalize-space(@class)='notice-msg' and contains(.,'There are rules that have been changed but were not applied. Please, click Apply Rules in order to see immediate effect in the catalog.')]
             invalid_url_key_with_numbers_only: //li[normalize-space(@class)='error-msg' and contains(.,'The page URL key cannot consist only of numbers.')]
             invalid_rule_data: //li[normalize-space(@class)='error-msg' and contains(.,'An error occurred while saving the rule data. Please review the log and try again.')]
             invalid_discount_amount: "//div[@id='advice-validate-not-negative-number-rule_discount_amount' and not(contains(@style,'display: none;'))]"
+            invalid_sub_discount_amount: "//div[@id='advice-validate-not-negative-number-rule_sub_discount_amount' and not(contains(@style,'display: none;'))]"
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
 

@@ -28,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Catalog Price Rules applying in frontend
  *
  * @package     selenium
  * @subpackage  tests
@@ -36,5 +36,190 @@
  */
 class PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
 {
+    /**
+     * <p>Login to backend</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
 
+//    /**
+//     * <p>Preconditions:</p>
+//     * <p>Navigate to Catalog -> Manage Products</p>
+//     */
+//    protected function assertPreConditions()
+//    {
+//        $this->navigate('manage_catalog_price_rules');
+//        $this->assertTrue($this->checkCurrentPage('manage_catalog_price_rules'), $this->messages);
+//    }
+
+   /**
+     * <p>Preconditions</p>
+     * <p>Create Customer for tests</p>
+     *
+     * @test
+     */
+    public function createCustomer()
+    {
+        //Data
+        $userData = $this->loadData('customer_account_for_prices_validation', NULL, 'email');
+        //Steps
+        $this->loginAdminUser();
+        $this->navigate('manage_customers');
+        $this->customerHelper()->createCustomer($userData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+        print_r($userData);
+        return array('email' => $userData['email'], 'password' => $userData['password']);
+    }
+
+    /**
+     * <p>Preconditions</p>
+     * <p>Creates Category to use during tests</p>
+     *
+     * @test
+     */
+    public function createCategory()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_categories');
+        $this->categoryHelper()->checkCategoriesPage();
+        $rootCat = 'Default Category';
+        $categoryData = $this->loadData('sub_category_required', null, 'name');
+        $this->categoryHelper()->createSubCategory($rootCat, $categoryData);
+        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->categoryHelper()->checkCategoriesPage();
+        print_r($categoryData);
+        return $rootCat . '/' . $categoryData['name'];
+    }
+
+    /**
+     * <p>Preconditions</p>
+     * <p>Create Simple Products for tests</p>
+     *
+     * @depends createCategory
+     * @test
+     */
+    public function createProduct($category)
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $simpleProductData = $this->loadData('simple_product_for_prices_validation_front_1',
+                array('categories' => $category), array('general_name', 'general_sku'));
+        $this->productHelper()->createProduct($simpleProductData);
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        print_r($simpleProductData);
+        return $simpleProductData['general_name'];
+    }
+
+    
+
+
+//    /**
+//     * <p>Create catalog price rule - By Percentage of the Original Price</p>
+//     *
+//     * <p>Steps</p>
+//     * <p>1. Click "Add New Rule"</p>
+//     * <p>2. Fill in required fields</p>
+//     * <p>3. Select in "General Information" -> "Customer Groups" = "NOT LOGGED IN"</p>
+//     * <p>3. Select in "Apply" field option - "By Percentage of the Original Price"</p>
+//     * <p>4. Specify "Discount Amount" = 10%</p>
+//     * <p>5. Click "Save and Apply" button</p>
+//     * <p>Expected result: New rule created, success message appears</p>
+//     *
+//     * <p>Verification</p>
+//     *
+//     * <p>6. Open product in Frontend as a GUEST</p>
+//     * <p>7. Verify product special price = $108.00</p>
+//     * <p>8. Login to Frontend</p>
+//     * <p>9. Verify product REGULAR PRICE = $120.00</p>
+//     *
+//     * @test
+//     */
+//
+//    public function applyRuleByPercentageOfOriginalPrice()
+//    {
+//        $this->markTestIncomplete('@TODO');
+//    }
+//
+//    /**
+//     * <p>Create catalog price rule - By Fixed Amount</p>
+//     *
+//     * <p>Steps</p>
+//     * <p>1. Click "Add New Rule"</p>
+//     * <p>2. Fill in required fields</p>
+//     * <p>3. Select in "General Information" -> "Customer Groups" = "NOT LOGGED IN"</p>
+//     * <p>3. Select in "Apply" field option - "By Fixed Amount"</p>
+//     * <p>4. Specify "Discount Amount" = $10</p>
+//     * <p>5. Click "Save and Apply" button</p>
+//     * <p>Expected result: New rule created, success message appears</p>
+//     *
+//     * <p>Verification</p>
+//     *
+//     * <p>6. Open product in Frontend as a GUEST</p>
+//     * <p>7. Verify product special price = $110.00</p>
+//     * <p>8. Login to Frontend</p>
+//     * <p>9. Verify product REGULAR PRICE = $120.00</p>
+//     *
+//     * @test
+//     */
+//    public function applyRuleByFixedAmount()
+//    {
+//        $this->markTestIncomplete('@TODO');
+//    }
+//
+//     /**
+//     * <p>Create catalog price rule - To Percentage of the Original Price</p>
+//     *
+//     * <p>Steps</p>
+//     * <p>1. Click "Add New Rule"</p>
+//     * <p>2. Fill in required fields</p>
+//     * <p>3. Select in "General Information" -> "Customer Groups" = "NOT LOGGED IN"</p>
+//     * <p>3. Select in "Apply" field option - "To Percentage of the Original Price"</p>
+//     * <p>4. Specify "Discount Amount" = 10%</p>
+//     * <p>5. Click "Save and Apply" button</p>
+//     * <p>Expected result: New rule created, success message appears</p>
+//     *
+//     * <p>Verification</p>
+//     *
+//     * <p>6. Open product in Frontend as a GUEST</p>
+//     * <p>7. Verify product special price = $12.00</p>
+//     * <p>8. Login to Frontend</p>
+//     * <p>9. Verify product REGULAR PRICE = $120.00</p>
+//     *
+//     * @test
+//     */
+//
+//    public function applyRuleToPercentageOfOriginalPrice()
+//    {
+//        $this->markTestIncomplete('@TODO');
+//    }
+//
+//    /**
+//     * <p>Create catalog price rule - To Fixed Amount</p>
+//     *
+//     * <p>Steps</p>
+//     * <p>1. Click "Add New Rule"</p>
+//     * <p>2. Fill in required fields</p>
+//     * <p>3. Select in "General Information" -> "Customer Groups" = "NOT LOGGED IN"</p>
+//     * <p>3. Select in "Apply" field option - "To Fixed Amount"</p>
+//     * <p>4. Specify "Discount Amount" = 10%</p>
+//     * <p>5. Click "Save and Apply" button</p>
+//     * <p>Expected result: New rule created, success message appears</p>
+//     *
+//     * <p>Verification</p>
+//     *
+//     * <p>6. Open product in Frontend as a GUEST</p>
+//     * <p>7. Verify product special price = $10.00</p>
+//     * <p>8. Login to Frontend</p>
+//     * <p>9. Verify product REGULAR PRICE = $120.00</p>
+//     *
+//     * @test
+//     */
+//
+//    public function applyRuleToFixedAmount()
+//    {
+//        $this->markTestIncomplete('@TODO');
+//    }
 }
